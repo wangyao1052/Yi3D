@@ -58,21 +58,11 @@ Yi3D
 
 - **Compiler**: MSVC 2019+, C++17
 
-1. Download the prebuilt dependency bundles from [Yi3D-LibBundles-Windows](https://github.com/wangyao1052/Yi3D-LibBundles-Windows).
-2. Extract the bundles into the `Yi3D/3rdParty` directory so it looks like:
+1. Clone the repo: `git clone https://github.com/wangyao1052/Yi3D.git`
+2. Download `Yi3D-LibBundles-1.0.0.zip` from the [releases page](https://github.com/wangyao1052/Yi3D-LibBundles-Windows/releases/tag/v1.0.0) and extract into `Yi3D/3rdParty/bundles/`
+3. Open the project folder in **Visual Studio** and build
 
-```
-Yi3D
-└── 3rdParty
-    └── bundles
-        ├── occt
-        ├── osg
-        ├── python3
-        ├── qt5
-        └── wyaf
-```
-
-3. Open the project folder in **Visual Studio** and build.
+> For detailed step-by-step instructions, see [Compiling with Visual Studio](doc/compiling-with-visual-studio.md) ([中文](doc/compiling-with-visual-studio-zh.md)).
 
 ### Linux
 
