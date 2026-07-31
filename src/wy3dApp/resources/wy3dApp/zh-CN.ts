@@ -20,21 +20,28 @@
     </message>
     <message>
         <location filename="../../widgets/frame/AboutDialog.cpp" line="65"/>
-        <source>© 2024-2025 WangYao &lt;wangyao1052@163.com&gt;</source>
-        <translation type="unfinished">© 2024-2025 王垚 &lt;wangyao1052@163.com&gt;</translation>
+        <source>© 2024-2026 WangYao &lt;wangyao1052@163.com&gt;</source>
+        <translation type="unfinished">© 2024-2026 王垚 &lt;wangyao1052@163.com&gt;</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/AboutDialog.cpp" line="73"/>
+        <source>Licensed under the Apache License, Version 2.0</source>
+        <translation type="unfinished">遵循 Apache 许可证 2.0 版本</translation>
+    </message>
+    <message>
+        <source>© 2024-2025 WangYao &lt;wangyao1052@163.com&gt;</source>
+        <translation type="obsolete">© 2024-2025 王垚 &lt;wangyao1052@163.com&gt;</translation>
+    </message>
+    <message>
         <source>All rights reserved.</source>
-        <translation type="unfinished">版权所有</translation>
+        <translation type="obsolete">版权所有</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="82"/>
         <source>This computer program is protected by copyright laws and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law.</source>
-        <translation type="unfinished">本计算机程序受版权法及国际条约保护。未经授权复制、分发本程序或其任何部分，可能导致严重的民事和刑事处罚，并将依法被追究最严厉的法律责任。</translation>
+        <translation type="obsolete">本计算机程序受版权法及国际条约保护。未经授权复制、分发本程序或其任何部分，可能导致严重的民事和刑事处罚，并将依法被追究最严厉的法律责任。</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="90"/>
+        <location filename="../../widgets/frame/AboutDialog.cpp" line="81"/>
         <source>Third-Party Libraries</source>
         <translation type="unfinished">第三方库</translation>
     </message>

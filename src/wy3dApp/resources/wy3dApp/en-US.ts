@@ -20,21 +20,16 @@
     </message>
     <message>
         <location filename="../../widgets/frame/AboutDialog.cpp" line="65"/>
-        <source>© 2024-2025 WangYao &lt;wangyao1052@163.com&gt;</source>
+        <source>© 2024-2026 WangYao &lt;wangyao1052@163.com&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../widgets/frame/AboutDialog.cpp" line="73"/>
-        <source>All rights reserved.</source>
+        <source>Licensed under the Apache License, Version 2.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="82"/>
-        <source>This computer program is protected by copyright laws and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="90"/>
+        <location filename="../../widgets/frame/AboutDialog.cpp" line="81"/>
         <source>Third-Party Libraries</source>
         <translation type="unfinished"></translation>
     </message>

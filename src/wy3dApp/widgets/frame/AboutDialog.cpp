@@ -62,7 +62,7 @@ AboutDialog::AboutDialog(QWidget *parent)
 		QLabel* labelCopyRight = new QLabel(this);
 		labelCopyRight->setAlignment(Qt::AlignmentFlag::AlignHCenter | Qt::AlignmentFlag::AlignVCenter);
 		labelCopyRight->setFont(QFont("Microsoft YaHei", 12, QFont::Normal));
-		QString qstrCopyRight = tr("© 2024-2025 WangYao <wangyao1052@163.com>");
+		QString qstrCopyRight = tr("© 2024-2026 WangYao <wangyao1052@163.com>");
 		labelCopyRight->setText(qstrCopyRight);
 		mainLayout->addWidget(labelCopyRight);
 
@@ -70,18 +70,9 @@ AboutDialog::AboutDialog(QWidget *parent)
 		QLabel* labelAllRightsReserved = new QLabel(this);
 		labelAllRightsReserved->setAlignment(Qt::AlignmentFlag::AlignHCenter | Qt::AlignmentFlag::AlignVCenter);
 		labelAllRightsReserved->setFont(QFont("Microsoft YaHei", 12, QFont::Normal));
-		QString qstrAllRightsReserved = tr("All rights reserved.");
+		QString qstrAllRightsReserved = tr("Licensed under the Apache License, Version 2.0");
 		labelAllRightsReserved->setText(qstrAllRightsReserved);
 		mainLayout->addWidget(labelAllRightsReserved);
-
-        //
-        QLabel* labelCopyRightDetail = new QLabel(this);
-        labelCopyRightDetail->setWordWrap(true);
-        labelCopyRightDetail->setAlignment(Qt::AlignmentFlag::AlignLeft | Qt::AlignmentFlag::AlignTop);
-        labelCopyRightDetail->setFont(QFont("Microsoft YaHei", 10, QFont::Normal));
-        QString qstrCopyRightDetail = tr("This computer program is protected by copyright laws and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law.");
-        labelCopyRightDetail->setText(qstrCopyRightDetail);
-        mainLayout->addWidget(labelCopyRightDetail);
 
         // 第三方库标题
         QLabel* labelThirdPartyTitle = new QLabel(this);
