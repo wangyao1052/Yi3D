@@ -73,20 +73,20 @@ Visual Studio 会自动检测到 `CMakeSettings.json` 并解析其中的配置�
 
 ### 编译输出
 
-编译产物将输出到 `out/<配置名称>/` 目录：
+编译产物将输出到 `out/<CMAKE_BUILD_TYPE>/` 目录：
 
 ```
 out/
-├── x64-Debug/
-│   ├── YI3D.exe
+├── Debug/
+│   ├── YI3D.exe         ← 主程序入口
 │   ├── wy3d.dll
 │   ├── wy3dPY.pyd
 │   ├── unitTest.exe
 │   ├── scripts/        (Python 脚本示例)
 │   ├── samples/        (示例模型文件)
 │   └── python3/        (Python 运行时，自动拷贝)
-└── x64-Release/
-    ├── YI3D.exe
+└── Release/
+    ├── YI3D.exe         ← 主程序入口
     ├── wy3d.dll
     └── ...
 ```

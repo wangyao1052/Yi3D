@@ -73,20 +73,20 @@ Select **Build → Build All** from the menu (or press `Ctrl+Shift+B`).
 
 ### Build Output
 
-Build artifacts are placed in `out/<configuration>/`:
+Build artifacts are placed in `out/<CMAKE_BUILD_TYPE>/`:
 
 ```
 out/
-├── x64-Debug/
-│   ├── YI3D.exe
+├── Debug/
+│   ├── YI3D.exe         ← main executable
 │   ├── wy3d.dll
 │   ├── wy3dPY.pyd
 │   ├── unitTest.exe
 │   ├── scripts/        (Python script examples)
 │   ├── samples/        (Sample model files)
 │   └── python3/        (Python runtime, auto-copied)
-└── x64-Release/
-    ├── YI3D.exe
+└── Release/
+    ├── YI3D.exe         ← main executable
     ├── wy3d.dll
     └── ...
 ```
