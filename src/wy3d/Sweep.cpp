@@ -363,6 +363,10 @@ static ErrorCode createPathWire(
         assert(pCurve);
         TopoDS_Edge edge = sketchTopoBuilder.makeEdge(pCurve);
         if (edge.IsNull()) { assert(false); continue; }
+        if (curve.orient)
+        {
+            edge = TopoDS::Edge(edge.Reversed());
+        }
         makeWire.Add(edge);
     }
     if (!makeWire.IsDone() || makeWire.Wire().IsNull()) { assert(false); return ErrorCode::TOPOSHAPE_GenerateShapeError; }

@@ -191,17 +191,20 @@ bool SketchCurveGraph_Path::findPath()
     if (FindRet::Finished == findRet)
     {
         assert(pathCurves2nd.size() > 1);
-        _pathCurves.swap(pathCurves1st);
-        for (auto iter = pathCurves2nd.crbegin(); iter != pathCurves2nd.crend(); ++iter) // 逆序拼接
+        std::vector<CurveEntry> prefix;
+        prefix.reserve(_curves.size());
+        for (auto iter = pathCurves2nd.crbegin(); iter != pathCurves2nd.crend(); ++iter)
         {
             if (iter->index == 0)
             {
-                assert(iter == std::prev(pathCurves2nd.crend())); // 正序的第一个元素也是逆序的最后一个元素
+                assert(iter == std::prev(pathCurves2nd.crend()));
                 break;
             }
-            _pathCurves.emplace_back(CurveEntry{ iter->index, 
-                iter->orient == Orientation::Normal ? Orientation::Reversed : Orientation::Normal }); // 反转
+            prefix.emplace_back(CurveEntry{ iter->index,
+                iter->orient == Orientation::Normal ? Orientation::Reversed : Orientation::Normal });
         }
+        _pathCurves.swap(prefix);
+        _pathCurves.insert(_pathCurves.cend(), pathCurves1st.cbegin(), pathCurves1st.cend());
         return true;
     }
     else if (FindRet::Error == findRet)
