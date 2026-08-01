@@ -39,7 +39,8 @@ description: 生成 YI3D Python 建模脚本，通过 IpcClient.py 传入脚本�
 - Yi3D 中 `SketchArc` 只能创建逆时针（CCW）圆弧，不能直接创建顺时针圆弧。
 - 拉伸深度与 `normal` 同向约定：`depth > 0` 沿 `normal` 增厚，`depth < 0` 沿 `-normal` 增厚。
 - 优先使用拉伸体 `Extrusion.create` 构造主体外形；只有当拉伸明显不适合时，才使用旋转、扫掠、螺旋等更复杂特征。
-- 对可直接创建的基础形体（如 Box、Cylinder、Cone、Sphere、Torus、Tube），凡是能用“闭合草图 + Extrusion.create”等效构建的，默认优先使用拉伸体替代，不直接调用原语创建。
+- 对可直接创建的基础形体（如 Box、Cylinder、Cone、Sphere、Torus、Tube），凡是能用”闭合草图 + Extrusion.create”等效构建的，默认优先使用拉伸体替代，不直接调用原语创建。
+- 若必须直接创建基础形体或调用 `setPosition`/`setRotation` 定位，必须先查阅 `./references/primitive_coordinate_systems.md`，确认该形体的局部坐标系原点位置和旋转顺序（Z→X→Y），再做位置与朝向计算。
 - 需要开孔、挖槽、去料时，优先先生成刀具体，再使用 `Difference.create` 做差集；仅在已有明确成功先例时才优先使用 `Extrusion.createCut`。
 - 需要组合多个实体时，优先使用 `Union.create`，避免依赖不清楚的隐式合并行为。
 - 草图必须严格校验为完全闭合轮廓。
