@@ -189,15 +189,9 @@ bool MirrorElemens::perform(const wyap::SelectionSet& ss, const wydb::ElementId&
             assert(false);
             continue;
         }
-        if (wy::ErrorStatus::Ok != pTrans->addNewlyCreatedElement(pCopyElem)) goto ABORT_TRANS;
         wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pCopyElem);
         if (!pSketchEntity) continue;
         if (wy::ErrorStatus::Ok != pSketch->addEntity(pSketchEntity)) goto ABORT_TRANS;
-        //if (!pSketchEntityImpl)
-        //{
-        //    assert(false);
-        //    goto ABORT_TRANS;
-        //}
         if (wy::ErrorStatus::Ok != pSketchEntity->transform(mirrorMatrix)) goto ABORT_TRANS;
     }
     _pDb->getTransactionManager()->endTransaction();

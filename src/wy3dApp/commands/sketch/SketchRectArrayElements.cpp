@@ -222,7 +222,6 @@ bool SketchRectArrayElements::perform(const std::set<wydb::ElementId>& ids,
         for (const ArrayElemItem& arrayElemItem : arrayElems)
         {
             assert(arrayElemItem.pElem);
-            if (wy::ErrorStatus::Ok != pTrans->addNewlyCreatedElement(arrayElemItem.pElem)) goto ABORT_TRANS;
             wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(arrayElemItem.pElem);
             if (!pSketchEntity)
             {
