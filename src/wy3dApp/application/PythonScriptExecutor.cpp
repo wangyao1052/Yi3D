@@ -95,7 +95,21 @@ PythonScriptExecutor::Error _executePythonScript(void* hPythonLib, const std::st
     // 执行脚本文件
     int runRet(0);
     {
+#if defined(_WIN32)
+        // Windows上fopen不支持UTF-8路径，先用MultiByteToWideChar转为宽字符再用_wfopen
+        int wlen = MultiByteToWideChar(CP_UTF8, 0, scriptFullPath.c_str(), -1, NULL, 0);
+        if (wlen <= 0)
+        {
+            restorePythonStdOut();
+            Py_Finalize();
+            return PythonScriptExecutor::Error::OpenPythonScriptFileFailed;
+        }
+        std::wstring wpath(wlen, L'\0');
+        MultiByteToWideChar(CP_UTF8, 0, scriptFullPath.c_str(), -1, wpath.data(), wlen);
+        FILE* fp = _wfopen(wpath.c_str(), L"r");
+#else
         FILE* fp = fopen(scriptFullPath.c_str(), "r");
+#endif
         if (!fp)
         {
             restorePythonStdOut();

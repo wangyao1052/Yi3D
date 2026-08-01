@@ -675,17 +675,10 @@ int RunScriptCommand::run()
     {
         return 0;
     }
-#ifdef _WIN32
-    // Windows平台使用本地字符编码
-    std::string strFileFullPath = fileFullPath.toLocal8Bit();
-#else
-    // 其他平台使用UTF-8编码
-    std::string strFileFullPath = fileFullPath.toUtf8().constData();
-#endif
 
+    std::string strFileFullPath = fileFullPath.toUtf8().constData();
     PythonScriptExecutor scriptExecutor;
     PythonScriptExecutor::Error error = scriptExecutor.Run(strFileFullPath);
-
     return 0;
 }
 
