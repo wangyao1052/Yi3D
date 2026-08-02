@@ -38,6 +38,9 @@ def createShell():
     print(f"  className    = {shell.getClassName()}")
     print(f"  thickness    = {shell.getThickness()}")
     print(f"  direction    = {shell.getDirection()}")
+    print(f"  joinType     = {shell.getJoinType()}")
+    print(f"  offsetMode   = {shell.getOffsetMode()}")
+    print(f"  intersection = {shell.getIntersection()}")
     print(f"  faces        = {shell.getFaces()}")
 
 

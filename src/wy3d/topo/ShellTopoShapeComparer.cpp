@@ -99,9 +99,16 @@ void ShellTopoShapeComparer::recordModified()
     }
 }
 
+static std::pair<TopoDS_Shape, TopoDS_Shape> makeOrderedPair(
+    const TopoDS_Shape& f1, const TopoDS_Shape& f2)
+{
+    ShapeHasher hasher;
+    return hasher(f1) <= hasher(f2) ? makeTopoShapePair(f1, f2) : makeTopoShapePair(f2, f1);
+}
+
 void ShellTopoShapeComparer::recordAdded()
 {
-    // 旧边 >>>偏移>>> 新边
+    // 旧边 >>>偏移>>> 新边(或新面)
     for (const TopoShapeInfo& oldEdgeInfo : _oldEdgeInfoSet)
     {
         const TopTools_ListOfShape& generated = _mkShape.Generated(oldEdgeInfo.shape);
@@ -116,15 +123,28 @@ void ShellTopoShapeComparer::recordAdded()
         for (TopTools_ListIteratorOfListOfShape iter(generated); iter.More(); iter.Next())
         {
             assert(!iter.Value().IsNull());
-            assert(iter.Value().ShapeType() == TopAbs_ShapeEnum::TopAbs_EDGE);
-            _edgeDelta.addedSingle[iter.Value()] = 0 == index
-                ? ShapeDelta::SingleSourceInfo::generated(oldEdgeInfo.shape)
-                : ShapeDelta::SingleSourceInfo::generatedMultiple(oldEdgeInfo.shape, index);
+            TopAbs_ShapeEnum shapeEnum = iter.Value().ShapeType();
+            if (shapeEnum == TopAbs_ShapeEnum::TopAbs_EDGE)
+            {
+                _edgeDelta.addedSingle[iter.Value()] = 0 == index
+                    ? ShapeDelta::SingleSourceInfo::generated(oldEdgeInfo.shape)
+                    : ShapeDelta::SingleSourceInfo::generatedMultiple(oldEdgeInfo.shape, index);
+            }
+            else if (shapeEnum == TopAbs_ShapeEnum::TopAbs_FACE)
+            {
+                _faceDelta.addedSingle[iter.Value()] = 0 == index
+                    ? ShapeDelta::SingleSourceInfo::generated(oldEdgeInfo.shape)
+                    : ShapeDelta::SingleSourceInfo::generatedMultiple(oldEdgeInfo.shape, index);
+            }
+            else
+            {
+                assert(false); // 边偏移生成了非边/非面类型, 理论上不应该
+            }
             ++index;
         }
     }
 
-    // 旧面 >>>偏移>>> 新面
+    // 旧面 >>>偏移>>> 新面(或新边)
     for (const TopoShapeInfo& oldFaceInfo : _oldFaceInfoSet)
     {
         const TopTools_ListOfShape& generated = _mkShape.Generated(oldFaceInfo.shape);
@@ -139,110 +159,118 @@ void ShellTopoShapeComparer::recordAdded()
         for (TopTools_ListIteratorOfListOfShape iter(generated); iter.More(); iter.Next())
         {
             assert(!iter.Value().IsNull());
-            assert(iter.Value().ShapeType() == TopAbs_ShapeEnum::TopAbs_FACE);
-            _faceDelta.addedSingle[iter.Value()] = 0 == index
-                ? ShapeDelta::SingleSourceInfo::generated(oldFaceInfo.shape)
-                : ShapeDelta::SingleSourceInfo::generatedMultiple(oldFaceInfo.shape, index);
+            TopAbs_ShapeEnum shapeEnum = iter.Value().ShapeType();
+            if (shapeEnum == TopAbs_ShapeEnum::TopAbs_FACE)
+            {
+                _faceDelta.addedSingle[iter.Value()] = 0 == index
+                    ? ShapeDelta::SingleSourceInfo::generated(oldFaceInfo.shape)
+                    : ShapeDelta::SingleSourceInfo::generatedMultiple(oldFaceInfo.shape, index);
+            }
+            else if (shapeEnum == TopAbs_ShapeEnum::TopAbs_EDGE)
+            {
+                _edgeDelta.addedSingle[iter.Value()] = 0 == index
+                    ? ShapeDelta::SingleSourceInfo::generated(oldFaceInfo.shape)
+                    : ShapeDelta::SingleSourceInfo::generatedMultiple(oldFaceInfo.shape, index);
+            }
+            else
+            {
+                assert(false); // 面偏移生成了非面/非边类型, 理论上不应该
+            }
             ++index;
         }
     }
 
-    //// 已经记录的边
-    //TopoShapeSet recordEdges;
-    //recordEdges.insert(_edgeDelta.kept.cbegin(), _edgeDelta.kept.cend());
-    //for (const auto& kvp : _edgeDelta.modified) // old <> new
-    //{
-    //    recordEdges.insert(kvp.second);
-    //}
-    //for (const auto& kvp : _edgeDelta.addedSingle)
-    //{
-    //    recordEdges.insert(kvp.first);
-    //}
-    //for (const auto& kvp : _edgeDelta.addedDouble)
-    //{
-    //    recordEdges.insert(kvp.first);
-    //}
-    //for (const auto& kvp : _edgeDelta.addedMulti)
-    //{
-    //    recordEdges.insert(kvp.first);
-    //}
+    // 已经记录的边
+    TopoShapeSet recordEdges;
+    recordEdges.insert(_edgeDelta.kept.cbegin(), _edgeDelta.kept.cend());
+    for (const auto& kvp : _edgeDelta.modified) // old <> new
+    {
+        recordEdges.insert(kvp.second);
+    }
+    for (const auto& kvp : _edgeDelta.addedSingle)
+    {
+        recordEdges.insert(kvp.first);
+    }
+    for (const auto& kvp : _edgeDelta.addedDouble)
+    {
+        recordEdges.insert(kvp.first);
+    }
+    for (const auto& kvp : _edgeDelta.addedMulti)
+    {
+        recordEdges.insert(kvp.first);
+    }
 
-    //// 建立新生成形体中:边<>面的映射
-    //TopTools_IndexedDataMapOfShapeListOfShape newEdgeToFacesMap;
-    //TopExp::MapShapesAndAncestors(_newShape, TopAbs_EDGE, TopAbs_FACE, newEdgeToFacesMap);
+    // 建立新生成形体中:边<>面的映射
+    TopTools_IndexedDataMapOfShapeListOfShape newEdgeToFacesMap;
+    TopExp::MapShapesAndAncestors(_newShape, TopAbs_EDGE, TopAbs_FACE, newEdgeToFacesMap);
 
-    //// 遍历新添加的面
-    //for (const auto& kvp : newFace2OldIndex)
-    //{
-    //    const TopoDS_Shape& newFace = kvp.first;
-    //    TopTools_IndexedMapOfShape edgeMap;
-    //    TopExp::MapShapes(newFace, TopAbs_ShapeEnum::TopAbs_EDGE, edgeMap);
-    //    for (int i = 1; i <= edgeMap.Extent(); ++i)
-    //    {
-    //        const TopoDS_Shape& edgeShape = edgeMap(i);
-    //        if (recordEdges.find(edgeShape) != recordEdges.cend()) // 已经记录了
-    //        {
-    //            continue;
-    //        }
+    // 收集未命名的内部边, 按 (face1, face2) 对分组 (参照 Boolean 先收集再分流)
+    // pair → 边列表
+    std::unordered_map<std::pair<TopoDS_Shape, TopoDS_Shape>, std::vector<TopoDS_Shape>,
+        TopoShapePairHasher, TopoShapePairEqual> pair2Edges;
+    for (const auto& kvp : _faceDelta.addedSingle)
+    {
+        const TopoDS_Shape& newFace = kvp.first;
+        TopTools_IndexedMapOfShape edgeMap;
+        TopExp::MapShapes(newFace, TopAbs_ShapeEnum::TopAbs_EDGE, edgeMap);
+        for (int i = 1; i <= edgeMap.Extent(); ++i)
+        {
+            const TopoDS_Shape& edgeShape = edgeMap(i);
+            if (recordEdges.find(edgeShape) != recordEdges.cend())
+                continue; // 已经记录过了
 
-    //        const TopTools_ListOfShape& faceList = newEdgeToFacesMap.FindFromKey(edgeShape);
-    //        int numFaces = faceList.Extent();
-    //        switch (numFaces)
-    //        {
-    //        case 2:
-    //        {
-    //            TopTools_ListIteratorOfListOfShape faceIt(faceList);
-    //            const TopoDS_Shape& face1 = faceIt.Value();
-    //            faceIt.Next();
-    //            const TopoDS_Shape& face2 = faceIt.Value();
+            // 新面的边一定是在新的形体中 (参照 ChamferFillet)
+            if (!newEdgeToFacesMap.Contains(edgeShape))
+            {
+                assert(false);
+                continue;
+            }
+            const TopTools_ListOfShape& faceList = newEdgeToFacesMap.FindFromKey(edgeShape);
+            if (faceList.Extent() != 2)
+            {
+                // 单面边: 理论上不应该出现
+                assert(false);
+                if (faceList.Extent() == 1)
+                {
+                    TopTools_ListIteratorOfListOfShape faceIt(faceList);
+                    _edgeDelta.addedSingle[edgeShape] = ShapeDelta::SingleSourceInfo::generated(faceIt.Value());
+                    recordEdges.insert(edgeShape);
+                }
+                continue;
+            }
 
-    //            auto iter1 = newFace2OldIndex.find(face1);
-    //            auto iter2 = newFace2OldIndex.find(face2);
-    //            ShapeDelta::DoubleSourceInfo doubleSourceInfo;
-    //            if (iter1 != newFace2OldIndex.cend() && iter2 != newFace2OldIndex.cend())
-    //            {
-    //                assert(iter1->second != iter2->second);
-    //                // 索引小的在前,索引大的在后
-    //                if (iter1->second <= iter2->second)
-    //                {
-    //                    doubleSourceInfo.source1 = face1;
-    //                    doubleSourceInfo.source2 = face2;
-    //                }
-    //                else
-    //                {
-    //                    doubleSourceInfo.source1 = face2;
-    //                    doubleSourceInfo.source2 = face1;
-    //                }
-    //            }
-    //            else
-    //            {
-    //                assert(false);
-    //                doubleSourceInfo.source1 = face1;
-    //                doubleSourceInfo.source2 = face2;
-    //            }
-    //            _edgeDelta.addedDouble[edgeShape] = doubleSourceInfo;
-    //            recordEdges.insert(edgeShape);
-    //        }
-    //        break;
+            TopTools_ListIteratorOfListOfShape faceIt(faceList);
+            const TopoDS_Shape& face1 = faceIt.Value();
+            faceIt.Next();
+            const TopoDS_Shape& face2 = faceIt.Value();
+            // 归一化顺序: 按 hash 排序, 确保同对面的边归入同一组
+            pair2Edges[makeOrderedPair(face1, face2)].emplace_back(edgeShape);
+        }
+    }
 
-    //        case 1:
-    //        {
-    //            assert(false); // 感觉应该不太可能
-    //            TopTools_ListIteratorOfListOfShape faceIt(faceList);
-    //            const TopoDS_Shape& face = faceIt.Value();
-    //            _edgeDelta.addedSingle[edgeShape] = ShapeDelta::SingleSourceInfo::generated(face);
-    //            recordEdges.insert(edgeShape);
-    //        }
-    //        break;
+    // 处理同对面 >> 多条边: index 从 1 开始 
+    for (auto& kvp : pair2Edges)  
+    {
+        ShapeDelta::DoubleSourceInfo info;
+        info.source1 = kvp.first.first;
+        info.source2 = kvp.first.second;
 
-    //        default:
-    //        {
-    //            assert(false);
-    //        }
-    //        break;
-    //        }
-    //    }
-    //}
+        if (kvp.second.size() >= 2)
+        {
+            unsigned int index(0);
+            for (const TopoDS_Shape& edgeShape : kvp.second)
+            {
+                info.index = ++index;
+                _edgeDelta.addedDouble[edgeShape] = info;
+                recordEdges.insert(edgeShape);
+            }
+        }
+        else
+        {
+            _edgeDelta.addedDouble[kvp.second.front()] = info; // index 默认 0
+            recordEdges.insert(kvp.second.front());
+        }
+    }
 }
 
 void ShellTopoShapeComparer::init()

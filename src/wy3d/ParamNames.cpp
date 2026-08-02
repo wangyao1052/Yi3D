@@ -65,6 +65,9 @@ const char* ParamNames::FILLET_RADIUS = "Radius";
 // Shell
 const char* ParamNames::SHELL_THICKNESS = "Thickness";
 const char* ParamNames::SHELL_DIRECTION = "Direction";
+const char* ParamNames::SHELL_JOIN_TYPE = "JoinType";
+const char* ParamNames::SHELL_OFFSET_MODE = "OffsetMode";
+const char* ParamNames::SHELL_INTERSECTION = "Intersection";
 
 // Draft
 const char* ParamNames::DRAFT_ANGLE = "Angle";

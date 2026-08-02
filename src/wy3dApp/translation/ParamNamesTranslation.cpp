@@ -135,6 +135,9 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
         const std::string& className = wy3d::Shell::className();
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::SHELL_THICKNESS)] = tr("Thickness", "wy3d::Shell");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::SHELL_DIRECTION)] = tr("Inward Offset", "wy3d::Shell");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::SHELL_JOIN_TYPE)] = tr("Join Type", "wy3d::Shell");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::SHELL_OFFSET_MODE)] = tr("Offset Mode", "wy3d::Shell");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::SHELL_INTERSECTION)] = tr("Intersection", "wy3d::Shell");
     }
     // Draft
     {

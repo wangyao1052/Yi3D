@@ -22,6 +22,21 @@ enum class ShellDirection : std::int32_t
     Outward = 1,  // 向外抽壳
 };
 
+// 抽壳连接类型 — 仅暴露 Arc 和 Intersection
+enum class ShellJoinType : std::int32_t
+{
+    Arc          = 0,  // 圆弧连接 (GeomAbs_Arc)
+    Intersection = 1,  // 求交连接 (GeomAbs_Intersection)
+};
+
+// 抽壳偏移模式 — 1:1 映射 BRepOffset_Mode
+enum class ShellOffsetMode : std::int32_t
+{
+    Skin       = 0,  // 沿表面偏移 (BRepOffset_Skin)
+    Pipe       = 1,  // 管道偏移 (BRepOffset_Pipe, 仅用于曲线偏移, 不适用抽壳)
+    RectoVerso = 2,  // 双面偏移 (BRepOffset_RectoVerso)
+};
+
 class WY3D_EXPORT Shell : public wy3d::SolidModification
 {
     WYDB_DECLARE_MEMBERS(Shell, wy3d::Shell, wy3d::SolidModification)
@@ -51,6 +66,21 @@ public:
     // 设置面集合
     wy::ErrorStatus setFaces(const TopoNameList& faces);
 
+    // 获取抽壳连接类型
+    ShellJoinType getJoinType() const { return _joinType; }
+    // 设置抽壳连接类型
+    wy::ErrorStatus setJoinType(ShellJoinType joinType);
+
+    // 获取抽壳偏移模式
+    ShellOffsetMode getOffsetMode() const { return _offsetMode; }
+    // 设置抽壳偏移模式
+    wy::ErrorStatus setOffsetMode(ShellOffsetMode offsetMode);
+
+    // 获取是否启用全局求交处理
+    bool getIntersection() const { return _intersection; }
+    // 设置是否启用全局求交处理 (对应 OCCT Intersection, 未完整实现, 不推荐启用)
+    wy::ErrorStatus setIntersection(bool intersection);
+
 public:
     virtual wydb::ParameterValueUPtr getParameterValue(const std::string& className, const std::string& paramName) const override;
     virtual wy::ErrorStatus setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue) override;
@@ -66,6 +96,9 @@ private:
     TopoNameList _faceNames;
     double _thickness;
     ShellDirection _direction;
+    ShellJoinType _joinType;
+    ShellOffsetMode _offsetMode;
+    bool _intersection;
 };
 
 NS_WY3D_END

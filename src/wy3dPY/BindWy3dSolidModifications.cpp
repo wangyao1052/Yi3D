@@ -109,6 +109,30 @@ void bindWy3dSolidModifications(py::module_& m)
             default: return "wy3d.ShellDirection.Unknown";
             }});
 
+    // ========== ShellJoinType 枚举 ==========
+    py::enum_<wy3d::ShellJoinType>(m, "ShellJoinType")
+        .value("Arc", wy3d::ShellJoinType::Arc)
+        .value("Intersection", wy3d::ShellJoinType::Intersection)
+        .def("__repr__", [](wy3d::ShellJoinType t) {
+            switch (t) {
+            case wy3d::ShellJoinType::Arc:          return "wy3d.ShellJoinType.Arc";
+            case wy3d::ShellJoinType::Intersection: return "wy3d.ShellJoinType.Intersection";
+            default: return "wy3d.ShellJoinType.Unknown";
+            }});
+
+    // ========== ShellOffsetMode 枚举 ==========
+    py::enum_<wy3d::ShellOffsetMode>(m, "ShellOffsetMode")
+        .value("Skin", wy3d::ShellOffsetMode::Skin)
+        .value("Pipe", wy3d::ShellOffsetMode::Pipe)
+        .value("RectoVerso", wy3d::ShellOffsetMode::RectoVerso)
+        .def("__repr__", [](wy3d::ShellOffsetMode m) {
+            switch (m) {
+            case wy3d::ShellOffsetMode::Skin:       return "wy3d.ShellOffsetMode.Skin";
+            case wy3d::ShellOffsetMode::Pipe:       return "wy3d.ShellOffsetMode.Pipe";
+            case wy3d::ShellOffsetMode::RectoVerso: return "wy3d.ShellOffsetMode.RectoVerso";
+            default: return "wy3d.ShellOffsetMode.Unknown";
+            }});
+
     // ========== Shell 抽壳 ==========
     py::class_<wy3d::Shell, wy3d::SolidModification, std::unique_ptr<wy3d::Shell, py::nodelete>>(
         m, "Shell")
@@ -118,6 +142,12 @@ void bindWy3dSolidModifications(py::module_& m)
         .def("setDirection", &wy3d::Shell::setDirection)
         .def("getFaces", &wy3d::Shell::getFaces)
         .def("setFaces", &wy3d::Shell::setFaces)
+        .def("getJoinType", &wy3d::Shell::getJoinType)
+        .def("setJoinType", &wy3d::Shell::setJoinType)
+        .def("getOffsetMode", &wy3d::Shell::getOffsetMode)
+        .def("setOffsetMode", &wy3d::Shell::setOffsetMode)
+        .def("getIntersection", &wy3d::Shell::getIntersection)
+        .def("setIntersection", &wy3d::Shell::setIntersection)
 
         .def_static("create",
             [](wydb::Transaction* pTrans,

@@ -59,6 +59,9 @@ public:
     // Shell
     static const char* SHELL_THICKNESS;
     static const char* SHELL_DIRECTION;
+    static const char* SHELL_JOIN_TYPE;
+    static const char* SHELL_OFFSET_MODE;
+    static const char* SHELL_INTERSECTION;
 
     // Draft
     static const char* DRAFT_ANGLE;
