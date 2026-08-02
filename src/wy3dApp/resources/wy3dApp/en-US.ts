@@ -777,12 +777,12 @@
     <message>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="152"/>
         <source>Sweep</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sweep</translation>
     </message>
     <message>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="153"/>
         <source>Loft</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Loft</translation>
     </message>
     <message>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="154"/>
@@ -1528,12 +1528,12 @@
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="293"/>
         <source>Sweep</source>
-        <translation type="unfinished"></translation>
+        <translation>Sweep</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="299"/>
         <source>Loft</source>
-        <translation type="unfinished"></translation>
+        <translation>Loft</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="305"/>

@@ -2579,12 +2579,12 @@
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="293"/>
         <source>Sweep</source>
-        <translation type="unfinished"></translation>
+        <translation>扫描</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="299"/>
         <source>Loft</source>
-        <translation type="unfinished"></translation>
+        <translation>放样</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="305"/>
