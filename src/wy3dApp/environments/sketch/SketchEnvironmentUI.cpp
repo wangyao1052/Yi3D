@@ -97,6 +97,7 @@ struct SketchActions
     CommandAction* pActionDrawStyleSpline;
     CommandAction* pActionDrawEquationDrivenSpline;
     CommandAction* pActionSketchText;
+    CommandAction* pActionSketchProject;
 };
 
 struct SketchEnvironmentActions
@@ -485,6 +486,12 @@ SketchActions createSketchActions(SketchEnvironment* pEnv, QActionGroup* pAction
         actions.pActionSketchText->setShortcut(QKeySequence::fromString("T,E"));
     }
 
+    actions.pActionSketchProject = pEnv->newCommandAction(
+        CommandNames::SketchProject,
+        QCoreApplication::translate("MainWindow", "Project Edge"),
+        QIcon(":/images/Sketch_Project.svg"),
+        pActionGroup);
+
     return actions;
 }
 
@@ -661,6 +668,7 @@ void buildSketchToolBarUi(
     pToolBarSketch->addWidget(pToolBtnSplineSeries);
 
     pToolBarSketch->addAction(actions.pActionSketchText);
+    pToolBarSketch->addAction(actions.pActionSketchProject);
 }
 
 void buildSketchEnvironmentToolBarUi(

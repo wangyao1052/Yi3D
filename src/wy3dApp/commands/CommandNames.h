@@ -122,6 +122,7 @@ public:
     static inline const std::string SketchFillet     = "SketchFillet";     // 草图圆角
     static inline const std::string SketchChamfer    = "SketchChamfer";    // 草图倒角
     static inline const std::string SketchOffset     = "SketchOffset";     // 草图偏移
+    static inline const std::string SketchProject   = "SketchProject";   // 草图投影
     static inline const std::string SketchRectArray  = "SketchRectArray";  // 草图矩形阵列
     static inline const std::string SketchPolarArray = "SketchPolarArray"; // 草图环形阵列
     static inline const std::string LinearPattern    = "LinearPattern";    // 线性阵列

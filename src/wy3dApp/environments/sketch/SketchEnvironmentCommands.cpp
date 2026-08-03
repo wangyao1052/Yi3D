@@ -64,6 +64,7 @@
 #include "commands/UndoRedoCommands.h"
 #include "commands/sketch/SketchCommands.h"
 #include "commands/sketch/SketchRelocateCsysGuiCmd.h"
+#include "commands/sketch/SketchProjectGuiCmd.h"
 
 #define WY3DAPP_SKETCH_ENV_COMMAND_LIST(X) \
     X(CommandNames::Select, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, SketchSelectGuiCmd::classInfo()) \
@@ -97,6 +98,7 @@
     X(CommandNames::SketchFillet, WYAP_CMD_MODAL, SketchFilletGuiCmd::classInfo()) \
     X(CommandNames::SketchChamfer, WYAP_CMD_MODAL, SketchChamferGuiCmd::classInfo()) \
     X(CommandNames::SketchOffset, WYAP_CMD_MODAL, SketchOffsetGuiCmd::classInfo()) \
+    X(CommandNames::SketchProject, WYAP_CMD_MODAL, SketchProjectGuiCmd::classInfo()) \
     X(CommandNames::SketchRectArray, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, SketchRectArrayGuiCmd::classInfo()) \
     X(CommandNames::SketchPolarArray, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, SketchPolarArrayGuiCmd::classInfo()) \
     X(CommandNames::LinearPattern, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, LinearPatternGuiCmd::classInfo()) \

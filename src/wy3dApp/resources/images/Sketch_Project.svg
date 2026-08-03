@@ -1,0 +1,20 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <desc>Sketch Project</desc>
+  <defs>
+    <clipPath id="clipProject">
+      <rect width="64" height="64" fill="white" fill-opacity="0"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clipProject)">
+    <!-- 3D源边 -->
+    <line x1="12" y1="14" x2="50" y2="36" stroke="#495057" stroke-width="4" stroke-linecap="round"/>
+    <!-- 端点 -->
+    <circle cx="12" cy="14" r="4" fill="#495057"/>
+    <circle cx="50" cy="36" r="4" fill="#495057"/>
+    <!-- 投影结果（虚线） -->
+    <line x1="12" y1="46" x2="50" y2="50" stroke="#1296DB" stroke-width="4" stroke-dasharray="6,4" stroke-linecap="round"/>
+    <!-- 端点 -->
+    <circle cx="12" cy="46" r="4" fill="#1296DB"/>
+    <circle cx="50" cy="50" r="4" fill="#1296DB"/>
+  </g>
+</svg>
