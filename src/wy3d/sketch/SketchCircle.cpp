@@ -184,17 +184,17 @@ void SketchCircle::registerParameters(wydb::ParameterSchemaExtension* pParamSche
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_AREA;
-        pParamSchema->addParameterDefinition(def);
-    }
-    {
-        wydb::ParameterDefinitionData def;
         def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_CENTER_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
         def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_CENTER_Y;
+        pParamSchema->addParameterDefinition(def);
+    }
+    {
+        wydb::ParameterDefinitionData def;
+        def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
     {
@@ -209,7 +209,7 @@ void SketchCircle::registerParameters(wydb::ParameterSchemaExtension* pParamSche
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_RADIUS;
+        def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_AREA;
         pParamSchema->addParameterDefinition(def);
     }
 }

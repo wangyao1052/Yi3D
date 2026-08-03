@@ -291,16 +291,6 @@ void SketchArc::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ARC_PARAM_END_ANGLE;
-        pParamSchema->addParameterDefinition(def);
-    }
-    {
-        wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ARC_PARAM_LENGTH;
-        pParamSchema->addParameterDefinition(def);
-    }
-    {
-        wydb::ParameterDefinitionData def;
         def.name = SketchParamNames::SKETCH_ARC_PARAM_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
@@ -311,7 +301,17 @@ void SketchArc::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
     }
     {
         wydb::ParameterDefinitionData def;
+        def.name = SketchParamNames::SKETCH_ARC_PARAM_END_ANGLE;
+        pParamSchema->addParameterDefinition(def);
+    }
+    {
+        wydb::ParameterDefinitionData def;
         def.name = SketchParamNames::SKETCH_ARC_PARAM_TOTAL_ANGLE;
+        pParamSchema->addParameterDefinition(def);
+    }
+    {
+        wydb::ParameterDefinitionData def;
+        def.name = SketchParamNames::SKETCH_ARC_PARAM_LENGTH;
         pParamSchema->addParameterDefinition(def);
     }
 }

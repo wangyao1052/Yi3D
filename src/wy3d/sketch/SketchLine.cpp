@@ -169,7 +169,12 @@ void SketchLine::registerParameters(wydb::ParameterSchemaExtension* pParamSchema
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_LINE_PARAM_ANGLE;
+        def.name = SketchParamNames::SKETCH_LINE_PARAM_START_X;
+        pParamSchema->addParameterDefinition(def);
+    }
+    {
+        wydb::ParameterDefinitionData def;
+        def.name = SketchParamNames::SKETCH_LINE_PARAM_START_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
@@ -189,12 +194,7 @@ void SketchLine::registerParameters(wydb::ParameterSchemaExtension* pParamSchema
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_LINE_PARAM_START_X;
-        pParamSchema->addParameterDefinition(def);
-    }
-    {
-        wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_LINE_PARAM_START_Y;
+        def.name = SketchParamNames::SKETCH_LINE_PARAM_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
 }

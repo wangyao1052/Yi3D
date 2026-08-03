@@ -234,6 +234,8 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CENTER_LINE_PARAM_START_Y)] = tr("Start Point Y", "wy3d::SketchLine");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CENTER_LINE_PARAM_END_X)] = tr("End Point X", "wy3d::SketchLine");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CENTER_LINE_PARAM_END_Y)] = tr("End Point Y", "wy3d::SketchLine");
+        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_LINE_PARAM_LENGTH)] = tr("Length", "wy3d::SketchLine");
+        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_LINE_PARAM_ANGLE)] = tr("Angle", "wy3d::SketchLine");
     }
     // Sketch Circle
     {

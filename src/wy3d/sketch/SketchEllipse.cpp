@@ -257,22 +257,12 @@ void SketchEllipse::registerParameters(wydb::ParameterSchemaExtension* pParamSch
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_AREA;
-        pParamSchema->addParameterDefinition(def);
-    }
-    {
-        wydb::ParameterDefinitionData def;
         def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_CENTER_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
         def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_CENTER_Y;
-        pParamSchema->addParameterDefinition(def);
-    }
-    {
-        wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_MAJOR_AXIS_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
@@ -287,12 +277,22 @@ void SketchEllipse::registerParameters(wydb::ParameterSchemaExtension* pParamSch
     }
     {
         wydb::ParameterDefinitionData def;
+        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_RADIUS_RATIO;
+        pParamSchema->addParameterDefinition(def);
+    }
+    {
+        wydb::ParameterDefinitionData def;
+        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_MAJOR_AXIS_ANGLE;
+        pParamSchema->addParameterDefinition(def);
+    }
+    {
+        wydb::ParameterDefinitionData def;
         def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_PERIMETER;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_RADIUS_RATIO;
+        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_AREA;
         pParamSchema->addParameterDefinition(def);
     }
 }

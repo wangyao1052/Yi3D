@@ -3684,11 +3684,11 @@
         <location filename="../../translation/ParamNamesTranslation.cpp" line="213"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="219"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="231"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="241"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="253"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="266"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="280"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="295"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="243"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="255"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="268"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="282"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="297"/>
         <source>ID</source>
         <comment>wy3d::SketchEntity</comment>
         <translation type="unfinished">ID</translation>
@@ -3709,11 +3709,11 @@
         <location filename="../../translation/ParamNamesTranslation.cpp" line="214"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="220"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="232"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="242"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="254"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="267"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="281"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="296"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="244"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="256"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="269"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="283"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="298"/>
         <source>Is Construction</source>
         <comment>wy3d::SketchCurve</comment>
         <translation type="unfinished">构造线</translation>
@@ -3748,252 +3748,254 @@
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="225"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="237"/>
         <source>Length</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="226"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="238"/>
         <source>Angle</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="243"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="245"/>
         <source>Center Point X</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">圆心 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="244"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="246"/>
         <source>Center Point Y</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">圆心 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="245"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="247"/>
         <source>Radius</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="246"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="248"/>
         <source>Diameter</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">直径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="247"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="249"/>
         <source>Perimeter</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">周长</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="248"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="250"/>
         <source>Area</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">面积</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="255"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="257"/>
         <source>Center Point X</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">圆心 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="256"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="258"/>
         <source>Center Point Y</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">圆心 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="257"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="259"/>
         <source>Radius</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="258"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="260"/>
         <source>Start Angle</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">起点角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="259"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="261"/>
         <source>End Angle</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">终点角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="260"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="262"/>
         <source>Total Angle</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">总角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="261"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="263"/>
         <source>Arc Length</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">弧长</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="268"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="270"/>
         <source>Center Point X</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">圆心 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="269"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="271"/>
         <source>Center Point Y</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">圆心 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="270"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="272"/>
         <source>Major Radius</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">长轴半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="271"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="273"/>
         <source>Minor Radius</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">短轴半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="272"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="274"/>
         <source>Radius Ratio</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">半径比例</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="273"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="275"/>
         <source>Major Axis Angle</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">长轴角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="274"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="276"/>
         <source>Perimeter</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">周长</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="275"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="277"/>
         <source>Area</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">面积</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="282"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="284"/>
         <source>Center Point X</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">圆心 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="283"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="285"/>
         <source>Center Point Y</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">圆心 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="284"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="286"/>
         <source>Major Radius</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">长轴半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="285"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="287"/>
         <source>Minor Radius</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">短轴半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="286"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="288"/>
         <source>Radius Ratio</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">半径比例</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="287"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="289"/>
         <source>Major Axis Angle</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">长轴角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="288"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="290"/>
         <source>Start Angle</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">起点角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="289"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="291"/>
         <source>End Angle</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">终点角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="290"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="292"/>
         <source>Perimeter</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">周长</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="297"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="299"/>
         <source>Order</source>
         <comment>wy3d::SketchSpline</comment>
         <translation type="unfinished">阶数</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="302"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="304"/>
         <source>Plane</source>
         <comment>wy3d::DatumPlane</comment>
         <translation type="unfinished">基准平面</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="307"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="309"/>
         <source>Source</source>
         <comment>wy3d::Mirror</comment>
         <translation type="unfinished">源对象</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="308"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="310"/>
         <source>Plane</source>
         <comment>wy3d::Mirror</comment>
         <translation type="unfinished">镜像平面</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="313"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="315"/>
         <source>Color</source>
         <comment>wy3d::Solid</comment>
         <translation type="unfinished">颜色</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="318"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="320"/>
         <source>Pitch</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished">螺距</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="319"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="321"/>
         <source>Turns</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished">圈数</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="320"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="322"/>
         <source>Start Angle</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="321"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="323"/>
         <source>ClockWise</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished">顺时针</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="322"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="324"/>
         <source>Reversed</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished">反向</translation>
