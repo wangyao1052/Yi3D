@@ -315,7 +315,7 @@ void RevolveGuiCmd::gotoStep(Step step)
 
         // 更新提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolveGuiCmd",
-            "Select the axis curve."));
+            "Select the axis line."));
 
         // 设置鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);

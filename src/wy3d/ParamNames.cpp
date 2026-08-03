@@ -52,6 +52,7 @@ const char* ParamNames::EXTRUSION_PARAM_START_OFFSET = "StartOffset";
 // Revolution
 const char* ParamNames::REVOLUTION_PARAM_START_ANGLE = "StartAngle";
 const char* ParamNames::REVOLUTION_PARAM_END_ANGLE = "EndAngle";
+const char* ParamNames::REVOLUTION_PARAM_AXIS = "Axis";
 
 // Imported Solid
 const char* ParamNames::IMPORTED_SOLID_PARAM_FILE_PATH = "FilePath";

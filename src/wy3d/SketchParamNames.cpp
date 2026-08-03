@@ -24,6 +24,9 @@ NS_WY3D_BEG
 const char* SketchParamNames::SKETCH_POINT_PARAM_POSITION_X = "Position X";
 const char* SketchParamNames::SKETCH_POINT_PARAM_POSITION_Y = "Position Y";
 
+// Sketch Entity
+const char* SketchParamNames::SKETCH_ENTITY_ID = "ID";
+
 // Sketch Curve
 const char* SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION = "IsConstruction";
 

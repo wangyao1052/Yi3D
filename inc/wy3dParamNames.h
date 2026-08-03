@@ -46,6 +46,7 @@ public:
     // Revolution
     static const char* REVOLUTION_PARAM_START_ANGLE;
     static const char* REVOLUTION_PARAM_END_ANGLE;
+    static const char* REVOLUTION_PARAM_AXIS;
 
     // Imported Solid
     static const char* IMPORTED_SOLID_PARAM_FILE_PATH;

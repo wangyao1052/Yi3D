@@ -18,6 +18,9 @@ public:
     static const char* SKETCH_POINT_PARAM_POSITION_X;
     static const char* SKETCH_POINT_PARAM_POSITION_Y;
 
+    // Sketch Entity
+    static const char* SKETCH_ENTITY_ID;
+
     // Sketch Curve
     static const char* SKETCH_CURVE_IS_CONSTRUCTION;
 

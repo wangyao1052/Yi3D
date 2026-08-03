@@ -86,6 +86,12 @@ void SketchPoint::registerParameters(wydb::ParameterSchemaExtension* pParamSchem
 {
     {
         wydb::ParameterDefinitionData def;
+        def.name = SketchParamNames::SKETCH_ENTITY_ID;
+        def.isReadonly = true;
+        pParamSchema->addParameterDefinition(def);
+    }
+    {
+        wydb::ParameterDefinitionData def;
         def.name = SketchParamNames::SKETCH_POINT_PARAM_POSITION_X;
         pParamSchema->addParameterDefinition(def);
     }
@@ -97,6 +103,8 @@ void SketchPoint::registerParameters(wydb::ParameterSchemaExtension* pParamSchem
 }
 wydb::ParameterValueUPtr SketchPoint::getParameterValue(const std::string& className, const std::string& paramName) const
 {
+    if (SketchParamNames::SKETCH_ENTITY_ID == paramName)
+        return wydb::ParameterValue::createElementId(getId());
     if (className == SketchPoint::classInfo()->className()) {
         if (SketchParamNames::SKETCH_POINT_PARAM_POSITION_X == paramName) return wydb::ParameterValue::createDouble(_position.x());
         if (SketchParamNames::SKETCH_POINT_PARAM_POSITION_Y == paramName) return wydb::ParameterValue::createDouble(_position.y());
@@ -106,6 +114,8 @@ wydb::ParameterValueUPtr SketchPoint::getParameterValue(const std::string& class
 
 wy::ErrorStatus SketchPoint::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
+    if (SketchParamNames::SKETCH_ENTITY_ID == paramName)
+        return wy::ErrorStatus::ParameterReadonly;
     if (className == SketchPoint::classInfo()->className()) {
         if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
         double d = paramValue.asDouble();
