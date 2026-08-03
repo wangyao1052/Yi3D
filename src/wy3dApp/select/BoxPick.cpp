@@ -421,7 +421,15 @@ wyap::SelectionSet BoxPick::pick(
             }
             else if (option.selType == wy3d::SelectionType::SketchCurve && pSketchElemNode)
             {
-                unsigned int curveId = pSketchElemNode->getCurveId(intersection.primitiveIndex);
+                unsigned int curveId(0);
+                if (geom == pSketchElemNode->getCenterLinesGeom())
+                {
+                    curveId = pSketchElemNode->getCenterLineCurveId(intersection.primitiveIndex);
+                }
+                else
+                {
+                    curveId = pSketchElemNode->getCurveId(intersection.primitiveIndex);
+                }
                 if (0 == curveId)
                 {
                     assert(false);

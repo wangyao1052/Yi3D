@@ -1038,6 +1038,12 @@ void Scene::endNoBatchRender()
         break;
 
         case ElementNodeType::Sketch:
+        {
+            SketchElementNode* pSketchNode = static_cast<SketchElementNode*>(kvp.second);
+            pSketchNode->clearDynamicRenderGeometry();
+        }
+        break;
+
         case ElementNodeType::SketchEntity:
         case ElementNodeType::DatumPlane:
         case ElementNodeType::SolidModification:

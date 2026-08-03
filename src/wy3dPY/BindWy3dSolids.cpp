@@ -81,12 +81,13 @@ void bindWy3dSolids(py::module_& m)
         .def("getEndAngle", &wy3d::Revolution::getEndAngle)
         .def("setEndAngle", &wy3d::Revolution::setEndAngle)
 
+        // 4 参数：自动找第一条中心线（向后兼容）
         .def_static("create",
             [](wydb::Transaction* pTrans, wy3d::Sketch* pSketch, double startAngle, double endAngle) -> wy3d::Revolution*
             {
                 if (!pTrans || !pSketch) return nullptr;
                 wy3d::Revolution* pOutRevolution = nullptr;
-                const wy3d::SketchCenterLine* pAxis(nullptr);
+                const wy3d::SketchCurve* pAxis(nullptr);
                 for (auto iter = pSketch->createIterator(); !iter.isDone(); iter.moveNext())
                 {
                     const wydb::Element* pElem = pSketch->getDatabase()->getElement(iter.current());
@@ -107,12 +108,29 @@ void bindWy3dSolids(py::module_& m)
             py::arg("endAngle"),
             py::return_value_policy::reference)
 
+        // 5 参数：显式指定轴曲线
+        .def_static("create",
+            [](wydb::Transaction* pTrans, wy3d::Sketch* pSketch, wy3d::SketchCurve* pAxis, double startAngle, double endAngle) -> wy3d::Revolution*
+            {
+                if (!pTrans || !pSketch || !pAxis) return nullptr;
+                wy3d::Revolution* pOutRevolution = nullptr;
+                wy::ErrorStatus status = wy3d::Revolution::create(pTrans, pSketch, pAxis, startAngle, endAngle, pOutRevolution);
+                return pOutRevolution;
+            },
+            py::arg("transaction"),
+            py::arg("sketch"),
+            py::arg("axis"),
+            py::arg("startAngle"),
+            py::arg("endAngle"),
+            py::return_value_policy::reference)
+
+        // 5 参数：自动找第一条中心线（向后兼容）
         .def_static("createCut",
             [](wydb::Transaction* pTrans, wy3d::Sketch* pSketch, double startAngle, double endAngle, wy3d::Solid* pSolidToCut) -> wy3d::Revolution*
             {
                 if (!pTrans || !pSketch || !pSolidToCut) return nullptr;
                 wy3d::Revolution* pOutRevolution = nullptr;
-                const wy3d::SketchCenterLine* pAxis(nullptr);
+                const wy3d::SketchCurve* pAxis(nullptr);
                 for (auto iter = pSketch->createIterator(); !iter.isDone(); iter.moveNext())
                 {
                     const wydb::Element* pElem = pSketch->getDatabase()->getElement(iter.current());
@@ -129,6 +147,23 @@ void bindWy3dSolids(py::module_& m)
             },
             py::arg("transaction"),
             py::arg("sketch"),
+            py::arg("startAngle"),
+            py::arg("endAngle"),
+            py::arg("solidToCut"),
+            py::return_value_policy::reference)
+
+        // 6 参数：显式指定轴曲线
+        .def_static("createCut",
+            [](wydb::Transaction* pTrans, wy3d::Sketch* pSketch, wy3d::SketchCurve* pAxis, double startAngle, double endAngle, wy3d::Solid* pSolidToCut) -> wy3d::Revolution*
+            {
+                if (!pTrans || !pSketch || !pAxis || !pSolidToCut) return nullptr;
+                wy3d::Revolution* pOutRevolution = nullptr;
+                wy::ErrorStatus status = wy3d::Revolution::createCut(pTrans, pSketch, pAxis, startAngle, endAngle, pSolidToCut, pOutRevolution);
+                return pOutRevolution;
+            },
+            py::arg("transaction"),
+            py::arg("sketch"),
+            py::arg("axis"),
             py::arg("startAngle"),
             py::arg("endAngle"),
             py::arg("solidToCut"),

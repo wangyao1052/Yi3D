@@ -25,6 +25,7 @@
 #include <wyapDocManager.h>
 #include <wyapDocument.h>
 #include <wy3dSketch.h>
+#include <wy3dSketchLine.h>
 #include <wy3dSketchCenterLine.h>
 #include <wy3dImpl.h>
 #include <wy3dSketchProfile.h>
@@ -43,7 +44,7 @@
 
 
 RevolveGuiCmd::RevolveGuiCmd() : OsgGuiCommand(),
-    _step(Step::Undefined), _sketchId(wydb::ElementId::kNull)
+    _step(Step::Undefined), _sketchId(wydb::ElementId::kNull), _axisCurveId(wydb::ElementId::kNull)
 {
     _options.pointSelect = false;
     _options.boxSelect = false;
@@ -107,8 +108,10 @@ void RevolveGuiCmd::reset()
 
     _step = Step::Undefined;
     _sketchId = wydb::ElementId::kNull;
+    _axisCurveId = wydb::ElementId::kNull;
     _pValidSketch = nullptr;
     _pInvalidSketchTooltip = nullptr;
+    _pAxisCurvePreview = nullptr;
 
     //this->gotoStep(Step::SelectSketch);
 }
@@ -126,9 +129,20 @@ bool RevolveGuiCmd::finishStep(Step step)
     case Step::SelectSketch:
     {
         assert(!_sketchId.isNull());
+        _pInvalidSketchTooltip = nullptr;
+        this->gotoStep(Step::SelectAxisCurve);
+        return true;
+    }
+    break;
+
+    case Step::SelectAxisCurve:
+    {
+        assert(!_sketchId.isNull());
+        assert(!_axisCurveId.isNull());
+        _pAxisCurvePreview = nullptr;
         _pMakeRevolution = std::make_shared<MakeRevolution>(this, false); // isCut = false
         unsigned int errorCode(0);
-        if (!_pMakeRevolution->create(_sketchId, errorCode))
+        if (!_pMakeRevolution->create(_sketchId, _axisCurveId, errorCode))
         {
             if (0 != errorCode)
             {
@@ -141,6 +155,7 @@ bool RevolveGuiCmd::finishStep(Step step)
         _pMakeRevolution = nullptr;
 
         _sketchId = wydb::ElementId::kNull;
+        _axisCurveId = wydb::ElementId::kNull;
         _pValidSketch = nullptr;
         _pInvalidSketchTooltip = nullptr;
 
@@ -167,9 +182,20 @@ bool RevolveCutGuiCmd::finishStep(Step step)
     case Step::SelectSketch:
     {
         assert(!_sketchId.isNull());
+        _pInvalidSketchTooltip = nullptr;
+        this->gotoStep(Step::SelectAxisCurve);
+        return true;
+    }
+    break;
+
+    case Step::SelectAxisCurve:
+    {
+        assert(!_sketchId.isNull());
+        assert(!_axisCurveId.isNull());
+        _pAxisCurvePreview = nullptr;
         _pMakeRevolution = std::make_shared<MakeRevolution>(this, true); // isCut = true
         unsigned int errorCode(0);
-        if (!_pMakeRevolution->create(_sketchId, errorCode))
+        if (!_pMakeRevolution->create(_sketchId, _axisCurveId, errorCode))
         {
             if (0 != errorCode)
             {
@@ -180,6 +206,7 @@ bool RevolveCutGuiCmd::finishStep(Step step)
         }
 
         _sketchId = wydb::ElementId::kNull;
+        _axisCurveId = wydb::ElementId::kNull;
         _pValidSketch = nullptr;
         _pInvalidSketchTooltip = nullptr;
 
@@ -274,6 +301,27 @@ void RevolveGuiCmd::gotoStep(Step step)
     }
     break;
 
+    case Step::SelectAxisCurve:
+    {
+        // 清空选择集
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
+
+        // 点选选项
+        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch);
+        _pointPickOption.selType = wy3d::SelectionType::SketchCurve;
+        _pointPickOption.pSelFilter = nullptr;
+
+        // 更新提示信息
+        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolveGuiCmd",
+            "Select the axis curve."));
+
+        // 设置鼠标样式
+        Application::instance().setCursor(CursorType::SelectElements);
+    }
+    break;
+
     default:
     {
         // 清空提示
@@ -341,6 +389,30 @@ void RevolveGuiCmd::onMouseMove(const MouseEvent& event)
             Application::instance().setCursor(CursorType::SelectElements);
         }
     }
+    else if (_step == Step::SelectAxisCurve)
+    {
+        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pAxisCurvePreview);
+        bool valid = false;
+        if (_pAxisCurvePreview)
+        {
+            const wyap::Selection& sel = _pAxisCurvePreview->getSelection();
+            wydb::ElementId curveId(static_cast<std::uint64_t>(std::stoul(sel.getSubPath())));
+            const wydb::Database* pDb = Application::instance().getActiveDatabase();
+            if (pDb)
+            {
+                const wy3d::SketchCurve* pCurve = wy3d::SketchCurve::cast(pDb->getElement(curveId));
+                if (pCurve && (wy3d::SketchLine::cast(pCurve) || wy3d::SketchCenterLine::cast(pCurve)))
+                {
+                    valid = true;
+                }
+            }
+            if (!valid)
+            {
+                _pAxisCurvePreview = nullptr;
+            }
+        }
+        Application::instance().setCursor(valid ? CursorType::SelectElements : CursorType::Forbid);
+    }
     else
     {
         assert(false);
@@ -369,6 +441,15 @@ void RevolveGuiCmd::onLeftMouseUp(const MouseEvent& event)
         if (_pValidSketch)
         {
             _sketchId = _pValidSketch->getSketchId();
+            this->finishStep(_step);
+        }
+    }
+    else if (_step == Step::SelectAxisCurve)
+    {
+        if (_pAxisCurvePreview)
+        {
+            const wyap::Selection& sel = _pAxisCurvePreview->getSelection();
+            _axisCurveId = wydb::ElementId(static_cast<std::uint64_t>(std::stoul(sel.getSubPath())));
             this->finishStep(_step);
         }
     }
@@ -449,7 +530,8 @@ bool RevolveGuiCmd::isValidSketch(const wydb::ElementId& sketchId, QString& erro
     if (!pSketch) return false;
     if (!pSketch->getParent().isNull()) return false;
 
-    return SketchUtil::isValidRevolutionProfile(*pSketch, error);
+    // 轴由用户手动选择，不要求草图中必须有中心线
+    return SketchUtil::isValidExtrusionProfile(*pSketch, error);
 }
 
 void RevolveGuiCmd::preview(wydb::ElementId sketchId)
@@ -507,14 +589,14 @@ void MakeRevolution::collectElements(std::set<wydb::ElementId>& idSet) const
     if (_pRevolution) idSet.insert(_pRevolution->getId());
 }
 
-bool MakeRevolution::create(const wydb::ElementId& sketchId, unsigned int& errorCode)
+bool MakeRevolution::create(const wydb::ElementId& sketchId, const wydb::ElementId& axisCurveId, unsigned int& errorCode)
 {
     errorCode = 0;
     if (!_pDb || !_pTopTrans || _pRevolution || _isFinished)
     {
         return false;
     }
-    if (sketchId.isNull())
+    if (sketchId.isNull() || axisCurveId.isNull())
     {
         return false;
     }
@@ -527,15 +609,8 @@ bool MakeRevolution::create(const wydb::ElementId& sketchId, unsigned int& error
         return false;
     }
 
-    // 旋转轴线
-    const wy3d::SketchCenterLine* pAxis(nullptr);
-    for (auto iter = pConstSketch->createIterator(); !iter.isDone(); iter.moveNext())
-    {
-        const wy3d::SketchCenterLine* pCenterLine = wy3d::SketchCenterLine::cast(_pDb->getElement(iter.current()));
-        if (!pCenterLine) continue;
-        pAxis = pCenterLine;
-        break;
-    }
+    // 旋转轴线（由用户指定）
+    const wy3d::SketchCurve* pAxis = wy3d::SketchCurve::cast(_pDb->getElement(axisCurveId));
     if (!pAxis)
     {
         errorCode = static_cast<unsigned int>(wy3d::ErrorCode::REVOLUTION_NoRevolutionAxisLine);

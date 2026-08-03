@@ -36,7 +36,7 @@
 #include "widgets/sketch/SketchPlaneDialog.h"
 #include "environments/sketch/SketchEnvironment.h"
 #include "utils/SketchUtil.h"
-#include "utils/TransactionUtil.h"
+
 
 
 int EditSketchCommand::run()
@@ -79,51 +79,6 @@ int EditSketchCommand::run()
 }
 
 
-void trySetRevolutionAxis(const wy3d::Revolution* pConstRevolution, const wy3d::Sketch* pSketch)
-{
-    assert(pConstRevolution);
-    assert(pSketch);
-    wydb::Database* pDb = pConstRevolution->getDatabase();
-    assert(pDb);
-
-    // 找出中心线
-    const wy3d::SketchCenterLine* pAxisCenterLine(nullptr);
-    for (auto iter = pSketch->createIterator(); !iter.isDone(); iter.moveNext())
-    {
-        if (const wy3d::SketchCenterLine* pCenterLine = wy3d::SketchCenterLine::cast(pDb->getElement(iter.current())))
-        {
-            pAxisCenterLine = pCenterLine;
-            break;
-        }
-    }
-    if (!pAxisCenterLine)
-    {
-        assert(false);
-        return;
-    }
-    wydb::ElementId axisId = pConstRevolution->getAxis();
-    if (axisId == pAxisCenterLine->getId())
-    {
-        return; // 不需要重新设置
-    }
-
-    wydb::Transaction* pTrans = TransactionUtil::startSolitaryTransaction(pDb);
-    if (!pTrans) return;
-    wy3d::Revolution* pRevolution = wy3d::Revolution::cast(pTrans->getElementForWrite(pConstRevolution->getId()));
-    if (!pRevolution)
-    {
-        pDb->getTransactionManager()->abortTransaction();
-        return;
-    }
-    if (wy::ErrorStatus::Ok == pRevolution->setAxis(pAxisCenterLine))
-    {
-        pDb->getTransactionManager()->endTransaction();
-    }
-    else
-    {
-        pDb->getTransactionManager()->abortTransaction();
-    }
-}
 
 static bool canEndEditingSketch(const wydb::ElementId& sketchId)
 {
@@ -164,12 +119,11 @@ static bool canEndEditingSketch(const wydb::ElementId& sketchId)
             return true;
         }
     }
-    // 旋转体
+    // 旋转体（轴可能来自其他草图，只校验 profile，不自动更新轴）
     else if (const wy3d::Revolution* pConstRevolution = wy3d::Revolution::cast(pSketchOwner))
     {
-        if (SketchUtil::isValidRevolutionProfile(*pSketch, error))
+        if (SketchUtil::isValidExtrusionProfile(*pSketch, error))
         {
-            trySetRevolutionAxis(pConstRevolution, pSketch);
             return true;
         }
     }

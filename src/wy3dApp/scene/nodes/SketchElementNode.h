@@ -56,17 +56,23 @@ public:
     // 结点类型
     virtual ElementNodeType getNodeType() const override { return ElementNodeType::Sketch; }
 
-    // 由PrimitiveIndex获取线的序号
-    // 没有找到的话返回unsigned int(-1)
-    unsigned int getCurveIndex(unsigned int primitiveIndex) const;
+    // 获取中心线渲染对象
+    osg::Geometry* getCenterLinesGeom() const { return _centerLinesGeom.get(); }
+
     // 由PrimitiveIndex获取线的ID
     // 没有找到的话返回unsigned int(0)
     unsigned int getCurveId(unsigned int primitiveIndex) const;
+    // 由PrimitiveIndex获取中心线的ID
+    // 没有找到的话返回unsigned int(0)
+    unsigned int getCenterLineCurveId(unsigned int primitiveIndex) const;
 
     void highlightCurveByIndex(unsigned int curveIndex, bool flag);
     void highlightCurveById(unsigned int id, bool flag);
     void previewCurveByIndex(unsigned int curveIndex, bool flag);
     void previewCurveById(unsigned int id, bool flag);
+
+    // 清空动态渲染对象
+    void clearDynamicRenderGeometry();
 
 protected:
     // 默认框选(完全框住才选中)
@@ -90,6 +96,10 @@ protected:
     osg::ref_ptr<osg::Geometry> generateCurveGeom_Highlight();
     osg::ref_ptr<osg::Geometry> generateCurveGeom_Preview(unsigned int curveIndex);
     unsigned int getCurveIndexById(unsigned int id) const;
+    unsigned int getCenterLineCurveIndexById(unsigned int id) const;
+    void highlightCenterLineByIndex(unsigned int curveIndex, bool flag);
+    void previewCenterLineByIndex(unsigned int curveIndex, bool flag);
+    osg::ref_ptr<osg::Geometry> generateCenterLineGeom_Preview(unsigned int curveIndex);
 
 protected:
     // 清空渲染对象
@@ -115,6 +125,7 @@ protected:
         _centerLineIndices = nullptr;
         _pointIndices = nullptr;
         _curveInfos.clear();
+        _centerLineInfos.clear();
     }
 
     // 初始化渲染数据
@@ -126,6 +137,7 @@ protected:
         _centerLineIndices = new osg::UIntArray();
         _pointIndices = new osg::UIntArray();
         _curveInfos.clear();
+        _centerLineInfos.clear();
     }
 
 private:
@@ -155,6 +167,8 @@ private:
 
     // 线数据
     std::vector<CurveInfo> _curveInfos;
+    // 中心线数据
+    std::vector<CurveInfo> _centerLineInfos;
 };
 
 #endif // WY3DAPP_SKETCH_ELEMENT_NODE_H

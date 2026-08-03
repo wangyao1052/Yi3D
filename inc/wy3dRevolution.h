@@ -10,7 +10,7 @@
 #include <wy3dDefs.h>
 #include <wy3dSolid.h>
 #include <wy3dSketch.h>
-#include <wy3dSketchCenterLine.h>
+#include <wy3dSketchCurve.h>
 #include <wy3dTableIndex.h>
 
 NS_WY3D_BEG
@@ -23,13 +23,13 @@ public:
     // 创建旋转体
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
-        wy3d::Sketch* pSketch, const wy3d::SketchCenterLine* pAxis, double startAngle, double endAngle,
+        wy3d::Sketch* pSketch, const wy3d::SketchCurve* pAxis, double startAngle, double endAngle,
         Revolution*& pOutRevolution);
 
     // 创建旋转切除
     static wy::ErrorStatus createCut(
         wydb::Transaction* pTrans,
-        wy3d::Sketch* pSketch, const wy3d::SketchCenterLine* pAxis, double startAngle, double endAngle,
+        wy3d::Sketch* pSketch, const wy3d::SketchCurve* pAxis, double startAngle, double endAngle,
         wy3d::Solid* pSolidToCut,
         Revolution*& pOutRevolution);
 
@@ -50,7 +50,7 @@ public:
     // 获取旋转轴
     wydb::ElementId getAxis() const { return _axisId; }
     // 设置旋转轴
-    wy::ErrorStatus setAxis(const wy3d::SketchCenterLine* pAxis);
+    wy::ErrorStatus setAxis(const wy3d::SketchCurve* pAxis);
 
     // 获取起始角度
     double getStartAngle() const { return _startAngle; }

@@ -35,6 +35,7 @@
 #include <wydbFieldRegistry.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchLine.h>
+#include <wy3dSketchCenterLine.h>
 #include <wy3dSketchProfile.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
@@ -67,7 +68,7 @@ Revolution::~Revolution()
 
 wy::ErrorStatus Revolution::create(
     wydb::Transaction* pTrans,
-    wy3d::Sketch* pSketch, const wy3d::SketchCenterLine* pAxis, double startAngle, double endAngle,
+    wy3d::Sketch* pSketch, const wy3d::SketchCurve* pAxis, double startAngle, double endAngle,
     Revolution*& pOutRevolution)
 {
     if (!pTrans)
@@ -80,12 +81,6 @@ wy::ErrorStatus Revolution::create(
         pOutRevolution = nullptr;
         return wy::ErrorStatus::NullElementPointer;
     }
-    if (pAxis->getParent() != pSketch->getId())
-    {
-        pOutRevolution = nullptr;
-        return wy::ErrorStatus::InvalidInput;
-    }
-
     Revolution* pRevolution = new Revolution();
     wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pRevolution);
     if (wy::ErrorStatus::Ok != error)
@@ -110,7 +105,7 @@ wy::ErrorStatus Revolution::create(
 
 wy::ErrorStatus Revolution::createCut(
     wydb::Transaction* pTrans,
-    wy3d::Sketch* pSketch, const wy3d::SketchCenterLine* pAxis, double startAngle, double endAngle,
+    wy3d::Sketch* pSketch, const wy3d::SketchCurve* pAxis, double startAngle, double endAngle,
     wy3d::Solid* pSolidToCut,
     Revolution*& pOutRevolution)
 {
@@ -124,12 +119,6 @@ wy::ErrorStatus Revolution::createCut(
         pOutRevolution = nullptr;
         return wy::ErrorStatus::NullElementPointer;
     }
-    if (pAxis->getParent() != pSketch->getId())
-    {
-        pOutRevolution = nullptr;
-        return wy::ErrorStatus::InvalidInput;
-    }
-
     Revolution* pRevolution = new Revolution();
     wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pRevolution);
     if (wy::ErrorStatus::Ok != error)
@@ -226,13 +215,15 @@ wy::ErrorStatus Revolution::_setAxis(const wydb::ElementId& axisId)
     }
 }
 
-wy::ErrorStatus Revolution::setAxis(const wy3d::SketchCenterLine* pAxis)
+wy::ErrorStatus Revolution::setAxis(const wy3d::SketchCurve* pAxis)
 {
     if (!pAxis)
     {
         return wy::ErrorStatus::NullElementPointer;
     }
-    if (pAxis->getParent() != _sketchId)
+
+    // 轴必须是直线型曲线（SketchLine 或 SketchCenterLine）
+    if (!wy3d::SketchLine::cast(pAxis) && !wy3d::SketchCenterLine::cast(pAxis))
     {
         return wy::ErrorStatus::InvalidInput;
     }
@@ -438,13 +429,20 @@ TopoDS_Shape Revolution::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdat
 
     if (_axisId.isNull())
     {
-        assert(false);
         wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
             static_cast<std::uint32_t>(ErrorCode::REVOLUTION_UnspecifiedAxisLine));
         return TopoDS_Shape();
     }
-    const wy3d::SketchCenterLine* pCenterLine = wy3d::SketchCenterLine::cast(pDb->getElement(_axisId));
-    if (!pCenterLine || pCenterLine->getParent() != _sketchId)
+    const wy3d::SketchCurve* pAxisCurve = wy3d::SketchCurve::cast(pDb->getElement(_axisId));
+    if (!pAxisCurve)
+    {
+        assert(false);
+        wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+            static_cast<std::uint32_t>(ErrorCode::REVOLUTION_InvalidRevolutionAxisLine));
+        return TopoDS_Shape();
+    }
+    // 轴必须是直线型曲线
+    if (!wy3d::SketchLine::cast(pAxisCurve) && !wy3d::SketchCenterLine::cast(pAxisCurve))
     {
         assert(false);
         wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
@@ -467,8 +465,25 @@ TopoDS_Shape Revolution::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdat
     wy::Vector3 sketchOrigin = sketchPlane.getOrigin();
     gp_Pln sketchPln(gp_Pnt(sketchOrigin.x(), sketchOrigin.y(), sketchOrigin.z()), sketchNormalDir);
 
-    wy::Vector3 axisStartPnt = sketchPlane.value(pCenterLine->getStartPoint());
-    wy::Vector3 axisEndPnt = sketchPlane.value(pCenterLine->getEndPoint());
+    // 轴可能来自其他草图，用轴所属草图的平面做 2D→3D 转换
+    const wy3d::Sketch* pAxisSketch = wy3d::Sketch::cast(pDb->getElement(pAxisCurve->getParent()));
+    if (!pAxisSketch)
+    {
+        assert(false);
+        wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+            static_cast<std::uint32_t>(ErrorCode::REVOLUTION_InvalidRevolutionAxisLine));
+        return TopoDS_Shape();
+    }
+    const wy3d::SketchPlane& axisSketchPlane = pAxisSketch->getPlane();
+    if (!axisSketchPlane.isValid())
+    {
+        assert(false);
+        wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+            static_cast<std::uint32_t>(ErrorCode::REVOLUTION_InvalidRevolutionAxisLine));
+        return TopoDS_Shape();
+    }
+    wy::Vector3 axisStartPnt = axisSketchPlane.value(pAxisCurve->getStartPoint());
+    wy::Vector3 axisEndPnt = axisSketchPlane.value(pAxisCurve->getEndPoint());
     wy::Vector3 axisDir = axisEndPnt - axisStartPnt;
     if (axisDir.length() <= wy3d::EPS)
     {

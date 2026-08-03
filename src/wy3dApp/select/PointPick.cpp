@@ -226,7 +226,15 @@ wyap::Selection _newSelection(
 
         if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SketchCurve))
         {
-            unsigned int curveId = pSketchElemNode->getCurveId(primitiveIndex);
+            unsigned int curveId(0);
+            if (pDrawable == pSketchElemNode->getCenterLinesGeom())
+            {
+                curveId = pSketchElemNode->getCenterLineCurveId(primitiveIndex);
+            }
+            else
+            {
+                curveId = pSketchElemNode->getCurveId(primitiveIndex);
+            }
             if (0 == curveId)
             {
                 assert(false);

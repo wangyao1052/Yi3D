@@ -44,7 +44,8 @@ protected:
     {
         Undefined = 0,
         SelectSketch = 1,
-        SpecifySolidToCut = 2,
+        SelectAxisCurve = 2,
+        SpecifySolidToCut = 3,
     };
     virtual void reset();
     virtual bool finishStep(Step step);
@@ -62,6 +63,7 @@ private:
 protected:
     Step _step;
     wydb::ElementId _sketchId;
+    wydb::ElementId _axisCurveId;
 
     // 点选选项
     PointPickOption _pointPickOption;
@@ -69,6 +71,7 @@ protected:
     // 预览&提示
     std::shared_ptr<ValidSketchTransient> _pValidSketch;
     std::shared_ptr<InvalidSketchToolTip> _pInvalidSketchTooltip;
+    SelectPreviewSPtr _pAxisCurvePreview;
 
     // 草图信息
     struct SketchValidInfo
@@ -115,7 +118,7 @@ public:
     virtual void collectElements(std::set<wydb::ElementId>& idSet) const override;
 
     // 创建
-    bool create(const wydb::ElementId& sketchId, unsigned int& errorCode);
+    bool create(const wydb::ElementId& sketchId, const wydb::ElementId& axisCurveId, unsigned int& errorCode);
     // 切除实体
     bool cutSolid(const wy3d::Solid* pConstSolidToCut, unsigned int& errorCode);
 
