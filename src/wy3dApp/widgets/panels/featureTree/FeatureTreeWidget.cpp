@@ -872,7 +872,7 @@ void FeatureTreeWidget::uiAddItem(
     // }
     // added by wangyao 2025.01.23 {
     // 对于参照面特殊处理:显示参照面的名称
-    if (pFeature->getClassInfo() == wy3d::DatumPlane::classInfo() && pFeature->getId().value() <= 1003)
+    if (pFeature->getClassInfo() == wy3d::DatumPlane::classInfo())
     {
         const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pFeature);
         const std::string& datumPlaneName = pDatumPlane->getName();
@@ -882,7 +882,7 @@ void FeatureTreeWidget::uiAddItem(
             qstrText = _yozDatumPlaneDispName;
         else if (datumPlaneName == "FRONT")
             qstrText = _xozDatumPlaneDispName;
-        else
+        else if (!datumPlaneName.empty())
             qstrText = datumPlaneName.c_str();
     }
     // }
