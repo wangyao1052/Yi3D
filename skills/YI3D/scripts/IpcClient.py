@@ -131,10 +131,10 @@ if __name__ == "__main__":
     timeout = args.timeout
     if timeout is None:
         method_lower = args.method.strip().lower()
-    if method_lower == "command":
-        timeout = COMMAND_TIMEOUT
-    elif method_lower == "script":
-        timeout = SCRIPT_TIMEOUT
-    else:
-        timeout = DEFAULT_TIMEOUT
+        if method_lower == "command":
+            timeout = COMMAND_TIMEOUT
+        elif method_lower == "script":
+            timeout = SCRIPT_TIMEOUT
+        else:
+            timeout = DEFAULT_TIMEOUT
     print(call(args.method, args.argument, timeout=timeout, host=args.host, port=args.port))
