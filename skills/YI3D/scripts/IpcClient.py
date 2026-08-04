@@ -6,8 +6,9 @@ import socket
 HOST = "127.0.0.1"
 PORT = 17999
 RESPONSE_LOG_FILE = "python_client_response.log"
-DEFAULT_TIMEOUT = 30.0
-COMMAND_TIMEOUT = 180.0
+DEFAULT_TIMEOUT = 5.0
+SCRIPT_TIMEOUT = 60.0
+COMMAND_TIMEOUT = 10.0
 
 # IPC frame format (big-endian):
 #   0-3   magic       4B  b"YI3D"
@@ -81,7 +82,7 @@ def _recv_exact(sock, n):
     return b"".join(chunks)
 
 
-def call(method, argument, timeout=10, host=HOST, port=PORT):
+def call(method, argument, timeout=5, host=HOST, port=PORT):
     request = {
         "commnad": method.strip(),
         "argument": argument.strip(),
@@ -129,5 +130,11 @@ if __name__ == "__main__":
     args = parse_args()
     timeout = args.timeout
     if timeout is None:
-        timeout = COMMAND_TIMEOUT if args.method.strip().lower() == "command" else DEFAULT_TIMEOUT
+        method_lower = args.method.strip().lower()
+    if method_lower == "command":
+        timeout = COMMAND_TIMEOUT
+    elif method_lower == "script":
+        timeout = SCRIPT_TIMEOUT
+    else:
+        timeout = DEFAULT_TIMEOUT
     print(call(args.method, args.argument, timeout=timeout, host=args.host, port=args.port))

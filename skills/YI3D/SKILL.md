@@ -8,15 +8,19 @@ description: 生成 YI3D Python 建模脚本，通过 IpcClient.py 传入脚本�
 ## 工作流程
 
 1. 调用 `./scripts/IpcClient.py`，使用 `--method ping` 检查 IPC 连通性。
-2. 若 `ping` 无响应、超时或连接失败，直接启动工作目录下的 `./YI3D`（Windows 上为 `./YI3D.exe`），启动后重新 `ping` 确认连通。
-3. 调用 `./scripts/IpcClient.py --method command --argument "NewFile"` 新建文档。
-4. 学习 `../../scripts/` 目录下的 Yi3D Python 脚本。
-4. 生成建模脚本文件。
-5. 调用 `./scripts/IpcClient.py`，传入脚本完整路径执行建模。
-6. 读取执行结果。
-7. 若执行成功但用户明确表示模型不满意且要求“重新创建”或“按反馈修改”，先调用 `./scripts/IpcClient.py` 并使用 `--method command --argument "Undo"` 回退上一次建模结果，再进入下一轮重建。
-8. 若执行成功且用户满意，结束流程。
-9. 若执行失败，修改脚本并继续重试，最多迭代 10 次。
+2. 若 `ping` 无响应、超时或连接失败，直接启动工作目录下的 `./YI3D`（Windows 上为 `./YI3D.exe`），启动后立刻重新 `ping`；若仍失败则等待 1 秒后重试，最多重试 3 次。
+3. 连通确认后，后续命令（`NewFile`、`Undo`、`script` 等）直接发送，无需每次重新 `ping`。仅在命令返回连接失败或超时时，才回到步骤 1 重新确认连通性。
+4. 调用 `./scripts/IpcClient.py --method command --argument “NewFile”` 新建文档。
+5. 学习 `../../scripts/` 目录下的 Yi3D Python 脚本。
+6. 生成建模脚本文件。
+7. 调用 `./scripts/IpcClient.py`，传入脚本完整路径执行建模。
+8. 读取执行结果。
+9. 若执行成功，依次调用 `IsometricView` 和 `FitView` 优化显示：
+   - `./scripts/IpcClient.py --method command --argument “IsometricView”`
+   - `./scripts/IpcClient.py --method command --argument “FitView”`
+10. 若执行成功但用户明确表示模型不满意且要求”重新创建”或”按反馈修改”，先调用 `./scripts/IpcClient.py` 并使用 `--method command --argument “Undo”` 回退上一次建模结果，再进入下一轮重建。
+11. 若执行成功且用户满意，结束流程。
+12. 若执行失败，修改脚本并继续重试，最多迭代 10 次。
 
 ## IPC 协议文档
 
