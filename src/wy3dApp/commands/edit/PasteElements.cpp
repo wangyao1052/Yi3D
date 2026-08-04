@@ -124,52 +124,69 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
     }
 
     // 用一个独立临时事务来创建剪贴板元素
-    wydb::Transaction* pTempTrans = _pDb->getTransactionManager()->startTransaction();
-    if (!pTempTrans)
+    // 草图环境下同时将图元加入草图, 避免提交孤儿图元导致 Scene 回调
+    // 在 SketchEntityElementNode::generateRenderDataImpl 中因找不到父草图而 assert.
     {
-        assert(false);
-        return InitRet::Failed;
-    }
-    std::vector<wydb::Element*> copyElements;
-    if (wy::ErrorStatus::Ok != wyap::Clipboard::createElements(pTempTrans, *pElementsClipData, copyElements))
-    {
-        assert(false);
-        _pDb->getTransactionManager()->abortTransaction();
-        return InitRet::Failed;
-    }
-    if (copyElements.empty())
-    {
-        assert(false);
-        _pDb->getTransactionManager()->abortTransaction();
-        return InitRet::Failed;
-    }
-    _pDb->getTransactionManager()->endTransaction();
-
-    // 拷贝数据
-    for (wydb::Element* pElem : copyElements)
-    {
-        assert(pElem);
-        CopyElement copyElem;
-        copyElem.pElem = pElem;
-        copyElem.initPosition.set(0.0, 0.0, 0.0);
-        _copyElements.emplace_back(copyElem);
-        if (pElem)
+        wydb::TransactionOption tempOpt;
+        if (GuiCmdEnvType::Sketching == _mode)
+            tempOpt.chainUpdateScope = wydb::ChainUpdateScope::Local;
+        wydb::Transaction* pTempTrans = _pDb->getTransactionManager()->startTransaction("", tempOpt);
+        if (!pTempTrans)
         {
-            _newlyCreatedIds.insert(pElem->getId());
+            assert(false);
+            return InitRet::Failed;
+        }
+        std::vector<wydb::Element*> copyElements;
+        if (wy::ErrorStatus::Ok != wyap::Clipboard::createElements(pTempTrans, *pElementsClipData, copyElements))
+        {
+            assert(false);
+            _pDb->getTransactionManager()->abortTransaction();
+            return InitRet::Failed;
+        }
+        if (copyElements.empty())
+        {
+            assert(false);
+            _pDb->getTransactionManager()->abortTransaction();
+            return InitRet::Failed;
+        }
+        // 草图环境下在同一事务中将图元加入草图
+        if (GuiCmdEnvType::Sketching == _mode)
+        {
+            wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTempTrans->getElementForWrite(_sketchId));
+            if (!pSketch)
+            {
+                assert(false);
+                _pDb->getTransactionManager()->abortTransaction();
+                return InitRet::Failed;
+            }
+            for (wydb::Element* pElem : copyElements)
+            {
+                if (!pElem) continue;
+                wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElem);
+                if (!pSketchEntity) { assert(false); continue; }
+                pSketch->addEntity(pSketchEntity);
+            }
+        }
+        _pDb->getTransactionManager()->endTransaction();
+
+        // 拷贝数据
+        for (wydb::Element* pElem : copyElements)
+        {
+            assert(pElem);
+            CopyElement copyElem;
+            copyElem.pElem = pElem;
+            copyElem.initPosition.set(0.0, 0.0, 0.0);
+            _copyElements.emplace_back(copyElem);
+            if (pElem) { _newlyCreatedIds.insert(pElem->getId()); }
+        }
+
+        // 建模环境下, 不支持重定位则直接结束(无需交互预览)
+        if (GuiCmdEnvType::Modeling == _mode)
+        {
+            if (!whetherSupportsRelocating_Modeling(copyElements))
+                return InitRet::Success_End;
         }
     }
-
-    // added by wangyao 2025.01.25 {
-    if (GuiCmdEnvType::Modeling == _mode)
-    {
-        // 不支持重定位则直接提交事务
-        if (!whetherSupportsRelocating_Modeling(copyElements))
-        {
-            // 元素已通过临时事务提交到DB，不需要再 addNewlyCreatedElement
-            return InitRet::Success_End;
-        }
-    }
-    // }
 
     // 计算初始原点
     if (GuiCmdEnvType::Sketching == _mode)
@@ -234,49 +251,24 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
         _initOrigin.set(xMin, yMin, zMin);
     }
 
-    // 开启事务
-    wydb::TransactionOption option;
-    option.chainUpdateScope = GuiCmdEnvType::Sketching == _mode ? wydb::ChainUpdateScope::Local : wydb::ChainUpdateScope::Cascade;
-    wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
-    if (!pTrans)
+    // 草图环境下的图元已在临时事务中加入草图, 此处仅建模环境需要开启事务.
+    if (GuiCmdEnvType::Modeling == _mode)
     {
-        freeCopyElements();
-        return InitRet::Failed;
-    }
-    if (GuiCmdEnvType::Sketching == _mode)
-    {
-        wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(_sketchId));
-        if (!pSketch)
+        wydb::TransactionOption option;
+        option.chainUpdateScope = wydb::ChainUpdateScope::Cascade;
+        wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
+        if (!pTrans)
         {
-            assert(false);
             freeCopyElements();
             return InitRet::Failed;
         }
-        // 1.将拷贝的对象添加到事务
-        // 2.将拷贝对象添加到草图
-        for (const CopyElement& copyElem : _copyElements)
-        {
-            if (!copyElem.pElem) continue;
-            wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(copyElem.pElem);
-            if (!pSketchEntity)
-            {
-                assert(false);
-                continue;
-            }
-            pTrans->addNewlyCreatedElement(pSketchEntity);
-            pSketch->addEntity(pSketchEntity);
-        }
-    }
-    else
-    {
-        // 将拷贝的对象添加到事务
         for (const CopyElement& copyElem : _copyElements)
         {
             if (!copyElem.pElem) continue;
             pTrans->addNewlyCreatedElement(copyElem.pElem);
         }
+        _pDb->getTransactionManager()->endTransaction();
     }
-    _pDb->getTransactionManager()->endTransaction();
 
     // 生成跟随鼠标移动的渲染节点
     Scene* pActiveScene = Application::instance().getActiveScene();
