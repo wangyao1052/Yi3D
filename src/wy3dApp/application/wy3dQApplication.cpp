@@ -50,9 +50,19 @@ bool wy3dQApplication::notify(QObject* receiver, QEvent* event)
         if (pRunPythonScriptEvent)
         {
             const std::string& scriptFileFullPath = pRunPythonScriptEvent->getScriptFileFullPath();
+
+            // Abort current modal command.
+            wyap::CmdManager* pCmdMgr = Application::instance().getCmdManager();
+            wyap::Command* pCurModalCmd = pCmdMgr->getCurrentModalCommand();
+            if (pCurModalCmd)
+            {
+                pCmdMgr->abortCurrentModalCommand(
+                    wyap::CmdExecution::AbortCause::ForceTerminate);
+            }
+
+            // Run script.
             PythonScriptExecutor executor;
             PythonScriptExecutor::Error error = executor.Run(scriptFileFullPath);
-
             bool isOk(false);
             QString message;
             switch (error)
@@ -119,9 +129,31 @@ bool wy3dQApplication::notify(QObject* receiver, QEvent* event)
     {
         if (RunGuiCommandEvent* pRunGuiCmdEvt = dynamic_cast<RunGuiCommandEvent*>(event))
         {
-            Application::instance().getCmdManager()->executeCommand(pRunGuiCmdEvt->getCommandName());
-            bool isOk = true;
-            _ipc->completeCurrentRequest(isOk, "");
+            const std::string cmdName = pRunGuiCmdEvt->getCommandName();
+            wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
+            wyap::CmdManager* pCmdMgr = Application::instance().getCmdManager();
+
+            wyap::Command* pCmd = pCmdStack->getCommand(cmdName);
+            if (!pCmd)
+            {
+                _ipc->completeCurrentRequest(false, QStringLiteral("CommandNotFound"));
+                return true;
+            }
+
+            if (true)
+            {
+                wyap::Command* pCurModalCmd = pCmdMgr->getCurrentModalCommand();
+                if (pCurModalCmd)
+                {
+                    pCmdMgr->abortCurrentModalCommand(
+                        wyap::CmdExecution::AbortCause::ForceTerminate);
+                }
+            }
+
+            wy::ErrorStatus error = pCmdMgr->executeCommand(cmdName);
+            bool isOk = (error == wy::ErrorStatus::Ok);
+            QString message = isOk ? QStringLiteral("") : QString::number(static_cast<int>(error));
+            _ipc->completeCurrentRequest(isOk, message);
         }
         else
         {
