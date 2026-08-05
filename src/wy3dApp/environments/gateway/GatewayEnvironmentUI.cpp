@@ -36,6 +36,7 @@ struct GatewayActions
     CommandAction* pActionNewFile;
     CommandAction* pActionOpenFile;
     CommandAction* pActionHelpDocumentation;
+    CommandAction* pActionShortcutKeys;
     CommandAction* pActionAbout;
 };
 
@@ -57,6 +58,11 @@ GatewayActions createActions(GatewayEnvironment* pEnv)
     actions.pActionHelpDocumentation = pEnv->newCommandAction(
         CommandNames::HelpDocumentation,
         QCoreApplication::translate("MainWindow", "Help Documentation"),
+        QIcon());
+
+    actions.pActionShortcutKeys = pEnv->newCommandAction(
+        CommandNames::ShortcutKeys,
+        QCoreApplication::translate("MainWindow", "Shortcut Keys"),
         QIcon());
 
     actions.pActionAbout = pEnv->newCommandAction(
@@ -96,6 +102,7 @@ void GatewayEnvironmentUI::initialize(GatewayEnvironment* pEnv)
     _pMenuFile->addAction(actions.pActionNewFile);
     _pMenuFile->addAction(actions.pActionOpenFile);
     _pMenuHelp->addAction(actions.pActionHelpDocumentation);
+    _pMenuHelp->addAction(actions.pActionShortcutKeys);
     _pMenuHelp->addAction(actions.pActionAbout);
     _pToolBarBasic->addAction(actions.pActionNewFile);
     _pToolBarBasic->addAction(actions.pActionOpenFile);

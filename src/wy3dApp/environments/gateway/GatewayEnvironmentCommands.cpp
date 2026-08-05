@@ -33,6 +33,7 @@
     X(CommandNames::NewFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, NewFileCommand::classInfo()) \
     X(CommandNames::OpenFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, OpenFileCommand::classInfo()) \
     X(CommandNames::HelpDocumentation, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, HelpDocumentationCommand::classInfo()) \
+    X(CommandNames::ShortcutKeys, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, ShortcutKeysCommand::classInfo()) \
     X(CommandNames::About, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, AboutCommand::classInfo())
 
 namespace

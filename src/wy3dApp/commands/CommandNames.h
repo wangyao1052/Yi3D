@@ -161,6 +161,7 @@ public:
     // 帮助命令
     static inline const std::string About = "About";
     static inline const std::string HelpDocumentation = "HelpDocumentation";
+    static inline const std::string ShortcutKeys = "ShortcutKeys";
 
     // 测试命令
     static inline const std::string OsgNewBox = "OsgNewBox";

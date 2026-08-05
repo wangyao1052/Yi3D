@@ -1120,7 +1120,7 @@
 <context>
     <name>Help</name>
     <message>
-        <location filename="../../commands/help/HelpCommands.cpp" line="50"/>
+        <location filename="../../commands/help/HelpCommands.cpp" line="51"/>
         <source>Unable to open the browser or the help documentation URL.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1224,32 +1224,37 @@
         <translation type="unfinished">Yi3D</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="49"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="50"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="54"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="55"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="59"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="60"/>
         <source>Help Documentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="64"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="65"/>
+        <source>Shortcut Keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="70"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="130"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="137"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="137"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="144"/>
         <source>Basic</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1279,7 +1284,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="126"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="133"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1827,14 +1832,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="543"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="550"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="218"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1534"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="554"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="561"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1577"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
@@ -2998,12 +3003,12 @@
 <context>
     <name>SelectGuiCmd</name>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="408"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="415"/>
         <source>Select elements. Pick individual items or use window selection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="455"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="462"/>
         <source>Specify the insertion point; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3059,6 +3064,220 @@
     <message>
         <location filename="../../commands/modeling/solid/modification/ShellGuiCmd.cpp" line="198"/>
         <source>Thickness</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ShortcutKeysDialog</name>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="36"/>
+        <source>Shortcut Keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="50"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="71"/>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="113"/>
+        <source>Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="72"/>
+        <source>Paste</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="73"/>
+        <source>Select All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="74"/>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="75"/>
+        <source>Redo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="76"/>
+        <source>Delete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="77"/>
+        <source>Exit current command (except Select) or current step</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="78"/>
+        <source>When in Select command, clear selections</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="79"/>
+        <source>Confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="80"/>
+        <source>When in Select command, repeat the last non-select command</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="81"/>
+        <source>In certain commands, confirm the current selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="51"/>
+        <source>Sketch Environment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="103"/>
+        <source>Point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="104"/>
+        <source>Line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="105"/>
+        <source>Circle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="106"/>
+        <source>Arc</source>
+        <translation type="unfinished">Arc</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="107"/>
+        <source>Rectangle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="108"/>
+        <source>Polygon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="109"/>
+        <source>Ellipse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="110"/>
+        <source>Ellipse Arc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="111"/>
+        <source>Spline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="112"/>
+        <source>Sketch Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="114"/>
+        <source>Move</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="115"/>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="116"/>
+        <source>Mirror</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="117"/>
+        <source>Scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="118"/>
+        <source>Trim</source>
+        <translation type="unfinished">Trim sketch entities.</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="119"/>
+        <source>Extend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="120"/>
+        <source>Fillet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="121"/>
+        <source>Chamfer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="122"/>
+        <source>Offset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="123"/>
+        <source>Array</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="52"/>
+        <source>Modeling Environment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="145"/>
+        <source>New Sketch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="146"/>
+        <source>Box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="147"/>
+        <source>Cylinder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="148"/>
+        <source>Sphere</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="149"/>
+        <source>Cone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="150"/>
+        <source>Torus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="151"/>
+        <source>Tube</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

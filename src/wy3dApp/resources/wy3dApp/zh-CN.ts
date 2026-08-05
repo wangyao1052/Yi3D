@@ -1996,7 +1996,7 @@
 <context>
     <name>Help</name>
     <message>
-        <location filename="../../commands/help/HelpCommands.cpp" line="50"/>
+        <location filename="../../commands/help/HelpCommands.cpp" line="51"/>
         <source>Unable to open the browser or the help documentation URL.</source>
         <translation type="unfinished">无法打开浏览器或帮助文档网址。</translation>
     </message>
@@ -2120,24 +2120,29 @@
         <translation type="unfinished">易三维</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="126"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="133"/>
         <source>File</source>
         <translation type="unfinished">文件</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="49"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="50"/>
         <source>New</source>
         <translation type="unfinished">新建</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="54"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="55"/>
         <source>Open</source>
         <translation type="unfinished">打开</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="59"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="60"/>
         <source>Help Documentation</source>
         <translation type="unfinished">帮助文档</translation>
+    </message>
+    <message>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="65"/>
+        <source>Shortcut Keys</source>
+        <translation type="unfinished">快捷键</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="158"/>
@@ -2380,7 +2385,7 @@
         <translation type="obsolete">透视投影</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="137"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="144"/>
         <source>Basic</source>
         <translation type="unfinished">基础</translation>
     </message>
@@ -2452,12 +2457,12 @@
         <translation type="unfinished">圆管</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="130"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="137"/>
         <source>Help</source>
         <translation type="unfinished">帮助</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="64"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="70"/>
         <source>About</source>
         <translation type="unfinished">关于</translation>
     </message>
@@ -2484,14 +2489,14 @@
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="543"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="550"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="218"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1534"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="554"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="561"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1577"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
@@ -4218,12 +4223,12 @@
 <context>
     <name>SelectGuiCmd</name>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="408"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="415"/>
         <source>Select elements. Pick individual items or use window selection.</source>
         <translation type="unfinished">选择元素；点选单个项目或使用窗口选择。</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="455"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="462"/>
         <source>Specify the insertion point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定插入点；可输入具体坐标值。</translation>
     </message>
@@ -4284,6 +4289,220 @@
         <location filename="../../commands/modeling/solid/modification/ShellGuiCmd.cpp" line="198"/>
         <source>Thickness</source>
         <translation type="unfinished">厚度</translation>
+    </message>
+</context>
+<context>
+    <name>ShortcutKeysDialog</name>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="36"/>
+        <source>Shortcut Keys</source>
+        <translation type="unfinished">快捷键</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="50"/>
+        <source>General</source>
+        <translation type="unfinished">通用</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="71"/>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="113"/>
+        <source>Copy</source>
+        <translation type="unfinished">复制</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="72"/>
+        <source>Paste</source>
+        <translation type="unfinished">粘贴</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="73"/>
+        <source>Select All</source>
+        <translation type="unfinished">全选</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="74"/>
+        <source>Undo</source>
+        <translation type="unfinished">撤销</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="75"/>
+        <source>Redo</source>
+        <translation type="unfinished">重做</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="76"/>
+        <source>Delete</source>
+        <translation type="unfinished">删除</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="77"/>
+        <source>Exit current command (except Select) or current step</source>
+        <translation type="unfinished">退出当前命令（选择命令除外）或当前步骤</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="78"/>
+        <source>When in Select command, clear selections</source>
+        <translation type="unfinished">当前为选择命令时，清空选择集</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="79"/>
+        <source>Confirm</source>
+        <translation type="unfinished">确认</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="80"/>
+        <source>When in Select command, repeat the last non-select command</source>
+        <translation type="unfinished">当前为选择命令时，启动上一次非选择命令</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="81"/>
+        <source>In certain commands, confirm the current selection</source>
+        <translation type="unfinished">在某些命令中确认当前选择</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="51"/>
+        <source>Sketch Environment</source>
+        <translation type="unfinished">草图环境</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="103"/>
+        <source>Point</source>
+        <translation type="unfinished">绘制点</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="104"/>
+        <source>Line</source>
+        <translation type="unfinished">绘制线</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="105"/>
+        <source>Circle</source>
+        <translation type="unfinished">绘制圆</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="106"/>
+        <source>Arc</source>
+        <translation type="unfinished">圆弧</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="107"/>
+        <source>Rectangle</source>
+        <translation type="unfinished">绘制矩形</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="108"/>
+        <source>Polygon</source>
+        <translation type="unfinished">绘制多边形</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="109"/>
+        <source>Ellipse</source>
+        <translation type="unfinished">绘制椭圆</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="110"/>
+        <source>Ellipse Arc</source>
+        <translation type="unfinished">绘制椭圆弧</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="111"/>
+        <source>Spline</source>
+        <translation type="unfinished">样条曲线</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="112"/>
+        <source>Sketch Text</source>
+        <translation type="unfinished">草图文字</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="114"/>
+        <source>Move</source>
+        <translation type="unfinished">移动</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="115"/>
+        <source>Rotate</source>
+        <translation type="unfinished">旋转</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="116"/>
+        <source>Mirror</source>
+        <translation type="unfinished">镜像</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="117"/>
+        <source>Scale</source>
+        <translation type="unfinished">缩放</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="118"/>
+        <source>Trim</source>
+        <translation type="unfinished">修剪草绘图元</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="119"/>
+        <source>Extend</source>
+        <translation type="unfinished">延伸草绘图元</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="120"/>
+        <source>Fillet</source>
+        <translation type="unfinished">圆角</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="121"/>
+        <source>Chamfer</source>
+        <translation type="unfinished">倒角</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="122"/>
+        <source>Offset</source>
+        <translation type="unfinished">偏移</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="123"/>
+        <source>Array</source>
+        <translation type="unfinished">阵列</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="52"/>
+        <source>Modeling Environment</source>
+        <translation type="unfinished">建模环境</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="145"/>
+        <source>New Sketch</source>
+        <translation type="unfinished">创建草绘</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="146"/>
+        <source>Box</source>
+        <translation type="unfinished">长方体</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="147"/>
+        <source>Cylinder</source>
+        <translation type="unfinished">圆柱体</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="148"/>
+        <source>Sphere</source>
+        <translation type="unfinished">球体</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="149"/>
+        <source>Cone</source>
+        <translation type="unfinished">圆锥体</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="150"/>
+        <source>Torus</source>
+        <translation type="unfinished">圆环体</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="151"/>
+        <source>Tube</source>
+        <translation type="unfinished">圆管</translation>
     </message>
 </context>
 <context>

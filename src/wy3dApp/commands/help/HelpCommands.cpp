@@ -19,8 +19,9 @@
 #include "HelpCommands.h"
 #include <QCoreApplication>
 #include <QDesktopServices>
-#include <QUrl>  
+#include <QUrl>
 #include "widgets/frame/AboutDialog.h"
+#include "widgets/frame/ShortcutKeysDialog.h"
 #include "utils/MessageBoxUtil.h"
 
 
@@ -50,5 +51,13 @@ int HelpDocumentationCommand::run()
         MessageBoxUtil::showWarning(QCoreApplication::translate("Help",
             "Unable to open the browser or the help documentation URL."));
     }
+    return 0;
+}
+
+int ShortcutKeysCommand::run()
+{
+    ShortcutKeysDialog dlg;
+    dlg.exec();
+
     return 0;
 }

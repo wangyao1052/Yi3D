@@ -16,13 +16,27 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_HELP_COMMANDS_H
-#define WY3DAPP_HELP_COMMANDS_H
+#pragma once
 
-#include "commands/SimpleCommand.h"
+#include <QDialog>
 
-DEFINE_SIMPLE_CMD(AboutCommand)
-DEFINE_SIMPLE_CMD(HelpDocumentationCommand)
-DEFINE_SIMPLE_CMD(ShortcutKeysCommand)
+class QButtonGroup;
+class QStackedWidget;
+class QToolButton;
 
-#endif // WY3DAPP_HELP_COMMANDS_H
+class ShortcutKeysDialog : public QDialog
+{
+    Q_OBJECT
+
+public:
+    ShortcutKeysDialog(QWidget *parent = Q_NULLPTR);
+    ~ShortcutKeysDialog();
+
+    virtual QSize sizeHint() const override { return QSize(600, 500); }
+
+private:
+    void addShortcut(QWidget* parent, const QString& key, const QString& description);
+    QToolButton* createCategoryButton(const QString& text, int id, QButtonGroup* pGroup);
+
+    QStackedWidget* _pStackedWidget;
+};
