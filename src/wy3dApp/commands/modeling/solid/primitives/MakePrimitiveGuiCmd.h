@@ -90,7 +90,7 @@ public:
 
 protected:
     // 初始化客制化菜单项
-    virtual bool initCustomActions(QMenu* menu) override;
+    virtual bool initCustomHeaderActions(QMenu* menu) override;
 
 private slots:
     void onViewNormalToWorkingPlane();

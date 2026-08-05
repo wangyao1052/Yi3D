@@ -365,7 +365,7 @@ void MakePrimitiveGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     this->finishStep(_step);
 }
 
-bool MakePrimitiveGuiCmdMenu::initCustomActions(QMenu* menu)
+bool MakePrimitiveGuiCmdMenu::initCustomHeaderActions(QMenu* menu)
 {
     assert(menu);
     assert(_pCmd);

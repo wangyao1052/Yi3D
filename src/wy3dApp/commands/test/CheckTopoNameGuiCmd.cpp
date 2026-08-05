@@ -177,7 +177,7 @@ GuiCmdMenu* CheckTopoNameGuiCmd::initContextMenu()
     return new CheckTopoNameGuiCmdMenu(this);
 }
 
-bool CheckTopoNameGuiCmdMenu::initCustomActions(QMenu* menu)
+bool CheckTopoNameGuiCmdMenu::initCustomHeaderActions(QMenu* menu)
 {
     assert(menu);
 

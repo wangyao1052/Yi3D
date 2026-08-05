@@ -72,8 +72,8 @@ void GuiCmdMenu::init(QMenu* menu)
     assert(_pCmd);
     if (!_pCmd) return;
 
-    // 初始化客制化菜单项
-    if (this->initCustomActions(menu))
+    // Custom menu actions — header
+    if (this->initCustomHeaderActions(menu))
     {
         menu->addSeparator();
     }
@@ -133,6 +133,12 @@ void GuiCmdMenu::init(QMenu* menu)
         if (added) menu->addSeparator();
     }
 
+    // Custom menu actions — middle
+    if (this->initCustomMiddleActions(menu))
+    {
+        menu->addSeparator();
+    }
+
     // 属性窗口
     QAction* pActionPropertyWidget = new QAction(tr("Property Widget"), menu);
     pActionPropertyWidget->setCheckable(true);
@@ -160,11 +166,27 @@ void GuiCmdMenu::init(QMenu* menu)
         menu->addAction(pActionWCS);
         this->connect(pActionWCS, &QAction::toggled, this, &GuiCmdMenu::onWCSToggled);
     }
+
+    // Custom menu actions — footer
+    if (this->initCustomFooterActions(menu))
+    {
+        menu->addSeparator();
+    }
 }
 
-bool GuiCmdMenu::initCustomActions(QMenu* menu)
-{ 
-    return false; 
+bool GuiCmdMenu::initCustomHeaderActions(QMenu* menu)
+{
+    return false;
+}
+
+bool GuiCmdMenu::initCustomMiddleActions(QMenu* menu)
+{
+    return false;
+}
+
+bool GuiCmdMenu::initCustomFooterActions(QMenu* menu)
+{
+    return false;
 }
 
 void GuiCmdMenu::onCompleteSelection()

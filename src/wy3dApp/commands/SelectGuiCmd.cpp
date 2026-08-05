@@ -316,12 +316,19 @@ void SelectGuiCmd::onKeyDown(const KeyEvent& event)
 
 void SelectGuiCmd::onEscapeKey()
 {
-    // 选择命令中,按下Esc键则清空选择集
-    wyap::SelManager* pSelMgr = Application::instance().getSelManager();
-    assert(pSelMgr);
-    pSelMgr->beginChange();
-    pSelMgr->clearSelections();
-    pSelMgr->endChange();
+    // In paste mode, Esc cancels paste; otherwise clears selections.
+    if (_pPasteOp)
+    {
+        this->cancelPaste();
+    }
+    else
+    {
+        wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+        assert(pSelMgr);
+        pSelMgr->beginChange();
+        pSelMgr->clearSelections();
+        pSelMgr->endChange();
+    }
 }
 
 void SelectGuiCmd::selectAll()
@@ -510,5 +517,67 @@ bool SelectGuiCmd::tryAddElementPositionGizmo(const wyap::SelectionSet& sels)
     Application::instance().getGizmoManager()->endChange();
 
     return true;
+}
+
+// ============================================================================
+// SelectGuiCmdMenu
+// ============================================================================
+
+SelectGuiCmdMenu::SelectGuiCmdMenu(GuiCommand* pCmd)
+    : GuiCmdMenu(pCmd)
+{
+}
+
+bool SelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
+{
+    assert(menu);
+
+    bool added = false;
+
+    // Copy: only visible when elements are selected.
+    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    if (!ss.isEmpty())
+    {
+        QAction* pActionCopy = new QAction(
+            QIcon(":/images/Edit_Copy.svg"),
+            QCoreApplication::translate("MainWindow", "Copy"), menu);
+        menu->addAction(pActionCopy);
+        connect(pActionCopy, &QAction::triggered, this, &SelectGuiCmdMenu::onCopy);
+        added = true;
+    }
+
+    // Paste: only visible when clipboard has content.
+    if (CopyPasteUtil::canPaste())
+    {
+        QAction* pActionPaste = new QAction(
+            QIcon(":/images/Edit_PasteClip.svg"),
+            QCoreApplication::translate("MainWindow", "Paste"), menu);
+        menu->addAction(pActionPaste);
+        connect(pActionPaste, &QAction::triggered, this, &SelectGuiCmdMenu::onPaste);
+        added = true;
+    }
+
+    return added;
+}
+
+void SelectGuiCmdMenu::onCopy()
+{
+    SelectGuiCmd* pCmd = dynamic_cast<SelectGuiCmd*>(_pCmd);
+    if (pCmd) pCmd->copy();
+}
+
+void SelectGuiCmdMenu::onPaste()
+{
+    SelectGuiCmd* pCmd = dynamic_cast<SelectGuiCmd*>(_pCmd);
+    if (!pCmd) return;
+    QPoint screenPos = QCursor::pos();
+    double wx, wy;
+    pCmd->screenToWindowPos(screenPos.x(), screenPos.y(), wx, wy);
+    pCmd->beginPaste(wx, wy);
+}
+
+GuiCmdMenu* SelectGuiCmd::initContextMenu()
+{
+    return new SelectGuiCmdMenu(this);
 }
 

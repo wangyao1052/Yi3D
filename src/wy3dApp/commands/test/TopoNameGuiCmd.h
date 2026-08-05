@@ -73,7 +73,7 @@ public:
 
 protected:
     // 初始化客制化菜单项
-    virtual bool initCustomActions(QMenu* menu) override;
+    virtual bool initCustomHeaderActions(QMenu* menu) override;
 
     // 通过拓扑名称查找边
     void onFindEdgesByTopoName();

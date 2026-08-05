@@ -37,9 +37,17 @@ public:
     void exec(const QPoint& pos);
 
 protected:
-    // 初始化客制化菜单项
-    // 返回值: true --- 添加了菜单项; false --- 没有添加菜单项;
-    virtual bool initCustomActions(QMenu* menu);
+    // Custom menu actions — header (before Complete Selection / Clear Selection).
+    // Returns true if any actions were added.
+    virtual bool initCustomHeaderActions(QMenu* menu);
+
+    // Custom menu actions — middle (after sketch env actions, before Property / WCS).
+    // Returns true if any actions were added.
+    virtual bool initCustomMiddleActions(QMenu* menu);
+
+    // Custom menu actions — footer (after Property / WCS).
+    // Returns true if any actions were added.
+    virtual bool initCustomFooterActions(QMenu* menu);
 
 private slots:
     // 完成选择

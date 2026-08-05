@@ -250,7 +250,7 @@ void TopoNameGuiCmd::onContextMenuAction_ClearSelection()
     }
 }
 
-bool TopoNameGuiCmdMenu::initCustomActions(QMenu* menu)
+bool TopoNameGuiCmdMenu::initCustomHeaderActions(QMenu* menu)
 {
     // 查找边
     QAction* pActionFindEdgeByTopoName = new QAction("Find Edges", menu);

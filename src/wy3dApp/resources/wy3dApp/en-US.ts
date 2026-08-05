@@ -1046,12 +1046,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="137"/>
+        <location filename="../../commands/GuiCommandMenu.cpp" line="143"/>
         <source>Property Widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="151"/>
+        <location filename="../../commands/GuiCommandMenu.cpp" line="157"/>
         <source>World CSYS</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1827,12 +1827,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="543"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="218"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1534"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="554"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1577"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
@@ -2996,12 +2998,12 @@
 <context>
     <name>SelectGuiCmd</name>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="401"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="408"/>
         <source>Select elements. Pick individual items or use window selection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="448"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="455"/>
         <source>Specify the insertion point; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>

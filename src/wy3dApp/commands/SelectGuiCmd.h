@@ -30,12 +30,30 @@
 class ElementNode;
 #include "commands/edit/PasteElements.h"
 
+class SelectGuiCmdMenu : public GuiCmdMenu
+{
+public:
+    explicit SelectGuiCmdMenu(GuiCommand* pCmd);
+
+protected:
+    virtual bool initCustomMiddleActions(QMenu* menu) override;
+
+private:
+    void onCopy();
+    void onPaste();
+};
+
 class SelectGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor
 {
     WYRX_DECLARE_MEMBERS(SelectGuiCmd, SelectGuiCmd, OsgGuiCommand)
+
+    friend class SelectGuiCmdMenu;
 public:
     SelectGuiCmd();
     virtual ~SelectGuiCmd();
+
+    // Context menu
+    virtual GuiCmdMenu* initContextMenu() override;
 
     // 选择集变更
     virtual void onSelectionChanged(
