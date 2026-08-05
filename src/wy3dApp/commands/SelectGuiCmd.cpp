@@ -231,7 +231,14 @@ void SelectGuiCmd::onSpaceKey()
 {
     if (_pPasteOp) return; // 在执行粘贴动作
 
-    //Application::instance().postLastCommandEvent();
+    // Repeat the last non-select command
+    std::vector<std::string> recentCmds = Application::instance().getCmdManager()->getRecentCommands();
+    if (!recentCmds.empty())
+    {
+        Application::instance().getCmdManager()->postCommand(recentCmds.back());
+        Application::instance().getCmdManager()->abortCurrentModalCommand(
+            wyap::CmdExecution::AbortCause::UserCancel);
+    }
 }
 
 // 选择集变更
