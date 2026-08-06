@@ -41,6 +41,14 @@ AboutDialog::AboutDialog(QWidget *parent)
 		labelTitle->setText(tr("Yi3D"));
 		mainLayout->addWidget(labelTitle);
 
+		// 永久免费
+		QLabel* labelFree = new QLabel(this);
+		labelFree->setAlignment(Qt::AlignmentFlag::AlignHCenter | Qt::AlignmentFlag::AlignVCenter);
+		labelFree->setFont(QFont("Microsoft YaHei", 11, QFont::Normal));
+		labelFree->setStyleSheet("color:#2e8b57;");
+		labelFree->setText(tr("Permanently Free"));
+		mainLayout->addWidget(labelFree);
+
         // 官网
         QLabel* labelWebsite = new QLabel(this);
         labelWebsite->setAlignment(Qt::AlignmentFlag::AlignHCenter | Qt::AlignmentFlag::AlignVCenter);
@@ -70,7 +78,7 @@ AboutDialog::AboutDialog(QWidget *parent)
 		QLabel* labelAllRightsReserved = new QLabel(this);
 		labelAllRightsReserved->setAlignment(Qt::AlignmentFlag::AlignHCenter | Qt::AlignmentFlag::AlignVCenter);
 		labelAllRightsReserved->setFont(QFont("Microsoft YaHei", 12, QFont::Normal));
-		QString qstrAllRightsReserved = tr("Licensed under the Apache License, Version 2.0");
+		QString qstrAllRightsReserved = tr("Source code is licensed under Apache 2.0");
 		labelAllRightsReserved->setText(qstrAllRightsReserved);
 		mainLayout->addWidget(labelAllRightsReserved);
 
@@ -95,6 +103,10 @@ AboutDialog::AboutDialog(QWidget *parent)
 
             // Qt
             addThirdPartyLibraryInfo(libLayout, "Qt", "5.15.2", "LGPL License", "https://www.qt.io/");
+
+            // WYAF
+            addThirdPartyLibraryInfo(libLayout, "WY Application Framework (WYAF)", "",
+                "WYAF License", "https://github.com/wangyao1052/WYAF");
 
             // muParser
             addThirdPartyLibraryInfo(libLayout, "muparser", "2.3.5", "BSD 3 License", "https://github.com/beltoforion/muparser/");
