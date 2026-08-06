@@ -118,6 +118,10 @@ public:
     // 清空动态渲染对象
     void clearDynamicRenderGeometry();
 
+    // 线框模式
+    void setWireframe(bool flag);
+    bool isWireframe() const { return _wireframe; }
+
 protected:
     // 默认框选(完全框住才选中)
     virtual bool pickByNormalBoxImpl(osg::Polytope& polytope) const override;
@@ -231,6 +235,8 @@ private:
 
     // 标志信息
     unsigned int _flags;
+    // 线框模式
+    bool _wireframe = false;
 
     //---------------------------------
     // 渲染对象

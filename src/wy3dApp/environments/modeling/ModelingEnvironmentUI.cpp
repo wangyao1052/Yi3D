@@ -29,6 +29,7 @@
 
 #include "ModelingEnvironment.h"
 #include "application/Application.h"
+#include "scene/Scene.h"
 #include "commands/CommandAction.h"
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"
@@ -138,6 +139,8 @@ struct ViewActions
     CommandAction* pActionRightView;
     CommandAction* pActionTopView;
     CommandAction* pActionBottomView;
+    CommandAction* pActionShadedDisplay;
+    CommandAction* pActionWireframeDisplay;
 };
 
 #ifdef _DEBUG
@@ -551,6 +554,16 @@ ViewActions createViewActions(ModelingEnvironment* pEnv)
         QCoreApplication::translate("MainWindow", "Bottom View"),
         QIcon(":/images/View_Bottom.svg"));
 
+    actions.pActionShadedDisplay = pEnv->newCommandAction(
+        CommandNames::ShadedDisplay,
+        QCoreApplication::translate("MainWindow", "Shaded"),
+        QIcon(":/images/View_Shaded.svg"));
+
+    actions.pActionWireframeDisplay = pEnv->newCommandAction(
+        CommandNames::WireframeDisplay,
+        QCoreApplication::translate("MainWindow", "Wireframe"),
+        QIcon(":/images/View_Wireframe.svg"));
+
     return actions;
 }
 
@@ -689,8 +702,12 @@ void buildUtilityToolBarUi(const UtilityActions& actions, QToolBar* pToolBarUtil
     pToolBarUtility->addAction(actions.pActionRunScript);
 }
 
-void buildViewToolBarUi(const ViewActions& actions, QToolBar* pToolBarView)
+void buildViewToolBarUi(
+    ModelingEnvironment* pEnv,
+    const ViewActions& actions,
+    QToolBar* pToolBarView)
 {
+    assert(pEnv);
     assert(pToolBarView);
 
     pToolBarView->addAction(actions.pActionFitView);
@@ -701,6 +718,20 @@ void buildViewToolBarUi(const ViewActions& actions, QToolBar* pToolBarView)
     pToolBarView->addAction(actions.pActionRightView);
     pToolBarView->addAction(actions.pActionTopView);
     pToolBarView->addAction(actions.pActionBottomView);
+
+    pToolBarView->addSeparator();
+
+    std::list<QAction*> displayModeActions;
+    displayModeActions.emplace_back(actions.pActionShadedDisplay);
+    displayModeActions.emplace_back(actions.pActionWireframeDisplay);
+
+    QActionGroup* pDisplayModeGroup = pEnv->newActionGroup();
+    QToolButton* pToolBtn = pEnv->newMenuPopupToolButton(
+        pToolBarView,
+        QCoreApplication::translate("MainWindow", "Display Mode"),
+        pDisplayModeGroup,
+        displayModeActions);
+    pToolBarView->addWidget(pToolBtn);
 }
 
 #ifdef _DEBUG
@@ -800,7 +831,7 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
     buildBooleanToolBarUi(booleanActions, uiTargets.pToolBarBoolean);
     buildEditToolBarUi(editActions, uiTargets.pToolBarEdit);
     buildUtilityToolBarUi(utilityActions, uiTargets.pToolBarUtility);
-    buildViewToolBarUi(viewActions, uiTargets.pToolBarView);
+    buildViewToolBarUi(pEnv, viewActions, uiTargets.pToolBarView);
 #ifdef _DEBUG
     buildTestToolBarUi(testActions, uiTargets.pToolBarTest);
 #endif // _DEBUG

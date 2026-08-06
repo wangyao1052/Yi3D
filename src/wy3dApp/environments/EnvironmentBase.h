@@ -104,6 +104,9 @@ protected:
     void onSuspend();
     void onResume();
 
+    // 同步显示模式按钮状态
+    void syncDisplayModeAction();
+
 private:
     // Schedules a one-shot call to handle command-terminated tasks
     // when control next returns to the event loop. Idempotent.

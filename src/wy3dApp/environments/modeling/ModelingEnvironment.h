@@ -51,6 +51,7 @@ protected:
     virtual void onExit(ExitCode exitCode) override;
     virtual void onSuspend() override;
     virtual void onResume() override;
+    virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
 
     virtual void updateUndoRedoActionStates() override;
 

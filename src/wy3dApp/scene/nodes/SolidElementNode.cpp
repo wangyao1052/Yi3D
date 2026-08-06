@@ -39,6 +39,8 @@
 #include <OsgUtils.h>
 #include <osg/LineWidth>
 
+#include "scene/Scene.h"
+
 #include <wy3dMath.h>
 #include <wydbDatabase.h>
 #include <wy3dFeature.h>
@@ -194,11 +196,23 @@ void SolidElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Eleme
         _edgeNode = pMatrixTransform;
         _osgNode->addChild(_edgeNode);
     }
+
+    // 同步线框模式
+    this->setWireframe(pScene->getDisplayMode() == Scene::DisplayMode::Wireframe);
 }
 
 void SolidElementNode::generateRenderObjectFinished(const wydb::Element* pElem)
 {
     this->updateColorAndTransparent();
+}
+
+void SolidElementNode::setWireframe(bool flag)
+{
+    _wireframe = flag;
+    if (_shapeNode)
+    {
+        _shapeNode->setNodeMask(flag ? 0 : static_cast<unsigned int>(getNodeType()));
+    }
 }
 
 osg::ref_ptr<osg::Geometry> SolidElementNode::generateShapeGeom(const wydb::ElementId& id, bool batch) const

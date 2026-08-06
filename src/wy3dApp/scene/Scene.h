@@ -144,6 +144,11 @@ public:
     // 刷新具体基准面显示大小
     void updateDatumPlaneVisualSize(const wydb::Database* pDb, const wydb::ElementId& datumPlnId);
     
+    // 显示模式
+    enum class DisplayMode { Shaded = 0, Wireframe = 1 };
+    DisplayMode getDisplayMode() const { return _displayMode; }
+    void setDisplayMode(DisplayMode mode);
+
     // 结束非批次渲染
     // 在选择面&边时会启动元素节点的非批次渲染(例如:每个面对应一个PrimitiveSet以方便高亮);
     // 但这会损耗渲染性能;需要在适当的时候调用该接口结束非批次渲染
@@ -287,6 +292,8 @@ private:
     // 空间索引树
     RTree<unsigned int, double, 3> _rtree;
     RTree<unsigned int, double, 3> _rtreeDatum; // 基准面的空间索引树(基准面的显示大小需要随着场景大小的变化而动态变化)
+    // 显示模式
+    DisplayMode _displayMode = DisplayMode::Shaded;
     // 草图环境信息
     struct SketchEnvInfo
     {

@@ -153,6 +153,10 @@ public:
     static inline const std::string OrthoCamera = "OrthoCamera";
     static inline const std::string PerspectiveCamera = "PerspectiveCamera";
 
+    // 显示模式命令
+    static inline const std::string ShadedDisplay = "ShadedDisplay";
+    static inline const std::string WireframeDisplay = "WireframeDisplay";
+
     // 实用工具命令
     static inline const std::string MeasureDistance = "MeasureDistance";
     static inline const std::string RunScript = "RunScript";

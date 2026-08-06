@@ -24,6 +24,7 @@
 #include "EnvironmentBase.h"
 #include "application/Application.h"
 #include "commands/CommandNames.h"
+#include "scene/Scene.h"
 #include "widgets/frame/MainWindow.h"
 
 #define TOOLBAR_ICON_SIZE 32
@@ -366,4 +367,21 @@ void EnvironmentBase::onSuspend()
 
 void EnvironmentBase::onResume()
 {
+}
+
+void EnvironmentBase::syncDisplayModeAction()
+{
+    Scene* pScene = Application::instance().getActiveScene();
+    if (!pScene) return;
+
+    CommandAction* pAction = nullptr;
+    if (pScene->getDisplayMode() == Scene::DisplayMode::Wireframe)
+    {
+        pAction = this->findCommandAction(CommandNames::WireframeDisplay);
+    }
+    else
+    {
+        pAction = this->findCommandAction(CommandNames::ShadedDisplay);
+    }
+    if (pAction) pAction->trigger();
 }

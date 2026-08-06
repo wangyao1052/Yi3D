@@ -29,6 +29,7 @@
 
 #include "SketchEnvironment.h"
 #include "application/Application.h"
+#include "scene/Scene.h"
 #include "commands/CommandAction.h"
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"
@@ -118,6 +119,8 @@ struct ViewActions
     CommandAction* pActionTopView;
     CommandAction* pActionBottomView;
     CommandAction* pActionOrientToSketch;
+    CommandAction* pActionShadedDisplay;
+    CommandAction* pActionWireframeDisplay;
 };
 
 UiTargets createUiTargets(SketchEnvironment* pEnv)
@@ -576,6 +579,16 @@ ViewActions createViewActions(SketchEnvironment* pEnv, QActionGroup* pActionGrou
         QCoreApplication::translate("MainWindow", "Orient to Sketch"),
         QIcon(":/images/View_Normal.svg"));
 
+    actions.pActionShadedDisplay = pEnv->newCommandAction(
+        CommandNames::ShadedDisplay,
+        QCoreApplication::translate("MainWindow", "Shaded"),
+        QIcon(":/images/View_Shaded.svg"));
+
+    actions.pActionWireframeDisplay = pEnv->newCommandAction(
+        CommandNames::WireframeDisplay,
+        QCoreApplication::translate("MainWindow", "Wireframe"),
+        QIcon(":/images/View_Wireframe.svg"));
+
     return actions;
 }
 
@@ -682,8 +695,12 @@ void buildSketchEnvironmentToolBarUi(
     pToolBarSketchEnvironment->addAction(actions.pActionRelocateSketchCsys);
 }
 
-void buildViewToolBarUi(const ViewActions& actions, QToolBar* pToolBarView)
+void buildViewToolBarUi(
+    SketchEnvironment* pEnv,
+    const ViewActions& actions,
+    QToolBar* pToolBarView)
 {
+    assert(pEnv);
     assert(pToolBarView);
 
     pToolBarView->addAction(actions.pActionFitView);
@@ -695,6 +712,20 @@ void buildViewToolBarUi(const ViewActions& actions, QToolBar* pToolBarView)
     pToolBarView->addAction(actions.pActionTopView);
     pToolBarView->addAction(actions.pActionBottomView);
     pToolBarView->addAction(actions.pActionOrientToSketch);
+
+    pToolBarView->addSeparator();
+
+    std::list<QAction*> displayModeActions;
+    displayModeActions.emplace_back(actions.pActionShadedDisplay);
+    displayModeActions.emplace_back(actions.pActionWireframeDisplay);
+
+    QActionGroup* pDisplayModeGroup = pEnv->newActionGroup();
+    QToolButton* pToolBtn = pEnv->newMenuPopupToolButton(
+        pToolBarView,
+        QCoreApplication::translate("MainWindow", "Display Mode"),
+        pDisplayModeGroup,
+        displayModeActions);
+    pToolBarView->addWidget(pToolBtn);
 }
 } // namespace
 
@@ -735,7 +766,7 @@ void SketchEnvironmentUI::initialize(SketchEnvironment* pEnv)
     buildSketchEnvironmentToolBarUi(
         sketchEnvironmentActions,
         uiTargets.pToolBarSketchEnvironment);
-    buildViewToolBarUi(viewActions, uiTargets.pToolBarView);
+    buildViewToolBarUi(pEnv, viewActions, uiTargets.pToolBarView);
 }
 
 void SketchEnvironmentUI::teardown(SketchEnvironment* pEnv)

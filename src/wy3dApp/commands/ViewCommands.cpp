@@ -205,3 +205,21 @@ int ViewNormalToCommand::run()
 
     return 0;
 }
+
+
+int ShadedDisplayCommand::run()
+{
+    Scene* pScene = Application::instance().getActiveScene();
+    if (!pScene) return -1;
+    pScene->setDisplayMode(Scene::DisplayMode::Shaded);
+    return 0;
+}
+
+
+int WireframeDisplayCommand::run()
+{
+    Scene* pScene = Application::instance().getActiveScene();
+    if (!pScene) return -1;
+    pScene->setDisplayMode(Scene::DisplayMode::Wireframe);
+    return 0;
+}

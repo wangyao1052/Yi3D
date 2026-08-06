@@ -71,6 +71,9 @@ void ModelingEnvironment::onEnter()
     Application::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     this->updateCommandActionStates();
+
+    // 同步显示模式按钮状态
+    this->syncDisplayModeAction();
 }
 
 void ModelingEnvironment::onExit(ExitCode exitCode)
@@ -102,6 +105,15 @@ void ModelingEnvironment::onResume()
     Application::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     this->updateCommandActionStates();
+
+    // 同步显示模式按钮状态
+    this->syncDisplayModeAction();
+}
+
+void ModelingEnvironment::onDocumentActivated(wyap::Document* pActivatedDoc)
+{
+    wyap::DocumentEnvironment::onDocumentActivated(pActivatedDoc);
+    this->syncDisplayModeAction();
 }
 
 void ModelingEnvironment::updateUndoRedoActionStates()

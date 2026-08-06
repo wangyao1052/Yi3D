@@ -1023,6 +1023,18 @@ void Scene::updateDatumPlaneVisualSize(const wydb::Database* pDb, const wydb::El
     this->addToRTree(pDatumPlaneNode);
 }
 
+void Scene::setDisplayMode(DisplayMode mode)
+{
+    if (_displayMode == mode) return;
+    _displayMode = mode;
+    bool isWireframe = (mode == DisplayMode::Wireframe);
+    for (auto& kvp : _id2ElemNode)
+    {
+        if (auto* pNode = dynamic_cast<SolidElementNode*>(kvp.second))
+            pNode->setWireframe(isWireframe);
+    }
+}
+
 void Scene::endNoBatchRender()
 {
     for (auto kvp : _id2ElemNode)

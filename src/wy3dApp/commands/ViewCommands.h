@@ -34,4 +34,8 @@ DEFINE_SIMPLE_CMD(OrientToSketchCommand)
 // 正视于
 DEFINE_SIMPLE_CMD(ViewNormalToCommand)
 
+// 显示模式
+DEFINE_SIMPLE_CMD(ShadedDisplayCommand)
+DEFINE_SIMPLE_CMD(WireframeDisplayCommand)
+
 #endif // WY3DAPP_VIEW_COMMANDS_H

@@ -96,6 +96,9 @@ void SketchEnvironment::onEnter()
     Application::instance().getSelManager()->clearSelections();
     Application::instance().getSelManager()->endChange();
 
+    // 同步显示模式按钮状态
+    this->syncDisplayModeAction();
+
     // 开启顶层事务组
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb)
@@ -278,6 +281,9 @@ void SketchEnvironment::onResume()
     Application::instance().getSelManager()->endChange();
 
     this->updateCommandActionStates();
+
+    // 同步显示模式按钮状态
+    this->syncDisplayModeAction();
 }
 
 void SketchEnvironment::updateUndoRedoActionStates()

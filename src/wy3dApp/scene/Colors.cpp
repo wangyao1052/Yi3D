@@ -25,7 +25,7 @@
 const osg::Vec4 Colors::kSolidFace(0.55f, 0.60f, 0.65f, 1.0f);           // 金属色(CREO)
 const osg::Vec4 Colors::kSolidEdge(0.0f, 0.0f, 0.0f, 1.0f);              // 黑色
 const osg::Vec4 Colors::kSolidFace_Highlight(0.0f, 0.665f, 0.0f, 1.0f);  // 深绿色(CREO)
-const osg::Vec4 Colors::kSolidEdge_Highlight(0.25f, 0.25f, 0.25f, 1.0f); // 根据DeepSeek的建议改为中性深灰
+const osg::Vec4 Colors::kSolidEdge_Highlight(0.0f, 0.85f, 0.0f, 1.0f); // 亮绿色
 const osg::Vec4 Colors::kSolidFace_Preview(0.70f, 0.43f, 0.29f, 1.0f);   // 暗橙色
 const osg::Vec4 Colors::kSolidEdge_Preview(0.30f, 0.20f, 0.10f, 1.0f);   // 根据DeepSeek的建议改为深棕色
 

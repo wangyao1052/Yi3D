@@ -66,6 +66,8 @@
         <file>images/View_Top.svg</file>
         <file>images/View_Bottom.svg</file>
         <file>images/View_Normal.svg</file>
+        <file>images/View_Shaded.svg</file>
+        <file>images/View_Wireframe.svg</file>
         <file>images/Sketch_OK.svg</file>
         <file>images/Sketch_Cancel.svg</file>
         <file>images/Sketch_DrawPoint.svg</file>
