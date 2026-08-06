@@ -245,7 +245,11 @@ bool Sketch::onDependenciesErased(const std::set<wydb::ElementId>& erasedDepende
 
     if (!_ownerId.isNull() && erasedDependencies.find(_ownerId) != erasedDependencies.cend())
     {
-        this->erase(true);
+        // commented by wangyao 2026.08.06 {
+        // Keep the sketch alive when its owner is deleted;
+        // only clear the owner reference instead of erasing the sketch.
+        //this->erase(true);
+        // }
         this->setOwner(wydb::ElementId::kNull);
         return true;
     }
