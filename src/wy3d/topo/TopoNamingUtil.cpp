@@ -98,7 +98,8 @@ bool TopoNamingUtil::naming(
     BRepPrimAPI_MakeSweep& makeSweep,
     const std::vector<TopoUtil::EdgeNamingInfo>& edgeNameInfos,
     unsigned int elemIdValue,
-    TopoNaming& topoNaming)
+    TopoNaming& topoNaming,
+    unsigned int profileIndex/* = 0*/)
 {
     // 建立所有侧面的拓扑命名
     // 格式: 草图曲线的ID
@@ -117,7 +118,7 @@ bool TopoNamingUtil::naming(
 
     // 建立底面和顶面的拓扑命名
     // 底面格式: 特征ID
-    // 顶面格式: 特征ID + 特征ID
+    // 顶面格式: 特征ID + 特征ID 
     TopoDS_Face bottomFace = TopoDS::Face(makeSweep.FirstShape());
     assert(!bottomFace.IsNull());
     TopoDS_Face topFace = TopoDS::Face(makeSweep.LastShape());
@@ -184,8 +185,18 @@ bool TopoNamingUtil::naming(
     else // 拉伸以及非360度旋转,底面和顶面有效
     {
         // 记录底面&顶面的拓扑名称
-        topoNaming.setName(bottomFace, TopoNameBuilder().id(elemIdValue).build());
-        topoNaming.setName(topFace, TopoNameBuilder().id(elemIdValue).id(elemIdValue).build());
+        {
+            TopoNameBuilder bottomBuilder;
+            bottomBuilder.id(elemIdValue);
+            if (profileIndex > 0) { bottomBuilder.index(profileIndex); }
+            topoNaming.setName(bottomFace, bottomBuilder.build());
+        }
+        {
+            TopoNameBuilder topBuilder;
+            topBuilder.id(elemIdValue).id(elemIdValue);
+            if (profileIndex > 0) { topBuilder.index(profileIndex); }
+            topoNaming.setName(topFace, topBuilder.build());
+        }
 
         // 建立底面和顶面所有边的拓扑命名
         // 底面边: 草图曲线ID

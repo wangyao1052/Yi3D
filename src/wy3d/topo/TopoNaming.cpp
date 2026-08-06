@@ -21,6 +21,8 @@
 #include <sstream>
 #include <cassert>
 #include <TopExp.hxx>
+#include <TopoDS.hxx>
+#include <BRep_Tool.hxx>
 #include "topo/TopoShapeComparer.h"
 
 NS_WY3D_BEG
@@ -522,7 +524,20 @@ bool TopoNaming::print(const std::string& fileFullPath, const TopoDS_Shape& topS
 
             TopTools_IndexedMapOfShape newMap;
             TopExp::MapShapes(topShape, shapeType, newMap);
-            count = static_cast<unsigned int>(newMap.Extent());
+            if (TopAbs_EDGE == shapeType)
+            {
+                // 跳过退化边
+                count = 0;
+                for (int i = 1; i <= newMap.Extent(); ++i)
+                {
+                    if (!BRep_Tool::Degenerated(TopoDS::Edge(newMap(i))))
+                        ++count;
+                }
+            }
+            else
+            {
+                count = static_cast<unsigned int>(newMap.Extent());
+            }
         }
     }
 
@@ -592,7 +607,20 @@ bool TopoNaming::check(const TopoDS_Shape& shape, std::vector<std::string>& info
 
         TopTools_IndexedMapOfShape newMap;
         TopExp::MapShapes(shape, shapeType, newMap);
-        count = static_cast<unsigned int>(newMap.Extent());
+        if (TopAbs_EDGE == shapeType)
+        {
+            // 跳过退化边
+            count = 0;
+            for (int i = 1; i <= newMap.Extent(); ++i)
+            {
+                if (!BRep_Tool::Degenerated(TopoDS::Edge(newMap(i))))
+                    ++count;
+            }
+        }
+        else
+        {
+            count = static_cast<unsigned int>(newMap.Extent());
+        }
     }
 
     // 校验

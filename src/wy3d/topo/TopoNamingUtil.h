@@ -57,7 +57,8 @@ public:
         BRepPrimAPI_MakeSweep& makeSweep,
         const std::vector<TopoUtil::EdgeNamingInfo>& edgeNameInfos,
         unsigned int elemIdValue,
-        TopoNaming& topoNaming);
+        TopoNaming& topoNaming,
+        unsigned int profileIndex = 0);
 
     // 扫掠体拓扑命名
     static bool naming(

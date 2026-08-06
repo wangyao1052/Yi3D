@@ -428,8 +428,11 @@ TopoDS_Shape Extrusion::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdate
     // 遍历创建形体
     std::vector<TopoDS_Shape> shapes;
     const std::vector<SketchProfile::FaceSPtr>& sketchFaces = sketchProfile.getFaces();
+    unsigned int profileIndex = 0;
+    const bool isMultiProfile = (sketchFaces.size() > 1);
     for (const SketchProfile::FaceSPtr& pSketchFace : sketchFaces)
     {
+        if (isMultiProfile) { ++profileIndex; }
         std::vector<TopoUtil::EdgeNamingInfo> edgeNameInfos;
         auto makeFaceRet = TopoUtil::makeFace(pSketch, pSketchFace, edgeNameInfos);
         if (makeFaceRet.first != ErrorCode::NoError)
@@ -470,7 +473,8 @@ TopoDS_Shape Extrusion::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdate
 
             // 拓扑命名
             unsigned int idValue = this->getId().value();
-            TopoNamingUtil::naming(face, makePrism, edgeNameInfos, idValue, *pTopoNaming);
+            TopoNamingUtil::naming(face, makePrism, edgeNameInfos, idValue, *pTopoNaming,
+                profileIndex);
         }
         else
         {
