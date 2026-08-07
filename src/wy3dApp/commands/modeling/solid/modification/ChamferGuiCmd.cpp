@@ -109,7 +109,6 @@ void ChamferGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
     // 基类
     __baseClass::onAbort(cause);
-
 }
 
 void ChamferGuiCmd::reset()
