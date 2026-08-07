@@ -112,12 +112,12 @@
         <translation type="obsolete">选择边线或面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="168"/>
+        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="167"/>
         <source>Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择边线或面；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="189"/>
+        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="188"/>
         <source>Input chamfer distance.</source>
         <translation type="unfinished">输入倒角距离。</translation>
     </message>
