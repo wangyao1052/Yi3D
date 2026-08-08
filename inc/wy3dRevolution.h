@@ -11,7 +11,6 @@
 #include <wy3dSolid.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchCurve.h>
-#include <wy3dTableIndex.h>
 
 NS_WY3D_BEG
 

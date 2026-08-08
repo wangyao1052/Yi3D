@@ -20,7 +20,6 @@
 #include <QCoreApplication>
 #include <wyVector3.h>
 #include <wydbDatabase.h>
-#include <wy3dTableIndex.h>
 #include <wy3dErrorCode.h>
 #include <wy3dSketchPoint.h>
 #include <wy3dSketchCenterLine.h>

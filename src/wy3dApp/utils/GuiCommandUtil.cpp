@@ -22,7 +22,6 @@
 #include <wy3dSelectionType.h>
 #include <wy3dSolid.h>
 #include <wy3dDatumPlane.h>
-#include <wy3dTableIndex.h>
 #include <wy3dPattern.h>
 #include <wy3dMirror.h>
 #include <wyapSelManager.h>

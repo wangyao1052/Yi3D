@@ -13,7 +13,6 @@
 #include <wy3dSketchPlane.h>
 #include <wy3dDefs.h>
 #include <wy3dFeature.h>
-#include <wy3dTableIndex.h>
 
 NS_WY3D_BEG
 

@@ -10,7 +10,6 @@
 #include <wyVector2.h>
 #include <wy3dDefs.h>
 #include <wy3dSketchCurve.h>
-#include <wy3dTableIndex.h>
 #include <wy3dImpl.h>
 
 NS_WY3D_BEG
