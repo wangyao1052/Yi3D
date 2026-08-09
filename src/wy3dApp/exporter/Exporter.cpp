@@ -83,12 +83,11 @@ bool Exporter::perform(const wydb::Database* pDb, const std::wstring& fileFullPa
     }
 }
 
-bool Exporter::perform(const wy3d::Solid* pSolid, const std::wstring& fileFullPath)
+bool Exporter::perform(const TopoDS_Shape& shape, const std::wstring& fileFullPath)
 {
     try
     {
-        if (!pSolid) return false;
-        const TopoDS_Shape& shape = pSolid->getShape();
+        if (shape.IsNull()) return false;
         return this->performImpl(shape, fileFullPath);
     }
     catch (const Standard_Failure&)
@@ -115,9 +114,12 @@ bool Exporter::computeDatabaseCompound(const wydb::Database* pDb, TopoDS_Compoun
         const wydb::Element* pElem = pDb->getElement(id);
         if (!pElem) continue;
         if (pElem->getParent() != wydb::ElementId::kNull) continue;
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
-        if (!pSolid) continue;
-        TopoDS_Shape featRetShape = pSolid->getShape();
+        TopoDS_Shape featRetShape;
+        if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+            featRetShape = pSolid->getShape();
+        else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+            featRetShape = pSheet->getShape();
+        else continue;
         if (featRetShape.IsNull()) continue;
         builder.Add(compound, featRetShape);
     }

@@ -115,7 +115,7 @@
     X(CommandNames::SaveFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, SaveFileCommand::classInfo()) \
     X(CommandNames::SaveAsFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, SaveAsFileCommand::classInfo()) \
     X(CommandNames::ExportFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, ExportFileCommand::classInfo()) \
-    X(CommandNames::ExportSolid, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ExportSolidCommand::classInfo()) \
+    X(CommandNames::ExportSelected, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ExportSelectedCommand::classInfo()) \
     X(CommandNames::ImportFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, ImportFileCommand::classInfo()) \
     X(CommandNames::FitView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, FitViewCommand::classInfo()) \
     X(CommandNames::IsometricView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, IsometricViewCommand::classInfo()) \

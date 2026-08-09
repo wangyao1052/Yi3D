@@ -98,9 +98,9 @@ public:
     virtual int run() override;
 };
 
-class ExportSolidCommand : public wyap::ImmediateCmdExecution
+class ExportSelectedCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(ExportSolidCommand, ExportSolidCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(ExportSelectedCommand, ExportSelectedCommand, wyap::ImmediateCmdExecution)
 public:
     virtual int run() override;
 };

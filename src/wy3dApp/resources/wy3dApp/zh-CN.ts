@@ -1542,7 +1542,7 @@
         <translation type="unfinished">指定拉伸深度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="484"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="486"/>
         <source>Extrusion depth</source>
         <translation type="unfinished">拉伸深度</translation>
     </message>
@@ -1550,202 +1550,207 @@
 <context>
     <name>FeatureTreeWidget</name>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="112"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="114"/>
         <source>FeatureTree</source>
         <translation type="unfinished">特征树</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="141"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="143"/>
         <source>Box</source>
         <translation type="unfinished">长方体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="142"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="144"/>
         <source>Cylinder</source>
         <translation type="unfinished">圆柱体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="143"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="145"/>
         <source>Sphere</source>
         <translation type="unfinished">球体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="144"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="146"/>
         <source>Cone</source>
         <translation type="unfinished">圆锥体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="145"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="147"/>
         <source>Torus</source>
         <translation type="unfinished">圆环体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="146"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="148"/>
         <source>Tube</source>
         <translation type="unfinished">圆管</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="147"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="149"/>
         <source>Union</source>
         <translation type="unfinished">并集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="148"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="150"/>
         <source>Difference</source>
         <translation type="unfinished">差集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="149"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="151"/>
         <source>Intersection</source>
         <translation type="unfinished">交集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="150"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="152"/>
         <source>DatumPlane</source>
         <translation type="unfinished">基准面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="151"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="153"/>
         <source>Sketch</source>
         <translation type="unfinished">草图</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="152"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="154"/>
         <source>Extrusion</source>
         <translation type="unfinished">拉伸体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="153"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="155"/>
         <source>Revolution</source>
         <translation type="unfinished">旋转体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="154"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="156"/>
         <source>Sweep</source>
         <translation type="unfinished">扫描体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="155"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="157"/>
         <source>Loft</source>
         <translation type="unfinished">放样体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="156"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="158"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="157"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="159"/>
         <source>Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="158"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="160"/>
         <source>Shell</source>
         <translation type="unfinished">抽壳</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="159"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="161"/>
         <source>Draft</source>
         <translation type="unfinished">拔模</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="160"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="162"/>
         <source>Move</source>
         <translation type="unfinished">平移</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="161"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="163"/>
         <source>Rotate</source>
         <translation type="unfinished">旋转</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="162"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="164"/>
         <source>Mirror</source>
         <translation type="unfinished">镜像</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="163"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="165"/>
         <source>Linear Pattern</source>
         <translation type="unfinished">线性阵列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="164"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="166"/>
         <source>Circular Pattern</source>
         <translation type="unfinished">圆周阵列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="165"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="167"/>
         <source>Helix</source>
         <translation type="unfinished">螺旋线</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="166"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="168"/>
         <source>Imported Solid</source>
         <translation type="unfinished">导入实体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="167"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="169"/>
+        <source>Imported Sheet</source>
+        <translation>导入曲面</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="170"/>
         <source>Extruded Sheet</source>
         <translation>拉伸曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="168"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="171"/>
         <source>Revolved Sheet</source>
         <translation>旋转曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="170"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="173"/>
         <source>XOY</source>
         <translation type="unfinished">俯视基准面 XOY</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="171"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="174"/>
         <source>YOZ</source>
         <translation type="unfinished">右视基准面 YOZ</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="172"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="175"/>
         <source>XOZ</source>
         <translation type="unfinished">前视基准面 XOZ</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="190"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="193"/>
         <source>Name</source>
         <translation type="unfinished">名称</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="191"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="194"/>
         <source>Id</source>
         <translation type="unfinished">标识号</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="873"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="876"/>
         <source>-Cut</source>
         <translation type="unfinished">-切除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1544"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1550"/>
         <source>Erase</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1471"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1482"/>
         <source>Cancel Boolean</source>
         <translation type="unfinished">取消布尔</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1570"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1576"/>
         <source>Error Information</source>
         <translation type="unfinished">查看错误信息</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1588"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1594"/>
         <source>Show ID column</source>
         <translation type="unfinished">显示标识列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1588"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1594"/>
         <source>Hide ID column</source>
         <translation type="unfinished">隐藏标识列</translation>
     </message>
@@ -1753,24 +1758,24 @@
 <context>
     <name>FileCmds</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="70"/>
+        <location filename="../../commands/FileCommands.cpp" line="73"/>
         <source>Do you want to save the changes to</source>
         <translation type="unfinished">是否将更改保存到</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="72"/>
-        <location filename="../../commands/FileCommands.cpp" line="375"/>
+        <location filename="../../commands/FileCommands.cpp" line="75"/>
+        <location filename="../../commands/FileCommands.cpp" line="378"/>
         <source>Yes</source>
         <translation type="unfinished">是</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="73"/>
-        <location filename="../../commands/FileCommands.cpp" line="376"/>
+        <location filename="../../commands/FileCommands.cpp" line="76"/>
+        <location filename="../../commands/FileCommands.cpp" line="379"/>
         <source>No</source>
         <translation type="unfinished">否</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="74"/>
+        <location filename="../../commands/FileCommands.cpp" line="77"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -1779,7 +1784,7 @@
         <translation type="obsolete">%1 (*.%2)</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="125"/>
+        <location filename="../../commands/FileCommands.cpp" line="128"/>
         <source>Save file</source>
         <translation type="unfinished">保存文件</translation>
     </message>
@@ -1788,56 +1793,64 @@
         <translation type="obsolete">未命名.wy3dt</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="114"/>
-        <location filename="../../commands/FileCommands.cpp" line="340"/>
+        <location filename="../../commands/FileCommands.cpp" line="117"/>
+        <location filename="../../commands/FileCommands.cpp" line="343"/>
         <source>YI3D Text files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="117"/>
-        <location filename="../../commands/FileCommands.cpp" line="341"/>
+        <location filename="../../commands/FileCommands.cpp" line="120"/>
+        <location filename="../../commands/FileCommands.cpp" line="344"/>
         <source>YI3D Binary files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="179"/>
+        <location filename="../../commands/FileCommands.cpp" line="182"/>
         <source>unnamed</source>
         <translation type="unfinished">未命名</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="339"/>
+        <location filename="../../commands/FileCommands.cpp" line="342"/>
         <source>All YI3D files (*.%1 *.%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="345"/>
+        <location filename="../../commands/FileCommands.cpp" line="348"/>
         <source>Open file</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="372"/>
+        <location filename="../../commands/FileCommands.cpp" line="375"/>
         <source>Do you want to revert to the saved version?</source>
         <translation type="unfinished">您要返回到存储版本吗？</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="506"/>
+        <location filename="../../commands/FileCommands.cpp" line="509"/>
         <source>Export file</source>
         <translation type="unfinished">导出文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="529"/>
+        <location filename="../../commands/FileCommands.cpp" line="532"/>
         <source>Export file failed!</source>
         <translation type="unfinished">导出文件失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="574"/>
-        <source>Export solid</source>
-        <translation type="unfinished">导出实体</translation>
+        <location filename="../../commands/FileCommands.cpp" line="605"/>
+        <source>Export</source>
+        <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="597"/>
+        <location filename="../../commands/FileCommands.cpp" line="615"/>
+        <source>Export failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export solid</source>
+        <translation type="obsolete">导出实体</translation>
+    </message>
+    <message>
         <source>Export solid failed!</source>
-        <translation type="unfinished">导出实体失败！</translation>
+        <translation type="obsolete">导出实体失败！</translation>
     </message>
     <message>
         <source>Export sketch</source>
@@ -1848,14 +1861,14 @@
         <translation type="obsolete">导出草图失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="630"/>
+        <location filename="../../commands/FileCommands.cpp" line="647"/>
         <source>Import file</source>
-        <translation type="unfinished">导入文件（实体）</translation>
+        <translation>导入文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="652"/>
+        <location filename="../../commands/FileCommands.cpp" line="669"/>
         <source>Import file failed!</source>
-        <translation type="unfinished">导入文件（实体）失败！</translation>
+        <translation type="unfinished">导入文件失败！</translation>
     </message>
     <message>
         <source>Please first select a datum plane.</source>
@@ -2041,12 +2054,12 @@
 <context>
     <name>ImporterManager</name>
     <message>
-        <location filename="../../exporter/Importer.cpp" line="35"/>
+        <location filename="../../exporter/Importer.cpp" line="36"/>
         <source>BREP format (*.brep)</source>
         <translation type="unfinished">BREP 文件 (*.brep)</translation>
     </message>
     <message>
-        <location filename="../../exporter/Importer.cpp" line="36"/>
+        <location filename="../../exporter/Importer.cpp" line="37"/>
         <source>STEP format (*.step *.stp)</source>
         <translation type="unfinished">STEP 文件 (*.step *.stp)</translation>
     </message>
@@ -2191,7 +2204,7 @@
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="173"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="180"/>
         <source>Import</source>
-        <translation type="unfinished">导入实体</translation>
+        <translation type="unfinished">导入</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="168"/>
@@ -2208,7 +2221,7 @@
         <translation type="obsolete">相机</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="769"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="778"/>
         <source>Modeling</source>
         <translation type="unfinished">建模</translation>
     </message>
@@ -2383,18 +2396,18 @@
         <translation type="unfinished">草绘视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="781"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="790"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="136"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="773"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="782"/>
         <source>Primitive</source>
         <translation type="unfinished">基础形体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="777"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="786"/>
         <source>Boolean</source>
         <translation type="unfinished">布尔运算</translation>
     </message>
@@ -2404,12 +2417,12 @@
         <translation type="unfinished">草图环境</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="785"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="794"/>
         <source>Utility</source>
         <translation type="unfinished">实用工具</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="794"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="803"/>
         <source>Test</source>
         <translation type="unfinished">测试</translation>
     </message>
@@ -2464,7 +2477,7 @@
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="178"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="185"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1552"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1558"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
@@ -2510,31 +2523,31 @@
         <translation type="unfinished">移动</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1484"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1493"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1495"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1504"/>
         <source>View Normal To</source>
         <translation type="unfinished">正视于</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1520"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1526"/>
         <source>Show</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1529"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1535"/>
         <source>Hide</source>
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="550"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="221"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1538"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1544"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="561"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1581"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1587"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
@@ -2611,7 +2624,7 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="226"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1478"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1489"/>
         <source>Edit Sketch</source>
         <translation type="unfinished">编辑草绘</translation>
     </message>
@@ -2725,13 +2738,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="747"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="672"/>
+        <source>Sheet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="756"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="725"/>
         <source>Display Mode</source>
         <translation>显示模式</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="789"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="798"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="144"/>
         <source>View</source>
         <translation type="unfinished">视图</translation>
@@ -4163,17 +4181,17 @@
 <context>
     <name>RevolveGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="296"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="299"/>
         <source>Select the sketch to revolve.</source>
         <translation type="unfinished">选择草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="317"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="320"/>
         <source>Select the axis line.</source>
         <translation>选择旋转轴线。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="350"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="353"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
     </message>
@@ -4181,12 +4199,12 @@
 <context>
     <name>RevolvedSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="164"/>
+        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="175"/>
         <source>Select the sketch to revolve.</source>
         <translation type="unfinished">选择草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="174"/>
+        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="185"/>
         <source>Select an axis line in the sketch.</source>
         <translation>在草图中选择直线作为旋转轴。</translation>
     </message>
@@ -4253,12 +4271,12 @@
 <context>
     <name>RunScriptCommand</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="669"/>
+        <location filename="../../commands/FileCommands.cpp" line="686"/>
         <source>Python Script (*.py)</source>
         <translation type="unfinished">Python 脚本 (*.py)</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="673"/>
+        <location filename="../../commands/FileCommands.cpp" line="690"/>
         <source>Run Python Script</source>
         <translation type="unfinished">Python脚本</translation>
     </message>

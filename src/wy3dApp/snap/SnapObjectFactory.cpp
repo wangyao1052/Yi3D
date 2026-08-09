@@ -65,6 +65,7 @@
 #include "elements/HelixSnapObjectCreator.h"
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
+#include <wy3dImportedSheet.h>
 #define REGISTER_CREATOR(CLASS, SNAP_OBJ_CREATOR) \
     { \
         static_assert(std::is_base_of_v<ElemSnapObjectCreator, SNAP_OBJ_CREATOR>, \
@@ -102,6 +103,7 @@ SnapObjectFactory::SnapObjectFactory()
     REGISTER_CREATOR(wy3d::Loft, TopoShapeSnapObjectCreator);
     // 导入实体特征
     REGISTER_CREATOR(wy3d::ImportedSolid, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::ImportedSheet, TopoShapeSnapObjectCreator);
 
     // 草图相关
     REGISTER_CREATOR(wy3d::Sketch, SketchSnapObjectCreator);

@@ -58,6 +58,7 @@
 #include <wy3dSweep.h>
 #include <wy3dLoft.h>
 #include <wy3dImportedSolid.h>
+#include <wy3dImportedSheet.h>
 #include <wy3dChamfer.h>
 #include <wy3dFillet.h>
 #include <wy3dShell.h>
@@ -68,6 +69,7 @@
 #include <wy3dLinearPattern.h>
 #include <wy3dCircularPattern.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dHelix.h>
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
@@ -164,6 +166,7 @@ FeatureTreeWidget::FeatureTreeWidget(QWidget* parent)
     _className2DisplayName[wy3d::CircularPattern::className()] = tr("Circular Pattern");
     _className2DisplayName[wy3d::Helix::className()] = tr("Helix");
     _className2DisplayName[wy3d::ImportedSolid::className()] = tr("Imported Solid");
+    _className2DisplayName[wy3d::ImportedSheet::className()] = tr("Imported Sheet");
     _className2DisplayName[wy3d::ExtrudedSheet::className()]  = tr("Extruded Sheet");
     _className2DisplayName[wy3d::RevolvedSheet::className()]  = tr("Revolved Sheet");
     // 默认基准面显示名称
@@ -1460,11 +1463,19 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
             selectedElems.emplace_back(pElem);
         }
 
-        bool addExportSolidAction(false);
+        bool addExportAction(!selectedElems.empty());
+        for (const wydb::Element* pElem : selectedElems)
+        {
+            if (!wy3d::Solid::cast(pElem) && !wy3d::Sheet::cast(pElem))
+            {
+                addExportAction = false;
+                break;
+            }
+        }
+
         if (ss.getCount() == 1)
         {
-            wydb::ElementId id = ss.createIterator().current().getElementId();
-            const wydb::Element* pElem = pDb->getElement(id);
+            const wydb::Element* pElem = selectedElems.front();
             if (const wy3d::Boolean* pBoolean = wy3d::Boolean::cast(pElem))
             {
                 // 取消布尔
@@ -1495,11 +1506,6 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
                 menu.addAction(pActionViewNormalTo);
             }
 
-            if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
-            {
-                // 导出实体
-                addExportSolidAction = true;
-            }
         }
 
         // 遍历选择集合中的元素
@@ -1546,12 +1552,12 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
         this->connect(actionErase, SIGNAL(triggered()), this, SLOT(onContextMenu_Erase()));
 
         // 导出实体
-        if (addExportSolidAction)
+        if (addExportAction)
         {
-            QAction* pActionExportSolid = new CommandAction(CommandNames::ExportSolid, &menu);
-            pActionExportSolid->setText(QCoreApplication::translate("MainWindow", "Export"));
-            pActionExportSolid->setIcon(QIcon(":/images/Document_Export.svg"));
-            menu.addAction(pActionExportSolid);
+            QAction* pActionExport = new CommandAction(CommandNames::ExportSelected, &menu);
+            pActionExport->setText(QCoreApplication::translate("MainWindow", "Export"));
+            pActionExport->setIcon(QIcon(":/images/Document_Export.svg"));
+            menu.addAction(pActionExport);
         }
 
         // 选中单项:显示错误信息

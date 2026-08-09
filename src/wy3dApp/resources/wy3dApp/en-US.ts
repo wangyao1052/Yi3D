@@ -120,7 +120,7 @@
     <name>CmdActionRegistry</name>
     <message>
         <source>Import</source>
-        <translation type="obsolete">Import(Solid)</translation>
+        <translation type="obsolete">Import</translation>
     </message>
     <message>
         <source>Trim</source>
@@ -720,7 +720,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="484"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="486"/>
         <source>Extrusion depth</source>
         <translation type="unfinished"></translation>
     </message>
@@ -728,202 +728,207 @@
 <context>
     <name>FeatureTreeWidget</name>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="112"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="114"/>
         <source>FeatureTree</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="141"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="143"/>
         <source>Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="142"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="144"/>
         <source>Cylinder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="143"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="145"/>
         <source>Sphere</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="144"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="146"/>
         <source>Cone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="145"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="147"/>
         <source>Torus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="146"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="148"/>
         <source>Tube</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="147"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="149"/>
         <source>Union</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="148"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="150"/>
         <source>Difference</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="149"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="151"/>
         <source>Intersection</source>
         <translation type="unfinished">Intersection</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="150"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="152"/>
         <source>DatumPlane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="151"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="153"/>
         <source>Sketch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="152"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="154"/>
         <source>Extrusion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="153"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="155"/>
         <source>Revolution</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="154"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="156"/>
         <source>Sweep</source>
         <translation type="unfinished">Sweep</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="155"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="157"/>
         <source>Loft</source>
         <translation type="unfinished">Loft</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="156"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="158"/>
         <source>Chamfer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="157"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="159"/>
         <source>Fillet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="158"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="160"/>
         <source>Shell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="159"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="161"/>
         <source>Draft</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="160"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="162"/>
         <source>Move</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="161"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="163"/>
         <source>Rotate</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="162"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="164"/>
         <source>Mirror</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="163"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="165"/>
         <source>Linear Pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="164"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="166"/>
         <source>Circular Pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="165"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="167"/>
         <source>Helix</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="166"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="168"/>
         <source>Imported Solid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="167"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="169"/>
+        <source>Imported Sheet</source>
+        <translation>Imported Sheet</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="170"/>
         <source>Extruded Sheet</source>
         <translation>Extruded Sheet</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="168"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="171"/>
         <source>Revolved Sheet</source>
         <translation>Revolved Sheet</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="170"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="173"/>
         <source>XOY</source>
         <translation type="unfinished">TOP</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="171"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="174"/>
         <source>YOZ</source>
         <translation type="unfinished">RIGHT</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="172"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="175"/>
         <source>XOZ</source>
         <translation type="unfinished">FRONT</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="190"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="193"/>
         <source>Name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="191"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="194"/>
         <source>Id</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="873"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="876"/>
         <source>-Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1544"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1550"/>
         <source>Erase</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1471"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1482"/>
         <source>Cancel Boolean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1570"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1576"/>
         <source>Error Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1588"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1594"/>
         <source>Show ID column</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1588"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1594"/>
         <source>Hide ID column</source>
         <translation type="unfinished"></translation>
     </message>
@@ -931,93 +936,93 @@
 <context>
     <name>FileCmds</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="70"/>
+        <location filename="../../commands/FileCommands.cpp" line="73"/>
         <source>Do you want to save the changes to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="72"/>
-        <location filename="../../commands/FileCommands.cpp" line="375"/>
+        <location filename="../../commands/FileCommands.cpp" line="75"/>
+        <location filename="../../commands/FileCommands.cpp" line="378"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="73"/>
-        <location filename="../../commands/FileCommands.cpp" line="376"/>
+        <location filename="../../commands/FileCommands.cpp" line="76"/>
+        <location filename="../../commands/FileCommands.cpp" line="379"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="74"/>
+        <location filename="../../commands/FileCommands.cpp" line="77"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="114"/>
-        <location filename="../../commands/FileCommands.cpp" line="340"/>
+        <location filename="../../commands/FileCommands.cpp" line="117"/>
+        <location filename="../../commands/FileCommands.cpp" line="343"/>
         <source>YI3D Text files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="117"/>
-        <location filename="../../commands/FileCommands.cpp" line="341"/>
+        <location filename="../../commands/FileCommands.cpp" line="120"/>
+        <location filename="../../commands/FileCommands.cpp" line="344"/>
         <source>YI3D Binary files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="125"/>
+        <location filename="../../commands/FileCommands.cpp" line="128"/>
         <source>Save file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="179"/>
+        <location filename="../../commands/FileCommands.cpp" line="182"/>
         <source>unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="339"/>
+        <location filename="../../commands/FileCommands.cpp" line="342"/>
         <source>All YI3D files (*.%1 *.%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="345"/>
+        <location filename="../../commands/FileCommands.cpp" line="348"/>
         <source>Open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="372"/>
+        <location filename="../../commands/FileCommands.cpp" line="375"/>
         <source>Do you want to revert to the saved version?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="506"/>
+        <location filename="../../commands/FileCommands.cpp" line="509"/>
         <source>Export file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="529"/>
+        <location filename="../../commands/FileCommands.cpp" line="532"/>
         <source>Export file failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="574"/>
-        <source>Export solid</source>
+        <location filename="../../commands/FileCommands.cpp" line="605"/>
+        <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="597"/>
-        <source>Export solid failed!</source>
+        <location filename="../../commands/FileCommands.cpp" line="615"/>
+        <source>Export failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="630"/>
+        <location filename="../../commands/FileCommands.cpp" line="647"/>
         <source>Import file</source>
-        <translation type="unfinished">Import file (solid)</translation>
+        <translation type="unfinished">Import file</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="652"/>
+        <location filename="../../commands/FileCommands.cpp" line="669"/>
         <source>Import file failed!</source>
-        <translation type="unfinished">Import file (solid) failed!</translation>
+        <translation type="unfinished">Import file failed!</translation>
     </message>
 </context>
 <context>
@@ -1161,12 +1166,12 @@
 <context>
     <name>ImporterManager</name>
     <message>
-        <location filename="../../exporter/Importer.cpp" line="35"/>
+        <location filename="../../exporter/Importer.cpp" line="36"/>
         <source>BREP format (*.brep)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../exporter/Importer.cpp" line="36"/>
+        <location filename="../../exporter/Importer.cpp" line="37"/>
         <source>STEP format (*.step *.stp)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1307,12 +1312,12 @@
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="173"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="180"/>
         <source>Import</source>
-        <translation type="unfinished">Import(Solid)</translation>
+        <translation type="unfinished">Import</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="178"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="185"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1552"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1558"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1322,7 +1327,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="769"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="778"/>
         <source>Modeling</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1354,7 +1359,7 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="226"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1478"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1489"/>
         <source>Edit Sketch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1804,24 +1809,29 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="781"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="790"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="136"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="773"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="782"/>
         <source>Primitive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="747"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="672"/>
+        <source>Sheet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="756"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="725"/>
         <source>Display Mode</source>
         <translation>Display Mode</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="777"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="786"/>
         <source>Boolean</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1831,18 +1841,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="785"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="794"/>
         <source>Utility</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="789"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="798"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="144"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="794"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="803"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1877,31 +1887,31 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1484"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1493"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1495"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1504"/>
         <source>View Normal To</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1520"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1526"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1529"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1535"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="550"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="221"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1538"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1544"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="561"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1581"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1587"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2971,17 +2981,17 @@
 <context>
     <name>RevolveGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="296"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="299"/>
         <source>Select the sketch to revolve.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="317"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="320"/>
         <source>Select the axis line.</source>
         <translation>Select the axis line.</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="350"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="353"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2989,12 +2999,12 @@
 <context>
     <name>RevolvedSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="164"/>
+        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="175"/>
         <source>Select the sketch to revolve.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="174"/>
+        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="185"/>
         <source>Select an axis line in the sketch.</source>
         <translation>Select an axis line in the sketch.</translation>
     </message>
@@ -3041,12 +3051,12 @@
 <context>
     <name>RunScriptCommand</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="669"/>
+        <location filename="../../commands/FileCommands.cpp" line="686"/>
         <source>Python Script (*.py)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="673"/>
+        <location filename="../../commands/FileCommands.cpp" line="690"/>
         <source>Run Python Script</source>
         <translation type="unfinished"></translation>
     </message>

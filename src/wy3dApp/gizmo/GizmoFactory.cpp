@@ -36,6 +36,7 @@
 #include <wy3dSheet.h>
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
+#include <wy3dImportedSheet.h>
 
 #include <wy3dSketchPoint.h>
 #include <wy3dSketchLine.h>
@@ -88,6 +89,7 @@ GizmoFactory::GizmoFactory()
 
     // 导入实体不支持Gizmo
     REGISTER_CREATOR(wy3d::ImportedSolid, NullGizmoCreator);
+    REGISTER_CREATOR(wy3d::ImportedSheet, NullGizmoCreator);
 
     REGISTER_CREATOR(wy3d::SketchPoint, SketchPointGizmoCreator);
     REGISTER_CREATOR(wy3d::SketchLine, SketchLineGizmoCreator);

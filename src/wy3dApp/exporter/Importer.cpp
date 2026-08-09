@@ -21,6 +21,7 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dImportedSolid.h>
+#include <wy3dImportedSheet.h>
 #include "application/Application.h"
 #include "scene/Scene.h"
 
@@ -53,17 +54,21 @@ bool Importer::perform(wydb::Database* pDb, const std::wstring& fileFullPath)
         assert(false);
         goto ABORT_TRANS;
     }
-    pDb->getTransactionManager()->endTransaction();
 
+    wy3d::ImportedSheet* pImportedSheet(nullptr);
+    if (wy::ErrorStatus::Ok != wy3d::ImportedSheet::create(pTrans, fileFullPath, pImportedSheet) || !pImportedSheet)
+    {
+        assert(false);
+        goto ABORT_TRANS;
+    }
+
+    pDb->getTransactionManager()->endTransaction();
     return true;
 
 ABORT_TRANS:
     assert(false);
     pDb->getTransactionManager()->abortTransaction();
-    if (pImportedSolid)
-    {
-        wydb::deleteElement(pImportedSolid);
-        pImportedSolid = nullptr;
-    }
+    if (pImportedSolid) { wydb::deleteElement(pImportedSolid); pImportedSolid = nullptr; }
+    if (pImportedSheet) { wydb::deleteElement(pImportedSheet); pImportedSheet = nullptr; }
     return false;
 }

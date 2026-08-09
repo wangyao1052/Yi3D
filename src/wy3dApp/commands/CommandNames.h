@@ -136,7 +136,7 @@ public:
     static inline const std::string SaveFile     = "SaveFile";
     static inline const std::string SaveAsFile   = "SaveAsFile";
     static inline const std::string ExportFile   = "ExportFile";
-    static inline const std::string ExportSolid  = "ExportSolid";
+    static inline const std::string ExportSelected  = "ExportSelected";
     static inline const std::string ImportFile   = "ImportFile";
 
     // 视图命令
