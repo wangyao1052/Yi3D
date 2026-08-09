@@ -161,9 +161,9 @@ QToolButton* EnvironmentBase::newMenuPopupToolButton(
 
 void EnvironmentBase::destroyUI()
 {
-    this->destroyActionGroups();
-    this->destroyMenus();
     this->destroyToolBars();
+    this->destroyMenus();
+    this->destroyActionGroups();
     this->destroyCommandActions();
 }
 
@@ -176,13 +176,16 @@ void EnvironmentBase::destroyMenus()
             assert(false);
             continue;
         }
-        delete pMenu;
+        if (QMenuBar* pMenuBar = qobject_cast<QMenuBar*>(pMenu->parentWidget()))
+            pMenuBar->removeAction(pMenu->menuAction());
+        pMenu->deleteLater();
     }
     _menus.clear();
 }
 
 void EnvironmentBase::destroyToolBars()
 {
+    MainWindow* pMainWindow = Application::instance().getMainWindow();
     for (QToolBar* pToolBar : _toolBars)
     {
         if (!pToolBar)
@@ -190,7 +193,8 @@ void EnvironmentBase::destroyToolBars()
             assert(false);
             continue;
         }
-        delete pToolBar;
+        if (pMainWindow) pMainWindow->removeToolBar(pToolBar);
+        pToolBar->deleteLater();
     }
     _toolBars.clear();
 }
@@ -198,30 +202,14 @@ void EnvironmentBase::destroyToolBars()
 void EnvironmentBase::destroyActionGroups()
 {
     for (QActionGroup* pActionGroup : _actionGroups)
-    {
-        if (!pActionGroup)
-        {
-            assert(false);
-            continue;
-        }
-        delete pActionGroup;
-    }
+        if (pActionGroup) pActionGroup->deleteLater();
     _actionGroups.clear();
 }
 
 void EnvironmentBase::destroyCommandActions()
 {
     for (auto& kvp : _cmdName2Action)
-    {
-        if (kvp.second)
-        {
-            delete kvp.second;
-        }
-        else
-        {
-            assert(false);
-        }
-    }
+        if (kvp.second) kvp.second->deleteLater();
     _cmdName2Action.clear();
 }
 
