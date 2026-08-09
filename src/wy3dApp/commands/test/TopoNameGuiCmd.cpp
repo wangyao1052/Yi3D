@@ -31,6 +31,7 @@
 #include <wyapDocument.h>
 #include <wy3dSolid.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dSketch.h>
 #include <wy3dImpl.h>
 #include <wy3dErrorCode.h>
@@ -99,7 +100,7 @@ wyap::CmdExecution::StartResult TopoNameGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::Sheet);
     _pointPickOption.selType = wy3d::SelectionType::SolidEdge | wy3d::SelectionType::SolidFace;
     _pointPickOption.acceptElement = false;
 
@@ -144,11 +145,14 @@ void TopoNameGuiCmd::showTopoName(const wyap::Selection& sel)
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return;
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-    if (!pSolid) return;
-    const wy3d::TopoNaming* pTopoNaming = pSolid->getTopoNaming();
+    const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
+    const wy3d::Sheet* pSheet = pSolid ? nullptr : wy3d::Sheet::cast(pElem);
+    if (!pSolid && !pSheet) return;
+    const wy3d::TopoNaming* pTopoNaming = pSolid
+        ? pSolid->getTopoNaming() : pSheet->getTopoNaming();
     if (!pTopoNaming) return;
-    TopoDS_Shape shape = pSolid->getShape();
+    TopoDS_Shape shape = pSolid ? pSolid->getShape() : pSheet->getShape();
 
     switch (static_cast<wy3d::SelectionType>(sel.getSelectionType()))
     {
@@ -293,24 +297,15 @@ void TopoNameGuiCmdMenu::addSelection(TopAbs_ShapeEnum shapeType, const std::str
 
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return;
-    std::vector<const wy3d::Solid*> solids;
-    solids.reserve(10);
-    for (auto iter = pDb->createIterator(); !iter.isDone(); iter.moveNext())
+    auto processElements = [&](const wydb::Element* pElem)
     {
-        wydb::ElementId id = iter.current();
-        const wydb::Element* pElem = pDb->getElement(id);
-        if (!pElem) continue;
-        if (!pElem->getParent().isNull()) continue;
         const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
-        if (!pSolid) continue;
-        
-        solids.emplace_back(pSolid);
-    }
+        const wy3d::Sheet* pSheet = pSolid ? nullptr : wy3d::Sheet::cast(pElem);
+        if (!pSolid && !pSheet) return;
 
-    for (const wy3d::Solid* pSolid : solids)
-    {
-        TopoDS_Shape shape = pSolid->getShape();
-        const wy3d::TopoNaming* pTopoNaming = pSolid->getTopoNaming();
+        TopoDS_Shape shape = pSolid ? pSolid->getShape() : pSheet->getShape();
+        const wy3d::TopoNaming* pTopoNaming = pSolid
+            ? pSolid->getTopoNaming() : pSheet->getTopoNaming();
         assert(pTopoNaming);
 
         TopTools_IndexedMapOfShape subShapes;
@@ -320,10 +315,18 @@ void TopoNameGuiCmdMenu::addSelection(TopAbs_ShapeEnum shapeType, const std::str
             TopoDS_Shape subShape = subShapes(i);
             if (topoName == pTopoNaming->getTopoName(subShape))
             {
-                wyap::Selection sel(selType, pSolid->getId(), std::to_string(i - 1));
+                wyap::Selection sel(selType, pElem->getId(), std::to_string(i - 1));
                 pCmd->_pSelSetHighlightor->addSelection(sel);
             }
         }
+    };
+
+    for (auto iter = pDb->createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        const wydb::Element* pElem = pDb->getElement(iter.current());
+        if (!pElem) continue;
+        if (!pElem->getParent().isNull()) continue;
+        processElements(pElem);
     }
 }
 

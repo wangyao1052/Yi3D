@@ -63,6 +63,14 @@ public:
     static const osg::Vec4 kDatumPlaneFace_Preview;
     static const osg::Vec4 kDatumPlaneEdge_Preview;
 
+    // sheet
+    static const osg::Vec4 kSheetFace;
+    static const osg::Vec4 kSheetEdge;
+    static const osg::Vec4 kSheetFace_Highlight;
+    static const osg::Vec4 kSheetEdge_Highlight;
+    static const osg::Vec4 kSheetFace_Preview;
+    static const osg::Vec4 kSheetEdge_Preview;
+
     // transparent
     static const osg::Vec4 kTransparent;
 

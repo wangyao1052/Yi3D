@@ -23,6 +23,7 @@
 #include "scene/Scene.h"
 #include "scene/nodes/ElementNode.h"
 #include "scene/nodes/SolidElementNode.h"
+#include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
 #include "OsgSelectUtils.h"
 
@@ -325,16 +326,25 @@ wyap::SelectionSet BoxPick::pick(
         wydb::ElementId id = items.front().id;
         assert(!id.isNull());
 
-        // 获取实体元素节点
+        // 获取元素节点
         SolidElementNode* pSolidElemNode(nullptr);
+        SheetElementNode* pSheetElemNode(nullptr);
         SketchElementNode* pSketchElemNode(nullptr);
         osg::Group* pOsgNode(nullptr);
         if (option.selType == wy3d::SelectionType::SolidEdge
             || option.selType == wy3d::SelectionType::SolidFace)
         {
-            pSolidElemNode = dynamic_cast<SolidElementNode*>(
-                Application::instance().getActiveScene()->getElementNode(id));
-            if (pSolidElemNode) pOsgNode = pSolidElemNode->getOsgNode();
+            ElementNode* pElemNode = Application::instance().getActiveScene()->getElementNode(id);
+            pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
+            if (pSolidElemNode)
+            {
+                pOsgNode = pSolidElemNode->getOsgNode();
+            }
+            else
+            {
+                pSheetElemNode = dynamic_cast<SheetElementNode*>(pElemNode);
+                if (pSheetElemNode) pOsgNode = pSheetElemNode->getOsgNode();
+            }
         }
         else if (option.selType == wy3d::SelectionType::SketchCurve)
         {
@@ -346,7 +356,7 @@ wyap::SelectionSet BoxPick::pick(
         {
             return ss;
         }
-        if (!pSolidElemNode && !pSketchElemNode)
+        if (!pSolidElemNode && !pSheetElemNode && !pSketchElemNode)
         {
             assert(false);
             return ss;
@@ -397,9 +407,12 @@ wyap::SelectionSet BoxPick::pick(
                 continue;
             }
 
-            if (option.selType == wy3d::SelectionType::SolidEdge && pSolidElemNode)
+            if (option.selType == wy3d::SelectionType::SolidEdge
+                && (pSolidElemNode || pSheetElemNode))
             {
-                unsigned int edgeIndex = pSolidElemNode->getEdgeIndex(intersection.primitiveIndex);
+                unsigned int edgeIndex(-1);
+                if (pSolidElemNode) edgeIndex = pSolidElemNode->getEdgeIndex(intersection.primitiveIndex);
+                else if (pSheetElemNode) edgeIndex = pSheetElemNode->getEdgeIndex(intersection.primitiveIndex);
                 if (-1 == edgeIndex)
                 {
                     assert(false);
@@ -408,9 +421,12 @@ wyap::SelectionSet BoxPick::pick(
                 wyap::Selection edgeSel(static_cast<unsigned int>(wy3d::SelectionType::SolidEdge), id, std::to_string(edgeIndex));
                 ss.add(edgeSel);
             }
-            else if (option.selType == wy3d::SelectionType::SolidFace && pSolidElemNode)
+            else if (option.selType == wy3d::SelectionType::SolidFace
+                && (pSolidElemNode || pSheetElemNode))
             {
-                unsigned int faceIndex = pSolidElemNode->getFaceIndex(intersection.primitiveIndex);
+                unsigned int faceIndex(-1);
+                if (pSolidElemNode) faceIndex = pSolidElemNode->getFaceIndex(intersection.primitiveIndex);
+                else if (pSheetElemNode) faceIndex = pSheetElemNode->getFaceIndex(intersection.primitiveIndex);
                 if (-1 == faceIndex)
                 {
                     assert(false);

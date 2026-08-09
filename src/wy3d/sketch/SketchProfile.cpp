@@ -633,6 +633,178 @@ bool SketchCurveGraph_Profile::findClosedLoops()
     return true;
 }
 
+bool SketchCurveGraph_Profile::findLoops()
+{
+    if (!_isValid)
+    {
+        assert(_pError);
+        return false;
+    }
+
+    std::list<std::shared_ptr<CurveLoop>> loops;
+    assert(_curves.size() == _endPointAdjacency.size());
+    assert(_curves.size() == _startPointAdjacency.size());
+    size_t n = _curves.size();
+
+    // Validate topology and pre-compute degree for each curve.
+    // Degree: number of non-degenerate neighbor curves (sum over both endpoints).
+    //   0  → isolated or self-closed (no connection at either end)
+    //   1  → open end (exactly one side attached, the other free)
+    //   2  → middle of a chain, or part of a closed loop
+    std::vector<bool> degenerated(n, false);
+    std::vector<int> degree(n, 0);
+    for (size_t i = 0; i < n; ++i)
+    {
+        const SketchCurve* pCurve = _curves[i];
+        assert(pCurve);
+        if (pCurve->isDegenerate(_tol))
+        {
+            degenerated[i] = true;
+            continue;
+        }
+
+        if (pCurve->isClosed())
+        {
+            if (_endPointAdjacency[i].size() != 0)
+            {
+                _pError = this->newError(ErrorCode::PROFILE_ClosedCurveIntersectWithOtherCurves,
+                    _curves[i]->getId(), _endPointAdjacency[i]);
+                return false;
+            }
+            if (_startPointAdjacency[i].size() != 0)
+            {
+                _pError = this->newError(ErrorCode::PROFILE_ClosedCurveIntersectWithOtherCurves,
+                    _curves[i]->getId(), _startPointAdjacency[i]);
+                return false;
+            }
+            degree[i] = 0;
+        }
+        else
+        {
+            int d = 0;
+
+            const std::vector<CurveEntry>& endAdjs = _endPointAdjacency[i];
+            if (endAdjs.size() > 1)
+            {
+                _pError = this->newError(ErrorCode::SKETCH_MoreThanTwoCurvesAtOneEndPoint,
+                    pCurve->getId(), endAdjs);
+                return false;
+            }
+            else if (endAdjs.size() == 1)
+            {
+                if (!degenerated[endAdjs[0].index]) ++d;
+            }
+
+            const std::vector<CurveEntry>& startAdjs = _startPointAdjacency[i];
+            if (startAdjs.size() > 1)
+            {
+                _pError = this->newError(ErrorCode::SKETCH_MoreThanTwoCurvesAtOneEndPoint,
+                    _curves[i]->getId(), _startPointAdjacency[i]);
+                return false;
+            }
+            else if (startAdjs.size() == 1)
+            {
+                if (!degenerated[startAdjs[0].index]) ++d;
+            }
+
+            degree[i] = d;
+        }
+    }
+
+    std::vector<bool> used(n, false);
+    for (size_t i = 0; i < n; ++i)
+    {
+        if (degenerated[i]) continue;
+        assert(_curves[i]);
+        if (_curves[i]->isClosed())
+        {
+            std::shared_ptr<CurveLoop> pCurveLoop = std::make_shared<CurveLoop>();
+            pCurveLoop->push_back(CurveEntry{ i, Orientation::Normal });
+            loops.emplace_back(std::move(pCurveLoop));
+            used[i] = true;
+        }
+    }
+
+    for (size_t i = 0; i < n; ++i)
+    {
+        if (degenerated[i] || used[i]) continue;
+        if (degree[i] != 1) continue;
+
+        size_t cur = i;
+        std::shared_ptr<CurveLoop> pLoop = std::make_shared<CurveLoop>();
+        Orientation orient = Orientation::Normal;
+        {
+            bool hasEnd = false, hasStart = false;
+            for (const auto& e : _endPointAdjacency[cur])
+                if (!degenerated[e.index] && !used[e.index]) { hasEnd = true; break; }
+            for (const auto& e : _startPointAdjacency[cur])
+                if (!degenerated[e.index] && !used[e.index]) { hasStart = true; break; }
+            if (hasStart)
+            {
+                orient = Orientation::Reversed;
+            }
+            else if (hasEnd)
+            {
+                orient = Orientation::Normal;
+            }
+            else
+            {
+                assert(false);
+                continue;
+            }
+        }
+        pLoop->push_back(CurveEntry{ cur, orient });
+        used[cur] = true;
+
+        for (;;)
+        {
+            const std::vector<CurveEntry>& adj = (pLoop->curves().back().orient == Orientation::Normal)
+                ? _endPointAdjacency[cur] : _startPointAdjacency[cur];
+            const CurveEntry* pNext = nullptr;
+            for (const CurveEntry& entry : adj)
+                if (!degenerated[entry.index] && !used[entry.index]) { pNext = &entry; break; }
+            if (!pNext) break;
+            pLoop->push_back(*pNext);
+            cur = pNext->index;
+            used[cur] = true;
+        }
+        loops.emplace_back(std::move(pLoop));
+    }
+
+    for (size_t i = 0; i < n; ++i)
+    {
+        if (degenerated[i] || used[i]) continue;
+        if (degree[i] != 0) continue;
+        auto pLoop = std::make_shared<CurveLoop>();
+        pLoop->push_back(CurveEntry{ i, Orientation::Normal });
+        loops.emplace_back(std::move(pLoop));
+        used[i] = true;
+    }
+
+    for (size_t i = 0; i < n; ++i)
+    {
+        if (degenerated[i] || used[i]) continue;
+        auto pLoop = std::make_shared<CurveLoop>();
+        pLoop->push_back(CurveEntry{ i, Orientation::Normal });
+        used[i] = true;
+        std::list<std::shared_ptr<CurveLoop>> closedLoops;
+        if (!dfsFindCycle(used, degenerated, pLoop, closedLoops))
+        {
+            assert(false);
+            _pError = std::make_shared<SketchError>();
+            _pError->type = ErrorCode::PROFILE_InvalidProfile;
+            return false;
+        }
+        loops.splice(loops.end(), closedLoops);
+    }
+
+    _loops.clear();
+    _loops.reserve(loops.size());
+    for (std::shared_ptr<CurveLoop> loop : loops)
+        _loops.emplace_back(std::move(loop));
+    return true;
+}
+
 // 使用非递归 DFS 在邻接图中查找闭合环（不允许重复使用曲线）。
 bool SketchCurveGraph_Profile::dfsFindCycle(
     std::vector<bool>& used,

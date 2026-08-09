@@ -102,7 +102,7 @@ void RevolveGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 }
 
-void RevolveGuiCmd::reset()
+void RevolveGuiCmd::cleanup()
 {
     _pMakeRevolution = nullptr;
 
@@ -112,13 +112,16 @@ void RevolveGuiCmd::reset()
     _pValidSketch = nullptr;
     _pInvalidSketchTooltip = nullptr;
     _pAxisCurvePreview = nullptr;
+}
 
-    //this->gotoStep(Step::SelectSketch);
+void RevolveGuiCmd::reset()
+{
+    this->cleanup();
 }
 
 void RevolveCutGuiCmd::reset()
 {
-    RevolveGuiCmd::reset();
+    RevolveGuiCmd::cleanup();
     _pSolidToCutPreview = nullptr;
 }
 

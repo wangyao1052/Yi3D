@@ -82,6 +82,8 @@ struct ModelingActions
     CommandAction* pActionTangentDatumPlane;
     CommandAction* pActionHelix;
     CommandAction* pActionExtrude;
+    CommandAction* pActionExtrudedSheet;
+    CommandAction* pActionRevolvedSheet;
     CommandAction* pActionRevolve;
     CommandAction* pActionSweep;
     CommandAction* pActionLoft;
@@ -283,6 +285,18 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
         CommandNames::Extrude,
         QCoreApplication::translate("MainWindow", "Extrude"),
         QIcon(":/images/Modeling_Extrusion.png"),
+        pActionGroup);
+
+    actions.pActionExtrudedSheet = pEnv->newCommandAction(
+        CommandNames::ExtrudedSheet,
+        QCoreApplication::translate("MainWindow", "Extruded Sheet"),
+        QIcon(":/images/Modeling_Extrusion.png"),
+        pActionGroup);
+
+    actions.pActionRevolvedSheet = pEnv->newCommandAction(
+        CommandNames::RevolvedSheet,
+        QCoreApplication::translate("MainWindow", "Revolved Sheet"),
+        QIcon(":/images/Modeling_Revolution.png"),
         pActionGroup);
 
     actions.pActionRevolve = pEnv->newCommandAction(
@@ -648,6 +662,17 @@ void buildModelingToolBarUi(
     pToolBarModeling->addAction(actions.pActionHelix);
     pToolBarModeling->addAction(actions.pActionExtrude);
     pToolBarModeling->addAction(actions.pActionRevolve);
+
+    // 曲面下拉菜单
+    std::list<QAction*> sheetActions;
+    sheetActions.emplace_back(actions.pActionExtrudedSheet);
+    sheetActions.emplace_back(actions.pActionRevolvedSheet);
+    QToolButton* pSheetToolBtn = pEnv->newMenuPopupToolButton(
+        pToolBarModeling,
+        QCoreApplication::translate("MainWindow", "Sheet"),
+        pActionGroup,
+        sheetActions);
+    pToolBarModeling->addWidget(pSheetToolBtn);
     pToolBarModeling->addAction(actions.pActionSweep);
     pToolBarModeling->addAction(actions.pActionLoft);
     pToolBarModeling->addAction(actions.pActionExtrudeCut);

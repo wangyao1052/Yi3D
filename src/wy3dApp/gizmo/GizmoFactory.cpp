@@ -33,6 +33,9 @@
 #include <wy3dSweep.h>
 #include <wy3dLoft.h>
 #include <wy3dImportedSolid.h>
+#include <wy3dSheet.h>
+#include <wy3dExtrudedSheet.h>
+#include <wy3dRevolvedSheet.h>
 
 #include <wy3dSketchPoint.h>
 #include <wy3dSketchLine.h>
@@ -94,6 +97,11 @@ GizmoFactory::GizmoFactory()
     REGISTER_CREATOR(wy3d::SketchEllipse, SketchEllipseGizmoCreator);
     REGISTER_CREATOR(wy3d::SketchEllipseArc, SketchEllipseArcGizmoCreator);
     REGISTER_CREATOR(wy3d::SketchSpline, SketchSplineGizmoCreator);
+
+    // 曲面 (no gizmo)
+    REGISTER_CREATOR(wy3d::Sheet, NullGizmoCreator);
+    REGISTER_CREATOR(wy3d::ExtrudedSheet, NullGizmoCreator);
+    REGISTER_CREATOR(wy3d::RevolvedSheet, NullGizmoCreator);
 }
 
 std::list<wyap::GizmoSPtr> GizmoFactory::createGizmos(const wydb::Element* pElem) const

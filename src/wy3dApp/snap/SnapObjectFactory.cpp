@@ -52,7 +52,7 @@
 #include "elements/TorusSnapObjectCreator.h"
 #include "elements/TubeSnapObjectCreator.h"
 #include "elements/BooleanSnapObjectCreator.h"
-#include "elements/SolidSnapObjectCreator.h"
+#include "elements/TopoShapeSnapObjectCreator.h"
 #include "elements/SketchSnapObjectCreator.h"
 #include "elements/SketchPointSnapObjectCreator.h"
 #include "elements/SketchLineSnapObjectCreator.h"
@@ -63,7 +63,8 @@
 #include "elements/SketchEllipseArcSnapObjectCreator.h"
 #include "elements/SketchSplineSnapObjectCreator.h"
 #include "elements/HelixSnapObjectCreator.h"
-
+#include <wy3dExtrudedSheet.h>
+#include <wy3dRevolvedSheet.h>
 #define REGISTER_CREATOR(CLASS, SNAP_OBJ_CREATOR) \
     { \
         static_assert(std::is_base_of_v<ElemSnapObjectCreator, SNAP_OBJ_CREATOR>, \
@@ -78,12 +79,12 @@ SnapObjectFactory::SnapObjectFactory()
     REGISTER_CREATOR(wy3d::DatumPlane, EmptySnapObjectCreator);
 
     // 基本几何体
-    REGISTER_CREATOR(wy3d::Box, SolidSnapObjectCreator);
-    REGISTER_CREATOR(wy3d::Cylinder, SolidSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::Box, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::Cylinder, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::Sphere, SphereSnapObjectCreator);
-    REGISTER_CREATOR(wy3d::Cone, SolidSnapObjectCreator);
-    REGISTER_CREATOR(wy3d::Torus, SolidSnapObjectCreator);
-    REGISTER_CREATOR(wy3d::Tube, SolidSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::Cone, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::Torus, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::Tube, TopoShapeSnapObjectCreator);
 
     // 布尔运算
     REGISTER_CREATOR(wy3d::Boolean, BooleanSnapObjectCreator);
@@ -92,15 +93,15 @@ SnapObjectFactory::SnapObjectFactory()
     REGISTER_CREATOR(wy3d::Intersection, BooleanSnapObjectCreator);
 
     // 拉伸特征
-    REGISTER_CREATOR(wy3d::Extrusion, SolidSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::Extrusion, TopoShapeSnapObjectCreator);
     // 旋转特征
-    REGISTER_CREATOR(wy3d::Revolution, SolidSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::Revolution, TopoShapeSnapObjectCreator);
     // 扫描特征
-    REGISTER_CREATOR(wy3d::Sweep, SolidSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::Sweep, TopoShapeSnapObjectCreator);
     // 放样特征
-    REGISTER_CREATOR(wy3d::Loft, SolidSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::Loft, TopoShapeSnapObjectCreator);
     // 导入实体特征
-    REGISTER_CREATOR(wy3d::ImportedSolid, SolidSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::ImportedSolid, TopoShapeSnapObjectCreator);
 
     // 草图相关
     REGISTER_CREATOR(wy3d::Sketch, SketchSnapObjectCreator);
@@ -115,6 +116,10 @@ SnapObjectFactory::SnapObjectFactory()
 
     // 螺旋线
     REGISTER_CREATOR(wy3d::Helix, HelixSnapObjectCreator);
+
+    // 曲面
+    REGISTER_CREATOR(wy3d::ExtrudedSheet, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::RevolvedSheet, TopoShapeSnapObjectCreator);
 }
 
 std::list<wyap::SnapObjectSPtr> SnapObjectFactory::createSnapObjects(const wydb::Element* pElem)

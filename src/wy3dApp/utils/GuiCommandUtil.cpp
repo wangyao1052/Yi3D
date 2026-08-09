@@ -22,6 +22,7 @@
 #include <wy3dSelectionType.h>
 #include <wy3dSolid.h>
 #include <wy3dDatumPlane.h>
+#include <wy3dSheet.h>
 #include <wy3dPattern.h>
 #include <wy3dMirror.h>
 #include <wyapSelManager.h>
@@ -51,13 +52,22 @@ bool GuiCommandUtil::getWorkingPlane(const wyap::Selection& sel, wy3d::SketchPla
             assert(false);
             return false;
         }
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-        if (!pSolid)
+        const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+        if (!pElem) { assert(false); return false; }
+        TopoDS_Shape shape;
+        if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+        {
+            shape = pSolid->getShape();
+        }
+        else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+        {
+            shape = pSheet->getShape();
+        }
+        else
         {
             assert(false);
             return false;
         }
-        TopoDS_Shape shape = pSolid->getShape();
         return TopoShapeUtil::getShapeFacePlane(shape, faceIndex, workPln);
     }
     else if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::Element)

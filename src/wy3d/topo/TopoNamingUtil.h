@@ -51,7 +51,7 @@ public:
         const std::vector<unsigned int>& indices,
         TopoNameList& outNames);
 
-    // 拉伸体&旋转体拓扑命名
+    // 拉伸体&旋转体拓扑命名（Face → Solid）
     static bool naming(
         const TopoDS_Face& originalFace,
         BRepPrimAPI_MakeSweep& makeSweep,
@@ -59,6 +59,14 @@ public:
         unsigned int elemIdValue,
         TopoNaming& topoNaming,
         unsigned int profileIndex = 0);
+
+    // 拉伸曲面&旋转曲面拓扑命名（Wire → Shell）
+    static bool naming(
+        const TopoDS_Wire& originalWire,
+        BRepPrimAPI_MakeSweep& makeSweep,
+        const std::vector<TopoUtil::EdgeNamingInfo>& edgeNameInfos,
+        unsigned int elemIdValue,
+        TopoNaming& topoNaming);
 
     // 扫掠体拓扑命名
     static bool naming(

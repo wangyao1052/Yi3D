@@ -28,6 +28,7 @@ enum class ElementNodeType
     DatumPlane        = 0x00000008, // 基准面
     SolidModification = 0x00000010, // 实体修改
     Curve             = 0x00000020, // 曲线
+    Sheet             = 0x00000040, // 曲面
 };
 
 // 按位或(组合类型)

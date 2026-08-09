@@ -86,6 +86,7 @@ void ModelingSelectGuiCmd::configureSelectOptions(GuiCmdSelectOptions& options)
 {
     options.pickMask = static_cast<unsigned int>(
         ElementNodeType::Solid |
+        ElementNodeType::Sheet |
         ElementNodeType::Sketch |
         ElementNodeType::DatumPlane |
         ElementNodeType::Curve);

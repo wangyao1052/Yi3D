@@ -16,15 +16,24 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SOLID_SNAP_OBJECT_CREATOR_H
-#define WY3DAPP_SOLID_SNAP_OBJECT_CREATOR_H
+#ifndef WY3D_REVOLUTION_UTIL_H
+#define WY3D_REVOLUTION_UTIL_H
 
-#include "ElemSnapObjectCreator.h"
+#include <gp_Ax1.hxx>
+#include <wy3dDefs.h>
+#include <wy3dErrorCode.h>
+#include <wydbElementId.h>
 
-class SolidSnapObjectCreator : public ElemSnapObjectCreator
-{
-public:
-    virtual std::list<wyap::SnapObjectSPtr> createSnapObjects(const wydb::Element* pElem) override;
-};
+namespace wydb { class Database; }
 
-#endif // WY3DAPP_SOLID_SNAP_OBJECT_CREATOR_H
+NS_WY3D_BEG
+
+// 从草图曲线 ID 计算旋转轴（用于旋转体和旋转曲面）
+// 返回 ErrorCode + gp_Ax1；失败时 errorCode 非 NoError
+std::pair<ErrorCode, gp_Ax1> computeRevolutionAxis(
+    const wydb::Database* pDb,
+    const wydb::ElementId& axisCurveId);
+
+NS_WY3D_END
+
+#endif // WY3D_REVOLUTION_UTIL_H

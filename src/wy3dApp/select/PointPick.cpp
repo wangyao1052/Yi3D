@@ -22,6 +22,7 @@
 #include "scene/Scene.h"
 #include "scene/nodes/ElementNode.h"
 #include "scene/nodes/SolidElementNode.h"
+#include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
 #include "utils/MathUtils.h"
 
@@ -198,6 +199,72 @@ wyap::Selection _newSelection(
                 return wyap::Selection(wydb::ElementId::kNull);
             }
             else if (acceptElement)
+            {
+                return wyap::Selection(id);
+            }
+            return wyap::Selection(wydb::ElementId::kNull);
+        }
+        break;
+
+        default:
+        {
+            assert(false);
+            return wyap::Selection(wydb::ElementId::kNull);
+        }
+        break;
+        }
+    }
+    break;
+
+    case ElementNodeType::Sheet:
+    {
+        SheetElementNode* pSheetNode = static_cast<SheetElementNode*>(pElemNode);
+        assert(pSheetNode);
+        switch (PickCommon::getDrawableMode(pDrawable))
+        {
+        case DrawMode::Face:
+        {
+            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SolidFace))
+            {
+                unsigned int faceIndex = pSheetNode->getFaceIndex(primitiveIndex);
+                if (-1 == faceIndex)
+                {
+                    assert(false);
+                    return wyap::Selection(wydb::ElementId::kNull);
+                }
+                return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::SolidFace), id, std::to_string(faceIndex));
+            }
+            else if (acceptElement)
+            {
+                return wyap::Selection(id);
+            }
+            return wyap::Selection(wydb::ElementId::kNull);
+        }
+        break;
+
+        case DrawMode::Edge:
+        {
+            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SolidEdge))
+            {
+                unsigned int edgeIndex = pSheetNode->getEdgeIndex(primitiveIndex);
+                if (-1 == edgeIndex)
+                {
+                    assert(false);
+                    return wyap::Selection(wydb::ElementId::kNull);
+                }
+                return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::SolidEdge), id, std::to_string(edgeIndex));
+            }
+            else if (acceptElement)
+            {
+                return wyap::Selection(id);
+            }
+            return wyap::Selection(wydb::ElementId::kNull);
+        }
+        break;
+
+        case DrawMode::Vertex:
+        {
+            if (acceptElement)
             {
                 return wyap::Selection(id);
             }

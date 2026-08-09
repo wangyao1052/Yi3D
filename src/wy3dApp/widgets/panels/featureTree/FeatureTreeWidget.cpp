@@ -69,6 +69,8 @@
 #include <wy3dCircularPattern.h>
 #include <wy3dSolid.h>
 #include <wy3dHelix.h>
+#include <wy3dExtrudedSheet.h>
+#include <wy3dRevolvedSheet.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include "FeatureTreeModel.h"
@@ -162,6 +164,8 @@ FeatureTreeWidget::FeatureTreeWidget(QWidget* parent)
     _className2DisplayName[wy3d::CircularPattern::className()] = tr("Circular Pattern");
     _className2DisplayName[wy3d::Helix::className()] = tr("Helix");
     _className2DisplayName[wy3d::ImportedSolid::className()] = tr("Imported Solid");
+    _className2DisplayName[wy3d::ExtrudedSheet::className()]  = tr("Extruded Sheet");
+    _className2DisplayName[wy3d::RevolvedSheet::className()]  = tr("Revolved Sheet");
     // 默认基准面显示名称
     _xoyDatumPlaneDispName = tr("XOY");
     _yozDatumPlaneDispName = tr("YOZ");

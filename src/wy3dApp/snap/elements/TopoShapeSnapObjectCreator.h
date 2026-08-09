@@ -16,24 +16,15 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SolidSnapObjectCreator.h"
-#include <cassert>
-#include <TopoDS_Shape.hxx>
-#include <wy3dSolid.h>
-#include "utils/MathUtils.h"
-#include "snap/SnapObject.h"
+#ifndef WY3DAPP_SOLID_SNAP_OBJECT_CREATOR_H
+#define WY3DAPP_SOLID_SNAP_OBJECT_CREATOR_H
 
-std::list<wyap::SnapObjectSPtr> SolidSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
+#include "ElemSnapObjectCreator.h"
+
+class TopoShapeSnapObjectCreator : public ElemSnapObjectCreator
 {
-    assert(pElem);
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
-    if (!pSolid)
-    {
-        assert(false);
-        return std::list<wyap::SnapObjectSPtr>();
-    }
+public:
+    virtual std::list<wyap::SnapObjectSPtr> createSnapObjects(const wydb::Element* pElem) override;
+};
 
-    wydb::ElementId id = pSolid->getId();
-    TopoDS_Shape resultShape = pSolid->getShape();
-    return this->newSnapObjects(id, resultShape);
-}
+#endif // WY3DAPP_SOLID_SNAP_OBJECT_CREATOR_H

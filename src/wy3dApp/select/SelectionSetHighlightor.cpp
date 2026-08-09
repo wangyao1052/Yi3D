@@ -22,6 +22,7 @@
 #include "scene/Scene.h"
 #include "scene/nodes/ElementNode.h"
 #include "scene/nodes/SolidElementNode.h"
+#include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
 
 SelectionSetHighlightor::SelectionSetHighlightor(const wyap::SelectionSet& ss)
@@ -106,12 +107,20 @@ void SelectionSetHighlightor::showSelection(const wyap::Selection& sel, bool val
     {
         const std::string& subPath = sel.getSubPath();
         if (subPath.empty()) return;
-        SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
-        if (!pSolidElemNode) return;
-        if (value && _useCustomColor)
-            pSolidElemNode->highlightFace(std::stoul(subPath), _color);
-        else
-            pSolidElemNode->highlightFace(std::stoul(subPath), value);
+        if (SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode))
+        {
+            if (value && _useCustomColor)
+                pSolidElemNode->highlightFace(std::stoul(subPath), _color);
+            else
+                pSolidElemNode->highlightFace(std::stoul(subPath), value);
+        }
+        else if (SheetElementNode* pSheetElemNode = dynamic_cast<SheetElementNode*>(pElemNode))
+        {
+            if (value && _useCustomColor)
+                pSheetElemNode->highlightFace(std::stoul(subPath), _color);
+            else
+                pSheetElemNode->highlightFace(std::stoul(subPath), value);
+        }
     }
     break;
 
@@ -119,9 +128,14 @@ void SelectionSetHighlightor::showSelection(const wyap::Selection& sel, bool val
     {
         const std::string& subPath = sel.getSubPath();
         if (subPath.empty()) return;
-        SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
-        if (!pSolidElemNode) return;
-        pSolidElemNode->highlightEdge(std::stoul(subPath), value);
+        if (SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode))
+        {
+            pSolidElemNode->highlightEdge(std::stoul(subPath), value);
+        }
+        else if (SheetElementNode* pSheetElemNode = dynamic_cast<SheetElementNode*>(pElemNode))
+        {
+            pSheetElemNode->highlightEdge(std::stoul(subPath), value);
+        }
     }
     break;
 

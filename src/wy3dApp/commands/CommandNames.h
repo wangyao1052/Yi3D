@@ -48,6 +48,8 @@ public:
     static inline const std::string Intersect = "Intersect";
     static inline const std::string Extrude = "Extrude";
     static inline const std::string ExtrudeCut = "ExtrudeCut";
+    static inline const std::string ExtrudedSheet = "ExtrudedSheet";
+    static inline const std::string RevolvedSheet = "RevolvedSheet";
     static inline const std::string Revolve = "Revolve";
     static inline const std::string RevolveCut = "RevolveCut";
     static inline const std::string Sweep = "Sweep";

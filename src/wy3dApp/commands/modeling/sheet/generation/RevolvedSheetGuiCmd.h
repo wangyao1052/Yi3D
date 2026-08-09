@@ -16,28 +16,30 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_REVOLUTION_GUI_CMD_H
-#define WY3DAPP_REVOLUTION_GUI_CMD_H
+#ifndef WY3DAPP_REVOLVED_SHEET_GUI_CMD_H
+#define WY3DAPP_REVOLVED_SHEET_GUI_CMD_H
 
 #include "commands/OsgGuiCommand.h"
 #include <map>
 #include <memory>
-#include <wy3dRevolution.h>
+#include <wy3dRevolvedSheet.h>
 #include "commands/transient/ValidSketchTransient.h"
 
-class MakeRevolution;
+class MakeRevolvedSheet;
 
-class RevolveGuiCmd : public OsgGuiCommand
+class RevolvedSheetGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(RevolveGuiCmd, wy3dApp::RevolveGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(RevolvedSheetGuiCmd, wy3dApp::RevolvedSheetGuiCmd, OsgGuiCommand)
 public:
-    RevolveGuiCmd();
-    virtual ~RevolveGuiCmd();
+    RevolvedSheetGuiCmd();
+    virtual ~RevolvedSheetGuiCmd();
 
 protected:
     virtual wyap::CmdExecution::StartResult onStart() override;
     virtual void onEnd() override;
     virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
+
+    virtual void cleanup() override;
 
 protected:
     enum class Step
@@ -45,9 +47,7 @@ protected:
         Undefined = 0,
         SelectSketch = 1,
         SelectAxisCurve = 2,
-        SpecifySolidToCut = 3,
     };
-    virtual void cleanup() override;
     virtual void reset();
     virtual bool finishStep(Step step);
     virtual void gotoStep(Step step);
@@ -60,21 +60,19 @@ private:
     bool isValidSketchSelectionSet(const wyap::SelectionSet& ss, wydb::ElementId& sketchId);
     bool isValidSketch(const wydb::ElementId& sketchId, QString& error);
     void preview(wydb::ElementId sketchId);
+    void clearSelections();
 
 protected:
     Step _step;
     wydb::ElementId _sketchId;
     wydb::ElementId _axisCurveId;
 
-    // 点选选项
     PointPickOption _pointPickOption;
 
-    // 预览&提示
     std::shared_ptr<ValidSketchTransient> _pValidSketch;
     std::shared_ptr<InvalidSketchToolTip> _pInvalidSketchTooltip;
     SelectPreviewSPtr _pAxisCurvePreview;
 
-    // 草图信息
     struct SketchValidInfo
     {
         bool valid;
@@ -84,48 +82,22 @@ protected:
     };
     std::map<wydb::ElementId, SketchValidInfo> _sketchId2ValidInfo;
 
-    // 创建旋转体
-    std::shared_ptr<MakeRevolution> _pMakeRevolution;
+    std::shared_ptr<MakeRevolvedSheet> _pMakeRevolvedSheet;
 };
 
-class RevolveCutGuiCmd : public RevolveGuiCmd
-{
-    WYRX_DECLARE_MEMBERS(RevolveCutGuiCmd, wy3dApp::RevolveCutGuiCmd, RevolveGuiCmd)
-public:
-    virtual void reset();
-    virtual bool finishStep(Step step) override;
-    virtual void gotoStep(Step step) override;
-
-    virtual void onMouseMove(const MouseEvent& event) override;
-    virtual void onLeftMouseUp(const MouseEvent& event) override;
-
-private:
-    // 获取用户选择的要切除的实体
-    const wy3d::Solid* getSolidToCut() const;
-
-private:
-    // 预览
-    SelectPreviewSPtr _pSolidToCutPreview;
-};
-
-class MakeRevolution : public GuiCmdMakeElement
+class MakeRevolvedSheet : public GuiCmdMakeElement
 {
 public:
-    MakeRevolution(GuiCommand* pGuiCmd, bool isCut)
-        : GuiCmdMakeElement(pGuiCmd), _isCut(isCut), _pRevolution(nullptr) {}
-    ~MakeRevolution() {}
+    MakeRevolvedSheet(GuiCommand* pGuiCmd)
+        : GuiCmdMakeElement(pGuiCmd), _pRevolvedSheet(nullptr) {}
+    ~MakeRevolvedSheet() {}
 
-    // 收集创建的元素ID
     virtual void collectElements(std::set<wydb::ElementId>& idSet) const override;
 
-    // 创建
     bool create(const wydb::ElementId& sketchId, const wydb::ElementId& axisCurveId, unsigned int& errorCode);
-    // 切除实体
-    bool cutSolid(const wy3d::Solid* pConstSolidToCut, unsigned int& errorCode);
 
 private:
-    bool _isCut;
-    wy3d::Revolution* _pRevolution;
+    wy3d::RevolvedSheet* _pRevolvedSheet;
 };
 
-#endif // WY3DAPP_REVOLUTION_GUI_CMD_H
+#endif // WY3DAPP_REVOLVED_SHEET_GUI_CMD_H

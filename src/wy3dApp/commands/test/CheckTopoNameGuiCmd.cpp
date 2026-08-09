@@ -42,6 +42,7 @@
 #include "scene/Scene.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/SolidElementNode.h"
+#include <wy3dSheet.h>
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"
 #include "select/filters/CommonSelFilters.h"
@@ -62,9 +63,10 @@ public:
     {
         assert(pDb);
         if (id.isNull()) return SelectFilterStatus::Continue;
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
-        if (!pSolid) return SelectFilterStatus::Break;
-        if (!pSolid->getParent().isNull()) return SelectFilterStatus::Break;
+        const wydb::Element* pElem = pDb->getElement(id);
+        const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
+        const wy3d::Sheet* pSheet = pSolid ? nullptr : wy3d::Sheet::cast(pElem);
+        if (!pSolid && !pSheet) return SelectFilterStatus::Break;
 
         return SelectFilterStatus::Ok;
     }
@@ -87,7 +89,7 @@ wyap::CmdExecution::StartResult CheckTopoNameGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::Sheet);
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.pSelPreFilter = std::make_shared<CheckTopoNameGuiCmdPreSelFilter>();
 
@@ -138,15 +140,18 @@ void CheckTopoNameGuiCmd::checkTopoName(const wyap::Selection& sel)
     {
         wydb::Database* pDb = Application::instance().getActiveDatabase();
         if (!pDb) return;
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
-        if (!pSolid) return;
-        const wy3d::TopoNaming* pTopoNaming = pSolid->getTopoNaming();
+        const wydb::Element* pElem = pDb->getElement(id);
+        const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
+        const wy3d::Sheet* pSheet = pSolid ? nullptr : wy3d::Sheet::cast(pElem);
+        if (!pSolid && !pSheet) return;
+        const wy3d::TopoNaming* pTopoNaming = pSolid
+            ? pSolid->getTopoNaming() : pSheet->getTopoNaming();
         if (!pTopoNaming) return;
-        TopoDS_Shape shape = pSolid->getShape();
+        TopoDS_Shape shape = pSolid ? pSolid->getShape() : pSheet->getShape();
         bool isValid = pTopoNaming->check(shape, checkInfo);
         if (isValid) checkInfo.insert(checkInfo.cbegin(), "ok");
         else checkInfo.insert(checkInfo.cbegin(), "***error***");
-        _id2CheckInfo[pSolid->getId()] = checkInfo;
+        _id2CheckInfo[id] = checkInfo;
     }
 
     std::string strTotal;
@@ -197,18 +202,20 @@ void CheckTopoNameGuiCmdMenu::onCheckAll()
     for (auto iter = pDb->createIterator(); !iter.isDone(); iter.moveNext())
     {
         wydb::ElementId id = iter.current();
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
-        if (!pSolid) continue;
-        if (!pSolid->getParent().isNull()) continue;
-        const wy3d::TopoNaming* pTopoNaming = pSolid->getTopoNaming();
+        const wydb::Element* pElem = pDb->getElement(id);
+        const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
+        const wy3d::Sheet* pSheet = pSolid ? nullptr : wy3d::Sheet::cast(pElem);
+        if (!pSolid && !pSheet) continue;
+        const wy3d::TopoNaming* pTopoNaming = pSolid
+            ? pSolid->getTopoNaming() : pSheet->getTopoNaming();
         if (!pTopoNaming) return;
-        TopoDS_Shape shape = pSolid->getShape();
+        TopoDS_Shape shape = pSolid ? pSolid->getShape() : pSheet->getShape();
 
         std::vector<std::string> checkInfo;
         bool isValid = pTopoNaming->check(shape, checkInfo);
         if (!isValid)
         {
-            invalidIds.emplace_back(pSolid->getId());
+            invalidIds.emplace_back(id);
         }
     }
 
