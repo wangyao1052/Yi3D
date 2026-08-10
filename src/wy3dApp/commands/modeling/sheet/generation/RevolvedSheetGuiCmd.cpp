@@ -209,7 +209,10 @@ void RevolvedSheetGuiCmd::onMouseMove(const MouseEvent& event)
         std::pair<wydb::ElementId, wy::Vector3> pickRet = this->pointPickElement(event.x, event.y, _pointPickOption);
         wydb::ElementId pickedSketchId = pickRet.first;
 
-        preview(pickedSketchId);
+        if (!pickedSketchId.isNull())
+            preview(pickedSketchId);
+        else
+            _pValidSketch = nullptr;
 
         if (!pickedSketchId.isNull() && !_pValidSketch)
         {

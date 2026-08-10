@@ -323,7 +323,10 @@ void ExtrudedSheetGuiCmd::onMouseMove(const MouseEvent& event)
         wydb::ElementId pickedSketchId = pickRet.first;
         _pickPos = pickRet.second;
 
-        preview(pickedSketchId);
+        if (!pickedSketchId.isNull())
+            preview(pickedSketchId);
+        else
+            _pValidSketchPreview = nullptr;
 
         if (!pickedSketchId.isNull() && !_pValidSketchPreview)
         {
@@ -536,7 +539,7 @@ void ExtrudedSheetGuiCmd::onPopupEnterKey()
 
 void ExtrudedSheetGuiCmd::onPopupEscapeKey()
 {
-    this->hidePopup();
+    this->onEscapeKey();
 }
 
 void ExtrudedSheetGuiCmd::simulateMouseMoveFromPopup()
