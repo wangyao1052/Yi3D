@@ -41,6 +41,7 @@ namespace
 struct UiTargets
 {
     QMenu* pMenuFile;
+    QMenu* pMenuSheet;
     QToolBar* pToolBarBasic;
     QToolBar* pToolBarModeling;
     QToolBar* pToolBarPrimitive;
@@ -617,6 +618,16 @@ void buildFileMenuUi(
     pMenuFile->addAction(actions.pActionExportFile);
 }
 
+void buildSheetMenuUi(
+    const ModelingActions& actions,
+    QMenu* pMenuSheet)
+{
+    assert(pMenuSheet);
+
+    pMenuSheet->addAction(actions.pActionExtrudedSheet);
+    pMenuSheet->addAction(actions.pActionRevolvedSheet);
+}
+
 void buildBasicToolBarUi(
     const FileActions& fileActions,
     const UndoRedoActions& undoRedoActions,
@@ -663,16 +674,6 @@ void buildModelingToolBarUi(
     pToolBarModeling->addAction(actions.pActionExtrude);
     pToolBarModeling->addAction(actions.pActionRevolve);
 
-    // 曲面下拉菜单
-    std::list<QAction*> sheetActions;
-    sheetActions.emplace_back(actions.pActionExtrudedSheet);
-    sheetActions.emplace_back(actions.pActionRevolvedSheet);
-    QToolButton* pSheetToolBtn = pEnv->newMenuPopupToolButton(
-        pToolBarModeling,
-        QCoreApplication::translate("MainWindow", "Sheet"),
-        pActionGroup,
-        sheetActions);
-    pToolBarModeling->addWidget(pSheetToolBtn);
     pToolBarModeling->addAction(actions.pActionSweep);
     pToolBarModeling->addAction(actions.pActionLoft);
     pToolBarModeling->addAction(actions.pActionExtrudeCut);
@@ -814,6 +815,13 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
     targets.pMenuFile = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::File);
     assert(targets.pMenuFile);
 
+    targets.pMenuSheet = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Sheet"),
+                                       wy3dApp::MenuBarNames::Sheet);
+    assert(targets.pMenuSheet);
+    // Insert Sheet menu before Help
+    if (QMenu* pHelpMenu = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::Help))
+        pMainWindow->menuBar()->insertMenu(pHelpMenu->menuAction(), targets.pMenuSheet);
+
     targets.pToolBarBasic = pMainWindow->findChild<QToolBar*>(wy3dApp::ToolBarNames::Basic);
     assert(targets.pToolBarBasic);
 
@@ -850,6 +858,7 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
 #endif // _DEBUG
 
     buildFileMenuUi(fileActions, uiTargets.pMenuFile);
+    buildSheetMenuUi(modelingActions, uiTargets.pMenuSheet);
     buildBasicToolBarUi(fileActions, undoRedoActions, uiTargets.pToolBarBasic);
     buildModelingToolBarUi(pEnv, pActionGroup, modelingActions, uiTargets.pToolBarModeling);
     buildPrimitiveToolBarUi(primitiveActions, uiTargets.pToolBarPrimitive);

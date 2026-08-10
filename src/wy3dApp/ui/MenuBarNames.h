@@ -27,6 +27,7 @@ namespace MenuBarNames
 {
     inline constexpr const char* File = "File";
     inline constexpr const char* Model = "Model";
+    inline constexpr const char* Sheet = "Sheet";
     inline constexpr const char* Camera = "Camera";
     inline constexpr const char* Test = "Test";
     inline constexpr const char* Help = "Help";
