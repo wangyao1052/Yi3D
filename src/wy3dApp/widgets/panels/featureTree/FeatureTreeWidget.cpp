@@ -73,6 +73,8 @@
 #include <wy3dHelix.h>
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
+#include <wy3dThicken.h>
+#include <wy3dOffsetSheet.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include "FeatureTreeModel.h"
@@ -169,6 +171,8 @@ FeatureTreeWidget::FeatureTreeWidget(QWidget* parent)
     _className2DisplayName[wy3d::ImportedSheet::className()] = tr("Imported Sheet");
     _className2DisplayName[wy3d::ExtrudedSheet::className()]  = tr("Extruded Sheet");
     _className2DisplayName[wy3d::RevolvedSheet::className()]  = tr("Revolved Sheet");
+    _className2DisplayName[wy3d::Thicken::className()]        = tr("Thicken");
+    _className2DisplayName[wy3d::OffsetSheet::className()]   = tr("Offset Sheet");
     // 默认基准面显示名称
     _xoyDatumPlaneDispName = tr("XOY");
     _yozDatumPlaneDispName = tr("YOZ");

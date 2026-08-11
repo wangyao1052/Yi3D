@@ -135,6 +135,18 @@ ErrorCodeTranslation::ErrorCodeTranslation(QObject* parent) : QObject(parent)
     _code2Desc[TOUINT(wy3d::ErrorCode::DRAFT_GenerateDraftError)] = tr(
         "Generate draft failed!");
 
+    // Thicken
+    _code2Desc[TOUINT(wy3d::ErrorCode::THICKEN_InvalidData)] = tr(
+        "Invalid thicken data!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::THICKEN_GenerateError)] = tr(
+        "Generate thicken failed!");
+
+    // OffsetSheet
+    _code2Desc[TOUINT(wy3d::ErrorCode::OFFSETSHEET_InvalidData)] = tr(
+        "Invalid offset sheet data!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::OFFSETSHEET_GenerateError)] = tr(
+        "Generate offset sheet failed!");
+
     // Helix
     _code2Desc[TOUINT(wy3d::ErrorCode::HELIX_InvalidData)] = tr(
         "Invalid helix data!");

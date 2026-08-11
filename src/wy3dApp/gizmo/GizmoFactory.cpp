@@ -37,6 +37,8 @@
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
 #include <wy3dImportedSheet.h>
+#include <wy3dThicken.h>
+#include <wy3dOffsetSheet.h>
 
 #include <wy3dSketchPoint.h>
 #include <wy3dSketchLine.h>
@@ -104,6 +106,8 @@ GizmoFactory::GizmoFactory()
     REGISTER_CREATOR(wy3d::Sheet, NullGizmoCreator);
     REGISTER_CREATOR(wy3d::ExtrudedSheet, NullGizmoCreator);
     REGISTER_CREATOR(wy3d::RevolvedSheet, NullGizmoCreator);
+    REGISTER_CREATOR(wy3d::Thicken, NullGizmoCreator);
+    REGISTER_CREATOR(wy3d::OffsetSheet, NullGizmoCreator);
 }
 
 std::list<wyap::GizmoSPtr> GizmoFactory::createGizmos(const wydb::Element* pElem) const

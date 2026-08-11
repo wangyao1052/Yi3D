@@ -16,41 +16,34 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SET_COLOR_CMD_PANEL_H
-#define WY3DAPP_SET_COLOR_CMD_PANEL_H
+#ifndef WY3DAPP_THICKEN_CMD_PANEL_H
+#define WY3DAPP_THICKEN_CMD_PANEL_H
 
 #include "FloatingCmdPanel.h"
 
-#include <QColor>
-#include <QVector>
+class QLineEdit;
+class QComboBox;
 
-class QPushButton;
-
-class SetColorCmdPanel : public FloatingCmdPanel
+class ThickenCmdPanel : public FloatingCmdPanel
 {
     Q_OBJECT
 public:
-    explicit SetColorCmdPanel(QWidget* parent = nullptr);
+    explicit ThickenCmdPanel(QWidget* parent = nullptr);
 
-    QColor color() const { return _color; }
-    void setColor(const QColor& color);
-    void setPickedCount(int count);
+    void setThicknessValue(double value);
 
 signals:
-    void colorChanged(const QColor& color);
-
-private:
-    void updateColorButton();
-    void refreshPresetColorButtons();
+    void thicknessChanged(double value);
+    void directionChanged(int direction);
 
 private slots:
-    void onPickColor();
+    void onThicknessEditChanged();
+    void onDirectionComboChanged(int index);
 
 private:
-    QPushButton* _pColorButton;
-    QVector<QColor> _presetColors;
-    QVector<QPushButton*> _presetColorButtons;
-    QColor _color;
+    QLineEdit* _pThicknessEdit;
+    QComboBox* _pDirectionCombo;
+    double _lastValidThickness;
 };
 
-#endif // WY3DAPP_SET_COLOR_CMD_PANEL_H
+#endif // WY3DAPP_THICKEN_CMD_PANEL_H

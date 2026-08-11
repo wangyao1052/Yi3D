@@ -116,6 +116,15 @@ const char* ParamNames::CIRCULAR_PATTERN_TOTAL_ANGLE = "TotalAngle";
 const char* ParamNames::CIRCULAR_PATTERN_INSTANCE_COUNT = "InstanceCount";
 const char* ParamNames::CIRCULAR_PATTERN_IS_CLOCKWISE = "IsClockWise";
 
+// Thicken
+const char* ParamNames::THICKEN_PARAM_THICKNESS = "Thickness";
+const char* ParamNames::THICKEN_PARAM_SOURCE = "Source";
+const char* ParamNames::THICKEN_PARAM_DIRECTION = "Direction";
+
+// OffsetSheet
+const char* ParamNames::OFFSETSHEET_PARAM_OFFSET = "Offset";
+const char* ParamNames::OFFSETSHEET_PARAM_SOURCE = "Source";
+
 // Helix
 const char* ParamNames::HELIX_PITCH = "Pitch";
 const char* ParamNames::HELIX_TURNS = "Turns";

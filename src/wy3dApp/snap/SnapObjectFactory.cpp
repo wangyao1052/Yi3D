@@ -66,6 +66,8 @@
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
 #include <wy3dImportedSheet.h>
+#include <wy3dThicken.h>
+#include <wy3dOffsetSheet.h>
 #define REGISTER_CREATOR(CLASS, SNAP_OBJ_CREATOR) \
     { \
         static_assert(std::is_base_of_v<ElemSnapObjectCreator, SNAP_OBJ_CREATOR>, \
@@ -122,6 +124,8 @@ SnapObjectFactory::SnapObjectFactory()
     // 曲面
     REGISTER_CREATOR(wy3d::ExtrudedSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::RevolvedSheet, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::Thicken, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::OffsetSheet, TopoShapeSnapObjectCreator);
 }
 
 std::list<wyap::SnapObjectSPtr> SnapObjectFactory::createSnapObjects(const wydb::Element* pElem)
