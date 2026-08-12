@@ -19,23 +19,18 @@
 #ifndef WY3DAPP_SET_COLOR_CMD_PANEL_H
 #define WY3DAPP_SET_COLOR_CMD_PANEL_H
 
+#include "FloatingCmdPanel.h"
+
 #include <QColor>
-#include <QPoint>
 #include <QVector>
-#include <QWidget>
 
-class QLabel;
 class QPushButton;
-class QEvent;
-class QShowEvent;
-class QFrame;
 
-class SetColorCmdPanel : public QWidget
+class SetColorCmdPanel : public FloatingCmdPanel
 {
     Q_OBJECT
 public:
     explicit SetColorCmdPanel(QWidget* parent = nullptr);
-    ~SetColorCmdPanel();
 
     QColor color() const { return _color; }
     void setColor(const QColor& color);
@@ -43,38 +38,19 @@ public:
 
 signals:
     void colorChanged(const QColor& color);
-    void accepted();
-    void canceled();
-
-protected:
-    virtual bool eventFilter(QObject* watched, QEvent* event) override;
-    virtual void showEvent(QShowEvent* event) override;
 
 private:
     void updateColorButton();
     void refreshPresetColorButtons();
-    void anchorToTopLeft();
-    void clampToParentBounds();
 
 private slots:
     void onPickColor();
-    void onOkClicked();
-    void onCancelClicked();
 
 private:
-    QFrame* _pTitleBar;
-    QLabel* _pTitleLabel;
     QPushButton* _pColorButton;
-    QPushButton* _pCancelButton;
-    QPushButton* _pOkButton;
     QVector<QColor> _presetColors;
     QVector<QPushButton*> _presetColorButtons;
     QColor _color;
-    bool _dragging;
-    bool _userMoved;
-    QPoint _dragOffset;
-    QPoint _parentOffset;
 };
 
 #endif // WY3DAPP_SET_COLOR_CMD_PANEL_H
-

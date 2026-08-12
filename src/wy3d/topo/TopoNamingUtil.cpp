@@ -358,6 +358,218 @@ bool TopoNamingUtil::naming(
 }
 
 bool TopoNamingUtil::naming(
+    const TopoDS_Wire& originalWire,
+    BRepPrimAPI_MakeSweep& makeSweep,
+    const std::vector<TopoUtil::EdgeNamingInfo>& edgeNameInfos,
+    unsigned int elemIdValue,
+    TopoNaming& topoNaming)
+{
+    if (edgeNameInfos.empty())
+    {
+        assert(false);
+        return false;
+    }
+
+    // 建立所有侧面的拓扑命名
+    // 格式: 草图曲线的ID
+    for (const TopoUtil::EdgeNamingInfo& edgeNameInfo : edgeNameInfos)
+    {
+        const TopTools_ListOfShape& generated = makeSweep.Generated(edgeNameInfo.edge);
+        assert(generated.Extent() == 1 || generated.Extent() == 0); // 对矩形轮廓做360度旋转,有两条边没有生成面
+        for (TopTools_ListIteratorOfListOfShape iter(generated); iter.More(); iter.Next())
+        {
+            const TopoDS_Shape& shape = iter.Value();
+            assert(!shape.IsNull());
+            assert(shape.ShapeType() == TopAbs_ShapeEnum::TopAbs_FACE);
+            topoNaming.setName(shape, TopoNameBuilder().id(edgeNameInfo.id).build());
+        }
+    }
+
+    // 建立底面和顶面的拓扑命名
+    TopoDS_Wire bottomWire = TopoDS::Wire(makeSweep.FirstShape());
+    assert(!bottomWire.IsNull());
+    TopoDS_Wire topWire = TopoDS::Wire(makeSweep.LastShape());
+    assert(!topWire.IsNull());
+    std::set<unsigned int> lostEdgeIds; // 消失的边的ID
+    if (bottomWire.IsEqual(topWire)) // 说明是360度旋转,底面和顶面无效
+    {
+        // 所有边的集合
+        TopoShapeSet edgeSet;
+        TopTools_IndexedMapOfShape idxMapOfEdge;
+        TopExp::MapShapes(makeSweep.Shape(), TopAbs_ShapeEnum::TopAbs_EDGE, idxMapOfEdge);
+        for (int i = 1; i <= idxMapOfEdge.Extent(); ++i)
+            edgeSet.insert(idxMapOfEdge(i));
+
+        // 建立底面所有边的拓扑命名
+        // 底面边: 草图曲线ID
+        TopTools_IndexedMapOfShape idxMapOfEdge0;
+        TopExp::MapShapes(originalWire, TopAbs_ShapeEnum::TopAbs_EDGE, idxMapOfEdge0);
+        TopTools_IndexedMapOfShape idxMapOfEdge1;
+        TopExp::MapShapes(bottomWire, TopAbs_ShapeEnum::TopAbs_EDGE, idxMapOfEdge1);
+        int countEdges = idxMapOfEdge0.Extent();
+        if (countEdges == idxMapOfEdge1.Extent() &&
+            static_cast<size_t>(countEdges) == edgeNameInfos.size())
+        {
+            size_t idx(0);
+            for (int i = 1; i <= countEdges; ++i, ++idx)
+            {
+                TopoDS_Edge edge0 = TopoDS::Edge(idxMapOfEdge0(i));
+                TopoDS_Edge edge1 = TopoDS::Edge(idxMapOfEdge1(i));
+                assert(edge0 == edgeNameInfos[idx].edge);
+                const TopoUtil::EdgeNamingInfo& edgeInfo = edgeNameInfos[idx];
+                if (edgeSet.find(edge1) == edgeSet.cend()) // 在最终的实际形体中,边不存在
+                {
+                    lostEdgeIds.insert(edgeInfo.id);
+                    continue;
+                }
+                else
+                {
+                    topoNaming.setName(edge1, TopoNameBuilder().id(edgeInfo.id).build()); // 底面边: 草图曲线ID
+                }
+            }
+        }
+        else
+        {
+            assert(false);
+        }
+    }
+    else // 拉伸以及非360度旋转,底面和顶面有效
+    {
+        // 建立底面和顶面所有边的拓扑命名
+        // 底面边: 草图曲线ID
+        // 顶面边: 草图曲线ID + 特征ID
+        TopTools_IndexedMapOfShape idxMapOfEdge0;
+        TopExp::MapShapes(originalWire, TopAbs_ShapeEnum::TopAbs_EDGE, idxMapOfEdge0);
+        TopTools_IndexedMapOfShape idxMapOfEdge1;
+        TopExp::MapShapes(bottomWire, TopAbs_ShapeEnum::TopAbs_EDGE, idxMapOfEdge1);
+        TopTools_IndexedMapOfShape idxMapOfEdge2;
+        TopExp::MapShapes(topWire, TopAbs_ShapeEnum::TopAbs_EDGE, idxMapOfEdge2);
+        int countEdges = idxMapOfEdge0.Extent();
+        if (countEdges == idxMapOfEdge1.Extent() &&
+            countEdges == idxMapOfEdge2.Extent() &&
+            static_cast<size_t>(countEdges) == edgeNameInfos.size())
+        {
+            size_t idx(0);
+            for (int i = 1; i <= countEdges; ++i, ++idx)
+            {
+                TopoDS_Edge edge0 = TopoDS::Edge(idxMapOfEdge0(i));
+                TopoDS_Edge edge1 = TopoDS::Edge(idxMapOfEdge1(i));
+                TopoDS_Edge edge2 = TopoDS::Edge(idxMapOfEdge2(i));
+                assert(edge0 == edgeNameInfos[idx].edge);
+                const TopoUtil::EdgeNamingInfo& edgeInfo = edgeNameInfos[idx];
+                topoNaming.setName(edge1, TopoNameBuilder().id(edgeInfo.id).build()); // 底面边: 草图曲线ID
+                if (!edge2.IsEqual(edge1)) // 旋转轴与边重合,旋转角度不是360度比如270度时,与旋转轴重合的边在顶面和底面是共用的
+                {
+                    topoNaming.setName(edge2, TopoNameBuilder().id(edgeInfo.id).id(elemIdValue).build()); // 顶面边: 草图曲线ID + 特征ID
+                }
+            }
+        }
+        else
+        {
+            assert(false);
+        }
+    }
+
+    // 记录侧边的拓扑命名
+    auto recordSideEdgeName = [&makeSweep, &topoNaming](const TopoDS_Vertex& vertex,
+        unsigned int id1, unsigned int id2)
+    {
+        const TopTools_ListOfShape& generated = makeSweep.Generated(vertex);
+        assert(generated.Extent() == 1 || generated.Extent() == 0); // 当旋转轴于边重合时,此时边的顶点的侧边不存在
+        for (TopTools_ListIteratorOfListOfShape iter(generated); iter.More(); iter.Next())
+        {
+            const TopoDS_Shape& shape = iter.Value();
+            assert(!shape.IsNull());
+            assert(shape.ShapeType() == TopAbs_ShapeEnum::TopAbs_EDGE);
+            topoNaming.setName(shape, TopoNameBuilder().id(id1).id(id2).build());
+        }
+    };
+
+    // 建立侧边的拓扑命名
+    // 格式: 草图曲线ID + 草图曲线ID
+    size_t num = edgeNameInfos.size();
+    if (num == 1)
+    {
+        // 单条曲线：两个顶点的生成边，用序号 1/2 区分
+        const TopoUtil::EdgeNamingInfo& edgeInfo = edgeNameInfos[0];
+        TopoDS_Vertex v1, v2;
+        TopExp::Vertices(edgeInfo.edge, v1, v2);
+        auto nameSideEdge = [&](const TopoDS_Vertex& v, unsigned int seq)
+        {
+            const TopTools_ListOfShape& generated = makeSweep.Generated(v);
+            for (TopTools_ListIteratorOfListOfShape iter(generated); iter.More(); iter.Next())
+            {
+                const TopoDS_Shape& shape = iter.Value();
+                assert(shape.ShapeType() == TopAbs_ShapeEnum::TopAbs_EDGE);
+                topoNaming.setName(shape,
+                    TopoNameBuilder().id(edgeInfo.id).id(edgeInfo.id).index(seq).build());
+            }
+        };
+        nameSideEdge(v1, 1);
+        nameSideEdge(v2, 2);
+    }
+    else
+    {
+        TopoShapeSet visitedVertices;
+        for (size_t i = 0; i < num; ++i)
+        {
+            // 边和下一条相邻的边
+            const TopoUtil::EdgeNamingInfo& edgeNameInfo = edgeNameInfos[i];
+            const TopoUtil::EdgeNamingInfo& edgeNameInfoNext = edgeNameInfo.sibling == size_t(-1) ?
+                edgeNameInfos[(i + 1) % num] : edgeNameInfos[edgeNameInfo.sibling];
+
+            // 提取边1的顶点
+            TopoDS_Vertex v1_first, v1_last;
+            TopExp::Vertices(edgeNameInfo.edge, v1_first, v1_last);
+            // 提取边2的顶点
+            TopoDS_Vertex v2_first, v2_last;
+            TopExp::Vertices(edgeNameInfoNext.edge, v2_first, v2_last);
+
+            // 对共有的顶点求生成的侧边
+            if (v1_last.IsPartner(v2_first) || v1_last.IsPartner(v2_last))
+            {
+                // 对于圆弧边和直线段边构成的轮廓(只有两条边),有可能两次循环访问的都是同一个顶点,所以需要先判断下是否已经访问过.
+                if (visitedVertices.find(v1_last) == visitedVertices.cend())
+                {
+                    visitedVertices.insert(v1_last);
+                    recordSideEdgeName(v1_last, edgeNameInfo.id, edgeNameInfoNext.id);
+                    continue;
+                }
+            }
+            if (v1_first.IsPartner(v2_first) || v1_first.IsPartner(v2_last))
+            {
+                // 对于圆弧边和直线段边构成的轮廓(只有两条边),有可能两次循环访问的都是同一个顶点,所以需要先判断下是否已经访问过.
+                if (visitedVertices.find(v1_first) == visitedVertices.cend())
+                {
+                    visitedVertices.insert(v1_first);
+                    recordSideEdgeName(v1_first, edgeNameInfo.id, edgeNameInfoNext.id);
+                    continue;
+                }
+            }
+        }
+
+        // Name side edges at free endpoints of open chains.
+        // For closed loops every vertex is already in visitedVertices, so this is a no-op.
+        const TopoUtil::EdgeNamingInfo* edgeInfoPtrs[2] = {
+            &edgeNameInfos.front(),
+            &edgeNameInfos.back()
+        };
+        for (const TopoUtil::EdgeNamingInfo* pEdgeNameInfo : edgeInfoPtrs)
+        {
+            const TopoUtil::EdgeNamingInfo& edgeInfo = *pEdgeNameInfo;
+            TopoDS_Vertex v1, v2;
+            TopExp::Vertices(edgeInfo.edge, v1, v2);
+            if (!v1.IsNull() && visitedVertices.find(v1) == visitedVertices.cend())
+                recordSideEdgeName(v1, edgeInfo.id, edgeInfo.id);
+            if (!v2.IsNull() && visitedVertices.find(v2) == visitedVertices.cend())
+                recordSideEdgeName(v2, edgeInfo.id, edgeInfo.id);
+        }
+    }
+
+    return true;
+}
+
+bool TopoNamingUtil::naming(
     const TopoDS_Wire& pathWire,
     const TopoDS_Wire& profileWire,
     BRepOffsetAPI_MakePipeShell& makePipeShell,
@@ -952,6 +1164,65 @@ bool TopoNamingUtil::primitiveNaming(
     for (int i = 1; i <= edgeMap.Extent(); ++i)
     {
         topoNaming.setName(edgeMap(i), TopoNameBuilder().id(elemIdValue).index(++index).build());
+    }
+
+    return true;
+}
+
+bool TopoNamingUtil::naming(
+    const TopoDS_Shape& sourceShape,
+    const TopoNaming& sourceNaming,
+    BRepOffsetAPI_MakeOffsetShape& mkOffset,
+    unsigned int elemIdValue,
+    TopoNaming& topoNaming,
+    std::uint32_t index)
+{
+    // name offset faces from source faces: v1:<srcFace>+@offsetId
+    TopTools_IndexedMapOfShape sourceFaces;
+    TopExp::MapShapes(sourceShape, TopAbs_FACE, sourceFaces);
+    for (int i = 1; i <= sourceFaces.Extent(); ++i)
+    {
+        const TopoDS_Shape& sourceFace = sourceFaces(i);
+        const TopTools_ListOfShape& generated = mkOffset.Generated(sourceFace);
+        if (generated.IsEmpty()) continue;
+        assert(generated.Size() == 1);
+        const TopoDS_Shape& offsetFace = generated.First();
+
+        TopoName sourceName;
+        if (!sourceNaming.getName(sourceFace, sourceName) || sourceName.empty())
+        {
+            assert(false);
+            continue;
+        }
+
+        TopoNameBuilder builder(sourceName);
+        builder.generated(elemIdValue);
+        if (index > 0) builder.index(index);
+        topoNaming.setName(offsetFace, builder.build());
+    }
+
+    // name offset edges from source edges: v1:<srcEdge>+@offsetId
+    TopTools_IndexedMapOfShape sourceEdges;
+    TopExp::MapShapes(sourceShape, TopAbs_EDGE, sourceEdges);
+    for (int i = 1; i <= sourceEdges.Extent(); ++i)
+    {
+        const TopoDS_Shape& sourceEdge = sourceEdges(i);
+        const TopTools_ListOfShape& generated = mkOffset.Generated(sourceEdge);
+        if (generated.IsEmpty()) continue;
+        assert(generated.Size() == 1);
+        const TopoDS_Shape& offsetEdge = generated.First();
+
+        TopoName sourceName;
+        if (!sourceNaming.getName(sourceEdge, sourceName) || sourceName.empty())
+        {
+            assert(false);
+            continue;
+        }
+
+        TopoNameBuilder builder(sourceName);
+        builder.generated(elemIdValue);
+        if (index > 0) builder.index(index);
+        topoNaming.setName(offsetEdge, builder.build());
     }
 
     return true;

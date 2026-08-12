@@ -36,7 +36,6 @@
 #include <wy3dSketchEntity.h>
 #include <wy3dDatumPlane.h>
 #include <wy3dSolidModification.h>
-#include <wy3dTableIndex.h>
 #include <wy3dSelectionType.h>
 #include <wy3dSolid.h>
 #include <wy3dBoolean.h>
@@ -50,6 +49,8 @@
 #include "scene/nodes/SketchEntityElementNode.h"
 #include "scene/nodes/DatumPlaneElementNode.h"
 #include "scene/nodes/SolidModificationElementNode.h"
+#include "scene/nodes/SheetElementNode.h"
+#include <wy3dSheet.h>
 #include "gizmo/BaseGizmo.h"
 #include "gizmo/renderer/OsgGizmoRenderer.h"
 #include "scene/nodes/CurveElementNode.h"
@@ -593,6 +594,18 @@ bool Scene::addElementNode(const wydb::ElementId& id, bool addSketchEntity)
     {
         pElemNode = new CurveElementNode(id);
     }
+    // 曲面
+    else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+    {
+        constexpr float inv255 = 1.0f / 255.0f;
+        const wy3d::Color& sheetColor = pSheet->getColor();
+        osg::Vec4 faceColor(
+            static_cast<float>(sheetColor.red) * inv255,
+            static_cast<float>(sheetColor.green) * inv255,
+            static_cast<float>(sheetColor.blue) * inv255,
+            1.0f);
+        pElemNode = new SheetElementNode(id, faceColor);
+    }
     // 其它
     else
     {
@@ -1032,6 +1045,8 @@ void Scene::setDisplayMode(DisplayMode mode)
     {
         if (auto* pNode = dynamic_cast<SolidElementNode*>(kvp.second))
             pNode->setWireframe(isWireframe);
+        else if (auto* pNode = dynamic_cast<SheetElementNode*>(kvp.second))
+            pNode->setWireframe(isWireframe);
     }
 }
 
@@ -1046,6 +1061,13 @@ void Scene::endNoBatchRender()
         {
             SolidElementNode* pSolidNode = static_cast<SolidElementNode*>(kvp.second);
             pSolidNode->clearDynamicRenderGeometry();
+        }
+        break;
+
+        case ElementNodeType::Sheet:
+        {
+            SheetElementNode* pSheetNode = static_cast<SheetElementNode*>(kvp.second);
+            pSheetNode->clearDynamicRenderGeometry();
         }
         break;
 
@@ -1162,13 +1184,18 @@ void Scene::onSelectionChanged(
                 assert(false);
                 break;
             }
-            SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
-            if (!pSolidElemNode)
+            if (SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode))
+            {
+                pSolidElemNode->highlightFace(std::stoul(sel.getSubPath()), false);
+            }
+            else if (SheetElementNode* pSheetElemNode = dynamic_cast<SheetElementNode*>(pElemNode))
+            {
+                pSheetElemNode->highlightFace(std::stoul(sel.getSubPath()), false);
+            }
+            else
             {
                 assert(false);
-                break;
             }
-            pSolidElemNode->highlightFace(std::stoul(sel.getSubPath()), false);
         }
         break;
 
@@ -1179,13 +1206,18 @@ void Scene::onSelectionChanged(
                 assert(false);
                 break;
             }
-            SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
-            if (!pSolidElemNode)
+            if (SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode))
+            {
+                pSolidElemNode->highlightEdge(std::stoul(sel.getSubPath()), false);
+            }
+            else if (SheetElementNode* pSheetElemNode = dynamic_cast<SheetElementNode*>(pElemNode))
+            {
+                pSheetElemNode->highlightEdge(std::stoul(sel.getSubPath()), false);
+            }
+            else
             {
                 assert(false);
-                break;
             }
-            pSolidElemNode->highlightEdge(std::stoul(sel.getSubPath()), false);
         }
         break;
 
@@ -1240,13 +1272,18 @@ void Scene::onSelectionChanged(
                 assert(false);
                 break;
             }
-            SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
-            if (!pSolidElemNode)
+            if (SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode))
+            {
+                pSolidElemNode->highlightFace(std::stoul(sel.getSubPath()), true);
+            }
+            else if (SheetElementNode* pSheetElemNode = dynamic_cast<SheetElementNode*>(pElemNode))
+            {
+                pSheetElemNode->highlightFace(std::stoul(sel.getSubPath()), true);
+            }
+            else
             {
                 assert(false);
-                break;
             }
-            pSolidElemNode->highlightFace(std::stoul(sel.getSubPath()), true);
         }
         break;
 
@@ -1257,13 +1294,18 @@ void Scene::onSelectionChanged(
                 assert(false);
                 break;
             }
-            SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
-            if (!pSolidElemNode)
+            if (SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode))
+            {
+                pSolidElemNode->highlightEdge(std::stoul(sel.getSubPath()), true);
+            }
+            else if (SheetElementNode* pSheetElemNode = dynamic_cast<SheetElementNode*>(pElemNode))
+            {
+                pSheetElemNode->highlightEdge(std::stoul(sel.getSubPath()), true);
+            }
+            else
             {
                 assert(false);
-                break;
             }
-            pSolidElemNode->highlightEdge(std::stoul(sel.getSubPath()), true);
         }
         break;
 

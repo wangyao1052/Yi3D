@@ -482,28 +482,20 @@ void TopoUtil::updateEdgeNames(BRepBuilderAPI_Transform& transform, std::vector<
 
 ErrorCode TopoUtil::makeWires(
     const wy3d::Sketch* pSketch,
-    const SketchProfile::FaceSPtr& pSketchFace,
+    const std::vector<SketchProfile::LoopSPtr>& sketchLoops,
     const gp_Trsf& trsf,
     std::vector<WireInfo>& wireInfos)
 {
     assert(pSketch);
-    assert(pSketchFace);
     wireInfos.clear();
+
+    if (sketchLoops.empty())
+    {
+        return ErrorCode::PROFILE_InvalidProfile;
+    }
 
     // 草图拓扑生成器
     SketchTopoBuilder sketchTopoBuilder(pSketch, true); // true --- record topo history
-
-    // 草图工作平面
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
-    wy::Vector3 sketchNormal = sketchPlane.getNormal();
-    assert(sketchNormal.length() > 0.5);
-    wy::Vector3 sketchOrigin = sketchPlane.getOrigin();
-    gp_Pln sketchPln(
-        gp_Pnt(sketchOrigin.x(), sketchOrigin.y(), sketchOrigin.z()),
-        gp_Dir(sketchNormal.x(), sketchNormal.y(), sketchNormal.z()));
-
-    // 结果容器
-    const std::vector<SketchProfile::LoopSPtr>& sketchLoops = pSketchFace->loops;
     if (sketchLoops.empty())
     {
         return ErrorCode::PROFILE_InvalidProfile;

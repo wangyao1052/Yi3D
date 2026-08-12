@@ -16,15 +16,30 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SOLID_SNAP_OBJECT_CREATOR_H
-#define WY3DAPP_SOLID_SNAP_OBJECT_CREATOR_H
+#ifndef WY3DAPP_OFFSET_SHEET_CMD_PANEL_H
+#define WY3DAPP_OFFSET_SHEET_CMD_PANEL_H
 
-#include "ElemSnapObjectCreator.h"
+#include "FloatingCmdPanel.h"
 
-class SolidSnapObjectCreator : public ElemSnapObjectCreator
+class QLineEdit;
+
+class OffsetSheetCmdPanel : public FloatingCmdPanel
 {
+    Q_OBJECT
 public:
-    virtual std::list<wyap::SnapObjectSPtr> createSnapObjects(const wydb::Element* pElem) override;
+    explicit OffsetSheetCmdPanel(QWidget* parent = nullptr);
+
+    void setOffsetValue(double value);
+
+signals:
+    void offsetChanged(double value);
+
+private slots:
+    void onOffsetEditChanged();
+
+private:
+    QLineEdit* _pOffsetEdit;
+    double _lastValidOffset;
 };
 
-#endif // WY3DAPP_SOLID_SNAP_OBJECT_CREATOR_H
+#endif // WY3DAPP_OFFSET_SHEET_CMD_PANEL_H

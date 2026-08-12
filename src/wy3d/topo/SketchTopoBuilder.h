@@ -88,7 +88,7 @@ public:
     };
     static ErrorCode makeWires(
         const wy3d::Sketch* pSketch,
-        const SketchProfile::FaceSPtr& pSketchFace,
+        const std::vector<SketchProfile::LoopSPtr>& sketchLoops,
         const gp_Trsf& trsf,
         std::vector<WireInfo>& wireInfos);
 

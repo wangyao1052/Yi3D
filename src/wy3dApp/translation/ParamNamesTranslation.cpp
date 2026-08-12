@@ -28,7 +28,10 @@
 #include <wy3dExtrusion.h>
 #include <wy3dRevolution.h>
 #include <wy3dImportedSolid.h>
+#include <wy3dExtrudedSheet.h>
+#include <wy3dRevolvedSheet.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dChamfer.h>
 #include <wy3dFillet.h>
 #include <wy3dShell.h>
@@ -49,6 +52,8 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dHelix.h>
+#include <wy3dThicken.h>
+#include <wy3dOffsetSheet.h>
 
 #include <wy3dDatumPlane.h>
 #include <wy3dMirror.h>
@@ -115,6 +120,18 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::REVOLUTION_PARAM_AXIS)] = tr("Axis", "wy3d::Revolution");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::REVOLUTION_PARAM_START_ANGLE)] = tr("Start Angle", "wy3d::Revolution");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::REVOLUTION_PARAM_END_ANGLE)] = tr("End Angle", "wy3d::Revolution");
+    }
+    // ExtrudedSheet
+    {
+        const std::string& className = wy3d::ExtrudedSheet::className();
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_DEPTH)] = tr("Extrusion Depth");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_START_OFFSET)] = tr("Extrusion Start Offset");
+    }
+    // RevolvedSheet
+    {
+        const std::string& className = wy3d::RevolvedSheet::className();
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::REVOLUTION_PARAM_START_ANGLE)] = tr("Start Angle", "wy3d::RevolvedSheet");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::REVOLUTION_PARAM_END_ANGLE)] = tr("End Angle", "wy3d::RevolvedSheet");
     }
     // Imported Solid
     {
@@ -313,6 +330,24 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     {
         const std::string& className = wy3d::Solid::className();
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::SOLID_PARAM_COLOR)] = tr("Color", "wy3d::Solid");
+    }
+    // Sheet (base: color param inherited by all Sheet subclasses)
+    {
+        const std::string& className = wy3d::Sheet::className();
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::SOLID_PARAM_COLOR)] = tr("Color", "wy3d::Solid");
+    }
+    // Thicken
+    {
+        const std::string& className = wy3d::Thicken::className();
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::THICKEN_PARAM_SOURCE)] = tr("Source", "wy3d::Thicken");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::THICKEN_PARAM_THICKNESS)] = tr("Thickness", "wy3d::Thicken");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::THICKEN_PARAM_DIRECTION)] = tr("Direction", "wy3d::Thicken");
+    }
+    // OffsetSheet
+    {
+        const std::string& className = wy3d::OffsetSheet::className();
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::OFFSETSHEET_PARAM_SOURCE)] = tr("Source", "wy3d::OffsetSheet");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::OFFSETSHEET_PARAM_OFFSET)] = tr("Offset", "wy3d::OffsetSheet");
     }
     // helix
     {

@@ -176,6 +176,10 @@ public:
     bool findClosedLoops();
     const std::vector<std::shared_ptr<CurveLoop>>& getClosedLoops() const { return _closedLoops; }
 
+    // 查找所有连通曲线链（开放+闭合）
+    bool findLoops();
+    const std::vector<std::shared_ptr<CurveLoop>>& getLoops() const { return _loops; }
+
     // 区分面
     bool distinguishFaces();
     // 获取面
@@ -229,6 +233,8 @@ private:
 private:
     // 闭合环
     std::vector<CurveLoopSPtr> _closedLoops;
+    // 所有连通曲线链（含开放和闭合）
+    std::vector<CurveLoopSPtr> _loops;
     // 曲线的外包围盒
     std::vector<wy3d::BoundingBox2> _curveBBoxs;
     // 闭合环整体外包围盒

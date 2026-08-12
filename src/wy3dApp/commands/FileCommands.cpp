@@ -31,6 +31,9 @@
 #include <wyapDocument.h>
 #include <wyapDocument.h>
 #include <wy3dDatumPlane.h>
+#include <wy3dSheet.h>
+#include <BRep_Builder.hxx>
+#include <TopoDS_Compound.hxx>
 #include <wy3dSketch.h>
 #include <wy3dDatabase.h>
 
@@ -532,7 +535,7 @@ int ExportFileCommand::run()
     return 0;
 }
 
-int ExportSolidCommand::run()
+int ExportSelectedCommand::run()
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb)
@@ -542,18 +545,48 @@ int ExportSolidCommand::run()
     }
 
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
-    if (ss.getCount() != 1)
+    if (ss.isEmpty())
     {
         assert(false);
         return -1;
     }
 
-    wydb::ElementId id = ss.createIterator().current().getElementId();
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
-    if (!pSolid)
+    // Collect shapes from selected Solid/Sheet elements
+    std::vector<TopoDS_Shape> shapes;
+    shapes.reserve(10);
+    for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        const wydb::Element* pElem = pDb->getElement(iter.current().getElementId());
+        if (!pElem) continue;
+        if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+        {
+            const TopoDS_Shape& shape = pSolid->getShape();
+            if (!shape.IsNull()) shapes.push_back(shape);
+        }
+        else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+        {
+            const TopoDS_Shape& shape = pSheet->getShape();
+            if (!shape.IsNull()) shapes.push_back(shape);
+        }
+    }
+    if (shapes.empty())
     {
         assert(false);
         return -1;
+    }
+
+    // Build compound for multi-selection
+    TopoDS_Shape exportShape;
+    if (shapes.size() == 1)
+        exportShape = shapes.front();
+    else
+    {
+        TopoDS_Compound compound;
+        BRep_Builder builder;
+        builder.MakeCompound(compound);
+        for (const auto& shape : shapes)
+            if (!shape.IsNull()) builder.Add(compound, shape);
+        exportShape = compound;
     }
 
     // 所有导出器
@@ -562,40 +595,24 @@ int ExportSolidCommand::run()
     // filter list
     QStringList filterList;
     for (const auto& kvp : allExporters)
-    {
         filterList << kvp.first;
-    }
     QString filter = filterList.join(";;");
 
     // dialog
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName(
         Application::instance().getMainWindow(),
-        QCoreApplication::translate("FileCmds", "Export solid"),
-        "",
-        filter, &selectedFilter, 0);
-    if (fileName.isEmpty())
-    {
-        return 0; // 用户取消的情况下应该返回0
-    }
+        QCoreApplication::translate("FileCmds", "Export"),
+        "", filter, &selectedFilter, 0);
+    if (fileName.isEmpty()) return 0;
 
     // export
-    auto iter = allExporters.find(selectedFilter);
-    if (iter == allExporters.cend())
-    {
-        assert(false);
-        return -1;
-    }
-    if (!iter->second)
-    {
-        assert(false);
-        return -1;
-    }
-    bool ret = iter->second->perform(pSolid, fileName.toStdWString());
+    auto it = allExporters.find(selectedFilter);
+    if (it == allExporters.cend() || !it->second) { assert(false); return -1; }
+
+    bool ret = it->second->perform(exportShape, fileName.toStdWString());
     if (!ret)
-    {
-        MessageBoxUtil::showError(QCoreApplication::translate("FileCmds", "Export solid failed!"));
-    }
+        MessageBoxUtil::showError(QCoreApplication::translate("FileCmds", "Export failed!"));
 
     return 0;
 }

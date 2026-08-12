@@ -85,6 +85,14 @@ enum class ErrorCode : std::uint32_t
     // Helix
     HELIX_InvalidData                               = 1701, // 无效的螺旋线数据
     HELIX_InvalidSketch                             = 1702, // 无效的螺旋线草图:用于生成螺旋线的草图必须为一个圆形
+
+    // Thicken
+    THICKEN_InvalidData                             = 1751, // 无效的加厚数据
+    THICKEN_GenerateError                           = 1752, // 加厚生成失败
+
+    // OffsetSheet
+    OFFSETSHEET_InvalidData                         = 1801, // 无效的偏置曲面数据
+    OFFSETSHEET_GenerateError                       = 1802, // 偏置曲面生成失败
 };
 
 inline bool isError(unsigned int code)

@@ -25,6 +25,7 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 
 #include "application/Application.h"
 #include "environments/sketch/SketchEnvironment.h"
@@ -69,9 +70,10 @@ wyap::CmdExecution::StartResult SetColorGuiCmd::onStart()
     }
 
     // 点选选项
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::Sheet);
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(wy3d::Solid::classInfo());
+    _pointPickOption.pSelFilter = std::make_shared<MultiClassSelFilter>(
+        std::vector<wyrx::ClassInfo*>{wy3d::Solid::classInfo(), wy3d::Sheet::classInfo()});
 
     // 鼠标样式
     Application::instance().setCursor(CursorType::SelectElements);
@@ -277,14 +279,17 @@ bool SetColorGuiCmd::applyColorToSolid(const wydb::ElementId& solidId)
     {
         return false;
     }
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(solidId));
-    if (!pSolid)
+    const wydb::Element* pElem = pDb->getElement(solidId);
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
+    const wy3d::Sheet* pSheet = pSolid ? nullptr : wy3d::Sheet::cast(pElem);
+    if (!pSolid && !pSheet)
     {
         return false;
     }
 
     const wy3d::Color targetColor = this->getTargetColor();
-    if (pSolid->getColor() == targetColor)
+    const wy3d::Color currentColor = pSolid ? pSolid->getColor() : pSheet->getColor();
+    if (currentColor == targetColor)
     {
         return true;
     }
@@ -295,13 +300,16 @@ bool SetColorGuiCmd::applyColorToSolid(const wydb::ElementId& solidId)
         assert(false);
         return false;
     }
-    wy3d::Solid* pSolidWrite = wy3d::Solid::cast(pTrans->getElementForWrite(solidId));
-    if (!pSolidWrite)
+    wydb::Element* pWriteElem = pTrans->getElementForWrite(solidId);
+    wy3d::Solid* pSolidWrite = wy3d::Solid::cast(pWriteElem);
+    wy3d::Sheet* pSheetWrite = pSolidWrite ? nullptr : wy3d::Sheet::cast(pWriteElem);
+    if (!pSolidWrite && !pSheetWrite)
     {
         pDb->getTransactionManager()->abortTransaction();
         return false;
     }
-    const wy::ErrorStatus setColorError = pSolidWrite->setColor(targetColor);
+    const wy::ErrorStatus setColorError = pSolidWrite
+        ? pSolidWrite->setColor(targetColor) : pSheetWrite->setColor(targetColor);
     if (wy::ErrorStatus::Ok != setColorError)
     {
         pDb->getTransactionManager()->abortTransaction();

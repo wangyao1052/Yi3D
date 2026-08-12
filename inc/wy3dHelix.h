@@ -9,7 +9,6 @@
 
 #include <wy3dDefs.h>
 #include <wy3dCurve.h>
-#include <wy3dTableIndex.h>
 
 NS_WY3D_BEG
 

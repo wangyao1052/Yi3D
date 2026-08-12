@@ -27,6 +27,7 @@
 #include <TopoDS_Compound.hxx>
 #include <wydbDatabase.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 
 class Exporter;
 
@@ -59,10 +60,8 @@ class Exporter
 public:
     virtual ~Exporter() {}
 
-    // 导出文件
     virtual bool perform(const wydb::Database* pDb, const std::wstring& fileFullPath);
-    // 导出实体特征
-    virtual bool perform(const wy3d::Solid* pSolid, const std::wstring& fileFullPath);
+    bool perform(const TopoDS_Shape& shape, const std::wstring& fileFullPath);
 
 protected:
     // 具体执行函数,需要子类继承

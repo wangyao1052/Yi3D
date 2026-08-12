@@ -26,6 +26,8 @@
 #include <BRepPrimAPI_MakeSweep.hxx>
 #include <BRepOffsetAPI_MakePipeShell.hxx>
 #include <BRepOffsetAPI_ThruSections.hxx>
+#include <BRepOffsetAPI_MakeOffsetShape.hxx>
+#include <BRepBuilderAPI_Sewing.hxx>
 #include <TopoDS_Shape.hxx>
 #include <BRepBuilderAPI_Transform.hxx>
 #include <wy3dDefs.h>
@@ -51,7 +53,7 @@ public:
         const std::vector<unsigned int>& indices,
         TopoNameList& outNames);
 
-    // 拉伸体&旋转体拓扑命名
+    // 拉伸体&旋转体拓扑命名（Face → Solid）
     static bool naming(
         const TopoDS_Face& originalFace,
         BRepPrimAPI_MakeSweep& makeSweep,
@@ -59,6 +61,14 @@ public:
         unsigned int elemIdValue,
         TopoNaming& topoNaming,
         unsigned int profileIndex = 0);
+
+    // 拉伸曲面&旋转曲面拓扑命名（Wire → Shell）
+    static bool naming(
+        const TopoDS_Wire& originalWire,
+        BRepPrimAPI_MakeSweep& makeSweep,
+        const std::vector<TopoUtil::EdgeNamingInfo>& edgeNameInfos,
+        unsigned int elemIdValue,
+        TopoNaming& topoNaming);
 
     // 扫掠体拓扑命名
     static bool naming(
@@ -82,6 +92,15 @@ public:
         const TopoDS_Shape& shape,
         unsigned int elemIdValue,
         TopoNaming& topoNaming);
+
+    // 偏置曲面拓扑命名（Shell → Shell offset）
+    static bool naming(
+        const TopoDS_Shape& sourceShape,
+        const TopoNaming& sourceNaming,
+        BRepOffsetAPI_MakeOffsetShape& mkOffset,
+        unsigned int elemIdValue,
+        TopoNaming& topoNaming,
+        std::uint32_t index = 0);
 
     // 阵列特征拓扑命名
     static bool patternNaming(

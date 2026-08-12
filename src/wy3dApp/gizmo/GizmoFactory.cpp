@@ -33,6 +33,12 @@
 #include <wy3dSweep.h>
 #include <wy3dLoft.h>
 #include <wy3dImportedSolid.h>
+#include <wy3dSheet.h>
+#include <wy3dExtrudedSheet.h>
+#include <wy3dRevolvedSheet.h>
+#include <wy3dImportedSheet.h>
+#include <wy3dThicken.h>
+#include <wy3dOffsetSheet.h>
 
 #include <wy3dSketchPoint.h>
 #include <wy3dSketchLine.h>
@@ -85,6 +91,7 @@ GizmoFactory::GizmoFactory()
 
     // 导入实体不支持Gizmo
     REGISTER_CREATOR(wy3d::ImportedSolid, NullGizmoCreator);
+    REGISTER_CREATOR(wy3d::ImportedSheet, NullGizmoCreator);
 
     REGISTER_CREATOR(wy3d::SketchPoint, SketchPointGizmoCreator);
     REGISTER_CREATOR(wy3d::SketchLine, SketchLineGizmoCreator);
@@ -94,6 +101,13 @@ GizmoFactory::GizmoFactory()
     REGISTER_CREATOR(wy3d::SketchEllipse, SketchEllipseGizmoCreator);
     REGISTER_CREATOR(wy3d::SketchEllipseArc, SketchEllipseArcGizmoCreator);
     REGISTER_CREATOR(wy3d::SketchSpline, SketchSplineGizmoCreator);
+
+    // 曲面 (no gizmo)
+    REGISTER_CREATOR(wy3d::Sheet, NullGizmoCreator);
+    REGISTER_CREATOR(wy3d::ExtrudedSheet, NullGizmoCreator);
+    REGISTER_CREATOR(wy3d::RevolvedSheet, NullGizmoCreator);
+    REGISTER_CREATOR(wy3d::Thicken, NullGizmoCreator);
+    REGISTER_CREATOR(wy3d::OffsetSheet, NullGizmoCreator);
 }
 
 std::list<wyap::GizmoSPtr> GizmoFactory::createGizmos(const wydb::Element* pElem) const

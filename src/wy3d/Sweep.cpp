@@ -453,7 +453,7 @@ static ErrorCode createProfileWires(
     {
         assert(pSketchFace);
         std::vector<TopoUtil::WireInfo> wireInfos;
-        ErrorCode errorCode = TopoUtil::makeWires(&profileSketch, pSketchFace, trsf, wireInfos);
+        ErrorCode errorCode = TopoUtil::makeWires(&profileSketch, pSketchFace->loops, trsf, wireInfos);
         if (ErrorCode::NoError != errorCode) return errorCode;
         retWires.emplace_back(std::move(wireInfos));
     }

@@ -38,6 +38,10 @@ QString EnumLabelTranslator::translate(const std::string& englishLabel)
         m["Pipe"]         = QCoreApplication::translate(kContext, "Pipe");
         m["RectoVerso"]   = QCoreApplication::translate(kContext, "RectoVerso");
 
+        // ThickenDirection
+        m["One Side"]     = QCoreApplication::translate(kContext, "One Side");
+        m["Symmetric"]    = QCoreApplication::translate(kContext, "Symmetric");
+
         return m;
     }();
 
@@ -53,4 +57,6 @@ void _enumLabelTrDummy()
     QCoreApplication::translate("EnumLabelTranslator", "Skin");
     QCoreApplication::translate("EnumLabelTranslator", "Pipe");
     QCoreApplication::translate("EnumLabelTranslator", "RectoVerso");
+    QCoreApplication::translate("EnumLabelTranslator", "One Side");
+    QCoreApplication::translate("EnumLabelTranslator", "Symmetric");
 }

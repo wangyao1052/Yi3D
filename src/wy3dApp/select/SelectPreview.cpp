@@ -22,6 +22,7 @@
 #include "scene/Scene.h"
 #include "scene/nodes/ElementNode.h"
 #include "scene/nodes/SolidElementNode.h"
+#include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
 
 SelectPreview::SelectPreview(const wyap::Selection& selection)
@@ -57,9 +58,14 @@ void SelectPreview::showSelection(const wyap::Selection& selection, bool value)
     {
         const std::string& subPath = selection.getSubPath();
         if (subPath.empty()) return;
-        SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
-        if (!pSolidElemNode) return;
-        pSolidElemNode->previewFace(std::stoul(subPath), value);
+        if (SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode))
+        {
+            pSolidElemNode->previewFace(std::stoul(subPath), value);
+        }
+        else if (SheetElementNode* pSheetElemNode = dynamic_cast<SheetElementNode*>(pElemNode))
+        {
+            pSheetElemNode->previewFace(std::stoul(subPath), value);
+        }
     }
     break;
 
@@ -67,9 +73,14 @@ void SelectPreview::showSelection(const wyap::Selection& selection, bool value)
     {
         const std::string& subPath = selection.getSubPath();
         if (subPath.empty()) return;
-        SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
-        if (!pSolidElemNode) return;
-        pSolidElemNode->previewEdge(std::stoul(subPath), value);
+        if (SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode))
+        {
+            pSolidElemNode->previewEdge(std::stoul(subPath), value);
+        }
+        else if (SheetElementNode* pSheetElemNode = dynamic_cast<SheetElementNode*>(pElemNode))
+        {
+            pSheetElemNode->previewEdge(std::stoul(subPath), value);
+        }
     }
     break;
 

@@ -1173,29 +1173,39 @@
 <context>
     <name>EnumLabelTranslator</name>
     <message>
-        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="51"/>
+        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="55"/>
         <source>Arc</source>
         <translation>圆弧</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="52"/>
+        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="56"/>
         <source>Intersection</source>
         <translation>求交</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="53"/>
+        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="57"/>
         <source>Skin</source>
         <translation>表面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="54"/>
+        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="58"/>
         <source>Pipe</source>
         <translation>管道</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="55"/>
+        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="59"/>
         <source>RectoVerso</source>
         <translation>双面</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="60"/>
+        <source>One Side</source>
+        <translation>单侧</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/property/EnumLabelTranslator.cpp" line="61"/>
+        <source>Symmetric</source>
+        <translation>对称</translation>
     </message>
 </context>
 <context>
@@ -1456,21 +1466,41 @@
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="139"/>
+        <source>Invalid thicken data!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="141"/>
+        <source>Generate thicken failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="145"/>
+        <source>Invalid offset sheet data!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="147"/>
+        <source>Generate offset sheet failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="151"/>
         <source>Invalid helix data!</source>
         <translation type="unfinished">无效的螺旋线数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="141"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="153"/>
         <source>The sketch used to generate the helix must be a circle.</source>
         <translation type="unfinished">用于生成螺旋线的草图必须为一个圆形。</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="158"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="170"/>
         <source>ErrorCode: </source>
         <translation type="unfinished">错误码：</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="158"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="170"/>
         <source>!</source>
         <translation type="unfinished">！</translation>
     </message>
@@ -1530,194 +1560,241 @@
     </message>
 </context>
 <context>
+    <name>ExtrudedSheetGuiCmd</name>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="281"/>
+        <source>Select the sketch to extrude.</source>
+        <translation type="unfinished">选择草图。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="293"/>
+        <source>Specify the extrusion depth; you can directly input the value.</source>
+        <translation type="unfinished">指定拉伸深度；可输入具体值。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="489"/>
+        <source>Extrusion depth</source>
+        <translation type="unfinished">拉伸深度</translation>
+    </message>
+</context>
+<context>
     <name>FeatureTreeWidget</name>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="110"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="116"/>
         <source>FeatureTree</source>
         <translation type="unfinished">特征树</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="139"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="145"/>
         <source>Box</source>
         <translation type="unfinished">长方体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="140"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="146"/>
         <source>Cylinder</source>
         <translation type="unfinished">圆柱体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="141"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="147"/>
         <source>Sphere</source>
         <translation type="unfinished">球体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="142"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="148"/>
         <source>Cone</source>
         <translation type="unfinished">圆锥体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="143"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="149"/>
         <source>Torus</source>
         <translation type="unfinished">圆环体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="144"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="150"/>
         <source>Tube</source>
         <translation type="unfinished">圆管</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="145"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="151"/>
         <source>Union</source>
         <translation type="unfinished">并集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="146"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="152"/>
         <source>Difference</source>
         <translation type="unfinished">差集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="147"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="153"/>
         <source>Intersection</source>
         <translation type="unfinished">交集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="148"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="154"/>
         <source>DatumPlane</source>
         <translation type="unfinished">基准面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="149"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="155"/>
         <source>Sketch</source>
         <translation type="unfinished">草图</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="150"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="156"/>
         <source>Extrusion</source>
         <translation type="unfinished">拉伸体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="151"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="157"/>
         <source>Revolution</source>
         <translation type="unfinished">旋转体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="152"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="158"/>
         <source>Sweep</source>
         <translation type="unfinished">扫描体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="153"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="159"/>
         <source>Loft</source>
         <translation type="unfinished">放样体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="154"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="160"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="155"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="161"/>
         <source>Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="156"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="162"/>
         <source>Shell</source>
         <translation type="unfinished">抽壳</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="157"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="163"/>
         <source>Draft</source>
         <translation type="unfinished">拔模</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="158"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="164"/>
         <source>Move</source>
         <translation type="unfinished">平移</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="159"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="165"/>
         <source>Rotate</source>
         <translation type="unfinished">旋转</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="160"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="166"/>
         <source>Mirror</source>
         <translation type="unfinished">镜像</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="161"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="167"/>
         <source>Linear Pattern</source>
         <translation type="unfinished">线性阵列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="162"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="168"/>
         <source>Circular Pattern</source>
         <translation type="unfinished">圆周阵列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="163"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="169"/>
         <source>Helix</source>
         <translation type="unfinished">螺旋线</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="164"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="170"/>
         <source>Imported Solid</source>
         <translation type="unfinished">导入实体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="166"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="171"/>
+        <source>Imported Sheet</source>
+        <translation>导入曲面</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="172"/>
+        <source>Extruded Sheet</source>
+        <translation>拉伸曲面</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="173"/>
+        <source>Revolved Sheet</source>
+        <translation>旋转曲面</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="174"/>
+        <source>Thicken</source>
+        <translation>加厚</translation>
+    </message>
+    <message>
+        <source>Offset</source>
+        <translation type="vanished">偏置曲面</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="177"/>
         <source>XOY</source>
         <translation type="unfinished">俯视基准面 XOY</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="167"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="178"/>
         <source>YOZ</source>
         <translation type="unfinished">右视基准面 YOZ</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="168"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="179"/>
         <source>XOZ</source>
         <translation type="unfinished">前视基准面 XOZ</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="186"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="197"/>
         <source>Name</source>
         <translation type="unfinished">名称</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="187"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="198"/>
         <source>Id</source>
         <translation type="unfinished">标识号</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="869"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="880"/>
         <source>-Cut</source>
         <translation type="unfinished">-切除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1540"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1554"/>
         <source>Erase</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1467"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1486"/>
         <source>Cancel Boolean</source>
         <translation type="unfinished">取消布尔</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1566"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="175"/>
+        <source>Offset Sheet</source>
+        <translation type="unfinished">偏置曲面</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1580"/>
         <source>Error Information</source>
         <translation type="unfinished">查看错误信息</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1584"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1598"/>
         <source>Show ID column</source>
         <translation type="unfinished">显示标识列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1584"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1598"/>
         <source>Hide ID column</source>
         <translation type="unfinished">隐藏标识列</translation>
     </message>
@@ -1725,24 +1802,24 @@
 <context>
     <name>FileCmds</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="70"/>
+        <location filename="../../commands/FileCommands.cpp" line="73"/>
         <source>Do you want to save the changes to</source>
         <translation type="unfinished">是否将更改保存到</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="72"/>
-        <location filename="../../commands/FileCommands.cpp" line="375"/>
+        <location filename="../../commands/FileCommands.cpp" line="75"/>
+        <location filename="../../commands/FileCommands.cpp" line="378"/>
         <source>Yes</source>
         <translation type="unfinished">是</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="73"/>
-        <location filename="../../commands/FileCommands.cpp" line="376"/>
+        <location filename="../../commands/FileCommands.cpp" line="76"/>
+        <location filename="../../commands/FileCommands.cpp" line="379"/>
         <source>No</source>
         <translation type="unfinished">否</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="74"/>
+        <location filename="../../commands/FileCommands.cpp" line="77"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -1751,7 +1828,7 @@
         <translation type="obsolete">%1 (*.%2)</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="125"/>
+        <location filename="../../commands/FileCommands.cpp" line="128"/>
         <source>Save file</source>
         <translation type="unfinished">保存文件</translation>
     </message>
@@ -1760,56 +1837,64 @@
         <translation type="obsolete">未命名.wy3dt</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="114"/>
-        <location filename="../../commands/FileCommands.cpp" line="340"/>
+        <location filename="../../commands/FileCommands.cpp" line="117"/>
+        <location filename="../../commands/FileCommands.cpp" line="343"/>
         <source>YI3D Text files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="117"/>
-        <location filename="../../commands/FileCommands.cpp" line="341"/>
+        <location filename="../../commands/FileCommands.cpp" line="120"/>
+        <location filename="../../commands/FileCommands.cpp" line="344"/>
         <source>YI3D Binary files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="179"/>
+        <location filename="../../commands/FileCommands.cpp" line="182"/>
         <source>unnamed</source>
         <translation type="unfinished">未命名</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="339"/>
+        <location filename="../../commands/FileCommands.cpp" line="342"/>
         <source>All YI3D files (*.%1 *.%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="345"/>
+        <location filename="../../commands/FileCommands.cpp" line="348"/>
         <source>Open file</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="372"/>
+        <location filename="../../commands/FileCommands.cpp" line="375"/>
         <source>Do you want to revert to the saved version?</source>
         <translation type="unfinished">您要返回到存储版本吗？</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="506"/>
+        <location filename="../../commands/FileCommands.cpp" line="509"/>
         <source>Export file</source>
         <translation type="unfinished">导出文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="529"/>
+        <location filename="../../commands/FileCommands.cpp" line="532"/>
         <source>Export file failed!</source>
         <translation type="unfinished">导出文件失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="574"/>
-        <source>Export solid</source>
-        <translation type="unfinished">导出实体</translation>
+        <location filename="../../commands/FileCommands.cpp" line="605"/>
+        <source>Export</source>
+        <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="597"/>
+        <location filename="../../commands/FileCommands.cpp" line="615"/>
+        <source>Export failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export solid</source>
+        <translation type="obsolete">导出实体</translation>
+    </message>
+    <message>
         <source>Export solid failed!</source>
-        <translation type="unfinished">导出实体失败！</translation>
+        <translation type="obsolete">导出实体失败！</translation>
     </message>
     <message>
         <source>Export sketch</source>
@@ -1820,14 +1905,14 @@
         <translation type="obsolete">导出草图失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="630"/>
+        <location filename="../../commands/FileCommands.cpp" line="647"/>
         <source>Import file</source>
-        <translation type="unfinished">导入文件（实体）</translation>
+        <translation>导入文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="652"/>
+        <location filename="../../commands/FileCommands.cpp" line="669"/>
         <source>Import file failed!</source>
-        <translation type="unfinished">导入文件（实体）失败！</translation>
+        <translation type="unfinished">导入文件失败！</translation>
     </message>
     <message>
         <source>Please first select a datum plane.</source>
@@ -1878,6 +1963,19 @@
         <location filename="../../commands/modeling/solid/modification/FilletGuiCmd.cpp" line="189"/>
         <source>Input fillet radius.</source>
         <translation type="unfinished">输入圆角半径。</translation>
+    </message>
+</context>
+<context>
+    <name>FloatingCmdPanel</name>
+    <message>
+        <location filename="../../commands/dialogs/FloatingCmdPanel.cpp" line="89"/>
+        <source>OK</source>
+        <translation>确认</translation>
+    </message>
+    <message>
+        <location filename="../../commands/dialogs/FloatingCmdPanel.cpp" line="94"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -2013,12 +2111,12 @@
 <context>
     <name>ImporterManager</name>
     <message>
-        <location filename="../../exporter/Importer.cpp" line="35"/>
+        <location filename="../../exporter/Importer.cpp" line="36"/>
         <source>BREP format (*.brep)</source>
         <translation type="unfinished">BREP 文件 (*.brep)</translation>
     </message>
     <message>
-        <location filename="../../exporter/Importer.cpp" line="36"/>
+        <location filename="../../exporter/Importer.cpp" line="37"/>
         <source>STEP format (*.step *.stp)</source>
         <translation type="unfinished">STEP 文件 (*.step *.stp)</translation>
     </message>
@@ -2154,19 +2252,19 @@
         <translation type="unfinished">快捷键</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="161"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="166"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="170"/>
         <source>Save</source>
         <translation type="unfinished">保存</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="171"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="176"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="180"/>
         <source>Import</source>
-        <translation type="unfinished">导入实体</translation>
+        <translation type="unfinished">导入</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="166"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="171"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="175"/>
         <source>Save As</source>
         <translation type="unfinished">另存为</translation>
@@ -2180,12 +2278,12 @@
         <translation type="obsolete">相机</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="753"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="796"/>
         <source>Modeling</source>
         <translation type="unfinished">建模</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="218"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="223"/>
         <source>New Sketch</source>
         <translation type="unfinished">创建草绘</translation>
     </message>
@@ -2355,18 +2453,18 @@
         <translation type="unfinished">草绘视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="765"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="808"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="136"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="757"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="800"/>
         <source>Primitive</source>
         <translation type="unfinished">基础形体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="761"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="804"/>
         <source>Boolean</source>
         <translation type="unfinished">布尔运算</translation>
     </message>
@@ -2376,12 +2474,12 @@
         <translation type="unfinished">草图环境</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="769"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="812"/>
         <source>Utility</source>
         <translation type="unfinished">实用工具</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="778"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="821"/>
         <source>Test</source>
         <translation type="unfinished">测试</translation>
     </message>
@@ -2411,57 +2509,57 @@
         <translation type="obsolete">保存文件</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="189"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="194"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="198"/>
         <source>Undo</source>
         <translation type="unfinished">撤销</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="196"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="201"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="205"/>
         <source>Redo</source>
         <translation type="unfinished">重做</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="212"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="217"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="346"/>
         <source>Select</source>
         <translation type="unfinished">选择</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="371"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="400"/>
         <source>Box</source>
         <translation type="unfinished">长方体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="176"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="181"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="185"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1548"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1562"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="378"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="407"/>
         <source>Cylinder</source>
         <translation type="unfinished">圆柱体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="385"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="414"/>
         <source>Sphere</source>
         <translation type="unfinished">球体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="392"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="421"/>
         <source>Cone</source>
         <translation type="unfinished">圆锥体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="399"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="428"/>
         <source>Torus</source>
         <translation type="unfinished">圆环体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="406"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="435"/>
         <source>Tube</source>
         <translation type="unfinished">圆管</translation>
     </message>
@@ -2476,255 +2574,280 @@
         <translation type="unfinished">关于</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="449"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="478"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="231"/>
         <source>Move</source>
         <translation type="unfinished">移动</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1480"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1489"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1499"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1508"/>
         <source>View Normal To</source>
         <translation type="unfinished">正视于</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1516"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1530"/>
         <source>Show</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1525"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1539"/>
         <source>Hide</source>
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="550"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="221"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1534"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1548"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="561"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1577"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1591"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="456"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="485"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="241"/>
         <source>Rotate</source>
         <translation type="unfinished">旋转</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="422"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="451"/>
         <source>Union</source>
         <translation type="unfinished">并集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="643"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="685"/>
         <source>Datum Plane Series</source>
         <translation type="unfinished">基准面命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="236"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="241"/>
         <source>Coincident Datum Plane</source>
         <translation type="unfinished">重合 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="230"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="235"/>
         <source>Parallel Datum Plane</source>
         <translation type="unfinished">平行 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="242"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="247"/>
         <source>Angular Datum Plane</source>
         <translation type="unfinished">成角度 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="248"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="253"/>
         <source>Perpendicular Datum Plane</source>
         <translation type="unfinished">垂直 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="254"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="259"/>
         <source>Through Axis Datum Plane</source>
         <translation type="unfinished">按轴重合 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="260"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="265"/>
         <source>Normal To Curve Datum Plane</source>
         <translation type="unfinished">垂直于曲线 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="266"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="271"/>
         <source>Through 3 Points Datum Plane</source>
         <translation type="unfinished">过3点 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="272"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="277"/>
         <source>Tangent Datum Plane</source>
         <translation type="unfinished">相切 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="428"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="457"/>
         <source>Subtract</source>
         <translation type="unfinished">差集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="434"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="463"/>
         <source>Intersect</source>
         <translation type="unfinished">交集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="284"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="289"/>
         <source>Extrude</source>
         <translation type="unfinished">拉伸</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="224"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1474"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="229"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1493"/>
         <source>Edit Sketch</source>
         <translation type="unfinished">编辑草绘</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="278"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="283"/>
         <source>Helix</source>
         <translation type="unfinished">螺旋线</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="290"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="295"/>
+        <source>Extruded Sheet</source>
+        <translation>拉伸曲面</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="301"/>
+        <source>Revolved Sheet</source>
+        <translation type="unfinished">旋转曲面</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="307"/>
+        <source>Thicken</source>
+        <translation>加厚</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="313"/>
+        <source>Offset Sheet</source>
+        <translation>偏置曲面</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="319"/>
         <source>Revolve</source>
         <translation type="unfinished">旋转</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="296"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="325"/>
         <source>Sweep</source>
         <translation>扫描</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="302"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="331"/>
         <source>Loft</source>
         <translation>放样</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="308"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="337"/>
         <source>Extrude Cut</source>
         <translation type="unfinished">拉伸切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="314"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="343"/>
         <source>Revolve Cut</source>
         <translation type="unfinished">旋转切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="320"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="349"/>
         <source>Sweep Cut</source>
         <translation type="unfinished">扫描切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="326"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="355"/>
         <source>Loft Cut</source>
         <translation type="unfinished">放样切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="332"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="361"/>
         <source>Merge</source>
         <translation type="unfinished">合并</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="338"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="367"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="344"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="373"/>
         <source>Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="350"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="379"/>
         <source>Shell</source>
         <translation type="unfinished">抽壳</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="356"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="385"/>
         <source>Draft</source>
         <translation type="unfinished">拔模</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="463"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="492"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="251"/>
         <source>Mirror</source>
         <translation type="unfinished">镜像</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="524"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="553"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="544"/>
         <source>IsometricView View</source>
         <translation type="unfinished">等轴测视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="559"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="588"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="584"/>
         <source>Shaded</source>
         <translation>着色</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="564"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="593"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="589"/>
         <source>Wireframe</source>
         <translation>线框</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="579"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="608"/>
         <source>TopoName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="585"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="614"/>
         <source>CheckTopoName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="731"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="835"/>
+        <source>Sheet</source>
+        <translation type="unfinished">曲面</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="774"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="725"/>
         <source>Display Mode</source>
         <translation>显示模式</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="773"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="816"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="144"/>
         <source>View</source>
         <translation type="unfinished">视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="470"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="499"/>
         <source>Linear Pattern</source>
         <translation type="unfinished">线性阵列</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="477"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="506"/>
         <source>Circular Pattern</source>
         <translation type="unfinished">圆周阵列</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="493"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="522"/>
         <source>Set Color</source>
         <translation type="unfinished">设置颜色</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="499"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="528"/>
         <source>Measure Distance</source>
         <translation type="unfinished">测量距离</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="505"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="534"/>
         <source>Run Script</source>
         <translation type="unfinished">执行脚本</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="519"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="548"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="538"/>
         <source>Fit View</source>
         <translation type="unfinished">最大化显示</translation>
@@ -2734,37 +2857,37 @@
         <translation type="obsolete">等轴侧视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="529"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="558"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="549"/>
         <source>Front View</source>
         <translation type="unfinished">前视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="534"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="563"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="554"/>
         <source>Back View</source>
         <translation type="unfinished">后视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="539"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="568"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="559"/>
         <source>Left View</source>
         <translation type="unfinished">左视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="544"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="573"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="564"/>
         <source>Right View</source>
         <translation type="unfinished">右视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="549"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="578"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="569"/>
         <source>Top View</source>
         <translation type="unfinished">顶视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="554"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="583"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="574"/>
         <source>Bottom View</source>
         <translation type="unfinished">底视图</translation>
@@ -3350,6 +3473,45 @@
     </message>
 </context>
 <context>
+    <name>OffsetSheetCmdPanel</name>
+    <message>
+        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="59"/>
+        <source>Offset Sheet</source>
+        <translation>偏置曲面</translation>
+    </message>
+    <message>
+        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="66"/>
+        <source>Offset distance:</source>
+        <translation>偏置距离：</translation>
+    </message>
+    <message>
+        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="100"/>
+        <source>Invalid value, must be between %1 and %2.</source>
+        <translation>输入值无效，有效范围 %1 至 %2。</translation>
+    </message>
+</context>
+<context>
+    <name>OffsetSheetGuiCmd</name>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="148"/>
+        <source>Select a sheet to offset.</source>
+        <translation>选择要偏置的曲面。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="254"/>
+        <source>Specify offset distance, then OK to apply.</source>
+        <translation>指定偏置距离，确认后应用。</translation>
+    </message>
+    <message>
+        <source>Specify the offset distance.</source>
+        <translation type="vanished">指定偏置距离。</translation>
+    </message>
+    <message>
+        <source>Offset distance</source>
+        <translation type="vanished">偏置距离</translation>
+    </message>
+</context>
+<context>
     <name>OutputWidget</name>
     <message>
         <location filename="../../widgets/panels/output/OutputWidget.cpp" line="35"/>
@@ -3390,651 +3552,696 @@
 <context>
     <name>ParamNamesTranslation</name>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="72"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="77"/>
         <source>Box Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="73"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="78"/>
         <source>Box Width</source>
         <translation type="unfinished">宽度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="74"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="79"/>
         <source>Box Height</source>
         <translation type="unfinished">高度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="79"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="84"/>
         <source>Cylinder Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="80"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="85"/>
         <source>Cylinder Height</source>
         <translation type="unfinished">高度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="85"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="90"/>
         <source>Sphere Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="90"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="95"/>
         <source>Cone Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="91"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="96"/>
         <source>Cone Height</source>
         <translation type="unfinished">高度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="96"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="101"/>
         <source>Torus Major Radius</source>
         <translation type="unfinished">主半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="97"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="102"/>
         <source>Torus Minor Radius</source>
         <translation type="unfinished">管半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="102"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="107"/>
         <source>Tube Outer Radius</source>
         <translation type="unfinished">外径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="103"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="108"/>
         <source>Tube Inner Radius</source>
         <translation type="unfinished">内径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="104"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="109"/>
         <source>Tube Height</source>
         <translation type="unfinished">高度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="109"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="114"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="127"/>
         <source>Extrusion Depth</source>
-        <translation type="unfinished">深度</translation>
+        <translation>深度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="110"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="115"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="128"/>
         <source>Extrusion Start Offset</source>
-        <translation type="unfinished">起始偏移</translation>
+        <translation>起始偏移</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="116"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="121"/>
         <source>Start Angle</source>
         <comment>wy3d::Revolution</comment>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="117"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="122"/>
         <source>End Angle</source>
         <comment>wy3d::Revolution</comment>
         <translation type="unfinished">终止角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="115"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="120"/>
         <source>Axis</source>
         <comment>wy3d::Revolution</comment>
         <translation>轴线</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="122"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="133"/>
+        <source>Start Angle</source>
+        <comment>wy3d::RevolvedSheet</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="134"/>
+        <source>End Angle</source>
+        <comment>wy3d::RevolvedSheet</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="139"/>
         <source>File Path</source>
         <comment>wy3d::ImportedSolid</comment>
         <translation type="unfinished">文件路径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="127"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="144"/>
         <source>Distance</source>
         <comment>wy3d::Chamfer</comment>
         <translation type="unfinished">距离</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="132"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="149"/>
         <source>Radius</source>
         <comment>wy3d::Fillet</comment>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="137"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="154"/>
         <source>Thickness</source>
         <comment>wy3d::Shell</comment>
         <translation type="unfinished">厚度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="138"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="155"/>
         <source>Inward Offset</source>
         <comment>wy3d::Shell</comment>
         <translation type="unfinished">壳厚朝内</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="139"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="156"/>
         <source>Join Type</source>
         <comment>wy3d::Shell</comment>
         <translation type="unfinished">连接类型</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="140"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="157"/>
         <source>Offset Mode</source>
         <comment>wy3d::Shell</comment>
         <translation type="unfinished">偏移模式</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="141"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="158"/>
         <source>Intersection</source>
         <comment>wy3d::Shell</comment>
         <translation type="unfinished">全局求交</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="146"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="163"/>
         <source>Angle</source>
         <comment>wy3d::Draft</comment>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="151"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="168"/>
         <source>X</source>
         <comment>wy3d::Move</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="152"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="169"/>
         <source>Y</source>
         <comment>wy3d::Move</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="153"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="170"/>
         <source>Z</source>
         <comment>wy3d::Move</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="158"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="175"/>
         <source>CenterX</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished">中心点 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="159"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="176"/>
         <source>CenterY</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished">中心点 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="160"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="177"/>
         <source>CenterZ</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished">中心点 Z</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="161"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="178"/>
         <source>DirectionX</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished">轴向 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="162"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="179"/>
         <source>DirectionY</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished">轴向 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="163"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="180"/>
         <source>DirectionZ</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished">轴向 Z</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="164"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="181"/>
         <source>Angle</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="169"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="174"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="186"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="191"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="208"/>
         <source>Source</source>
         <comment>wy3d::Pattern</comment>
         <translation type="unfinished">源对象</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="176"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="193"/>
         <source>Direction1 X</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished">方向1 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="177"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="194"/>
         <source>Direction1 Y</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished">方向1 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="178"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="195"/>
         <source>Direction1 Z</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished">方向1 Z</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="179"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="196"/>
         <source>Count1</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished">数量1</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="180"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="197"/>
         <source>Spacing1</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished">间隙1</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="182"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="199"/>
         <source>Direction2 X</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished">方向2 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="183"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="200"/>
         <source>Direction2 Y</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished">方向2 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="184"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="201"/>
         <source>Direction2 Z</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished">方向2 Z</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="185"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="202"/>
         <source>Count2</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished">数量2</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="186"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="203"/>
         <source>Spacing2</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished">间隙2</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="193"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="210"/>
         <source>Center Point X</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished">中心点 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="194"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="211"/>
         <source>Center Point Y</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished">中心点 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="195"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="212"/>
         <source>Center Point Z</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished">中心点 Z</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="196"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="213"/>
         <source>Axis Direction X</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished">轴向 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="197"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="214"/>
         <source>Axis Direction Y</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished">轴向 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="198"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="215"/>
         <source>Axis Direction Z</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished">轴向 Z</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="199"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="216"/>
         <source>TotalAngle</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished">总角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="200"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="217"/>
         <source>Instance Count</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished">实例数量</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="201"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="218"/>
         <source>Is ClockWise</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished">顺时针</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="206"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="213"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="219"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="231"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="243"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="255"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="268"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="282"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="297"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="223"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="230"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="236"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="248"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="260"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="272"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="285"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="299"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="314"/>
         <source>ID</source>
         <comment>wy3d::SketchEntity</comment>
         <translation type="unfinished">ID</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="207"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="224"/>
         <source>Position X</source>
         <comment>wy3d::SketchPoint</comment>
         <translation type="unfinished">位置 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="208"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="225"/>
         <source>Position Y</source>
         <comment>wy3d::SketchPoint</comment>
         <translation type="unfinished">位置 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="214"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="220"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="232"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="244"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="256"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="269"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="283"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="298"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="231"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="237"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="249"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="261"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="273"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="286"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="300"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="315"/>
         <source>Is Construction</source>
         <comment>wy3d::SketchCurve</comment>
         <translation type="unfinished">构造线</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="221"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="233"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="238"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="250"/>
         <source>Start Point X</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished">起点 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="222"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="234"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="239"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="251"/>
         <source>Start Point Y</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished">起点 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="223"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="235"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="240"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="252"/>
         <source>End Point X</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished">终点 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="224"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="236"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="241"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="253"/>
         <source>End Point Y</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished">终点 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="225"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="237"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="242"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="254"/>
         <source>Length</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="226"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="238"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="243"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="255"/>
         <source>Angle</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="245"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="262"/>
         <source>Center Point X</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">圆心 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="246"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="263"/>
         <source>Center Point Y</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">圆心 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="247"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="264"/>
         <source>Radius</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="248"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="265"/>
         <source>Diameter</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">直径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="249"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="266"/>
         <source>Perimeter</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">周长</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="250"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="267"/>
         <source>Area</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">面积</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="257"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="274"/>
         <source>Center Point X</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">圆心 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="258"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="275"/>
         <source>Center Point Y</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">圆心 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="259"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="276"/>
         <source>Radius</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="260"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="277"/>
         <source>Start Angle</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">起点角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="261"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="278"/>
         <source>End Angle</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">终点角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="262"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="279"/>
         <source>Total Angle</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">总角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="263"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="280"/>
         <source>Arc Length</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">弧长</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="270"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="287"/>
         <source>Center Point X</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">圆心 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="271"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="288"/>
         <source>Center Point Y</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">圆心 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="272"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="289"/>
         <source>Major Radius</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">长轴半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="273"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="290"/>
         <source>Minor Radius</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">短轴半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="274"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="291"/>
         <source>Radius Ratio</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">半径比例</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="275"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="292"/>
         <source>Major Axis Angle</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">长轴角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="276"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="293"/>
         <source>Perimeter</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">周长</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="277"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="294"/>
         <source>Area</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished">面积</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="284"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="301"/>
         <source>Center Point X</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">圆心 X</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="285"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="302"/>
         <source>Center Point Y</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">圆心 Y</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="286"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="303"/>
         <source>Major Radius</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">长轴半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="287"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="304"/>
         <source>Minor Radius</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">短轴半径</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="288"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="305"/>
         <source>Radius Ratio</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">半径比例</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="289"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="306"/>
         <source>Major Axis Angle</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">长轴角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="290"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="307"/>
         <source>Start Angle</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">起点角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="291"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="308"/>
         <source>End Angle</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">终点角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="292"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="309"/>
         <source>Perimeter</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished">周长</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="299"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="316"/>
         <source>Order</source>
         <comment>wy3d::SketchSpline</comment>
         <translation type="unfinished">阶数</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="304"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="321"/>
         <source>Plane</source>
         <comment>wy3d::DatumPlane</comment>
         <translation type="unfinished">基准平面</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="309"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="326"/>
         <source>Source</source>
         <comment>wy3d::Mirror</comment>
         <translation type="unfinished">源对象</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="310"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="327"/>
         <source>Plane</source>
         <comment>wy3d::Mirror</comment>
         <translation type="unfinished">镜像平面</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="315"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="332"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="337"/>
         <source>Color</source>
         <comment>wy3d::Solid</comment>
         <translation type="unfinished">颜色</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="320"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="342"/>
+        <source>Source</source>
+        <comment>wy3d::Thicken</comment>
+        <translation type="unfinished">源对象</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="343"/>
+        <source>Thickness</source>
+        <comment>wy3d::Thicken</comment>
+        <translation>厚度</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="344"/>
+        <source>Direction</source>
+        <comment>wy3d::Thicken</comment>
+        <translation>方向</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="349"/>
+        <source>Source</source>
+        <comment>wy3d::OffsetSheet</comment>
+        <translation>源对象</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="350"/>
+        <source>Offset</source>
+        <comment>wy3d::OffsetSheet</comment>
+        <translation>偏置距离</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="355"/>
         <source>Pitch</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished">螺距</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="321"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="356"/>
         <source>Turns</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished">圈数</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="322"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="357"/>
         <source>Start Angle</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="323"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="358"/>
         <source>ClockWise</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished">顺时针</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="324"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="359"/>
         <source>Reversed</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished">反向</translation>
@@ -4125,19 +4332,32 @@
 <context>
     <name>RevolveGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="296"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="299"/>
         <source>Select the sketch to revolve.</source>
         <translation type="unfinished">选择草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="317"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="320"/>
         <source>Select the axis line.</source>
         <translation>选择旋转轴线。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="350"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="353"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
+    </message>
+</context>
+<context>
+    <name>RevolvedSheetGuiCmd</name>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="175"/>
+        <source>Select the sketch to revolve.</source>
+        <translation type="unfinished">选择草图。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="185"/>
+        <source>Select an axis line in the sketch.</source>
+        <translation>在草图中选择直线作为旋转轴。</translation>
     </message>
 </context>
 <context>
@@ -4202,12 +4422,12 @@
 <context>
     <name>RunScriptCommand</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="669"/>
+        <location filename="../../commands/FileCommands.cpp" line="686"/>
         <source>Python Script (*.py)</source>
         <translation type="unfinished">Python 脚本 (*.py)</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="673"/>
+        <location filename="../../commands/FileCommands.cpp" line="690"/>
         <source>Run Python Script</source>
         <translation type="unfinished">Python脚本</translation>
     </message>
@@ -4267,22 +4487,20 @@
 <context>
     <name>SetColorCmdPanel</name>
     <message>
-        <location filename="../../commands/dialogs/SetColorCmdPanel.cpp" line="90"/>
+        <location filename="../../commands/dialogs/SetColorCmdPanel.cpp" line="64"/>
         <source>Set Color</source>
         <translation type="unfinished">设置颜色</translation>
     </message>
     <message>
-        <location filename="../../commands/dialogs/SetColorCmdPanel.cpp" line="149"/>
         <source>OK</source>
-        <translation type="unfinished">确认</translation>
+        <translation type="obsolete">确认</translation>
     </message>
     <message>
-        <location filename="../../commands/dialogs/SetColorCmdPanel.cpp" line="154"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation type="obsolete">取消</translation>
     </message>
     <message>
-        <location filename="../../commands/dialogs/SetColorCmdPanel.cpp" line="385"/>
+        <location filename="../../commands/dialogs/SetColorCmdPanel.cpp" line="168"/>
         <source>Select Color</source>
         <translation type="unfinished">选择颜色</translation>
     </message>
@@ -4290,7 +4508,7 @@
 <context>
     <name>SetColorGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/SetColorGuiCmd.cpp" line="87"/>
+        <location filename="../../commands/utilities/SetColorGuiCmd.cpp" line="89"/>
         <source>Click solid elements to apply the selected color.</source>
         <translation type="unfinished">单击实体应用当前颜色。</translation>
     </message>
@@ -4567,7 +4785,7 @@
 <context>
     <name>SketchCommand</name>
     <message>
-        <location filename="../../commands/sketch/SketchCommands.cpp" line="174"/>
+        <location filename="../../commands/sketch/SketchCommands.cpp" line="200"/>
         <source>Yi3D</source>
         <translation type="unfinished">易三维</translation>
     </message>
@@ -5567,6 +5785,60 @@
         <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="380"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
+    </message>
+</context>
+<context>
+    <name>ThickenCmdPanel</name>
+    <message>
+        <location filename="../../commands/dialogs/ThickenCmdPanel.cpp" line="63"/>
+        <source>Thicken</source>
+        <translation>加厚</translation>
+    </message>
+    <message>
+        <location filename="../../commands/dialogs/ThickenCmdPanel.cpp" line="71"/>
+        <source>Thickness:</source>
+        <translation>厚度：</translation>
+    </message>
+    <message>
+        <location filename="../../commands/dialogs/ThickenCmdPanel.cpp" line="80"/>
+        <source>Direction:</source>
+        <translation>方向：</translation>
+    </message>
+    <message>
+        <location filename="../../commands/dialogs/ThickenCmdPanel.cpp" line="85"/>
+        <source>One Side</source>
+        <translation>单侧</translation>
+    </message>
+    <message>
+        <location filename="../../commands/dialogs/ThickenCmdPanel.cpp" line="86"/>
+        <source>Symmetric</source>
+        <translation>对称</translation>
+    </message>
+    <message>
+        <location filename="../../commands/dialogs/ThickenCmdPanel.cpp" line="118"/>
+        <source>Invalid value, must be between %1 and %2.</source>
+        <translation>输入值无效，有效范围 %1 至 %2。</translation>
+    </message>
+</context>
+<context>
+    <name>ThickenGuiCmd</name>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="150"/>
+        <source>Select a sheet to thicken.</source>
+        <translation>选择要加厚的曲面。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="257"/>
+        <source>Specify thickness and direction, then OK to apply.</source>
+        <translation>指定厚度和方向，确认后应用。</translation>
+    </message>
+    <message>
+        <source>Specify the thickness.</source>
+        <translation type="vanished">指定加厚厚度。</translation>
+    </message>
+    <message>
+        <source>Thickness</source>
+        <translation type="vanished">厚度</translation>
     </message>
 </context>
 <context>

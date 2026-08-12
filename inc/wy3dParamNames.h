@@ -117,6 +117,15 @@ public:
     static const char* CIRCULAR_PATTERN_INSTANCE_COUNT;
     static const char* CIRCULAR_PATTERN_IS_CLOCKWISE;
 
+    // Thicken
+    static const char* THICKEN_PARAM_THICKNESS;
+    static const char* THICKEN_PARAM_SOURCE;
+    static const char* THICKEN_PARAM_DIRECTION;
+
+    // OffsetSheet
+    static const char* OFFSETSHEET_PARAM_OFFSET;
+    static const char* OFFSETSHEET_PARAM_SOURCE;
+
     // Helix
     static const char* HELIX_PITCH;
     static const char* HELIX_TURNS;

@@ -16,24 +16,24 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SolidSnapObjectCreator.h"
-#include <cassert>
-#include <TopoDS_Shape.hxx>
-#include <wy3dSolid.h>
-#include "utils/MathUtils.h"
-#include "snap/SnapObject.h"
+#ifndef WY3D_REVOLUTION_UTIL_H
+#define WY3D_REVOLUTION_UTIL_H
 
-std::list<wyap::SnapObjectSPtr> SolidSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
-{
-    assert(pElem);
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
-    if (!pSolid)
-    {
-        assert(false);
-        return std::list<wyap::SnapObjectSPtr>();
-    }
+#include <gp_Ax1.hxx>
+#include <wy3dDefs.h>
+#include <wy3dErrorCode.h>
+#include <wydbElementId.h>
 
-    wydb::ElementId id = pSolid->getId();
-    TopoDS_Shape resultShape = pSolid->getShape();
-    return this->newSnapObjects(id, resultShape);
-}
+namespace wydb { class Database; }
+
+NS_WY3D_BEG
+
+// 从草图曲线 ID 计算旋转轴（用于旋转体和旋转曲面）
+// 返回 ErrorCode + gp_Ax1；失败时 errorCode 非 NoError
+std::pair<ErrorCode, gp_Ax1> computeRevolutionAxis(
+    const wydb::Database* pDb,
+    const wydb::ElementId& axisCurveId);
+
+NS_WY3D_END
+
+#endif // WY3D_REVOLUTION_UTIL_H

@@ -41,6 +41,7 @@ namespace
 struct UiTargets
 {
     QMenu* pMenuFile;
+    QMenu* pMenuSheet;
     QToolBar* pToolBarBasic;
     QToolBar* pToolBarModeling;
     QToolBar* pToolBarPrimitive;
@@ -82,6 +83,10 @@ struct ModelingActions
     CommandAction* pActionTangentDatumPlane;
     CommandAction* pActionHelix;
     CommandAction* pActionExtrude;
+    CommandAction* pActionExtrudedSheet;
+    CommandAction* pActionRevolvedSheet;
+    CommandAction* pActionThicken;
+    CommandAction* pActionOffsetSheet;
     CommandAction* pActionRevolve;
     CommandAction* pActionSweep;
     CommandAction* pActionLoft;
@@ -283,6 +288,30 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
         CommandNames::Extrude,
         QCoreApplication::translate("MainWindow", "Extrude"),
         QIcon(":/images/Modeling_Extrusion.png"),
+        pActionGroup);
+
+    actions.pActionExtrudedSheet = pEnv->newCommandAction(
+        CommandNames::ExtrudedSheet,
+        QCoreApplication::translate("MainWindow", "Extruded Sheet"),
+        QIcon(),
+        pActionGroup);
+
+    actions.pActionRevolvedSheet = pEnv->newCommandAction(
+        CommandNames::RevolvedSheet,
+        QCoreApplication::translate("MainWindow", "Revolved Sheet"),
+        QIcon(),
+        pActionGroup);
+
+    actions.pActionThicken = pEnv->newCommandAction(
+        CommandNames::Thicken,
+        QCoreApplication::translate("MainWindow", "Thicken"),
+        QIcon(),
+        pActionGroup);
+
+    actions.pActionOffsetSheet = pEnv->newCommandAction(
+        CommandNames::OffsetSheet,
+        QCoreApplication::translate("MainWindow", "Offset Sheet"),
+        QIcon(),
         pActionGroup);
 
     actions.pActionRevolve = pEnv->newCommandAction(
@@ -603,6 +632,19 @@ void buildFileMenuUi(
     pMenuFile->addAction(actions.pActionExportFile);
 }
 
+void buildSheetMenuUi(
+    const ModelingActions& actions,
+    QMenu* pMenuSheet)
+{
+    assert(pMenuSheet);
+
+    pMenuSheet->addAction(actions.pActionExtrudedSheet);
+    pMenuSheet->addAction(actions.pActionRevolvedSheet);
+    pMenuSheet->addSeparator();
+    pMenuSheet->addAction(actions.pActionOffsetSheet);
+    pMenuSheet->addAction(actions.pActionThicken);
+}
+
 void buildBasicToolBarUi(
     const FileActions& fileActions,
     const UndoRedoActions& undoRedoActions,
@@ -648,6 +690,7 @@ void buildModelingToolBarUi(
     pToolBarModeling->addAction(actions.pActionHelix);
     pToolBarModeling->addAction(actions.pActionExtrude);
     pToolBarModeling->addAction(actions.pActionRevolve);
+
     pToolBarModeling->addAction(actions.pActionSweep);
     pToolBarModeling->addAction(actions.pActionLoft);
     pToolBarModeling->addAction(actions.pActionExtrudeCut);
@@ -789,6 +832,13 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
     targets.pMenuFile = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::File);
     assert(targets.pMenuFile);
 
+    targets.pMenuSheet = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Sheet"),
+                                       wy3dApp::MenuBarNames::Sheet);
+    assert(targets.pMenuSheet);
+    // Insert Sheet menu before Help
+    if (QMenu* pHelpMenu = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::Help))
+        pMainWindow->menuBar()->insertMenu(pHelpMenu->menuAction(), targets.pMenuSheet);
+
     targets.pToolBarBasic = pMainWindow->findChild<QToolBar*>(wy3dApp::ToolBarNames::Basic);
     assert(targets.pToolBarBasic);
 
@@ -825,6 +875,7 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
 #endif // _DEBUG
 
     buildFileMenuUi(fileActions, uiTargets.pMenuFile);
+    buildSheetMenuUi(modelingActions, uiTargets.pMenuSheet);
     buildBasicToolBarUi(fileActions, undoRedoActions, uiTargets.pToolBarBasic);
     buildModelingToolBarUi(pEnv, pActionGroup, modelingActions, uiTargets.pToolBarModeling);
     buildPrimitiveToolBarUi(primitiveActions, uiTargets.pToolBarPrimitive);

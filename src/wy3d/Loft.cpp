@@ -301,7 +301,7 @@ static ErrorCode createProfileWires(
         {
             assert(pSketchFace);
             std::vector<TopoUtil::WireInfo> wireInfos;
-            ErrorCode errorCode = TopoUtil::makeWires(pProfileSketch, pSketchFace, gp_Trsf(), wireInfos);
+            ErrorCode errorCode = TopoUtil::makeWires(pProfileSketch, pSketchFace->loops, gp_Trsf(), wireInfos);
             if (ErrorCode::NoError != errorCode) return errorCode;
             if (wireInfos.empty()) return ErrorCode::PROFILE_InvalidProfile;
             else { assert(wireInfos.size() == 1); profileWires.emplace_back(wireInfos[0]); }
