@@ -114,7 +114,7 @@ void SweepGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 }
 
-void SweepGuiCmd::reset()
+void SweepGuiCmd::cleanup()
 {
     _pMakeSweep = nullptr;
 
@@ -132,9 +132,9 @@ void SweepGuiCmd::reset()
     //this->gotoStep(Step::SelectPath);
 }
 
-void SweepCutGuiCmd::reset()
+void SweepCutGuiCmd::cleanup()
 {
-    SweepGuiCmd::reset();
+    SweepGuiCmd::cleanup();
     _pSolidToCutPreview = nullptr;
 }
 
@@ -185,7 +185,7 @@ bool SweepGuiCmd::finishStep(Step step)
         _pMakeSweep = nullptr;
 
         // 重置数据
-        this->reset();
+        this->cleanup();
 
         // exit
         this->requestEnd();
