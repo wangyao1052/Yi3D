@@ -88,6 +88,11 @@ public:
     // Destroy all ui elements created and managed by this environment base instance.
     void destroyUI();
 
+    // Save toolbar/dock positions to persisted state.
+    void saveUiState();
+    // Restore toolbar/dock positions from persisted state.
+    void restoreUiState();
+
 protected:
     // command manager reactor
     void onCommandStartFailed(

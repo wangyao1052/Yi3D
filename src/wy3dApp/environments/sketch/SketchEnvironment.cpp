@@ -39,6 +39,7 @@ SketchEnvironment::SketchEnvironment(const wy3d::SketchPlane& sketchPlane)
     , _isTransCommitted(false)
 {
     assert(_sketchPlane.isValid());
+    setName("sketch");
 }
 
 SketchEnvironment::SketchEnvironment(const wy3d::Sketch* pSketch)
@@ -51,6 +52,7 @@ SketchEnvironment::SketchEnvironment(const wy3d::Sketch* pSketch)
     , _isTransCommitted(false)
 {
     assert(pSketch);
+    setName("sketch");
     _sketchId = pSketch->getId();
     _sketchPlane = pSketch->getPlane();
 }

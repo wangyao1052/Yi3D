@@ -27,7 +27,6 @@
 #include <wyapEnvironment.h>
 #include <wy3dSketch.h>
 
-#include "environments/EnvironmentIds.h"
 #include "snap/SketchSnapSystem.h"
 #include "environments/EnvironmentBase.h"
 #include "environments/ICommandActionStateHost.h"

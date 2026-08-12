@@ -2227,7 +2227,7 @@
         <translation type="unfinished">易三维</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="133"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="135"/>
         <source>File</source>
         <translation type="unfinished">文件</translation>
     </message>
@@ -2492,7 +2492,7 @@
         <translation type="obsolete">透视投影</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="144"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="146"/>
         <source>Basic</source>
         <translation type="unfinished">基础</translation>
     </message>
@@ -2564,7 +2564,7 @@
         <translation type="unfinished">圆管</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="137"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="139"/>
         <source>Help</source>
         <translation type="unfinished">帮助</translation>
     </message>
@@ -4332,17 +4332,17 @@
 <context>
     <name>RevolveGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="299"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="301"/>
         <source>Select the sketch to revolve.</source>
         <translation type="unfinished">选择草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="322"/>
         <source>Select the axis line.</source>
         <translation>选择旋转轴线。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="353"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="355"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
     </message>
@@ -5769,12 +5769,12 @@
 <context>
     <name>Sweep</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="322"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="323"/>
         <source>Select the path sketch.</source>
         <translation type="unfinished">选择路径草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="346"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="347"/>
         <source>Select the profile sketch.</source>
         <translation type="unfinished">选择轮廓草图。</translation>
     </message>
@@ -5782,7 +5782,7 @@
 <context>
     <name>SweepGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="380"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="381"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
     </message>

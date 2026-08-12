@@ -106,6 +106,8 @@ void GatewayEnvironmentUI::initialize(GatewayEnvironment* pEnv)
     _pMenuHelp->addAction(actions.pActionAbout);
     _pToolBarBasic->addAction(actions.pActionNewFile);
     _pToolBarBasic->addAction(actions.pActionOpenFile);
+
+    pEnv->restoreUiState();
 }
 
 void GatewayEnvironmentUI::teardown(GatewayEnvironment* pEnv)

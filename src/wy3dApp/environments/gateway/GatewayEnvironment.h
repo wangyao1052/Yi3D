@@ -25,7 +25,6 @@
 #include <wyapEnvironment.h>
 
 #include "environments/EnvironmentBase.h"
-#include "environments/EnvironmentIds.h"
 
 class GatewayEnvironmentUI;
 

@@ -30,6 +30,7 @@ ModelingEnvironment::ModelingEnvironment()
     : wyap::DocumentEnvironment()
     , _pUI(std::make_unique<ModelingEnvironmentUI>())
 {
+    setName("modeling");
 }
 
 ModelingEnvironment::~ModelingEnvironment()

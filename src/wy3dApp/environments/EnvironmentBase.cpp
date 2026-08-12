@@ -17,6 +17,8 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <QApplication>
+#include <QCoreApplication>
+#include <QFile>
 #include <QMenuBar>
 #include <QToolButton>
 #include <QTimer>
@@ -161,6 +163,7 @@ QToolButton* EnvironmentBase::newMenuPopupToolButton(
 
 void EnvironmentBase::destroyUI()
 {
+    this->saveUiState();
     this->destroyToolBars();
     this->destroyMenus();
     this->destroyActionGroups();
@@ -183,6 +186,27 @@ void EnvironmentBase::destroyMenus()
     _menus.clear();
 }
 
+void EnvironmentBase::saveUiState()
+{
+    const wyap::Environment* pEnv = dynamic_cast<const wyap::Environment*>(this);
+    if (!pEnv) return;
+    std::string envName = pEnv->getName();
+    if (envName.empty()) return;
+    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    if (!pMainWindow) return;
+
+    const QString path = QCoreApplication::applicationDirPath()
+        + "/ui-state-" + envName.c_str() + ".dat";
+    QFile file(path);
+    if (file.open(QIODevice::WriteOnly))
+    {
+        const QByteArray state = pMainWindow->saveState();
+        const qint64 written = file.write(state);
+        if (written != state.size())
+            file.remove();
+    }
+}
+
 void EnvironmentBase::destroyToolBars()
 {
     MainWindow* pMainWindow = Application::instance().getMainWindow();
@@ -197,6 +221,24 @@ void EnvironmentBase::destroyToolBars()
         pToolBar->deleteLater();
     }
     _toolBars.clear();
+}
+
+void EnvironmentBase::restoreUiState()
+{
+    const wyap::Environment* pEnv = dynamic_cast<const wyap::Environment*>(this);
+    if (!pEnv) return;
+    std::string envName = pEnv->getName();
+    if (envName.empty()) return;
+    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    if (!pMainWindow) return;
+
+    const QString path = QCoreApplication::applicationDirPath()
+        + "/ui-state-" + envName.c_str() + ".dat";
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly)) return;
+    const QByteArray state = file.readAll();
+    if (!state.isEmpty())
+        pMainWindow->restoreState(state);
 }
 
 void EnvironmentBase::destroyActionGroups()

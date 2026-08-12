@@ -29,12 +29,14 @@ namespace ToolBarNames
     inline constexpr const char* File = "file";
     inline constexpr const char* Modeling = "modeling";
     inline constexpr const char* Sketch = "sketch";
-    inline constexpr const char* Edit = "edit";
+    inline constexpr const char* ModelingEdit = "modeling-edit";
+    inline constexpr const char* ModelingView = "modeling-view";
+    inline constexpr const char* SketchEdit = "sketch-edit";
+    inline constexpr const char* SketchView = "sketch-view";
     inline constexpr const char* Primitive = "primitive";
     inline constexpr const char* Boolean = "boolean";
     inline constexpr const char* SketchEnvironment = "sketch-environment";
     inline constexpr const char* Utility = "utility";
-    inline constexpr const char* View = "view";
     inline constexpr const char* Test = "test";
 }
 

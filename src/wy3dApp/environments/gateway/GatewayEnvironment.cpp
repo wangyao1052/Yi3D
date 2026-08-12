@@ -26,6 +26,7 @@ GatewayEnvironment::GatewayEnvironment()
     : wyap::GatewayEnvironment()
     , _pUI(std::make_unique<GatewayEnvironmentUI>())
 {
+    setName("gateway");
 }
 
 GatewayEnvironment::~GatewayEnvironment()

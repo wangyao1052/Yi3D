@@ -64,7 +64,6 @@
 #include "commands/UndoRedoCommands.h"
 #include "commands/CommandNames.h"
 #include "environments/sketch/SketchEnvironment.h"
-#include "environments/EnvironmentIds.h"
 #include "environments/modeling/ModelingEnvironment.h"
 #include "gizmo/GizmoFactory.h"
 #include "widgets/CursorCenter.h"

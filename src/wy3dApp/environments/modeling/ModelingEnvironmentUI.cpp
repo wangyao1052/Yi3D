@@ -806,7 +806,7 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
 
     targets.pToolBarEdit = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "Edit"),
-        wy3dApp::ToolBarNames::Edit);
+        wy3dApp::ToolBarNames::ModelingEdit);
 
     targets.pToolBarUtility = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "Utility"),
@@ -814,7 +814,7 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
 
     targets.pToolBarView = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "View"),
-        wy3dApp::ToolBarNames::View);
+        wy3dApp::ToolBarNames::ModelingView);
 
 #ifdef _DEBUG
     targets.pToolBarTest = pEnv->addToolBar(
@@ -886,6 +886,8 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
 #ifdef _DEBUG
     buildTestToolBarUi(testActions, uiTargets.pToolBarTest);
 #endif // _DEBUG
+
+    pEnv->restoreUiState();
 }
 
 void ModelingEnvironmentUI::teardown(ModelingEnvironment* pEnv)

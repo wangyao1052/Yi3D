@@ -134,7 +134,7 @@ UiTargets createUiTargets(SketchEnvironment* pEnv)
 
     targets.pToolBarEdit = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "Edit"),
-        wy3dApp::ToolBarNames::Edit);
+        wy3dApp::ToolBarNames::SketchEdit);
 
     targets.pToolBarSketchEnvironment = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "SketchEnvironment"),
@@ -142,7 +142,7 @@ UiTargets createUiTargets(SketchEnvironment* pEnv)
 
     targets.pToolBarView = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "View"),
-        wy3dApp::ToolBarNames::View);
+        wy3dApp::ToolBarNames::SketchView);
 
     MainWindow* pMainWindow = Application::instance().getMainWindow();
     assert(pMainWindow);
@@ -767,6 +767,8 @@ void SketchEnvironmentUI::initialize(SketchEnvironment* pEnv)
         sketchEnvironmentActions,
         uiTargets.pToolBarSketchEnvironment);
     buildViewToolBarUi(pEnv, viewActions, uiTargets.pToolBarView);
+
+    pEnv->restoreUiState();
 }
 
 void SketchEnvironmentUI::teardown(SketchEnvironment* pEnv)
