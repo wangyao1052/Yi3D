@@ -26,6 +26,7 @@
 #include <BRepPrimAPI_MakeSweep.hxx>
 #include <BRepOffsetAPI_MakePipeShell.hxx>
 #include <BRepOffsetAPI_ThruSections.hxx>
+#include <BRepOffsetAPI_MakeOffsetShape.hxx>
 #include <TopoDS_Shape.hxx>
 #include <BRepBuilderAPI_Transform.hxx>
 #include <wy3dDefs.h>
@@ -88,6 +89,14 @@ public:
     // 基础体拓扑命名
     static bool primitiveNaming(
         const TopoDS_Shape& shape,
+        unsigned int elemIdValue,
+        TopoNaming& topoNaming);
+
+    // 偏置曲面拓扑命名（Shell → Shell offset）
+    static bool naming(
+        const TopoDS_Shape& sourceShape,
+        const TopoNaming& sourceNaming,
+        BRepOffsetAPI_MakeOffsetShape& mkOffset,
         unsigned int elemIdValue,
         TopoNaming& topoNaming);
 

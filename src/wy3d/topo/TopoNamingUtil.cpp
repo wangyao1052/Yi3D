@@ -1169,6 +1169,62 @@ bool TopoNamingUtil::primitiveNaming(
     return true;
 }
 
+bool TopoNamingUtil::naming(
+    const TopoDS_Shape& sourceShape,
+    const TopoNaming& sourceNaming,
+    BRepOffsetAPI_MakeOffsetShape& mkOffset,
+    unsigned int elemIdValue,
+    TopoNaming& topoNaming)
+{
+    // name offset faces from source faces: v1:<srcFace>+@offsetId
+    TopTools_IndexedMapOfShape sourceFaces;
+    TopExp::MapShapes(sourceShape, TopAbs_FACE, sourceFaces);
+    for (int i = 1; i <= sourceFaces.Extent(); ++i)
+    {
+        const TopoDS_Shape& sourceFace = sourceFaces(i);
+        const TopTools_ListOfShape& generated = mkOffset.Generated(sourceFace);
+        if (generated.IsEmpty()) continue;
+        assert(generated.Size() == 1);
+        const TopoDS_Shape& offsetFace = generated.First();
+
+        TopoName sourceName;
+        if (!sourceNaming.getName(sourceFace, sourceName) || sourceName.empty())
+        {
+            assert(false);
+            continue;
+        }
+
+        TopoNameBuilder builder(sourceName);
+        builder.generated(elemIdValue);
+        topoNaming.setName(offsetFace, builder.build());
+    }
+
+    // name offset edges from source edges: v1:<srcEdge>+@offsetId
+    TopTools_IndexedMapOfShape sourceEdges;
+    TopExp::MapShapes(sourceShape, TopAbs_EDGE, sourceEdges);
+    for (int i = 1; i <= sourceEdges.Extent(); ++i)
+    {
+        const TopoDS_Shape& sourceEdge = sourceEdges(i);
+        const TopTools_ListOfShape& generated = mkOffset.Generated(sourceEdge);
+        if (generated.IsEmpty()) continue;
+        assert(generated.Size() == 1);
+        const TopoDS_Shape& offsetEdge = generated.First();
+
+        TopoName sourceName;
+        if (!sourceNaming.getName(sourceEdge, sourceName) || sourceName.empty())
+        {
+            assert(false);
+            continue;
+        }
+
+        TopoNameBuilder builder(sourceName);
+        builder.generated(elemIdValue);
+        topoNaming.setName(offsetEdge, builder.build());
+    }
+
+    return true;
+}
+
 bool TopoNamingUtil::patternNaming(
     const TopoDS_Shape& sourceShape,
     const wy3d::TopoNaming& sourceNaming,

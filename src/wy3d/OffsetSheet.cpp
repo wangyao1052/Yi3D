@@ -350,6 +350,7 @@ TopoDS_Shape OffsetSheet::generateShape(
     }
 
     unsigned int idValue = this->getId().value();
+    const TopoNaming* pSourceNaming = pSource->getTopoNaming();
     try
     {
         std::vector<TopoDS_Shell> resultShells;
@@ -361,6 +362,7 @@ TopoDS_Shape OffsetSheet::generateShape(
                 GeomAbs_Intersection);
             if (!mkOffset.IsDone())
             {
+                assert(false);
                 wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
                     static_cast<std::uint32_t>(ErrorCode::OFFSETSHEET_GenerateError));
                 return TopoDS_Shape();
@@ -370,19 +372,27 @@ TopoDS_Shape OffsetSheet::generateShape(
             if (resultShape.IsNull())
             {
                 assert(false);
-                continue;
+                wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+                    static_cast<std::uint32_t>(ErrorCode::OFFSETSHEET_GenerateError));
+                return TopoDS_Shape();
             }
+
+            TopAbs_ShapeEnum shapeType = resultShape.ShapeType();
             if (resultShape.ShapeType() == TopAbs_SHELL)
             {
                 resultShells.push_back(TopoDS::Shell(resultShape));
             }
             else
             {
-                assert(false);
-                for (TopExp_Explorer ex(resultShape, TopAbs_SHELL); ex.More(); ex.Next())
-                {
-                    resultShells.push_back(TopoDS::Shell(ex.Current()));
-                }
+                wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+                    static_cast<std::uint32_t>(ErrorCode::OFFSETSHEET_GenerateError));
+                return TopoDS_Shape();
+            }
+
+            // name offset faces/edges from source
+            if (pSourceNaming)
+            {
+                TopoNamingUtil::naming(sourceShell, *pSourceNaming, mkOffset, idValue, *pTopoNaming);
             }
         }
 
@@ -401,7 +411,6 @@ TopoDS_Shape OffsetSheet::generateShape(
         {
             brepBuilder.Add(compound, shell);
         }
-        TopoNamingUtil::primitiveNaming(compound, idValue, *pTopoNaming);
         return compound;
     }
     catch (const Standard_Failure&)
