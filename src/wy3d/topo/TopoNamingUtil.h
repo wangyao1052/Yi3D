@@ -27,6 +27,7 @@
 #include <BRepOffsetAPI_MakePipeShell.hxx>
 #include <BRepOffsetAPI_ThruSections.hxx>
 #include <BRepOffsetAPI_MakeOffsetShape.hxx>
+#include <BRepBuilderAPI_Sewing.hxx>
 #include <TopoDS_Shape.hxx>
 #include <BRepBuilderAPI_Transform.hxx>
 #include <wy3dDefs.h>
@@ -98,7 +99,8 @@ public:
         const TopoNaming& sourceNaming,
         BRepOffsetAPI_MakeOffsetShape& mkOffset,
         unsigned int elemIdValue,
-        TopoNaming& topoNaming);
+        TopoNaming& topoNaming,
+        std::uint32_t index = 0);
 
     // 阵列特征拓扑命名
     static bool patternNaming(

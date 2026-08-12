@@ -1174,7 +1174,8 @@ bool TopoNamingUtil::naming(
     const TopoNaming& sourceNaming,
     BRepOffsetAPI_MakeOffsetShape& mkOffset,
     unsigned int elemIdValue,
-    TopoNaming& topoNaming)
+    TopoNaming& topoNaming,
+    std::uint32_t index)
 {
     // name offset faces from source faces: v1:<srcFace>+@offsetId
     TopTools_IndexedMapOfShape sourceFaces;
@@ -1196,6 +1197,7 @@ bool TopoNamingUtil::naming(
 
         TopoNameBuilder builder(sourceName);
         builder.generated(elemIdValue);
+        if (index > 0) builder.index(index);
         topoNaming.setName(offsetFace, builder.build());
     }
 
@@ -1219,6 +1221,7 @@ bool TopoNamingUtil::naming(
 
         TopoNameBuilder builder(sourceName);
         builder.generated(elemIdValue);
+        if (index > 0) builder.index(index);
         topoNaming.setName(offsetEdge, builder.build());
     }
 

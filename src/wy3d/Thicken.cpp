@@ -35,6 +35,7 @@
 #include <BRep_Builder.hxx>
 #include <TopTools_ListOfShape.hxx>
 #include <TopTools_ListIteratorOfListOfShape.hxx>
+#include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
 #include <BRepAlgoAPI_Fuse.hxx>
 
 #include <wydbDatabase.h>
@@ -377,54 +378,81 @@ bool Thicken::onDependenciesErased(
     }
 }
 
-// Thicken a shell into a solid using FreeCAD's Offset+Fill approach:
+// Thicken a shell into a solid.
 // 1. Offset the shell with BRepOffsetAPI_MakeOffsetShape
 // 2. Find boundary wires, map to offset edges, create side walls via ThruSections
-// 3. Sew original + side walls + offset → closed shell
-// 4. Convert closed shell → solid
-static TopoDS_Shape thickenShell(
+// 3. Sew original + side walls + offset >>> closed shell
+// 4. Convert closed shell >>> solid
+static std::pair<TopoDS_Shape, TopoNamingSPtr> thickenShell(
     const TopoDS_Shell& shell,
     double thickness,
-    double tol)
+    double tol,
+    const TopoNaming& sourceNaming,
+    unsigned int idValue)
 {
-    // Step 1: offset the shell
+    TopoDS_Shape nullShape;
+
+    // offset the shell
     BRepOffsetAPI_MakeOffsetShape mkOffset;
     mkOffset.PerformByJoin(shell, thickness, tol,
         BRepOffset_Skin, Standard_False, Standard_False, GeomAbs_Intersection);
     if (!mkOffset.IsDone())
-        return TopoDS_Shape();
-
+    {
+        return { nullShape, nullptr };
+    }
     TopoDS_Shape offsetShape = mkOffset.Shape();
     if (offsetShape.IsNull())
-        return TopoDS_Shape();
+    {
+        return { nullShape, nullptr };
+    }
+    TopAbs_ShapeEnum offsetShellType = offsetShape.ShapeType();
+    if (TopAbs_SHELL != offsetShellType)
+    {
+        return { nullShape, nullptr };
+    }
+    TopoDS_Shell offsetShell = TopoDS::Shell(offsetShape);
 
-    // Step 2: find boundary wires
+    // find open boundary wires of the shell.
+    // An open shell has free edges (belonging to only 1 face).
+    // Those edges are connected into closed boundary loops (wires).
+    // If the shell is already closed (no free edges), tricken is meaningless.
     ShapeAnalysis_FreeBoundsProperties freeCheck(shell);
     freeCheck.Perform();
     if (freeCheck.NbClosedFreeBounds() < 1)
-        return TopoDS_Shape();
+    {
+        return { nullShape, nullptr };
+    }
 
-    // Step 3: build side walls for each boundary
+    // Name offset faces and edges: v1:<srcFace/Edge>+@thickenId
+    // Also copy source face names so they survive sewing
+    TopoNamingSPtr pNaming = std::make_shared<TopoNaming>();
+    TopoNamingUtil::naming(shell, sourceNaming, mkOffset, idValue, *pNaming, 1);
+
+    // build side walls for each boundary
     BRep_Builder builder;
-    std::vector<TopoDS_Shape> sideShapes;
+    std::vector<TopoDS_Shell> sideShells;
+    std::vector<TopoDS_Wire> origWires;
     const BRepAlgo_Image& edgeImage = mkOffset.MakeOffset().OffsetEdgesFromShapes();
-
     for (Standard_Integer i = 1; i <= freeCheck.NbClosedFreeBounds(); ++i)
     {
         TopoDS_Wire origWire = freeCheck.ClosedFreeBound(i)->FreeBound();
         if (origWire.IsNull())
+        {
+            assert(false);
             continue;
+        }
+        origWires.push_back(origWire);
 
         // build offset wire by mapping each edge
         TopoDS_Wire offsetWire;
         builder.MakeWire(offsetWire);
         bool allMapped = true;
-
         for (TopExp_Explorer ex(origWire, TopAbs_EDGE); ex.More(); ex.Next())
         {
             const TopoDS_Edge& origEdge = TopoDS::Edge(ex.Current());
             if (!edgeImage.HasImage(origEdge))
             {
+                assert(false);
                 allMapped = false;
                 break;
             }
@@ -443,121 +471,206 @@ static TopoDS_Shape thickenShell(
             }
             if (edgeCount != 1)
             {
+                assert(false);
                 allMapped = false;
                 break;
             }
             builder.Add(offsetWire, mappedEdge);
         }
-
         if (!allMapped || offsetWire.IsNull())
+        {
+            assert(false);
             continue;
+        }
 
         // create side wall via loft between orig wire and offset wire
         BRepOffsetAPI_ThruSections sideBuilder(Standard_False, Standard_False);
         sideBuilder.AddWire(origWire);
         sideBuilder.AddWire(offsetWire);
         sideBuilder.Build();
-        if (sideBuilder.IsDone())
-            sideShapes.push_back(sideBuilder.Shape());
+        if (!sideBuilder.IsDone())
+        {
+            assert(false);
+            return { nullShape, nullptr };
+        }
+
+        // name side wall faces: v1:<srcEdge>+@thickenId
+        for (TopExp_Explorer ex(origWire, TopAbs_EDGE); ex.More(); ex.Next())
+        {
+            const TopoDS_Edge& sourceEdge = TopoDS::Edge(ex.Current());
+            TopoName srcName;
+            if (!sourceNaming.getName(sourceEdge, srcName) || srcName.empty())
+            {
+                assert(false);
+                continue;
+            }
+            const TopTools_ListOfShape& generated = sideBuilder.Generated(sourceEdge);
+            assert(generated.Size() == 1);
+            for (TopTools_ListIteratorOfListOfShape iter(generated); iter.More(); iter.Next())
+            {
+                const TopoDS_Shape& genShape = iter.Value();
+                assert(!genShape.IsNull());
+                assert(genShape.ShapeType() == TopAbs_ShapeEnum::TopAbs_FACE);
+                pNaming->setName(genShape, TopoNameBuilder(srcName).generated(idValue).build());
+            }
+        }
+
+        TopoDS_Shape sideShape = sideBuilder.Shape();
+        if (sideShape.ShapeType() != TopAbs_SHELL)
+        {
+            assert(false);
+            return { nullShape, nullptr };
+        }
+        sideShells.push_back(TopoDS::Shell(sideShape));
     }
 
-    // Step 4: sew original + side walls + offset
+    // sew original + side walls + offset
     BRepBuilderAPI_Sewing sewer;
     sewer.Add(shell);
-    for (const auto& s : sideShapes)
-        sewer.Add(s);
-    sewer.Add(offsetShape);
+    for (const TopoDS_Shell& sideShell : sideShells)
+        sewer.Add(sideShell);
+    sewer.Add(offsetShell);
     sewer.Perform();
-
     TopoDS_Shape sewed = sewer.SewedShape();
     if (sewed.IsNull())
-        return TopoDS_Shape();
-
-    // Step 5: convert closed shell to solid
-    if (sewed.ShapeType() == TopAbs_SHELL)
     {
-        TopoDS_Shell closedShell = TopoDS::Shell(sewed);
-        BRepBuilderAPI_MakeSolid solidMaker(closedShell);
-        if (solidMaker.IsDone())
-        {
-            TopoDS_Solid solid = solidMaker.Solid();
-            BRepLib::OrientClosedSolid(solid);
-            return solid;
-        }
+        assert(false);
+        return { nullShape, nullptr };
     }
-    else if (sewed.ShapeType() == TopAbs_COMPOUND)
+    TopAbs_ShapeEnum sewedShapeType = sewed.ShapeType();
+    if (TopAbs_SHELL != sewedShapeType)
     {
-        // extract solid from compound
-        for (TopoDS_Iterator it(sewed); it.More(); it.Next())
-        {
-            if (it.Value().ShapeType() == TopAbs_SOLID)
-                return it.Value();
-        }
+        assert(false);
+        return { nullShape, nullptr };
     }
 
-    return sewed;
-}
+    // convert closed shell to solid
+    TopoDS_Shell closedShell = TopoDS::Shell(sewed);
+    BRepBuilderAPI_MakeSolid solidMaker(closedShell);
+    TopoDS_Solid resultSolid;
+    if (!solidMaker.IsDone())
+    {
+        assert(false);
+        return { nullShape, nullptr };
+    }
+    resultSolid = solidMaker.Solid();
+    BRepLib::OrientClosedSolid(resultSolid);
 
-// Thicken a shell symmetrically to both sides (total thickness = 2*|t|)
-static TopoDS_Shape thickenShellBothSide(
-    const TopoDS_Shell& shell,
-    double thickness,
-    double tol)
-{
-    TopoDS_Shape solidA = thickenShell(shell, thickness, tol);
-    if (solidA.IsNull())
-        return TopoDS_Shape();
+    // Migrate names through sewing: sewer.Modified(preSew) → postSew
+    {
+        TopoNamingSPtr pNewNaming = std::make_shared<TopoNaming>();
+        const TopoNaming::NameMap& nameMap = pNaming->getNameMap();
+        for (const auto& kvp : nameMap)
+        {
+            const TopoDS_Shape& postSew = sewer.Modified(kvp.first);
+            if (!postSew.IsNull())
+            {
+                pNewNaming->setName(postSew, kvp.second);
+            }
+        }
+        const TopoNaming::NameMap& nameMapSrc = sourceNaming.getNameMap();
+        for (const auto& kvp : nameMapSrc)
+        {
+            const TopoDS_Shape& postSew = sewer.Modified(kvp.first);
+            if (!postSew.IsNull())
+            {
+                pNewNaming->setName(postSew, kvp.second);
+            }
+        }
+        *pNaming = *pNewNaming;
+    }
 
-    TopoDS_Shape solidB = thickenShell(shell, -thickness, tol);
-    if (solidB.IsNull())
-        return TopoDS_Shape();
+    {
+        // name remaining unnamed edges via adjacent face names
+        TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap;
+        TopExp::MapShapesAndAncestors(resultSolid, TopAbs_EDGE, TopAbs_FACE, edgeFaceMap);
+        for (int i = 1; i <= edgeFaceMap.Extent(); ++i)
+        {
+            const TopoDS_Edge& edge = TopoDS::Edge(edgeFaceMap.FindKey(i));
+            TopoName existing;
+            if (pNaming->getName(edge, existing) && !existing.empty())
+                continue;
+            const TopTools_ListOfShape& faces = edgeFaceMap.FindFromIndex(i);
+            if (faces.Extent() != 2)
+            {
+                assert(false);
+                continue;
+            }
+            TopTools_ListIteratorOfListOfShape it(faces);
+            TopoName name1, name2;
+            if (pNaming->getName(it.Value(), name1) && !name1.empty())
+            {
+                it.Next();
+                if (pNaming->getName(it.Value(), name2) && !name2.empty())
+                {
+                    pNaming->setName(edge,
+                        TopoNameBuilder(name1).source(name2).generated(idValue).build());
+                }
+            }
+        }
+    }
 
-    BRepAlgoAPI_Fuse fuser(solidA, solidB);
-    fuser.Build();
-    if (!fuser.IsDone())
-        return TopoDS_Shape();
-
-    return fuser.Shape();
+    return { resultSolid, pNaming };
 }
 
 // Thicken to both sides without boolean fuse — sew two offset shells + side walls
-static TopoDS_Shape thickenShellBothSideB(
+static std::pair<TopoDS_Shape, TopoNamingSPtr> thickenShellBothSide(
     const TopoDS_Shell& shell,
     double thickness,
-    double tol)
+    double tol,
+    const TopoNaming& sourceNaming,
+    unsigned int idValue)
 {
-    // Step 1: offset shell to both sides
+    TopoDS_Shape nullShape;
+
+    // offset to both sides
     BRepOffsetAPI_MakeOffsetShape mkOffsetOut, mkOffsetIn;
     mkOffsetOut.PerformByJoin(shell,  thickness, tol,
         BRepOffset_Skin, Standard_False, Standard_False, GeomAbs_Intersection);
     mkOffsetIn.PerformByJoin(shell, -thickness, tol,
         BRepOffset_Skin, Standard_False, Standard_False, GeomAbs_Intersection);
     if (!mkOffsetOut.IsDone() || !mkOffsetIn.IsDone())
-        return TopoDS_Shape();
+        return { nullShape, nullptr };
 
     TopoDS_Shape offsetOut = mkOffsetOut.Shape();
     TopoDS_Shape offsetIn  = mkOffsetIn.Shape();
     if (offsetOut.IsNull() || offsetIn.IsNull())
-        return TopoDS_Shape();
+        return { nullShape, nullptr };
 
-    // Step 2: find boundary wires on the original shell
+    TopAbs_ShapeEnum offsetOutShapeType = offsetOut.ShapeType();
+    if (TopAbs_SHELL != offsetOutShapeType)
+    {
+        assert(false);
+        return { nullShape, nullptr };
+    }
+    TopAbs_ShapeEnum offsetInShapeType = offsetIn.ShapeType();
+    if (TopAbs_SHELL != offsetInShapeType)
+    {
+        assert(false);
+        return { nullShape, nullptr };
+    }
+
+    // find boundary wires
     ShapeAnalysis_FreeBoundsProperties freeCheck(shell);
     freeCheck.Perform();
     if (freeCheck.NbClosedFreeBounds() < 1)
-        return TopoDS_Shape();
+        return { nullShape, nullptr };
 
-    // Step 3: build side walls connecting offsetOut ↔ offsetIn at each boundary
+    // name offset faces and edges
+    TopoNamingSPtr pNaming = std::make_shared<TopoNaming>();
+    TopoNamingUtil::naming(shell, sourceNaming, mkOffsetOut, idValue, *pNaming, 1);
+    TopoNamingUtil::naming(shell, sourceNaming, mkOffsetIn,  idValue, *pNaming, 2);
+
+    // build side walls connecting offsetOut ↔ offsetIn at each boundary
     BRep_Builder builder;
-    std::vector<TopoDS_Shape> sideShapes;
+    std::vector<TopoDS_Shell> sideShells;
     const BRepAlgo_Image& imgOut = mkOffsetOut.MakeOffset().OffsetEdgesFromShapes();
     const BRepAlgo_Image& imgIn  = mkOffsetIn.MakeOffset().OffsetEdgesFromShapes();
-
     for (Standard_Integer i = 1; i <= freeCheck.NbClosedFreeBounds(); ++i)
     {
         TopoDS_Wire origWire = freeCheck.ClosedFreeBound(i)->FreeBound();
         if (origWire.IsNull()) continue;
 
-        // build offset wires from both sides
         TopoDS_Wire wireOut, wireIn;
         builder.MakeWire(wireOut);
         builder.MakeWire(wireIn);
@@ -566,21 +679,27 @@ static TopoDS_Shape thickenShellBothSideB(
         for (TopExp_Explorer ex(origWire, TopAbs_EDGE); ex.More(); ex.Next())
         {
             const TopoDS_Edge& e = TopoDS::Edge(ex.Current());
-
             if (!imgOut.HasImage(e) || !imgIn.HasImage(e)) { ok = false; break; }
 
-            auto pickEdge = [](const TopTools_ListOfShape& imgs) -> TopoDS_Edge {
+            auto mapEdge = [&ok](const TopTools_ListOfShape& images) -> TopoDS_Edge {
                 TopTools_ListIteratorOfListOfShape it;
-                for (it.Initialize(imgs); it.More(); it.Next())
+                TopoDS_Edge mappedEdge;
+                Standard_Integer edgeCount = 0;
+                for (it.Initialize(images); it.More(); it.Next())
+                {
                     if (it.Value().ShapeType() == TopAbs_EDGE)
-                        return TopoDS::Edge(it.Value());
-                return TopoDS_Edge();
+                    {
+                        ++edgeCount;
+                        mappedEdge = TopoDS::Edge(it.Value());
+                    }
+                }
+                if (edgeCount != 1) { ok = false; return TopoDS_Edge(); }
+                return mappedEdge;
             };
 
-            TopoDS_Edge eOut = pickEdge(imgOut.Image(e));
-            TopoDS_Edge eIn  = pickEdge(imgIn.Image(e));
+            TopoDS_Edge eOut = mapEdge(imgOut.Image(e));
+            TopoDS_Edge eIn  = mapEdge(imgIn.Image(e));
             if (eOut.IsNull() || eIn.IsNull()) { ok = false; break; }
-
             builder.Add(wireOut, eOut);
             builder.Add(wireIn,  eIn);
         }
@@ -591,36 +710,99 @@ static TopoDS_Shape thickenShellBothSideB(
         sideBuilder.AddWire(wireOut);
         sideBuilder.AddWire(wireIn);
         sideBuilder.Build();
-        if (sideBuilder.IsDone())
-            sideShapes.push_back(sideBuilder.Shape());
+        if (!sideBuilder.IsDone())
+            return { nullShape, nullptr };
+
+        // name side wall faces: source edge name → Generated(wireOut edge) → face
+        {
+            TopExp_Explorer exOrig(origWire, TopAbs_EDGE);
+            TopExp_Explorer exOut(wireOut, TopAbs_EDGE);
+            for (; exOrig.More() && exOut.More(); exOrig.Next(), exOut.Next())
+            {
+                const TopoDS_Edge& sourceEdge = TopoDS::Edge(exOrig.Current());
+                TopoName srcName;
+                if (!sourceNaming.getName(sourceEdge, srcName) || srcName.empty())
+                    continue;
+                const TopoDS_Edge& wireEdge = TopoDS::Edge(exOut.Current());
+                const TopTools_ListOfShape& generated = sideBuilder.Generated(wireEdge);
+                for (TopTools_ListIteratorOfListOfShape iter(generated); iter.More(); iter.Next())
+                {
+                    if (iter.Value().ShapeType() == TopAbs_FACE)
+                        pNaming->setName(iter.Value(),
+                            TopoNameBuilder(srcName).generated(idValue).build());
+                }
+            }
+        }
+
+        TopoDS_Shape sideShape = sideBuilder.Shape();
+        if (sideShape.ShapeType() != TopAbs_SHELL)
+            return { nullShape, nullptr };
+        sideShells.push_back(TopoDS::Shell(sideShape));
     }
 
-    // Step 4: sew offsetOut + offsetIn + side walls
+    // sew offsetOut + offsetIn + side walls
     BRepBuilderAPI_Sewing sewer;
     sewer.Add(offsetOut);
     sewer.Add(offsetIn);
-    for (const auto& s : sideShapes)
+    for (const auto& s : sideShells)
         sewer.Add(s);
     sewer.Perform();
 
     TopoDS_Shape sewed = sewer.SewedShape();
     if (sewed.IsNull())
-        return TopoDS_Shape();
+        return { nullShape, nullptr };
 
-    // Step 5: closed shell → solid
-    if (sewed.ShapeType() == TopAbs_SHELL)
+    if (sewed.ShapeType() != TopAbs_SHELL)
+        return { nullShape, nullptr };
+
+    // convert to solid
+    TopoDS_Shell closedShell = TopoDS::Shell(sewed);
+    BRepBuilderAPI_MakeSolid solidMaker(closedShell);
+    if (!solidMaker.IsDone())
+        return { nullShape, nullptr };
+    TopoDS_Solid resultSolid = solidMaker.Solid();
+    BRepLib::OrientClosedSolid(resultSolid);
+
+    // migrate names through sewing
     {
-        TopoDS_Shell closedShell = TopoDS::Shell(sewed);
-        BRepBuilderAPI_MakeSolid solidMaker(closedShell);
-        if (solidMaker.IsDone())
+        TopoNamingSPtr pNewNaming = std::make_shared<TopoNaming>();
+        const auto& nameMap = pNaming->getNameMap();
+        for (const auto& kvp : nameMap)
         {
-            TopoDS_Solid solid = solidMaker.Solid();
-            BRepLib::OrientClosedSolid(solid);
-            return solid;
+            const TopoDS_Shape& postSew = sewer.Modified(kvp.first);
+            if (!postSew.IsNull())
+                pNewNaming->setName(postSew, kvp.second);
+        }
+        *pNaming = *pNewNaming;
+    }
+
+    // name remaining unnamed edges via adjacent face names
+    {
+        TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap;
+        TopExp::MapShapesAndAncestors(resultSolid, TopAbs_EDGE, TopAbs_FACE, edgeFaceMap);
+        for (int i = 1; i <= edgeFaceMap.Extent(); ++i)
+        {
+            const TopoDS_Edge& edge = TopoDS::Edge(edgeFaceMap.FindKey(i));
+            TopoName existing;
+            if (pNaming->getName(edge, existing) && !existing.empty())
+                continue;
+            const TopTools_ListOfShape& faces = edgeFaceMap.FindFromIndex(i);
+            if (faces.Extent() != 2) continue;
+            TopTools_ListIteratorOfListOfShape it(faces);
+            TopoName name1, name2;
+            if (pNaming->getName(it.Value(), name1) && !name1.empty())
+            {
+                it.Next();
+                if (pNaming->getName(it.Value(), name2) && !name2.empty())
+                {
+                    pNaming->setName(edge,
+                        TopoNameBuilder(name1).source(name2).generated(idValue).build());
+                }
+            }
         }
     }
 
-    return sewed;
+    return { resultSolid, pNaming };
 }
 
 TopoDS_Shape Thicken::generateShape(
@@ -671,29 +853,48 @@ TopoDS_Shape Thicken::generateShape(
     }
 
     unsigned int idValue = this->getId().value();
+    const TopoNaming* pSourceNaming = pSheet->getTopoNaming();
 
     try
     {
         std::vector<TopoDS_Shape> thickenResults;
+        std::vector<TopoNamingSPtr> allNamings;
 
         for (const TopoDS_Shell& shell : shells)
         {
-            TopoDS_Shape result;
             if (_direction == ThickenDirection::Symmetric)
             {
-                result = thickenShellBothSideB(shell, _thickness / 2.0, wy3d::TOL * 10);
+                auto [result, pShellNaming] = thickenShellBothSide(shell,
+                    _thickness / 2.0, wy3d::TOL * 10, *pSourceNaming, idValue);
+                if (result.IsNull())
+                {
+                    wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+                        static_cast<std::uint32_t>(ErrorCode::THICKEN_GenerateError));
+                    return TopoDS_Shape();
+                }
+                thickenResults.push_back(result);
+                allNamings.push_back(pShellNaming);
             }
             else
             {
-                result = thickenShell(shell, _thickness, wy3d::TOL * 10);
+                auto [result, pShellNaming] = thickenShell(shell, _thickness, wy3d::TOL * 10,
+                    *pSourceNaming, idValue);
+                if (result.IsNull())
+                {
+                    wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+                        static_cast<std::uint32_t>(ErrorCode::THICKEN_GenerateError));
+                    return TopoDS_Shape();
+                }
+                thickenResults.push_back(result);
+                allNamings.push_back(pShellNaming);
             }
-            if (result.IsNull())
-            {
-                wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
-                    static_cast<std::uint32_t>(ErrorCode::THICKEN_GenerateError));
-                return TopoDS_Shape();
-            }
-            thickenResults.push_back(result);
+        }
+
+        // flush all namings only after all shells succeed
+        for (const auto& pNaming : allNamings)
+        {
+            for (const auto& kvp : pNaming->getNameMap())
+                pTopoNaming->setName(kvp.first, kvp.second);
         }
 
         // combine results
@@ -713,8 +914,6 @@ TopoDS_Shape Thicken::generateShape(
             }
             finalResult = compound;
         }
-
-        TopoNamingUtil::primitiveNaming(finalResult, idValue, *pTopoNaming);
 
 #ifdef _DEBUG
         char szFileName[100] = { 0 };
