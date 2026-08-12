@@ -25,6 +25,7 @@
 #include <QDir>
 
 #include <wy3dAppDefs.h>
+#include <wy3dAppVersion.h>
 
 NS_WY3DAPP_BEG
 
@@ -65,8 +66,8 @@ static LONG __stdcall WINAPI wy3dappUnhandledExceptionFilter(EXCEPTION_POINTERS*
 
 void platformInitializeCrashDump(const QString& dumpDir)
 {
-    const QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd_HHmmss_zzz");
-    const QString fileName = QString("crash_%1_%2.dmp").arg(timestamp).arg(GetCurrentProcessId());
+    const QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd-HHmmss");
+    const QString fileName = QString("crash-%1-%2-%3.dmp").arg(YI3D_APP_VERSION_STRING).arg(timestamp).arg(GetCurrentProcessId());
     s_miniDumpFileName = QDir(dumpDir).absoluteFilePath(fileName).toStdWString();
 
     s_hDbgHelpMod = LoadLibraryA("dbghelp.dll");
