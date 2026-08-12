@@ -770,10 +770,6 @@ ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
     _pTube = nullptr;
-    if (pTube)
-    {
-        wydb::deleteElement(pTube);
-    }
     return false;
 }
 

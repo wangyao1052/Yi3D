@@ -542,11 +542,6 @@ bool MakeSketchPolygon::init(DrawPolygonType type, unsigned int numSides, const 
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    for (wy3d::SketchLine* pLine : _lines)
-    {
-        assert(pLine);
-        wydb::deleteElement(pLine);
-    }
     _lines.clear();
     return false;
 }

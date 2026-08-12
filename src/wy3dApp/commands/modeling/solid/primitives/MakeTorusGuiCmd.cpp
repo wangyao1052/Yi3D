@@ -620,10 +620,6 @@ ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
     _pTorus = nullptr;
-    if (pTorus)
-    {
-        wydb::deleteElement(pTorus);
-    }
     return false;
 }
 

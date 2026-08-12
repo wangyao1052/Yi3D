@@ -208,11 +208,6 @@ bool SketchRectArrayElements::perform(const std::set<wydb::ElementId>& ids,
 
     if (!retCopyElems)
     {
-        for (const ArrayElemItem& arrayElemItem : arrayElems)
-        {
-            assert(arrayElemItem.pElem);
-            wydb::deleteElement(arrayElemItem.pElem);
-        }
         return false;
     }
 
@@ -239,10 +234,5 @@ bool SketchRectArrayElements::perform(const std::set<wydb::ElementId>& ids,
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    for (const ArrayElemItem& arrayElemItem : arrayElems)
-    {
-        assert(arrayElemItem.pElem);
-        wydb::deleteElement(arrayElemItem.pElem);
-    }
     return false;
 }

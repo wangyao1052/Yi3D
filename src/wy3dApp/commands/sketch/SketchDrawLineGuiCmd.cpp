@@ -595,10 +595,6 @@ bool MakeSketchLine::init(const wy::Vector2& startPnt, wydb::ElementId sketchId)
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchLine)
-    {
-        wydb::deleteElement(_pSketchLine);
-    }
     _pSketchLine = nullptr;
     return false;
 }

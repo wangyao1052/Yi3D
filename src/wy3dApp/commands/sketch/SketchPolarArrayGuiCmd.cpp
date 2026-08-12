@@ -571,11 +571,6 @@ bool SketchPolarArrayElements::perform(const std::set<wydb::ElementId>& ids, con
 
     if (!retCopyElems)
     {
-        for (const ArrayElemItem& arrayElemItem : arrayElems)
-        {
-            assert(arrayElemItem.pElem);
-            wydb::deleteElement(arrayElemItem.pElem);
-        }
         return false;
     }
 
@@ -600,10 +595,5 @@ bool SketchPolarArrayElements::perform(const std::set<wydb::ElementId>& ids, con
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    for (const ArrayElemItem& arrayElemItem : arrayElems)
-    {
-        assert(arrayElemItem.pElem);
-        wydb::deleteElement(arrayElemItem.pElem);
-    }
     return false;
 }

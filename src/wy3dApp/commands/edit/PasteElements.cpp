@@ -391,11 +391,6 @@ bool PasteElements::perform(const wy::Vector3& pos)
 
 void PasteElements::freeCopyElements()
 {
-    for (const CopyElement& copyElem : _copyElements)
-    {
-        if (!copyElem.pElem) continue;
-        wydb::deleteElement(copyElem.pElem);
-    }
     _copyElements.clear();
     _newlyCreatedIds.clear();
 }

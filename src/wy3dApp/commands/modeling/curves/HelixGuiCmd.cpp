@@ -415,9 +415,5 @@ bool HelixGuiCmd::createHelix(
 ABORT_TRANS:
     assert(false);
     pDb->getTransactionManager()->abortTransaction();
-    if (pHelix)
-    {
-        wydb::deleteElement(pHelix);
-    }
     return false;
 }

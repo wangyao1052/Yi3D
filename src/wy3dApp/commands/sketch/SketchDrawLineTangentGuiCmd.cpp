@@ -535,10 +535,6 @@ bool SketchDrawLineTangentGuiCmd::createLine(const wy::Vector2& startPnt, const 
 ABORT_TRANS:
     assert(false);
     pDb->getTransactionManager()->abortTransaction();
-    if (pSketchLine)
-    {
-        wydb::deleteElement(pSketchLine);
-    }
     pSketchLine = nullptr;
     return false;
 }

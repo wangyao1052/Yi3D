@@ -803,10 +803,6 @@ bool MakeSketchEllipseArc::init(
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchEllipseArc)
-    {
-        wydb::deleteElement(_pSketchEllipseArc);
-    }
     _pSketchEllipseArc = nullptr;
     return false;
 }

@@ -519,10 +519,6 @@ bool OffsetSketchLine::init(const wy3d::SketchCurve* pSketchCurve)
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchLine)
-    {
-        wydb::deleteElement(_pSketchLine);
-    }
     _pSketchLine = nullptr;
     return false;
 }
@@ -622,10 +618,6 @@ bool OffsetSketchCenterLine::init(const wy3d::SketchCurve* pSketchCurve)
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchCenterLine)
-    {
-        wydb::deleteElement(_pSketchCenterLine);
-    }
     _pSketchCenterLine = nullptr;
     return false;
 }
@@ -722,10 +714,6 @@ bool OffsetSketchCircle::init(const wy3d::SketchCurve* pSketchCurve)
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchCircle)
-    {
-        wydb::deleteElement(_pSketchCircle);
-    }
     _pSketchCircle = nullptr;
     return false;
 }
@@ -830,10 +818,6 @@ bool OffsetSketchArc::init(const wy3d::SketchCurve* pSketchCurve)
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchArc)
-    {
-        wydb::deleteElement(_pSketchArc);
-    }
     _pSketchArc = nullptr;
     return false;
 }

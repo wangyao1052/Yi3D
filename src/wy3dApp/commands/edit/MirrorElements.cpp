@@ -200,9 +200,5 @@ bool MirrorElemens::perform(const wyap::SelectionSet& ss, const wydb::ElementId&
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    for (wydb::Element* pCopyElem : copyedElems)
-    {
-        if (pCopyElem) wydb::deleteElement(pCopyElem);
-    }
     return false;
 }

@@ -563,10 +563,6 @@ bool MakeSketchCircleBy3Points::init(
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchCircle)
-    {
-        wydb::deleteElement(_pSketchCircle);
-    }
     _pSketchCircle = nullptr;
     return false;
 }

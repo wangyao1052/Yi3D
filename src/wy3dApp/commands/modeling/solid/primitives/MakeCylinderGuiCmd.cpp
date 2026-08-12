@@ -608,10 +608,6 @@ ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
     _pCylinder = nullptr;
-    if (pCylinder)
-    {
-        wydb::deleteElement(pCylinder);
-    }
     return false;
 }
 

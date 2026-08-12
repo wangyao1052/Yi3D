@@ -355,10 +355,6 @@ bool MakeSketchPoint::perform(const wy::Vector2& position, wydb::ElementId sketc
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchPoint)
-    {
-        wydb::deleteElement(_pSketchPoint);
-    }
     _pSketchPoint = nullptr;
     return false;
 }

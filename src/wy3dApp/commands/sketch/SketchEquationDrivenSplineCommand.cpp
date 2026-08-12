@@ -96,10 +96,6 @@ bool SketchEquationDrivenSplineCommand::makeSpline(
 ABORT_TRANS:
     assert(false);
     pDb->getTransactionManager()->abortTransaction();
-    if (pSketchSpline)
-    {
-        wydb::deleteElement(pSketchSpline);
-    }
     pSketchSpline = nullptr;
     return false;
 }

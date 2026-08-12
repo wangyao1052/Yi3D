@@ -489,10 +489,6 @@ ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
     _pSphere = nullptr;
-    if (pSphere)
-    {
-        wydb::deleteElement(pSphere);
-    }
     return false;
 }
 

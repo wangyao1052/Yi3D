@@ -695,11 +695,7 @@ bool MakeLoft::create(const std::vector<wydb::ElementId>& profileIds, unsigned i
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pLoft)
-    {
-        wydb::deleteElement(_pLoft);
-        _pLoft = nullptr;
-    }
+    _pLoft = nullptr;
     return false;
 }
 

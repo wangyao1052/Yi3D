@@ -573,10 +573,6 @@ bool MakeSketchEllipse::init(const wy::Vector2& centerPnt, const wy::Vector2& ma
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchEllipse)
-    {
-        wydb::deleteElement(_pSketchEllipse);
-    }
     _pSketchEllipse = nullptr;
     return false;
 }

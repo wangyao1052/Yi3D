@@ -610,10 +610,6 @@ ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
     _pCone = nullptr;
-    if (pCone)
-    {
-        wydb::deleteElement(pCone);
-    }
     return false;
 }
 

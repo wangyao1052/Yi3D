@@ -539,10 +539,6 @@ bool MakeSketchRectangle::init(const wy::Vector2& startPnt)
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchLine1st) wydb::deleteElement(_pSketchLine1st);
-    if (_pSketchLine2nd) wydb::deleteElement(_pSketchLine2nd);
-    if (_pSketchLine3rd) wydb::deleteElement(_pSketchLine3rd);
-    if (_pSketchLine4th) wydb::deleteElement(_pSketchLine4th);
     _pSketchLine1st = nullptr;
     _pSketchLine2nd = nullptr;
     _pSketchLine3rd = nullptr;

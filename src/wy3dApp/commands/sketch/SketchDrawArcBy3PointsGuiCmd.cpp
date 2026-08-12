@@ -572,10 +572,6 @@ bool MakeSketchArcBy3Points::init(
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchArc)
-    {
-        wydb::deleteElement(_pSketchArc);
-    }
     _pSketchArc = nullptr;
     return false;
 }

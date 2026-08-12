@@ -691,10 +691,6 @@ ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
     _pBox = nullptr;
-    if (pBox)
-    {
-        wydb::deleteElement(pBox);
-    }
     return false;
 }
 

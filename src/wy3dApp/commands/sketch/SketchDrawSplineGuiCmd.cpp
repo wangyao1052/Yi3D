@@ -783,10 +783,6 @@ bool MakeSketchSpline::init(const wy::Vector2& startPnt, wydb::ElementId sketchI
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchSpline)
-    {
-        wydb::deleteElement(_pSketchSpline);
-    }
     _pSketchSpline = nullptr;
     return false;
 }

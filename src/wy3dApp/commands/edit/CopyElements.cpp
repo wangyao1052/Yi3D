@@ -159,10 +159,6 @@ bool CopyElemens::perform(
     if (!pSketch)
     {
         _pDb->getTransactionManager()->abortTransaction();
-        for (wydb::Element* pCopyElem : copyedElems)
-        {
-            wydb::deleteElement(pCopyElem);
-        }
         return false;
     }
     for (wydb::Element* pCopyElem : copyedElems)

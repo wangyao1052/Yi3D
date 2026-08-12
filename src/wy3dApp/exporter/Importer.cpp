@@ -68,7 +68,7 @@ bool Importer::perform(wydb::Database* pDb, const std::wstring& fileFullPath)
 ABORT_TRANS:
     assert(false);
     pDb->getTransactionManager()->abortTransaction();
-    if (pImportedSolid) { wydb::deleteElement(pImportedSolid); pImportedSolid = nullptr; }
-    if (pImportedSheet) { wydb::deleteElement(pImportedSheet); pImportedSheet = nullptr; }
+    pImportedSolid = nullptr;
+    pImportedSheet = nullptr;
     return false;
 }

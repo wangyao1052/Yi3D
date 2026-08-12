@@ -147,6 +147,7 @@ bool RevolveGuiCmd::finishStep(Step step)
         unsigned int errorCode(0);
         if (!_pMakeRevolution->create(_sketchId, _axisCurveId, errorCode))
         {
+            _pMakeRevolution = nullptr;
             if (0 != errorCode)
             {
                 MessageBoxUtil::showError(errorCode);
@@ -200,6 +201,7 @@ bool RevolveCutGuiCmd::finishStep(Step step)
         unsigned int errorCode(0);
         if (!_pMakeRevolution->create(_sketchId, _axisCurveId, errorCode))
         {
+            _pMakeRevolution = nullptr;
             if (0 != errorCode)
             {
                 MessageBoxUtil::showError(errorCode);
@@ -661,11 +663,7 @@ bool MakeRevolution::create(const wydb::ElementId& sketchId, const wydb::Element
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pRevolution)
-    {
-        wydb::deleteElement(_pRevolution);
-        _pRevolution = nullptr;
-    }
+    _pRevolution = nullptr;
     return false;
 }
 

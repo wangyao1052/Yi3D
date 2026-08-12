@@ -488,10 +488,6 @@ bool MakeSketchCircle::init(const wy::Vector2& centerPnt, wydb::ElementId sketch
 ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
-    if (_pSketchCircle)
-    {
-        wydb::deleteElement(_pSketchCircle);
-    }
     _pSketchCircle = nullptr;
     return false;
 }

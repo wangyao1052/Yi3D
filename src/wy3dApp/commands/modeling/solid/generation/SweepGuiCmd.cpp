@@ -173,6 +173,7 @@ bool SweepGuiCmd::finishStep(Step step)
         unsigned int errorCode(0);
         if (!_pMakeSweep->create(_pathId, _profileId, errorCode))
         {
+            _pMakeSweep = nullptr;
             if (0 != errorCode)
             {
                 MessageBoxUtil::showError(errorCode);
@@ -849,7 +850,6 @@ ABORT_TRANS:
     _pDb->getTransactionManager()->abortTransaction();
     if (_pSweep)
     {
-        wydb::deleteElement(_pSweep);
         _pSweep = nullptr;
     }
     return false;
