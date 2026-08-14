@@ -58,7 +58,7 @@
 <context>
     <name>AutoSave</name>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="120"/>
+        <location filename="../../application/AutoSave.cpp" line="149"/>
         <source>An autosave file was found for:
 %1
 
@@ -75,23 +75,23 @@ Do you want to recover the unsaved changes?</source>
 是否恢复未保存的修改？</translation>
     </message>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="128"/>
-        <location filename="../../application/AutoSave.cpp" line="186"/>
+        <location filename="../../application/AutoSave.cpp" line="157"/>
+        <location filename="../../application/AutoSave.cpp" line="216"/>
         <source>Recovery</source>
         <translation type="unfinished">恢复文档</translation>
     </message>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="133"/>
+        <location filename="../../application/AutoSave.cpp" line="162"/>
         <source>Recover</source>
         <translation type="unfinished">恢复</translation>
     </message>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="135"/>
+        <location filename="../../application/AutoSave.cpp" line="164"/>
         <source>Discard</source>
         <translation type="unfinished">丢弃</translation>
     </message>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="187"/>
+        <location filename="../../application/AutoSave.cpp" line="217"/>
         <source>The document has been recovered.
 Do you want to save it to the original file now?
 %1</source>
@@ -100,7 +100,7 @@ Do you want to save it to the original file now?
 %1</translation>
     </message>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="195"/>
+        <location filename="../../application/AutoSave.cpp" line="225"/>
         <source>Failed to save the recovered document!</source>
         <translation type="unfinished">保存恢复的文档失败！</translation>
     </message>
