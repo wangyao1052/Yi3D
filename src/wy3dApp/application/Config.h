@@ -51,8 +51,8 @@ public:
     // Auto save
     struct AutoSave
     {
-        // Auto save interval (minutes): 20, 0 disables it
-        const int intervalMinutes = 20;
+        // Auto save interval (minutes): 15, 0 disables it
+        const int intervalMinutes = 15;
 
     } autoSave;
 
