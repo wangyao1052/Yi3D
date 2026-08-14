@@ -18,7 +18,9 @@
 
 #include "Document.h"
 
-Document::Document() : wyap::Document()
+Document::Document() :
+    wyap::Document(),
+    _changeCount(0)
 {
 }
 
@@ -27,6 +29,13 @@ void Document::onDatabaseChanged(
     const wydb::Transaction* pTransaction,
     const wydb::DatabaseChangeInfo& changeInfo)
 {
+    // Count every change notification (transaction end, undo, redo, abort,
+    // and content loads such as readFile — verified by log): the counter
+    // feeds autosave change detection. Notifications that do not change the
+    // content (e.g. an aborted transaction) may at worst cause one redundant
+    // write, never a skipped one.
+    ++_changeCount;
+
     if (_respondToDbChanged)
     {
         wyap::Document::onDatabaseChanged(pDatabase, pTransaction, changeInfo);

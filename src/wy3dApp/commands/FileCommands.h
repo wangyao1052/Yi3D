@@ -41,11 +41,6 @@ public:
     // isUserCanceled --- [out]用户是否取消
     static bool uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserCanceled);
 
-    // Save directly to the given path (no dialog); the file type is inferred
-    // from the suffix. On success deletes the .autosave and refreshes the
-    // window title. Used by the recovery flow.
-    static bool saveFileToPath(wyap::Document* pDoc, const std::string& u8FileName);
-
     // Infer the file type from the file name's suffix
     // (.wy3db -> Binary, otherwise Text).
     static wydb::FileType inferFileType(const std::string& u8FilePath);

@@ -38,6 +38,13 @@ public:
         _respondToDbChanged = enabled;
     }
 
+    // 获取数据库修改计数:onDatabaseChanged 每被通知一次 +1(事务结束/撤销/重做/中止)。
+    // 自动保存用它做变更检测(计数没变 = 内容没变,跳过写盘)。
+    unsigned long long getChangeCount() const
+    {
+        return _changeCount;
+    }
+
     virtual void onDatabaseChanged(
         const wydb::Database* pDatabase,
         const wydb::Transaction* pTransaction,
@@ -46,6 +53,8 @@ public:
 private:
     // 是否响应DbChanged
     bool _respondToDbChanged;
+    // 数据库修改计数:每次 onDatabaseChanged 通知 +1
+    unsigned long long _changeCount;
 };
 
 #endif // WY3DAPP_DOCUMENT_H

@@ -36,6 +36,7 @@
 
 #include "application/Application.h"
 #include "application/Config.h"
+#include "application/Document.h"
 #include "commands/FileCommands.h"
 #include "utils/MessageBoxUtil.h"
 #include "widgets/frame/MainWindow.h"
@@ -66,14 +67,22 @@ namespace
         return QFile::rename(fromPath, toPath);
 #endif
     }
+
+    void deleteAutosaveFile(const QString& autosavePath)
+    {
+        if (autosavePath.isEmpty())
+        {
+            return;
+        }
+        QFile::remove(autosavePath);
+        QFile::remove(autosavePath + QStringLiteral(".tmp"));
+    }
 }
 
-AutoSave::AutoSave() :
-    _initialized(false)
+AutoSave::AutoSave() : _initialized(false), _intervalMs(INT_MAX)
 {
-    // Repeating timer with a fixed 60s tick
     _timer.setInterval(kTickMs);
-    QObject::connect(&_timer, &QTimer::timeout, this, &AutoSave::onTimerTimeout);
+    QObject::connect(&_timer, &QTimer::timeout, this, &AutoSave::onTimer);
 }
 
 AutoSave::~AutoSave()
@@ -86,7 +95,6 @@ void AutoSave::initialize()
     {
         return;
     }
-
     wyap::DocManager* pDocMgr = Application::instance().getDocManager();
     if (!pDocMgr)
     {
@@ -100,26 +108,12 @@ void AutoSave::initialize()
         return;
     }
     _initialized = true;
-}
 
-void AutoSave::onDocumentSaved(wyap::Document* pDoc)
-{
-    assert(pDoc);
+    const Config* pConfig = Application::instance().getConfig();
+    assert(pConfig);
+    _intervalMs = static_cast<int64_t>(pConfig->autoSave.intervalMinutes) * 60 * 1000;
 
-    // Refresh the "last attempt" time so autosave does not immediately
-    // rewrite the copy right after a manual save.
-    this->touchLastAttempt(pDoc);
-
-    // Delete the .autosave recorded for this document. The recorded path is
-    // looked up by document, not derived from the current file name: after a
-    // save-as the name has changed and the recorded copy belongs to the old
-    // name.
-    auto iterAutosave = _knownAutosaves.find(pDoc);
-    if (iterAutosave != _knownAutosaves.end())
-    {
-        this->deleteAutosaveFile(iterAutosave->second);
-        _knownAutosaves.erase(iterAutosave);
-    }
+    _timer.start();
 }
 
 bool AutoSave::checkRecoveryForOpen(const std::string& u8FileFullPath)
@@ -151,7 +145,6 @@ bool AutoSave::checkRecoveryForOpen(const std::string& u8FileFullPath)
         "Autosave file: %3\n\n"
         "Do you want to recover the unsaved changes?")
         .arg(originalPath, originalTime, autosaveTime);
-
     QMessageBox messageBox(
         QMessageBox::Warning,
         tr("Recovery"),
@@ -187,7 +180,9 @@ bool AutoSave::checkRecoveryForOpen(const std::string& u8FileFullPath)
 
     // readFile marks the document Modified natively (verified by spike:
     // status becomes NewlyCreated | Modified, and the SDK fires
-    // onDocumentStatusChanged, which starts the autosave heartbeat).
+    // onDocumentStatusChanged, which starts the autosave heartbeat). It also
+    // fires onDatabaseChanged notifications (verified by log), so the change
+    // counter reflects the loaded content.
     wy::ErrorStatus error = pDoc->getDatabase()->readFile(
         autosavePath.toStdString(), {wydb::FileType::Binary});
     if (wy::ErrorStatus::Ok != error)
@@ -198,10 +193,14 @@ bool AutoSave::checkRecoveryForOpen(const std::string& u8FileFullPath)
         return false; // Keep the .autosave so it can be retried next time.
     }
 
-    // Take over the leftover .autosave (created by a previous session, so it
-    // is not in _knownAutosaves yet): without this, saving/closing/exiting
-    // could not delete it.
-    _knownAutosaves[pDoc] = autosavePath;
+    Document* pAppDoc = dynamic_cast<Document*>(pDoc);
+    assert(pAppDoc);
+    assert(1 == pAppDoc->getChangeCount());
+    assert(_autoSaveInfoMap.find(pDoc) != _autoSaveInfoMap.cend());
+    AutosaveInfo& autosaveInfo = _autoSaveInfoMap[pDoc];
+    autosaveInfo.modifiedTimer.restart();
+    autosaveInfo.lastAutoSaveIndex = pAppDoc->getChangeCount();
+    autosaveInfo.lastAutoSaveFilePath = autosavePath;
 
     // Activate the recovered document.
     pDocMgr->activateDocument(pDoc, wyap::ExecutionMode::Async);
@@ -220,12 +219,11 @@ bool AutoSave::checkRecoveryForOpen(const std::string& u8FileFullPath)
         QMessageBox::Yes);
     if (QMessageBox::Yes == ret)
     {
-        if (!FileCmdsUtil::saveFileToPath(pDoc, u8FileFullPath))
+        const wydb::FileType fileType = FileCmdsUtil::inferFileType(u8FileFullPath);
+        wy::ErrorStatus error = Application::instance().getDocManager()->saveDocument(pDoc, u8FileFullPath, { fileType });
+        if (wy::ErrorStatus::Ok != error)
         {
             MessageBoxUtil::showError(tr("Failed to save the recovered document!"));
-            // Fall back to the save-as dialog so the user can pick another path.
-            bool isUserCanceled(false);
-            FileCmdsUtil::uiSaveFile(pDoc, true, isUserCanceled);
         }
     }
 
@@ -238,26 +236,51 @@ void AutoSave::cleanupOnExit()
 {
     _timer.stop();
 
-    for (const auto& entry : _knownAutosaves)
+    for (const auto& kvp : _autoSaveInfoMap)
     {
-        this->deleteAutosaveFile(entry.second);
+        deleteAutosaveFile(kvp.second.lastAutoSaveFilePath);
     }
-    _knownAutosaves.clear();
-    _lastAttempt.clear();
+    _autoSaveInfoMap.clear();
 }
 
 void AutoSave::onDocumentStatusChanged(wyap::Document* pDoc, unsigned int oldStatus)
 {
-    (void)oldStatus;
     assert(pDoc);
 
     if (pDoc->hasStatus(wyap::DocumentStatus::Modified))
     {
-        this->startTimerIfNeeded();
+        auto iter = _autoSaveInfoMap.find(pDoc);
+        if (_autoSaveInfoMap.cend() == iter)
+        {
+            AutosaveInfo& info = _autoSaveInfoMap[pDoc];
+            info.modifiedTimer.restart();
+            info.lastAutoSaveIndex = 0;
+            info.lastAutoSaveFilePath = "";
+        }
+        else
+        {
+            if (iter->second.modifiedTimer.isValid())
+            {
+                assert(false);
+            }
+            else
+            {
+                iter->second.modifiedTimer.restart();
+            }
+        }
     }
     else
     {
-        this->stopTimerIfIdle();
+        auto iter = _autoSaveInfoMap.find(pDoc);
+        if (_autoSaveInfoMap.cend() == iter)
+        {
+            assert(false);
+            return;
+        }
+        iter->second.modifiedTimer.invalidate();
+        deleteAutosaveFile(iter->second.lastAutoSaveFilePath);
+        iter->second.lastAutoSaveIndex = 0;
+        iter->second.lastAutoSaveFilePath = "";
     }
 }
 
@@ -265,85 +288,53 @@ void AutoSave::onDocumentToBeDestroyed(wyap::Document* pDocToDestroy)
 {
     assert(pDocToDestroy);
 
-    // The pointer is still valid before destruction: look up the recorded
-    // .autosave path (keyed by the pointer), delete the file, then clear
-    // the records.
-    auto iterAutosave = _knownAutosaves.find(pDocToDestroy);
-    if (iterAutosave != _knownAutosaves.end())
+    auto iter = _autoSaveInfoMap.find(pDocToDestroy);
+    if (_autoSaveInfoMap.cend() == iter)
     {
-        this->deleteAutosaveFile(iterAutosave->second);
-        _knownAutosaves.erase(iterAutosave);
+        return;
     }
 
-    _lastAttempt.erase(pDocToDestroy);
-
-    this->stopTimerIfIdle();
+    if (!iter->second.lastAutoSaveFilePath.isEmpty())
+    {
+        deleteAutosaveFile(iter->second.lastAutoSaveFilePath);
+    }
+    _autoSaveInfoMap.erase(iter);
 }
 
-void AutoSave::onTimerTimeout()
+void AutoSave::onTimer()
 {
-    if (!this->isCycleAllowed())
+    if (QApplication::activeModalWidget() != nullptr)
     {
-        // The timer still fires inside the nested event loop of a modal
-        // dialog; defer to the next tick.
+        return;
+    }
+
+    if (_intervalMs <= 0)
+    {
+        // Auto save disabled: the tick does nothing.
         return;
     }
 
     const std::vector<wyap::Document*> documents = this->getEligibleModifiedDocuments();
     if (documents.empty())
     {
-        this->stopTimerIfIdle();
         return;
     }
 
-    const Config* pConfig = Application::instance().getConfig();
-    assert(pConfig);
-    const qint64 intervalMs = static_cast<qint64>(pConfig->autoSave.intervalMinutes) * 60 * 1000;
-
-    // Per-document due check: write only when the time since the last attempt
-    // reached the configured interval.
     for (wyap::Document* pDoc : documents)
     {
-        auto iterLastAttempt = _lastAttempt.find(pDoc);
-        const bool isDue = (iterLastAttempt == _lastAttempt.end())
-            || !iterLastAttempt->second.isValid()
-            || iterLastAttempt->second.elapsed() >= intervalMs;
-        if (isDue)
+        auto iter = _autoSaveInfoMap.find(pDoc);
+        if (_autoSaveInfoMap.cend() == iter)
         {
-            // autosaveDocument refreshes the "last attempt" time internally on
-            // success and failure; a defer (leaf transaction) does not, so the
-            // next tick retries.
+            continue;
+        }
+        if (!iter->second.modifiedTimer.isValid())
+        {
+            continue;
+        }
+        if (iter->second.modifiedTimer.elapsed() >= _intervalMs)
+        {
             this->autosaveDocument(pDoc);
         }
-    }
-}
-
-void AutoSave::startTimerIfNeeded()
-{
-    if (!_initialized)
-    {
-        return;
-    }
-
-    const Config* pConfig = Application::instance().getConfig();
-    assert(pConfig);
-    // 0 disables auto save (config.ini autoSave/intervalMinutes).
-    if (pConfig->autoSave.intervalMinutes <= 0)
-    {
-        return;
-    }
-
-    if (!_timer.isActive() && !this->getEligibleModifiedDocuments().empty())
-    {
-        _timer.start();
-    }
-}
-
-void AutoSave::stopTimerIfIdle()
-{
-    if (this->getEligibleModifiedDocuments().empty())
-    {
-        _timer.stop();
     }
 }
 
@@ -382,55 +373,54 @@ std::vector<wyap::Document*> AutoSave::getEligibleModifiedDocuments() const
     return eligibleDocs;
 }
 
-bool AutoSave::isCycleAllowed() const
-{
-    // Defer the whole cycle while a modal dialog (file dialog, message box,
-    // etc.) is open.
-    return QApplication::activeModalWidget() == nullptr;
-}
-
 bool AutoSave::autosaveDocument(wyap::Document* pDoc)
 {
     assert(pDoc);
-
     wydb::Database* pDb = pDoc->getDatabase();
     if (!pDb)
     {
         assert(false);
-        // Should-not-happen state: refresh the "last attempt" time so
-        // retries are rate-limited to the configured interval.
-        this->touchLastAttempt(pDoc);
         return false;
     }
 
-    // Strict rule: defer while ANY transaction is active (including a
-    // top-level transaction group such as a sketch session). Chosen over the
-    // sketch-group exception for maximum safety: getActiveTransaction()
-    // returns the innermost active transaction.
     wydb::Transaction* pActiveTrans = pDb->getTransactionManager()->getActiveTransaction();
     if (pActiveTrans)
     {
-        // Defer WITHOUT refreshing the "last attempt" time, so the due check
-        // on the next tick (<=60s) retries as soon as the transaction has
-        // ended.
         return false;
     }
 
-    // A real write attempt starts here: refresh the "last attempt" time so
-    // success and failure alike are rate-limited to the configured interval
-    // (no retry on every tick).
-    this->touchLastAttempt(pDoc);
+    auto iter = _autoSaveInfoMap.find(pDoc);
+    if (_autoSaveInfoMap.cend() == iter)
+    {
+        assert(false);
+        return false;
+    }
+
+    Document* pAppDoc = dynamic_cast<Document*>(pDoc);
+    if (!pAppDoc)
+    {
+        assert(false);
+        return false;
+    }
+    unsigned long long changeCount = pAppDoc->getChangeCount();
+    if (iter->second.lastAutoSaveIndex != 0
+        && changeCount <= iter->second.lastAutoSaveIndex)
+    {
+        assert(changeCount == iter->second.lastAutoSaveIndex);
+        iter->second.modifiedTimer.restart();
+        return false;
+    }
 
     // Write a .tmp file first, then atomically replace the .autosave with it,
     // so a crash mid-save can never corrupt the .autosave.
-    const QString autosavePath = this->autosavePathFor(pDoc);
+    const QString autosavePath = QString::fromStdString(pDoc->getFileName()) + kAutosaveSuffix;
     const QString tmpPath = autosavePath + QStringLiteral(".tmp");
-
     wy::ErrorStatus error = pDb->writeFile(tmpPath.toStdString(), {wydb::FileType::Binary});
     if (wy::ErrorStatus::Ok != error)
     {
-        qWarning() << "AutoSave: writeFile failed, code" << static_cast<unsigned int>(error)
-                   << "path" << tmpPath;
+        assert(false);
+        QFile::remove(tmpPath);
+        iter->second.modifiedTimer.restart();
         return false;
     }
 
@@ -438,41 +428,14 @@ bool AutoSave::autosaveDocument(wyap::Document* pDoc)
     // where a crash would leave neither the old copy nor the new one.
     if (!replaceFileAtomically(tmpPath, autosavePath))
     {
-        qWarning() << "AutoSave: replace failed" << tmpPath << "->" << autosavePath;
+        assert(false);
         QFile::remove(tmpPath);
+        iter->second.modifiedTimer.restart();
         return false;
     }
 
-    _knownAutosaves[pDoc] = autosavePath;
+    iter->second.modifiedTimer.restart();
+    iter->second.lastAutoSaveIndex = changeCount;
+    iter->second.lastAutoSaveFilePath = autosavePath;
     return true;
-}
-
-QString AutoSave::autosavePathFor(wyap::Document* pDoc) const
-{
-    assert(pDoc);
-
-    return QString::fromStdString(pDoc->getFileName()) + kAutosaveSuffix;
-}
-
-void AutoSave::deleteAutosaveFile(const QString& autosavePath)
-{
-    // Callers must only pass paths recorded in _knownAutosaves (created or
-    // taken over by this session), so unrelated user files are never touched.
-    QFile::remove(autosavePath);
-    QFile::remove(autosavePath + QStringLiteral(".tmp"));
-}
-
-void AutoSave::touchLastAttempt(wyap::Document* pDoc)
-{
-    assert(pDoc);
-
-    QElapsedTimer& timer = _lastAttempt[pDoc];
-    if (!timer.isValid())
-    {
-        timer.start();
-    }
-    else
-    {
-        timer.restart();
-    }
 }

@@ -48,9 +48,6 @@ public:
     // Register as a document manager reactor (idempotent).
     void initialize();
 
-    // Called after a successful manual save.
-    void onDocumentSaved(wyap::Document* pDoc);
-
     // Called before opening a file; returns true if the recovery flow already
     // handled the open, in which case the caller must skip opening the original.
     bool checkRecoveryForOpen(const std::string& u8FileFullPath);
@@ -67,41 +64,28 @@ public:
     void onDocumentToBeDestroyed(wyap::Document* pDocToDestroy) override;
 
 private:
-    void onTimerTimeout();
-    void startTimerIfNeeded();
-    void stopTimerIfIdle();
+    void onTimer();
     std::vector<wyap::Document*> getEligibleModifiedDocuments() const;
-    // Whether this tick may run. Only checks modal widgets; a modal-command
-    // check is deliberately omitted (the Select command is modal and always
-    // running while idle, so that condition would always be true).
-    bool isCycleAllowed() const;
     // Autosave one document; returns false when deferred (any active
-    // transaction) or on failure. A defer does NOT refresh the "last attempt"
-    // time so the next tick retries; success and failure do refresh it
-    // (rate-limited to the configured interval).
+    // transaction), skipped (nothing changed since the last copy), or on
+    // failure. A defer does NOT restart the stopwatch so the next tick
+    // retries; skip, success and failure do restart it (rate-limited to the
+    // configured interval).
     bool autosaveDocument(wyap::Document* pDoc);
-    // .autosave path of the document: the current file name plus the suffix.
-    QString autosavePathFor(wyap::Document* pDoc) const;
-    // Delete one .autosave copy and its .tmp. Callers must only pass paths
-    // recorded in _knownAutosaves (created or taken over by this session), so
-    // unrelated user files are never touched.
-    void deleteAutosaveFile(const QString& autosavePath);
-    // Refresh the "last attempt" time (starts on first use, restarts afterwards).
-    void touchLastAttempt(wyap::Document* pDoc);
 
 private:
-    // Repeating timer with a fixed 60s tick; stopped while no eligible document exists.
     QTimer _timer;
-    // Whether initialized.
     bool _initialized;
-    // Per-document "last autosave attempt" time (monotonic clock, immune to
-    // system time adjustments).
-    std::map<wyap::Document*, QElapsedTimer> _lastAttempt;
-    // Document -> its .autosave path, for copies created or taken over by
-    // this session (in memory only). Keyed by the document (not the path) so
-    // a save-as rename still finds and deletes the old copy. Entries are
-    // erased in onDocumentToBeDestroyed while the pointer is still valid.
-    std::map<wyap::Document*, QString> _knownAutosaves;
+    int64_t _intervalMs;
+
+    // Per-document autosave info.
+    struct AutosaveInfo
+    {
+        QElapsedTimer modifiedTimer;
+        unsigned long long lastAutoSaveIndex = 0;
+        QString lastAutoSaveFilePath;
+    };
+    std::map<wyap::Document*, AutosaveInfo> _autoSaveInfoMap;
 };
 
 #endif // WY3DAPP_AUTO_SAVE_H

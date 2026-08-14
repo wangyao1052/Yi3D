@@ -188,11 +188,6 @@ bool FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserC
     wy::ErrorStatus error = Application::instance().getDocManager()->saveDocument(pDoc, u8FileName, {fileType});
     if (wy::ErrorStatus::Ok == error)
     {
-        // Manual save succeeded: delete the document's .autosave and refresh
-        // the autosave time (must be after saveDocument, when getFileName()
-        // already returns the saved path).
-        Application::instance().getAutoSave()->onDocumentSaved(pDoc);
-
         Application::instance().getMainWindow()->setWindowTitle(QString::fromStdString(u8FileName));
         return true;
     }
@@ -235,29 +230,6 @@ wydb::FileType FileCmdsUtil::inferFileType(const std::string& u8FilePath)
         return wydb::FileType::Binary;
     }
     return wydb::FileType::Text;
-}
-
-bool FileCmdsUtil::saveFileToPath(wyap::Document* pDoc, const std::string& u8FileName)
-{
-    assert(pDoc);
-
-    const wydb::FileType fileType = FileCmdsUtil::inferFileType(u8FileName);
-
-    wy::ErrorStatus error = Application::instance().getDocManager()->saveDocument(pDoc, u8FileName, {fileType});
-    if (wy::ErrorStatus::Ok == error)
-    {
-        // Save succeeded: delete the document's .autosave and refresh the autosave time.
-        Application::instance().getAutoSave()->onDocumentSaved(pDoc);
-
-        Application::instance().getMainWindow()->setWindowTitle(QString::fromStdString(u8FileName));
-        return true;
-    }
-    else
-    {
-        // TODO Show an error dialog
-        assert(false);
-        return false;
-    }
 }
 
 int NewFileCommand::run()
