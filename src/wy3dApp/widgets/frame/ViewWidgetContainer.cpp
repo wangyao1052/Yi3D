@@ -31,6 +31,7 @@
 
 #include <wyapDocument.h>
 #include <wyapDocManager.h>
+#include <wyapEnums.h>
 #include <wyapEnvManager.h>
 #include <wyapEnvironment.h>
 #include <wyapSelManager.h>
@@ -422,5 +423,11 @@ QString ViewWidgetContainer::buildTabTitle(wyap::Document* pDoc) const
         return QString("");
     }
     const std::string& fileName = pDoc->getFileName();
-    return QFileInfo(QString::fromStdString(fileName)).completeBaseName();
+    QString title = QFileInfo(QString::fromStdString(fileName)).completeBaseName();
+    // Prefix "*" marks unsaved changes (AutoCAD style).
+    if (pDoc->hasStatus(wyap::DocumentStatus::Modified))
+    {
+        title.prepend("*");
+    }
+    return title;
 }
