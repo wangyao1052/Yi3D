@@ -40,6 +40,48 @@
     </message>
 </context>
 <context>
+    <name>AutoSave</name>
+    <message>
+        <location filename="../../application/AutoSave.cpp" line="120"/>
+        <source>An autosave file was found for:
+%1
+
+Original file: %2
+Autosave file: %3
+
+Do you want to recover the unsaved changes?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../application/AutoSave.cpp" line="128"/>
+        <location filename="../../application/AutoSave.cpp" line="186"/>
+        <source>Recovery</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../application/AutoSave.cpp" line="133"/>
+        <source>Recover</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../application/AutoSave.cpp" line="135"/>
+        <source>Discard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../application/AutoSave.cpp" line="187"/>
+        <source>The document has been recovered.
+Do you want to save it to the original file now?
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../application/AutoSave.cpp" line="195"/>
+        <source>Failed to save the recovered document!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>BooleanGuiCmd</name>
     <message>
         <location filename="../../commands/modeling/solid/boolean/BooleanGuiCmds.cpp" line="299"/>
@@ -980,91 +1022,91 @@
 <context>
     <name>FileCmds</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="73"/>
+        <location filename="../../commands/FileCommands.cpp" line="74"/>
         <source>Do you want to save the changes to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="75"/>
-        <location filename="../../commands/FileCommands.cpp" line="378"/>
+        <location filename="../../commands/FileCommands.cpp" line="76"/>
+        <location filename="../../commands/FileCommands.cpp" line="471"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="76"/>
-        <location filename="../../commands/FileCommands.cpp" line="379"/>
+        <location filename="../../commands/FileCommands.cpp" line="77"/>
+        <location filename="../../commands/FileCommands.cpp" line="472"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="77"/>
+        <location filename="../../commands/FileCommands.cpp" line="78"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="117"/>
-        <location filename="../../commands/FileCommands.cpp" line="343"/>
+        <location filename="../../commands/FileCommands.cpp" line="120"/>
+        <location filename="../../commands/FileCommands.cpp" line="436"/>
         <source>YI3D Text files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="120"/>
-        <location filename="../../commands/FileCommands.cpp" line="344"/>
+        <location filename="../../commands/FileCommands.cpp" line="123"/>
+        <location filename="../../commands/FileCommands.cpp" line="437"/>
         <source>YI3D Binary files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="128"/>
+        <location filename="../../commands/FileCommands.cpp" line="144"/>
         <source>Save file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="182"/>
+        <location filename="../../commands/FileCommands.cpp" line="275"/>
         <source>unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="342"/>
+        <location filename="../../commands/FileCommands.cpp" line="435"/>
         <source>All YI3D files (*.%1 *.%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="348"/>
+        <location filename="../../commands/FileCommands.cpp" line="441"/>
         <source>Open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="375"/>
+        <location filename="../../commands/FileCommands.cpp" line="468"/>
         <source>Do you want to revert to the saved version?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="509"/>
+        <location filename="../../commands/FileCommands.cpp" line="588"/>
         <source>Export file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="532"/>
+        <location filename="../../commands/FileCommands.cpp" line="611"/>
         <source>Export file failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="605"/>
+        <location filename="../../commands/FileCommands.cpp" line="684"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="615"/>
+        <location filename="../../commands/FileCommands.cpp" line="694"/>
         <source>Export failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="647"/>
+        <location filename="../../commands/FileCommands.cpp" line="726"/>
         <source>Import file</source>
         <translation type="unfinished">Import file</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="669"/>
+        <location filename="../../commands/FileCommands.cpp" line="748"/>
         <source>Import file failed!</source>
         <translation type="unfinished">Import file failed!</translation>
     </message>
@@ -1313,8 +1355,8 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="103"/>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="332"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="104"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="336"/>
         <source>wy3dApp</source>
         <translation type="unfinished">Yi3D</translation>
     </message>
@@ -1924,32 +1966,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="181"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="182"/>
         <source>Please exit the task environment first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="266"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="270"/>
         <source>The following documents have unsaved changes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="268"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="272"/>
         <source>Do you want to return to the application so you can save these changes?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="274"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="278"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="279"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="283"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="282"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="286"/>
         <source>No - Exit</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3202,12 +3244,12 @@
 <context>
     <name>RunScriptCommand</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="686"/>
+        <location filename="../../commands/FileCommands.cpp" line="765"/>
         <source>Python Script (*.py)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="690"/>
+        <location filename="../../commands/FileCommands.cpp" line="769"/>
         <source>Run Python Script</source>
         <translation type="unfinished"></translation>
     </message>

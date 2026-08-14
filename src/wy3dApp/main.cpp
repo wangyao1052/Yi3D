@@ -24,6 +24,7 @@
 
 #include "application/wy3dQApplication.h"
 #include "application/Application.h"
+#include "application/AutoSave.h"
 #include "application/Config.h"
 #include "application/crashDump/CrashDump.h"
 #include "commands/FileCommands.h"
@@ -80,6 +81,13 @@ int main(int argc, char *argv[])
         }
     }
     // }
+
+    // Safety net on normal exit: delete all .autosave files produced by this
+    // session (idempotent, closeEvent has already cleaned up).
+    QObject::connect(&app, &QCoreApplication::aboutToQuit, []()
+    {
+        Application::instance().getAutoSave()->cleanupOnExit();
+    });
 
     return app.exec();
 }

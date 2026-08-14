@@ -19,6 +19,7 @@
 #include "MainWindow.h"
 #include "ViewWidgetContainer.h"
 #include "application/Application.h"
+#include "application/AutoSave.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "OsgUtils.h"
 #include "scene/Scene.h"
@@ -207,6 +208,9 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
     // Close all documents.
     this->closeAllDocumentsForExit();
+
+    // Clean up autosave files (normal exit)
+    Application::instance().getAutoSave()->cleanupOnExit();
 
     // Close application.
     event->accept();

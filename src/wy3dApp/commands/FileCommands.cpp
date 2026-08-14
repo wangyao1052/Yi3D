@@ -38,6 +38,7 @@
 #include <wy3dDatabase.h>
 
 #include "application/Application.h"
+#include "application/AutoSave.h"
 #include "widgets/frame/MainWindow.h"
 #include "test/Test.h"
 #include "exporter/Exporter.h"
@@ -108,7 +109,9 @@ bool FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserC
     isUserCanceled = false;
 
     std::string u8FileName = pDoc->getFileName();
-    wydb::FileType fileType = wydb::FileType::Text; // 默认文本格式
+    // The file name's suffix decides the format; the dialog block below may
+    // refine it when the user picks a new name or filter.
+    wydb::FileType fileType = FileCmdsUtil::inferFileType(u8FileName);
     if (isSaveAs || pDoc->hasStatus(wyap::DocumentStatus::NewlyCreated))
     {
         // 构建两种格式的filter
@@ -123,6 +126,19 @@ bool FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserC
         const QString filter = textFilter + ";;" + binaryFilter;
 
         QString selectedFilter;
+        // Pre-select the filter that matches the current file name's suffix,
+        // so the default choice cannot silently switch the format.
+        {
+            const QString suffix = QFileInfo(QString::fromStdString(u8FileName)).suffix().toLower();
+            if (suffix == QString::fromStdString(wy3d::Database::extension(wydb::FileType::Binary)))
+            {
+                selectedFilter = binaryFilter;
+            }
+            else
+            {
+                selectedFilter = textFilter;
+            }
+        }
         QString fileFullPath = QFileDialog::getSaveFileName(
             Application::instance().getMainWindow(),
             QCoreApplication::translate("FileCmds", "Save file"),
@@ -150,18 +166,95 @@ bool FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserC
             fileFullPath += "." + QString::fromStdString(wy3d::Database::extension(fileType));
         }
 
+        // The final file name's suffix is authoritative for the format: a file
+        // named *.wy3db must never contain text-format data, even if the
+        // dialog's filter was changed to Text.
+        {
+            QFileInfo finalInfo(fileFullPath);
+            const QString suffix = finalInfo.suffix().toLower();
+            if (suffix == QString::fromStdString(wy3d::Database::extension(wydb::FileType::Binary)))
+            {
+                fileType = wydb::FileType::Binary;
+            }
+            else
+            {
+                fileType = wydb::FileType::Text;
+            }
+        }
+
         u8FileName = fileFullPath.toStdString();
     }
 
     wy::ErrorStatus error = Application::instance().getDocManager()->saveDocument(pDoc, u8FileName, {fileType});
     if (wy::ErrorStatus::Ok == error)
     {
+        // Manual save succeeded: delete the document's .autosave and refresh
+        // the autosave time (must be after saveDocument, when getFileName()
+        // already returns the saved path).
+        Application::instance().getAutoSave()->onDocumentSaved(pDoc);
+
         Application::instance().getMainWindow()->setWindowTitle(QString::fromStdString(u8FileName));
         return true;
     }
     else
     {
         // TODO 弹出错误提示窗口
+        assert(false);
+        return false;
+    }
+}
+
+void FileCmdsUtil::fitViewToAll(wyap::Document* pDoc)
+{
+    assert(pDoc);
+
+    wyap::View* pView = Application::instance().getViewManager()->getView(pDoc);
+    BaseView* pAppView = dynamic_cast<BaseView*>(pView);
+    if (!pAppView)
+    {
+        assert(false);
+        return;
+    }
+
+    pAppView->ortho();
+    pAppView->lookAtISO();
+
+    wyap::Scene* pScene = Application::instance().getSceneManager()->getScene(pDoc);
+    Scene* pAppScene = dynamic_cast<Scene*>(pScene);
+    if (pAppScene)
+    {
+        pAppView->viewAll(pAppScene->getElementsBoundingBox());
+    }
+}
+
+wydb::FileType FileCmdsUtil::inferFileType(const std::string& u8FilePath)
+{
+    const QString suffix = QFileInfo(QString::fromStdString(u8FilePath)).suffix().toLower();
+    if (suffix == QString::fromStdString(wy3d::Database::extension(wydb::FileType::Binary)))
+    {
+        return wydb::FileType::Binary;
+    }
+    return wydb::FileType::Text;
+}
+
+bool FileCmdsUtil::saveFileToPath(wyap::Document* pDoc, const std::string& u8FileName)
+{
+    assert(pDoc);
+
+    const wydb::FileType fileType = FileCmdsUtil::inferFileType(u8FileName);
+
+    wy::ErrorStatus error = Application::instance().getDocManager()->saveDocument(pDoc, u8FileName, {fileType});
+    if (wy::ErrorStatus::Ok == error)
+    {
+        // Save succeeded: delete the document's .autosave and refresh the autosave time.
+        Application::instance().getAutoSave()->onDocumentSaved(pDoc);
+
+        Application::instance().getMainWindow()->setWindowTitle(QString::fromStdString(u8FileName));
+        return true;
+    }
+    else
+    {
+        // TODO Show an error dialog
         assert(false);
         return false;
     }
@@ -397,21 +490,23 @@ int OpenFileCommand::run()
 
 int OpenFileCommand::openFile(const std::string& u8FileFullPath)
 {
-    // 根据文件后缀推断文件类型
-    wydb::FileType fileType = wydb::FileType::Text; // 默认文本格式
+    // Crash recovery check: if a .autosave exists next to the file, ask the
+    // user to recover or discard. Returns true when the recovery flow already
+    // handled the open, in which case opening the original is skipped.
+    if (Application::instance().getAutoSave()->checkRecoveryForOpen(u8FileFullPath))
     {
-        QString qstrPath = QString::fromStdString(u8FileFullPath);
-        QFileInfo fileInfo(qstrPath);
-        QString suffix = fileInfo.suffix().toLower();
-        if (suffix == QString::fromStdString(wy3d::Database::extension(wydb::FileType::Binary)))
-        {
-            fileType = wydb::FileType::Binary;
-        }
+        return 0;
     }
+
+    // 根据文件后缀推断文件类型
+    wydb::FileType fileType = FileCmdsUtil::inferFileType(u8FileFullPath);
+    wydb::Database::ReadFileOption readFileOption;
+    readFileOption.fileType = fileType;
 
     // 打开文档
     wyap::Document* pDoc(nullptr);
-    wy::ErrorStatus error = Application::instance().getDocManager()->openDocument(u8FileFullPath, {fileType}, pDoc);
+    wy::ErrorStatus error = Application::instance().getDocManager()->openDocument(
+        u8FileFullPath, readFileOption, pDoc);
     if (wy::ErrorStatus::Ok != error)
     {
         MessageBoxUtil::showOpenFileError(error);
@@ -422,29 +517,13 @@ int OpenFileCommand::openFile(const std::string& u8FileFullPath)
         assert(false);
         return 0;
     }
+
     // 激活打开的文档
     error = Application::instance().getDocManager()->activateDocument(
         pDoc, wyap::ExecutionMode::Async);
 
-    //// 调整视图
-    //Application::instance().viewISO();
-    //Application::instance().fitView();
-
-    //
-    wyap::View* pView = Application::instance().getViewManager()->getView(pDoc);
-    BaseView* pAppView = dynamic_cast<BaseView*>(pView);
-    if (pAppView)
-    {
-        pAppView->ortho();
-        pAppView->lookAtISO();
-
-        wyap::Scene* pScene = Application::instance().getSceneManager()->getScene(pDoc);
-        Scene* pAppScene = dynamic_cast<Scene*>(pScene);
-        if (pAppScene)
-        {
-            pAppView->viewAll(pAppScene->getElementsBoundingBox());
-        }
-    }
+    // Fit the view: orthographic + isometric + zoom to the model.
+    FileCmdsUtil::fitViewToAll(pDoc);
 
     return 0;
 }

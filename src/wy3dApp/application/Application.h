@@ -65,6 +65,7 @@ class Config;
 class CmdActionMgr;
 class GuiCmdMenuActionMgr;
 class GizmoFactory;
+class AutoSave;
 
 enum class CursorType;
 
@@ -89,6 +90,12 @@ public:
     const Config* getConfig() const
     {
         return _pConfig;
+    }
+
+    // Auto save module
+    AutoSave* getAutoSave() const
+    {
+        return _pAutoSave.get();
     }
 
     // 获取当前激活的视图
@@ -187,6 +194,8 @@ private:
     StatusBarHelper _statusBar;
     // 配置项
     Config* _pConfig;
+    // Auto save module
+    std::unique_ptr<AutoSave> _pAutoSave;
     // Gizmo创建工厂
     std::unique_ptr<GizmoFactory> _pGizmoFactory;
     // 捕捉系统

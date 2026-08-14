@@ -26,6 +26,7 @@
 #endif
 
 #include "application/Application.h"
+#include "application/AutoSave.h"
 #include "OsgUtils.h"
 #include <wyVector3.h>
 #include <wyapSceneManager.h>
@@ -152,6 +153,10 @@ bool Application::initialize()
 
     // 注册为文档管理器反应器（接收文档激活/失活回调）
     this->getDocManager()->addReactor(static_cast<wyap::SnapSystemImpl*>(_pSnapSystem.get()));
+
+    // Auto save module (registers as a document manager reactor)
+    _pAutoSave = std::make_unique<AutoSave>();
+    _pAutoSave->initialize();
 
     // 设置捕捉对象工厂
     wyap::SnapSystem* pSnapSys = this->getSnapSystem();

@@ -77,6 +77,20 @@ void Config::initializeImpl()
     this->readInt(settings, "view/invertMouseWheelZoom", nInvertMouseWheelZoom, 0, 1);
     const_cast<bool&>(this->view.invertMouseWheelZoom) = (0 == nInvertMouseWheelZoom) ? false : true;
 
+    // autoSave/intervalMinutes (0 disables auto save)
+    int nAutoSaveIntervalMinutes(10);
+    this->readInt(settings, "autoSave/intervalMinutes", nAutoSaveIntervalMinutes, 0, 60);
+
+    // Backward compatibility: older config.ini versions disabled auto save
+    // via autoSave/enabled; honor it as intervalMinutes = 0.
+    int nAutoSaveEnabled(1);
+    if (this->readInt(settings, "autoSave/enabled", nAutoSaveEnabled, 0, 1) && (0 == nAutoSaveEnabled))
+    {
+        nAutoSaveIntervalMinutes = 0;
+    }
+
+    const_cast<int&>(this->autoSave.intervalMinutes) = nAutoSaveIntervalMinutes;
+
     return;
 }
 
@@ -92,6 +106,11 @@ bool Config::saveToFile(const QString& fileFullPath)
     // 保存视图配置
     settings.beginGroup("view");
     settings.setValue("invertMouseWheelZoom", this->view.invertMouseWheelZoom ? "1" : "0");
+    settings.endGroup();
+
+    // Save auto save settings
+    settings.beginGroup("autoSave");
+    settings.setValue("intervalMinutes", this->autoSave.intervalMinutes);
     settings.endGroup();
 
     // 检查是否有错误发生

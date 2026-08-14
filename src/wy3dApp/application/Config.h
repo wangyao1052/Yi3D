@@ -48,6 +48,14 @@ public:
 
     } view;
 
+    // Auto save
+    struct AutoSave
+    {
+        // Auto save interval (minutes): 20, 0 disables it
+        const int intervalMinutes = 20;
+
+    } autoSave;
+
 private:
     void initializeImpl();
 
