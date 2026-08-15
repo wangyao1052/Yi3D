@@ -107,10 +107,6 @@
     X(CommandNames::Hide, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, HideCommand::classInfo()) \
     X(CommandNames::Undo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, UndoCommand::classInfo()) \
     X(CommandNames::Redo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, RedoCommand::classInfo()) \
-    X(CommandNames::SaveFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, SaveFileCommand::classInfo()) \
-    X(CommandNames::SaveAsFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, SaveAsFileCommand::classInfo()) \
-    X(CommandNames::ExportFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, ExportFileCommand::classInfo()) \
-    X(CommandNames::ImportFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, ImportFileCommand::classInfo()) \
     X(CommandNames::EndSketch, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, EndSketchCommand::classInfo()) \
     X(CommandNames::CancelSketch, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, CancelSketchCommand::classInfo()) \
     X(CommandNames::RelocateSketchCSYS, WYAP_CMD_MODAL, SketchRelocateCsysGuiCmd::classInfo()) \

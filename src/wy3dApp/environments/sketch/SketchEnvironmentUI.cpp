@@ -32,7 +32,6 @@
 #include "scene/Scene.h"
 #include "commands/CommandAction.h"
 #include "commands/CommandNames.h"
-#include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
 #include "widgets/frame/MainWindow.h"
 
@@ -40,20 +39,11 @@ namespace
 {
 struct UiTargets
 {
-    QMenu* pMenuFile;
     QToolBar* pToolBarBasic;
     QToolBar* pToolBarEdit;
     QToolBar* pToolBarSketch;
     QToolBar* pToolBarSketchEnvironment;
     QToolBar* pToolBarView;
-};
-
-struct FileActions
-{
-    CommandAction* pActionSaveFile;
-    CommandAction* pActionSaveAsFile;
-    CommandAction* pActionImportFile;
-    CommandAction* pActionExportFile;
 };
 
 struct UndoRedoActions
@@ -151,41 +141,10 @@ UiTargets createUiTargets(SketchEnvironment* pEnv)
         return targets;
     }
 
-    targets.pMenuFile = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::File);
-    assert(targets.pMenuFile);
-
     targets.pToolBarBasic = pMainWindow->findChild<QToolBar*>(wy3dApp::ToolBarNames::Basic);
     assert(targets.pToolBarBasic);
 
     return targets;
-}
-
-FileActions createFileActions(SketchEnvironment* pEnv)
-{
-    assert(pEnv);
-
-    FileActions actions = {};
-    actions.pActionSaveFile = pEnv->newCommandAction(
-        CommandNames::SaveFile,
-        QCoreApplication::translate("MainWindow", "Save"),
-        QIcon(":/images/Document_Save.svg"));
-
-    actions.pActionSaveAsFile = pEnv->newCommandAction(
-        CommandNames::SaveAsFile,
-        QCoreApplication::translate("MainWindow", "Save As"),
-        QIcon(":/images/Document_SaveAs.svg"));
-
-    actions.pActionImportFile = pEnv->newCommandAction(
-        CommandNames::ImportFile,
-        QCoreApplication::translate("MainWindow", "Import"),
-        QIcon(":/images/Document_Import.svg"));
-
-    actions.pActionExportFile = pEnv->newCommandAction(
-        CommandNames::ExportFile,
-        QCoreApplication::translate("MainWindow", "Export"),
-        QIcon(":/images/Document_Export.svg"));
-
-    return actions;
 }
 
 UndoRedoActions createUndoRedoActions(SketchEnvironment* pEnv)
@@ -592,27 +551,12 @@ ViewActions createViewActions(SketchEnvironment* pEnv, QActionGroup* pActionGrou
     return actions;
 }
 
-void buildFileMenuUi(
-    const FileActions& actions,
-    QMenu* pMenuFile)
-{
-    assert(pMenuFile);
-
-    pMenuFile->addAction(actions.pActionSaveFile);
-    pMenuFile->addAction(actions.pActionSaveAsFile);
-    pMenuFile->addSeparator();
-    pMenuFile->addAction(actions.pActionImportFile);
-    pMenuFile->addAction(actions.pActionExportFile);
-}
-
 void buildBasicToolBarUi(
-    const FileActions& fileActions,
     const UndoRedoActions& undoRedoActions,
     QToolBar* pToolBarBasic)
 {
     assert(pToolBarBasic);
 
-    pToolBarBasic->addAction(fileActions.pActionSaveFile);
     pToolBarBasic->addAction(undoRedoActions.pActionUndo);
     pToolBarBasic->addAction(undoRedoActions.pActionRedo);
 }
@@ -747,7 +691,6 @@ void SketchEnvironmentUI::initialize(SketchEnvironment* pEnv)
 
     const UiTargets uiTargets = createUiTargets(pEnv);
     QActionGroup* pActionGroup = pEnv->newActionGroup();
-    const FileActions fileActions = createFileActions(pEnv);
     const UndoRedoActions undoRedoActions = createUndoRedoActions(pEnv);
     const EditActions editActions = createEditActions(pEnv, pActionGroup);
     const SketchActions sketchActions = createSketchActions(pEnv, pActionGroup);
@@ -755,8 +698,7 @@ void SketchEnvironmentUI::initialize(SketchEnvironment* pEnv)
         createSketchEnvironmentActions(pEnv, pActionGroup);
     const ViewActions viewActions = createViewActions(pEnv, pActionGroup);
 
-    buildFileMenuUi(fileActions, uiTargets.pMenuFile);
-    buildBasicToolBarUi(fileActions, undoRedoActions, uiTargets.pToolBarBasic);
+    buildBasicToolBarUi(undoRedoActions, uiTargets.pToolBarBasic);
     buildEditToolBarUi(editActions, uiTargets.pToolBarEdit);
     buildSketchToolBarUi(
         pEnv,

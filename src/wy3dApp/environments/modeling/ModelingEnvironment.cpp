@@ -20,6 +20,8 @@
 #include "ModelingEnvironmentUI.h"
 
 #include <memory>
+#include <string>
+#include <vector>
 
 #include <wydbTransaction.h>
 
@@ -146,4 +148,34 @@ void ModelingEnvironment::updateUndoRedoActionStates()
 
     pUndoAction->setEnabled(pTransMgr->canUndo() ? true : false);
     pRedoAction->setEnabled(pTransMgr->canRedo() ? true : false);
+}
+
+void ModelingEnvironment::updateFileActionStates()
+{
+    const std::vector<std::string> fileCommandNames =
+    {
+        CommandNames::SaveFile,
+        CommandNames::SaveAsFile,
+        CommandNames::ImportFile,
+        CommandNames::ExportFile,
+    };
+
+    bool enabled(false);
+    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    if (pDb)
+    {
+        wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
+        enabled = (nullptr == pTransMgr->getActiveTransaction());
+    }
+
+    for (const std::string& commandName : fileCommandNames)
+    {
+        QAction* pAction = this->findCommandAction(commandName);
+        if (!pAction)
+        {
+            assert(false);
+            continue;
+        }
+        pAction->setEnabled(enabled);
+    }
 }

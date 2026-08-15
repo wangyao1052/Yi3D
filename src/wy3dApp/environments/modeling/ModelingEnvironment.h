@@ -54,6 +54,7 @@ protected:
     virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
 
     virtual void updateUndoRedoActionStates() override;
+    virtual void updateFileActionStates() override;
 
 private:
     void registerCommands();

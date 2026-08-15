@@ -67,6 +67,7 @@ ShortcutKeysDialog::ShortcutKeysDialog(QWidget *parent)
         pLayout->setSpacing(6);
         pLayout->setContentsMargins(8, 8, 8, 8);
 
+        addShortcut(pContent, QStringLiteral("Ctrl+S"), tr("Save"));
         addShortcut(pContent, QStringLiteral("Ctrl+C"), tr("Copy"));
         addShortcut(pContent, QStringLiteral("Ctrl+V"), tr("Paste"));
         addShortcut(pContent, QStringLiteral("Ctrl+A"), tr("Select All"));

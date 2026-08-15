@@ -19,6 +19,7 @@
 #include "GatewayEnvironment.h"
 #include "GatewayEnvironmentUI.h"
 #include "application/Application.h"
+#include "commands/CommandNames.h"
 #include "environments/ICommandActionStateHost.h"
 
 
@@ -42,6 +43,7 @@ void GatewayEnvironment::onDocumentDeactivated(wyap::Document* pDeactivatedDoc)
     assert(wy::ErrorStatus::Ok == error);
 
     this->updateCommandActionStates();
+    this->updateFileActionStates();
 }
 
 void GatewayEnvironment::onDocumentActivated(wyap::Document* pActivatedDoc)
@@ -53,21 +55,25 @@ void GatewayEnvironment::onDocumentActivated(wyap::Document* pActivatedDoc)
     assert(wy::ErrorStatus::Ok == error);
 
     this->updateCommandActionStates();
+    this->updateFileActionStates();
 }
 
 void GatewayEnvironment::onTransactionStarted(wydb::Transaction* pTrans)
 {
     this->updateCommandActionStates();
+    this->updateFileActionStates();
 }
 
 void GatewayEnvironment::onTransactionEnded(wydb::Transaction* pTrans)
 {
     this->updateCommandActionStates();
+    this->updateFileActionStates();
 }
 
 void GatewayEnvironment::onTransactionAborted(wydb::Transaction* pTrans)
 {
     this->updateCommandActionStates();
+    this->updateFileActionStates();
 }
 
 void GatewayEnvironment::onCommandStartFailed(
@@ -132,4 +138,30 @@ void GatewayEnvironment::updateCommandActionStates()
             pCmdActionStateHost->updateCommandActionStates();
         }
     }
+}
+
+void GatewayEnvironment::updateFileActionStates()
+{
+    QAction* pNewFileAction = this->findCommandAction(CommandNames::NewFile);
+    QAction* pOpenFileAction = this->findCommandAction(CommandNames::OpenFile);
+    if (!pNewFileAction || !pOpenFileAction)
+    {
+        return;
+    }
+
+    bool enabled(true);
+    wyap::Document* pActiveDoc = Application::instance().getActiveDocument();
+    if (pActiveDoc)
+    {
+        wydb::Database* pDb = pActiveDoc->getDatabase();
+        assert(pDb);
+        if (pDb)
+        {
+            wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
+            enabled = (nullptr == pTransMgr->getActiveTransaction());
+        }
+    }
+
+    pNewFileAction->setEnabled(enabled);
+    pOpenFileAction->setEnabled(enabled);
 }

@@ -102,6 +102,7 @@ protected:
     virtual void onResume() override;
 
     virtual void updateUndoRedoActionStates() override;
+    virtual void updateFileActionStates() override;
 
 private:
     void registerCommands();

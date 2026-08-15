@@ -66,6 +66,8 @@ protected:
 
     // Update command action states.
     void updateCommandActionStates();
+    // Update file action states (New/Open).
+    void updateFileActionStates();
 
 private:
     void registerCommands();

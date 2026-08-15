@@ -27,10 +27,12 @@ public:
     virtual void updateCommandActionStates()
     {
         this->updateUndoRedoActionStates();
+        this->updateFileActionStates();
     }
 
 protected:
     virtual void updateUndoRedoActionStates() = 0;
+    virtual void updateFileActionStates() = 0;
 };
 
 #endif // WY3DAPP_COMMAND_ACTION_STATE_HOST_H

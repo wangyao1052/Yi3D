@@ -341,3 +341,9 @@ void SketchEnvironment::updateUndoRedoActionStates()
     }
 }
 
+void SketchEnvironment::updateFileActionStates()
+{
+    // 草图环境不支持文件操作:
+    // 无文件动作需要更新,文件操作动作也不存在于此环境。
+}
+

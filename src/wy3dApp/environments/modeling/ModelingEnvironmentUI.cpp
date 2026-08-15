@@ -165,6 +165,8 @@ FileActions createFileActions(ModelingEnvironment* pEnv)
         CommandNames::SaveFile,
         QCoreApplication::translate("MainWindow", "Save"),
         QIcon(":/images/Document_Save.svg"));
+    actions.pActionSaveFile->setShortcut(QKeySequence::Save);
+    actions.pActionSaveFile->setShortcutContext(Qt::ApplicationShortcut);
 
     actions.pActionSaveAsFile = pEnv->newCommandAction(
         CommandNames::SaveAsFile,
