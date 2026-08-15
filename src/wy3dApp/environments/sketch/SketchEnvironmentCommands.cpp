@@ -65,9 +65,10 @@
 #include "commands/sketch/SketchCommands.h"
 #include "commands/sketch/SketchRelocateCsysGuiCmd.h"
 #include "commands/sketch/SketchProjectGuiCmd.h"
+#include "commands/utilities/FindElementByIdCommand.h"
 
 #define WY3DAPP_SKETCH_ENV_COMMAND_LIST(X) \
-    X(CommandNames::Select, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, SketchSelectGuiCmd::classInfo()) \
+    X(CommandNames::Select, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, SketchSelectGuiCmd::classInfo()) \
     X(CommandNames::Point, WYAP_CMD_MODAL, SketchDrawPointGuiCmd::classInfo()) \
     X(CommandNames::Line, WYAP_CMD_MODAL, SketchDrawLineGuiCmd::classInfo()) \
     X(CommandNames::LineTangent, WYAP_CMD_MODAL, SketchDrawLineTangentGuiCmd::classInfo()) \
@@ -105,23 +106,25 @@
     X(CommandNames::CircularPattern, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, CircularPatternGuiCmd::classInfo()) \
     X(CommandNames::Show, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShowCommand::classInfo()) \
     X(CommandNames::Hide, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, HideCommand::classInfo()) \
+    X(CommandNames::FindElementById, WYAP_CMD_MODAL, FindElementByIdCommand::classInfo()) \
     X(CommandNames::Undo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, UndoCommand::classInfo()) \
     X(CommandNames::Redo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, RedoCommand::classInfo()) \
     X(CommandNames::EndSketch, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, EndSketchCommand::classInfo()) \
     X(CommandNames::CancelSketch, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, CancelSketchCommand::classInfo()) \
     X(CommandNames::RelocateSketchCSYS, WYAP_CMD_MODAL, SketchRelocateCsysGuiCmd::classInfo()) \
-    X(CommandNames::FitView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, FitViewCommand::classInfo()) \
-    X(CommandNames::IsometricView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, IsometricViewCommand::classInfo()) \
-    X(CommandNames::FrontView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, FrontViewCommand::classInfo()) \
-    X(CommandNames::BackView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, BackViewCommand::classInfo()) \
-    X(CommandNames::LeftView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, LeftViewCommand::classInfo()) \
-    X(CommandNames::RightView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, RightViewCommand::classInfo()) \
-    X(CommandNames::TopView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, TopViewCommand::classInfo()) \
-    X(CommandNames::BottomView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, BottomViewCommand::classInfo()) \
+    X(CommandNames::FitView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, FitViewCommand::classInfo()) \
+    X(CommandNames::FitSelection, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, FitSelectionCommand::classInfo()) \
+    X(CommandNames::IsometricView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, IsometricViewCommand::classInfo()) \
+    X(CommandNames::FrontView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, FrontViewCommand::classInfo()) \
+    X(CommandNames::BackView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, BackViewCommand::classInfo()) \
+    X(CommandNames::LeftView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, LeftViewCommand::classInfo()) \
+    X(CommandNames::RightView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, RightViewCommand::classInfo()) \
+    X(CommandNames::TopView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, TopViewCommand::classInfo()) \
+    X(CommandNames::BottomView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, BottomViewCommand::classInfo()) \
     X(CommandNames::ViewNormalTo, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ViewNormalToCommand::classInfo()) \
-    X(CommandNames::OrientToSketch, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, OrientToSketchCommand::classInfo()) \
-    X(CommandNames::ShadedDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, ShadedDisplayCommand::classInfo()) \
-    X(CommandNames::WireframeDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, WireframeDisplayCommand::classInfo())
+    X(CommandNames::OrientToSketch, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, OrientToSketchCommand::classInfo()) \
+    X(CommandNames::ShadedDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShadedDisplayCommand::classInfo()) \
+    X(CommandNames::WireframeDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, WireframeDisplayCommand::classInfo())
 
 namespace
 {

@@ -101,6 +101,7 @@ struct SketchEnvironmentActions
 struct ViewActions
 {
     CommandAction* pActionFitView;
+    CommandAction* pActionFitSelection;
     CommandAction* pActionIsometricView;
     CommandAction* pActionFrontView;
     CommandAction* pActionBackView;
@@ -111,6 +112,7 @@ struct ViewActions
     CommandAction* pActionOrientToSketch;
     CommandAction* pActionShadedDisplay;
     CommandAction* pActionWireframeDisplay;
+    CommandAction* pActionFindElementById;
 };
 
 UiTargets createUiTargets(SketchEnvironment* pEnv)
@@ -498,6 +500,12 @@ ViewActions createViewActions(SketchEnvironment* pEnv, QActionGroup* pActionGrou
         QIcon(":/images/View_FullScreen.svg"),
         pActionGroup);
 
+    actions.pActionFitSelection = pEnv->newCommandAction(
+        CommandNames::FitSelection,
+        QCoreApplication::translate("MainWindow", "Fit Selection"),
+        QIcon(":/images/View_FitSelection.svg"),
+        pActionGroup);
+
     actions.pActionIsometricView = pEnv->newCommandAction(
         CommandNames::IsometricView,
         QCoreApplication::translate("MainWindow", "IsometricView View"),
@@ -547,6 +555,14 @@ ViewActions createViewActions(SketchEnvironment* pEnv, QActionGroup* pActionGrou
         CommandNames::WireframeDisplay,
         QCoreApplication::translate("MainWindow", "Wireframe"),
         QIcon(":/images/View_Wireframe.svg"));
+
+    actions.pActionFindElementById = pEnv->newCommandAction(
+        CommandNames::FindElementById,
+        QCoreApplication::translate("MainWindow", "Find Element By ID"),
+        QIcon(":/images/Utility_FindElementById.svg"),
+        pActionGroup);
+    actions.pActionFindElementById->setShortcut(QKeySequence::Find);
+    actions.pActionFindElementById->setShortcutContext(Qt::ApplicationShortcut);
 
     return actions;
 }
@@ -648,6 +664,7 @@ void buildViewToolBarUi(
     assert(pToolBarView);
 
     pToolBarView->addAction(actions.pActionFitView);
+    pToolBarView->addAction(actions.pActionFitSelection);
     pToolBarView->addAction(actions.pActionIsometricView);
     pToolBarView->addAction(actions.pActionFrontView);
     pToolBarView->addAction(actions.pActionBackView);
@@ -656,6 +673,7 @@ void buildViewToolBarUi(
     pToolBarView->addAction(actions.pActionTopView);
     pToolBarView->addAction(actions.pActionBottomView);
     pToolBarView->addAction(actions.pActionOrientToSketch);
+    pToolBarView->addAction(actions.pActionFindElementById);
 
     pToolBarView->addSeparator();
 

@@ -63,13 +63,14 @@
 #include "commands/edit/CircularPatternGuiCmd.h"
 #include "commands/utilities/MeasureDistanceGuiCmd.h"
 #include "commands/utilities/SetColorGuiCmd.h"
+#include "commands/utilities/FindElementByIdCommand.h"
 #include "commands/FileCommands.h"
 #include "commands/UndoRedoCommands.h"
 #include "commands/ViewCommands.h"
 #include "commands/CameraCommands.h"
 
 #define WY3DAPP_MODELING_ENV_COMMAND_LIST(X) \
-    X(CommandNames::Select, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, ModelingSelectGuiCmd::classInfo()) \
+    X(CommandNames::Select, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ModelingSelectGuiCmd::classInfo()) \
     X(CommandNames::NewSketch, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, NewSketchGuiCmd::classInfo()) \
     X(CommandNames::ParallelDatumPlane, WYAP_CMD_MODAL, ParallelDatumPlnCmd::classInfo()) \
     X(CommandNames::CoincidentDatumPlane, WYAP_CMD_MODAL, CoincidentDatumPlnCmd::classInfo()) \
@@ -114,6 +115,7 @@
     X(CommandNames::SetColor, WYAP_CMD_MODAL, SetColorGuiCmd::classInfo()) \
     X(CommandNames::MeasureDistance, WYAP_CMD_MODAL, MeasureDistanceGuiCmd::classInfo()) \
     X(CommandNames::RunScript, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, RunScriptCommand::classInfo()) \
+    X(CommandNames::FindElementById, WYAP_CMD_MODAL, FindElementByIdCommand::classInfo()) \
     X(CommandNames::Undo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, UndoCommand::classInfo()) \
     X(CommandNames::Redo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, RedoCommand::classInfo()) \
     X(CommandNames::SaveFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, SaveFileCommand::classInfo()) \
@@ -121,19 +123,20 @@
     X(CommandNames::ExportFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, ExportFileCommand::classInfo()) \
     X(CommandNames::ExportSelected, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ExportSelectedCommand::classInfo()) \
     X(CommandNames::ImportFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, ImportFileCommand::classInfo()) \
-    X(CommandNames::FitView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, FitViewCommand::classInfo()) \
-    X(CommandNames::IsometricView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, IsometricViewCommand::classInfo()) \
-    X(CommandNames::FrontView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, FrontViewCommand::classInfo()) \
-    X(CommandNames::BackView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, BackViewCommand::classInfo()) \
-    X(CommandNames::LeftView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, LeftViewCommand::classInfo()) \
-    X(CommandNames::RightView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, RightViewCommand::classInfo()) \
-    X(CommandNames::TopView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, TopViewCommand::classInfo()) \
-    X(CommandNames::BottomView, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, BottomViewCommand::classInfo()) \
+    X(CommandNames::FitView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, FitViewCommand::classInfo()) \
+    X(CommandNames::FitSelection, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, FitSelectionCommand::classInfo()) \
+    X(CommandNames::IsometricView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, IsometricViewCommand::classInfo()) \
+    X(CommandNames::FrontView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, FrontViewCommand::classInfo()) \
+    X(CommandNames::BackView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, BackViewCommand::classInfo()) \
+    X(CommandNames::LeftView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, LeftViewCommand::classInfo()) \
+    X(CommandNames::RightView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, RightViewCommand::classInfo()) \
+    X(CommandNames::TopView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, TopViewCommand::classInfo()) \
+    X(CommandNames::BottomView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, BottomViewCommand::classInfo()) \
     X(CommandNames::ViewNormalTo, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ViewNormalToCommand::classInfo()) \
-    X(CommandNames::OrthoCamera, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, OrthoCameraCommand::classInfo()) \
-    X(CommandNames::PerspectiveCamera, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, PerspectiveCameraCommand::classInfo()) \
-    X(CommandNames::ShadedDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, ShadedDisplayCommand::classInfo()) \
-    X(CommandNames::WireframeDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, WireframeDisplayCommand::classInfo()) \
+    X(CommandNames::OrthoCamera, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, OrthoCameraCommand::classInfo()) \
+    X(CommandNames::PerspectiveCamera, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, PerspectiveCameraCommand::classInfo()) \
+    X(CommandNames::ShadedDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShadedDisplayCommand::classInfo()) \
+    X(CommandNames::WireframeDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, WireframeDisplayCommand::classInfo()) \
     X(CommandNames::EditSketch, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, EditSketchCommand::classInfo()) \
     X(CommandNames::CopyClip, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, CopyClipCommand::classInfo()) \
     X(CommandNames::PasteClip, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, PasteClipCommand::classInfo()) \

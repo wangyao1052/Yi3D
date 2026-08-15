@@ -16,27 +16,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_VIEW_COMMANDS_H
-#define WY3DAPP_VIEW_COMMANDS_H
+#ifndef WY3DAPP_FIND_ELEMENT_BY_ID_COMMAND_H
+#define WY3DAPP_FIND_ELEMENT_BY_ID_COMMAND_H
 
-#include "SimpleCommand.h"
+#include "commands/SimpleCommand.h"
 
-DEFINE_SIMPLE_CMD(FitViewCommand)
-DEFINE_SIMPLE_CMD(FitSelectionCommand)
-DEFINE_SIMPLE_CMD(IsometricViewCommand)
-DEFINE_SIMPLE_CMD(FrontViewCommand)
-DEFINE_SIMPLE_CMD(BackViewCommand)
-DEFINE_SIMPLE_CMD(LeftViewCommand)
-DEFINE_SIMPLE_CMD(RightViewCommand)
-DEFINE_SIMPLE_CMD(TopViewCommand)
-DEFINE_SIMPLE_CMD(BottomViewCommand)
-// 草绘视图
-DEFINE_SIMPLE_CMD(OrientToSketchCommand)
-// 正视于
-DEFINE_SIMPLE_CMD(ViewNormalToCommand)
+DEFINE_SIMPLE_CMD(FindElementByIdCommand)
 
-// 显示模式
-DEFINE_SIMPLE_CMD(ShadedDisplayCommand)
-DEFINE_SIMPLE_CMD(WireframeDisplayCommand)
-
-#endif // WY3DAPP_VIEW_COMMANDS_H
+#endif // WY3DAPP_FIND_ELEMENT_BY_ID_COMMAND_H

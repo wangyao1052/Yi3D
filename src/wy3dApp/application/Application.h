@@ -167,6 +167,16 @@ public:
     virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
     virtual void onDocumentToBeDeactivated(wyap::Document* pDocToDeactivate) override;
 
+    virtual void onCommandEnded(wyap::Command* pCmd) override;
+    virtual void onCommandAborted(
+        wyap::Command* pCmd,
+        wyap::CmdExecution::AbortCause abortCause) override;
+
+    const std::string& getLastEndedCommand()
+    {
+        return _lastEndedCmdName;
+    }
+
     void fitView();
     void viewISO();
 
@@ -203,6 +213,8 @@ private:
     // 选择过滤字符串
     std::string _selectFilterString;
     std::vector<std::string> _selFilterTokens;
+
+    std::string _lastEndedCmdName;
 
     friend class MainWindow;
 

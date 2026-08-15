@@ -104,5 +104,7 @@
         <file>images/Utility_MeasureDistance.svg</file>
         <file>images/Utility_RunScript.svg</file>
         <file>images/Utility_SetColor.svg</file>
+        <file>images/Utility_FindElementById.svg</file>
+        <file>images/View_FitSelection.svg</file>
     </qresource>
 </RCC>

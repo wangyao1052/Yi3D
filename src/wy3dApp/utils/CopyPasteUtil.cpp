@@ -31,6 +31,7 @@
 #include <wy3dImportedSolid.h>
 #include <wy3dSolid.h>
 #include <wy3dSolidModification.h>
+#include <wy3dSelectionType.h>
 #include "application/Application.h"
 #include "environments/sketch/SketchEnvironment.h"
 #include "utils/MessageBoxUtil.h"
@@ -77,7 +78,13 @@ CopyPasteUtil::CopyReturn CopyPasteUtil::copy()
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
     for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
     {
-        ids.insert(iter.current().getElementId());
+        const wyap::Selection& sel = iter.current();
+        // 当选中非Element类型时,直接跳过.(比如选中了立方体的面)
+        if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::Element)
+        {
+            continue;
+        }
+        ids.insert(sel.getElementId());
     }
     if (ids.empty()) return CopyReturn::Ok; // 没有选择元素
 

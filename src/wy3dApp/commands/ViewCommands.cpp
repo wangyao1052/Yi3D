@@ -17,9 +17,17 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "ViewCommands.h"
+
+#include <set>
+#include <cassert>
+#include <QCoreApplication>
 #include <wy3dDatumPlane.h>
+#include <wyapSelManager.h>
+#include <wyapSelection.h>
+
 #include "application/Application.h"
 #include "scene/Scene.h"
+#include "scene/nodes/ElementNode.h"
 #include "view/OsgView.h"
 #include "view/ViewUtil.h"
 #include "environments/sketch/SketchEnvironment.h"
@@ -35,6 +43,46 @@ int FitViewCommand::run()
     osg::BoundingSphere bsSphere = pScene->getElementsBoundingBox();
     pActiveView->viewAll(bsSphere);
 
+    return 0;
+}
+
+
+int FitSelectionCommand::run()
+{
+    BaseView* pActiveView = Application::instance().getActiveView();
+    if (!pActiveView) return -1;
+    Scene* pScene = Application::instance().getActiveScene();
+    if (!pScene) return -1;
+    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    if (ss.isEmpty()) return 0;
+
+    osg::BoundingBox mergedBBox;
+    mergedBBox.init();
+    std::set<wydb::ElementId> ids;
+    for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        ids.insert(iter.current().getElementId());
+    }
+    for (const wydb::ElementId& id : ids)
+    {
+        ElementNode* pElemNode = pScene->getElementNode(id);
+        if (!pElemNode)
+        {
+            assert(false);
+            continue;
+        }
+        const osg::BoundingBox& bbox = pElemNode->getBoundingBox();
+        if (bbox.valid())
+        {
+            mergedBBox.expandBy(bbox);
+        }
+    }
+    if (!mergedBBox.valid())
+    {
+        return 0;
+    }
+
+    pActiveView->viewAll(osg::BoundingSphere(mergedBBox.center(), mergedBBox.radius()));
     return 0;
 }
 

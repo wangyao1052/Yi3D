@@ -143,6 +143,7 @@ public:
 
     // 视图命令
     static inline const std::string FitView = "FitView";
+    static inline const std::string FitSelection = "FitSelection";
     static inline const std::string IsometricView = "IsometricView";
     static inline const std::string FrontView = "FrontView";
     static inline const std::string BackView = "BackView";
@@ -165,6 +166,7 @@ public:
     static inline const std::string MeasureDistance = "MeasureDistance";
     static inline const std::string RunScript = "RunScript";
     static inline const std::string SetColor = "SetColor";
+    static inline const std::string FindElementById = "FindElementById";
 
     // 帮助命令
     static inline const std::string About = "About";

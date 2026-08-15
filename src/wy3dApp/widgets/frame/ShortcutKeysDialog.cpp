@@ -71,6 +71,7 @@ ShortcutKeysDialog::ShortcutKeysDialog(QWidget *parent)
         addShortcut(pContent, QStringLiteral("Ctrl+C"), tr("Copy"));
         addShortcut(pContent, QStringLiteral("Ctrl+V"), tr("Paste"));
         addShortcut(pContent, QStringLiteral("Ctrl+A"), tr("Select All"));
+        addShortcut(pContent, QStringLiteral("Ctrl+F"), tr("Find Element By ID"));
         addShortcut(pContent, QStringLiteral("Ctrl+Z"), tr("Undo"));
         addShortcut(pContent, QStringLiteral("Ctrl+Y"), tr("Redo"));
         addShortcut(pContent, QStringLiteral("Delete"), tr("Delete"));

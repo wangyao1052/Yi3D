@@ -206,6 +206,28 @@ void Application::onDocumentToBeDeactivated(wyap::Document* pDocToDeactivate)
     }
 }
 
+void Application::onCommandEnded(wyap::Command* pCmd)
+{
+    wyap::Application::onCommandEnded(pCmd);
+    if (pCmd)
+    {
+        _lastEndedCmdName = pCmd->getName();
+    }
+    else
+    {
+        assert(false);
+        _lastEndedCmdName = "";
+    }
+}
+
+void Application::onCommandAborted(
+    wyap::Command* pCmd,
+    wyap::CmdExecution::AbortCause abortCause)
+{
+    wyap::Application::onCommandAborted(pCmd, abortCause);
+    _lastEndedCmdName = "";
+}
+
 QToolBar* Application::getToolBar(const std::string& toolBarName) const
 {
     if (!_pMainWindow) return nullptr;

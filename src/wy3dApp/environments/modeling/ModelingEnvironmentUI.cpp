@@ -132,11 +132,13 @@ struct UtilityActions
     CommandAction* pActionSetColor;
     CommandAction* pActionMeasureDistance;
     CommandAction* pActionRunScript;
+    CommandAction* pActionFindElementById;
 };
 
 struct ViewActions
 {
     CommandAction* pActionFitView;
+    CommandAction* pActionFitSelection;
     CommandAction* pActionIsometricView;
     CommandAction* pActionFrontView;
     CommandAction* pActionBackView;
@@ -537,6 +539,14 @@ UtilityActions createUtilityActions(ModelingEnvironment* pEnv, QActionGroup* pAc
         QIcon(":/images/Utility_RunScript.svg"),
         pActionGroup);
 
+    actions.pActionFindElementById = pEnv->newCommandAction(
+        CommandNames::FindElementById,
+        QCoreApplication::translate("MainWindow", "Find Element By ID"),
+        QIcon(":/images/Utility_FindElementById.svg"),
+        pActionGroup);
+    actions.pActionFindElementById->setShortcut(QKeySequence::Find);
+    actions.pActionFindElementById->setShortcutContext(Qt::ApplicationShortcut);
+
     return actions;
 }
 
@@ -549,6 +559,11 @@ ViewActions createViewActions(ModelingEnvironment* pEnv)
         CommandNames::FitView,
         QCoreApplication::translate("MainWindow", "Fit View"),
         QIcon(":/images/View_FullScreen.svg"));
+
+    actions.pActionFitSelection = pEnv->newCommandAction(
+        CommandNames::FitSelection,
+        QCoreApplication::translate("MainWindow", "Fit Selection"),
+        QIcon(":/images/View_FitSelection.svg"));
 
     actions.pActionIsometricView = pEnv->newCommandAction(
         CommandNames::IsometricView,
@@ -745,6 +760,7 @@ void buildUtilityToolBarUi(const UtilityActions& actions, QToolBar* pToolBarUtil
     pToolBarUtility->addAction(actions.pActionSetColor);
     pToolBarUtility->addAction(actions.pActionMeasureDistance);
     pToolBarUtility->addAction(actions.pActionRunScript);
+    pToolBarUtility->addAction(actions.pActionFindElementById);
 }
 
 void buildViewToolBarUi(
@@ -756,6 +772,7 @@ void buildViewToolBarUi(
     assert(pToolBarView);
 
     pToolBarView->addAction(actions.pActionFitView);
+    pToolBarView->addAction(actions.pActionFitSelection);
     pToolBarView->addAction(actions.pActionIsometricView);
     pToolBarView->addAction(actions.pActionFrontView);
     pToolBarView->addAction(actions.pActionBackView);

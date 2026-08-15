@@ -138,6 +138,15 @@ wyap::CmdExecution::StartResult SelectGuiCmd::onStart()
     wyap::CmdExecution::StartResult ret = __baseClass::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
+    if (Application::instance().getLastEndedCommand() != CommandNames::FindElementById)
+    {
+        wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+        assert(pSelMgr);
+        pSelMgr->beginChange();
+        pSelMgr->clearSelections();
+        pSelMgr->endChange();
+    }
+
     // 建模环境下的选择命令才支持特征树上的节点可选择
     onStart_EnvSpecific();
     // 选择命令支持属性框可编辑
@@ -550,6 +559,13 @@ bool SelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
             QCoreApplication::translate("MainWindow", "Copy"), menu);
         menu->addAction(pActionCopy);
         connect(pActionCopy, &QAction::triggered, this, &SelectGuiCmdMenu::onCopy);
+
+        QAction* pActionFitSelection = new QAction(
+            QIcon(":/images/View_FitSelection.svg"),
+            QCoreApplication::translate("MainWindow", "Fit Selection"), menu);
+        menu->addAction(pActionFitSelection);
+        connect(pActionFitSelection, &QAction::triggered, this, &SelectGuiCmdMenu::onFitSelection);
+
         added = true;
     }
 
@@ -571,6 +587,11 @@ void SelectGuiCmdMenu::onCopy()
 {
     SelectGuiCmd* pCmd = dynamic_cast<SelectGuiCmd*>(_pCmd);
     if (pCmd) pCmd->copy();
+}
+
+void SelectGuiCmdMenu::onFitSelection()
+{
+    Application::instance().getCmdManager()->executeCommand(CommandNames::FitSelection);
 }
 
 void SelectGuiCmdMenu::onPaste()
