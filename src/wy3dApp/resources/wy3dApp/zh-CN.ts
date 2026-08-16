@@ -5862,6 +5862,16 @@ Do you want to save it to the original file now?
     </message>
 </context>
 <context>
+    <name>SketchUtil</name>
+    <message>
+        <location filename="../../utils/SketchUtil.cpp" line="95"/>
+        <location filename="../../utils/SketchUtil.cpp" line="223"/>
+        <location filename="../../utils/SketchUtil.cpp" line="249"/>
+        <source>Element IDs: %1</source>
+        <translation>元素 ID：%1</translation>
+    </message>
+</context>
+<context>
     <name>SolidColorCmdPanel</name>
     <message>
         <source>Solid Color</source>

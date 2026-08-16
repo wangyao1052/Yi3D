@@ -18,6 +18,7 @@
 
 #include "SketchUtil.h"
 #include <QCoreApplication>
+#include <QStringList>
 #include <wyVector3.h>
 #include <wydbDatabase.h>
 #include <wy3dErrorCode.h>
@@ -82,11 +83,18 @@ bool SketchUtil::isValidRevolutionProfile(const wy3d::Sketch& sketch, QString& e
 
     wy3d::ErrorCode errorCode = wy3d::ErrorCode::PROFILE_InvalidProfile;
     std::shared_ptr<wy3d::SketchError> pError = sketchProfile.getError();
-    if (pError)
-    {
-        errorCode = pError->type;
-    }
+    if (pError) errorCode = pError->type;
     error = ErrorCodeTranslation::instance().getErrorCodeDescription(errorCode);
+    if (pError && !pError->ids.empty())
+    {
+        QStringList idStrs;
+        for (const wydb::ElementId& id : pError->ids)
+        {
+            idStrs << QString::number(id.value());
+        }
+        error += "\n" + QCoreApplication::translate("SketchUtil", "Element IDs: %1")
+            .arg(idStrs.join(", "));
+    }
 
     return false;
 }
@@ -205,6 +213,16 @@ bool SketchUtil::isValidProfile(const wy3d::Sketch& sketch, QString& error)
         errorCode = pError->type;
     }
     error = ErrorCodeTranslation::instance().getErrorCodeDescription(errorCode);
+    if (pError && !pError->ids.empty())
+    {
+        QStringList idStrs;
+        for (const wydb::ElementId& id : pError->ids)
+        {
+            idStrs << QString::number(id.value());
+        }
+        error += "\n" + QCoreApplication::translate("SketchUtil", "Element IDs: %1")
+            .arg(idStrs.join(", "));
+    }
 
     return false;
 }
@@ -221,6 +239,16 @@ bool SketchUtil::isValidPath(const wy3d::Sketch& sketch, QString& error)
         errorCode = pError->type;
     }
     error = ErrorCodeTranslation::instance().getErrorCodeDescription(errorCode);
+    if (pError && !pError->ids.empty())
+    {
+        QStringList idStrs;
+        for (const wydb::ElementId& id : pError->ids)
+        {
+            idStrs << QString::number(id.value());
+        }
+        error += "\n" + QCoreApplication::translate("SketchUtil", "Element IDs: %1")
+            .arg(idStrs.join(", "));
+    }
 
     return false;
 }

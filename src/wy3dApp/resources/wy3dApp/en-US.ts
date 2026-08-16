@@ -4392,6 +4392,16 @@ Do you want to save it to the original file now?
     </message>
 </context>
 <context>
+    <name>SketchUtil</name>
+    <message>
+        <location filename="../../utils/SketchUtil.cpp" line="95"/>
+        <location filename="../../utils/SketchUtil.cpp" line="223"/>
+        <location filename="../../utils/SketchUtil.cpp" line="249"/>
+        <source>Element IDs: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Sweep</name>
     <message>
         <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="323"/>
