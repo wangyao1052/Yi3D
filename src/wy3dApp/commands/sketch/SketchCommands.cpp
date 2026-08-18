@@ -26,8 +26,9 @@
 #include <wyapSelection.h>
 #include <wyapEnvManager.h>
 #include <wy3dExtrusion.h>
-#include <wy3dExtrudedSheet.h>
 #include <wy3dRevolution.h>
+#include <wy3dPlanarSheet.h>
+#include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
 #include <wy3dSketchProfileForSheet.h>
 #include "translation/ErrorCodeTranslation.h"
@@ -167,27 +168,26 @@ static bool canEndEditingSketch(const wydb::ElementId& sketchId)
             return true;
         }
     }
-    // 拉伸曲面
+    else if (const wy3d::PlanarSheet* pPlanarSheet = wy3d::PlanarSheet::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidProfileForPlanarSheet(*pSketch, error))
+        {
+            return true;
+        }
+    }
     else if (const wy3d::ExtrudedSheet* pExtrudedSheet = wy3d::ExtrudedSheet::cast(pSketchOwner))
     {
-        wy3d::SketchProfileForSheet profileForSheet(pSketch);
-        if (profileForSheet.check())
+        if (SketchUtil::isValidProfileForExtrudedSheet(*pSketch, error))
         {
             return true;
         }
-        if (profileForSheet.getError())
-            error = ErrorCodeTranslation::instance().getErrorCodeDescription(profileForSheet.getError()->type);
     }
-    // 旋转曲面
     else if (const wy3d::RevolvedSheet* pRevolvedSheet = wy3d::RevolvedSheet::cast(pSketchOwner))
     {
-        wy3d::SketchProfileForSheet profileForSheet(pSketch);
-        if (profileForSheet.check())
+        if (SketchUtil::isValidProfileForRevolvedSheet(*pSketch, error))
         {
             return true;
         }
-        if (profileForSheet.getError())
-            error = ErrorCodeTranslation::instance().getErrorCodeDescription(profileForSheet.getError()->type);
     }
     else
     {
