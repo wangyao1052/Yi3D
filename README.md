@@ -59,7 +59,7 @@ Yi3D
 - **Compiler**: MSVC 2019+, C++17
 
 1. Clone the repo: `git clone https://github.com/wangyao1052/Yi3D.git`
-2. Download `Yi3D-LibBundles-1.0.0.zip` from the [releases page](https://github.com/wangyao1052/Yi3D-LibBundles-Windows/releases/tag/v1.0.0) and extract into `Yi3D/3rdParty/bundles/`
+2. Download `Yi3D-LibBundles-1.0.1.zip` from the [releases page](https://github.com/wangyao1052/Yi3D-LibBundles-Windows/releases/tag/v1.0.1) and extract into `Yi3D/3rdParty/bundles/`
 3. Open the project folder in **Visual Studio** and build
 
 > For detailed step-by-step instructions, see [Compiling with Visual Studio](doc/compiling-with-visual-studio.md) ([中文](doc/compiling-with-visual-studio-zh.md)).

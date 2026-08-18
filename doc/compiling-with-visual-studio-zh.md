@@ -19,7 +19,7 @@ git clone https://github.com/wangyao1052/Yi3D.git
 
 ## 第二步：下载依赖包
 
-从 [https://github.com/wangyao1052/Yi3D-LibBundles-Windows/releases/tag/v1.0.0](https://github.com/wangyao1052/Yi3D-LibBundles-Windows/releases/tag/v1.0.0) 下载 `Yi3D-LibBundles-1.0.0.zip`，解压到 `Yi3D/3rdParty/bundles/`。
+从 [https://github.com/wangyao1052/Yi3D-LibBundles-Windows/releases/tag/v1.0.1](https://github.com/wangyao1052/Yi3D-LibBundles-Windows/releases/tag/v1.0.1) 下载 `Yi3D-LibBundles-1.0.1.zip`，解压到 `Yi3D/3rdParty/bundles/`。
 
 ![](images/Yi3D-LibBundles.png)
 

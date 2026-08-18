@@ -19,7 +19,7 @@ git clone https://github.com/wangyao1052/Yi3D.git
 
 ## Step 2: Download Dependencies
 
-Download `Yi3D-LibBundles-1.0.0.zip` from [https://github.com/wangyao1052/Yi3D-LibBundles-Windows/releases/tag/v1.0.0](https://github.com/wangyao1052/Yi3D-LibBundles-Windows/releases/tag/v1.0.0), and extract into `Yi3D/3rdParty/bundles/`.
+Download `Yi3D-LibBundles-1.0.1.zip` from [https://github.com/wangyao1052/Yi3D-LibBundles-Windows/releases/tag/v1.0.1](https://github.com/wangyao1052/Yi3D-LibBundles-Windows/releases/tag/v1.0.1), and extract into `Yi3D/3rdParty/bundles/`.
 
 ![](images/Yi3D-LibBundles.png)
 
