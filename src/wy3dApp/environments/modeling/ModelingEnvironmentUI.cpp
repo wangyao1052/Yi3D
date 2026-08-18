@@ -85,7 +85,10 @@ struct ModelingActions
     CommandAction* pActionExtrude;
     CommandAction* pActionExtrudedSheet;
     CommandAction* pActionRevolvedSheet;
+    CommandAction* pActionPlanarSheet;
+    CommandAction* pActionSewnSheet;
     CommandAction* pActionThicken;
+    CommandAction* pActionSolidify;
     CommandAction* pActionOffsetSheet;
     CommandAction* pActionRevolve;
     CommandAction* pActionSweep;
@@ -306,9 +309,27 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
         QIcon(),
         pActionGroup);
 
+    actions.pActionPlanarSheet = pEnv->newCommandAction(
+        CommandNames::PlanarSheet,
+        QCoreApplication::translate("MainWindow", "Planar Sheet"),
+        QIcon(),
+        pActionGroup);
+
+    actions.pActionSewnSheet = pEnv->newCommandAction(
+        CommandNames::SewnSheet,
+        QCoreApplication::translate("MainWindow", "Sewn Sheet"),
+        QIcon(),
+        pActionGroup);
+
     actions.pActionThicken = pEnv->newCommandAction(
         CommandNames::Thicken,
         QCoreApplication::translate("MainWindow", "Thicken"),
+        QIcon(),
+        pActionGroup);
+
+    actions.pActionSolidify = pEnv->newCommandAction(
+        CommandNames::Solidify,
+        QCoreApplication::translate("MainWindow", "Solidify"),
         QIcon(),
         pActionGroup);
 
@@ -657,9 +678,12 @@ void buildSheetMenuUi(
 
     pMenuSheet->addAction(actions.pActionExtrudedSheet);
     pMenuSheet->addAction(actions.pActionRevolvedSheet);
+    pMenuSheet->addAction(actions.pActionPlanarSheet);
+    pMenuSheet->addAction(actions.pActionSewnSheet);
     pMenuSheet->addSeparator();
     pMenuSheet->addAction(actions.pActionOffsetSheet);
     pMenuSheet->addAction(actions.pActionThicken);
+    pMenuSheet->addAction(actions.pActionSolidify);
 }
 
 void buildBasicToolBarUi(

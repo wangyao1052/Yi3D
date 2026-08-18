@@ -147,6 +147,26 @@ ErrorCodeTranslation::ErrorCodeTranslation(QObject* parent) : QObject(parent)
     _code2Desc[TOUINT(wy3d::ErrorCode::OFFSETSHEET_GenerateError)] = tr(
         "Generate offset sheet failed!");
 
+    // PlanarSheet
+    _code2Desc[TOUINT(wy3d::ErrorCode::PLANARSHEET_InvalidData)] = tr(
+        "Invalid planar sheet data!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::PLANARSHEET_EdgesNotClosed)] = tr(
+        "The selected edges must form a single closed loop!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar)] = tr(
+        "The selected edges must be coplanar!");
+
+    // SewnSheet
+    _code2Desc[TOUINT(wy3d::ErrorCode::SEWNSHEET_InvalidData)] = tr(
+        "Invalid sewn sheet data!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::SEWNSHEET_GenerateError)] = tr(
+        "Generate sewn sheet failed!");
+
+    // Solidify
+    _code2Desc[TOUINT(wy3d::ErrorCode::SOLIDIFY_InvalidData)] = tr(
+        "Invalid solidify data!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::SOLIDIFY_GenerateError)] = tr(
+        "Generate solidify failed!");
+
     // Helix
     _code2Desc[TOUINT(wy3d::ErrorCode::HELIX_InvalidData)] = tr(
         "Invalid helix data!");

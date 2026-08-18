@@ -99,7 +99,10 @@ TopoNameBuilder& TopoNameBuilder::split(std::uint32_t resultIndex)
 TopoNameBuilder& TopoNameBuilder::source(const TopoName& sourceName)
 {
     assert(TopoNameCodec::isValid(sourceName));
-    _name.push_back('&');
+    if (_name.size() > kTopoNamePrefixLength)
+    {
+        _name.push_back('&');
+    }
     _name.append(sourceName, kTopoNamePrefixLength);
     return *this;
 }

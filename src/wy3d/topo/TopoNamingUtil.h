@@ -62,6 +62,13 @@ public:
         TopoNaming& topoNaming,
         unsigned int profileIndex = 0);
 
+    static bool naming(
+        const TopoDS_Face& face,
+        const std::vector<TopoUtil::EdgeNamingInfo>& edgeNameInfos,
+        unsigned int elemIdValue,
+        TopoNaming& topoNaming,
+        unsigned int profileIndex = 0);
+
     // 拉伸曲面&旋转曲面拓扑命名（Wire → Shell）
     static bool naming(
         const TopoDS_Wire& originalWire,

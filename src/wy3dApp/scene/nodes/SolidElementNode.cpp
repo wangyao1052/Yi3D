@@ -1175,12 +1175,23 @@ bool SolidElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
 {
     assert(pCurElem);
 
-    wydb::ElementId ownerId = pCurElem->getParent();
-    if (ownerId.isNull()) return true;
+    const wydb::ElementId parentId = pCurElem->getParent();
+    if (parentId.isNull()) return true;
 
-    const wy3d::Boolean* pBoolean = wy3d::Boolean::cast(pCurElem->getDatabase()->getElement(ownerId));
-    if (pBoolean) return false;
-    else return true;
+    const wydb::Element* pParent = pCurElem->getDatabase()->getElement(parentId);
+    if (wy3d::Boolean::cast(pParent))
+    {
+        return false;
+    }
+    else if (wy3d::Solid::cast(pParent))
+    {
+        return true;
+    }
+    else
+    {
+        assert(false);
+        return true;
+    }
 }
 
 osg::Vec4 SolidElementNode::getFaceDefaultColor() const

@@ -123,7 +123,11 @@ protected:
     virtual bool updateApperance(wydb::Database* pDb) override;
     void updateColorAndTransparent();
 
-    virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override { return true; }
+    virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override
+    {
+        assert(pCurElem);
+        return pCurElem->getParent().isNull();
+    }
 
 protected:
     virtual void clearRenderObjects() override

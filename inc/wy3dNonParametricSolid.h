@@ -16,33 +16,32 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3D_TOPO_SHAPE_UTIL_H
-#define WY3D_TOPO_SHAPE_UTIL_H
+#ifndef WY3D_NONPARAMETRIC_SOLID_H
+#define WY3D_NONPARAMETRIC_SOLID_H
 
-#include <vector>
-#include <TopoDS_Shape.hxx>
-#include <TopoDS_Face.hxx>
-#include <TopoDS_Edge.hxx>
-#include <TopoDS_Compound.hxx>
 #include <wy3dDefs.h>
-#include <wy3dSketchPlane.h>
-#include <wy3dErrorCode.h>
+#include <wy3dSolid.h>
 
 NS_WY3D_BEG
 
-class WY3D_EXPORT TopoShapeUtil
+class WY3D_EXPORT NonParametricSolid : public wy3d::Solid
 {
+    WYDB_DECLARE_MEMBERS(NonParametricSolid, wy3d::NonParametricSolid, wy3d::Solid)
+
 public:
-    static TopoDS_Compound makeCompound(const TopoDS_Shape& shape1, const TopoDS_Shape& shape2);
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        const TopoDS_Shape& shape,
+        NonParametricSolid*& pOutSolid);
 
-    // 获取拓扑面的信息
-    static bool getFacePlane(const TopoDS_Face& face, wy3d::SketchPlane& plane);
-
-    static ErrorCode makePlanarFaceFromEdges(
-        const std::vector<TopoDS_Edge>& edges,
-        TopoDS_Face& outFace);
+protected:
+    virtual wy::ErrorStatus writeToFiler(wydb::OutFiler& filer) const override;
+    virtual wy::ErrorStatus readFromFiler(wydb::InFiler& filer) override;
+    virtual TopoDS_Shape generateShape(
+        TopoNaming* pTopoNaming,
+        wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
 };
 
 NS_WY3D_END
 
-#endif // WY3D_TOPO_SHAPE_UTIL_H
+#endif // WY3D_NONPARAMETRIC_SOLID_H

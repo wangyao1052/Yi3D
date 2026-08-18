@@ -358,6 +358,28 @@ bool TopoNamingUtil::naming(
 }
 
 bool TopoNamingUtil::naming(
+    const TopoDS_Face& face,
+    const std::vector<TopoUtil::EdgeNamingInfo>& edgeNameInfos,
+    unsigned int elemIdValue,
+    TopoNaming& topoNaming,
+    unsigned int profileIndex)
+{
+    {
+        TopoNameBuilder faceBuilder;
+        faceBuilder.id(elemIdValue);
+        if (profileIndex > 0) { faceBuilder.index(profileIndex); }
+        topoNaming.setName(face, faceBuilder.build());
+    }
+
+    for (const TopoUtil::EdgeNamingInfo& edgeNameInfo : edgeNameInfos)
+    {
+        topoNaming.setName(edgeNameInfo.edge, TopoNameBuilder().id(edgeNameInfo.id).build());
+    }
+
+    return true;
+}
+
+bool TopoNamingUtil::naming(
     const TopoDS_Wire& originalWire,
     BRepPrimAPI_MakeSweep& makeSweep,
     const std::vector<TopoUtil::EdgeNamingInfo>& edgeNameInfos,
