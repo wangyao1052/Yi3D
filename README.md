@@ -45,7 +45,7 @@ Yi3D
 | [OpenCASCADE (OCCT)](https://dev.opencascade.org/) | 3D geometry kernel |
 | [Qt 5](https://www.qt.io/) | GUI framework |
 | [OpenSceneGraph (OSG)](http://www.openscenegraph.org/) | 3D rendering engine |
-| [WYAF](https://github.com/wangyao1052/WYAF) | Application framework (free for non-commercial use; commercial license required) |
+| [WYAF](https://github.com/wangyao1052/WYAF) | Application framework (free for non-commercial use) |
 | [Python 3.10](https://www.python.org/) | Scripting runtime |
 | [pybind11](https://github.com/pybind/pybind11) | C++/Python bindings |
 | [Google Test](https://github.com/google/googletest) | Unit testing framework |
