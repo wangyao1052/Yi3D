@@ -843,7 +843,7 @@ void SheetElementNode::updateColorAndTransparent()
             OsgUtils::setNodeColor(_edgeGeom, this->isHighlighted() ? Colors::kTransparent : this->getEdgeDefaultColor());
         }
 
-        if (this->isActive() && this->isHighlighted())
+        if (this->isHighlighted())
         {
             _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
             _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");

@@ -917,16 +917,31 @@ void SolidElementNode::updateColorAndTransparent()
             OsgUtils::setNodeColor(_edgeGeom, this->isHighlighted() ? Colors::kTransparent : this->getEdgeDefaultColor());
         }
 
-        // 高亮时关闭深度测试使边线始终可见
-        if (this->isActive() && (this->isHighlighted() || this->hasFlag(Flag::Cut)))
+        if (this->isActive())
         {
-            _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-            _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
+            if (this->isHighlighted() || this->hasFlag(Flag::Cut))
+            {
+                _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+                _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
+            }
+            else
+            {
+                _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
+                _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
+            }
         }
         else
         {
-            _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-            _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
+            if (this->isHighlighted())
+            {
+                _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+                _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
+            }
+            else
+            {
+                _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
+                _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
+            }
         }
     }
 }
