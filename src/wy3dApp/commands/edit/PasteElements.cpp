@@ -49,14 +49,15 @@ PasteElements::~PasteElements()
     if (pActiveScene)
     {
         pActiveScene->removeTransient(_pat);
-    }
 
-    // 恢复隐藏的元素节点
-    for (ElementNode* pHiddenElemNode : _hiddenElemNodes)
-    {
-        if (pHiddenElemNode)
+        // show hidden element node
+        for (const wydb::ElementId& hiddenElemId : _hiddenElemIds)
         {
-            pHiddenElemNode->recomputeNodeMask();
+            ElementNode* pHiddenElemNode = pActiveScene->getElementNode(hiddenElemId);
+            if (pHiddenElemNode)
+            {
+                pHiddenElemNode->recomputeNodeMask();
+            }
         }
     }
 }
@@ -310,7 +311,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
 
         // 暂时隐藏元素节点
         pElemOsgRoot->setNodeMask(0);
-        _hiddenElemNodes.emplace_back(pElemNode); // TODO 此处存在指针失效的风险
+        _hiddenElemIds.emplace_back(copyElem.pElem->getId());
     }
 
     this->update(pos);

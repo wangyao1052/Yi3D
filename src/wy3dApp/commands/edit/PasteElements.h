@@ -81,7 +81,7 @@ private:
     // 临时渲染节点
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
     // 隐藏的元素渲染节点
-    std::list<ElementNode*> _hiddenElemNodes;
+    std::list<wydb::ElementId> _hiddenElemIds;
 };
 
 #endif // WY3DAPP_PASTE_ELEMENTS_H
