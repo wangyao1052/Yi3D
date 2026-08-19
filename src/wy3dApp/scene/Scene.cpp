@@ -62,6 +62,12 @@
 
 //#define WCS_SU_STYLE
 
+void Scene::destroyElementNode(ElementNode* pElemNode)
+{
+    assert(pElemNode);
+    delete pElemNode;
+}
+
 Scene::Scene(wyap::Document* pDoc) : wyap::Scene(pDoc)
 {
     _pRoot = new osg::Group();

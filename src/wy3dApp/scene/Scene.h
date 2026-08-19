@@ -239,11 +239,7 @@ private:
     // 移除元素节点
     void removeFromScene(std::map<wydb::ElementId, ElementNode*>::const_iterator iter);
     // 销毁元素节点
-    inline void destroyElementNode(ElementNode* pElemNode)
-    {
-        assert(pElemNode);
-        delete pElemNode;
-    }
+    void destroyElementNode(ElementNode* pElemNode);
 
     // 添加到OSG场景中
     void addToOsgScene(const ElementNode* pElemNode);

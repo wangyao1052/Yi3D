@@ -49,13 +49,13 @@ bool Importer::perform(wydb::Database* pDb, const std::wstring& fileFullPath)
     if (!pTrans) return false;
     
     wy3d::ImportedSolid* pImportedSolid(nullptr);
+    wy3d::ImportedSheet* pImportedSheet(nullptr);
     if (wy::ErrorStatus::Ok != wy3d::ImportedSolid::create(pTrans, fileFullPath, pImportedSolid) || !pImportedSolid)
     {
         assert(false);
         goto ABORT_TRANS;
     }
 
-    wy3d::ImportedSheet* pImportedSheet(nullptr);
     if (wy::ErrorStatus::Ok != wy3d::ImportedSheet::create(pTrans, fileFullPath, pImportedSheet) || !pImportedSheet)
     {
         assert(false);
