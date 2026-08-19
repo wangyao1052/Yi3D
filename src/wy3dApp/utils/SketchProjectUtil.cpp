@@ -18,6 +18,8 @@
 
 #include "SketchProjectUtil.h"
 
+#include <algorithm>
+
 #include <BRep_Tool.hxx>
 #include <Geom_Line.hxx>
 #include <Geom_Circle.hxx>
@@ -38,6 +40,7 @@
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchSpline.h>
 #include <wy3dImpl.h>
+#include <wy3dMath.h>
 #include "MathUtils.h"
 
 namespace
@@ -56,6 +59,27 @@ double computeLength(const Handle(Geom_Curve)& curve, double first, double last)
     {
         return 0.0;
     }
+}
+
+// 解包TrimmedCurve，取出基础曲线
+// 参数范围按各层取交集：内层的范围可能比外层更宽，直接覆盖会丢掉外层的裁剪
+Handle(Geom_Curve) unwrapTrimmed(
+    const Handle(Geom_Curve)& curve,
+    Standard_Real& first,
+    Standard_Real& last,
+    bool& isTrimmed)
+{
+    isTrimmed = false;
+    Handle(Geom_Curve) basis = curve;
+    while (basis->IsKind(STANDARD_TYPE(Geom_TrimmedCurve)))
+    {
+        isTrimmed = true;
+        Handle(Geom_TrimmedCurve) tc = Handle(Geom_TrimmedCurve)::DownCast(basis);
+        first = std::max(first, tc->FirstParameter());
+        last  = std::min(last,  tc->LastParameter());
+        basis = tc->BasisCurve();
+    }
+    return basis;
 }
 
 // 将gp_Pnt转换为wy::Vector3，再投影到UV
@@ -239,13 +263,21 @@ SketchProjectUtil::ProjectResult createFromTrimmedEllipse(
     double radiusRatio = (majorRadius > wy3d::TOL) ? (minorRadius / majorRadius) : 0.0;
 
     // 计算起始角和终止角
-    gp_Pnt startPnt = ellipse->Value(first);
-    gp_Pnt endPnt = ellipse->Value(last);
-    wy::Vector2 uvStart = toUV(startPnt, plane);
-    wy::Vector2 uvEnd = toUV(endPnt, plane);
+    // SketchEllipseArc 的起止角是相对主轴的极角，不是全局极角，必须减掉主轴自身的方向角
+    double refAngle = std::atan2(majorAxis.y(), majorAxis.x());
+    auto polarAngle = [&](double param)
+    {
+        wy::Vector2 uv = toUV(ellipse->Value(param), plane);
+        return wy3d::normalizeRadian(
+            std::atan2(uv.y() - uvCenter.y(), uv.x() - uvCenter.x()) - refAngle);
+    };
+    double startAngle = polarAngle(first);
+    double endAngle = polarAngle(last);
+    double midAngle = polarAngle((first + last) * 0.5);
 
-    double startAngle = std::atan2(uvStart.y() - uvCenter.y(), uvStart.x() - uvCenter.x());
-    double endAngle = std::atan2(uvEnd.y() - uvCenter.y(), uvEnd.x() - uvCenter.x());
+    // 弧总是从 startAngle 逆时针扫到 endAngle，中点必须落在扫掠范围内，否则方向反了
+    if (wy3d::normalizeRadian(midAngle - startAngle) > wy3d::normalizeRadian(endAngle - startAngle))
+        std::swap(startAngle, endAngle);
 
     wy3d::SketchEllipseArc* pEllipseArc = nullptr;
     wy::ErrorStatus err = wy3d::SketchEllipseArc::create(pTrans, uvCenter, majorAxis, radiusRatio, startAngle, endAngle, pEllipseArc);
@@ -315,6 +347,11 @@ SketchProjectUtil::ProjectResult SketchProjectUtil::projectEdgeImpl(
     if (curve.IsNull())
         return ProjectResult::NullCurve;
 
+    if (Precision::IsInfinite(first) || Precision::IsInfinite(last))
+        return ProjectResult::ProjectFailed; // 无限长的边投不出有界的草图实体
+    if (last - first < Precision::PConfusion())
+        return ProjectResult::Degenerate;
+
     // 2. 构建草图平面
     wy::Vector3 origin = plane.getOrigin();
     wy::Vector3 normal = plane.getNormal();
@@ -322,45 +359,60 @@ SketchProjectUtil::ProjectResult SketchProjectUtil::projectEdgeImpl(
         gp_Pnt(origin.x(), origin.y(), origin.z()),
         gp_Dir(normal.x(), normal.y(), normal.z()));
 
-    // 3. 投影
+    // 3. 先按边的参数范围裁剪源曲线，再投影
+    //    BRep_Tool::Curve 返回的是基础曲线，解析曲线是无限长的（Geom_Line 参数范围 ±2e100）。
+    //    把无限曲线直接交给 ProjectOnPlane，OCCT 会返回极点在 ±1.4e100 的 BSpline，
+    //    之后在 [first, last] 上求值全部因浮点抵消塌缩到原点，从而被误判为退化。
+    Handle(Geom_Curve) source = curve;
+    if (first > curve->FirstParameter() || last < curve->LastParameter())
+        source = new Geom_TrimmedCurve(curve, first, last);
+
+    // 退化预检：整条曲线投影到UV后收缩成一点（例如直线垂直于草图平面）时，
+    // ProjectOnPlane 会直接抛异常，只能报笼统的 ProjectFailed。
+    // 这里先判掉，才能给出"垂直于草图平面，投影退化为一点"这个准确提示。
+    {
+        const int kNumProbes = 16;
+        wy::Vector2 uvFirst = toUV(source->Value(first), plane);
+        double maxDist = 0.0;
+        for (int i = 1; i < kNumProbes; ++i)
+        {
+            double t = first + (last - first) * static_cast<double>(i) / static_cast<double>(kNumProbes - 1);
+            maxDist = std::max(maxDist, (toUV(source->Value(t), plane) - uvFirst).length());
+        }
+        if (maxDist < wy3d::TOL)
+            return ProjectResult::Degenerate;
+    }
+
+    // KeepParametrization 必须传 Standard_False：
+    //   传 True 时 OCCT 为了保住源参数化，会把能解析表达的结果降级成 BSpline 逼近——
+    //   直线变 BSpline（产出 SketchSpline 而不是 SketchLine），
+    //   倾斜的圆变 BSpline（产出 SketchSpline 而不是 SketchEllipse，且带 ~4e-7 的逼近误差）。
+    //   传 False 时直线仍是 Geom_Line、倾斜圆精确地变成 Geom_Ellipse。
     Handle(Geom_Curve) projected = GeomProjLib::ProjectOnPlane(
-        curve, geomPlane, gp_Dir(normal.x(), normal.y(), normal.z()), Standard_True);
+        source, geomPlane, gp_Dir(normal.x(), normal.y(), normal.z()), Standard_False);
     if (projected.IsNull())
         return ProjectResult::ProjectFailed;
 
-    // 4. 裁剪投影曲线（用投影后曲线自己的参数范围，clamp源的first/last防止越界crash）
-    Handle(Geom_Curve) trimmed = projected;
-    if (!Precision::IsInfinite(first) && !Precision::IsInfinite(last))
-    {
-        Standard_Real projFirst = projected->FirstParameter();
-        Standard_Real projLast  = projected->LastParameter();
-        Standard_Real clampedFirst = std::max(first, projFirst);
-        Standard_Real clampedLast  = std::min(last, projLast);
-        if (clampedFirst < clampedLast - Precision::PConfusion()
-            && (clampedFirst > projFirst || clampedLast < projLast))
-        {
-            trimmed = new Geom_TrimmedCurve(projected, clampedFirst, clampedLast);
-        }
-        first = clampedFirst;
-        last  = clampedLast;
-    }
+    // 4. 采用投影曲线自己的参数域
+    //    KeepParametrization=False 时投影曲线用的是自身的参数化，源曲线的 first/last
+    //    在这里已经没有意义（例如源 [1.0, 5.8] 会变成 [5.33, 10.13]），
+    //    绝不能再拿来 clamp，否则会把圆弧静默截短。
+    //    源曲线已在第3步裁剪过，所以投影结果自带的参数域就是正确范围。
+    first = projected->FirstParameter();
+    last  = projected->LastParameter();
+    if (last - first < Precision::PConfusion())
+        return ProjectResult::Degenerate;
 
     // 5. 退化检测
-    double length = computeLength(trimmed, trimmed->FirstParameter(), trimmed->LastParameter());
+    double length = computeLength(projected, first, last);
     if (length < wy3d::TOL)
         return ProjectResult::Degenerate;
 
     // 6. 解包 TrimmedCurve
-    Handle(Geom_Curve) basisCurve = trimmed;
     bool isTrimmed = false;
-    while (basisCurve->IsKind(STANDARD_TYPE(Geom_TrimmedCurve)))
-    {
-        isTrimmed = true;
-        Handle(Geom_TrimmedCurve) tc = Handle(Geom_TrimmedCurve)::DownCast(basisCurve);
-        first = tc->FirstParameter();
-        last = tc->LastParameter();
-        basisCurve = tc->BasisCurve();
-    }
+    Handle(Geom_Curve) basisCurve = unwrapTrimmed(projected, first, last, isTrimmed);
+    if (last - first < Precision::PConfusion())
+        return ProjectResult::Degenerate;
 
     // 7. 根据基础曲线类型创建草图实体
     if (basisCurve->IsKind(STANDARD_TYPE(Geom_Line)))
