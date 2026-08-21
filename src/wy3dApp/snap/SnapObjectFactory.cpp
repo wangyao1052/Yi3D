@@ -67,6 +67,8 @@
 #include "elements/HelixSnapObjectCreator.h"
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
+#include <wy3dSweptSheet.h>
+#include <wy3dLoftedSheet.h>
 #include <wy3dImportedSheet.h>
 #include <wy3dThicken.h>
 #include <wy3dOffsetSheet.h>
@@ -133,6 +135,8 @@ SnapObjectFactory::SnapObjectFactory()
     // 曲面
     REGISTER_CREATOR(wy3d::ExtrudedSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::RevolvedSheet, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::SweptSheet, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::LoftedSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::OffsetSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::PlanarSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SewnSheet, TopoShapeSnapObjectCreator);

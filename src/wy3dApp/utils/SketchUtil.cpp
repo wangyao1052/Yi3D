@@ -251,6 +251,12 @@ bool SketchUtil::isValidProfileForSheet(const wy3d::Sketch& sketch, QString& err
     return false;
 }
 
+bool SketchUtil::isValidProfileForLoftedSheet(const wy3d::Sketch& sketch, QString& error)
+{
+    if (whetherSketchHasOnlyOneSketchPoint(sketch)) return true;
+    else return isValidProfileForSheet(sketch, error);
+}
+
 bool SketchUtil::isValidPath(const wy3d::Sketch& sketch, QString& error)
 {
     wy3d::SketchPath sketchPath(&sketch);

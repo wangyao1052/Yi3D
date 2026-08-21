@@ -85,6 +85,8 @@ struct ModelingActions
     CommandAction* pActionExtrude;
     CommandAction* pActionExtrudedSheet;
     CommandAction* pActionRevolvedSheet;
+    CommandAction* pActionSweptSheet;
+    CommandAction* pActionLoftedSheet;
     CommandAction* pActionPlanarSheet;
     CommandAction* pActionSewnSheet;
     CommandAction* pActionThicken;
@@ -306,6 +308,18 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
     actions.pActionRevolvedSheet = pEnv->newCommandAction(
         CommandNames::RevolvedSheet,
         QCoreApplication::translate("MainWindow", "Revolved Sheet"),
+        QIcon(),
+        pActionGroup);
+
+    actions.pActionSweptSheet = pEnv->newCommandAction(
+        CommandNames::SweptSheet,
+        QCoreApplication::translate("MainWindow", "Swept Sheet"),
+        QIcon(),
+        pActionGroup);
+
+    actions.pActionLoftedSheet = pEnv->newCommandAction(
+        CommandNames::LoftedSheet,
+        QCoreApplication::translate("MainWindow", "Lofted Sheet"),
         QIcon(),
         pActionGroup);
 
@@ -678,6 +692,8 @@ void buildSheetMenuUi(
 
     pMenuSheet->addAction(actions.pActionExtrudedSheet);
     pMenuSheet->addAction(actions.pActionRevolvedSheet);
+    pMenuSheet->addAction(actions.pActionSweptSheet);
+    pMenuSheet->addAction(actions.pActionLoftedSheet);
     pMenuSheet->addAction(actions.pActionPlanarSheet);
     pMenuSheet->addAction(actions.pActionSewnSheet);
     pMenuSheet->addSeparator();

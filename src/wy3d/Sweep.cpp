@@ -18,17 +18,11 @@
 
 #include <cassert>
 #include <BRepBuilderAPI_MakeEdge.hxx>
-#include <BRepBuilderAPI_MakeWire.hxx>
 #include <BRepBuilderAPI_MakeFace.hxx>
 #include <BRepOffsetAPI_MakePipe.hxx>
-#include <BRepOffsetAPI_MakePipeShell.hxx>
 #include <BRepBuilderAPI_Transform.hxx>
-#include <TopoDS.hxx>
 #include <gp_Pln.hxx>
-#include <BRep_Tool.hxx>
-#include <GeomLib.hxx>
 #include <GeomAdaptor_Surface.hxx>
-#include <BRepLib.hxx>
 #include <BRep_Builder.hxx>
 #include <TopoDS_Compound.hxx>
 #include <BRepBuilderAPI_MakeSolid.hxx>
@@ -54,6 +48,7 @@
 #include "utils/Util.h"
 #include "topo/SketchTopoBuilder.h"
 #include "topo/TopoNamingUtil.h"
+#include "topo/SweepTopoUtil.h"
 #include "common/occ/OccUtil.h"
 #include "topo/BooleanTopoShapeComparer.h"
 
@@ -307,23 +302,15 @@ static ErrorCode makeSweep(
 {
     for (size_t i = 0; i < profileWireInfos.size(); ++i)
     {
-        const TopoUtil::WireInfo& profileWireInfo = profileWireInfos[i];
+        TopoDS_Shape pipeShellShape;
+        ErrorCode error = SweepTopoUtil::makePipeShell(
+            id, pathWireInfo, profileWireInfos[i], true, pipeShellShape, topoNaming);
+        if (ErrorCode::NoError != error) return error;
 
-        BRepOffsetAPI_MakePipeShell pipeShellMaker(pathWireInfo.wire);
-        pipeShellMaker.SetMode(false);
-        pipeShellMaker.SetTransitionMode(BRepBuilderAPI_RightCorner);
-        pipeShellMaker.Add(profileWireInfo.wire);
-        pipeShellMaker.Build();
-        if (Standard_False == pipeShellMaker.IsDone()) return ErrorCode::TOPOSHAPE_GenerateShapeError;
-        if (Standard_False == pipeShellMaker.MakeSolid()) return ErrorCode::TOPOSHAPE_GenerateShapeError;
-
-        TopoNamingUtil::naming(pathWireInfo.wire, profileWireInfo.wire, pipeShellMaker,
-            pathWireInfo.edgeNameInfos, profileWireInfo.edgeNameInfos, id, topoNaming);
-
-        if (0 == i) { resultShape = pipeShellMaker.Shape(); }
+        if (0 == i) { resultShape = pipeShellShape; }
         else
         {
-            BRepAlgoAPI_Cut cut(resultShape, pipeShellMaker.Shape());
+            BRepAlgoAPI_Cut cut(resultShape, pipeShellShape);
             if (Standard_False == cut.IsDone()) return ErrorCode::TOPOSHAPE_GenerateShapeError;
 
             BooleanTopoShapeComparer topoComparer(cut);
@@ -333,101 +320,6 @@ static ErrorCode makeSweep(
             resultShape = cut.Shape();
         }
     }
-
-    return ErrorCode::NoError;
-}
-
-static ErrorCode createPathWire(
-    const wy3d::Sketch& pathSketch,
-    TopoUtil::WireInfo& pathWireInfo,
-    wy::Vector3& pathStartPos,
-    wy::Vector3& pathStartDir)
-{
-    SketchTopoBuilder sketchTopoBuilder(&pathSketch, true);
-
-    SketchPath sketchPath(&pathSketch);
-    if (!sketchPath.check())
-    {
-        std::shared_ptr<SketchError> pError = sketchPath.getError();
-        if (pError) return pError->type;
-        else return ErrorCode::PATH_InvalidPath;
-    }
-
-    const std::vector<BiCurve>& pathCurves = sketchPath.getPath();
-    if (pathCurves.empty()) { assert(false); return ErrorCode::PATH_NoCurves; }
-
-    BRepBuilderAPI_MakeWire makeWire;
-    for (const BiCurve& curve : pathCurves)
-    {
-        const SketchCurve* pCurve = curve.curve;
-        assert(pCurve);
-        TopoDS_Edge edge = sketchTopoBuilder.makeEdge(pCurve);
-        if (edge.IsNull()) { assert(false); continue; }
-        if (curve.orient)
-        {
-            edge = TopoDS::Edge(edge.Reversed());
-        }
-        makeWire.Add(edge);
-    }
-    if (!makeWire.IsDone() || makeWire.Wire().IsNull()) { assert(false); return ErrorCode::TOPOSHAPE_GenerateShapeError; }
-    pathWireInfo.wire = makeWire.Wire();
-
-    assert(!pathCurves.empty());
-    const BiCurve& startPathCurve = pathCurves[0];
-    const wy3d::SketchCurve* pSweeptartCurve = startPathCurve.curve;
-    assert(pSweeptartCurve);
-    const wy3d::SketchPlane& pathPlane = pathSketch.getPlane();
-    if (startPathCurve.orient)
-    {
-        pathStartPos = pathPlane.value(pSweeptartCurve->getStartPoint());
-        wy::Vector2 dir2d = pSweeptartCurve->getDirectionAt(0.0);
-        pathStartDir = pathPlane.value(dir2d) - pathPlane.value(wy::Vector2::kZero);
-        pathStartDir.normalize();
-    }
-    else
-    {
-        pathStartPos = pathPlane.value(pSweeptartCurve->getEndPoint());
-        wy::Vector2 dir2d = pSweeptartCurve->getDirectionAt(1.0);
-        pathStartDir = pathPlane.value(dir2d) - pathPlane.value(wy::Vector2::kZero);
-        pathStartDir = -pathStartDir;
-        pathStartDir.normalize();
-    }
-
-    const std::map<Handle(Geom_Curve), unsigned int>& curve2Id = sketchTopoBuilder.getCurve2IdMap();
-    TopoUtil::recordEdgeNamesOfWire_AppendedMode(pathWireInfo.wire, curve2Id, pathWireInfo.edgeNameInfos);
-
-    return ErrorCode::NoError;
-}
-
-static ErrorCode createPathWire(
-    const wy3d::Curve& pathCurve,
-    TopoUtil::WireInfo& pathWireInfo,
-    wy::Vector3& pathStartPos,
-    wy::Vector3& pathStartDir)
-{
-    BRepBuilderAPI_MakeWire makeWire;
-    TopoDS_Edge edge = pathCurve.getEdge();
-    if (!edge.IsNull()) makeWire.Add(edge);
-    if (!makeWire.IsDone() || makeWire.Wire().IsNull()) { assert(false); return ErrorCode::TOPOSHAPE_GenerateShapeError; }
-    pathWireInfo.wire = makeWire.Wire();
-
-    TopoUtil::EdgeNamingInfo edgeNameInfo;
-    edgeNameInfo.edge = edge;
-    edgeNameInfo.id = pathCurve.getId().value();
-    edgeNameInfo.sibling = size_t(-1);
-    pathWireInfo.edgeNameInfos.emplace_back(edgeNameInfo);
-
-    BRepLib::BuildCurve3d(edge, wy3d::TOL);
-    Standard_Real first(0.0), last(0.0);
-    Handle(Geom_Curve) geomCurve = BRep_Tool::Curve(edge, first, last);
-    if (geomCurve.IsNull()) { assert(false); return ErrorCode::PATH_InvalidPath; }
-    gp_Pnt startPnt;
-    gp_Vec tangent;
-    geomCurve->D1(first, startPnt, tangent);
-    if (tangent.Magnitude() <= wy3d::TOL) { assert(false); return ErrorCode::PATH_InvalidPath; }
-    gp_Dir dir(tangent);
-    pathStartPos.set(startPnt.X(), startPnt.Y(), startPnt.Z());
-    pathStartDir.set(dir.X(), dir.Y(), dir.Z());
 
     return ErrorCode::NoError;
 }
@@ -514,11 +406,11 @@ TopoDS_Shape Sweep::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdateFeed
     ErrorCode errorCreatePathWire(ErrorCode::PATH_InvalidPath);
     if (pPathSketch)
     {
-        errorCreatePathWire = createPathWire(*pPathSketch, pathWireInfo, pathStartPos, pathStartDir);
+        errorCreatePathWire = SweepTopoUtil::createPathWire(*pPathSketch, pathWireInfo, pathStartPos, pathStartDir);
     }
     else if (pPathCurve)
     {
-        errorCreatePathWire = createPathWire(*pPathCurve, pathWireInfo, pathStartPos, pathStartDir);
+        errorCreatePathWire = SweepTopoUtil::createPathWire(*pPathCurve, pathWireInfo, pathStartPos, pathStartDir);
     }
     if (ErrorCode::NoError != errorCreatePathWire)
     {

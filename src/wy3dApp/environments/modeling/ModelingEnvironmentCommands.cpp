@@ -35,6 +35,8 @@
 #include "commands/modeling/sheet/generation/PlanarSheetGuiCmd.h"
 #include "commands/modeling/sheet/sew/SewnSheetGuiCmd.h"
 #include "commands/modeling/sheet/generation/RevolvedSheetGuiCmd.h"
+#include "commands/modeling/sheet/generation/SweptSheetGuiCmd.h"
+#include "commands/modeling/sheet/generation/LoftedSheetGuiCmd.h"
 #include "commands/modeling/sheet/generation/ThickenGuiCmd.h"
 #include "commands/modeling/sheet/generation/SolidifyGuiCmd.h"
 #include "commands/modeling/sheet/generation/OffsetSheetGuiCmd.h"
@@ -88,6 +90,8 @@
     X(CommandNames::Revolve, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, RevolveGuiCmd::classInfo()) \
     X(CommandNames::ExtrudedSheet, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, ExtrudedSheetGuiCmd::classInfo()) \
     X(CommandNames::RevolvedSheet, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, RevolvedSheetGuiCmd::classInfo()) \
+    X(CommandNames::SweptSheet, WYAP_CMD_MODAL, SweptSheetGuiCmd::classInfo()) \
+    X(CommandNames::LoftedSheet, WYAP_CMD_MODAL, LoftedSheetGuiCmd::classInfo()) \
     X(CommandNames::PlanarSheet, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, PlanarSheetGuiCmd::classInfo()) \
     X(CommandNames::SewnSheet, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, SewnSheetGuiCmd::classInfo()) \
     X(CommandNames::Thicken, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, ThickenGuiCmd::classInfo()) \

@@ -73,6 +73,8 @@
 #include <wy3dHelix.h>
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
+#include <wy3dSweptSheet.h>
+#include <wy3dLoftedSheet.h>
 #include <wy3dThicken.h>
 #include <wy3dOffsetSheet.h>
 #include <wy3dNonParametricSheet.h>
@@ -176,6 +178,8 @@ FeatureTreeWidget::FeatureTreeWidget(QWidget* parent)
     _className2DisplayName[wy3d::ImportedSheet::className()] = tr("Imported Sheet");
     _className2DisplayName[wy3d::ExtrudedSheet::className()]  = tr("Extruded Sheet");
     _className2DisplayName[wy3d::RevolvedSheet::className()]  = tr("Revolved Sheet");
+    _className2DisplayName[wy3d::SweptSheet::className()]     = tr("Swept Sheet");
+    _className2DisplayName[wy3d::LoftedSheet::className()]    = tr("Lofted Sheet");
     _className2DisplayName[wy3d::Thicken::className()]        = tr("Thicken");
     _className2DisplayName[wy3d::NonParametricSheet::className()] = tr("NonParametric Sheet");
     _className2DisplayName[wy3d::NonParametricSolid::className()] = tr("NonParametric Solid");

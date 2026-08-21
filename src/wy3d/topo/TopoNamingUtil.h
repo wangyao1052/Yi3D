@@ -85,14 +85,16 @@ public:
         const std::vector<TopoUtil::EdgeNamingInfo>& pathEdgeNameInfos,
         const std::vector<TopoUtil::EdgeNamingInfo>& profileEdgeNameInfos,
         unsigned int elemIdValue,
-        TopoNaming& topoNaming);
+        TopoNaming& topoNaming,
+        bool bMakeSolid = true);
 
     // 放样体拓扑命名
     static bool naming(
         const std::vector<TopoUtil::WireInfo>& profileWireInfos,
         BRepOffsetAPI_ThruSections& makeLoft,
         unsigned int elemIdValue,
-        TopoNaming& topoNaming);
+        TopoNaming& topoNaming,
+        bool bMakeSolid = true);
 
     // 基础体拓扑命名
     static bool primitiveNaming(

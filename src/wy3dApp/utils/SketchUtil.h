@@ -67,6 +67,18 @@ public:
         return isValidProfileForSheet(sketch, error);
     }
 
+    static bool isValidProfileForSweptSheet(const wy3d::Sketch& sketch, QString& error)
+    {
+        return isValidProfileForSheet(sketch, error);
+    }
+
+    static bool isValidPathForSweptSheet(const wy3d::Sketch& sketch, QString& error)
+    {
+        return isValidSweepPath(sketch, error);
+    }
+
+    static bool isValidProfileForLoftedSheet(const wy3d::Sketch& sketch, QString& error);
+
 private:
     static bool isValidProfile(const wy3d::Sketch& sketch, QString& error);
     static bool isValidProfileForSheet(const wy3d::Sketch& sketch, QString& error);

@@ -106,6 +106,14 @@ enum class ErrorCode : std::uint32_t
     // Solidify
     SOLIDIFY_InvalidData                            = 1951, // 无效的实体化数据
     SOLIDIFY_GenerateError                          = 1952, // 实体化生成失败
+
+    // SweptSheet
+    SWEPTSHEET_InvalidData                          = 2001, // 无效的扫掠曲面数据
+    SWEPTSHEET_GenerateError                        = 2002, // 扫掠曲面生成失败
+
+    // LoftedSheet
+    LOFTSHEET_InvalidData                           = 2051, // 无效的放样曲面数据
+    LOFTSHEET_GenerateError                         = 2052, // 放样曲面生成失败
 };
 
 inline bool isError(unsigned int code)

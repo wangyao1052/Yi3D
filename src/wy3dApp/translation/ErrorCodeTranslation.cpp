@@ -167,6 +167,18 @@ ErrorCodeTranslation::ErrorCodeTranslation(QObject* parent) : QObject(parent)
     _code2Desc[TOUINT(wy3d::ErrorCode::SOLIDIFY_GenerateError)] = tr(
         "Generate solidify failed!");
 
+    // SweptSheet
+    _code2Desc[TOUINT(wy3d::ErrorCode::SWEPTSHEET_InvalidData)] = tr(
+        "Invalid swept sheet data!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::SWEPTSHEET_GenerateError)] = tr(
+        "Generate swept sheet failed!");
+
+    // LoftedSheet
+    _code2Desc[TOUINT(wy3d::ErrorCode::LOFTSHEET_InvalidData)] = tr(
+        "Invalid lofted sheet data!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::LOFTSHEET_GenerateError)] = tr(
+        "Generate lofted sheet failed!");
+
     // Helix
     _code2Desc[TOUINT(wy3d::ErrorCode::HELIX_InvalidData)] = tr(
         "Invalid helix data!");
