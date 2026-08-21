@@ -35,10 +35,11 @@ public:
     // 请确保传入的是草图的ID;如果失败会返回(0,0,0).
     static wy::Vector3 getSketchOrigin(const wydb::Database* pDb, const wydb::ElementId& sketchId);
 
-    // 拉伸体
-    static bool isValidExtrusionProfile(const wy3d::Sketch& sketch, QString& error);
+    static bool isValidExtrusionProfile(const wy3d::Sketch& sketch, QString& error)
+    {
+        return isValidProfile(sketch, error);
+    }
 
-    // 旋转体
     static bool isValidRevolutionProfile(const wy3d::Sketch& sketch, QString& error);
 
     // 扫描体
@@ -51,8 +52,37 @@ public:
     // 螺旋线
     static bool isValidHelixProfile(const wy3d::Sketch& sketch, QString& error);
 
+    static bool isValidProfileForPlanarSheet(const wy3d::Sketch& sketch, QString& error)
+    {
+        return isValidProfile(sketch, error);
+    }
+
+    static bool isValidProfileForExtrudedSheet(const wy3d::Sketch& sketch, QString& error)
+    {
+        return isValidProfileForSheet(sketch, error);
+    }
+
+    static bool isValidProfileForRevolvedSheet(const wy3d::Sketch& sketch, QString& error)
+    {
+        return isValidProfileForSheet(sketch, error);
+    }
+
+    static bool isValidProfileForSweptSheet(const wy3d::Sketch& sketch, QString& error)
+    {
+        return isValidProfileForSheet(sketch, error);
+    }
+
+    static bool isValidPathForSweptSheet(const wy3d::Sketch& sketch, QString& error)
+    {
+        return isValidSweepPath(sketch, error);
+    }
+
+    static bool isValidProfileForLoftedSheet(const wy3d::Sketch& sketch, QString& error);
+
 private:
     static bool isValidProfile(const wy3d::Sketch& sketch, QString& error);
+    static bool isValidProfileForSheet(const wy3d::Sketch& sketch, QString& error);
+
     static bool isValidPath(const wy3d::Sketch& sketch, QString& error);
 };
 

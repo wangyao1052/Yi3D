@@ -154,6 +154,12 @@ wy::ErrorStatus Thicken::setSourceSheet(wy3d::Sheet* pSheet)
         return error;
     }
 
+    error = pSheet->setParent(this->getId());
+    if (wy::ErrorStatus::Ok != error)
+    {
+        return error;
+    }
+
     return wy::ErrorStatus::Ok;
 }
 

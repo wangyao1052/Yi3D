@@ -126,6 +126,12 @@ public:
     static const char* OFFSETSHEET_PARAM_OFFSET;
     static const char* OFFSETSHEET_PARAM_SOURCE;
 
+    // SewnSheet
+    static const char* SEWNSHEET_PARAM_TOLERANCE;
+
+    // Solidify
+    static const char* SOLIDIFY_PARAM_SOURCE;
+
     // Helix
     static const char* HELIX_PITCH;
     static const char* HELIX_TURNS;

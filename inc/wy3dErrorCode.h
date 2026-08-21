@@ -93,6 +93,27 @@ enum class ErrorCode : std::uint32_t
     // OffsetSheet
     OFFSETSHEET_InvalidData                         = 1801, // 无效的偏置曲面数据
     OFFSETSHEET_GenerateError                       = 1802, // 偏置曲面生成失败
+
+    // PlanarSheet
+    PLANARSHEET_InvalidData                         = 1851, // 无效的平面片体数据
+    PLANARSHEET_EdgesNotClosed                      = 1852, // 边未构成单一闭合环
+    PLANARSHEET_EdgesNotCoplanar                    = 1853, // 边不共面
+
+    // SewnSheet
+    SEWNSHEET_InvalidData                           = 1901, // 无效的缝合片体数据
+    SEWNSHEET_GenerateError                         = 1902, // 缝合片体生成失败
+
+    // Solidify
+    SOLIDIFY_InvalidData                            = 1951, // 无效的实体化数据
+    SOLIDIFY_GenerateError                          = 1952, // 实体化生成失败
+
+    // SweptSheet
+    SWEPTSHEET_InvalidData                          = 2001, // 无效的扫掠曲面数据
+    SWEPTSHEET_GenerateError                        = 2002, // 扫掠曲面生成失败
+
+    // LoftedSheet
+    LOFTSHEET_InvalidData                           = 2051, // 无效的放样曲面数据
+    LOFTSHEET_GenerateError                         = 2052, // 放样曲面生成失败
 };
 
 inline bool isError(unsigned int code)

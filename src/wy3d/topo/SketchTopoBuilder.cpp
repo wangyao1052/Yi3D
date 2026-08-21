@@ -432,6 +432,7 @@ void TopoUtil::recordEdgeNamesOfWire_AppendedMode(
     const std::map<Handle(Geom_Curve), unsigned int>& curve2Id,
     std::vector<EdgeNamingInfo>& edgeNameInfos)
 {
+    bool isClosed = wire.Closed();
     TopTools_IndexedMapOfShape idxMapOfEdge;
     TopExp::MapShapes(wire, TopAbs_EDGE, idxMapOfEdge);
 
@@ -453,19 +454,43 @@ void TopoUtil::recordEdgeNamesOfWire_AppendedMode(
             EdgeNamingInfo edgeNameInfo;
             edgeNameInfo.edge = edge;
             edgeNameInfo.id = iter->second;
-            if (i == numEdges) // wire的最后一条边
+            if (i == numEdges)
             {
-                edgeNameInfo.sibling = startIndex;
+                if (isClosed)
+                {
+                    edgeNameInfo.sibling = startIndex;
+                }
+                else
+                {
+                    edgeNameInfo.sibling = size_t(-1);
+                }
             }
             else
             {
-                edgeNameInfo.sibling = size_t(-1);
+                edgeNameInfo.sibling = size_t(-2);
             }
             edgeNameInfos.emplace_back(edgeNameInfo);
         }
         else
         {
             assert(false);
+        }
+    }
+
+    size_t num = edgeNameInfos.size();
+    for (size_t i = startIndex; i < num; ++i)
+    {
+        if (edgeNameInfos[i].sibling == size_t(-2))
+        {
+            if (i + 1 < num)
+            {
+                edgeNameInfos[i].sibling = i + 1;
+            }
+            else
+            {
+                edgeNameInfos[i].sibling = size_t(-1);
+                assert(false);
+            }
         }
     }
 }

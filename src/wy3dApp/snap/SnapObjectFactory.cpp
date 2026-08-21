@@ -44,6 +44,8 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dHelix.h>
 #include <wy3dImportedSolid.h>
+#include <wy3dNonParametricSolid.h>
+#include <wy3dSolidify.h>
 
 #include "elements/BoxSnapObjectCreator.h"
 #include "elements/CylinderSnapObjectCreator.h"
@@ -65,9 +67,14 @@
 #include "elements/HelixSnapObjectCreator.h"
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
+#include <wy3dSweptSheet.h>
+#include <wy3dLoftedSheet.h>
 #include <wy3dImportedSheet.h>
 #include <wy3dThicken.h>
 #include <wy3dOffsetSheet.h>
+#include <wy3dPlanarSheet.h>
+#include <wy3dSewnSheet.h>
+#include <wy3dNonParametricSheet.h>
 #define REGISTER_CREATOR(CLASS, SNAP_OBJ_CREATOR) \
     { \
         static_assert(std::is_base_of_v<ElemSnapObjectCreator, SNAP_OBJ_CREATOR>, \
@@ -107,6 +114,10 @@ SnapObjectFactory::SnapObjectFactory()
     REGISTER_CREATOR(wy3d::ImportedSolid, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::ImportedSheet, TopoShapeSnapObjectCreator);
 
+    REGISTER_CREATOR(wy3d::Thicken, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::Solidify, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::NonParametricSolid, TopoShapeSnapObjectCreator);
+
     // 草图相关
     REGISTER_CREATOR(wy3d::Sketch, SketchSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SketchPoint, SketchPointSnapObjectCreator);
@@ -124,8 +135,12 @@ SnapObjectFactory::SnapObjectFactory()
     // 曲面
     REGISTER_CREATOR(wy3d::ExtrudedSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::RevolvedSheet, TopoShapeSnapObjectCreator);
-    REGISTER_CREATOR(wy3d::Thicken, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::SweptSheet, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::LoftedSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::OffsetSheet, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::PlanarSheet, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::SewnSheet, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::NonParametricSheet, TopoShapeSnapObjectCreator);
 }
 
 std::list<wyap::SnapObjectSPtr> SnapObjectFactory::createSnapObjects(const wydb::Element* pElem)

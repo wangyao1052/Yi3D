@@ -50,7 +50,12 @@ public:
     static inline const std::string ExtrudeCut = "ExtrudeCut";
     static inline const std::string ExtrudedSheet = "ExtrudedSheet";
     static inline const std::string RevolvedSheet = "RevolvedSheet";
+    static inline const std::string SweptSheet = "SweptSheet";
+    static inline const std::string LoftedSheet = "LoftedSheet";
+    static inline const std::string PlanarSheet = "PlanarSheet";
+    static inline const std::string SewnSheet = "SewnSheet";
     static inline const std::string Thicken = "Thicken";
+    static inline const std::string Solidify = "Solidify";
     static inline const std::string OffsetSheet = "OffsetSheet";
     static inline const std::string Revolve = "Revolve";
     static inline const std::string RevolveCut = "RevolveCut";

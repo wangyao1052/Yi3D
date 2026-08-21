@@ -26,9 +26,12 @@
 #include <wyapSelection.h>
 #include <wyapEnvManager.h>
 #include <wy3dExtrusion.h>
-#include <wy3dExtrudedSheet.h>
 #include <wy3dRevolution.h>
+#include <wy3dPlanarSheet.h>
+#include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
+#include <wy3dSweptSheet.h>
+#include <wy3dLoftedSheet.h>
 #include <wy3dSketchProfileForSheet.h>
 #include "translation/ErrorCodeTranslation.h"
 #include <wy3dSweep.h>
@@ -167,27 +170,50 @@ static bool canEndEditingSketch(const wydb::ElementId& sketchId)
             return true;
         }
     }
-    // 拉伸曲面
+    else if (const wy3d::PlanarSheet* pPlanarSheet = wy3d::PlanarSheet::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidProfileForPlanarSheet(*pSketch, error))
+        {
+            return true;
+        }
+    }
     else if (const wy3d::ExtrudedSheet* pExtrudedSheet = wy3d::ExtrudedSheet::cast(pSketchOwner))
     {
-        wy3d::SketchProfileForSheet profileForSheet(pSketch);
-        if (profileForSheet.check())
+        if (SketchUtil::isValidProfileForExtrudedSheet(*pSketch, error))
         {
             return true;
         }
-        if (profileForSheet.getError())
-            error = ErrorCodeTranslation::instance().getErrorCodeDescription(profileForSheet.getError()->type);
     }
-    // 旋转曲面
     else if (const wy3d::RevolvedSheet* pRevolvedSheet = wy3d::RevolvedSheet::cast(pSketchOwner))
     {
-        wy3d::SketchProfileForSheet profileForSheet(pSketch);
-        if (profileForSheet.check())
+        if (SketchUtil::isValidProfileForRevolvedSheet(*pSketch, error))
         {
             return true;
         }
-        if (profileForSheet.getError())
-            error = ErrorCodeTranslation::instance().getErrorCodeDescription(profileForSheet.getError()->type);
+    }
+    else if (const wy3d::SweptSheet* pSweptSheet = wy3d::SweptSheet::cast(pSketchOwner))
+    {
+        if (pSweptSheet->getPath() == sketchId)
+        {
+            if (SketchUtil::isValidPathForSweptSheet(*pSketch, error))
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if (SketchUtil::isValidProfileForSweptSheet(*pSketch, error))
+            {
+                return true;
+            }
+        }
+    }
+    else if (const wy3d::LoftedSheet* pLoftedSheet = wy3d::LoftedSheet::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidProfileForLoftedSheet(*pSketch, error))
+        {
+            return true;
+        }
     }
     else
     {
@@ -211,9 +237,6 @@ int EndSketchCommand::run()
         assert(false);
         return -1;
     }
-
-    int* pA = new int(5);
-    std::unique_ptr<int> pp(pA);
 
     // 编辑草图
     if (pSketchEnv->getOperation() == SketchEnvironment::Operation::Edit)

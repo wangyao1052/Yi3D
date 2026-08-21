@@ -125,6 +125,12 @@ const char* ParamNames::THICKEN_PARAM_DIRECTION = "Direction";
 const char* ParamNames::OFFSETSHEET_PARAM_OFFSET = "Offset";
 const char* ParamNames::OFFSETSHEET_PARAM_SOURCE = "Source";
 
+// SewnSheet
+const char* ParamNames::SEWNSHEET_PARAM_TOLERANCE = "Tolerance";
+
+// Solidify
+const char* ParamNames::SOLIDIFY_PARAM_SOURCE = "Source";
+
 // Helix
 const char* ParamNames::HELIX_PITCH = "Pitch";
 const char* ParamNames::HELIX_TURNS = "Turns";

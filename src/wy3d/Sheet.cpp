@@ -29,20 +29,77 @@ NS_WY3D_BEG
 WYDB_IMPLEMENT_MEMBERS(Sheet)
 
 BEGIN_FIELD_REGISTRATION()
+    REGISTER_FIELD(Sheet, _parent)
+    REGISTER_FIELD(Sheet, _color)
     REGISTER_FIELD(Sheet, _shape)
     REGISTER_FIELD(Sheet, _pTopoNaming)
-    REGISTER_FIELD(Sheet, _color)
 END_FIELD_REGISTRATION()
 
 Sheet::Sheet() :
     wy3d::Feature(),
-    _color(140, 153, 165)
+    _parent(wydb::ElementId::kNull),
+    _color(140, 153, 165),
+    _shape()
 {
     _pTopoNaming = std::make_shared<TopoNaming>();
 }
 
 Sheet::~Sheet()
 {
+}
+
+wy::ErrorStatus Sheet::setShapeImpl(const TopoDS_Shape& shape)
+{
+    wy::ErrorStatus error = this->prepareForFieldChange(
+        kSheet_shape, wydb::ElementDataPieceType::None);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _shape = shape;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+wy::ErrorStatus Sheet::setParent(const wydb::ElementId& parentId)
+{
+    if (parentId == _parent)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(
+        kSheet_parent, wydb::ElementDataPieceType::Appearance);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _parent = parentId;
+        this->markDataPieceDirty(wydb::ElementDataPiece::hierarchy(this->getId()));
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+wy::ErrorStatus Sheet::setTopoNaming(TopoNamingSPtr pTopoNaming)
+{
+    if (_pTopoNaming == pTopoNaming)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(
+        kSheet_pTopoNaming, wydb::ElementDataPieceType::None);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _pTopoNaming = pTopoNaming;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
 }
 
 wy::ErrorStatus Sheet::setColor(const wy3d::Color& color)
@@ -81,6 +138,7 @@ wydb::ParameterValueUPtr Sheet::getParameterValue(const std::string& className, 
             return wydb::ParameterValue::createAny(_color);
         return nullptr;
     }
+
     return __baseClass::getParameterValue(className, paramName);
 }
 
@@ -91,49 +149,16 @@ wy::ErrorStatus Sheet::setParameterValue(const std::string& className, const std
         if (ParamNames::SOLID_PARAM_COLOR == paramName)
         {
             if (!paramValue.isAny()) return wy::ErrorStatus::InvalidInput;
-            const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);
+            const wydb::AnyParameterValue* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);
             if (!pAnyVal) return wy::ErrorStatus::InvalidInput;
-            const auto* pColor = pAnyVal->tryGet<wy3d::Color>();
+            const wy3d::Color* pColor = pAnyVal->tryGet<wy3d::Color>();
             if (!pColor) return wy::ErrorStatus::InvalidInput;
             return this->setColor(*pColor);
         }
         return wy::ErrorStatus::ParameterNotFound;
     }
+
     return __baseClass::setParameterValue(className, paramName, paramValue);
-}
-
-wy::ErrorStatus Sheet::setShape(const TopoDS_Shape& shape)
-{
-    wy::ErrorStatus error = this->prepareForFieldChange(
-        kSheet_shape, wydb::ElementDataPieceType::None);
-    if (wy::ErrorStatus::Ok == error)
-    {
-        _shape = shape;
-        return wy::ErrorStatus::Ok;
-    }
-    else
-    {
-        return error;
-    }
-}
-
-wy::ErrorStatus Sheet::setTopoNaming(TopoNamingSPtr pTopoNaming)
-{
-    if (_pTopoNaming == pTopoNaming)
-    {
-        return wy::ErrorStatus::Ok;
-    }
-    wy::ErrorStatus error = this->prepareForFieldChange(
-        kSheet_pTopoNaming, wydb::ElementDataPieceType::None);
-    if (wy::ErrorStatus::Ok == error)
-    {
-        _pTopoNaming = pTopoNaming;
-        return wy::ErrorStatus::Ok;
-    }
-    else
-    {
-        return error;
-    }
 }
 
 bool Sheet::getFieldValue(wydb::FieldId fieldId, std::any& value)
@@ -148,6 +173,9 @@ bool Sheet::getFieldValue(wydb::FieldId fieldId, std::any& value)
         return true;
     case kSheet_color.value():
         value = _color;
+        return true;
+    case kSheet_parent.value():
+        value = _parent;
         return true;
     default:
         bool baseRet = __baseClass::getFieldValue(fieldId, value);
@@ -169,6 +197,9 @@ bool Sheet::setFieldValue(wydb::FieldId fieldId, const std::any& value)
     case kSheet_color.value():
         _color = std::any_cast<wy3d::Color>(value);
         return true;
+    case kSheet_parent.value():
+        _parent = std::any_cast<wydb::ElementId>(value);
+        return true;
     default:
         bool baseRet = __baseClass::setFieldValue(fieldId, value);
         assert(baseRet);
@@ -185,6 +216,11 @@ wy::ErrorStatus Sheet::writeToFiler(wydb::OutFiler& filer) const
         filer << static_cast<std::uint32_t>(_color.red)
               << static_cast<std::uint32_t>(_color.green)
               << static_cast<std::uint32_t>(_color.blue);
+    }
+
+    if (filer.getFileVersion() > wydb::FileVersion(0, 18))
+    {
+        filer << _parent;
     }
 
     return wy::ErrorStatus::Ok;
@@ -204,7 +240,32 @@ wy::ErrorStatus Sheet::readFromFiler(wydb::InFiler& filer)
         _color = color;
     }
 
+    if (filer.getFileVersion() > wydb::FileVersion(0, 18))
+    {
+        filer >> _parent;
+    }
+
     return wy::ErrorStatus::Ok;
+}
+
+void Sheet::reportDependencies(std::set<wydb::ElementId>& dependencies) const
+{
+    __baseClass::reportDependencies(dependencies);
+    if (!_parent.isNull())
+    {
+        dependencies.insert(_parent);
+    }
+}
+
+bool Sheet::onDependenciesErased(const std::set<wydb::ElementId>& erasedDependencies)
+{
+    bool responsed = __baseClass::onDependenciesErased(erasedDependencies);
+    if (!_parent.isNull() && erasedDependencies.find(_parent) != erasedDependencies.cend())
+    {
+        this->setParent(wydb::ElementId::kNull);
+        return true;
+    }
+    return responsed;
 }
 
 void Sheet::onChainUpdater_Completion(
@@ -214,15 +275,15 @@ void Sheet::onChainUpdater_Completion(
     try
     {
         TopoNamingSPtr pTopoNaming = std::make_shared<TopoNaming>();
-        TopoDS_Shape initShape = this->generateShape(pTopoNaming.get(), feedbackCollector);
-        this->setShape(initShape);
+        TopoDS_Shape shape = this->generateShape(pTopoNaming.get(), feedbackCollector);
+        this->setShapeImpl(shape);
         this->setTopoNaming(pTopoNaming);
     }
     catch (const Standard_Failure&)
     {
         wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
             static_cast<unsigned int>(wy3d::ErrorCode::TOPOSHAPE_GenerateShapeError));
-        this->setShape(TopoDS_Shape());
+        this->setShapeImpl(TopoDS_Shape());
         this->setTopoNaming(std::make_shared<TopoNaming>());
     }
 }

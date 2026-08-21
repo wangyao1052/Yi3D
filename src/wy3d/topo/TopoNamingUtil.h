@@ -62,6 +62,13 @@ public:
         TopoNaming& topoNaming,
         unsigned int profileIndex = 0);
 
+    static bool naming(
+        const TopoDS_Face& face,
+        const std::vector<TopoUtil::EdgeNamingInfo>& edgeNameInfos,
+        unsigned int elemIdValue,
+        TopoNaming& topoNaming,
+        unsigned int profileIndex = 0);
+
     // 拉伸曲面&旋转曲面拓扑命名（Wire → Shell）
     static bool naming(
         const TopoDS_Wire& originalWire,
@@ -78,14 +85,16 @@ public:
         const std::vector<TopoUtil::EdgeNamingInfo>& pathEdgeNameInfos,
         const std::vector<TopoUtil::EdgeNamingInfo>& profileEdgeNameInfos,
         unsigned int elemIdValue,
-        TopoNaming& topoNaming);
+        TopoNaming& topoNaming,
+        bool bMakeSolid = true);
 
     // 放样体拓扑命名
     static bool naming(
         const std::vector<TopoUtil::WireInfo>& profileWireInfos,
         BRepOffsetAPI_ThruSections& makeLoft,
         unsigned int elemIdValue,
-        TopoNaming& topoNaming);
+        TopoNaming& topoNaming,
+        bool bMakeSolid = true);
 
     // 基础体拓扑命名
     static bool primitiveNaming(

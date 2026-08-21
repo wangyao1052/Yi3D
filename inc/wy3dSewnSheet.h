@@ -16,35 +16,37 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3D_SHEET_H
-#define WY3D_SHEET_H
-
-#include <TopoDS_Shape.hxx>
-#include <vector>
+#ifndef WY3D_SEWN_SHEET_H
+#define WY3D_SEWN_SHEET_H
 
 #include <wy3dDefs.h>
-#include <wy3dFeature.h>
-#include <wy3dTopoNaming.h>
-#include <wy3dColor.h>
+#include <wy3dSheet.h>
 
 NS_WY3D_BEG
 
-class WY3D_EXPORT Sheet : public wy3d::Feature
+class WY3D_EXPORT SewnSheet : public wy3d::Sheet
 {
-    WYDB_DECLARE_ABSTRACT_MEMBERS(Sheet, wy3d::Sheet, wy3d::Feature)
+    WYDB_DECLARE_MEMBERS(SewnSheet, wy3d::SewnSheet, wy3d::Sheet)
 
 public:
-    virtual const TopoDS_Shape& getShape() const { return _shape; }
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        const std::vector<wy3d::Sheet*>& sources,
+        double tolerance,
+        SewnSheet*& pOut);
 
-    virtual wydb::ElementId getParent() const override { return _parent; }
-    wy::ErrorStatus setParent(const wydb::ElementId& parent);
+    virtual std::vector<wydb::ElementId> getChildren() const override
+    {
+        auto children = __baseClass::getChildren();
+        children.reserve(children.size() + _sourceIds.size());
+        children.insert(children.end(), _sourceIds.cbegin(), _sourceIds.cend());
+        return children;
+    }
 
-    const TopoNaming* getTopoNaming() const { return _pTopoNaming.get(); }
-    TopoNaming* getTopoNaming() { return _pTopoNaming.get(); }
-    wy::ErrorStatus setTopoNaming(TopoNamingSPtr pTopoNaming);
+    const std::vector<wydb::ElementId>& getSources() const { return _sourceIds; }
 
-    wy3d::Color getColor() const { return _color; }
-    wy::ErrorStatus setColor(const wy3d::Color& color);
+    double getTolerance() const { return _tolerance; }
+    wy::ErrorStatus setTolerance(double tolerance);
 
 public:
     virtual wydb::ParameterValueUPtr getParameterValue(
@@ -67,23 +69,19 @@ protected:
     virtual bool onDependenciesErased(
         const std::set<wydb::ElementId>& erasedDependencies) override;
 
-    virtual void onChainUpdater_Completion(
-        const wydb::ElementDataPiece& dirtyDataPiece,
-        wydb::ChainUpdateFeedbackCollector& feedbackCollector);
     virtual TopoDS_Shape generateShape(
         TopoNaming* pTopoNaming,
-        wydb::ChainUpdateFeedbackCollector& feedbackCollector);
+        wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
+
+private:
+    wy::ErrorStatus setSourcesImpl(const std::vector<wydb::ElementId>& sourceIds);
+    wy::ErrorStatus addSource(wy3d::Sheet* pSource);
 
 protected:
-    wy::ErrorStatus setShapeImpl(const TopoDS_Shape& shape);
-
-protected:
-    wydb::ElementId _parent;
-    wy3d::Color _color;
-    TopoDS_Shape _shape;
-    TopoNamingSPtr _pTopoNaming;
+    std::vector<wydb::ElementId> _sourceIds;
+    double _tolerance;
 };
 
 NS_WY3D_END
 
-#endif // WY3D_SHEET_H
+#endif // WY3D_SEWN_SHEET_H

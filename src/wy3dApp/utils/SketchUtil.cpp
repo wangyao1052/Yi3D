@@ -25,6 +25,7 @@
 #include <wy3dSketchPoint.h>
 #include <wy3dSketchCenterLine.h>
 #include <wy3dSketchProfile.h>
+#include <wy3dSketchProfileForSheet.h>
 #include <wy3dSketchProfile_Revolution.h>
 #include <wy3dSketchPath.h>
 #include "translation/ErrorCodeTranslation.h"
@@ -71,11 +72,6 @@ wy::Vector3 SketchUtil::getSketchOrigin(const wydb::Database* pDb, const wydb::E
     return pSketch->getPlane().getOrigin();
 }
 
-bool SketchUtil::isValidExtrusionProfile(const wy3d::Sketch& sketch, QString& error)
-{
-    return isValidProfile(sketch, error);
-}
-
 bool SketchUtil::isValidRevolutionProfile(const wy3d::Sketch& sketch, QString& error)
 {
     wy3d::SketchProfile_Revolution sketchProfile(&sketch);
@@ -84,6 +80,7 @@ bool SketchUtil::isValidRevolutionProfile(const wy3d::Sketch& sketch, QString& e
     wy3d::ErrorCode errorCode = wy3d::ErrorCode::PROFILE_InvalidProfile;
     std::shared_ptr<wy3d::SketchError> pError = sketchProfile.getError();
     if (pError) errorCode = pError->type;
+
     error = ErrorCodeTranslation::instance().getErrorCodeDescription(errorCode);
     if (pError && !pError->ids.empty())
     {
@@ -212,6 +209,7 @@ bool SketchUtil::isValidProfile(const wy3d::Sketch& sketch, QString& error)
     {
         errorCode = pError->type;
     }
+
     error = ErrorCodeTranslation::instance().getErrorCodeDescription(errorCode);
     if (pError && !pError->ids.empty())
     {
@@ -225,6 +223,38 @@ bool SketchUtil::isValidProfile(const wy3d::Sketch& sketch, QString& error)
     }
 
     return false;
+}
+
+bool SketchUtil::isValidProfileForSheet(const wy3d::Sketch& sketch, QString& error)
+{
+    wy3d::SketchProfileForSheet profileForSheet(&sketch);
+    if (profileForSheet.check()) return true;
+
+    wy3d::ErrorCode errorCode = wy3d::ErrorCode::PROFILE_InvalidProfile;
+    std::shared_ptr<wy3d::SketchError> pError = profileForSheet.getError();
+    if (pError)
+    {
+        errorCode = pError->type;
+    }
+
+    error = ErrorCodeTranslation::instance().getErrorCodeDescription(errorCode);
+    if (pError && !pError->ids.empty())
+    {
+        QStringList idStrs;
+        for (const wydb::ElementId& id : pError->ids)
+        {
+            idStrs << QString::number(id.value());
+        }
+        error += "\n" + QCoreApplication::translate("SketchUtil", "Element IDs: %1")
+            .arg(idStrs.join(", "));
+    }
+    return false;
+}
+
+bool SketchUtil::isValidProfileForLoftedSheet(const wy3d::Sketch& sketch, QString& error)
+{
+    if (whetherSketchHasOnlyOneSketchPoint(sketch)) return true;
+    else return isValidProfileForSheet(sketch, error);
 }
 
 bool SketchUtil::isValidPath(const wy3d::Sketch& sketch, QString& error)

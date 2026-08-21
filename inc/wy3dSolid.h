@@ -144,7 +144,6 @@ protected:
     // 新生成的面也即关联的面
     TopoNameList _newFaces;
 
-private:
     // 最终的形状
     TopoDS_Shape _shape;
 };
