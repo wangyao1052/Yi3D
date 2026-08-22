@@ -21,6 +21,11 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include <QComboBox>
+#include <QCheckBox>
+#include <wy3dChamfer.h>
+
+class QLabel;
 
 class ChamferDistanceLineEdit : public QLineEdit
 {
@@ -37,19 +42,44 @@ class ChamferDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ChamferDialog(double distance, QWidget* parent = nullptr);
+    explicit ChamferDialog(double distance1, double distance2, double angle,
+        wy3d::ChamferType chamferType, bool isFlipped, QWidget* parent = nullptr);
 
     // 重载设置首选大小
     // 对布局特别有用
     virtual QSize sizeHint() const override
     {
-        return QSize(200, 100);
+        return QSize(260, 180);
     }
 
-    // 获取倒角距离
-    double getDistance() const
+    // 获取第一倒角距离
+    double getDistance1() const
     {
-        return _distance;
+        return _distance1;
+    }
+
+    // 获取第二倒角距离
+    double getDistance2() const
+    {
+        return _distance2;
+    }
+
+    // 获取倒角角度 (度)
+    double getAngle() const
+    {
+        return _angle;
+    }
+
+    // 获取倒角类型
+    wy3d::ChamferType getChamferType() const
+    {
+        return _chamferType;
+    }
+
+    // 获取是否翻转方向
+    bool isFlipped() const
+    {
+        return _isFlipped;
     }
 
 protected:
@@ -58,10 +88,24 @@ protected:
 private slots:
     void onOkBtnClicked();
     void onCancelBtnClicked();
+    void onTypeChanged(int index);
 
 private:
+    void updateModeWidgets();
+
+private:
+    QComboBox* _typeCombo;
     ChamferDistanceLineEdit* _distanceEdit;
-    double _distance;
+    ChamferDistanceLineEdit* _distance2Edit;
+    ChamferDistanceLineEdit* _angleEdit;
+    QLabel* _distance2Label;
+    QLabel* _angleLabel;
+    QCheckBox* _flipCheckBox;
+    double _distance1;
+    double _distance2;
+    double _angle;   // 度 (对话框按度工作)
+    wy3d::ChamferType _chamferType;
+    bool _isFlipped;
 };
 
 #endif // WY3DAPP_CHAMFER_DIALOG_H

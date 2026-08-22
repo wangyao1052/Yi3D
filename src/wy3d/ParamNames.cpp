@@ -58,7 +58,11 @@ const char* ParamNames::REVOLUTION_PARAM_AXIS = "Axis";
 const char* ParamNames::IMPORTED_SOLID_PARAM_FILE_PATH = "FilePath";
 
 // Chamfer
-const char* ParamNames::CHAMFER_DISTANCE1 = "Distance";
+const char* ParamNames::CHAMFER_DISTANCE1 = "Distance1";
+const char* ParamNames::CHAMFER_DISTANCE2 = "Distance2";
+const char* ParamNames::CHAMFER_ANGLE = "Angle";
+const char* ParamNames::CHAMFER_TYPE = "ChamferType";
+const char* ParamNames::CHAMFER_IS_FLIPPED = "IsFlipped";
 
 // Fillet
 const char* ParamNames::FILLET_RADIUS = "Radius";

@@ -25,6 +25,7 @@
 #include <wyapDocument.h>
 #include <wy3dSketch.h>
 #include <wy3dImpl.h>
+#include <wy3dMath.h>
 #include <wy3dErrorCode.h>
 
 #include "application/Application.h"
@@ -75,7 +76,9 @@ private:
 };
 
 ChamferGuiCmd::ChamferGuiCmd() : OsgGuiCommand(),
-    _step(Step::Undefined), _distance(5.0)
+    _step(Step::Undefined), _distance1(5.0), _distance2(5.0),
+    _angle(wy3d::degreesToRadians(45.0)),
+    _chamferType(wy3d::ChamferType::EqualDistance), _isFlipped(false)
 {
     _options.pointSelect = false;
     _options.boxSelect = false;
@@ -115,7 +118,11 @@ void ChamferGuiCmd::reset()
 {
     _step = Step::Undefined;
     _sels.clear();
-    _distance = 0.0;
+    _distance1 = 0.0;
+    _distance2 = 5.0;
+    _angle = wy3d::degreesToRadians(45.0);
+    _chamferType = wy3d::ChamferType::EqualDistance;
+    _isFlipped = false;
 
     _pPreview = nullptr;
     _pSelSetHighlightor = nullptr;
@@ -185,20 +192,25 @@ void ChamferGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ChamferGuiCmd", "Input chamfer distance."));
+        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ChamferGuiCmd", "Input chamfer parameters."));
 
         // 鼠标样式
         Application::instance().setCursor(CursorType::Select);
 
-        // 倒角对话框
-        ChamferDialog dialog(5.0);
+        // 倒角对话框 (角度按度传入/读出)
+        ChamferDialog dialog(5.0, 5.0, 45.0, wy3d::ChamferType::EqualDistance, false);
         if (QDialog::Accepted != dialog.exec())
         {
             this->reset(); // 重置数据
             this->requestAbort(AbortCause::UserCancel);  // 退出
             return;
         }
-        _distance = dialog.getDistance(); // 对话框逻辑中已经添加了校验数据的合理性
+        // 对话框逻辑中已经添加了校验数据的合理性
+        _distance1 = dialog.getDistance1();
+        _distance2 = dialog.getDistance2();
+        _angle = wy3d::degreesToRadians(dialog.getAngle());
+        _chamferType = dialog.getChamferType();
+        _isFlipped = dialog.isFlipped();
 
         // 执行倒角
         unsigned int errorCode(0);
@@ -317,6 +329,6 @@ void ChamferGuiCmd::onContextMenuAction_ClearSelection()
 
 bool ChamferGuiCmd::createChamfer(unsigned int& errorCode)
 {
-    return ChamferFilletCmdCommon::createChamferOrFillet<wy3d::Chamfer,
-        wy3d::ErrorCode::CHAMFER_CreateChamferError>(_sels, _distance, errorCode);
+    return ChamferFilletCmdCommon::createChamfer(
+        _sels, _chamferType, _distance1, _distance2, _angle, _isFlipped, errorCode);
 }

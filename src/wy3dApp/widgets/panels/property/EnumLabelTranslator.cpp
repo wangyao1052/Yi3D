@@ -42,6 +42,11 @@ QString EnumLabelTranslator::translate(const std::string& englishLabel)
         m["One Side"]     = QCoreApplication::translate(kContext, "One Side");
         m["Symmetric"]    = QCoreApplication::translate(kContext, "Symmetric");
 
+        // ChamferType
+        m["Equal distance"]     = QCoreApplication::translate(kContext, "Equal distance");
+        m["Distance-Distance"]  = QCoreApplication::translate(kContext, "Distance-Distance");
+        m["Distance-Angle"]     = QCoreApplication::translate(kContext, "Distance-Angle");
+
         return m;
     }();
 
@@ -59,4 +64,7 @@ void _enumLabelTrDummy()
     QCoreApplication::translate("EnumLabelTranslator", "RectoVerso");
     QCoreApplication::translate("EnumLabelTranslator", "One Side");
     QCoreApplication::translate("EnumLabelTranslator", "Symmetric");
+    QCoreApplication::translate("EnumLabelTranslator", "Equal distance");
+    QCoreApplication::translate("EnumLabelTranslator", "Distance-Distance");
+    QCoreApplication::translate("EnumLabelTranslator", "Distance-Angle");
 }

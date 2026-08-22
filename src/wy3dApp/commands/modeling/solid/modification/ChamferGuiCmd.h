@@ -71,7 +71,11 @@ private:
 private:
     Step _step;
     wyap::SelectionSet _sels;
-    double _distance;
+    double _distance1;
+    double _distance2;
+    double _angle;   // 弧度 (对话框按度工作, 此处转换)
+    wy3d::ChamferType _chamferType;
+    bool _isFlipped;
 
     // 点选选项
     PointPickOption _pointPickOption;

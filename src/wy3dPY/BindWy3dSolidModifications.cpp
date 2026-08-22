@@ -72,8 +72,16 @@ void bindWy3dSolidModifications(py::module_& m)
     // ========== Chamfer 倒角 ==========
     py::class_<wy3d::Chamfer, wy3d::SolidModification, std::unique_ptr<wy3d::Chamfer, py::nodelete>>(
         m, "Chamfer")
-        .def("getDistance", &wy3d::Chamfer::getDistance)
-        .def("setDistance", &wy3d::Chamfer::setDistance)
+        .def("getDistance1", &wy3d::Chamfer::getDistance1)
+        .def("setDistance1", &wy3d::Chamfer::setDistance1)
+        .def("getDistance2", &wy3d::Chamfer::getDistance2)
+        .def("setDistance2", &wy3d::Chamfer::setDistance2)
+        .def("getAngle", &wy3d::Chamfer::getAngle)
+        .def("setAngle", &wy3d::Chamfer::setAngle)
+        .def("getChamferType", &wy3d::Chamfer::getChamferType)
+        .def("setChamferType", &wy3d::Chamfer::setChamferType)
+        .def("isFlipped", &wy3d::Chamfer::isFlipped)
+        .def("setFlipped", &wy3d::Chamfer::setFlipped)
         .def("getEdges", &wy3d::Chamfer::getEdges)
         .def("setEdges", &wy3d::Chamfer::setEdges)
         .def("getFaces", &wy3d::Chamfer::getFaces)
@@ -96,7 +104,48 @@ void bindWy3dSolidModifications(py::module_& m)
             py::arg("faceIndices"),
             py::arg("edgeIndices"),
             py::arg("distance"),
+            py::return_value_policy::reference)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans,
+               wy3d::Solid* pSolid,
+               const std::vector<std::uint32_t>& faceIndices,
+               const std::vector<std::uint32_t>& edgeIndices,
+               wy3d::ChamferType chamferType,
+               double distance1,
+               double distance2,
+               double angle,
+               bool isFlipped) -> wy3d::Chamfer*
+            {
+                wy3d::Chamfer* pOutChamfer = nullptr;
+                wy::ErrorStatus status = wy3d::Chamfer::create(
+                    pTrans, pSolid, faceIndices, edgeIndices, chamferType,
+                    distance1, distance2, angle, isFlipped, pOutChamfer);
+                return pOutChamfer;
+            },
+            py::arg("transaction"),
+            py::arg("solid"),
+            py::arg("faceIndices"),
+            py::arg("edgeIndices"),
+            py::arg("chamferType"),
+            py::arg("distance1"),
+            py::arg("distance2"),
+            py::arg("angle"),
+            py::arg("isFlipped"),
             py::return_value_policy::reference);
+
+    // ========== ChamferType 枚举 ==========
+    py::enum_<wy3d::ChamferType>(m, "ChamferType")
+        .value("EqualDistance", wy3d::ChamferType::EqualDistance)
+        .value("DistanceDistance", wy3d::ChamferType::DistanceDistance)
+        .value("DistanceAngle", wy3d::ChamferType::DistanceAngle)
+        .def("__repr__", [](wy3d::ChamferType t) {
+            switch (t) {
+            case wy3d::ChamferType::EqualDistance:  return "wy3d.ChamferType.EqualDistance";
+            case wy3d::ChamferType::DistanceDistance: return "wy3d.ChamferType.DistanceDistance";
+            case wy3d::ChamferType::DistanceAngle:  return "wy3d.ChamferType.DistanceAngle";
+            default: return "wy3d.ChamferType.Unknown";
+            }});
 
     // ========== ShellDirection 枚举 ==========
     py::enum_<wy3d::ShellDirection>(m, "ShellDirection")

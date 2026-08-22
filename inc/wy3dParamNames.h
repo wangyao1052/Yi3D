@@ -53,6 +53,10 @@ public:
 
     // Chamfer
     static const char* CHAMFER_DISTANCE1;
+    static const char* CHAMFER_DISTANCE2;
+    static const char* CHAMFER_ANGLE;
+    static const char* CHAMFER_TYPE;
+    static const char* CHAMFER_IS_FLIPPED;
 
     // Fillet
     static const char* FILLET_RADIUS;

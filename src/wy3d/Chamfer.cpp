@@ -20,6 +20,8 @@
 #include <BRepFilletAPI_MakeChamfer.hxx>
 #include <TopExp.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
+#include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
+#include <TopTools_ListOfShape.hxx>
 
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
@@ -29,6 +31,8 @@
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dParamNames.h>
+#include <wy3dParamEnumDef.h>
+#include <wy3dMath.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include "topo/TopoShapeComparer.h"
@@ -44,10 +48,15 @@ WYDB_IMPLEMENT_MEMBERS(Chamfer)
 BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Chamfer, _edgeNames)
     REGISTER_FIELD(Chamfer, _faceNames)
-    REGISTER_FIELD(Chamfer, _distance)
+    REGISTER_FIELD(Chamfer, _chamferType)
+    REGISTER_FIELD(Chamfer, _distance1)
+    REGISTER_FIELD(Chamfer, _distance2)
+    REGISTER_FIELD(Chamfer, _angle)
+    REGISTER_FIELD(Chamfer, _isFlipped)
 END_FIELD_REGISTRATION()
 
-Chamfer::Chamfer() : wy3d::SolidModification(), _distance(0.0)
+Chamfer::Chamfer() : wy3d::SolidModification(), _chamferType(ChamferType::EqualDistance),
+    _distance1(0.0), _distance2(0.0), _angle(wy3d::PI_4), _isFlipped(false)
 {
 }
 
@@ -61,6 +70,23 @@ wy::ErrorStatus Chamfer::create(
     const std::vector<std::uint32_t>& faceIndices,
     const std::vector<std::uint32_t>& edgeIndices,
     double distance,
+    Chamfer*& pOutChamfer)
+{
+    // Legacy signature: delegates with equal-distance defaults.
+    return create(pTrans, pSolid, faceIndices, edgeIndices, ChamferType::EqualDistance,
+        distance, distance, wy3d::PI_4, false, pOutChamfer);
+}
+
+wy::ErrorStatus Chamfer::create(
+    wydb::Transaction* pTrans,
+    wy3d::Solid* pSolid,
+    const std::vector<std::uint32_t>& faceIndices,
+    const std::vector<std::uint32_t>& edgeIndices,
+    ChamferType chamferType,
+    double distance1,
+    double distance2,
+    double angle,
+    bool isFlipped,
     Chamfer*& pOutChamfer)
 {
     if (!pTrans)
@@ -78,7 +104,24 @@ wy::ErrorStatus Chamfer::create(
         pOutChamfer = nullptr;
         return wy::ErrorStatus::InvalidInput;
     }
-    if (distance < 0.0)
+    if (ChamferType::EqualDistance != chamferType &&
+        ChamferType::DistanceDistance != chamferType &&
+        ChamferType::DistanceAngle != chamferType)
+    {
+        pOutChamfer = nullptr;
+        return wy::ErrorStatus::InvalidInput;
+    }
+    if (distance1 < 0.0)
+    {
+        pOutChamfer = nullptr;
+        return wy::ErrorStatus::InvalidInput;
+    }
+    if (distance2 < 0.0)
+    {
+        pOutChamfer = nullptr;
+        return wy::ErrorStatus::InvalidInput;
+    }
+    if (angle <= 0.0 || angle >= wy3d::PI)
     {
         pOutChamfer = nullptr;
         return wy::ErrorStatus::InvalidInput;
@@ -135,7 +178,15 @@ wy::ErrorStatus Chamfer::create(
         error = pChamfer->setFaces(faceNames);
         CHECK_ERROR_FOR_CREATE(error, pChamfer);
     }
-    error = pChamfer->setDistance(distance);
+    error = pChamfer->setChamferType(chamferType);
+    CHECK_ERROR_FOR_CREATE(error, pChamfer);
+    error = pChamfer->setDistance1(distance1);
+    CHECK_ERROR_FOR_CREATE(error, pChamfer);
+    error = pChamfer->setDistance2(distance2);
+    CHECK_ERROR_FOR_CREATE(error, pChamfer);
+    error = pChamfer->setAngle(angle);
+    CHECK_ERROR_FOR_CREATE(error, pChamfer);
+    error = pChamfer->setFlipped(isFlipped);
     CHECK_ERROR_FOR_CREATE(error, pChamfer);
 
     error = pSolid->addModification(pChamfer);
@@ -145,20 +196,106 @@ wy::ErrorStatus Chamfer::create(
     return wy::ErrorStatus::Ok;
 }
 
-wy::ErrorStatus Chamfer::setDistance(double distance)
+wy::ErrorStatus Chamfer::setDistance1(double distance1)
 {
-    if (distance < wy3d::kMinValue || distance > wy3d::kMaxValue)
+    if (distance1 < wy3d::kMinValue || distance1 > wy3d::kMaxValue)
     {
         return wy::ErrorStatus::InvalidInput;
     }
-    if (distance == _distance)
+    if (distance1 == _distance1)
     {
         return wy::ErrorStatus::Ok;
     }
-    wy::ErrorStatus error = this->prepareForFieldChange(kChamfer_distance);
+    wy::ErrorStatus error = this->prepareForFieldChange(kChamfer_distance1);
     if (wy::ErrorStatus::Ok == error)
     {
-        _distance = distance;
+        _distance1 = distance1;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+wy::ErrorStatus Chamfer::setDistance2(double distance2)
+{
+    if (distance2 < wy3d::kMinValue || distance2 > wy3d::kMaxValue)
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+    if (distance2 == _distance2)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(kChamfer_distance2);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _distance2 = distance2;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+wy::ErrorStatus Chamfer::setAngle(double angle)
+{
+    if (angle <= 0.0 || angle >= wy3d::PI)
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+    if (angle == _angle)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(kChamfer_angle);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _angle = angle;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+wy::ErrorStatus Chamfer::setChamferType(ChamferType chamferType)
+{
+    if (ChamferType::EqualDistance != chamferType &&
+        ChamferType::DistanceDistance != chamferType &&
+        ChamferType::DistanceAngle != chamferType)
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+    if (chamferType == _chamferType)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(kChamfer_chamferType);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _chamferType = chamferType;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+wy::ErrorStatus Chamfer::setFlipped(bool isFlipped)
+{
+    if (isFlipped == _isFlipped)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(kChamfer_isFlipped);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _isFlipped = isFlipped;
         return wy::ErrorStatus::Ok;
     }
     else
@@ -208,21 +345,79 @@ void Chamfer::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
+        def.name = ParamNames::CHAMFER_TYPE;
+        pParamSchema->addParameterDefinition(def);
+    }
+    {
+        wydb::ParameterDefinitionData def;
         def.name = ParamNames::CHAMFER_DISTANCE1;
         pParamSchema->addParameterDefinition(def);
     }
+    {
+        wydb::ParameterDefinitionData def;
+        def.name = ParamNames::CHAMFER_DISTANCE2;
+        pParamSchema->addParameterDefinition(def);
+    }
+    {
+        wydb::ParameterDefinitionData def;
+        def.name = ParamNames::CHAMFER_ANGLE;
+        pParamSchema->addParameterDefinition(def);
+    }
+    {
+        wydb::ParameterDefinitionData def;
+        def.name = ParamNames::CHAMFER_IS_FLIPPED;
+        pParamSchema->addParameterDefinition(def);
+    }
 }
+
 wydb::ParameterValueUPtr Chamfer::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == Chamfer::classInfo()->className())
     {
         if (ParamNames::CHAMFER_DISTANCE1 == paramName)
         {
-            return wydb::ParameterValue::createDouble(_distance);
+            return wydb::ParameterValue::createDouble(_distance1);
+        }
+        if (ParamNames::CHAMFER_DISTANCE2 == paramName)
+        {
+            return wydb::ParameterValue::createDouble(_distance2);
+        }
+        if (ParamNames::CHAMFER_ANGLE == paramName)
+        {
+            return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_angle));
+        }
+        if (ParamNames::CHAMFER_TYPE == paramName)
+        {
+            return wydb::ParameterValue::createAny(
+                wy3d::ParamEnumDef(
+                    {{static_cast<int>(ChamferType::EqualDistance), "Equal distance"},
+                     {static_cast<int>(ChamferType::DistanceDistance), "Distance-Distance"},
+                     {static_cast<int>(ChamferType::DistanceAngle), "Distance-Angle"}},
+                    static_cast<int>(_chamferType)));
+        }
+        if (ParamNames::CHAMFER_IS_FLIPPED == paramName)
+        {
+            return wydb::ParameterValue::createBoolean(_isFlipped);
         }
         return nullptr;
     }
     return __baseClass::getParameterValue(className, paramName);
+}
+
+static int _extractEnumValue(const wydb::ParameterValue& paramValue)
+{
+    if (paramValue.isInteger())
+        return paramValue.asInteger();
+    if (paramValue.isAny())
+    {
+        const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);
+        if (pAnyVal)
+        {
+            const wy3d::ParamEnumDef* pDef = pAnyVal->tryGet<wy3d::ParamEnumDef>();
+            if (pDef) return pDef->currentValue;
+        }
+    }
+    return -1;
 }
 
 wy::ErrorStatus Chamfer::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
@@ -232,7 +427,26 @@ wy::ErrorStatus Chamfer::setParameterValue(const std::string& className, const s
         if (ParamNames::CHAMFER_DISTANCE1 == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
-            return this->setDistance(paramValue.asDouble());
+            return this->setDistance1(paramValue.asDouble());
+        }
+        if (ParamNames::CHAMFER_DISTANCE2 == paramName)
+        {
+            if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
+            return this->setDistance2(paramValue.asDouble());
+        }
+        if (ParamNames::CHAMFER_ANGLE == paramName)
+        {
+            if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
+            return this->setAngle(wy3d::degreesToRadians(paramValue.asDouble()));
+        }
+        if (ParamNames::CHAMFER_TYPE == paramName)
+        {
+            return this->setChamferType(static_cast<ChamferType>(_extractEnumValue(paramValue)));
+        }
+        if (ParamNames::CHAMFER_IS_FLIPPED == paramName)
+        {
+            if (!paramValue.isBoolean()) return wy::ErrorStatus::InvalidInput;
+            return this->setFlipped(paramValue.asBoolean());
         }
         return wy::ErrorStatus::ParameterNotFound;
     }
@@ -249,8 +463,20 @@ bool Chamfer::getFieldValue(wydb::FieldId fieldId, std::any& value)
     case kChamfer_faceNames.value():
         value = _faceNames;
         return true;
-    case kChamfer_distance.value():
-        value = _distance;
+    case kChamfer_distance1.value():
+        value = _distance1;
+        return true;
+    case kChamfer_distance2.value():
+        value = _distance2;
+        return true;
+    case kChamfer_angle.value():
+        value = _angle;
+        return true;
+    case kChamfer_chamferType.value():
+        value = _chamferType;
+        return true;
+    case kChamfer_isFlipped.value():
+        value = _isFlipped;
         return true;
     default:
         bool baseRet = __baseClass::getFieldValue(fieldId, value);
@@ -269,8 +495,20 @@ bool Chamfer::setFieldValue(wydb::FieldId fieldId, const std::any& value)
     case kChamfer_faceNames.value():
         _faceNames = std::any_cast<const TopoNameList&>(value);
         return true;
-    case kChamfer_distance.value():
-        _distance = std::any_cast<double>(value);
+    case kChamfer_distance1.value():
+        _distance1 = std::any_cast<double>(value);
+        return true;
+    case kChamfer_distance2.value():
+        _distance2 = std::any_cast<double>(value);
+        return true;
+    case kChamfer_angle.value():
+        _angle = std::any_cast<double>(value);
+        return true;
+    case kChamfer_chamferType.value():
+        _chamferType = std::any_cast<ChamferType>(value);
+        return true;
+    case kChamfer_isFlipped.value():
+        _isFlipped = std::any_cast<bool>(value);
         return true;
     default:
         bool baseRet = __baseClass::setFieldValue(fieldId, value);
@@ -284,7 +522,15 @@ wy::ErrorStatus Chamfer::writeToFiler(wydb::OutFiler& filer) const
     __baseClass::writeToFiler(filer);
     FilerUtil::writeVector(filer, _edgeNames);
     FilerUtil::writeVector(filer, _faceNames);
-    filer << _distance;
+    if (filer.getFileVersion() >= wydb::FileVersion(0, 19))
+    {
+        filer << static_cast<std::int32_t>(_chamferType);
+        filer << _distance1 << _distance2 << _angle << _isFlipped;
+    }
+    else
+    {
+        filer << _distance1;
+    }
     return wy::ErrorStatus::Ok;
 }
 
@@ -294,7 +540,18 @@ wy::ErrorStatus Chamfer::readFromFiler(wydb::InFiler& filer)
 
     FilerUtil::readTopoNameList(filer, _edgeNames);
     FilerUtil::readTopoNameList(filer, _faceNames);
-    filer >> _distance;
+    if (filer.getFileVersion() >= wydb::FileVersion(0, 19))
+    {
+        std::int32_t chamferTypeInt(0);
+        filer >> chamferTypeInt;
+        _chamferType = static_cast<ChamferType>(chamferTypeInt);
+        filer >> _distance1 >> _distance2 >> _angle >> _isFlipped;
+    }
+    else
+    {
+        filer >> _distance1;
+        _distance2 = _distance1;
+    }
 
     return wy::ErrorStatus::Ok;
 }
@@ -329,12 +586,53 @@ std::pair<bool, TopoDS_Shape> Chamfer::modifyOwnerShape(
         return std::pair<bool, TopoDS_Shape>(false, shape);
     }
 
+    if (_distance1 < wy3d::kMinValue || _distance1 > wy3d::kMaxValue ||
+        (ChamferType::DistanceDistance == _chamferType &&
+            (_distance2 < wy3d::kMinValue || _distance2 > wy3d::kMaxValue)) ||
+        (ChamferType::DistanceAngle == _chamferType &&
+            (_angle <= 0.0 || _angle >= wy3d::PI)))
+    {
+        wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+            static_cast<std::uint32_t>(ErrorCode::CHAMFER_InvalidData));
+        return std::pair<bool, TopoDS_Shape>(false, shape);
+    }
+
     try
     {
         BRepFilletAPI_MakeChamfer chamfer(shape);
-        for (const TopoDS_Edge& topoEdge : topoEdges)
+        if (ChamferType::EqualDistance == _chamferType)
         {
-            chamfer.Add(_distance, topoEdge);
+            for (const TopoDS_Edge& topoEdge : topoEdges)
+            {
+                chamfer.Add(_distance1, topoEdge);
+            }
+        }
+        else
+        {
+            TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap;
+            TopExp::MapShapesAndAncestors(shape, TopAbs_EDGE, TopAbs_FACE, edgeFaceMap);
+
+            for (const TopoDS_Edge& topoEdge : topoEdges)
+            {
+                const int ancestorIndex = edgeFaceMap.FindIndex(topoEdge);
+                if (0 == ancestorIndex)
+                {
+                    wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+                        static_cast<std::uint32_t>(ErrorCode::CHAMFER_InvalidData));
+                    return std::pair<bool, TopoDS_Shape>(false, shape);
+                }
+                const TopTools_ListOfShape& ancestorFaces = edgeFaceMap.FindFromIndex(ancestorIndex);
+                const TopoDS_Face refFace = TopoDS::Face(_isFlipped ? ancestorFaces.Last() : ancestorFaces.First());
+
+                if (ChamferType::DistanceDistance == _chamferType)
+                {
+                    chamfer.Add(_distance1, _distance2, topoEdge, refFace);
+                }
+                else
+                {
+                    chamfer.AddDA(_distance1, _angle, topoEdge, refFace);
+                }
+            }
         }
         chamfer.Build();
         if (chamfer.IsDone())

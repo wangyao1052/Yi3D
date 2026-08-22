@@ -14,12 +14,18 @@
 
 NS_WY3D_BEG
 
+enum class ChamferType : std::int32_t
+{
+    EqualDistance    = 0,
+    DistanceDistance = 1,
+    DistanceAngle    = 2,
+};
+
 class WY3D_EXPORT Chamfer : public wy3d::SolidModification
 {
     WYDB_DECLARE_MEMBERS(Chamfer, wy3d::Chamfer, wy3d::SolidModification)
 
 public:
-    // 创建倒角
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Solid* pSolid,
@@ -28,43 +34,60 @@ public:
         double distance,
         Chamfer*& pOutChamfer);
 
-    // 获取倒角距离
-    double getDistance() const { return _distance; }
-    // 设置倒角距离
-    wy::ErrorStatus setDistance(double distance);
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        wy3d::Solid* pSolid,
+        const std::vector<std::uint32_t>& faceIndices,
+        const std::vector<std::uint32_t>& edgeIndices,
+        ChamferType chamferType,
+        double distance1,
+        double distance2,
+        double angle,
+        bool isFlipped,
+        Chamfer*& pOutChamfer);
 
-    // 获取边集合
+    double getDistance1() const { return _distance1; }
+    wy::ErrorStatus setDistance1(double distance1);
+
+    double getDistance2() const { return _distance2; }
+    wy::ErrorStatus setDistance2(double distance2);
+
+    double getAngle() const { return _angle; }
+    wy::ErrorStatus setAngle(double angle);
+
+    ChamferType getChamferType() const { return _chamferType; }
+    wy::ErrorStatus setChamferType(ChamferType chamferType);
+
+    bool isFlipped() const { return _isFlipped; }
+    wy::ErrorStatus setFlipped(bool isFlipped);
+
     const TopoNameList& getEdges() const { return _edgeNames; }
-    // 设置边集合
     wy::ErrorStatus setEdges(const TopoNameList& edges);
 
-    // 获取面集合
     const TopoNameList& getFaces() const { return _faceNames; }
-    // 设置面集合
     wy::ErrorStatus setFaces(const TopoNameList& faces);
 
 public:
-    // 参数
     virtual wydb::ParameterValueUPtr getParameterValue(const std::string& className, const std::string& paramName) const override;
     virtual wy::ErrorStatus setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue) override;
 
 protected:
-    // 事务
     virtual bool getFieldValue(wydb::FieldId fieldId, std::any& value) override;
     virtual bool setFieldValue(wydb::FieldId fieldId, const std::any& value) override;
 
-    // 序列化
     virtual wy::ErrorStatus writeToFiler(wydb::OutFiler& filer) const override;
     virtual wy::ErrorStatus readFromFiler(wydb::InFiler& filer) override;
 
-protected:
-    // 修改实体形体
     virtual std::pair<bool, TopoDS_Shape> modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
 
 private:
     TopoNameList _edgeNames;
     TopoNameList _faceNames;
-    double _distance;
+    ChamferType _chamferType;
+    double _distance1;
+    double _distance2;
+    double _angle;
+    bool _isFlipped;
 };
 
 NS_WY3D_END

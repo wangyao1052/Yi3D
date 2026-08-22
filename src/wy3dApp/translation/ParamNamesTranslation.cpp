@@ -141,7 +141,11 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // Chamfer
     {
         const std::string& className = wy3d::Chamfer::className();
-        _paramName2DisplayName[globalName(className, wy3d::ParamNames::CHAMFER_DISTANCE1)] = tr("Distance", "wy3d::Chamfer");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::CHAMFER_DISTANCE1)] = tr("Distance 1", "wy3d::Chamfer");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::CHAMFER_DISTANCE2)] = tr("Distance 2", "wy3d::Chamfer");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::CHAMFER_ANGLE)] = tr("Angle", "wy3d::Chamfer");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::CHAMFER_TYPE)] = tr("Chamfer Type", "wy3d::Chamfer");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::CHAMFER_IS_FLIPPED)] = tr("Flip Direction", "wy3d::Chamfer");
     }
     // Fillet
     {
