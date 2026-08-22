@@ -25,7 +25,7 @@ const wydb::FileFormatConfig& Database::fileFormatConfig()
     static const wydb::FileFormatConfig format = []() {
         wydb::FileFormatConfig fmt;
         fmt.version.major = 0;
-        fmt.version.minor = 18;
+        fmt.version.minor = 19;
         fmt.markers.fileHeader = "WY3D";
         fmt.markers.fileEnder = "EOF";
         fmt.markers.elementsHeader = "ELEMENTS";
