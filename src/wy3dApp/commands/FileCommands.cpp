@@ -19,7 +19,9 @@
 #include "FileCommands.h"
 
 #include <QObject>
+#include <QApplication>
 #include <QCoreApplication>
+#include <QEventLoop>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QMessageBox>
@@ -470,6 +472,13 @@ int OpenFileCommand::openFile(const std::string& u8FileFullPath)
         return 0;
     }
 
+    // Show busy cursor and status bar tip before the synchronous blocking load.
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    StatusBarHelper* pStatusBar = Application::instance().getStatusBar();
+    pStatusBar->setTips(QCoreApplication::translate("FileCmds", "Opening %1...")
+        .arg(QFileInfo(QString::fromStdString(u8FileFullPath)).fileName()));
+    QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+
     // 根据文件后缀推断文件类型
     wydb::FileType fileType = FileCmdsUtil::inferFileType(u8FileFullPath);
     wydb::Database::ReadFileOption readFileOption;
@@ -481,11 +490,15 @@ int OpenFileCommand::openFile(const std::string& u8FileFullPath)
         u8FileFullPath, readFileOption, pDoc);
     if (wy::ErrorStatus::Ok != error)
     {
+        QApplication::restoreOverrideCursor();
+        pStatusBar->reset();
         MessageBoxUtil::showOpenFileError(error);
         return 0;
     }
     if (!pDoc)
     {
+        QApplication::restoreOverrideCursor();
+        pStatusBar->reset();
         assert(false);
         return 0;
     }
@@ -496,6 +509,9 @@ int OpenFileCommand::openFile(const std::string& u8FileFullPath)
 
     // Fit the view: orthographic + isometric + zoom to the model.
     FileCmdsUtil::fitViewToAll(pDoc);
+
+    QApplication::restoreOverrideCursor();
+    pStatusBar->reset();
 
     return 0;
 }
