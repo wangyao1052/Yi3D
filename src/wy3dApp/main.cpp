@@ -17,8 +17,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "widgets/frame/MainWindow.h"
+#include <cassert>
 #include <QTranslator>
 #include <QDir>
+#include <wyapCmdManager.h>
 
 #include "wy3dAppDefs.h"
 
@@ -78,6 +80,10 @@ int main(int argc, char *argv[])
         if (fileInfo.exists() && fileInfo.isFile())
         {
             OpenFileCommand::openFile(filePath.toStdString());
+
+            wy::ErrorStatus error = Application::instance().getCmdManager()->abortCurrentModalCommand(
+                wyap::CmdExecution::AbortCause::ForceTerminate);
+            assert(wy::ErrorStatus::NoCurrentModalCommand == error);
         }
     }
     // }
