@@ -48,6 +48,7 @@ const char* ParamNames::TUBE_PARAM_HEIGHT = "Height";
 // Extrusion
 const char* ParamNames::EXTRUSION_PARAM_DEPTH = "Depth";
 const char* ParamNames::EXTRUSION_PARAM_START_OFFSET = "StartOffset";
+const char* ParamNames::EXTRUSION_PARAM_DIRECTION = "Direction";
 
 // Revolution
 const char* ParamNames::REVOLUTION_PARAM_START_ANGLE = "StartAngle";

@@ -836,3 +836,170 @@ void GuiCmdHoverInputPopup3::applyPresetWidths()
     _pRow2Edit->setMaximumWidth(valueWidth);
     _pRow3Edit->setMaximumWidth(valueWidth);
 }
+
+GuiCmdHoverInputPopup2_2ndTabLabel::GuiCmdHoverInputPopup2_2ndTabLabel(
+    const QString& row1Label,
+    const QString& row2Label,
+    const QString& valueSample,
+    QWidget* parent)
+    : GuiCmdHoverInputPopupBase(parent),
+    _pRow1Label(nullptr),
+    _pRow2Label(nullptr),
+    _pRowEdit(nullptr),
+    _pDirectionEdit(nullptr),
+    _valueSample(valueSample),
+    _directionToggleHandler()
+{
+    this->setObjectName("GuiCmdHoverInputPopup2_2ndTabLabel");
+    this->setStyleSheet(
+        "QWidget#GuiCmdHoverInputPopup2_2ndTabLabel{background:#d7d7d7;border:none;}"
+        "QWidget#tableWidget{background:#e4e4e4;border:1px solid #8a8a8a;}"
+        "QLabel#cellNameTop{color:#202020;border-right:1px solid #8a8a8a;border-bottom:1px solid #8a8a8a;padding:2px 4px;}"
+        "QLabel#cellNameBottom{color:#202020;border-right:1px solid #8a8a8a;padding:2px 4px;}"
+        "QLineEdit#cellValueTop{color:#202020;background:#ffffff;border-top:1px solid #8a8a8a;border-right:1px solid #8a8a8a;border-bottom:1px solid #8a8a8a;border-left:1px solid #8a8a8a;padding:2px 4px;selection-background-color:#0078d7;selection-color:#ffffff;}"
+        "QLineEdit#cellValueBottom{color:#202020;background:#e4e4e4;border-top:none;border-right:1px solid #8a8a8a;border-bottom:1px solid #8a8a8a;border-left:1px solid #8a8a8a;padding:2px 4px;}");
+
+    QHBoxLayout* pLayout = new QHBoxLayout(this);
+    pLayout->setContentsMargins(0, 0, 0, 0);
+    pLayout->setSpacing(0);
+    pLayout->setSizeConstraint(QLayout::SetFixedSize);
+
+    QWidget* pTableWidget = new QWidget(this);
+    pTableWidget->setObjectName("tableWidget");
+    pTableWidget->setContentsMargins(0, 0, 0, 0);
+    QGridLayout* pGridLayout = new QGridLayout(pTableWidget);
+    pGridLayout->setContentsMargins(0, 0, 0, 0);
+    pGridLayout->setHorizontalSpacing(0);
+    pGridLayout->setVerticalSpacing(0);
+    pGridLayout->setSizeConstraint(QLayout::SetFixedSize);
+
+    _pRow1Label = new QLabel(row1Label, pTableWidget);
+    _pRow1Label->setObjectName("cellNameTop");
+    _pRow1Label->setAlignment(Qt::AlignCenter);
+    _pRow2Label = new QLabel(row2Label, pTableWidget);
+    _pRow2Label->setObjectName("cellNameBottom");
+    _pRow2Label->setAlignment(Qt::AlignCenter);
+    _pRowEdit = new QLineEdit(pTableWidget);
+    _pRowEdit->setObjectName("cellValueTop");
+    _pDirectionEdit = new QLineEdit(pTableWidget);
+    _pDirectionEdit->setObjectName("cellValueBottom");
+    _pDirectionEdit->setAlignment(Qt::AlignCenter);
+    _pDirectionEdit->setReadOnly(true);
+    _pRowEdit->installEventFilter(this);
+    _pDirectionEdit->installEventFilter(this);
+
+    this->applyPresetWidths();
+
+    pGridLayout->addWidget(_pRow1Label, 0, 0);
+    pGridLayout->addWidget(_pRowEdit, 0, 1);
+    pGridLayout->addWidget(_pRow2Label, 1, 0);
+    pGridLayout->addWidget(_pDirectionEdit, 1, 1);
+    pGridLayout->setColumnStretch(0, 0);
+    pGridLayout->setColumnStretch(1, 0);
+    pLayout->addWidget(pTableWidget);
+
+    QObject::connect(_pRowEdit, &QLineEdit::returnPressed, [this]()
+    {
+        this->onAccept();
+    });
+}
+
+GuiCmdHoverInputPopup2_2ndTabLabel::~GuiCmdHoverInputPopup2_2ndTabLabel()
+{
+}
+
+void GuiCmdHoverInputPopup2_2ndTabLabel::setValue(const QString& value)
+{
+    _pRowEdit->setText(value);
+    clearSelectionAndAnchorLeft(_pRowEdit);
+}
+
+void GuiCmdHoverInputPopup2_2ndTabLabel::setValue(double value, int precision)
+{
+    this->setValue(QString::number(value, 'f', precision));
+}
+
+QString GuiCmdHoverInputPopup2_2ndTabLabel::getRowText() const
+{
+    return _pRowEdit->text();
+}
+
+void GuiCmdHoverInputPopup2_2ndTabLabel::setDirectionLabel(const QString& text)
+{
+    _pDirectionEdit->setText(text);
+    clearSelectionAndAnchorLeft(_pDirectionEdit);
+}
+
+void GuiCmdHoverInputPopup2_2ndTabLabel::setDirectionToggleHandler(const std::function<void()>& handler)
+{
+    _directionToggleHandler = handler;
+}
+
+bool GuiCmdHoverInputPopup2_2ndTabLabel::eventFilter(QObject* watched, QEvent* event)
+{
+    if (watched == _pRowEdit && event && event->type() == QEvent::FocusIn)
+    {
+        QPointer<QLineEdit> guard(_pRowEdit);
+        QTimer::singleShot(0, _pRowEdit, [guard]()
+        {
+            if (!guard)
+            {
+                return;
+            }
+            selectAllAndAnchorLeft(guard.data());
+        });
+    }
+    else if (watched == _pRowEdit && event && event->type() == QEvent::FocusOut)
+    {
+        QPointer<QLineEdit> guard(_pRowEdit);
+        QTimer::singleShot(0, _pRowEdit, [guard]()
+        {
+            if (!guard)
+            {
+                return;
+            }
+            clearSelectionAndAnchorLeft(guard.data());
+        });
+    }
+    else if ((watched == _pRowEdit || watched == _pDirectionEdit) &&
+        event && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent* pKeyEvent = dynamic_cast<QKeyEvent*>(event);
+        if (pKeyEvent && pKeyEvent->key() == Qt::Key_Escape)
+        {
+            this->onCancel();
+            return true;
+        }
+        if (pKeyEvent && pKeyEvent->key() == Qt::Key_Tab && _directionToggleHandler)
+        {
+            _directionToggleHandler();
+            return true;
+        }
+    }
+    return GuiCmdHoverInputPopupBase::eventFilter(watched, event);
+}
+
+void GuiCmdHoverInputPopup2_2ndTabLabel::focusInput()
+{
+    selectAllAndAnchorLeft(_pRowEdit);
+}
+
+void GuiCmdHoverInputPopup2_2ndTabLabel::applyPresetWidths()
+{
+    QFontMetrics labelMetrics(_pRow1Label->font());
+    int labelTextWidth = std::max(
+        labelMetrics.horizontalAdvance(_pRow1Label->text()),
+        labelMetrics.horizontalAdvance(_pRow2Label->text()));
+    int labelWidth = std::max(kLabelMinWidthPx, labelTextWidth + kLabelExtraPaddingPx);
+    _pRow1Label->setMinimumWidth(labelWidth);
+    _pRow2Label->setMinimumWidth(labelWidth);
+    _pRow1Label->setMaximumWidth(labelWidth);
+    _pRow2Label->setMaximumWidth(labelWidth);
+
+    QFontMetrics valueMetrics(_pRowEdit->font());
+    int valueWidth = std::max(kValueMinWidthPx, valueMetrics.horizontalAdvance(_valueSample) + kValueExtraPaddingPx);
+    _pRowEdit->setMinimumWidth(valueWidth);
+    _pRowEdit->setMaximumWidth(valueWidth);
+    _pDirectionEdit->setMinimumWidth(valueWidth);
+    _pDirectionEdit->setMaximumWidth(valueWidth);
+}

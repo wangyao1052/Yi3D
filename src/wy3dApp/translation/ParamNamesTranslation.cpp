@@ -113,6 +113,7 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
         const std::string& className = wy3d::Extrusion::className();
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_DEPTH)] = tr("Extrusion Depth");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_START_OFFSET)] = tr("Extrusion Start Offset");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION)] = tr("Extrusion Direction");
     }
     // Revolution
     {

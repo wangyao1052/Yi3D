@@ -157,4 +157,40 @@ private:
     int _focusRowIndex;
 };
 
+// Two-row popup: row 1 takes a value (QLineEdit), row 2 is a read-only
+// QLineEdit showing the current direction; pressing Tab toggles the direction
+// via the toggle handler
+class GuiCmdHoverInputPopup2_2ndTabLabel : public GuiCmdHoverInputPopupBase
+{
+public:
+    GuiCmdHoverInputPopup2_2ndTabLabel(
+        const QString& row1Label,
+        const QString& row2Label,
+        const QString& valueSample,
+        QWidget* parent = nullptr);
+    virtual ~GuiCmdHoverInputPopup2_2ndTabLabel();
+
+    void setValue(const QString& value);
+    void setValue(double value, int precision = 2);
+    QString getRowText() const;
+
+    void setDirectionLabel(const QString& text);
+    void setDirectionToggleHandler(const std::function<void()>& handler);
+
+protected:
+    virtual bool eventFilter(QObject* watched, QEvent* event) override;
+    virtual void focusInput() override;
+
+private:
+    void applyPresetWidths();
+
+private:
+    QLabel* _pRow1Label;
+    QLabel* _pRow2Label;
+    QLineEdit* _pRowEdit;
+    QLineEdit* _pDirectionEdit;
+    QString _valueSample;
+    std::function<void()> _directionToggleHandler;
+};
+
 #endif // WY3DAPP_GUI_CMD_HOVER_INPUT_POPUP_H

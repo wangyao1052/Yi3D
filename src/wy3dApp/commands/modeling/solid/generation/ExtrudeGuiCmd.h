@@ -30,7 +30,7 @@
 #include "select/SelectPreview.h"
 
 class MakeExtrusion;
-class GuiCmdHoverInputPopup1;
+class GuiCmdHoverInputPopup2_2ndTabLabel;
 
 class ExtrudeGuiCmd : public OsgGuiCommand
 {
@@ -78,6 +78,7 @@ protected:
     void onPopupEnterKey();
     void onPopupEscapeKey();
     void simulateMouseMoveFromPopup();
+    void updateDirectionLabel();
 
 protected:
     struct HoverPopupState
@@ -108,6 +109,7 @@ protected:
     wydb::ElementId _sketchId;
     wy::Vector3 _pickPos;
     double _depth;
+    wy3d::ExtrusionDirection _direction;
 
     // 点选选项
     PointPickOption _pointPickOption;
@@ -128,7 +130,7 @@ protected:
 
     // 创建拉伸体
     std::shared_ptr<MakeExtrusion> _pMakeExtrusion;
-    std::unique_ptr<GuiCmdHoverInputPopup1> _pDepthPopup;
+    std::unique_ptr<GuiCmdHoverInputPopup2_2ndTabLabel> _pDepthPopup;
     HoverPopupState _hoverPopupState;
 };
 
@@ -159,7 +161,7 @@ class MakeExtrusion : public GuiCmdMakeElement
 {
 public:
     MakeExtrusion(GuiCommand* pGuiCmd, bool isCut)
-        : GuiCmdMakeElement(pGuiCmd), _isCut(isCut), _pExtrusion(nullptr), _workPlnNormal(0.0, 0.0, 1.0) {}
+        : GuiCmdMakeElement(pGuiCmd), _isCut(isCut), _pExtrusion(nullptr), _workPlnNormal(0.0, 0.0, 1.0), _direction(wy3d::ExtrusionDirection::OneSide) {}
     ~MakeExtrusion() {}
 
     // 收集创建的元素ID
@@ -175,6 +177,8 @@ public:
     bool init(const wydb::ElementId& sketchId, unsigned int& errorCode);
     // 更新
     bool update(double depth);
+    // 更新方向
+    bool setDirection(wy3d::ExtrusionDirection direction);
     // 切除实体
     bool cutSolid(const wy3d::Solid* pConstSolidToCut, unsigned int& errorCode);
 
@@ -182,6 +186,7 @@ private:
     bool _isCut;
     wy3d::Extrusion* _pExtrusion;
     wy::Vector3 _workPlnNormal;
+    wy3d::ExtrusionDirection _direction;
 };
 
 #endif // WY3DAPP_EXTRUSION_GUI_CMD_H

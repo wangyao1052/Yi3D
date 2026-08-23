@@ -40,12 +40,24 @@ void bindWy3dSolids(py::module_& m)
         .def("getColor", &wy3d::Solid::getColor)
         .def("setColor", &wy3d::Solid::setColor);
 
+    py::enum_<wy3d::ExtrusionDirection>(m, "ExtrusionDirection")
+        .value("OneSide", wy3d::ExtrusionDirection::OneSide)
+        .value("Symmetric", wy3d::ExtrusionDirection::Symmetric)
+        .def("__repr__", [](wy3d::ExtrusionDirection direction) {
+            switch (direction) {
+            case wy3d::ExtrusionDirection::OneSide: return "wy3d.ExtrusionDirection.OneSide";
+            case wy3d::ExtrusionDirection::Symmetric: return "wy3d.ExtrusionDirection.Symmetric";
+            default: return "wy3d.ExtrusionDirection.Unknown";
+            }});
+
     py::class_<wy3d::Extrusion, wy3d::Solid, std::unique_ptr<wy3d::Extrusion, py::nodelete>>(m, "Extrusion")
         .def("getSketch", &wy3d::Extrusion::getSketch)
         .def("getDepth", &wy3d::Extrusion::getDepth)
         .def("setDepth", &wy3d::Extrusion::setDepth)
         .def("getStartOffset", &wy3d::Extrusion::getStartOffset)
         .def("setStartOffset", &wy3d::Extrusion::setStartOffset)
+        .def("getDirection", &wy3d::Extrusion::getDirection)
+        .def("setDirection", &wy3d::Extrusion::setDirection)
 
         .def_static("create",
             [](wydb::Transaction* pTrans, wy3d::Sketch* pSketch, double depth) -> wy3d::Extrusion*
@@ -59,6 +71,20 @@ void bindWy3dSolids(py::module_& m)
             py::arg("depth"),
             py::return_value_policy::reference)
 
+        .def_static("create",
+            [](wydb::Transaction* pTrans, wy3d::Sketch* pSketch,
+               wy3d::ExtrusionDirection direction, double depth) -> wy3d::Extrusion*
+            {
+                wy3d::Extrusion* pOutExtrusion = nullptr;
+                wy::ErrorStatus status = wy3d::Extrusion::create(pTrans, pSketch, direction, depth, pOutExtrusion);
+                return pOutExtrusion;
+            },
+            py::arg("transaction"),
+            py::arg("sketch"),
+            py::arg("direction"),
+            py::arg("depth"),
+            py::return_value_policy::reference)
+
         .def_static("createCut",
             [](wydb::Transaction* pTrans, wy3d::Sketch* pSketch, double depth, wy3d::Solid* pSolidToCut) -> wy3d::Extrusion*
             {
@@ -68,6 +94,21 @@ void bindWy3dSolids(py::module_& m)
             },
             py::arg("transaction"),
             py::arg("sketch"),
+            py::arg("depth"),
+            py::arg("solidToCut"),
+            py::return_value_policy::reference)
+
+        .def_static("createCut",
+            [](wydb::Transaction* pTrans, wy3d::Sketch* pSketch,
+               wy3d::ExtrusionDirection direction, double depth, wy3d::Solid* pSolidToCut) -> wy3d::Extrusion*
+            {
+                wy3d::Extrusion* pOutExtrusion = nullptr;
+                wy::ErrorStatus status = wy3d::Extrusion::createCut(pTrans, pSketch, direction, depth, pSolidToCut, pOutExtrusion);
+                return pOutExtrusion;
+            },
+            py::arg("transaction"),
+            py::arg("sketch"),
+            py::arg("direction"),
             py::arg("depth"),
             py::arg("solidToCut"),
             py::return_value_policy::reference);

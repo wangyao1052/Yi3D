@@ -56,6 +56,7 @@ constexpr double kHoverPopupDelaySeconds = 0.45;
 
 ExtrudeGuiCmd::ExtrudeGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sketchId(wydb::ElementId::kNull), _pickPos(), _depth(0.0),
+    _direction(wy3d::ExtrusionDirection::OneSide),
     _pDepthPopup(nullptr),
     _hoverPopupState()
 {
@@ -147,6 +148,7 @@ void ExtrudeGuiCmd::cleanup()
     _sketchId = wydb::ElementId::kNull;
     _pickPos.set(0.0, 0.0, 0.0);
     _depth = 0.0;
+    _direction = wy3d::ExtrusionDirection::OneSide;
 
     _pValidSketchPreview = nullptr;
     _pInvalidSketchTooltip = nullptr;
@@ -337,7 +339,7 @@ void ExtrudeGuiCmd::gotoStep(Step step)
 
         // 更新提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudeGuiCmd",
-            "Specify the extrusion depth; you can directly input the value."));
+            "Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction (One Side / Symmetric)."));
 
         // 设置鼠标样式
         Application::instance().setCursor(CursorType::Locate);
@@ -429,10 +431,21 @@ void ExtrudeGuiCmd::onMouseMove(const MouseEvent& event)
         double height(0.0);
         if (this->computeHeight(event.x, event.y, _pickPos, height, _pMakeExtrusion.get())) // height可以小于0
         {
-            _hoverPopupState.depthSign = height < 0.0 ? -1 : 1;
-            _hoverPopupState.depth = std::fabs(height);
+            if (wy3d::ExtrusionDirection::Symmetric == _direction)
             {
-                if (_pMakeExtrusion) _pMakeExtrusion->update(height);
+                // 对称拉伸下鼠标所在侧不决定方向;鼠标定位的是体的远端,
+                // 所以总深度 = 2 * 鼠标到草图面的距离
+                _hoverPopupState.depthSign = 1;
+                _hoverPopupState.depth = 2.0 * std::fabs(height);
+                if (_pMakeExtrusion) _pMakeExtrusion->update(_hoverPopupState.depth);
+            }
+            else
+            {
+                _hoverPopupState.depthSign = height < 0.0 ? -1 : 1;
+                _hoverPopupState.depth = std::fabs(height);
+                {
+                    if (_pMakeExtrusion) _pMakeExtrusion->update(height);
+                }
             }
         }
         else
@@ -474,7 +487,7 @@ void ExtrudeGuiCmd::onLeftMouseDown(const MouseEvent& event)
         double height(0.0);
         if (this->computeHeight(event.x, event.y, _pickPos, height, _pMakeExtrusion.get())) // height可以小于0
         {
-            _depth = height;
+            _depth = (wy3d::ExtrusionDirection::Symmetric == _direction) ? 2.0 * std::fabs(height) : height;
             if (this->finishStep(_step))
             {
                 this->simulateMouseMoveFromPopup();
@@ -542,12 +555,31 @@ void ExtrudeGuiCmd::initializePopups()
     MainWindow* pMainWindow = Application::instance().getMainWindow();
     if (!_pDepthPopup)
     {
-        _pDepthPopup = std::make_unique<GuiCmdHoverInputPopup1>(
-            QCoreApplication::translate("ExtrudeGuiCmd", "Extrusion depth"),
+        _pDepthPopup = std::make_unique<GuiCmdHoverInputPopup2_2ndTabLabel>(
+            QCoreApplication::translate("ExtrudeGuiCmd", "Depth"),
+            QCoreApplication::translate("ExtrudeGuiCmd", "Direction"),
             QStringLiteral("-1234.56"),
             pMainWindow);
         _pDepthPopup->setAcceptHandler([this]() { this->onPopupEnterKey(); });
         _pDepthPopup->setCancelHandler([this]() { this->onPopupEscapeKey(); });
+        _pDepthPopup->setDirectionToggleHandler([this]()
+        {
+            // Tab toggles the direction; the preview updates immediately
+            _direction = (wy3d::ExtrusionDirection::Symmetric == _direction)
+                ? wy3d::ExtrusionDirection::OneSide
+                : wy3d::ExtrusionDirection::Symmetric;
+            if (wy3d::ExtrusionDirection::Symmetric == _direction)
+            {
+                _hoverPopupState.depthSign = 1;
+            }
+            if (_pMakeExtrusion)
+            {
+                _pMakeExtrusion->setDirection(_direction);
+                _pMakeExtrusion->update(_hoverPopupState.depth);
+            }
+            this->updateDirectionLabel();
+        });
+        this->updateDirectionLabel();
         _pDepthPopup->hide();
     }
 }
@@ -567,7 +599,20 @@ void ExtrudeGuiCmd::showPopup()
         return;
     }
     _pDepthPopup->setValue(_hoverPopupState.depth);
+    this->updateDirectionLabel();
     _pDepthPopup->showAtGlobal(QCursor::pos());
+}
+
+void ExtrudeGuiCmd::updateDirectionLabel()
+{
+    if (!_pDepthPopup)
+    {
+        return;
+    }
+    const QString directionText = (wy3d::ExtrusionDirection::Symmetric == _direction)
+        ? QCoreApplication::translate("ExtrudeGuiCmd", "Symmetric")
+        : QCoreApplication::translate("ExtrudeGuiCmd", "One Side");
+    _pDepthPopup->setDirectionLabel(directionText);
 }
 
 void ExtrudeGuiCmd::hidePopup()
@@ -610,7 +655,9 @@ void ExtrudeGuiCmd::onPopupEnterKey()
     {
         return;
     }
-    _depth = _hoverPopupState.depthSign < 0 ? -depth : depth;
+    _depth = (wy3d::ExtrusionDirection::Symmetric == _direction)
+        ? std::fabs(depth)
+        : (_hoverPopupState.depthSign < 0 ? -depth : depth);
 
     if (this->finishStep(_step))
     {
@@ -791,7 +838,7 @@ bool MakeExtrusion::init(const wydb::ElementId& sketchId, unsigned int& errorCod
     }
     if (_isCut)
     {
-        if (wy::ErrorStatus::Ok != wy3d::Extrusion::createCut(pTrans, pSketch, wy3d::kMinValue, nullptr, pExtrusion) || !pExtrusion)
+        if (wy::ErrorStatus::Ok != wy3d::Extrusion::createCut(pTrans, pSketch, _direction, wy3d::kMinValue, nullptr, pExtrusion) || !pExtrusion)
         {
             assert(false);
             goto ABORT_TRANS;
@@ -799,7 +846,7 @@ bool MakeExtrusion::init(const wydb::ElementId& sketchId, unsigned int& errorCod
     }
     else
     {
-        if (wy::ErrorStatus::Ok != wy3d::Extrusion::create(pTrans, pSketch, wy3d::kMinValue, pExtrusion) || !pExtrusion)
+        if (wy::ErrorStatus::Ok != wy3d::Extrusion::create(pTrans, pSketch, _direction, wy3d::kMinValue, pExtrusion) || !pExtrusion)
         {
             assert(false);
             goto ABORT_TRANS;
@@ -843,6 +890,33 @@ bool MakeExtrusion::update(double depth)
     {
         _pExtrusion->upgradeForWrite();
         _pExtrusion->setDepth(depth);
+    }
+    if (wy::ErrorStatus::Ok == pTransMgr->endTransaction())
+    {
+        pTransMgr->mergeTransaction();
+    }
+    else
+    {
+        assert(false);
+    }
+    return true;
+}
+
+bool MakeExtrusion::setDirection(wy3d::ExtrusionDirection direction)
+{
+    if (!_pDb || !_pTopTrans || !_pExtrusion || _isFinished)
+    {
+        return false;
+    }
+
+    _direction = direction;
+
+    wydb::TransactionManager* pTransMgr = _pDb->getTransactionManager();
+    wydb::Transaction* pTrans = pTransMgr->startTransaction();
+    if (!pTrans) return false;
+    {
+        _pExtrusion->upgradeForWrite();
+        _pExtrusion->setDirection(direction);
     }
     if (wy::ErrorStatus::Ok == pTransMgr->endTransaction())
     {

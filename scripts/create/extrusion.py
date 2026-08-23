@@ -28,9 +28,26 @@ def createExtrusion():
     line4 = wy3d.SketchLine.create(trans, wy3d.Vector2(0.0, 50.0), wy3d.Vector2(0.0, 0.0))
     trans.addNewlyCreatedElement(line4)
     sketch.addEntity(line4)
-    # 拉伸体
+    # 拉伸体(单侧)
     extrusion1 = wy3d.Extrusion.create(trans, sketch, 20.0)
     trans.addNewlyCreatedElement(extrusion1)
+    # 对称拉伸:再建一个草图,总深度 40,沿法向两侧各 20
+    sketch2 = wy3d.Sketch.create(trans, plane)
+    trans.addNewlyCreatedElement(sketch2)
+    line5 = wy3d.SketchLine.create(trans, wy3d.Vector2(0.0, 100.0), wy3d.Vector2(100.0, 100.0))
+    trans.addNewlyCreatedElement(line5)
+    sketch2.addEntity(line5)
+    line6 = wy3d.SketchLine.create(trans, wy3d.Vector2(100.0, 100.0), wy3d.Vector2(100.0, 150.0))
+    trans.addNewlyCreatedElement(line6)
+    sketch2.addEntity(line6)
+    line7 = wy3d.SketchLine.create(trans, wy3d.Vector2(100.0, 150.0), wy3d.Vector2(0.0, 150.0))
+    trans.addNewlyCreatedElement(line7)
+    sketch2.addEntity(line7)
+    line8 = wy3d.SketchLine.create(trans, wy3d.Vector2(0.0, 150.0), wy3d.Vector2(0.0, 100.0))
+    trans.addNewlyCreatedElement(line8)
+    sketch2.addEntity(line8)
+    extrusion2 = wy3d.Extrusion.create(trans, sketch2, wy3d.ExtrusionDirection.Symmetric, 40.0)
+    trans.addNewlyCreatedElement(extrusion2)
     # 提交事务
     db.getTransactionManager().endTransaction()
 

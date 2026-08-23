@@ -42,6 +42,7 @@ public:
     // Extrusion
     static const char* EXTRUSION_PARAM_DEPTH;
     static const char* EXTRUSION_PARAM_START_OFFSET;
+    static const char* EXTRUSION_PARAM_DIRECTION;
 
     // Revolution
     static const char* REVOLUTION_PARAM_START_ANGLE;

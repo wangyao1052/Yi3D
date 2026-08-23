@@ -35,6 +35,7 @@
 #include <wydbTransaction.h>
 #include <wy3dExtrusion.h>
 #include <wy3dParamNames.h>
+#include <wy3dParamEnumDef.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -53,11 +54,17 @@ WYDB_IMPLEMENT_MEMBERS(Extrusion)
 
 BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Extrusion, _sketchId)
+    REGISTER_FIELD(Extrusion, _direction)
     REGISTER_FIELD(Extrusion, _depth)
     REGISTER_FIELD(Extrusion, _startOffset)
 END_FIELD_REGISTRATION()
 
-Extrusion::Extrusion() : wy3d::Solid(), _sketchId(wydb::ElementId::kNull), _depth(0.0), _startOffset(0.0)
+Extrusion::Extrusion()
+    : wy3d::Solid()
+    , _sketchId(wydb::ElementId::kNull)
+    , _direction(ExtrusionDirection::OneSide)
+    , _depth(0.0)
+    , _startOffset(0.0)
 {
 }
 
@@ -67,13 +74,24 @@ Extrusion::~Extrusion()
 
 wy::ErrorStatus Extrusion::create(
     wydb::Transaction* pTrans,
-    wy3d::Sketch* pSketch, double depth,
+    wy3d::Sketch* pSketch,
+    double depth,
+    Extrusion*& pOutExtrusion)
+{
+    return Extrusion::create(pTrans, pSketch, ExtrusionDirection::OneSide, depth, pOutExtrusion);
+}
+
+wy::ErrorStatus Extrusion::create(
+    wydb::Transaction* pTrans,
+    wy3d::Sketch* pSketch,
+    ExtrusionDirection direction,
+    double depth,
     Extrusion*& pOutExtrusion)
 {
     if (!pTrans)
     {
         pOutExtrusion = nullptr;
-        return wy::ErrorStatus::NullDatabasePointer;
+        return wy::ErrorStatus::NullTransactionPointer;
     }
     if (!pSketch)
     {
@@ -91,6 +109,8 @@ wy::ErrorStatus Extrusion::create(
     }
 
     error = pExtrusion->_setSketch(pSketch);
+    CHECK_ERROR_FOR_CREATE(error, pExtrusion);
+    error = pExtrusion->setDirection(direction);
     CHECK_ERROR_FOR_CREATE(error, pExtrusion);
     error = pExtrusion->setDepth(depth);
     CHECK_ERROR_FOR_CREATE(error, pExtrusion);
@@ -101,14 +121,26 @@ wy::ErrorStatus Extrusion::create(
 
 wy::ErrorStatus Extrusion::createCut(
     wydb::Transaction* pTrans,
-    wy3d::Sketch* pSketch, double depth,
+    wy3d::Sketch* pSketch,
+    double depth,
+    wy3d::Solid* pSolidToCut,
+    Extrusion*& pOutExtrusion)
+{
+    return Extrusion::createCut(pTrans, pSketch, ExtrusionDirection::OneSide, depth, pSolidToCut, pOutExtrusion);
+}
+
+wy::ErrorStatus Extrusion::createCut(
+    wydb::Transaction* pTrans,
+    wy3d::Sketch* pSketch,
+    ExtrusionDirection direction,
+    double depth,
     wy3d::Solid* pSolidToCut,
     Extrusion*& pOutExtrusion)
 {
     if (!pTrans)
     {
         pOutExtrusion = nullptr;
-        return wy::ErrorStatus::NullDatabasePointer;
+        return wy::ErrorStatus::NullTransactionPointer;
     }
     if (!pSketch)
     {
@@ -126,6 +158,8 @@ wy::ErrorStatus Extrusion::createCut(
     }
 
     error = pExtrusion->_setSketch(pSketch);
+    CHECK_ERROR_FOR_CREATE(error, pExtrusion);
+    error = pExtrusion->setDirection(direction);
     CHECK_ERROR_FOR_CREATE(error, pExtrusion);
     error = pExtrusion->setDepth(depth);
     CHECK_ERROR_FOR_CREATE(error, pExtrusion);
@@ -235,9 +269,35 @@ wy::ErrorStatus Extrusion::setStartOffset(double startOffset)
     }
 }
 
+wy::ErrorStatus Extrusion::setDirection(ExtrusionDirection direction)
+{
+    if (direction < ExtrusionDirection::OneSide || direction > ExtrusionDirection::Symmetric)
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+    if (direction == _direction)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(kExtrusion_direction);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _direction = direction;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
 
 void Extrusion::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
+    {
+        wydb::ParameterDefinitionData def;
+        def.name = ParamNames::EXTRUSION_PARAM_DIRECTION;
+        pParamSchema->addParameterDefinition(def);
+    }
     {
         wydb::ParameterDefinitionData def;
         def.name = ParamNames::EXTRUSION_PARAM_DEPTH;
@@ -261,12 +321,36 @@ wydb::ParameterValueUPtr Extrusion::getParameterValue(const std::string& classNa
         {
             return wydb::ParameterValue::createDouble(_startOffset);
         }
+        else if (ParamNames::EXTRUSION_PARAM_DIRECTION == paramName)
+        {
+            return wydb::ParameterValue::createAny(
+                wy3d::ParamEnumDef(
+                    {{static_cast<int>(ExtrusionDirection::OneSide), "One Side"},
+                     {static_cast<int>(ExtrusionDirection::Symmetric), "Symmetric"}},
+                    static_cast<int>(_direction)));
+        }
         else
         {
             return nullptr;
         }
     }
     return __baseClass::getParameterValue(className, paramName);
+}
+
+static int _extractEnumValue(const wydb::ParameterValue& paramValue)
+{
+    if (paramValue.isInteger())
+        return paramValue.asInteger();
+    if (paramValue.isAny())
+    {
+        const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);
+        if (pAnyVal)
+        {
+            const wy3d::ParamEnumDef* pDef = pAnyVal->tryGet<wy3d::ParamEnumDef>();
+            if (pDef) return pDef->currentValue;
+        }
+    }
+    return -1;
 }
 
 wy::ErrorStatus Extrusion::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
@@ -282,6 +366,16 @@ wy::ErrorStatus Extrusion::setParameterValue(const std::string& className, const
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setStartOffset(paramValue.asDouble());
+        }
+        else if (ParamNames::EXTRUSION_PARAM_DIRECTION == paramName)
+        {
+            int enumValue = _extractEnumValue(paramValue);
+            if (enumValue < static_cast<int>(ExtrusionDirection::OneSide) ||
+                enumValue > static_cast<int>(ExtrusionDirection::Symmetric))
+            {
+                return wy::ErrorStatus::InvalidInput;
+            }
+            return this->setDirection(static_cast<ExtrusionDirection>(enumValue));
         }
         else
         {
@@ -304,6 +398,9 @@ bool Extrusion::getFieldValue(wydb::FieldId fieldId, std::any& value)
     case kExtrusion_startOffset.value():
         value = _startOffset;
         return true;
+    case kExtrusion_direction.value():
+        value = _direction;
+        return true;
     default:
         bool baseRet = __baseClass::getFieldValue(fieldId, value);
         assert(baseRet);
@@ -324,6 +421,9 @@ bool Extrusion::setFieldValue(wydb::FieldId fieldId, const std::any& value)
     case kExtrusion_startOffset.value():
         _startOffset = std::any_cast<double>(value);
         return true;
+    case kExtrusion_direction.value():
+        _direction = std::any_cast<ExtrusionDirection>(value);
+        return true;
     default:
         bool baseRet = __baseClass::setFieldValue(fieldId, value);
         assert(baseRet);
@@ -334,14 +434,28 @@ bool Extrusion::setFieldValue(wydb::FieldId fieldId, const std::any& value)
 wy::ErrorStatus Extrusion::writeToFiler(wydb::OutFiler& filer) const
 {
     __baseClass::writeToFiler(filer);
-    filer << _sketchId << _depth << _startOffset;
+
+    filer << _sketchId;
+    if (filer.getFileVersion() > wydb::FileVersion(0, 18))
+    {
+        filer << static_cast<std::int32_t>(_direction);
+    }
+    filer << _depth << _startOffset;
     return wy::ErrorStatus::Ok;
 }
 
 wy::ErrorStatus Extrusion::readFromFiler(wydb::InFiler& filer)
 {
     __baseClass::readFromFiler(filer);
-    filer >> _sketchId >> _depth >> _startOffset;
+
+    filer >> _sketchId;
+    if (filer.getFileVersion() > wydb::FileVersion(0, 18))
+    {
+        std::int32_t directionInt(0);
+        filer >> directionInt;
+        _direction = static_cast<ExtrusionDirection>(directionInt);
+    }
+    filer >> _depth >> _startOffset;
     return wy::ErrorStatus::Ok;
 }
 
@@ -402,8 +516,15 @@ TopoDS_Shape Extrusion::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdate
     assert(sketchNormal.length() > 0.5);
     gp_Vec sketchNormalVec(sketchNormal.x(), sketchNormal.y(), sketchNormal.z());
     gp_Dir sketchNormalDir(sketchNormalVec);
+    // Symmetric: the face is moved by -|depth|/2 along the normal and extruded
+    // by the full |depth|, so the body spans [-|depth|/2, +|depth|/2] (a single
+    // prism keeps the topo naming identical to the one-sided case)
+    const bool isSymmetric = (ExtrusionDirection::Symmetric == _direction);
+    const double halfDepth = isSymmetric ? std::fabs(_depth) / 2.0 : 0.0;
+    const double faceOffsetAlongNormal = _startOffset - halfDepth;
+    const double extrudeLen = isSymmetric ? std::fabs(_depth) : _depth;
     gp_Trsf sketchTranslation;
-    sketchTranslation.SetTranslation(sketchNormalVec * _startOffset);
+    sketchTranslation.SetTranslation(sketchNormalVec * faceOffsetAlongNormal);
     wy::Vector3 sketchOrigin = sketchPlane.getOrigin();
     gp_Pln sketchPln(gp_Pnt(sketchOrigin.x(), sketchOrigin.y(), sketchOrigin.z()), sketchNormalDir);
 
@@ -444,7 +565,7 @@ TopoDS_Shape Extrusion::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdate
 
         TopoDS_Face face = makeFaceRet.second;
         assert(!face.IsNull());
-        if (_startOffset != 0.0)
+        if (faceOffsetAlongNormal != 0.0)
         {
             BRepBuilderAPI_Transform transformer(face, sketchTranslation);
             face = TopoDS::Face(transformer.Shape());
@@ -464,7 +585,7 @@ TopoDS_Shape Extrusion::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdate
         }
 
         // 拉伸成体
-        BRepPrimAPI_MakePrism makePrism(face, sketchNormalVec * _depth, Standard_True);
+        BRepPrimAPI_MakePrism makePrism(face, sketchNormalVec * extrudeLen, Standard_True);
         makePrism.Build();
         if (makePrism.IsDone())
         {
