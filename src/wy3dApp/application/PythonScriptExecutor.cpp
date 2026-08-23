@@ -89,6 +89,10 @@ PythonScriptExecutor::Error _executePythonScript(void* hPythonLib, const std::st
         QString appDir = QCoreApplication::applicationDirPath();
         QString addPathCmd = QString("import sys; sys.path.insert(0, '%1')").arg(appDir);
         PyRun_SimpleString(addPathCmd.toUtf8().constData());
+
+        // Linux/macOS: pure-Python packages are deployed into <appDir>/python3
+        QString addPkgPathCmd = QString("import sys; sys.path.insert(0, '%1/python3')").arg(appDir);
+        PyRun_SimpleString(addPkgPathCmd.toUtf8().constData());
     }
 #endif
 
