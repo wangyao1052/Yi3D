@@ -16,35 +16,20 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_PYTHON_SCRIPT_EXECUTOR_H
-#define WY3DAPP_PYTHON_SCRIPT_EXECUTOR_H
+#ifndef WY3DAPP_SKETCH_DXF_EXPORTER_H
+#define WY3DAPP_SKETCH_DXF_EXPORTER_H
 
-#include <map>
-#include <string>
+#include "SketchExporter.h"
 
-class PythonScriptExecutor
+// DXF sketch exporter backed by the embedded Python runtime and the ezdxf library
+class SketchDxfExporter : public SketchExporter
 {
 public:
-    PythonScriptExecutor();
-    ~PythonScriptExecutor();
+    SketchDxfExporter() {}
+    virtual ~SketchDxfExporter() {}
 
-    enum class Error
-    {
-        NoError = 0,
-        PythonLibraryNotFound = 1,
-        LoadPythonLibraryFailed = 2,
-        InvalidPythonLibrary = 3,
-        PythonScriptFileNotFound = 4,
-        OpenPythonScriptFileFailed = 5,
-        RunScriptError = 6,
-        UnknownError = 99,
-    };
-    Error Run(const std::string& scriptFileFullPath,
-        const std::map<std::string, std::string>& params = {},
-        bool abortActiveTransactionOnExit = true);
-
-private:
-    void abortActiveTransaction();
+protected:
+    virtual bool performImpl(const wy3d::Sketch* pSketch, const std::wstring& fileFullPath) override;
 };
 
-#endif // WY3DAPP_PYTHON_SCRIPT_EXECUTOR_H
+#endif // WY3DAPP_SKETCH_DXF_EXPORTER_H

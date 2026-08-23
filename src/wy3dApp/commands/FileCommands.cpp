@@ -32,6 +32,9 @@
 #include <wyapDocManager.h>
 #include <wyapDocument.h>
 #include <wyapDocument.h>
+#include <wyapSelManager.h>
+#include <wyapSelection.h>
+#include <wyapEnvManager.h>
 #include <wy3dDatumPlane.h>
 #include <wy3dSheet.h>
 #include <BRep_Builder.hxx>
@@ -45,7 +48,9 @@
 #include "test/Test.h"
 #include "exporter/Exporter.h"
 #include "exporter/SketchExporter.h"
+#include "exporter/SketchImporter.h"
 #include "exporter/Importer.h"
+#include "environments/sketch/SketchEnvironment.h"
 #include "scene/Scene.h"
 #include "utils/MessageBoxUtil.h"
 #include "widgets/panels/output/OutputWidget.h"
@@ -776,5 +781,135 @@ void RunScriptCommand::abortActiveTransaction()
     {
         pDb->getTransactionManager()->abortTransaction();
     }
+}
+
+int ImportSketchCommand::run()
+{
+    // The sketch environment holds an uncommitted transaction
+    wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    if (dynamic_cast<SketchEnvironment*>(pCurrentEnv))
+    {
+        MessageBoxUtil::showError(QCoreApplication::translate("FileCmds", "Cannot import a sketch while editing a sketch!"));
+        return 0;
+    }
+
+    wyap::Document* pActiveDoc = Application::instance().getDocManager()->getActiveDocument();
+    if (!pActiveDoc) return -1;
+    wydb::Database* pDb = pActiveDoc->getDatabase();
+    if (!pDb) return -1;
+
+    const std::map<QString, std::shared_ptr<SketchImporter>>& allImporters = SketchImporterManager::instance().getAllImporters();
+    if (allImporters.empty())
+    {
+        assert(false);
+        return -1;
+    }
+
+    QStringList filterList;
+    for (const auto& kvp : allImporters)
+    {
+        filterList << kvp.first;
+    }
+    QString filter = filterList.join(";;");
+
+    QString selectedFilter;
+    QString fileFullPath = QFileDialog::getOpenFileName(Application::instance().getMainWindow(),
+        QCoreApplication::translate("FileCmds", "Import sketch"), "", filter, &selectedFilter, QFileDialog::DontUseNativeDialog);
+    if (fileFullPath.isEmpty() || fileFullPath.isNull())
+    {
+        return 0;
+    }
+
+    auto iter = allImporters.find(selectedFilter);
+    if (iter == allImporters.cend() || !iter->second)
+    {
+        assert(false);
+        return -1;
+    }
+
+    bool ret = iter->second->perform(pDb, fileFullPath.toStdWString());
+    if (!ret)
+    {
+        MessageBoxUtil::showError(QCoreApplication::translate("FileCmds", "Import sketch failed!"));
+        return -1;
+    }
+
+    FileCmdsUtil::fitViewToAll(pActiveDoc);
+    return 0;
+}
+
+int ExportSketchCommand::run()
+{
+    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return -1;
+    }
+
+    // Active sketch inside the sketch environment, otherwise the single selected sketch
+    const wy3d::Sketch* pSketch(nullptr);
+    wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    if (SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pCurrentEnv))
+    {
+        pSketch = wy3d::Sketch::cast(pDb->getElement(pSketchEnv->getSketchId()));
+    }
+    else
+    {
+        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        if (ss.getCount() == 1)
+        {
+            wydb::ElementId id = ss.createIterator().current().getElementId();
+            pSketch = wy3d::Sketch::cast(pDb->getElement(id));
+        }
+    }
+    if (!pSketch)
+    {
+        MessageBoxUtil::showError(QCoreApplication::translate("FileCmds", "Please select a sketch first!"));
+        return 0;
+    }
+
+    // Default to the document name without suffix
+    wyap::Document* pActiveDoc = Application::instance().getDocManager()->getActiveDocument();
+    std::string u8DocFileName = pActiveDoc ? pActiveDoc->getFileName() : "";
+    size_t lastDot = u8DocFileName.find_last_of('.');
+    if (lastDot != std::string::npos && lastDot != 0)
+    {
+        u8DocFileName = u8DocFileName.substr(0, lastDot);
+    }
+
+    const std::map<QString, std::shared_ptr<SketchExporter>>& allExporters = SketchExporterManager::instance().getAllExporters();
+
+    QStringList filterList;
+    for (const auto& kvp : allExporters)
+    {
+        filterList << kvp.first;
+    }
+    QString filter = filterList.join(";;");
+
+    QString selectedFilter;
+    QString fileName = QFileDialog::getSaveFileName(
+        Application::instance().getMainWindow(),
+        QCoreApplication::translate("FileCmds", "Export sketch"),
+        QString::fromStdString(u8DocFileName),
+        filter, &selectedFilter, 0);
+    if (fileName.isEmpty())
+    {
+        return 0; // Canceled by the user
+    }
+
+    auto iter = allExporters.find(selectedFilter);
+    if (iter == allExporters.cend() || !iter->second)
+    {
+        assert(false);
+        return -1;
+    }
+    bool ret = iter->second->perform(pSketch, fileName.toStdWString());
+    if (!ret)
+    {
+        MessageBoxUtil::showError(QCoreApplication::translate("FileCmds", "Export sketch failed!"));
+    }
+
+    return 0;
 }
 

@@ -25,10 +25,8 @@
 #include <memory>
 #include <QObject>
 
-#include <wydbTransaction.h>
+#include <wydbDatabase.h>
 #include <wy3dImpl.h>
-#include <wy3dSketch.h>
-#include <wy3dSketchEntity.h>
 
 class SketchImporter;
 
@@ -56,17 +54,18 @@ private:
 };
 
 // 草图导入器
+// 导入器自建草图并管理事务生命周期,调用方只提供数据库与文件路径
 class SketchImporter
 {
 public:
     virtual ~SketchImporter() {}
 
     // 执行函数
-    virtual bool perform(wydb::Transaction* pTrans, wy3d::Sketch* pSketch, const std::wstring& fileFullPath);
+    virtual bool perform(wydb::Database* pDb, const std::wstring& fileFullPath);
 
 protected:
     // 具体执行函数,需要子类继承
-    virtual bool performImpl(wydb::Transaction* pTrans, wy3d::Sketch* pSketch, const std::wstring& fileFullPath) = 0;
+    virtual bool performImpl(wydb::Database* pDb, const std::wstring& fileFullPath) = 0;
 };
 
 #endif // WY3DAPP_SKETCH_IMPORTER_H

@@ -17,6 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "exporter/SketchExporter.h"
+#include "exporter/SketchDxfExporter.h"
 #include <memory>
 #include <Standard_Failure.hxx>
 #include <wyVector2.h>
@@ -30,6 +31,7 @@ SketchExporterManager& SketchExporterManager::instance()
 
 SketchExporterManager::SketchExporterManager()
 {
+    _filter2Exporter[tr("DXF format (*.dxf)")] = std::make_shared<SketchDxfExporter>();
 }
 
 SketchExporterManager::~SketchExporterManager()

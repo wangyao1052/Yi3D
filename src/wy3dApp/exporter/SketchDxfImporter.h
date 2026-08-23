@@ -16,35 +16,20 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_PYTHON_SCRIPT_EXECUTOR_H
-#define WY3DAPP_PYTHON_SCRIPT_EXECUTOR_H
+#ifndef WY3DAPP_SKETCH_DXF_IMPORTER_H
+#define WY3DAPP_SKETCH_DXF_IMPORTER_H
 
-#include <map>
-#include <string>
+#include "SketchImporter.h"
 
-class PythonScriptExecutor
+// DXF sketch importer backed by the embedded Python runtime and the ezdxf library
+class SketchDxfImporter : public SketchImporter
 {
 public:
-    PythonScriptExecutor();
-    ~PythonScriptExecutor();
+    SketchDxfImporter() {}
+    virtual ~SketchDxfImporter() {}
 
-    enum class Error
-    {
-        NoError = 0,
-        PythonLibraryNotFound = 1,
-        LoadPythonLibraryFailed = 2,
-        InvalidPythonLibrary = 3,
-        PythonScriptFileNotFound = 4,
-        OpenPythonScriptFileFailed = 5,
-        RunScriptError = 6,
-        UnknownError = 99,
-    };
-    Error Run(const std::string& scriptFileFullPath,
-        const std::map<std::string, std::string>& params = {},
-        bool abortActiveTransactionOnExit = true);
-
-private:
-    void abortActiveTransaction();
+protected:
+    virtual bool performImpl(wydb::Database* pDb, const std::wstring& fileFullPath) override;
 };
 
-#endif // WY3DAPP_PYTHON_SCRIPT_EXECUTOR_H
+#endif // WY3DAPP_SKETCH_DXF_IMPORTER_H

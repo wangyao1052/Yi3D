@@ -20,6 +20,8 @@
 
 #include <QCoreApplication>
 #include <QFileInfo>
+#include <QJsonDocument>
+#include <QJsonObject>
 #if defined(_WIN32)
 #include <windows.h>
 #elif defined(__linux__) || defined(__APPLE__)
@@ -39,7 +41,8 @@ typedef void (*Py_FinalizeFunc)();
 typedef int (*PyRun_SimpleFileExFunc)(FILE* fp, const char* filename, int closeit);
 typedef int (*PyRun_SimpleStringFunc)(const char* command);
 
-PythonScriptExecutor::Error _executePythonScript(void* hPythonLib, const std::string& scriptFullPath)
+PythonScriptExecutor::Error _executePythonScript(void* hPythonLib, const std::string& scriptFullPath,
+    const std::map<std::string, std::string>& params)
 {
 #if defined(_WIN32)
     Py_InitializeFunc Py_Initialize = (Py_InitializeFunc)GetProcAddress((HMODULE)hPythonLib, "Py_Initialize");
@@ -92,6 +95,28 @@ PythonScriptExecutor::Error _executePythonScript(void* hPythonLib, const std::st
     // 将 Python I/O 重定向到临时文件
     redirectPythonStdOut();
 
+    // Inject script params as __yi3d_params global (JSON base64 encoded to avoid
+    // any quoting/escaping issues with file paths containing quotes or backslashes)
+    if (!params.empty())
+    {
+        QJsonObject obj;
+        for (const auto& kvp : params)
+        {
+            obj.insert(QString::fromStdString(kvp.first), QString::fromStdString(kvp.second));
+        }
+        QByteArray b64 = QJsonDocument(obj).toJson(QJsonDocument::Compact).toBase64();
+        std::string cmd = "import json,base64\n"
+            "__yi3d_params = json.loads(base64.b64decode('"
+            + std::string(b64.constData(), b64.size())
+            + "').decode('utf-8'))\n";
+        if (PyRun_SimpleString(cmd.c_str()) != 0)
+        {
+            restorePythonStdOut();
+            Py_Finalize();
+            return PythonScriptExecutor::Error::RunScriptError;
+        }
+    }
+
     // 执行脚本文件
     int runRet(0);
     {
@@ -116,13 +141,30 @@ PythonScriptExecutor::Error _executePythonScript(void* hPythonLib, const std::st
             Py_Finalize();
             return PythonScriptExecutor::Error::OpenPythonScriptFileFailed;
         }
+        fclose(fp);
 
         std::stringstream ssTitle;
         ssTitle << "----------" << scriptFullPath << "----------";
         Application::instance().getDockPanelManager()->findWidgetAs<OutputWidget>(
             DockPanelIds::Output)->info(ssTitle.str());
 
-        runRet = PyRun_SimpleFileEx(fp, scriptFullPath.c_str(), 1);
+        // Execute through a wrapper that catches SystemExit: an unhandled
+        // SystemExit raised by PyRun_SimpleFileEx would terminate the whole
+        // host process (embedded interpreter behavior). Re-raise it as a
+        // regular RuntimeError so the executor can report the failure.
+        std::string pathB64 = QByteArray::fromStdString(scriptFullPath).toBase64().toStdString();
+        std::string wrapper = "import sys,base64,__main__\n"
+            "_yi3d_path=base64.b64decode('" + pathB64 + "').decode('utf-8')\n"
+            "sys.argv=[_yi3d_path]\n"
+            "__main__.__dict__['__file__']=_yi3d_path\n"
+            "try:\n"
+            "    with open(_yi3d_path,encoding='utf-8') as _f:\n"
+            "        _src=_f.read()\n"
+            "    exec(compile(_src,_yi3d_path,'exec'),__main__.__dict__)\n"
+            "except SystemExit as _e:\n"
+            "    if _e.code not in (None,0):\n"
+            "        raise RuntimeError('script SystemExit: %r'%(_e.code,))\n";
+        runRet = PyRun_SimpleString(wrapper.c_str());
     }
 
     // 还原标准输入输出
@@ -153,7 +195,8 @@ PythonScriptExecutor::~PythonScriptExecutor()
 {
 }
 
-PythonScriptExecutor::Error PythonScriptExecutor::Run(const std::string& scriptFileFullPath)
+PythonScriptExecutor::Error PythonScriptExecutor::Run(const std::string& scriptFileFullPath,
+    const std::map<std::string, std::string>& params, bool abortActiveTransactionOnExit)
 {
     // 加载 Python 动态库
     QString appDir = QCoreApplication::applicationDirPath();
@@ -183,10 +226,11 @@ PythonScriptExecutor::Error PythonScriptExecutor::Run(const std::string& scriptF
     }
 
     // 执行脚本
-    PythonScriptExecutor::Error error = _executePythonScript(hPythonLib, scriptFileFullPath);
+    PythonScriptExecutor::Error error = _executePythonScript(hPythonLib, scriptFileFullPath, params);
 
     // 无论脚本执行是否成功，只要存在未提交事务就中止事务
-    this->abortActiveTransaction();
+    if (abortActiveTransactionOnExit)
+        this->abortActiveTransaction();
 
     // 释放 Python 动态库
 #if defined(_WIN32)

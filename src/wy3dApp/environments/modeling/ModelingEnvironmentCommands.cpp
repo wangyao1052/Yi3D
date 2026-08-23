@@ -133,6 +133,8 @@
     X(CommandNames::ExportFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, ExportFileCommand::classInfo()) \
     X(CommandNames::ExportSelected, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ExportSelectedCommand::classInfo()) \
     X(CommandNames::ImportFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, ImportFileCommand::classInfo()) \
+    X(CommandNames::ImportSketch, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, ImportSketchCommand::classInfo()) \
+    X(CommandNames::ExportSketch, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ExportSketchCommand::classInfo()) \
     X(CommandNames::FitView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, FitViewCommand::classInfo()) \
     X(CommandNames::FitSelection, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, FitSelectionCommand::classInfo()) \
     X(CommandNames::IsometricView, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, IsometricViewCommand::classInfo()) \

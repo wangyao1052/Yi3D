@@ -119,6 +119,20 @@ public:
     virtual int run() override;
 };
 
+class ImportSketchCommand : public wyap::ImmediateCmdExecution
+{
+    WYRX_DECLARE_MEMBERS(ImportSketchCommand, ImportSketchCommand, wyap::ImmediateCmdExecution)
+public:
+    virtual int run() override;
+};
+
+class ExportSketchCommand : public wyap::ImmediateCmdExecution
+{
+    WYRX_DECLARE_MEMBERS(ExportSketchCommand, ExportSketchCommand, wyap::ImmediateCmdExecution)
+public:
+    virtual int run() override;
+};
+
 class RunScriptCommand : public wyap::ImmediateCmdExecution
 {
     WYRX_DECLARE_MEMBERS(RunScriptCommand, RunScriptCommand, wyap::ImmediateCmdExecution)

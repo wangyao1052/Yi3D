@@ -19,6 +19,10 @@ under their respective licenses.
 - Python 3.10
   Licensed under the PSF License.  https://www.python.org/
 
+- ezdxf 1.0.3
+  Copyright (c) 2010-2025, Manfred Moitzi.
+  Licensed under the MIT License.  https://ezdxf.mozman.at/
+
 - WY Application Framework (WYAF)
   Copyright (C) 2024-2026 Wang Yao. All rights reserved.
   Licensed under the WY Application Framework License.

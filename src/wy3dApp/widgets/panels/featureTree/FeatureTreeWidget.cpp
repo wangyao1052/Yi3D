@@ -1508,6 +1508,12 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
                 pActionEditSketch->setIcon(QIcon(":/images/Edit_Sketch.svg"));
                 menu.addAction(pActionEditSketch);
 
+                // 导出草图
+                CommandAction* pActionExportSketch = new CommandAction(CommandNames::ExportSketch, &menu);
+                pActionExportSketch->setText(QCoreApplication::translate("MainWindow", "Export Sketch"));
+                pActionExportSketch->setIcon(QIcon(":/images/Document_Export.svg"));
+                menu.addAction(pActionExportSketch);
+
                 // 正视于
                 CommandAction* pActionViewNormalTo = new CommandAction(CommandNames::ViewNormalTo, &menu);
                 pActionViewNormalTo->setText(QCoreApplication::translate("MainWindow", "View Normal To"));

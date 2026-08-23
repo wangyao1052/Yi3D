@@ -145,6 +145,8 @@ public:
     static inline const std::string ExportFile   = "ExportFile";
     static inline const std::string ExportSelected  = "ExportSelected";
     static inline const std::string ImportFile   = "ImportFile";
+    static inline const std::string ImportSketch = "ImportSketch";
+    static inline const std::string ExportSketch = "ExportSketch";
 
     // 视图命令
     static inline const std::string FitView = "FitView";

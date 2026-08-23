@@ -60,6 +60,8 @@ struct FileActions
     CommandAction* pActionSaveAsFile;
     CommandAction* pActionImportFile;
     CommandAction* pActionExportFile;
+    CommandAction* pActionImportSketch;
+    CommandAction* pActionExportSketch;
 };
 
 struct UndoRedoActions
@@ -188,6 +190,16 @@ FileActions createFileActions(ModelingEnvironment* pEnv)
     actions.pActionExportFile = pEnv->newCommandAction(
         CommandNames::ExportFile,
         QCoreApplication::translate("MainWindow", "Export"),
+        QIcon(":/images/Document_Export.svg"));
+
+    actions.pActionImportSketch = pEnv->newCommandAction(
+        CommandNames::ImportSketch,
+        QCoreApplication::translate("MainWindow", "Import Sketch"),
+        QIcon(":/images/Document_Import.svg"));
+
+    actions.pActionExportSketch = pEnv->newCommandAction(
+        CommandNames::ExportSketch,
+        QCoreApplication::translate("MainWindow", "Export Sketch"),
         QIcon(":/images/Document_Export.svg"));
 
     return actions;
@@ -682,6 +694,9 @@ void buildFileMenuUi(
     pMenuFile->addSeparator();
     pMenuFile->addAction(actions.pActionImportFile);
     pMenuFile->addAction(actions.pActionExportFile);
+    pMenuFile->addSeparator();
+    pMenuFile->addAction(actions.pActionImportSketch);
+    pMenuFile->addAction(actions.pActionExportSketch);
 }
 
 void buildSheetMenuUi(

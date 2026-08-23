@@ -51,6 +51,11 @@ if(WIN32)
     else()
         file(COPY "${CMAKE_SOURCE_DIR}/3rdParty/bundles/python3/bin/release/" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/python3")
     endif()
+    # Pure-Python packages (ezdxf etc.) are optional at configure time: without
+    # them the build succeeds and the DXF commands report a runtime error
+    if(EXISTS "${CMAKE_SOURCE_DIR}/3rdParty/bundles/python3/packages")
+        file(COPY "${CMAKE_SOURCE_DIR}/3rdParty/bundles/python3/packages/" DESTINATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/python3")
+    endif()
     file(COPY "${CMAKE_SOURCE_DIR}/3rdParty/bundles/qt5/bin/Qt5Svg.dll" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
     file(COPY "${CMAKE_SOURCE_DIR}/3rdParty/bundles/qt5/bin/Qt5Svgd.dll" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
     file(COPY "${CMAKE_SOURCE_DIR}/3rdParty/bundles/qt5/plugins" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

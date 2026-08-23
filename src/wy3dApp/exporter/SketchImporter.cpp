@@ -17,6 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "exporter/SketchImporter.h"
+#include "exporter/SketchDxfImporter.h"
 #include <memory>
 #include <Standard_Failure.hxx>
 #include <wyVector2.h>
@@ -30,17 +31,18 @@ SketchImporterManager& SketchImporterManager::instance()
 
 SketchImporterManager::SketchImporterManager()
 {
+    _filter2Importer[tr("DXF format (*.dxf)")] = std::make_shared<SketchDxfImporter>();
 }
 
 SketchImporterManager::~SketchImporterManager()
 {
 }
 
-bool SketchImporter::perform(wydb::Transaction* pTrans, wy3d::Sketch* pSketch, const std::wstring& fileFullPath)
+bool SketchImporter::perform(wydb::Database* pDb, const std::wstring& fileFullPath)
 {
     try
     {
-        return this->performImpl(pTrans, pSketch, fileFullPath);
+        return this->performImpl(pDb, fileFullPath);
     }
     catch (const Standard_Failure&)
     {
