@@ -29,13 +29,13 @@
 #include <wy3dSketch.h>
 #include "commands/transient/ValidSketchTransient.h"
 
-class GuiCmdHoverInputPopup1;
+class GuiCmdHoverInputPopup2_2ndTabLabel;
 
 class MakeExtrudedSheet : public GuiCmdMakeElement
 {
 public:
     MakeExtrudedSheet(GuiCommand* pGuiCmd)
-        : GuiCmdMakeElement(pGuiCmd), _pExtrudedSheet(nullptr), _workPlnNormal(0.0, 0.0, 1.0) {}
+        : GuiCmdMakeElement(pGuiCmd), _pExtrudedSheet(nullptr), _workPlnNormal(0.0, 0.0, 1.0), _direction(wy3d::ExtrusionDirection::OneSide) {}
     ~MakeExtrudedSheet() {}
 
     virtual void collectElements(std::set<wydb::ElementId>& idSet) const override;
@@ -47,10 +47,12 @@ public:
 
     bool init(const wydb::ElementId& sketchId, unsigned int& errorCode);
     bool update(double depth);
+    bool setDirection(wy3d::ExtrusionDirection direction);
 
 private:
     wy3d::ExtrudedSheet* _pExtrudedSheet;
     wy::Vector3 _workPlnNormal;
+    wy3d::ExtrusionDirection _direction;
 };
 
 class ExtrudedSheetGuiCmd : public OsgGuiCommand
@@ -96,6 +98,7 @@ protected:
     void onPopupEnterKey();
     void onPopupEscapeKey();
     void simulateMouseMoveFromPopup();
+    void updateDirectionLabel();
 
 protected:
     struct HoverPopupState
@@ -126,6 +129,7 @@ protected:
     wydb::ElementId _sketchId;
     wy::Vector3 _pickPos;
     double _depth;
+    wy3d::ExtrusionDirection _direction;
 
     PointPickOption _pointPickOption;
 
@@ -142,7 +146,7 @@ protected:
     std::map<wydb::ElementId, SketchValidInfo> _sketchId2ValidInfo;
 
     std::shared_ptr<MakeExtrudedSheet> _pMakeExtrudedSheet;
-    std::unique_ptr<GuiCmdHoverInputPopup1> _pDepthPopup;
+    std::unique_ptr<GuiCmdHoverInputPopup2_2ndTabLabel> _pDepthPopup;
     HoverPopupState _hoverPopupState;
 };
 

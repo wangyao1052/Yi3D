@@ -20,6 +20,7 @@
 #define WY3D_EXTRUDED_SHEET_H
 
 #include <wy3dDefs.h>
+#include <wy3dExtrusion.h>
 #include <wy3dSheet.h>
 
 NS_WY3D_BEG
@@ -36,6 +37,13 @@ public:
         wy3d::Sketch* pSketch, double depth,
         ExtrudedSheet*& pOutSheet);
 
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        wy3d::Sketch* pSketch,
+        ExtrusionDirection direction,
+        double depth,
+        ExtrudedSheet*& pOutSheet);
+
     virtual std::vector<wydb::ElementId> getChildren() const override
     {
         std::vector<wydb::ElementId> children = __baseClass::getChildren();
@@ -50,6 +58,9 @@ public:
 
     double getStartOffset() const { return _startOffset; }
     wy::ErrorStatus setStartOffset(double startOffset);
+
+    ExtrusionDirection getDirection() const { return _direction; }
+    wy::ErrorStatus setDirection(ExtrusionDirection direction);
 
 public:
     virtual wydb::ParameterValueUPtr getParameterValue(const std::string& className, const std::string& paramName) const override;
@@ -75,6 +86,7 @@ private:
 
 protected:
     wydb::ElementId _sketchId;
+    ExtrusionDirection _direction;
     double _depth;
     double _startOffset;
 };

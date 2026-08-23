@@ -87,7 +87,7 @@ bool MakeExtrudedSheet::init(const wydb::ElementId& sketchId, unsigned int& erro
         goto ABORT_TRANS;
     }
 
-    if (wy::ErrorStatus::Ok != wy3d::ExtrudedSheet::create(pTrans, pSketch, wy3d::kMinValue, pSheet) || !pSheet)
+    if (wy::ErrorStatus::Ok != wy3d::ExtrudedSheet::create(pTrans, pSketch, _direction, wy3d::kMinValue, pSheet) || !pSheet)
     {
         assert(false);
         goto ABORT_TRANS;
@@ -131,12 +131,37 @@ bool MakeExtrudedSheet::update(double depth)
     return true;
 }
 
+bool MakeExtrudedSheet::setDirection(wy3d::ExtrusionDirection direction)
+{
+    if (!_pDb || !_pTopTrans || !_pExtrudedSheet || _isFinished) return false;
+
+    _direction = direction;
+
+    wydb::TransactionManager* pTransMgr = _pDb->getTransactionManager();
+    wydb::Transaction* pTrans = pTransMgr->startTransaction();
+    if (!pTrans) return false;
+    {
+        _pExtrudedSheet->upgradeForWrite();
+        _pExtrudedSheet->setDirection(direction);
+    }
+    if (wy::ErrorStatus::Ok == pTransMgr->endTransaction())
+    {
+        pTransMgr->mergeTransaction();
+    }
+    else
+    {
+        assert(false);
+    }
+    return true;
+}
+
 // ============================================================================
 // ExtrudedSheetGuiCmd
 // ============================================================================
 
 ExtrudedSheetGuiCmd::ExtrudedSheetGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sketchId(wydb::ElementId::kNull), _pickPos(), _depth(0.0),
+    _direction(wy3d::ExtrusionDirection::OneSide),
     _pDepthPopup(nullptr),
     _hoverPopupState()
 {
@@ -211,6 +236,7 @@ void ExtrudedSheetGuiCmd::cleanup()
     _sketchId = wydb::ElementId::kNull;
     _pickPos.set(0.0, 0.0, 0.0);
     _depth = 0.0;
+    _direction = wy3d::ExtrusionDirection::OneSide;
     _pValidSketchPreview = nullptr;
     _pInvalidSketchTooltip = nullptr;
     _hoverPopupState.resetValue();
@@ -291,7 +317,7 @@ void ExtrudedSheetGuiCmd::gotoStep(Step step)
         Application::instance().getSelManager()->endChange();
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudedSheetGuiCmd",
-            "Specify the extrusion depth; you can directly input the value."));
+            "Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction (One Side / Symmetric)."));
         Application::instance().setCursor(CursorType::Locate);
     }
     break;
@@ -348,9 +374,20 @@ void ExtrudedSheetGuiCmd::onMouseMove(const MouseEvent& event)
         double height(0.0);
         if (this->computeHeight(event.x, event.y, _pickPos, height, _pMakeExtrudedSheet.get()))
         {
-            _hoverPopupState.depthSign = height < 0.0 ? -1 : 1;
-            _hoverPopupState.depth = std::fabs(height);
-            if (_pMakeExtrudedSheet) _pMakeExtrudedSheet->update(height);
+            if (wy3d::ExtrusionDirection::Symmetric == _direction)
+            {
+                // 对称拉伸下鼠标所在侧不决定方向;鼠标定位的是体的远端,
+                // 所以总深度 = 2 * 鼠标到草图面的距离
+                _hoverPopupState.depthSign = 1;
+                _hoverPopupState.depth = 2.0 * std::fabs(height);
+                if (_pMakeExtrudedSheet) _pMakeExtrudedSheet->update(_hoverPopupState.depth);
+            }
+            else
+            {
+                _hoverPopupState.depthSign = height < 0.0 ? -1 : 1;
+                _hoverPopupState.depth = std::fabs(height);
+                if (_pMakeExtrudedSheet) _pMakeExtrudedSheet->update(height);
+            }
         }
     }
 
@@ -372,7 +409,7 @@ void ExtrudedSheetGuiCmd::onLeftMouseDown(const MouseEvent& event)
         double height(0.0);
         if (this->computeHeight(event.x, event.y, _pickPos, height, _pMakeExtrudedSheet.get()))
         {
-            _depth = height;
+            _depth = (wy3d::ExtrusionDirection::Symmetric == _direction) ? 2.0 * std::fabs(height) : height;
             if (this->finishStep(_step))
             {
                 this->simulateMouseMoveFromPopup();
@@ -485,12 +522,31 @@ void ExtrudedSheetGuiCmd::initializePopups()
     MainWindow* pMainWindow = Application::instance().getMainWindow();
     if (!_pDepthPopup)
     {
-        _pDepthPopup = std::make_unique<GuiCmdHoverInputPopup1>(
-            QCoreApplication::translate("ExtrudedSheetGuiCmd", "Extrusion depth"),
+        _pDepthPopup = std::make_unique<GuiCmdHoverInputPopup2_2ndTabLabel>(
+            QCoreApplication::translate("ExtrudedSheetGuiCmd", "Depth"),
+            QCoreApplication::translate("ExtrudedSheetGuiCmd", "Direction"),
             QStringLiteral("-1234.56"),
             pMainWindow);
         _pDepthPopup->setAcceptHandler([this]() { this->onPopupEnterKey(); });
         _pDepthPopup->setCancelHandler([this]() { this->onPopupEscapeKey(); });
+        _pDepthPopup->setDirectionToggleHandler([this]()
+        {
+            // Tab toggles the direction; the preview updates immediately
+            _direction = (wy3d::ExtrusionDirection::Symmetric == _direction)
+                ? wy3d::ExtrusionDirection::OneSide
+                : wy3d::ExtrusionDirection::Symmetric;
+            if (wy3d::ExtrusionDirection::Symmetric == _direction)
+            {
+                _hoverPopupState.depthSign = 1;
+            }
+            if (_pMakeExtrudedSheet)
+            {
+                _pMakeExtrudedSheet->setDirection(_direction);
+                _pMakeExtrudedSheet->update(_hoverPopupState.depth);
+            }
+            this->updateDirectionLabel();
+        });
+        this->updateDirectionLabel();
         _pDepthPopup->hide();
     }
 }
@@ -501,7 +557,20 @@ void ExtrudedSheetGuiCmd::showPopup()
     if (!_pDepthPopup) this->initializePopups();
     if (!_pDepthPopup) return;
     _pDepthPopup->setValue(_hoverPopupState.depth);
+    this->updateDirectionLabel();
     _pDepthPopup->showAtGlobal(QCursor::pos());
+}
+
+void ExtrudedSheetGuiCmd::updateDirectionLabel()
+{
+    if (!_pDepthPopup)
+    {
+        return;
+    }
+    const QString directionText = (wy3d::ExtrusionDirection::Symmetric == _direction)
+        ? QCoreApplication::translate("ExtrudedSheetGuiCmd", "Symmetric")
+        : QCoreApplication::translate("ExtrudedSheetGuiCmd", "One Side");
+    _pDepthPopup->setDirectionLabel(directionText);
 }
 
 void ExtrudedSheetGuiCmd::hidePopup()
@@ -529,7 +598,9 @@ void ExtrudedSheetGuiCmd::onPopupEnterKey()
 
     double depth(0.0);
     if (!parseDoubleText(_pDepthPopup->getRowText(), depth)) return;
-    _depth = _hoverPopupState.depthSign < 0 ? -depth : depth;
+    _depth = (wy3d::ExtrusionDirection::Symmetric == _direction)
+        ? std::fabs(depth)
+        : (_hoverPopupState.depthSign < 0 ? -depth : depth);
 
     if (this->finishStep(_step))
     {

@@ -29,6 +29,7 @@
 #include <wydbTransaction.h>
 #include <wy3dExtrudedSheet.h>
 #include <wy3dParamNames.h>
+#include <wy3dParamEnumDef.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -50,11 +51,12 @@ WYDB_IMPLEMENT_MEMBERS(ExtrudedSheet)
 
 BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(ExtrudedSheet, _sketchId)
+    REGISTER_FIELD(ExtrudedSheet, _direction)
     REGISTER_FIELD(ExtrudedSheet, _depth)
     REGISTER_FIELD(ExtrudedSheet, _startOffset)
 END_FIELD_REGISTRATION()
 
-ExtrudedSheet::ExtrudedSheet() : wy3d::Sheet(), _sketchId(wydb::ElementId::kNull), _depth(0.0), _startOffset(0.0)
+ExtrudedSheet::ExtrudedSheet() : wy3d::Sheet(), _sketchId(wydb::ElementId::kNull), _direction(ExtrusionDirection::OneSide), _depth(0.0), _startOffset(0.0)
 {
 }
 
@@ -65,6 +67,16 @@ ExtrudedSheet::~ExtrudedSheet()
 wy::ErrorStatus ExtrudedSheet::create(
     wydb::Transaction* pTrans,
     wy3d::Sketch* pSketch, double depth,
+    ExtrudedSheet*& pOutSheet)
+{
+    return ExtrudedSheet::create(pTrans, pSketch, ExtrusionDirection::OneSide, depth, pOutSheet);
+}
+
+wy::ErrorStatus ExtrudedSheet::create(
+    wydb::Transaction* pTrans,
+    wy3d::Sketch* pSketch,
+    ExtrusionDirection direction,
+    double depth,
     ExtrudedSheet*& pOutSheet)
 {
     if (!pTrans)
@@ -88,6 +100,8 @@ wy::ErrorStatus ExtrudedSheet::create(
     }
 
     error = pSheet->_setSketch(pSketch);
+    CHECK_ERROR_FOR_CREATE(error, pSheet);
+    error = pSheet->setDirection(direction);
     CHECK_ERROR_FOR_CREATE(error, pSheet);
     error = pSheet->setDepth(depth);
     CHECK_ERROR_FOR_CREATE(error, pSheet);
@@ -188,8 +202,35 @@ wy::ErrorStatus ExtrudedSheet::setStartOffset(double startOffset)
     }
 }
 
+wy::ErrorStatus ExtrudedSheet::setDirection(ExtrusionDirection direction)
+{
+    if (direction < ExtrusionDirection::OneSide || direction > ExtrusionDirection::Symmetric)
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+    if (direction == _direction)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(kExtrudedSheet_direction, wydb::ElementDataPieceType::Shape);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _direction = direction;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
 void ExtrudedSheet::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
+    {
+        wydb::ParameterDefinitionData def;
+        def.name = ParamNames::EXTRUSION_PARAM_DIRECTION;
+        pParamSchema->addParameterDefinition(def);
+    }
     {
         wydb::ParameterDefinitionData def;
         def.name = ParamNames::EXTRUSION_PARAM_DEPTH;
@@ -214,12 +255,36 @@ wydb::ParameterValueUPtr ExtrudedSheet::getParameterValue(const std::string& cla
         {
             return wydb::ParameterValue::createDouble(_startOffset);
         }
+        else if (ParamNames::EXTRUSION_PARAM_DIRECTION == paramName)
+        {
+            return wydb::ParameterValue::createAny(
+                wy3d::ParamEnumDef(
+                    {{static_cast<int>(ExtrusionDirection::OneSide), "One Side"},
+                     {static_cast<int>(ExtrusionDirection::Symmetric), "Symmetric"}},
+                    static_cast<int>(_direction)));
+        }
         else
         {
             return nullptr;
         }
     }
     return __baseClass::getParameterValue(className, paramName);
+}
+
+static int _extractEnumValue(const wydb::ParameterValue& paramValue)
+{
+    if (paramValue.isInteger())
+        return paramValue.asInteger();
+    if (paramValue.isAny())
+    {
+        const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);
+        if (pAnyVal)
+        {
+            const wy3d::ParamEnumDef* pDef = pAnyVal->tryGet<wy3d::ParamEnumDef>();
+            if (pDef) return pDef->currentValue;
+        }
+    }
+    return -1;
 }
 
 wy::ErrorStatus ExtrudedSheet::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
@@ -235,6 +300,16 @@ wy::ErrorStatus ExtrudedSheet::setParameterValue(const std::string& className, c
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setStartOffset(paramValue.asDouble());
+        }
+        else if (ParamNames::EXTRUSION_PARAM_DIRECTION == paramName)
+        {
+            int enumValue = _extractEnumValue(paramValue);
+            if (enumValue < static_cast<int>(ExtrusionDirection::OneSide) ||
+                enumValue > static_cast<int>(ExtrusionDirection::Symmetric))
+            {
+                return wy::ErrorStatus::InvalidInput;
+            }
+            return this->setDirection(static_cast<ExtrusionDirection>(enumValue));
         }
         else
         {
@@ -257,6 +332,9 @@ bool ExtrudedSheet::getFieldValue(wydb::FieldId fieldId, std::any& value)
     case kExtrudedSheet_startOffset.value():
         value = _startOffset;
         return true;
+    case kExtrudedSheet_direction.value():
+        value = _direction;
+        return true;
     default:
         bool baseRet = __baseClass::getFieldValue(fieldId, value);
         assert(baseRet);
@@ -277,6 +355,9 @@ bool ExtrudedSheet::setFieldValue(wydb::FieldId fieldId, const std::any& value)
     case kExtrudedSheet_startOffset.value():
         _startOffset = std::any_cast<double>(value);
         return true;
+    case kExtrudedSheet_direction.value():
+        _direction = std::any_cast<ExtrusionDirection>(value);
+        return true;
     default:
         bool baseRet = __baseClass::setFieldValue(fieldId, value);
         assert(baseRet);
@@ -287,14 +368,28 @@ bool ExtrudedSheet::setFieldValue(wydb::FieldId fieldId, const std::any& value)
 wy::ErrorStatus ExtrudedSheet::writeToFiler(wydb::OutFiler& filer) const
 {
     __baseClass::writeToFiler(filer);
-    filer << _sketchId << _depth << _startOffset;
+
+    filer << _sketchId;
+    if (filer.getFileVersion() > wydb::FileVersion(0, 18))
+    {
+        filer << static_cast<std::int32_t>(_direction);
+    }
+    filer << _depth << _startOffset;
     return wy::ErrorStatus::Ok;
 }
 
 wy::ErrorStatus ExtrudedSheet::readFromFiler(wydb::InFiler& filer)
 {
     __baseClass::readFromFiler(filer);
-    filer >> _sketchId >> _depth >> _startOffset;
+
+    filer >> _sketchId;
+    if (filer.getFileVersion() > wydb::FileVersion(0, 18))
+    {
+        std::int32_t directionInt(0);
+        filer >> directionInt;
+        _direction = static_cast<ExtrusionDirection>(directionInt);
+    }
+    filer >> _depth >> _startOffset;
     return wy::ErrorStatus::Ok;
 }
 
@@ -348,10 +443,16 @@ TopoDS_Shape ExtrudedSheet::generateShape(TopoNaming* pTopoNaming, wydb::ChainUp
     assert(sketchNormal.length() > 0.5);
     gp_Vec sketchNormalVec(sketchNormal.x(), sketchNormal.y(), sketchNormal.z());
     gp_Dir sketchNormalDir(sketchNormalVec);
+    // Symmetric: the wire is moved by -|depth|/2 along the normal and extruded
+    // by the full |depth|, so the shell spans [-|depth|/2, +|depth|/2]
+    const bool isSymmetric = (ExtrusionDirection::Symmetric == _direction);
+    const double halfDepth = isSymmetric ? std::fabs(_depth) / 2.0 : 0.0;
+    const double faceOffsetAlongNormal = _startOffset - halfDepth;
+    const double extrudeLen = isSymmetric ? std::fabs(_depth) : _depth;
     gp_Trsf sketchTranslation;
-    if (_startOffset != 0.0)
+    if (faceOffsetAlongNormal != 0.0)
     {
-        sketchTranslation.SetTranslation(sketchNormalVec * _startOffset);
+        sketchTranslation.SetTranslation(sketchNormalVec * faceOffsetAlongNormal);
     }
 
     SketchProfileForSheet profileForSheet(pSketch);
@@ -385,7 +486,7 @@ TopoDS_Shape ExtrudedSheet::generateShape(TopoNaming* pTopoNaming, wydb::ChainUp
 
         assert(1 == wireInfos.size());
         const TopoUtil::WireInfo& wireInfo = wireInfos.front();
-        BRepPrimAPI_MakePrism makePrism(wireInfo.wire, sketchNormalVec * _depth, Standard_True);
+        BRepPrimAPI_MakePrism makePrism(wireInfo.wire, sketchNormalVec * extrudeLen, Standard_True);
         makePrism.Build();
         if (makePrism.IsDone())
         {

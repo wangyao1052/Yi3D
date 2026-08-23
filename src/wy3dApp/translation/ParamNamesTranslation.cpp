@@ -111,9 +111,9 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // Extrusion
     {
         const std::string& className = wy3d::Extrusion::className();
-        _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_DEPTH)] = tr("Extrusion Depth");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_DEPTH)] = tr("Depth");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_START_OFFSET)] = tr("Extrusion Start Offset");
-        _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION)] = tr("Extrusion Direction");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION)] = tr("Direction");
     }
     // Revolution
     {
@@ -125,8 +125,9 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // ExtrudedSheet
     {
         const std::string& className = wy3d::ExtrudedSheet::className();
-        _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_DEPTH)] = tr("Extrusion Depth");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_DEPTH)] = tr("Depth");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_START_OFFSET)] = tr("Extrusion Start Offset");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION)] = tr("Direction");
     }
     // RevolvedSheet
     {

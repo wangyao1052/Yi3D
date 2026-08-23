@@ -22,6 +22,7 @@
 #include <wydbTransaction.h>
 #include <wy3dSolid.h>
 #include <wy3dExtrusion.h>
+#include <wy3dExtrudedSheet.h>
 #include <wy3dRevolution.h>
 #include <wy3dSweep.h>
 #include <wy3dLoft.h>
@@ -111,6 +112,41 @@ void bindWy3dSolids(py::module_& m)
             py::arg("direction"),
             py::arg("depth"),
             py::arg("solidToCut"),
+            py::return_value_policy::reference);
+
+    py::class_<wy3d::ExtrudedSheet, wy3d::Feature, std::unique_ptr<wy3d::ExtrudedSheet, py::nodelete>>(m, "ExtrudedSheet")
+        .def("getSketch", &wy3d::ExtrudedSheet::getSketch)
+        .def("getDepth", &wy3d::ExtrudedSheet::getDepth)
+        .def("setDepth", &wy3d::ExtrudedSheet::setDepth)
+        .def("getStartOffset", &wy3d::ExtrudedSheet::getStartOffset)
+        .def("setStartOffset", &wy3d::ExtrudedSheet::setStartOffset)
+        .def("getDirection", &wy3d::ExtrudedSheet::getDirection)
+        .def("setDirection", &wy3d::ExtrudedSheet::setDirection)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans, wy3d::Sketch* pSketch, double depth) -> wy3d::ExtrudedSheet*
+            {
+                wy3d::ExtrudedSheet* pOutSheet = nullptr;
+                wy::ErrorStatus status = wy3d::ExtrudedSheet::create(pTrans, pSketch, depth, pOutSheet);
+                return pOutSheet;
+            },
+            py::arg("transaction"),
+            py::arg("sketch"),
+            py::arg("depth"),
+            py::return_value_policy::reference)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans, wy3d::Sketch* pSketch,
+               wy3d::ExtrusionDirection direction, double depth) -> wy3d::ExtrudedSheet*
+            {
+                wy3d::ExtrudedSheet* pOutSheet = nullptr;
+                wy::ErrorStatus status = wy3d::ExtrudedSheet::create(pTrans, pSketch, direction, depth, pOutSheet);
+                return pOutSheet;
+            },
+            py::arg("transaction"),
+            py::arg("sketch"),
+            py::arg("direction"),
+            py::arg("depth"),
             py::return_value_policy::reference);
 
     py::class_<wy3d::Revolution, wy3d::Solid, std::unique_ptr<wy3d::Revolution, py::nodelete>>(m, "Revolution")
