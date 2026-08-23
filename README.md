@@ -21,7 +21,7 @@ Yi3D is a simple and easy-to-use **open-source** 3D modeling application, availa
 - **Datum Planes**: Coincident, Parallel, Perpendicular, Angular, Tangent, Three-Point
 - **Python Scripting**: Full Python API for programmatic model creation and modification
 - **AI-Assisted Modeling**: Natural-language-to-3D via integrated Claude Code skill
-- **File Formats**: Binary `.wy3db` and text `.wy3dt` model files
+- **File Formats**: Binary `.wy3db` and text `.wy3dt` model files; DXF import/export for sketches
 
 ## Architecture
 
@@ -47,6 +47,7 @@ Yi3D
 | [OpenSceneGraph (OSG)](http://www.openscenegraph.org/) | 3D rendering engine |
 | [WYAF](https://github.com/wangyao1052/WYAF) | Application framework (free for non-commercial use) |
 | [Python 3.10](https://www.python.org/) | Scripting runtime |
+| [ezdxf](https://ezdxf.mozman.at/) | DXF reading/writing for sketch import/export |
 | [pybind11](https://github.com/pybind/pybind11) | C++/Python bindings |
 | [Google Test](https://github.com/google/googletest) | Unit testing framework |
 | [muParser](https://beltoforion.de/en/muparser/) | Math expression parser |
