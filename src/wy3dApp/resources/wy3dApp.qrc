@@ -5,6 +5,7 @@
     </qresource>
     <qresource>
         <file>images/Yi3D.svg</file>
+        <file>images/Cursor_Rotate.svg</file>
         <file>images/Document_New.svg</file>
         <file>images/Document_Open.svg</file>
         <file>images/Document_Save.svg</file>

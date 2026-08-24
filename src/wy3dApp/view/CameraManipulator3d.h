@@ -19,6 +19,14 @@
 #pragma once
 
 #include <osgGA/TrackballManipulator>
+#include <functional>
+
+enum class NavCursorMode
+{
+    None = 0,
+    Rotate = 1,
+    Pan = 2,
+};
 
 class CameraManipulator3d : public osgGA::TrackballManipulator
 {
@@ -27,6 +35,7 @@ public:
 
 	virtual void setNode(osg::Node*) override;
 	void setModelSize(double modelSize);
+	void setNavCursorCallback(std::function<void(NavCursorMode)> callback);
 
 protected:
 	virtual bool handleMouseDrag(const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter &us);
@@ -43,6 +52,23 @@ protected:
 	bool handleMouseWheelImpl_Ortho(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& us);
 
 private:
+	void setNavCursor(NavCursorMode mode);
+	void clearNavCursor();
+
 	osg::Camera* _camera;
     double _maxNearFarDis;
+
+	struct NavCursorData
+	{
+		std::function<void(NavCursorMode)> callback;
+		bool isCursorActive;
+		NavCursorMode mode;
+
+		NavCursorData()
+		{
+			callback = nullptr;
+			isCursorActive = false;
+			mode = NavCursorMode::None;
+		}
+	} _navCursorData;
 };

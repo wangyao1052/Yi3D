@@ -159,7 +159,6 @@ bool StepExporter::performImpl(const TopoDS_Shape& shape, const std::wstring& fi
 
     APIHeaderSection_MakeHeader makeHeader(aWriter.Model());
     // Don't set name because STEP doesn't support UTF-8
-    // https://forum.freecad.org/viewtopic.php?f=8&t=52967
     makeHeader.SetAuthorValue(1, new TCollection_HAsciiString("Yi3D"));
     makeHeader.SetOrganizationValue(1, new TCollection_HAsciiString("Yi3D"));
     makeHeader.SetOriginatingSystem(new TCollection_HAsciiString("Yi3D"));

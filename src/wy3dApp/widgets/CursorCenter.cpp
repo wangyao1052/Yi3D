@@ -19,6 +19,7 @@
 #include "CursorCenter.h"
 #include <QPixmap>
 #include <QPainter>
+#include <QIcon>
 #include "CursorType.h"
 
 CursorCenter& CursorCenter::instance()
@@ -77,6 +78,10 @@ CursorCenter::CursorCenter()
         painter.drawLine(14, 8, 18, 2);
         _cursorForbid = QCursor(pixmap, 6, 16);
     }
+    {
+        QPixmap pixmap = QIcon(":/images/Cursor_Rotate.svg").pixmap(QSize(32, 32));
+        _cursorRotate = QCursor(pixmap, 16, 16);
+    }
 }
 
 QCursor CursorCenter::getCursor(CursorType cursorType) const
@@ -97,6 +102,12 @@ QCursor CursorCenter::getCursor(CursorType cursorType) const
 
     case CursorType::Forbid:
         return _cursorForbid;
+
+    case CursorType::Rotate:
+        return _cursorRotate;
+
+    case CursorType::Pan:
+        return QCursor(Qt::SizeAllCursor);
     }
 
     return QCursor(Qt::ArrowCursor);

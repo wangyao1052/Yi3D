@@ -68,6 +68,27 @@ void CameraManipulator3d::setModelSize(double modelSize)
     }
 }
 
+void CameraManipulator3d::setNavCursorCallback(std::function<void(NavCursorMode)> callback)
+{
+	_navCursorData.callback = callback;
+}
+
+void CameraManipulator3d::setNavCursor(NavCursorMode mode)
+{
+	_navCursorData.isCursorActive = true;
+
+	if (_navCursorData.mode == mode) return;
+	_navCursorData.mode = mode;
+	if (_navCursorData.callback) _navCursorData.callback(_navCursorData.mode);
+}
+
+void CameraManipulator3d::clearNavCursor()
+{
+	_navCursorData.isCursorActive = false;
+	_navCursorData.mode = NavCursorMode::None;
+	if (_navCursorData.callback) _navCursorData.callback(NavCursorMode::None);
+}
+
 bool CameraManipulator3d::handleMouseDrag(const osgGA::GUIEventAdapter &ea, osgGA::GUIActionAdapter &us)
 {
 	if (ea.getButtonMask() == osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON)
@@ -128,6 +149,23 @@ bool CameraManipulator3d::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIAct
     // }
 
 	_camera = us.asView() ? us.asView()->getCamera() : nullptr;
+
+	// Switch cursor during middle-button rotate/pan. Only PUSH/DRAG drive the
+	// mode, since FRAME (from the viewer's own event queue) always lacks the
+	// Shift mask; any event without the middle button clears the navigation cursor.
+	const bool midButtonDown = (ea.getButtonMask() & osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON) != 0;
+	osgGA::GUIEventAdapter::EventType eventType = ea.getEventType();
+	if (midButtonDown && (osgGA::GUIEventAdapter::PUSH == eventType || osgGA::GUIEventAdapter::DRAG == eventType))
+	{
+		NavCursorMode mode = (ea.getModKeyMask() & osgGA::GUIEventAdapter::MODKEY_SHIFT) ?
+			NavCursorMode::Pan : NavCursorMode::Rotate;
+		this->setNavCursor(mode);
+	}
+	else if (_navCursorData.isCursorActive && !midButtonDown)
+	{
+		this->clearNavCursor();
+	}
+
 	return osgGA::StandardManipulator::handle(ea, us);
 }
 

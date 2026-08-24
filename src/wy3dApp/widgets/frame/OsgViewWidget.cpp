@@ -21,6 +21,8 @@
 #include "application/Config.h"
 #include "view/CameraManipulator3d.h"
 #include "commands/OsgGuiEventDispatcher.h"
+#include "widgets/CursorCenter.h"
+#include "widgets/CursorType.h"
 
 #include <QVBoxLayout>
 #include <QMenu>
@@ -50,7 +52,7 @@
 
 #include <vector>
 
-OsgViewWidget::OsgViewWidget(QWidget *parent) : ViewWidget(parent), _pOsgGLWidget(nullptr)
+OsgViewWidget::OsgViewWidget(QWidget *parent) : ViewWidget(parent), _pOsgGLWidget(nullptr), _navCursorActive(false)
 {
 	this->resize(400, 300);
 	this->setMinimumWidth(400);
@@ -79,6 +81,10 @@ OsgViewWidget::OsgViewWidget(QWidget *parent) : ViewWidget(parent), _pOsgGLWidge
 
 OsgViewWidget::~OsgViewWidget()
 {
+    if (_pCameraManipulator)
+    {
+        _pCameraManipulator->setNavCursorCallback(nullptr);
+    }
 }
 
 QRect OsgViewWidget::getRenderAreaGlobalRect() const
@@ -108,6 +114,9 @@ void OsgViewWidget::initWindow()
 
     // 摄像机操纵器(初始方位:东南轴等侧)
     CameraManipulator3d* pCameraManipulator = new CameraManipulator3d();
+    _pCameraManipulator = pCameraManipulator;
+    pCameraManipulator->setNavCursorCallback(
+        [this](NavCursorMode mode) { setNavigationCursor(mode); });
     // added by wangyao 2025.07.28 {
     // 反转鼠标滚轮方向
     if (Application::instance().getConfig()->view.invertMouseWheelZoom)
@@ -144,4 +153,31 @@ void OsgViewWidget::setCursor(const QCursor& cursor)
 	{
         _pOsgGLWidget->setCursor(cursor);
 	}
+}
+
+void OsgViewWidget::setNavigationCursor(NavCursorMode mode)
+{
+	if (!_pOsgGLWidget)
+	{
+		return;
+	}
+
+	if (NavCursorMode::None == mode)
+	{
+		if (_navCursorActive)
+		{
+			_navCursorActive = false;
+			_pOsgGLWidget->setCursor(_cursorBeforeNav);
+		}
+		return;
+	}
+
+	if (!_navCursorActive)
+	{
+		_navCursorActive = true;
+		_cursorBeforeNav = _pOsgGLWidget->cursor();
+	}
+
+	CursorType cursorType = (NavCursorMode::Rotate == mode) ? CursorType::Rotate : CursorType::Pan;
+	_pOsgGLWidget->setCursor(CursorCenter::instance().getCursor(cursorType));
 }

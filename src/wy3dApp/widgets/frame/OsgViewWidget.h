@@ -28,6 +28,7 @@
 #include <osgViewer/CompositeViewer>
 #include <osgGA/TrackballManipulator>
 #include "widgets/frame/ViewWidget.h"
+#include "view/CameraManipulator3d.h"
 #include <osgQOpenGL/osgQOpenGLWidget>
 #include <osgViewer/View>
 #include <osgViewer/Viewer>
@@ -55,7 +56,12 @@ protected slots:
 	void initWindow();
 
 private:
+	void setNavigationCursor(NavCursorMode mode);
+
 	osgQOpenGLWidget* _pOsgGLWidget;
+	osg::ref_ptr<CameraManipulator3d> _pCameraManipulator;
+	bool _navCursorActive;
+	QCursor _cursorBeforeNav;
 };
 
 #endif // WY3DAPP_OSG_VIEW_WIDGET_H

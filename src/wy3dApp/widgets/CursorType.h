@@ -26,6 +26,8 @@ enum class CursorType
     Locate = 2,
     Delete = 3,
     Forbid = 4,
+    Rotate = 5,
+    Pan = 6,
 };
 
 #endif // WY3DAPP_CURSOR_TYPE_H
