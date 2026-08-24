@@ -60,11 +60,14 @@ Boolean::~Boolean()
 
 std::vector<wydb::ElementId> Boolean::getChildren() const
 {
-    std::vector<wydb::ElementId> baseChildren = __baseClass::getChildren();
     std::vector<wydb::ElementId> children;
+    std::vector<wydb::ElementId> baseChildren = __baseClass::getChildren();
     children.reserve(_tools.size() + 1 + baseChildren.size());
-    children.emplace_back(_target);
-    children.insert(children.cend(), _tools.cbegin(), _tools.cend());
+    if (!_target.isNull()) children.emplace_back(_target);
+    for (const wydb::ElementId& toolId : _tools)
+    {
+        if (!toolId.isNull()) children.emplace_back(toolId);
+    }
     children.insert(children.cend(), baseChildren.cbegin(), baseChildren.cend());
     return children;
 }

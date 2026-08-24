@@ -27,9 +27,13 @@ public:
 
     virtual std::vector<wydb::ElementId> getChildren() const override
     {
-        std::vector<wydb::ElementId> children; auto baseChildren=__baseClass::getChildren();
-        children.reserve(baseChildren.size()+2); children.emplace_back(_pathId); children.emplace_back(_profileId);
-        children.insert(children.cend(),baseChildren.cbegin(),baseChildren.cend()); return children;
+        std::vector<wydb::ElementId> children;
+        std::vector<wydb::ElementId> baseChildren = __baseClass::getChildren();
+        children.reserve(2 + baseChildren.size());
+        if (!_profileId.isNull()) children.emplace_back(_profileId);
+        if (!_pathId.isNull()) children.emplace_back(_pathId);
+        children.insert(children.cend(), baseChildren.cbegin(), baseChildren.cend());
+        return children;
     }
 
     wydb::ElementId getPath() const { return _pathId; }

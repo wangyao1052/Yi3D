@@ -38,8 +38,11 @@ public:
 
     virtual std::vector<wydb::ElementId> getChildren() const override
     {
-        std::vector<wydb::ElementId> children = __baseClass::getChildren();
-        if (!_sourceId.isNull()) children.push_back(_sourceId);
+        std::vector<wydb::ElementId> children;
+        std::vector<wydb::ElementId> baseChildren = __baseClass::getChildren();
+        children.reserve(1 + baseChildren.size());
+        if (!_sourceId.isNull()) children.emplace_back(_sourceId);
+        children.insert(children.cend(), baseChildren.cbegin(), baseChildren.cend());
         return children;
     }
 
