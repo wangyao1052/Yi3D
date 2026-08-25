@@ -24,10 +24,13 @@
 
 #include <QHBoxLayout>
 #include <QTabWidget>
+#include <QMouseEvent>
 #include <QTabBar>
 #include <QWidget>
 #include <QFileInfo>
 #include <QSignalBlocker>
+
+#include <cassert>
 
 #include <wyapDocument.h>
 #include <wyapDocManager.h>
@@ -38,7 +41,7 @@
 #include "commands/CommandNames.h"
 
 ViewWidgetContainer::ViewWidgetContainer(QWidget* parent)
-    : QWidget(parent), _pTabWidget(nullptr)
+    : QWidget(parent), _pTabWidget(nullptr), _middlePressTabIndex(-1)
 {
     QHBoxLayout* mainLayout = new QHBoxLayout();
     this->setLayout(mainLayout);
@@ -54,6 +57,7 @@ ViewWidgetContainer::ViewWidgetContainer(QWidget* parent)
     if (_pTabWidget->tabBar())
     {
         _pTabWidget->tabBar()->setDrawBase(false);
+        _pTabWidget->tabBar()->installEventFilter(this);
     }
     mainLayout->addWidget(_pTabWidget);
 
@@ -259,6 +263,47 @@ void ViewWidgetContainer::onCurrentTabChanged(int index)
             restoreActiveDocumentTab();
             return;
         }
+    }
+}
+
+bool ViewWidgetContainer::eventFilter(QObject* watched, QEvent* event)
+{
+    assert(_pTabWidget);
+    if (watched && _pTabWidget->tabBar() == watched && event)
+    {
+        QEvent::Type eventType = event->type();
+        QTabBar* pTabBar = _pTabWidget->tabBar();
+        if (QEvent::MouseButtonPress == eventType)
+        {
+            QMouseEvent* pMouseEvent = dynamic_cast<QMouseEvent*>(event);
+            if (pMouseEvent && Qt::MiddleButton == pMouseEvent->button())
+            {
+                _middlePressTabIndex = pTabBar->tabAt(pMouseEvent->pos());
+                return true;
+            }
+        }
+        else if (QEvent::MouseButtonRelease == eventType)
+        {
+            QMouseEvent* pMouseEvent = dynamic_cast<QMouseEvent*>(event);
+            if (pMouseEvent && Qt::MiddleButton == pMouseEvent->button())
+            {
+                const int pressIndex = _middlePressTabIndex;
+                _middlePressTabIndex = -1;
+                const int releaseIndex = pTabBar->tabAt(pMouseEvent->pos());
+                if (pressIndex >= 0 && pressIndex == releaseIndex)
+                {
+                    this->onTabCloseRequested(pressIndex);
+                }
+                return true;
+            }
+        }
+
+        return QWidget::eventFilter(watched, event);
+    }
+    else
+    {
+        assert(false);
+        return QWidget::eventFilter(watched, event);
     }
 }
 

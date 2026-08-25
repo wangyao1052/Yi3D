@@ -64,6 +64,9 @@ public:
     virtual void onDocumentStatusChanged(wyap::Document* pDoc, unsigned int oldStatus) override;
     virtual void onDocumentTitleUpdated(wyap::Document* pDoc) override;
 
+protected:
+    virtual bool eventFilter(QObject* watched, QEvent* event) override;
+
 private slots:
     void onCurrentTabChanged(int index);
     void onTabCloseRequested(int index);
@@ -82,6 +85,8 @@ private:
 
 private:
     QTabWidget* _pTabWidget;
+    // Tab index armed by a middle-button press on the tab bar; -1 when disarmed.
+    int _middlePressTabIndex;
     std::map<ViewWidget*, wyap::Document*> _page2Doc;
     std::map<wyap::Document*, ViewWidget*> _doc2Page;
 };
