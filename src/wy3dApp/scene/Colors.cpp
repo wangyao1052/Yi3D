@@ -18,14 +18,14 @@
 
 #include "scene/Colors.h"
 
-#define BrightGreen  osg::Vec4(0.0f, 0.85f, 0.0f, 1.0f) // 亮绿色
+#define BrightGreen  osg::Vec4(0.0f, 0.93f, 0.0f, 1.0f) // 亮绿色
 #define BrightOrange osg::Vec4(0.9f, 0.39f, 0.1f, 1.0f) // 亮橙色(CREO)
 
 // solid
 const osg::Vec4 Colors::kSolidFace(0.55f, 0.60f, 0.65f, 1.0f);           // 金属色(CREO)
 const osg::Vec4 Colors::kSolidEdge(0.0f, 0.0f, 0.0f, 1.0f);              // 黑色
-const osg::Vec4 Colors::kSolidFace_Highlight(0.0f, 0.665f, 0.0f, 1.0f);  // 深绿色(CREO)
-const osg::Vec4 Colors::kSolidEdge_Highlight(0.0f, 0.85f, 0.0f, 1.0f); // 亮绿色
+const osg::Vec4 Colors::kSolidFace_Highlight(0.0f, 0.60f, 0.0f, 1.0f);  // 深绿色(CREO)
+const osg::Vec4 Colors::kSolidEdge_Highlight(0.0f, 0.93f, 0.0f, 1.0f); // 亮绿色
 const osg::Vec4 Colors::kSolidFace_Preview(0.70f, 0.43f, 0.29f, 1.0f);   // 暗橙色
 const osg::Vec4 Colors::kSolidEdge_Preview(0.30f, 0.20f, 0.10f, 1.0f);   // 根据DeepSeek的建议改为深棕色
 
@@ -71,8 +71,8 @@ const osg::Vec4 Colors::kDatumPlaneEdge_Preview = kSketch_Preview;
 // sheet
 const osg::Vec4 Colors::kSheetFace(0.42f, 0.56f, 0.80f, 1.0f);              // 浅蓝色
 const osg::Vec4 Colors::kSheetEdge(0.20f, 0.35f, 0.55f, 1.0f);              // 深蓝色
-const osg::Vec4 Colors::kSheetFace_Highlight(0.0f, 0.665f, 0.0f, 1.0f);     // 深绿色(同Solid)
-const osg::Vec4 Colors::kSheetEdge_Highlight(0.0f, 0.85f, 0.0f, 1.0f);      // 亮绿色(同Solid)
+const osg::Vec4 Colors::kSheetFace_Highlight(0.0f, 0.60f, 0.0f, 1.0f);     // 深绿色(同Solid)
+const osg::Vec4 Colors::kSheetEdge_Highlight(0.0f, 0.93f, 0.0f, 1.0f);      // 亮绿色(同Solid)
 const osg::Vec4 Colors::kSheetFace_Preview(0.70f, 0.43f, 0.29f, 1.0f);      // 暗橙色(同Solid)
 const osg::Vec4 Colors::kSheetEdge_Preview(0.30f, 0.20f, 0.10f, 1.0f);      // 深棕色(同Solid)
 

@@ -750,7 +750,8 @@ void SheetElementNode::previewImpl(bool flag)
 
     if (_edgeGeom)
     {
-        OsgUtils::setNodeColor(_edgeGeom, flag ? Colors::kSheetEdge_Preview : this->getEdgeDefaultColor());
+        // 线框模式下无面可见，边改用亮橙色与黑色线框区分
+        OsgUtils::setNodeColor(_edgeGeom, flag ? (this->_wireframe ? Colors::kEdge_Preview : Colors::kSheetEdge_Preview) : this->getEdgeDefaultColor());
 
         if (flag)
         {

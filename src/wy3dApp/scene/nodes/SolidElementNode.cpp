@@ -807,7 +807,8 @@ void SolidElementNode::previewImpl(bool flag)
     // 边
     if (_edgeGeom)
     {
-        OsgUtils::setNodeColor(_edgeGeom, flag ? Colors::kSolidEdge_Preview : this->getEdgeDefaultColor());
+        // 线框模式下无面可见，边改用亮橙色与黑色线框区分
+        OsgUtils::setNodeColor(_edgeGeom, flag ? (this->_wireframe ? Colors::kEdge_Preview : Colors::kSolidEdge_Preview) : this->getEdgeDefaultColor());
 
         // 预览时关闭深度测试使边线始终可见
         if (flag)
