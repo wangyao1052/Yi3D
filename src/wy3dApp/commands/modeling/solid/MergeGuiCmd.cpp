@@ -146,25 +146,13 @@ wyap::CmdExecution::StartResult MergeGuiCmd::onStart()
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
-void MergeGuiCmd::onEnd()
-{
-    // 基类
-    __baseClass::onEnd();
 
-}
-void MergeGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
-{
-    // 基类
-    __baseClass::onAbort(cause);
-
-}
-
-void MergeGuiCmd::reset()
+void MergeGuiCmd::cleanup()
 {
     _step = Step::Undefined;
     _hostId = wydb::ElementId::kNull;
     _pPreview = nullptr;
-    _pSelSetHighlightor->clearSelections();
+    _pSelSetHighlightor = nullptr;
 }
 
 bool MergeGuiCmd::finishStep(Step step)

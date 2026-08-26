@@ -33,8 +33,7 @@ public:
 
 protected:
     virtual wyap::CmdExecution::StartResult onStart() override;
-    virtual void onEnd() override;
-    virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
+    virtual void cleanup() override;
 
 protected:
     enum class Step
@@ -43,7 +42,6 @@ protected:
         SelectHost = 1,
         SelectMembers = 2,
     };
-    virtual void reset();
     bool finishStep(Step step);
     void gotoStep(Step step);
 
