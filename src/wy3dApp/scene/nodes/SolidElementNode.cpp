@@ -192,13 +192,18 @@ void SolidElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Eleme
     {
         _edgeGeom = this->generateEdgeGeom(pElem->getId());
         osg::ref_ptr<osg::MatrixTransform> pMatrixTransform = new osg::MatrixTransform(_matrix);
-        pMatrixTransform->addChild(_edgeGeom);
+        // 用一层普通Group包裹边几何,显示模式切换在该Group上挂SkipRenderCallback隐藏边
+        _edgeWrap = new osg::Group;
+        _edgeWrap->addChild(_edgeGeom);
+        pMatrixTransform->addChild(_edgeWrap);
         _edgeNode = pMatrixTransform;
         _osgNode->addChild(_edgeNode);
     }
 
-    // 同步线框模式
-    this->setWireframe(pScene->getDisplayMode() == Scene::DisplayMode::Wireframe);
+    // 同步显示模式
+    Scene::DisplayMode mode = pScene->getDisplayMode();
+    this->setWireframe(mode == Scene::DisplayMode::Wireframe);
+    this->setEdgesVisible(mode != Scene::DisplayMode::Shaded);
 }
 
 void SolidElementNode::generateRenderObjectFinished(const wydb::Element* pElem)
@@ -212,6 +217,16 @@ void SolidElementNode::setWireframe(bool flag)
     if (_shapeNode)
     {
         _shapeNode->setNodeMask(flag ? 0 : static_cast<unsigned int>(getNodeType()));
+    }
+}
+
+void SolidElementNode::setEdgesVisible(bool flag)
+{
+    _showEdges = flag;
+    // 隐藏边时在包裹Group上挂回调跳过渲染遍历，拾取遍历不受影响，边仍可选中
+    if (_edgeWrap)
+    {
+        _edgeWrap->setCullCallback(flag ? nullptr : new OsgUtils::SkipRenderCallback());
     }
 }
 

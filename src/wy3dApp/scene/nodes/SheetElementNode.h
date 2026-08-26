@@ -109,6 +109,9 @@ public:
     void setWireframe(bool flag);
     bool isWireframe() const { return _wireframe; }
 
+    void setEdgesVisible(bool flag);
+    bool isEdgesVisible() const { return _showEdges; }
+
 protected:
     virtual bool pickByNormalBoxImpl(osg::Polytope& polytope) const override;
     virtual bool transform(wydb::Database* pDb) override;
@@ -137,6 +140,7 @@ protected:
         _shapeGeom = nullptr;
         _nobatchShapeGeom = nullptr;
         _edgeNode = nullptr;
+        _edgeWrap = nullptr;
         _edgeGeom = nullptr;
         _edgeGeomHighlight = nullptr;
         _edgeGeomPreview = nullptr;
@@ -199,12 +203,15 @@ private:
     osg::Vec4 _sheetFaceColor;
     unsigned int _flags;
     bool _wireframe = false;
+    // 边是否可见
+    bool _showEdges = true;
 
     osg::ref_ptr<osg::Group> _shapeNode;
     osg::ref_ptr<osg::Geometry> _shapeGeom;
     osg::ref_ptr<osg::Geometry> _nobatchShapeGeom;
 
     osg::ref_ptr<osg::Group> _edgeNode;
+    osg::ref_ptr<osg::Group> _edgeWrap;
     osg::ref_ptr<osg::Geometry> _edgeGeom;
     osg::ref_ptr<osg::Geometry> _edgeGeomHighlight;
     osg::ref_ptr<osg::Geometry> _edgeGeomPreview;

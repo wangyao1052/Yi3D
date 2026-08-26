@@ -36,6 +36,7 @@ DEFINE_SIMPLE_CMD(OrientToSketchCommand)
 DEFINE_SIMPLE_CMD(ViewNormalToCommand)
 
 // 显示模式
+DEFINE_SIMPLE_CMD(ShadedWithEdgesDisplayCommand)
 DEFINE_SIMPLE_CMD(ShadedDisplayCommand)
 DEFINE_SIMPLE_CMD(WireframeDisplayCommand)
 

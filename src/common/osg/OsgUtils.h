@@ -19,6 +19,7 @@
 #pragma once
 
 #include <osg/Node>
+#include <osg/NodeCallback>
 #include <osg/ShapeDrawable>
 #include <osgText/Text>
 #include <TopoDS_Shape.hxx>
@@ -77,4 +78,20 @@ public:
 	// 抬头显示文本
 	static osg::Camera* create_HUDTexts();
 	static osg::Camera* create_LeftTopHUDTexts(osg::View* view);
+
+    // 渲染时跳过该节点及其子树(cull)，拾取等其他遍历(IntersectionVisitor不咨询cull回调)仍正常访问
+    // 用于"着色无边框"模式下隐藏边但保持边可拾取
+    // 必须挂在Group等Node节点上:CullVisitor的Node路径(handle_cull_callbacks_and_traverse)不traverse即不渲染,
+    // 已用探针验证;本OSG fork中Drawable路径的cull回调行为不可见,不要挂在Geometry上
+    class SkipRenderCallback : public osg::NodeCallback
+    {
+    public:
+        virtual bool run(osg::Object* object, osg::Object* data) override
+        {
+            osg::NodeVisitor* nv = dynamic_cast<osg::NodeVisitor*>(data);
+            if (nv && nv->getVisitorType() == osg::NodeVisitor::CULL_VISITOR)
+                return true; // 不traverse → 不渲染
+            return traverse(object, data);
+        }
+    };
 };

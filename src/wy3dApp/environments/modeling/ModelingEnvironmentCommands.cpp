@@ -147,6 +147,7 @@
     X(CommandNames::ViewNormalTo, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ViewNormalToCommand::classInfo()) \
     X(CommandNames::OrthoCamera, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, OrthoCameraCommand::classInfo()) \
     X(CommandNames::PerspectiveCamera, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, PerspectiveCameraCommand::classInfo()) \
+    X(CommandNames::ShadedWithEdgesDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShadedWithEdgesDisplayCommand::classInfo()) \
     X(CommandNames::ShadedDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShadedDisplayCommand::classInfo()) \
     X(CommandNames::WireframeDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, WireframeDisplayCommand::classInfo()) \
     X(CommandNames::EditSketch, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, EditSketchCommand::classInfo()) \

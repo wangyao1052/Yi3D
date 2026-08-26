@@ -405,13 +405,17 @@ void EnvironmentBase::syncDisplayModeAction()
     if (!pScene) return;
 
     CommandAction* pAction = nullptr;
-    if (pScene->getDisplayMode() == Scene::DisplayMode::Wireframe)
+    switch (pScene->getDisplayMode())
     {
-        pAction = this->findCommandAction(CommandNames::WireframeDisplay);
-    }
-    else
-    {
+    case Scene::DisplayMode::ShadedWithEdges:
+        pAction = this->findCommandAction(CommandNames::ShadedWithEdgesDisplay);
+        break;
+    case Scene::DisplayMode::Shaded:
         pAction = this->findCommandAction(CommandNames::ShadedDisplay);
+        break;
+    case Scene::DisplayMode::Wireframe:
+        pAction = this->findCommandAction(CommandNames::WireframeDisplay);
+        break;
     }
     if (pAction) pAction->trigger();
 }

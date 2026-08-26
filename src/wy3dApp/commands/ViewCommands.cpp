@@ -255,6 +255,15 @@ int ViewNormalToCommand::run()
 }
 
 
+int ShadedWithEdgesDisplayCommand::run()
+{
+    Scene* pScene = Application::instance().getActiveScene();
+    if (!pScene) return -1;
+    pScene->setDisplayMode(Scene::DisplayMode::ShadedWithEdges);
+    return 0;
+}
+
+
 int ShadedDisplayCommand::run()
 {
     Scene* pScene = Application::instance().getActiveScene();

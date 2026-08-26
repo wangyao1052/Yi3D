@@ -110,6 +110,7 @@ struct ViewActions
     CommandAction* pActionTopView;
     CommandAction* pActionBottomView;
     CommandAction* pActionOrientToSketch;
+    CommandAction* pActionShadedWithEdgesDisplay;
     CommandAction* pActionShadedDisplay;
     CommandAction* pActionWireframeDisplay;
     CommandAction* pActionFindElementById;
@@ -546,6 +547,11 @@ ViewActions createViewActions(SketchEnvironment* pEnv, QActionGroup* pActionGrou
         QCoreApplication::translate("MainWindow", "Orient to Sketch"),
         QIcon(":/images/View_Normal.svg"));
 
+    actions.pActionShadedWithEdgesDisplay = pEnv->newCommandAction(
+        CommandNames::ShadedWithEdgesDisplay,
+        QCoreApplication::translate("MainWindow", "Shaded with Edges"),
+        QIcon(":/images/View_ShadedWithEdges.svg"));
+
     actions.pActionShadedDisplay = pEnv->newCommandAction(
         CommandNames::ShadedDisplay,
         QCoreApplication::translate("MainWindow", "Shaded"),
@@ -678,6 +684,7 @@ void buildViewToolBarUi(
     pToolBarView->addSeparator();
 
     std::list<QAction*> displayModeActions;
+    displayModeActions.emplace_back(actions.pActionShadedWithEdgesDisplay);
     displayModeActions.emplace_back(actions.pActionShadedDisplay);
     displayModeActions.emplace_back(actions.pActionWireframeDisplay);
 

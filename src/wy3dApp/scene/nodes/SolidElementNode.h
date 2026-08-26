@@ -122,6 +122,9 @@ public:
     void setWireframe(bool flag);
     bool isWireframe() const { return _wireframe; }
 
+    void setEdgesVisible(bool flag);
+    bool isEdgesVisible() const { return _showEdges; }
+
 protected:
     // 默认框选(完全框住才选中)
     virtual bool pickByNormalBoxImpl(osg::Polytope& polytope) const override;
@@ -155,6 +158,7 @@ protected:
         _nobatchShapeGeom = nullptr;
         // 边
         _edgeNode = nullptr;
+        _edgeWrap = nullptr;
         _edgeGeom = nullptr;
         _edgeGeomHighlight = nullptr;
         _edgeGeomPreview = nullptr;
@@ -237,6 +241,8 @@ private:
     unsigned int _flags;
     // 线框模式
     bool _wireframe = false;
+    // 边是否可见
+    bool _showEdges = true;
 
     //---------------------------------
     // 渲染对象
@@ -248,6 +254,7 @@ private:
 
     // 边
     osg::ref_ptr<osg::Group> _edgeNode;
+    osg::ref_ptr<osg::Group> _edgeWrap;
     osg::ref_ptr<osg::Geometry> _edgeGeom;
     osg::ref_ptr<osg::Geometry> _edgeGeomHighlight; // 高亮
     osg::ref_ptr<osg::Geometry> _edgeGeomPreview;   // 预览

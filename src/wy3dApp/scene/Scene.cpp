@@ -1047,12 +1047,19 @@ void Scene::setDisplayMode(DisplayMode mode)
     if (_displayMode == mode) return;
     _displayMode = mode;
     bool isWireframe = (mode == DisplayMode::Wireframe);
+    bool showEdges = (mode != DisplayMode::Shaded);
     for (auto& kvp : _id2ElemNode)
     {
         if (auto* pNode = dynamic_cast<SolidElementNode*>(kvp.second))
+        {
             pNode->setWireframe(isWireframe);
+            pNode->setEdgesVisible(showEdges);
+        }
         else if (auto* pNode = dynamic_cast<SheetElementNode*>(kvp.second))
+        {
             pNode->setWireframe(isWireframe);
+            pNode->setEdgesVisible(showEdges);
+        }
     }
 }
 

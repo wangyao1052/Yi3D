@@ -145,7 +145,7 @@ public:
     void updateDatumPlaneVisualSize(const wydb::Database* pDb, const wydb::ElementId& datumPlnId);
     
     // 显示模式
-    enum class DisplayMode { Shaded = 0, Wireframe = 1 };
+    enum class DisplayMode { ShadedWithEdges = 0, Shaded = 1, Wireframe = 2 };
     DisplayMode getDisplayMode() const { return _displayMode; }
     void setDisplayMode(DisplayMode mode);
 
@@ -289,7 +289,7 @@ private:
     RTree<unsigned int, double, 3> _rtree;
     RTree<unsigned int, double, 3> _rtreeDatum; // 基准面的空间索引树(基准面的显示大小需要随着场景大小的变化而动态变化)
     // 显示模式
-    DisplayMode _displayMode = DisplayMode::Shaded;
+    DisplayMode _displayMode = DisplayMode::ShadedWithEdges;
     // 草图环境信息
     struct SketchEnvInfo
     {
