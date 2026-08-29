@@ -279,33 +279,48 @@ wydb::ParameterValueUPtr Mirror::getParameterValue(const std::string& className,
         {
             return wydb::ParameterValue::createElementId(_source);
         }
-        if (ParamNames::MIRROR_PARAM_PLANE == paramName)
+        else if (ParamNames::MIRROR_PARAM_PLANE == paramName)
         {
             return wydb::ParameterValue::createAny(_plane);
         }
+        else
+        {
+            return nullptr;
+        }
     }
-    return __baseClass::getParameterValue(className, paramName);
+    else
+    {
+        return __baseClass::getParameterValue(className, paramName);
+    }
 }
 
 wy::ErrorStatus Mirror::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
-    if (className == Mirror::classInfo()->className()) {
+    if (className == Mirror::classInfo()->className())
+    {
         if (ParamNames::MIRROR_SOURCE == paramName)
         {
             if (!paramValue.isElementId()) return wy::ErrorStatus::InvalidInput;
             return this->setSourceId(paramValue.asElementId());
         }
-        if (ParamNames::MIRROR_PARAM_PLANE == paramName)
+        else if (ParamNames::MIRROR_PARAM_PLANE == paramName)
         {
             if (!paramValue.isAny()) return wy::ErrorStatus::InvalidInput;
             const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);
             if (!pAnyVal) return wy::ErrorStatus::InvalidInput;
-            const auto* pPlane = pAnyVal->tryGet<wy3d::SketchPlane>();
+            const wy3d::SketchPlane* pPlane = pAnyVal->tryGet<wy3d::SketchPlane>();
             if (!pPlane) return wy::ErrorStatus::InvalidInput;
             return this->setPlane(*pPlane);
         }
+        else
+        {
+            return wy::ErrorStatus::ParameterNotFound;
+        }
     }
-    return __baseClass::setParameterValue(className, paramName, paramValue);
+    else
+    {
+        return __baseClass::setParameterValue(className, paramName, paramValue);
+    }
 }
 
 bool Mirror::getFieldValue(wydb::FieldId fieldId, std::any& value)
