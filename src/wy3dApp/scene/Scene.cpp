@@ -896,13 +896,14 @@ void Scene::onDatabaseChanged(
     }
 
     // 对实体修改元素
-    for (const wydb::ElementId& id : addedSolidMods)
-    {
-        this->addElementNode(id, isInSketchEnv);
-    }
+    // 先刷新修改元素再新建新增元素,保证新增修改的节点读取到主体最新的渲染数据
     for (const wydb::ElementId& id : modifiedSolidMods)
     {
         this->modifyElementNode(id, changeInfo.details, isInSketchEnv);
+    }
+    for (const wydb::ElementId& id : addedSolidMods)
+    {
+        this->addElementNode(id, isInSketchEnv);
     }
 
     // 删除元素
