@@ -16,6 +16,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <algorithm>
+#include <cassert>
+
 #include <gp_Pln.hxx>
 #include <BRepBuilderAPI_Transform.hxx>
 
@@ -73,75 +76,169 @@ wy::ErrorStatus Mirror::create(
     const wy3d::SketchPlane& mirrorPlane,
     Mirror*& pOutMirror)
 {
-    if (!pOwner) { pOutMirror = nullptr; return wy::ErrorStatus::NullElementPointer; }
-    if (!pSource) { pSource = pOwner; }
+    pOutMirror = nullptr;
+    if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
+    if (!pOwner) return wy::ErrorStatus::NullElementPointer;
+    if (!pSource) return wy::ErrorStatus::NullElementPointer;
+
     if (pSource != pOwner)
     {
-        if (pSource->getParent() != pOwner->getId())
-        {
-            pOutMirror = nullptr;
-            return wy::ErrorStatus::InvalidInput;
-        }
+        if (pSource->getParent() != pOwner->getId()) return wy::ErrorStatus::InvalidInput;
+        if (!pSource->isCut()) return wy::ErrorStatus::InvalidInput;
     }
 
     Mirror* pMirror = new Mirror();
     wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pMirror);
-    if (wy::ErrorStatus::Ok != error) { wydb::deleteElement(pMirror); pMirror = nullptr; return error; }
+    if (wy::ErrorStatus::Ok != error)
+    {
+        wydb::deleteElement(pMirror);
+        pMirror = nullptr;
+        return error;
+    }
 
-    wydb::ElementId sourceId = (pSource == pOwner) ? wydb::ElementId::kNull : pSource->getId();
-    error = pMirror->setSourceId(sourceId); CHECK_ERROR_FOR_CREATE(error, pMirror);
-    error = pMirror->setPlane(mirrorPlane); CHECK_ERROR_FOR_CREATE(error, pMirror);
-
-    error = pOwner->addModification(pMirror); CHECK_ERROR_FOR_CREATE(error, pMirror);
+    error = pMirror->setPlane(mirrorPlane);
+    CHECK_ERROR_FOR_CREATE(error, pMirror);
+    if (pSource == pOwner)
+    {
+        error = pMirror->setSourceId(wydb::ElementId::kNull);
+        CHECK_ERROR_FOR_CREATE(error, pMirror);
+    }
+    else
+    {
+        error = pMirror->setSourceId(pSource->getId());
+        CHECK_ERROR_FOR_CREATE(error, pMirror);
+    }
+    error = pOwner->addModification(pMirror);
+    CHECK_ERROR_FOR_CREATE(error, pMirror);
 
     pOutMirror = pMirror;
     return wy::ErrorStatus::Ok;
 }
 
-bool Mirror::isValidSource(const wy3d::Solid* pSolid)
-{
-    if (!pSolid) return false;
-
-    wydb::ElementId ownerId = pSolid->getParent();
-    if (ownerId.isNull()) return true;
-
-    const wydb::Database* pDb = pSolid->getDatabase();
-    assert(pDb);
-    const wy3d::Solid* pOwnerSolid = wy3d::Solid::cast(pDb->getElement(ownerId));
-    if (!pOwnerSolid) { assert(false); return false; }
-
-    wyrx::ClassInfo* ownerClassInfo = pOwnerSolid->getClassInfo();
-    if (ownerClassInfo == wy3d::Extrusion::classInfo() ||
-        ownerClassInfo == wy3d::Revolution::classInfo() ||
-        ownerClassInfo == wy3d::Sweep::classInfo() ||
-        ownerClassInfo == wy3d::Loft::classInfo() ||
-        ownerClassInfo == wy3d::Box::classInfo() ||
-        ownerClassInfo == wy3d::Cylinder::classInfo() ||
-        ownerClassInfo == wy3d::Sphere::classInfo() ||
-        ownerClassInfo == wy3d::Cone::classInfo() ||
-        ownerClassInfo == wy3d::Torus::classInfo() ||
-        ownerClassInfo == wy3d::Tube::classInfo())
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
-
 wy::ErrorStatus Mirror::setSourceId(const wydb::ElementId& source)
 {
-    if (source == _source) return wy::ErrorStatus::Ok;
-    wy::ErrorStatus error = this->prepareForFieldChange(kMirror_source);
-    if (wy::ErrorStatus::Ok == error)
+    if (source == _source)
     {
-        _source = source;
         return wy::ErrorStatus::Ok;
+    }
+
+    wydb::ElementId parentId = this->getParent();
+    if (parentId.isNull())
+    {
+        wydb::Database* pDb = this->getDatabase();
+        if (!pDb)
+        {
+            assert(false);
+            return wy::ErrorStatus::Error;
+        }
+        const wydb::Element* pSourceElem = pDb->getElement(source);
+        if (!pSourceElem)
+        {
+            return wy::ErrorStatus::InvalidInput;
+        }
+        const wy3d::Solid* pSourceSolid = wy3d::Solid::cast(pSourceElem);
+        if (!pSourceSolid)
+        {
+            return wy::ErrorStatus::InvalidInput;
+        }
+        if (pSourceSolid->getParent().isNull())
+        {
+            return wy::ErrorStatus::InvalidInput;
+        }
+        if (!pSourceSolid->isCut())
+        {
+            return wy::ErrorStatus::InvalidInput;
+        }
+
+        wy::ErrorStatus error = this->prepareForFieldChange(kMirror_source);
+        if (wy::ErrorStatus::Ok == error)
+        {
+            _source = source;
+            return wy::ErrorStatus::Ok;
+        }
+        else
+        {
+            return error;
+        }
     }
     else
     {
-        return error;
+        if (source.isNull() || source == parentId)
+        {
+            if (wydb::ElementId::kNull == _source)
+            {
+                return wy::ErrorStatus::Ok;
+            }
+            wy::ErrorStatus error = this->prepareForFieldChange(kMirror_source);
+            if (wy::ErrorStatus::Ok == error)
+            {
+                _source = wydb::ElementId::kNull;
+                return wy::ErrorStatus::Ok;
+            }
+            else
+            {
+                return error;
+            }
+        }
+
+        wydb::Database* pDb = this->getDatabase();
+        if (!pDb)
+        {
+            assert(false);
+            return wy::ErrorStatus::Error;
+        }
+        const wy3d::Solid* pParentSolid = wy3d::Solid::cast(pDb->getElement(parentId));
+        if (!pParentSolid)
+        {
+            assert(false);
+            return wy::ErrorStatus::Error;
+        }
+        const wydb::Element* pSourceElem = pDb->getElement(source);
+        if (!pSourceElem)
+        {
+            return wy::ErrorStatus::InvalidInput;
+        }
+        const wy3d::Solid* pSourceSolid = wy3d::Solid::cast(pSourceElem);
+        if (!pSourceSolid)
+        {
+            return wy::ErrorStatus::InvalidInput;
+        }
+        if (pSourceSolid->getParent() != parentId)
+        {
+            return wy::ErrorStatus::InvalidInput;
+        }
+        if (!pSourceSolid->isCut())
+        {
+            return wy::ErrorStatus::InvalidInput;
+        }
+
+        const std::vector<wydb::ElementId>& modifications = pParentSolid->getModifications();
+        const auto selfIter = std::find(modifications.cbegin(), modifications.cend(), this->getId());
+        if (selfIter == modifications.cend())
+        {
+            assert(false);
+            return wy::ErrorStatus::Error;
+        }
+        const auto srcIter = std::find(modifications.cbegin(), modifications.cend(), source);
+        if (srcIter == modifications.cend())
+        {
+            return wy::ErrorStatus::InvalidInput;
+        }
+        if (srcIter >= selfIter)
+        {
+            return wy::ErrorStatus::InvalidInput;
+        }
+
+        wy::ErrorStatus error = this->prepareForFieldChange(kMirror_source);
+        if (wy::ErrorStatus::Ok == error)
+        {
+            _source = source;
+            return wy::ErrorStatus::Ok;
+        }
+        else
+        {
+            return error;
+        }
     }
 }
 
@@ -160,7 +257,6 @@ wy::ErrorStatus Mirror::setPlane(const wy3d::SketchPlane& plane)
     }
 }
 
-
 void Mirror::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
@@ -174,11 +270,19 @@ void Mirror::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
         pParamSchema->addParameterDefinition(def);
     }
 }
+
 wydb::ParameterValueUPtr Mirror::getParameterValue(const std::string& className, const std::string& paramName) const
 {
-    if (className == Mirror::classInfo()->className()) {
-        if (ParamNames::MIRROR_SOURCE == paramName) return wydb::ParameterValue::createInteger(_source.value());
-        if (ParamNames::MIRROR_PARAM_PLANE == paramName) return wydb::ParameterValue::createAny(_plane);
+    if (className == Mirror::classInfo()->className())
+    {
+        if (ParamNames::MIRROR_SOURCE == paramName)
+        {
+            return wydb::ParameterValue::createElementId(_source);
+        }
+        if (ParamNames::MIRROR_PARAM_PLANE == paramName)
+        {
+            return wydb::ParameterValue::createAny(_plane);
+        }
     }
     return __baseClass::getParameterValue(className, paramName);
 }
@@ -186,7 +290,11 @@ wydb::ParameterValueUPtr Mirror::getParameterValue(const std::string& className,
 wy::ErrorStatus Mirror::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == Mirror::classInfo()->className()) {
-        if (ParamNames::MIRROR_SOURCE == paramName) { assert(false); return wy::ErrorStatus::ParameterReadonly; }
+        if (ParamNames::MIRROR_SOURCE == paramName)
+        {
+            if (!paramValue.isElementId()) return wy::ErrorStatus::InvalidInput;
+            return this->setSourceId(paramValue.asElementId());
+        }
         if (ParamNames::MIRROR_PARAM_PLANE == paramName)
         {
             if (!paramValue.isAny()) return wy::ErrorStatus::InvalidInput;
@@ -286,32 +394,25 @@ void Mirror::reportDependencies(std::set<wydb::ElementId>& dependencies) const
 bool Mirror::onDependenciesErased(const std::set<wydb::ElementId>& erasedDependencies)
 {
     bool responsed = __baseClass::onDependenciesErased(erasedDependencies);
-
     if (!_source.isNull() && erasedDependencies.find(_source) != erasedDependencies.cend())
     {
         this->erase(true);
         return true;
     }
-
     return responsed;
 }
 
 std::pair<bool, TopoDS_Shape> Mirror::modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
     assert(pTopoNaming);
-
     wydb::Database* pDb = this->getDatabase();
     assert(pDb);
-    wydb::Transaction* pTrans = pDb->getTransactionManager()->getActiveTransaction();
-    assert(pTrans);
-    assert(false == pTrans->isGroup());
 
     this->clearNewFaces();
 
     TopoDS_Shape sourceShape;
     const TopoNaming* pSourceNaming = nullptr;
     bool isCut(false);
-
     if (_source.isNull())
     {
         sourceShape = shape;
@@ -321,22 +422,15 @@ std::pair<bool, TopoDS_Shape> Mirror::modifyOwnerShape(const TopoDS_Shape& shape
     else
     {
         const wy3d::Solid* pSourceSolid = wy3d::Solid::cast(pDb->getElement(_source));
-        if (!pSourceSolid)
+        if (!pSourceSolid || pSourceSolid->getParent() != this->getParent() || !pSourceSolid->isCut())
         {
             wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
                 static_cast<std::uint32_t>(ErrorCode::ELEMENT_InvalidData));
             return std::pair<bool, TopoDS_Shape>(false, shape);
         }
-        if (this->getParent() != pSourceSolid->getParent())
-        {
-            wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
-                static_cast<std::uint32_t>(ErrorCode::ELEMENT_InvalidData));
-            return std::pair<bool, TopoDS_Shape>(false, shape);
-        }
-
         sourceShape = pSourceSolid->getShape();
         pSourceNaming = pSourceSolid->getTopoNaming();
-        isCut = pSourceSolid->isCut();
+        isCut = true;
     }
     assert(pSourceNaming);
 

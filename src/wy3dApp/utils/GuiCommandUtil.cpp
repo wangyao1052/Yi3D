@@ -181,15 +181,7 @@ wydb::ElementId GuiCommandUtil::filterMirrorSourceFrom(const wyap::SelectionSet&
     {
         return wydb::ElementId::kNull;
     }
-
-    if (wy3d::Mirror::isValidSource(pSolid))
-    {
-        return pSolid->getId();
-    }
-    else
-    {
-        return wydb::ElementId::kNull;
-    }
+    return pSolid->getId();
 }
 
 const wy3d::Solid* GuiCommandUtil::autoGetSolidToCut(const wydb::Database* pDb)

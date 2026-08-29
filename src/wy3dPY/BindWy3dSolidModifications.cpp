@@ -223,8 +223,6 @@ void bindWy3dSolidModifications(py::module_& m)
         .def("getSource", &wy3d::Mirror::getSource)
         .def("getPlane", &wy3d::Mirror::getPlane)
         .def("setPlane", &wy3d::Mirror::setPlane)
-        .def_static("isValidSource", &wy3d::Mirror::isValidSource,
-            py::arg("solid"))
 
         .def_static("create",
             [](wydb::Transaction* pTrans,

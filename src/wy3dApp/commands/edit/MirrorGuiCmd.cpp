@@ -284,11 +284,8 @@ void MirrorGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
         if (!pDb) return;
         const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
         if (!pSolid) return;
-        if (wy3d::Mirror::isValidSource(pSolid))
-        {
-            _sourceId = id;
-            this->finishStep(_step);
-        }
+        _sourceId = id;
+        this->finishStep(_step);
     }
     else if (Step::SelectMirrorPlane == _step)
     {
@@ -313,7 +310,6 @@ bool MirrorGuiCmd::createMirror(
 {
     errorCode = 0;
 
-    // 镜像的源对象
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Solid* pSourceSolid = wy3d::Solid::cast(pDb->getElement(sourceId));
@@ -323,7 +319,6 @@ bool MirrorGuiCmd::createMirror(
         return false;
     }
 
-    // 镜像的主体对象
     wydb::ElementId ownerId = pSourceSolid->getParent();
     if (ownerId.isNull())
     {
@@ -331,11 +326,18 @@ bool MirrorGuiCmd::createMirror(
     }
     else
     {
-        const wy3d::Solid* pConstOwnerSolid = wy3d::Solid::cast(pDb->getElement(ownerId));
-        if (!pConstOwnerSolid)
+        if (pSourceSolid->isCut())
         {
-            assert(false);
-            return false;
+            const wy3d::Solid* pConstOwnerSolid = wy3d::Solid::cast(pDb->getElement(ownerId));
+            if (!pConstOwnerSolid)
+            {
+                assert(false);
+                return false;
+            }
+        }
+        else
+        {
+            ownerId = sourceId;
         }
     }
 

@@ -27,7 +27,6 @@ public:
         Mirror*& pOutMirror);
 
     wydb::ElementId getSource() const { return _source; }
-    static bool isValidSource(const wy3d::Solid* pSolid);
 
     const wy3d::SketchPlane& getPlane() const { return _plane; }
     wy::ErrorStatus setPlane(const wy3d::SketchPlane& plane);
