@@ -30,7 +30,8 @@
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/featureTree/FeatureTreeWidget.h"
-
+#include "commands/CommandAction.h"
+#include "commands/CommandNames.h"
 
 class SelectGuiCmdSelFilter_Modeling : public SelectFilterFunctor
 {
@@ -80,6 +81,11 @@ ModelingSelectGuiCmd::ModelingSelectGuiCmd() : SelectGuiCmd()
 
 ModelingSelectGuiCmd::~ModelingSelectGuiCmd()
 {
+}
+
+GuiCmdMenu* ModelingSelectGuiCmd::initContextMenu()
+{
+    return new ModelingSelectGuiCmdMenu(this);
 }
 
 void ModelingSelectGuiCmd::configureSelectOptions(GuiCmdSelectOptions& options)
@@ -162,4 +168,59 @@ wy::Vector3 ModelingSelectGuiCmd::computePastePosition(double x, double y,
 {
     auto ret = this->computePosition3d(x, y, getSketchPlane(), excludeIds);
     return ret.second ? ret.second->getPosition() : ret.first;
+}
+
+ModelingSelectGuiCmdMenu::ModelingSelectGuiCmdMenu(GuiCommand* pCmd)
+    : SelectGuiCmdMenu(pCmd)
+{}
+
+bool ModelingSelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
+{
+    assert(menu);
+
+    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return false;
+    }
+
+    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    bool addShowAction(false);
+    bool addHideAction(false);
+    for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        const wyap::Selection& sel = iter.current();
+        if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::Element) continue;
+        const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+        if (!pElem) continue;
+        if (pElem->isHidden())
+        {
+            addShowAction = true;
+        }
+        else
+        {
+            addHideAction = true;
+        }
+    }
+
+    if (addShowAction)
+    {
+        CommandAction* pActionShow = new CommandAction(CommandNames::Show, menu);
+        pActionShow->setText(QCoreApplication::translate("MainWindow", "Show"));
+        pActionShow->setIcon(QIcon(":/images/Edit_Show.svg"));
+        menu->addAction(pActionShow);
+    }
+
+    if (addHideAction)
+    {
+        CommandAction* pActionHide = new CommandAction(CommandNames::Hide, menu);
+        pActionHide->setText(QCoreApplication::translate("MainWindow", "Hide"));
+        pActionHide->setIcon(QIcon(":/images/Edit_Hide.svg"));
+        menu->addAction(pActionHide);
+    }
+
+    bool baseRet = SelectGuiCmdMenu::initCustomMiddleActions(menu);
+
+    return baseRet || addShowAction || addHideAction;
 }

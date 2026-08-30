@@ -41,7 +41,6 @@ protected:
 private:
     void onCopy();
     void onPaste();
-    void onFitSelection();
 };
 
 class SelectGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor

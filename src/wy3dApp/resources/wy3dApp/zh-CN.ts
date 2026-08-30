@@ -2934,31 +2934,33 @@ Do you want to save it to the original file now?
         <translation type="unfinished">正视于</translation>
     </message>
     <message>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="210"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1550"/>
         <source>Show</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="218"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1559"/>
         <source>Hide</source>
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="559"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="564"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="183"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1568"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="565"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="558"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="613"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="506"/>
         <source>Fit Selection</source>
         <translation>缩放到选择</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="577"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="576"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1611"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>

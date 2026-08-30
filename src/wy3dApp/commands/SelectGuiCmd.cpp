@@ -554,17 +554,16 @@ bool SelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
     if (!ss.isEmpty())
     {
+        CommandAction* pActionFitSelection = new CommandAction(CommandNames::FitSelection, menu);
+        pActionFitSelection->setText(QCoreApplication::translate("MainWindow", "Fit Selection"));
+        pActionFitSelection->setIcon(QIcon(":/images/View_FitSelection.svg"));
+        menu->addAction(pActionFitSelection);
+
         QAction* pActionCopy = new QAction(
             QIcon(":/images/Edit_Copy.svg"),
             QCoreApplication::translate("MainWindow", "Copy"), menu);
         menu->addAction(pActionCopy);
         connect(pActionCopy, &QAction::triggered, this, &SelectGuiCmdMenu::onCopy);
-
-        QAction* pActionFitSelection = new QAction(
-            QIcon(":/images/View_FitSelection.svg"),
-            QCoreApplication::translate("MainWindow", "Fit Selection"), menu);
-        menu->addAction(pActionFitSelection);
-        connect(pActionFitSelection, &QAction::triggered, this, &SelectGuiCmdMenu::onFitSelection);
 
         added = true;
     }
@@ -587,11 +586,6 @@ void SelectGuiCmdMenu::onCopy()
 {
     SelectGuiCmd* pCmd = dynamic_cast<SelectGuiCmd*>(_pCmd);
     if (pCmd) pCmd->copy();
-}
-
-void SelectGuiCmdMenu::onFitSelection()
-{
-    Application::instance().getCmdManager()->executeCommand(CommandNames::FitSelection);
 }
 
 void SelectGuiCmdMenu::onPaste()

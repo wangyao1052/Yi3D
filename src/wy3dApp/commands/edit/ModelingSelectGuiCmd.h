@@ -21,12 +21,24 @@
 
 #include "commands/SelectGuiCmd.h"
 
+class ModelingSelectGuiCmdMenu : public SelectGuiCmdMenu
+{
+public:
+    explicit ModelingSelectGuiCmdMenu(GuiCommand* pCmd);
+
+protected:
+    virtual bool initCustomMiddleActions(QMenu* menu) override;
+};
+
 class ModelingSelectGuiCmd : public SelectGuiCmd
 {
     WYRX_DECLARE_MEMBERS(ModelingSelectGuiCmd, ModelingSelectGuiCmd, SelectGuiCmd)
 public:
     ModelingSelectGuiCmd();
     virtual ~ModelingSelectGuiCmd();
+
+    // Context menu
+    virtual GuiCmdMenu* initContextMenu() override;
 
 protected:
     virtual void configureSelectOptions(GuiCmdSelectOptions& options) override;
