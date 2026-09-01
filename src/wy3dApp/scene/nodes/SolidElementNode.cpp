@@ -1099,6 +1099,9 @@ void SolidElementNode::previewEdge(unsigned int edgeIndex, bool flag)
         return;
     }
 
+    if (flag && _edgeInfos[edgeIndex].hasFlag(EdgeInfoFlag::Highlight))
+        return;
+
     if (flag)
     {
         osg::ref_ptr<osg::Geometry> edgeGeomPreview = this->generateEdgeGeom_Preview(edgeIndex);
