@@ -137,7 +137,7 @@ struct EditActions
 struct UtilityActions
 {
     CommandAction* pActionSetColor;
-    CommandAction* pActionMeasureDistance;
+    CommandAction* pActionMeasure;
     CommandAction* pActionRunScript;
     CommandAction* pActionFindElementById;
 };
@@ -575,9 +575,9 @@ UtilityActions createUtilityActions(ModelingEnvironment* pEnv, QActionGroup* pAc
         QIcon(":/images/Utility_SetColor.svg"),
         pActionGroup);
 
-    actions.pActionMeasureDistance = pEnv->newCommandAction(
-        CommandNames::MeasureDistance,
-        QCoreApplication::translate("MainWindow", "Measure Distance"),
+    actions.pActionMeasure = pEnv->newCommandAction(
+        CommandNames::Measure,
+        QCoreApplication::translate("MainWindow", "Measure"),
         QIcon(":/images/Utility_MeasureDistance.svg"),
         pActionGroup);
 
@@ -819,7 +819,7 @@ void buildUtilityToolBarUi(const UtilityActions& actions, QToolBar* pToolBarUtil
     assert(pToolBarUtility);
 
     pToolBarUtility->addAction(actions.pActionSetColor);
-    pToolBarUtility->addAction(actions.pActionMeasureDistance);
+    pToolBarUtility->addAction(actions.pActionMeasure);
     pToolBarUtility->addAction(actions.pActionRunScript);
     pToolBarUtility->addAction(actions.pActionFindElementById);
 }

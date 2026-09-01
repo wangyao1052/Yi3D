@@ -34,16 +34,19 @@ class LineTransient : public GuiCmdTransient
 public:
     LineTransient(
         osg::ref_ptr<osg::LineStipple> lineStipple = nullptr,
-        osg::ref_ptr<osg::LineWidth> lineWidth = nullptr);
+        osg::ref_ptr<osg::LineWidth> lineWidth = nullptr,
+        const osg::Vec4& color = osg::Vec4(0.0f, 0.0f, 0.0f, 1.0f));
     ~LineTransient();
 
     void update(const wy3d::SketchPlane& plane,
         const wy::Vector2& startPnt2d, const wy::Vector2& endPnt2d);
     void update(const wy::Vector3& pnt1, const wy::Vector3& pnt2);
+    void setColor(const osg::Vec4& color);
 
 private:
     osg::ref_ptr<osg::Geometry> _geom;
     osg::ref_ptr<osg::Vec3Array> _vertices;
+    osg::ref_ptr<osg::Vec4Array> _colors;
     osg::ref_ptr<osg::LineStipple> _lineStipple;
     osg::ref_ptr<osg::LineWidth> _lineWidth;
 };

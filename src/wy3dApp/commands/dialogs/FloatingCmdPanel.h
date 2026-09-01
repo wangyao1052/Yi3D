@@ -37,6 +37,7 @@ public:
     ~FloatingCmdPanel();
 
     void setTitle(const QString& title);
+    void setFooterVisible(bool visible);
 
     // returns the content area widget for subclasses to populate
     QWidget* contentWidget() const { return _pContent; }
@@ -69,6 +70,8 @@ private:
     QWidget* _pContent;
     QLabel* _pTitleLabel;
     QWidget* _pTitleBar;
+    QWidget* _pSeparator;
+    QWidget* _pFooter;
     QHBoxLayout* _pFooterLayout;
     QPushButton* _pOkButton;
     QPushButton* _pCancelButton;

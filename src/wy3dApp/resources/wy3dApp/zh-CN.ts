@@ -555,8 +555,8 @@ Do you want to save it to the original file now?
         <translation type="obsolete">设置颜色</translation>
     </message>
     <message>
-        <source>Measure Distance</source>
-        <translation type="obsolete">测量距离</translation>
+        <source>Measure</source>
+        <translation type="obsolete">测量</translation>
     </message>
     <message>
         <source>Line</source>
@@ -2312,12 +2312,12 @@ Do you want to save it to the original file now?
 <context>
     <name>FloatingCmdPanel</name>
     <message>
-        <location filename="../../commands/dialogs/FloatingCmdPanel.cpp" line="89"/>
+        <location filename="../../commands/dialogs/FloatingCmdPanel.cpp" line="91"/>
         <source>OK</source>
         <translation>确认</translation>
     </message>
     <message>
-        <location filename="../../commands/dialogs/FloatingCmdPanel.cpp" line="94"/>
+        <location filename="../../commands/dialogs/FloatingCmdPanel.cpp" line="96"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -3243,8 +3243,8 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="580"/>
-        <source>Measure Distance</source>
-        <translation type="unfinished">测量距离</translation>
+        <source>Measure</source>
+        <translation type="unfinished">测量</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="586"/>
@@ -3649,16 +3649,137 @@ Do you want to save it to the original file now?
     </message>
 </context>
 <context>
-    <name>MeasureDistanceGuiCmd</name>
+    <name>MeasureCmdPanel</name>
     <message>
-        <location filename="../../commands/utilities/MeasureDistanceGuiCmd.cpp" line="161"/>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="60"/>
+        <source>Measure</source>
+        <translation type="unfinished">测量</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="74"/>
+        <source>Point to Point</source>
+        <translation type="unfinished">点到点</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="75"/>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="424"/>
+        <source>Edge</source>
+        <translation type="unfinished">边</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="76"/>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="425"/>
+        <source>Face</source>
+        <translation type="unfinished">面</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="77"/>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="426"/>
+        <source>Body</source>
+        <translation type="unfinished">体</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="291"/>
+        <source>Clear Measure Results</source>
+        <translation type="unfinished">清空测量结果</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="392"/>
+        <source>Total</source>
+        <translation type="unfinished">总</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="150"/>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="409"/>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="423"/>
+        <source>Distance</source>
+        <translation type="unfinished">距离</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="160"/>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="410"/>
+        <source>Length</source>
+        <translation type="unfinished">长度</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="170"/>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="411"/>
+        <source>Area</source>
+        <translation type="unfinished">面积</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="170"/>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="412"/>
+        <source>Perimeter</source>
+        <translation type="unfinished">周长</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="181"/>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="413"/>
+        <source>Volume</source>
+        <translation type="unfinished">体积</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="181"/>
+        <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="414"/>
+        <source>Surface Area</source>
+        <translation type="unfinished">表面积</translation>
+    </message>
+</context>
+<context>
+    <name>MeasureGuiCmd</name>
+    <message>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="245"/>
         <source>Specify the start point.</source>
         <translation type="unfinished">指定起点。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureDistanceGuiCmd.cpp" line="187"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="271"/>
         <source>Specify the end point.</source>
         <translation type="unfinished">指定终点。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="473"/>
+        <source>Select an edge.</source>
+        <translation type="unfinished">选择边。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="474"/>
+        <source>Select a face.</source>
+        <translation type="unfinished">选择面。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="475"/>
+        <source>Select a body.</source>
+        <translation type="unfinished">选择体。</translation>
+    </message>
+    <message>
+        <source>Distance</source>
+        <translation type="obsolete">距离</translation>
+    </message>
+    <message>
+        <source>Length</source>
+        <translation type="obsolete">长度</translation>
+    </message>
+    <message>
+        <source>Area</source>
+        <translation type="obsolete">面积</translation>
+    </message>
+    <message>
+        <source>Perimeter</source>
+        <translation type="obsolete">周长</translation>
+    </message>
+    <message>
+        <source>Volume</source>
+        <translation type="obsolete">体积</translation>
+    </message>
+</context>
+<context>
+    <name>MeasureGuiCmdMenu</name>
+    <message>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="709"/>
+        <source>Clear Measure Results</source>
+        <translation type="unfinished">清空测量结果</translation>
     </message>
 </context>
 <context>

@@ -66,7 +66,7 @@
 #include "commands/edit/MirrorGuiCmd.h"
 #include "commands/edit/LinearPatternGuiCmd.h"
 #include "commands/edit/CircularPatternGuiCmd.h"
-#include "commands/utilities/MeasureDistanceGuiCmd.h"
+#include "commands/utilities/MeasureGuiCmd.h"
 #include "commands/utilities/SetColorGuiCmd.h"
 #include "commands/utilities/FindElementByIdCommand.h"
 #include "commands/FileCommands.h"
@@ -123,7 +123,7 @@
     X(CommandNames::LinearPattern, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, LinearPatternGuiCmd::classInfo()) \
     X(CommandNames::CircularPattern, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, CircularPatternGuiCmd::classInfo()) \
     X(CommandNames::SetColor, WYAP_CMD_MODAL, SetColorGuiCmd::classInfo()) \
-    X(CommandNames::MeasureDistance, WYAP_CMD_MODAL, MeasureDistanceGuiCmd::classInfo()) \
+    X(CommandNames::Measure, WYAP_CMD_MODAL, MeasureGuiCmd::classInfo()) \
     X(CommandNames::RunScript, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, RunScriptCommand::classInfo()) \
     X(CommandNames::FindElementById, WYAP_CMD_MODAL, FindElementByIdCommand::classInfo()) \
     X(CommandNames::Undo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, UndoCommand::classInfo()) \

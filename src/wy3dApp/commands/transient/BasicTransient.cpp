@@ -27,7 +27,8 @@
 
 LineTransient::LineTransient(
     osg::ref_ptr<osg::LineStipple> lineStipple,
-    osg::ref_ptr<osg::LineWidth> lineWidth) : _lineStipple(lineStipple), _lineWidth(lineWidth)
+    osg::ref_ptr<osg::LineWidth> lineWidth,
+    const osg::Vec4& color) : _lineStipple(lineStipple), _lineWidth(lineWidth)
 {
     _geom = new osg::Geometry();
     _geom->setDataVariance(osg::Object::DYNAMIC);
@@ -44,9 +45,9 @@ LineTransient::LineTransient(
     normals->push_back(osg::Vec3(0.0f, 0.0f, 1.0f));
     _geom->setNormalArray(normals, osg::Array::Binding::BIND_OVERALL);
     // 颜色数组
-    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(osg::Vec4(0.0f, 0.0f, 0.0f, 1.0f));
-    _geom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
+    _colors = new osg::Vec4Array();
+    _colors->push_back(color);
+    _geom->setColorArray(_colors, osg::Array::Binding::BIND_OVERALL);
     // 索引数组
     osg::ref_ptr<osg::UShortArray> indices = new osg::UShortArray();
     indices->resize(2);
@@ -89,6 +90,12 @@ void LineTransient::update(const wy::Vector3& pnt1, const wy::Vector3& pnt2)
     (*_vertices)[1].set(pnt2.x(), pnt2.y(), pnt2.z());
     _vertices->dirty();
     _geom->dirtyBound();
+}
+
+void LineTransient::setColor(const osg::Vec4& color)
+{
+    _colors->assign(_colors->size(), color);
+    _colors->dirty();
 }
 
 PointTransient::PointTransient(const wy::Vector3& pnt, const osg::Vec4& color, float pointSize)

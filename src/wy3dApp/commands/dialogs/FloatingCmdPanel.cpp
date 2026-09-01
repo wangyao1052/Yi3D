@@ -35,6 +35,8 @@ FloatingCmdPanel::FloatingCmdPanel(QWidget* parent)
     , _pContent(nullptr)
     , _pTitleLabel(nullptr)
     , _pTitleBar(nullptr)
+    , _pSeparator(nullptr)
+    , _pFooter(nullptr)
     , _pFooterLayout(nullptr)
     , _pOkButton(nullptr)
     , _pCancelButton(nullptr)
@@ -73,30 +75,30 @@ FloatingCmdPanel::FloatingCmdPanel(QWidget* parent)
     pRootLayout->addWidget(_pContent, 1);
 
     // separator line
-    QFrame* pSeparator = new QFrame(this);
-    pSeparator->setObjectName("separator");
-    pSeparator->setFixedHeight(1);
-    pSeparator->setStyleSheet("QFrame#separator{background:#c3c3c3;border:none;}");
-    pRootLayout->addWidget(pSeparator);
+    _pSeparator = new QFrame(this);
+    _pSeparator->setObjectName("separator");
+    _pSeparator->setFixedHeight(1);
+    _pSeparator->setStyleSheet("QFrame#separator{background:#c3c3c3;border:none;}");
+    pRootLayout->addWidget(_pSeparator);
 
     // footer with OK/Cancel buttons
-    QWidget* pFooter = new QWidget(this);
-    _pFooterLayout = new QHBoxLayout(pFooter);
+    _pFooter = new QWidget(this);
+    _pFooterLayout = new QHBoxLayout(_pFooter);
     _pFooterLayout->setContentsMargins(8, 8, 8, 8);
     _pFooterLayout->setSpacing(6);
     _pFooterLayout->addStretch(1);
 
-    _pOkButton = new QPushButton(tr("OK"), pFooter);
+    _pOkButton = new QPushButton(tr("OK"), _pFooter);
     _pOkButton->setObjectName("okBtn");
     _pOkButton->setFocusPolicy(Qt::NoFocus);
     _pFooterLayout->addWidget(_pOkButton);
 
-    _pCancelButton = new QPushButton(tr("Cancel"), pFooter);
+    _pCancelButton = new QPushButton(tr("Cancel"), _pFooter);
     _pCancelButton->setObjectName("cancelBtn");
     _pCancelButton->setFocusPolicy(Qt::NoFocus);
     _pFooterLayout->addWidget(_pCancelButton);
 
-    pRootLayout->addWidget(pFooter);
+    pRootLayout->addWidget(_pFooter);
 
     QObject::connect(_pOkButton, &QPushButton::clicked,
         this, &FloatingCmdPanel::onOkClicked);
@@ -131,6 +133,14 @@ void FloatingCmdPanel::setTitle(const QString& title)
 {
     if (_pTitleLabel)
         _pTitleLabel->setText(title);
+}
+
+void FloatingCmdPanel::setFooterVisible(bool visible)
+{
+    if (_pSeparator)
+        _pSeparator->setVisible(visible);
+    if (_pFooter)
+        _pFooter->setVisible(visible);
 }
 
 void FloatingCmdPanel::setTitleBarWidget(QWidget* pTitleBar)

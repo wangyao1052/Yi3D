@@ -171,7 +171,7 @@ public:
     static inline const std::string WireframeDisplay = "WireframeDisplay";
 
     // 实用工具命令
-    static inline const std::string MeasureDistance = "MeasureDistance";
+    static inline const std::string Measure = "Measure";
     static inline const std::string RunScript = "RunScript";
     static inline const std::string SetColor = "SetColor";
     static inline const std::string FindElementById = "FindElementById";
