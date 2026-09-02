@@ -1,4 +1,4 @@
-﻿import wy3d
+import wy3d
 
 # Xiaomi 15 body dimensions (mm)
 PHONE_BODY_WIDTH = 71.2

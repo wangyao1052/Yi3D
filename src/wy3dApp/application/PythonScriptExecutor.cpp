@@ -162,7 +162,7 @@ PythonScriptExecutor::Error _executePythonScript(void* hPythonLib, const std::st
             "sys.argv=[_yi3d_path]\n"
             "__main__.__dict__['__file__']=_yi3d_path\n"
             "try:\n"
-            "    with open(_yi3d_path,encoding='utf-8') as _f:\n"
+            "    with open(_yi3d_path,encoding='utf-8-sig') as _f:\n"
             "        _src=_f.read()\n"
             "    exec(compile(_src,_yi3d_path,'exec'),__main__.__dict__)\n"
             "except SystemExit as _e:\n"
