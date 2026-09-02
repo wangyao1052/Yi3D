@@ -11,7 +11,7 @@ description: 生成 YI3D Python 建模脚本，通过 IpcClient.py 传入脚本�
 2. 若 `ping` 无响应、超时或连接失败，直接启动工作目录下的 `./YI3D`（Windows 上为 `./YI3D.exe`），启动后立刻重新 `ping`；若仍失败则等待 1 秒后重试，最多重试 3 次。
 3. 连通确认后，后续命令（`NewFile`、`Undo`、`script` 等）直接发送，无需每次重新 `ping`。仅在命令返回连接失败或超时时，才回到步骤 1 重新确认连通性。
 4. 调用 `./scripts/IpcClient.py --method command --argument “NewFile”` 新建文档。
-5. 学习 `../../scripts/` 目录下的 Yi3D Python 脚本。
+5. 学习 `../../scripts/samples/` 目录下的 Yi3D Python 脚本。
 6. 生成建模脚本文件。
 7. 调用 `./scripts/IpcClient.py`，传入脚本完整路径执行建模。
 8. 读取执行结果。
@@ -36,7 +36,7 @@ description: 生成 YI3D Python 建模脚本，通过 IpcClient.py 传入脚本�
 
 ## 建模原则
 
-- 先阅读 `../../scripts/` 下与目标最接近的示例脚本，再决定建模策略，不要直接凭空假设 API。
+- 先阅读 `../../scripts/samples/` 下与目标最接近的示例脚本，再决定建模策略，不要直接凭空假设 API。
 - Sketch 图元是 2D 坐标；其在 3D 中的位置与朝向由 `SketchPlane`（`normal` + `xDir`）决定。
 - SketchPlane 必须先做右手系验算再建模：`yDir = normal × xDir`。禁止把草图 `v` 方向默认当成世界 `+Z`（或任意固定方向）。
 - 创建每一个 SketchPlane 后，必须立即计算 `yDir = normal × xDir` 并做方向断言（例如校验 `v` 方向是否与预期世界方向一致）。若断言不通过，必须直接报错并停止本次建模，禁止继续执行后续特征创建。
