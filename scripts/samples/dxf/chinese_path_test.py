@@ -11,8 +11,7 @@ import wy3d
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 dxf_path = os.path.join(script_dir, "_样例.dxf")
-sample_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(script_dir))), "samples", "dxf", "sample.dxf")
+sample_path = os.path.join(script_dir, "..", "..", "modules", "dxf", "sample.dxf")
 shutil.copyfile(sample_path, dxf_path)
 
 try:

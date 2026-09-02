@@ -10,8 +10,7 @@ import wy3d
 # the resulting database state afterwards.
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
-sample_path = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(script_dir))), "samples", "dxf", "sample.dxf")
+sample_path = os.path.join(script_dir, "..", "..", "modules", "dxf", "sample.dxf")
 
 runner_path = os.path.join(script_dir, "..", "..", "modules", "dxf", "import_sketch.py")
 params_globals = {

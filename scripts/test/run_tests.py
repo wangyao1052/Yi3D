@@ -25,7 +25,7 @@ RESET = "\033[0m"
 from run_script import run_script, kill_yi3d
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
-SCRIPTS_DIR = Path(__file__).resolve().parent
+SCRIPTS_DIR = PROJECT_DIR / "scripts" / "samples"
 OUT_DIR = PROJECT_DIR / "out"
 
 VALID_BUILDS = {"Release", "Debug", "*"}

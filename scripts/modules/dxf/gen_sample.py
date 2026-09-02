@@ -4,14 +4,14 @@ import sys
 
 import ezdxf
 
-# Generate samples/dxf/sample.dxf covering every entity type the importer
+# Generate sample.dxf covering every entity type the importer
 # supports, plus a few deliberately unsupported ones. Run with any Python
 # that has ezdxf installed:
 #   python scripts/modules/dxf/gen_sample.py [output.dxf]
+# Default output: sample.dxf in this script's directory.
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))),
-    "samples", "dxf", "sample.dxf")
+    os.path.dirname(os.path.abspath(__file__)), "sample.dxf")
 
 doc = ezdxf.new("R2010", setup=True)
 doc.layers.add("CONSTRUCTION", color=8)
