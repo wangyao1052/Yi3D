@@ -156,9 +156,12 @@ PythonScriptExecutor::Error _executePythonScript(void* hPythonLib, const std::st
         // SystemExit raised by PyRun_SimpleFileEx would terminate the whole
         // host process (embedded interpreter behavior). Re-raise it as a
         // regular RuntimeError so the executor can report the failure.
+        // Also prepend the script's directory to sys.path so sibling imports
+        // (as in a normal `python script.py` run) keep working under exec.
         std::string pathB64 = QByteArray::fromStdString(scriptFullPath).toBase64().toStdString();
-        std::string wrapper = "import sys,base64,__main__\n"
+        std::string wrapper = "import sys,base64,os,__main__\n"
             "_yi3d_path=base64.b64decode('" + pathB64 + "').decode('utf-8')\n"
+            "sys.path.insert(0, os.path.dirname(_yi3d_path))\n"
             "sys.argv=[_yi3d_path]\n"
             "__main__.__dict__['__file__']=_yi3d_path\n"
             "try:\n"
