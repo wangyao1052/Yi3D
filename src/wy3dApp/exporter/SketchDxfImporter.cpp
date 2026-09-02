@@ -38,7 +38,7 @@ bool SketchDxfImporter::performImpl(wydb::Database* pDb, const std::wstring& fil
     // The conversion script is deployed next to the executable. It owns the
     // transaction (creates the XY sketch, fills it and commits); the executor
     // aborts any leftover transaction when the script fails
-    QString scriptPath = QCoreApplication::applicationDirPath() + QStringLiteral("/scripts/dxf/import_sketch.py");
+    QString scriptPath = QCoreApplication::applicationDirPath() + QStringLiteral("/scripts/modules/dxf/import_sketch.py");
     if (!QFileInfo::exists(scriptPath))
     {
         assert(false);

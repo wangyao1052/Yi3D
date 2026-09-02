@@ -7,10 +7,10 @@ import ezdxf
 # Generate samples/dxf/sample.dxf covering every entity type the importer
 # supports, plus a few deliberately unsupported ones. Run with any Python
 # that has ezdxf installed:
-#   python scripts/dxf/gen_sample.py [output.dxf]
+#   python scripts/modules/dxf/gen_sample.py [output.dxf]
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))),
     "samples", "dxf", "sample.dxf")
 
 doc = ezdxf.new("R2010", setup=True)

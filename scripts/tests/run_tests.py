@@ -24,7 +24,7 @@ RESET = "\033[0m"
 
 from run_script import run_script, kill_yi3d
 
-PROJECT_DIR = Path(__file__).resolve().parent.parent
+PROJECT_DIR = Path(__file__).resolve().parent.parent.parent
 SCRIPTS_DIR = Path(__file__).resolve().parent
 OUT_DIR = PROJECT_DIR / "out"
 

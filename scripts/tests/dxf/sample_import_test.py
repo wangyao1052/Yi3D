@@ -1,7 +1,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "modules", "dxf"))
 
 import wy3d
 
@@ -11,9 +11,9 @@ import wy3d
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 sample_path = os.path.join(
-    os.path.dirname(os.path.dirname(script_dir)), "samples", "dxf", "sample.dxf")
+    os.path.dirname(os.path.dirname(os.path.dirname(script_dir))), "samples", "dxf", "sample.dxf")
 
-runner_path = os.path.join(script_dir, "import_sketch.py")
+runner_path = os.path.join(script_dir, "..", "..", "modules", "dxf", "import_sketch.py")
 params_globals = {
     "__file__": runner_path,
     "__yi3d_params": {"dxf_path": sample_path},

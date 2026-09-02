@@ -36,7 +36,7 @@ bool SketchDxfExporter::performImpl(const wy3d::Sketch* pSketch, const std::wstr
     }
 
     // The conversion script is deployed next to the executable
-    QString scriptPath = QCoreApplication::applicationDirPath() + QStringLiteral("/scripts/dxf/export_sketch.py");
+    QString scriptPath = QCoreApplication::applicationDirPath() + QStringLiteral("/scripts/modules/dxf/export_sketch.py");
     if (!QFileInfo::exists(scriptPath))
     {
         assert(false);
