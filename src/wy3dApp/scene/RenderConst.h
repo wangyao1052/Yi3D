@@ -29,6 +29,7 @@ public:
     static constexpr unsigned int DATUM_PLANE_LINE   = 20; // 参照面(透明)
     static constexpr unsigned int WCS                = 30; // WCS
     static constexpr unsigned int SketchEntity       = 35; // 草绘图元
+    static constexpr unsigned int SketchEntity3D     = 36; // 3D草绘图元
     static constexpr unsigned int Preview            = 40;
     static constexpr unsigned int Highlight          = 40;
     static constexpr unsigned int GuiTransientObject = 50; // 交互临时对象

@@ -21,6 +21,7 @@
 #include <cassert>
 
 #include <osg/LineWidth>
+#include <osg/StateSet>
 #include <OsgUtils.h>
 
 #include <wy3dSketchEntity3D.h>
@@ -28,6 +29,14 @@
 #include "scene/SketchEntity3DLinearization.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+
+SketchEntity3DElementNode::SketchEntity3DElementNode(const wydb::ElementId& id) : ElementNode(id)
+{
+    // Draw on top of solid faces: disable depth test and render in the entity bin
+    _osgNode->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+    _osgNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+    _osgNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchEntity3D, "RenderBin");
+}
 
 bool SketchEntity3DElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
 {
@@ -64,7 +73,6 @@ void SketchEntity3DElementNode::generateRenderObjectImpl(Scene* pScene, const wy
     {
         _curvesGeom = new osg::Geometry();
         _curvesGeom->setNodeMask(static_cast<unsigned int>(this->getNodeType()));
-        _curvesGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchElement, "RenderBin");
         {
             _curvesGeom->setUseDisplayList(false);
             _curvesGeom->setUseVertexBufferObjects(true);

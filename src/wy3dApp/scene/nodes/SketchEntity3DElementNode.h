@@ -24,7 +24,7 @@
 class SketchEntity3DElementNode : public ElementNode
 {
 public:
-    explicit SketchEntity3DElementNode(const wydb::ElementId& id) : ElementNode(id) {}
+    explicit SketchEntity3DElementNode(const wydb::ElementId& id);
 
     // 结点类型
     virtual ElementNodeType getNodeType() const override { return ElementNodeType::Sketch3DEntity; }
