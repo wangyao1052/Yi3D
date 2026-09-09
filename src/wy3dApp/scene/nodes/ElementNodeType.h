@@ -29,6 +29,8 @@ enum class ElementNodeType
     SolidModification = 0x00000010, // 实体修改
     Curve             = 0x00000020, // 曲线
     Sheet             = 0x00000040, // 曲面
+    Sketch3D          = 0x00000080, // 3D草图
+    Sketch3DEntity    = 0x00000100, // 3D草图图元
 };
 
 // 按位或(组合类型)

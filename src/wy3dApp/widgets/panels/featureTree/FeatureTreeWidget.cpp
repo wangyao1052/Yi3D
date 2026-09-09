@@ -53,6 +53,7 @@
 #include <wy3dDifference.h>
 #include <wy3dIntersection.h>
 #include <wy3dSketch.h>
+#include <wy3dSketch3D.h>
 #include <wy3dExtrusion.h>
 #include <wy3dRevolution.h>
 #include <wy3dSweep.h>
@@ -160,6 +161,7 @@ FeatureTreeWidget::FeatureTreeWidget(QWidget* parent)
     _className2DisplayName[wy3d::Intersection::className()] = tr("Intersection");
     _className2DisplayName[wy3d::DatumPlane::className()] = tr("DatumPlane");
     _className2DisplayName[wy3d::Sketch::className()] = tr("Sketch");
+    _className2DisplayName[wy3d::Sketch3D::className()] = tr("Sketch3D");
     _className2DisplayName[wy3d::Extrusion::className()] = tr("Extrusion");
     _className2DisplayName[wy3d::Revolution::className()] = tr("Revolution");
     _className2DisplayName[wy3d::Sweep::className()] = tr("Sweep");
@@ -1520,6 +1522,14 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
                 pActionViewNormalTo->setIcon(QIcon(":/images/View_Normal.svg"));
                 menu.addAction(pActionViewNormalTo);
 
+            }
+            else if (const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pElem))
+            {
+                // 编辑3D草图
+                CommandAction* pActionEditSketch3D = new CommandAction(CommandNames::EditSketch3D, &menu);
+                pActionEditSketch3D->setText(QCoreApplication::translate("MainWindow", "Edit 3D Sketch"));
+                pActionEditSketch3D->setIcon(QIcon(":/images/Edit_Sketch.svg"));
+                menu.addAction(pActionEditSketch3D);
             }
             else if (const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pElem))
             {

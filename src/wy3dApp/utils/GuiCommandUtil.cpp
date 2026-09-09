@@ -28,6 +28,7 @@
 #include <wyapSelManager.h>
 #include "application/Application.h"
 #include "environments/sketch/SketchEnvironment.h"
+#include "environments/sketch3d/Sketch3DEnvironment.h"
 #include "utils/TopoShapeUtil.h"
 
 bool GuiCommandUtil::getWorkingPlane(const wyap::Selection& sel, wy3d::SketchPlane& workPln)
@@ -233,4 +234,19 @@ GuiCmdSketchInfo GuiCommandUtil::initSketchInfo()
         info.pSketchSnapSys = pSketchEnv->getSnapSystem();
     }
     return info;
+}
+
+bool GuiCommandUtil::initSketch3DInfo(GuiCmdSketch3DInfo& info)
+{
+    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    if (Sketch3DEnvironment* pSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pEnv))
+    {
+        info.sketch3dId = pSketch3DEnv->getSketch3dId();
+        return true;
+    }
+    else
+    {
+        info.sketch3dId = wydb::ElementId::kNull;
+        return false;
+    }
 }

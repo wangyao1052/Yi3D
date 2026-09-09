@@ -24,6 +24,7 @@
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
+#include "scene/nodes/Sketch3DElementNode.h"
 #include "utils/MathUtils.h"
 
 template<typename T>
@@ -336,6 +337,52 @@ wyap::Selection _newSelection(
     }
     break;
 
+    case ElementNodeType::Sketch3D:
+    {
+        Sketch3DElementNode* pSketch3DElemNode = static_cast<Sketch3DElementNode*>(pElemNode);
+        if (!pSketch3DElemNode)
+        {
+            assert(false);
+            return wyap::Selection(wydb::ElementId::kNull);
+        }
+
+        if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SketchCurve3D))
+        {
+            unsigned int curveId = pSketch3DElemNode->getCurveId(primitiveIndex);
+            if (0 == curveId)
+            {
+                assert(false);
+                return wyap::Selection(wydb::ElementId::kNull);
+            }
+
+            return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::SketchCurve3D), id, std::to_string(curveId));
+        }
+        else if (acceptElement)
+        {
+            return wyap::Selection(id);
+        }
+        else
+        {
+            assert(false);
+            return wyap::Selection(wydb::ElementId::kNull);
+        }
+    }
+    break;
+
+    case ElementNodeType::Sketch3DEntity:
+    {
+        if (acceptElement)
+        {
+            return wyap::Selection(id);
+        }
+        else
+        {
+            assert(false);
+            return wyap::Selection(wydb::ElementId::kNull);
+        }
+    }
+    break;
+
     case ElementNodeType::DatumPlane:
     {
         if (acceptElement)
@@ -504,7 +551,8 @@ wyap::Selection PointPick::pick(
         if (!selRet.getElementId().isNull()) return selRet;
     }
     if (wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SolidEdge) ||
-        wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SketchCurve))
+        wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SketchCurve) ||
+        wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SketchCurve3D))
     {
         selRet = pointPick_PolytopeIntersector(pDb, pView, x, y, option, DrawMode::Edge);
         if (!selRet.getElementId().isNull()) return selRet;

@@ -51,6 +51,7 @@ namespace wyap
 class ElementNode;
 class OsgGizmoNode;
 class SketchEnvironment;
+class Sketch3DEnvironment;
 
 // 场景
 // 每个文档对应一个场景
@@ -259,6 +260,13 @@ private:
     // 退出草图环境
     void exitSketchEnvironment(
         SketchEnvironment* pSketchEnv,
+        wyap::Environment::ExitCode exitCode);
+
+    // 进入3D草图环境
+    void enterSketch3DEnvironment(Sketch3DEnvironment* pSketch3DEnv);
+    // 退出3D草图环境
+    void exitSketch3DEnvironment(
+        Sketch3DEnvironment* pSketch3DEnv,
         wyap::Environment::ExitCode exitCode);
 
 private:

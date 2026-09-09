@@ -34,6 +34,8 @@
 #include <wyapDocument.h>
 #include <wyapDocManager.h>
 #include <wy3dSketchEntity.h>
+#include <wy3dSketch3D.h>
+#include <wy3dSketchEntity3D.h>
 #include <wy3dDatumPlane.h>
 #include <wy3dSolidModification.h>
 #include <wy3dSelectionType.h>
@@ -54,9 +56,12 @@
 #include "gizmo/BaseGizmo.h"
 #include "gizmo/renderer/OsgGizmoRenderer.h"
 #include "scene/nodes/CurveElementNode.h"
+#include "scene/nodes/Sketch3DElementNode.h"
+#include "scene/nodes/SketchEntity3DElementNode.h"
 #include "view/OsgView.h"
 #include "snap/SnapResult.h"
 #include "environments/sketch/SketchEnvironment.h"
+#include "environments/sketch3d/Sketch3DEnvironment.h"
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
 
@@ -612,6 +617,20 @@ bool Scene::addElementNode(const wydb::ElementId& id, bool addSketchEntity)
             1.0f);
         pElemNode = new SheetElementNode(id, faceColor);
     }
+    // 3D 草图
+    else if (wy3d::Sketch3D::cast(pElem))
+    {
+        pElemNode = new Sketch3DElementNode(id);
+    }
+    // 3D 草图图元
+    else if (wy3d::SketchEntity3D::cast(pElem))
+    {
+        if (!addSketchEntity)
+        {
+            return false;
+        }
+        pElemNode = new SketchEntity3DElementNode(id);
+    }
     // 其它
     else
     {
@@ -1092,7 +1111,15 @@ void Scene::endNoBatchRender()
         }
         break;
 
+        case ElementNodeType::Sketch3D:
+        {
+            Sketch3DElementNode* pSketch3DNode = static_cast<Sketch3DElementNode*>(kvp.second);
+            pSketch3DNode->clearDynamicRenderGeometry();
+        }
+        break;
+
         case ElementNodeType::SketchEntity:
+        case ElementNodeType::Sketch3DEntity:
         case ElementNodeType::DatumPlane:
         case ElementNodeType::SolidModification:
         case ElementNodeType::Curve:
@@ -1252,6 +1279,23 @@ void Scene::onSelectionChanged(
         }
         break;
 
+        case wy3d::SelectionType::SketchCurve3D:
+        {
+            if (sel.getSubPath().empty())
+            {
+                assert(false);
+                break;
+            }
+            Sketch3DElementNode* pSketch3DElemNode = dynamic_cast<Sketch3DElementNode*>(pElemNode);
+            if (!pSketch3DElemNode)
+            {
+                assert(false);
+                break;
+            }
+            pSketch3DElemNode->highlightCurveById(std::stoul(sel.getSubPath()), false);
+        }
+        break;
+
         default:
         {
             assert(false);
@@ -1337,6 +1381,23 @@ void Scene::onSelectionChanged(
                 break;
             }
             pSketchElemNode->highlightCurveById(std::stoul(sel.getSubPath()), true);
+        }
+        break;
+
+        case wy3d::SelectionType::SketchCurve3D:
+        {
+            if (sel.getSubPath().empty())
+            {
+                assert(false);
+                break;
+            }
+            Sketch3DElementNode* pSketch3DElemNode = dynamic_cast<Sketch3DElementNode*>(pElemNode);
+            if (!pSketch3DElemNode)
+            {
+                assert(false);
+                break;
+            }
+            pSketch3DElemNode->highlightCurveById(std::stoul(sel.getSubPath()), true);
         }
         break;
 
@@ -1542,6 +1603,11 @@ void Scene::onEnvironmentEntered(wyap::Environment* pEnvironment)
     {
         this->enterSketchEnvironment(pSketchEnv);
     }
+    Sketch3DEnvironment* pSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pEnvironment);
+    if (pSketch3DEnv)
+    {
+        this->enterSketch3DEnvironment(pSketch3DEnv);
+    }
 }
 
 void Scene::onEnvironmentToBeExited(wyap::Environment* pEnvironment)
@@ -1557,6 +1623,11 @@ void Scene::onEnvironmentExited(
     if (pSketchEnv)
     {
         this->exitSketchEnvironment(pSketchEnv, exitCode);
+    }
+    Sketch3DEnvironment* pSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pEnvironment);
+    if (pSketch3DEnv)
+    {
+        this->exitSketch3DEnvironment(pSketch3DEnv, exitCode);
     }
 }
 
@@ -1675,6 +1746,96 @@ void Scene::exitSketchEnvironment(
         {
             this->addToOsgScene(pSketchOwnerElemNode);
         }
+    }
+}
+
+void Scene::enterSketch3DEnvironment(Sketch3DEnvironment* pSketch3DEnv)
+{
+    assert(pSketch3DEnv);
+    assert(!_pSketchEnvInfo);
+
+    wydb::ElementId sketchId = pSketch3DEnv->getSketch3dId();
+    ElementNode* pSketchElemNode = this->getElementNode(sketchId);
+    assert(pSketchElemNode);
+    if (pSketchElemNode)
+    {
+        this->removeFromOsgScene(pSketchElemNode);
+    }
+
+    _pSketchEnvInfo = std::make_shared<SketchEnvInfo>();
+    _pSketchEnvInfo->sketchId = sketchId;
+    _pSketchEnvInfo->pSketchElemNode = pSketchElemNode;
+
+    assert(this->getDocument());
+    wydb::Database* pDb = this->getDocument()->getDatabase();
+    assert(pDb);
+    const wydb::Element* pElem = pDb->getElement(sketchId);
+    const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pElem);
+    if (!pSketch3D)
+    {
+        assert(false);
+        return;
+    }
+    for (auto iter = pSketch3D->createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        this->addElementNode(iter.current(), true);
+    }
+}
+
+void Scene::exitSketch3DEnvironment(
+    Sketch3DEnvironment* pSketch3DEnv,
+    wyap::Environment::ExitCode exitCode)
+{
+    assert(pSketch3DEnv);
+    assert(_pSketchEnvInfo);
+
+    wydb::ElementId sketchId = pSketch3DEnv->getSketch3dId();
+    assert(sketchId == _pSketchEnvInfo->sketchId);
+    ElementNode* pSketchElemNode = this->getElementNode(sketchId);
+    // 新建3D草图
+    if (pSketch3DEnv->getOperation() == Sketch3DEnvironment::Operation::New)
+    {
+        if (wyap::Environment::ExitCode::Ok == exitCode &&
+            pSketch3DEnv->isTransactionCommited())
+        {
+            assert(pSketchElemNode);
+            assert(pSketchElemNode == _pSketchEnvInfo->pSketchElemNode);
+            if (pSketchElemNode)
+            {
+                this->addToOsgScene(pSketchElemNode);
+            }
+        }
+        else
+        {
+            assert(!pSketchElemNode);
+        }
+    }
+    // 编辑3D草图
+    else
+    {
+        assert(pSketchElemNode);
+        assert(pSketchElemNode == _pSketchEnvInfo->pSketchElemNode);
+        if (pSketchElemNode)
+        {
+            this->addToOsgScene(pSketchElemNode);
+        }
+    }
+
+    _pSketchEnvInfo = nullptr;
+
+    assert(this->getDocument());
+    wydb::Database* pDb = this->getDocument()->getDatabase();
+    assert(pDb);
+    const wydb::Element* pElem = pDb->getElement(sketchId);
+    const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pElem);
+    if (!pSketch3D)
+    {
+        assert(false);
+        return;
+    }
+    for (auto iter = pSketch3D->createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        this->removeElementNode(iter.current());
     }
 }
 

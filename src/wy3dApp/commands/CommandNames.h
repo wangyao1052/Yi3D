@@ -93,6 +93,12 @@ public:
     static inline const std::string CancelSketch = "CancelSketch";
     static inline const std::string RelocateSketchCSYS = "RelocateSketchCSYS";
 
+    // 3D草图命令
+    static inline const std::string NewSketch3D    = "NewSketch3D";
+    static inline const std::string EditSketch3D   = "EditSketch3D";
+    static inline const std::string EndSketch3D    = "EndSketch3D";
+    static inline const std::string CancelSketch3D = "CancelSketch3D";
+
     // 草绘图元命令
     static inline const std::string Point = "Point";
     static inline const std::string LineSeries = "LineSeries";
@@ -113,6 +119,10 @@ public:
     static inline const std::string EquationDrivenSpline = "EquationDrivenSpline";
     static inline const std::string StyleSpline = "StyleSpline";
     static inline const std::string SketchText = "SketchText";
+
+    // 3D草绘图元命令
+    static inline const std::string Line3D = "Line3D";
+    static inline const std::string Circle3D = "Circle3D";
 
     // 三维曲线命令
     static inline const std::string Helix = "Helix";

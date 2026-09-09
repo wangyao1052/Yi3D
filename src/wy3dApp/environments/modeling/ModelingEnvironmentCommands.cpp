@@ -60,6 +60,7 @@
 #include "commands/modeling/curves/HelixGuiCmd.h"
 #include "commands/sketch/NewSketchGuiCmd.h"
 #include "commands/sketch/SketchCommands.h"
+#include "commands/sketch3d/Sketch3DCommands.h"
 #include "commands/edit/ModelingMoveGuiCmd.h"
 #include "commands/edit/EditCommands.h"
 #include "commands/edit/ModelingRotateGuiCmd.h"
@@ -77,6 +78,7 @@
 #define WY3DAPP_MODELING_ENV_COMMAND_LIST(X) \
     X(CommandNames::Select, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ModelingSelectGuiCmd::classInfo()) \
     X(CommandNames::NewSketch, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, NewSketchGuiCmd::classInfo()) \
+    X(CommandNames::NewSketch3D, WYAP_CMD_MODAL, NewSketch3DCommand::classInfo()) \
     X(CommandNames::ParallelDatumPlane, WYAP_CMD_MODAL, ParallelDatumPlnCmd::classInfo()) \
     X(CommandNames::CoincidentDatumPlane, WYAP_CMD_MODAL, CoincidentDatumPlnCmd::classInfo()) \
     X(CommandNames::AngularDatumPlane, WYAP_CMD_MODAL, AngularDatumPlnCmd::classInfo()) \
@@ -151,6 +153,7 @@
     X(CommandNames::ShadedDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShadedDisplayCommand::classInfo()) \
     X(CommandNames::WireframeDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, WireframeDisplayCommand::classInfo()) \
     X(CommandNames::EditSketch, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, EditSketchCommand::classInfo()) \
+    X(CommandNames::EditSketch3D, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, EditSketch3DCommand::classInfo()) \
     X(CommandNames::CopyClip, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, CopyClipCommand::classInfo()) \
     X(CommandNames::PasteClip, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, PasteClipCommand::classInfo()) \
     X(CommandNames::Show, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShowCommand::classInfo()) \

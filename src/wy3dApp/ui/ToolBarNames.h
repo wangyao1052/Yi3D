@@ -36,6 +36,9 @@ namespace ToolBarNames
     inline constexpr const char* Primitive = "primitive";
     inline constexpr const char* Boolean = "boolean";
     inline constexpr const char* SketchEnvironment = "sketch-environment";
+    inline constexpr const char* Sketch3D = "sketch3d";
+    inline constexpr const char* Sketch3DEnvironment = "sketch3d-environment";
+    inline constexpr const char* Sketch3DView = "sketch3d-view";
     inline constexpr const char* Utility = "utility";
     inline constexpr const char* Test = "test";
 }

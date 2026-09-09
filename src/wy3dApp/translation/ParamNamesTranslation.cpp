@@ -50,6 +50,10 @@
 #include <wy3dSketchEllipse.h>
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchSpline.h>
+#include <wy3dSketchCurve3D.h>
+#include <wy3dSketchLine3D.h>
+#include <wy3dSketchCircle3D.h>
+#include <wy3dSketch3DParamNames.h>
 
 #include <wy3dHelix.h>
 #include <wy3dThicken.h>
@@ -320,6 +324,41 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ENTITY_ID)] = tr("ID", "wy3d::SketchEntity");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION)] = tr("Is Construction", "wy3d::SketchCurve");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_SPLINE_ORDER)] = tr("Order", "wy3d::SketchSpline");
+    }
+    // SketchCurve3D
+    {
+        const std::string& className = wy3d::SketchCurve3D::className();
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
+    }
+    // SketchLine3D
+    {
+        const std::string& className = wy3d::SketchLine3D::className();
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_X)] = tr("Start Point X", "wy3d::SketchLine3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Y)] = tr("Start Point Y", "wy3d::SketchLine3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Z)] = tr("Start Point Z", "wy3d::SketchLine3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_X)] = tr("End Point X", "wy3d::SketchLine3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_Y)] = tr("End Point Y", "wy3d::SketchLine3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_Z)] = tr("End Point Z", "wy3d::SketchLine3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_LENGTH)] = tr("Length", "wy3d::SketchLine3D");
+    }
+    // SketchCircle3D
+    {
+        const std::string& className = wy3d::SketchCircle3D::className();
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Z)] = tr("Center Point Z", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_X)] = tr("Normal X", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Y)] = tr("Normal Y", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Z)] = tr("Normal Z", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_X)] = tr("Start Direction X", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Y)] = tr("Start Direction Y", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Z)] = tr("Start Direction Z", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_RADIUS)] = tr("Radius", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_DIAMETER)] = tr("Diameter", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_PERIMETER)] = tr("Perimeter", "wy3d::SketchCircle3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_AREA)] = tr("Area", "wy3d::SketchCircle3D");
     }
     // DatumPlane
     {

@@ -42,6 +42,9 @@
 #include <wy3dSketchEllipse.h>
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchSpline.h>
+#include <wy3dSketch3D.h>
+#include <wy3dSketchLine3D.h>
+#include <wy3dSketchCircle3D.h>
 #include <wy3dHelix.h>
 #include <wy3dImportedSolid.h>
 #include <wy3dNonParametricSolid.h>
@@ -64,6 +67,9 @@
 #include "elements/SketchEllipseSnapObjectCreator.h"
 #include "elements/SketchEllipseArcSnapObjectCreator.h"
 #include "elements/SketchSplineSnapObjectCreator.h"
+#include "elements/Sketch3DSnapObjectCreator.h"
+#include "elements/SketchLine3DSnapObjectCreator.h"
+#include "elements/SketchCircle3DSnapObjectCreator.h"
 #include "elements/HelixSnapObjectCreator.h"
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
@@ -128,6 +134,11 @@ SnapObjectFactory::SnapObjectFactory()
     REGISTER_CREATOR(wy3d::SketchEllipse, SketchEllipseSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SketchEllipseArc, SketchEllipseArcSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SketchSpline, SketchSplineSnapObjectCreator);
+
+    // 3D草图相关
+    REGISTER_CREATOR(wy3d::Sketch3D, Sketch3DSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::SketchLine3D, SketchLine3DSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::SketchCircle3D, SketchCircle3DSnapObjectCreator);
 
     // 螺旋线
     REGISTER_CREATOR(wy3d::Helix, HelixSnapObjectCreator);

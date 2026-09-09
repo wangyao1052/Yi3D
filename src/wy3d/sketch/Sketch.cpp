@@ -16,6 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <cassert>
 #include <wyVector3.h>
 #include <wydbDatabase.h>
 #include <wydbFiler.h>
@@ -26,6 +27,7 @@
 #include "utils/Util.h"
 
 NS_WY3D_BEG
+
 WYDB_IMPLEMENT_MEMBERS(Sketch)
 
 BEGIN_FIELD_REGISTRATION()
@@ -49,7 +51,7 @@ wy::ErrorStatus Sketch::create(wydb::Transaction* pTrans, const wy3d::SketchPlan
     if (!pTrans)
     {
         pOut = nullptr;
-        return wy::ErrorStatus::NullDatabasePointer;
+        return wy::ErrorStatus::NullTransactionPointer;
     }
 
     Sketch* pSketch = new Sketch();

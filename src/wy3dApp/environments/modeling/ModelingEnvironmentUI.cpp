@@ -74,6 +74,7 @@ struct ModelingActions
 {
     CommandAction* pActionSelect;
     CommandAction* pActionNewSketch;
+    CommandAction* pActionNewSketch3D;
     CommandAction* pActionEditSketch;
     CommandAction* pActionParallelDatumPlane;
     CommandAction* pActionCoincidentDatumPlane;
@@ -244,6 +245,12 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
         CommandNames::NewSketch,
         QCoreApplication::translate("MainWindow", "New Sketch"),
         QIcon(":/images/Modeling_NewSketch.svg"),
+        pActionGroup);
+
+    actions.pActionNewSketch3D = pEnv->newCommandAction(
+        CommandNames::NewSketch3D,
+        QCoreApplication::translate("MainWindow", "New 3D Sketch"),
+        QIcon(":/images/Modeling_NewSketch3D.svg"),
         pActionGroup);
 
     actions.pActionEditSketch = pEnv->newCommandAction(
@@ -747,6 +754,7 @@ void buildModelingToolBarUi(
 
     pToolBarModeling->addAction(actions.pActionSelect);
     pToolBarModeling->addAction(actions.pActionNewSketch);
+    pToolBarModeling->addAction(actions.pActionNewSketch3D);
 
     std::list<QAction*> datumPlaneActions;
     datumPlaneActions.emplace_back(actions.pActionParallelDatumPlane);

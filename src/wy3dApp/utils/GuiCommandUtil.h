@@ -36,6 +36,13 @@ struct GuiCmdSketchInfo
     GuiCmdSketchInfo() : sketchPlane(), sketchId(wydb::ElementId::kNull), pSketchSnapSys(nullptr) {}
 };
 
+struct GuiCmdSketch3DInfo
+{
+    wydb::ElementId sketch3dId;
+
+    GuiCmdSketch3DInfo() : sketch3dId(wydb::ElementId::kNull) {}
+};
+
 class GuiCommandUtil
 {
 public:
@@ -59,6 +66,9 @@ public:
 
     // 初始化草图环境信息
     static GuiCmdSketchInfo initSketchInfo();
+
+    // 初始化3D草图环境信息
+    static bool initSketch3DInfo(GuiCmdSketch3DInfo& info);
 };
 
 #endif // WY3DAPP_GUI_COMMAND_UTIL_H

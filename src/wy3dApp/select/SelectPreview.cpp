@@ -24,6 +24,7 @@
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
+#include "scene/nodes/Sketch3DElementNode.h"
 
 SelectPreview::SelectPreview(const wyap::Selection& selection)
     : _selection(selection)
@@ -91,6 +92,16 @@ void SelectPreview::showSelection(const wyap::Selection& selection, bool value)
         SketchElementNode* pSketchElemNode = dynamic_cast<SketchElementNode*>(pElemNode);
         if (!pSketchElemNode) return;
         pSketchElemNode->previewCurveById(std::stoul(subPath), value);
+    }
+    break;
+
+    case wy3d::SelectionType::SketchCurve3D:
+    {
+        const std::string& subPath = selection.getSubPath();
+        if (subPath.empty()) return;
+        Sketch3DElementNode* pSketch3DElemNode = dynamic_cast<Sketch3DElementNode*>(pElemNode);
+        if (!pSketch3DElemNode) return;
+        pSketch3DElemNode->previewCurveById(std::stoul(subPath), value);
     }
     break;
 

@@ -24,6 +24,7 @@
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
+#include "scene/nodes/Sketch3DElementNode.h"
 
 SelectionSetHighlightor::SelectionSetHighlightor(const wyap::SelectionSet& ss)
     : _ss(ss), _useCustomColor(false)
@@ -146,6 +147,16 @@ void SelectionSetHighlightor::showSelection(const wyap::Selection& sel, bool val
         SketchElementNode* pSketchElemNode = dynamic_cast<SketchElementNode*>(pElemNode);
         if (!pSketchElemNode) return;
         pSketchElemNode->highlightCurveById(std::stoul(subPath), value);
+    }
+    break;
+
+    case wy3d::SelectionType::SketchCurve3D:
+    {
+        const std::string& subPath = sel.getSubPath();
+        if (subPath.empty()) return;
+        Sketch3DElementNode* pSketch3DElemNode = dynamic_cast<Sketch3DElementNode*>(pElemNode);
+        if (!pSketch3DElemNode) return;
+        pSketch3DElemNode->highlightCurveById(std::stoul(subPath), value);
     }
     break;
 

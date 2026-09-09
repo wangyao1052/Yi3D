@@ -19,6 +19,7 @@ enum class SelectionType : std::uint32_t
     SolidEdge   = 0x00000040,
     SolidVertex = 0x00000080,
     SketchCurve = 0x00000100,
+    SketchCurve3D = 0x00000200,
 };
 
 // 按位或(组合类型)

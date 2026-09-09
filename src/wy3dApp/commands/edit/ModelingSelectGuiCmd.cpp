@@ -95,7 +95,8 @@ void ModelingSelectGuiCmd::configureSelectOptions(GuiCmdSelectOptions& options)
         ElementNodeType::Sheet |
         ElementNodeType::Sketch |
         ElementNodeType::DatumPlane |
-        ElementNodeType::Curve);
+        ElementNodeType::Curve |
+        ElementNodeType::Sketch3D);
     options.filter = std::make_shared<SelectGuiCmdSelFilter_Modeling>();
 }
 

@@ -1,0 +1,32 @@
+import wy3d
+
+# 创建直线段
+def createLine3D(trans, sketch3d, startPnt, endPnt):
+    line = wy3d.SketchLine3D.create(trans, startPnt, endPnt)
+    trans.addNewlyCreatedElement(line)
+    sketch3d.addEntity(line)
+
+# 创建圆
+def createCircle3D(trans, sketch3d, center, normal, xDir, radius):
+    circle = wy3d.SketchCircle3D.create(trans, center, normal, xDir, radius)
+    trans.addNewlyCreatedElement(circle)
+    sketch3d.addEntity(circle)
+
+# 获取当前文档数据库
+db = wy3d.getActiveDatabase()
+
+# 开启事务
+trans = db.getTransactionManager().startTransaction()
+
+# 创建3D草图
+sketch3d = wy3d.Sketch3D.create(trans)
+trans.addNewlyCreatedElement(sketch3d)
+
+# 创建直线段
+createLine3D(trans, sketch3d, wy3d.Vector3(0.0, 0.0, 0.0), wy3d.Vector3(100.0, 50.0, 30.0))
+
+# 创建圆
+createCircle3D(trans, sketch3d, wy3d.Vector3(50.0, 0.0, 0.0), wy3d.Vector3(0.0, 1.0, 0.0), wy3d.Vector3(1.0, 0.0, 0.0), 25.0)
+
+# 提交事务
+db.getTransactionManager().endTransaction()
