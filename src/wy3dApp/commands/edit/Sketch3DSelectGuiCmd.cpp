@@ -36,8 +36,7 @@ Sketch3DSelectGuiCmd::~Sketch3DSelectGuiCmd()
 
 GuiCmdMenu* Sketch3DSelectGuiCmd::initContextMenu()
 {
-    // 3D草图环境不支持复制/粘贴
-    return nullptr;
+    return new GuiCmdMenu(this);
 }
 
 wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()

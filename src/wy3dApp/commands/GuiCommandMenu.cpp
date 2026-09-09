@@ -27,6 +27,7 @@
 #include "environments/EnvironmentBase.h"
 #include "scene/Scene.h"
 #include "environments/sketch/SketchEnvironment.h"
+#include "environments/sketch3d/Sketch3DEnvironment.h"
 
 namespace
 {
@@ -127,6 +128,24 @@ void GuiCmdMenu::init(QMenu* menu)
         if (CommandAction* pActionCancelSketch = findActiveEnvironmentCommandAction(CommandNames::CancelSketch))
         {
             menu->addAction(pActionCancelSketch);
+            added = true;
+        }
+
+        if (added) menu->addSeparator();
+    }
+    else if (dynamic_cast<Sketch3DEnvironment*>(pEnv))
+    {
+        bool added(false);
+
+        if (CommandAction* pActionEndSketch3D = findActiveEnvironmentCommandAction(CommandNames::EndSketch3D))
+        {
+            menu->addAction(pActionEndSketch3D);
+            added = true;
+        }
+
+        if (CommandAction* pActionCancelSketch3D = findActiveEnvironmentCommandAction(CommandNames::CancelSketch3D))
+        {
+            menu->addAction(pActionCancelSketch3D);
             added = true;
         }
 
