@@ -65,6 +65,7 @@ private:
     void tryShowPopupOnHover(double time);
     void onPopupEnterKey();
     void onPopupEscapeKey();
+    void onPopupSpaceKey();
     void simulateMouseMoveFromPopup();
 
 private:

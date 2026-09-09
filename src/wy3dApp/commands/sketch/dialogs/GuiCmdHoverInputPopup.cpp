@@ -100,6 +100,7 @@ GuiCmdHoverInputPopupBase::GuiCmdHoverInputPopupBase(QWidget* parent)
     : QWidget(parent),
     _acceptHandler(),
     _cancelHandler(),
+    _spaceKeyHandler(),
     _defaultOffset(36, 36),
     _renderAreaReentryTimer(),
     _cursorOutsideRenderArea(false)
@@ -126,6 +127,11 @@ void GuiCmdHoverInputPopupBase::setAcceptHandler(const std::function<void()>& ha
 void GuiCmdHoverInputPopupBase::setCancelHandler(const std::function<void()>& handler)
 {
     _cancelHandler = handler;
+}
+
+void GuiCmdHoverInputPopupBase::setSpaceKeyHandler(const std::function<void()>& handler)
+{
+    _spaceKeyHandler = handler;
 }
 
 void GuiCmdHoverInputPopupBase::setDefaultOffset(const QPoint& offset)
@@ -235,6 +241,31 @@ bool GuiCmdHoverInputPopupBase::eventFilter(QObject* watched, QEvent* event)
             _cursorOutsideRenderArea = true;
             _renderAreaReentryTimer.invalidate();
             this->hide();
+        }
+        break;
+    }
+
+    case QEvent::KeyPress:
+    {
+        // Numeric rows never accept a space character; drawing commands
+        // reserve the Space key (e.g. switch the working plane). Consume it
+        // here so Space keeps working while the popup has keyboard focus.
+        if (this->isVisible())
+        {
+            QLineEdit* pLineEdit = qobject_cast<QLineEdit*>(watched);
+            if (pLineEdit && this->isAncestorOf(pLineEdit))
+            {
+                QKeyEvent* pKeyEvent = static_cast<QKeyEvent*>(event);
+                if (pKeyEvent->key() == Qt::Key_Space &&
+                    pKeyEvent->modifiers() == Qt::NoModifier)
+                {
+                    if (_spaceKeyHandler)
+                    {
+                        _spaceKeyHandler();
+                    }
+                    return true;
+                }
+            }
         }
         break;
     }

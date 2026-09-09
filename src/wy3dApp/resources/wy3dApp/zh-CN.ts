@@ -5581,7 +5581,7 @@ Do you want to save it to the original file now?
 <context>
     <name>Sketch3DDrawGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="430"/>
+        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="425"/>
         <source>View Normal To Working Plane</source>
         <translation type="unfinished">正视于工作平面</translation>
     </message>
@@ -5803,7 +5803,7 @@ Do you want to save it to the original file now?
         <translation>指定半径；可直接输入具体值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="310"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="304"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -5994,12 +5994,12 @@ Do you want to save it to the original file now?
         <translation>指定终点；可直接输入长度和角度。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="293"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="294"/>
         <source>Length</source>
         <translation>长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="294"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="295"/>
         <source>Angle</source>
         <translation>角度</translation>
     </message>

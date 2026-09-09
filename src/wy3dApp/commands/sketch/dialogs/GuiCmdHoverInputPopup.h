@@ -37,6 +37,7 @@ public:
 
     void setAcceptHandler(const std::function<void()>& handler);
     void setCancelHandler(const std::function<void()>& handler);
+    void setSpaceKeyHandler(const std::function<void()>& handler);
     void setDefaultOffset(const QPoint& offset);
     void showAtGlobal(const QPoint& globalPos);
 
@@ -52,6 +53,7 @@ private:
 private:
     std::function<void()> _acceptHandler;
     std::function<void()> _cancelHandler;
+    std::function<void()> _spaceKeyHandler;
     QPoint _defaultOffset;
     QElapsedTimer _renderAreaReentryTimer;
     bool _cursorOutsideRenderArea;

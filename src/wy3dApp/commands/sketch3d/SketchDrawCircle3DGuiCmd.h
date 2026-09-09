@@ -56,7 +56,7 @@ protected:
     virtual void onMouseMove(const MouseEvent& event) override;
     virtual void onLeftMouseDown(const MouseEvent& event) override;
     void onFrame(double time) override;
-    virtual void onKeyDown(const KeyEvent& event) override;
+    virtual void onSpaceKey() override;
 
 private:
     std::set<wydb::ElementId> getSnapExcludeIds() const;
@@ -69,6 +69,7 @@ private:
     void tryShowPopupOnHover(double time);
     void onPopupEnterKey();
     void onPopupEscapeKey();
+    void onPopupSpaceKey();
     void simulateMouseMoveFromPopup();
 
 private:

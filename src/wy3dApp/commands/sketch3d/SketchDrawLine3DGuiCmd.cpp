@@ -284,6 +284,7 @@ void SketchDrawLine3DGuiCmd::initializePopups()
             pMainWindow);
         _pXYZPopup->setAcceptHandler([this]() { this->onPopupEnterKey(); });
         _pXYZPopup->setCancelHandler([this]() { this->onPopupEscapeKey(); });
+        _pXYZPopup->setSpaceKeyHandler([this]() { this->onPopupSpaceKey(); });
         _pXYZPopup->hide();
     }
 
@@ -296,6 +297,7 @@ void SketchDrawLine3DGuiCmd::initializePopups()
             pMainWindow);
         _pLengthAnglePopup->setAcceptHandler([this]() { this->onPopupEnterKey(); });
         _pLengthAnglePopup->setCancelHandler([this]() { this->onPopupEscapeKey(); });
+        _pLengthAnglePopup->setSpaceKeyHandler([this]() { this->onPopupSpaceKey(); });
         _pLengthAnglePopup->hide();
     }
 }
@@ -459,6 +461,13 @@ void SketchDrawLine3DGuiCmd::onPopupEnterKey()
 void SketchDrawLine3DGuiCmd::onPopupEscapeKey()
 {
     this->onEscapeKey();
+}
+
+void SketchDrawLine3DGuiCmd::onPopupSpaceKey()
+{
+    this->onSpaceKey();
+    this->hidePopup();
+    this->simulateMouseMoveFromPopup();
 }
 
 void SketchDrawLine3DGuiCmd::simulateMouseMoveFromPopup()

@@ -370,21 +370,16 @@ void Sketch3DDrawGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     _pWorkPlane = nullptr;
 }
 
-void Sketch3DDrawGuiCmd::onKeyDown(const KeyEvent& event)
+void Sketch3DDrawGuiCmd::onSpaceKey()
 {
-    if (KeyCode::Space == event.key)
+    if (_pWorkPlane)
     {
-        if (_pWorkPlane)
-        {
-            _pWorkPlane->switchToNext();
-        }
-        else
-        {
-            assert(false);
-        }
-        return;
+        _pWorkPlane->switchToNext();
     }
-    __baseClass::onKeyDown(event);
+    else
+    {
+        assert(false);
+    }
 }
 
 const wy3d::SketchPlane& Sketch3DDrawGuiCmd::getWorkingPlane() const

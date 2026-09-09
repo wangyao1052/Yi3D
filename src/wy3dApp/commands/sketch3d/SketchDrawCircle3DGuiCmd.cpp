@@ -195,20 +195,13 @@ void SketchDrawCircle3DGuiCmd::onFrame(double time)
     this->tryShowPopupOnHover(time);
 }
 
-void SketchDrawCircle3DGuiCmd::onKeyDown(const KeyEvent& event)
+void SketchDrawCircle3DGuiCmd::onSpaceKey()
 {
-    if (KeyCode::Space == event.key)
+    Sketch3DDrawGuiCmd::onSpaceKey();
+    if (_step == static_cast<unsigned int>(Step::SpecifyRadius) && _pMakeSketchCircle3D)
     {
-        __baseClass::onKeyDown(event);
-        if (_step == static_cast<unsigned int>(Step::SpecifyRadius) && _pMakeSketchCircle3D)
-        {
-            const wy3d::SketchPlane& plane = this->getWorkingPlane();
-            _pMakeSketchCircle3D->updatePlane(plane.getNormal(), plane.getXDir());
-        }
-    }
-    else
-    {
-        __baseClass::onKeyDown(event);
+        const wy3d::SketchPlane& plane = this->getWorkingPlane();
+        _pMakeSketchCircle3D->updatePlane(plane.getNormal(), plane.getXDir());
     }
 }
 
@@ -301,6 +294,7 @@ void SketchDrawCircle3DGuiCmd::initializePopups()
             pMainWindow);
         _pXYZPopup->setAcceptHandler([this]() { this->onPopupEnterKey(); });
         _pXYZPopup->setCancelHandler([this]() { this->onPopupEscapeKey(); });
+        _pXYZPopup->setSpaceKeyHandler([this]() { this->onPopupSpaceKey(); });
         _pXYZPopup->hide();
     }
 
@@ -312,6 +306,7 @@ void SketchDrawCircle3DGuiCmd::initializePopups()
             pMainWindow);
         _pRadiusPopup->setAcceptHandler([this]() { this->onPopupEnterKey(); });
         _pRadiusPopup->setCancelHandler([this]() { this->onPopupEscapeKey(); });
+        _pRadiusPopup->setSpaceKeyHandler([this]() { this->onPopupSpaceKey(); });
         _pRadiusPopup->hide();
     }
 }
@@ -428,6 +423,13 @@ void SketchDrawCircle3DGuiCmd::onPopupEnterKey()
 void SketchDrawCircle3DGuiCmd::onPopupEscapeKey()
 {
     this->onEscapeKey();
+}
+
+void SketchDrawCircle3DGuiCmd::onPopupSpaceKey()
+{
+    this->onSpaceKey();
+    this->hidePopup();
+    this->simulateMouseMoveFromPopup();
 }
 
 void SketchDrawCircle3DGuiCmd::simulateMouseMoveFromPopup()

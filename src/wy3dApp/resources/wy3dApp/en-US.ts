@@ -4257,7 +4257,7 @@ Do you want to save it to the original file now?
 <context>
     <name>Sketch3DDrawGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="430"/>
+        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="425"/>
         <source>View Normal To Working Plane</source>
         <translation>View Normal To Working Plane</translation>
     </message>
@@ -4415,7 +4415,7 @@ Do you want to save it to the original file now?
         <translation>Specify the radius; you can directly input the value. Press Space to switch the drawing plane.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="310"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="304"/>
         <source>Radius</source>
         <translation>Radius</translation>
     </message>
@@ -4558,12 +4558,12 @@ Do you want to save it to the original file now?
         <translation>Specify the end point; you can directly input the length and angle. Press Space to switch the drawing plane.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="293"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="294"/>
         <source>Length</source>
         <translation>Length</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="294"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="295"/>
         <source>Angle</source>
         <translation>Angle</translation>
     </message>

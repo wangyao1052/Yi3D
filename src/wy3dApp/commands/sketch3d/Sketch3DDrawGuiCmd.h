@@ -83,7 +83,8 @@ protected:
 
 protected:
 
-    virtual void onKeyDown(const KeyEvent& event) override; 
+    // Space: switch the working plane (also used when the hover popup has focus)
+    virtual void onSpaceKey() override;
 
     void moveWorkPlaneOriginTo(const wy::Vector3& pnt);
 
