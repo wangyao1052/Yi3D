@@ -36,6 +36,7 @@
 #include <wydbDatabase.h>
 #include <wyapSelection.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dDatumPlane.h>
 
 #include "SelectFilterFunctor.h"
@@ -63,9 +64,20 @@ public:
             unsigned int faceIndex = std::stoul(sel.getSubPath());
             if (faceIndex == -1) return SelectFilterStatus::Continue;
 
-            const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-            if (!pSolid) return SelectFilterStatus::Continue;
-            TopoDS_Shape shape = pSolid->getShape();
+            const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+            TopoDS_Shape shape;
+            if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+            {
+                shape = pSolid->getShape();
+            }
+            else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+            {
+                shape = pSheet->getShape();
+            }
+            else
+            {
+                return SelectFilterStatus::Continue;
+            }
             if (shape.IsNull()) return SelectFilterStatus::Continue;
 
             TopTools_IndexedMapOfShape faceMap;

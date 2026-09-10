@@ -53,6 +53,7 @@ public:
     static inline const std::string SweptSheet = "SweptSheet";
     static inline const std::string LoftedSheet = "LoftedSheet";
     static inline const std::string PlanarSheet = "PlanarSheet";
+    static inline const std::string FilledSheet = "FilledSheet";
     static inline const std::string SewnSheet = "SewnSheet";
     static inline const std::string Thicken = "Thicken";
     static inline const std::string Solidify = "Solidify";

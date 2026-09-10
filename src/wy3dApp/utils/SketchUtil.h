@@ -23,6 +23,7 @@
 #include <wyVector3.h>
 #include <wydbDatabase.h>
 #include <wy3dSketch.h>
+#include <wy3dSketch3D.h>
 
 class SketchUtil
 {
@@ -56,6 +57,13 @@ public:
     {
         return isValidProfile(sketch, error);
     }
+
+    static bool isValidProfileForFilledSheet(const wy3d::Sketch& sketch, QString& error)
+    {
+        return isValidProfile(sketch, error);
+    }
+
+    static bool isValidProfile3DForFilledSheet(const wy3d::Sketch3D& sketch3D, QString& error);
 
     static bool isValidProfileForExtrudedSheet(const wy3d::Sketch& sketch, QString& error)
     {

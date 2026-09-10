@@ -33,6 +33,7 @@
 #include "commands/modeling/solid/generation/RevolveGuiCmd.h"
 #include "commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.h"
 #include "commands/modeling/sheet/generation/PlanarSheetGuiCmd.h"
+#include "commands/modeling/sheet/generation/FilledSheetGuiCmd.h"
 #include "commands/modeling/sheet/sew/SewnSheetGuiCmd.h"
 #include "commands/modeling/sheet/generation/RevolvedSheetGuiCmd.h"
 #include "commands/modeling/sheet/generation/SweptSheetGuiCmd.h"
@@ -95,6 +96,7 @@
     X(CommandNames::SweptSheet, WYAP_CMD_MODAL, SweptSheetGuiCmd::classInfo()) \
     X(CommandNames::LoftedSheet, WYAP_CMD_MODAL, LoftedSheetGuiCmd::classInfo()) \
     X(CommandNames::PlanarSheet, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, PlanarSheetGuiCmd::classInfo()) \
+    X(CommandNames::FilledSheet, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, FilledSheetGuiCmd::classInfo()) \
     X(CommandNames::SewnSheet, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, SewnSheetGuiCmd::classInfo()) \
     X(CommandNames::Thicken, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, ThickenGuiCmd::classInfo()) \
     X(CommandNames::Solidify, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, SolidifyGuiCmd::classInfo()) \

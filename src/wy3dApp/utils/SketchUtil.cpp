@@ -26,6 +26,7 @@
 #include <wy3dSketchCenterLine.h>
 #include <wy3dSketchProfile.h>
 #include <wy3dSketchProfileForSheet.h>
+#include <wy3dSketch3DProfile.h>
 #include <wy3dSketchProfile_Revolution.h>
 #include <wy3dSketchPath.h>
 #include "translation/ErrorCodeTranslation.h"
@@ -205,6 +206,33 @@ bool SketchUtil::isValidProfile(const wy3d::Sketch& sketch, QString& error)
 
     wy3d::ErrorCode errorCode = wy3d::ErrorCode::PROFILE_InvalidProfile;
     std::shared_ptr<wy3d::SketchError> pError = sketchProfile.getError();
+    if (pError)
+    {
+        errorCode = pError->type;
+    }
+
+    error = ErrorCodeTranslation::instance().getErrorCodeDescription(errorCode);
+    if (pError && !pError->ids.empty())
+    {
+        QStringList idStrs;
+        for (const wydb::ElementId& id : pError->ids)
+        {
+            idStrs << QString::number(id.value());
+        }
+        error += "\n" + QCoreApplication::translate("SketchUtil", "Element IDs: %1")
+            .arg(idStrs.join(", "));
+    }
+
+    return false;
+}
+
+bool SketchUtil::isValidProfile3DForFilledSheet(const wy3d::Sketch3D& sketch3D, QString& error)
+{
+    wy3d::Sketch3DProfile sketch3DProfile(&sketch3D);
+    if (sketch3DProfile.check()) return true;
+
+    wy3d::ErrorCode errorCode = wy3d::ErrorCode::FILLEDSHEET_InvalidData;
+    std::shared_ptr<wy3d::SketchError> pError = sketch3DProfile.getError();
     if (pError)
     {
         errorCode = pError->type;

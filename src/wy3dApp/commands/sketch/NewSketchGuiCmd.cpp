@@ -25,18 +25,11 @@
 #include "snap/SnapSystemBase.h"
 #include <wy3dSketch.h>
 
-#include <Geom_Plane.hxx>
-#include <TopoDS_Shape.hxx>
-#include <TopoDS_Face.hxx>
-#include <TopoDS.hxx>
-#include <TopTools_IndexedMapOfShape.hxx>
-#include <TopExp.hxx>
-
 #include "application/Application.h"
 #include "snap/SketchSnapSystem.h"
 #include "select/SketchPlaneSelFilter.h"
+#include "utils/GuiCommandUtil.h"
 #include "utils/MathUtils.h"
-#include "utils/TopoShapeUtil.h"
 #include "environments/sketch/SketchEnvironment.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/Scene.h"
@@ -59,7 +52,7 @@ wyap::CmdExecution::StartResult NewSketchGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化:点选选项
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::DatumPlane);
+    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::DatumPlane | ElementNodeType::Sheet);
     _pointPickOption.selType = wy3d::SelectionType::SolidFace;
     _pointPickOption.pSelFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
 
@@ -214,7 +207,7 @@ void NewSketchGuiCmd::gotoStep(Step step)
         // 禁用输入
         // 提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("NewSketch",
-            "Select datum plane or solid surface."));
+            "Select datum plane or planar face."));
 
         // 鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);
@@ -281,49 +274,5 @@ void NewSketchGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 
 bool NewSketchGuiCmd::perform(const wyap::Selection& sel)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
-    if (!pDb)
-    {
-        assert(false);
-        return false;
-    }
-
-    if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::SolidFace)
-    {
-        if (sel.getSubPath().empty())
-        {
-            assert(false);
-            return false;
-        }
-        unsigned int faceIndex = std::stoul(sel.getSubPath());
-        if (faceIndex == -1)
-        {
-            assert(false);
-            return false;
-        }
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-        if (!pSolid)
-        {
-            assert(false);
-            return false;
-        }
-        TopoDS_Shape shape = pSolid->getShape();
-        return TopoShapeUtil::getShapeFacePlane(shape, faceIndex, _plane);
-    }
-    else if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::Element)
-    {
-        const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pDb->getElement(sel.getElementId()));
-        if (!pDatumPlane)
-        {
-            assert(false);
-            return false;
-        }
-        _plane = pDatumPlane->getPlane();
-        return true;
-    }
-    else
-    {
-        assert(false);
-        return false;
-    }
+    return GuiCommandUtil::getWorkingPlane(sel, _plane);
 }

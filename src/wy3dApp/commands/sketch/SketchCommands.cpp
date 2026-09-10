@@ -28,6 +28,7 @@
 #include <wy3dExtrusion.h>
 #include <wy3dRevolution.h>
 #include <wy3dPlanarSheet.h>
+#include <wy3dFilledSheet.h>
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
 #include <wy3dSweptSheet.h>
@@ -173,6 +174,13 @@ static bool canEndEditingSketch(const wydb::ElementId& sketchId)
     else if (const wy3d::PlanarSheet* pPlanarSheet = wy3d::PlanarSheet::cast(pSketchOwner))
     {
         if (SketchUtil::isValidProfileForPlanarSheet(*pSketch, error))
+        {
+            return true;
+        }
+    }
+    else if (const wy3d::FilledSheet* pFilledSheet = wy3d::FilledSheet::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidProfileForFilledSheet(*pSketch, error))
         {
             return true;
         }

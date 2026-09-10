@@ -81,6 +81,7 @@
 #include <wy3dNonParametricSheet.h>
 #include <wy3dNonParametricSolid.h>
 #include <wy3dPlanarSheet.h>
+#include <wy3dFilledSheet.h>
 #include <wy3dSewnSheet.h>
 #include <wy3dSolidify.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
@@ -186,6 +187,7 @@ FeatureTreeWidget::FeatureTreeWidget(QWidget* parent)
     _className2DisplayName[wy3d::NonParametricSheet::className()] = tr("NonParametric Sheet");
     _className2DisplayName[wy3d::NonParametricSolid::className()] = tr("NonParametric Solid");
     _className2DisplayName[wy3d::PlanarSheet::className()]    = tr("Planar Sheet");
+    _className2DisplayName[wy3d::FilledSheet::className()]    = tr("Filled Surface");
     _className2DisplayName[wy3d::SewnSheet::className()]      = tr("Sewn Sheet");
     _className2DisplayName[wy3d::Solidify::className()]       = tr("Solidify");
     _className2DisplayName[wy3d::OffsetSheet::className()]   = tr("Offset Sheet");

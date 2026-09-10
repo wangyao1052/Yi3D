@@ -91,6 +91,7 @@ struct ModelingActions
     CommandAction* pActionSweptSheet;
     CommandAction* pActionLoftedSheet;
     CommandAction* pActionPlanarSheet;
+    CommandAction* pActionFilledSheet;
     CommandAction* pActionSewnSheet;
     CommandAction* pActionThicken;
     CommandAction* pActionSolidify;
@@ -346,6 +347,12 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
     actions.pActionPlanarSheet = pEnv->newCommandAction(
         CommandNames::PlanarSheet,
         QCoreApplication::translate("MainWindow", "Planar Sheet"),
+        QIcon(),
+        pActionGroup);
+
+    actions.pActionFilledSheet = pEnv->newCommandAction(
+        CommandNames::FilledSheet,
+        QCoreApplication::translate("MainWindow", "Filled Surface"),
         QIcon(),
         pActionGroup);
 
@@ -723,6 +730,7 @@ void buildSheetMenuUi(
     pMenuSheet->addAction(actions.pActionSweptSheet);
     pMenuSheet->addAction(actions.pActionLoftedSheet);
     pMenuSheet->addAction(actions.pActionPlanarSheet);
+    pMenuSheet->addAction(actions.pActionFilledSheet);
     pMenuSheet->addAction(actions.pActionSewnSheet);
     pMenuSheet->addSeparator();
     pMenuSheet->addAction(actions.pActionOffsetSheet);

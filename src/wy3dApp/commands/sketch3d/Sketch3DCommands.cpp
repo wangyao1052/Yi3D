@@ -25,9 +25,12 @@
 #include <wyapSelection.h>
 #include <wyapEnvManager.h>
 #include <wy3dSketch3D.h>
+#include <wy3dFilledSheet.h>
 
 #include "application/Application.h"
 #include "environments/sketch3d/Sketch3DEnvironment.h"
+#include "utils/SketchUtil.h"
+#include "utils/MessageBoxUtil.h"
 
 int NewSketch3DCommand::run()
 {
@@ -92,6 +95,58 @@ int EditSketch3DCommand::run()
     return 0;
 }
 
+// A consumed 3D sketch stays editable; check at End time that it is still a
+// valid profile for its owner feature
+static bool canEndEditingSketch3D(const wydb::ElementId& sketch3dId)
+{
+    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return true;
+    }
+    const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pDb->getElement(sketch3dId));
+    if (!pSketch3D)
+    {
+        assert(false);
+        return true;
+    }
+
+    // A free sketch (no owner) can be drawn freely
+    wydb::ElementId sketchOwnerId = pSketch3D->getParent();
+    if (sketchOwnerId.isNull())
+    {
+        return true;
+    }
+
+    const wydb::Element* pSketchOwner = pDb->getElement(sketchOwnerId);
+    if (!pSketchOwner)
+    {
+        assert(false);
+        return true;
+    }
+
+    QString error;
+    if (const wy3d::FilledSheet* pFilledSheet = wy3d::FilledSheet::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidProfile3DForFilledSheet(*pSketch3D, error))
+        {
+            return true;
+        }
+    }
+    else
+    {
+        assert(false);
+        return true;
+    }
+
+    if (!error.isEmpty())
+    {
+        MessageBoxUtil::showWarning(error);
+    }
+    return false;
+}
+
 int EndSketch3DCommand::run()
 {
     wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
@@ -100,6 +155,16 @@ int EndSketch3DCommand::run()
     {
         assert(false);
         return -1;
+    }
+
+    // 编辑3D草图
+    if (pSketch3DEnv->getOperation() == Sketch3DEnvironment::Operation::Edit)
+    {
+        wydb::ElementId sketch3dId = pSketch3DEnv->getSketch3dId();
+        if (!canEndEditingSketch3D(sketch3dId))
+        {
+            return 0;
+        }
     }
 
     // 退出3D草图环境

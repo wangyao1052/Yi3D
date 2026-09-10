@@ -79,6 +79,7 @@
 #include <wy3dThicken.h>
 #include <wy3dOffsetSheet.h>
 #include <wy3dPlanarSheet.h>
+#include <wy3dFilledSheet.h>
 #include <wy3dSewnSheet.h>
 #include <wy3dNonParametricSheet.h>
 #define REGISTER_CREATOR(CLASS, SNAP_OBJ_CREATOR) \
@@ -150,6 +151,7 @@ SnapObjectFactory::SnapObjectFactory()
     REGISTER_CREATOR(wy3d::LoftedSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::OffsetSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::PlanarSheet, TopoShapeSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::FilledSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SewnSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::NonParametricSheet, TopoShapeSnapObjectCreator);
 }

@@ -179,6 +179,14 @@ ErrorCodeTranslation::ErrorCodeTranslation(QObject* parent) : QObject(parent)
     _code2Desc[TOUINT(wy3d::ErrorCode::LOFTSHEET_GenerateError)] = tr(
         "Generate lofted sheet failed!");
 
+    // FilledSheet
+    _code2Desc[TOUINT(wy3d::ErrorCode::FILLEDSHEET_InvalidData)] = tr(
+        "Invalid filled sheet data!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::FILLEDSHEET_GenerateError)] = tr(
+        "Generate filled surface failed!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::FILLEDSHEET_EdgesNotClosed)] = tr(
+        "The sketch curves must form a single closed loop!");
+
     // Helix
     _code2Desc[TOUINT(wy3d::ErrorCode::HELIX_InvalidData)] = tr(
         "Invalid helix data!");
