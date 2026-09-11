@@ -55,6 +55,8 @@ struct Sketch3DActions
     CommandAction* pActionSelect;
     CommandAction* pActionDrawLine3D;
     CommandAction* pActionDrawCircle3D;
+    CommandAction* pActionDrawArc3D;
+    CommandAction* pActionDrawArcBy3Points3D;
 };
 
 struct Sketch3DEnvironmentActions
@@ -161,6 +163,26 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     if (actions.pActionDrawCircle3D)
     {
         actions.pActionDrawCircle3D->setShortcut(QKeySequence(Qt::Key_C));
+    }
+
+    actions.pActionDrawArc3D = pEnv->newCommandAction(
+        CommandNames::Arc3D,
+        QCoreApplication::translate("MainWindow", "Arc 3D"),
+        QIcon(":/images/Sketch_DrawArc.svg"),
+        pActionGroup);
+    if (actions.pActionDrawArc3D)
+    {
+        actions.pActionDrawArc3D->setShortcut(QKeySequence(Qt::Key_A));
+    }
+
+    actions.pActionDrawArcBy3Points3D = pEnv->newCommandAction(
+        CommandNames::ArcBy3Points3D,
+        QCoreApplication::translate("MainWindow", "Arc by 3 Points 3D"),
+        QIcon(":/images/Sketch_DrawArcBy3Points.svg"),
+        pActionGroup);
+    if (actions.pActionDrawArcBy3Points3D)
+    {
+        actions.pActionDrawArcBy3Points3D->setShortcut(QKeySequence(Qt::Key_D));
     }
 
     return actions;
@@ -279,6 +301,8 @@ void buildSketch3DToolBarUi(
     pToolBarSketch3D->addAction(actions.pActionSelect);
     pToolBarSketch3D->addAction(actions.pActionDrawLine3D);
     pToolBarSketch3D->addAction(actions.pActionDrawCircle3D);
+    pToolBarSketch3D->addAction(actions.pActionDrawArc3D);
+    pToolBarSketch3D->addAction(actions.pActionDrawArcBy3Points3D);
 }
 
 void buildSketch3DEnvironmentToolBarUi(

@@ -26,6 +26,7 @@
 #include <wy3dSketchCurve3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
+#include <wy3dSketchArc3D.h>
 #include <cstdint>
 
 namespace py = pybind11;
@@ -136,5 +137,40 @@ void bindWy3dSketch3D(py::module_& m)
             py::arg("normal"),
             py::arg("xDir"),
             py::arg("radius"),
+            py::return_value_policy::reference);
+
+    py::class_<wy3d::SketchArc3D, wy3d::SketchCurve3D, std::unique_ptr<wy3d::SketchArc3D, py::nodelete>>(m, "SketchArc3D")
+        .def("getCenter", &wy3d::SketchArc3D::getCenter)
+        .def("setCenter", &wy3d::SketchArc3D::setCenter)
+        .def("getNormal", &wy3d::SketchArc3D::getNormal)
+        .def("getXDir", &wy3d::SketchArc3D::getXDir)
+        .def("getRadius", &wy3d::SketchArc3D::getRadius)
+        .def("setRadius", &wy3d::SketchArc3D::setRadius)
+        .def("getStartAngle", &wy3d::SketchArc3D::getStartAngle)
+        .def("setStartAngle", &wy3d::SketchArc3D::setStartAngle)
+        .def("getEndAngle", &wy3d::SketchArc3D::getEndAngle)
+        .def("setEndAngle", &wy3d::SketchArc3D::setEndAngle)
+        .def("getTotalAngle", &wy3d::SketchArc3D::getTotalAngle)
+        .def("getStartPoint", &wy3d::SketchArc3D::getStartPoint)
+        .def("getEndPoint", &wy3d::SketchArc3D::getEndPoint)
+        .def("getMiddlePoint", &wy3d::SketchArc3D::getMiddlePoint)
+        .def("getPointAt", &wy3d::SketchArc3D::getPointAt, py::arg("t"), py::arg("clamp") = true)
+        .def("getLength", &wy3d::SketchArc3D::getLength)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans, const wy::Vector3& center, const wy::Vector3& normal, const wy::Vector3& xDir,
+                double radius, double startAngle, double endAngle) -> wy3d::SketchArc3D*
+            {
+                wy3d::SketchArc3D* pOutSketchArc3D = nullptr;
+                wy::ErrorStatus status = wy3d::SketchArc3D::create(pTrans, center, normal, xDir, radius, startAngle, endAngle, pOutSketchArc3D);
+                return pOutSketchArc3D;
+            },
+            py::arg("transaction"),
+            py::arg("center"),
+            py::arg("normal"),
+            py::arg("xDir"),
+            py::arg("radius"),
+            py::arg("startAngle"),
+            py::arg("endAngle"),
             py::return_value_policy::reference);
 }

@@ -1356,7 +1356,7 @@ Do you want to save it to the original file now?
 <context>
     <name>FilledSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="220"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="216"/>
         <source>Select a 2D or 3D sketch to create a filled surface.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1725,7 +1725,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="241"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="308"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="142"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="144"/>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1769,14 +1769,14 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="218"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="160"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="119"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="121"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="225"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="167"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="126"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="128"/>
         <source>Redo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1969,77 +1969,77 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="622"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="500"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="200"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="222"/>
         <source>Fit View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="632"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="512"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="212"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="234"/>
         <source>IsometricView View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="637"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="517"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="217"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="239"/>
         <source>Front View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="642"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="522"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="222"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="244"/>
         <source>Back View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="647"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="527"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="227"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="249"/>
         <source>Left View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="652"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="532"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="232"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="254"/>
         <source>Right View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="657"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="537"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="237"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="259"/>
         <source>Top View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="662"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="542"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="242"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="264"/>
         <source>Bottom View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="667"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="552"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="247"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="269"/>
         <source>Shaded with Edges</source>
         <translation>Shaded with Edges</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="672"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="557"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="252"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="274"/>
         <source>Shaded</source>
         <translation>Shaded</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="677"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="562"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="257"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="279"/>
         <source>Wireframe</source>
         <translation>Wireframe</translation>
     </message>
@@ -2300,7 +2300,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="871"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="694"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="322"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="346"/>
         <source>Display Mode</source>
         <translation>Display Mode</translation>
     </message>
@@ -2322,7 +2322,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="913"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="137"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="96"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="98"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2395,7 +2395,7 @@ Do you want to save it to the original file now?
         <location filename="../../commands/SelectGuiCmd.cpp" line="558"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="627"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="506"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="206"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="228"/>
         <source>Fit Selection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2406,32 +2406,42 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="88"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="90"/>
         <source>3D Sketch</source>
         <translation>3D Sketch</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="92"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="94"/>
         <source>3D Sketch Environment</source>
         <translation>3D Sketch Environment</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="148"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="150"/>
         <source>Line 3D</source>
         <translation>Line 3D</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="158"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="160"/>
         <source>Circle 3D</source>
         <translation>Circle 3D</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="179"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="170"/>
+        <source>Arc 3D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="180"/>
+        <source>Arc by 3 Points 3D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="201"/>
         <source>End 3D Sketch</source>
         <translation>End 3D Sketch</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="185"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="207"/>
         <source>Cancel 3D Sketch</source>
         <translation>Cancel 3D Sketch</translation>
     </message>
@@ -2961,67 +2971,67 @@ Do you want to save it to the original file now?
 <context>
     <name>ParamNamesTranslation</name>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="81"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="82"/>
         <source>Box Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="82"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="83"/>
         <source>Box Width</source>
         <translation type="unfinished">Width</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="83"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="84"/>
         <source>Box Height</source>
         <translation type="unfinished">Height</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="88"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="89"/>
         <source>Cylinder Radius</source>
         <translation type="unfinished">Radius</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="89"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="90"/>
         <source>Cylinder Height</source>
         <translation type="unfinished">Height</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="94"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="95"/>
         <source>Sphere Radius</source>
         <translation type="unfinished">Radius</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="99"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="100"/>
         <source>Cone Radius</source>
         <translation type="unfinished">Radius</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="100"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="101"/>
         <source>Cone Height</source>
         <translation type="unfinished">Height</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="105"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="106"/>
         <source>Torus Major Radius</source>
         <translation type="unfinished">Major Radius</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="106"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="107"/>
         <source>Torus Minor Radius</source>
         <translation type="unfinished">Minor Radius</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="111"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="112"/>
         <source>Tube Outer Radius</source>
         <translation type="unfinished">Outer Radius</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="112"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="113"/>
         <source>Tube Inner Radius</source>
         <translation type="unfinished">Inner Radius</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="113"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="114"/>
         <source>Tube Height</source>
         <translation type="unfinished">Height</translation>
     </message>
@@ -3030,340 +3040,315 @@ Do you want to save it to the original file now?
         <translation type="obsolete">Depth</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="119"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="133"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="120"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="134"/>
         <source>Extrusion Start Offset</source>
         <translation type="unfinished">Start Offset</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="126"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="127"/>
         <source>Start Angle</source>
         <comment>wy3d::Revolution</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="127"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="128"/>
         <source>End Angle</source>
         <comment>wy3d::Revolution</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="125"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="126"/>
         <source>Axis</source>
         <comment>wy3d::Revolution</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="118"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="132"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="119"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="133"/>
         <source>Depth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="120"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="134"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="121"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="135"/>
         <source>Direction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="139"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="140"/>
         <source>Start Angle</source>
         <comment>wy3d::RevolvedSheet</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="140"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="141"/>
         <source>End Angle</source>
         <comment>wy3d::RevolvedSheet</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="145"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="146"/>
         <source>File Path</source>
         <comment>wy3d::ImportedSolid</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="150"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="151"/>
         <source>Distance 1</source>
         <comment>wy3d::Chamfer</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="151"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="152"/>
         <source>Distance 2</source>
         <comment>wy3d::Chamfer</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="152"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="153"/>
         <source>Angle</source>
         <comment>wy3d::Chamfer</comment>
         <translation type="unfinished">Angle</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="153"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="154"/>
         <source>Chamfer Type</source>
         <comment>wy3d::Chamfer</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="154"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="155"/>
         <source>Flip Direction</source>
         <comment>wy3d::Chamfer</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="159"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="160"/>
         <source>Radius</source>
         <comment>wy3d::Fillet</comment>
         <translation type="unfinished">Radius</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="164"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="165"/>
         <source>Thickness</source>
         <comment>wy3d::Shell</comment>
         <translation type="unfinished">Thickness</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="165"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="166"/>
         <source>Inward Offset</source>
         <comment>wy3d::Shell</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="166"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="167"/>
         <source>Join Type</source>
         <comment>wy3d::Shell</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="167"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="168"/>
         <source>Offset Mode</source>
         <comment>wy3d::Shell</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="168"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="169"/>
         <source>Intersection</source>
         <comment>wy3d::Shell</comment>
         <translation type="unfinished">Intersection</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="173"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="174"/>
         <source>Angle</source>
         <comment>wy3d::Draft</comment>
         <translation type="unfinished">Angle</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="178"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="179"/>
         <source>X</source>
         <comment>wy3d::Move</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="179"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="180"/>
         <source>Y</source>
         <comment>wy3d::Move</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="180"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="181"/>
         <source>Z</source>
         <comment>wy3d::Move</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="185"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="186"/>
         <source>CenterX</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="186"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="187"/>
         <source>CenterY</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="187"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="188"/>
         <source>CenterZ</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="188"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="189"/>
         <source>DirectionX</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="189"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="190"/>
         <source>DirectionY</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="190"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="191"/>
         <source>DirectionZ</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="191"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="192"/>
         <source>Angle</source>
         <comment>wy3d::Rotate</comment>
         <translation type="unfinished">Angle</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="196"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="201"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="218"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="197"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="202"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="219"/>
         <source>Source</source>
         <comment>wy3d::Pattern</comment>
         <translation type="unfinished">Source</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="203"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="204"/>
         <source>Direction1 X</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="204"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="205"/>
         <source>Direction1 Y</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="205"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="206"/>
         <source>Direction1 Z</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="206"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="207"/>
         <source>Count1</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="207"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="208"/>
         <source>Spacing1</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="209"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="210"/>
         <source>Direction2 X</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="210"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="211"/>
         <source>Direction2 Y</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="211"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="212"/>
         <source>Direction2 Z</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="212"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="213"/>
         <source>Count2</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="213"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="214"/>
         <source>Spacing2</source>
         <comment>wy3d::LinearPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="220"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="221"/>
         <source>Center Point X</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="221"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="222"/>
         <source>Center Point Y</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="222"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="223"/>
         <source>Center Point Z</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="223"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="224"/>
         <source>Axis Direction X</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="224"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="225"/>
         <source>Axis Direction Y</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="225"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="226"/>
         <source>Axis Direction Z</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="226"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="227"/>
         <source>TotalAngle</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="227"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="228"/>
         <source>Instance Count</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="228"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="229"/>
         <source>Is ClockWise</source>
         <comment>wy3d::CircularPattern</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="233"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="240"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="246"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="258"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="270"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="282"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="295"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="309"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="324"/>
-        <source>ID</source>
-        <comment>wy3d::SketchEntity</comment>
-        <translation>ID</translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="234"/>
-        <source>Position X</source>
-        <comment>wy3d::SketchPoint</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="235"/>
-        <source>Position Y</source>
-        <comment>wy3d::SketchPoint</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="241"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="247"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="259"/>
@@ -3372,447 +3357,557 @@ Do you want to save it to the original file now?
         <location filename="../../translation/ParamNamesTranslation.cpp" line="296"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="310"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="325"/>
+        <source>ID</source>
+        <comment>wy3d::SketchEntity</comment>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="235"/>
+        <source>Position X</source>
+        <comment>wy3d::SketchPoint</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="236"/>
+        <source>Position Y</source>
+        <comment>wy3d::SketchPoint</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="242"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="248"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="260"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="272"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="284"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="297"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="311"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="326"/>
         <source>Is Construction</source>
         <comment>wy3d::SketchCurve</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="248"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="260"/>
-        <source>Start Point X</source>
-        <comment>wy3d::SketchLine</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="249"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="261"/>
-        <source>Start Point Y</source>
+        <source>Start Point X</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="250"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="262"/>
-        <source>End Point X</source>
+        <source>Start Point Y</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="251"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="263"/>
-        <source>End Point Y</source>
+        <source>End Point X</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="252"/>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="264"/>
+        <source>End Point Y</source>
+        <comment>wy3d::SketchLine</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="253"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="265"/>
         <source>Length</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="253"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="265"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="254"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="266"/>
         <source>Angle</source>
         <comment>wy3d::SketchLine</comment>
         <translation type="unfinished">Angle</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="272"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchCircle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="273"/>
-        <source>Center Point Y</source>
+        <source>Center Point X</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="274"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::SketchCircle</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="275"/>
         <source>Radius</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished">Radius</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="275"/>
-        <source>Diameter</source>
-        <comment>wy3d::SketchCircle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="276"/>
-        <source>Perimeter</source>
+        <source>Diameter</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="277"/>
+        <source>Perimeter</source>
+        <comment>wy3d::SketchCircle</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="278"/>
         <source>Area</source>
         <comment>wy3d::SketchCircle</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="284"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="285"/>
-        <source>Center Point Y</source>
+        <source>Center Point X</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="286"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::SketchArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="287"/>
         <source>Radius</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished">Radius</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="287"/>
-        <source>Start Angle</source>
-        <comment>wy3d::SketchArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="288"/>
-        <source>End Angle</source>
+        <source>Start Angle</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="289"/>
-        <source>Total Angle</source>
+        <source>End Angle</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="290"/>
+        <source>Total Angle</source>
+        <comment>wy3d::SketchArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="291"/>
         <source>Arc Length</source>
         <comment>wy3d::SketchArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="297"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchEllipse</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="298"/>
-        <source>Center Point Y</source>
+        <source>Center Point X</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="299"/>
-        <source>Major Radius</source>
+        <source>Center Point Y</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="300"/>
-        <source>Minor Radius</source>
+        <source>Major Radius</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="301"/>
-        <source>Radius Ratio</source>
+        <source>Minor Radius</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="302"/>
-        <source>Major Axis Angle</source>
+        <source>Radius Ratio</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="303"/>
-        <source>Perimeter</source>
+        <source>Major Axis Angle</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="304"/>
+        <source>Perimeter</source>
+        <comment>wy3d::SketchEllipse</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="305"/>
         <source>Area</source>
         <comment>wy3d::SketchEllipse</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="311"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchEllipseArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="312"/>
-        <source>Center Point Y</source>
+        <source>Center Point X</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="313"/>
-        <source>Major Radius</source>
+        <source>Center Point Y</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="314"/>
-        <source>Minor Radius</source>
+        <source>Major Radius</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="315"/>
-        <source>Radius Ratio</source>
+        <source>Minor Radius</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="316"/>
-        <source>Major Axis Angle</source>
+        <source>Radius Ratio</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="317"/>
-        <source>Start Angle</source>
+        <source>Major Axis Angle</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="318"/>
-        <source>End Angle</source>
+        <source>Start Angle</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="319"/>
+        <source>End Angle</source>
+        <comment>wy3d::SketchEllipseArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="320"/>
         <source>Perimeter</source>
         <comment>wy3d::SketchEllipseArc</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="326"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="327"/>
         <source>Order</source>
         <comment>wy3d::SketchSpline</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="331"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="336"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="348"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="332"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="337"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="349"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="367"/>
         <source>ID</source>
         <comment>wy3d::SketchCurve3D</comment>
         <translation type="unfinished">ID</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="337"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="338"/>
         <source>Start Point X</source>
         <comment>wy3d::SketchLine3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="338"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="339"/>
         <source>Start Point Y</source>
         <comment>wy3d::SketchLine3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="339"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="340"/>
         <source>Start Point Z</source>
         <comment>wy3d::SketchLine3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="340"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="341"/>
         <source>End Point X</source>
         <comment>wy3d::SketchLine3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="341"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="342"/>
         <source>End Point Y</source>
         <comment>wy3d::SketchLine3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="342"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="343"/>
         <source>End Point Z</source>
         <comment>wy3d::SketchLine3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="343"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="344"/>
         <source>Length</source>
         <comment>wy3d::SketchLine3D</comment>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="349"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="350"/>
         <source>Center Point X</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="350"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="351"/>
         <source>Center Point Y</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="351"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="352"/>
         <source>Center Point Z</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="352"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="353"/>
         <source>Normal X</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="353"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="354"/>
         <source>Normal Y</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="354"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="355"/>
         <source>Normal Z</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="355"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="356"/>
         <source>Start Direction X</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="356"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="357"/>
         <source>Start Direction Y</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="357"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="358"/>
         <source>Start Direction Z</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="358"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="359"/>
         <source>Radius</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished">Radius</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="359"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="360"/>
         <source>Diameter</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="360"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="361"/>
         <source>Perimeter</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="361"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="362"/>
         <source>Area</source>
         <comment>wy3d::SketchCircle3D</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="366"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="368"/>
+        <source>Center Point X</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="369"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="370"/>
+        <source>Center Point Z</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="371"/>
+        <source>Normal X</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="372"/>
+        <source>Normal Y</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="373"/>
+        <source>Normal Z</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="374"/>
+        <source>Start Direction X</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="375"/>
+        <source>Start Direction Y</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="376"/>
+        <source>Start Direction Z</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="377"/>
+        <source>Radius</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished">Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="378"/>
+        <source>Start Angle</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="379"/>
+        <source>End Angle</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="380"/>
+        <source>Total Angle</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="381"/>
+        <source>Arc Length</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="386"/>
         <source>Plane</source>
         <comment>wy3d::DatumPlane</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="371"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="391"/>
         <source>Source</source>
         <comment>wy3d::Mirror</comment>
         <translation type="unfinished">Source</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="372"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="392"/>
         <source>Plane</source>
         <comment>wy3d::Mirror</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="377"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="382"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="397"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="402"/>
         <source>Color</source>
         <comment>wy3d::Solid</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="387"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="407"/>
         <source>Source</source>
         <comment>wy3d::Thicken</comment>
         <translation type="unfinished">Source</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="388"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="408"/>
         <source>Thickness</source>
         <comment>wy3d::Thicken</comment>
         <translation>Thickness</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="389"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="409"/>
         <source>Direction</source>
         <comment>wy3d::Thicken</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="394"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="414"/>
         <source>Source</source>
         <comment>wy3d::OffsetSheet</comment>
         <translation>Source</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="395"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="415"/>
         <source>Offset</source>
         <comment>wy3d::OffsetSheet</comment>
         <translation>Offset</translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="400"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="420"/>
         <source>Pitch</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="401"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="421"/>
         <source>Turns</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="402"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="422"/>
         <source>Start Angle</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="403"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="423"/>
         <source>ClockWise</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="404"/>
+        <location filename="../../translation/ParamNamesTranslation.cpp" line="424"/>
         <source>Reversed</source>
         <comment>wy3d::Helix</comment>
         <translation type="unfinished"></translation>
@@ -4326,7 +4421,7 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchCommand</name>
     <message>
-        <location filename="../../commands/sketch/SketchCommands.cpp" line="235"/>
+        <location filename="../../commands/sketch/SketchCommands.cpp" line="234"/>
         <source>Yi3D</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4376,6 +4471,57 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="261"/>
         <source>Specify the third point on arc; you can directly input the coordinate values.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SketchDrawArc3DGuiCmd</name>
+    <message>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="197"/>
+        <source>Specify the center point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
+        <translation type="unfinished">Specify the center point; you can directly input the coordinate values. Press Space to switch the drawing plane.</translation>
+    </message>
+    <message>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="205"/>
+        <source>Specify the start point; you can directly input the radius and the start angle. Press Space to switch the drawing plane.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="213"/>
+        <source>Specify the total angle; you can directly input the value.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="396"/>
+        <source>Radius</source>
+        <translation type="unfinished">Radius</translation>
+    </message>
+    <message>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="397"/>
+        <source>StartAngle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="409"/>
+        <source>SweepAngle</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SketchDrawArcBy3Points3DGuiCmd</name>
+    <message>
+        <location filename="../../commands/sketch3d/SketchDrawArcBy3Points3DGuiCmd.cpp" line="190"/>
+        <source>Specify the first end point on arc; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/sketch3d/SketchDrawArcBy3Points3DGuiCmd.cpp" line="198"/>
+        <source>Specify the second end point on arc; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/sketch3d/SketchDrawArcBy3Points3DGuiCmd.cpp" line="206"/>
+        <source>Specify the third point on arc; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5145,11 +5291,11 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchUtil</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="350"/>
-        <location filename="../../utils/SketchUtil.cpp" line="92"/>
-        <location filename="../../utils/SketchUtil.cpp" line="221"/>
-        <location filename="../../utils/SketchUtil.cpp" line="248"/>
-        <location filename="../../utils/SketchUtil.cpp" line="279"/>
+        <location filename="../../utils/SketchUtil.cpp" line="93"/>
+        <location filename="../../utils/SketchUtil.cpp" line="222"/>
+        <location filename="../../utils/SketchUtil.cpp" line="249"/>
+        <location filename="../../utils/SketchUtil.cpp" line="276"/>
+        <location filename="../../utils/SketchUtil.cpp" line="307"/>
         <source>Element IDs: %1</source>
         <translation type="unfinished"></translation>
     </message>

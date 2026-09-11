@@ -26,6 +26,7 @@
 #include <wy3dSketch3DProfile.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
+#include <wy3dSketchArc3D.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 
@@ -184,6 +185,77 @@ namespace
                 return wydb::ElementId::kNull;
             }
             EXPECT_EQ(pSketch3D->addEntity(pCircle), wy::ErrorStatus::Ok);
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch3D->getId();
+        }
+        return sketchId;
+    }
+
+    // Create a 3D sketch with a half-disc loop: the upper semicircle (radius 25)
+    // closed by its chord line
+    static wydb::ElementId createSemicircleSketch3D(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch3D* pSketch3D(nullptr);
+            EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+            if (!pSketch3D)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            // 0 -> PI counterclockwise: (25, 0, 0) to (-25, 0, 0)
+            wy3d::SketchArc3D* pArc(nullptr);
+            EXPECT_EQ(wy3d::SketchArc3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+                25.0, 0.0, wy3d::PI, pArc), wy::ErrorStatus::Ok);
+            if (!pArc)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pSketch3D->addEntity(pArc), wy::ErrorStatus::Ok);
+
+            wy3d::SketchLine3D* pLine(nullptr);
+            EXPECT_EQ(wy3d::SketchLine3D::create(pTrans, wy::Vector3(-25.0, 0.0, 0.0), wy::Vector3(25.0, 0.0, 0.0), pLine), wy::ErrorStatus::Ok);
+            if (!pLine)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pSketch3D->addEntity(pLine), wy::ErrorStatus::Ok);
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch3D->getId();
+        }
+        return sketchId;
+    }
+
+    // Create a 3D sketch with the open semicircle arc only
+    static wydb::ElementId createOpenArcSketch3D(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch3D* pSketch3D(nullptr);
+            EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+            if (!pSketch3D)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            wy3d::SketchArc3D* pArc(nullptr);
+            EXPECT_EQ(wy3d::SketchArc3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+                25.0, 0.0, wy3d::PI, pArc), wy::ErrorStatus::Ok);
+            if (!pArc)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pSketch3D->addEntity(pArc), wy::ErrorStatus::Ok);
 
             EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
             sketchId = pSketch3D->getId();
@@ -846,6 +918,57 @@ TEST(FilledSheet, Generate3DCircle)
     expectAllTopoNamed(pSheet);
 }
 
+TEST(FilledSheet, Generate3DArcLineLoop)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+    wydb::ElementId sketchId = createSemicircleSketch3D(pDb.get());
+
+    wy3d::FilledSheet* pSheet(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pTrans->getElementForWrite(sketchId));
+        ASSERT_NE(pSketch3D, nullptr);
+        EXPECT_EQ(wy3d::FilledSheet::create(pTrans, pSketch3D, pSheet), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_FALSE(pSheet->getShape().IsNull());
+    EXPECT_EQ(countFaces(pSheet->getShape()), 1);
+    {
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getShapeBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_NEAR(xmin, -25.0, 1e-3);
+        EXPECT_NEAR(xmax, 25.0, 1e-3);
+        EXPECT_NEAR(ymin, 0.0, 1e-3);
+        EXPECT_NEAR(ymax, 25.0, 1e-3);
+        EXPECT_NEAR(zmin, 0.0, 1e-3);
+        EXPECT_NEAR(zmax, 0.0, 1e-3);
+    }
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSheet->getId()), 0u);
+    expectAllTopoNamed(pSheet);
+}
+
+TEST(FilledSheet, Generate3DOpenArcFails)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+    wydb::ElementId sketchId = createOpenArcSketch3D(pDb.get());
+
+    wy3d::FilledSheet* pSheet(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pTrans->getElementForWrite(sketchId));
+        ASSERT_NE(pSketch3D, nullptr);
+        EXPECT_EQ(wy3d::FilledSheet::create(pTrans, pSketch3D, pSheet), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_TRUE(pSheet->getShape().IsNull());
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSheet->getId()),
+        static_cast<std::uint32_t>(wy3d::ErrorCode::FILLEDSHEET_EdgesNotClosed));
+}
+
 TEST(FilledSheet, Generate3DNonPlanarQuad)
 {
     std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
@@ -1296,6 +1419,32 @@ TEST(FilledSheet, Sketch3DProfile_CircleSeamTouchedByLine)
     ASSERT_NE(pError, nullptr);
     EXPECT_EQ(pError->type, wy3d::ErrorCode::FILLEDSHEET_EdgesNotClosed);
     EXPECT_EQ(pError->ids.size(), 2u); // the circle (degree 2 at its seam) plus the line
+}
+
+TEST(FilledSheet, Sketch3DProfile_ArcLineLoop)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId sketchId = createSemicircleSketch3D(pDb.get());
+    const wy3d::Sketch3D* pSketch3D = getSketch3D(pDb.get(), sketchId);
+    ASSERT_NE(pSketch3D, nullptr);
+
+    wy3d::Sketch3DProfile profile(pSketch3D);
+    EXPECT_TRUE(profile.check());
+    ASSERT_EQ(profile.getLoop().size(), 2u);
+
+    // The arc endpoints fuse with the chord line's endpoints, so the walk keeps
+    // both curves in their natural direction
+    const wy3d::SketchArc3D* pArc = wy3d::SketchArc3D::cast(profile.getLoop()[0].curve);
+    ASSERT_NE(pArc, nullptr);
+    EXPECT_TRUE(profile.getLoop()[0].orient);
+    EXPECT_NEAR(pArc->getStartPoint().x(), 25.0, 1e-9);
+    EXPECT_NEAR(pArc->getEndPoint().x(), -25.0, 1e-9);
+
+    const wy3d::SketchLine3D* pLine = wy3d::SketchLine3D::cast(profile.getLoop()[1].curve);
+    ASSERT_NE(pLine, nullptr);
+    EXPECT_TRUE(profile.getLoop()[1].orient);
+    EXPECT_NEAR(pLine->getStartPoint().x(), -25.0, 1e-9);
+    EXPECT_NEAR(pLine->getEndPoint().x(), 25.0, 1e-9);
 }
 
 TEST(FilledSheet, Sketch3DProfile_ReusedAfterSketchEdit)

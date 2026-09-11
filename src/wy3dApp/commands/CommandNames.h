@@ -124,6 +124,8 @@ public:
     // 3D草绘图元命令
     static inline const std::string Line3D = "Line3D";
     static inline const std::string Circle3D = "Circle3D";
+    static inline const std::string Arc3D = "Arc3D";
+    static inline const std::string ArcBy3Points3D = "ArcBy3Points3D";
 
     // 三维曲线命令
     static inline const std::string Helix = "Helix";

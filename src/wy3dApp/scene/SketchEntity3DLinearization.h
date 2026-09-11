@@ -32,6 +32,9 @@ public:
     SketchEntity3DLinearization(const wy::Vector3& startPnt, const wy::Vector3& endPnt);
     // 圆
     SketchEntity3DLinearization(const wy::Vector3& center, const wy::Vector3& normal, const wy::Vector3& xDir, double radius);
+    // 圆弧
+    SketchEntity3DLinearization(const wy::Vector3& center, const wy::Vector3& normal, const wy::Vector3& xDir,
+        double radius, double startAngle, double endAngle);
 
     const std::vector<wy::Vector3>& getVertices() const { return _vertices; }
     const std::vector<unsigned int>& getIndices() const { return _indices; }

@@ -53,6 +53,7 @@
 #include <wy3dSketchCurve3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
+#include <wy3dSketchArc3D.h>
 #include <wy3dSketch3DParamNames.h>
 
 #include <wy3dHelix.h>
@@ -359,6 +360,25 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_DIAMETER)] = tr("Diameter", "wy3d::SketchCircle3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_PERIMETER)] = tr("Perimeter", "wy3d::SketchCircle3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_AREA)] = tr("Area", "wy3d::SketchCircle3D");
+    }
+    // SketchArc3D
+    {
+        const std::string& className = wy3d::SketchArc3D::className();
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Z)] = tr("Center Point Z", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_X)] = tr("Normal X", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Y)] = tr("Normal Y", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Z)] = tr("Normal Z", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_X)] = tr("Start Direction X", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Y)] = tr("Start Direction Y", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Z)] = tr("Start Direction Z", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_RADIUS)] = tr("Radius", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_START_ANGLE)] = tr("Start Angle", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_END_ANGLE)] = tr("End Angle", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE)] = tr("Total Angle", "wy3d::SketchArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_LENGTH)] = tr("Arc Length", "wy3d::SketchArc3D");
     }
     // DatumPlane
     {

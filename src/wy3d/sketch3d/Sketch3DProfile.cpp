@@ -28,6 +28,7 @@
 #include <wy3dSketch3DProfile.h>
 #include <wy3dSketchCurve3D.h>
 #include <wy3dSketchCircle3D.h>
+#include <wy3dSketchArc3D.h>
 
 NS_WY3D_BEG
 
@@ -141,6 +142,15 @@ bool Sketch3DProfile::init()
         if (const wy3d::SketchCircle3D* pCircle = wy3d::SketchCircle3D::cast(pCurve))
         {
             if (pCircle->getNormal().length() < 0.5)
+            {
+                assert(false);
+                this->setError(ErrorCode::FILLEDSHEET_InvalidData, { id });
+                return false;
+            }
+        }
+        if (const wy3d::SketchArc3D* pArc = wy3d::SketchArc3D::cast(pCurve))
+        {
+            if (pArc->getNormal().length() < 0.5)
             {
                 assert(false);
                 this->setError(ErrorCode::FILLEDSHEET_InvalidData, { id });

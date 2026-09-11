@@ -25,10 +25,13 @@
 #include <Geom_Circle.hxx>
 #include <Geom_TrimmedCurve.hxx>
 #include <gp_Ax2.hxx>
+#include <ElCLib.hxx>
 
+#include <wy3dMath.h>
 #include <wy3dSketchEntity3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
+#include <wy3dSketchArc3D.h>
 
 #include "utils/OccUtil.h"
 
@@ -49,6 +52,10 @@ TopoDS_Edge Sketch3DTopoBuilder::makeEdge(const wy3d::SketchEntity3D* pEntity)
     else if (const wy3d::SketchCircle3D* pCircle = wy3d::SketchCircle3D::cast(pEntity))
     {
         return this->makeEdge(pCircle);
+    }
+    else if (const wy3d::SketchArc3D* pArc = wy3d::SketchArc3D::cast(pEntity))
+    {
+        return this->makeEdge(pArc);
     }
     else
     {
@@ -108,6 +115,49 @@ TopoDS_Edge Sketch3DTopoBuilder::makeEdge(const wy3d::SketchCircle3D* pCircle)
     gp_Ax2 ax2(OccUtil::toPnt(pCircle->getCenter()), OccUtil::toDir(normal), OccUtil::toDir(xDir));
     Handle(Geom_Circle) circle = new Geom_Circle(ax2, pCircle->getRadius());
     return this->makeEdgeFromCurve(circle, pCircle->getId().value());
+}
+
+TopoDS_Edge Sketch3DTopoBuilder::makeEdge(const wy3d::SketchArc3D* pArc)
+{
+    assert(pArc);
+
+    if (pArc->getRadius() < 1e-7) // unreachable: setRadius rejects below kMinValue
+    {
+        assert(false);
+        return TopoDS_Edge();
+    }
+    if (pArc->getTotalAngle() < 1e-7) // degenerate arc; a full circle is a SketchCircle3D
+    {
+        return TopoDS_Edge();
+    }
+
+    const wy::Vector3& normal = pArc->getNormal();
+    if (normal.length() < 0.5)
+    {
+        assert(false);
+        return TopoDS_Edge();
+    }
+
+    // Orthogonalize xDir to the arc plane (fallback to an arbitrary axis)
+    wy::Vector3 xDir = pArc->getXDir() - normal * pArc->getXDir().dot(normal);
+    if (xDir.length() < 0.5)
+    {
+        wy::Vector3 ref = (std::fabs(normal.z()) < 0.9) ? wy::Vector3::kZAxis : wy::Vector3::kXAxis;
+        xDir = ref - normal * ref.dot(normal);
+    }
+    if (xDir.length() < 0.5)
+    {
+        assert(false);
+        return TopoDS_Edge();
+    }
+    xDir.normalize();
+
+    gp_Ax2 ax2(OccUtil::toPnt(pArc->getCenter()), OccUtil::toDir(normal), OccUtil::toDir(xDir));
+    Handle(Geom_Circle) circle = new Geom_Circle(ax2, pArc->getRadius());
+    double startAngle = ElCLib::InPeriod(pArc->getStartAngle(), 0.0, wy3d::TWO_PI);
+    double endAngle = startAngle + pArc->getTotalAngle();
+    Handle(Geom_TrimmedCurve) geomCurve = new Geom_TrimmedCurve(circle, startAngle, endAngle);
+    return this->makeEdgeFromCurve(geomCurve, pArc->getId().value());
 }
 
 TopoDS_Edge Sketch3DTopoBuilder::makeEdgeFromCurve(const Handle(Geom_Curve)& geomCurve, unsigned int entityId)

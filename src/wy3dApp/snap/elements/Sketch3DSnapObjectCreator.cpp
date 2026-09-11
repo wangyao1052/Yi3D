@@ -23,6 +23,7 @@
 #include <wy3dSketchEntity3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
+#include <wy3dSketchArc3D.h>
 #include "snap/SnapObject.h"
 
 std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
@@ -73,6 +74,13 @@ std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(con
             snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pCircle->getId(), center + yDir * radius));
             snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pCircle->getId(), center - xDir * radius));
             snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pCircle->getId(), center - yDir * radius));
+        }
+        else if (const wy3d::SketchArc3D* pArc = wy3d::SketchArc3D::cast(pEntity))
+        {
+            snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(pArc->getId(), pArc->getCenter()));
+            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pArc->getId(), pArc->getStartPoint()));
+            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pArc->getId(), pArc->getEndPoint()));
+            snapPoints.emplace_back(this->newSnapPoint<SnapMiddlePoint>(pArc->getId(), pArc->getMiddlePoint()));
         }
         else
         {

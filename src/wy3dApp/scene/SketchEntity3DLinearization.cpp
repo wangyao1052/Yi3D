@@ -21,6 +21,7 @@
 #include <wy3dMath.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
+#include <wy3dSketchArc3D.h>
 
 static const unsigned int kCirclePointsNum = 100;
 
@@ -68,6 +69,41 @@ static inline void circleLinearization(
     indices.push_back(0);
 }
 
+static inline void arcLinearization(
+    const wy::Vector3& center, const wy::Vector3& normal, const wy::Vector3& xDir,
+    double radius, double startAngle, double endAngle,
+    std::vector<wy::Vector3>& vertices, std::vector<unsigned int>& indices)
+{
+    // Orthogonalize xDir to the arc plane (fallback to an arbitrary axis)
+    wy::Vector3 u = xDir - normal * xDir.dot(normal);
+    if (u.length() < 0.5)
+    {
+        wy::Vector3 refAxis = (std::fabs(normal.z()) < 0.9) ? wy::Vector3::kZAxis : wy::Vector3::kXAxis;
+        u = normal.cross(refAxis);
+    }
+    u.normalize();
+    wy::Vector3 v = normal.cross(u);
+
+    double totalAngle = wy3d::normalizeRadian(endAngle - startAngle);
+    unsigned int pointsNum = static_cast<unsigned int>(std::llround(kCirclePointsNum * totalAngle / wy3d::TWO_PI));
+    if (pointsNum < 4) pointsNum = 4;
+
+    vertices.reserve(pointsNum + 1);
+    for (unsigned int i = 0; i <= pointsNum; ++i)
+    {
+        double angle = startAngle + totalAngle * (static_cast<double>(i) / pointsNum);
+        vertices.emplace_back(center + u * (std::cos(angle) * radius) + v * (std::sin(angle) * radius));
+    }
+
+    // The polyline is open: no closing edge back to the first point
+    indices.reserve(2 * pointsNum);
+    for (unsigned int i = 0; i < pointsNum; ++i)
+    {
+        indices.push_back(i);
+        indices.push_back(i + 1);
+    }
+}
+
 SketchEntity3DLinearization::SketchEntity3DLinearization(const wy3d::SketchEntity3D* pEntity)
 {
     assert(pEntity);
@@ -78,6 +114,11 @@ SketchEntity3DLinearization::SketchEntity3DLinearization(const wy3d::SketchEntit
     else if (const wy3d::SketchCircle3D* pCircle = wy3d::SketchCircle3D::cast(pEntity))
     {
         circleLinearization(pCircle->getCenter(), pCircle->getNormal(), pCircle->getXDir(), pCircle->getRadius(), _vertices, _indices);
+    }
+    else if (const wy3d::SketchArc3D* pArc = wy3d::SketchArc3D::cast(pEntity))
+    {
+        arcLinearization(pArc->getCenter(), pArc->getNormal(), pArc->getXDir(), pArc->getRadius(),
+            pArc->getStartAngle(), pArc->getEndAngle(), _vertices, _indices);
     }
     else
     {

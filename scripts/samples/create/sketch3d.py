@@ -1,3 +1,5 @@
+import math
+
 import wy3d
 
 # 创建直线段
@@ -11,6 +13,12 @@ def createCircle3D(trans, sketch3d, center, normal, xDir, radius):
     circle = wy3d.SketchCircle3D.create(trans, center, normal, xDir, radius)
     trans.addNewlyCreatedElement(circle)
     sketch3d.addEntity(circle)
+
+# 创建圆弧(角度为弧度)
+def createArc3D(trans, sketch3d, center, normal, xDir, radius, startAngle, endAngle):
+    arc = wy3d.SketchArc3D.create(trans, center, normal, xDir, radius, startAngle, endAngle)
+    trans.addNewlyCreatedElement(arc)
+    sketch3d.addEntity(arc)
 
 # 获取当前文档数据库
 db = wy3d.getActiveDatabase()
@@ -27,6 +35,9 @@ createLine3D(trans, sketch3d, wy3d.Vector3(0.0, 0.0, 0.0), wy3d.Vector3(100.0, 5
 
 # 创建圆
 createCircle3D(trans, sketch3d, wy3d.Vector3(50.0, 0.0, 0.0), wy3d.Vector3(0.0, 1.0, 0.0), wy3d.Vector3(1.0, 0.0, 0.0), 25.0)
+
+# 创建圆弧(半圆)
+createArc3D(trans, sketch3d, wy3d.Vector3(0.0, 50.0, 0.0), wy3d.Vector3(0.0, 1.0, 0.0), wy3d.Vector3(1.0, 0.0, 0.0), 25.0, 0.0, math.pi)
 
 # 提交事务
 db.getTransactionManager().endTransaction()
