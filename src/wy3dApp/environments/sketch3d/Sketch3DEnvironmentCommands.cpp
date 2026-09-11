@@ -32,6 +32,8 @@
 #include "commands/sketch3d/SketchDrawCircle3DGuiCmd.h"
 #include "commands/sketch3d/SketchDrawArc3DGuiCmd.h"
 #include "commands/sketch3d/SketchDrawArcBy3Points3DGuiCmd.h"
+#include "commands/sketch3d/SketchDrawRectangle3DGuiCmd.h"
+#include "commands/sketch3d/SketchDrawCenterRectangle3DGuiCmd.h"
 #include "commands/UndoRedoCommands.h"
 #include "commands/sketch3d/Sketch3DCommands.h"
 
@@ -41,6 +43,8 @@
     X(CommandNames::Circle3D, WYAP_CMD_MODAL, SketchDrawCircle3DGuiCmd::classInfo()) \
     X(CommandNames::Arc3D, WYAP_CMD_MODAL, SketchDrawArc3DGuiCmd::classInfo()) \
     X(CommandNames::ArcBy3Points3D, WYAP_CMD_MODAL, SketchDrawArcBy3Points3DGuiCmd::classInfo()) \
+    X(CommandNames::Rectangle3D, WYAP_CMD_MODAL, SketchDrawRectangle3DGuiCmd::classInfo()) \
+    X(CommandNames::CenterRectangle3D, WYAP_CMD_MODAL, SketchDrawCenterRectangle3DGuiCmd::classInfo()) \
     X(CommandNames::Undo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, UndoCommand::classInfo()) \
     X(CommandNames::Redo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, RedoCommand::classInfo()) \
     X(CommandNames::EndSketch3D, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, EndSketch3DCommand::classInfo()) \

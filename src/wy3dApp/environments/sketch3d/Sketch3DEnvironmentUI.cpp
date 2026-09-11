@@ -57,6 +57,8 @@ struct Sketch3DActions
     CommandAction* pActionDrawCircle3D;
     CommandAction* pActionDrawArc3D;
     CommandAction* pActionDrawArcBy3Points3D;
+    CommandAction* pActionDrawRectangle3D;
+    CommandAction* pActionDrawCenterRectangle3D;
 };
 
 struct Sketch3DEnvironmentActions
@@ -185,6 +187,22 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
         actions.pActionDrawArcBy3Points3D->setShortcut(QKeySequence(Qt::Key_D));
     }
 
+    actions.pActionDrawRectangle3D = pEnv->newCommandAction(
+        CommandNames::Rectangle3D,
+        QCoreApplication::translate("MainWindow", "Rectangle 3D"),
+        QIcon(":/images/Sketch_DrawRectangle.svg"),
+        pActionGroup);
+    if (actions.pActionDrawRectangle3D)
+    {
+        actions.pActionDrawRectangle3D->setShortcut(QKeySequence(Qt::Key_R));
+    }
+
+    actions.pActionDrawCenterRectangle3D = pEnv->newCommandAction(
+        CommandNames::CenterRectangle3D,
+        QCoreApplication::translate("MainWindow", "Center Rectangle 3D"),
+        QIcon(":/images/Sketch_DrawCenterRectangle.svg"),
+        pActionGroup);
+
     return actions;
 }
 
@@ -303,6 +321,8 @@ void buildSketch3DToolBarUi(
     pToolBarSketch3D->addAction(actions.pActionDrawCircle3D);
     pToolBarSketch3D->addAction(actions.pActionDrawArc3D);
     pToolBarSketch3D->addAction(actions.pActionDrawArcBy3Points3D);
+    pToolBarSketch3D->addAction(actions.pActionDrawRectangle3D);
+    pToolBarSketch3D->addAction(actions.pActionDrawCenterRectangle3D);
 }
 
 void buildSketch3DEnvironmentToolBarUi(
