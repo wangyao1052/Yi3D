@@ -27,6 +27,8 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
+#include <wy3dSketchEllipse3D.h>
+#include <wy3dSketchEllipseArc3D.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 
@@ -185,6 +187,66 @@ namespace
                 return wydb::ElementId::kNull;
             }
             EXPECT_EQ(pSketch3D->addEntity(pCircle), wy::ErrorStatus::Ok);
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch3D->getId();
+        }
+        return sketchId;
+    }
+
+    // Create a 3D sketch with a single full ellipse (major 25, minor 15)
+    static wydb::ElementId createEllipseSketch3D(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch3D* pSketch3D(nullptr);
+            EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+            if (!pSketch3D)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            wy3d::SketchEllipse3D* pEllipse(nullptr);
+            EXPECT_EQ(wy3d::SketchEllipse3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+                25.0, 0.6, pEllipse), wy::ErrorStatus::Ok);
+            if (!pEllipse)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pSketch3D->addEntity(pEllipse), wy::ErrorStatus::Ok);
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch3D->getId();
+        }
+        return sketchId;
+    }
+
+    // Create a 3D sketch with an open ellipse arc only (quarter arc)
+    static wydb::ElementId createOpenEllipseArcSketch3D(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch3D* pSketch3D(nullptr);
+            EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+            if (!pSketch3D)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            wy3d::SketchEllipseArc3D* pEllipseArc(nullptr);
+            EXPECT_EQ(wy3d::SketchEllipseArc3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+                25.0, 0.6, 0.0, wy3d::PI / 3.0, pEllipseArc), wy::ErrorStatus::Ok);
+            if (!pEllipseArc)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pSketch3D->addEntity(pEllipseArc), wy::ErrorStatus::Ok);
 
             EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
             sketchId = pSketch3D->getId();
@@ -916,6 +978,57 @@ TEST(FilledSheet, Generate3DCircle)
     }
     EXPECT_EQ(getChainErrorCode(pDb.get(), pSheet->getId()), 0u);
     expectAllTopoNamed(pSheet);
+}
+
+TEST(FilledSheet, Generate3DEllipse)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+    wydb::ElementId sketchId = createEllipseSketch3D(pDb.get());
+
+    wy3d::FilledSheet* pSheet(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pTrans->getElementForWrite(sketchId));
+        ASSERT_NE(pSketch3D, nullptr);
+        EXPECT_EQ(wy3d::FilledSheet::create(pTrans, pSketch3D, pSheet), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_FALSE(pSheet->getShape().IsNull());
+    EXPECT_EQ(countFaces(pSheet->getShape()), 1);
+    {
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getShapeBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_NEAR(xmin, -25.0, 1e-3);
+        EXPECT_NEAR(xmax, 25.0, 1e-3);
+        EXPECT_NEAR(ymin, -15.0, 1e-3);
+        EXPECT_NEAR(ymax, 15.0, 1e-3);
+        EXPECT_NEAR(zmin, 0.0, 1e-3);
+        EXPECT_NEAR(zmax, 0.0, 1e-3);
+    }
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSheet->getId()), 0u);
+    expectAllTopoNamed(pSheet);
+}
+
+TEST(FilledSheet, Generate3DOpenEllipseArcFails)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+    wydb::ElementId sketchId = createOpenEllipseArcSketch3D(pDb.get());
+
+    wy3d::FilledSheet* pSheet(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pTrans->getElementForWrite(sketchId));
+        ASSERT_NE(pSketch3D, nullptr);
+        EXPECT_EQ(wy3d::FilledSheet::create(pTrans, pSketch3D, pSheet), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_TRUE(pSheet->getShape().IsNull());
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSheet->getId()),
+        static_cast<std::uint32_t>(wy3d::ErrorCode::FILLEDSHEET_EdgesNotClosed));
 }
 
 TEST(FilledSheet, Generate3DArcLineLoop)

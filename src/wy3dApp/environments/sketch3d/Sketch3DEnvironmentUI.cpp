@@ -59,6 +59,8 @@ struct Sketch3DActions
     CommandAction* pActionDrawArcBy3Points3D;
     CommandAction* pActionDrawRectangle3D;
     CommandAction* pActionDrawCenterRectangle3D;
+    CommandAction* pActionDrawEllipse3D;
+    CommandAction* pActionDrawEllipseArc3D;
 };
 
 struct Sketch3DEnvironmentActions
@@ -203,6 +205,22 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
         QIcon(":/images/Sketch_DrawCenterRectangle.svg"),
         pActionGroup);
 
+    actions.pActionDrawEllipse3D = pEnv->newCommandAction(
+        CommandNames::Ellipse3D,
+        QCoreApplication::translate("MainWindow", "Ellipse 3D"),
+        QIcon(":/images/Sketch_DrawEllipse.svg"),
+        pActionGroup);
+    if (actions.pActionDrawEllipse3D)
+    {
+        actions.pActionDrawEllipse3D->setShortcut(QKeySequence(Qt::Key_E));
+    }
+
+    actions.pActionDrawEllipseArc3D = pEnv->newCommandAction(
+        CommandNames::EllipseArc3D,
+        QCoreApplication::translate("MainWindow", "Ellipse Arc 3D"),
+        QIcon(":/images/Sketch_DrawEllipseArc.svg"),
+        pActionGroup);
+
     return actions;
 }
 
@@ -323,6 +341,8 @@ void buildSketch3DToolBarUi(
     pToolBarSketch3D->addAction(actions.pActionDrawArcBy3Points3D);
     pToolBarSketch3D->addAction(actions.pActionDrawRectangle3D);
     pToolBarSketch3D->addAction(actions.pActionDrawCenterRectangle3D);
+    pToolBarSketch3D->addAction(actions.pActionDrawEllipse3D);
+    pToolBarSketch3D->addAction(actions.pActionDrawEllipseArc3D);
 }
 
 void buildSketch3DEnvironmentToolBarUi(

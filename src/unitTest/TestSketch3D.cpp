@@ -22,6 +22,8 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
+#include <wy3dSketchEllipse3D.h>
+#include <wy3dSketchEllipseArc3D.h>
 #include <wy3dSketch3DParamNames.h>
 #include <wy3dMath.h>
 #include <wydbParameter.h>
@@ -871,4 +873,226 @@ TEST(Sketch3D, ParameterSchemasExposed)
     EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_END_ANGLE), 1u);
     EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE), 1u);
     EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_LENGTH), 1u);
+}
+
+// --- Ellipse ---
+
+TEST(Sketch3D, CreateEllipse)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    wy3d::SketchEllipse3D* pEllipse(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        // xDir (2,2,0) is not perpendicular to normal (0,0,1) — create orthogonalizes it
+        EXPECT_EQ(wy3d::SketchEllipse3D::create(pTrans, wy::Vector3(10.0, 0.0, 5.0), wy::Vector3(0.0, 0.0, 1.0),
+            wy::Vector3(2.0, 2.0, 0.0), 20.0, 0.5, pEllipse), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pEllipse, nullptr);
+    EXPECT_DOUBLE_EQ(pEllipse->getCenter().x(), 10.0);
+    EXPECT_DOUBLE_EQ(pEllipse->getCenter().y(), 0.0);
+    EXPECT_DOUBLE_EQ(pEllipse->getCenter().z(), 5.0);
+    EXPECT_NEAR(pEllipse->getNormal().length(), 1.0, 1e-9);
+    EXPECT_DOUBLE_EQ(pEllipse->getNormal().z(), 1.0);
+    EXPECT_NEAR(pEllipse->getXDir().x(), std::sqrt(2.0) / 2.0, 1e-9);
+    EXPECT_NEAR(pEllipse->getXDir().y(), std::sqrt(2.0) / 2.0, 1e-9);
+    EXPECT_DOUBLE_EQ(pEllipse->getMajorRadius(), 20.0);
+    EXPECT_DOUBLE_EQ(pEllipse->getMinorRadius(), 10.0);
+    EXPECT_DOUBLE_EQ(pEllipse->getRadiusRatio(), 0.5);
+    EXPECT_TRUE(pEllipse->isClosed());
+    EXPECT_FALSE(pEllipse->isDegenerate(1e-7));
+
+    // 起点/终点重合在长轴正向端点
+    const wy::Vector3 startPnt = pEllipse->getStartPoint();
+    EXPECT_NEAR(startPnt.x(), 10.0 + 20.0 * pEllipse->getXDir().x(), 1e-9);
+    EXPECT_NEAR(startPnt.y(), 20.0 * pEllipse->getXDir().y(), 1e-9);
+    EXPECT_NEAR(startPnt.z(), 5.0, 1e-9);
+    EXPECT_NEAR((pEllipse->getEndPoint() - startPnt).length(), 0.0, 1e-9);
+
+    // getPointAt 的参数是极角:t=0.25 即极角 PI/2,落在短轴正向端点上
+    const wy::Vector3 yDir = pEllipse->getNormal().cross(pEllipse->getXDir());
+    const wy::Vector3 minorEndPnt = pEllipse->getPointAt(0.25);
+    EXPECT_NEAR(minorEndPnt.x(), 10.0 + 10.0 * yDir.x(), 1e-9);
+    EXPECT_NEAR(minorEndPnt.y(), 10.0 * yDir.y(), 1e-9);
+    EXPECT_NEAR(minorEndPnt.z(), 5.0, 1e-9);
+
+    // 长半轴为零或比值大于 1 均被拒绝
+    wy3d::SketchEllipse3D* pBad(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchEllipse3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+            0.0, 1.0, pBad), wy::ErrorStatus::InvalidInput);
+        EXPECT_EQ(wy3d::SketchEllipse3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+            10.0, 1.5, pBad), wy::ErrorStatus::InvalidInput);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    EXPECT_EQ(pBad, nullptr);
+
+    // 长短半轴相等时退化为圆:Ramanujan 周长即圆周长
+    wy3d::SketchEllipse3D* pCircleLike(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchEllipse3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+            10.0, 1.0, pCircleLike), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pCircleLike, nullptr);
+    EXPECT_NEAR(pCircleLike->getLength(), wy3d::TWO_PI * 10.0, 1e-6);
+}
+
+TEST(Sketch3D, EllipseParamRoundTrip)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    wy3d::SketchEllipse3D* pEllipse(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchEllipse3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+            20.0, 0.5, pEllipse), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pEllipse, nullptr);
+
+    const std::string className = wy3d::SketchEllipse3D::classInfo()->className();
+
+    {
+        wydb::ParameterValueUPtr pVal = pEllipse->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_MAJOR_RADIUS);
+        ASSERT_NE(pVal, nullptr);
+        EXPECT_DOUBLE_EQ(pVal->asDouble(), 20.0);
+    }
+    {
+        wydb::ParameterValueUPtr pVal = pEllipse->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_MINOR_RADIUS);
+        ASSERT_NE(pVal, nullptr);
+        EXPECT_DOUBLE_EQ(pVal->asDouble(), 10.0);
+    }
+    {
+        wydb::ParameterValueUPtr pVal = pEllipse->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_AREA);
+        ASSERT_NE(pVal, nullptr);
+        EXPECT_NEAR(pVal->asDouble(), wy3d::PI * 20.0 * 10.0, 1e-9);
+    }
+
+    // 另一个半轴大于长半轴、比值大于 1、只读项均被拒绝
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::SketchEllipse3D* pWrite = wy3d::SketchEllipse3D::cast(pTrans->getElementForWrite(pEllipse->getId()));
+        ASSERT_NE(pWrite, nullptr);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_MINOR_RADIUS,
+            *wydb::ParameterValue::createDouble(30.0)), wy::ErrorStatus::InvalidInput);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_RADIUS_RATIO,
+            *wydb::ParameterValue::createDouble(1.5)), wy::ErrorStatus::InvalidInput);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_PERIMETER,
+            *wydb::ParameterValue::createDouble(50.0)), wy::ErrorStatus::ParameterReadonly);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_AREA,
+            *wydb::ParameterValue::createDouble(50.0)), wy::ErrorStatus::ParameterReadonly);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_NORMAL_X,
+            *wydb::ParameterValue::createDouble(0.0)), wy::ErrorStatus::ParameterReadonly);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+
+    // set RADIUS_RATIO 生效
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::SketchEllipse3D* pWrite = wy3d::SketchEllipse3D::cast(pTrans->getElementForWrite(pEllipse->getId()));
+        ASSERT_NE(pWrite, nullptr);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_RADIUS_RATIO,
+            *wydb::ParameterValue::createDouble(0.25)), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    EXPECT_DOUBLE_EQ(pEllipse->getRadiusRatio(), 0.25);
+    EXPECT_DOUBLE_EQ(pEllipse->getMinorRadius(), 5.0);
+}
+
+TEST(Sketch3D, CreateEllipseArc)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    wy3d::SketchEllipseArc3D* pArc(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        // 极角 3PI/2 -> PI/2 回卷:扫角是 PI
+        EXPECT_EQ(wy3d::SketchEllipseArc3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+            20.0, 0.5, 1.5 * wy3d::PI, 0.5 * wy3d::PI, pArc), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pArc, nullptr);
+    EXPECT_FALSE(pArc->isClosed());
+    EXPECT_FALSE(pArc->isDegenerate(1e-7));
+    EXPECT_NEAR(pArc->getTotalAngle(), wy3d::PI, 1e-9);
+
+    // 极角 PI/2 的端点在短轴正向(该方向上的极半径为短半轴),极角 3PI/2 的端点在短轴负向
+    const wy::Vector3 yDir = pArc->getNormal().cross(pArc->getXDir());
+    const wy::Vector3 endPnt = pArc->getEndPoint();
+    EXPECT_NEAR(endPnt.x(), 10.0 * yDir.x(), 1e-9);
+    EXPECT_NEAR(endPnt.y(), 10.0 * yDir.y(), 1e-9);
+    EXPECT_NEAR(endPnt.z(), 0.0, 1e-9);
+    const wy::Vector3 startPnt = pArc->getStartPoint();
+    EXPECT_NEAR(startPnt.x(), -10.0 * yDir.x(), 1e-9);
+    EXPECT_NEAR(startPnt.y(), -10.0 * yDir.y(), 1e-9);
+
+    // 整圈扫角归零 -> 退化(整椭圆用 SketchEllipse3D)
+    wy3d::SketchEllipseArc3D* pFull(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchEllipseArc3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+            20.0, 0.5, wy3d::PI_2, wy3d::PI_2, pFull), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pFull, nullptr);
+    EXPECT_NEAR(pFull->getTotalAngle(), 0.0, 1e-12);
+    EXPECT_TRUE(pFull->isDegenerate(1e-7));
+}
+
+TEST(Sketch3D, EllipseArcParamRoundTrip)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    wy3d::SketchEllipseArc3D* pArc(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchEllipseArc3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+            10.0, 1.0, 0.0, wy3d::PI_2, pArc), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pArc, nullptr);
+
+    const std::string className = wy3d::SketchEllipseArc3D::classInfo()->className();
+
+    // 角度按度暴露
+    {
+        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_START_ANGLE);
+        ASSERT_NE(pVal, nullptr);
+        EXPECT_NEAR(pVal->asDouble(), 0.0, 1e-9);
+    }
+    {
+        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE);
+        ASSERT_NE(pVal, nullptr);
+        EXPECT_NEAR(pVal->asDouble(), 90.0, 1e-9);
+    }
+    // 长短半轴相等时弧长即 a*扫角
+    {
+        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_LENGTH);
+        ASSERT_NE(pVal, nullptr);
+        EXPECT_NEAR(pVal->asDouble(), 10.0 * wy3d::PI_2, 1e-6);
+    }
+
+    // 弧长只读(不可反解扫角);整圈扫角被拒绝,半圈接受
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::SketchEllipseArc3D* pWrite = wy3d::SketchEllipseArc3D::cast(pTrans->getElementForWrite(pArc->getId()));
+        ASSERT_NE(pWrite, nullptr);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_LENGTH,
+            *wydb::ParameterValue::createDouble(50.0)), wy::ErrorStatus::ParameterReadonly);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE,
+            *wydb::ParameterValue::createDouble(360.0)), wy::ErrorStatus::InvalidInput);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE,
+            *wydb::ParameterValue::createDouble(180.0)), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    EXPECT_NEAR(pArc->getTotalAngle(), wy3d::PI, 1e-9);
+    EXPECT_NEAR(pArc->getLength(), 10.0 * wy3d::PI, 1e-6);
 }

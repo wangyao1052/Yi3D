@@ -54,6 +54,8 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
+#include <wy3dSketchEllipse3D.h>
+#include <wy3dSketchEllipseArc3D.h>
 #include <wy3dSketch3DParamNames.h>
 
 #include <wy3dHelix.h>
@@ -379,6 +381,46 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_END_ANGLE)] = tr("End Angle", "wy3d::SketchArc3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE)] = tr("Total Angle", "wy3d::SketchArc3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_LENGTH)] = tr("Arc Length", "wy3d::SketchArc3D");
+    }
+    // SketchEllipse3D
+    {
+        const std::string& className = wy3d::SketchEllipse3D::className();
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_CENTER_Z)] = tr("Center Point Z", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_NORMAL_X)] = tr("Normal X", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_NORMAL_Y)] = tr("Normal Y", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_NORMAL_Z)] = tr("Normal Z", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_XDIR_X)] = tr("Major Axis X", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_XDIR_Y)] = tr("Major Axis Y", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_XDIR_Z)] = tr("Major Axis Z", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_MAJOR_RADIUS)] = tr("Major Radius", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_MINOR_RADIUS)] = tr("Minor Radius", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_RADIUS_RATIO)] = tr("Radius Ratio", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_PERIMETER)] = tr("Perimeter", "wy3d::SketchEllipse3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_AREA)] = tr("Area", "wy3d::SketchEllipse3D");
+    }
+    // SketchEllipseArc3D
+    {
+        const std::string& className = wy3d::SketchEllipseArc3D::className();
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Z)] = tr("Center Point Z", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_X)] = tr("Normal X", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Y)] = tr("Normal Y", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Z)] = tr("Normal Z", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_X)] = tr("Major Axis X", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_Y)] = tr("Major Axis Y", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_Z)] = tr("Major Axis Z", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_MAJOR_RADIUS)] = tr("Major Radius", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_MINOR_RADIUS)] = tr("Minor Radius", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_RADIUS_RATIO)] = tr("Radius Ratio", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_START_ANGLE)] = tr("Start Angle", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_END_ANGLE)] = tr("End Angle", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE)] = tr("Total Angle", "wy3d::SketchEllipseArc3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_LENGTH)] = tr("Arc Length", "wy3d::SketchEllipseArc3D");
     }
     // DatumPlane
     {

@@ -63,4 +63,38 @@ const char* Sketch3DParamNames::SKETCH_ARC3D_PARAM_END_ANGLE = "EndAngle";
 const char* Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE = "Total Angle";
 const char* Sketch3DParamNames::SKETCH_ARC3D_PARAM_LENGTH = "Length";
 
+// Sketch Ellipse 3D
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_CENTER_X = "CenterPoint X";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_CENTER_Y = "CenterPoint Y";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_CENTER_Z = "CenterPoint Z";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_NORMAL_X = "Normal X";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_NORMAL_Y = "Normal Y";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_NORMAL_Z = "Normal Z";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_XDIR_X = "XDirection X";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_XDIR_Y = "XDirection Y";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_XDIR_Z = "XDirection Z";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_MAJOR_RADIUS = "Major Radius";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_MINOR_RADIUS = "Minor Radius";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_RADIUS_RATIO = "Radius Ratio";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_PERIMETER = "Perimeter";
+const char* Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_AREA = "Area";
+
+// Sketch Ellipse Arc 3D
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_X = "CenterPoint X";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Y = "CenterPoint Y";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Z = "CenterPoint Z";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_X = "Normal X";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Y = "Normal Y";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Z = "Normal Z";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_X = "XDirection X";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_Y = "XDirection Y";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_Z = "XDirection Z";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_MAJOR_RADIUS = "Major Radius";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_MINOR_RADIUS = "Minor Radius";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_RADIUS_RATIO = "Radius Ratio";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_START_ANGLE = "StartAngle";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_END_ANGLE = "EndAngle";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE = "Total Angle";
+const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_LENGTH = "Length";
+
 NS_WY3D_END

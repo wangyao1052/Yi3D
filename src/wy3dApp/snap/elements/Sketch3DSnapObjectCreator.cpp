@@ -24,6 +24,8 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
+#include <wy3dSketchEllipse3D.h>
+#include <wy3dSketchEllipseArc3D.h>
 #include "snap/SnapObject.h"
 
 std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
@@ -81,6 +83,25 @@ std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(con
             snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pArc->getId(), pArc->getStartPoint()));
             snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pArc->getId(), pArc->getEndPoint()));
             snapPoints.emplace_back(this->newSnapPoint<SnapMiddlePoint>(pArc->getId(), pArc->getMiddlePoint()));
+        }
+        else if (const wy3d::SketchEllipse3D* pEllipse = wy3d::SketchEllipse3D::cast(pEntity))
+        {
+            const wy::Vector3 center = pEllipse->getCenter();
+            const wy::Vector3 xDir = pEllipse->getXDir();
+            const wy::Vector3 yDir = pEllipse->getNormal().cross(xDir);
+            const double majorRadius = pEllipse->getMajorRadius();
+            const double minorRadius = pEllipse->getMinorRadius();
+            snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(pEllipse->getId(), center));
+            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center + xDir * majorRadius));
+            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center + yDir * minorRadius));
+            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center - xDir * majorRadius));
+            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center - yDir * minorRadius));
+        }
+        else if (const wy3d::SketchEllipseArc3D* pEllipseArc = wy3d::SketchEllipseArc3D::cast(pEntity))
+        {
+            snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(pEllipseArc->getId(), pEllipseArc->getCenter()));
+            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipseArc->getId(), pEllipseArc->getStartPoint()));
+            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipseArc->getId(), pEllipseArc->getEndPoint()));
         }
         else
         {

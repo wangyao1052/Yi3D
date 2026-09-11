@@ -29,6 +29,8 @@
 #include <wy3dSketchCurve3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
+#include <wy3dSketchEllipse3D.h>
+#include <wy3dSketchEllipseArc3D.h>
 
 NS_WY3D_BEG
 
@@ -139,18 +141,39 @@ bool Sketch3DProfile::init()
             this->setError(ErrorCode::FILLEDSHEET_InvalidData, { id });
             return false;
         }
-        if (const wy3d::SketchCircle3D* pCircle = wy3d::SketchCircle3D::cast(pCurve))
+
+        // 平面无效只可能来自反序列化出的畸形文件,按精确类取法向校验
+        const wyrx::ClassInfo* pCurveClassInfo = pCurve->getClassInfo();
+        if (wy3d::SketchCircle3D::classInfo() == pCurveClassInfo)
         {
-            if (pCircle->getNormal().length() < 0.5)
+            if (static_cast<const wy3d::SketchCircle3D*>(pCurve)->getNormal().length() < 0.5)
             {
                 assert(false);
                 this->setError(ErrorCode::FILLEDSHEET_InvalidData, { id });
                 return false;
             }
         }
-        if (const wy3d::SketchArc3D* pArc = wy3d::SketchArc3D::cast(pCurve))
+        else if (wy3d::SketchArc3D::classInfo() == pCurveClassInfo)
         {
-            if (pArc->getNormal().length() < 0.5)
+            if (static_cast<const wy3d::SketchArc3D*>(pCurve)->getNormal().length() < 0.5)
+            {
+                assert(false);
+                this->setError(ErrorCode::FILLEDSHEET_InvalidData, { id });
+                return false;
+            }
+        }
+        else if (wy3d::SketchEllipse3D::classInfo() == pCurveClassInfo)
+        {
+            if (static_cast<const wy3d::SketchEllipse3D*>(pCurve)->getNormal().length() < 0.5)
+            {
+                assert(false);
+                this->setError(ErrorCode::FILLEDSHEET_InvalidData, { id });
+                return false;
+            }
+        }
+        else if (wy3d::SketchEllipseArc3D::classInfo() == pCurveClassInfo)
+        {
+            if (static_cast<const wy3d::SketchEllipseArc3D*>(pCurve)->getNormal().length() < 0.5)
             {
                 assert(false);
                 this->setError(ErrorCode::FILLEDSHEET_InvalidData, { id });

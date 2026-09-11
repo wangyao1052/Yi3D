@@ -27,6 +27,8 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
+#include <wy3dSketchEllipse3D.h>
+#include <wy3dSketchEllipseArc3D.h>
 #include <cstdint>
 
 namespace py = pybind11;
@@ -170,6 +172,78 @@ void bindWy3dSketch3D(py::module_& m)
             py::arg("normal"),
             py::arg("xDir"),
             py::arg("radius"),
+            py::arg("startAngle"),
+            py::arg("endAngle"),
+            py::return_value_policy::reference);
+
+    py::class_<wy3d::SketchEllipse3D, wy3d::SketchCurve3D, std::unique_ptr<wy3d::SketchEllipse3D, py::nodelete>>(m, "SketchEllipse3D")
+        .def("getCenter", &wy3d::SketchEllipse3D::getCenter)
+        .def("setCenter", &wy3d::SketchEllipse3D::setCenter)
+        .def("getNormal", &wy3d::SketchEllipse3D::getNormal)
+        .def("getXDir", &wy3d::SketchEllipse3D::getXDir)
+        .def("getMajorRadius", &wy3d::SketchEllipse3D::getMajorRadius)
+        .def("setMajorRadius", &wy3d::SketchEllipse3D::setMajorRadius)
+        .def("getMinorRadius", &wy3d::SketchEllipse3D::getMinorRadius)
+        .def("setMinorRadius", &wy3d::SketchEllipse3D::setMinorRadius)
+        .def("getRadiusRatio", &wy3d::SketchEllipse3D::getRadiusRatio)
+        .def("setRadiusRatio", &wy3d::SketchEllipse3D::setRadiusRatio)
+        .def("getStartPoint", &wy3d::SketchEllipse3D::getStartPoint)
+        .def("getEndPoint", &wy3d::SketchEllipse3D::getEndPoint)
+        .def("getPointAt", &wy3d::SketchEllipse3D::getPointAt, py::arg("t"), py::arg("clamp") = true)
+        .def("getLength", &wy3d::SketchEllipse3D::getLength)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans, const wy::Vector3& center, const wy::Vector3& normal, const wy::Vector3& xDir,
+                double majorRadius, double radiusRatio) -> wy3d::SketchEllipse3D*
+            {
+                wy3d::SketchEllipse3D* pOutSketchEllipse3D = nullptr;
+                wy::ErrorStatus status = wy3d::SketchEllipse3D::create(pTrans, center, normal, xDir, majorRadius, radiusRatio, pOutSketchEllipse3D);
+                return pOutSketchEllipse3D;
+            },
+            py::arg("transaction"),
+            py::arg("center"),
+            py::arg("normal"),
+            py::arg("xDir"),
+            py::arg("majorRadius"),
+            py::arg("radiusRatio"),
+            py::return_value_policy::reference);
+
+    py::class_<wy3d::SketchEllipseArc3D, wy3d::SketchCurve3D, std::unique_ptr<wy3d::SketchEllipseArc3D, py::nodelete>>(m, "SketchEllipseArc3D")
+        .def("getCenter", &wy3d::SketchEllipseArc3D::getCenter)
+        .def("setCenter", &wy3d::SketchEllipseArc3D::setCenter)
+        .def("getNormal", &wy3d::SketchEllipseArc3D::getNormal)
+        .def("getXDir", &wy3d::SketchEllipseArc3D::getXDir)
+        .def("getMajorRadius", &wy3d::SketchEllipseArc3D::getMajorRadius)
+        .def("setMajorRadius", &wy3d::SketchEllipseArc3D::setMajorRadius)
+        .def("getMinorRadius", &wy3d::SketchEllipseArc3D::getMinorRadius)
+        .def("setMinorRadius", &wy3d::SketchEllipseArc3D::setMinorRadius)
+        .def("getRadiusRatio", &wy3d::SketchEllipseArc3D::getRadiusRatio)
+        .def("setRadiusRatio", &wy3d::SketchEllipseArc3D::setRadiusRatio)
+        .def("getStartAngle", &wy3d::SketchEllipseArc3D::getStartAngle)
+        .def("setStartAngle", &wy3d::SketchEllipseArc3D::setStartAngle)
+        .def("getEndAngle", &wy3d::SketchEllipseArc3D::getEndAngle)
+        .def("setEndAngle", &wy3d::SketchEllipseArc3D::setEndAngle)
+        .def("getTotalAngle", &wy3d::SketchEllipseArc3D::getTotalAngle)
+        .def("getStartPoint", &wy3d::SketchEllipseArc3D::getStartPoint)
+        .def("getEndPoint", &wy3d::SketchEllipseArc3D::getEndPoint)
+        .def("getPointAt", &wy3d::SketchEllipseArc3D::getPointAt, py::arg("t"), py::arg("clamp") = true)
+        .def("getLength", &wy3d::SketchEllipseArc3D::getLength)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans, const wy::Vector3& center, const wy::Vector3& normal, const wy::Vector3& xDir,
+                double majorRadius, double radiusRatio, double startAngle, double endAngle) -> wy3d::SketchEllipseArc3D*
+            {
+                wy3d::SketchEllipseArc3D* pOutSketchEllipseArc3D = nullptr;
+                wy::ErrorStatus status = wy3d::SketchEllipseArc3D::create(pTrans, center, normal, xDir,
+                    majorRadius, radiusRatio, startAngle, endAngle, pOutSketchEllipseArc3D);
+                return pOutSketchEllipseArc3D;
+            },
+            py::arg("transaction"),
+            py::arg("center"),
+            py::arg("normal"),
+            py::arg("xDir"),
+            py::arg("majorRadius"),
+            py::arg("radiusRatio"),
             py::arg("startAngle"),
             py::arg("endAngle"),
             py::return_value_policy::reference);

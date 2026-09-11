@@ -21,6 +21,8 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
+#include <wy3dSketchEllipse3D.h>
+#include <wy3dSketchEllipseArc3D.h>
 #include "wy3d/topo/Sketch3DTopoBuilder.h"
 
 #include <TopoDS_Edge.hxx>
@@ -31,6 +33,7 @@
 #include <GeomAbs_CurveType.hxx>
 #include <Geom_Line.hxx>
 #include <Geom_Circle.hxx>
+#include <Geom_Ellipse.hxx>
 #include <gp_Pnt.hxx>
 #include <gp_Dir.hxx>
 #include <gp_Vec.hxx>
@@ -524,4 +527,113 @@ TEST(Sketch3DTopo, TopoHistoryRecordsIds)
     EXPECT_EQ(lineIter->second, pLine->getId().value());
     EXPECT_EQ(circleIter->second, pCircle->getId().value());
     EXPECT_EQ(arcIter->second, pArc->getId().value());
+}
+
+// --- Ellipse ---
+
+TEST(Sketch3DTopo, EllipseEdgeCenterRadiusPlane)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    wy3d::SketchEllipse3D* pEllipse(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchEllipse3D::create(pTrans, wy::Vector3(10.0, 0.0, 5.0), wy::Vector3(0.0, 0.0, 1.0),
+            wy::Vector3(1.0, 0.0, 0.0), 20.0, 0.5, pEllipse), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pEllipse, nullptr);
+
+    wy3d::Sketch3DTopoBuilder builder;
+    TopoDS_Edge edge = builder.makeEdge(pEllipse);
+    ASSERT_FALSE(edge.IsNull());
+
+    // 整椭圆边不带修剪参数
+    BRepAdaptor_Curve adaptor(edge);
+    EXPECT_EQ(adaptor.GetType(), GeomAbs_Ellipse);
+
+    Handle(Geom_Ellipse) geomEllipse = Handle(Geom_Ellipse)::DownCast(edgeCurve(edge));
+    ASSERT_FALSE(geomEllipse.IsNull());
+    EXPECT_DOUBLE_EQ(geomEllipse->Location().X(), 10.0);
+    EXPECT_DOUBLE_EQ(geomEllipse->Location().Y(), 0.0);
+    EXPECT_DOUBLE_EQ(geomEllipse->Location().Z(), 5.0);
+    EXPECT_DOUBLE_EQ(geomEllipse->MajorRadius(), 20.0);
+    EXPECT_DOUBLE_EQ(geomEllipse->MinorRadius(), 10.0);
+    EXPECT_DOUBLE_EQ(geomEllipse->Axis().Direction().Z(), 1.0);
+    EXPECT_DOUBLE_EQ(geomEllipse->Position().XDirection().X(), 1.0);
+
+    gp_Pnt cornerMin, cornerMax;
+    getShapeBounds(edge, cornerMin, cornerMax);
+    EXPECT_NEAR(cornerMin.X(), -10.0, 1e-5);
+    EXPECT_NEAR(cornerMax.X(), 30.0, 1e-5);
+    EXPECT_NEAR(cornerMin.Y(), -10.0, 1e-5);
+    EXPECT_NEAR(cornerMax.Y(), 10.0, 1e-5);
+    EXPECT_NEAR(cornerMin.Z(), 5.0, 1e-5);
+    EXPECT_NEAR(cornerMax.Z(), 5.0, 1e-5);
+}
+
+TEST(Sketch3DTopo, EllipseArcEdgeTrimmed)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    wy3d::SketchEllipseArc3D* pArc(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        // 极角 0 -> PI/2(长短半轴相等时参数角与极角一致)
+        EXPECT_EQ(wy3d::SketchEllipseArc3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+            10.0, 1.0, 0.0, wy3d::PI_2, pArc), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pArc, nullptr);
+
+    wy3d::Sketch3DTopoBuilder builder;
+    TopoDS_Edge edge = builder.makeEdge(pArc);
+    ASSERT_FALSE(edge.IsNull());
+
+    BRepAdaptor_Curve adaptor(edge);
+    EXPECT_EQ(adaptor.GetType(), GeomAbs_Ellipse);
+    EXPECT_NEAR(adaptor.FirstParameter(), 0.0, 1e-9);
+    EXPECT_NEAR(adaptor.LastParameter(), wy3d::PI_2, 1e-9);
+
+    // 长短半轴不等时:极角区间换到参数角后仍覆盖同一段弧(端点半径符合极坐标口径)
+    wy3d::SketchEllipseArc3D* pEllipseArc(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchEllipseArc3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+            20.0, 0.5, 0.0, wy3d::PI_2, pEllipseArc), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pEllipseArc, nullptr);
+    TopoDS_Edge edge2 = builder.makeEdge(pEllipseArc);
+    ASSERT_FALSE(edge2.IsNull());
+    BRepAdaptor_Curve adaptor2(edge2);
+    EXPECT_EQ(adaptor2.GetType(), GeomAbs_Ellipse);
+    // 起点为极角 0(长轴正向),终点为极角 PI/2(短轴正向)
+    gp_Pnt p0 = adaptor2.Value(adaptor2.FirstParameter());
+    EXPECT_NEAR(p0.X(), 20.0, 1e-9);
+    EXPECT_NEAR(p0.Y(), 0.0, 1e-9);
+    gp_Pnt p1 = adaptor2.Value(adaptor2.LastParameter());
+    EXPECT_NEAR(p1.X(), 0.0, 1e-9);
+    EXPECT_NEAR(p1.Y(), 10.0, 1e-9);
+}
+
+TEST(Sketch3DTopo, DegenerateEllipseArcReturnsNull)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    // 整圈扫角归零 -> 退化,不建边(整椭圆用 SketchEllipse3D)
+    wy3d::SketchEllipseArc3D* pArc(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchEllipseArc3D::create(pTrans, wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis,
+            10.0, 0.5, wy3d::PI_2, wy3d::PI_2, pArc), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pArc, nullptr);
+
+    wy3d::Sketch3DTopoBuilder builder;
+    EXPECT_TRUE(builder.makeEdge(pArc).IsNull());
 }

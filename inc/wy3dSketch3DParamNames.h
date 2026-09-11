@@ -56,6 +56,40 @@ public:
     static const char* SKETCH_ARC3D_PARAM_END_ANGLE;
     static const char* SKETCH_ARC3D_PARAM_TOTAL_ANGLE;
     static const char* SKETCH_ARC3D_PARAM_LENGTH;
+
+    // Sketch Ellipse 3D
+    static const char* SKETCH_ELLIPSE3D_PARAM_CENTER_X;
+    static const char* SKETCH_ELLIPSE3D_PARAM_CENTER_Y;
+    static const char* SKETCH_ELLIPSE3D_PARAM_CENTER_Z;
+    static const char* SKETCH_ELLIPSE3D_PARAM_NORMAL_X;
+    static const char* SKETCH_ELLIPSE3D_PARAM_NORMAL_Y;
+    static const char* SKETCH_ELLIPSE3D_PARAM_NORMAL_Z;
+    static const char* SKETCH_ELLIPSE3D_PARAM_XDIR_X;
+    static const char* SKETCH_ELLIPSE3D_PARAM_XDIR_Y;
+    static const char* SKETCH_ELLIPSE3D_PARAM_XDIR_Z;
+    static const char* SKETCH_ELLIPSE3D_PARAM_MAJOR_RADIUS;
+    static const char* SKETCH_ELLIPSE3D_PARAM_MINOR_RADIUS;
+    static const char* SKETCH_ELLIPSE3D_PARAM_RADIUS_RATIO;
+    static const char* SKETCH_ELLIPSE3D_PARAM_PERIMETER;
+    static const char* SKETCH_ELLIPSE3D_PARAM_AREA;
+
+    // Sketch Ellipse Arc 3D
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_CENTER_X;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_CENTER_Y;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_CENTER_Z;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_NORMAL_X;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Y;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Z;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_XDIR_X;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_XDIR_Y;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_XDIR_Z;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_MAJOR_RADIUS;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_MINOR_RADIUS;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_RADIUS_RATIO;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_START_ANGLE;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_END_ANGLE;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE;
+    static const char* SKETCH_ELLIPSEARC3D_PARAM_LENGTH;
 };
 
 NS_WY3D_END

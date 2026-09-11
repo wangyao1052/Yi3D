@@ -22,8 +22,25 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
+#include <wy3dSketchEllipse3D.h>
+#include <wy3dSketchEllipseArc3D.h>
 
 static const unsigned int kCirclePointsNum = 100;
+static const unsigned int kEllipsePointsNum = 200;
+
+// 把 xDir 正交化到曲线平面,并取 yDir = normal × xDir
+static inline void buildCurveFrame(const wy::Vector3& normal, const wy::Vector3& xDirIn,
+    wy::Vector3& u, wy::Vector3& v)
+{
+    u = xDirIn - normal * xDirIn.dot(normal);
+    if (u.length() < 0.5)
+    {
+        wy::Vector3 refAxis = (std::fabs(normal.z()) < 0.9) ? wy::Vector3::kZAxis : wy::Vector3::kXAxis;
+        u = normal.cross(refAxis);
+    }
+    u.normalize();
+    v = normal.cross(u);
+}
 
 static inline void lineLinearization(const wy::Vector3& startPnt, const wy::Vector3& endPnt,
     std::vector<wy::Vector3>& vertices, std::vector<unsigned int>& indices)
@@ -41,14 +58,9 @@ static inline void circleLinearization(
     std::vector<wy::Vector3>& vertices, std::vector<unsigned int>& indices)
 {
     // Orthogonalize xDir to the circle plane (fallback to an arbitrary axis)
-    wy::Vector3 u = xDir - normal * xDir.dot(normal);
-    if (u.length() < 0.5)
-    {
-        wy::Vector3 refAxis = (std::fabs(normal.z()) < 0.9) ? wy::Vector3::kZAxis : wy::Vector3::kXAxis;
-        u = normal.cross(refAxis);
-    }
-    u.normalize();
-    wy::Vector3 v = normal.cross(u);
+    wy::Vector3 u;
+    wy::Vector3 v;
+    buildCurveFrame(normal, xDir, u, v);
 
     vertices.reserve(kCirclePointsNum);
     double delta = (wy3d::TWO_PI) / kCirclePointsNum;
@@ -75,14 +87,9 @@ static inline void arcLinearization(
     std::vector<wy::Vector3>& vertices, std::vector<unsigned int>& indices)
 {
     // Orthogonalize xDir to the arc plane (fallback to an arbitrary axis)
-    wy::Vector3 u = xDir - normal * xDir.dot(normal);
-    if (u.length() < 0.5)
-    {
-        wy::Vector3 refAxis = (std::fabs(normal.z()) < 0.9) ? wy::Vector3::kZAxis : wy::Vector3::kXAxis;
-        u = normal.cross(refAxis);
-    }
-    u.normalize();
-    wy::Vector3 v = normal.cross(u);
+    wy::Vector3 u;
+    wy::Vector3 v;
+    buildCurveFrame(normal, xDir, u, v);
 
     double totalAngle = wy3d::normalizeRadian(endAngle - startAngle);
     unsigned int pointsNum = static_cast<unsigned int>(std::llround(kCirclePointsNum * totalAngle / wy3d::TWO_PI));
@@ -93,6 +100,73 @@ static inline void arcLinearization(
     {
         double angle = startAngle + totalAngle * (static_cast<double>(i) / pointsNum);
         vertices.emplace_back(center + u * (std::cos(angle) * radius) + v * (std::sin(angle) * radius));
+    }
+
+    // The polyline is open: no closing edge back to the first point
+    indices.reserve(2 * pointsNum);
+    for (unsigned int i = 0; i < pointsNum; ++i)
+    {
+        indices.push_back(i);
+        indices.push_back(i + 1);
+    }
+}
+
+// 整椭圆:整圈按参数角采样并闭合
+static inline void ellipseLinearization(
+    const wy::Vector3& center, const wy::Vector3& normal, const wy::Vector3& xDir,
+    double majorRadius, double minorRadius,
+    std::vector<wy::Vector3>& vertices, std::vector<unsigned int>& indices)
+{
+    wy::Vector3 u;
+    wy::Vector3 v;
+    buildCurveFrame(normal, xDir, u, v);
+
+    vertices.reserve(kEllipsePointsNum);
+    double delta = wy3d::TWO_PI / kEllipsePointsNum;
+    for (unsigned int i = 0; i < kEllipsePointsNum; ++i)
+    {
+        double c = std::cos(i * delta);
+        double s = std::sin(i * delta);
+        vertices.emplace_back(center + u * (c * majorRadius) + v * (s * minorRadius));
+    }
+
+    indices.reserve(2 * kEllipsePointsNum);
+    for (unsigned int i = 0; i < kEllipsePointsNum - 1; ++i)
+    {
+        indices.push_back(i);
+        indices.push_back(i + 1);
+    }
+    indices.push_back(kEllipsePointsNum - 1);
+    indices.push_back(0);
+}
+
+// 椭圆弧:起止角是极角,先换到参数角再按区间采样(开放折线)
+static inline void ellipseArcLinearization(
+    const wy::Vector3& center, const wy::Vector3& normal, const wy::Vector3& xDir,
+    double majorRadius, double minorRadius, double startAngle, double endAngle,
+    std::vector<wy::Vector3>& vertices, std::vector<unsigned int>& indices)
+{
+    wy::Vector3 u;
+    wy::Vector3 v;
+    buildCurveFrame(normal, xDir, u, v);
+
+    const double startPolar = wy3d::normalizeRadian(startAngle);
+    const double totalPolar = wy3d::normalizeRadian(endAngle - startAngle);
+    const double startParam = wy3d::ellipsePolarAngleToParametricAngle(startPolar, majorRadius, minorRadius);
+    double totalParam = wy3d::ellipsePolarAngleToParametricAngle(startPolar + totalPolar, majorRadius, minorRadius) - startParam;
+    while (totalParam < 0.0)
+    {
+        totalParam += wy3d::TWO_PI;
+    }
+
+    unsigned int pointsNum = static_cast<unsigned int>(std::llround(kEllipsePointsNum * totalParam / wy3d::TWO_PI));
+    if (pointsNum < 4) pointsNum = 4;
+
+    vertices.reserve(pointsNum + 1);
+    for (unsigned int i = 0; i <= pointsNum; ++i)
+    {
+        double angle = startParam + totalParam * (static_cast<double>(i) / pointsNum);
+        vertices.emplace_back(center + u * (std::cos(angle) * majorRadius) + v * (std::sin(angle) * minorRadius));
     }
 
     // The polyline is open: no closing edge back to the first point
@@ -119,6 +193,17 @@ SketchEntity3DLinearization::SketchEntity3DLinearization(const wy3d::SketchEntit
     {
         arcLinearization(pArc->getCenter(), pArc->getNormal(), pArc->getXDir(), pArc->getRadius(),
             pArc->getStartAngle(), pArc->getEndAngle(), _vertices, _indices);
+    }
+    else if (const wy3d::SketchEllipse3D* pEllipse = wy3d::SketchEllipse3D::cast(pEntity))
+    {
+        ellipseLinearization(pEllipse->getCenter(), pEllipse->getNormal(), pEllipse->getXDir(),
+            pEllipse->getMajorRadius(), pEllipse->getMinorRadius(), _vertices, _indices);
+    }
+    else if (const wy3d::SketchEllipseArc3D* pEllipseArc = wy3d::SketchEllipseArc3D::cast(pEntity))
+    {
+        ellipseArcLinearization(pEllipseArc->getCenter(), pEllipseArc->getNormal(), pEllipseArc->getXDir(),
+            pEllipseArc->getMajorRadius(), pEllipseArc->getMinorRadius(),
+            pEllipseArc->getStartAngle(), pEllipseArc->getEndAngle(), _vertices, _indices);
     }
     else
     {

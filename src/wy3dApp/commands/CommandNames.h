@@ -128,6 +128,8 @@ public:
     static inline const std::string ArcBy3Points3D = "ArcBy3Points3D";
     static inline const std::string Rectangle3D = "Rectangle3D";
     static inline const std::string CenterRectangle3D = "CenterRectangle3D";
+    static inline const std::string Ellipse3D = "Ellipse3D";
+    static inline const std::string EllipseArc3D = "EllipseArc3D";
 
     // 三维曲线命令
     static inline const std::string Helix = "Helix";
