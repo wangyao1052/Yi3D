@@ -34,6 +34,7 @@ class SketchCircle3D;
 class SketchArc3D;
 class SketchEllipse3D;
 class SketchEllipseArc3D;
+class SketchSpline3D;
 
 class WY3D_EXPORT Sketch3DTopoBuilder
 {
@@ -46,6 +47,7 @@ public:
     TopoDS_Edge makeEdge(const wy3d::SketchArc3D* pArc);
     TopoDS_Edge makeEdge(const wy3d::SketchEllipse3D* pEllipse);
     TopoDS_Edge makeEdge(const wy3d::SketchEllipseArc3D* pEllipseArc);
+    TopoDS_Edge makeEdge(const wy3d::SketchSpline3D* pSpline);
 
     const std::map<Handle(Geom_Curve), unsigned int>& getCurve2IdMap() const
     {

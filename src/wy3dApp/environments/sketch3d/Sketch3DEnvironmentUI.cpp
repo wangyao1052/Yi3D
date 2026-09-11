@@ -61,6 +61,8 @@ struct Sketch3DActions
     CommandAction* pActionDrawCenterRectangle3D;
     CommandAction* pActionDrawEllipse3D;
     CommandAction* pActionDrawEllipseArc3D;
+    CommandAction* pActionDrawSpline3D;
+    CommandAction* pActionDrawStyleSpline3D;
 };
 
 struct Sketch3DEnvironmentActions
@@ -221,6 +223,22 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
         QIcon(":/images/Sketch_DrawEllipseArc.svg"),
         pActionGroup);
 
+    actions.pActionDrawSpline3D = pEnv->newCommandAction(
+        CommandNames::Spline3D,
+        QCoreApplication::translate("MainWindow", "Spline 3D"),
+        QIcon(":/images/Sketch_DrawSpline.svg"),
+        pActionGroup);
+    if (actions.pActionDrawSpline3D)
+    {
+        actions.pActionDrawSpline3D->setShortcut(QKeySequence(Qt::Key_S));
+    }
+
+    actions.pActionDrawStyleSpline3D = pEnv->newCommandAction(
+        CommandNames::StyleSpline3D,
+        QCoreApplication::translate("MainWindow", "Style Spline 3D"),
+        QIcon(":/images/Sketch_DrawStyleSpline.svg"),
+        pActionGroup);
+
     return actions;
 }
 
@@ -343,6 +361,8 @@ void buildSketch3DToolBarUi(
     pToolBarSketch3D->addAction(actions.pActionDrawCenterRectangle3D);
     pToolBarSketch3D->addAction(actions.pActionDrawEllipse3D);
     pToolBarSketch3D->addAction(actions.pActionDrawEllipseArc3D);
+    pToolBarSketch3D->addAction(actions.pActionDrawSpline3D);
+    pToolBarSketch3D->addAction(actions.pActionDrawStyleSpline3D);
 }
 
 void buildSketch3DEnvironmentToolBarUi(

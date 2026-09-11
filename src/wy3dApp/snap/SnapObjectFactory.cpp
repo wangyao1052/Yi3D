@@ -48,6 +48,7 @@
 #include <wy3dSketchArc3D.h>
 #include <wy3dSketchEllipse3D.h>
 #include <wy3dSketchEllipseArc3D.h>
+#include <wy3dSketchSpline3D.h>
 #include <wy3dHelix.h>
 #include <wy3dImportedSolid.h>
 #include <wy3dNonParametricSolid.h>
@@ -76,6 +77,7 @@
 #include "elements/SketchArc3DSnapObjectCreator.h"
 #include "elements/SketchEllipse3DSnapObjectCreator.h"
 #include "elements/SketchEllipseArc3DSnapObjectCreator.h"
+#include "elements/SketchSpline3DSnapObjectCreator.h"
 #include "elements/HelixSnapObjectCreator.h"
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
@@ -149,6 +151,7 @@ SnapObjectFactory::SnapObjectFactory()
     REGISTER_CREATOR(wy3d::SketchArc3D, SketchArc3DSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SketchEllipse3D, SketchEllipse3DSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SketchEllipseArc3D, SketchEllipseArc3DSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::SketchSpline3D, SketchSpline3DSnapObjectCreator);
 
     // 螺旋线
     REGISTER_CREATOR(wy3d::Helix, HelixSnapObjectCreator);

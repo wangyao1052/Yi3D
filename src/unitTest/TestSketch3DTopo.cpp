@@ -23,6 +23,7 @@
 #include <wy3dSketchArc3D.h>
 #include <wy3dSketchEllipse3D.h>
 #include <wy3dSketchEllipseArc3D.h>
+#include <wy3dSketchSpline3D.h>
 #include "wy3d/topo/Sketch3DTopoBuilder.h"
 
 #include <TopoDS_Edge.hxx>
@@ -636,4 +637,63 @@ TEST(Sketch3DTopo, DegenerateEllipseArcReturnsNull)
 
     wy3d::Sketch3DTopoBuilder builder;
     EXPECT_TRUE(builder.makeEdge(pArc).IsNull());
+}
+
+// --- Spline ---
+
+TEST(Sketch3DTopo, SplineEdgeGeometry)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    const std::vector<wy::Vector3> fitPoints = {
+        wy::Vector3(0.0, 0.0, 0.0),
+        wy::Vector3(10.0, 5.0, 2.0),
+        wy::Vector3(20.0, -5.0, 4.0),
+        wy::Vector3(30.0, 0.0, 6.0) };
+
+    wy3d::SketchSpline3D* pSpline(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, fitPoints, pSpline), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSpline, nullptr);
+
+    wy3d::Sketch3DTopoBuilder builder;
+    TopoDS_Edge edge = builder.makeEdge(pSpline);
+    ASSERT_FALSE(edge.IsNull());
+
+    BRepAdaptor_Curve adaptor(edge);
+    EXPECT_EQ(adaptor.GetType(), GeomAbs_BSplineCurve);
+
+    // 两端点即首末过点
+    gp_Pnt p0 = adaptor.Value(adaptor.FirstParameter());
+    EXPECT_NEAR(p0.X(), 0.0, 1e-9);
+    EXPECT_NEAR(p0.Y(), 0.0, 1e-9);
+    EXPECT_NEAR(p0.Z(), 0.0, 1e-9);
+    gp_Pnt p1 = adaptor.Value(adaptor.LastParameter());
+    EXPECT_NEAR(p1.X(), 30.0, 1e-9);
+    EXPECT_NEAR(p1.Y(), 0.0, 1e-9);
+    EXPECT_NEAR(p1.Z(), 6.0, 1e-9);
+}
+
+TEST(Sketch3DTopo, DegenerateSplineReturnsNull)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    // 首末控制点重合且只有两个点 -> 零长曲线
+    wy3d::SketchSpline3D* pSpline(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, 1,
+            { wy::Vector3(5.0, 5.0, 5.0), wy::Vector3(5.0, 5.0, 5.0) }, pSpline), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSpline, nullptr);
+    EXPECT_TRUE(pSpline->isDegenerate(1e-7));
+
+    wy3d::Sketch3DTopoBuilder builder;
+    EXPECT_TRUE(builder.makeEdge(pSpline).IsNull());
 }

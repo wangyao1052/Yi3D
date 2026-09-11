@@ -24,9 +24,13 @@
 #include <Geom_Line.hxx>
 #include <Geom_Circle.hxx>
 #include <Geom_Ellipse.hxx>
+#include <Geom_BSplineCurve.hxx>
 #include <Geom_TrimmedCurve.hxx>
 #include <gp_Ax2.hxx>
 #include <ElCLib.hxx>
+#include <TColgp_Array1OfPnt.hxx>
+#include <TColStd_Array1OfReal.hxx>
+#include <TColStd_Array1OfInteger.hxx>
 
 #include <wy3dMath.h>
 #include <wy3dSketchEntity3D.h>
@@ -35,6 +39,7 @@
 #include <wy3dSketchArc3D.h>
 #include <wy3dSketchEllipse3D.h>
 #include <wy3dSketchEllipseArc3D.h>
+#include <wy3dSketchSpline3D.h>
 
 #include "utils/OccUtil.h"
 
@@ -95,6 +100,10 @@ TopoDS_Edge Sketch3DTopoBuilder::makeEdge(const wy3d::SketchEntity3D* pEntity)
     else if (const wy3d::SketchEllipseArc3D* pEllipseArc = wy3d::SketchEllipseArc3D::cast(pEntity))
     {
         return this->makeEdge(pEllipseArc);
+    }
+    else if (const wy3d::SketchSpline3D* pSpline = wy3d::SketchSpline3D::cast(pEntity))
+    {
+        return this->makeEdge(pSpline);
     }
     else
     {
@@ -254,6 +263,53 @@ TopoDS_Edge Sketch3DTopoBuilder::makeEdge(const wy3d::SketchEllipseArc3D* pEllip
     }
     Handle(Geom_TrimmedCurve) geomCurve = new Geom_TrimmedCurve(ellipse, startAngle, startAngle + totalAngle);
     return this->makeEdgeFromCurve(geomCurve, pEllipseArc->getId().value());
+}
+
+TopoDS_Edge Sketch3DTopoBuilder::makeEdge(const wy3d::SketchSpline3D* pSpline)
+{
+    assert(pSpline);
+
+    Handle(Geom_BSplineCurve) pCurve = pSpline->getOccSpline();
+    if (pCurve.IsNull() || pSpline->isDegenerate(1e-7))
+    {
+        return TopoDS_Edge();
+    }
+
+    // 从缓存曲线重建一条(极点已是世界坐标,不需要 2D 那种经草图平面的抬升)
+    const Standard_Integer numPoles = pCurve->NbPoles();
+    const Standard_Integer numKnots = pCurve->NbKnots();
+    const Standard_Integer degree = pCurve->Degree();
+    const Standard_Boolean isPeriodic = pCurve->IsPeriodic();
+    const Standard_Boolean isRational = pCurve->IsRational();
+
+    TColgp_Array1OfPnt poles(1, numPoles);
+    for (Standard_Integer i = 1; i <= numPoles; ++i)
+    {
+        poles.SetValue(i, pCurve->Pole(i));
+    }
+    TColStd_Array1OfReal knots(1, numKnots);
+    TColStd_Array1OfInteger mults(1, numKnots);
+    for (Standard_Integer i = 1; i <= numKnots; ++i)
+    {
+        knots.SetValue(i, pCurve->Knot(i));
+        mults.SetValue(i, pCurve->Multiplicity(i));
+    }
+
+    Handle(Geom_BSplineCurve) geomCurve;
+    if (isRational)
+    {
+        TColStd_Array1OfReal weights(1, numPoles);
+        for (Standard_Integer i = 1; i <= numPoles; ++i)
+        {
+            weights.SetValue(i, pCurve->Weight(i));
+        }
+        geomCurve = new Geom_BSplineCurve(poles, weights, knots, mults, degree, isPeriodic);
+    }
+    else
+    {
+        geomCurve = new Geom_BSplineCurve(poles, knots, mults, degree, isPeriodic);
+    }
+    return this->makeEdgeFromCurve(geomCurve, pSpline->getId().value());
 }
 
 TopoDS_Edge Sketch3DTopoBuilder::makeEdgeFromCurve(const Handle(Geom_Curve)& geomCurve, unsigned int entityId)

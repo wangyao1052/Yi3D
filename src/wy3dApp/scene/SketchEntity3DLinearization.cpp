@@ -24,9 +24,13 @@
 #include <wy3dSketchArc3D.h>
 #include <wy3dSketchEllipse3D.h>
 #include <wy3dSketchEllipseArc3D.h>
+#include <wy3dSketchSpline3D.h>
+#include <Geom_BSplineCurve.hxx>
+#include <gp_Pnt.hxx>
 
 static const unsigned int kCirclePointsNum = 100;
 static const unsigned int kEllipsePointsNum = 200;
+static const unsigned int kSplinePointsNumPerSegment = 40;
 
 // 把 xDir 正交化到曲线平面,并取 yDir = normal × xDir
 static inline void buildCurveFrame(const wy::Vector3& normal, const wy::Vector3& xDirIn,
@@ -178,6 +182,50 @@ static inline void ellipseArcLinearization(
     }
 }
 
+// 样条:按节点数 ×40 采样;非有理 2 极点退化为直线段
+static inline void bspline3DLinearization(const Handle(Geom_BSplineCurve)& pBSpline,
+    std::vector<wy::Vector3>& vertices, std::vector<unsigned int>& indices)
+{
+    if (pBSpline.IsNull())
+    {
+        return;
+    }
+
+    if (!pBSpline->IsRational() && 2 == pBSpline->NbPoles())
+    {
+        const gp_Pnt pnt1 = pBSpline->Pole(1);
+        const gp_Pnt pnt2 = pBSpline->Pole(2);
+        vertices.emplace_back(pnt1.X(), pnt1.Y(), pnt1.Z());
+        vertices.emplace_back(pnt2.X(), pnt2.Y(), pnt2.Z());
+        indices.push_back(0);
+        indices.push_back(1);
+        return;
+    }
+
+    const unsigned int numVertices = static_cast<unsigned int>(pBSpline->NbKnots() * kSplinePointsNumPerSegment);
+    if (numVertices < 2)
+    {
+        return;
+    }
+
+    const double firstParam = pBSpline->FirstParameter();
+    const double lastParam = pBSpline->LastParameter();
+    vertices.reserve(numVertices);
+    for (unsigned int i = 0; i < numVertices; ++i)
+    {
+        const double param = firstParam + (lastParam - firstParam) * (static_cast<double>(i) / (numVertices - 1));
+        const gp_Pnt pnt = pBSpline->Value(param);
+        vertices.emplace_back(pnt.X(), pnt.Y(), pnt.Z());
+    }
+
+    indices.reserve(2 * (numVertices - 1));
+    for (unsigned int i = 0; i + 1 < numVertices; ++i)
+    {
+        indices.push_back(i);
+        indices.push_back(i + 1);
+    }
+}
+
 SketchEntity3DLinearization::SketchEntity3DLinearization(const wy3d::SketchEntity3D* pEntity)
 {
     assert(pEntity);
@@ -204,6 +252,10 @@ SketchEntity3DLinearization::SketchEntity3DLinearization(const wy3d::SketchEntit
         ellipseArcLinearization(pEllipseArc->getCenter(), pEllipseArc->getNormal(), pEllipseArc->getXDir(),
             pEllipseArc->getMajorRadius(), pEllipseArc->getMinorRadius(),
             pEllipseArc->getStartAngle(), pEllipseArc->getEndAngle(), _vertices, _indices);
+    }
+    else if (const wy3d::SketchSpline3D* pSpline = wy3d::SketchSpline3D::cast(pEntity))
+    {
+        bspline3DLinearization(pSpline->getOccSpline(), _vertices, _indices);
     }
     else
     {

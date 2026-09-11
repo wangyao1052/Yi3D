@@ -130,6 +130,8 @@ public:
     static inline const std::string CenterRectangle3D = "CenterRectangle3D";
     static inline const std::string Ellipse3D = "Ellipse3D";
     static inline const std::string EllipseArc3D = "EllipseArc3D";
+    static inline const std::string Spline3D = "Spline3D";
+    static inline const std::string StyleSpline3D = "StyleSpline3D";
 
     // 三维曲线命令
     static inline const std::string Helix = "Helix";

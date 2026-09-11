@@ -29,6 +29,7 @@
 #include <wy3dSketchArc3D.h>
 #include <wy3dSketchEllipse3D.h>
 #include <wy3dSketchEllipseArc3D.h>
+#include <wy3dSketchSpline3D.h>
 #include <cstdint>
 
 namespace py = pybind11;
@@ -246,5 +247,39 @@ void bindWy3dSketch3D(py::module_& m)
             py::arg("radiusRatio"),
             py::arg("startAngle"),
             py::arg("endAngle"),
+            py::return_value_policy::reference);
+
+    py::class_<wy3d::SketchSpline3D, wy3d::SketchCurve3D, std::unique_ptr<wy3d::SketchSpline3D, py::nodelete>>(m, "SketchSpline3D")
+        .def("getMode", &wy3d::SketchSpline3D::getMode)
+        .def("getDegree", &wy3d::SketchSpline3D::getDegree)
+        .def("setDegree", &wy3d::SketchSpline3D::setDegree)
+        .def("getPoints", &wy3d::SketchSpline3D::getPoints)
+        .def("setPoints", &wy3d::SketchSpline3D::setPoints)
+        .def("getStartPoint", &wy3d::SketchSpline3D::getStartPoint)
+        .def("getEndPoint", &wy3d::SketchSpline3D::getEndPoint)
+        .def("getPointAt", &wy3d::SketchSpline3D::getPointAt, py::arg("t"), py::arg("clamp") = true)
+        .def("getLength", &wy3d::SketchSpline3D::getLength)
+
+        .def_static("createByFitPoints",
+            [](wydb::Transaction* pTrans, const std::vector<wy::Vector3>& fitPoints) -> wy3d::SketchSpline3D*
+            {
+                wy3d::SketchSpline3D* pOutSketchSpline3D = nullptr;
+                wy::ErrorStatus status = wy3d::SketchSpline3D::create(pTrans, fitPoints, pOutSketchSpline3D);
+                return pOutSketchSpline3D;
+            },
+            py::arg("transaction"),
+            py::arg("fitPoints"),
+            py::return_value_policy::reference)
+
+        .def_static("createByControlPoints",
+            [](wydb::Transaction* pTrans, std::uint32_t degree, const std::vector<wy::Vector3>& controlPoints) -> wy3d::SketchSpline3D*
+            {
+                wy3d::SketchSpline3D* pOutSketchSpline3D = nullptr;
+                wy::ErrorStatus status = wy3d::SketchSpline3D::create(pTrans, degree, controlPoints, pOutSketchSpline3D);
+                return pOutSketchSpline3D;
+            },
+            py::arg("transaction"),
+            py::arg("degree"),
+            py::arg("controlPoints"),
             py::return_value_policy::reference);
 }

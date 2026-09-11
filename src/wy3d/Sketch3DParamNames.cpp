@@ -97,4 +97,7 @@ const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_END_ANGLE = "EndAngle"
 const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE = "Total Angle";
 const char* Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_LENGTH = "Length";
 
+// Sketch Spline 3D
+const char* Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER = "Order";
+
 NS_WY3D_END

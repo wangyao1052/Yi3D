@@ -29,6 +29,7 @@
 #include <wy3dSketchArc3D.h>
 #include <wy3dSketchEllipse3D.h>
 #include <wy3dSketchEllipseArc3D.h>
+#include <wy3dSketchSpline3D.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 
@@ -1009,6 +1010,45 @@ TEST(FilledSheet, Generate3DEllipse)
     }
     EXPECT_EQ(getChainErrorCode(pDb.get(), pSheet->getId()), 0u);
     expectAllTopoNamed(pSheet);
+}
+
+TEST(FilledSheet, Generate3DClosedSpline)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    wydb::ElementId sketchId = wydb::ElementId::kNull;
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Sketch3D* pSketch3D(nullptr);
+        EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+        ASSERT_NE(pSketch3D, nullptr);
+        // 首尾重合的闭合插值样条(单曲线成环)
+        wy3d::SketchSpline3D* pSpline(nullptr);
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, {
+            wy::Vector3(-20.0, 0.0, 0.0),
+            wy::Vector3(0.0, 20.0, 0.0),
+            wy::Vector3(20.0, 0.0, 0.0),
+            wy::Vector3(0.0, -20.0, 0.0),
+            wy::Vector3(-20.0, 0.0, 0.0) }, pSpline), wy::ErrorStatus::Ok);
+        ASSERT_NE(pSpline, nullptr);
+        EXPECT_EQ(pSketch3D->addEntity(pSpline), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+        sketchId = pSketch3D->getId();
+    }
+
+    wy3d::FilledSheet* pSheet(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pTrans->getElementForWrite(sketchId));
+        ASSERT_NE(pSketch3D, nullptr);
+        EXPECT_EQ(wy3d::FilledSheet::create(pTrans, pSketch3D, pSheet), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_FALSE(pSheet->getShape().IsNull());
+    EXPECT_EQ(countFaces(pSheet->getShape()), 1);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSheet->getId()), 0u);
 }
 
 TEST(FilledSheet, Generate3DOpenEllipseArcFails)

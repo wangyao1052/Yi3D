@@ -56,6 +56,7 @@
 #include <wy3dSketchArc3D.h>
 #include <wy3dSketchEllipse3D.h>
 #include <wy3dSketchEllipseArc3D.h>
+#include <wy3dSketchSpline3D.h>
 #include <wy3dSketch3DParamNames.h>
 
 #include <wy3dHelix.h>
@@ -421,6 +422,12 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_END_ANGLE)] = tr("End Angle", "wy3d::SketchEllipseArc3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE)] = tr("Total Angle", "wy3d::SketchEllipseArc3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_LENGTH)] = tr("Arc Length", "wy3d::SketchEllipseArc3D");
+    }
+    // SketchSpline3D
+    {
+        const std::string& className = wy3d::SketchSpline3D::className();
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
+        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER)] = tr("Order", "wy3d::SketchSpline3D");
     }
     // DatumPlane
     {

@@ -26,6 +26,7 @@
 #include <wy3dSketchArc3D.h>
 #include <wy3dSketchEllipse3D.h>
 #include <wy3dSketchEllipseArc3D.h>
+#include <wy3dSketchSpline3D.h>
 #include "snap/SnapObject.h"
 
 std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
@@ -102,6 +103,14 @@ std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(con
             snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(pEllipseArc->getId(), pEllipseArc->getCenter()));
             snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipseArc->getId(), pEllipseArc->getStartPoint()));
             snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipseArc->getId(), pEllipseArc->getEndPoint()));
+        }
+        else if (const wy3d::SketchSpline3D* pSpline = wy3d::SketchSpline3D::cast(pEntity))
+        {
+            // 草图级:每个过点/控制点都给一个端点捕捉
+            for (const wy::Vector3& pnt : pSpline->getPoints())
+            {
+                snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pSpline->getId(), pnt));
+            }
         }
         else
         {

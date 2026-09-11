@@ -24,6 +24,7 @@
 #include <wy3dSketchArc3D.h>
 #include <wy3dSketchEllipse3D.h>
 #include <wy3dSketchEllipseArc3D.h>
+#include <wy3dSketchSpline3D.h>
 #include <wy3dSketch3DParamNames.h>
 #include <wy3dMath.h>
 #include <wydbParameter.h>
@@ -1095,4 +1096,211 @@ TEST(Sketch3D, EllipseArcParamRoundTrip)
     }
     EXPECT_NEAR(pArc->getTotalAngle(), wy3d::PI, 1e-9);
     EXPECT_NEAR(pArc->getLength(), 10.0 * wy3d::PI, 1e-6);
+}
+
+// --- Spline 3D ---
+
+TEST(Sketch3D, CreateSpline3D)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    const std::vector<wy::Vector3> fitPoints = {
+        wy::Vector3(0.0, 0.0, 0.0),
+        wy::Vector3(10.0, 5.0, 2.0),
+        wy::Vector3(20.0, -5.0, 4.0),
+        wy::Vector3(30.0, 0.0, 6.0) };
+
+    wy3d::SketchSpline3D* pSpline(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, fitPoints, pSpline), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSpline, nullptr);
+    EXPECT_EQ(pSpline->getMode(), wy3d::SplineMode::InterpolationPoints);
+    EXPECT_EQ(pSpline->getPoints().size(), 4u);
+    EXPECT_FALSE(pSpline->isClosed());
+    EXPECT_FALSE(pSpline->isDegenerate(1e-7));
+
+    // 插值式的两端点即首末过点
+    const wy::Vector3 startPnt = pSpline->getStartPoint();
+    const wy::Vector3 endPnt = pSpline->getEndPoint();
+    EXPECT_NEAR((startPnt - fitPoints.front()).length(), 0.0, 1e-9);
+    EXPECT_NEAR((endPnt - fitPoints.back()).length(), 0.0, 1e-9);
+
+    // 曲线长度大于首末点直线距离
+    EXPECT_GT(pSpline->getLength(), (fitPoints.back() - fitPoints.front()).length());
+}
+
+TEST(Sketch3D, Spline3DClosedInterpolation)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    // 首尾重合(去重后 4 个过点)-> 周期插值
+    const std::vector<wy::Vector3> fitPoints = {
+        wy::Vector3(0.0, 0.0, 0.0),
+        wy::Vector3(10.0, 5.0, 0.0),
+        wy::Vector3(20.0, 0.0, 1.0),
+        wy::Vector3(10.0, -5.0, 2.0),
+        wy::Vector3(0.0, 0.0, 0.0) };
+
+    wy3d::SketchSpline3D* pSpline(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, fitPoints, pSpline), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSpline, nullptr);
+    EXPECT_TRUE(pSpline->isClosed());
+    // 周期曲线几何上闭合
+    EXPECT_NEAR((pSpline->getStartPoint() - pSpline->getEndPoint()).length(), 0.0, 1e-7);
+    EXPECT_GT(pSpline->getLength(), 0.0);
+}
+
+TEST(Sketch3D, Spline3DControlPoints)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    const std::vector<wy::Vector3> controlPoints = {
+        wy::Vector3(0.0, 0.0, 0.0),
+        wy::Vector3(10.0, 10.0, 0.0),
+        wy::Vector3(20.0, 10.0, 0.0),
+        wy::Vector3(30.0, 0.0, 0.0) };
+
+    wy3d::SketchSpline3D* pSpline(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, 2, controlPoints, pSpline), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSpline, nullptr);
+    EXPECT_EQ(pSpline->getMode(), wy3d::SplineMode::ControlPoints);
+    EXPECT_EQ(pSpline->getDegree(), 2u);
+    EXPECT_FALSE(pSpline->isClosed());
+    // 非周期样条首末极点即两端点
+    EXPECT_NEAR((pSpline->getStartPoint() - controlPoints.front()).length(), 0.0, 1e-9);
+    EXPECT_NEAR((pSpline->getEndPoint() - controlPoints.back()).length(), 0.0, 1e-9);
+
+    // Order 参数即 次数 + 1
+    const std::string className = wy3d::SketchSpline3D::classInfo()->className();
+    {
+        wydb::ParameterValueUPtr pVal = pSpline->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER);
+        ASSERT_NE(pVal, nullptr);
+        EXPECT_EQ(pVal->asInteger(), 3);
+    }
+
+    // 点数撑不起次数时降次而不是留空曲线(空缓存会让整个草图被判退化)
+    wy3d::SketchSpline3D* pShort(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, 3, { controlPoints[0], controlPoints[3] }, pShort), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pShort, nullptr);
+    EXPECT_EQ(pShort->getDegree(), 1u);
+    EXPECT_NEAR(pShort->getLength(), 30.0, 1e-7);
+}
+
+TEST(Sketch3D, Spline3DClosedControlPoints)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    // 首尾重合(去重后 4 个控制点)+ 次数 2 -> 周期构造
+    const std::vector<wy::Vector3> controlPoints = {
+        wy::Vector3(0.0, 0.0, 0.0),
+        wy::Vector3(20.0, 0.0, 0.0),
+        wy::Vector3(20.0, 20.0, 5.0),
+        wy::Vector3(0.0, 20.0, 10.0),
+        wy::Vector3(0.0, 0.0, 0.0) };
+
+    wy3d::SketchSpline3D* pSpline(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, 2, controlPoints, pSpline), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSpline, nullptr);
+    EXPECT_TRUE(pSpline->isClosed());
+    // 周期曲线首末点重合(周期曲线不能保证首极点就是起点,只断言几何闭合)
+    EXPECT_NEAR((pSpline->getStartPoint() - pSpline->getEndPoint()).length(), 0.0, 1e-7);
+    EXPECT_GT(pSpline->getLength(), 60.0); // 大于控制多边形周长的一半以上
+}
+
+TEST(Sketch3D, Spline3DClosedControlPointsClamped)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    // 闭合(去重后 4 个极点)却请求 4 次:应降次建出周期曲线,而不是留空缓存
+    const std::vector<wy::Vector3> controlPoints = {
+        wy::Vector3(0.0, 0.0, 0.0),
+        wy::Vector3(20.0, 0.0, 0.0),
+        wy::Vector3(20.0, 20.0, 5.0),
+        wy::Vector3(0.0, 20.0, 10.0),
+        wy::Vector3(0.0, 0.0, 0.0) };
+
+    wy3d::SketchSpline3D* pSpline(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, 4, controlPoints, pSpline), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSpline, nullptr);
+    EXPECT_EQ(pSpline->getDegree(), 3u);
+    EXPECT_TRUE(pSpline->isClosed());
+    EXPECT_FALSE(pSpline->isDegenerate(1e-7));
+    EXPECT_NEAR((pSpline->getStartPoint() - pSpline->getEndPoint()).length(), 0.0, 1e-7);
+    EXPECT_GT(pSpline->getLength(), 0.0);
+}
+
+TEST(Sketch3D, Spline3DIORoundTrip)
+{
+    std::string filePath("./test_spline3d.wy3dt");
+    wydb::ElementId sketch3DId = wydb::ElementId::kNull;
+    wydb::ElementId splineId = wydb::ElementId::kNull;
+    const std::vector<wy::Vector3> fitPoints = {
+        wy::Vector3(0.0, 0.0, 0.0),
+        wy::Vector3(10.0, 5.0, 2.0),
+        wy::Vector3(20.0, 0.0, 4.0) };
+
+    {
+        std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+        wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+        {
+            wydb::Transaction* pTrans = pMgr->startTransaction();
+            wy3d::Sketch3D* pSketch3D(nullptr);
+            wy3d::SketchSpline3D* pSpline(nullptr);
+            EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+            EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, fitPoints, pSpline), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pSketch3D->addEntity(pSpline), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+
+            sketch3DId = pSketch3D->getId();
+            splineId = pSpline->getId();
+        }
+
+        EXPECT_EQ(pDb->writeFile(filePath, { wydb::FileType::Text }), wy::ErrorStatus::Ok);
+    }
+
+    {
+        std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+        EXPECT_EQ(pDb->readFile(filePath, { wydb::FileType::Text }), wy::ErrorStatus::Ok);
+
+        const wy3d::SketchSpline3D* pSpline = wy3d::SketchSpline3D::cast(pDb->getElement(splineId));
+        ASSERT_NE(pSpline, nullptr);
+        EXPECT_EQ(pSpline->getMode(), wy3d::SplineMode::InterpolationPoints);
+        EXPECT_EQ(pSpline->getPoints().size(), 3u);
+        // 缓存曲线不序列化,读档后取值器要能按点表兜底(不能 assert 也不能让草图被误判退化)
+        EXPECT_FALSE(pSpline->isDegenerate(1e-7));
+        EXPECT_GT(pSpline->getLength(), 0.0);
+        EXPECT_NEAR((pSpline->getStartPoint() - fitPoints.front()).length(), 0.0, 1e-9);
+        EXPECT_NEAR((pSpline->getEndPoint() - fitPoints.back()).length(), 0.0, 1e-9);
+    }
+
+    std::remove(filePath.c_str());
 }

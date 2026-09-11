@@ -90,6 +90,9 @@ public:
     static const char* SKETCH_ELLIPSEARC3D_PARAM_END_ANGLE;
     static const char* SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE;
     static const char* SKETCH_ELLIPSEARC3D_PARAM_LENGTH;
+
+    // Sketch Spline 3D
+    static const char* SKETCH_SPLINE3D_PARAM_ORDER;
 };
 
 NS_WY3D_END

@@ -32,6 +32,12 @@ def createEllipseArc3D(trans, sketch3d, center, normal, xDir, majorRadius, radiu
     trans.addNewlyCreatedElement(ellipseArc)
     sketch3d.addEntity(ellipseArc)
 
+# 创建样条(插值点式:曲线过每个点)
+def createSpline3D(trans, sketch3d, fitPoints):
+    spline = wy3d.SketchSpline3D.createByFitPoints(trans, fitPoints)
+    trans.addNewlyCreatedElement(spline)
+    sketch3d.addEntity(spline)
+
 # 获取当前文档数据库
 db = wy3d.getActiveDatabase()
 
@@ -56,6 +62,13 @@ createEllipse3D(trans, sketch3d, wy3d.Vector3(0.0, -50.0, 0.0), wy3d.Vector3(0.0
 
 # 创建椭圆弧(自长轴方向 0 到 PI/2)
 createEllipseArc3D(trans, sketch3d, wy3d.Vector3(100.0, -50.0, 0.0), wy3d.Vector3(0.0, 0.0, 1.0), wy3d.Vector3(1.0, 0.0, 0.0), 20.0, 0.5, 0.0, math.pi * 0.5)
+
+# 创建样条(过点,含一个离开原平面的点)
+createSpline3D(trans, sketch3d, [
+    wy3d.Vector3(0.0, 100.0, 0.0),
+    wy3d.Vector3(30.0, 115.0, 10.0),
+    wy3d.Vector3(60.0, 100.0, 20.0),
+    wy3d.Vector3(90.0, 85.0, 10.0)])
 
 # 提交事务
 db.getTransactionManager().endTransaction()
