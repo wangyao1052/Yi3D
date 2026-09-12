@@ -43,6 +43,13 @@ public:
         std::uint32_t degree,
         const std::vector<wy::Vector3>& controlPoints,
         SketchSpline3D*& pOutSketchSpline3D);
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        std::uint32_t degree,
+        const std::vector<wy::Vector3>& controlPoints,
+        const std::vector<double>& knots,
+        const std::vector<std::uint32_t>& multiplicities,
+        SketchSpline3D*& pOutSketchSpline3D);
 
     SplineMode getMode() const { return _mode; }
     wy::ErrorStatus setMode(SplineMode mode);
@@ -94,6 +101,8 @@ private:
     Handle(Geom_BSplineCurve) computeCurve() const;
     Handle(Geom_BSplineCurve) newInterpolatedCurve(const std::vector<wy::Vector3>& points) const;
     Handle(Geom_BSplineCurve) newControlPointCurve(std::uint32_t order, const std::vector<wy::Vector3>& points) const;
+    Handle(Geom_BSplineCurve) newControlPointCurve(std::uint32_t order, const std::vector<wy::Vector3>& points,
+        const std::vector<double>& knots, const std::vector<std::uint32_t>& multiplicities) const;
 
     wy::ErrorStatus _setDegree(std::uint32_t degree);
     wy::ErrorStatus _setKnots(const std::vector<double>& knots);

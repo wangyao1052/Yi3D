@@ -63,6 +63,7 @@ struct Sketch3DActions
     CommandAction* pActionDrawEllipseArc3D;
     CommandAction* pActionDrawSpline3D;
     CommandAction* pActionDrawStyleSpline3D;
+    CommandAction* pActionIncludeCurve3D;
 };
 
 struct Sketch3DEnvironmentActions
@@ -239,6 +240,16 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
         QIcon(":/images/Sketch_DrawStyleSpline.svg"),
         pActionGroup);
 
+    actions.pActionIncludeCurve3D = pEnv->newCommandAction(
+        CommandNames::IncludeCurve3D,
+        QCoreApplication::translate("MainWindow", "Include Curve"),
+        QIcon(":/images/Sketch_Project.svg"),
+        pActionGroup);
+    if (actions.pActionIncludeCurve3D)
+    {
+        actions.pActionIncludeCurve3D->setShortcut(QKeySequence(Qt::Key_I));
+    }
+
     return actions;
 }
 
@@ -363,6 +374,7 @@ void buildSketch3DToolBarUi(
     pToolBarSketch3D->addAction(actions.pActionDrawEllipseArc3D);
     pToolBarSketch3D->addAction(actions.pActionDrawSpline3D);
     pToolBarSketch3D->addAction(actions.pActionDrawStyleSpline3D);
+    pToolBarSketch3D->addAction(actions.pActionIncludeCurve3D);
 }
 
 void buildSketch3DEnvironmentToolBarUi(

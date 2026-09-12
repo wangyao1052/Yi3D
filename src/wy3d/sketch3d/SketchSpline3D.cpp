@@ -110,6 +110,65 @@ wy::ErrorStatus SketchSpline3D::create(wydb::Transaction* pTrans, std::uint32_t 
     return wy::ErrorStatus::Ok;
 }
 
+namespace
+{
+// Validity of a custom knot vector: degree/pole count bounds, knot multiplicities,
+// the knot sequence rule (sum(mults) = nbPoles + degree + 1) and strictly increasing knots.
+bool isValidKnotVector(std::uint32_t degree, std::size_t numPoles,
+    const std::vector<double>& knots, const std::vector<std::uint32_t>& multiplicities)
+{
+    if (degree < 1 || degree > 5) return false;
+    if (numPoles < degree + 1) return false;
+    if (knots.size() != multiplicities.size() || knots.size() < 2) return false;
+
+    std::size_t multSum = 0;
+    for (const std::uint32_t mult : multiplicities)
+    {
+        if (mult < 1 || mult > degree + 1) return false;
+        multSum += mult;
+    }
+    if (multSum != numPoles + degree + 1) return false;
+
+    for (std::size_t i = 1; i < knots.size(); ++i)
+    {
+        if (!(knots[i] > knots[i - 1])) return false;
+    }
+    return true;
+}
+}
+
+wy::ErrorStatus SketchSpline3D::create(wydb::Transaction* pTrans, std::uint32_t degree,
+    const std::vector<wy::Vector3>& controlPoints, const std::vector<double>& knots,
+    const std::vector<std::uint32_t>& multiplicities, SketchSpline3D*& pOut)
+{
+    pOut = nullptr;
+    if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
+    if (!isValidKnotVector(degree, controlPoints.size(), knots, multiplicities))
+        return wy::ErrorStatus::InvalidInput;
+
+    SketchSpline3D* pSketchSpline3D = new SketchSpline3D();
+    wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pSketchSpline3D);
+    if (wy::ErrorStatus::Ok != error)
+    {
+        wydb::deleteElement(pSketchSpline3D);
+        return error;
+    }
+
+    error = pSketchSpline3D->setMode(SplineMode::ControlPoints);
+    CHECK_ERROR_FOR_CREATE(error, pSketchSpline3D)
+    error = pSketchSpline3D->setDegree(degree);
+    CHECK_ERROR_FOR_CREATE(error, pSketchSpline3D)
+    error = pSketchSpline3D->setPoints(controlPoints);
+    CHECK_ERROR_FOR_CREATE(error, pSketchSpline3D)
+    error = pSketchSpline3D->setKnots(knots);
+    CHECK_ERROR_FOR_CREATE(error, pSketchSpline3D)
+    error = pSketchSpline3D->setMultiplicities(multiplicities);
+    CHECK_ERROR_FOR_CREATE(error, pSketchSpline3D)
+
+    pOut = pSketchSpline3D;
+    return wy::ErrorStatus::Ok;
+}
+
 wy::ErrorStatus SketchSpline3D::setMode(SplineMode mode)
 {
     if (SplineMode::InterpolationPoints != mode && SplineMode::ControlPoints != mode) return wy::ErrorStatus::InvalidInput;
@@ -228,6 +287,10 @@ Handle(Geom_BSplineCurve) SketchSpline3D::computeCurve() const
         return this->newInterpolatedCurve(_points);
 
     case SplineMode::ControlPoints:
+        if (!_knots.empty() && !_multiplicities.empty() && _knots.size() == _multiplicities.size())
+        {
+            return this->newControlPointCurve(_degree + 1, _points, _knots, _multiplicities);
+        }
         return this->newControlPointCurve(_degree + 1, _points);
 
     default:
@@ -485,6 +548,42 @@ Handle(Geom_BSplineCurve) SketchSpline3D::newControlPointCurve(std::uint32_t ord
         }
 
         return new Geom_BSplineCurve(occControlPoints, occKnots, occMults, degree, isClosed);
+    }
+    catch (const Standard_Failure&)
+    {
+        assert(false);
+        return nullptr;
+    }
+}
+
+Handle(Geom_BSplineCurve) SketchSpline3D::newControlPointCurve(std::uint32_t order,
+    const std::vector<wy::Vector3>& points, const std::vector<double>& knots,
+    const std::vector<std::uint32_t>& multiplicities) const
+{
+    try
+    {
+        if (order < 2 || order > 6) return nullptr;
+        const std::uint32_t degree = order - 1;
+        if (!isValidKnotVector(degree, points.size(), knots, multiplicities)) return nullptr;
+
+        const std::uint32_t numControlPoints = static_cast<std::uint32_t>(points.size());
+        TColgp_Array1OfPnt occControlPoints(1, numControlPoints);
+        for (std::uint32_t i = 0; i < numControlPoints; ++i)
+        {
+            const wy::Vector3& pnt = points[i];
+            occControlPoints.SetValue(i + 1, gp_Pnt(pnt.x(), pnt.y(), pnt.z()));
+        }
+
+        const std::uint32_t numKnots = static_cast<std::uint32_t>(knots.size());
+        TColStd_Array1OfReal occKnots(1, numKnots);
+        TColStd_Array1OfInteger occMults(1, numKnots);
+        for (std::uint32_t i = 0; i < numKnots; ++i)
+        {
+            occKnots.SetValue(i + 1, knots[i]);
+            occMults.SetValue(i + 1, static_cast<Standard_Integer>(multiplicities[i]));
+        }
+
+        return new Geom_BSplineCurve(occControlPoints, occKnots, occMults, degree);
     }
     catch (const Standard_Failure&)
     {

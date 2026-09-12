@@ -37,6 +37,7 @@
 #include "commands/sketch3d/SketchDrawEllipse3DGuiCmd.h"
 #include "commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.h"
 #include "commands/sketch3d/SketchDrawSpline3DGuiCmd.h"
+#include "commands/sketch3d/SketchIncludeCurve3DGuiCmd.h"
 #include "commands/UndoRedoCommands.h"
 #include "commands/sketch3d/Sketch3DCommands.h"
 
@@ -52,6 +53,7 @@
     X(CommandNames::EllipseArc3D, WYAP_CMD_MODAL, SketchDrawEllipseArc3DGuiCmd::classInfo()) \
     X(CommandNames::Spline3D, WYAP_CMD_MODAL, SketchDrawSpline3DGuiCmd_FitPoints::classInfo()) \
     X(CommandNames::StyleSpline3D, WYAP_CMD_MODAL, SketchDrawSpline3DGuiCmd_ControlPoints::classInfo()) \
+    X(CommandNames::IncludeCurve3D, WYAP_CMD_MODAL, SketchIncludeCurve3DGuiCmd::classInfo()) \
     X(CommandNames::Undo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, UndoCommand::classInfo()) \
     X(CommandNames::Redo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, RedoCommand::classInfo()) \
     X(CommandNames::EndSketch3D, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, EndSketch3DCommand::classInfo()) \
