@@ -23,6 +23,7 @@
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Face.hxx>
 #include <TopoDS_Edge.hxx>
+#include <TopoDS_Wire.hxx>
 #include <TopoDS_Compound.hxx>
 #include <wy3dDefs.h>
 #include <wy3dSketchPlane.h>
@@ -35,10 +36,17 @@ class WY3D_EXPORT TopoShapeUtil
 public:
     static TopoDS_Compound makeCompound(const TopoDS_Shape& shape1, const TopoDS_Shape& shape2);
 
-    // 获取拓扑面的信息
     static bool getFacePlane(const TopoDS_Face& face, wy3d::SketchPlane& plane);
 
+    static ErrorCode makeWireFromEdges(
+        const std::vector<TopoDS_Edge>& edges,
+        TopoDS_Wire& outWire);
+
     static ErrorCode makePlanarFaceFromEdges(
+        const std::vector<TopoDS_Edge>& edges,
+        TopoDS_Face& outFace);
+
+    static ErrorCode makeFilledFaceFromEdges(
         const std::vector<TopoDS_Edge>& edges,
         TopoDS_Face& outFace);
 };

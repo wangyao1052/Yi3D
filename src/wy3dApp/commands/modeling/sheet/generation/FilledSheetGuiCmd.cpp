@@ -23,6 +23,10 @@
 #include <QCursor>
 #include <QCoreApplication>
 
+#include <TopoDS.hxx>
+#include <TopTools_IndexedMapOfShape.hxx>
+#include <TopExp.hxx>
+
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wyapSelManager.h>
@@ -30,6 +34,8 @@
 #include <wy3dSketch.h>
 #include <wy3dSketch3D.h>
 #include <wy3dFilledSheet.h>
+#include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include "application/Application.h"
@@ -37,6 +43,7 @@
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"
 #include "select/filters/CommonSelFilters.h"
+#include "wy3d/topo/TopoShapeUtil.h"
 
 // ============================================================================
 // MakeFilledSheet
@@ -118,6 +125,8 @@ FilledSheetGuiCmd::FilledSheetGuiCmd() : OsgGuiCommand(),
 {
     _options.pointSelect = false;
     _options.boxSelect = false;
+
+    _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>();
 }
 
 FilledSheetGuiCmd::~FilledSheetGuiCmd()
@@ -137,6 +146,11 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
     _sketchPickOption.pSelFilter = std::make_shared<MultiClassSelFilter>(
         std::vector<wyrx::ClassInfo*>{ wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo() });
 
+    _edgePickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
+        static_cast<unsigned int>(ElementNodeType::Sheet);
+    _edgePickOption.selType = wy3d::SelectionType::SolidEdge;
+    _edgePickOption.acceptElement = false;
+
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
     wydb::ElementId sketchId(wydb::ElementId::kNull);
     if (this->isValidSketchSelectionSet(ss, sketchId) && !sketchId.isNull())
@@ -150,7 +164,32 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
     }
     else
     {
-        this->gotoStep(Step::SelectSketch);
+        // pick-first: 预选了边
+        bool edgePicked = false;
+        if (ss.getCount() == 1)
+        {
+            const wyap::Selection& sel = ss.createIterator().current();
+            if (sel.getSelectionType() == static_cast<unsigned int>(wy3d::SelectionType::SolidEdge) &&
+                !sel.getElementId().isNull())
+            {
+                _pSelSetHighlightor->addSelection(sel);
+                edgePicked = true;
+            }
+        }
+
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
+
+        if (edgePicked)
+        {
+            this->gotoStep(Step::SelectEdges);
+            this->tryAutoFinishEdgeSelection();
+        }
+        else
+        {
+            this->gotoStep(Step::SelectSketch);
+        }
     }
 
     return wyap::CmdExecution::StartResult::Succeeded;
@@ -162,9 +201,15 @@ void FilledSheetGuiCmd::cleanup()
     _sketchId = wydb::ElementId::kNull;
     _pValidSketchPreview = nullptr;
     _pInvalidSketchTooltip = nullptr;
+    _pEdgePreview = nullptr;
+    if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
+    _edgePickOption.pSelPreFilter = nullptr;
     _pMakeFilledSheet = nullptr;
+    _pMakeNonParametricSheet = nullptr;
 }
 
+// The edge path never passes through finishStep: it ends inside
+// tryAutoFinishEdgeSelection/createSheetFromFace as soon as the loop closes
 bool FilledSheetGuiCmd::finishStep(Step step)
 {
     switch (step)
@@ -204,6 +249,8 @@ bool FilledSheetGuiCmd::finishStep(Step step)
 void FilledSheetGuiCmd::gotoStep(Step step)
 {
     _step = step;
+    // _pSelSetHighlightor is deliberately left alone: both ways into SelectEdges
+    // (pick-first and the first edge click) carry the picked edges in it
 
     switch (step)
     {
@@ -213,8 +260,28 @@ void FilledSheetGuiCmd::gotoStep(Step step)
         Application::instance().getSelManager()->clearSelections();
         Application::instance().getSelManager()->endChange();
 
+        _pValidSketchPreview = nullptr;
+        _pInvalidSketchTooltip = nullptr;
+        _pEdgePreview = nullptr;
+
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
-            "Select a 2D or 3D sketch to create a filled surface."));
+            "Select a 2D or 3D sketch, or edges of a solid or sheet, to create a filled surface."));
+        Application::instance().setCursor(CursorType::SelectElements);
+    }
+    break;
+
+    case Step::SelectEdges:
+    {
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
+
+        _pValidSketchPreview = nullptr;
+        _pInvalidSketchTooltip = nullptr;
+        _pEdgePreview = nullptr;
+
+        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+            "Select edges to enclose a loop; a filled surface is created when the loop closes. Esc: clear edges."));
         Application::instance().setCursor(CursorType::SelectElements);
     }
     break;
@@ -237,6 +304,7 @@ void FilledSheetGuiCmd::onMouseMove(const MouseEvent& event)
         wydb::ElementId pickedSketchId = pickRet.first;
         if (!pickedSketchId.isNull())
         {
+            _pEdgePreview = nullptr;
             preview(pickedSketchId);
             if (!_pValidSketchPreview)
             {
@@ -257,8 +325,15 @@ void FilledSheetGuiCmd::onMouseMove(const MouseEvent& event)
         {
             _pValidSketchPreview = nullptr;
             _pInvalidSketchTooltip = nullptr;
+
+            this->mouseMovePointPickPreview(event.x, event.y, _edgePickOption, _pEdgePreview);
             Application::instance().setCursor(CursorType::SelectElements);
         }
+    }
+    else if (_step == Step::SelectEdges)
+    {
+        this->mouseMovePointPickPreview(event.x, event.y, _edgePickOption, _pEdgePreview);
+        Application::instance().setCursor(CursorType::SelectElements);
     }
 
     return;
@@ -272,6 +347,31 @@ void FilledSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
         {
             _sketchId = _pValidSketchPreview->getSketchId();
             this->finishStep(_step);
+        }
+        else if (_pEdgePreview)
+        {
+            const wyap::Selection& sel = _pEdgePreview->getSelection();
+            _pSelSetHighlightor->addSelection(sel);
+            _pEdgePreview = nullptr;
+            this->gotoStep(Step::SelectEdges);
+            this->tryAutoFinishEdgeSelection();
+        }
+    }
+    else if (_step == Step::SelectEdges)
+    {
+        if (_pEdgePreview)
+        {
+            const wyap::Selection& sel = _pEdgePreview->getSelection();
+            if (_pSelSetHighlightor->containsSelection(sel))
+            {
+                _pSelSetHighlightor->removeSelection(sel);
+            }
+            else
+            {
+                _pSelSetHighlightor->addSelection(sel);
+            }
+            _pEdgePreview = nullptr;
+            this->tryAutoFinishEdgeSelection();
         }
     }
 
@@ -295,6 +395,40 @@ void FilledSheetGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     Application::instance().getSelManager()->clearSelections();
     Application::instance().getSelManager()->endChange();
     this->finishStep(Step::SelectSketch);
+}
+
+void FilledSheetGuiCmd::onEscapeKey()
+{
+    if (Step::SelectEdges == _step)
+    {
+        _pSelSetHighlightor->clearSelections();
+        _pEdgePreview = nullptr;
+        _edgePickOption.pSelPreFilter = nullptr;
+        this->gotoStep(Step::SelectSketch);
+    }
+    else
+    {
+        GuiCommand::onEscapeKey();
+    }
+}
+
+bool FilledSheetGuiCmd::isContextMenuActionVisible_ClearSelection() const
+{
+    return Step::SelectEdges == _step;
+}
+
+void FilledSheetGuiCmd::onContextMenuAction_ClearSelection()
+{
+    if (Step::SelectEdges == _step)
+    {
+        if (_pSelSetHighlightor)
+        {
+            _pSelSetHighlightor->clearSelections();
+            _edgePickOption.pSelPreFilter = nullptr;
+            Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+                "Select edges to enclose a loop; a filled surface is created when the loop closes. Esc: clear edges."));
+        }
+    }
 }
 
 bool FilledSheetGuiCmd::isValidSketchSelectionSet(const wyap::SelectionSet& ss, wydb::ElementId& sketchId)
@@ -355,4 +489,120 @@ void FilledSheetGuiCmd::preview(wydb::ElementId sketchId)
     {
         _pValidSketchPreview = nullptr;
     }
+}
+
+// std::stoul throws on a malformed sub-path, a bad value only makes collection fail
+static bool _parseSubPathIndex(const std::string& subPath, unsigned int& index)
+{
+    if (subPath.empty()) return false;
+    unsigned long long value(0);
+    for (char c : subPath)
+    {
+        if (c < '0' || c > '9') return false;
+        value = value * 10 + static_cast<unsigned long long>(c - '0');
+        if (value > 0xFFFFFFFFull) return false;
+    }
+    index = static_cast<unsigned int>(value);
+    return true;
+}
+
+bool FilledSheetGuiCmd::collectPickedEdges(std::vector<TopoDS_Edge>& edges) const
+{
+    edges.clear();
+    if (!_pSelSetHighlightor) return false;
+    const wyap::SelectionSet& ss = _pSelSetHighlightor->getSelectionSet();
+    if (ss.isEmpty()) return false;
+
+    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    if (!pDb) return false;
+
+    std::map<wydb::ElementId, std::vector<std::string>> id2SubPaths;
+    for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        const wyap::Selection& sel = iter.current();
+        if (sel.getElementId().isNull()) return false;
+        if (sel.getSelectionType() != static_cast<unsigned int>(wy3d::SelectionType::SolidEdge)) return false;
+        const std::string& subPath = sel.getSubPath();
+        if (subPath.empty()) return false;
+        id2SubPaths[sel.getElementId()].emplace_back(subPath);
+    }
+
+    for (const auto& kv : id2SubPaths)
+    {
+        TopoDS_Shape shape;
+        const wydb::Element* pElem = pDb->getElement(kv.first);
+        if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+        {
+            shape = pSolid->getShape();
+        }
+        else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+        {
+            shape = pSheet->getShape();
+        }
+        else
+        {
+            return false;
+        }
+        if (shape.IsNull()) return false;
+
+        TopTools_IndexedMapOfShape edgeMap;
+        TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_EDGE, edgeMap);
+        for (const std::string& subPath : kv.second)
+        {
+            unsigned int edgeIndex(0);
+            if (!_parseSubPathIndex(subPath, edgeIndex)) return false;
+            if (edgeIndex >= static_cast<unsigned int>(edgeMap.Extent())) return false;
+            edges.emplace_back(TopoDS::Edge(edgeMap(edgeIndex + 1)));
+        }
+    }
+
+    return !edges.empty();
+}
+
+void FilledSheetGuiCmd::tryAutoFinishEdgeSelection()
+{
+    std::vector<TopoDS_Edge> edges;
+    if (!this->collectPickedEdges(edges))
+    {
+        // Open loop or nothing picked: stay silent, keep the user in edge mode
+        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+            "Select edges to enclose a loop."));
+        return;
+    }
+
+    TopoDS_Face face;
+    wy3d::ErrorCode errorCode = wy3d::TopoShapeUtil::makeFilledFaceFromEdges(edges, face);
+    if (wy3d::ErrorCode::NoError == errorCode)
+    {
+        this->createSheetFromFace(face);
+        return;
+    }
+    if (wy3d::ErrorCode::FILLEDSHEET_GenerateError == errorCode)
+    {
+        MessageBoxUtil::showError(static_cast<unsigned int>(errorCode));
+        this->requestAbort(AbortCause::ErrorTerminate);
+        return;
+    }
+
+    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+        "Keep selecting edges to close the loop."));
+}
+
+bool FilledSheetGuiCmd::createSheetFromFace(const TopoDS_Face& face)
+{
+    _pMakeNonParametricSheet = std::make_shared<MakeNonParametricSheet>(this);
+    unsigned int errorCode(0);
+    if (!_pMakeNonParametricSheet->init(face, errorCode))
+    {
+        _pEdgePreview = nullptr;
+        _pMakeNonParametricSheet = nullptr;
+        if (0 != errorCode) MessageBoxUtil::showError(errorCode);
+        this->requestAbort(AbortCause::ErrorTerminate);
+        return false;
+    }
+    _pEdgePreview = nullptr;
+    _pMakeNonParametricSheet->commit();
+    _pMakeNonParametricSheet = nullptr;
+    this->requestEnd();
+    return true;
 }

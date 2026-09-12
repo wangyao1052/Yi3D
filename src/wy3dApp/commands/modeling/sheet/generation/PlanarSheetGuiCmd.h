@@ -21,6 +21,7 @@
 
 #include "commands/OsgGuiCommand.h"
 #include "commands/GuiCmdMakeElement.h"
+#include "commands/modeling/sheet/generation/MakeNonParametricSheet.h"
 #include "select/SelectionSetHighlightor.h"
 #include "select/SelectPreview.h"
 #include <map>
@@ -29,7 +30,6 @@
 #include <wyVector3.h>
 #include <wy3dVector3.h>
 #include <wy3dPlanarSheet.h>
-#include <wy3dNonParametricSheet.h>
 #include <wy3dSketch.h>
 #include "commands/transient/ValidSketchTransient.h"
 
@@ -52,21 +52,6 @@ public:
 private:
     wy3d::PlanarSheet* _pPlanarSheet;
     wy::Vector3 _workPlnNormal;
-};
-
-class MakeNonParametricSheet : public GuiCmdMakeElement
-{
-public:
-    MakeNonParametricSheet(GuiCommand* pGuiCmd)
-        : GuiCmdMakeElement(pGuiCmd), _pNonParametricSheet(nullptr) {}
-    ~MakeNonParametricSheet() {}
-
-    virtual void collectElements(std::set<wydb::ElementId>& idSet) const override;
-
-    bool init(const TopoDS_Shape& shape, unsigned int& errorCode);
-
-private:
-    wy3d::NonParametricSheet* _pNonParametricSheet;
 };
 
 class PlanarSheetGuiCmd : public OsgGuiCommand

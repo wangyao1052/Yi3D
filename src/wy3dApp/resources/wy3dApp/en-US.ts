@@ -1356,8 +1356,24 @@ Do you want to save it to the original file now?
 <context>
     <name>FilledSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="216"/>
-        <source>Select a 2D or 3D sketch to create a filled surface.</source>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="267"/>
+        <source>Select a 2D or 3D sketch, or edges of a solid or sheet, to create a filled surface.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="283"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="428"/>
+        <source>Select edges to enclose a loop; a filled surface is created when the loop closes. Esc: clear edges.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="568"/>
+        <source>Select edges to enclose a loop.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="587"/>
+        <source>Keep selecting edges to close the loop.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4135,23 +4151,23 @@ Do you want to save it to the original file now?
 <context>
     <name>PlanarSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="327"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="286"/>
         <source>Select a sketch to create a planar sheet, or select edges to enclose a planar face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="342"/>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="502"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="301"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="461"/>
         <source>Select edges to enclose a planar face; a sheet is created when the loop closes. Esc: clear edges.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="622"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="581"/>
         <source>Select edges to enclose a planar face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="640"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="599"/>
         <source>Keep selecting edges to close the loop.</source>
         <translation type="unfinished"></translation>
     </message>

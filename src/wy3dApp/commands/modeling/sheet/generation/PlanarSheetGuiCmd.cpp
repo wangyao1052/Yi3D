@@ -35,7 +35,6 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchProfile.h>
 #include <wy3dPlanarSheet.h>
-#include <wy3dNonParametricSheet.h>
 #include <wy3dSolid.h>
 #include <wy3dImpl.h>
 #include <wy3dErrorCode.h>
@@ -102,46 +101,6 @@ ABORT_TRANS:
     _pDb->getTransactionManager()->abortTransaction();
     _pPlanarSheet = nullptr;
     _workPlnNormal.set(0.0, 0.0, 1.0);
-    return false;
-}
-
-// ============================================================================
-// MakeNonParametricSheet
-// ============================================================================
-
-void MakeNonParametricSheet::collectElements(std::set<wydb::ElementId>& idSet) const
-{
-    if (_pNonParametricSheet) idSet.insert(_pNonParametricSheet->getId());
-}
-
-bool MakeNonParametricSheet::init(const TopoDS_Shape& shape, unsigned int& errorCode)
-{
-    errorCode = 0;
-    if (!_pDb || !_pTopTrans || _pNonParametricSheet || _isFinished)
-        return false;
-    if (shape.IsNull())
-        return false;
-
-    wy3d::NonParametricSheet* pSheet = nullptr;
-    wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction();
-    if (!pTrans) return false;
-
-    if (wy::ErrorStatus::Ok != wy3d::NonParametricSheet::create(pTrans, shape, pSheet) || !pSheet)
-    {
-        assert(false);
-        goto ABORT_TRANS;
-    }
-    _pDb->getTransactionManager()->endTransaction();
-    _pNonParametricSheet = pSheet;
-    errorCode = wy3d::getErrorCodeFromChainUpdateFeedback(
-        _pDb->getTransactionManager()->getChainUpdateFeedback(pSheet->getId()).get());
-    if (errorCode != 0) return false;
-    return true;
-
-ABORT_TRANS:
-    assert(false);
-    _pDb->getTransactionManager()->abortTransaction();
-    _pNonParametricSheet = nullptr;
     return false;
 }
 

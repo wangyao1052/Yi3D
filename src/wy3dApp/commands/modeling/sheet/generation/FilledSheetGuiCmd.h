@@ -21,9 +21,15 @@
 
 #include "commands/OsgGuiCommand.h"
 #include "commands/GuiCmdMakeElement.h"
+#include "commands/modeling/sheet/generation/MakeNonParametricSheet.h"
 #include "commands/transient/ValidSketchTransient.h"
+#include "select/SelectionSetHighlightor.h"
+#include "select/SelectPreview.h"
 #include <map>
 #include <memory>
+#include <vector>
+#include <TopoDS_Edge.hxx>
+#include <TopoDS_Face.hxx>
 #include <wy3dFilledSheet.h>
 #include <wy3dSketch.h>
 #include <wy3dSketch3D.h>
@@ -58,6 +64,7 @@ protected:
     {
         Undefined = 0,
         SelectSketch = 1,
+        SelectEdges = 2,
     };
     virtual void cleanup() override;
     virtual bool finishStep(Step step);
@@ -67,19 +74,33 @@ protected:
     virtual void onLeftMouseUp(const MouseEvent& event) override;
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) override;
 
+    virtual void onEscapeKey() override;
+    virtual bool isContextMenuActionVisible_ClearSelection() const override;
+    virtual void onContextMenuAction_ClearSelection() override;
+
 private:
     bool isValidSketchSelectionSet(const wyap::SelectionSet& ss, wydb::ElementId& sketchId);
     bool isValidBoundarySketch(const wydb::ElementId& sketchId, QString& error);
     void preview(wydb::ElementId sketchId);
+
+    // Extract the picked edges of Solid/Sheet elements
+    bool collectPickedEdges(std::vector<TopoDS_Edge>& edges) const;
+    // Re-check the picked edges on every selection change
+    void tryAutoFinishEdgeSelection();
+    bool createSheetFromFace(const TopoDS_Face& face);
 
 protected:
     Step _step;
     wydb::ElementId _sketchId;
 
     PointPickOption _sketchPickOption;
+    PointPickOption _edgePickOption;
 
     std::shared_ptr<ValidSketchTransient> _pValidSketchPreview;
     std::shared_ptr<InvalidSketchToolTip> _pInvalidSketchTooltip;
+
+    SelectPreviewSPtr _pEdgePreview;
+    SelectionSetHighlightorSPtr _pSelSetHighlightor;
 
     struct SketchValidInfo
     {
@@ -91,6 +112,7 @@ protected:
     std::map<wydb::ElementId, SketchValidInfo> _sketchId2ValidInfo;
 
     std::shared_ptr<MakeFilledSheet> _pMakeFilledSheet;
+    std::shared_ptr<MakeNonParametricSheet> _pMakeNonParametricSheet;
 };
 
 #endif // WY3DAPP_FILLED_SHEET_GUI_CMD_H
