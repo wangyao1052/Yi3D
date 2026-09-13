@@ -133,6 +133,7 @@ public:
     static inline const std::string Spline3D = "Spline3D";
     static inline const std::string StyleSpline3D = "StyleSpline3D";
     static inline const std::string IncludeCurve3D = "IncludeCurve3D";
+    static inline const std::string IntersectionCurve3D = "IntersectionCurve3D";
 
     // 三维曲线命令
     static inline const std::string Helix = "Helix";

@@ -64,6 +64,7 @@ struct Sketch3DActions
     CommandAction* pActionDrawSpline3D;
     CommandAction* pActionDrawStyleSpline3D;
     CommandAction* pActionIncludeCurve3D;
+    CommandAction* pActionIntersectionCurve3D;
 };
 
 struct Sketch3DEnvironmentActions
@@ -250,6 +251,16 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
         actions.pActionIncludeCurve3D->setShortcut(QKeySequence(Qt::Key_I));
     }
 
+    actions.pActionIntersectionCurve3D = pEnv->newCommandAction(
+        CommandNames::IntersectionCurve3D,
+        QCoreApplication::translate("MainWindow", "Intersection Curve"),
+        QIcon(":/images/Sketch_IntersectionCurve.svg"),
+        pActionGroup);
+    if (actions.pActionIntersectionCurve3D)
+    {
+        actions.pActionIntersectionCurve3D->setShortcut(QKeySequence(Qt::Key_X));
+    }
+
     return actions;
 }
 
@@ -375,6 +386,7 @@ void buildSketch3DToolBarUi(
     pToolBarSketch3D->addAction(actions.pActionDrawSpline3D);
     pToolBarSketch3D->addAction(actions.pActionDrawStyleSpline3D);
     pToolBarSketch3D->addAction(actions.pActionIncludeCurve3D);
+    pToolBarSketch3D->addAction(actions.pActionIntersectionCurve3D);
 }
 
 void buildSketch3DEnvironmentToolBarUi(

@@ -315,8 +315,9 @@ TEST(Sketch3DEdgeUtil, SplineSpecIsExact)
 
 TEST(Sketch3DEdgeUtil, HighDegreeSplineFallsBackToSampling)
 {
-    TColgp_Array1OfPnt poles(1, 8);
-    for (Standard_Integer i = 1; i <= 8; ++i)
+    // Degree 9, one above what a sketch spline can hold. Ten poles take sum(mults) = 20.
+    TColgp_Array1OfPnt poles(1, 10);
+    for (Standard_Integer i = 1; i <= 10; ++i)
     {
         poles.SetValue(i, gp_Pnt(static_cast<double>(i), (i % 2 == 0) ? 3.0 : 0.0, 0.0));
     }
@@ -324,15 +325,41 @@ TEST(Sketch3DEdgeUtil, HighDegreeSplineFallsBackToSampling)
     knots.SetValue(1, 0.0);
     knots.SetValue(2, 1.0);
     TColStd_Array1OfInteger multiplicities(1, 2);
-    multiplicities.SetValue(1, 8);
-    multiplicities.SetValue(2, 8);
-    Handle(Geom_BSplineCurve) pSpline = new Geom_BSplineCurve(poles, knots, multiplicities, 7);
-    ASSERT_EQ(pSpline->Degree(), 7);
+    multiplicities.SetValue(1, 10);
+    multiplicities.SetValue(2, 10);
+    Handle(Geom_BSplineCurve) pSpline = new Geom_BSplineCurve(poles, knots, multiplicities, 9);
+    ASSERT_EQ(pSpline->Degree(), 9);
 
     CurveSpec spec;
     EXPECT_EQ(wy3d::Sketch3DEdgeUtil::makeCurveSpec(pSpline, 0.0, 1.0, spec), Result::Ok);
     EXPECT_EQ(spec.kind, Kind::FitPointSpline);
     EXPECT_GT(spec.points.size(), 2u);
+}
+
+// The other side of the same window: at the limit the curve is carried across rather than
+// sampled, so the sketch gets the geometry the model actually has. This window and the limit
+// SketchSpline3D enforces are the same number and are meant to stay in step.
+TEST(Sketch3DEdgeUtil, SplineAtTheDegreeLimitIsCarriedAcross)
+{
+    TColgp_Array1OfPnt poles(1, 9);
+    for (Standard_Integer i = 1; i <= 9; ++i)
+    {
+        poles.SetValue(i, gp_Pnt(static_cast<double>(i), (i % 2 == 0) ? 3.0 : 0.0, 0.0));
+    }
+    TColStd_Array1OfReal knots(1, 2);
+    knots.SetValue(1, 0.0);
+    knots.SetValue(2, 1.0);
+    TColStd_Array1OfInteger multiplicities(1, 2);
+    multiplicities.SetValue(1, 9);
+    multiplicities.SetValue(2, 9);
+    Handle(Geom_BSplineCurve) pSpline = new Geom_BSplineCurve(poles, knots, multiplicities, 8);
+    ASSERT_EQ(pSpline->Degree(), 8);
+
+    CurveSpec spec;
+    EXPECT_EQ(wy3d::Sketch3DEdgeUtil::makeCurveSpec(pSpline, 0.0, 1.0, spec), Result::Ok);
+    EXPECT_EQ(spec.kind, Kind::ControlPointSpline);
+    EXPECT_EQ(spec.degree, 8u);
+    EXPECT_EQ(spec.points.size(), 9u);
 }
 
 TEST(Sketch3DEdgeUtil, RationalSplineFallsBackToSampling)
@@ -606,9 +633,22 @@ TEST(Sketch3DEdgeUtil, SplineCustomKnotsRejectsInvalidInput)
         std::vector<std::uint32_t> multiplicities;
     };
 
+    // Ten poles and degree 9 are consistent with each other: sum(mults) has to be 20, which
+    // { 10, 10 } on { 0, 1 } supplies. The degree limit is the only thing left to reject it.
+    {
+        std::vector<wy::Vector3> manyPoles;
+        for (int i = 0; i < 10; ++i) manyPoles.push_back(wy::Vector3(i * 1.0, 0.0, 0.0));
+
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::SketchSpline3D* pSpline(nullptr);
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, 9, manyPoles, { 0.0, 1.0 }, { 10u, 10u }, pSpline),
+            wy::ErrorStatus::InvalidInput);
+        EXPECT_EQ(pSpline, nullptr);
+        EXPECT_EQ(pMgr->abortTransaction(), wy::ErrorStatus::Ok);
+    }
+
     // The four poles make degree 3 want sum(mults) = 8.
     const std::vector<RejectCase> cases = {
-        { 6u, { 0.0, 1.0 }, { 4u, 4u } },              // degree out of range
         { 3u, { 0.0, 0.5, 1.0 }, { 4u, 4u } },         // knots/multiplicities size mismatch
         { 3u, { 0.0, 1.0 }, { 4u, 3u } },              // sum(mults) < nbPoles + degree + 1
         { 3u, { 0.0, 1.0 }, { 4u, 5u } },              // multiplicity > degree + 1
@@ -626,6 +666,66 @@ TEST(Sketch3DEdgeUtil, SplineCustomKnotsRejectsInvalidInput)
     }
 
     EXPECT_EQ(countElements(pDb.get()), before);
+}
+
+// The knot vector builder carries an order bound of its own, and it has to sit one above the
+// degree limit rather than at it. Set one short, this call hands back a null curve, and a spline
+// with a null curve makes the whole sketch read as degenerate - which is a silent failure, not
+// an error the caller sees.
+TEST(Sketch3DEdgeUtil, SplineCustomKnotsAtTheDegreeLimit)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    // Degree 8 over 9 poles takes sum(mults) = 18, so a clamped { 9, 9 } across { 0, 1 }.
+    std::vector<wy::Vector3> poles;
+    for (int i = 0; i < 9; ++i) poles.push_back(wy::Vector3(i * 5.0, std::sin(i * 0.8) * 4.0, 0.0));
+
+    wy3d::SketchSpline3D* pSpline(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, 8, poles, { 0.0, 1.0 }, { 9u, 9u }, pSpline),
+            wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSpline, nullptr);
+    EXPECT_EQ(pSpline->getDegree(), 8u);
+    ASSERT_FALSE(pSpline->getOccSpline().IsNull());
+    EXPECT_EQ(pSpline->getOccSpline()->Degree(), 8);
+    EXPECT_FALSE(pSpline->isDegenerate(1e-7));
+    EXPECT_GT(pSpline->getLength(), 0.0);
+}
+
+// The 2D spline has no unit test file of its own, so it is covered here, where a 2D spline is
+// already built as a source for the conversion tests. Its degree limit is the same as the 3D
+// one, and the two are meant to move together.
+TEST(Sketch3DEdgeUtil, SketchSplineDegreeLimit)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    std::vector<wy::Vector2> controlPoints;
+    for (int i = 0; i < 9; ++i) controlPoints.push_back(wy::Vector2(i * 10.0, std::sin(i * 0.6) * 4.0));
+
+    wy3d::SketchSpline* pSpline(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline::create(pTrans, 8, controlPoints, pSpline), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSpline, nullptr);
+    EXPECT_EQ(pSpline->getDegree(), 8u);
+    EXPECT_GT(pSpline->getLength(), 0.0);
+
+    std::vector<wy::Vector2> tenPoints = controlPoints;
+    tenPoints.push_back(wy::Vector2(90.0, 0.0));
+    wy3d::SketchSpline* pTooHigh(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline::create(pTrans, 9, tenPoints, pTooHigh), wy::ErrorStatus::InvalidInput);
+        EXPECT_EQ(pMgr->abortTransaction(), wy::ErrorStatus::Ok);
+    }
+    EXPECT_EQ(pTooHigh, nullptr);
 }
 
 TEST(Sketch3DEdgeUtil, SplineCustomKnotsIORoundTrip)

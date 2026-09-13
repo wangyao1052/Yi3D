@@ -77,7 +77,7 @@ wy::ErrorStatus SketchSpline::create(wydb::Transaction* pTrans, std::uint32_t de
     const std::vector<wy::Vector2>& controlPoints, SketchSpline*& pOut)
 {
     if (!pTrans) { pOut = nullptr; return wy::ErrorStatus::NullDatabasePointer; }
-    if (degree < 1 || degree > 5) { pOut = nullptr; return wy::ErrorStatus::InvalidInput; }
+    if (degree < 1 || degree > 8) { pOut = nullptr; return wy::ErrorStatus::InvalidInput; }
     if (controlPoints.size() < 2) { pOut = nullptr; return wy::ErrorStatus::InvalidInput; }
 
     SketchSpline* pSketchSpline = new SketchSpline();
@@ -97,7 +97,7 @@ wy::ErrorStatus SketchSpline::create(wydb::Transaction* pTrans, std::uint32_t de
     const std::vector<std::uint32_t>& multiplicities, SketchSpline*& pOut)
 {
     if (!pTrans) { pOut = nullptr; return wy::ErrorStatus::NullDatabasePointer; }
-    if (degree < 1 || degree > 5) { pOut = nullptr; return wy::ErrorStatus::InvalidInput; }
+    if (degree < 1 || degree > 8) { pOut = nullptr; return wy::ErrorStatus::InvalidInput; }
     if (controlPoints.size() < 2 || knots.size() < 2 || multiplicities.size() < 2 || knots.size() != multiplicities.size())
     { pOut = nullptr; return wy::ErrorStatus::InvalidInput; }
 
@@ -139,7 +139,7 @@ wy::ErrorStatus SketchSpline::setDegree(std::uint32_t degree)
 
 wy::ErrorStatus SketchSpline::_setDegree(std::uint32_t degree)
 {
-    if (degree < 1 || degree > 5) return wy::ErrorStatus::InvalidInput;
+    if (degree < 1 || degree > 8) return wy::ErrorStatus::InvalidInput;
     if (degree == _degree) return wy::ErrorStatus::Ok;
     wy::ErrorStatus error = this->prepareForFieldChange(kSketchSpline_degree);
     if (wy::ErrorStatus::Ok == error)

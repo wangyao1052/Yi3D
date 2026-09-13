@@ -233,7 +233,7 @@ Result makeSplineSpec(const Handle(Geom_Curve)& pCurve, double first, double las
     // A rational curve needs weights and a high degree cannot be held by the sketch
     // entity, so both fall back to sampling.
     const Standard_Integer degree = pSpline->Degree();
-    if (pSpline->IsRational() || degree < 1 || degree > 5) return sampleCurve(pCurve, first, last, spec);
+    if (pSpline->IsRational() || degree < 1 || degree > 8) return sampleCurve(pCurve, first, last, spec);
 
     Handle(Geom_BSplineCurve) source = pSpline;
     if (pSpline->IsPeriodic())

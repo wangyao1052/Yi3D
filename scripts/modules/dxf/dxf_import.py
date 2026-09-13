@@ -145,7 +145,7 @@ def _import_spline(e, trans, sketch, stats, layer):
         return
     control_points = list(e.control_points)
     degree = int(e.dxf.degree)
-    if len(control_points) >= 2 and 1 <= degree <= 5:
+    if len(control_points) >= 2 and 1 <= degree <= 8:
         spline = wy3d.SketchSpline.createByControlPoints(
             trans, degree, [make_vec2(p) for p in control_points])
         if spline is None:

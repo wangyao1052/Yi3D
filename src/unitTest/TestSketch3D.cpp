@@ -1204,6 +1204,55 @@ TEST(Sketch3D, Spline3DControlPoints)
     EXPECT_NEAR(pShort->getLength(), 30.0, 1e-7);
 }
 
+// The degree limit is 8, which the property panel shows as order 9. Sketch3DEdgeUtil mirrors
+// this number in the window it uses to decide whether a model edge can be carried into the
+// sketch as it is, so the two have to move together: one short on either side and a curve that
+// the sketch could hold gets resampled to 64 points instead.
+TEST(Sketch3D, Spline3DDegreeLimit)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    // Nine poles are exactly enough to carry degree 8.
+    std::vector<wy::Vector3> controlPoints;
+    for (int i = 0; i < 9; ++i)
+        controlPoints.push_back(wy::Vector3(i * 10.0, std::sin(i * 0.7) * 5.0, i * 2.0));
+
+    wy3d::SketchSpline3D* pSpline(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, 8, controlPoints, pSpline), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSpline, nullptr);
+    EXPECT_EQ(pSpline->getDegree(), 8u);
+    ASSERT_FALSE(pSpline->getOccSpline().IsNull());
+    EXPECT_FALSE(pSpline->isDegenerate(1e-7));
+    EXPECT_GT(pSpline->getLength(), 0.0);
+
+    // Order 9 is degree 8; the limit is the last value the parameter takes.
+    const std::string className = wy3d::SketchSpline3D::classInfo()->className();
+    {
+        wydb::ParameterValueUPtr pVal = pSpline->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER);
+        ASSERT_NE(pVal, nullptr);
+        EXPECT_EQ(pVal->asInteger(), 9);
+    }
+    EXPECT_EQ(pSpline->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER,
+        *wydb::ParameterValue::createInteger(10)), wy::ErrorStatus::InvalidInput);
+    EXPECT_EQ(pSpline->getDegree(), 8u);
+
+    // Ten poles would carry degree 9, which is past the limit.
+    std::vector<wy::Vector3> tenPoints = controlPoints;
+    tenPoints.push_back(wy::Vector3(90.0, 0.0, 0.0));
+    wy3d::SketchSpline3D* pTooHigh(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        EXPECT_EQ(wy3d::SketchSpline3D::create(pTrans, 9, tenPoints, pTooHigh), wy::ErrorStatus::InvalidInput);
+        EXPECT_EQ(pMgr->abortTransaction(), wy::ErrorStatus::Ok);
+    }
+    EXPECT_EQ(pTooHigh, nullptr);
+}
+
 TEST(Sketch3D, Spline3DClosedControlPoints)
 {
     std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();

@@ -1,0 +1,18 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <desc>Sketch Intersection Curve</desc>
+  <defs>
+    <clipPath id="clipIntersectionCurve">
+      <rect width="64" height="64" fill="white" fill-opacity="0"/>
+    </clipPath>
+  </defs>
+  <g clip-path="url(#clipIntersectionCurve)">
+    <!-- 相交的两个面 -->
+    <polygon points="4,32 30,18 60,34 34,48" fill="none" stroke="#495057" stroke-width="3" stroke-linejoin="round"/>
+    <polygon points="26,4 42,20 38,60 22,44" fill="none" stroke="#495057" stroke-width="3" stroke-linejoin="round"/>
+    <!-- 交线 -->
+    <line x1="27" y1="25" x2="37" y2="41" stroke="#1296DB" stroke-width="4" stroke-linecap="round"/>
+    <!-- 端点 -->
+    <circle cx="27" cy="25" r="3.5" fill="#1296DB"/>
+    <circle cx="37" cy="41" r="3.5" fill="#1296DB"/>
+  </g>
+</svg>

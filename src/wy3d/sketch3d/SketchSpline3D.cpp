@@ -88,7 +88,7 @@ wy::ErrorStatus SketchSpline3D::create(wydb::Transaction* pTrans, std::uint32_t 
 {
     pOut = nullptr;
     if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
-    if (degree < 1 || degree > 5) return wy::ErrorStatus::InvalidInput;
+    if (degree < 1 || degree > 8) return wy::ErrorStatus::InvalidInput;
     if (controlPoints.size() < 2) return wy::ErrorStatus::InvalidInput;
 
     SketchSpline3D* pSketchSpline3D = new SketchSpline3D();
@@ -117,7 +117,7 @@ namespace
 bool isValidKnotVector(std::uint32_t degree, std::size_t numPoles,
     const std::vector<double>& knots, const std::vector<std::uint32_t>& multiplicities)
 {
-    if (degree < 1 || degree > 5) return false;
+    if (degree < 1 || degree > 8) return false;
     if (numPoles < degree + 1) return false;
     if (knots.size() != multiplicities.size() || knots.size() < 2) return false;
 
@@ -193,7 +193,7 @@ wy::ErrorStatus SketchSpline3D::setDegree(std::uint32_t degree)
 
 wy::ErrorStatus SketchSpline3D::_setDegree(std::uint32_t degree)
 {
-    if (degree < 1 || degree > 5) return wy::ErrorStatus::InvalidInput;
+    if (degree < 1 || degree > 8) return wy::ErrorStatus::InvalidInput;
     if (degree == _degree) return wy::ErrorStatus::Ok;
     wy::ErrorStatus error = this->prepareForFieldChange(kSketchSpline3D_degree);
     if (wy::ErrorStatus::Ok == error)
@@ -562,7 +562,8 @@ Handle(Geom_BSplineCurve) SketchSpline3D::newControlPointCurve(std::uint32_t ord
 {
     try
     {
-        if (order < 2 || order > 6) return nullptr;
+        // One above the highest degree the entity accepts, i.e. degree 8 is order 9.
+        if (order < 2 || order > 9) return nullptr;
         const std::uint32_t degree = order - 1;
         if (!isValidKnotVector(degree, points.size(), knots, multiplicities)) return nullptr;
 
