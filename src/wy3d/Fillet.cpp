@@ -34,7 +34,7 @@
 #include "topo/TopoShapeComparer.h"
 #include "topo/ChamferFilletTopoShapeComparer.h"
 #include "topo/TopoNamingUtil.h"
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 #include "utils/FilerUtil.h"
 #include "utils/Util.h"
 
@@ -47,7 +47,7 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Fillet, _radius)
 END_FIELD_REGISTRATION()
 
-Fillet::Fillet() : wy3d::SolidModification(), _radius(0.0)
+Fillet::Fillet() : wy3d::BodyModification(), _radius(0.0)
 {
 }
 
@@ -300,7 +300,7 @@ std::pair<bool, TopoDS_Shape> Fillet::modifyOwnerShape(const TopoDS_Shape& shape
     assert(pTrans && !pTrans->isGroup());
 
     std::vector<TopoDS_Edge> topoEdges;
-    ErrorCode errorCode = SolidModificationUtil::getTopoEdgesByTopoNamings<
+    ErrorCode errorCode = BodyModificationUtil::getTopoEdgesByTopoNamings<
         ErrorCode::FILLET_InvalidData, ErrorCode::FILLET_EdgeNotExists, ErrorCode::FILLET_FaceNotExists>(
         *pTopoNaming, _edgeNames, _faceNames, topoEdges);
     if (ErrorCode::NoError != errorCode)

@@ -86,7 +86,7 @@ bool Pattern::isValidSource(const wy3d::Solid* pSolid)
     }
 }
 
-Pattern::Pattern() : wy3d::SolidModification(), _source(wydb::ElementId::kNull)
+Pattern::Pattern() : wy3d::BodyModification(), _source(wydb::ElementId::kNull)
 {
 }
 

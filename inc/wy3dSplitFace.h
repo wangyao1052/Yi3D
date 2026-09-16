@@ -12,15 +12,15 @@
 #include <wydbElementId.h>
 #include <wy3dDefs.h>
 #include <wy3dSolid.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 
 NS_WY3D_BEG
 
 class Sketch3D;
 
-class WY3D_EXPORT SplitFace : public wy3d::SolidModification
+class WY3D_EXPORT SplitFace : public wy3d::BodyModification
 {
-    WYDB_DECLARE_MEMBERS(SplitFace, wy3d::SplitFace, wy3d::SolidModification)
+    WYDB_DECLARE_MEMBERS(SplitFace, wy3d::SplitFace, wy3d::BodyModification)
 
 public:
     static wy::ErrorStatus create(

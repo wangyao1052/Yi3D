@@ -26,7 +26,7 @@
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include <wy3dParamNames.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 #include <wy3dExtrusion.h>
 #include <wy3dRevolution.h>
 #include <wy3dSweep.h>
@@ -35,7 +35,7 @@
 #include "topo/TopoNamingUtil.h"
 #include "topo/TopoShapeUtil.h"
 #include "topo/BooleanTopoShapeComparer.h"
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 
 NS_WY3D_BEG
 WYDB_IMPLEMENT_MEMBERS(Solid)
@@ -190,7 +190,7 @@ wy::ErrorStatus Solid::setTopoNaming(TopoNamingSPtr pTopoNaming)
     }
 }
 
-wy::ErrorStatus Solid::addModification(wy3d::SolidModification* pModification)
+wy::ErrorStatus Solid::addModification(wy3d::BodyModification* pModification)
 {
     if (!pModification)
     {
@@ -299,7 +299,7 @@ void Solid::recordNewFaces(const ShapeDelta& faceDelta, TopoNaming* pTopoNaming)
 
 std::vector<std::uint32_t> Solid::getNewFaceIndices() const
 {
-    return SolidModificationUtil::computeNewFaceIndices(this->getDatabase(), _newFaces, _ownerId);
+    return BodyModificationUtil::computeNewFaceIndices(this->getDatabase(), _newFaces, _ownerId);
 }
 
 bool Solid::getFieldValue(wydb::FieldId fieldId, std::any& value)
@@ -533,7 +533,7 @@ std::pair<bool, TopoDS_Shape> Solid::modifyShape(
     for (const wydb::ElementId& modificationId : _modifications)
     {
         wydb::Element* pModElem = pTrans->getElementForWrite(modificationId);
-        if (wy3d::SolidModification* pSolidMod = wy3d::SolidModification::cast(pModElem))
+        if (wy3d::BodyModification* pSolidMod = wy3d::BodyModification::cast(pModElem))
         {
             auto modifyRet = pSolidMod->modifyOwnerShape(retShape, pTopoNaming, feedbackCollector);
             // added by wangyao 2025.05.13 {

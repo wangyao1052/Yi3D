@@ -30,7 +30,7 @@ namespace py = pybind11;
 void bindWy3dPatterns(py::module_& m)
 {
     // ========== Pattern 基类 ==========
-    py::class_<wy3d::Pattern, wy3d::SolidModification, std::unique_ptr<wy3d::Pattern, py::nodelete>>(
+    py::class_<wy3d::Pattern, wy3d::BodyModification, std::unique_ptr<wy3d::Pattern, py::nodelete>>(
         m, "Pattern")
         .def("getSource", &wy3d::Pattern::getSource)
         .def_static("isValidSource", &wy3d::Pattern::isValidSource,

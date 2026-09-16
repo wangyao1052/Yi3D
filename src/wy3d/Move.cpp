@@ -30,7 +30,7 @@
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include "topo/MoveRotateTopoShapeComparer.h"
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 #include "utils/Util.h"
 
 NS_WY3D_BEG
@@ -40,7 +40,7 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Move, _vector)
 END_FIELD_REGISTRATION()
 
-Move::Move() : wy3d::SolidModification(), _vector()
+Move::Move() : wy3d::BodyModification(), _vector()
 {
 }
 

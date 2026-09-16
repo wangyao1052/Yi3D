@@ -10,7 +10,7 @@
 #include <vector>
 #include <wy3dDefs.h>
 #include <wy3dSolid.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 
 NS_WY3D_BEG
 
@@ -36,9 +36,9 @@ enum class ShellOffsetMode : std::int32_t
     RectoVerso = 2,  // 双面偏移 (BRepOffset_RectoVerso)
 };
 
-class WY3D_EXPORT Shell : public wy3d::SolidModification
+class WY3D_EXPORT Shell : public wy3d::BodyModification
 {
-    WYDB_DECLARE_MEMBERS(Shell, wy3d::Shell, wy3d::SolidModification)
+    WYDB_DECLARE_MEMBERS(Shell, wy3d::Shell, wy3d::BodyModification)
 
 public:
     // 创建抽壳

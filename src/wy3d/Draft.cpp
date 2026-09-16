@@ -37,7 +37,7 @@
 #include "topo/DraftTopoShapeComparer.h"
 #include "topo/TopoShapeUtil.h"
 #include "topo/TopoNamingUtil.h"
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 #include "utils/FilerUtil.h"
 #include "utils/Util.h"
 
@@ -50,7 +50,7 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Draft, _angle)
 END_FIELD_REGISTRATION()
 
-Draft::Draft() : wy3d::SolidModification(), _angle(0.0)
+Draft::Draft() : wy3d::BodyModification(), _angle(0.0)
 {
 }
 
@@ -266,7 +266,7 @@ std::pair<bool, TopoDS_Shape> Draft::modifyOwnerShape(const TopoDS_Shape& shape,
     }
 
     std::vector<TopoDS_Face> neutralTopoFaces;
-    ErrorCode errorCode = SolidModificationUtil::getTopoFacesByTopoNamings<
+    ErrorCode errorCode = BodyModificationUtil::getTopoFacesByTopoNamings<
         ErrorCode::DRAFT_InvalidData,
         ErrorCode::DRAFT_FaceNotExists>(*pTopoNaming, TopoNameList{_neutralFaceName}, neutralTopoFaces);
     if (ErrorCode::NoError != errorCode)
@@ -290,7 +290,7 @@ std::pair<bool, TopoDS_Shape> Draft::modifyOwnerShape(const TopoDS_Shape& shape,
     }
 
     std::vector<TopoDS_Face> topoFaces;
-    errorCode = SolidModificationUtil::getTopoFacesByTopoNamings<
+    errorCode = BodyModificationUtil::getTopoFacesByTopoNamings<
         ErrorCode::DRAFT_InvalidData,
         ErrorCode::DRAFT_FaceNotExists>(*pTopoNaming, _faceNames, topoFaces);
     if (ErrorCode::NoError != errorCode)

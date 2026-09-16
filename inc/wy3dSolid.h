@@ -15,7 +15,7 @@
 #include <wy3dDefs.h>
 #include <wy3dFeature.h>
 #include <wy3dTopoNaming.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 #include <wy3dColor.h>
 
 NS_WY3D_BEG
@@ -70,7 +70,7 @@ public:
     wy::ErrorStatus setTopoNaming(TopoNamingSPtr pTopoNaming);
 
     // 添加实体修改
-    wy::ErrorStatus addModification(wy3d::SolidModification* pModification);
+    wy::ErrorStatus addModification(wy3d::BodyModification* pModification);
     wy::ErrorStatus addModification(wy3d::Solid* pCutSolid);
     // 获取实体修改
     const std::vector<wydb::ElementId>& getModifications() const { return _modifications; }

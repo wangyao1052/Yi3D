@@ -379,7 +379,7 @@ void PropertyEditorWidget::showTransform(const std::vector<const wydb::Element*>
         }
         // 基础形体的渲染结点为实体修改结点不显示Transform
         ElementNode* pElemNode = pScene->getElementNode(pPrimitive->getId());
-        if (pElemNode && pElemNode->getNodeType() == ElementNodeType::SolidModification)
+        if (pElemNode && pElemNode->getNodeType() == ElementNodeType::BodyModification)
         {
             return;
         }

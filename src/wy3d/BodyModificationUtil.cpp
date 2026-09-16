@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 #include <cassert>
 #include <TopoDS_Shape.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
@@ -26,7 +26,7 @@
 
 NS_WY3D_BEG
 
-std::vector<unsigned int> SolidModificationUtil::computeNewFaceIndices(
+std::vector<unsigned int> BodyModificationUtil::computeNewFaceIndices(
     wydb::Database* pDb,
     const TopoNameList& newFaces,
     const wydb::ElementId& ownerId)

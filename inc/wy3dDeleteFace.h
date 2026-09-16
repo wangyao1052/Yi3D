@@ -11,13 +11,13 @@
 #include <cstdint>
 #include <wy3dDefs.h>
 #include <wy3dSheet.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 
 NS_WY3D_BEG
 
-class WY3D_EXPORT DeleteFace : public wy3d::SolidModification
+class WY3D_EXPORT DeleteFace : public wy3d::BodyModification
 {
-    WYDB_DECLARE_MEMBERS(DeleteFace, wy3d::DeleteFace, wy3d::SolidModification)
+    WYDB_DECLARE_MEMBERS(DeleteFace, wy3d::DeleteFace, wy3d::BodyModification)
 
 public:
     static wy::ErrorStatus create(

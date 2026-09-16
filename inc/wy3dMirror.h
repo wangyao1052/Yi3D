@@ -9,14 +9,14 @@
 
 #include <wy3dDefs.h>
 #include <wy3dSolid.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 #include <wy3dSketchPlane.h>
 
 NS_WY3D_BEG
 
-class WY3D_EXPORT Mirror : public wy3d::SolidModification
+class WY3D_EXPORT Mirror : public wy3d::BodyModification
 {
-    WYDB_DECLARE_MEMBERS(Mirror, wy3d::Mirror, wy3d::SolidModification)
+    WYDB_DECLARE_MEMBERS(Mirror, wy3d::Mirror, wy3d::BodyModification)
 
 public:
     static wy::ErrorStatus create(

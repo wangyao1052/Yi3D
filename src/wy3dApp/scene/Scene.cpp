@@ -37,7 +37,7 @@
 #include <wy3dSketch3D.h>
 #include <wy3dSketchEntity3D.h>
 #include <wy3dDatumPlane.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 #include <wy3dSelectionType.h>
 #include <wy3dSolid.h>
 #include <wy3dBoolean.h>
@@ -50,7 +50,7 @@
 #include "scene/nodes/SketchElementNode.h"
 #include "scene/nodes/SketchEntityElementNode.h"
 #include "scene/nodes/DatumPlaneElementNode.h"
-#include "scene/nodes/SolidModificationElementNode.h"
+#include "scene/nodes/BodyModificationElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
 #include <wy3dSheet.h>
 #include "gizmo/BaseGizmo.h"
@@ -530,7 +530,7 @@ ElementNode* Scene::newElementNodeOfSolid(const wy3d::Solid* pSolid)
         }
         else // 切除了主体
         {
-            return new SolidModificationElementNode(id);
+            return new BodyModificationElementNode(id);
         }
     }
     else
@@ -542,7 +542,7 @@ ElementNode* Scene::newElementNodeOfSolid(const wy3d::Solid* pSolid)
         }
         else // 说明实体本身是被合并的
         {
-            return new SolidModificationElementNode(id);
+            return new BodyModificationElementNode(id);
         }
     }
 }
@@ -596,9 +596,9 @@ bool Scene::addElementNode(const wydb::ElementId& id, bool addSketchEntity)
         pElemNode = new DatumPlaneElementNode(id);
     }
     // 实体修改对象
-    else if (const wy3d::SolidModification* pSolidMod = wy3d::SolidModification::cast(pElem))
+    else if (const wy3d::BodyModification* pSolidMod = wy3d::BodyModification::cast(pElem))
     {
-        pElemNode = new SolidModificationElementNode(id);
+        pElemNode = new BodyModificationElementNode(id);
     }
     // 曲线
     else if (const wy3d::Curve* pCurve = wy3d::Curve::cast(pElem))
@@ -726,7 +726,7 @@ bool Scene::modifyElementNode(const wydb::ElementId& id, const wydb::DatabaseCha
     // added by wangyao 2025.05.25 {
     // 对于层级修改的实体节点以及实体修改节点,有可能需要切换节点类型
     ElementNodeType nodeType = pElemNode->getNodeType();
-    if ((nodeType == ElementNodeType::Solid || nodeType == ElementNodeType::SolidModification)
+    if ((nodeType == ElementNodeType::Solid || nodeType == ElementNodeType::BodyModification)
         && details.isDataPieceDirty(id, wydb::ElementDataPieceType::Hierarchy))
     {
         const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
@@ -735,7 +735,7 @@ bool Scene::modifyElementNode(const wydb::ElementId& id, const wydb::DatabaseCha
             // 子节点>>>首层节点
             if (pSolid->getParent().isNull())
             {
-                if (nodeType == ElementNodeType::SolidModification)
+                if (nodeType == ElementNodeType::BodyModification)
                 {
                     this->removeElementNode(id);
                     return this->addElementNode(id);
@@ -859,10 +859,10 @@ void Scene::onDatabaseChanged(
     // 对实体修改元素滞后处理
     std::set<wydb::ElementId> addedSolidMods;
     std::set<wydb::ElementId> modifiedSolidMods;
-    auto isSolidModification = [pDb](const wydb::ElementId& id) -> bool
+    auto isBodyModification = [pDb](const wydb::ElementId& id) -> bool
     {
         const wydb::Element* pElem = pDb->getElement(id);
-        const wy3d::SolidModification* pSolidMod = wy3d::SolidModification::cast(pElem);
+        const wy3d::BodyModification* pSolidMod = wy3d::BodyModification::cast(pElem);
         if (pSolidMod) return true;
         if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
         {
@@ -883,7 +883,7 @@ void Scene::onDatabaseChanged(
     // 新增元素
     for (const wydb::ElementId& id : changeInfo.addedIds)
     {
-        if (isSolidModification(id))
+        if (isBodyModification(id))
         {
             addedSolidMods.insert(id);
         }
@@ -904,7 +904,7 @@ void Scene::onDatabaseChanged(
         {
             continue;
         }
-        if (isSolidModification(id))
+        if (isBodyModification(id))
         {
             modifiedSolidMods.insert(id);
         }
@@ -1121,7 +1121,7 @@ void Scene::endNoBatchRender()
         case ElementNodeType::SketchEntity:
         case ElementNodeType::Sketch3DEntity:
         case ElementNodeType::DatumPlane:
-        case ElementNodeType::SolidModification:
+        case ElementNodeType::BodyModification:
         case ElementNodeType::Curve:
         {
             // do nothing

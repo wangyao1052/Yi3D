@@ -29,7 +29,7 @@
 
 NS_WY3D_BEG
 
-class SolidModification;
+class BodyModification;
 
 class WY3D_EXPORT Sheet : public wy3d::Feature
 {
@@ -50,7 +50,7 @@ public:
     wy3d::Color getColor() const { return _color; }
     wy::ErrorStatus setColor(const wy3d::Color& color);
 
-    wy::ErrorStatus addModification(wy3d::SolidModification* pModification);
+    wy::ErrorStatus addModification(wy3d::BodyModification* pModification);
     const std::vector<wydb::ElementId>& getModifications() const { return _modifications; }
 
 public:

@@ -47,7 +47,7 @@ std::list<wyap::GizmoSPtr> PrimitiveGizmoCreator::createGizmos(const wydb::Eleme
     if (Scene* pScene = Application::instance().getActiveScene())
     {
         ElementNode* pElemNode = pScene->getElementNode(pPrimitive->getId());
-        if (pElemNode && pElemNode->getNodeType() == ElementNodeType::SolidModification)
+        if (pElemNode && pElemNode->getNodeType() == ElementNodeType::BodyModification)
         {
             return std::list<wyap::GizmoSPtr>();
         }

@@ -48,7 +48,7 @@ extern void bindWy3dSketch3D(py::module_& m);
 extern void bindWy3dFilledSheet(py::module_& m);
 extern void bindWy3dDatum(py::module_& m);
 extern void bindWy3dCurve(py::module_& m);
-extern void bindWy3dSolidModifications(py::module_& m);
+extern void bindWy3dBodyModifications(py::module_& m);
 extern void bindWy3dPatterns(py::module_& m);
 extern void bindWy3dColor(py::module_& m);
 extern void bindWy3dImportedSolid(py::module_& m);
@@ -82,7 +82,7 @@ PYBIND11_MODULE(wy3d, m)
     bindWy3dFilledSheet(m);
     bindWy3dDatum(m);
     bindWy3dCurve(m);
-    bindWy3dSolidModifications(m);
+    bindWy3dBodyModifications(m);
     bindWy3dPatterns(m);
     bindWy3dColor(m);
     bindWy3dImportedSolid(m);

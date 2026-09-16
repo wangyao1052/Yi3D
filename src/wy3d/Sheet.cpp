@@ -22,7 +22,7 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dSheet.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include <wy3dParamNames.h>
@@ -126,7 +126,7 @@ wy::ErrorStatus Sheet::setColor(const wy3d::Color& color)
     }
 }
 
-wy::ErrorStatus Sheet::addModification(wy3d::SolidModification* pModification)
+wy::ErrorStatus Sheet::addModification(wy3d::BodyModification* pModification)
 {
     if (!pModification)
     {
@@ -428,7 +428,7 @@ std::pair<bool, TopoDS_Shape> Sheet::modifyShape(
     for (const wydb::ElementId& modificationId : _modifications)
     {
         wydb::Element* pModElem = pTrans->getElementForWrite(modificationId);
-        wy3d::SolidModification* pModification = wy3d::SolidModification::cast(pModElem);
+        wy3d::BodyModification* pModification = wy3d::BodyModification::cast(pModElem);
         if (!pModification)
         {
             assert(false);

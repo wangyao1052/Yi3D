@@ -38,7 +38,7 @@
 #include "topo/TopoShapeComparer.h"
 #include "topo/ChamferFilletTopoShapeComparer.h"
 #include "topo/TopoNamingUtil.h"
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 #include "utils/FilerUtil.h"
 #include "utils/Util.h"
 
@@ -55,7 +55,7 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Chamfer, _isFlipped)
 END_FIELD_REGISTRATION()
 
-Chamfer::Chamfer() : wy3d::SolidModification(), _chamferType(ChamferType::EqualDistance),
+Chamfer::Chamfer() : wy3d::BodyModification(), _chamferType(ChamferType::EqualDistance),
     _distance1(0.0), _distance2(0.0), _angle(wy3d::PI_4), _isFlipped(false)
 {
 }
@@ -570,7 +570,7 @@ std::pair<bool, TopoDS_Shape> Chamfer::modifyOwnerShape(
     assert(false == pTrans->isGroup());
 
     std::vector<TopoDS_Edge> topoEdges;
-    ErrorCode errorCode = SolidModificationUtil::getTopoEdgesByTopoNamings<
+    ErrorCode errorCode = BodyModificationUtil::getTopoEdgesByTopoNamings<
         ErrorCode::CHAMFER_InvalidData,
         ErrorCode::CHAMFER_EdgeNotExists,
         ErrorCode::CHAMFER_FaceNotExists>(*pTopoNaming, _edgeNames, _faceNames, topoEdges);

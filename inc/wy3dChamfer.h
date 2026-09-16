@@ -10,7 +10,7 @@
 #include <vector>
 #include <wy3dDefs.h>
 #include <wy3dSolid.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 
 NS_WY3D_BEG
 
@@ -21,9 +21,9 @@ enum class ChamferType : std::int32_t
     DistanceAngle    = 2,
 };
 
-class WY3D_EXPORT Chamfer : public wy3d::SolidModification
+class WY3D_EXPORT Chamfer : public wy3d::BodyModification
 {
-    WYDB_DECLARE_MEMBERS(Chamfer, wy3d::Chamfer, wy3d::SolidModification)
+    WYDB_DECLARE_MEMBERS(Chamfer, wy3d::Chamfer, wy3d::BodyModification)
 
 public:
     static wy::ErrorStatus create(

@@ -46,7 +46,6 @@
 #include <wy3dBox.h>
 #include <wy3dCylinder.h>
 #include <wy3dSphere.h>
-#include <wy3dSolidModification.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchLine.h>
 #include <wy3dSketchCircle.h>

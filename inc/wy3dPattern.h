@@ -8,13 +8,13 @@
 #define WY3D_PATTERN_H
 
 #include <wy3dDefs.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 
 NS_WY3D_BEG
 
-class WY3D_EXPORT Pattern : public wy3d::SolidModification
+class WY3D_EXPORT Pattern : public wy3d::BodyModification
 {
-    WYDB_DECLARE_ABSTRACT_MEMBERS(Pattern, wy3d::Pattern, wy3d::SolidModification)
+    WYDB_DECLARE_ABSTRACT_MEMBERS(Pattern, wy3d::Pattern, wy3d::BodyModification)
 
 public:
     wydb::ElementId getSource() const { return _source; }

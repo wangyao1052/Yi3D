@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 #include <wy3dSolid.h>
 #include <wydbFiler.h>
 #include <TopExp.hxx>
@@ -27,39 +27,39 @@
 #include <wydbFieldRegistry.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include <iterator>
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 #include "topo/TopoNamingUtil.h"
 #include "topo/TopoShapeUtil.h"
 #include "topo/BooleanTopoShapeComparer.h"
 
 NS_WY3D_BEG
-WYDB_IMPLEMENT_MEMBERS(SolidModification)
+WYDB_IMPLEMENT_MEMBERS(BodyModification)
 
 BEGIN_FIELD_REGISTRATION()
-    REGISTER_FIELD(SolidModification, _ownerId)
-    REGISTER_FIELD(SolidModification, _newFaces)
+    REGISTER_FIELD(BodyModification, _ownerId)
+    REGISTER_FIELD(BodyModification, _newFaces)
 END_FIELD_REGISTRATION()
 
-SolidModification::SolidModification() : wy3d::Feature()
+BodyModification::BodyModification() : wy3d::Feature()
 {
 }
 
-SolidModification::~SolidModification()
+BodyModification::~BodyModification()
 {
 }
 
-const wy3d::Solid* SolidModification::getSolid() const
+const wy3d::Solid* BodyModification::getSolid() const
 {
     return wy3d::Solid::cast(this->getDatabase()->getElement(_ownerId));
 }
 
-wy::ErrorStatus SolidModification::_setOwner(const wydb::ElementId& ownerId)
+wy::ErrorStatus BodyModification::_setOwner(const wydb::ElementId& ownerId)
 {
     if (ownerId == _ownerId)
     {
         return wy::ErrorStatus::Ok;
     }
-    wy::ErrorStatus error = this->prepareForFieldChange(kSolidModification_ownerId);
+    wy::ErrorStatus error = this->prepareForFieldChange(kBodyModification_ownerId);
     if (wy::ErrorStatus::Ok == error)
     {
         _ownerId = ownerId;
@@ -71,13 +71,13 @@ wy::ErrorStatus SolidModification::_setOwner(const wydb::ElementId& ownerId)
     }
 }
 
-wy::ErrorStatus SolidModification::setNewFaces(const TopoNameList& newFaces)
+wy::ErrorStatus BodyModification::setNewFaces(const TopoNameList& newFaces)
 {
     if (newFaces == _newFaces)
     {
         return wy::ErrorStatus::Ok;
     }
-    wy::ErrorStatus error = this->prepareForFieldChange(kSolidModification_newFaces, wydb::ElementDataPieceType::None);
+    wy::ErrorStatus error = this->prepareForFieldChange(kBodyModification_newFaces, wydb::ElementDataPieceType::None);
     if (wy::ErrorStatus::Ok == error)
     {
         _newFaces = newFaces;
@@ -89,24 +89,24 @@ wy::ErrorStatus SolidModification::setNewFaces(const TopoNameList& newFaces)
     }
 }
 
-wy::ErrorStatus SolidModification::clearNewFaces()
+wy::ErrorStatus BodyModification::clearNewFaces()
 {
     return this->setNewFaces({});
 }
 
-std::vector<std::uint32_t> SolidModification::getNewFaceIndices() const
+std::vector<std::uint32_t> BodyModification::getNewFaceIndices() const
 {
-    return SolidModificationUtil::computeNewFaceIndices(this->getDatabase(), _newFaces, _ownerId);
+    return BodyModificationUtil::computeNewFaceIndices(this->getDatabase(), _newFaces, _ownerId);
 }
 
-bool SolidModification::getFieldValue(wydb::FieldId fieldId, std::any& value)
+bool BodyModification::getFieldValue(wydb::FieldId fieldId, std::any& value)
 {
     switch (fieldId.value())
     {
-    case kSolidModification_ownerId.value():
+    case kBodyModification_ownerId.value():
         value = _ownerId;
         return true;
-    case kSolidModification_newFaces.value():
+    case kBodyModification_newFaces.value():
         value = _newFaces;
         return true;
     default:
@@ -116,14 +116,14 @@ bool SolidModification::getFieldValue(wydb::FieldId fieldId, std::any& value)
     }
 }
 
-bool SolidModification::setFieldValue(wydb::FieldId fieldId, const std::any& value)
+bool BodyModification::setFieldValue(wydb::FieldId fieldId, const std::any& value)
 {
     switch (fieldId.value())
     {
-    case kSolidModification_ownerId.value():
+    case kBodyModification_ownerId.value():
         _ownerId = std::any_cast<wydb::ElementId>(value);
         return true;
-    case kSolidModification_newFaces.value():
+    case kBodyModification_newFaces.value():
         _newFaces = std::any_cast<const TopoNameList&>(value);
         return true;
     default:
@@ -133,21 +133,21 @@ bool SolidModification::setFieldValue(wydb::FieldId fieldId, const std::any& val
     }
 }
 
-wy::ErrorStatus SolidModification::writeToFiler(wydb::OutFiler& filer) const
+wy::ErrorStatus BodyModification::writeToFiler(wydb::OutFiler& filer) const
 {
     __baseClass::writeToFiler(filer);
     filer << _ownerId;
     return wy::ErrorStatus::Ok;
 }
 
-wy::ErrorStatus SolidModification::readFromFiler(wydb::InFiler& filer)
+wy::ErrorStatus BodyModification::readFromFiler(wydb::InFiler& filer)
 {
     __baseClass::readFromFiler(filer);
     filer >> _ownerId;
     return wy::ErrorStatus::Ok;
 }
 
-void SolidModification::reportDependencies(std::set<wydb::ElementId>& dependencies) const
+void BodyModification::reportDependencies(std::set<wydb::ElementId>& dependencies) const
 {
     __baseClass::reportDependencies(dependencies);
     if (!_ownerId.isNull())
@@ -156,7 +156,7 @@ void SolidModification::reportDependencies(std::set<wydb::ElementId>& dependenci
     }
 }
 
-bool SolidModification::onDependenciesErased(
+bool BodyModification::onDependenciesErased(
     const std::set<wydb::ElementId>& erasedDependencies)
 {
     bool responsed = __baseClass::onDependenciesErased(erasedDependencies);
@@ -172,7 +172,7 @@ bool SolidModification::onDependenciesErased(
     return responsed;
 }
 
-void SolidModification::reportChainUpdateDataPieces(wydb::ElementDataPieceCollector& dps) const
+void BodyModification::reportChainUpdateDataPieces(wydb::ElementDataPieceCollector& dps) const
 {
     __baseClass::reportChainUpdateDataPieces(dps);
 
@@ -184,14 +184,14 @@ void SolidModification::reportChainUpdateDataPieces(wydb::ElementDataPieceCollec
     }
 }
 
-void SolidModification::recordNewFaces(const ShapeDelta& faceDelta, TopoNaming* pTopoNaming)
+void BodyModification::recordNewFaces(const ShapeDelta& faceDelta, TopoNaming* pTopoNaming)
 {
     assert(pTopoNaming);
     TopoNameList newFaceNames = TopoNamingUtil::computeNewFaces(faceDelta, *pTopoNaming);
     this->setNewFaces(newFaceNames);
 }
 
-void SolidModification::appendNewFaces(const ShapeDelta& faceDelta, TopoNaming* pTopoNaming, const TopoDS_Shape& instShape)
+void BodyModification::appendNewFaces(const ShapeDelta& faceDelta, TopoNaming* pTopoNaming, const TopoDS_Shape& instShape)
 {
     assert(pTopoNaming);
     TopoNameList newFaceNames = TopoNamingUtil::computeFacesFromShape(faceDelta, *pTopoNaming, instShape);
@@ -206,7 +206,7 @@ void SolidModification::appendNewFaces(const ShapeDelta& faceDelta, TopoNaming* 
     this->setNewFaces(retNewFaceNames);
 }
 
-std::pair<bool, TopoDS_Shape> SolidModification::modifyOwnerShapeByInstance(
+std::pair<bool, TopoDS_Shape> BodyModification::modifyOwnerShapeByInstance(
     const TopoDS_Shape& shape, TopoNaming* pTopoNaming,
     const TopoDS_Shape& instShape, TopoNaming* pInstNaming,
     bool isCut,
@@ -304,7 +304,7 @@ std::pair<bool, TopoDS_Shape> SolidModification::modifyOwnerShapeByInstance(
     }
 }
 
-void SolidModification::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
+void BodyModification::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
 }
 

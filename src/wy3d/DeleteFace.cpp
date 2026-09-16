@@ -38,7 +38,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include "topo/TopoNamingUtil.h"
 #include "topo/TopoShapeComparer.h"
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 #include "utils/FilerUtil.h"
 #include "utils/Util.h"
 
@@ -136,7 +136,7 @@ private:
 
 } // namespace
 
-DeleteFace::DeleteFace() : wy3d::SolidModification()
+DeleteFace::DeleteFace() : wy3d::BodyModification()
 {
 }
 
@@ -274,7 +274,7 @@ std::pair<bool, TopoDS_Shape> DeleteFace::modifyOwnerShape(const TopoDS_Shape& s
     }
 
     std::vector<TopoDS_Face> targetFaces;
-    ErrorCode errorCode = SolidModificationUtil::getTopoFacesByTopoNamings<
+    ErrorCode errorCode = BodyModificationUtil::getTopoFacesByTopoNamings<
         ErrorCode::DELETEFACE_InvalidData,
         ErrorCode::DELETEFACE_FaceNotExists>(*pTopoNaming, _faceNames, targetFaces);
     if (ErrorCode::NoError != errorCode)

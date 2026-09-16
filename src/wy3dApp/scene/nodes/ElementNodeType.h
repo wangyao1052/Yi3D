@@ -26,7 +26,7 @@ enum class ElementNodeType
     Sketch            = 0x00000002, // 草图
     SketchEntity      = 0x00000004, // 草图图元
     DatumPlane        = 0x00000008, // 基准面
-    SolidModification = 0x00000010, // 实体修改
+    BodyModification  = 0x00000010, // 实体修改
     Curve             = 0x00000020, // 曲线
     Sheet             = 0x00000040, // 曲面
     Sketch3D          = 0x00000080, // 3D草图

@@ -3102,7 +3102,7 @@ Do you want to save it to the original file now?
         <translation type="unfinished">并集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="793"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="794"/>
         <source>Datum Plane Series</source>
         <translation type="unfinished">基准面命令集</translation>
     </message>

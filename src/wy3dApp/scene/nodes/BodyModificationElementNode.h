@@ -23,14 +23,14 @@
 
 #include "scene/nodes/ElementNode.h"
 
-class SolidModificationElementNode : public ElementNode
+class BodyModificationElementNode : public ElementNode
 {
     friend class Scene;
 public:
-    explicit SolidModificationElementNode(const wydb::ElementId& id) : ElementNode(id) {}
+    explicit BodyModificationElementNode(const wydb::ElementId& id) : ElementNode(id) {}
 
     // 结点类型
-    virtual ElementNodeType getNodeType() const override { return ElementNodeType::SolidModification; }
+    virtual ElementNodeType getNodeType() const override { return ElementNodeType::BodyModification; }
 
 protected:
     // 移动(不支持)

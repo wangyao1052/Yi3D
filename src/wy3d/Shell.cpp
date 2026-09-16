@@ -37,7 +37,7 @@
 #include "topo/TopoShapeComparer.h"
 #include "topo/ShellTopoShapeComparer.h"
 #include "topo/TopoNamingUtil.h"
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 #include "utils/FilerUtil.h"
 #include "utils/Util.h"
 
@@ -53,7 +53,7 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Shell, _intersection)
 END_FIELD_REGISTRATION()
 
-Shell::Shell() : wy3d::SolidModification(), _thickness(0.0), _direction(ShellDirection::Inward),
+Shell::Shell() : wy3d::BodyModification(), _thickness(0.0), _direction(ShellDirection::Inward),
     _joinType(ShellJoinType::Intersection), _offsetMode(ShellOffsetMode::Skin), _intersection(false)
 {
 }
@@ -383,7 +383,7 @@ std::pair<bool, TopoDS_Shape> Shell::modifyOwnerShape(const TopoDS_Shape& shape,
     wydb::Transaction* pTrans = pDb->getTransactionManager()->getActiveTransaction(); assert(pTrans); assert(!pTrans->isGroup());
 
     std::vector<TopoDS_Face> topoFaces;
-    ErrorCode errorCode = SolidModificationUtil::getTopoFacesByTopoNamings<
+    ErrorCode errorCode = BodyModificationUtil::getTopoFacesByTopoNamings<
         ErrorCode::SHELL_InvalidData, ErrorCode::SHELL_FaceNotExists>(*pTopoNaming, _faceNames, topoFaces);
     if (ErrorCode::NoError != errorCode) { wy3d::reportChainUpdateError(feedbackCollector, this->getId(), static_cast<unsigned int>(errorCode)); return {false, shape}; }
     if (topoFaces.empty()) { assert(false); return {false, shape}; }

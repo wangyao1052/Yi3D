@@ -21,7 +21,7 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dSolid.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 #include <wy3dFillet.h>
 #include <wy3dChamfer.h>
 #include <wy3dShell.h>
@@ -36,15 +36,15 @@
 
 namespace py = pybind11;
 
-void bindWy3dSolidModifications(py::module_& m)
+void bindWy3dBodyModifications(py::module_& m)
 {
-    // ========== SolidModification 基类 ==========
-    py::class_<wy3d::SolidModification, wy3d::Feature, std::unique_ptr<wy3d::SolidModification, py::nodelete>>(
-        m, "SolidModification")
-        .def("getNewFaceIndices", &wy3d::SolidModification::getNewFaceIndices);
+    // ========== BodyModification 基类 ==========
+    py::class_<wy3d::BodyModification, wy3d::Feature, std::unique_ptr<wy3d::BodyModification, py::nodelete>>(
+        m, "BodyModification")
+        .def("getNewFaceIndices", &wy3d::BodyModification::getNewFaceIndices);
 
     // ========== Fillet 倒圆角 ==========
-    py::class_<wy3d::Fillet, wy3d::SolidModification, std::unique_ptr<wy3d::Fillet, py::nodelete>>(
+    py::class_<wy3d::Fillet, wy3d::BodyModification, std::unique_ptr<wy3d::Fillet, py::nodelete>>(
         m, "Fillet")
         .def("getRadius", &wy3d::Fillet::getRadius)
         .def("setRadius", &wy3d::Fillet::setRadius)
@@ -73,7 +73,7 @@ void bindWy3dSolidModifications(py::module_& m)
             py::return_value_policy::reference);
 
     // ========== Chamfer 倒角 ==========
-    py::class_<wy3d::Chamfer, wy3d::SolidModification, std::unique_ptr<wy3d::Chamfer, py::nodelete>>(
+    py::class_<wy3d::Chamfer, wy3d::BodyModification, std::unique_ptr<wy3d::Chamfer, py::nodelete>>(
         m, "Chamfer")
         .def("getDistance1", &wy3d::Chamfer::getDistance1)
         .def("setDistance1", &wy3d::Chamfer::setDistance1)
@@ -186,7 +186,7 @@ void bindWy3dSolidModifications(py::module_& m)
             }});
 
     // ========== Shell 抽壳 ==========
-    py::class_<wy3d::Shell, wy3d::SolidModification, std::unique_ptr<wy3d::Shell, py::nodelete>>(
+    py::class_<wy3d::Shell, wy3d::BodyModification, std::unique_ptr<wy3d::Shell, py::nodelete>>(
         m, "Shell")
         .def("getThickness", &wy3d::Shell::getThickness)
         .def("setThickness", &wy3d::Shell::setThickness)
@@ -221,7 +221,7 @@ void bindWy3dSolidModifications(py::module_& m)
             py::return_value_policy::reference);
 
     // ========== Mirror 镜像 ==========
-    py::class_<wy3d::Mirror, wy3d::SolidModification, std::unique_ptr<wy3d::Mirror, py::nodelete>>(
+    py::class_<wy3d::Mirror, wy3d::BodyModification, std::unique_ptr<wy3d::Mirror, py::nodelete>>(
         m, "Mirror")
         .def("getSource", &wy3d::Mirror::getSource)
         .def("getPlane", &wy3d::Mirror::getPlane)
@@ -245,7 +245,7 @@ void bindWy3dSolidModifications(py::module_& m)
             py::return_value_policy::reference);
 
     // ========== Draft 拔模 ==========
-    py::class_<wy3d::Draft, wy3d::SolidModification, std::unique_ptr<wy3d::Draft, py::nodelete>>(
+    py::class_<wy3d::Draft, wy3d::BodyModification, std::unique_ptr<wy3d::Draft, py::nodelete>>(
         m, "Draft")
         .def("getAngle", &wy3d::Draft::getAngle)
         .def("setAngle", &wy3d::Draft::setAngle)
@@ -274,7 +274,7 @@ void bindWy3dSolidModifications(py::module_& m)
             py::return_value_policy::reference);
 
     // ========== SplitFace 分割面 ==========
-    py::class_<wy3d::SplitFace, wy3d::SolidModification, std::unique_ptr<wy3d::SplitFace, py::nodelete>>(
+    py::class_<wy3d::SplitFace, wy3d::BodyModification, std::unique_ptr<wy3d::SplitFace, py::nodelete>>(
         m, "SplitFace")
         .def("getFaces", &wy3d::SplitFace::getFaces)
         .def("getSketch", &wy3d::SplitFace::getSketch)
@@ -314,7 +314,7 @@ void bindWy3dSolidModifications(py::module_& m)
             py::return_value_policy::reference);
 
     // ========== DeleteFace 删除面 ==========
-    py::class_<wy3d::DeleteFace, wy3d::SolidModification, std::unique_ptr<wy3d::DeleteFace, py::nodelete>>(
+    py::class_<wy3d::DeleteFace, wy3d::BodyModification, std::unique_ptr<wy3d::DeleteFace, py::nodelete>>(
         m, "DeleteFace")
         .def("getFaces", &wy3d::DeleteFace::getFaces)
 
@@ -334,7 +334,7 @@ void bindWy3dSolidModifications(py::module_& m)
             py::return_value_policy::reference);
 
     // ========== Move 移动面 ==========
-    py::class_<wy3d::Move, wy3d::SolidModification, std::unique_ptr<wy3d::Move, py::nodelete>>(
+    py::class_<wy3d::Move, wy3d::BodyModification, std::unique_ptr<wy3d::Move, py::nodelete>>(
         m, "Move")
         .def("getVector", &wy3d::Move::getVector)
         .def("setVector", &wy3d::Move::setVector)
@@ -355,7 +355,7 @@ void bindWy3dSolidModifications(py::module_& m)
             py::return_value_policy::reference);
 
     // ========== Rotate 旋转面 ==========
-    py::class_<wy3d::Rotate, wy3d::SolidModification, std::unique_ptr<wy3d::Rotate, py::nodelete>>(
+    py::class_<wy3d::Rotate, wy3d::BodyModification, std::unique_ptr<wy3d::Rotate, py::nodelete>>(
         m, "Rotate")
         .def("getCenterPoint", &wy3d::Rotate::getCenterPoint)
         .def("setCenterPoint", &wy3d::Rotate::setCenterPoint)

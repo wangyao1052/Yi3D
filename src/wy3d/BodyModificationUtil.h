@@ -32,7 +32,7 @@
 
 NS_WY3D_BEG
 
-class SolidModificationUtil
+class BodyModificationUtil
 {
 public:
     // 由新生成面的拓扑名称--->新生成面的索引

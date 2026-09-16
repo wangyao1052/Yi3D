@@ -31,7 +31,7 @@
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include "topo/MoveRotateTopoShapeComparer.h"
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 #include "utils/Util.h"
 
 NS_WY3D_BEG
@@ -43,7 +43,7 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Rotate, _angle)
 END_FIELD_REGISTRATION()
 
-Rotate::Rotate() : wy3d::SolidModification(), _center(), _axisDir(wy::Vector3::kZAxis), _angle(0.0)
+Rotate::Rotate() : wy3d::BodyModification(), _center(), _axisDir(wy::Vector3::kZAxis), _angle(0.0)
 {
 }
 

@@ -19,9 +19,9 @@ class Sheet;
 
 // 就地修改一个形体。宿主是实体还是片体由数据决定, 不由类型决定: 实体和片体各有自己的修改链,
 // 都按 _ownerId 找到这里调用 modifyOwnerShape, 而 modifyOwnerShape 只认 TopoDS_Shape。
-class WY3D_EXPORT SolidModification : public wy3d::Feature
+class WY3D_EXPORT BodyModification : public wy3d::Feature
 {
-    WYDB_DECLARE_ABSTRACT_MEMBERS(SolidModification, wy3d::SolidModification, wy3d::Feature)
+    WYDB_DECLARE_ABSTRACT_MEMBERS(BodyModification, wy3d::BodyModification, wy3d::Feature)
 
 public:
     // 获取主体

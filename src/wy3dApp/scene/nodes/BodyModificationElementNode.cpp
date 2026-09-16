@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SolidModificationElementNode.h"
+#include "BodyModificationElementNode.h"
 
 #include <osg/MatrixTransform>
 #include <osg/CullFace>
@@ -26,9 +26,7 @@
 #include <OsgUtils.h>
 
 #include <wy3dSolid.h>
-#include <wy3dSolid.h>
-#include <wy3dSolidModification.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 #include "scene/Scene.h"
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
@@ -52,7 +50,7 @@ struct HostRenderData
 
 wydb::ElementId findHostId(const wydb::Element* pElem)
 {
-    if (const wy3d::SolidModification* pSolidMod = wy3d::SolidModification::cast(pElem))
+    if (const wy3d::BodyModification* pSolidMod = wy3d::BodyModification::cast(pElem))
     {
         return pSolidMod->getParent();
     }
@@ -107,13 +105,13 @@ bool findHostMatrix(const ElementNode* pHostNode, osg::Matrix& matrix)
 
 } // namespace
 
-bool SolidModificationElementNode::transform(wydb::Database* pDb)
+bool BodyModificationElementNode::transform(wydb::Database* pDb)
 {
     // 由于当前Solid::Transform-->Solid::Shape,所以该接口直接不做任何操作.
     return true;
 }
 
-void SolidModificationElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+void BodyModificationElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
 {
     assert(pScene);
     assert(pElem);
@@ -159,7 +157,7 @@ void SolidModificationElementNode::generateRenderObjectImpl(Scene* pScene, const
     }
 }
 
-osg::ref_ptr<osg::Geometry> SolidModificationElementNode::generateShapeGeom(const wydb::ElementId& id) const
+osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateShapeGeom(const wydb::ElementId& id) const
 {
     if (_triangleIndices->empty())
     {
@@ -184,7 +182,7 @@ osg::ref_ptr<osg::Geometry> SolidModificationElementNode::generateShapeGeom(cons
     return shapeGeom;
 }
 
-osg::ref_ptr<osg::Geometry> SolidModificationElementNode::generateEdgeGeom(const wydb::ElementId& id) const
+osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateEdgeGeom(const wydb::ElementId& id) const
 {
     if (_lineIndices->empty())
     {
@@ -208,7 +206,7 @@ osg::ref_ptr<osg::Geometry> SolidModificationElementNode::generateEdgeGeom(const
     return edgeGeom;
 }
 
-ElementNode::GenRenderDataRet SolidModificationElementNode::generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement)
+ElementNode::GenRenderDataRet BodyModificationElementNode::generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement)
 {
     assert(pScene);
     assert(pElement);
@@ -218,7 +216,7 @@ ElementNode::GenRenderDataRet SolidModificationElementNode::generateRenderDataIm
 
     // 实体修改元素
     std::vector<unsigned int> newFaceIndexVec;
-    if (const wy3d::SolidModification* pSolidMod = wy3d::SolidModification::cast(pElement))
+    if (const wy3d::BodyModification* pSolidMod = wy3d::BodyModification::cast(pElement))
     {
         newFaceIndexVec = pSolidMod->getNewFaceIndices();
     }
@@ -345,12 +343,12 @@ ElementNode::GenRenderDataRet SolidModificationElementNode::generateRenderDataIm
     return GenRenderDataRet::Ok;
 }
 
-void SolidModificationElementNode::highlightImpl(bool flag)
+void BodyModificationElementNode::highlightImpl(bool flag)
 {
     this->updateColorAndTransparent();
 }
 
-void SolidModificationElementNode::previewImpl(bool flag)
+void BodyModificationElementNode::previewImpl(bool flag)
 {
     if (this->isHighlighted())
     {
@@ -386,12 +384,12 @@ void SolidModificationElementNode::previewImpl(bool flag)
     }
 }
 
-void SolidModificationElementNode::setActiveImpl(bool flag)
+void BodyModificationElementNode::setActiveImpl(bool flag)
 {
     this->updateColorAndTransparent();
 }
 
-void SolidModificationElementNode::updateColorAndTransparent()
+void BodyModificationElementNode::updateColorAndTransparent()
 {
     /* 不渲染面
     // 面
@@ -460,7 +458,7 @@ void SolidModificationElementNode::updateColorAndTransparent()
     }
 }
 
-bool SolidModificationElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
+bool BodyModificationElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
 {
     // always return true
     return true;

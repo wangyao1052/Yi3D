@@ -11,13 +11,13 @@
 #include <wy3dVector3.h>
 #include <wy3dDefs.h>
 #include <wy3dSolid.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 
 NS_WY3D_BEG
 
-class WY3D_EXPORT Move : public wy3d::SolidModification
+class WY3D_EXPORT Move : public wy3d::BodyModification
 {
-    WYDB_DECLARE_MEMBERS(Move, wy3d::Move, wy3d::SolidModification)
+    WYDB_DECLARE_MEMBERS(Move, wy3d::Move, wy3d::BodyModification)
 
 public:
     static wy::ErrorStatus create(

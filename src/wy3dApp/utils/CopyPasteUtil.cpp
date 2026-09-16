@@ -30,7 +30,7 @@
 #include <wy3dDatumPlane.h>
 #include <wy3dImportedSolid.h>
 #include <wy3dSolid.h>
-#include <wy3dSolidModification.h>
+#include <wy3dBodyModification.h>
 #include <wy3dSelectionType.h>
 #include "application/Application.h"
 #include "environments/sketch/SketchEnvironment.h"
@@ -53,7 +53,7 @@ static inline bool _canCopy(const wydb::Element* pElem)
     }
 
     // 1.实体修改对象不能单独复制
-    const wy3d::SolidModification* pSolidMod = wy3d::SolidModification::cast(pElem);
+    const wy3d::BodyModification* pSolidMod = wy3d::BodyModification::cast(pElem);
     if (pSolidMod) return false;
 
     // 2.切除材料实体不能单独复制

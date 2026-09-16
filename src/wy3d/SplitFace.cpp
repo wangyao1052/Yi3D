@@ -35,7 +35,7 @@
 #include "topo/Sketch3DTopoBuilder.h"
 #include "topo/TopoNamingUtil.h"
 #include "topo/SplitFaceTopoShapeComparer.h"
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 #include "utils/FilerUtil.h"
 #include "utils/Util.h"
 
@@ -47,7 +47,7 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(SplitFace, _sketchId)
 END_FIELD_REGISTRATION()
 
-SplitFace::SplitFace() : wy3d::SolidModification(), _sketchId(wydb::ElementId::kNull)
+SplitFace::SplitFace() : wy3d::BodyModification(), _sketchId(wydb::ElementId::kNull)
 {
 }
 
@@ -293,7 +293,7 @@ std::pair<bool, TopoDS_Shape> SplitFace::modifyOwnerShape(const TopoDS_Shape& sh
     }
 
     std::vector<TopoDS_Face> targetFaces;
-    ErrorCode errorCode = SolidModificationUtil::getTopoFacesByTopoNamings<
+    ErrorCode errorCode = BodyModificationUtil::getTopoFacesByTopoNamings<
         ErrorCode::SPLITFACE_InvalidData,
         ErrorCode::SPLITFACE_FaceNotExists>(*pTopoNaming, _faceNames, targetFaces);
     if (ErrorCode::NoError != errorCode)

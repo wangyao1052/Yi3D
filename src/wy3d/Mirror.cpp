@@ -49,7 +49,7 @@
 #include "topo/TopoShapeUtil.h"
 #include "topo/TopoNamingUtil.h"
 #include "topo/MoveRotateTopoShapeComparer.h"
-#include "SolidModificationUtil.h"
+#include "BodyModificationUtil.h"
 #include "utils/OccUtil.h"
 #include "utils/Util.h"
 
@@ -61,7 +61,7 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Mirror, _plane)
 END_FIELD_REGISTRATION()
 
-Mirror::Mirror() : wy3d::SolidModification(), _source(wydb::ElementId::kNull), _plane()
+Mirror::Mirror() : wy3d::BodyModification(), _source(wydb::ElementId::kNull), _plane()
 {
 }
 
