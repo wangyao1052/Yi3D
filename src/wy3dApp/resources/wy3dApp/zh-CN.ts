@@ -1189,6 +1189,14 @@ Do you want to save it to the original file now?
     </message>
 </context>
 <context>
+    <name>DeleteFaceGuiCmd</name>
+    <message>
+        <location filename="../../commands/modeling/solid/modification/DeleteFaceGuiCmd.cpp" line="180"/>
+        <source>Select the faces to delete. Press Enter or Spacebar to confirm.</source>
+        <translation type="unfinished">选择要删除的面；按 Enter 键或空格键将完成操作。</translation>
+    </message>
+</context>
+<context>
     <name>DockPanelManager</name>
     <message>
         <location filename="../../widgets/panels/DockPanelManager.cpp" line="50"/>
@@ -1676,21 +1684,70 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="191"/>
+        <source>Invalid split face data!</source>
+        <translation type="unfinished">无效的分割面数据！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="193"/>
+        <source>The face to split no longer exists!</source>
+        <translation type="unfinished">要分割的面已不存在！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="195"/>
+        <source>The sketch holds no curve to split with!</source>
+        <translation type="unfinished">草图里没有可用的曲线！</translation>
+    </message>
+    <message>
+        <source>The splitting curve no longer exists!</source>
+        <translation type="obsolete">分割曲线已不存在！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="197"/>
+        <source>Generate split face failed!</source>
+        <translation type="unfinished">生成分割面失败！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="199"/>
+        <source>The curves do not divide any of the selected faces!</source>
+        <translation type="unfinished">曲线没有切开任何要分割的面！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
+        <source>Invalid delete face data!</source>
+        <translation type="unfinished">无效的删除面数据！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
+        <source>The faces to delete no longer exist!</source>
+        <translation type="unfinished">要删除的面已不存在！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
+        <source>A sheet cannot lose every one of its faces!</source>
+        <translation type="unfinished">不能删除片体的全部面！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
+        <source>Delete face failed!</source>
+        <translation type="unfinished">删除面失败！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
         <source>Invalid helix data!</source>
         <translation type="unfinished">无效的螺旋线数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="193"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
         <source>The sketch used to generate the helix must be a circle.</source>
         <translation type="unfinished">用于生成螺旋线的草图必须为一个圆形。</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="210"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="232"/>
         <source>ErrorCode: </source>
         <translation type="unfinished">错误码：</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="210"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="232"/>
         <source>!</source>
         <translation type="unfinished">！</translation>
     </message>
@@ -1824,172 +1881,182 @@ Do you want to save it to the original file now?
 <context>
     <name>FeatureTreeWidget</name>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="125"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="127"/>
         <source>FeatureTree</source>
         <translation type="unfinished">特征树</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="154"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="156"/>
         <source>Box</source>
         <translation type="unfinished">长方体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="155"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="157"/>
         <source>Cylinder</source>
         <translation type="unfinished">圆柱体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="156"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="158"/>
         <source>Sphere</source>
         <translation type="unfinished">球体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="157"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="159"/>
         <source>Cone</source>
         <translation type="unfinished">圆锥体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="158"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="160"/>
         <source>Torus</source>
         <translation type="unfinished">圆环体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="159"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="161"/>
         <source>Tube</source>
         <translation type="unfinished">圆管</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="160"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="162"/>
         <source>Union</source>
         <translation type="unfinished">并集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="161"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="163"/>
         <source>Difference</source>
         <translation type="unfinished">差集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="162"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="164"/>
         <source>Intersection</source>
         <translation type="unfinished">交集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="163"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="165"/>
         <source>DatumPlane</source>
         <translation type="unfinished">基准面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="164"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="166"/>
         <source>Sketch</source>
         <translation type="unfinished">草图</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="165"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="167"/>
         <source>Sketch3D</source>
         <translation>3D草图</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="166"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="168"/>
         <source>Extrusion</source>
         <translation type="unfinished">拉伸体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="167"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="169"/>
         <source>Revolution</source>
         <translation type="unfinished">旋转体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="168"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="170"/>
         <source>Sweep</source>
         <translation type="unfinished">扫描体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="169"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="171"/>
         <source>Loft</source>
         <translation type="unfinished">放样体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="170"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="172"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="171"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="173"/>
         <source>Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="172"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="174"/>
         <source>Shell</source>
         <translation type="unfinished">抽壳</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="173"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="175"/>
         <source>Draft</source>
         <translation type="unfinished">拔模</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="174"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="176"/>
+        <source>Split Face</source>
+        <translation type="unfinished">分割面</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="177"/>
+        <source>Delete Face</source>
+        <translation type="unfinished">删除面</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="178"/>
         <source>Move</source>
         <translation type="unfinished">平移</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="175"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="179"/>
         <source>Rotate</source>
         <translation type="unfinished">旋转</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="176"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="180"/>
         <source>Mirror</source>
         <translation type="unfinished">镜像</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="177"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="181"/>
         <source>Linear Pattern</source>
         <translation type="unfinished">线性阵列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="178"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="182"/>
         <source>Circular Pattern</source>
         <translation type="unfinished">圆周阵列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="179"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="183"/>
         <source>Helix</source>
         <translation type="unfinished">螺旋线</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="180"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="184"/>
         <source>Imported Solid</source>
         <translation type="unfinished">导入实体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="181"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="185"/>
         <source>Imported Sheet</source>
         <translation>导入曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="182"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="186"/>
         <source>Extruded Sheet</source>
         <translation>拉伸曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="183"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="187"/>
         <source>Revolved Sheet</source>
         <translation>旋转曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="184"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="188"/>
         <source>Swept Sheet</source>
         <translation>扫掠曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="185"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="189"/>
         <source>Lofted Sheet</source>
         <translation>放样曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="186"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="190"/>
         <source>Thicken</source>
         <translation>加厚</translation>
     </message>
@@ -1998,92 +2065,92 @@ Do you want to save it to the original file now?
         <translation type="vanished">偏置曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="195"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="199"/>
         <source>XOY</source>
         <translation type="unfinished">俯视基准面 XOY</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="196"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="200"/>
         <source>YOZ</source>
         <translation type="unfinished">右视基准面 YOZ</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="197"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="201"/>
         <source>XOZ</source>
         <translation type="unfinished">前视基准面 XOZ</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="215"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="219"/>
         <source>Name</source>
         <translation type="unfinished">名称</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="216"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="220"/>
         <source>Id</source>
         <translation type="unfinished">标识号</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="898"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="902"/>
         <source>-Cut</source>
         <translation type="unfinished">-切除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1586"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1590"/>
         <source>Erase</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1504"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1508"/>
         <source>Cancel Boolean</source>
         <translation type="unfinished">取消布尔</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="187"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="191"/>
         <source>NonParametric Sheet</source>
         <translation>无参曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="188"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="192"/>
         <source>NonParametric Solid</source>
         <translation>无参实体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="189"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="193"/>
         <source>Planar Sheet</source>
         <translation type="unfinished">平面区域</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="190"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="194"/>
         <source>Filled Surface</source>
         <translation>填充曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="191"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="195"/>
         <source>Sewn Sheet</source>
         <translation type="unfinished">缝合曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="192"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="196"/>
         <source>Solidify</source>
         <translation type="unfinished">实体化</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="193"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="197"/>
         <source>Offset Sheet</source>
         <translation type="unfinished">偏置曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1612"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1616"/>
         <source>Error Information</source>
         <translation type="unfinished">查看错误信息</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1630"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1634"/>
         <source>Show ID column</source>
         <translation type="unfinished">显示标识列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1630"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1634"/>
         <source>Hide ID column</source>
         <translation type="unfinished">隐藏标识列</translation>
     </message>
@@ -2653,17 +2720,17 @@ Do you want to save it to the original file now?
         <translation type="unfinished">快捷键</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="178"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="180"/>
         <source>Save</source>
         <translation type="unfinished">保存</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="190"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="192"/>
         <source>Import</source>
         <translation type="unfinished">导入</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="185"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="187"/>
         <source>Save As</source>
         <translation type="unfinished">另存为</translation>
     </message>
@@ -2676,12 +2743,12 @@ Do you want to save it to the original file now?
         <translation type="obsolete">相机</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="893"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="909"/>
         <source>Modeling</source>
         <translation type="unfinished">建模</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="247"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="249"/>
         <source>New Sketch</source>
         <translation type="unfinished">创建草绘</translation>
     </message>
@@ -2851,18 +2918,18 @@ Do you want to save it to the original file now?
         <translation type="unfinished">草绘视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="905"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="921"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="129"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="897"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="913"/>
         <source>Primitive</source>
         <translation type="unfinished">基础形体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="901"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="917"/>
         <source>Boolean</source>
         <translation type="unfinished">布尔运算</translation>
     </message>
@@ -2872,12 +2939,12 @@ Do you want to save it to the original file now?
         <translation type="unfinished">草图环境</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="909"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="925"/>
         <source>Utility</source>
         <translation type="unfinished">实用工具</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="918"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="934"/>
         <source>Test</source>
         <translation type="unfinished">测试</translation>
     </message>
@@ -2907,59 +2974,59 @@ Do you want to save it to the original file now?
         <translation type="obsolete">保存文件</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="218"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="220"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="160"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="129"/>
         <source>Undo</source>
         <translation type="unfinished">撤销</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="225"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="227"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="167"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="136"/>
         <source>Redo</source>
         <translation type="unfinished">重做</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="241"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="243"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="308"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="152"/>
         <source>Select</source>
         <translation type="unfinished">选择</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="466"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="480"/>
         <source>Box</source>
         <translation type="unfinished">长方体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="195"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1594"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="197"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1598"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="473"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="487"/>
         <source>Cylinder</source>
         <translation type="unfinished">圆柱体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="480"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="494"/>
         <source>Sphere</source>
         <translation type="unfinished">球体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="487"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="501"/>
         <source>Cone</source>
         <translation type="unfinished">圆锥体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="494"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="508"/>
         <source>Torus</source>
         <translation type="unfinished">圆环体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="501"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="515"/>
         <source>Tube</source>
         <translation type="unfinished">圆管</translation>
     </message>
@@ -2974,44 +3041,44 @@ Do you want to save it to the original file now?
         <translation type="unfinished">关于</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="544"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="558"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="193"/>
         <source>Move</source>
         <translation type="unfinished">移动</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1523"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1540"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1527"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1544"/>
         <source>View Normal To</source>
         <translation type="unfinished">正视于</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1532"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1536"/>
         <source>Edit 3D Sketch</source>
         <translation>编辑3D草绘</translation>
     </message>
     <message>
         <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="211"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1562"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1566"/>
         <source>Show</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
         <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="219"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1571"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1575"/>
         <source>Hide</source>
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="564"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="183"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1580"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1584"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="558"/>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="627"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="641"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="506"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="304"/>
         <source>Fit Selection</source>
@@ -3019,314 +3086,324 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="576"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1623"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1627"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="551"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="565"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="203"/>
         <source>Rotate</source>
         <translation type="unfinished">旋转</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="517"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="531"/>
         <source>Union</source>
         <translation type="unfinished">并集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="779"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="793"/>
         <source>Datum Plane Series</source>
         <translation type="unfinished">基准面命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="271"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="273"/>
         <source>Coincident Datum Plane</source>
         <translation type="unfinished">重合 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="265"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="267"/>
         <source>Parallel Datum Plane</source>
         <translation type="unfinished">平行 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="277"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="279"/>
         <source>Angular Datum Plane</source>
         <translation type="unfinished">成角度 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="283"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="285"/>
         <source>Perpendicular Datum Plane</source>
         <translation type="unfinished">垂直 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="289"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="291"/>
         <source>Through Axis Datum Plane</source>
         <translation type="unfinished">按轴重合 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="295"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="297"/>
         <source>Normal To Curve Datum Plane</source>
         <translation type="unfinished">垂直于曲线 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="301"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="303"/>
         <source>Through 3 Points Datum Plane</source>
         <translation type="unfinished">过3点 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="307"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="309"/>
         <source>Tangent Datum Plane</source>
         <translation type="unfinished">相切 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="523"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="537"/>
         <source>Subtract</source>
         <translation type="unfinished">差集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="529"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="543"/>
         <source>Intersect</source>
         <translation type="unfinished">交集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="319"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="321"/>
         <source>Extrude</source>
         <translation type="unfinished">拉伸</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="200"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="202"/>
         <source>Import Sketch</source>
         <translation>导入草图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="205"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1517"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="207"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1521"/>
         <source>Export Sketch</source>
         <translation>导出草图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="253"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="255"/>
         <source>New 3D Sketch</source>
         <translation>创建3D草绘</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="259"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1511"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="261"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1515"/>
         <source>Edit Sketch</source>
         <translation type="unfinished">编辑草绘</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="313"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="315"/>
         <source>Helix</source>
         <translation type="unfinished">螺旋线</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="325"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="327"/>
         <source>Extruded Sheet</source>
         <translation>拉伸曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="331"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="333"/>
         <source>Revolved Sheet</source>
         <translation type="unfinished">旋转曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="337"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="339"/>
         <source>Swept Sheet</source>
         <translation type="unfinished">扫掠曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="343"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="345"/>
         <source>Lofted Sheet</source>
         <translation type="unfinished">放样曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="349"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="351"/>
         <source>Planar Sheet</source>
         <translation>平面区域</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="355"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="357"/>
         <source>Filled Surface</source>
         <translation>填充曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="361"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="363"/>
         <source>Sewn Sheet</source>
         <translation>缝合曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="367"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="369"/>
         <source>Thicken</source>
         <translation>加厚</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="373"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="375"/>
         <source>Solidify</source>
         <translation>实体化</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="379"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="381"/>
         <source>Offset Sheet</source>
         <translation>偏置曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="385"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="387"/>
         <source>Revolve</source>
         <translation type="unfinished">旋转</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="391"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="393"/>
         <source>Sweep</source>
         <translation>扫描</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="397"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="399"/>
         <source>Loft</source>
         <translation>放样</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="403"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="405"/>
         <source>Extrude Cut</source>
         <translation type="unfinished">拉伸切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="409"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="411"/>
         <source>Revolve Cut</source>
         <translation type="unfinished">旋转切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="415"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="417"/>
         <source>Sweep Cut</source>
         <translation type="unfinished">扫描切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="421"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="423"/>
         <source>Loft Cut</source>
         <translation type="unfinished">放样切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="427"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="429"/>
         <source>Merge</source>
         <translation type="unfinished">合并</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="433"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="435"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="439"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="441"/>
         <source>Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="445"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="447"/>
         <source>Shell</source>
         <translation type="unfinished">抽壳</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="451"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="453"/>
         <source>Draft</source>
         <translation type="unfinished">拔模</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="558"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="459"/>
+        <source>Split Face</source>
+        <translation type="unfinished">分割面</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="465"/>
+        <source>Delete Face</source>
+        <translation type="unfinished">删除面</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="572"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="213"/>
         <source>Mirror</source>
         <translation type="unfinished">镜像</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="606"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="620"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="567"/>
         <source>Find Element By ID</source>
         <translation>按 ID 查找元素</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="632"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="646"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="512"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="310"/>
         <source>IsometricView View</source>
         <translation type="unfinished">等轴测视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="667"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="681"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="552"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="345"/>
         <source>Shaded with Edges</source>
         <translation>着色带边框</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="672"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="686"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="557"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="350"/>
         <source>Shaded</source>
         <translation>着色</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="677"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="691"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="562"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="355"/>
         <source>Wireframe</source>
         <translation>线框</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="692"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="706"/>
         <source>TopoName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="698"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="712"/>
         <source>CheckTopoName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="932"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="948"/>
         <source>Sheet</source>
         <translation type="unfinished">曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="871"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="887"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="694"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="430"/>
         <source>Display Mode</source>
         <translation>显示模式</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="913"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="929"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="137"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="106"/>
         <source>View</source>
         <translation type="unfinished">视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="565"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="579"/>
         <source>Linear Pattern</source>
         <translation type="unfinished">线性阵列</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="572"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="586"/>
         <source>Circular Pattern</source>
         <translation type="unfinished">圆周阵列</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="588"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="602"/>
         <source>Set Color</source>
         <translation type="unfinished">设置颜色</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="594"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="608"/>
         <source>Measure</source>
         <translation type="unfinished">测量</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="600"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="614"/>
         <source>Run Script</source>
         <translation type="unfinished">执行脚本</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="622"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="636"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="500"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="298"/>
         <source>Fit View</source>
@@ -3337,42 +3414,42 @@ Do you want to save it to the original file now?
         <translation type="obsolete">等轴侧视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="637"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="651"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="517"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="315"/>
         <source>Front View</source>
         <translation type="unfinished">前视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="642"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="656"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="522"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="320"/>
         <source>Back View</source>
         <translation type="unfinished">后视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="647"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="661"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="527"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="325"/>
         <source>Left View</source>
         <translation type="unfinished">左视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="652"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="666"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="532"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="330"/>
         <source>Right View</source>
         <translation type="unfinished">右视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="657"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="671"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="537"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="335"/>
         <source>Top View</source>
         <translation type="unfinished">顶视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="662"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="676"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="542"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="340"/>
         <source>Bottom View</source>
@@ -7443,6 +7520,35 @@ Do you want to save it to the original file now?
         <location filename="../../commands/modeling/sheet/generation/SolidifyGuiCmd.cpp" line="126"/>
         <source>Select a closed sheet to solidify.</source>
         <translation>选择闭合片体进行实体化。</translation>
+    </message>
+</context>
+<context>
+    <name>SplitFaceGuiCmd</name>
+    <message>
+        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="197"/>
+        <source>Select the face to split. Press Enter or Spacebar to confirm.</source>
+        <translation type="unfinished">选择要分割的面；按 Enter 键或空格键将完成操作。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="224"/>
+        <source>Select the 3D sketch to split the face with.</source>
+        <translation type="unfinished">选择用于分割的三维草图。</translation>
+    </message>
+    <message>
+        <source>Select the 3D sketch whose curves split the face; the split is created right away.</source>
+        <translation type="obsolete">选择曲线所在的三维草图；选中后立即分割。</translation>
+    </message>
+    <message>
+        <source>Select the 3D sketch whose curves split the face. Press Enter or Spacebar to confirm.</source>
+        <translation type="obsolete">选择曲线所在的三维草图；按 Enter 键或空格键将完成操作。</translation>
+    </message>
+    <message>
+        <source>Select the sketch curves to split the face with; press Enter or Spacebar to confirm.</source>
+        <translation type="obsolete">选择用于分割的草图曲线；按 Enter 键或空格键将完成操作。</translation>
+    </message>
+    <message>
+        <source>All curves must come from the same sketch.</source>
+        <translation type="obsolete">所有曲线必须来自同一个草图。</translation>
     </message>
 </context>
 <context>

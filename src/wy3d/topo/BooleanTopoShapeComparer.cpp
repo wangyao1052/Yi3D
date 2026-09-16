@@ -133,7 +133,7 @@ void BooleanTopoShapeComparer::recordModified()
             // added by wangyao 2025.05.16 {
             // 如果修改的边和原来的边完全一样或者仅仅是方向不一致,则在前面的逻辑中已经设定为Kept了;
             // 若不加此处代码,在TopoNaming::update中,clearModify()函数会删除掉这条记录从而导致此边没有拓扑命名.
-            if (newShape.IsEqual(oldEdgeInfo.shape))
+            if (newShape.IsSame(oldEdgeInfo.shape))
             {
                 continue;
             }
@@ -217,7 +217,7 @@ void BooleanTopoShapeComparer::recordModified()
             // added by wangyao 2025.05.16 {
             // 如果修改的面和原来的面完全一样或者仅仅是方向不一致,则在前面的逻辑中已经设定为Kept了;
             // 若不加此处代码,在TopoNaming::update中,clearModify()函数会删除掉这条记录从而导致此面没有拓扑命名.
-            if (newShape.IsEqual(oldFaceInfo.shape))
+            if (newShape.IsSame(oldFaceInfo.shape))
             {
                 continue;
             }

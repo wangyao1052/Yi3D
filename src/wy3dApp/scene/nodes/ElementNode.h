@@ -19,6 +19,8 @@
 #ifndef WY3DAPP_ELEMENT_NODE_H
 #define WY3DAPP_ELEMENT_NODE_H
 
+#include <vector>
+
 #include <osg/Node>
 #include <osg/Group>
 #include <osg/Polytope>
@@ -52,6 +54,59 @@ public:
     {
         return _vertices;
     }
+
+public:
+    // 面/边信息: 实体节点与片体节点共用一套, 索引均为形体上的拓扑面/边序号
+    enum class FaceInfoFlag
+    {
+        Highlight = 0x00000001,
+    };
+    struct FaceInfo
+    {
+        unsigned int numTriangles;
+        std::vector<int> edgeIndices; // 序号从0开始
+        unsigned int flags;
+
+        inline void addFlag(FaceInfoFlag flag)
+        {
+            flags |= static_cast<unsigned int>(flag);
+        }
+        inline void removeFlag(FaceInfoFlag flag)
+        {
+            flags &= ~static_cast<unsigned int>(flag);
+        }
+        inline bool hasFlag(FaceInfoFlag flag) const
+        {
+            return flags & static_cast<unsigned int>(flag);
+        }
+
+        FaceInfo() : numTriangles(0), flags(0) {}
+    };
+
+    enum class EdgeInfoFlag
+    {
+        Highlight = 0x00000001,
+    };
+    struct EdgeInfo
+    {
+        unsigned int numLines;
+        unsigned int flags;
+
+        inline void addFlag(EdgeInfoFlag flag)
+        {
+            flags |= static_cast<unsigned int>(flag);
+        }
+        inline void removeFlag(EdgeInfoFlag flag)
+        {
+            flags &= ~static_cast<unsigned int>(flag);
+        }
+        inline bool hasFlag(EdgeInfoFlag flag) const
+        {
+            return flags & static_cast<unsigned int>(flag);
+        }
+
+        EdgeInfo() : numLines(0), flags(0) {}
+    };
 
 public:
     enum NodeMask

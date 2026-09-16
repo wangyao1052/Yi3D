@@ -24,57 +24,6 @@
 class SheetElementNode : public ElementNode
 {
     friend class Scene;
-public:
-    enum class FaceInfoFlag
-    {
-        Highlight = 0x00000001,
-    };
-    struct FaceInfo
-    {
-        unsigned int numTriangles;
-        std::vector<int> edgeIndices;
-        unsigned int flags;
-
-        inline void addFlag(FaceInfoFlag flag)
-        {
-            flags |= static_cast<unsigned int>(flag);
-        }
-        inline void removeFlag(FaceInfoFlag flag)
-        {
-            flags &= ~static_cast<unsigned int>(flag);
-        }
-        inline bool hasFlag(FaceInfoFlag flag) const
-        {
-            return flags & static_cast<unsigned int>(flag);
-        }
-
-        FaceInfo() : numTriangles(0), flags(0) {}
-    };
-
-    enum class EdgeInfoFlag
-    {
-        Highlight = 0x00000001,
-    };
-    struct EdgeInfo
-    {
-        unsigned int numLines;
-        unsigned int flags;
-
-        inline void addFlag(EdgeInfoFlag flag)
-        {
-            flags |= static_cast<unsigned int>(flag);
-        }
-        inline void removeFlag(EdgeInfoFlag flag)
-        {
-            flags &= ~static_cast<unsigned int>(flag);
-        }
-        inline bool hasFlag(EdgeInfoFlag flag) const
-        {
-            return flags & static_cast<unsigned int>(flag);
-        }
-
-        EdgeInfo() : numLines(0), flags(0) {}
-    };
 
 public:
     SheetElementNode(const wydb::ElementId& id, osg::Vec4 color)

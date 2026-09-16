@@ -108,6 +108,8 @@ struct ModelingActions
     CommandAction* pActionFillet;
     CommandAction* pActionShell;
     CommandAction* pActionDraft;
+    CommandAction* pActionSplitFace;
+    CommandAction* pActionDeleteFace;
 };
 
 struct PrimitiveActions
@@ -452,6 +454,18 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
         QIcon(":/images/Modeling_Draft.png"),
         pActionGroup);
 
+    actions.pActionSplitFace = pEnv->newCommandAction(
+        CommandNames::SplitFace,
+        QCoreApplication::translate("MainWindow", "Split Face"),
+        QIcon(),
+        pActionGroup);
+
+    actions.pActionDeleteFace = pEnv->newCommandAction(
+        CommandNames::DeleteFace,
+        QCoreApplication::translate("MainWindow", "Delete Face"),
+        QIcon(),
+        pActionGroup);
+
     return actions;
 }
 
@@ -732,6 +746,7 @@ void buildSheetMenuUi(
     pMenuSheet->addAction(actions.pActionPlanarSheet);
     pMenuSheet->addAction(actions.pActionFilledSheet);
     pMenuSheet->addAction(actions.pActionSewnSheet);
+    pMenuSheet->addAction(actions.pActionDeleteFace);
     pMenuSheet->addSeparator();
     pMenuSheet->addAction(actions.pActionOffsetSheet);
     pMenuSheet->addAction(actions.pActionThicken);
@@ -796,6 +811,7 @@ void buildModelingToolBarUi(
     pToolBarModeling->addAction(actions.pActionFillet);
     pToolBarModeling->addAction(actions.pActionShell);
     pToolBarModeling->addAction(actions.pActionDraft);
+    pToolBarModeling->addAction(actions.pActionSplitFace);
 }
 
 void buildPrimitiveToolBarUi(const PrimitiveActions& actions, QToolBar* pToolBarPrimitive)

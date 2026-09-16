@@ -21,7 +21,7 @@
 #include <TopoDS_Shape.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
 #include <TopExp.hxx>
-#include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dSolid.h>
 
 NS_WY3D_BEG
@@ -29,7 +29,7 @@ NS_WY3D_BEG
 std::vector<unsigned int> SolidModificationUtil::computeNewFaceIndices(
     wydb::Database* pDb,
     const TopoNameList& newFaces,
-    const wydb::ElementId& ownerSolidId)
+    const wydb::ElementId& ownerId)
 {
     assert(pDb);
 
@@ -39,17 +39,27 @@ std::vector<unsigned int> SolidModificationUtil::computeNewFaceIndices(
         return retFaceIndices;
     }
 
-    // 获取实体的拓扑命名
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(ownerSolidId));
-    if (!pSolid)
+    // 获取宿主的拓扑命名和形体, 宿主可以是实体也可以是片体
+    const wydb::Element* pOwner = pDb->getElement(ownerId);
+    const TopoNaming* pTopoNaming(nullptr);
+    TopoDS_Shape ownerShape;
+    if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pOwner))
+    {
+        pTopoNaming = pSolid->getTopoNaming();
+        ownerShape = pSolid->getShape();
+    }
+    else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pOwner))
+    {
+        pTopoNaming = pSheet->getTopoNaming();
+        ownerShape = pSheet->getShape();
+    }
+    if (!pTopoNaming)
     {
         assert(false);
         return retFaceIndices;
     }
-    const TopoNaming* pTopoNaming = pSolid->getTopoNaming();
-    if (!pTopoNaming)
+    if (ownerShape.IsNull())
     {
-        assert(false);
         return retFaceIndices;
     }
 
@@ -66,7 +76,7 @@ std::vector<unsigned int> SolidModificationUtil::computeNewFaceIndices(
     if (matchedShapes.empty()) return retFaceIndices;
 
     // 构建面索引的映射
-    const TopoDS_Shape& shape = pSolid->getShape();
+    const TopoDS_Shape& shape = ownerShape;
     TopTools_IndexedMapOfShape faceMap;
     TopExp::MapShapes(shape, TopAbs_FACE, faceMap);
     TopoShape2IdMap shape2Index;

@@ -64,6 +64,8 @@
 #include <wy3dFillet.h>
 #include <wy3dShell.h>
 #include <wy3dDraft.h>
+#include <wy3dSplitFace.h>
+#include <wy3dDeleteFace.h>
 #include <wy3dMove.h>
 #include <wy3dRotate.h>
 #include <wy3dMirror.h>
@@ -171,6 +173,8 @@ FeatureTreeWidget::FeatureTreeWidget(QWidget* parent)
     _className2DisplayName[wy3d::Fillet::className()] = tr("Fillet");
     _className2DisplayName[wy3d::Shell::className()] = tr("Shell");
     _className2DisplayName[wy3d::Draft::className()] = tr("Draft");
+    _className2DisplayName[wy3d::SplitFace::className()] = tr("Split Face");
+    _className2DisplayName[wy3d::DeleteFace::className()] = tr("Delete Face");
     _className2DisplayName[wy3d::Move::className()] = tr("Move");
     _className2DisplayName[wy3d::Rotate::className()] = tr("Rotate");
     _className2DisplayName[wy3d::Mirror::className()] = tr("Mirror");
@@ -611,10 +615,10 @@ void FeatureTreeWidget::reorderDirtyOwnerItems(const wydb::Database* pDb, const 
             continue;
         }
 
-        // 获取实体的所有子元素
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(pFeatRow->pNameItem->getElementId()));
-        if (!pSolid) continue;
-        std::vector<wydb::ElementId> children = pSolid->getChildren();
+        // 获取形体(实体或片体)的所有子元素
+        const wydb::Element* pElem = pDb->getElement(pFeatRow->pNameItem->getElementId());
+        if (!wy3d::Solid::cast(pElem) && !wy3d::Sheet::cast(pElem)) continue;
+        std::vector<wydb::ElementId> children = pElem->getChildren();
 
         // take所有子节点
         std::map<wydb::ElementId, QList<QStandardItem*>> id2ChildItems;

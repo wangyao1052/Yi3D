@@ -16,10 +16,13 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <algorithm>
+#include <cassert>
 #include <wydbFiler.h>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dSheet.h>
+#include <wy3dSolidModification.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include <wy3dParamNames.h>
@@ -33,13 +36,15 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Sheet, _color)
     REGISTER_FIELD(Sheet, _shape)
     REGISTER_FIELD(Sheet, _pTopoNaming)
+    REGISTER_FIELD(Sheet, _modifications)
 END_FIELD_REGISTRATION()
 
 Sheet::Sheet() :
     wy3d::Feature(),
     _parent(wydb::ElementId::kNull),
     _color(140, 153, 165),
-    _shape()
+    _shape(),
+    _pTopoNaming(nullptr)
 {
     _pTopoNaming = std::make_shared<TopoNaming>();
 }
@@ -121,6 +126,54 @@ wy::ErrorStatus Sheet::setColor(const wy3d::Color& color)
     }
 }
 
+wy::ErrorStatus Sheet::addModification(wy3d::SolidModification* pModification)
+{
+    if (!pModification)
+    {
+        return wy::ErrorStatus::NullElementPointer;
+    }
+    if (!pModification->getParent().isNull())
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+    wydb::ElementId modificationId = pModification->getId();
+    if (std::find(_modifications.cbegin(), _modifications.cend(), modificationId) != _modifications.cend()) // already exists
+    {
+        return wy::ErrorStatus::Ok;
+    }
+
+    wy::ErrorStatus error = this->prepareForFieldChange(kSheet_modifications);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _modifications.emplace_back(modificationId);
+        wy::ErrorStatus ownerError = pModification->_setOwner(this->getId()); // always return Ok
+        assert(wy::ErrorStatus::Ok == ownerError);
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+wy::ErrorStatus Sheet::_setModifications(const std::vector<wydb::ElementId>& modifications)
+{
+    if (modifications == _modifications)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(kSheet_modifications);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _modifications = modifications;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
 void Sheet::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
@@ -177,6 +230,9 @@ bool Sheet::getFieldValue(wydb::FieldId fieldId, std::any& value)
     case kSheet_parent.value():
         value = _parent;
         return true;
+    case kSheet_modifications.value():
+        value = _modifications;
+        return true;
     default:
         bool baseRet = __baseClass::getFieldValue(fieldId, value);
         assert(baseRet);
@@ -199,6 +255,9 @@ bool Sheet::setFieldValue(wydb::FieldId fieldId, const std::any& value)
         return true;
     case kSheet_parent.value():
         _parent = std::any_cast<wydb::ElementId>(value);
+        return true;
+    case kSheet_modifications.value():
+        _modifications = std::any_cast<const std::vector<wydb::ElementId>&>(value);
         return true;
     default:
         bool baseRet = __baseClass::setFieldValue(fieldId, value);
@@ -223,6 +282,16 @@ wy::ErrorStatus Sheet::writeToFiler(wydb::OutFiler& filer) const
         filer << _parent;
     }
 
+    if (filer.getFileVersion() >= wydb::FileVersion(0, 20))
+    {
+        std::uint32_t numModification = static_cast<std::uint32_t>(_modifications.size());
+        filer << numModification;
+        for (const wydb::ElementId& modification : _modifications)
+        {
+            filer << modification;
+        }
+    }
+
     return wy::ErrorStatus::Ok;
 }
 
@@ -245,6 +314,17 @@ wy::ErrorStatus Sheet::readFromFiler(wydb::InFiler& filer)
         filer >> _parent;
     }
 
+    if (filer.getFileVersion() >= wydb::FileVersion(0, 20))
+    {
+        std::uint32_t numModifications(0);
+        filer >> numModifications;
+        _modifications.resize(numModifications);
+        for (std::uint32_t i = 0; i < numModifications; ++i)
+        {
+            filer >> _modifications[i];
+        }
+    }
+
     return wy::ErrorStatus::Ok;
 }
 
@@ -255,16 +335,35 @@ void Sheet::reportDependencies(std::set<wydb::ElementId>& dependencies) const
     {
         dependencies.insert(_parent);
     }
+    dependencies.insert(_modifications.cbegin(), _modifications.cend());
 }
 
 bool Sheet::onDependenciesErased(const std::set<wydb::ElementId>& erasedDependencies)
 {
     bool responsed = __baseClass::onDependenciesErased(erasedDependencies);
+
     if (!_parent.isNull() && erasedDependencies.find(_parent) != erasedDependencies.cend())
     {
         this->setParent(wydb::ElementId::kNull);
-        return true;
+        responsed = true;
     }
+
+    // 形体修改特征
+    std::vector<wydb::ElementId> newModifications;
+    newModifications.reserve(_modifications.size());
+    for (const wydb::ElementId& modification : _modifications)
+    {
+        if (erasedDependencies.find(modification) == erasedDependencies.cend()) // 没有删除
+        {
+            newModifications.emplace_back(modification);
+        }
+    }
+    if (newModifications.size() != _modifications.size())
+    {
+        this->_setModifications(newModifications);
+        responsed = true;
+    }
+
     return responsed;
 }
 
@@ -276,8 +375,14 @@ void Sheet::onChainUpdater_Completion(
     {
         TopoNamingSPtr pTopoNaming = std::make_shared<TopoNaming>();
         TopoDS_Shape shape = this->generateShape(pTopoNaming.get(), feedbackCollector);
-        this->setShapeImpl(shape);
+        std::pair<bool, TopoDS_Shape> modifyRet = this->modifyShape(shape, pTopoNaming.get(), feedbackCollector);
+        this->setShapeImpl(modifyRet.second);
         this->setTopoNaming(pTopoNaming);
+#ifdef _DEBUG
+        char szFileName[100] = { 0 };
+        sprintf_s(szFileName, 100, "D:/logs/%d.txt", this->getId().value());
+        pTopoNaming->print(szFileName, modifyRet.second);
+#endif // _DEBUG
     }
     catch (const Standard_Failure&)
     {
@@ -293,6 +398,46 @@ TopoDS_Shape Sheet::generateShape(
     wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
     return TopoDS_Shape();
+}
+
+std::pair<bool, TopoDS_Shape> Sheet::modifyShape(
+    const TopoDS_Shape& shape,
+    TopoNaming* pTopoNaming,
+    wydb::ChainUpdateFeedbackCollector& feedbackCollector)
+{
+    if (_modifications.empty())
+    {
+        return std::pair<bool, TopoDS_Shape>(true, shape);
+    }
+    if (!pTopoNaming || shape.IsNull())
+    {
+        assert(false);
+        return std::pair<bool, TopoDS_Shape>(false, shape);
+    }
+
+    wydb::Database* pDb = this->getDatabase();
+    assert(pDb);
+    wydb::Transaction* pTrans = pDb->getTransactionManager()->getActiveTransaction();
+    if (!pTrans)
+    {
+        assert(false);
+        return std::pair<bool, TopoDS_Shape>(false, shape);
+    }
+
+    TopoDS_Shape retShape = shape;
+    for (const wydb::ElementId& modificationId : _modifications)
+    {
+        wydb::Element* pModElem = pTrans->getElementForWrite(modificationId);
+        wy3d::SolidModification* pModification = wy3d::SolidModification::cast(pModElem);
+        if (!pModification)
+        {
+            assert(false);
+            continue;
+        }
+        retShape = pModification->modifyOwnerShape(retShape, pTopoNaming, feedbackCollector).second;
+    }
+
+    return std::pair<bool, TopoDS_Shape>(true, retShape);
 }
 
 NS_WY3D_END

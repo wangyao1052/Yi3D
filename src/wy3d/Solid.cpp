@@ -491,16 +491,8 @@ void Solid::onChainUpdater_Completion(
     }
     catch (const Standard_Failure&)
     {
-        // added by wangyao 2025.04.17 {
-        wydb::Database* pDb = this->getDatabase();
-        assert(pDb);
-        wydb::Transaction* pTrans = pDb->getTransactionManager()->getActiveTransaction();
-        assert(pTrans);
-        assert(false == pTrans->isGroup());
         wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
             static_cast<unsigned int>(wy3d::ErrorCode::TOPOSHAPE_GenerateShapeError));
-        // }
-
         this->setShape(TopoDS_Shape());
         this->setTopoNaming(std::make_shared<TopoNaming>());
     }
@@ -522,13 +514,7 @@ std::pair<bool, TopoDS_Shape> Solid::modifyShape(
     {
         return std::pair<bool, TopoDS_Shape>(true, shape);
     }
-
-    if (!pTopoNaming)
-    {
-        assert(false);
-        return std::pair<bool, TopoDS_Shape>(false, shape);
-    }
-    if (shape.IsNull())
+    if (!pTopoNaming || shape.IsNull())
     {
         assert(false);
         return std::pair<bool, TopoDS_Shape>(false, shape);

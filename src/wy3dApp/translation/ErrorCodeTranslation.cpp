@@ -187,6 +187,28 @@ ErrorCodeTranslation::ErrorCodeTranslation(QObject* parent) : QObject(parent)
     _code2Desc[TOUINT(wy3d::ErrorCode::FILLEDSHEET_EdgesNotClosed)] = tr(
         "The sketch curves must form a single closed loop!");
 
+    // SplitFace
+    _code2Desc[TOUINT(wy3d::ErrorCode::SPLITFACE_InvalidData)] = tr(
+        "Invalid split face data!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::SPLITFACE_FaceNotExists)] = tr(
+        "The face to split no longer exists!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::SPLITFACE_CurveNotExists)] = tr(
+        "The sketch holds no curve to split with!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::SPLITFACE_GenerateError)] = tr(
+        "Generate split face failed!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::SPLITFACE_NoFaceSplit)] = tr(
+        "The curves do not divide any of the selected faces!");
+
+    // DeleteFace
+    _code2Desc[TOUINT(wy3d::ErrorCode::DELETEFACE_InvalidData)] = tr(
+        "Invalid delete face data!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::DELETEFACE_FaceNotExists)] = tr(
+        "The faces to delete no longer exist!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::DELETEFACE_NoFaceLeft)] = tr(
+        "A sheet cannot lose every one of its faces!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::DELETEFACE_GenerateError)] = tr(
+        "Delete face failed!");
+
     // Helix
     _code2Desc[TOUINT(wy3d::ErrorCode::HELIX_InvalidData)] = tr(
         "Invalid helix data!");

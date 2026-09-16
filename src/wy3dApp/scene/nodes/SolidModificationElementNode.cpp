@@ -31,8 +31,81 @@
 #include <wy3dSolidModification.h>
 #include "scene/Scene.h"
 #include "scene/nodes/SolidElementNode.h"
+#include "scene/nodes/SheetElementNode.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+
+namespace
+{
+
+// 实体和片体的场景节点各有一套渲染数据, 这里收集成同一份, 供形体修改元素使用.
+struct HostRenderData
+{
+    osg::ref_ptr<osg::Vec3Array> vertices;
+    osg::ref_ptr<osg::Vec3Array> normals;
+    osg::ref_ptr<osg::UIntArray> triangleIndices;
+    osg::ref_ptr<osg::UIntArray> lineIndices;
+    // 借用宿主节点的面/边信息, 不拷贝; 生命周期同宿主节点
+    const std::vector<ElementNode::FaceInfo>* faceInfos = nullptr;
+    const std::vector<ElementNode::EdgeInfo>* edgeInfos = nullptr;
+};
+
+wydb::ElementId findHostId(const wydb::Element* pElem)
+{
+    if (const wy3d::SolidModification* pSolidMod = wy3d::SolidModification::cast(pElem))
+    {
+        return pSolidMod->getParent();
+    }
+    if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+    {
+        return pSolid->getParent();
+    }
+    return wydb::ElementId::kNull;
+}
+
+template<typename HostNode>
+void collectHostRenderDataFrom(const HostNode* pHostNode, HostRenderData& data)
+{
+    data.vertices = pHostNode->getVertices();
+    data.normals = pHostNode->getNormals();
+    data.triangleIndices = pHostNode->getTriangleIndices();
+    data.lineIndices = pHostNode->getLineIndices();
+    data.faceInfos = &pHostNode->getFaceInfos();
+    data.edgeInfos = &pHostNode->getEdgeInfos();
+}
+
+// 宿主既可能是实体也可能是片体
+bool collectHostRenderData(const ElementNode* pHostNode, HostRenderData& data)
+{
+    if (const SolidElementNode* pSolidNode = dynamic_cast<const SolidElementNode*>(pHostNode))
+    {
+        collectHostRenderDataFrom(pSolidNode, data);
+        return true;
+    }
+    if (const SheetElementNode* pSheetNode = dynamic_cast<const SheetElementNode*>(pHostNode))
+    {
+        collectHostRenderDataFrom(pSheetNode, data);
+        return true;
+    }
+    return false;
+}
+
+bool findHostMatrix(const ElementNode* pHostNode, osg::Matrix& matrix)
+{
+    if (const SolidElementNode* pSolidNode = dynamic_cast<const SolidElementNode*>(pHostNode))
+    {
+        matrix = pSolidNode->getMatrix();
+        return true;
+    }
+    if (const SheetElementNode* pSheetNode = dynamic_cast<const SheetElementNode*>(pHostNode))
+    {
+        matrix = pSheetNode->getMatrix();
+        return true;
+    }
+    return false;
+}
+
+} // namespace
 
 bool SolidModificationElementNode::transform(wydb::Database* pDb)
 {
@@ -49,30 +122,12 @@ void SolidModificationElementNode::generateRenderObjectImpl(Scene* pScene, const
     assert(_triangleIndices);
     assert(_lineIndices);
 
-    // 获取实体修改结点的宿主元素
-    const wy3d::Solid* pSolidOwner(nullptr);
-    if (const wy3d::SolidModification* pSolidMod = wy3d::SolidModification::cast(pElem))
-    {
-        pSolidOwner = wy3d::Solid::cast(pElem->getDatabase()->getElement(pSolidMod->getParent()));
-    }
-    else if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem)) // 切除材料实体特征 or 被合并的增料实体特征
-    {
-        pSolidOwner = wy3d::Solid::cast(pElem->getDatabase()->getElement(pSolid->getParent()));
-    }
-    else
+    osg::Matrix hostMatrix;
+    if (!findHostMatrix(pScene->getElementNode(findHostId(pElem)), hostMatrix))
     {
         assert(false);
         return;
     }
-    if (!pSolidOwner)
-    {
-        assert(false);
-        return;
-    }
-
-    // 宿主实体场景节点
-    SolidElementNode* pSolidOwnerElemNode = dynamic_cast<SolidElementNode*>(pScene->getElementNode(pSolidOwner->getId()));
-    assert(pSolidOwnerElemNode);
 
     // 设置包围盒始终为空
     _boundBox = osg::BoundingBox();
@@ -84,7 +139,7 @@ void SolidModificationElementNode::generateRenderObjectImpl(Scene* pScene, const
         // batch
         _shapeGeom = this->generateShapeGeom(pElem->getId());
         osg::ref_ptr<osg::MatrixTransform> pMatrixTransform = new osg::MatrixTransform();
-        if (pSolidOwnerElemNode) pMatrixTransform->setMatrix(pSolidOwnerElemNode->getMatrix());
+        pMatrixTransform->setMatrix(hostMatrix);
         pMatrixTransform->addChild(_shapeGeom);
         _shapeNode = pMatrixTransform;
         _osgNode->addChild(_shapeNode);
@@ -96,7 +151,7 @@ void SolidModificationElementNode::generateRenderObjectImpl(Scene* pScene, const
     {
         _edgeGeom = this->generateEdgeGeom(pElem->getId());
         osg::ref_ptr<osg::MatrixTransform> pMatrixTransform = new osg::MatrixTransform();
-        if (pSolidOwnerElemNode) pMatrixTransform->setMatrix(pSolidOwnerElemNode->getMatrix());
+        pMatrixTransform->setMatrix(hostMatrix);
         pMatrixTransform->addChild(_edgeGeom);
         _edgeNode = pMatrixTransform;
         _edgeNode->setNodeMask(0); // 默认不显示只在高亮和预览的时候显示
@@ -163,22 +218,21 @@ ElementNode::GenRenderDataRet SolidModificationElementNode::generateRenderDataIm
 
     // 实体修改元素
     std::vector<unsigned int> newFaceIndexVec;
-    wydb::ElementId ownerId = wydb::ElementId::kNull;
     if (const wy3d::SolidModification* pSolidMod = wy3d::SolidModification::cast(pElement))
-    {        newFaceIndexVec = pSolidMod->getNewFaceIndices();
-        ownerId = pSolidMod->getParent();
+    {
+        newFaceIndexVec = pSolidMod->getNewFaceIndices();
     }
     else if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElement))
     {
-        
         newFaceIndexVec = pSolid->getNewFaceIndices();
-        ownerId = pSolid->getParent();
     }
     else
     {
         assert(false);
         return GenRenderDataRet::Ok_Empty;
     }
+    const wydb::ElementId ownerId = findHostId(pElement);
+    assert(!ownerId.isNull());
 
     // 实体修改元素新生成的面为空
     if (newFaceIndexVec.empty())
@@ -187,41 +241,33 @@ ElementNode::GenRenderDataRet SolidModificationElementNode::generateRenderDataIm
         return GenRenderDataRet::Ok_Empty;
     }
 
-    // 关联的实体元素节点
-    SolidElementNode* pSolidElemNode = dynamic_cast<SolidElementNode*>(pScene->getElementNode(ownerId));
-    if (!pSolidElemNode)
+    // 关联的宿主元素节点(实体或片体)
+    HostRenderData hostData;
+    if (!collectHostRenderData(pScene->getElementNode(ownerId), hostData))
     {
         assert(false);
         return GenRenderDataRet::Ok_Empty;
     }
-    _vertices = pSolidElemNode->getVertices();
+    _vertices = hostData.vertices;
     if (!_vertices)
     {
         assert(false);
         return GenRenderDataRet::Ok_Empty;
     }
-    _normals = pSolidElemNode->getNormals();
+    _normals = hostData.normals;
     if (!_normals)
     {
         assert(false);
         return GenRenderDataRet::Ok_Empty;
     }
-
-    // 面&边信息
-    const std::vector<SolidElementNode::FaceInfo>& faceInfos = pSolidElemNode->getFaceInfos();
-    const std::vector<SolidElementNode::EdgeInfo>& edgeInfos = pSolidElemNode->getEdgeInfos();
-    osg::ref_ptr<osg::UIntArray> solidTriangleIndices = pSolidElemNode->getTriangleIndices();
-    if (!solidTriangleIndices)
+    if (!hostData.triangleIndices || !hostData.lineIndices ||
+        !hostData.faceInfos || !hostData.edgeInfos)
     {
         assert(false);
         return GenRenderDataRet::Ok_Empty;
     }
-    osg::ref_ptr<osg::UIntArray> solidLineIndices = pSolidElemNode->getLineIndices();
-    if (!solidLineIndices)
-    {
-        assert(false);
-        return GenRenderDataRet::Ok_Empty;
-    }
+    const std::vector<ElementNode::FaceInfo>& faceInfos = *hostData.faceInfos;
+    const std::vector<ElementNode::EdgeInfo>& edgeInfos = *hostData.edgeInfos;
 
     // 新生成的面的索引
     std::set<unsigned int> newFaceIndices;
@@ -252,7 +298,7 @@ ElementNode::GenRenderDataRet SolidModificationElementNode::generateRenderDataIm
     // 填充三角形索引
     if (0) // 实体修改元素不渲染面只渲染边
     {
-        auto iterBeg = solidTriangleIndices->begin();
+        auto iterBeg = hostData.triangleIndices->begin();
         auto iterEnd = iterBeg;
         iterNewFaceIndex = newFaceIndices.cbegin();
         for (size_t i = 0; i < faceInfos.size(); ++i)
@@ -275,12 +321,12 @@ ElementNode::GenRenderDataRet SolidModificationElementNode::generateRenderDataIm
     // 填充边的索引
     if (!edgeIndexSet.empty())
     {
-        auto iterBeg = solidLineIndices->begin();
+        auto iterBeg = hostData.lineIndices->begin();
         auto iterEnd = iterBeg;
         auto iterEdgeIndex = edgeIndexSet.cbegin();
         for (size_t i = 0; i < edgeInfos.size(); ++i)
         {
-            assert(solidLineIndices->end() - iterEnd >= static_cast<size_t>(edgeInfos[i].numLines) * 2);
+            assert(hostData.lineIndices->end() - iterEnd >= static_cast<size_t>(edgeInfos[i].numLines) * 2);
             iterEnd += static_cast<size_t>(edgeInfos[i].numLines) * 2;
             if (i == *iterEdgeIndex)
             {

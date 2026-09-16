@@ -48,6 +48,8 @@
 #include "commands/modeling/solid/modification/FilletGuiCmd.h"
 #include "commands/modeling/solid/modification/ShellGuiCmd.h"
 #include "commands/modeling/solid/modification/DraftGuiCmd.h"
+#include "commands/modeling/solid/modification/SplitFaceGuiCmd.h"
+#include "commands/modeling/solid/modification/DeleteFaceGuiCmd.h"
 #ifdef _DEBUG
 #include "commands/test/TopoNameGuiCmd.h"
 #include "commands/test/CheckTopoNameGuiCmd.h"
@@ -112,6 +114,8 @@
     X(CommandNames::Fillet, WYAP_CMD_MODAL, FilletGuiCmd::classInfo()) \
     X(CommandNames::Shell, WYAP_CMD_MODAL, ShellGuiCmd::classInfo()) \
     X(CommandNames::Draft, WYAP_CMD_MODAL, DraftGuiCmd::classInfo()) \
+    X(CommandNames::SplitFace, WYAP_CMD_MODAL, SplitFaceGuiCmd::classInfo()) \
+    X(CommandNames::DeleteFace, WYAP_CMD_MODAL, DeleteFaceGuiCmd::classInfo()) \
     X(CommandNames::MakeBox, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, MakeBoxGuiCmd::classInfo()) \
     X(CommandNames::MakeCylinder, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, MakeCylinderGuiCmd::classInfo()) \
     X(CommandNames::MakeSphere, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST, MakeSphereGuiCmd::classInfo()) \

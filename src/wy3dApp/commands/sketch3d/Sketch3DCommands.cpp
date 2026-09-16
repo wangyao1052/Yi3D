@@ -26,6 +26,7 @@
 #include <wyapEnvManager.h>
 #include <wy3dSketch3D.h>
 #include <wy3dFilledSheet.h>
+#include <wy3dSplitFace.h>
 
 #include "application/Application.h"
 #include "environments/sketch3d/Sketch3DEnvironment.h"
@@ -133,6 +134,11 @@ static bool canEndEditingSketch3D(const wydb::ElementId& sketch3dId)
         {
             return true;
         }
+    }
+    else if (wy3d::SplitFace::cast(pSketchOwner))
+    {
+        // 分割面的工具草图就是一组自由曲线, 没有轮廓合法性要求
+        return true;
     }
     else
     {

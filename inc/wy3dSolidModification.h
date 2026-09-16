@@ -15,7 +15,10 @@
 NS_WY3D_BEG
 
 class Solid;
+class Sheet;
 
+// 就地修改一个形体。宿主是实体还是片体由数据决定, 不由类型决定: 实体和片体各有自己的修改链,
+// 都按 _ownerId 找到这里调用 modifyOwnerShape, 而 modifyOwnerShape 只认 TopoDS_Shape。
 class WY3D_EXPORT SolidModification : public wy3d::Feature
 {
     WYDB_DECLARE_ABSTRACT_MEMBERS(SolidModification, wy3d::SolidModification, wy3d::Feature)
@@ -24,7 +27,7 @@ public:
     // 获取主体
     virtual wydb::ElementId getParent() const override { return _ownerId; }
 
-    // 获取新生成的面在Solid面中的索引
+    // 获取新生成的面在宿主Shape面中的索引
     std::vector<std::uint32_t> getNewFaceIndices() const;
 
 public:
@@ -46,7 +49,7 @@ protected:
     virtual void reportChainUpdateDataPieces(wydb::ElementDataPieceCollector& dps) const override;
 
 protected:
-    // 修改实体形体
+    // 修改宿主形体
     virtual std::pair<bool, TopoDS_Shape> modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector)
     {
         this->clearNewFaces();
@@ -60,7 +63,7 @@ protected:
         bool isCut,
         wydb::ChainUpdateFeedbackCollector& feedbackCollector);
 
-    // 获取实体
+    // 获取宿主实体(宿主是片体时返回空指针)
     const wy3d::Solid* getSolid() const;
 
     // 获取新生成的面
@@ -79,16 +82,17 @@ protected:
 
 private:
     // 设置主体
-    wy::ErrorStatus _setOwner(const wydb::ElementId& solidId);
+    wy::ErrorStatus _setOwner(const wydb::ElementId& ownerId);
 
 private:
-    // 所属的实体
+    // 所属的宿主(实体或片体)
     wydb::ElementId _ownerId;
 
     // 新生成的面也即关联的面
     TopoNameList _newFaces;
 
     friend class Solid;
+    friend class Sheet;
 };
 
 NS_WY3D_END

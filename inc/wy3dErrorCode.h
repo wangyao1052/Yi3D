@@ -119,6 +119,19 @@ enum class ErrorCode : std::uint32_t
     FILLEDSHEET_InvalidData                         = 2101, // 无效的填充曲面数据
     FILLEDSHEET_GenerateError                       = 2102, // 填充曲面生成失败
     FILLEDSHEET_EdgesNotClosed                      = 2103, // 草图曲线必须构成单一闭合环
+
+    // SplitFace
+    SPLITFACE_InvalidData                           = 2151, // 无效的分割面数据
+    SPLITFACE_FaceNotExists                         = 2152, // 要分割的面不存在
+    SPLITFACE_CurveNotExists                        = 2153, // 草图里没有可用的曲线
+    SPLITFACE_GenerateError                         = 2154, // 分割面生成失败
+    SPLITFACE_NoFaceSplit                           = 2155, // 所选曲线未切开任何要分割的面
+
+    // DeleteFace
+    DELETEFACE_InvalidData                          = 2201, // 无效的删除面数据
+    DELETEFACE_FaceNotExists                        = 2202, // 要删除的面不存在
+    DELETEFACE_NoFaceLeft                           = 2203, // 不能删除片体的全部面
+    DELETEFACE_GenerateError                        = 2204, // 删除面生成失败
 };
 
 inline bool isError(unsigned int code)

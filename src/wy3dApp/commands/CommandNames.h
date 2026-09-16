@@ -71,6 +71,8 @@ public:
     static inline const std::string Fillet = "Fillet";
     static inline const std::string Shell = "Shell";
     static inline const std::string Draft = "Draft";
+    static inline const std::string SplitFace = "SplitFace";
+    static inline const std::string DeleteFace = "DeleteFace";
 
     // 实体测试命令
     static inline const std::string TopoName = "TopoName";

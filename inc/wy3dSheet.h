@@ -29,6 +29,8 @@
 
 NS_WY3D_BEG
 
+class SolidModification;
+
 class WY3D_EXPORT Sheet : public wy3d::Feature
 {
     WYDB_DECLARE_ABSTRACT_MEMBERS(Sheet, wy3d::Sheet, wy3d::Feature)
@@ -39,12 +41,17 @@ public:
     virtual wydb::ElementId getParent() const override { return _parent; }
     wy::ErrorStatus setParent(const wydb::ElementId& parent);
 
+    virtual std::vector<wydb::ElementId> getChildren() const override { return _modifications; }
+
     const TopoNaming* getTopoNaming() const { return _pTopoNaming.get(); }
     TopoNaming* getTopoNaming() { return _pTopoNaming.get(); }
     wy::ErrorStatus setTopoNaming(TopoNamingSPtr pTopoNaming);
 
     wy3d::Color getColor() const { return _color; }
     wy::ErrorStatus setColor(const wy3d::Color& color);
+
+    wy::ErrorStatus addModification(wy3d::SolidModification* pModification);
+    const std::vector<wydb::ElementId>& getModifications() const { return _modifications; }
 
 public:
     virtual wydb::ParameterValueUPtr getParameterValue(
@@ -77,11 +84,20 @@ protected:
 protected:
     wy::ErrorStatus setShapeImpl(const TopoDS_Shape& shape);
 
+    std::pair<bool, TopoDS_Shape> modifyShape(
+        const TopoDS_Shape& shape,
+        TopoNaming* pTopoNaming,
+        wydb::ChainUpdateFeedbackCollector& feedbackCollector);
+
+private:
+    wy::ErrorStatus _setModifications(const std::vector<wydb::ElementId>& modifications);
+
 protected:
     wydb::ElementId _parent;
     wy3d::Color _color;
     TopoDS_Shape _shape;
     TopoNamingSPtr _pTopoNaming;
+    std::vector<wydb::ElementId> _modifications;
 };
 
 NS_WY3D_END

@@ -914,7 +914,8 @@ void SheetElementNode::highlightFace(unsigned int faceIndex, bool flag)
 {
     if (faceIndex >= _faceInfos.size())
     {
-        assert(false);
+        // 形体重建后(如删除面)选择集里可能残留旧序号, 取消高亮时它已不存在, 无需处理
+        assert(!flag);
         return;
     }
 

@@ -39,7 +39,7 @@ public:
     static std::vector<unsigned int> computeNewFaceIndices(
         wydb::Database* pDb,
         const TopoNameList& newFaces,
-        const wydb::ElementId& ownerSolidId);
+        const wydb::ElementId& ownerId);
 
     template<ErrorCode InvalidData, ErrorCode EdgeNotExists, ErrorCode FaceNotExists>
     static ErrorCode getTopoEdgesByTopoNamings(
