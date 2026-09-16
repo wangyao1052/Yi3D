@@ -18,7 +18,10 @@
 
 #include "commands/modeling/solid/modification/ChamferGuiCmd.h"
 #include <QCoreApplication>
-#include <QToolTip>
+#include <TopoDS.hxx>
+#include <TopoDS_Face.hxx>
+#include <TopoDS_Shape.hxx>
+#include <TopExp.hxx>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wyapDocManager.h>
@@ -27,6 +30,7 @@
 #include <wy3dImpl.h>
 #include <wy3dMath.h>
 #include <wy3dErrorCode.h>
+#include <wy3dSelectionType.h>
 
 #include "application/Application.h"
 #include "scene/Scene.h"
@@ -39,6 +43,65 @@
 #include "commands/dialogs/ChamferDialog.h"
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
 
+
+namespace
+{
+
+// std::stoul throws on a malformed sub-path, a bad value only fails the pick
+bool parseSubPathIndex(const std::string& subPath, unsigned int& index)
+{
+    if (subPath.empty()) return false;
+    unsigned long long value(0);
+    for (char c : subPath)
+    {
+        if (c < '0' || c > '9') return false;
+        value = value * 10 + static_cast<unsigned long long>(c - '0');
+        if (value > 0xFFFFFFFFull) return false;
+    }
+    index = static_cast<unsigned int>(value);
+    return true;
+}
+
+// 形体是否为片体: 整个形体里没有实体 (倒角守卫的同一判据)
+bool isSheetHost(const TopoDS_Shape& shape)
+{
+    TopTools_IndexedMapOfShape solidMap;
+    TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_SOLID, solidMap);
+    return 0 == solidMap.Extent();
+}
+
+// 边是否恰好两个相邻面: 自由边只有一个, 非流形边多于两个, 都不能倒角
+bool hasTwoAdjacentFaces(
+    const TopTools_IndexedDataMapOfShapeListOfShape& edgeFaceMap, const TopoDS_Shape& edge)
+{
+    const int ancestorIndex = edgeFaceMap.FindIndex(edge);
+    if (0 == ancestorIndex) return false;
+    return 2 == edgeFaceMap.FindFromIndex(ancestorIndex).Extent();
+}
+
+// 面上能倒角的边的序号(与点选的 MapShapes(EDGE) 同口径, 从0开始)
+std::vector<unsigned int> collectChamferableEdgeIndices(const TopoDS_Face& face,
+    const TopTools_IndexedMapOfShape& edgeMap,
+    const TopTools_IndexedDataMapOfShapeListOfShape& edgeFaceMap)
+{
+    std::vector<unsigned int> edgeIndices;
+
+    TopTools_IndexedMapOfShape faceEdgeMap;
+    TopExp::MapShapes(face, TopAbs_ShapeEnum::TopAbs_EDGE, faceEdgeMap);
+    for (int i = 1; i <= faceEdgeMap.Extent(); ++i)
+    {
+        const TopoDS_Shape& edge = faceEdgeMap(i);
+        if (!hasTwoAdjacentFaces(edgeFaceMap, edge)) continue;
+
+        const int edgeIndex = edgeMap.FindIndex(edge);
+        if (0 == edgeIndex) continue;
+        edgeIndices.emplace_back(static_cast<unsigned int>(edgeIndex - 1));
+    }
+
+    return edgeIndices;
+}
+
+}
 
 // 前置过滤器: 确保只能选择单一主体的面或边
 class ChamferGuiCmdPreSelFilter : public SelectPreFilterFunctor
@@ -78,7 +141,8 @@ private:
 ChamferGuiCmd::ChamferGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _distance1(5.0), _distance2(5.0),
     _angle(wy3d::degreesToRadians(45.0)),
-    _chamferType(wy3d::ChamferType::EqualDistance), _isFlipped(false)
+    _chamferType(wy3d::ChamferType::EqualDistance), _isFlipped(false),
+    _hostId(wydb::ElementId::kNull), _hostIsSheet(false)
 {
     _options.pointSelect = false;
     _options.boxSelect = false;
@@ -95,7 +159,7 @@ wyap::CmdExecution::StartResult ChamferGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) | static_cast<unsigned int>(ElementNodeType::Sheet);
     _pointPickOption.selType = wy3d::SelectionType::SolidEdge | wy3d::SelectionType::SolidFace;
     _pointPickOption.acceptElement = false;
     this->gotoStep(Step::SelectEdges);
@@ -126,6 +190,14 @@ void ChamferGuiCmd::reset()
 
     _pPreview = nullptr;
     _pSelSetHighlightor = nullptr;
+
+    // 宿主拓扑缓存
+    _hostId = wydb::ElementId::kNull;
+    _hostIsSheet = false;
+    _hostFaces.Clear();
+    _hostEdges.Clear();
+    _hostEdgeFaces.Clear();
+    Application::instance().setCursor(CursorType::Select);
 }
 
 bool ChamferGuiCmd::finishStep(Step step)
@@ -247,8 +319,8 @@ void ChamferGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::SelectEdges:
     {
-        // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        // 点选预览: 不合格的边或面不预览
+        this->updateHoverPreview(event.x, event.y);
     }
     break;
     }
@@ -262,25 +334,198 @@ void ChamferGuiCmd::onLeftMouseUp(const MouseEvent& event)
     {
         if (_pPreview)
         {
-            const wyap::Selection& sel = _pPreview->getSelection();
-            if (_pSelSetHighlightor->containsSelection(sel))
-            {
-                _pSelSetHighlightor->removeSelection(sel);
-            }
-            else
-            {
-                _pSelSetHighlightor->addSelection(sel);
-            }
+            // 先拷贝: 下面会置空 _pPreview
+            const wyap::Selection sel = _pPreview->getSelection();
 
-            // 过滤器
-            _pointPickOption.pSelPreFilter = std::make_shared<ChamferGuiCmdPreSelFilter>(
-                _pSelSetHighlightor->getSelectionSet());
+            std::vector<wyap::Selection> sels;
+            if (this->resolveChamferPick(sel, sels)) // 不可倒角的边或面: 不加入选择集
+            {
+                this->toggleSelections(sels);
+
+                // 过滤器
+                _pointPickOption.pSelPreFilter = std::make_shared<ChamferGuiCmdPreSelFilter>(
+                    _pSelSetHighlightor->getSelectionSet());
+            }
 
             _pPreview = nullptr;
         }
     }
 
     return;
+}
+
+// 建立宿主拓扑缓存: 只在宿主变化时重建
+bool ChamferGuiCmd::ensureHostTopo(const wydb::ElementId& hostId)
+{
+    if (hostId == _hostId) return true;
+
+    _hostId = hostId;
+    _hostIsSheet = false;
+    _hostFaces.Clear();
+    _hostEdges.Clear();
+    _hostEdgeFaces.Clear();
+
+    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    if (!pDb) return false;
+
+    const wydb::Element* pElement = pDb->getElement(hostId);
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pElement);
+    const wy3d::Sheet* pSheet = pSolid ? nullptr : wy3d::Sheet::cast(pElement);
+    if (!pSolid && !pSheet) return false;
+
+    const TopoDS_Shape& shape = pSolid ? pSolid->getShape() : pSheet->getShape();
+    if (shape.IsNull()) return false;
+
+    TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_FACE, _hostFaces);
+    TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_EDGE, _hostEdges);
+    TopExp::MapShapesAndAncestors(shape, TopAbs_ShapeEnum::TopAbs_EDGE, TopAbs_ShapeEnum::TopAbs_FACE, _hostEdgeFaces);
+    _hostIsSheet = isSheetHost(shape);
+
+    return true;
+}
+
+bool ChamferGuiCmd::resolveChamferPick(const wyap::Selection& sel,
+    std::vector<wyap::Selection>& outSels)
+{
+    outSels.clear();
+
+    const wydb::ElementId& hostId = sel.getElementId();
+    if (hostId.isNull())
+    {
+        assert(false);
+        outSels.emplace_back(sel);
+        return true;
+    }
+    if (!this->ensureHostTopo(hostId)) // 不是实体或片体元素: 原样放行
+    {
+        outSels.emplace_back(sel);
+        return true;
+    }
+    if (!_hostIsSheet) // 实体宿主: 与之前的逻辑完全一致
+    {
+        outSels.emplace_back(sel);
+        return true;
+    }
+
+    switch (wy3d::UIntToSelectionType(sel.getSelectionType()))
+    {
+    case wy3d::SelectionType::SolidEdge:
+    {
+        unsigned int edgeIndex(0);
+        if (!parseSubPathIndex(sel.getSubPath(), edgeIndex))
+        {
+            assert(false);
+            outSels.emplace_back(sel);
+            return true;
+        }
+        if (edgeIndex >= static_cast<unsigned int>(_hostEdges.Extent()))
+        {
+            assert(false);
+            outSels.emplace_back(sel);
+            return true;
+        }
+
+        // 片体上倒角的边必须恰好两个相邻面
+        const TopoDS_Shape& edge = _hostEdges(static_cast<int>(edgeIndex) + 1);
+        if (!hasTwoAdjacentFaces(_hostEdgeFaces, edge)) return false;
+
+        outSels.emplace_back(sel);
+        return true;
+    }
+
+    case wy3d::SelectionType::SolidFace:
+    {
+        unsigned int faceIndex(0);
+        if (!parseSubPathIndex(sel.getSubPath(), faceIndex))
+        {
+            assert(false);
+            outSels.emplace_back(sel);
+            return true;
+        }
+        if (faceIndex >= static_cast<unsigned int>(_hostFaces.Extent()))
+        {
+            assert(false);
+            outSels.emplace_back(sel);
+            return true;
+        }
+
+        // 面上没有任何能倒角的边: 这个面不能选
+        const TopoDS_Face face = TopoDS::Face(_hostFaces(static_cast<int>(faceIndex) + 1));
+        const std::vector<unsigned int> edgeIndices =
+            collectChamferableEdgeIndices(face, _hostEdges, _hostEdgeFaces);
+        if (edgeIndices.empty()) return false;
+
+        // 面转换成该面上能倒角的边
+        outSels.reserve(edgeIndices.size());
+        for (unsigned int edgeIndex : edgeIndices)
+        {
+            outSels.emplace_back(wyap::Selection(
+                static_cast<unsigned int>(wy3d::SelectionType::SolidEdge), hostId, std::to_string(edgeIndex)));
+        }
+        return true;
+    }
+
+    default:
+    {
+        assert(false);
+        outSels.emplace_back(sel);
+        return true;
+    }
+    }
+}
+
+void ChamferGuiCmd::toggleSelections(const std::vector<wyap::Selection>& sels)
+{
+    if (sels.empty()) return;
+
+    bool isAllSelected(true);
+    for (const wyap::Selection& sel : sels)
+    {
+        if (!_pSelSetHighlightor->containsSelection(sel))
+        {
+            isAllSelected = false;
+            break;
+        }
+    }
+
+    for (const wyap::Selection& sel : sels)
+    {
+        if (isAllSelected)
+        {
+            _pSelSetHighlightor->removeSelection(sel);
+        }
+        else
+        {
+            _pSelSetHighlightor->addSelection(sel);
+        }
+    }
+}
+
+// 悬停预览: 不合格的边或面不高亮, 只把光标变成禁止 (照拉伸命令)
+void ChamferGuiCmd::updateHoverPreview(double x, double y)
+{
+    const wyap::Selection sel = this->pointPick(x, y, _pointPickOption);
+    if (sel.getElementId().isNull())
+    {
+        _pPreview = nullptr;
+        Application::instance().setCursor(CursorType::SelectElements);
+        return;
+    }
+
+    std::vector<wyap::Selection> sels;
+    if (!this->resolveChamferPick(sel, sels))
+    {
+        _pPreview = nullptr;
+        Application::instance().setCursor(CursorType::Forbid);
+        return;
+    }
+
+    // 同一个对象不重建预览
+    if (!_pPreview || !_pPreview->isEqual(sel))
+    {
+        _pPreview = std::make_shared<SelectPreview>(sel);
+    }
+    Application::instance().setCursor(CursorType::SelectElements);
 }
 
 void ChamferGuiCmd::onEnterKey()

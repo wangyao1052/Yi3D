@@ -62,6 +62,7 @@ enum class ErrorCode : std::uint32_t
     CHAMFER_EdgeNotExists                          = 1503, // 倒角边不存在
     CHAMFER_FaceNotExists                          = 1504, // 倒角面不存在
     CHAMFER_GenerateChamferError                   = 1505, // 倒角生成失败
+    CHAMFER_EdgeNotTwoFaces                        = 1506, // 倒角边必须恰好有两个相邻面
 
     // Fillet
     FILLET_InvalidData                             = 1551, // 无效的圆角数据

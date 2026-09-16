@@ -213,12 +213,12 @@ Do you want to save it to the original file now?
         <translation type="obsolete">选择边线或面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="174"/>
+        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="246"/>
         <source>Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择边线或面；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="195"/>
+        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="267"/>
         <source>Input chamfer parameters.</source>
         <translation>输入倒角参数。</translation>
     </message>
@@ -1528,172 +1528,177 @@ Do you want to save it to the original file now?
         <translation type="unfinished">生成倒角失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="107"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="105"/>
+        <source>A chamfer edge must have exactly two adjacent faces!</source>
+        <translation type="unfinished">倒角边必须恰好有两个相邻面！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="109"/>
         <source>Invalid fillet data!</source>
         <translation type="unfinished">无效的圆角数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="109"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="111"/>
         <source>Create fillet failed!</source>
         <translation type="unfinished">创建圆角失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="111"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="113"/>
         <source>Fillet edge does not exists!</source>
         <translation type="unfinished">圆角边不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="113"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="115"/>
         <source>Fillet face does not exists!</source>
         <translation type="unfinished">圆角面不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="115"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="117"/>
         <source>Generate fillet failed!</source>
         <translation type="unfinished">生成圆角失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="119"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="121"/>
         <source>Invalid shell data!</source>
         <translation type="unfinished">无效的抽壳数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="121"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="123"/>
         <source>Create shell failed!</source>
         <translation type="unfinished">创建抽壳失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="123"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="125"/>
         <source>Shell face does not exists!</source>
         <translation type="unfinished">抽壳面不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="125"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="127"/>
         <source>Generate shell failed!</source>
         <translation type="unfinished">生成抽壳形体失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="129"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="131"/>
         <source>Invalid draft data!</source>
         <translation type="unfinished">无效的拔模数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="131"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="133"/>
         <source>Create draft failed!</source>
         <translation type="unfinished">创建拔模失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="133"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="135"/>
         <source>Draft face does not exists!</source>
         <translation type="unfinished">拔模面不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="135"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="137"/>
         <source>Generate draft failed!</source>
         <translation type="unfinished">生成拔模形体失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="139"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="141"/>
         <source>Invalid thicken data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="141"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="143"/>
         <source>Generate thicken failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="145"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="147"/>
         <source>Invalid offset sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="147"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="149"/>
         <source>Generate offset sheet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="151"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="153"/>
         <source>Invalid planar sheet data!</source>
         <translation type="unfinished">无效的平面片体数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="153"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="155"/>
         <source>The selected edges must form a single closed loop!</source>
         <translation type="unfinished">所选边必须构成单一闭合环！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="155"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="157"/>
         <source>The selected edges must be coplanar!</source>
         <translation type="unfinished">所选边必须共面！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="159"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="161"/>
         <source>Invalid sewn sheet data!</source>
         <translation type="unfinished">无效的缝合片体数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="161"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="163"/>
         <source>Generate sewn sheet failed!</source>
         <translation type="unfinished">缝合片体生成失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="165"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="167"/>
         <source>Invalid solidify data!</source>
         <translation type="unfinished">无效的实体化数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="167"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="169"/>
         <source>Generate solidify failed!</source>
         <translation type="unfinished">实体化生成失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="171"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="173"/>
         <source>Invalid swept sheet data!</source>
         <translation type="unfinished">无效的扫掠曲面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="173"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="175"/>
         <source>Generate swept sheet failed!</source>
         <translation type="unfinished">扫掠曲面生成失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="177"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="179"/>
         <source>Invalid lofted sheet data!</source>
         <translation type="unfinished">无效的放样曲面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="179"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="181"/>
         <source>Generate lofted sheet failed!</source>
         <translation type="unfinished">放样曲面生成失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="183"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="185"/>
         <source>Invalid filled sheet data!</source>
         <translation type="unfinished">无效的填充曲面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="185"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="187"/>
         <source>Generate filled surface failed!</source>
         <translation type="unfinished">生成填充曲面失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="187"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="189"/>
         <source>The sketch curves must form a single closed loop!</source>
         <translation type="unfinished">草图曲线必须构成单一闭合环！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="191"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="193"/>
         <source>Invalid split face data!</source>
         <translation type="unfinished">无效的分割面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="193"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="195"/>
         <source>The face to split no longer exists!</source>
         <translation type="unfinished">要分割的面已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="195"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="197"/>
         <source>The sketch holds no curve to split with!</source>
         <translation type="unfinished">草图里没有可用的曲线！</translation>
     </message>
@@ -1702,52 +1707,52 @@ Do you want to save it to the original file now?
         <translation type="obsolete">分割曲线已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="197"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="199"/>
         <source>Generate split face failed!</source>
         <translation type="unfinished">生成分割面失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="199"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="201"/>
         <source>The curves do not divide any of the selected faces!</source>
         <translation type="unfinished">曲线没有切开任何要分割的面！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
         <source>Invalid delete face data!</source>
         <translation type="unfinished">无效的删除面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
         <source>The faces to delete no longer exist!</source>
         <translation type="unfinished">要删除的面已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
         <source>A sheet cannot lose every one of its faces!</source>
         <translation type="unfinished">不能删除片体的全部面！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="211"/>
         <source>Delete face failed!</source>
         <translation type="unfinished">删除面失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
         <source>Invalid helix data!</source>
         <translation type="unfinished">无效的螺旋线数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
         <source>The sketch used to generate the helix must be a circle.</source>
         <translation type="unfinished">用于生成螺旋线的草图必须为一个圆形。</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="232"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="234"/>
         <source>ErrorCode: </source>
         <translation type="unfinished">错误码：</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="232"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="234"/>
         <source>!</source>
         <translation type="unfinished">！</translation>
     </message>
@@ -2743,7 +2748,7 @@ Do you want to save it to the original file now?
         <translation type="obsolete">相机</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="909"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="910"/>
         <source>Modeling</source>
         <translation type="unfinished">建模</translation>
     </message>
@@ -2918,18 +2923,18 @@ Do you want to save it to the original file now?
         <translation type="unfinished">草绘视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="921"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="922"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="129"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="913"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="914"/>
         <source>Primitive</source>
         <translation type="unfinished">基础形体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="917"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="918"/>
         <source>Boolean</source>
         <translation type="unfinished">布尔运算</translation>
     </message>
@@ -2939,12 +2944,12 @@ Do you want to save it to the original file now?
         <translation type="unfinished">草图环境</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="925"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="926"/>
         <source>Utility</source>
         <translation type="unfinished">实用工具</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="934"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="935"/>
         <source>Test</source>
         <translation type="unfinished">测试</translation>
     </message>
@@ -3102,7 +3107,7 @@ Do you want to save it to the original file now?
         <translation type="unfinished">并集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="794"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="795"/>
         <source>Datum Plane Series</source>
         <translation type="unfinished">基准面命令集</translation>
     </message>
@@ -3359,19 +3364,19 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="948"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="949"/>
         <source>Sheet</source>
         <translation type="unfinished">曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="887"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="888"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="694"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="430"/>
         <source>Display Mode</source>
         <translation>显示模式</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="929"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="930"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="137"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="106"/>
         <source>View</source>

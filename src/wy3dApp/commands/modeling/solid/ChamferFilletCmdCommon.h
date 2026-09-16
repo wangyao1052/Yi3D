@@ -26,6 +26,7 @@
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dChamfer.h>
 #include <wy3dFillet.h>
 
@@ -146,15 +147,18 @@ public:
         if (!pDb) return false;
         if (sels.isEmpty()) return false;
 
-        // 执行倒角的实体
+        // 执行倒角的宿主(实体或片体)
         const wy3d::Solid* pConstSolid(nullptr);
+        const wy3d::Sheet* pConstSheet(nullptr);
         for (auto iter = sels.createIterator(); !iter.isDone(); iter.moveNext())
         {
-            pConstSolid = wy3d::Solid::cast(pDb->getElement(iter.current().getElementId()));
+            const wydb::Element* pElement = pDb->getElement(iter.current().getElementId());
+            pConstSolid = wy3d::Solid::cast(pElement);
+            pConstSheet = pConstSolid ? nullptr : wy3d::Sheet::cast(pElement);
             break;
         }
-        if (!pConstSolid) return false;
-        wydb::ElementId solidId = pConstSolid->getId();
+        if (!pConstSolid && !pConstSheet) return false;
+        wydb::ElementId hostId = pConstSolid ? pConstSolid->getId() : pConstSheet->getId();
 
         // 根据选择集提取边和面
         std::vector<unsigned int> edgeIndices, faceIndices;
@@ -163,7 +167,7 @@ public:
         for (auto iter = sels.createIterator(); !iter.isDone(); iter.moveNext())
         {
             const wyap::Selection& sel = iter.current();
-            if (sel.getElementId() != solidId) // 在选择过滤器中已经确保了只能选择单一主体的面或边
+            if (sel.getElementId() != hostId) // 在选择过滤器中已经确保了只能选择单一主体的面或边
             {
                 assert(false);
                 return false;
@@ -210,16 +214,24 @@ public:
         // 开启事务创建倒角
         wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
         if (!pTrans) return false;
-        wy3d::Solid* pSolid = wy3d::Solid::cast(pTrans->getElementForWrite(solidId));
-        if (!pSolid)
+        wy3d::Feature* pHost = wy3d::Feature::cast(pTrans->getElementForWrite(hostId));
+        wy3d::Solid* pSolidHost = pHost ? wy3d::Solid::cast(pHost) : nullptr;
+        wy3d::Sheet* pSheetHost = (pHost && !pSolidHost) ? wy3d::Sheet::cast(pHost) : nullptr;
+        if (!pSolidHost && !pSheetHost)
         {
             assert(false);
             pDb->getTransactionManager()->abortTransaction();
             return false;
         }
+
+        // 宿主是实体还是片体决定了走哪个重载
         wy3d::Chamfer* pChamfer(nullptr);
-        if (wy::ErrorStatus::Ok != wy3d::Chamfer::create(pTrans, pSolid, faceIndices,
-                edgeIndices, chamferType, distance1, distance2, angle, isFlipped, pChamfer))
+        const wy::ErrorStatus createStatus = pSolidHost
+            ? wy3d::Chamfer::create(pTrans, pSolidHost, faceIndices, edgeIndices,
+                chamferType, distance1, distance2, angle, isFlipped, pChamfer)
+            : wy3d::Chamfer::create(pTrans, pSheetHost, faceIndices, edgeIndices,
+                chamferType, distance1, distance2, angle, isFlipped, pChamfer);
+        if (wy::ErrorStatus::Ok != createStatus)
         {
             errorCode = static_cast<unsigned int>(wy3d::ErrorCode::CHAMFER_CreateChamferError);
             assert(false);

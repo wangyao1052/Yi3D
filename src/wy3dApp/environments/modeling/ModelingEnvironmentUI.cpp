@@ -747,6 +747,7 @@ void buildSheetMenuUi(
     pMenuSheet->addAction(actions.pActionFilledSheet);
     pMenuSheet->addAction(actions.pActionSewnSheet);
     pMenuSheet->addAction(actions.pActionDeleteFace);
+    pMenuSheet->addAction(actions.pActionChamfer);
     pMenuSheet->addSeparator();
     pMenuSheet->addAction(actions.pActionOffsetSheet);
     pMenuSheet->addAction(actions.pActionThicken);

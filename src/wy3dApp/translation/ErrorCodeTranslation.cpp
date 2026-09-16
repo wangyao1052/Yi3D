@@ -102,6 +102,8 @@ ErrorCodeTranslation::ErrorCodeTranslation(QObject* parent) : QObject(parent)
         "Chamfer face does not exists!");
     _code2Desc[TOUINT(wy3d::ErrorCode::CHAMFER_GenerateChamferError)] = tr(
         "Generate chamfer failed!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::CHAMFER_EdgeNotTwoFaces)] = tr(
+        "A chamfer edge must have exactly two adjacent faces!");
 
     // Fillet
     _code2Desc[TOUINT(wy3d::ErrorCode::FILLET_InvalidData)] = tr(

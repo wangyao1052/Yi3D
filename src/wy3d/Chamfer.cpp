@@ -27,6 +27,7 @@
 #include <wydbTransaction.h>
 #include <wy3dChamfer.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -43,6 +44,7 @@
 #include "utils/Util.h"
 
 NS_WY3D_BEG
+
 WYDB_IMPLEMENT_MEMBERS(Chamfer)
 
 BEGIN_FIELD_REGISTRATION()
@@ -55,8 +57,10 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Chamfer, _isFlipped)
 END_FIELD_REGISTRATION()
 
-Chamfer::Chamfer() : wy3d::BodyModification(), _chamferType(ChamferType::EqualDistance),
-    _distance1(0.0), _distance2(0.0), _angle(wy3d::PI_4), _isFlipped(false)
+Chamfer::Chamfer() : wy3d::BodyModification()
+    , _chamferType(ChamferType::EqualDistance)
+    , _distance1(0.0), _distance2(0.0)
+    , _angle(wy3d::PI_4), _isFlipped(false)
 {
 }
 
@@ -72,9 +76,8 @@ wy::ErrorStatus Chamfer::create(
     double distance,
     Chamfer*& pOutChamfer)
 {
-    // Legacy signature: delegates with equal-distance defaults.
-    return create(pTrans, pSolid, faceIndices, edgeIndices, ChamferType::EqualDistance,
-        distance, distance, wy3d::PI_4, false, pOutChamfer);
+    return create(pTrans, pSolid, faceIndices, edgeIndices,
+        ChamferType::EqualDistance, distance, distance, wy3d::PI_4, false, pOutChamfer);
 }
 
 wy::ErrorStatus Chamfer::create(
@@ -89,49 +92,88 @@ wy::ErrorStatus Chamfer::create(
     bool isFlipped,
     Chamfer*& pOutChamfer)
 {
-    if (!pTrans)
-    {
-        pOutChamfer = nullptr;
-        return wy::ErrorStatus::NullDatabasePointer;
-    }
-    if (!pSolid)
-    {
-        pOutChamfer = nullptr;
-        return wy::ErrorStatus::NullElementPointer;
-    }
+    pOutChamfer = nullptr;
+
+    if (!pTrans) return wy::ErrorStatus::NullDatabasePointer;
+    if (!pSolid) return wy::ErrorStatus::NullElementPointer;
+
+    wy::ErrorStatus error = createImpl(pTrans, pSolid->getShape(), pSolid->getTopoNaming(),
+        faceIndices, edgeIndices, chamferType, distance1, distance2, angle, isFlipped, pOutChamfer);
+    if (wy::ErrorStatus::Ok != error) return error;
+
+    error = pSolid->addModification(pOutChamfer);
+    CHECK_ERROR_FOR_CREATE(error, pOutChamfer);
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus Chamfer::create(
+    wydb::Transaction* pTrans,
+    wy3d::Sheet* pSheet,
+    const std::vector<std::uint32_t>& faceIndices,
+    const std::vector<std::uint32_t>& edgeIndices,
+    ChamferType chamferType,
+    double distance1,
+    double distance2,
+    double angle,
+    bool isFlipped,
+    Chamfer*& pOutChamfer)
+{
+    pOutChamfer = nullptr;
+
+    if (!pTrans) return wy::ErrorStatus::NullDatabasePointer;
+    if (!pSheet) return wy::ErrorStatus::NullElementPointer;
+
+    wy::ErrorStatus error = createImpl(pTrans, pSheet->getShape(), pSheet->getTopoNaming(),
+        faceIndices, edgeIndices, chamferType, distance1, distance2, angle, isFlipped, pOutChamfer);
+    if (wy::ErrorStatus::Ok != error) return error;
+
+    error = pSheet->addModification(pOutChamfer);
+    CHECK_ERROR_FOR_CREATE(error, pOutChamfer);
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus Chamfer::createImpl(
+    wydb::Transaction* pTrans,
+    const TopoDS_Shape& shape,
+    TopoNaming* pTopoNaming,
+    const std::vector<std::uint32_t>& faceIndices,
+    const std::vector<std::uint32_t>& edgeIndices,
+    ChamferType chamferType,
+    double distance1,
+    double distance2,
+    double angle,
+    bool isFlipped,
+    Chamfer*& pOutChamfer)
+{
+    pOutChamfer = nullptr;
+    assert(pTrans);
+
     if (faceIndices.empty() && edgeIndices.empty())
     {
-        pOutChamfer = nullptr;
         return wy::ErrorStatus::InvalidInput;
     }
     if (ChamferType::EqualDistance != chamferType &&
         ChamferType::DistanceDistance != chamferType &&
         ChamferType::DistanceAngle != chamferType)
     {
-        pOutChamfer = nullptr;
         return wy::ErrorStatus::InvalidInput;
     }
     if (distance1 < 0.0)
     {
-        pOutChamfer = nullptr;
         return wy::ErrorStatus::InvalidInput;
     }
     if (distance2 < 0.0)
     {
-        pOutChamfer = nullptr;
         return wy::ErrorStatus::InvalidInput;
     }
     if (angle <= 0.0 || angle >= wy3d::PI)
     {
-        pOutChamfer = nullptr;
         return wy::ErrorStatus::InvalidInput;
     }
 
-    TopoDS_Shape shape = pSolid->getShape();
-    TopoNaming* pTopoNaming = pSolid->getTopoNaming();
     if (!pTopoNaming)
     {
-        pOutChamfer = nullptr;
+        assert(false);
         return wy::ErrorStatus::InvalidInput;
     }
 
@@ -187,9 +229,6 @@ wy::ErrorStatus Chamfer::create(
     error = pChamfer->setAngle(angle);
     CHECK_ERROR_FOR_CREATE(error, pChamfer);
     error = pChamfer->setFlipped(isFlipped);
-    CHECK_ERROR_FOR_CREATE(error, pChamfer);
-
-    error = pSolid->addModification(pChamfer);
     CHECK_ERROR_FOR_CREATE(error, pChamfer);
 
     pOutChamfer = pChamfer;
@@ -586,6 +625,25 @@ std::pair<bool, TopoDS_Shape> Chamfer::modifyOwnerShape(
         return std::pair<bool, TopoDS_Shape>(false, shape);
     }
 
+    TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap;
+    TopExp::MapShapesAndAncestors(shape, TopAbs_EDGE, TopAbs_FACE, edgeFaceMap);
+
+    TopTools_IndexedMapOfShape solidMap;
+    TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_SOLID, solidMap);
+    if (0 == solidMap.Extent()) // sheet host: every edge needs exactly two adjacent faces
+    {
+        for (const TopoDS_Edge& topoEdge : topoEdges)
+        {
+            const int ancestorIndex = edgeFaceMap.FindIndex(topoEdge);
+            if (0 == ancestorIndex || 2 != edgeFaceMap.FindFromIndex(ancestorIndex).Extent())
+            {
+                wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+                    static_cast<std::uint32_t>(ErrorCode::CHAMFER_EdgeNotTwoFaces));
+                return std::pair<bool, TopoDS_Shape>(false, shape);
+            }
+        }
+    }
+
     if (_distance1 < wy3d::kMinValue || _distance1 > wy3d::kMaxValue ||
         (ChamferType::DistanceDistance == _chamferType &&
             (_distance2 < wy3d::kMinValue || _distance2 > wy3d::kMaxValue)) ||
@@ -609,9 +667,6 @@ std::pair<bool, TopoDS_Shape> Chamfer::modifyOwnerShape(
         }
         else
         {
-            TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap;
-            TopExp::MapShapesAndAncestors(shape, TopAbs_EDGE, TopAbs_FACE, edgeFaceMap);
-
             for (const TopoDS_Edge& topoEdge : topoEdges)
             {
                 const int ancestorIndex = edgeFaceMap.FindIndex(topoEdge);

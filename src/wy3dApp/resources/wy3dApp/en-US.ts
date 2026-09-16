@@ -177,12 +177,12 @@ Do you want to save it to the original file now?
 <context>
     <name>ChamferGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="174"/>
+        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="246"/>
         <source>Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="195"/>
+        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="267"/>
         <source>Input chamfer parameters.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -690,222 +690,227 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="107"/>
-        <source>Invalid fillet data!</source>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="105"/>
+        <source>A chamfer edge must have exactly two adjacent faces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="109"/>
-        <source>Create fillet failed!</source>
+        <source>Invalid fillet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="111"/>
-        <source>Fillet edge does not exists!</source>
+        <source>Create fillet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="113"/>
-        <source>Fillet face does not exists!</source>
+        <source>Fillet edge does not exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="115"/>
+        <source>Fillet face does not exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="117"/>
         <source>Generate fillet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="119"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="121"/>
         <source>Invalid shell data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="121"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="123"/>
         <source>Create shell failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="123"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="125"/>
         <source>Shell face does not exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="125"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="127"/>
         <source>Generate shell failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="129"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="131"/>
         <source>Invalid draft data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="131"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="133"/>
         <source>Create draft failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="133"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="135"/>
         <source>Draft face does not exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="135"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="137"/>
         <source>Generate draft failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="139"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="141"/>
         <source>Invalid thicken data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="141"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="143"/>
         <source>Generate thicken failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="145"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="147"/>
         <source>Invalid offset sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="147"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="149"/>
         <source>Generate offset sheet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="151"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="153"/>
         <source>Invalid planar sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="153"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="155"/>
         <source>The selected edges must form a single closed loop!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="155"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="157"/>
         <source>The selected edges must be coplanar!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="159"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="161"/>
         <source>Invalid sewn sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="161"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="163"/>
         <source>Generate sewn sheet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="165"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="167"/>
         <source>Invalid solidify data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="167"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="169"/>
         <source>Generate solidify failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="171"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="173"/>
         <source>Invalid swept sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="173"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="175"/>
         <source>Generate swept sheet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="177"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="179"/>
         <source>Invalid lofted sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="179"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="181"/>
         <source>Generate lofted sheet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="183"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="185"/>
         <source>Invalid filled sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="185"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="187"/>
         <source>Generate filled surface failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="187"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="189"/>
         <source>The sketch curves must form a single closed loop!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="191"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="193"/>
         <source>Invalid split face data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="193"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="195"/>
         <source>The face to split no longer exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="195"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="197"/>
         <source>The sketch holds no curve to split with!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="197"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="199"/>
         <source>Generate split face failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="199"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="201"/>
         <source>The curves do not divide any of the selected faces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
         <source>Invalid delete face data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
         <source>The faces to delete no longer exist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
         <source>A sheet cannot lose every one of its faces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="211"/>
         <source>Delete face failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
         <source>Invalid helix data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
         <source>The sketch used to generate the helix must be a circle.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="232"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="234"/>
         <source>ErrorCode: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="232"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="234"/>
         <source>!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1797,7 +1802,7 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="909"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="910"/>
         <source>Modeling</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1814,7 +1819,7 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="794"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="795"/>
         <source>Datum Plane Series</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2371,30 +2376,30 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="921"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="922"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="129"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="913"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="914"/>
         <source>Primitive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="948"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="949"/>
         <source>Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="887"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="888"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="694"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="430"/>
         <source>Display Mode</source>
         <translation>Display Mode</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="917"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="918"/>
         <source>Boolean</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2404,19 +2409,19 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="925"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="926"/>
         <source>Utility</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="929"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="930"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="137"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="106"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="934"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="935"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>

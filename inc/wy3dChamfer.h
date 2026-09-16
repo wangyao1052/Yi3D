@@ -46,6 +46,18 @@ public:
         bool isFlipped,
         Chamfer*& pOutChamfer);
 
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        wy3d::Sheet* pSheet,
+        const std::vector<std::uint32_t>& faceIndices,
+        const std::vector<std::uint32_t>& edgeIndices,
+        ChamferType chamferType,
+        double distance1,
+        double distance2,
+        double angle,
+        bool isFlipped,
+        Chamfer*& pOutChamfer);
+
     double getDistance1() const { return _distance1; }
     wy::ErrorStatus setDistance1(double distance1);
 
@@ -79,6 +91,20 @@ protected:
     virtual wy::ErrorStatus readFromFiler(wydb::InFiler& filer) override;
 
     virtual std::pair<bool, TopoDS_Shape> modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
+
+private:
+    static wy::ErrorStatus createImpl(
+        wydb::Transaction* pTrans,
+        const TopoDS_Shape& shape,
+        TopoNaming* pTopoNaming,
+        const std::vector<std::uint32_t>& faceIndices,
+        const std::vector<std::uint32_t>& edgeIndices,
+        ChamferType chamferType,
+        double distance1,
+        double distance2,
+        double angle,
+        bool isFlipped,
+        Chamfer*& pOutChamfer);
 
 private:
     TopoNameList _edgeNames;
