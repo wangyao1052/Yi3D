@@ -18,6 +18,7 @@
 
 #include "topo/ChamferFilletTopoShapeComparer.h"
 #include <cassert>
+#include <vector>
 #include <TopoDS_Vertex.hxx>
 #include <TopoDS_Edge.hxx>
 #include <TopoDS_Face.hxx>
@@ -29,8 +30,8 @@
 NS_WY3D_BEG
 
 ChamferFilletTopoShapeComparer::ChamferFilletTopoShapeComparer(
-    BRepBuilderAPI_MakeShape& mkShape, const TopoDS_Shape& oldShape)
-    : TopoShapeComparer(mkShape, oldShape), _pOldVertex2OldFaces(nullptr)
+    BRepBuilderAPI_MakeShape& mkShape, const TopoDS_Shape& oldShape, HostType hostType)
+    : TopoShapeComparer(mkShape, oldShape), _hostType(hostType), _pOldVertex2OldFaces(nullptr)
 {
 }
 
@@ -113,6 +114,8 @@ void ChamferFilletTopoShapeComparer::recordAdded()
             // 理论上:新生成面的每条边都是新增的
             TopTools_IndexedMapOfShape edgeMap;
             TopExp::MapShapes(newFace, TopAbs_ShapeEnum::TopAbs_EDGE, edgeMap);
+            // Free edges of this new face, recorded after the walk (sheet hosts only)
+            std::vector<TopoDS_Shape> freeEdges;
             for (int i = 1; i <= edgeMap.Extent(); ++i)
             {
                 const TopoDS_Shape& newEdge = TopoDS::Edge(edgeMap(i));
@@ -149,17 +152,45 @@ void ChamferFilletTopoShapeComparer::recordAdded()
                 //_edgeDelta.addedDouble[newEdge] = doubleSourceInfo;
                 if (doubleSourceInfo.source2.IsNull())
                 {
-                    // 理论上index应该为0,只有闭合的边才会出现在这个逻辑里
-                    assert(0 == index);
-                    _edgeDelta.addedSingle[newEdge] = 0 == index
-                        ? ShapeDelta::SingleSourceInfo::generated(doubleSourceInfo.source1)
-                        : ShapeDelta::SingleSourceInfo::generatedMultiple(doubleSourceInfo.source1, index);
+                    if (HostType::Sheet == _hostType)
+                    {
+                        // A sheet strip has free ends on the open boundary
+                        freeEdges.emplace_back(newEdge);
+                    }
+                    else
+                    {
+                        // 理论上index应该为0,只有闭合的边才会出现在这个逻辑里
+                        assert(0 == index);
+                        _edgeDelta.addedSingle[newEdge] = 0 == index
+                            ? ShapeDelta::SingleSourceInfo::generated(doubleSourceInfo.source1)
+                            : ShapeDelta::SingleSourceInfo::generatedMultiple(doubleSourceInfo.source1, index);
+                    }
                 }
                 else
                 {
                     _edgeDelta.addedDouble[newEdge] = doubleSourceInfo;
                 }
                 // }
+            }
+
+            // On a sheet the free ends of one strip all come from the same old edge, so
+            // they are named after the new face to tell them apart
+            if (HostType::Sheet == _hostType && !freeEdges.empty())
+            {
+                if (freeEdges.size() > 1)
+                {
+                    unsigned int freeIndex(0);
+                    for (const TopoDS_Shape& freeEdge : freeEdges)
+                    {
+                        _edgeDelta.addedSingle[freeEdge] =
+                            ShapeDelta::SingleSourceInfo::generatedMultiple(newFace, ++freeIndex);
+                    }
+                }
+                else
+                {
+                    _edgeDelta.addedSingle[freeEdges.front()] =
+                        ShapeDelta::SingleSourceInfo::generated(newFace);
+                }
             }
         }
     }

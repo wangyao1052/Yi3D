@@ -28,7 +28,15 @@ NS_WY3D_BEG
 class ChamferFilletTopoShapeComparer : public TopoShapeComparer
 {
 public:
-    ChamferFilletTopoShapeComparer(BRepBuilderAPI_MakeShape& mkShape, const TopoDS_Shape& oldShape);
+    // Whether the host body is a solid or a sheet
+    enum class HostType : std::int32_t
+    {
+        Solid = 0,
+        Sheet = 1,
+    };
+
+    ChamferFilletTopoShapeComparer(BRepBuilderAPI_MakeShape& mkShape, const TopoDS_Shape& oldShape,
+        HostType hostType);
     ~ChamferFilletTopoShapeComparer();
 
 protected:
@@ -43,6 +51,9 @@ private:
     void initOldVertex2OldFaces();
 
 private:
+    // The host body kind - a sheet names its free edges after the new face
+    HostType _hostType;
+
     // 点
     TopoShapeSet _oldVertexSet;
 

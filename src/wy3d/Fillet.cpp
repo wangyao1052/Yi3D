@@ -374,7 +374,9 @@ std::pair<bool, TopoDS_Shape> Fillet::modifyOwnerShape(const TopoDS_Shape& shape
         if (fillet.IsDone())
         {
             TopoDS_Shape retShape = fillet.Shape();
-            ChamferFilletTopoShapeComparer topoComparer(fillet, shape);
+            ChamferFilletTopoShapeComparer topoComparer(fillet, shape,
+                this->getSheetHost() ? ChamferFilletTopoShapeComparer::HostType::Sheet
+                                     : ChamferFilletTopoShapeComparer::HostType::Solid);
             topoComparer.perform();
             pTopoNaming->update(&topoComparer, this->getId().value());
             this->recordNewFaces(topoComparer.getFaceDelta(), pTopoNaming);

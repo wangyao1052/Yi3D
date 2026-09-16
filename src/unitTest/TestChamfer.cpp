@@ -21,7 +21,22 @@
 #include <wy3dParamNames.h>
 #include <wy3dParamEnumDef.h>
 #include <wy3dMath.h>
+#include <wy3dTopoNaming.h>
 #include <wydbParameter.h>
+
+#include <cmath>
+#include <string>
+
+#include <TopoDS.hxx>
+#include <TopoDS_Edge.hxx>
+#include <TopoDS_Face.hxx>
+#include <TopoDS_Vertex.hxx>
+#include <TopAbs_ShapeEnum.hxx>
+#include <TopExp.hxx>
+#include <TopTools_IndexedMapOfShape.hxx>
+#include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
+#include <TopTools_ListOfShape.hxx>
+#include <BRep_Tool.hxx>
 
 // --- helpers ---
 
@@ -293,4 +308,100 @@ TEST(Chamfer, ParamRoundTrip)
     const wy3d::ParamEnumDef* pDef = pAnyVal->tryGet<wy3d::ParamEnumDef>();
     ASSERT_NE(pDef, nullptr);
     EXPECT_EQ(pDef->currentValue, static_cast<int>(ChamferType::DistanceDistance));
+}
+
+// --- The one free edge a solid blend can have keeps the name it got from the edge it came from:
+// --- the discriminator sheets need must not reach solid hosts
+
+TEST(Chamfer, SolidFreeEdgeKeepsSourceEdgeName)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    const double radius(10.0), height(20.0);
+    wydb::ElementId cylinderId = wydb::ElementId::kNull;
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Cylinder* pCylinder(nullptr);
+        wy3d::Cylinder::create(pTrans, radius, height, pCylinder);
+        pMgr->endTransaction();
+        cylinderId = pCylinder->getId();
+    }
+
+    // The top rim: the closed edge whose vertices sit at the full height
+    std::uint32_t topEdgeIndex(UINT_MAX);
+    std::string topEdgeName;
+    {
+        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(cylinderId));
+        ASSERT_NE(pSolid, nullptr);
+        const TopoDS_Shape& shape = pSolid->getShape();
+        TopTools_IndexedMapOfShape edges;
+        TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_EDGE, edges);
+        for (int i = 1; i <= edges.Extent(); ++i)
+        {
+            TopoDS_Vertex v1, v2;
+            TopExp::Vertices(TopoDS::Edge(edges(i)), v1, v2);
+            if (v1.IsNull() || v2.IsNull()) continue;
+            if (std::abs(BRep_Tool::Pnt(v1).Z() - height) > 1e-9) continue;
+            if (std::abs(BRep_Tool::Pnt(v2).Z() - height) > 1e-9) continue;
+
+            topEdgeIndex = static_cast<std::uint32_t>(i - 1);
+            topEdgeName = pSolid->getTopoNaming()->getTopoName(edges(i));
+            break;
+        }
+    }
+    ASSERT_NE(topEdgeIndex, UINT_MAX);
+    ASSERT_FALSE(topEdgeName.empty());
+
+    Chamfer* pChamfer(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Solid* pSolid = wy3d::Solid::cast(pTrans->getElementForWrite(cylinderId));
+        ASSERT_NE(pSolid, nullptr);
+        wy::ErrorStatus error = Chamfer::create(pTrans, pSolid, {}, { topEdgeIndex }, 2.0, pChamfer);
+        EXPECT_EQ(error, wy::ErrorStatus::Ok);
+        pMgr->endTransaction();
+    }
+    ASSERT_NE(pChamfer, nullptr);
+
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(cylinderId));
+    ASSERT_NE(pSolid, nullptr);
+    const wy3d::TopoNaming* pTopoNaming = pSolid->getTopoNaming();
+    ASSERT_NE(pTopoNaming, nullptr);
+
+    const std::vector<std::uint32_t> blendIndices = pChamfer->getNewFaceIndices();
+    ASSERT_EQ(blendIndices.size(), 1u);
+    TopTools_IndexedMapOfShape faceMap;
+    TopExp::MapShapes(pSolid->getShape(), TopAbs_ShapeEnum::TopAbs_FACE, faceMap);
+    const TopoDS_Face blend = TopoDS::Face(faceMap(blendIndices.front() + 1));
+
+    // The seam against the cylinder's lateral face leaves the blend one edge with no face but the
+    // blend itself - the only kind of edge a solid host ever records as single-source
+    TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap;
+    TopExp::MapShapesAndAncestors(pSolid->getShape(), TopAbs_ShapeEnum::TopAbs_EDGE,
+        TopAbs_ShapeEnum::TopAbs_FACE, edgeFaceMap);
+    TopTools_IndexedMapOfShape blendEdges;
+    TopExp::MapShapes(blend, TopAbs_ShapeEnum::TopAbs_EDGE, blendEdges);
+    std::vector<std::string> freeNames;
+    for (int i = 1; i <= blendEdges.Extent(); ++i)
+    {
+        const TopoDS_Shape& edge = blendEdges(i);
+        const TopTools_ListOfShape& faces = edgeFaceMap.FindFromKey(edge);
+        bool hasOtherFace(false);
+        for (TopTools_ListIteratorOfListOfShape it(faces); it.More(); it.Next())
+        {
+            if (!it.Value().IsSame(blend))
+            {
+                hasOtherFace = true;
+                break;
+            }
+        }
+        if (!hasOtherFace)
+        {
+            freeNames.emplace_back(pTopoNaming->getTopoName(edge));
+        }
+    }
+
+    ASSERT_EQ(freeNames.size(), 1u);
+    EXPECT_EQ(freeNames.front(), topEdgeName + "+@" + std::to_string(pChamfer->getId().value()));
 }

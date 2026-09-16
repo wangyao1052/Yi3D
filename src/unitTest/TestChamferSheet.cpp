@@ -151,28 +151,6 @@ namespace
             << (info.empty() ? "" : info[0]);
     }
 
-    // The same, but holding the one invariant a chamfered sheet does not keep: the strip it lays
-    // down has two boundary edges that are free - the sheet has no material on their other side -
-    // and ChamferFilletTopoShapeComparer records a new edge as single-source whenever the face map
-    // gives it no second face, both times from the same old edge. Two edges therefore carry one
-    // name. It costs nothing today (both resolve, and neither edge can be picked for a chamfer,
-    // the guard refusing a free edge) but it is a defect, so it is pinned here rather than hidden:
-    // this reddens the day the naming gets a discriminator, which is what these assertions should
-    // then be replaced with.
-    template<typename Body>
-    static void expectSheetTopoNamed(const Body* pBody)
-    {
-        expectEverySubShapeNamed(pBody);
-
-        const wy3d::TopoNaming* pTopoNaming = pBody->getTopoNaming();
-        ASSERT_NE(pTopoNaming, nullptr);
-        std::vector<std::string> info;
-        EXPECT_FALSE(pTopoNaming->check(pBody->getShape(), info));
-        ASSERT_EQ(info.size(), 2u);
-        EXPECT_NE(info[0].find('*'), std::string::npos) << info[0]; // EDGE: the colliding pair
-        EXPECT_EQ(info[1].find('*'), std::string::npos) << info[1]; // FACE: no collision
-    }
-
     // Index, as the body's shape returns them, of a face/edge with the given number of adjacent
     // faces. An edge with two of them is the only kind a chamfer can take.
     static std::uint32_t findEdgeIndexWithFaces(const TopoDS_Shape& shape, int adjacentFaces)
@@ -406,7 +384,7 @@ TEST(ChamferSheet, ExtrudedSheetWallEdge)
     EXPECT_EQ(countShells(pSheet->getShape()), 1);
     EXPECT_EQ(countSolids(pSheet->getShape()), 0); // still a sheet, never a solid
     EXPECT_NEAR(bodyArea(pSheet->getShape()), 3000.0 - 40.0 + 2.0 * std::sqrt(2.0) * 10.0, 1e-6);
-    expectSheetTopoNamed(pSheet);
+    expectAllTopoNamed(pSheet);
 }
 
 // --- Two edges at once: each one lays down its own strip, nothing at all is special about the
@@ -432,7 +410,7 @@ TEST(ChamferSheet, ExtrudedSheetEdgeChain)
     EXPECT_EQ(countFaces(pSheet->getShape()), 6);
     EXPECT_EQ(countShells(pSheet->getShape()), 1);
     EXPECT_EQ(countSolids(pSheet->getShape()), 0);
-    expectSheetTopoNamed(pSheet);
+    expectAllTopoNamed(pSheet);
 }
 
 // --- A bare shell, no sheet builder involved, takes one too ---
@@ -462,7 +440,7 @@ TEST(ChamferSheet, BareShellInteriorEdge)
     EXPECT_EQ(countFaces(pSheet->getShape()), 5);
     EXPECT_EQ(countSolids(pSheet->getShape()), 0);
     EXPECT_NEAR(bodyArea(pSheet->getShape()), 3000.0 - 40.0 + 2.0 * std::sqrt(2.0) * 10.0, 1e-6);
-    expectSheetTopoNamed(pSheet);
+    expectAllTopoNamed(pSheet);
 }
 
 // --- An edge with a single adjacent face has no dihedral: refused, host untouched ---
@@ -575,7 +553,7 @@ TEST(ChamferSheet, DistanceDistanceOnWallEdge)
     ASSERT_NE(pSheet, nullptr);
     EXPECT_EQ(countFaces(pSheet->getShape()), 5);
     EXPECT_NEAR(bodyArea(pSheet->getShape()), 3000.0 - 20.0 - 30.0 + std::sqrt(13.0) * 10.0, 1e-6);
-    expectSheetTopoNamed(pSheet);
+    expectAllTopoNamed(pSheet);
 }
 
 // --- The host regenerates: the chamfer is put back on the new shape ---
@@ -613,7 +591,7 @@ TEST(ChamferSheet, ChainUpdateOnHostRegenerate)
     ASSERT_NE(pSheet, nullptr);
     EXPECT_EQ(countFaces(pSheet->getShape()), 5);
     EXPECT_NEAR(bodyArea(pSheet->getShape()), 6000.0 - 80.0 + 2.0 * std::sqrt(2.0) * 20.0, 1e-6);
-    expectSheetTopoNamed(pSheet);
+    expectAllTopoNamed(pSheet);
 }
 
 // --- Out and back in ---
@@ -658,7 +636,7 @@ TEST(ChamferSheet, IO)
         EXPECT_EQ(countFaces(pSheet->getShape()), 5);
         EXPECT_EQ(countSolids(pSheet->getShape()), 0);
         EXPECT_NEAR(bodyArea(pSheet->getShape()), 3000.0 - 40.0 + 2.0 * std::sqrt(2.0) * 10.0, 1e-6);
-        expectSheetTopoNamed(pSheet);
+        expectAllTopoNamed(pSheet);
     }
 }
 
@@ -691,7 +669,7 @@ TEST(ChamferSheet, UndoRedo)
     pSheet = wy3d::Sheet::cast(pDb->getElement(sheetId));
     ASSERT_NE(pSheet, nullptr);
     EXPECT_EQ(countFaces(pSheet->getShape()), 5);
-    expectSheetTopoNamed(pSheet);
+    expectAllTopoNamed(pSheet);
 }
 
 // --- The solid overload is the same one it always was ---

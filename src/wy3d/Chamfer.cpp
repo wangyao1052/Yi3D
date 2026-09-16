@@ -692,7 +692,9 @@ std::pair<bool, TopoDS_Shape> Chamfer::modifyOwnerShape(
         {
             TopoDS_Shape retShape = chamfer.Shape();
 
-            ChamferFilletTopoShapeComparer topoComparer(chamfer, shape);
+            ChamferFilletTopoShapeComparer topoComparer(chamfer, shape,
+                this->getSheetHost() ? ChamferFilletTopoShapeComparer::HostType::Sheet
+                                     : ChamferFilletTopoShapeComparer::HostType::Solid);
             topoComparer.perform();
 #ifdef _DEBUG
             {

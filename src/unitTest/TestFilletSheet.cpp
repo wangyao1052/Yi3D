@@ -154,28 +154,6 @@ namespace
             << (info.empty() ? "" : info[0]);
     }
 
-    // The same, but holding the one invariant a filleted sheet does not keep: the blend it lays
-    // down has two boundary edges that are free - the sheet has no material on their other side -
-    // and ChamferFilletTopoShapeComparer records a new edge as single-source whenever the face map
-    // gives it no second face, both times from the same old edge. Two edges therefore carry one
-    // name. It costs nothing today (both resolve, and neither edge can be picked for a fillet, the
-    // guard refusing a free edge) but it is a defect, so it is pinned here rather than hidden:
-    // this reddens the day the naming gets a discriminator, which is what these assertions should
-    // then be replaced with.
-    template<typename Body>
-    static void expectSheetTopoNamed(const Body* pBody)
-    {
-        expectEverySubShapeNamed(pBody);
-
-        const wy3d::TopoNaming* pTopoNaming = pBody->getTopoNaming();
-        ASSERT_NE(pTopoNaming, nullptr);
-        std::vector<std::string> info;
-        EXPECT_FALSE(pTopoNaming->check(pBody->getShape(), info));
-        ASSERT_EQ(info.size(), 2u);
-        EXPECT_NE(info[0].find('*'), std::string::npos) << info[0]; // EDGE: the colliding pair
-        EXPECT_EQ(info[1].find('*'), std::string::npos) << info[1]; // FACE: no collision
-    }
-
     // Index, as the body's shape returns them, of a face/edge with the given number of adjacent
     // faces. An edge with two of them is the only kind a fillet can take.
     static std::uint32_t findEdgeIndexWithFaces(const TopoDS_Shape& shape, int adjacentFaces)
@@ -408,7 +386,70 @@ TEST(FilletSheet, ExtrudedSheetWallEdge)
     EXPECT_EQ(countShells(pSheet->getShape()), 1);
     EXPECT_EQ(countSolids(pSheet->getShape()), 0); // still a sheet, never a solid
     EXPECT_NEAR(bodyArea(pSheet->getShape()), 3000.0 - 40.0 + 10.0 * wy3d::PI, 1e-6);
-    expectSheetTopoNamed(pSheet);
+    expectAllTopoNamed(pSheet);
+}
+
+// --- The free ends of a blend are named after the blend itself: they both come from the same old
+// --- edge, so the blend face is what tells them apart, and the number appears only when there is
+// --- more than one of them
+
+TEST(FilletSheet, FreeEdgesNamedAfterTheBlend)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId sketchId = createRectSketch(pDb.get());
+    wydb::ElementId sheetId = createExtrudedSheet(pDb.get(), sketchId, 10.0);
+
+    const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    const std::uint32_t edgeIndex = findEdgeIndexWithFaces(pSheet->getShape(), 2);
+    ASSERT_NE(edgeIndex, UINT_MAX);
+    wy3d::Fillet* pFillet = filletSheetEdges(pDb.get(), sheetId, { edgeIndex });
+    ASSERT_NE(pFillet, nullptr);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pFillet->getId()), 0u);
+
+    pSheet = wy3d::Sheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    const wy3d::TopoNaming* pTopoNaming = pSheet->getTopoNaming();
+    ASSERT_NE(pTopoNaming, nullptr);
+
+    const std::vector<std::uint32_t> blendIndices = pFillet->getNewFaceIndices();
+    ASSERT_EQ(blendIndices.size(), 1u);
+    TopTools_IndexedMapOfShape faceMap;
+    TopExp::MapShapes(pSheet->getShape(), TopAbs_ShapeEnum::TopAbs_FACE, faceMap);
+    const TopoDS_Face blend = TopoDS::Face(faceMap(blendIndices.front() + 1));
+    const std::string blendName = pTopoNaming->getTopoName(blend);
+    ASSERT_FALSE(blendName.empty());
+
+    // The blend's free ends: its edges that have no adjacent face but the blend itself
+    TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap;
+    TopExp::MapShapesAndAncestors(pSheet->getShape(), TopAbs_ShapeEnum::TopAbs_EDGE,
+        TopAbs_ShapeEnum::TopAbs_FACE, edgeFaceMap);
+    TopTools_IndexedMapOfShape blendEdges;
+    TopExp::MapShapes(blend, TopAbs_ShapeEnum::TopAbs_EDGE, blendEdges);
+    std::vector<std::string> freeNames;
+    for (int i = 1; i <= blendEdges.Extent(); ++i)
+    {
+        const TopoDS_Shape& edge = blendEdges(i);
+        const TopTools_ListOfShape& faces = edgeFaceMap.FindFromKey(edge);
+        bool hasOtherFace(false);
+        for (TopTools_ListIteratorOfListOfShape it(faces); it.More(); it.Next())
+        {
+            if (!it.Value().IsSame(blend))
+            {
+                hasOtherFace = true;
+                break;
+            }
+        }
+        if (!hasOtherFace)
+        {
+            freeNames.emplace_back(pTopoNaming->getTopoName(edge));
+        }
+    }
+
+    ASSERT_EQ(freeNames.size(), 2u);
+    const std::string prefix = blendName + "+@" + std::to_string(pFillet->getId().value());
+    EXPECT_EQ(freeNames[0], prefix + "#1");
+    EXPECT_EQ(freeNames[1], prefix + "#2");
 }
 
 // --- Two edges at once: each one lays down its own blend, nothing at all is special about the
@@ -434,7 +475,7 @@ TEST(FilletSheet, ExtrudedSheetEdgeChain)
     EXPECT_EQ(countFaces(pSheet->getShape()), 6);
     EXPECT_EQ(countShells(pSheet->getShape()), 1);
     EXPECT_EQ(countSolids(pSheet->getShape()), 0);
-    expectSheetTopoNamed(pSheet);
+    expectAllTopoNamed(pSheet);
 }
 
 // --- A bare shell, no sheet builder involved, takes one too ---
@@ -464,7 +505,7 @@ TEST(FilletSheet, BareShellInteriorEdge)
     EXPECT_EQ(countFaces(pSheet->getShape()), 5);
     EXPECT_EQ(countSolids(pSheet->getShape()), 0);
     EXPECT_NEAR(bodyArea(pSheet->getShape()), 3000.0 - 40.0 + 10.0 * wy3d::PI, 1e-6);
-    expectSheetTopoNamed(pSheet);
+    expectAllTopoNamed(pSheet);
 }
 
 // --- An edge with a single adjacent face has no dihedral: refused, host untouched ---
@@ -581,7 +622,7 @@ TEST(FilletSheet, ChainUpdateOnHostRegenerate)
     ASSERT_NE(pSheet, nullptr);
     EXPECT_EQ(countFaces(pSheet->getShape()), 5);
     EXPECT_NEAR(bodyArea(pSheet->getShape()), 6000.0 - 80.0 + 20.0 * wy3d::PI, 1e-6);
-    expectSheetTopoNamed(pSheet);
+    expectAllTopoNamed(pSheet);
 }
 
 // --- Out and back in ---
@@ -627,7 +668,7 @@ TEST(FilletSheet, IO)
         EXPECT_EQ(countFaces(pSheet->getShape()), 5);
         EXPECT_EQ(countSolids(pSheet->getShape()), 0);
         EXPECT_NEAR(bodyArea(pSheet->getShape()), 3000.0 - 40.0 + 10.0 * wy3d::PI, 1e-6);
-        expectSheetTopoNamed(pSheet);
+        expectAllTopoNamed(pSheet);
     }
 }
 
@@ -660,7 +701,7 @@ TEST(FilletSheet, UndoRedo)
     pSheet = wy3d::Sheet::cast(pDb->getElement(sheetId));
     ASSERT_NE(pSheet, nullptr);
     EXPECT_EQ(countFaces(pSheet->getShape()), 5);
-    expectSheetTopoNamed(pSheet);
+    expectAllTopoNamed(pSheet);
 }
 
 // --- The solid overload is the same one it always was ---
