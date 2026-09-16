@@ -19,12 +19,13 @@
 #include <TopoDS.hxx>
 #include <BRepFilletAPI_MakeFillet.hxx>
 #include <TopExp.hxx>
-#include <TopTools_IndexedMapOfShape.hxx>
+#include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
 
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dFillet.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -63,32 +64,66 @@ wy::ErrorStatus Fillet::create(
     double radius,
     Fillet*& pOutFillet)
 {
-    if (!pTrans)
-    {
-        pOutFillet = nullptr;
-        return wy::ErrorStatus::NullDatabasePointer;
-    }
-    if (!pSolid)
-    {
-        pOutFillet = nullptr;
-        return wy::ErrorStatus::NullElementPointer;
-    }
+    pOutFillet = nullptr;
+
+    if (!pTrans) return wy::ErrorStatus::NullDatabasePointer;
+    if (!pSolid) return wy::ErrorStatus::NullElementPointer;
+
+    wy::ErrorStatus error = createImpl(pTrans, pSolid->getShape(), pSolid->getTopoNaming(),
+        faceIndices, edgeIndices, radius, pOutFillet);
+    if (wy::ErrorStatus::Ok != error) return error;
+
+    error = pSolid->addModification(pOutFillet);
+    CHECK_ERROR_FOR_CREATE(error, pOutFillet);
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus Fillet::create(
+    wydb::Transaction* pTrans,
+    wy3d::Sheet* pSheet,
+    const std::vector<std::uint32_t>& faceIndices,
+    const std::vector<std::uint32_t>& edgeIndices,
+    double radius,
+    Fillet*& pOutFillet)
+{
+    pOutFillet = nullptr;
+
+    if (!pTrans) return wy::ErrorStatus::NullDatabasePointer;
+    if (!pSheet) return wy::ErrorStatus::NullElementPointer;
+
+    wy::ErrorStatus error = createImpl(pTrans, pSheet->getShape(), pSheet->getTopoNaming(),
+        faceIndices, edgeIndices, radius, pOutFillet);
+    if (wy::ErrorStatus::Ok != error) return error;
+
+    error = pSheet->addModification(pOutFillet);
+    CHECK_ERROR_FOR_CREATE(error, pOutFillet);
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus Fillet::createImpl(
+    wydb::Transaction* pTrans,
+    const TopoDS_Shape& shape,
+    TopoNaming* pTopoNaming,
+    const std::vector<std::uint32_t>& faceIndices,
+    const std::vector<std::uint32_t>& edgeIndices,
+    double radius,
+    Fillet*& pOutFillet)
+{
+    pOutFillet = nullptr;
+    assert(pTrans);
+
     if (faceIndices.empty() && edgeIndices.empty())
     {
-        pOutFillet = nullptr;
         return wy::ErrorStatus::InvalidInput;
     }
     if (radius < 0.0)
     {
-        pOutFillet = nullptr;
         return wy::ErrorStatus::InvalidInput;
     }
 
-    TopoDS_Shape shape = pSolid->getShape();
-    TopoNaming* pTopoNaming = pSolid->getTopoNaming();
     if (!pTopoNaming)
     {
-        pOutFillet = nullptr;
+        assert(false);
         return wy::ErrorStatus::InvalidInput;
     }
 
@@ -101,6 +136,7 @@ wy::ErrorStatus Fillet::create(
             pOutFillet = nullptr;
             return wy::ErrorStatus::InvalidInput;
         }
+        assert(!faceNames.empty());
     }
 
     TopoNameList edgeNames;
@@ -112,6 +148,7 @@ wy::ErrorStatus Fillet::create(
             pOutFillet = nullptr;
             return wy::ErrorStatus::InvalidInput;
         }
+        assert(!edgeNames.empty());
     }
 
     Fillet* pFillet = new Fillet();
@@ -134,9 +171,6 @@ wy::ErrorStatus Fillet::create(
         CHECK_ERROR_FOR_CREATE(error, pFillet);
     }
     error = pFillet->setRadius(radius);
-    CHECK_ERROR_FOR_CREATE(error, pFillet);
-
-    error = pSolid->addModification(pFillet);
     CHECK_ERROR_FOR_CREATE(error, pFillet);
 
     pOutFillet = pFillet;
@@ -313,6 +347,23 @@ std::pair<bool, TopoDS_Shape> Fillet::modifyOwnerShape(const TopoDS_Shape& shape
         assert(false);
         wy3d::reportChainUpdateError(feedbackCollector, this->getId(), static_cast<std::uint32_t>(ErrorCode::FILLET_InvalidData));
         return {false, shape};
+    }
+
+    // sheet host: every selected edge needs exactly two adjacent faces
+    if (this->getSheetHost())
+    {
+        TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap;
+        TopExp::MapShapesAndAncestors(shape, TopAbs_EDGE, TopAbs_FACE, edgeFaceMap);
+        for (const TopoDS_Edge& topoEdge : topoEdges)
+        {
+            const int ancestorIndex = edgeFaceMap.FindIndex(topoEdge);
+            if (0 == ancestorIndex || 2 != edgeFaceMap.FindFromIndex(ancestorIndex).Extent())
+            {
+                wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+                    static_cast<std::uint32_t>(ErrorCode::FILLET_EdgeNotTwoFaces));
+                return {false, shape};
+            }
+        }
     }
 
     try

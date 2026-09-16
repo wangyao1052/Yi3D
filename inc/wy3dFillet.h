@@ -27,6 +27,14 @@ public:
         double radius,
         Fillet*& pOutFillet);
 
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        wy3d::Sheet* pSheet,
+        const std::vector<std::uint32_t>& faceIndices,
+        const std::vector<std::uint32_t>& edgeIndices,
+        double radius,
+        Fillet*& pOutFillet);
+
     double getRadius() const { return _radius; }
     wy::ErrorStatus setRadius(double radius);
 
@@ -46,6 +54,16 @@ protected:
     virtual wy::ErrorStatus writeToFiler(wydb::OutFiler& filer) const override;
     virtual wy::ErrorStatus readFromFiler(wydb::InFiler& filer) override;
     virtual std::pair<bool, TopoDS_Shape> modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
+
+private:
+    static wy::ErrorStatus createImpl(
+        wydb::Transaction* pTrans,
+        const TopoDS_Shape& shape,
+        TopoNaming* pTopoNaming,
+        const std::vector<std::uint32_t>& faceIndices,
+        const std::vector<std::uint32_t>& edgeIndices,
+        double radius,
+        Fillet*& pOutFillet);
 
 private:
     TopoNameList _edgeNames;

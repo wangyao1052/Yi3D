@@ -19,6 +19,9 @@
 #ifndef WY3DAPP_FILLET_GUI_CMD_H
 #define WY3DAPP_FILLET_GUI_CMD_H
 
+#include <vector>
+#include <TopTools_IndexedMapOfShape.hxx>
+#include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
 #include "commands/OsgGuiCommand.h"
 #include <wy3dFillet.h>
 #include "select/SelectPreview.h"
@@ -64,8 +67,18 @@ protected:
     virtual void onContextMenuAction_ClearSelection() override;
 
 private:
-    // 创建倒角
+    // 创建圆角
     bool createFillet(unsigned int& errorCode);
+
+    // 建立宿主拓扑缓存(仅在宿主变化时重建): 悬停很频繁, 不能每帧重建
+    bool ensureHostTopo(const wydb::ElementId& hostId);
+    // 检查选择项: 通过时 outSels 为要加入选择集的项(片体上的面展开成边)
+    bool resolveFilletPick(const wyap::Selection& sel, std::vector<wyap::Selection>& outSels);
+    // 全部已选中则一起取消, 否则一起选中
+    void toggleSelections(const std::vector<wyap::Selection>& sels);
+
+    // 悬停预览: 不可圆角的边/面不高亮, 光标变禁止(照拉伸命令)
+    void updateHoverPreview(double x, double y);
 
 private:
     Step _step;
@@ -79,6 +92,13 @@ private:
     SelectPreviewSPtr _pPreview;
     // 高亮
     SelectionSetHighlightorSPtr _pSelSetHighlightor;
+
+    // 宿主拓扑缓存
+    wydb::ElementId _hostId;
+    bool _hostIsSheet;
+    TopTools_IndexedMapOfShape _hostFaces;
+    TopTools_IndexedMapOfShape _hostEdges;
+    TopTools_IndexedDataMapOfShapeListOfShape _hostEdgeFaces;
 
     friend class FilletGuiCmdMenu;
 };

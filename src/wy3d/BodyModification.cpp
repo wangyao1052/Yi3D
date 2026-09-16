@@ -17,7 +17,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <wy3dBodyModification.h>
+#include <cassert>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wydbFiler.h>
 #include <TopExp.hxx>
 #include <BRepAlgoAPI_Cut.hxx>
@@ -33,6 +35,7 @@
 #include "topo/BooleanTopoShapeComparer.h"
 
 NS_WY3D_BEG
+
 WYDB_IMPLEMENT_MEMBERS(BodyModification)
 
 BEGIN_FIELD_REGISTRATION()
@@ -48,9 +51,18 @@ BodyModification::~BodyModification()
 {
 }
 
-const wy3d::Solid* BodyModification::getSolid() const
+const wy3d::Solid* BodyModification::getSolidHost() const
 {
-    return wy3d::Solid::cast(this->getDatabase()->getElement(_ownerId));
+    wydb::Database* pDb = this->getDatabase();
+    assert(pDb);
+    return wy3d::Solid::cast(pDb->getElement(_ownerId));
+}
+
+const wy3d::Sheet* BodyModification::getSheetHost() const
+{
+    wydb::Database* pDb = this->getDatabase();
+    assert(pDb);
+    return wy3d::Sheet::cast(pDb->getElement(_ownerId));
 }
 
 wy::ErrorStatus BodyModification::_setOwner(const wydb::ElementId& ownerId)

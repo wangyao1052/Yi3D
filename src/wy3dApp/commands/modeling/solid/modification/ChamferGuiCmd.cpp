@@ -44,65 +44,6 @@
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
 
 
-namespace
-{
-
-// std::stoul throws on a malformed sub-path, a bad value only fails the pick
-bool parseSubPathIndex(const std::string& subPath, unsigned int& index)
-{
-    if (subPath.empty()) return false;
-    unsigned long long value(0);
-    for (char c : subPath)
-    {
-        if (c < '0' || c > '9') return false;
-        value = value * 10 + static_cast<unsigned long long>(c - '0');
-        if (value > 0xFFFFFFFFull) return false;
-    }
-    index = static_cast<unsigned int>(value);
-    return true;
-}
-
-// 形体是否为片体: 整个形体里没有实体 (倒角守卫的同一判据)
-bool isSheetHost(const TopoDS_Shape& shape)
-{
-    TopTools_IndexedMapOfShape solidMap;
-    TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_SOLID, solidMap);
-    return 0 == solidMap.Extent();
-}
-
-// 边是否恰好两个相邻面: 自由边只有一个, 非流形边多于两个, 都不能倒角
-bool hasTwoAdjacentFaces(
-    const TopTools_IndexedDataMapOfShapeListOfShape& edgeFaceMap, const TopoDS_Shape& edge)
-{
-    const int ancestorIndex = edgeFaceMap.FindIndex(edge);
-    if (0 == ancestorIndex) return false;
-    return 2 == edgeFaceMap.FindFromIndex(ancestorIndex).Extent();
-}
-
-// 面上能倒角的边的序号(与点选的 MapShapes(EDGE) 同口径, 从0开始)
-std::vector<unsigned int> collectChamferableEdgeIndices(const TopoDS_Face& face,
-    const TopTools_IndexedMapOfShape& edgeMap,
-    const TopTools_IndexedDataMapOfShapeListOfShape& edgeFaceMap)
-{
-    std::vector<unsigned int> edgeIndices;
-
-    TopTools_IndexedMapOfShape faceEdgeMap;
-    TopExp::MapShapes(face, TopAbs_ShapeEnum::TopAbs_EDGE, faceEdgeMap);
-    for (int i = 1; i <= faceEdgeMap.Extent(); ++i)
-    {
-        const TopoDS_Shape& edge = faceEdgeMap(i);
-        if (!hasTwoAdjacentFaces(edgeFaceMap, edge)) continue;
-
-        const int edgeIndex = edgeMap.FindIndex(edge);
-        if (0 == edgeIndex) continue;
-        edgeIndices.emplace_back(static_cast<unsigned int>(edgeIndex - 1));
-    }
-
-    return edgeIndices;
-}
-
-}
-
 // 前置过滤器: 确保只能选择单一主体的面或边
 class ChamferGuiCmdPreSelFilter : public SelectPreFilterFunctor
 {
@@ -379,7 +320,7 @@ bool ChamferGuiCmd::ensureHostTopo(const wydb::ElementId& hostId)
     TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_FACE, _hostFaces);
     TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_EDGE, _hostEdges);
     TopExp::MapShapesAndAncestors(shape, TopAbs_ShapeEnum::TopAbs_EDGE, TopAbs_ShapeEnum::TopAbs_FACE, _hostEdgeFaces);
-    _hostIsSheet = isSheetHost(shape);
+    _hostIsSheet = (nullptr == pSolid);
 
     return true;
 }
@@ -412,7 +353,7 @@ bool ChamferGuiCmd::resolveChamferPick(const wyap::Selection& sel,
     case wy3d::SelectionType::SolidEdge:
     {
         unsigned int edgeIndex(0);
-        if (!parseSubPathIndex(sel.getSubPath(), edgeIndex))
+        if (!ChamferFilletCmdCommon::parseSubPathIndex(sel.getSubPath(), edgeIndex))
         {
             assert(false);
             outSels.emplace_back(sel);
@@ -427,7 +368,7 @@ bool ChamferGuiCmd::resolveChamferPick(const wyap::Selection& sel,
 
         // 片体上倒角的边必须恰好两个相邻面
         const TopoDS_Shape& edge = _hostEdges(static_cast<int>(edgeIndex) + 1);
-        if (!hasTwoAdjacentFaces(_hostEdgeFaces, edge)) return false;
+        if (!ChamferFilletCmdCommon::hasTwoAdjacentFaces(_hostEdgeFaces, edge)) return false;
 
         outSels.emplace_back(sel);
         return true;
@@ -436,7 +377,7 @@ bool ChamferGuiCmd::resolveChamferPick(const wyap::Selection& sel,
     case wy3d::SelectionType::SolidFace:
     {
         unsigned int faceIndex(0);
-        if (!parseSubPathIndex(sel.getSubPath(), faceIndex))
+        if (!ChamferFilletCmdCommon::parseSubPathIndex(sel.getSubPath(), faceIndex))
         {
             assert(false);
             outSels.emplace_back(sel);
@@ -452,7 +393,7 @@ bool ChamferGuiCmd::resolveChamferPick(const wyap::Selection& sel,
         // 面上没有任何能倒角的边: 这个面不能选
         const TopoDS_Face face = TopoDS::Face(_hostFaces(static_cast<int>(faceIndex) + 1));
         const std::vector<unsigned int> edgeIndices =
-            collectChamferableEdgeIndices(face, _hostEdges, _hostEdgeFaces);
+            ChamferFilletCmdCommon::collectChamferableEdgeIndices(face, _hostEdges, _hostEdgeFaces);
         if (edgeIndices.empty()) return false;
 
         // 面转换成该面上能倒角的边

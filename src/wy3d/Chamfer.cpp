@@ -19,7 +19,6 @@
 #include <TopoDS.hxx>
 #include <BRepFilletAPI_MakeChamfer.hxx>
 #include <TopExp.hxx>
-#include <TopTools_IndexedMapOfShape.hxx>
 #include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
 #include <TopTools_ListOfShape.hxx>
 
@@ -628,9 +627,8 @@ std::pair<bool, TopoDS_Shape> Chamfer::modifyOwnerShape(
     TopTools_IndexedDataMapOfShapeListOfShape edgeFaceMap;
     TopExp::MapShapesAndAncestors(shape, TopAbs_EDGE, TopAbs_FACE, edgeFaceMap);
 
-    TopTools_IndexedMapOfShape solidMap;
-    TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_SOLID, solidMap);
-    if (0 == solidMap.Extent()) // sheet host: every edge needs exactly two adjacent faces
+    // sheet host: every selected edge needs exactly two adjacent faces
+    if (this->getSheetHost())
     {
         for (const TopoDS_Edge& topoEdge : topoEdges)
         {

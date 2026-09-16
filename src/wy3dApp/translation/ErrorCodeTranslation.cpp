@@ -116,6 +116,8 @@ ErrorCodeTranslation::ErrorCodeTranslation(QObject* parent) : QObject(parent)
         "Fillet face does not exists!");
     _code2Desc[TOUINT(wy3d::ErrorCode::FILLET_GenerateFilletError)] = tr(
         "Generate fillet failed!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::FILLET_EdgeNotTwoFaces)] = tr(
+        "A fillet edge must have exactly two adjacent faces!");
 
     // Shell
     _code2Desc[TOUINT(wy3d::ErrorCode::SHELL_InvalidData)] = tr(

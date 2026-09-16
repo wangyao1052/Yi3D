@@ -19,7 +19,14 @@
 #ifndef WY3DAPP_CHAMFER_FILLET_CMD_COMMON_H
 #define WY3DAPP_CHAMFER_FILLET_CMD_COMMON_H
 
+#include <string>
 #include <vector>
+#include <TopoDS.hxx>
+#include <TopoDS_Face.hxx>
+#include <TopoDS_Shape.hxx>
+#include <TopExp.hxx>
+#include <TopTools_IndexedMapOfShape.hxx>
+#include <TopTools_IndexedDataMapOfShapeListOfShape.hxx>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wyapSelection.h>
@@ -42,15 +49,18 @@ public:
         if (!pDb) return false;
         if (sels.isEmpty()) return false;
 
-        // 执行倒角圆角的实体
+        // 执行倒角圆角的宿主(实体或片体)
         const wy3d::Solid* pConstSolid(nullptr);
+        const wy3d::Sheet* pConstSheet(nullptr);
         for (auto iter = sels.createIterator(); !iter.isDone(); iter.moveNext())
         {
-            pConstSolid = wy3d::Solid::cast(pDb->getElement(iter.current().getElementId()));
+            const wydb::Element* pElement = pDb->getElement(iter.current().getElementId());
+            pConstSolid = wy3d::Solid::cast(pElement);
+            pConstSheet = pConstSolid ? nullptr : wy3d::Sheet::cast(pElement);
             break;
         }
-        if (!pConstSolid) return false;
-        wydb::ElementId solidId = pConstSolid->getId();
+        if (!pConstSolid && !pConstSheet) return false;
+        wydb::ElementId hostId = pConstSolid ? pConstSolid->getId() : pConstSheet->getId();
 
         // 根据选择集提取边和面
         std::vector<unsigned int> edgeIndices, faceIndices;
@@ -59,7 +69,7 @@ public:
         for (auto iter = sels.createIterator(); !iter.isDone(); iter.moveNext())
         {
             const wyap::Selection& sel = iter.current();
-            if (sel.getElementId() != solidId) // 在选择过滤器中已经确保了只能选择单一主体的面或边
+            if (sel.getElementId() != hostId) // 在选择过滤器中已经确保了只能选择单一主体的面或边
             {
                 assert(false);
                 return false;
@@ -106,15 +116,22 @@ public:
         // 开启事务创建倒角圆角
         wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
         if (!pTrans) return false;
-        wy3d::Solid* pSolid = wy3d::Solid::cast(pTrans->getElementForWrite(solidId));
-        if (!pSolid)
+        wy3d::Feature* pHost = wy3d::Feature::cast(pTrans->getElementForWrite(hostId));
+        wy3d::Solid* pSolidHost = pHost ? wy3d::Solid::cast(pHost) : nullptr;
+        wy3d::Sheet* pSheetHost = (pHost && !pSolidHost) ? wy3d::Sheet::cast(pHost) : nullptr;
+        if (!pSolidHost && !pSheetHost)
         {
             assert(false);
             pDb->getTransactionManager()->abortTransaction();
             return false;
         }
+
+        // 宿主是实体还是片体决定了走哪个重载
         T* pChamferOrFillet(nullptr);
-        if (wy::ErrorStatus::Ok != T::create(pTrans, pSolid, faceIndices, edgeIndices, value, pChamferOrFillet))
+        const wy::ErrorStatus createStatus = pSolidHost
+            ? T::create(pTrans, pSolidHost, faceIndices, edgeIndices, value, pChamferOrFillet)
+            : T::create(pTrans, pSheetHost, faceIndices, edgeIndices, value, pChamferOrFillet);
+        if (wy::ErrorStatus::Ok != createStatus)
         {
             errorCode = static_cast<unsigned int>(CreateErrorCode);
             assert(false);
@@ -249,6 +266,55 @@ public:
         }
 
         return true;
+    }
+
+public:
+    // 选边选面时用的判据: 倒角与圆角共用
+
+    // 点选子路径 ---> 序号; std::stoul 会在悬停路径上抛异常, 此处自己解析
+    static bool parseSubPathIndex(const std::string& subPath, unsigned int& index)
+    {
+        if (subPath.empty()) return false;
+        unsigned long long value(0);
+        for (char c : subPath)
+        {
+            if (c < '0' || c > '9') return false;
+            value = value * 10 + static_cast<unsigned long long>(c - '0');
+            if (value > 0xFFFFFFFFull) return false;
+        }
+        index = static_cast<unsigned int>(value);
+        return true;
+    }
+
+    // 边是否恰好两个相邻面: 自由边只有一个, 非流形边多于两个, 都不能倒角圆角
+    static bool hasTwoAdjacentFaces(
+        const TopTools_IndexedDataMapOfShapeListOfShape& edgeFaceMap, const TopoDS_Shape& edge)
+    {
+        const int ancestorIndex = edgeFaceMap.FindIndex(edge);
+        if (0 == ancestorIndex) return false;
+        return 2 == edgeFaceMap.FindFromIndex(ancestorIndex).Extent();
+    }
+
+    // 面上能倒角圆角的边的序号(与点选的 MapShapes(EDGE) 同口径, 从0开始)
+    static std::vector<unsigned int> collectChamferableEdgeIndices(const TopoDS_Face& face,
+        const TopTools_IndexedMapOfShape& edgeMap,
+        const TopTools_IndexedDataMapOfShapeListOfShape& edgeFaceMap)
+    {
+        std::vector<unsigned int> edgeIndices;
+
+        TopTools_IndexedMapOfShape faceEdgeMap;
+        TopExp::MapShapes(face, TopAbs_ShapeEnum::TopAbs_EDGE, faceEdgeMap);
+        for (int i = 1; i <= faceEdgeMap.Extent(); ++i)
+        {
+            const TopoDS_Shape& edge = faceEdgeMap(i);
+            if (!hasTwoAdjacentFaces(edgeFaceMap, edge)) continue;
+
+            const int edgeIndex = edgeMap.FindIndex(edge);
+            if (0 == edgeIndex) continue;
+            edgeIndices.emplace_back(static_cast<unsigned int>(edgeIndex - 1));
+        }
+
+        return edgeIndices;
     }
 };
 

@@ -63,8 +63,8 @@ protected:
         bool isCut,
         wydb::ChainUpdateFeedbackCollector& feedbackCollector);
 
-    // 获取宿主实体(宿主是片体时返回空指针)
-    const wy3d::Solid* getSolid() const;
+    const wy3d::Solid* getSolidHost() const;
+    const wy3d::Sheet* getSheetHost() const;
 
     // 获取新生成的面
     const TopoNameList& getNewFaces() const { return _newFaces; }

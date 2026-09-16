@@ -70,6 +70,7 @@ enum class ErrorCode : std::uint32_t
     FILLET_EdgeNotExists                           = 1553, // 圆角边不存在
     FILLET_FaceNotExists                           = 1554, // 圆角面不存在
     FILLET_GenerateFilletError                     = 1555, // 圆角生成失败
+    FILLET_EdgeNotTwoFaces                         = 1556, // 圆角边必须恰好有两个相邻面
 
     // Shell
     SHELL_InvalidData                              = 1601, // 无效的抽壳数据
