@@ -18,6 +18,16 @@
 
 #include "headers.h"
 
+#include <wy3dNonParametricSheet.h>
+#include <wy3dNonParametricSolid.h>
+#include <wy3dMove.h>
+
+#include <Bnd_Box.hxx>
+#include <BRepBndLib.hxx>
+#include <BRepBuilderAPI_MakeFace.hxx>
+#include <BRepPrimAPI_MakeBox.hxx>
+#include <gp_Pln.hxx>
+
 TEST(Wy3d, Box)
 {
     std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
@@ -181,6 +191,157 @@ TEST(Wy3d, PrimitiveModify)
         EXPECT_EQ(pBox->getLength(), newLength);
         EXPECT_EQ(pBox->getWidth(), width);  // 宽、高不变
         EXPECT_EQ(pBox->getHeight(), height);
+    }
+}
+
+// A modification chain writes its result back into the body's own shape, so a body that cannot
+// rebuild its shape from parameters - a non-parametric (imported) one - has to keep the shape it
+// was built with and re-run from that. Otherwise every parameter change stacks onto the last
+// result, and the change after the first one goes twice as far as asked.
+TEST(Wy3d, NonParametricBodyRerunsFromItsOriginalShape)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
+
+    const auto minX = [](const TopoDS_Shape& shape)
+    {
+        Bnd_Box box;
+        BRepBndLib::Add(shape, box);
+        return box.CornerMin().X();
+    };
+
+    // A 10 x 20 x 30 box with a corner at the origin
+    NonParametricSolid* pSolid(nullptr);
+    {
+        wydb::Transaction* pTrans = pTransMgr->startTransaction();
+        EXPECT_EQ(NonParametricSolid::create(pTrans, BRepPrimAPI_MakeBox(10.0, 20.0, 30.0).Shape(), pSolid),
+            wy::ErrorStatus::Ok);
+        EXPECT_EQ(pTransMgr->endTransaction(), wy::ErrorStatus::Ok);
+        ASSERT_NE(pSolid, nullptr);
+    }
+    EXPECT_NEAR(minX(pSolid->getShape()), 0.0, 1e-6);
+
+    Move* pMove(nullptr);
+    {
+        wydb::Transaction* pTrans = pTransMgr->startTransaction();
+        wy3d::Solid* pSolidWrite = wy3d::Solid::cast(pTrans->getElementForWrite(pSolid->getId()));
+        ASSERT_NE(pSolidWrite, nullptr);
+        EXPECT_EQ(Move::create(pTrans, pSolidWrite, wy::Vector3(100.0, 0.0, 0.0), pMove), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pTransMgr->endTransaction(), wy::ErrorStatus::Ok);
+        ASSERT_NE(pMove, nullptr);
+    }
+    EXPECT_NEAR(minX(pSolid->getShape()), 100.0, 1e-6);
+
+    // Each new vector moves the body from where it was built, not from where the last one left it
+    for (double x : { 200.0, 50.0 })
+    {
+        wydb::Transaction* pTrans = pTransMgr->startTransaction();
+        Move* pMoveWrite = Move::cast(pTrans->getElementForWrite(pMove->getId()));
+        ASSERT_NE(pMoveWrite, nullptr);
+        EXPECT_EQ(pMoveWrite->setVector(wy::Vector3(x, 0.0, 0.0)), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pTransMgr->endTransaction(), wy::ErrorStatus::Ok);
+
+        const wy3d::Solid* pBody = wy3d::Solid::cast(pDb->getElement(pSolid->getId()));
+        ASSERT_NE(pBody, nullptr);
+        EXPECT_NEAR(minX(pBody->getShape()), x, 1e-6) << "move x = " << x;
+    }
+
+    // The shape it was built with is what a reload has to start from, so it is persisted
+    {
+        const std::string filePath("./test_nonparam_solid.wy3dt");
+        EXPECT_EQ(pDb->writeFile(filePath, { wydb::FileType::Text }), wy::ErrorStatus::Ok);
+
+        std::unique_ptr<wy3d::Database> pReloadedDb = std::make_unique<wy3d::Database>();
+        ASSERT_EQ(pReloadedDb->readFile(filePath, { wydb::FileType::Text }), wy::ErrorStatus::Ok);
+        std::remove(filePath.c_str());
+
+        const wy3d::Solid* pBody = wy3d::Solid::cast(pReloadedDb->getElement(pSolid->getId()));
+        ASSERT_NE(pBody, nullptr);
+        EXPECT_NEAR(minX(pBody->getShape()), 50.0, 1e-6);
+
+        wydb::TransactionManager* pTransMgr = pReloadedDb->getTransactionManager();
+        wydb::Transaction* pTrans = pTransMgr->startTransaction();
+        Move* pMoveWrite = Move::cast(pTrans->getElementForWrite(pMove->getId()));
+        ASSERT_NE(pMoveWrite, nullptr);
+        EXPECT_EQ(pMoveWrite->setVector(wy::Vector3(300.0, 0.0, 0.0)), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pTransMgr->endTransaction(), wy::ErrorStatus::Ok);
+
+        pBody = wy3d::Solid::cast(pReloadedDb->getElement(pSolid->getId()));
+        ASSERT_NE(pBody, nullptr);
+        EXPECT_NEAR(minX(pBody->getShape()), 300.0, 1e-6);
+    }
+}
+
+// The source shape of a non-parametric sheet can be swapped for another one: the sheet keeps its
+// identity and recomputes, and what goes into the undo record is the replacement itself - not only
+// the shape it produced
+TEST(Wy3d, NonParametricSheetReplacesItsSourceShape)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
+
+    const auto minX = [](const TopoDS_Shape& shape)
+    {
+        Bnd_Box box;
+        BRepBndLib::Add(shape, box);
+        return box.CornerMin().X();
+    };
+    const auto faceAt = [](double x)
+    {
+        BRepBuilderAPI_MakeFace face(
+            gp_Pln(gp_Pnt(x, 0.0, 0.0), gp_Dir(0.0, 0.0, 1.0)), 0.0, 10.0, 0.0, 20.0);
+        return face.Shape();
+    };
+
+    NonParametricSheet* pSheet(nullptr);
+    wydb::ElementId sheetId = wydb::ElementId::kNull;
+    {
+        wydb::Transaction* pTrans = pTransMgr->startTransaction();
+        EXPECT_EQ(NonParametricSheet::create(pTrans, faceAt(0.0), pSheet), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pTransMgr->endTransaction(), wy::ErrorStatus::Ok);
+        ASSERT_NE(pSheet, nullptr);
+        sheetId = pSheet->getId();
+    }
+    EXPECT_NEAR(minX(pSheet->getShape()), 0.0, 1e-6);
+
+    // Another face goes in, the same element comes out
+    {
+        wydb::Transaction* pTrans = pTransMgr->startTransaction();
+        NonParametricSheet* pSheetWrite =
+            NonParametricSheet::cast(pTrans->getElementForWrite(sheetId));
+        ASSERT_NE(pSheetWrite, nullptr);
+        EXPECT_EQ(pSheetWrite->setSourceShape(faceAt(100.0)), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pTransMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    const NonParametricSheet* pSheetNow = NonParametricSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheetNow, nullptr);
+    EXPECT_NEAR(minX(pSheetNow->getShape()), 100.0, 1e-6);
+
+    // Undo puts the first face back, redo the second one
+    ASSERT_EQ(pTransMgr->undo(), wy::ErrorStatus::Ok);
+    pSheetNow = NonParametricSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheetNow, nullptr);
+    EXPECT_NEAR(minX(pSheetNow->getShape()), 0.0, 1e-6);
+
+    ASSERT_EQ(pTransMgr->redo(), wy::ErrorStatus::Ok);
+    pSheetNow = NonParametricSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheetNow, nullptr);
+    EXPECT_NEAR(minX(pSheetNow->getShape()), 100.0, 1e-6);
+
+    // Undoing once more leaves the first face as the source too, and a reload rebuilds from that
+    // source rather than from the shape that was undone
+    ASSERT_EQ(pTransMgr->undo(), wy::ErrorStatus::Ok);
+    {
+        const std::string filePath("./test_nonparam_sheet.wy3dt");
+        EXPECT_EQ(pDb->writeFile(filePath, { wydb::FileType::Text }), wy::ErrorStatus::Ok);
+
+        std::unique_ptr<wy3d::Database> pReloadedDb = std::make_unique<wy3d::Database>();
+        ASSERT_EQ(pReloadedDb->readFile(filePath, { wydb::FileType::Text }), wy::ErrorStatus::Ok);
+        std::remove(filePath.c_str());
+
+        const wy3d::Sheet* pReloaded = wy3d::Sheet::cast(pReloadedDb->getElement(sheetId));
+        ASSERT_NE(pReloaded, nullptr);
+        EXPECT_NEAR(minX(pReloaded->getShape()), 0.0, 1e-6);
     }
 }
 

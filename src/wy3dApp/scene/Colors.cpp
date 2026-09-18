@@ -75,6 +75,7 @@ const osg::Vec4 Colors::kSheetFace_Highlight(0.0f, 0.60f, 0.0f, 1.0f);     // �
 const osg::Vec4 Colors::kSheetEdge_Highlight(0.0f, 0.93f, 0.0f, 1.0f);      // 亮绿色(同Solid)
 const osg::Vec4 Colors::kSheetFace_Preview(0.70f, 0.43f, 0.29f, 1.0f);      // 暗橙色(同Solid)
 const osg::Vec4 Colors::kSheetEdge_Preview(0.30f, 0.20f, 0.10f, 1.0f);      // 深棕色(同Solid)
+const osg::Vec4 Colors::kSheetFace_New(0.251f, 0.682f, 1.0f, 1.0f);        // 淡天蓝色 #40AEFF
 
 // transparent
 const osg::Vec4 Colors::kTransparent(0.72f, 0.25f, 0.15f, 0.4f); // 暗黄色

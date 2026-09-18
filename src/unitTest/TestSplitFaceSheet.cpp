@@ -823,8 +823,12 @@ TEST(SplitFaceSheet, DownstreamOffsetSheet)
     const wy3d::OffsetSheet* pOffset = wy3d::OffsetSheet::cast(pDb->getElement(offsetId));
     ASSERT_NE(pOffset, nullptr);
     EXPECT_EQ(getChainErrorCode(pDb.get(), offsetId), 0u);
-    EXPECT_EQ(countFaces(pOffset->getShape()), 5);
-    expectAllTopoNamed(pOffset);
+
+    // The offset is a modification of the sheet, not a body of its own: the sheet keeps the five
+    // faces the split left it and gains a whole offset copy of itself beside them
+    EXPECT_EQ(countFaces(pSheet->getShape()), 10);
+    EXPECT_EQ(countShells(pSheet->getShape()), 2);
+    expectAllTopoNamed(pSheet);
 }
 
 // --- Solidify downstream of a split sheet ---

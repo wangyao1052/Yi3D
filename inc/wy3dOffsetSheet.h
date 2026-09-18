@@ -19,33 +19,41 @@
 #ifndef WY3D_OFFSET_SHEET_H
 #define WY3D_OFFSET_SHEET_H
 
+#include <cstdint>
+#include <vector>
 #include <wy3dDefs.h>
+#include <wy3dErrorCode.h>
 #include <wy3dSheet.h>
+#include <wy3dBodyModification.h>
 
 NS_WY3D_BEG
 
-class WY3D_EXPORT OffsetSheet : public wy3d::Sheet
+class WY3D_EXPORT OffsetSheet : public wy3d::BodyModification
 {
-    WYDB_DECLARE_MEMBERS(OffsetSheet, wy3d::OffsetSheet, wy3d::Sheet)
+    WYDB_DECLARE_MEMBERS(OffsetSheet, wy3d::OffsetSheet, wy3d::BodyModification)
 
 public:
+    enum class Target
+    {
+        WholeSheet    = 0,
+        SelectedFaces = 1,
+    };
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
-        wy3d::Sheet* pSource,
+        wy3d::Sheet* pSheet,
         double offset,
         OffsetSheet*& pOut);
 
-    virtual std::vector<wydb::ElementId> getChildren() const override
-    {
-        std::vector<wydb::ElementId> children;
-        std::vector<wydb::ElementId> baseChildren = __baseClass::getChildren();
-        children.reserve(1 + baseChildren.size());
-        if (!_sourceId.isNull()) children.emplace_back(_sourceId);
-        children.insert(children.cend(), baseChildren.cbegin(), baseChildren.cend());
-        return children;
-    }
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        wy3d::Sheet* pSheet,
+        const std::vector<unsigned int>& faceIndices,
+        double offset,
+        OffsetSheet*& pOut);
 
-    const wydb::ElementId& getSource() const { return _sourceId; }
+    Target getTarget() const { return _target; }
+    const TopoNameList& getFaceNames() const { return _faceNames; }
 
     double getOffset() const { return _offset; }
     wy::ErrorStatus setOffset(double offset);
@@ -66,21 +74,26 @@ protected:
     virtual wy::ErrorStatus writeToFiler(wydb::OutFiler& filer) const override;
     virtual wy::ErrorStatus readFromFiler(wydb::InFiler& filer) override;
 
-    virtual void reportDependencies(
-        std::set<wydb::ElementId>& dependencies) const override;
-    virtual bool onDependenciesErased(
-        const std::set<wydb::ElementId>& erasedDependencies) override;
-
-    virtual TopoDS_Shape generateShape(
+    virtual std::pair<bool, TopoDS_Shape> modifyOwnerShape(
+        const TopoDS_Shape& shape,
         TopoNaming* pTopoNaming,
         wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
 
 private:
-    wy::ErrorStatus setSource(const wydb::ElementId& sourceId);
-    wy::ErrorStatus setSource(wy3d::Sheet* pSource); // only called by create
+    static wy::ErrorStatus createImpl(
+        wydb::Transaction* pTrans,
+        wy3d::Sheet* pSheet,
+        Target target,
+        const std::vector<unsigned int>& faceIndices,
+        double offset,
+        OffsetSheet*& pOut);
+
+    wy::ErrorStatus setTargetImpl(Target target);
+    wy::ErrorStatus setFaceNamesImpl(const TopoNameList& faceNames);
 
 protected:
-    wydb::ElementId _sourceId;
+    Target _target;
+    TopoNameList _faceNames;
     double _offset;
 };
 

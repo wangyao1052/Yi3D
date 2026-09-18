@@ -77,6 +77,8 @@ protected:
     std::shared_ptr<SketchError> newErrorOfUndefined() const;
 };
 
+class SketchProfileForSheet;
+
 class SketchCurveGraph_Profile : public SketchCurveGraph
 {
 public:
@@ -186,6 +188,8 @@ public:
     const std::vector<CurveFaceSPtr>& getFaces() const { return _faces; }
 
 private:
+    friend class SketchProfileForSheet;
+
     // 深度优先搜索找环
     bool dfsFindCycle(
         std::vector<bool>& used,

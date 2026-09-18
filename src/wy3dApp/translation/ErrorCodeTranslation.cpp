@@ -150,6 +150,12 @@ ErrorCodeTranslation::ErrorCodeTranslation(QObject* parent) : QObject(parent)
         "Invalid offset sheet data!");
     _code2Desc[TOUINT(wy3d::ErrorCode::OFFSETSHEET_GenerateError)] = tr(
         "Generate offset sheet failed!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::OFFSETSHEET_FaceNotExists)] = tr(
+        "The face to offset does not exist!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::OFFSETSHEET_NoFaceSelected)] = tr(
+        "No face is selected to offset!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::OFFSETSHEET_InvalidOffset)] = tr(
+        "Invalid offset distance!");
 
     // PlanarSheet
     _code2Desc[TOUINT(wy3d::ErrorCode::PLANARSHEET_InvalidData)] = tr(

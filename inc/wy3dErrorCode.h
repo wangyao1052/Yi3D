@@ -95,6 +95,9 @@ enum class ErrorCode : std::uint32_t
     // OffsetSheet
     OFFSETSHEET_InvalidData                         = 1801, // 无效的偏置曲面数据
     OFFSETSHEET_GenerateError                       = 1802, // 偏置曲面生成失败
+    OFFSETSHEET_FaceNotExists                       = 1803, // 要偏置的面不存在
+    OFFSETSHEET_NoFaceSelected                      = 1805, // 没有选定要偏置的面
+    OFFSETSHEET_InvalidOffset                       = 1806, // 偏置距离无效
 
     // PlanarSheet
     PLANARSHEET_InvalidData                         = 1851, // 无效的平面片体数据

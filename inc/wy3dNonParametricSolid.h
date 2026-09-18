@@ -40,6 +40,11 @@ protected:
     virtual TopoDS_Shape generateShape(
         TopoNaming* pTopoNaming,
         wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
+
+private:
+    void setSourceShape(const TopoDS_Shape& shape);
+
+    TopoDS_Shape _sourceShape;
 };
 
 NS_WY3D_END

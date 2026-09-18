@@ -18,6 +18,7 @@
 
 #include <cassert>
 #include <wydbDatabase.h>
+#include <wydbFieldRegistry.h>
 #include <wydbFiler.h>
 #include <wydbTransaction.h>
 #include <wy3dNonParametricSheet.h>
@@ -28,6 +29,10 @@
 NS_WY3D_BEG
 
 WYDB_IMPLEMENT_MEMBERS(NonParametricSheet)
+
+BEGIN_FIELD_REGISTRATION()
+    REGISTER_FIELD(NonParametricSheet, _sourceShape)
+END_FIELD_REGISTRATION()
 
 NonParametricSheet::NonParametricSheet() : wy3d::Sheet()
 {
@@ -60,11 +65,58 @@ wy::ErrorStatus NonParametricSheet::create(wydb::Transaction* pTrans, const Topo
         return error;
     }
 
+    error = pSheet->setSourceShape(shape);
+    CHECK_ERROR_FOR_CREATE(error, pSheet)
     error = pSheet->setShapeImpl(shape);
     CHECK_ERROR_FOR_CREATE(error, pSheet)
 
     pOut = pSheet;
     return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus NonParametricSheet::setSourceShape(const TopoDS_Shape& shape)
+{
+    if (shape.IsNull()) return wy::ErrorStatus::InvalidInput;
+
+    wy::ErrorStatus error = this->prepareForFieldChange(
+        kNonParametricSheet_sourceShape, wydb::ElementDataPieceType::Shape);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _sourceShape = shape;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+bool NonParametricSheet::getFieldValue(wydb::FieldId fieldId, std::any& value)
+{
+    switch (fieldId.value())
+    {
+    case kNonParametricSheet_sourceShape.value():
+        value = _sourceShape;
+        return true;
+    default:
+        bool baseRet = __baseClass::getFieldValue(fieldId, value);
+        assert(baseRet);
+        return baseRet;
+    }
+}
+
+bool NonParametricSheet::setFieldValue(wydb::FieldId fieldId, const std::any& value)
+{
+    switch (fieldId.value())
+    {
+    case kNonParametricSheet_sourceShape.value():
+        _sourceShape = std::any_cast<const TopoDS_Shape&>(value);
+        return true;
+    default:
+        bool baseRet = __baseClass::setFieldValue(fieldId, value);
+        assert(baseRet);
+        return baseRet;
+    }
 }
 
 void NonParametricSheet::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
@@ -76,7 +128,7 @@ wy::ErrorStatus NonParametricSheet::writeToFiler(wydb::OutFiler& f) const
     __baseClass::writeToFiler(f);
 
     std::string b64ShapeData;
-    try { b64ShapeData = StringUtil::shapeToBase64(_shape); }
+    try { b64ShapeData = StringUtil::shapeToBase64(_sourceShape); }
     catch (...) { assert(false); b64ShapeData = ""; }
     f << b64ShapeData;
 
@@ -89,8 +141,8 @@ wy::ErrorStatus NonParametricSheet::readFromFiler(wydb::InFiler& f)
 
     std::string b64ShapeData;
     f >> b64ShapeData;
-    try { _shape = StringUtil::base64ToShape(b64ShapeData); }
-    catch (...) { _shape = TopoDS_Shape(); }
+    try { _sourceShape = StringUtil::base64ToShape(b64ShapeData); }
+    catch (...) { _sourceShape = TopoDS_Shape(); }
 
     return wy::ErrorStatus::Ok;
 }
@@ -100,9 +152,8 @@ TopoDS_Shape NonParametricSheet::generateShape(
     wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
     assert(pTopoNaming);
-    const TopoDS_Shape& shape = this->getShape();
-    TopoNamingUtil::primitiveNaming(shape, this->getId().value(), *pTopoNaming);
-    return shape;
+    TopoNamingUtil::primitiveNaming(_sourceShape, this->getId().value(), *pTopoNaming);
+    return _sourceShape;
 }
 
 NS_WY3D_END

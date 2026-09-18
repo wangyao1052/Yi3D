@@ -30,6 +30,8 @@ public:
     explicit OffsetSheetCmdPanel(QWidget* parent = nullptr);
 
     void setOffsetValue(double value);
+    // 实体面入口: 距离小到阈值以下等于复制面, 不做小值校验
+    void setSmallValueAllowed(bool value);
 
 signals:
     void offsetChanged(double value);
@@ -40,6 +42,7 @@ private slots:
 private:
     QLineEdit* _pOffsetEdit;
     double _lastValidOffset;
+    bool _isSmallValueAllowed;
 };
 
 #endif // WY3DAPP_OFFSET_SHEET_CMD_PANEL_H

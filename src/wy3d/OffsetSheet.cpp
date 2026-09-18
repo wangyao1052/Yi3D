@@ -18,13 +18,15 @@
 
 #include <cassert>
 #include <cmath>
+#include <memory>
+#include <vector>
 
-#include <BRepOffsetAPI_MakeOffsetShape.hxx>
-#include <BRepOffset_Mode.hxx>
-#include <GeomAbs_JoinType.hxx>
-#include <TopoDS.hxx>
-#include <TopExp_Explorer.hxx>
 #include <BRep_Builder.hxx>
+#include <BRepOffsetAPI_MakeOffsetShape.hxx>
+#include <Standard_Failure.hxx>
+#include <TopoDS_Compound.hxx>
+#include <TopExp.hxx>
+#include <TopTools_IndexedMapOfShape.hxx>
 
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
@@ -34,23 +36,28 @@
 #include <wy3dSheet.h>
 #include <wy3dImpl.h>
 #include <wy3dParamNames.h>
+#include <wy3dParamEnumDef.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
+#include <utils/wy3dSheetOffsetUtil.h>
 
 #include "topo/TopoNamingUtil.h"
+#include "topo/OffsetSheetTopoShapeComparer.h"
+#include "BodyModificationUtil.h"
+#include "utils/FilerUtil.h"
 #include "utils/Util.h"
 
 NS_WY3D_BEG
+
 WYDB_IMPLEMENT_MEMBERS(OffsetSheet)
 
 BEGIN_FIELD_REGISTRATION()
-    REGISTER_FIELD(OffsetSheet, _sourceId)
+    REGISTER_FIELD(OffsetSheet, _target)
+    REGISTER_FIELD(OffsetSheet, _faceNames)
     REGISTER_FIELD(OffsetSheet, _offset)
 END_FIELD_REGISTRATION()
 
-OffsetSheet::OffsetSheet() : wy3d::Sheet(),
-    _sourceId(wydb::ElementId::kNull),
-    _offset(0.0)
+OffsetSheet::OffsetSheet() : wy3d::BodyModification(), _target(Target::WholeSheet), _offset(0.0)
 {
 }
 
@@ -60,55 +67,99 @@ OffsetSheet::~OffsetSheet()
 
 wy::ErrorStatus OffsetSheet::create(
     wydb::Transaction* pTrans,
-    wy3d::Sheet* pSource,
+    wy3d::Sheet* pSheet,
     double offset,
     OffsetSheet*& pOut)
 {
-    if (!pTrans)
+    return createImpl(pTrans, pSheet, Target::WholeSheet, std::vector<unsigned int>(), offset, pOut);
+}
+
+wy::ErrorStatus OffsetSheet::create(
+    wydb::Transaction* pTrans,
+    wy3d::Sheet* pSheet,
+    const std::vector<unsigned int>& faceIndices,
+    double offset,
+    OffsetSheet*& pOut)
+{
+    return createImpl(pTrans, pSheet, Target::SelectedFaces, faceIndices, offset, pOut);
+}
+
+wy::ErrorStatus OffsetSheet::createImpl(
+    wydb::Transaction* pTrans,
+    wy3d::Sheet* pSheet,
+    Target target,
+    const std::vector<unsigned int>& faceIndices,
+    double offset,
+    OffsetSheet*& pOut)
+{
+    pOut = nullptr;
+
+    if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
+    if (!pSheet) return wy::ErrorStatus::NullElementPointer;
+
+    TopoNameList faceNames;
+    if (Target::SelectedFaces == target)
     {
-        pOut = nullptr;
-        return wy::ErrorStatus::NullDatabasePointer;
-    }
-    if (!pSource)
-    {
-        pOut = nullptr;
-        return wy::ErrorStatus::NullElementPointer;
-    }
-    if (std::fabs(offset) < wy3d::kMinValue ||
-        std::fabs(offset) > wy3d::kMaxValue)
-    {
-        pOut = nullptr;
-        return wy::ErrorStatus::InvalidInput;
+        if (faceIndices.empty()) return wy::ErrorStatus::InvalidInput;
+        const TopoNaming* pTopoNaming = pSheet->getTopoNaming();
+        if (!pTopoNaming)
+        {
+            assert(false);
+            return wy::ErrorStatus::InvalidInput;
+        }
+        if (!TopoNamingUtil::assemblyTopoNames(*pTopoNaming, pSheet->getShape(),
+            TopAbs_ShapeEnum::TopAbs_FACE, faceIndices, faceNames))
+        {
+            return wy::ErrorStatus::InvalidInput;
+        }
+        if (faceNames.empty())
+        {
+            assert(false);
+            return wy::ErrorStatus::InvalidInput;
+        }
     }
 
-    OffsetSheet* pObj = new OffsetSheet();
-    wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pObj);
+    OffsetSheet* pOffsetSheet = new OffsetSheet();
+    wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pOffsetSheet);
     if (wy::ErrorStatus::Ok != error)
     {
-        wydb::deleteElement(pObj);
-        pObj = nullptr;
+        wydb::deleteElement(pOffsetSheet);
+        pOffsetSheet = nullptr;
         return error;
     }
 
-    error = pObj->setSource(pSource);
-    CHECK_ERROR_FOR_CREATE(error, pObj);
-    error = pObj->setOffset(offset);
-    CHECK_ERROR_FOR_CREATE(error, pObj);
+    error = pOffsetSheet->setTargetImpl(target);
+    CHECK_ERROR_FOR_CREATE(error, pOffsetSheet);
+    if (Target::SelectedFaces == target)
+    {
+        error = pOffsetSheet->setFaceNamesImpl(faceNames);
+        CHECK_ERROR_FOR_CREATE(error, pOffsetSheet);
+    }
+    error = pOffsetSheet->setOffset(offset);
+    CHECK_ERROR_FOR_CREATE(error, pOffsetSheet);
 
-    pOut = pObj;
+    error = pSheet->addModification(pOffsetSheet);
+    CHECK_ERROR_FOR_CREATE(error, pOffsetSheet);
+
+    pOut = pOffsetSheet;
     return wy::ErrorStatus::Ok;
 }
 
-wy::ErrorStatus OffsetSheet::setSource(const wydb::ElementId& sourceId)
+wy::ErrorStatus OffsetSheet::setTargetImpl(Target target)
 {
-    if (sourceId == _sourceId)
+    if (target < Target::WholeSheet || target > Target::SelectedFaces)
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+    if (target == _target)
     {
         return wy::ErrorStatus::Ok;
     }
-    wy::ErrorStatus error = this->prepareForFieldChange(kOffsetSheet_sourceId);
+    wy::ErrorStatus error = this->prepareForFieldChange(
+        kOffsetSheet_target, wydb::ElementDataPieceType::Shape);
     if (wy::ErrorStatus::Ok == error)
     {
-        _sourceId = sourceId;
+        _target = target;
         return wy::ErrorStatus::Ok;
     }
     else
@@ -117,24 +168,23 @@ wy::ErrorStatus OffsetSheet::setSource(const wydb::ElementId& sourceId)
     }
 }
 
-wy::ErrorStatus OffsetSheet::setSource(wy3d::Sheet* pSource)
+wy::ErrorStatus OffsetSheet::setFaceNamesImpl(const TopoNameList& faceNames)
 {
-    assert(_sourceId.isNull());
-
-    if (!pSource)
+    if (faceNames == _faceNames)
     {
-        return wy::ErrorStatus::NullElementPointer;
+        return wy::ErrorStatus::Ok;
     }
-
-    wy::ErrorStatus error(wy::ErrorStatus::Ok);
-    assert(!pSource->getId().isNull());
-    error = this->setSource(pSource->getId());
-    if (wy::ErrorStatus::Ok != error)
+    wy::ErrorStatus error = this->prepareForFieldChange(
+        kOffsetSheet_faceNames, wydb::ElementDataPieceType::Shape);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _faceNames = faceNames;
+        return wy::ErrorStatus::Ok;
+    }
+    else
     {
         return error;
     }
-
-    return wy::ErrorStatus::Ok;
 }
 
 wy::ErrorStatus OffsetSheet::setOffset(double offset)
@@ -165,7 +215,7 @@ void OffsetSheet::registerParameters(wydb::ParameterSchemaExtension* pParamSchem
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::OFFSETSHEET_PARAM_SOURCE;
+        def.name = ParamNames::OFFSETSHEET_PARAM_TARGET;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
@@ -182,9 +232,13 @@ wydb::ParameterValueUPtr OffsetSheet::getParameterValue(
 {
     if (className == OffsetSheet::classInfo()->className())
     {
-        if (ParamNames::OFFSETSHEET_PARAM_SOURCE == paramName)
+        if (ParamNames::OFFSETSHEET_PARAM_TARGET == paramName)
         {
-            return wydb::ParameterValue::createInteger(_sourceId.value());
+            return wydb::ParameterValue::createAny(
+                wy3d::ParamEnumDef(
+                    {{static_cast<int>(Target::WholeSheet), "Whole Sheet"},
+                     {static_cast<int>(Target::SelectedFaces), "Selected Faces"}},
+                    static_cast<int>(_target)));
         }
         else if (ParamNames::OFFSETSHEET_PARAM_OFFSET == paramName)
         {
@@ -205,9 +259,8 @@ wy::ErrorStatus OffsetSheet::setParameterValue(
 {
     if (className == OffsetSheet::classInfo()->className())
     {
-        if (ParamNames::OFFSETSHEET_PARAM_SOURCE == paramName)
+        if (ParamNames::OFFSETSHEET_PARAM_TARGET == paramName)
         {
-            assert(false);
             return wy::ErrorStatus::ParameterReadonly;
         }
         else if (ParamNames::OFFSETSHEET_PARAM_OFFSET == paramName)
@@ -230,8 +283,11 @@ bool OffsetSheet::getFieldValue(wydb::FieldId fieldId, std::any& value)
 {
     switch (fieldId.value())
     {
-    case kOffsetSheet_sourceId.value():
-        value = _sourceId;
+    case kOffsetSheet_target.value():
+        value = _target;
+        return true;
+    case kOffsetSheet_faceNames.value():
+        value = _faceNames;
         return true;
     case kOffsetSheet_offset.value():
         value = _offset;
@@ -247,8 +303,11 @@ bool OffsetSheet::setFieldValue(wydb::FieldId fieldId, const std::any& value)
 {
     switch (fieldId.value())
     {
-    case kOffsetSheet_sourceId.value():
-        _sourceId = std::any_cast<const wydb::ElementId&>(value);
+    case kOffsetSheet_target.value():
+        _target = std::any_cast<Target>(value);
+        return true;
+    case kOffsetSheet_faceNames.value():
+        _faceNames = std::any_cast<const TopoNameList&>(value);
         return true;
     case kOffsetSheet_offset.value():
         _offset = std::any_cast<double>(value);
@@ -263,162 +322,132 @@ bool OffsetSheet::setFieldValue(wydb::FieldId fieldId, const std::any& value)
 wy::ErrorStatus OffsetSheet::writeToFiler(wydb::OutFiler& filer) const
 {
     __baseClass::writeToFiler(filer);
-    filer << _sourceId << _offset;
+
+    filer << static_cast<std::int32_t>(_target) << _offset;
+    FilerUtil::writeVector(filer, _faceNames);
+
     return wy::ErrorStatus::Ok;
 }
 
 wy::ErrorStatus OffsetSheet::readFromFiler(wydb::InFiler& filer)
 {
     __baseClass::readFromFiler(filer);
-    filer >> _sourceId >> _offset;
+
+    std::int32_t target(0);
+    filer >> target >> _offset;
+    _target = static_cast<Target>(target);
+    FilerUtil::readTopoNameList(filer, _faceNames);
+
     return wy::ErrorStatus::Ok;
 }
 
-void OffsetSheet::reportDependencies(std::set<wydb::ElementId>& dependencies) const
-{
-    __baseClass::reportDependencies(dependencies);
-    if (!_sourceId.isNull())
-    {
-        dependencies.insert(_sourceId);
-    }
-}
-
-bool OffsetSheet::onDependenciesErased(
-    const std::set<wydb::ElementId>& erasedDependencies)
-{
-    if (!_sourceId.isNull() &&
-        erasedDependencies.find(_sourceId) != erasedDependencies.cend())
-    {
-        this->erase(true);
-        this->setSource(wydb::ElementId::kNull);
-        return true;
-    }
-    else
-    {
-        return __baseClass::onDependenciesErased(erasedDependencies);
-    }
-}
-
-TopoDS_Shape OffsetSheet::generateShape(
+std::pair<bool, TopoDS_Shape> OffsetSheet::modifyOwnerShape(
+    const TopoDS_Shape& shape,
     TopoNaming* pTopoNaming,
     wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
     assert(pTopoNaming);
-    wydb::Database* pDb = this->getDatabase();
-    assert(pDb);
+    this->clearNewFaces();
 
-    const wy3d::Sheet* pSource = wy3d::Sheet::cast(pDb->getElement(_sourceId));
-    if (!pSource)
+    const auto reportError = [&](ErrorCode errorCode)
     {
-        assert(false);
         wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
-            static_cast<std::uint32_t>(ErrorCode::OFFSETSHEET_InvalidData));
-        return TopoDS_Shape();
-    }
+            static_cast<std::uint32_t>(errorCode));
+    };
 
-    TopoDS_Shape sourceShape = pSource->getShape();
-    if (sourceShape.IsNull())
+    if (shape.IsNull())
     {
         assert(false);
-        wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
-            static_cast<std::uint32_t>(ErrorCode::OFFSETSHEET_InvalidData));
-        return TopoDS_Shape();
+        reportError(ErrorCode::OFFSETSHEET_InvalidData);
+        return std::pair<bool, TopoDS_Shape>(false, shape);
     }
 
-    // collect all shells (recursively)
-    std::vector<TopoDS_Shell> sourceShells;
-    TopAbs_ShapeEnum sourceShapeType = sourceShape.ShapeType();
-    if (sourceShapeType == TopAbs_SHELL)
-    {
-        sourceShells.push_back(TopoDS::Shell(sourceShape));
-    }
-    else if (sourceShapeType == TopAbs_COMPOUND)
-    {
-        for (TopExp_Explorer ex(sourceShape, TopAbs_SHELL); ex.More(); ex.Next())
-            sourceShells.push_back(TopoDS::Shell(ex.Current()));
-    }
-    else
+    if (std::fabs(_offset) < wy3d::kMinValue || std::fabs(_offset) > wy3d::kMaxValue)
     {
         assert(false);
-    }
-    if (sourceShells.empty())
-    {
-        assert(false);
-        wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
-            static_cast<std::uint32_t>(ErrorCode::OFFSETSHEET_InvalidData));
-        return TopoDS_Shape();
+        reportError(ErrorCode::OFFSETSHEET_InvalidOffset);
+        return std::pair<bool, TopoDS_Shape>(false, shape);
     }
 
-    unsigned int idValue = this->getId().value();
-    const TopoNaming* pSourceNaming = pSource->getTopoNaming();
+    std::vector<TopoDS_Face> targetFaces;
+    if (Target::SelectedFaces == _target)
+    {
+        if (_faceNames.empty())
+        {
+            reportError(ErrorCode::OFFSETSHEET_NoFaceSelected);
+            return std::pair<bool, TopoDS_Shape>(false, shape);
+        }
+        const ErrorCode errorCode = BodyModificationUtil::getTopoFacesByTopoNamings<
+            ErrorCode::OFFSETSHEET_InvalidData,
+            ErrorCode::OFFSETSHEET_FaceNotExists>(*pTopoNaming, _faceNames, targetFaces);
+        if (ErrorCode::NoError != errorCode)
+        {
+            reportError(errorCode);
+            return std::pair<bool, TopoDS_Shape>(false, shape);
+        }
+        if (!SheetOffsetUtil::findFaceOccurrences(shape, targetFaces))
+        {
+            reportError(ErrorCode::OFFSETSHEET_FaceNotExists);
+            return std::pair<bool, TopoDS_Shape>(false, shape);
+        }
+    }
+
     try
     {
-        std::vector<TopoDS_Shell> resultShells;
-        for (const TopoDS_Shell& sourceShell : sourceShells)
+        std::vector<TopoDS_Shape> regions;
+        const bool collected = (Target::WholeSheet == _target)
+            ? SheetOffsetUtil::collectShellRegions(shape, regions)
+            : SheetOffsetUtil::collectFaceRegions(shape, targetFaces, regions);
+        if (!collected || regions.empty())
         {
-            BRepOffsetAPI_MakeOffsetShape mkOffset;
-            mkOffset.PerformByJoin(sourceShell, _offset, wy3d::TOL * 10,
-                BRepOffset_Skin, Standard_False, Standard_False,
-                GeomAbs_Intersection);
-            if (!mkOffset.IsDone())
-            {
-                assert(false);
-                wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
-                    static_cast<std::uint32_t>(ErrorCode::OFFSETSHEET_GenerateError));
-                return TopoDS_Shape();
-            }
-
-            TopoDS_Shape resultShape = mkOffset.Shape();
-            if (resultShape.IsNull())
-            {
-                assert(false);
-                wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
-                    static_cast<std::uint32_t>(ErrorCode::OFFSETSHEET_GenerateError));
-                return TopoDS_Shape();
-            }
-
-            TopAbs_ShapeEnum shapeType = resultShape.ShapeType();
-            if (resultShape.ShapeType() == TopAbs_SHELL)
-            {
-                resultShells.push_back(TopoDS::Shell(resultShape));
-            }
-            else
-            {
-                wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
-                    static_cast<std::uint32_t>(ErrorCode::OFFSETSHEET_GenerateError));
-                return TopoDS_Shape();
-            }
-
-            // name offset faces/edges from source
-            if (pSourceNaming)
-            {
-                TopoNamingUtil::naming(sourceShell, *pSourceNaming, mkOffset, idValue, *pTopoNaming);
-            }
+            reportError(ErrorCode::OFFSETSHEET_GenerateError);
+            return std::pair<bool, TopoDS_Shape>(false, shape);
         }
 
-        if (resultShells.empty())
+        // 逐区域偏置
+        std::vector<std::shared_ptr<BRepOffsetAPI_MakeOffsetShape>> offsetAlgos;
+        std::vector<TopoDS_Shape> offsetShapes;
+        offsetAlgos.reserve(regions.size());
+        offsetShapes.reserve(regions.size());
+        for (const TopoDS_Shape& region : regions)
         {
-            assert(false);
-            wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
-                static_cast<std::uint32_t>(ErrorCode::OFFSETSHEET_GenerateError));
-            return TopoDS_Shape();
+            std::shared_ptr<BRepOffsetAPI_MakeOffsetShape> pOffsetAlgo =
+                std::make_shared<BRepOffsetAPI_MakeOffsetShape>();
+            TopoDS_Shape offsetShape;
+            if (!SheetOffsetUtil::offsetRegion(region, _offset, *pOffsetAlgo, offsetShape))
+            {
+                reportError(ErrorCode::OFFSETSHEET_GenerateError);
+                return std::pair<bool, TopoDS_Shape>(false, shape);
+            }
+            offsetShapes.emplace_back(offsetShape);
+            offsetAlgos.emplace_back(pOffsetAlgo);
         }
 
         TopoDS_Compound compound;
-        BRep_Builder brepBuilder;
-        brepBuilder.MakeCompound(compound);
-        for (const TopoDS_Shell& shell : resultShells)
+        BRep_Builder builder;
+        builder.MakeCompound(compound);
+        builder.Add(compound, shape);
+        for (const TopoDS_Shape& offsetShape : offsetShapes)
         {
-            brepBuilder.Add(compound, shell);
+            builder.Add(compound, offsetShape);
         }
-        return compound;
+
+        assert(!offsetAlgos.empty());
+        OffsetSheetTopoShapeComparer topoComparer(offsetAlgos, shape, compound);
+        topoComparer.perform();
+        pTopoNaming->update(&topoComparer, this->getId().value());
+
+        this->recordNewFaces(topoComparer.getFaceDelta(), pTopoNaming);
+
+        return std::pair<bool, TopoDS_Shape>(true, compound);
     }
     catch (const Standard_Failure&)
     {
-        wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
-            static_cast<std::uint32_t>(ErrorCode::OFFSETSHEET_GenerateError));
-        return TopoDS_Shape();
+        assert(false);
     }
+
+    reportError(ErrorCode::OFFSETSHEET_GenerateError);
+    return std::pair<bool, TopoDS_Shape>(false, shape);
 }
 
 NS_WY3D_END

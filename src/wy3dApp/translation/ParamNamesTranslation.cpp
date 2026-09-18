@@ -460,7 +460,7 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // OffsetSheet
     {
         const std::string& className = wy3d::OffsetSheet::className();
-        _paramName2DisplayName[globalName(className, wy3d::ParamNames::OFFSETSHEET_PARAM_SOURCE)] = tr("Source", "wy3d::OffsetSheet");
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::OFFSETSHEET_PARAM_TARGET)] = tr("Target", "wy3d::OffsetSheet");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::OFFSETSHEET_PARAM_OFFSET)] = tr("Offset", "wy3d::OffsetSheet");
     }
     // helix

@@ -20,6 +20,7 @@
 
 #include <wy3dExtrudedSheet.h>
 #include <wy3dSketch.h>
+#include <wy3dSketchCircle.h>
 #include <wy3dSketchLine.h>
 #include <wy3dSketchPlane.h>
 #include <wy3dParamNames.h>
@@ -28,6 +29,9 @@
 
 #include <Bnd_Box.hxx>
 #include <BRepBndLib.hxx>
+#include <BRepGProp.hxx>
+#include <GProp_GProps.hxx>
+#include <TopExp_Explorer.hxx>
 
 // --- helpers ---
 
@@ -73,6 +77,128 @@ static void getShapeBounds(const TopoDS_Shape& shape, double& zmin, double& zmax
     BRepBndLib::Add(shape, bndBox);
     zmin = bndBox.CornerMin().Z();
     zmax = bndBox.CornerMax().Z();
+}
+
+// A sketch with two separate loops: the 100x50 rectangle drawn counter-clockwise and a regular
+// pentagon of radius 15 drawn the other way round
+static wydb::ElementId createTwoLoopSketch(wy3d::Database* pDb)
+{
+    wydb::ElementId sketchId = wydb::ElementId::kNull;
+    {
+        wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+        wy3d::SketchPlane plane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+        wy3d::Sketch* pSketch(nullptr);
+        EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+        if (!pSketch)
+        {
+            pDb->getTransactionManager()->abortTransaction();
+            return wydb::ElementId::kNull;
+        }
+
+        wy3d::SketchLine* pLines[4] = { nullptr, nullptr, nullptr, nullptr };
+        EXPECT_EQ(wy3d::SketchLine::create(pTrans, wy::Vector2(0.0, 0.0), wy::Vector2(100.0, 0.0), pLines[0]), wy::ErrorStatus::Ok);
+        EXPECT_EQ(wy3d::SketchLine::create(pTrans, wy::Vector2(100.0, 0.0), wy::Vector2(100.0, 50.0), pLines[1]), wy::ErrorStatus::Ok);
+        EXPECT_EQ(wy3d::SketchLine::create(pTrans, wy::Vector2(100.0, 50.0), wy::Vector2(0.0, 50.0), pLines[2]), wy::ErrorStatus::Ok);
+        EXPECT_EQ(wy3d::SketchLine::create(pTrans, wy::Vector2(0.0, 50.0), wy::Vector2(0.0, 0.0), pLines[3]), wy::ErrorStatus::Ok);
+        for (wy3d::SketchLine* pLine : pLines)
+        {
+            if (!pLine)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+        }
+
+        const double pi = 3.14159265358979323846;
+        const double centreX(200.0), centreY(25.0), radius(15.0);
+        wy::Vector2 previous;
+        for (int i = 0; i <= 5; ++i)
+        {
+            const double angle = pi / 2.0 - 2.0 * pi * i / 5.0; // 顺时针
+            const wy::Vector2 point(centreX + radius * std::cos(angle), centreY + radius * std::sin(angle));
+            if (0 == i)
+            {
+                previous = point;
+                continue;
+            }
+
+            wy3d::SketchLine* pLine(nullptr);
+            EXPECT_EQ(wy3d::SketchLine::create(pTrans, previous, point, pLine), wy::ErrorStatus::Ok);
+            if (!pLine)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+            previous = point;
+        }
+
+        EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+        sketchId = pSketch->getId();
+    }
+    return sketchId;
+}
+
+// Create a sketch on the XY plane with a 100x50 closed rectangle and a circle beside it
+static wydb::ElementId createRectAndCircleSketch(wy3d::Database* pDb)
+{
+    wydb::ElementId sketchId = wydb::ElementId::kNull;
+    {
+        wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+        wy3d::SketchPlane plane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+        wy3d::Sketch* pSketch(nullptr);
+        EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+        if (!pSketch)
+        {
+            pDb->getTransactionManager()->abortTransaction();
+            return wydb::ElementId::kNull;
+        }
+
+        wy3d::SketchLine* pLines[4] = { nullptr, nullptr, nullptr, nullptr };
+        EXPECT_EQ(wy3d::SketchLine::create(pTrans, wy::Vector2(0.0, 0.0), wy::Vector2(100.0, 0.0), pLines[0]), wy::ErrorStatus::Ok);
+        EXPECT_EQ(wy3d::SketchLine::create(pTrans, wy::Vector2(100.0, 0.0), wy::Vector2(100.0, 50.0), pLines[1]), wy::ErrorStatus::Ok);
+        EXPECT_EQ(wy3d::SketchLine::create(pTrans, wy::Vector2(100.0, 50.0), wy::Vector2(0.0, 50.0), pLines[2]), wy::ErrorStatus::Ok);
+        EXPECT_EQ(wy3d::SketchLine::create(pTrans, wy::Vector2(0.0, 50.0), wy::Vector2(0.0, 0.0), pLines[3]), wy::ErrorStatus::Ok);
+        for (wy3d::SketchLine* pLine : pLines)
+        {
+            if (!pLine)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+        }
+
+        wy3d::SketchCircle* pCircle(nullptr);
+        EXPECT_EQ(wy3d::SketchCircle::create(pTrans, wy::Vector2(200.0, 25.0), 15.0, pCircle), wy::ErrorStatus::Ok);
+        if (!pCircle)
+        {
+            pDb->getTransactionManager()->abortTransaction();
+            return wydb::ElementId::kNull;
+        }
+        EXPECT_EQ(pSketch->addEntity(pCircle), wy::ErrorStatus::Ok);
+
+        EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+        sketchId = pSketch->getId();
+    }
+    return sketchId;
+}
+
+// Signed volume of every shell the shape hands out, in that same order. A prism shell has no caps,
+// so only its walls weigh in and the sign is a position-independent reading of its orientation:
+// positive means the faces look away from the loop they were swept from, which is the side a
+// positive offset distance grows into.
+static std::vector<double> shellVolumes(const TopoDS_Shape& shape)
+{
+    std::vector<double> volumes;
+    for (TopExp_Explorer exp(shape, TopAbs_SHELL); exp.More(); exp.Next())
+    {
+        GProp_GProps props;
+        BRepGProp::VolumeProperties(exp.Current(), props);
+        volumes.emplace_back(props.Mass());
+    }
+    return volumes;
 }
 
 // --- Create ---
@@ -306,4 +432,65 @@ TEST(ExtrudedSheet, IO)
         }
         EXPECT_TRUE(foundSheet);
     }
+}
+
+// --- Orientation ---
+
+// The sweep is one prism per loop, and a prism carries the orientation of the wire it was swept
+// from, so the direction the loop was drawn in decided which way each shell faced: two loops of one
+// sketch drawn opposite ways came out as shells of opposite handedness, and everything downstream
+// that reads a normal - the offset, the thicken - went one way on one shell and the other way on
+// the other. The profile now normalizes every closed loop to clockwise, so the drawing direction no
+// longer shows through and a positive offset distance grows the loop outwards. Open chains are left
+// alone: they have no inside to speak of.
+TEST(ExtrudedSheet, ClosedLoopsAreNormalized)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+    wydb::ElementId sketchId = createTwoLoopSketch(pDb.get());
+    ASSERT_FALSE(sketchId.isNull());
+
+    ExtrudedSheet* pSheet(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
+        ASSERT_NE(pSketch, nullptr);
+        EXPECT_EQ(ExtrudedSheet::create(pTrans, pSketch, 10.0, pSheet), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSheet, nullptr);
+
+    const std::vector<double> volumes = shellVolumes(pSheet->getShape());
+    ASSERT_EQ(volumes.size(), 2u);
+    EXPECT_GT(volumes[0], 0.0); // 100x50 x 10, drawn counter-clockwise: reversed to face outwards
+    EXPECT_GT(volumes[1], 0.0); // the pentagon, drawn clockwise already: handed over as it is
+    EXPECT_NEAR(std::fabs(volumes[1]) * 3.0 / 20.0, 535.0, 1.0); // pentagon area 5/2 r^2 sin 72
+}
+
+// A self-closed curve is the other side of the same coin: computeSideArea reports +pi*r*r for a
+// circle whatever way it runs, so it always reads as counter-clockwise and always gets reversed -
+// reversing a one-curve loop is just its orientation flag, which turns the wire round. Loop's
+// isClockWise stays false for every closed loop so that makeWires leaves the winding alone.
+TEST(ExtrudedSheet, SelfClosedLoopIsNormalized)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+    wydb::ElementId sketchId = createRectAndCircleSketch(pDb.get());
+    ASSERT_FALSE(sketchId.isNull());
+
+    ExtrudedSheet* pSheet(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
+        ASSERT_NE(pSketch, nullptr);
+        EXPECT_EQ(ExtrudedSheet::create(pTrans, pSketch, 10.0, pSheet), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSheet, nullptr);
+
+    const std::vector<double> volumes = shellVolumes(pSheet->getShape());
+    ASSERT_EQ(volumes.size(), 2u);
+    EXPECT_GT(volumes[0], 0.0); // the circle, turned round to face outwards
+    EXPECT_GT(volumes[1], 0.0); // 100x50 x 10, drawn counter-clockwise: reversed
+    EXPECT_NEAR(std::fabs(volumes[0]) * 3.0 / 20.0, 3.14159265358979323846 * 15.0 * 15.0, 1.0);
 }

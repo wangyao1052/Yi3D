@@ -18,6 +18,7 @@
 
 #include <wy3dSketchProfileForSheet.h>
 
+#include <algorithm>
 #include <cassert>
 #include <wy3dSketchCurve.h>
 #include <wy3dSketchCenterLine.h>
@@ -26,6 +27,30 @@
 #include <wydbElement.h>
 
 NS_WY3D_BEG
+
+namespace
+{
+    bool isClosedChain(
+        const SketchCurveGraph_Profile::CurveLoop& chain,
+        const std::vector<const SketchCurve*>& curves,
+        double tol)
+    {
+        const std::vector<SketchCurveGraph::CurveEntry>& entries = chain.curves();
+        if (entries.empty()) return false;
+
+        auto point = [&curves](const SketchCurveGraph::CurveEntry& entry, bool start) -> wy::Vector2
+        {
+            assert(entry.index < curves.size());
+            const SketchCurve* pCurve = curves[entry.index];
+            assert(pCurve);
+            const bool normal = (SketchCurveGraph::Orientation::Normal == entry.orient);
+            if (start) return normal ? pCurve->getStartPoint() : pCurve->getEndPoint();
+            else return normal ? pCurve->getEndPoint() : pCurve->getStartPoint();
+        };
+
+        return (point(entries.front(), true) - point(entries.back(), false)).length() < tol;
+    }
+}
 
 SketchProfileForSheet::SketchProfileForSheet(const Sketch* pSketch, double tol)
     : _pSketch(pSketch), _tol(tol)
@@ -84,6 +109,20 @@ bool SketchProfileForSheet::check()
             bool orient = (entry.orient == SketchCurveGraph::Orientation::Normal);
             pLoop->curves.push_back(BiCurve(curves[entry.index], orient));
         }
+
+        if (isClosedChain(*pChain, curves, _tol))
+        {
+            if (curveGraph.computeSideArea(*pChain) > 0) // 确保闭环输出的是顺时针
+            {
+                std::reverse(pLoop->curves.begin(), pLoop->curves.end());
+                for (BiCurve& biCurve : pLoop->curves)
+                {
+                    biCurve.orient = !biCurve.orient;
+                }
+            }
+            pLoop->isClockWise = false;
+        }
+
         _loops.push_back(std::move(pLoop));
     }
 

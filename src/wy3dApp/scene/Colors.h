@@ -70,6 +70,8 @@ public:
     static const osg::Vec4 kSheetEdge_Highlight;
     static const osg::Vec4 kSheetFace_Preview;
     static const osg::Vec4 kSheetEdge_Preview;
+    // 命令生成的新面
+    static const osg::Vec4 kSheetFace_New;
 
     // transparent
     static const osg::Vec4 kTransparent;

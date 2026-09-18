@@ -85,7 +85,6 @@
 #include <wy3dLoftedSheet.h>
 #include <wy3dImportedSheet.h>
 #include <wy3dThicken.h>
-#include <wy3dOffsetSheet.h>
 #include <wy3dPlanarSheet.h>
 #include <wy3dFilledSheet.h>
 #include <wy3dSewnSheet.h>
@@ -161,7 +160,6 @@ SnapObjectFactory::SnapObjectFactory()
     REGISTER_CREATOR(wy3d::RevolvedSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SweptSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::LoftedSheet, TopoShapeSnapObjectCreator);
-    REGISTER_CREATOR(wy3d::OffsetSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::PlanarSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::FilledSheet, TopoShapeSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SewnSheet, TopoShapeSnapObjectCreator);

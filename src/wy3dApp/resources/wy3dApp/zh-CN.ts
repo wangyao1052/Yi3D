@@ -1623,87 +1623,102 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="153"/>
+        <source>The face to offset does not exist!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="155"/>
+        <source>No face is selected to offset!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="157"/>
+        <source>Invalid offset distance!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="161"/>
         <source>Invalid planar sheet data!</source>
         <translation type="unfinished">无效的平面片体数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="157"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="163"/>
         <source>The selected edges must form a single closed loop!</source>
         <translation type="unfinished">所选边必须构成单一闭合环！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="159"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="165"/>
         <source>The selected edges must be coplanar!</source>
         <translation type="unfinished">所选边必须共面！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="163"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="169"/>
         <source>Invalid sewn sheet data!</source>
         <translation type="unfinished">无效的缝合片体数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="165"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="171"/>
         <source>Generate sewn sheet failed!</source>
         <translation type="unfinished">缝合片体生成失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="169"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="175"/>
         <source>Invalid solidify data!</source>
         <translation type="unfinished">无效的实体化数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="171"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="177"/>
         <source>Generate solidify failed!</source>
         <translation type="unfinished">实体化生成失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="175"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="181"/>
         <source>Invalid swept sheet data!</source>
         <translation type="unfinished">无效的扫掠曲面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="177"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="183"/>
         <source>Generate swept sheet failed!</source>
         <translation type="unfinished">扫掠曲面生成失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="181"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="187"/>
         <source>Invalid lofted sheet data!</source>
         <translation type="unfinished">无效的放样曲面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="183"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="189"/>
         <source>Generate lofted sheet failed!</source>
         <translation type="unfinished">放样曲面生成失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="187"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="193"/>
         <source>Invalid filled sheet data!</source>
         <translation type="unfinished">无效的填充曲面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="189"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="195"/>
         <source>Generate filled surface failed!</source>
         <translation type="unfinished">生成填充曲面失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="191"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="197"/>
         <source>The sketch curves must form a single closed loop!</source>
         <translation type="unfinished">草图曲线必须构成单一闭合环！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="195"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="201"/>
         <source>Invalid split face data!</source>
         <translation type="unfinished">无效的分割面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="197"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
         <source>The face to split no longer exists!</source>
         <translation type="unfinished">要分割的面已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="199"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
         <source>The sketch holds no curve to split with!</source>
         <translation type="unfinished">草图里没有可用的曲线！</translation>
     </message>
@@ -1712,52 +1727,52 @@ Do you want to save it to the original file now?
         <translation type="obsolete">分割曲线已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="201"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
         <source>Generate split face failed!</source>
         <translation type="unfinished">生成分割面失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
         <source>The curves do not divide any of the selected faces!</source>
         <translation type="unfinished">曲线没有切开任何要分割的面！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
         <source>Invalid delete face data!</source>
         <translation type="unfinished">无效的删除面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
         <source>The faces to delete no longer exist!</source>
         <translation type="unfinished">要删除的面已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="211"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
         <source>A sheet cannot lose every one of its faces!</source>
         <translation type="unfinished">不能删除片体的全部面！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="219"/>
         <source>Delete face failed!</source>
         <translation type="unfinished">删除面失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="223"/>
         <source>Invalid helix data!</source>
         <translation type="unfinished">无效的螺旋线数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="219"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="225"/>
         <source>The sketch used to generate the helix must be a circle.</source>
         <translation type="unfinished">用于生成螺旋线的草图必须为一个圆形。</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="236"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="242"/>
         <source>ErrorCode: </source>
         <translation type="unfinished">错误码：</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="236"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="242"/>
         <source>!</source>
         <translation type="unfinished">！</translation>
     </message>
@@ -2100,17 +2115,17 @@ Do you want to save it to the original file now?
         <translation type="unfinished">标识号</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="902"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="915"/>
         <source>-Cut</source>
         <translation type="unfinished">-切除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1590"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1603"/>
         <source>Erase</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1508"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1521"/>
         <source>Cancel Boolean</source>
         <translation type="unfinished">取消布尔</translation>
     </message>
@@ -2150,17 +2165,17 @@ Do you want to save it to the original file now?
         <translation type="unfinished">偏置曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1616"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1629"/>
         <source>Error Information</source>
         <translation type="unfinished">查看错误信息</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1634"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1647"/>
         <source>Show ID column</source>
         <translation type="unfinished">显示标识列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1634"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1647"/>
         <source>Hide ID column</source>
         <translation type="unfinished">隐藏标识列</translation>
     </message>
@@ -3011,7 +3026,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="197"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1598"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1611"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
@@ -3057,32 +3072,32 @@ Do you want to save it to the original file now?
         <translation type="unfinished">移动</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1527"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1544"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1540"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1557"/>
         <source>View Normal To</source>
         <translation type="unfinished">正视于</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1536"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1549"/>
         <source>Edit 3D Sketch</source>
         <translation>编辑3D草绘</translation>
     </message>
     <message>
         <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="211"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1566"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1579"/>
         <source>Show</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
         <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="219"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1575"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1588"/>
         <source>Hide</source>
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="564"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="183"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1584"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1597"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
@@ -3096,7 +3111,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="576"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1627"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1640"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
@@ -3178,7 +3193,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="207"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1521"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1534"/>
         <source>Export Sketch</source>
         <translation>导出草图</translation>
     </message>
@@ -3189,7 +3204,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="261"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1515"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1528"/>
         <source>Edit Sketch</source>
         <translation type="unfinished">编辑草绘</translation>
     </message>
@@ -4258,12 +4273,24 @@ Do you want to save it to the original file now?
         <translation>偏置曲面</translation>
     </message>
     <message>
-        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="66"/>
+        <source>Target:</source>
+        <translation type="vanished">目标：</translation>
+    </message>
+    <message>
+        <source>Whole Sheet</source>
+        <translation type="vanished">整个片体</translation>
+    </message>
+    <message>
+        <source>Selected Faces</source>
+        <translation type="vanished">选定面</translation>
+    </message>
+    <message>
+        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="67"/>
         <source>Offset distance:</source>
         <translation>偏置距离：</translation>
     </message>
     <message>
-        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="100"/>
+        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="101"/>
         <source>Invalid value, must be between %1 and %2.</source>
         <translation>输入值无效，有效范围 %1 至 %2。</translation>
     </message>
@@ -4271,14 +4298,22 @@ Do you want to save it to the original file now?
 <context>
     <name>OffsetSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="148"/>
         <source>Select a sheet to offset.</source>
-        <translation>选择要偏置的曲面。</translation>
+        <translation type="vanished">选择要偏置的曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="254"/>
-        <source>Specify offset distance, then OK to apply.</source>
+        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="552"/>
+        <source>Specify the offset distance, then OK to apply.</source>
         <translation>指定偏置距离，确认后应用。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="546"/>
+        <source>Select the faces to offset, then OK to apply.</source>
+        <translation>选择要偏置的面，确认后应用。</translation>
+    </message>
+    <message>
+        <source>Specify offset distance, then OK to apply.</source>
+        <translation type="vanished">指定偏置距离，确认后应用。</translation>
     </message>
     <message>
         <source>Specify the offset distance.</source>
@@ -5429,9 +5464,14 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="463"/>
+        <source>Target</source>
+        <comment>wy3d::OffsetSheet</comment>
+        <translation>偏置目标</translation>
+    </message>
+    <message>
         <source>Source</source>
         <comment>wy3d::OffsetSheet</comment>
-        <translation>源对象</translation>
+        <translation type="vanished">源对象</translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="464"/>

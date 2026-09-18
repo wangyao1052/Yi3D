@@ -34,13 +34,21 @@ public:
         const TopoDS_Shape& shape,
         NonParametricSheet*& pOut);
 
+    wy::ErrorStatus setSourceShape(const TopoDS_Shape& shape);
+
 protected:
+    virtual bool getFieldValue(wydb::FieldId fieldId, std::any& value) override;
+    virtual bool setFieldValue(wydb::FieldId fieldId, const std::any& value) override;
+
     virtual wy::ErrorStatus writeToFiler(wydb::OutFiler& filer) const override;
     virtual wy::ErrorStatus readFromFiler(wydb::InFiler& filer) override;
 
     virtual TopoDS_Shape generateShape(
         TopoNaming* pTopoNaming,
         wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
+
+private:
+    TopoDS_Shape _sourceShape;
 };
 
 NS_WY3D_END

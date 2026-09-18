@@ -73,6 +73,9 @@ public:
         const wyap::SelectionSet&,
         const wyap::SelectionSet&) override;
 
+    // Hover preview switch: a command may turn it off while it owns per-face colors
+    void setHoverPreviewEnabled(bool enabled);
+
     // 设置整体是否支持选择操作
     void setSelectable(bool selectable)
     {
@@ -173,6 +176,7 @@ private:
     // Hover
     FeatureTreeHoverDelegate* _hoverDelegate; // 自定义委托
     SelectPreviewSPtr _pHoverpreview;
+    bool _isHoverPreviewEnabled;
 
     // 类名到显示名称
     std::map<std::string, QString> _className2DisplayName;

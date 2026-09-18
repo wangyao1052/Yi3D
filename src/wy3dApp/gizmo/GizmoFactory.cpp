@@ -40,7 +40,6 @@
 #include <wy3dRevolvedSheet.h>
 #include <wy3dImportedSheet.h>
 #include <wy3dThicken.h>
-#include <wy3dOffsetSheet.h>
 #include <wy3dPlanarSheet.h>
 #include <wy3dFilledSheet.h>
 #include <wy3dSewnSheet.h>
@@ -114,7 +113,6 @@ GizmoFactory::GizmoFactory()
     REGISTER_CREATOR(wy3d::RevolvedSheet, NullGizmoCreator);
     REGISTER_CREATOR(wy3d::PlanarSheet, NullGizmoCreator);
     REGISTER_CREATOR(wy3d::FilledSheet, NullGizmoCreator);
-    REGISTER_CREATOR(wy3d::OffsetSheet, NullGizmoCreator);
     REGISTER_CREATOR(wy3d::SewnSheet, NullGizmoCreator);
 
 }

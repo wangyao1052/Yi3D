@@ -127,8 +127,8 @@ const char* ParamNames::THICKEN_PARAM_SOURCE = "Source";
 const char* ParamNames::THICKEN_PARAM_DIRECTION = "Direction";
 
 // OffsetSheet
+const char* ParamNames::OFFSETSHEET_PARAM_TARGET = "Target";
 const char* ParamNames::OFFSETSHEET_PARAM_OFFSET = "Offset";
-const char* ParamNames::OFFSETSHEET_PARAM_SOURCE = "Source";
 
 // SewnSheet
 const char* ParamNames::SEWNSHEET_PARAM_TOLERANCE = "Tolerance";

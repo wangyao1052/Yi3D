@@ -64,9 +64,16 @@ wy::ErrorStatus NonParametricSolid::create(wydb::Transaction* pTrans, const Topo
 
     error = pSolid->setShape(shape);
     CHECK_ERROR_FOR_CREATE(error, pSolid)
+    pSolid->setSourceShape(shape);
 
     pOutSolid = pSolid;
     return wy::ErrorStatus::Ok;
+}
+
+void NonParametricSolid::setSourceShape(const TopoDS_Shape& shape)
+{
+    assert(_sourceShape.IsNull());
+    _sourceShape = shape;
 }
 
 wy::ErrorStatus NonParametricSolid::writeToFiler(wydb::OutFiler& f) const
@@ -74,7 +81,7 @@ wy::ErrorStatus NonParametricSolid::writeToFiler(wydb::OutFiler& f) const
     __baseClass::writeToFiler(f);
 
     std::string b64ShapeData;
-    try { b64ShapeData = StringUtil::shapeToBase64(this->getShape()); }
+    try { b64ShapeData = StringUtil::shapeToBase64(_sourceShape); }
     catch (...) { assert(false); b64ShapeData = ""; }
     f << b64ShapeData;
 
@@ -87,17 +94,16 @@ wy::ErrorStatus NonParametricSolid::readFromFiler(wydb::InFiler& f)
 
     std::string b64ShapeData;
     f >> b64ShapeData;
-    try { _shape = StringUtil::base64ToShape(b64ShapeData); }
-    catch (...) { _shape = TopoDS_Shape(); }
+    try { _sourceShape = StringUtil::base64ToShape(b64ShapeData); }
+    catch (...) { _sourceShape = TopoDS_Shape(); }
 
     return wy::ErrorStatus::Ok;
 }
 
 TopoDS_Shape NonParametricSolid::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
-    const TopoDS_Shape& shape = this->getShape();
-    TopoNamingUtil::primitiveNaming(shape, this->getId().value(), *pTopoNaming);
-    return shape;
+    TopoNamingUtil::primitiveNaming(_sourceShape, this->getId().value(), *pTopoNaming);
+    return _sourceShape;
 }
 
 NS_WY3D_END

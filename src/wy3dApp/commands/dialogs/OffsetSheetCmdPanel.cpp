@@ -41,6 +41,7 @@ OffsetSheetCmdPanel::OffsetSheetCmdPanel(QWidget* parent)
     : FloatingCmdPanel(parent)
     , _pOffsetEdit(nullptr)
     , _lastValidOffset(kDefaultOffset)
+    , _isSmallValueAllowed(false)
 {
     setObjectName("OffsetSheetCmdPanel");
     setStyleSheet(
@@ -63,6 +64,7 @@ OffsetSheetCmdPanel::OffsetSheetCmdPanel(QWidget* parent)
     pBodyLayout->setContentsMargins(12, 12, 12, 12);
     pBodyLayout->setSpacing(10);
 
+    // offset distance
     QLabel* pLabel = new QLabel(tr("Offset distance:"), pBody);
     pLabel->setObjectName("fieldLabel");
     pBodyLayout->addWidget(pLabel);
@@ -87,18 +89,25 @@ void OffsetSheetCmdPanel::setOffsetValue(double value)
     _pOffsetEdit->blockSignals(false);
 }
 
+void OffsetSheetCmdPanel::setSmallValueAllowed(bool value)
+{
+    _isSmallValueAllowed = value;
+}
+
 void OffsetSheetCmdPanel::onOffsetEditChanged()
 {
     bool ok = false;
     double value = _pOffsetEdit->text().toDouble(&ok);
-    if (!ok || std::fabs(value) < wy3d::kMinValue ||
-        std::fabs(value) > wy3d::kMaxValue)
+    // QString::toDouble accepts "nan" with ok = true, and NaN fails both range comparisons
+    const double minValue = _isSmallValueAllowed ? 0.0 : wy3d::kMinValue;
+    if (!ok || !std::isfinite(value) ||
+        std::fabs(value) < minValue || std::fabs(value) > wy3d::kMaxValue)
     {
         _pOffsetEdit->setText(
             formatDouble(_lastValidOffset));
         QToolTip::showText(_pOffsetEdit->mapToGlobal(QPoint(0, _pOffsetEdit->height())),
             tr("Invalid value, must be between %1 and %2.")
-                .arg(wy3d::kMinValue).arg(wy3d::kMaxValue),
+                .arg(minValue).arg(wy3d::kMaxValue),
             _pOffsetEdit);
         return;
     }

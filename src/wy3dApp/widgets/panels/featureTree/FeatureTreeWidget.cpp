@@ -122,7 +122,7 @@ static std::map<wydb::ElementId, unsigned int> collectErrorCodesFromChainUpdateF
 
 FeatureTreeWidget::FeatureTreeWidget(QWidget* parent)
     : QWidget(parent), _treeView(nullptr), _treeModel(nullptr), _hoverDelegate(nullptr),
-    _onSelChangeType(OnSelChangeType::Idle)
+    _isHoverPreviewEnabled(true), _onSelChangeType(OnSelChangeType::Idle)
 {
     this->setWindowTitle(tr("FeatureTree"));
     this->setMinimumWidth(200);
@@ -255,6 +255,16 @@ FeatureTreeWidget::~FeatureTreeWidget()
 {
 }
 
+void FeatureTreeWidget::setHoverPreviewEnabled(bool enabled)
+{
+    if (_isHoverPreviewEnabled == enabled) return;
+
+    // Drop the live preview now: it would otherwise die on HoverLeave, i.e. after the command
+    // has applied its face colors, and repaint them with the default color
+    if (!enabled) _pHoverpreview = nullptr;
+    _isHoverPreviewEnabled = enabled;
+}
+
 bool FeatureTreeWidget::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == _treeView->viewport())
@@ -270,6 +280,9 @@ bool FeatureTreeWidget::eventFilter(QObject* watched, QEvent* event)
             {
                 _hoverDelegate->setHoveredIndex(index);
             }
+
+            // The element-level preview repaints the whole shape and would wipe per-face colors
+            if (!_isHoverPreviewEnabled) break;
 
             wydb::ElementId id(wydb::ElementId::kNull);
             if (index.isValid())

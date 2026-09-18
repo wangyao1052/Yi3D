@@ -785,137 +785,152 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="153"/>
+        <source>The face to offset does not exist!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="155"/>
-        <source>Invalid planar sheet data!</source>
+        <source>No face is selected to offset!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="157"/>
-        <source>The selected edges must form a single closed loop!</source>
+        <source>Invalid offset distance!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="159"/>
-        <source>The selected edges must be coplanar!</source>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="161"/>
+        <source>Invalid planar sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="163"/>
-        <source>Invalid sewn sheet data!</source>
+        <source>The selected edges must form a single closed loop!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="165"/>
-        <source>Generate sewn sheet failed!</source>
+        <source>The selected edges must be coplanar!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="169"/>
-        <source>Invalid solidify data!</source>
+        <source>Invalid sewn sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="171"/>
-        <source>Generate solidify failed!</source>
+        <source>Generate sewn sheet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="175"/>
-        <source>Invalid swept sheet data!</source>
+        <source>Invalid solidify data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="177"/>
-        <source>Generate swept sheet failed!</source>
+        <source>Generate solidify failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="181"/>
-        <source>Invalid lofted sheet data!</source>
+        <source>Invalid swept sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="183"/>
-        <source>Generate lofted sheet failed!</source>
+        <source>Generate swept sheet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="187"/>
-        <source>Invalid filled sheet data!</source>
+        <source>Invalid lofted sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="189"/>
-        <source>Generate filled surface failed!</source>
+        <source>Generate lofted sheet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="191"/>
-        <source>The sketch curves must form a single closed loop!</source>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="193"/>
+        <source>Invalid filled sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="195"/>
-        <source>Invalid split face data!</source>
+        <source>Generate filled surface failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="197"/>
-        <source>The face to split no longer exists!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="199"/>
-        <source>The sketch holds no curve to split with!</source>
+        <source>The sketch curves must form a single closed loop!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="201"/>
-        <source>Generate split face failed!</source>
+        <source>Invalid split face data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
-        <source>The curves do not divide any of the selected faces!</source>
+        <source>The face to split no longer exists!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
+        <source>The sketch holds no curve to split with!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
-        <source>Invalid delete face data!</source>
+        <source>Generate split face failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
-        <source>The faces to delete no longer exist!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="211"/>
-        <source>A sheet cannot lose every one of its faces!</source>
+        <source>The curves do not divide any of the selected faces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
-        <source>Delete face failed!</source>
+        <source>Invalid delete face data!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
+        <source>The faces to delete no longer exist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
-        <source>Invalid helix data!</source>
+        <source>A sheet cannot lose every one of its faces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="219"/>
+        <source>Delete face failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="223"/>
+        <source>Invalid helix data!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="225"/>
         <source>The sketch used to generate the helix must be a circle.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="236"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="242"/>
         <source>ErrorCode: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="236"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="242"/>
         <source>!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1234,17 +1249,17 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="902"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="915"/>
         <source>-Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1590"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1603"/>
         <source>Erase</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1508"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1521"/>
         <source>Cancel Boolean</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1284,17 +1299,17 @@ Do you want to save it to the original file now?
         <translation type="unfinished">Offset Sheet</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1616"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1629"/>
         <source>Error Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1634"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1647"/>
         <source>Show ID column</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1634"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1647"/>
         <source>Hide ID column</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1797,7 +1812,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="197"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1598"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1611"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1840,7 +1855,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="261"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1515"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1528"/>
         <source>Edit Sketch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1851,7 +1866,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="207"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1521"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1534"/>
         <source>Export Sketch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2461,32 +2476,32 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1527"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1544"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1540"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1557"/>
         <source>View Normal To</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1536"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1549"/>
         <source>Edit 3D Sketch</source>
         <translation>Edit 3D Sketch</translation>
     </message>
     <message>
         <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="211"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1566"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1579"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="219"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1575"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1588"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="564"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="183"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1584"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1597"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2500,7 +2515,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="576"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1627"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1640"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3045,12 +3060,12 @@ Do you want to save it to the original file now?
         <translation>Offset Sheet</translation>
     </message>
     <message>
-        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="66"/>
+        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="67"/>
         <source>Offset distance:</source>
         <translation>Offset distance:</translation>
     </message>
     <message>
-        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="100"/>
+        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="101"/>
         <source>Invalid value, must be between %1 and %2.</source>
         <translation>Invalid value, must be between %1 and %2.</translation>
     </message>
@@ -3058,14 +3073,22 @@ Do you want to save it to the original file now?
 <context>
     <name>OffsetSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="148"/>
         <source>Select a sheet to offset.</source>
-        <translation>Select a sheet to offset.</translation>
+        <translation type="vanished">Select a sheet to offset.</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="254"/>
+        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="552"/>
+        <source>Specify the offset distance, then OK to apply.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="546"/>
+        <source>Select the faces to offset, then OK to apply.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Specify offset distance, then OK to apply.</source>
-        <translation>Specify offset distance, then OK to apply.</translation>
+        <translation type="vanished">Specify offset distance, then OK to apply.</translation>
     </message>
     <message>
         <source>Specify the offset distance.</source>
@@ -4200,9 +4223,14 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="463"/>
+        <source>Target</source>
+        <comment>wy3d::OffsetSheet</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Source</source>
         <comment>wy3d::OffsetSheet</comment>
-        <translation>Source</translation>
+        <translation type="vanished">Source</translation>
     </message>
     <message>
         <location filename="../../translation/ParamNamesTranslation.cpp" line="464"/>
