@@ -178,11 +178,33 @@ wydb::ElementId GuiCommandUtil::filterMirrorSourceFrom(const wyap::SelectionSet&
         return wydb::ElementId::kNull;
     }
     const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
-    if (!pSolid)
+    if (pSolid)
     {
-        return wydb::ElementId::kNull;
+        return pSolid->getId();
     }
-    return pSolid->getId();
+    const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem);
+    if (pSheet)
+    {
+        return pSheet->getId();
+    }
+    return wydb::ElementId::kNull;
+}
+
+bool GuiCommandUtil::isTopLevelBody(const wydb::Element* pElem)
+{
+    if (!pElem)
+    {
+        return false;
+    }
+    if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+    {
+        return pSolid->getParent().isNull();
+    }
+    if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+    {
+        return pSheet->getParent().isNull();
+    }
+    return false;
 }
 
 const wy3d::Solid* GuiCommandUtil::autoGetSolidToCut(const wydb::Database* pDb)

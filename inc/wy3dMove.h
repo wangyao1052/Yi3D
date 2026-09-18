@@ -26,6 +26,12 @@ public:
         const wy::Vector3& moveVector,
         Move*& pOutMove);
 
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        wy3d::Sheet* pSheet,
+        const wy::Vector3& moveVector,
+        Move*& pOutMove);
+
     const wy::Vector3& getVector() const { return _vector; }
     wy::ErrorStatus setVector(const wy::Vector3& vector);
 
@@ -39,6 +45,12 @@ protected:
     virtual wy::ErrorStatus writeToFiler(wydb::OutFiler& filer) const override;
     virtual wy::ErrorStatus readFromFiler(wydb::InFiler& filer) override;
     virtual std::pair<bool, TopoDS_Shape> modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
+
+private:
+    static wy::ErrorStatus createImpl(
+        wydb::Transaction* pTrans,
+        const wy::Vector3& moveVector,
+        Move*& pOutMove);
 
 private:
     wy::Vector3 _vector;

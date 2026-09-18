@@ -58,6 +58,19 @@ private:
         const wy3d::SketchPlane& mirrorPlane,
         unsigned int& errorCode);
 
+    // 创建镜像: 实体宿主(可镜像实体内的切割体)
+    bool createMirrorOnSolid(
+        const wydb::ElementId& ownerId,
+        const wy3d::Solid* pSourceSolid,
+        const wy3d::SketchPlane& mirrorPlane,
+        unsigned int& errorCode);
+
+    // 创建镜像: 片体宿主(镜像它自己, 副本追加到宿主形体上)
+    bool createMirrorOnSheet(
+        const wydb::ElementId& sheetId,
+        const wy3d::SketchPlane& mirrorPlane,
+        unsigned int& errorCode);
+
 private:
     Step _step;
     wydb::ElementId _sourceId;

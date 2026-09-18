@@ -21,6 +21,7 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dBodyModification.h>
 #include <wy3dFillet.h>
 #include <wy3dChamfer.h>
@@ -242,6 +243,21 @@ void bindWy3dBodyModifications(py::module_& m)
             py::arg("owner"),
             py::arg("source"),
             py::arg("mirrorPlane"),
+            py::return_value_policy::reference)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans,
+               wy3d::Sheet* pOwner,
+               const wy3d::SketchPlane& mirrorPlane) -> wy3d::Mirror*
+            {
+                wy3d::Mirror* pOutMirror = nullptr;
+                wy::ErrorStatus status = wy3d::Mirror::create(
+                    pTrans, pOwner, mirrorPlane, pOutMirror);
+                return pOutMirror;
+            },
+            py::arg("transaction"),
+            py::arg("owner"),
+            py::arg("mirrorPlane"),
             py::return_value_policy::reference);
 
     // ========== Draft 拔模 ==========
@@ -352,6 +368,21 @@ void bindWy3dBodyModifications(py::module_& m)
             py::arg("transaction"),
             py::arg("solid"),
             py::arg("moveVector"),
+            py::return_value_policy::reference)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans,
+               wy3d::Sheet* pSheet,
+               const wy::Vector3& moveVector) -> wy3d::Move*
+            {
+                wy3d::Move* pOutMove = nullptr;
+                wy::ErrorStatus status = wy3d::Move::create(
+                    pTrans, pSheet, moveVector, pOutMove);
+                return pOutMove;
+            },
+            py::arg("transaction"),
+            py::arg("sheet"),
+            py::arg("moveVector"),
             py::return_value_policy::reference);
 
     // ========== Rotate 旋转面 ==========
@@ -378,6 +409,25 @@ void bindWy3dBodyModifications(py::module_& m)
             },
             py::arg("transaction"),
             py::arg("solid"),
+            py::arg("centerPoint"),
+            py::arg("axisDirection"),
+            py::arg("angle"),
+            py::return_value_policy::reference)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans,
+               wy3d::Sheet* pSheet,
+               const wy::Vector3& centerPoint,
+               const wy::Vector3& axisDirection,
+               double angle) -> wy3d::Rotate*
+            {
+                wy3d::Rotate* pOutRotate = nullptr;
+                wy::ErrorStatus status = wy3d::Rotate::create(
+                    pTrans, pSheet, centerPoint, axisDirection, angle, pOutRotate);
+                return pOutRotate;
+            },
+            py::arg("transaction"),
+            py::arg("sheet"),
             py::arg("centerPoint"),
             py::arg("axisDirection"),
             py::arg("angle"),

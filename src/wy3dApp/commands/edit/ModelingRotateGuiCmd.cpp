@@ -19,6 +19,7 @@
 #include "ModelingRotateGuiCmd.h"
 
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 
 #include "application/Application.h"
 #include "scene/Scene.h"
@@ -27,6 +28,7 @@
 #include "select/filters/CommonSelFilters.h"
 #include "select/SketchPlaneSelFilter.h"
 #include "snap/SnapObject.h"
+#include "utils/GuiCommandUtil.h"
 
 
 class RotateGuiCmdPreFilter_Modeling : public SelectPreFilterFunctor
@@ -43,12 +45,7 @@ public:
             return SelectFilterStatus::Break;
         }
 
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
-        if (!pSolid)
-        {
-            return SelectFilterStatus::Continue;
-        }
-        if (!pSolid->getParent().isNull())
+        if (!GuiCommandUtil::isTopLevelBody(pDb->getElement(id)))
         {
             return SelectFilterStatus::Continue;
         }
@@ -126,7 +123,8 @@ void ModelingRotateGuiCmd::gotoNextStepAfterSelectElements()
 
 void ModelingRotateGuiCmd::configureSelectElementOptions(GuiCmdSelectOptions& options)
 {
-    options.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+    options.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::Sheet);
     options.preFilter = std::make_shared<RotateGuiCmdPreFilter_Modeling>();
-    options.filter = std::make_shared<SingleClassSelFilter>(wy3d::Solid::classInfo());
+    options.filter = std::make_shared<MultiClassSelFilter>(
+        std::vector<wyrx::ClassInfo*>{wy3d::Solid::classInfo(), wy3d::Sheet::classInfo()});
 }

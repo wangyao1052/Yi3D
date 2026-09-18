@@ -3001,12 +3001,12 @@ Do you want to save it to the original file now?
 <context>
     <name>MirrorGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="172"/>
-        <source>Select the solids to mirror. Press Enter or Spacebar to confirm. Press Esc to cancel.</source>
+        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="166"/>
+        <source>Select the solids or sheets to mirror. Press Enter or Spacebar to confirm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="192"/>
+        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="186"/>
         <source>Select datum plane as mirror plane.</source>
         <translation type="unfinished"></translation>
     </message>

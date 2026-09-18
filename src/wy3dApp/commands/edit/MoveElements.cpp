@@ -25,6 +25,7 @@
 #include <wy3dPrimitive.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchEntity.h>
+#include <wy3dSheet.h>
 #include <wy3dMove.h>
 
 #include "application/Application.h"
@@ -154,33 +155,54 @@ bool MoveElemens::perform(const wyap::SelectionSet& ss, const wy::Vector3& moveV
         {
             wydb::Element* pElem = pTrans->getElementForWrite(id);
             wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
-            if (!pSolid)
+            if (pSolid)
             {
-                assert(false);
+                if (!pSolid->getParent().isNull())
+                {
+                    assert(false);
+                    continue;
+                }
+                wy3d::Primitive* pPrimitive = wy3d::Primitive::cast(pSolid);
+                const std::vector<wydb::ElementId>& modifications = pSolid->getModifications();
+                if (pPrimitive && modifications.empty())
+                {
+                    pPrimitive->setPosition(pPrimitive->getPosition() + moveVec);
+                }
+                else
+                {
+                    wy3d::Move* pMove(nullptr);
+                    if (wy::ErrorStatus::Ok == wy3d::Move::create(pTrans, pSolid, moveVec, pMove))
+                    {
+                    }
+                    else
+                    {
+                        assert(false);
+                    }
+                }
                 continue;
             }
-            if (!pSolid->getParent().isNull())
+
+            // 片体没有位置参数, 一律走 Move 特征
+            wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem);
+            if (pSheet)
             {
-                assert(false);
-                continue;
-            }
-            wy3d::Primitive* pPrimitive = wy3d::Primitive::cast(pSolid);
-            const std::vector<wydb::ElementId>& modifications = pSolid->getModifications();
-            if (pPrimitive && modifications.empty())
-            {
-                pPrimitive->setPosition(pPrimitive->getPosition() + moveVec);
-            }
-            else
-            {
+                if (!pSheet->getParent().isNull())
+                {
+                    assert(false);
+                    continue;
+                }
                 wy3d::Move* pMove(nullptr);
-                if (wy::ErrorStatus::Ok == wy3d::Move::create(pTrans, pSolid, moveVec, pMove))
+                if (wy::ErrorStatus::Ok == wy3d::Move::create(pTrans, pSheet, moveVec, pMove))
                 {
                 }
                 else
                 {
                     assert(false);
                 }
+                continue;
             }
+
+            assert(false);
         }
     }
     _pDb->getTransactionManager()->endTransaction();

@@ -24,6 +24,7 @@
 #include <wyapSelection.h>
 #include <wy3dSketchPlane.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 
 class SketchSnapSystem;
 
@@ -60,6 +61,8 @@ public:
 
     // 自动获取切除的实体
     static const wy3d::Solid* autoGetSolidToCut(const wydb::Database* pDb);
+
+    static bool isTopLevelBody(const wydb::Element* pElem);
 
     // 清除选择集
     static void clearSelections();

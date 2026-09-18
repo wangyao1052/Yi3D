@@ -23,6 +23,7 @@
 #include <wydbTransaction.h>
 #include <wy3dMove.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -54,17 +55,56 @@ wy::ErrorStatus Move::create(
     const wy::Vector3& moveVector,
     Move*& pOutMove)
 {
-    if (!pTrans) { pOutMove = nullptr; return wy::ErrorStatus::NullDatabasePointer; }
-    if (!pSolid) { pOutMove = nullptr; return wy::ErrorStatus::NullElementPointer; }
+    pOutMove = nullptr;
+    if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
+    if (!pSolid) return wy::ErrorStatus::NullElementPointer;
 
-    Move* pMove = new Move();
-    wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pMove);
-    if (wy::ErrorStatus::Ok != error) { wydb::deleteElement(pMove); pMove = nullptr; return error; }
-
-    error = pMove->setVector(moveVector);
-    CHECK_ERROR_FOR_CREATE(error, pMove);
+    Move* pMove(nullptr);
+    wy::ErrorStatus error = createImpl(pTrans, moveVector, pMove);
+    if (wy::ErrorStatus::Ok != error) return error;
 
     error = pSolid->addModification(pMove);
+    CHECK_ERROR_FOR_CREATE(error, pMove);
+
+    pOutMove = pMove;
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus Move::create(
+    wydb::Transaction* pTrans,
+    wy3d::Sheet* pSheet,
+    const wy::Vector3& moveVector,
+    Move*& pOutMove)
+{
+    pOutMove = nullptr;
+    if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
+    if (!pSheet) return wy::ErrorStatus::NullElementPointer;
+
+    Move* pMove(nullptr);
+    wy::ErrorStatus error = createImpl(pTrans, moveVector, pMove);
+    if (wy::ErrorStatus::Ok != error) return error;
+
+    error = pSheet->addModification(pMove);
+    CHECK_ERROR_FOR_CREATE(error, pMove);
+
+    pOutMove = pMove;
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus Move::createImpl(
+    wydb::Transaction* pTrans,
+    const wy::Vector3& moveVector,
+    Move*& pOutMove)
+{
+    Move* pMove = new Move();
+    wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pMove);
+    if (wy::ErrorStatus::Ok != error)
+    {
+        wydb::deleteElement(pMove);
+        pMove = nullptr;
+        return error;
+    }
+    error = pMove->setVector(moveVector);
     CHECK_ERROR_FOR_CREATE(error, pMove);
 
     pOutMove = pMove;

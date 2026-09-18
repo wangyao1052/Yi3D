@@ -30,6 +30,7 @@
 #include <wy3dSolid.h>
 #include <wy3dPrimitive.h>
 #include <wy3dRotate.h>
+#include <wy3dSheet.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchEntity.h>
 #include "application/Application.h"
@@ -185,45 +186,66 @@ bool RotateElements::performImpl_Modeling(const std::set<wydb::ElementId>& ids, 
     {
         wydb::Element* pElem = pTrans->getElementForWrite(id);
         wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
-        if (!pSolid)
+        if (pSolid)
         {
-            assert(false);
+            if (!pSolid->getParent().isNull())
+            {
+                assert(false);
+                continue;
+            }
+
+            wy3d::Primitive* pPrimitive = wy3d::Primitive::cast(pSolid);
+            const std::vector<wydb::ElementId>& modifications = pSolid->getModifications();
+            if (pPrimitive && modifications.empty())
+            {
+                wy::Vector3 pos = pPrimitive->getPosition();
+                wy::Vector3 rot = pPrimitive->getRotation();
+
+                // 算出最终的transformation
+                gp_Trsf trsf = MathUtils::createTrsf(pos, rot);
+                trsf.PreMultiply(rotTrsf);
+                const gp_XYZ& retPosXYZ = trsf.TranslationPart();
+                wy::Vector3 retEulerAngles = MathUtils::quaternionToEulerZXY(trsf.GetRotation());
+
+                // 赋值
+                pPrimitive->setPosition(wy::Vector3(retPosXYZ.X(), retPosXYZ.Y(), retPosXYZ.Z()));
+                pPrimitive->setRotation(retEulerAngles);
+            }
+            else
+            {
+                wy3d::Rotate* pRotate(nullptr);
+                if (wy::ErrorStatus::Ok == wy3d::Rotate::create(pTrans, pSolid, _centerPnt, _axisDir, rotateAngle, pRotate))
+                {
+                }
+                else
+                {
+                    assert(false);
+                }
+            }
             continue;
         }
-        if (!pSolid->getParent().isNull())
-        {
-            assert(false);
-            continue;
-        }
 
-        wy3d::Primitive* pPrimitive = wy3d::Primitive::cast(pSolid);
-        const std::vector<wydb::ElementId>& modifications = pSolid->getModifications();
-        if (pPrimitive && modifications.empty())
+        // 片体没有位置参数, 一律走 Rotate 特征
+        wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem);
+        if (pSheet)
         {
-            wy::Vector3 pos = pPrimitive->getPosition();
-            wy::Vector3 rot = pPrimitive->getRotation();
-
-            // 算出最终的transformation
-            gp_Trsf trsf = MathUtils::createTrsf(pos, rot);
-            trsf.PreMultiply(rotTrsf);
-            const gp_XYZ& retPosXYZ = trsf.TranslationPart();
-            wy::Vector3 retEulerAngles = MathUtils::quaternionToEulerZXY(trsf.GetRotation());
-
-            // 赋值
-            pPrimitive->setPosition(wy::Vector3(retPosXYZ.X(), retPosXYZ.Y(), retPosXYZ.Z()));
-            pPrimitive->setRotation(retEulerAngles);
-        }
-        else
-        {
+            if (!pSheet->getParent().isNull())
+            {
+                assert(false);
+                continue;
+            }
             wy3d::Rotate* pRotate(nullptr);
-            if (wy::ErrorStatus::Ok == wy3d::Rotate::create(pTrans, pSolid, _centerPnt, _axisDir, rotateAngle, pRotate))
+            if (wy::ErrorStatus::Ok == wy3d::Rotate::create(pTrans, pSheet, _centerPnt, _axisDir, rotateAngle, pRotate))
             {
             }
             else
             {
                 assert(false);
             }
+            continue;
         }
+
+        assert(false);
     }
     _pDb->getTransactionManager()->endTransaction();
     return true;

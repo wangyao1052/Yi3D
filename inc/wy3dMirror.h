@@ -26,6 +26,12 @@ public:
         const wy3d::SketchPlane& mirrorPlane,
         Mirror*& pOutMirror);
 
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        wy3d::Sheet* pOwner,
+        const wy3d::SketchPlane& mirrorPlane,
+        Mirror*& pOutMirror);
+
     wydb::ElementId getSource() const { return _source; }
 
     const wy3d::SketchPlane& getPlane() const { return _plane; }
@@ -45,6 +51,12 @@ protected:
     virtual std::pair<bool, TopoDS_Shape> modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
 
     wy::ErrorStatus setSourceId(const wydb::ElementId& source);
+
+private:
+    std::pair<bool, TopoDS_Shape> appendMirroredInstance(
+        const TopoDS_Shape& shape,
+        TopoNaming* pTopoNaming,
+        wydb::ChainUpdateFeedbackCollector& feedbackCollector);
 
 private:
     wydb::ElementId _source;

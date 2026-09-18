@@ -22,7 +22,7 @@
 #include <wyapSelManager.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include <wy3dSolid.h>
-#include <wy3dMirror.h>
+#include <wy3dSheet.h>
 #include <wy3dMirror.h>
 #include "application/Application.h"
 #include "scene/nodes/ElementNodeType.h"
@@ -42,19 +42,13 @@ public:
     {
         if (id.isNull()) return SelectFilterStatus::Continue;
 
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
-        if (!pSolid)
+        // 在场景中点选只能选择顶层形体: 实体或片体
+        if (!GuiCommandUtil::isTopLevelBody(pDb->getElement(id)))
         {
             return SelectFilterStatus::Continue;
         }
-        if (pSolid->getParent().isNull()) // 在场景中点选只能选择顶层实体特征
-        {
-            return SelectFilterStatus::Ok;
-        }
-        else
-        {
-            return SelectFilterStatus::Continue;
-        }
+
+        return SelectFilterStatus::Ok;
     }
 };
 
@@ -170,13 +164,13 @@ void MirrorGuiCmd::gotoStep(Step step)
         // 禁用输入
         // 提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MirrorGuiCmd",
-            "Select the solids to mirror. Press Enter or Spacebar to confirm. Press Esc to cancel."));
+            "Select the solids or sheets to mirror. Press Enter or Spacebar to confirm."));
 
         // 鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::Sheet);
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = std::make_shared<MirrorGuiCmdPreSelFilter>();
 
@@ -282,8 +276,10 @@ void MirrorGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     {
         const wydb::Database* pDb = Application::instance().getActiveDatabase();
         if (!pDb) return;
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
-        if (!pSolid) return;
+        // 实体(含实体内的子特征)或顶层片体
+        const wydb::Element* pElem = pDb->getElement(id);
+        if (!pElem) return;
+        if (!wy3d::Solid::cast(pElem) && !GuiCommandUtil::isTopLevelBody(pElem)) return;
         _sourceId = id;
         this->finishStep(_step);
     }
@@ -312,33 +308,57 @@ bool MirrorGuiCmd::createMirror(
 
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return false;
-    const wy3d::Solid* pSourceSolid = wy3d::Solid::cast(pDb->getElement(sourceId));
-    if (!pSourceSolid)
-    {
-        assert(false);
-        return false;
-    }
 
-    wydb::ElementId ownerId = pSourceSolid->getParent();
-    if (ownerId.isNull())
+    const wydb::Element* pSourceElem = pDb->getElement(sourceId);
+    const wy3d::Solid* pSourceSolid = wy3d::Solid::cast(pSourceElem);
+    const wy3d::Sheet* pSourceSheet = wy3d::Sheet::cast(pSourceElem);
+    if (pSourceSolid)
     {
-        ownerId = sourceId;
-    }
-    else
-    {
-        if (pSourceSolid->isCut())
-        {
-            const wy3d::Solid* pConstOwnerSolid = wy3d::Solid::cast(pDb->getElement(ownerId));
-            if (!pConstOwnerSolid)
-            {
-                assert(false);
-                return false;
-            }
-        }
-        else
+        // 实体: 镜像的是切割体时, 宿主是它的父级实体
+        wydb::ElementId ownerId = pSourceSolid->getParent();
+        if (ownerId.isNull())
         {
             ownerId = sourceId;
         }
+        else
+        {
+            if (pSourceSolid->isCut())
+            {
+                const wy3d::Solid* pConstOwnerSolid = wy3d::Solid::cast(pDb->getElement(ownerId));
+                if (!pConstOwnerSolid)
+                {
+                    assert(false);
+                    return false;
+                }
+            }
+            else
+            {
+                ownerId = sourceId;
+            }
+        }
+        return this->createMirrorOnSolid(ownerId, pSourceSolid, mirrorPlane, errorCode);
+    }
+    else if (pSourceSheet)
+    {
+        // 片体: 镜像的是它自己
+        return this->createMirrorOnSheet(sourceId, mirrorPlane, errorCode);
+    }
+
+    assert(false);
+    return false;
+}
+
+bool MirrorGuiCmd::createMirrorOnSolid(
+    const wydb::ElementId& ownerId,
+    const wy3d::Solid* pSourceSolid,
+    const wy3d::SketchPlane& mirrorPlane,
+    unsigned int& errorCode)
+{
+    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return false;
     }
 
     // 开启事务
@@ -357,6 +377,52 @@ bool MirrorGuiCmd::createMirror(
     // 创建镜像
     wy3d::Mirror* pMirror(nullptr);
     wy::ErrorStatus error = wy3d::Mirror::create(pTrans, pOwnerSolid, pSourceSolid, mirrorPlane, pMirror);
+    if (wy::ErrorStatus::Ok != error || !pMirror)
+    {
+        pDb->getTransactionManager()->abortTransaction();
+        return false;
+    }
+    pDb->getTransactionManager()->endTransaction();
+
+    // 已经创建成功但还需要查看有无错误码
+    errorCode = wy3d::getErrorCodeFromChainUpdateFeedback(
+        pDb->getTransactionManager()->getChainUpdateFeedback(pMirror->getId()).get());
+    if (errorCode != 0)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool MirrorGuiCmd::createMirrorOnSheet(
+    const wydb::ElementId& sheetId,
+    const wy3d::SketchPlane& mirrorPlane,
+    unsigned int& errorCode)
+{
+    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return false;
+    }
+
+    // 开启事务
+    wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+    if (!pTrans) return false;
+
+    // 镜像的宿主就是片体自己
+    wy3d::Sheet* pSheet = wy3d::Sheet::cast(pTrans->getElementForWrite(sheetId));
+    if (!pSheet)
+    {
+        assert(false);
+        pDb->getTransactionManager()->abortTransaction();
+        return false;
+    }
+
+    // 创建镜像
+    wy3d::Mirror* pMirror(nullptr);
+    wy::ErrorStatus error = wy3d::Mirror::create(pTrans, pSheet, mirrorPlane, pMirror);
     if (wy::ErrorStatus::Ok != error || !pMirror)
     {
         pDb->getTransactionManager()->abortTransaction();

@@ -24,6 +24,7 @@
 #include <wydbTransaction.h>
 #include <wy3dRotate.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -59,18 +60,66 @@ wy::ErrorStatus Rotate::create(
     double angle,
     Rotate*& pOutRotate)
 {
-    if (!pTrans) { pOutRotate = nullptr; return wy::ErrorStatus::NullDatabasePointer; }
-    if (!pSolid) { pOutRotate = nullptr; return wy::ErrorStatus::NullElementPointer; }
+    pOutRotate = nullptr;
+    if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
+    if (!pSolid) return wy::ErrorStatus::NullElementPointer;
 
+    Rotate* pRotate(nullptr);
+    wy::ErrorStatus error = createImpl(pTrans, centerPoint, axisDirection, angle, pRotate);
+    if (wy::ErrorStatus::Ok != error) return error;
+
+    error = pSolid->addModification(pRotate);
+    CHECK_ERROR_FOR_CREATE(error, pRotate);
+
+    pOutRotate = pRotate;
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus Rotate::create(
+    wydb::Transaction* pTrans,
+    wy3d::Sheet* pSheet,
+    const wy::Vector3& centerPoint,
+    const wy::Vector3& axisDirection,
+    double angle,
+    Rotate*& pOutRotate)
+{
+    pOutRotate = nullptr;
+    if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
+    if (!pSheet) return wy::ErrorStatus::NullElementPointer;
+
+    Rotate* pRotate(nullptr);
+    wy::ErrorStatus error = createImpl(pTrans, centerPoint, axisDirection, angle, pRotate);
+    if (wy::ErrorStatus::Ok != error) return error;
+
+    error = pSheet->addModification(pRotate);
+    CHECK_ERROR_FOR_CREATE(error, pRotate);
+
+    pOutRotate = pRotate;
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus Rotate::createImpl(
+    wydb::Transaction* pTrans,
+    const wy::Vector3& centerPoint,
+    const wy::Vector3& axisDirection,
+    double angle,
+    Rotate*& pOutRotate)
+{
     Rotate* pRotate = new Rotate();
     wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pRotate);
-    if (wy::ErrorStatus::Ok != error) { wydb::deleteElement(pRotate); pRotate = nullptr; return error; }
+    if (wy::ErrorStatus::Ok != error)
+    {
+        wydb::deleteElement(pRotate);
+        pRotate = nullptr;
+        return error;
+    }
 
-    error = pRotate->setCenterPoint(centerPoint); CHECK_ERROR_FOR_CREATE(error, pRotate);
-    error = pRotate->setAxisDirection(axisDirection); CHECK_ERROR_FOR_CREATE(error, pRotate);
-    error = pRotate->setAngle(angle); CHECK_ERROR_FOR_CREATE(error, pRotate);
-
-    error = pSolid->addModification(pRotate); CHECK_ERROR_FOR_CREATE(error, pRotate);
+    error = pRotate->setCenterPoint(centerPoint);
+    CHECK_ERROR_FOR_CREATE(error, pRotate);
+    error = pRotate->setAxisDirection(axisDirection);
+    CHECK_ERROR_FOR_CREATE(error, pRotate);
+    error = pRotate->setAngle(angle);
+    CHECK_ERROR_FOR_CREATE(error, pRotate);
 
     pOutRotate = pRotate;
     return wy::ErrorStatus::Ok;

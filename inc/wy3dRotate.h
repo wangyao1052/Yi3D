@@ -28,6 +28,14 @@ public:
         double angle,
         Rotate*& pOutRotate);
 
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        wy3d::Sheet* pSheet,
+        const wy::Vector3& centerPoint,
+        const wy::Vector3& axisDirection,
+        double angle,
+        Rotate*& pOutRotate);
+
     const wy::Vector3& getCenterPoint() const { return _center; }
     wy::ErrorStatus setCenterPoint(const wy::Vector3& center);
 
@@ -47,6 +55,14 @@ protected:
     virtual wy::ErrorStatus writeToFiler(wydb::OutFiler& filer) const override;
     virtual wy::ErrorStatus readFromFiler(wydb::InFiler& filer) override;
     virtual std::pair<bool, TopoDS_Shape> modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
+
+private:
+    static wy::ErrorStatus createImpl(
+        wydb::Transaction* pTrans,
+        const wy::Vector3& centerPoint,
+        const wy::Vector3& axisDirection,
+        double angle,
+        Rotate*& pOutRotate);
 
 private:
     wy::Vector3 _center;

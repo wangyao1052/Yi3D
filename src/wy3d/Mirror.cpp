@@ -25,6 +25,7 @@
 #include <wyVector3.h>
 #include <wy3dMirror.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dImpl.h>
@@ -49,6 +50,7 @@
 #include "topo/TopoShapeUtil.h"
 #include "topo/TopoNamingUtil.h"
 #include "topo/MoveRotateTopoShapeComparer.h"
+#include "topo/MirrorSheetTopoShapeComparer.h"
 #include "BodyModificationUtil.h"
 #include "utils/OccUtil.h"
 #include "utils/Util.h"
@@ -108,6 +110,34 @@ wy::ErrorStatus Mirror::create(
         error = pMirror->setSourceId(pSource->getId());
         CHECK_ERROR_FOR_CREATE(error, pMirror);
     }
+    error = pOwner->addModification(pMirror);
+    CHECK_ERROR_FOR_CREATE(error, pMirror);
+
+    pOutMirror = pMirror;
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus Mirror::create(
+    wydb::Transaction* pTrans,
+    wy3d::Sheet* pOwner,
+    const wy3d::SketchPlane& mirrorPlane,
+    Mirror*& pOutMirror)
+{
+    pOutMirror = nullptr;
+    if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
+    if (!pOwner) return wy::ErrorStatus::NullElementPointer;
+
+    Mirror* pMirror = new Mirror();
+    wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pMirror);
+    if (wy::ErrorStatus::Ok != error)
+    {
+        wydb::deleteElement(pMirror);
+        pMirror = nullptr;
+        return error;
+    }
+
+    error = pMirror->setPlane(mirrorPlane);
+    CHECK_ERROR_FOR_CREATE(error, pMirror);
     error = pOwner->addModification(pMirror);
     CHECK_ERROR_FOR_CREATE(error, pMirror);
 
@@ -425,6 +455,17 @@ std::pair<bool, TopoDS_Shape> Mirror::modifyOwnerShape(const TopoDS_Shape& shape
 
     this->clearNewFaces();
 
+    if (this->getSheetHost())
+    {
+        if (!_source.isNull())
+        {
+            wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+                static_cast<std::uint32_t>(ErrorCode::ELEMENT_InvalidData));
+            return std::pair<bool, TopoDS_Shape>(false, shape);
+        }
+        return this->appendMirroredInstance(shape, pTopoNaming, feedbackCollector);
+    }
+
     TopoDS_Shape sourceShape;
     const TopoNaming* pSourceNaming = nullptr;
     bool isCut(false);
@@ -474,6 +515,51 @@ std::pair<bool, TopoDS_Shape> Mirror::modifyOwnerShape(const TopoDS_Shape& shape
 
     return this->modifyOwnerShapeByInstance(shape, pTopoNaming,
         instShape, pInstTopoNaming.get(), isCut, feedbackCollector);
+}
+
+std::pair<bool, TopoDS_Shape> Mirror::appendMirroredInstance(
+    const TopoDS_Shape& shape,
+    TopoNaming* pTopoNaming,
+    wydb::ChainUpdateFeedbackCollector& feedbackCollector)
+{
+    assert(!shape.IsNull());
+    assert(pTopoNaming);
+
+    try
+    {
+        gp_Trsf mirrorTrsf;
+        gp_Ax2 ax2 = OccUtil::toAx2(_plane);
+        mirrorTrsf.SetMirror(ax2);
+
+        BRepBuilderAPI_Transform transformer(shape, mirrorTrsf);
+        TopoDS_Shape instShape = transformer.Shape();
+
+        std::vector<unsigned int> suffix;
+        suffix.emplace_back(this->getId().value());
+        TopoNamingSPtr pInstTopoNaming = std::make_shared<TopoNaming>();
+        if (!TopoNamingUtil::patternNaming(shape, *pTopoNaming, suffix, transformer, *pInstTopoNaming))
+        {
+            wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+                static_cast<std::uint32_t>(ErrorCode::TOPOSHAPE_GenerateShapeError));
+            return std::pair<bool, TopoDS_Shape>(false, shape);
+        }
+        pTopoNaming->merge(*pInstTopoNaming, instShape, instShape);
+
+        TopoDS_Shape retShape = TopoShapeUtil::makeCompound(shape, instShape);
+
+        MirrorSheetTopoShapeComparer topoComparer(transformer, shape, retShape);
+        topoComparer.perform();
+
+        this->recordNewFaces(topoComparer.getFaceDelta(), pTopoNaming);
+
+        return std::pair<bool, TopoDS_Shape>(true, retShape);
+    }
+    catch (const Standard_Failure&)
+    {
+        wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+            static_cast<std::uint32_t>(ErrorCode::TOPOSHAPE_GenerateShapeError));
+        return std::pair<bool, TopoDS_Shape>(false, shape);
+    }
 }
 
 NS_WY3D_END
