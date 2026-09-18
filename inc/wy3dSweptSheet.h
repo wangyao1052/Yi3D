@@ -13,6 +13,7 @@
 NS_WY3D_BEG
 
 class Sketch;
+class Sketch3D;
 class Curve;
 
 class WY3D_EXPORT SweptSheet : public wy3d::Sheet
@@ -21,6 +22,7 @@ class WY3D_EXPORT SweptSheet : public wy3d::Sheet
 
 public:
     static wy::ErrorStatus create(wydb::Transaction* pTrans, wy3d::Sketch* pPath, wy3d::Sketch* pProfile, SweptSheet*& pOutSheet);
+    static wy::ErrorStatus create(wydb::Transaction* pTrans, wy3d::Sketch3D* pPath, wy3d::Sketch* pProfile, SweptSheet*& pOutSheet);
     static wy::ErrorStatus create(wydb::Transaction* pTrans, wy3d::Curve* pPath, wy3d::Sketch* pProfile, SweptSheet*& pOutSheet);
 
     virtual std::vector<wydb::ElementId> getChildren() const override
@@ -52,6 +54,7 @@ protected:
 private:
     wy::ErrorStatus setPathImpl(const wydb::ElementId& pathId);
     wy::ErrorStatus setPathImpl(wy3d::Sketch* pPathSketch);
+    wy::ErrorStatus setPathImpl(wy3d::Sketch3D* pPathSketch3D);
     wy::ErrorStatus setPathImpl(wy3d::Curve* pCurve);
 
     wy::ErrorStatus setProfileImpl(const wydb::ElementId& profileId);

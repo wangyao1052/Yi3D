@@ -38,6 +38,7 @@
 #include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include <wy3dSketch.h>
+#include <wy3dSketch3D.h>
 #include <wy3dCurve.h>
 #include <wy3dHelix.h>
 #include <wy3dSketchProfile.h>
@@ -85,6 +86,23 @@ wy::ErrorStatus Sweep::create(wydb::Transaction* pTrans, wy3d::Sketch* pPath, wy
     return wy::ErrorStatus::Ok;
 }
 
+wy::ErrorStatus Sweep::create(wydb::Transaction* pTrans, wy3d::Sketch3D* pPath, wy3d::Sketch* pProfile, Sweep*& pOut)
+{
+    if (!pTrans) { pOut = nullptr; return wy::ErrorStatus::NullDatabasePointer; }
+    if (!pPath || !pProfile) { pOut = nullptr; return wy::ErrorStatus::NullElementPointer; }
+    if (pPath->getId() == pProfile->getId()) { pOut = nullptr; return wy::ErrorStatus::InvalidInput; }
+
+    Sweep* pSweep = new Sweep();
+    wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pSweep);
+    if (error != wy::ErrorStatus::Ok) { wydb::deleteElement(pSweep); pSweep = nullptr; return error; }
+
+    error = pSweep->_setPath(pPath); CHECK_ERROR_FOR_CREATE(error, pSweep);
+    error = pSweep->_setProfile(pProfile); CHECK_ERROR_FOR_CREATE(error, pSweep);
+
+    pOut = pSweep;
+    return wy::ErrorStatus::Ok;
+}
+
 wy::ErrorStatus Sweep::create(wydb::Transaction* pTrans, wy3d::Curve* pPath, wy3d::Sketch* pProfile, Sweep*& pOut)
 {
     if (!pTrans) { pOut = nullptr; return wy::ErrorStatus::NullDatabasePointer; }
@@ -103,6 +121,26 @@ wy::ErrorStatus Sweep::create(wydb::Transaction* pTrans, wy3d::Curve* pPath, wy3
 }
 
 wy::ErrorStatus Sweep::createCut(wydb::Transaction* pTrans, wy3d::Sketch* pPath, wy3d::Sketch* pProfile, wy3d::Solid* pSolidToCut, Sweep*& pOut)
+{
+    if (!pTrans) { pOut = nullptr; return wy::ErrorStatus::NullDatabasePointer; }
+    if (!pPath || !pProfile) { pOut = nullptr; return wy::ErrorStatus::NullElementPointer; }
+    if (pPath->getId() == pProfile->getId()) { pOut = nullptr; return wy::ErrorStatus::InvalidInput; }
+
+    Sweep* pSweep = new Sweep();
+    wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pSweep);
+    if (error != wy::ErrorStatus::Ok) { wydb::deleteElement(pSweep); pSweep = nullptr; return error; }
+
+    error = pSweep->_setPath(pPath); CHECK_ERROR_FOR_CREATE(error, pSweep);
+    error = pSweep->_setProfile(pProfile); CHECK_ERROR_FOR_CREATE(error, pSweep);
+    error = pSweep->setCut(true); CHECK_ERROR_FOR_CREATE(error, pSweep);
+
+    if (pSolidToCut) { error = pSolidToCut->addModification(pSweep); CHECK_ERROR_FOR_CREATE(error, pSweep); }
+
+    pOut = pSweep;
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus Sweep::createCut(wydb::Transaction* pTrans, wy3d::Sketch3D* pPath, wy3d::Sketch* pProfile, wy3d::Solid* pSolidToCut, Sweep*& pOut)
 {
     if (!pTrans) { pOut = nullptr; return wy::ErrorStatus::NullDatabasePointer; }
     if (!pPath || !pProfile) { pOut = nullptr; return wy::ErrorStatus::NullElementPointer; }
@@ -167,6 +205,19 @@ wy::ErrorStatus Sweep::_setPath(wy3d::Sketch* pSketch)
     if (error != wy::ErrorStatus::Ok) return error;
 
     error = pSketch->setOwner(this->getId());
+    return error;
+}
+
+wy::ErrorStatus Sweep::_setPath(wy3d::Sketch3D* pSketch3D)
+{
+    assert(_pathId.isNull());
+    if (!pSketch3D) return wy::ErrorStatus::NullElementPointer;
+    if (!pSketch3D->getParent().isNull()) return wy::ErrorStatus::InvalidInput;
+
+    wy::ErrorStatus error = this->_setPath(pSketch3D->getId());
+    if (error != wy::ErrorStatus::Ok) return error;
+
+    error = pSketch3D->setParent(this->getId());
     return error;
 }
 
@@ -365,12 +416,13 @@ TopoDS_Shape Sweep::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdateFeed
     wy3d::SketchPlane pathPlane;
     const wydb::Element* pPathElem = pDb->getElement(_pathId);
     const wy3d::Sketch* pPathSketch = wy3d::Sketch::cast(pPathElem);
+    const wy3d::Sketch3D* pPathSketch3D = wy3d::Sketch3D::cast(pPathElem);
     const wy3d::Curve* pPathCurve = wy3d::Curve::cast(pPathElem);
     if (pPathSketch && pPathSketch->getPlane().isValid())
     {
         pathPlane = pPathSketch->getPlane();
     }
-    else if (!pPathCurve)
+    else if (!pPathCurve && !pPathSketch3D)
     {
         assert(false);
         wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
@@ -407,6 +459,10 @@ TopoDS_Shape Sweep::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdateFeed
     if (pPathSketch)
     {
         errorCreatePathWire = SweepTopoUtil::createPathWire(*pPathSketch, pathWireInfo, pathStartPos, pathStartDir);
+    }
+    else if (pPathSketch3D)
+    {
+        errorCreatePathWire = SweepTopoUtil::createPathWire(*pPathSketch3D, pathWireInfo, pathStartPos, pathStartDir);
     }
     else if (pPathCurve)
     {

@@ -27,6 +27,7 @@
 #include <wy3dSweep.h>
 #include <wy3dLoft.h>
 #include <wy3dSketch.h>
+#include <wy3dSketch3D.h>
 #include <wy3dCurve.h>
 #include <wy3dSketchCenterLine.h>
 #include <wy3dColor.h>
@@ -276,6 +277,19 @@ void bindWy3dSolids(py::module_& m)
                 py::arg("profile"),
                 py::return_value_policy::reference)
 
+            .def_static("create",
+                [](wydb::Transaction* pTrans, wy3d::Sketch3D* pPath, wy3d::Sketch* pProfile) -> wy3d::Sweep*
+                {
+                    if (!pTrans || !pPath || !pProfile) return nullptr;
+                    wy3d::Sweep* pOutSweep = nullptr;
+                    wy::ErrorStatus status = wy3d::Sweep::create(pTrans, pPath, pProfile, pOutSweep);
+                    return pOutSweep;
+                },
+                py::arg("transaction"),
+                py::arg("path"),
+                py::arg("profile"),
+                py::return_value_policy::reference)
+
             .def_static("createCut",
                 [](wydb::Transaction* pTrans, wy3d::Sketch* pPath, wy3d::Sketch* pProfile, wy3d::Solid* pSolidToCut) -> wy3d::Sweep*
                 {
@@ -292,6 +306,20 @@ void bindWy3dSolids(py::module_& m)
 
             .def_static("createCut",
                 [](wydb::Transaction* pTrans, wy3d::Curve* pPath, wy3d::Sketch* pProfile, wy3d::Solid* pSolidToCut) -> wy3d::Sweep*
+                {
+                    if (!pTrans || !pPath || !pProfile || !pSolidToCut) return nullptr;
+                    wy3d::Sweep* pOutSweep = nullptr;
+                    wy::ErrorStatus status = wy3d::Sweep::createCut(pTrans, pPath, pProfile, pSolidToCut, pOutSweep);
+                    return pOutSweep;
+                },
+                py::arg("transaction"),
+                py::arg("path"),
+                py::arg("profile"),
+                py::arg("solidToCut"),
+                py::return_value_policy::reference)
+
+            .def_static("createCut",
+                [](wydb::Transaction* pTrans, wy3d::Sketch3D* pPath, wy3d::Sketch* pProfile, wy3d::Solid* pSolidToCut) -> wy3d::Sweep*
                 {
                     if (!pTrans || !pPath || !pProfile || !pSolidToCut) return nullptr;
                     wy3d::Sweep* pOutSweep = nullptr;

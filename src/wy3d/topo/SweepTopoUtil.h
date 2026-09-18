@@ -33,6 +33,7 @@
 NS_WY3D_BEG
 
 class Sketch;
+class Sketch3D;
 class Curve;
 
 // 扫掠体&扫掠曲面共用的路径Wire与管道构建（内部使用，不对外导出）
@@ -42,6 +43,12 @@ public:
     // 草图路径 → 路径Wire + 起点位置/方向（Sweep与SweptSheet共用）
     static ErrorCode createPathWire(
         const wy3d::Sketch& pathSketch,
+        TopoUtil::WireInfo& pathWireInfo,
+        wy::Vector3& pathStartPos,
+        wy::Vector3& pathStartDir);
+
+    static ErrorCode createPathWire(
+        const wy3d::Sketch3D& pathSketch3D,
         TopoUtil::WireInfo& pathWireInfo,
         wy::Vector3& pathStartPos,
         wy::Vector3& pathStartDir);

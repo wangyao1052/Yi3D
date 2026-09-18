@@ -27,6 +27,8 @@
 #include <wy3dSketch3D.h>
 #include <wy3dFilledSheet.h>
 #include <wy3dSplitFace.h>
+#include <wy3dSweep.h>
+#include <wy3dSweptSheet.h>
 
 #include "application/Application.h"
 #include "environments/sketch3d/Sketch3DEnvironment.h"
@@ -131,6 +133,23 @@ static bool canEndEditingSketch3D(const wydb::ElementId& sketch3dId)
     if (const wy3d::FilledSheet* pFilledSheet = wy3d::FilledSheet::cast(pSketchOwner))
     {
         if (SketchUtil::isValidProfile3DForFilledSheet(*pSketch3D, error))
+        {
+            return true;
+        }
+    }
+    else if (const wy3d::Sweep* pSweep = wy3d::Sweep::cast(pSketchOwner))
+    {
+        // 3D草图在扫描中只能作路径
+        assert(pSweep->getPath() == sketch3dId);
+        if (SketchUtil::isValidSweepPath3D(*pSketch3D, error))
+        {
+            return true;
+        }
+    }
+    else if (const wy3d::SweptSheet* pSweptSheet = wy3d::SweptSheet::cast(pSketchOwner))
+    {
+        assert(pSweptSheet->getPath() == sketch3dId);
+        if (SketchUtil::isValidSweepPath3D(*pSketch3D, error))
         {
             return true;
         }

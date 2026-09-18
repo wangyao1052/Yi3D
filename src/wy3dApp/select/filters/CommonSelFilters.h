@@ -42,6 +42,13 @@ public:
         _classInfos.emplace_back(classInfo2nd);
     }
 
+    explicit CommonPreSelFilterForPointPick(
+        const std::vector<wyrx::ClassInfo*>& classInfos,
+        wydb::ElementId excludeId = wydb::ElementId::kNull)
+        : _classInfos(classInfos), _excludeId(excludeId)
+    {
+    }
+
     // 执行函数
     virtual SelectFilterStatus operator()(
         const wydb::Database* pDb,

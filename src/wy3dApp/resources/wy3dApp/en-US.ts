@@ -5932,11 +5932,12 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchUtil</name>
     <message>
-        <location filename="../../utils/SketchUtil.cpp" line="93"/>
-        <location filename="../../utils/SketchUtil.cpp" line="222"/>
-        <location filename="../../utils/SketchUtil.cpp" line="249"/>
-        <location filename="../../utils/SketchUtil.cpp" line="276"/>
-        <location filename="../../utils/SketchUtil.cpp" line="307"/>
+        <location filename="../../utils/SketchUtil.cpp" line="94"/>
+        <location filename="../../utils/SketchUtil.cpp" line="223"/>
+        <location filename="../../utils/SketchUtil.cpp" line="250"/>
+        <location filename="../../utils/SketchUtil.cpp" line="277"/>
+        <location filename="../../utils/SketchUtil.cpp" line="304"/>
+        <location filename="../../utils/SketchUtil.cpp" line="335"/>
         <source>Element IDs: %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5965,12 +5966,12 @@ Do you want to save it to the original file now?
 <context>
     <name>Sweep</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="323"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="325"/>
         <source>Select the path sketch.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="347"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="353"/>
         <source>Select the profile sketch.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5978,7 +5979,7 @@ Do you want to save it to the original file now?
 <context>
     <name>SweepGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="381"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="388"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5986,12 +5987,12 @@ Do you want to save it to the original file now?
 <context>
     <name>SweptSheet</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="209"/>
+        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="211"/>
         <source>Select the path sketch.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="233"/>
+        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="239"/>
         <source>Select the profile sketch.</source>
         <translation type="unfinished"></translation>
     </message>

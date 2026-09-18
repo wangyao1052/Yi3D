@@ -47,6 +47,9 @@ public:
     static bool isValidSweepPath(const wy3d::Sketch& sketch, QString& error);
     static bool isValidSweepProfile(const wy3d::Sketch& sketch, QString& error);
 
+    // 扫描体与扫掠曲面的3D草图路径
+    static bool isValidSweepPath3D(const wy3d::Sketch3D& sketch3D, QString& error);
+
     // 放样体
     static bool isValidLoftProfile(const wy3d::Sketch& sketch, QString& error);
 

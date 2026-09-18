@@ -25,6 +25,7 @@
 #include <wyapDocManager.h>
 #include <wyapDocument.h>
 #include <wy3dSketch.h>
+#include <wy3dSketch3D.h>
 #include <wy3dCurve.h>
 #include <wy3dImpl.h>
 #include <wy3dSolid.h>
@@ -34,6 +35,7 @@
 #include "scene/Scene.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/SketchUtil.h"
+#include "translation/ErrorCodeTranslation.h"
 #include "utils/MessageBoxUtil.h"
 #include "utils/GuiCommandUtil.h"
 #include "select/filters/CommonSelFilters.h"
@@ -65,7 +67,7 @@ wyap::CmdExecution::StartResult SweepGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化:点选选项
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch | ElementNodeType::Curve);
+    // pickMask与前置过滤器按步骤在gotoStep中设置
     _pointPickOption.selType = wy3d::SelectionType::Element;
 
     // 初始化:步骤
@@ -325,9 +327,13 @@ void SweepGuiCmd::gotoStep(Step step)
         // 鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);
 
-        // 前置选择过滤器
+        // 点选选项:路径可以是2D草图、3D草图或模型曲线
+        _pointPickOption.pickMask = static_cast<unsigned int>(
+            ElementNodeType::Sketch | ElementNodeType::Sketch3D | ElementNodeType::Curve);
         _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
-            wy3d::Sketch::classInfo(), wy3d::Curve::classInfo(), wydb::ElementId::kNull);
+            std::vector<wyrx::ClassInfo*>{ wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo(),
+                wy3d::Curve::classInfo() },
+            wydb::ElementId::kNull);
     }
     break;
 
@@ -349,7 +355,8 @@ void SweepGuiCmd::gotoStep(Step step)
         // 鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);
 
-        // 前置选择过滤器
+        // 点选选项:轮廓只能是2D草图
+        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch);
         _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
             wy3d::Sketch::classInfo(), _pathId);
     }
@@ -523,9 +530,21 @@ void SweepGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     {
         const wydb::Database* pDb = Application::instance().getActiveDatabase();
         if (!pDb) return;
-        const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(id));
-        if (!pSketch) return;
-        if (!pSketch->getParent().isNull()) return;
+        const wydb::Element* pElem = pDb->getElement(id);
+        const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pElem);
+        const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pElem);
+        if (pSketch)
+        {
+            if (!pSketch->getParent().isNull()) return;
+        }
+        else if (pSketch3D)
+        {
+            if (!pSketch3D->getParent().isNull()) return;
+        }
+        else
+        {
+            return;
+        }
 
         QString error;
         if (this->isValidPath(id, error))
@@ -649,6 +668,13 @@ bool SweepGuiCmd::isValidPath(const wydb::ElementId& pathId, QString& error)
         return true;
     }
 
+    const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pElem);
+    if (pSketch3D)
+    {
+        if (!pSketch3D->getParent().isNull()) return false;
+        return SketchUtil::isValidSweepPath3D(*pSketch3D, error);
+    }
+
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pElem);
     if (!pSketch) return false;
     if (!pSketch->getParent().isNull()) return false;
@@ -659,7 +685,18 @@ bool SweepGuiCmd::isValidProfile(const wydb::ElementId& profileId, QString& erro
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return false;
-    const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(profileId));
+    const wydb::Element* pElem = pDb->getElement(profileId);
+    if (!pElem) return false;
+
+    // 3D草图只能作路径(在特征树里点到它时要给出原因)
+    if (wy3d::Sketch3D::cast(pElem))
+    {
+        error = ErrorCodeTranslation::instance().getErrorCodeDescription(
+            wy3d::ErrorCode::PROFILE_InvalidProfile);
+        return false;
+    }
+
+    const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pElem);
     if (!pSketch) return false;
     if (!pSketch->getParent().isNull()) return false;
 
@@ -741,10 +778,15 @@ bool MakeSweep::create(const wydb::ElementId& pathId, const wydb::ElementId& pro
     // 路径草图
     const wydb::Element* pPathElem = _pDb->getElement(pathId);
     const wy3d::Sketch* pConstPathSketch = wy3d::Sketch::cast(pPathElem);
+    const wy3d::Sketch3D* pConstPathSketch3D = wy3d::Sketch3D::cast(pPathElem);
     const wy3d::Curve* pConstPathCurve = wy3d::Curve::cast(pPathElem);
     if (pConstPathSketch)
     {
         if (!pConstPathSketch->getParent().isNull()) return false;
+    }
+    else if (pConstPathSketch3D)
+    {
+        if (!pConstPathSketch3D->getParent().isNull()) return false;
     }
     else if (pConstPathCurve)
     {
@@ -790,6 +832,37 @@ bool MakeSweep::create(const wydb::ElementId& pathId, const wydb::ElementId& pro
         else
         {
             if (wy::ErrorStatus::Ok != wy3d::Sweep::create(pTrans, pPathSketch, pProfileSketch, pSweep) || !pSweep)
+            {
+                assert(false);
+                goto ABORT_TRANS;
+            }
+        }
+    }
+    else if (pConstPathSketch3D)
+    {
+        wy3d::Sketch3D* pPathSketch3D = wy3d::Sketch3D::cast(pTrans->getElementForWrite(pathId));
+        if (!pPathSketch3D)
+        {
+            assert(false);
+            goto ABORT_TRANS;
+        }
+        wy3d::Sketch* pProfileSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(profileId));
+        if (!pProfileSketch)
+        {
+            assert(false);
+            goto ABORT_TRANS;
+        }
+        if (_isCut)
+        {
+            if (wy::ErrorStatus::Ok != wy3d::Sweep::createCut(pTrans, pPathSketch3D, pProfileSketch, nullptr, pSweep) || !pSweep)
+            {
+                assert(false);
+                goto ABORT_TRANS;
+            }
+        }
+        else
+        {
+            if (wy::ErrorStatus::Ok != wy3d::Sweep::create(pTrans, pPathSketch3D, pProfileSketch, pSweep) || !pSweep)
             {
                 assert(false);
                 goto ABORT_TRANS;

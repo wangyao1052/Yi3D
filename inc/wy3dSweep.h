@@ -13,6 +13,7 @@
 NS_WY3D_BEG
 
 class Sketch;
+class Sketch3D;
 class Curve;
 
 class WY3D_EXPORT Sweep : public wy3d::Solid
@@ -21,8 +22,10 @@ class WY3D_EXPORT Sweep : public wy3d::Solid
 
 public:
     static wy::ErrorStatus create(wydb::Transaction* pTrans, wy3d::Sketch* pPath, wy3d::Sketch* pProfile, Sweep*& pOutSweep);
+    static wy::ErrorStatus create(wydb::Transaction* pTrans, wy3d::Sketch3D* pPath, wy3d::Sketch* pProfile, Sweep*& pOutSweep);
     static wy::ErrorStatus create(wydb::Transaction* pTrans, wy3d::Curve* pPath, wy3d::Sketch* pProfile, Sweep*& pOutSweep);
     static wy::ErrorStatus createCut(wydb::Transaction* pTrans, wy3d::Sketch* pPath, wy3d::Sketch* pProfile, wy3d::Solid* pSolidToCut, Sweep*& pOutSweep);
+    static wy::ErrorStatus createCut(wydb::Transaction* pTrans, wy3d::Sketch3D* pPath, wy3d::Sketch* pProfile, wy3d::Solid* pSolidToCut, Sweep*& pOutSweep);
     static wy::ErrorStatus createCut(wydb::Transaction* pTrans, wy3d::Curve* pPath, wy3d::Sketch* pProfile, wy3d::Solid* pSolidToCut, Sweep*& pOutSweep);
 
     virtual std::vector<wydb::ElementId> getChildren() const override
@@ -53,6 +56,7 @@ protected:
 private:
     wy::ErrorStatus _setPath(const wydb::ElementId& pathId);
     wy::ErrorStatus _setPath(wy3d::Sketch* pPathSketch);
+    wy::ErrorStatus _setPath(wy3d::Sketch3D* pPathSketch3D);
     wy::ErrorStatus _setPath(wy3d::Curve* pCurve);
     wy::ErrorStatus _setProfile(const wydb::ElementId& profileId);
     wy::ErrorStatus _setProfile(wy3d::Sketch* pProfileSketch);

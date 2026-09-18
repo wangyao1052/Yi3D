@@ -24,15 +24,21 @@
 #include <Geom_Curve.hxx>
 #include <BRepLib.hxx>
 
+#include <Standard_Failure.hxx>
+
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wy3dImpl.h>
 #include <wy3dSketch.h>
+#include <wy3dSketch3D.h>
+#include <wy3dSketchCurve3D.h>
 #include <wy3dCurve.h>
 #include <wy3dSketchPath.h>
+#include <wy3dSketch3DPath.h>
 #include <wy3dErrorCode.h>
 
 #include "topo/SketchTopoBuilder.h"
+#include "topo/Sketch3DTopoBuilder.h"
 #include "topo/TopoNamingUtil.h"
 #include "topo/SweepTopoUtil.h"
 
@@ -63,7 +69,11 @@ ErrorCode SweepTopoUtil::createPathWire(
         const SketchCurve* pCurve = curve.curve;
         assert(pCurve);
         TopoDS_Edge edge = sketchTopoBuilder.makeEdge(pCurve);
-        if (edge.IsNull()) { assert(false); continue; }
+        if (edge.IsNull())
+        {
+            assert(false);
+            continue;
+        }
         if (curve.orient)
         {
             edge = TopoDS::Edge(edge.Reversed());
@@ -95,6 +105,78 @@ ErrorCode SweepTopoUtil::createPathWire(
     }
 
     const std::map<Handle(Geom_Curve), unsigned int>& curve2Id = sketchTopoBuilder.getCurve2IdMap();
+    TopoUtil::recordEdgeNamesOfWire_AppendedMode(pathWireInfo.wire, curve2Id, pathWireInfo.edgeNameInfos);
+
+    return ErrorCode::NoError;
+}
+
+ErrorCode SweepTopoUtil::createPathWire(
+    const wy3d::Sketch3D& pathSketch3D,
+    TopoUtil::WireInfo& pathWireInfo,
+    wy::Vector3& pathStartPos,
+    wy::Vector3& pathStartDir)
+{
+    Sketch3DPath sketch3DPath(&pathSketch3D);
+    if (!sketch3DPath.check())
+    {
+        std::shared_ptr<SketchError> pError = sketch3DPath.getError();
+        if (pError) return pError->type;
+        else return ErrorCode::PATH_InvalidPath;
+    }
+
+    const std::vector<BiCurve3D>& pathCurves = sketch3DPath.getPath();
+    if (pathCurves.empty()) { return ErrorCode::PATH_NoCurves; }
+
+    Sketch3DTopoBuilder sketch3DTopoBuilder(true);
+    TopoDS_Wire pathWire;
+    try
+    {
+        BRepBuilderAPI_MakeWire makeWire;
+        for (const BiCurve3D& curve : pathCurves)
+        {
+            const SketchCurve3D* pCurve = curve.curve;
+            assert(pCurve);
+            TopoDS_Edge edge = sketch3DTopoBuilder.makeEdge(pCurve);
+            if (edge.IsNull())
+            {
+                assert(false);
+                continue;
+            }
+            if (!curve.orient)
+            {
+                edge = TopoDS::Edge(edge.Reversed());
+            }
+            makeWire.Add(edge);
+        }
+        if (!makeWire.IsDone() || makeWire.Wire().IsNull()) return ErrorCode::TOPOSHAPE_GenerateShapeError;
+        pathWire = makeWire.Wire();
+    }
+    catch (const Standard_Failure&)
+    {
+        return ErrorCode::TOPOSHAPE_GenerateShapeError;
+    }
+    pathWireInfo.wire = pathWire;
+
+    const BiCurve3D& startPathCurve = pathCurves.front();
+    const SketchCurve3D* pStartCurve = startPathCurve.curve;
+    assert(pStartCurve);
+    if (startPathCurve.orient)
+    {
+        pathStartPos = pStartCurve->getStartPoint();
+        pathStartDir = pStartCurve->getDirectionAt(0.0);
+    }
+    else
+    {
+        pathStartPos = pStartCurve->getEndPoint();
+        pathStartDir = -pStartCurve->getDirectionAt(1.0);
+    }
+    // getDirectionAt yields the zero vector where the tangent vanishes (e.g. a
+    // spline whose first two control points coincide): a path with no start
+    // direction is refused rather than patched up with a chord
+    if (pathStartDir.length() < 0.5) { assert(false); return ErrorCode::PATH_InvalidPath; }
+    pathStartDir.normalize();
+
+    const std::map<Handle(Geom_Curve), unsigned int>& curve2Id = sketch3DTopoBuilder.getCurve2IdMap();
     TopoUtil::recordEdgeNamesOfWire_AppendedMode(pathWireInfo.wire, curve2Id, pathWireInfo.edgeNameInfos);
 
     return ErrorCode::NoError;
