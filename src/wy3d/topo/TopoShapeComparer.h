@@ -23,7 +23,7 @@
 #include <TopoDS_Shape.hxx>
 #include <BRepBuilderAPI_MakeShape.hxx>
 #include <wy3dDefs.h>
-#include <wy3dTopoShapeMap.h>
+#include <utils/wy3dTopoShapeMap.h>
 
 NS_WY3D_BEG
 

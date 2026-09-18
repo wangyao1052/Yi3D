@@ -21,7 +21,7 @@
 #include <algorithm>
 #include <cassert>
 #include <wyVector2.h>
-#include <wy3dCurveIntersectionUtil.h>
+#include <utils/wy3dCurveIntersectionUtil.h>
 #include <wydbDatabase.h>
 #include <wy3dSketchCurve.h>
 #include <wy3dSketchCurve.h>

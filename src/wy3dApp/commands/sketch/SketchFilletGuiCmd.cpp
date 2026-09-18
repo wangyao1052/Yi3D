@@ -22,7 +22,7 @@
 #include <QCoreApplication>
 #include <wyVector2.h>
 #include <wyVector3.h>
-#include <wy3dCurveIntersectionUtil.h>
+#include <utils/wy3dCurveIntersectionUtil.h>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wyapSelManager.h>

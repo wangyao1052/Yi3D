@@ -35,7 +35,7 @@
 
 #include <wyVector2.h>
 #include <wyVector3.h>
-#include <wy3dCurveIntersectionUtil.h>
+#include <utils/wy3dCurveIntersectionUtil.h>
 #include <wydbTransaction.h>
 
 #include <wy3dSketch.h>

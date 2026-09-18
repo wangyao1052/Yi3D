@@ -36,7 +36,7 @@
 #include "topo/Sketch3DTopoBuilder.h"
 #include "topo/SketchTopoBuilder.h"
 
-#include <wy3dSketch3DEdgeUtil.h>
+#include <utils/wy3dSketch3DEdgeUtil.h>
 #include <wy3dImpl.h>
 #include <wy3dMath.h>
 #include <wy3dSketch.h>

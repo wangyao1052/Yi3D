@@ -18,7 +18,7 @@
 
 #include "headers.h"
 
-#include <wy3dSketch3DEdgeUtil.h>
+#include <utils/wy3dSketch3DEdgeUtil.h>
 #include <utils/wy3dSketch3DIntersectionUtil.h>
 #include <wy3dSketchPlane.h>
 #include <wy3dMath.h>

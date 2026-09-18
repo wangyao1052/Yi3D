@@ -33,7 +33,7 @@
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchParamNames.h>
-#include <wy3dSketchCurveIntersectUtil.h>
+#include <utils/wy3dSketchCurveIntersectUtil.h>
 #include "utils/FilerUtil.h"
 #include "utils/Util.h"
 

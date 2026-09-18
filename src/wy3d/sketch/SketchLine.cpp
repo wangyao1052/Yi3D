@@ -26,7 +26,7 @@
 #include <wy3dSketchCenterLine.h>
 #include <wy3dImpl.h>
 #include <wy3dSketchParamNames.h>
-#include <wy3dSketchCurveIntersectUtil.h>
+#include <utils/wy3dSketchCurveIntersectUtil.h>
 #include "utils/Util.h"
 
 NS_WY3D_BEG

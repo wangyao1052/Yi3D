@@ -24,7 +24,7 @@
 #include "utils/GuiCommandUtil.h"
 #include <wydbElementId.h>
 #include <utils/wy3dSketch3DIntersectionUtil.h>
-#include <wy3dSketch3DEdgeUtil.h>
+#include <utils/wy3dSketch3DEdgeUtil.h>
 
 class SketchIntersectionCurvePanel;
 

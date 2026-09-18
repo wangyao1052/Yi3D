@@ -19,7 +19,7 @@
 #include <cassert>
 
 #include <wyVector2.h>
-#include <wy3dCurveIntersectionUtil.h>
+#include <utils/wy3dCurveIntersectionUtil.h>
 #include <wy3dSketchProfile.h>
 #include <wydbDatabase.h>
 #include <wy3dSketchEntity.h>

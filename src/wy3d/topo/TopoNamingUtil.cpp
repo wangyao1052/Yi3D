@@ -29,7 +29,7 @@
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
 
-#include <wy3dTopoShapeMap.h>
+#include <utils/wy3dTopoShapeMap.h>
 
 NS_WY3D_BEG
 

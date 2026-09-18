@@ -34,7 +34,7 @@
 #include <TopTools_ListIteratorOfListOfShape.hxx>
 
 #include <wy3dImpl.h>
-#include <wy3dTopoShapeMap.h>
+#include <utils/wy3dTopoShapeMap.h>
 #include <utils/wy3dSheetOffsetUtil.h>
 
 NS_WY3D_BEG

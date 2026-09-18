@@ -18,7 +18,7 @@
 
 #include "SketchChamferAlgo.h"
 #include <wyVector2.h>
-#include <wy3dCurveIntersectionUtil.h>
+#include <utils/wy3dCurveIntersectionUtil.h>
 
 std::shared_ptr<SketchChamferData> SketchChamferAlgo::chamferLineLine(double D1, double D2, double tol,
     const wy::Vector2& startPnt1st, const wy::Vector2& endPnt1st, const wy::Vector2& pickPos1st,

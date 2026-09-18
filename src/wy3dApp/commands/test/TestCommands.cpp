@@ -22,7 +22,7 @@
 
 #include <wyVector2.h>
 #include <geom/wy3dLineSegment2.h>
-#include <wy3dCurveIntersectionUtil.h>
+#include <utils/wy3dCurveIntersectionUtil.h>
 
 #include <wy3dSketchCurve.h>
 #include <wy3dSketchLine.h>

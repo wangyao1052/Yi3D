@@ -12,7 +12,7 @@
 #include <cassert>
 
 #include <wyVector2.h>
-#include <wy3dCurveIntersectionUtil.h>
+#include <utils/wy3dCurveIntersectionUtil.h>
 #include <wy3dDefs.h>
 #include <wy3dSketchLine.h>
 #include <wy3dSketchCenterLine.h>

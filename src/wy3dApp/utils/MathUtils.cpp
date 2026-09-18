@@ -24,7 +24,7 @@
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wy3dMath.h>
-#include <wy3dCurveIntersectionUtil.h>
+#include <utils/wy3dCurveIntersectionUtil.h>
 #include <wy3dImpl.h>
 
 gp_Vec MathUtils::kAxisX(1.0, 0.0, 0.0);

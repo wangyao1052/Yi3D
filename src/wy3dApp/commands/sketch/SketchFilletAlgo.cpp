@@ -26,7 +26,7 @@
 #include <Geom2dAPI_InterCurveCurve.hxx>
 #include <wyVector2.h>
 #include <wy3dMath.h>
-#include <wy3dCurveIntersectionUtil.h>
+#include <utils/wy3dCurveIntersectionUtil.h>
 
 std::shared_ptr<SketchFilletData> SketchFilletAlgo::filletLineLine(double R, double tol,
     const wy::Vector2& startPnt1st, const wy::Vector2& endPnt1st, const wy::Vector2& pickPosOnLine1st,

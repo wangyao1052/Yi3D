@@ -26,7 +26,7 @@
 #include <string>
 #include <utility>
 #include <wydbElementId.h>
-#include <wy3dSketch3DEdgeUtil.h>
+#include <utils/wy3dSketch3DEdgeUtil.h>
 
 // Takes a curve that already exists somewhere in the model (an edge of a solid or sheet,
 // a curve of a 2D sketch, a curve of another 3D sketch) and copies it into the 3D sketch

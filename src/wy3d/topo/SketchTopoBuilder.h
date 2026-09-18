@@ -38,7 +38,7 @@
 #include <wy3dSketchCurve.h>
 #include <wy3dErrorCode.h>
 #include <wy3dSketchProfile.h>
-#include <wy3dTopoShapeMap.h>
+#include <utils/wy3dTopoShapeMap.h>
 
 NS_WY3D_BEG
 

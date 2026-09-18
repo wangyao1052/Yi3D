@@ -22,7 +22,7 @@
 #include <QToolTip>
 #include <QApplication>
 #include <wyVector2.h>
-#include <wy3dCurveIntersectionUtil.h>
+#include <utils/wy3dCurveIntersectionUtil.h>
 #include <wydbDatabase.h>
 #include <wyapApplication.h>
 #include <wyapViewManager.h>
