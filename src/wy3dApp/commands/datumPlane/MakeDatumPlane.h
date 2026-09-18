@@ -58,6 +58,7 @@ public:
     static Handle(Geom_Curve) getSolidEdgeGeomCurve(const wyap::Selection& sel);
     static Handle(Geom_Curve) getSketchCurveGeomCurve(const wyap::Selection& sel);
     static Handle(Geom_Curve) getCurveGeomCurve(const wyap::Selection& sel);
+    static Handle(Geom_Curve) getSketchCurve3DGeomCurve(const wyap::Selection& sel);
 
     // 获取实体圆柱面的中心平面
     static bool getSolidCylindricalFaceCenterPlane(

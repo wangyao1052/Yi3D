@@ -292,7 +292,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="681"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="719"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="746"/>
         <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="352"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
@@ -303,20 +303,20 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="370"/>
-        <source>Select solid edge or sketch curve.</source>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="395"/>
+        <source>Select solid edge, sketch curve or 3D sketch curve.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="397"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="424"/>
         <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="183"/>
         <source>Specify through point or directly input the distance value.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="573"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="715"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="722"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="600"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="742"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="749"/>
         <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="329"/>
         <source>Distance</source>
         <translation type="unfinished"></translation>

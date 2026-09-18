@@ -1110,7 +1110,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="681"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="719"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="746"/>
         <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="352"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
@@ -1121,20 +1121,24 @@ Do you want to save it to the original file now?
         <translation type="unfinished">选择实体边、实体面或基准面以确定新基准面的X轴。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="370"/>
         <source>Select solid edge or sketch curve.</source>
-        <translation type="unfinished">选择实体边或草图曲线。</translation>
+        <translation type="obsolete">选择实体边或草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="397"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="395"/>
+        <source>Select solid edge, sketch curve or 3D sketch curve.</source>
+        <translation type="unfinished">选择实体边、草图曲线或 3D 草图曲线。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="424"/>
         <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="183"/>
         <source>Specify through point or directly input the distance value.</source>
         <translation type="unfinished">指定通过点或直接输入距离值。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="573"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="715"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="722"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="600"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="742"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="749"/>
         <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="329"/>
         <source>Distance</source>
         <translation type="unfinished">距离</translation>

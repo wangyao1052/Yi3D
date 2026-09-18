@@ -31,7 +31,10 @@
 #include <TopTools_IndexedMapOfShape.hxx>
 #include <TopExp.hxx>
 #include <BRep_Tool.hxx>
+#include <BRepLib.hxx>
 #include <BRepTools.hxx>
+#include <Precision.hxx>
+#include <Standard_Failure.hxx>
 
 #include <wyVector2.h>
 #include <wyVector3.h>
@@ -40,6 +43,7 @@
 
 #include <wy3dSketch.h>
 #include <wy3dSketchCurve.h>
+#include <wy3dSketchCurve3D.h>
 #include <wy3dSketchLine.h>
 #include <wy3dSketchCenterLine.h>
 #include <wy3dSketchCircle.h>
@@ -49,6 +53,7 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
 #include <wy3dCurve.h>
+#include "wy3d/topo/Sketch3DTopoBuilder.h"
 
 #include "application/Application.h"
 #include "scene/Scene.h"
@@ -278,6 +283,76 @@ Handle(Geom_Curve) MakeDatumPlane::getCurveGeomCurve(const wyap::Selection& sel)
         return nullptr;
     }
     return TopoShapeUtil::getShapeEdgeCurve(edge, 0);
+}
+
+Handle(Geom_Curve) MakeDatumPlane::getSketchCurve3DGeomCurve(const wyap::Selection& sel)
+{
+    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return nullptr;
+    }
+    if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::SketchCurve3D)
+    {
+        assert(false);
+        return nullptr;
+    }
+
+    if (sel.getSubPath().empty())
+    {
+        assert(false);
+        return nullptr;
+    }
+
+    try
+    {
+        unsigned int curveId = std::stoul(sel.getSubPath());
+        if (0 == curveId)
+        {
+            assert(false);
+            return nullptr;
+        }
+
+        const wydb::Element* pElem = pDb->getElement(wydb::ElementId(curveId));
+        const wy3d::SketchCurve3D* pSketchCurve3D = wy3d::SketchCurve3D::cast(pElem);
+        if (!pSketchCurve3D)
+        {
+            assert(false);
+            return nullptr;
+        }
+
+        wy3d::Sketch3DTopoBuilder sketch3DTopoBuilder;
+        TopoDS_Edge edge = sketch3DTopoBuilder.makeEdge(pSketchCurve3D);
+        if (edge.IsNull())
+        {
+            assert(false);
+            return nullptr;
+        }
+
+        // For entities built by Sketch3DTopoBuilder, BRep_Tool::Curve hands back the basis curve:
+        // the trim range lives on the edge only, so it has to be carried over explicitly
+        BRepLib::BuildCurve3d(edge, wy3d::TOL);
+        double first(0.0), last(0.0);
+        Handle(Geom_Curve) geomCurve = BRep_Tool::Curve(edge, first, last);
+        if (geomCurve.IsNull() || Precision::IsInfinite(first) || Precision::IsInfinite(last))
+        {
+            assert(false);
+            return nullptr;
+        }
+        if (geomCurve->IsKind(STANDARD_TYPE(Geom_TrimmedCurve))) return geomCurve;
+        return new Geom_TrimmedCurve(geomCurve, first, last);
+    }
+    catch (const Standard_Failure&)
+    {
+        assert(false);
+        return nullptr;
+    }
+    catch (...)
+    {
+        assert(false);
+        return nullptr;
+    }
 }
 
 Handle(Geom_Curve) MakeDatumPlane::getSketchCurveGeomCurve(const wyap::Selection& sel)

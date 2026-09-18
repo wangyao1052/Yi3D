@@ -37,6 +37,7 @@
 #include <wyapSelManager.h>
 #include <wy3dSolid.h>
 #include <wy3dSketchCurve.h>
+#include <wy3dSketchCurve3D.h>
 #include <wy3dSketchLine.h>
 #include <wy3dCurve.h>
 #include "application/Application.h"
@@ -91,6 +92,12 @@ public:
         }
         break;
 
+        case wy3d::SelectionType::SketchCurve3D:
+        {
+            isValid = this->isValid_SketchCurve3D(pDb, sel);
+        }
+        break;
+
         case wy3d::SelectionType::Element:
         {
             isValid = this->isValid_Curve(pDb, sel);
@@ -126,6 +133,24 @@ private:
         }
 
         return true;
+    }
+
+    bool isValid_SketchCurve3D(const wydb::Database* pDb, const wyap::Selection& sel) const
+    {
+        assert(pDb);
+        if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::SketchCurve3D)
+        {
+            assert(false);
+            return false;
+        }
+
+        if (sel.getSubPath().empty()) return false;
+        unsigned int curveId = std::stoul(sel.getSubPath());
+        if (0 == curveId) return false;
+
+        const wydb::Element* pElem = pDb->getElement(wydb::ElementId(curveId));
+        const wy3d::SketchCurve3D* pSketchCurve3D = wy3d::SketchCurve3D::cast(pElem);
+        return nullptr != pSketchCurve3D;
     }
 
     bool isValid_SolidEdge(const wydb::Database* pDb, const wyap::Selection& sel) const
@@ -368,7 +393,7 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
         // 禁用输入
         // 提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
-            "Select solid edge or sketch curve."));
+            "Select solid edge, sketch curve or 3D sketch curve."));
 
         // 鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);
@@ -379,8 +404,10 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
 
         // 点选选项
         _pointPickOption.pickMask = static_cast<unsigned int>(
-            ElementNodeType::Solid | ElementNodeType::Sketch | ElementNodeType::Curve);
-        _pointPickOption.selType = wy3d::SelectionType::SolidEdge | wy3d::SelectionType::SketchCurve;
+            ElementNodeType::Solid | ElementNodeType::Sketch | ElementNodeType::Sketch3D |
+            ElementNodeType::Curve);
+        _pointPickOption.selType = wy3d::SelectionType::SolidEdge | wy3d::SelectionType::SketchCurve |
+            wy3d::SelectionType::SketchCurve3D;
         _pointPickOption.pSelFilter = std::make_shared<NormalToEdgeDatumPlnCmdSelFilter>();
     }
     break;
@@ -755,6 +782,12 @@ bool NormalToEdgeDatumPlnCmd::extractCurveInfoImpl(const wyap::Selection& sel, C
     case wy3d::SelectionType::SketchCurve:
     {
         geomCurve = MakeDatumPlane::getSketchCurveGeomCurve(sel);
+    }
+    break;
+
+    case wy3d::SelectionType::SketchCurve3D:
+    {
+        geomCurve = MakeDatumPlane::getSketchCurve3DGeomCurve(sel);
     }
     break;
 
