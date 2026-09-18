@@ -827,14 +827,14 @@ void SketchRectArrayGuiCmd::computeDefaultColRowSpacing(
 
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return;
-    wy3d::BoundingBox2 totalBBox;
+    wy3d::geom::BoundingBox2 totalBBox;
     for (const wydb::ElementId& id : ids)
     {
         const wydb::Element* pElem = pDb->getElement(id);
         if (!pElem) continue;
         const wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElem);
         if (!pSketchEntity) continue;
-        wy3d::BoundingBox2 bbox = pSketchEntity->getBoundingBox();
+        wy3d::geom::BoundingBox2 bbox = pSketchEntity->getBoundingBox();
         totalBBox.merge(bbox);
     }
     if (!totalBBox.isEmpty())

@@ -90,9 +90,9 @@ bool SketchCircle::isDegenerate(double tol) const { return _radius < tol; }
 
 double SketchCircle::getLength() const { assert(_radius); return wy3d::PI * 2 * _radius; }
 
-wy3d::BoundingBox2 SketchCircle::getBoundingBox() const
+wy3d::geom::BoundingBox2 SketchCircle::getBoundingBox() const
 {
-    return wy3d::BoundingBox2(
+    return wy3d::geom::BoundingBox2(
         wy::Vector2(_centerPnt.x() - _radius - wy3d::TOL, _centerPnt.y() - _radius - wy3d::TOL),
         wy::Vector2(_centerPnt.x() + _radius + wy3d::TOL, _centerPnt.y() + _radius + wy3d::TOL));
 }
@@ -140,7 +140,7 @@ wy::ErrorStatus SketchCircle::rotateAround(const wy::Vector2& center, double ang
     return this->setCenter(SketchEntity::rotateAround(_centerPnt, center, std::cos(angle), std::sin(angle)));
 }
 
-wy::ErrorStatus SketchCircle::transform(const wy3d::Matrix3& matrix)
+wy::ErrorStatus SketchCircle::transform(const wy3d::geom::Matrix3& matrix)
 {
     wy::ErrorStatus error = this->setCenter(_centerPnt * matrix);
     if (wy::ErrorStatus::Ok != error) return error;

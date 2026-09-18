@@ -200,7 +200,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
             if (!pElem) continue;
             const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pElem);
             if (!pSketchCurve) continue;
-            wy3d::BoundingBox2 bbox = pSketchCurve->getBoundingBox();
+            wy3d::geom::BoundingBox2 bbox = pSketchCurve->getBoundingBox();
             if (bbox.isEmpty()) continue;
             if (!originInit)
             {

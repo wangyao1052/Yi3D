@@ -13,7 +13,7 @@
 #include <memory>
 
 #include <wyVector2.h>
-#include <wy3dBoundingBox2.h>
+#include <geom/wy3dBoundingBox2.h>
 #include <wy3dDefs.h>
 #include <wy3dErrorCode.h>
 #include <wy3dSketch.h>

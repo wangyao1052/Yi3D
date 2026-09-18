@@ -84,12 +84,12 @@ bool SketchTrimGraph::init()
         RTreeNode(wydb::ElementId inId = wydb::ElementId::kNull, size_t inIndex = -1) : id(inId), index(inIndex) {}
     };
     RTree<RTreeNode, double, 2> rtree;
-    std::vector<wy3d::BoundingBox2> bboxs;
+    std::vector<wy3d::geom::BoundingBox2> bboxs;
     bboxs.resize(curves.size());
     for (size_t i = 0; i < curves.size(); ++i)
     {
         const wy3d::SketchCurve* pSketchCurve = curves[i];
-        wy3d::BoundingBox2 bbox = pSketchCurve->getBoundingBox();
+        wy3d::geom::BoundingBox2 bbox = pSketchCurve->getBoundingBox();
         if (bbox.isEmpty()) continue;
         // 向外扩张一点点(用于处理水平竖直直线的情形)
         bbox.set(wy::Vector2(bbox.min().x() - wy3d::EPS, bbox.min().y() - wy3d::EPS),
@@ -108,7 +108,7 @@ bool SketchTrimGraph::init()
     {
         // 空间搜索快速找出候选曲线
         candidates.clear();
-        const wy3d::BoundingBox2& bbox = bboxs[i];
+        const wy3d::geom::BoundingBox2& bbox = bboxs[i];
         if (bbox.isEmpty()) continue;
         double min[2] = { bbox.min().x(), bbox.min().y() };
         double max[2] = { bbox.max().x(), bbox.max().y() };

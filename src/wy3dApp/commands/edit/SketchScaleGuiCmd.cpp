@@ -598,7 +598,7 @@ double SketchScaleGuiCmd::computeBaseLength(const wyap::SelectionSet& sels) cons
         return baseLen;
     }
 
-    wy3d::BoundingBox2 totalBBox;
+    wy3d::geom::BoundingBox2 totalBBox;
     for (auto iter = sels.createIterator(); !iter.isDone(); iter.moveNext())
     {
         wydb::ElementId id = iter.current().getElementId();
@@ -608,7 +608,7 @@ double SketchScaleGuiCmd::computeBaseLength(const wyap::SelectionSet& sels) cons
             assert(false);
             continue;
         }
-        wy3d::BoundingBox2 bbox = pSketchEnt->getBoundingBox();
+        wy3d::geom::BoundingBox2 bbox = pSketchEnt->getBoundingBox();
         totalBBox.merge(bbox);
     }
     if (totalBBox.isEmpty())

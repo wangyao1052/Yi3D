@@ -15,7 +15,7 @@
 #include <RTree/RTree.h>
 
 #include <wyVector2.h>
-#include <wy3dBoundingBox2.h>
+#include <geom/wy3dBoundingBox2.h>
 #include <wy3dDefs.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchCurve.h>
@@ -109,9 +109,9 @@ public:
         }
 
         // 获取外包围盒
-        const wy3d::BoundingBox2& getBoundingBox() const { return _bbox; }
+        const wy3d::geom::BoundingBox2& getBoundingBox() const { return _bbox; }
         // 设置外包围盒
-        void setBoundingBox(const wy3d::BoundingBox2& bbox)
+        void setBoundingBox(const wy3d::geom::BoundingBox2& bbox)
         {
             _bbox = bbox;
         }
@@ -150,7 +150,7 @@ public:
 
     private:
         std::vector<CurveEntry> _curveEntries;
-        wy3d::BoundingBox2 _bbox;
+        wy3d::geom::BoundingBox2 _bbox;
         double _siedArea;
         double _area;
         bool _isClockWise;
@@ -240,9 +240,9 @@ private:
     // 所有连通曲线链（含开放和闭合）
     std::vector<CurveLoopSPtr> _loops;
     // 曲线的外包围盒
-    std::vector<wy3d::BoundingBox2> _curveBBoxs;
+    std::vector<wy3d::geom::BoundingBox2> _curveBBoxs;
     // 闭合环整体外包围盒
-    wy3d::BoundingBox2 _loopsTotalBBox;
+    wy3d::geom::BoundingBox2 _loopsTotalBBox;
     // 面
     std::vector<CurveFaceSPtr> _faces;
 };

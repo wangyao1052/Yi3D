@@ -16,9 +16,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <wy3dMatrix3.h>
+#include <geom/wy3dMatrix3.h>
 
-NS_WY3D_BEG
+NS_WY3D_GEOM_BEG
 
 const Matrix3 Matrix3::kZero = Matrix3(
     0, 0, 0,
@@ -32,4 +32,4 @@ const Matrix3 Matrix3::kIdentity = Matrix3(
     0, 0, 1
 );
 
-NS_WY3D_END
+NS_WY3D_GEOM_END

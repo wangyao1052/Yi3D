@@ -9,10 +9,10 @@
 
 #include <wy3dDefs.h>
 #include <wy3dVector2.h>
-#include <wy3dCurve2.h>
-#include <wy3dBoundingBox2.h>
+#include <geom/wy3dCurve2.h>
+#include <geom/wy3dBoundingBox2.h>
 
-NS_WY3D_BEG
+NS_WY3D_GEOM_BEG
 
 class LineSegment2 : public Curve2
 {
@@ -104,6 +104,6 @@ inline Vector2 LineSegment2::direction() const
     return dir;
 }
 
-NS_WY3D_END
+NS_WY3D_GEOM_END
 
 #endif // WY3D_LINE_SEGMENT2_H

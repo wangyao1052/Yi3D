@@ -10,10 +10,10 @@
 #include <Geom2d_BSplineCurve.hxx>
 
 #include <wyVector2.h>
-#include <wy3dCurve2.h>
-#include <wy3dLineSegment2.h>
-#include <wy3dArc2.h>
-#include <wy3dCircle2.h>
+#include <geom/wy3dCurve2.h>
+#include <geom/wy3dLineSegment2.h>
+#include <geom/wy3dArc2.h>
+#include <geom/wy3dCircle2.h>
 
 NS_WY3D_BEG
 

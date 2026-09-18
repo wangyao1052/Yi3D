@@ -14,7 +14,7 @@
 #include <wy3dDefs.h>
 #include <wy3dVector2.h>
 
-NS_WY3D_BEG
+NS_WY3D_GEOM_BEG
 
 class WY3D_EXPORT BoundingBox2
 {
@@ -204,6 +204,6 @@ private:
     Vector2 _max;
 };
 
-NS_WY3D_END
+NS_WY3D_GEOM_END
 
 #endif // WY3D_BOUNDINGBOX2_H

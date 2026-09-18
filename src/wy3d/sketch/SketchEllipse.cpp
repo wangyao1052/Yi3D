@@ -116,7 +116,7 @@ double SketchEllipse::getLength() const
     return wy3d::PI * (a + b) * (1 + (3 * h) / (10 + std::sqrt(4 - 3 * h)));
 }
 
-wy3d::BoundingBox2 SketchEllipse::getBoundingBox() const
+wy3d::geom::BoundingBox2 SketchEllipse::getBoundingBox() const
 {
     double aSquared = getMajorRadius();
     double bSquared = aSquared * _radiusRatio;
@@ -130,7 +130,7 @@ wy3d::BoundingBox2 SketchEllipse::getBoundingBox() const
     double dx = std::sqrt(aSquared * cosThetaSquared + bSquared * sinThetaSquared);
     double dy = std::sqrt(aSquared * sinThetaSquared + bSquared * cosThetaSquared);
 
-    return wy3d::BoundingBox2(
+    return wy3d::geom::BoundingBox2(
         wy::Vector2(_center.x() - dx - wy3d::TOL, _center.y() - dy - wy3d::TOL),
         wy::Vector2(_center.x() + dx + wy3d::TOL, _center.y() + dy + wy3d::TOL));
 }
@@ -223,7 +223,7 @@ wy::ErrorStatus SketchEllipse::rotateAround(const wy::Vector2& center, double an
     return this->setMajorAxis(newMajorAxis);
 }
 
-wy::ErrorStatus SketchEllipse::transform(const wy3d::Matrix3& matrix)
+wy::ErrorStatus SketchEllipse::transform(const wy3d::geom::Matrix3& matrix)
 {
     wy::Vector2 newCenter = _center * matrix;
     wy::Vector2 newMajorAxis = (_center + _majorAxis) * matrix - newCenter;

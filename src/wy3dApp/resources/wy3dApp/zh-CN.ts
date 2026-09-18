@@ -4268,7 +4268,7 @@ Do you want to save it to the original file now?
 <context>
     <name>OffsetSheetCmdPanel</name>
     <message>
-        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="59"/>
+        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="60"/>
         <source>Offset Sheet</source>
         <translation>偏置曲面</translation>
     </message>
@@ -4285,12 +4285,12 @@ Do you want to save it to the original file now?
         <translation type="vanished">选定面</translation>
     </message>
     <message>
-        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="67"/>
+        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="68"/>
         <source>Offset distance:</source>
         <translation>偏置距离：</translation>
     </message>
     <message>
-        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="101"/>
+        <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="109"/>
         <source>Invalid value, must be between %1 and %2.</source>
         <translation>输入值无效，有效范围 %1 至 %2。</translation>
     </message>
@@ -4302,12 +4302,12 @@ Do you want to save it to the original file now?
         <translation type="vanished">选择要偏置的曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="552"/>
+        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="599"/>
         <source>Specify the offset distance, then OK to apply.</source>
         <translation>指定偏置距离，确认后应用。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="546"/>
+        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="593"/>
         <source>Select the faces to offset, then OK to apply.</source>
         <translation>选择要偏置的面，确认后应用。</translation>
     </message>

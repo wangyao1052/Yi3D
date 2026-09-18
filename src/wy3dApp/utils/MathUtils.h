@@ -34,7 +34,7 @@
 #include <wy3dMath.h>
 #include <wy3dVector2.h>
 #include <wy3dVector3.h>
-#include <wy3dArc2.h>
+#include <geom/wy3dArc2.h>
 #include <wy3dSketchPlane.h>
 
 class MathUtils
@@ -346,7 +346,7 @@ public:
         wy::Vector2& center, double& radius, double& startAngle, double& endAngle);
 
     // 求过三点的圆弧
-    static wy3d::Arc2 computeArcFromThreePoints(const wy::Vector2& p1, const wy::Vector2& p2, const wy::Vector2& p3);
+    static wy3d::geom::Arc2 computeArcFromThreePoints(const wy::Vector2& p1, const wy::Vector2& p2, const wy::Vector2& p3);
 
     // 椭圆几何角度转参数角度
     // a --- 椭圆长半轴半径

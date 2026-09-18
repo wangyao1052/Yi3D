@@ -17,7 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <wyVector2.h>
-#include <wy3dArc2.h>
+#include <geom/wy3dArc2.h>
 #include "SketchArcGripGizmo.h"
 #include "utils/MathUtils.h"
 
@@ -96,7 +96,7 @@ bool SketchArcGripGizmo::updateArcByThreePoints(
     const wy::Vector2& p1, const wy::Vector2& p2, const wy::Vector2& p3)
 {
     assert(pArc);
-    wy3d::Arc2 arc = MathUtils::computeArcFromThreePoints(p1, p2, p3);
+    wy3d::geom::Arc2 arc = MathUtils::computeArcFromThreePoints(p1, p2, p3);
     if (arc.radius() == 0.0)
     {
         return false;

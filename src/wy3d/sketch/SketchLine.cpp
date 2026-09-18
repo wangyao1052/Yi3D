@@ -137,7 +137,7 @@ wy::ErrorStatus SketchLine::rotateAround(const wy::Vector2& center, double angle
     return this->setEndPoint(newEndPnt);
 }
 
-wy::ErrorStatus SketchLine::transform(const wy3d::Matrix3& matrix)
+wy::ErrorStatus SketchLine::transform(const wy3d::geom::Matrix3& matrix)
 {
     wy::ErrorStatus error = this->setStartPoint(_startPnt * matrix);
     if (wy::ErrorStatus::Ok != error) return error;

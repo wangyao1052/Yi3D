@@ -11,10 +11,10 @@
 #include <wy3dDefs.h>
 #include <wy3dMath.h>
 #include <wy3dVector2.h>
-#include <wy3dCurve2.h>
-#include <wy3dBoundingBox2.h>
+#include <geom/wy3dCurve2.h>
+#include <geom/wy3dBoundingBox2.h>
 
-NS_WY3D_BEG
+NS_WY3D_GEOM_BEG
 
 class WY3D_EXPORT Circle2 : public Curve2
 {
@@ -114,6 +114,6 @@ inline BoundingBox2 Circle2::boundingBox() const
         _center + Vector2(_radius, _radius));
 }
 
-NS_WY3D_END
+NS_WY3D_GEOM_END
 
 #endif // WY3D_CIRCLE2_H

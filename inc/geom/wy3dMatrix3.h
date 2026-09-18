@@ -11,7 +11,7 @@
 #include <wy3dMath.h>
 #include <wy3dVector2.h>
 
-NS_WY3D_BEG
+NS_WY3D_GEOM_BEG
 
 class WY3D_EXPORT Matrix3
 {
@@ -249,6 +249,6 @@ inline const Vector2 operator*(const Vector2& point, const Matrix3& matrix)
     return matrix.transformPoint(point);
 }
 
-NS_WY3D_END
+NS_WY3D_GEOM_END
 
 #endif // WY3D_MATRIX3_H

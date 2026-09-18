@@ -10,7 +10,7 @@
 #include <wy3dDefs.h>
 #include <wy3dVector3.h>
 
-NS_WY3D_BEG
+NS_WY3D_GEOM_BEG
 
 // 平面方程: Ax + By + Cz + D = 0;
 class WY3D_EXPORT Plane
@@ -92,6 +92,6 @@ inline bool operator!=(const Plane& lhs, const Plane& rhs)
     return lhs._A != rhs._A || lhs._B != rhs._B || lhs._C != rhs._C || lhs._D != rhs._D;
 }
 
-NS_WY3D_END
+NS_WY3D_GEOM_END
 
 #endif // WY3D_PLANE_H

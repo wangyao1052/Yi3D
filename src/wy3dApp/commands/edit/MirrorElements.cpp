@@ -177,11 +177,11 @@ bool MirrorElemens::perform(const wyap::SelectionSet& ss, const wydb::ElementId&
         assert(false);
         return false;
     }
-    wy3d::Matrix3 mirrorMatrix;
+    wy3d::geom::Matrix3 mirrorMatrix;
     wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
     if (!pSketch) goto ABORT_TRANS;
 
-    mirrorMatrix = wy3d::Matrix3::createReflection2D(axisStartPnt, aixsEndPnt);
+    mirrorMatrix = wy3d::geom::Matrix3::createReflection2D(axisStartPnt, aixsEndPnt);
     for (wydb::Element* pCopyElem : copyedElems)
     {
         if (!pCopyElem)

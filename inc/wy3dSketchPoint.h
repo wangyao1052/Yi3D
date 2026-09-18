@@ -26,8 +26,8 @@ public:
 
     virtual wy::ErrorStatus translate(const wy::Vector2& vector) override { return setPosition(_position+vector); }
     virtual wy::ErrorStatus rotateAround(const wy::Vector2& center, double angle) override;
-    virtual wy::ErrorStatus transform(const wy3d::Matrix3& matrix) override { return setPosition(_position*matrix); }
-    virtual wy3d::BoundingBox2 getBoundingBox() const override { return wy3d::BoundingBox2(wy::Vector2(_position.x()-wy3d::TOL,_position.y()-wy3d::TOL),wy::Vector2(_position.x()+wy3d::TOL,_position.y()+wy3d::TOL)); }
+    virtual wy::ErrorStatus transform(const wy3d::geom::Matrix3& matrix) override { return setPosition(_position*matrix); }
+    virtual wy3d::geom::BoundingBox2 getBoundingBox() const override { return wy3d::geom::BoundingBox2(wy::Vector2(_position.x()-wy3d::TOL,_position.y()-wy3d::TOL),wy::Vector2(_position.x()+wy3d::TOL,_position.y()+wy3d::TOL)); }
 
 public:
     virtual wydb::ParameterValueUPtr getParameterValue(const std::string& className, const std::string& paramName) const override;

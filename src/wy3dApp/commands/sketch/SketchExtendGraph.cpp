@@ -48,14 +48,14 @@ SketchExtendGraph::SketchExtendGraph(const wy3d::Sketch* pSketch, double tol) : 
     }
 }
 
-static inline wy3d::BoundingBox2 getBoundingBoxOfCircle(const wy::Vector2& center, double radius)
+static inline wy3d::geom::BoundingBox2 getBoundingBoxOfCircle(const wy::Vector2& center, double radius)
 {
-    return wy3d::BoundingBox2(
+    return wy3d::geom::BoundingBox2(
         wy::Vector2(center.x() - radius, center.y() - radius),
         wy::Vector2(center.x() + radius, center.y() + radius));
 }
 
-static wy3d::BoundingBox2 getBoundingBoxOfEllipse(const wy::Vector2& center, const wy::Vector2& majorAxis, double radiusRatio)
+static wy3d::geom::BoundingBox2 getBoundingBoxOfEllipse(const wy::Vector2& center, const wy::Vector2& majorAxis, double radiusRatio)
 {
     // 获取椭圆的长轴和短轴的半径
     double majorRadius = majorAxis.length();
@@ -73,7 +73,7 @@ static wy3d::BoundingBox2 getBoundingBoxOfEllipse(const wy::Vector2& center, con
     double dy = majorRadius * std::abs(sinAngle) + minorRadius * std::abs(cosAngle);
 
     // 计算并返回椭圆的包围盒
-    return wy3d::BoundingBox2(
+    return wy3d::geom::BoundingBox2(
         wy::Vector2(center.x() - dx, center.y() - dy),
         wy::Vector2(center.x() + dx, center.y() + dy));
 }
@@ -164,9 +164,9 @@ bool SketchExtendGraph::init()
         RTreeNode(wydb::ElementId inId = wydb::ElementId::kNull, size_t inIndex = -1) : id(inId), index(inIndex) {}
     };
     RTree<RTreeNode, double, 2> rtree;
-    std::vector<wy3d::BoundingBox2> bboxs;
+    std::vector<wy3d::geom::BoundingBox2> bboxs;
     bboxs.resize(curves.size());
-    wy3d::BoundingBox2 bbox;
+    wy3d::geom::BoundingBox2 bbox;
     for (size_t i = 0; i < curves.size(); ++i)
     {
         const wy3d::SketchCurve* pSketchCurve = curves[i];
@@ -637,7 +637,7 @@ bool SketchExtendGraph::init()
        
         // 空间搜索快速找出候选曲线
         candidates.clear();
-        const wy3d::BoundingBox2& bbox = bboxs[i];
+        const wy3d::geom::BoundingBox2& bbox = bboxs[i];
         if (bbox.isEmpty()) continue;
         double min[2] = { bbox.min().x(), bbox.min().y() };
         double max[2] = { bbox.max().x(), bbox.max().y() };

@@ -306,9 +306,9 @@ double SketchSpline::getLength() const
     catch (const Standard_Failure&) { assert(false); return 0.0; }
 }
 
-wy3d::BoundingBox2 SketchSpline::getBoundingBox() const
+wy3d::geom::BoundingBox2 SketchSpline::getBoundingBox() const
 {
-    wy3d::BoundingBox2 bbox;
+    wy3d::geom::BoundingBox2 bbox;
     if (_pBSpline.IsNull()) { assert(false); return bbox; }
     Standard_Integer nbPoles = _pBSpline->NbPoles();
     for (Standard_Integer i = 1; i <= nbPoles; i++)
@@ -341,7 +341,7 @@ wy::ErrorStatus SketchSpline::rotateAround(const wy::Vector2& center, double ang
     return this->setPoints(newPoints);
 }
 
-wy::ErrorStatus SketchSpline::transform(const wy3d::Matrix3& matrix)
+wy::ErrorStatus SketchSpline::transform(const wy3d::geom::Matrix3& matrix)
 {
     std::vector<wy::Vector2> newPoints;
     newPoints.reserve(_points.size());

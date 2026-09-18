@@ -136,7 +136,7 @@ double SketchEllipseArc::getLength() const
     return length * dt / 3.0;
 }
 
-wy3d::BoundingBox2 SketchEllipseArc::getBoundingBox() const
+wy3d::geom::BoundingBox2 SketchEllipseArc::getBoundingBox() const
 {
     double a = this->getMajorRadius();
     double b = a * _radiusRatio;
@@ -186,7 +186,7 @@ wy3d::BoundingBox2 SketchEllipseArc::getBoundingBox() const
         yMin = std::min(y, yMin); yMax = std::max(y, yMax);
     }
 
-    return wy3d::BoundingBox2(
+    return wy3d::geom::BoundingBox2(
         wy::Vector2(xMin - wy3d::TOL, yMin - wy3d::TOL),
         wy::Vector2(xMax + wy3d::TOL, yMax + wy3d::TOL));
 }
@@ -325,7 +325,7 @@ wy::ErrorStatus SketchEllipseArc::rotateAround(const wy::Vector2& center, double
     return this->setEndAngle(newEndAngle);
 }
 
-wy::ErrorStatus SketchEllipseArc::transform(const wy3d::Matrix3& matrix)
+wy::ErrorStatus SketchEllipseArc::transform(const wy3d::geom::Matrix3& matrix)
 {
     wy::Vector2 newCenter = _center * matrix;
     wy::Vector2 newMajorAxis = (_center + _majorAxis) * matrix - newCenter;

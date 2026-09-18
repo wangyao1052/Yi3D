@@ -332,7 +332,7 @@ bool MathUtils::computeArcBy3Points(const wy::Vector2& p1, const wy::Vector2& p2
     }
 }
 
-wy3d::Arc2 MathUtils::computeArcFromThreePoints(const wy::Vector2& p1, const wy::Vector2& p2, const wy::Vector2& p3)
+wy3d::geom::Arc2 MathUtils::computeArcFromThreePoints(const wy::Vector2& p1, const wy::Vector2& p2, const wy::Vector2& p3)
 {
     double x1 = p1.x(), y1 = p1.y();
     double x2 = p2.x(), y2 = p2.y();
@@ -344,7 +344,7 @@ wy3d::Arc2 MathUtils::computeArcFromThreePoints(const wy::Vector2& p1, const wy:
     if (std::fabs(crossProduct) < EPSILON)
     {
         // 返回一个无效的圆弧
-        return wy3d::Arc2(wy::Vector2(0.0, 0.0), 0.0, 0.0, 0.0);
+        return wy3d::geom::Arc2(wy::Vector2(0.0, 0.0), 0.0, 0.0, 0.0);
     }
 
     // 计算中点
@@ -417,7 +417,7 @@ wy3d::Arc2 MathUtils::computeArcFromThreePoints(const wy::Vector2& p1, const wy:
     double radius = (center - p1).length();
     if (radius < wy3d::kMinValue)
     {
-        return wy3d::Arc2(wy::Vector2(0, 0), 0, 0, 0);
+        return wy3d::geom::Arc2(wy::Vector2(0, 0), 0, 0, 0);
     }
 
     // 计算起始角度和终止角度
@@ -426,7 +426,7 @@ wy3d::Arc2 MathUtils::computeArcFromThreePoints(const wy::Vector2& p1, const wy:
     double middleAngle = std::atan2(p2.y() - cy, p2.x() - cx); // (-PI,PI]
     if (startAngle == endAngle)
     {
-        return wy3d::Arc2(wy::Vector2(0, 0), 0, 0, 0);
+        return wy3d::geom::Arc2(wy::Vector2(0, 0), 0, 0, 0);
     }
 
     // 调整角度到[0,2PI)
@@ -442,12 +442,12 @@ wy3d::Arc2 MathUtils::computeArcFromThreePoints(const wy::Vector2& p1, const wy:
     if (middleAngle < endAngle)
     {
         if (endAngle > TwoPI) endAngle -= TwoPI;
-        return wy3d::Arc2(center, radius, startAngle, endAngle);
+        return wy3d::geom::Arc2(center, radius, startAngle, endAngle);
     }
     else
     {
         if (endAngle > TwoPI) endAngle -= TwoPI;
-        return wy3d::Arc2(center, radius, endAngle, startAngle);
+        return wy3d::geom::Arc2(center, radius, endAngle, startAngle);
     }
 }
 

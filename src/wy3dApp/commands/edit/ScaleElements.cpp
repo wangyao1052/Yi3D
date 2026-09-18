@@ -140,10 +140,10 @@ bool ScaleElements::perform(
         assert(false);
         return false;
     }
-    wy3d::Matrix3 mirrorMatrix;
+    wy3d::geom::Matrix3 mirrorMatrix;
     wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
     if (!pSketch) goto ABORT_TRANS;
-    mirrorMatrix = wy3d::Matrix3::createScale(wy::Vector2(scale, scale));
+    mirrorMatrix = wy3d::geom::Matrix3::createScale(wy::Vector2(scale, scale));
     for (const wydb::Element* pConstElem : elements)
     {
         if (!pConstElem)

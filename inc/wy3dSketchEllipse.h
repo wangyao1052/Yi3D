@@ -27,7 +27,7 @@ public:
     virtual bool isClosed() const override { return true; }
     virtual bool isDegenerate(double tol) const override;
     virtual double getLength() const override;
-    virtual wy3d::BoundingBox2 getBoundingBox() const override;
+    virtual wy3d::geom::BoundingBox2 getBoundingBox() const override;
 
     wy::Vector2 getCenter() const { return _center; }
     wy::ErrorStatus setCenter(const wy::Vector2& center);
@@ -43,7 +43,7 @@ public:
 
     virtual wy::ErrorStatus translate(const wy::Vector2& vector) override;
     virtual wy::ErrorStatus rotateAround(const wy::Vector2& center, double angle) override;
-    virtual wy::ErrorStatus transform(const wy3d::Matrix3& matrix) override;
+    virtual wy::ErrorStatus transform(const wy3d::geom::Matrix3& matrix) override;
     virtual unsigned int intersectWith(const SketchCurve& other, std::vector<wy::Vector2>& outIntPnts) const override;
 
 public:

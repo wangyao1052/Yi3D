@@ -9,8 +9,8 @@
 
 #include <wyVector2.h>
 #include <wy3dVector2.h>
-#include <wy3dBoundingBox2.h>
-#include <wy3dMatrix3.h>
+#include <geom/wy3dBoundingBox2.h>
+#include <geom/wy3dMatrix3.h>
 #include <wydbElement.h>
 #include <wy3dDefs.h>
 
@@ -25,10 +25,10 @@ public:
     wy::ErrorStatus setOwner(const wydb::ElementId& ownerId);
 
     virtual wy::ErrorStatus translate(const wy::Vector2& vector) { return wy::ErrorStatus::NotImplementedYet; }
-    virtual wy3d::BoundingBox2 getBoundingBox() const { return wy3d::BoundingBox2(); }
+    virtual wy3d::geom::BoundingBox2 getBoundingBox() const { return wy3d::geom::BoundingBox2(); }
 
     virtual wy::ErrorStatus rotateAround(const wy::Vector2& center, double angle) { return wy::ErrorStatus::NotImplementedYet; }
-    virtual wy::ErrorStatus transform(const wy3d::Matrix3& matrix) { return wy::ErrorStatus::NotImplementedYet; }
+    virtual wy::ErrorStatus transform(const wy3d::geom::Matrix3& matrix) { return wy::ErrorStatus::NotImplementedYet; }
 
 protected:
 

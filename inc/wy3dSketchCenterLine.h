@@ -30,12 +30,12 @@ public:
     virtual bool isClosed() const override { return false; }
     virtual bool isDegenerate(double tol) const override;
     virtual double getLength() const override { return (_endPnt-_startPnt).length(); }
-    virtual wy3d::BoundingBox2 getBoundingBox() const override
-    { double minX=std::min(_startPnt.x(),_endPnt.x()),maxX=std::max(_startPnt.x(),_endPnt.x()),minY=std::min(_startPnt.y(),_endPnt.y()),maxY=std::max(_startPnt.y(),_endPnt.y()); return wy3d::BoundingBox2(wy::Vector2(minX-wy3d::TOL,minY-wy3d::TOL),wy::Vector2(maxX+wy3d::TOL,maxY+wy3d::TOL)); }
+    virtual wy3d::geom::BoundingBox2 getBoundingBox() const override
+    { double minX=std::min(_startPnt.x(),_endPnt.x()),maxX=std::max(_startPnt.x(),_endPnt.x()),minY=std::min(_startPnt.y(),_endPnt.y()),maxY=std::max(_startPnt.y(),_endPnt.y()); return wy3d::geom::BoundingBox2(wy::Vector2(minX-wy3d::TOL,minY-wy3d::TOL),wy::Vector2(maxX+wy3d::TOL,maxY+wy3d::TOL)); }
 
     virtual wy::ErrorStatus translate(const wy::Vector2& vector) override;
     virtual wy::ErrorStatus rotateAround(const wy::Vector2& center, double angle) override;
-    virtual wy::ErrorStatus transform(const wy3d::Matrix3& matrix) override;
+    virtual wy::ErrorStatus transform(const wy3d::geom::Matrix3& matrix) override;
     virtual unsigned int intersectWith(const SketchCurve& other, std::vector<wy::Vector2>& outIntPnts) const override;
 
 public:

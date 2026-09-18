@@ -116,9 +116,9 @@ bool SketchArc::isAngleInArc(double angle) const
     return (angle - _startAngle) <= this->getTotalAngle();
 }
 
-wy3d::BoundingBox2 SketchArc::getBoundingBox() const
+wy3d::geom::BoundingBox2 SketchArc::getBoundingBox() const
 {
-    wy3d::BoundingBox2 bbox;
+    wy3d::geom::BoundingBox2 bbox;
     bbox.merge(this->getStartPoint());
     bbox.merge(this->getEndPoint());
 
@@ -228,7 +228,7 @@ wy::ErrorStatus SketchArc::rotateAround(const wy::Vector2& center, double angle)
     return this->setEndAngle(newEndAngle);
 }
 
-wy::ErrorStatus SketchArc::transform(const wy3d::Matrix3& matrix)
+wy::ErrorStatus SketchArc::transform(const wy3d::geom::Matrix3& matrix)
 {
     bool isMirrored = (matrix.determinant() < 0);
     double scaleX = matrix.get(0, 0);

@@ -21,7 +21,7 @@
 #include <osgDB/ReadFile>
 
 #include <wyVector2.h>
-#include <wy3dLineSegment2.h>
+#include <geom/wy3dLineSegment2.h>
 #include <wy3dCurveIntersectionUtil.h>
 
 #include <wy3dSketchCurve.h>
@@ -195,7 +195,7 @@ int SketchTestBoundingBoxCommand::run()
         }
     }
 
-    std::vector<wy3d::BoundingBox2> bboxs;
+    std::vector<wy3d::geom::BoundingBox2> bboxs;
     bboxs.reserve(curveElements.size());
     for (const wy3d::SketchCurve* pCurve : curveElements)
     {
@@ -212,7 +212,7 @@ int SketchTestBoundingBoxCommand::run()
         pDb->getTransactionManager()->abortTransaction();
         return 0;
     }
-    for (const wy3d::BoundingBox2& bbox : bboxs)
+    for (const wy3d::geom::BoundingBox2& bbox : bboxs)
     {
         if (bbox.isEmpty()) continue;
         double minX = bbox.min().x();

@@ -912,11 +912,11 @@ bool SketchCurveGraph_Profile::distinguishFaces()
     }
 
     // 计算所有Loop的外包围盒
-    wy3d::BoundingBox2 totalBoundingBox;
+    wy3d::geom::BoundingBox2 totalBoundingBox;
     for (std::shared_ptr<SketchCurveGraph_Profile::CurveLoop>& pCurveLoop : _closedLoops)
     {
         assert(pCurveLoop);
-        wy3d::BoundingBox2 bbox;
+        wy3d::geom::BoundingBox2 bbox;
         for (const CurveEntry& curveEntry : pCurveLoop->curves())
         {
             assert(curveEntry.index < n);
@@ -974,7 +974,7 @@ bool SketchCurveGraph_Profile::distinguishFaces()
         {
             CurveLoopSPtr& pCurveLoop = _closedLoops[i];
             assert(pCurveLoop);
-            const wy3d::BoundingBox2& bbox = pCurveLoop->getBoundingBox();
+            const wy3d::geom::BoundingBox2& bbox = pCurveLoop->getBoundingBox();
             double min[2] = { bbox.min().x(), bbox.min().y() };
             double max[2] = { bbox.max().x(), bbox.max().y() };
             rtree.Insert(min, max, i);
@@ -1026,7 +1026,7 @@ SketchCurveGraph_Profile::CurveFaceSPtr SketchCurveGraph_Profile::extractFace(
     // 外环
     const CurveLoopSPtr& pOuterLoop = closedLoops[startIndex];
     assert(pOuterLoop);
-    wy3d::BoundingBox2 bboxOuter = pOuterLoop->getBoundingBox();
+    wy3d::geom::BoundingBox2 bboxOuter = pOuterLoop->getBoundingBox();
     double min[2] = { bboxOuter.min().x(), bboxOuter.min().y() };
     double max[2] = { bboxOuter.max().x(), bboxOuter.max().y() };
 
@@ -1050,7 +1050,7 @@ SketchCurveGraph_Profile::CurveFaceSPtr SketchCurveGraph_Profile::extractFace(
 
         const CurveLoopSPtr& pLoop = closedLoops[index];
         assert(pLoop);
-        const wy3d::BoundingBox2& bbox = pLoop->getBoundingBox();
+        const wy3d::geom::BoundingBox2& bbox = pLoop->getBoundingBox();
 
         // 包围盒不完全包含则排除掉
         if (!bboxOuter.contains(bbox))
@@ -1145,7 +1145,7 @@ bool SketchCurveGraph_Profile::isCircleContains(
 
             // 判断外包围盒上的点是否完全在圆内
             bool isBBoxInCircle(true);
-            const wy3d::BoundingBox2& bbox = _curveBBoxs[curveEntry.index];
+            const wy3d::geom::BoundingBox2& bbox = _curveBBoxs[curveEntry.index];
             wy::Vector2 bboxPnts[4] = { bbox.min(), bbox.max(),
                 wy::Vector2(bbox.min().x(), bbox.max().y()),
                 wy::Vector2(bbox.max().x(), bbox.min().y())};
@@ -1195,7 +1195,7 @@ bool SketchCurveGraph_Profile::isCircleContains(
 
             // 判断外包围盒上的点是否完全在圆内
             bool isBBoxInCircle(true);
-            const wy3d::BoundingBox2& bbox = _curveBBoxs[curveEntry.index];
+            const wy3d::geom::BoundingBox2& bbox = _curveBBoxs[curveEntry.index];
             wy::Vector2 bboxPnts[4] = { bbox.min(), bbox.max(),
                 wy::Vector2(bbox.min().x(), bbox.max().y()),
                 wy::Vector2(bbox.max().x(), bbox.min().y()) };
@@ -1259,7 +1259,7 @@ bool SketchCurveGraph_Profile::isCircleContains(
 
             // 判断外包围盒上的点是否完全在圆内
             bool isBBoxInCircle(true);
-            const wy3d::BoundingBox2& bbox = _curveBBoxs[curveEntry.index];
+            const wy3d::geom::BoundingBox2& bbox = _curveBBoxs[curveEntry.index];
             wy::Vector2 bboxPnts[4] = { bbox.min(), bbox.max(),
                 wy::Vector2(bbox.min().x(), bbox.max().y()),
                 wy::Vector2(bbox.max().x(), bbox.min().y()) };
@@ -1519,7 +1519,7 @@ bool SketchCurveGraph_Profile::isCurveLoopContains(
         }
 
         // 先使用外包围盒初始过滤下
-        const wy3d::BoundingBox2& bbox = _curveBBoxs[curveEntry.index];
+        const wy3d::geom::BoundingBox2& bbox = _curveBBoxs[curveEntry.index];
         wy::Vector2 bboxPnts[4] = { bbox.min(), bbox.max(),
             wy::Vector2(bbox.min().x(), bbox.max().y()),
             wy::Vector2(bbox.max().x(), bbox.min().y()) };
