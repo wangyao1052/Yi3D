@@ -199,6 +199,9 @@ public:
     static inline const std::string SetColor = "SetColor";
     static inline const std::string FindElementById = "FindElementById";
 
+    // 工具命令
+    static inline const std::string Options = "Options";
+
     // 帮助命令
     static inline const std::string About = "About";
     static inline const std::string HelpDocumentation = "HelpDocumentation";

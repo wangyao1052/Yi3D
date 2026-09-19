@@ -16,33 +16,43 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_GATEWAY_ENVIRONMENT_UI_H
-#define WY3DAPP_GATEWAY_ENVIRONMENT_UI_H
+#ifndef WY3DAPP_OPTIONS_DIALOG_H
+#define WY3DAPP_OPTIONS_DIALOG_H
 
-#include <QMenu>
-#include <QToolBar>
+#include <QDialog>
 
-class GatewayEnvironment;
+class QCheckBox;
+class QComboBox;
+class QSlider;
+class QSpinBox;
 
-class GatewayEnvironmentUI
+// 选项对话框(工具菜单):视图/系统/自动保存设置
+class OptionsDialog : public QDialog
 {
+	Q_OBJECT
+
 public:
-    GatewayEnvironmentUI();
-    ~GatewayEnvironmentUI();
+	OptionsDialog(QWidget *parent = Q_NULLPTR);
+	~OptionsDialog();
 
-    void initialize(GatewayEnvironment* pEnv);
-    void teardown(GatewayEnvironment* pEnv);
-
-private:
-    void clear();
-    void createMenus(GatewayEnvironment* pEnv);
-    void createToolBars(GatewayEnvironment* pEnv);
+protected:
+	virtual void accept() override;
 
 private:
-    QMenu* _pMenuFile;
-    QMenu* _pMenuTools;
-    QMenu* _pMenuHelp;
-    QToolBar* _pToolBarBasic;
+	// 初始化界面
+	void initUi();
+	// 创建视图设置组
+	QWidget* createViewGroup();
+	// 创建系统设置组
+	QWidget* createSystemGroup();
+	// 创建自动保存设置组
+	QWidget* createAutoSaveGroup();
+
+	QSlider* _pRotationSpeedSlider;
+	QSpinBox* _pRotationSpeedSpin;
+	QCheckBox* _pInvertWheelCheck;
+	QComboBox* _pLanguageCombo;
+	QSpinBox* _pAutoSaveIntervalSpin;
 };
 
-#endif // WY3DAPP_GATEWAY_ENVIRONMENT_UI_H
+#endif // WY3DAPP_OPTIONS_DIALOG_H

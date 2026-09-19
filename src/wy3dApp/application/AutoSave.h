@@ -55,6 +55,9 @@ public:
     // Normal exit: delete all .autosave files produced by this session (idempotent).
     void cleanupOnExit();
 
+    // 选项对话框:修改自动保存间隔(分钟),0为禁用;主线程内串行调用,下一个tick生效
+    void setIntervalMinutes(int minutes) { _intervalMs = static_cast<int64_t>(minutes) * 60 * 1000; }
+
     // DocManagerReactor overrides.
     void onDocumentStatusChanged(wyap::Document* pDoc, unsigned int oldStatus) override;
     // Called before the document is destroyed (pointer still valid): clears the

@@ -16,33 +16,14 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_GATEWAY_ENVIRONMENT_UI_H
-#define WY3DAPP_GATEWAY_ENVIRONMENT_UI_H
+#include "OptionsCommands.h"
+#include "widgets/frame/OptionsDialog.h"
 
-#include <QMenu>
-#include <QToolBar>
 
-class GatewayEnvironment;
-
-class GatewayEnvironmentUI
+int OptionsCommand::run()
 {
-public:
-    GatewayEnvironmentUI();
-    ~GatewayEnvironmentUI();
+	OptionsDialog dlg;
+	dlg.exec();
 
-    void initialize(GatewayEnvironment* pEnv);
-    void teardown(GatewayEnvironment* pEnv);
-
-private:
-    void clear();
-    void createMenus(GatewayEnvironment* pEnv);
-    void createToolBars(GatewayEnvironment* pEnv);
-
-private:
-    QMenu* _pMenuFile;
-    QMenu* _pMenuTools;
-    QMenu* _pMenuHelp;
-    QToolBar* _pToolBarBasic;
-};
-
-#endif // WY3DAPP_GATEWAY_ENVIRONMENT_UI_H
+	return 0;
+}

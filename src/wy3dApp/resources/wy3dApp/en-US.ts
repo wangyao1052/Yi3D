@@ -1761,37 +1761,47 @@ Do you want to save it to the original file now?
         <translation type="unfinished">Yi3D</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="50"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="51"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="55"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="56"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="60"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="61"/>
+        <source>Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="66"/>
         <source>Help Documentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="65"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="71"/>
         <source>Shortcut Keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="70"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="76"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="139"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="149"/>
+        <source>Tools</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="153"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="146"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="160"/>
         <source>Basic</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1817,7 +1827,7 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="135"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="145"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3097,6 +3107,69 @@ Do you want to save it to the original file now?
     <message>
         <source>Offset distance</source>
         <translation type="vanished">Offset distance</translation>
+    </message>
+</context>
+<context>
+    <name>OptionsDialog</name>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="45"/>
+        <source>Options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="85"/>
+        <source>View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="87"/>
+        <source>Mouse Rotation Speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="100"/>
+        <source>Invert Mouse Wheel Zoom Direction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="111"/>
+        <source>System</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="113"/>
+        <source>Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="115"/>
+        <source>Chinese</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="116"/>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="118"/>
+        <source>Takes effect after restart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="134"/>
+        <source>Auto Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="136"/>
+        <source>Auto Save Interval (minutes)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="141"/>
+        <source>0 disables auto save</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

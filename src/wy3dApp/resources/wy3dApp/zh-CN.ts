@@ -2724,27 +2724,27 @@ Do you want to save it to the original file now?
         <translation type="unfinished">易三维</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="135"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="145"/>
         <source>File</source>
         <translation type="unfinished">文件</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="50"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="51"/>
         <source>New</source>
         <translation type="unfinished">新建</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="55"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="56"/>
         <source>Open</source>
         <translation type="unfinished">打开</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="60"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="66"/>
         <source>Help Documentation</source>
         <translation type="unfinished">帮助文档</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="65"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="71"/>
         <source>Shortcut Keys</source>
         <translation type="unfinished">快捷键</translation>
     </message>
@@ -2986,7 +2986,7 @@ Do you want to save it to the original file now?
         <translation type="obsolete">透视投影</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="146"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="160"/>
         <source>Basic</source>
         <translation type="unfinished">基础</translation>
     </message>
@@ -3060,14 +3060,24 @@ Do you want to save it to the original file now?
         <translation type="unfinished">圆管</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="139"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="153"/>
         <source>Help</source>
         <translation type="unfinished">帮助</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="70"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="76"/>
         <source>About</source>
         <translation type="unfinished">关于</translation>
+    </message>
+    <message>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="149"/>
+        <source>Tools</source>
+        <translation>工具</translation>
+    </message>
+    <message>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="61"/>
+        <source>Options</source>
+        <translation>选项</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="558"/>
@@ -4326,6 +4336,77 @@ Do you want to save it to the original file now?
     <message>
         <source>Offset distance</source>
         <translation type="vanished">偏置距离</translation>
+    </message>
+</context>
+<context>
+    <name>OptionsDialog</name>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="45"/>
+        <source>Options</source>
+        <translation>选项</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>确定</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="85"/>
+        <source>View</source>
+        <translation>视图</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="87"/>
+        <source>Mouse Rotation Speed</source>
+        <translation>鼠标中键旋转速度</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="100"/>
+        <source>Invert Mouse Wheel Zoom Direction</source>
+        <translation>反转鼠标滚轮缩放方向</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="111"/>
+        <source>System</source>
+        <translation>系统</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="113"/>
+        <source>Language</source>
+        <translation>语言</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="115"/>
+        <source>Chinese</source>
+        <translation>中文</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="116"/>
+        <source>English</source>
+        <translation>English</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="118"/>
+        <source>Takes effect after restart</source>
+        <translation>重启程序后生效</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="134"/>
+        <source>Auto Save</source>
+        <translation>自动保存</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="136"/>
+        <source>Auto Save Interval (minutes)</source>
+        <translation>自动保存间隔(分钟)</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="141"/>
+        <source>0 disables auto save</source>
+        <translation>0 表示禁用自动保存</translation>
     </message>
 </context>
 <context>

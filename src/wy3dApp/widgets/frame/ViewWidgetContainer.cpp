@@ -266,6 +266,24 @@ void ViewWidgetContainer::onCurrentTabChanged(int index)
     }
 }
 
+void ViewWidgetContainer::applyViewSettings()
+{
+    const int count = _pTabWidget->count();
+    for (int i = 0; i < count; ++i)
+    {
+        ViewWidget* pViewWidget = this->getViewWidgetAt(i);
+        OsgViewWidget* pOsgViewWidget = dynamic_cast<OsgViewWidget*>(pViewWidget);
+        if (pOsgViewWidget)
+        {
+            pOsgViewWidget->applyViewSettings();
+        }
+        else
+        {
+            assert(false);
+        }
+    }
+}
+
 bool ViewWidgetContainer::eventFilter(QObject* watched, QEvent* event)
 {
     assert(_pTabWidget);

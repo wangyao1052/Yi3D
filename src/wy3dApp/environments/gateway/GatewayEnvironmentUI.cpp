@@ -35,6 +35,7 @@ struct GatewayActions
 {
     CommandAction* pActionNewFile;
     CommandAction* pActionOpenFile;
+    CommandAction* pActionOptions;
     CommandAction* pActionHelpDocumentation;
     CommandAction* pActionShortcutKeys;
     CommandAction* pActionAbout;
@@ -54,6 +55,11 @@ GatewayActions createActions(GatewayEnvironment* pEnv)
         CommandNames::OpenFile,
         QCoreApplication::translate("MainWindow", "Open"),
         QIcon(":/images/Document_Open.svg"));
+
+    actions.pActionOptions = pEnv->newCommandAction(
+        CommandNames::Options,
+        QCoreApplication::translate("MainWindow", "Options"),
+        QIcon());
 
     actions.pActionHelpDocumentation = pEnv->newCommandAction(
         CommandNames::HelpDocumentation,
@@ -76,6 +82,7 @@ GatewayActions createActions(GatewayEnvironment* pEnv)
 
 GatewayEnvironmentUI::GatewayEnvironmentUI()
     : _pMenuFile(nullptr)
+    , _pMenuTools(nullptr)
     , _pMenuHelp(nullptr)
     , _pToolBarBasic(nullptr)
 {
@@ -97,10 +104,12 @@ void GatewayEnvironmentUI::initialize(GatewayEnvironment* pEnv)
     this->createMenus(pEnv);
     this->createToolBars(pEnv);
     assert(_pMenuFile);
+    assert(_pMenuTools);
     assert(_pMenuHelp);
     assert(_pToolBarBasic);
     _pMenuFile->addAction(actions.pActionNewFile);
     _pMenuFile->addAction(actions.pActionOpenFile);
+    _pMenuTools->addAction(actions.pActionOptions);
     _pMenuHelp->addAction(actions.pActionHelpDocumentation);
     _pMenuHelp->addAction(actions.pActionShortcutKeys);
     _pMenuHelp->addAction(actions.pActionAbout);
@@ -125,6 +134,7 @@ void GatewayEnvironmentUI::teardown(GatewayEnvironment* pEnv)
 void GatewayEnvironmentUI::clear()
 {
     _pMenuFile = nullptr;
+    _pMenuTools = nullptr;
     _pMenuHelp = nullptr;
     _pToolBarBasic = nullptr;
 }
@@ -134,6 +144,10 @@ void GatewayEnvironmentUI::createMenus(GatewayEnvironment* pEnv)
     _pMenuFile = pEnv->addMenu(
         QCoreApplication::translate("MainWindow", "File"),
         wy3dApp::MenuBarNames::File);
+
+    _pMenuTools = pEnv->addMenu(
+        QCoreApplication::translate("MainWindow", "Tools"),
+        wy3dApp::MenuBarNames::Tools);
 
     _pMenuHelp = pEnv->addMenu(
         QCoreApplication::translate("MainWindow", "Help"),

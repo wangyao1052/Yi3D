@@ -27,11 +27,13 @@
 #include "application/Application.h"
 #include "commands/CommandNames.h"
 #include "commands/FileCommands.h"
+#include "commands/OptionsCommands.h"
 #include "commands/help/HelpCommands.h"
 
 #define WY3DAPP_GATEWAY_ENV_COMMAND_LIST(X) \
     X(CommandNames::NewFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, NewFileCommand::classInfo()) \
     X(CommandNames::OpenFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, OpenFileCommand::classInfo()) \
+    X(CommandNames::Options, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, OptionsCommand::classInfo()) \
     X(CommandNames::HelpDocumentation, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, HelpDocumentationCommand::classInfo()) \
     X(CommandNames::ShortcutKeys, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShortcutKeysCommand::classInfo()) \
     X(CommandNames::About, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, AboutCommand::classInfo())

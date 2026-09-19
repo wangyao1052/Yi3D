@@ -32,6 +32,14 @@ public:
     // 初始化
     void initialize();
 
+    // 选项对话框:修改配置项(修改后调用saveConfig持久化)
+    void setLanguage(const QString& language);
+    void setMouseRotationSpeed(int speed);
+    void setInvertMouseWheelZoom(bool invert);
+    void setAutoSaveIntervalMinutes(int minutes);
+    // 保存配置到config.ini
+    bool saveConfig();
+
     // 系统
     struct System
     {

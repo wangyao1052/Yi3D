@@ -950,9 +950,12 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
     targets.pMenuSheet = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Sheet"),
                                        wy3dApp::MenuBarNames::Sheet);
     assert(targets.pMenuSheet);
-    // Insert Sheet menu before Help
-    if (QMenu* pHelpMenu = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::Help))
-        pMainWindow->menuBar()->insertMenu(pHelpMenu->menuAction(), targets.pMenuSheet);
+    // 以工具菜单为锚,曲面插到工具之前;工具菜单缺失时回退到帮助菜单
+    QMenu* pAnchorMenu = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::Tools);
+    if (!pAnchorMenu)
+        pAnchorMenu = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::Help);
+    if (pAnchorMenu)
+        pMainWindow->menuBar()->insertMenu(pAnchorMenu->menuAction(), targets.pMenuSheet);
 
     targets.pToolBarBasic = pMainWindow->findChild<QToolBar*>(wy3dApp::ToolBarNames::Basic);
     assert(targets.pToolBarBasic);

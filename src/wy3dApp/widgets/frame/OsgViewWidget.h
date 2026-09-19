@@ -49,6 +49,8 @@ public:
 		return _pOsgGLWidget->getOsgViewer();
     }
 
+	void applyViewSettings();
+
 	void setCursor(const QCursor& cursor) override;
 	QRect getRenderAreaGlobalRect() const override;
 

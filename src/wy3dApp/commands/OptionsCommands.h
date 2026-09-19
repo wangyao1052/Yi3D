@@ -16,33 +16,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_GATEWAY_ENVIRONMENT_UI_H
-#define WY3DAPP_GATEWAY_ENVIRONMENT_UI_H
+#ifndef WY3DAPP_OPTIONS_COMMANDS_H
+#define WY3DAPP_OPTIONS_COMMANDS_H
 
-#include <QMenu>
-#include <QToolBar>
+#include "commands/SimpleCommand.h"
 
-class GatewayEnvironment;
+DEFINE_SIMPLE_CMD(OptionsCommand)
 
-class GatewayEnvironmentUI
-{
-public:
-    GatewayEnvironmentUI();
-    ~GatewayEnvironmentUI();
-
-    void initialize(GatewayEnvironment* pEnv);
-    void teardown(GatewayEnvironment* pEnv);
-
-private:
-    void clear();
-    void createMenus(GatewayEnvironment* pEnv);
-    void createToolBars(GatewayEnvironment* pEnv);
-
-private:
-    QMenu* _pMenuFile;
-    QMenu* _pMenuTools;
-    QMenu* _pMenuHelp;
-    QToolBar* _pToolBarBasic;
-};
-
-#endif // WY3DAPP_GATEWAY_ENVIRONMENT_UI_H
+#endif // WY3DAPP_OPTIONS_COMMANDS_H

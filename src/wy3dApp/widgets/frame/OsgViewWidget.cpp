@@ -117,16 +117,9 @@ void OsgViewWidget::initWindow()
     _pCameraManipulator = pCameraManipulator;
     pCameraManipulator->setNavCursorCallback(
         [this](NavCursorMode mode) { setNavigationCursor(mode); });
-    // added by wangyao 2025.07.28 {
-    // 反转鼠标滚轮方向
-    if (Application::instance().getConfig()->view.invertMouseWheelZoom)
-    {
-        pCameraManipulator->setWheelZoomFactor(-pCameraManipulator->getWheelZoomFactor());
-    }
-    // }
 
-    // 鼠标中键旋转速度
-    pCameraManipulator->setRotationSpeed(Application::instance().getConfig()->view.mouseRotationSpeed);
+    this->applyViewSettings();
+
     osg::Quat rot(0.424708f, 0.17592f, 0.339851f, 0.820473f);
     osg::Vec3d lookDir = rot * osg::Vec3d(0, 0, -1);
     lookDir.normalize();
@@ -156,6 +149,24 @@ void OsgViewWidget::setCursor(const QCursor& cursor)
 	{
         _pOsgGLWidget->setCursor(cursor);
 	}
+}
+
+void OsgViewWidget::applyViewSettings()
+{
+    if (!_pCameraManipulator)
+    {
+        return;
+    }
+	const Config* pConfig = Application::instance().getConfig();
+	if (!pConfig)
+	{
+		return;
+	}
+    //
+	const double factor = qAbs(_pCameraManipulator->getWheelZoomFactor());
+	_pCameraManipulator->setWheelZoomFactor(pConfig->view.invertMouseWheelZoom ? -factor : factor);
+    //
+	_pCameraManipulator->setRotationSpeed(pConfig->view.mouseRotationSpeed);
 }
 
 void OsgViewWidget::setNavigationCursor(NavCursorMode mode)

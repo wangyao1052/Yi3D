@@ -54,6 +54,8 @@ public:
     // 获取文档对应的页面
     ViewWidget* getViewWidget(wyap::Document* pDoc) const;
 
+    void applyViewSettings();
+
     // 文档反应器回调函数
     virtual void onDocumentCreated(wyap::Document* pNewDoc) override;
     virtual void onDocumentToBeDestroyed(wyap::Document* pDocToDestroy) override;

@@ -78,7 +78,7 @@ void Config::initializeImpl()
     const_cast<bool&>(this->view.invertMouseWheelZoom) = (0 == nInvertMouseWheelZoom) ? false : true;
 
     // view/mouseRotationSpeed
-    int nMouseRotationSpeed(50);
+    int nMouseRotationSpeed(60);
     this->readInt(settings, "view/mouseRotationSpeed", nMouseRotationSpeed, 1, 100);
     const_cast<int&>(this->view.mouseRotationSpeed) = nMouseRotationSpeed;
 
@@ -97,6 +97,39 @@ void Config::initializeImpl()
     const_cast<int&>(this->autoSave.intervalMinutes) = nAutoSaveIntervalMinutes;
 
     return;
+}
+
+// 选项对话框:修改配置项(成员为const,沿用initializeImpl中的const_cast惯例)
+void Config::setLanguage(const QString& language)
+{
+    const_cast<QString&>(this->system.language) = language;
+}
+
+void Config::setMouseRotationSpeed(int speed)
+{
+    if (speed < 1) speed = 1;
+    if (speed > 100) speed = 100;
+    const_cast<int&>(this->view.mouseRotationSpeed) = speed;
+}
+
+void Config::setInvertMouseWheelZoom(bool invert)
+{
+    const_cast<bool&>(this->view.invertMouseWheelZoom) = invert;
+}
+
+void Config::setAutoSaveIntervalMinutes(int minutes)
+{
+    if (minutes < 0) minutes = 0;
+    if (minutes > 60) minutes = 60;
+    const_cast<int&>(this->autoSave.intervalMinutes) = minutes;
+}
+
+// 保存配置到config.ini
+bool Config::saveConfig()
+{
+    const QString qstrAppDir = QCoreApplication::applicationDirPath();
+    const QString configFileFullPath = qstrAppDir + QString("/") + QString(kConfigFileName.c_str());
+    return this->saveToFile(configFileFullPath);
 }
 
 bool Config::saveToFile(const QString& fileFullPath)
