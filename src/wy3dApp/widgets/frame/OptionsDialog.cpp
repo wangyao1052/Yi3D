@@ -18,6 +18,7 @@
 
 #include "OptionsDialog.h"
 
+#include <QPushButton>
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDialogButtonBox>
