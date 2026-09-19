@@ -46,6 +46,9 @@ public:
         // 反转鼠标滚轮缩放方向:否
         const bool invertMouseWheelZoom = false;
 
+        // 鼠标中键旋转速度(1~100):越大越快,默认60
+        const int mouseRotationSpeed = 60;
+
     } view;
 
     // Auto save

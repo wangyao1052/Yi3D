@@ -77,6 +77,11 @@ void Config::initializeImpl()
     this->readInt(settings, "view/invertMouseWheelZoom", nInvertMouseWheelZoom, 0, 1);
     const_cast<bool&>(this->view.invertMouseWheelZoom) = (0 == nInvertMouseWheelZoom) ? false : true;
 
+    // view/mouseRotationSpeed
+    int nMouseRotationSpeed(50);
+    this->readInt(settings, "view/mouseRotationSpeed", nMouseRotationSpeed, 1, 100);
+    const_cast<int&>(this->view.mouseRotationSpeed) = nMouseRotationSpeed;
+
     // autoSave/intervalMinutes (0 disables auto save)
     int nAutoSaveIntervalMinutes(10);
     this->readInt(settings, "autoSave/intervalMinutes", nAutoSaveIntervalMinutes, 0, 60);
@@ -106,6 +111,7 @@ bool Config::saveToFile(const QString& fileFullPath)
     // 保存视图配置
     settings.beginGroup("view");
     settings.setValue("invertMouseWheelZoom", this->view.invertMouseWheelZoom ? "1" : "0");
+    settings.setValue("mouseRotationSpeed", this->view.mouseRotationSpeed);
     settings.endGroup();
 
     // Save auto save settings

@@ -35,6 +35,7 @@ public:
 
 	virtual void setNode(osg::Node*) override;
 	void setModelSize(double modelSize);
+	void setRotationSpeed(int speed);
 	void setNavCursorCallback(std::function<void(NavCursorMode)> callback);
 
 protected:

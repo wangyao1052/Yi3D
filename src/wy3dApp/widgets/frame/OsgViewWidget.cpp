@@ -124,6 +124,9 @@ void OsgViewWidget::initWindow()
         pCameraManipulator->setWheelZoomFactor(-pCameraManipulator->getWheelZoomFactor());
     }
     // }
+
+    // 鼠标中键旋转速度
+    pCameraManipulator->setRotationSpeed(Application::instance().getConfig()->view.mouseRotationSpeed);
     osg::Quat rot(0.424708f, 0.17592f, 0.339851f, 0.820473f);
     osg::Vec3d lookDir = rot * osg::Vec3d(0, 0, -1);
     lookDir.normalize();

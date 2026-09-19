@@ -18,6 +18,7 @@
 
 #include "CameraManipulator3d.h"
 #include <cassert>
+#include <cmath>
 #include <Geom_Plane.hxx>
 #include <Geom_Line.hxx>
 #include <GeomAPI_IntCS.hxx>
@@ -66,6 +67,15 @@ void CameraManipulator3d::setModelSize(double modelSize)
     {
         _maxNearFarDis = 10 * _modelSize;
     }
+}
+
+void CameraManipulator3d::setRotationSpeed(int speed)
+{
+	// 速度映射trackballSize(越大转得越快):0->2.0,60->0.5,100->约0.2,每30档减半
+	if (speed < 1) speed = 1;
+	if (speed > 100) speed = 100;
+	const double trackballSize = std::pow(2.0, 1.0 - speed / 30.0);
+	this->setTrackballSize(trackballSize);
 }
 
 void CameraManipulator3d::setNavCursorCallback(std::function<void(NavCursorMode)> callback)
