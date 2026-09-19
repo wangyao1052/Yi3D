@@ -27,6 +27,7 @@
 #include <memory>
 
 class Sketch3DPlaneLabel;
+class Sketch3DSnapSystem;
 
 // 3D草图工作平面:显示CSYS + 平面原点驻留吸附;支持移动原点与循环切换平面
 class Sketch3DWorkingPlane
@@ -75,6 +76,9 @@ public:
 
     // 获取工作平面
     const wy3d::SketchPlane& getWorkingPlane() const;
+
+    // 获取3D草图捕捉体系(当前活动环境为3D草图环境时有效,否则空)
+    Sketch3DSnapSystem* getSketch3DSnapSystem() const;
 
 protected:
     virtual wyap::CmdExecution::StartResult onStart() override;

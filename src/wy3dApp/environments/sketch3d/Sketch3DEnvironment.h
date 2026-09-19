@@ -31,6 +31,7 @@
 #include "environments/ICommandActionStateHost.h"
 
 class Sketch3DEnvironmentUI;
+class Sketch3DSnapSystem;
 
 class Sketch3DEnvironment
     : public wyap::TaskEnvironment
@@ -69,6 +70,11 @@ public:
         return _isTransCommitted;
     }
 
+    Sketch3DSnapSystem* getSnapSystem() const
+    {
+        return _pSnapSys.get();
+    }
+
 public:
     virtual void onCommandStartFailed(
         wyap::Command* pCmd,
@@ -102,6 +108,7 @@ private:
     bool _isTransCommitted;
 
     std::unique_ptr<Sketch3DEnvironmentUI> _pUI;
+    std::unique_ptr<Sketch3DSnapSystem> _pSnapSys;
 };
 
 #endif // WY3DAP_SKETCH3D_ENVIRONMENT_H

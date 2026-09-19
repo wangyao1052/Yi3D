@@ -4341,70 +4341,72 @@ Do you want to save it to the original file now?
 <context>
     <name>OptionsDialog</name>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="45"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="46"/>
         <source>Options</source>
         <translation>选项</translation>
     </message>
     <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="65"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
     <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="66"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="85"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="89"/>
         <source>View</source>
         <translation>视图</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="87"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="91"/>
         <source>Mouse Rotation Speed</source>
         <translation>鼠标中键旋转速度</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="100"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="104"/>
         <source>Invert Mouse Wheel Zoom Direction</source>
         <translation>反转鼠标滚轮缩放方向</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="111"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="115"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="113"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="117"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="115"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="119"/>
         <source>Chinese</source>
         <translation>中文</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="116"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="120"/>
         <source>English</source>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="118"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="122"/>
         <source>Takes effect after restart</source>
         <translation>重启程序后生效</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="134"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="138"/>
         <source>Auto Save</source>
         <translation>自动保存</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="136"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="140"/>
         <source>Auto Save Interval (minutes)</source>
         <translation>自动保存间隔(分钟)</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="141"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="145"/>
         <source>0 disables auto save</source>
         <translation>0 表示禁用自动保存</translation>
     </message>
@@ -6170,7 +6172,7 @@ Do you want to save it to the original file now?
 <context>
     <name>Sketch3DDrawGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="425"/>
+        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="452"/>
         <source>View Normal To Working Plane</source>
         <translation type="unfinished">正视于工作平面</translation>
     </message>
@@ -6458,17 +6460,17 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchDrawCircle3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="170"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="184"/>
         <source>Specify the center point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation>指定圆心；可直接输入坐标值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="178"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="192"/>
         <source>Specify the radius; you can directly input the value. Press Space to switch the drawing plane.</source>
         <translation>指定半径；可直接输入具体值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="304"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="319"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -6731,7 +6733,7 @@ Do you want to save it to the original file now?
         <translation type="vanished">指定终点。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="170"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="184"/>
         <source>Specify the start point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation>指定起点；可输入具体坐标值。按空格键切换绘制平面。</translation>
     </message>
@@ -6740,17 +6742,17 @@ Do you want to save it to the original file now?
         <translation type="vanished">指定终点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="178"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="192"/>
         <source>Specify the end point; you can directly input the length and angle. Press Space to switch the drawing plane.</source>
         <translation>指定终点；可直接输入长度和角度。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="294"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="309"/>
         <source>Length</source>
         <translation>长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="295"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="310"/>
         <source>Angle</source>
         <translation>角度</translation>
     </message>

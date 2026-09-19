@@ -34,6 +34,10 @@
 #include "snap/SnapResult.h"
 #include "snap/SnapObject.h"
 #include "snap/SketchSnapSystem.h"
+#include "snap3d/Sketch3DSnapObject.h"
+#include "snap3d/Sketch3DSnapContext.h"
+#include "snap3d/Sketch3DSnapResult.h"
+#include "snap3d/Sketch3DSnapSystem.h"
 #include "utils/MathUtils.h"
 
 // ── 文件级辅助函数 ──────────────────────────────────────────────
@@ -82,6 +86,46 @@ static SketchSnapResultSPtr convertSnapResult(
     {
         return nullptr;
     }
+}
+
+// 全局体系点捕捉结果→3D草图捕捉结果(与上方convertSnapResult同构)
+static std::shared_ptr<Sketch3DSnapResult> convertSnapResult3D(
+    const wyap::SnapResultSPtr& pSnapRet3d)
+{
+    assert(pSnapRet3d);
+
+    const SnapResultPoint* pSnapRetPoint = dynamic_cast<const SnapResultPoint*>(pSnapRet3d.get());
+    if (!pSnapRetPoint) return nullptr;
+    wyap::SnapObjectSPtr pSnapObj = pSnapRetPoint->getSnapObject();
+    if (!pSnapObj || pSnapObj->getId().isNull()) return nullptr; // 坐标原点(id空)在此挡掉
+    SnapPoint* pSnapPoint = dynamic_cast<SnapPoint*>(pSnapObj.get());
+    if (!pSnapPoint)
+    {
+        assert(false);
+        return nullptr;
+    }
+
+    Sketch3DSnapType snapType;
+    switch (pSnapPoint->getType())
+    {
+    case SnapPoint::Type::End:
+        snapType = Sketch3DSnapType::EndPoint;
+        break;
+    case SnapPoint::Type::Middle:
+        snapType = Sketch3DSnapType::MiddlePoint;
+        break;
+    case SnapPoint::Type::Center:
+        snapType = Sketch3DSnapType::CenterPoint;
+        break;
+    default:
+        return nullptr;
+    }
+
+    std::shared_ptr<Sketch3DSnapResult> pResult = std::make_shared<Sketch3DSnapResult>(pSnapRetPoint->getPosition());
+    Sketch3DSnapResult::Item item;
+    item.pSnapObject = std::make_shared<Sketch3DPointSnapObject>(snapType, pSnapObj->getId());
+    pResult->addItem(std::move(item));
+    return pResult;
 }
 
 static bool computeClosestPoints(const osg::LineSegment& l1, const osg::LineSegment& l2,
@@ -159,6 +203,41 @@ std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgCoordUtil::computePosition3d(
     double t = -sketchPlaneNormal.dot(worldPos) - D;
     t /= sketchPlaneNormal.dot(projDir);
     return std::pair<wy::Vector3, wyap::SnapResultSPtr>(worldPos + projDir * t, nullptr);
+}
+
+std::pair<wy::Vector3, bool> OsgCoordUtil::computePosition3dForSketch3D(
+    osgViewer::View* pView,
+    double x, double y,
+    const wy3d::SketchPlane& workPlane,
+    const std::set<wydb::ElementId>& excludeIds,
+    const Sketch3DSnapContext* pSnapContext,
+    Sketch3DSnapSystem* pSketch3DSnapSys,
+    const wydb::ElementId& sketch3dId)
+{
+    assert(pView);
+    std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePosition3d(
+        pView, x, y, workPlane, excludeIds, true);
+    if (ret.second)
+    {
+        if (pSketch3DSnapSys)
+        {
+            pSketch3DSnapSys->setSnapResult(convertSnapResult3D(ret.second));
+        }
+        return std::make_pair(ret.second->getPosition(), true);
+    }
+    else
+    {
+        if (pSketch3DSnapSys && pSnapContext)
+        {
+            Sketch3DSnapResultSPtr pSketch3DSnapRet = pSketch3DSnapSys->snap(
+                pSnapContext, pView, ret.first, workPlane, excludeIds, sketch3dId);
+            if (pSketch3DSnapRet)
+            {
+                return std::make_pair(pSketch3DSnapRet->getPosition(), false);
+            }
+        }
+        return std::make_pair(ret.first, false);
+    }
 }
 
 wy::Vector2 OsgCoordUtil::computePosition2d(
@@ -375,4 +454,23 @@ bool OsgCoordUtil::computeRotationAngle(
 
         return true;
     }
+}
+
+// 世界坐标投影到窗口像素坐标
+osg::Vec2d OsgCoordUtil::projectWorldToWindow(
+    osgViewer::View* pView,
+    const wy::Vector3& worldPnt)
+{
+    assert(pView);
+    static const osg::Vec2d kNullRet(0.0, 0.0);
+    if (!pView || !pView->getCamera() || !pView->getCamera()->getViewport())
+    {
+        return kNullRet;
+    }
+
+    osg::Camera* camera = pView->getCamera();
+    osg::Matrix MVPW = camera->getViewMatrix() * camera->getProjectionMatrix() *
+        camera->getViewport()->computeWindowMatrix();
+    osg::Vec3d win = osg::Vec3d(worldPnt.x(), worldPnt.y(), worldPnt.z()) * MVPW;
+    return osg::Vec2d(win.x(), win.y());
 }

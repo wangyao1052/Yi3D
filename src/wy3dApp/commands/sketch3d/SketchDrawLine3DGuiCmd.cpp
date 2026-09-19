@@ -34,7 +34,10 @@
 #include <wy3dImpl.h>
 
 #include "application/Application.h"
+#include "commands/OsgCoordUtil.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
+#include "snap3d/Sketch3DSnapContext.h"
+#include "snap3d/Sketch3DSnapSystem.h"
 #include "utils/GuiCommandUtil.h"
 #include "widgets/frame/MainWindow.h"
 
@@ -73,6 +76,7 @@ void SketchDrawLine3DGuiCmd::cleanup()
     _startPnt.set(0.0, 0.0, 0.0);
     _endPnt.set(0.0, 0.0, 0.0);
     _pMakeSketchLine3D = nullptr;
+    _pSnapContext = nullptr;
 
     this->hidePopup();
     _hoverPopupState.resetValue();
@@ -117,6 +121,9 @@ bool SketchDrawLine3DGuiCmd::finishStep(unsigned int step)
             _pMakeSketchLine3D = nullptr;
             return false;
         }
+
+        // 起点已定,切换到画线上下文(角度/切点/相等捕捉携带起点)
+        _pSnapContext = std::make_shared<Sketch3DDrawLineContext>(_startPnt);
 
         this->moveWorkPlaneOriginTo(_startPnt);
         this->gotoStep(static_cast<unsigned int>(Step::SpecifyEndPnt));
@@ -163,10 +170,17 @@ void SketchDrawLine3DGuiCmd::gotoStep(unsigned int step)
     this->hidePopup();
     _hoverPopupState.resetValue();
 
+    // 步骤切换时清除残留的捕捉图标
+    if (Sketch3DSnapSystem* pSnapSys = this->getSketch3DSnapSystem())
+    {
+        pSnapSys->clearSnapResult();
+    }
+
     switch (static_cast<Step>(step))
     {
     case Step::SpecifyStartPnt:
     {
+        _pSnapContext = std::make_shared<Sketch3DLocateContext>();
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine3DGuiCmd",
             "Specify the start point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
@@ -251,6 +265,7 @@ void SketchDrawLine3DGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == static_cast<unsigned int>(Step::SpecifyEndPnt))
     {
+        // 点击提交与预览走同一computePoint3d,捕捉逻辑内聚在统一入口,落点与预览一致
         _endPnt = this->computePoint3d(event.x, event.y).first;
         if (this->finishStep(_step))
         {
@@ -480,12 +495,11 @@ void SketchDrawLine3DGuiCmd::simulateMouseMoveFromPopup()
 
 std::pair<wy::Vector3, bool> SketchDrawLine3DGuiCmd::computePoint3d(double x, double y)
 {
-    auto ret = this->computePosition3d(x, y, this->getWorkingPlane(), this->getSnapExcludeIds(), true);
-    if (ret.second)
-    {
-        return std::make_pair(ret.second->getPosition(), true);
-    }
-    return std::make_pair(ret.first, false);
+    // 统一入口(与2D的computePosition2d同构):全局点捕捉优先,未命中走3D草图体系
+    return OsgCoordUtil::computePosition3dForSketch3D(this->getOsgView(), x, y,
+        this->getWorkingPlane(), this->getSnapExcludeIds(), _pSnapContext.get(),
+        this->getSketch3DSnapSystem(),
+        _sketch3DInfo.sketch3dId);
 }
 
 std::set<wydb::ElementId> SketchDrawLine3DGuiCmd::getSnapExcludeIds() const

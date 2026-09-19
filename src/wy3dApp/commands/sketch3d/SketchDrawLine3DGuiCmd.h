@@ -28,6 +28,8 @@
 #include <wydbElementId.h>
 #include <wy3dSketchLine3D.h>
 
+class Sketch3DSnapContext;
+
 class GuiCmdHoverInputPopup2;
 class GuiCmdHoverInputPopup3;
 class MakeSketchLine3D;
@@ -106,6 +108,8 @@ private:
     wy::Vector3 _startPnt;
     wy::Vector3 _endPnt;
     std::shared_ptr<MakeSketchLine3D> _pMakeSketchLine3D;
+    // 捕捉上下文(起点步=Locate,终点步=DrawLine,仿2D命令的_pSnapContext)
+    std::shared_ptr<Sketch3DSnapContext> _pSnapContext;
 
     std::unique_ptr<GuiCmdHoverInputPopup3> _pXYZPopup;
     std::unique_ptr<GuiCmdHoverInputPopup2> _pLengthAnglePopup;

@@ -28,6 +28,8 @@
 #include <wydbElementId.h>
 #include <wy3dSketchCircle3D.h>
 
+class Sketch3DSnapContext;
+
 class MakeSketchCircle3D;
 class GuiCmdHoverInputPopup1;
 class GuiCmdHoverInputPopup3;
@@ -127,6 +129,8 @@ private:
     double _radius;
     SnapPlaneState _snapPlaneState;
     std::shared_ptr<MakeSketchCircle3D> _pMakeSketchCircle3D;
+    // 捕捉上下文(圆心步=Locate,半径步=DrawCircle,仿2D命令的_pSnapContext)
+    std::shared_ptr<Sketch3DSnapContext> _pSnapContext;
 
     std::unique_ptr<GuiCmdHoverInputPopup3> _pXYZPopup;
     std::unique_ptr<GuiCmdHoverInputPopup1> _pRadiusPopup;

@@ -33,10 +33,14 @@
 
 #include <wyVector3.h>
 #include <wyapSelManager.h>
+#include <wyapEnvManager.h>
+#include <wyapEnvironment.h>
 
 #include "application/Application.h"
 #include "scene/Scene.h"
 #include "snap/SnapObject.h"
+#include "snap3d/Sketch3DSnapSystem.h"
+#include "environments/sketch3d/Sketch3DEnvironment.h"
 #include "view/BaseView.h"
 #include "utils/GuiCommandUtil.h"
 #include "widgets/frame/MainWindow.h"
@@ -360,12 +364,22 @@ void Sketch3DDrawGuiCmd::onEnd()
 {
     GuiCommand::onEnd();
 
+    if (Sketch3DSnapSystem* pSnapSys = this->getSketch3DSnapSystem())
+    {
+        pSnapSys->clearSnapResult();
+    }
+
     _pWorkPlane = nullptr;
 }
 
 void Sketch3DDrawGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
     GuiCommand::onAbort(cause);
+
+    if (Sketch3DSnapSystem* pSnapSys = this->getSketch3DSnapSystem())
+    {
+        pSnapSys->clearSnapResult();
+    }
 
     _pWorkPlane = nullptr;
 }
@@ -379,6 +393,12 @@ void Sketch3DDrawGuiCmd::onSpaceKey()
     else
     {
         assert(false);
+    }
+
+    // 切换平面后清除残留的捕捉图标,下一次鼠标移动按新平面重新捕捉
+    if (Sketch3DSnapSystem* pSnapSys = this->getSketch3DSnapSystem())
+    {
+        pSnapSys->clearSnapResult();
     }
 }
 
@@ -394,6 +414,13 @@ const wy3d::SketchPlane& Sketch3DDrawGuiCmd::getWorkingPlane() const
         assert(false);
         return kDefaultPlane;
     }
+}
+
+Sketch3DSnapSystem* Sketch3DDrawGuiCmd::getSketch3DSnapSystem() const
+{
+    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    Sketch3DEnvironment* pSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pEnv);
+    return pSketch3DEnv ? pSketch3DEnv->getSnapSystem() : nullptr;
 }
 
 void Sketch3DDrawGuiCmd::moveWorkPlaneOriginTo(const wy::Vector3& pnt)

@@ -3112,62 +3112,72 @@ Do you want to save it to the original file now?
 <context>
     <name>OptionsDialog</name>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="45"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="46"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="85"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="65"/>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="66"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancel</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="89"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="87"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="91"/>
         <source>Mouse Rotation Speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="100"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="104"/>
         <source>Invert Mouse Wheel Zoom Direction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="111"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="115"/>
         <source>System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="113"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="117"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="115"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="119"/>
         <source>Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="116"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="120"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="118"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="122"/>
         <source>Takes effect after restart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="134"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="138"/>
         <source>Auto Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="136"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="140"/>
         <source>Auto Save Interval (minutes)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="141"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="145"/>
         <source>0 disables auto save</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4814,7 +4824,7 @@ Do you want to save it to the original file now?
 <context>
     <name>Sketch3DDrawGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="425"/>
+        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="452"/>
         <source>View Normal To Working Plane</source>
         <translation>View Normal To Working Plane</translation>
     </message>
@@ -5026,17 +5036,17 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchDrawCircle3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="170"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="184"/>
         <source>Specify the center point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation>Specify the center point; you can directly input the coordinate values. Press Space to switch the drawing plane.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="178"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="192"/>
         <source>Specify the radius; you can directly input the value. Press Space to switch the drawing plane.</source>
         <translation>Specify the radius; you can directly input the value. Press Space to switch the drawing plane.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="304"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="319"/>
         <source>Radius</source>
         <translation>Radius</translation>
     </message>
@@ -5251,7 +5261,7 @@ Do you want to save it to the original file now?
         <translation type="vanished">Specify the end point.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="170"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="184"/>
         <source>Specify the start point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation>Specify the start point; you can directly input the coordinate values. Press Space to switch the drawing plane.</translation>
     </message>
@@ -5260,17 +5270,17 @@ Do you want to save it to the original file now?
         <translation type="vanished">Specify the end point; you can directly input the coordinate values.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="178"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="192"/>
         <source>Specify the end point; you can directly input the length and angle. Press Space to switch the drawing plane.</source>
         <translation>Specify the end point; you can directly input the length and angle. Press Space to switch the drawing plane.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="294"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="309"/>
         <source>Length</source>
         <translation>Length</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="295"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="310"/>
         <source>Angle</source>
         <translation>Angle</translation>
     </message>

@@ -27,6 +27,7 @@
 
 #include "application/Application.h"
 #include "commands/CommandNames.h"
+#include "snap3d/Sketch3DSnapSystem.h"
 
 Sketch3DEnvironment::Sketch3DEnvironment()
     : wyap::TaskEnvironment()
@@ -35,6 +36,7 @@ Sketch3DEnvironment::Sketch3DEnvironment()
     , _sketch3dId(wydb::ElementId::kNull)
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
+    , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
 {
     setName("sketch3d");
 }
@@ -46,6 +48,7 @@ Sketch3DEnvironment::Sketch3DEnvironment(const wy3d::Sketch3D* pSketch3D)
     , _sketch3dId(wydb::ElementId::kNull)
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
+    , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
 {
     assert(pSketch3D);
     setName("sketch3d");

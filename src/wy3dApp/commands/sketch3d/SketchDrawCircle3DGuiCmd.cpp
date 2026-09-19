@@ -33,7 +33,10 @@
 #include <wy3dImpl.h>
 
 #include "application/Application.h"
+#include "commands/OsgCoordUtil.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
+#include "snap3d/Sketch3DSnapContext.h"
+#include "snap3d/Sketch3DSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
 #include "utils/GuiCommandUtil.h"
 
@@ -72,6 +75,7 @@ void SketchDrawCircle3DGuiCmd::cleanup()
     _centerPnt.set(0.0, 0.0, 0.0);
     _radius = 0.0;
     _pMakeSketchCircle3D = nullptr;
+    _pSnapContext = nullptr;
 
     this->hidePopup();
     _hoverPopupState.resetValue();
@@ -118,6 +122,9 @@ bool SketchDrawCircle3DGuiCmd::finishStep(unsigned int step)
             return false;
         }
 
+        // 圆心已定,切换到画圆上下文(半径相等捕捉携带圆心)
+        _pSnapContext = std::make_shared<Sketch3DDrawCircleContext>(_centerPnt);
+
         this->moveWorkPlaneOriginTo(_centerPnt);
         this->gotoStep(static_cast<unsigned int>(Step::SpecifyRadius));
         return true;
@@ -163,10 +170,17 @@ void SketchDrawCircle3DGuiCmd::gotoStep(unsigned int step)
     _hoverPopupState.resetValue();
     _snapPlaneState.resetValue();
 
+    // 步骤切换时清除残留的捕捉图标
+    if (Sketch3DSnapSystem* pSnapSys = this->getSketch3DSnapSystem())
+    {
+        pSnapSys->clearSnapResult();
+    }
+
     switch (static_cast<Step>(step))
     {
     case Step::SpecifyCenterPnt:
     {
+        _pSnapContext = std::make_shared<Sketch3DLocateContext>();
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle3DGuiCmd",
             "Specify the center point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
@@ -223,7 +237,7 @@ void SketchDrawCircle3DGuiCmd::onMouseMove(const MouseEvent& event)
     else if (_step == static_cast<unsigned int>(Step::SpecifyRadius))
     {
         std::pair<wy::Vector3, bool> ret = this->computePoint3d(event.x, event.y);
-        wy::Vector3 pnt = ret.first;
+        wy::Vector3 pnt = ret.first; // 已含点/相等捕捉(相等时为吸附后半径对应的圆周点)
         double radius = (pnt - _centerPnt).length();
         _hoverPopupState.radius = radius;
         if (_pMakeSketchCircle3D)
@@ -260,6 +274,7 @@ void SketchDrawCircle3DGuiCmd::onLeftMouseDown(const MouseEvent& event)
     else if (_step == static_cast<unsigned int>(Step::SpecifyRadius))
     {
         std::pair<wy::Vector3, bool> ret = this->computePoint3d(event.x, event.y);
+        // 点击提交与预览走同一computePoint3d,捕捉逻辑内聚在统一入口
         _radius = (ret.first - _centerPnt).length();
         _snapPlaneState.snapped = ret.second && this->computeCirclePlane(ret.first, _snapPlaneState.normal, _snapPlaneState.xDir);
         if (this->finishStep(_step))
@@ -443,12 +458,11 @@ void SketchDrawCircle3DGuiCmd::simulateMouseMoveFromPopup()
 
 std::pair<wy::Vector3, bool> SketchDrawCircle3DGuiCmd::computePoint3d(double x, double y)
 {
-    auto ret = this->computePosition3d(x, y, this->getWorkingPlane(), this->getSnapExcludeIds(), true);
-    if (ret.second)
-    {
-        return std::make_pair(ret.second->getPosition(), true);
-    }
-    return std::make_pair(ret.first, false);
+    // 统一入口(与2D的computePosition2d同构):全局点捕捉优先,未命中走3D草图体系
+    return OsgCoordUtil::computePosition3dForSketch3D(this->getOsgView(), x, y,
+        this->getWorkingPlane(), this->getSnapExcludeIds(), _pSnapContext.get(),
+        this->getSketch3DSnapSystem(),
+        _sketch3DInfo.sketch3dId);
 }
 
 bool SketchDrawCircle3DGuiCmd::computeCirclePlane(const wy::Vector3& pnt, wy::Vector3& outNormal, wy::Vector3& outXDir) const

@@ -40,6 +40,10 @@ class SnapResultPoint;
 class EndPointSnapObject;
 class MiddlePointSnapObject;
 class CenterPointSnapObject;
+class Sketch3DSnapContext;
+class Sketch3DSnapSystem;
+class Sketch3DSnapResult;
+namespace wydb { class Database; }
 
 // OSG 坐标计算工具函数
 namespace OsgCoordUtil {
@@ -51,6 +55,15 @@ namespace OsgCoordUtil {
         const wy3d::SketchPlane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
         bool snap = true);
+
+    std::pair<wy::Vector3, bool> computePosition3dForSketch3D(
+        osgViewer::View* pView,
+        double x, double y,
+        const wy3d::SketchPlane& workPlane,
+        const std::set<wydb::ElementId>& excludeIds,
+        const Sketch3DSnapContext* pSnapContext,
+        Sketch3DSnapSystem* pSketch3DSnapSys,
+        const wydb::ElementId& sketch3dId);
 
     // 计算2D位置
     wy::Vector2 computePosition2d(
@@ -97,6 +110,11 @@ namespace OsgCoordUtil {
         const wy::Vector2& basis,
         const std::set<wydb::ElementId>& excludeIds,
         double& rotationAngle);
+
+    // 世界坐标投影到窗口像素坐标
+    osg::Vec2d projectWorldToWindow(
+        osgViewer::View* pView,
+        const wy::Vector3& worldPnt);
 
 } // namespace OsgCoordUtil
 
