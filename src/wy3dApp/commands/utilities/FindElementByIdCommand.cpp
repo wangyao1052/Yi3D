@@ -28,6 +28,7 @@
 #include <QStringList>
 
 #include <wy3dSketchEntity.h>
+#include <wy3dSketchEntity3D.h>
 #include <wydbDatabase.h>
 #include <wydbElementId.h>
 #include <wyapEnvironment.h>
@@ -35,8 +36,9 @@
 #include <wyapSelection.h>
 
 #include "application/Application.h"
+#include "environments/modeling/ModelingEnvironment.h"
 #include "environments/sketch/SketchEnvironment.h"
-#include "utils/GuiCommandUtil.h"
+#include "environments/sketch3d/Sketch3DEnvironment.h"
 #include "utils/MessageBoxUtil.h"
 #include "widgets/frame/MainWindow.h"
 
@@ -49,23 +51,47 @@ int FindElementByIdCommand::run()
         return -1;
     }
 
-    wydb::ElementId currentSketchId(wydb::ElementId::kNull);
+    enum class EnvType
+    {
+        Undefined = 0,
+        Modeling  = 1,
+        Sketch    = 2,
+        Sketch3D  = 3,
+    };
+    struct EnvInfo
+    {
+        EnvType type = EnvType::Undefined;
+        wydb::ElementId id = wydb::ElementId::kNull;
+    } envInfo;
+
     wyap::Environment* pActiveEnv = Application::instance().getEnvManager()->getActiveEnvironment();
     if (!pActiveEnv)
     {
         assert(false);
         return -1;
     }
+    ModelingEnvironment* pModelingEnv = dynamic_cast<ModelingEnvironment*>(pActiveEnv);
     SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pActiveEnv);
-    if (pSketchEnv)
+    Sketch3DEnvironment* pSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pActiveEnv);
+    if (pModelingEnv)
     {
-        const GuiCmdSketchInfo sketchInfo = GuiCommandUtil::initSketchInfo();
-        if (sketchInfo.sketchId.isNull())
-        {
-            assert(false);
-            return -1;
-        }
-        currentSketchId = sketchInfo.sketchId;
+        envInfo.type = EnvType::Modeling;
+        envInfo.id = wydb::ElementId::kNull;
+    }
+    else if (pSketchEnv)
+    {
+        envInfo.type = EnvType::Sketch;
+        envInfo.id = pSketchEnv->getSketchId();
+    }
+    else if (pSketch3DEnv)
+    {
+        envInfo.type = EnvType::Sketch3D;
+        envInfo.id = pSketch3DEnv->getSketch3dId();
+    }
+    else
+    {
+        assert(false);
+        return -1;
     }
 
     QInputDialog dialog(Application::instance().getMainWindow());
@@ -108,6 +134,7 @@ int FindElementByIdCommand::run()
     wyap::SelectionSet ss;
     QStringList notFoundIds;
     QStringList sketchEnvRejectedIds;
+    QStringList sketch3DEnvRejectedIds;
     for (const wydb::ElementId& id : inputIds)
     {
         const wydb::Element* pElem = pDb->getElement(id);
@@ -117,12 +144,25 @@ int FindElementByIdCommand::run()
             continue;
         }
 
-        if (currentSketchId.isNull())
+        switch (envInfo.type)
         {
-            const wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElem);
-            if (pSketchEntity)
+        case EnvType::Modeling:
+        {
+            if (const wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElem))
             {
                 const wydb::ElementId parentId = pSketchEntity->getParent();
+                if (!parentId.isNull())
+                {
+                    ss.add(wyap::Selection(parentId));
+                }
+                else
+                {
+                    assert(false);
+                }
+            }
+            else if (const wy3d::SketchEntity3D* pSketchEntity3D = wy3d::SketchEntity3D::cast(pElem))
+            {
+                const wydb::ElementId parentId = pSketchEntity3D->getParent();
                 if (!parentId.isNull())
                 {
                     ss.add(wyap::Selection(parentId));
@@ -137,12 +177,14 @@ int FindElementByIdCommand::run()
                 ss.add(wyap::Selection(id));
             }
         }
-        else
+        break;
+
+        case EnvType::Sketch:
         {
             const wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElem);
             if (pSketchEntity)
             {
-                if (pSketchEntity->getParent() != currentSketchId)
+                if (pSketchEntity->getParent() != envInfo.id)
                 {
                     sketchEnvRejectedIds << QString::number(id.value());
                 }
@@ -155,6 +197,36 @@ int FindElementByIdCommand::run()
             {
                 sketchEnvRejectedIds << QString::number(id.value());
             }
+        }
+        break;
+
+        case EnvType::Sketch3D:
+        {
+            const wy3d::SketchEntity3D* pSketchEntity3D = wy3d::SketchEntity3D::cast(pElem);
+            if (pSketchEntity3D)
+            {
+                if (pSketchEntity3D->getParent() != envInfo.id)
+                {
+                    sketch3DEnvRejectedIds << QString::number(id.value());
+                }
+                else
+                {
+                    ss.add(wyap::Selection(id));
+                }
+            }
+            else
+            {
+                sketch3DEnvRejectedIds << QString::number(id.value());
+            }
+        }
+        break;
+
+        default:
+        {
+            assert(false);
+            return -1;
+        }
+        break;
         }
     }
 
@@ -169,6 +241,12 @@ int FindElementByIdCommand::run()
         invalidMsgs << QCoreApplication::translate("FindElementByIdCommand",
             "In the sketch environment, only entities of the current sketch can be found: %1")
             .arg(sketchEnvRejectedIds.join(", "));
+    }
+    if (!sketch3DEnvRejectedIds.isEmpty())
+    {
+        invalidMsgs << QCoreApplication::translate("FindElementByIdCommand",
+            "In the 3D sketch environment, only entities of the current 3D sketch can be found: %1")
+            .arg(sketch3DEnvRejectedIds.join(", "));
     }
 
     if (ss.isEmpty())
@@ -188,7 +266,7 @@ int FindElementByIdCommand::run()
     if (!invalidMsgs.isEmpty())
     {
         tips += QCoreApplication::translate("FindElementByIdCommand", " %1 ID(s) invalid.")
-            .arg(notFoundIds.size() + sketchEnvRejectedIds.size());
+            .arg(notFoundIds.size() + sketchEnvRejectedIds.size() + sketch3DEnvRejectedIds.size());
         MessageBoxUtil::showError(invalidMsgs.join("\n"));
     }
     Application::instance().getStatusBar()->setTips(tips);

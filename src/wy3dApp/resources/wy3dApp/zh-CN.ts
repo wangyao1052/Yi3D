@@ -2408,32 +2408,37 @@ Do you want to save it to the original file now?
 <context>
     <name>FindElementByIdCommand</name>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="72"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="85"/>
         <source>Find Element By ID</source>
         <translation>按 ID 查找元素</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="73"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="86"/>
         <source>Element IDs (separated by ; , or space):</source>
         <translation>元素 ID（用分号、逗号或空格分隔）：</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="164"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="197"/>
         <source>IDs not found: %1</source>
         <translation>未找到的 ID：%1</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="103"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="116"/>
         <source>No valid element IDs were entered.</source>
         <translation>未输入有效的元素 ID。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="169"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="202"/>
         <source>In the sketch environment, only entities of the current sketch can be found: %1</source>
         <translation>草图环境下只能查找当前草图内的图元：%1</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="186"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="208"/>
+        <source>In the 3D sketch environment, only entities of the current 3D sketch can be found: %1</source>
+        <translation>3D草图环境下只能查找当前3D草图内的图元：%1</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="225"/>
         <source>Selected %1 element(s).</source>
         <translation>已选中 %1 个元素。</translation>
     </message>
@@ -2442,7 +2447,7 @@ Do you want to save it to the original file now?
         <translation type="vanished"> %1 个元素在当前环境下不显示。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="190"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="229"/>
         <source> %1 ID(s) invalid.</source>
         <translation> %1 个 ID 无效。</translation>
     </message>
@@ -3005,21 +3010,21 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="220"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="160"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="129"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="130"/>
         <source>Undo</source>
         <translation type="unfinished">撤销</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="227"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="167"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="136"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="137"/>
         <source>Redo</source>
         <translation type="unfinished">重做</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="243"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="308"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="152"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="153"/>
         <source>Select</source>
         <translation type="unfinished">选择</translation>
     </message>
@@ -3119,7 +3124,7 @@ Do you want to save it to the original file now?
         <location filename="../../commands/SelectGuiCmd.cpp" line="558"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="641"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="506"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="304"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="305"/>
         <source>Fit Selection</source>
         <translation>缩放到选择</translation>
     </message>
@@ -3356,34 +3361,35 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="620"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="567"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="361"/>
         <source>Find Element By ID</source>
         <translation>按 ID 查找元素</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="646"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="512"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="310"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="311"/>
         <source>IsometricView View</source>
         <translation type="unfinished">等轴测视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="681"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="552"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="345"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="346"/>
         <source>Shaded with Edges</source>
         <translation>着色带边框</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="686"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="557"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="350"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="351"/>
         <source>Shaded</source>
         <translation>着色</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="691"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="562"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="355"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="356"/>
         <source>Wireframe</source>
         <translation>线框</translation>
     </message>
@@ -3405,14 +3411,14 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="889"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="694"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="430"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="440"/>
         <source>Display Mode</source>
         <translation>显示模式</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="931"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="137"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="106"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="107"/>
         <source>View</source>
         <translation type="unfinished">视图</translation>
     </message>
@@ -3444,7 +3450,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="636"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="500"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="298"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="299"/>
         <source>Fit View</source>
         <translation type="unfinished">整屏显示全图</translation>
     </message>
@@ -3455,42 +3461,42 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="651"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="517"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="315"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="316"/>
         <source>Front View</source>
         <translation type="unfinished">前视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="656"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="522"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="320"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="321"/>
         <source>Back View</source>
         <translation type="unfinished">后视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="661"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="527"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="325"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="326"/>
         <source>Left View</source>
         <translation type="unfinished">左视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="666"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="532"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="330"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="331"/>
         <source>Right View</source>
         <translation type="unfinished">右视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="671"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="537"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="335"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="336"/>
         <source>Top View</source>
         <translation type="unfinished">顶视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="676"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="542"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="340"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="341"/>
         <source>Bottom View</source>
         <translation type="unfinished">底视图</translation>
     </message>
@@ -3549,82 +3555,82 @@ Do you want to save it to the original file now?
         <translation type="obsolete">导出文件</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="98"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="99"/>
         <source>3D Sketch</source>
         <translation>3D草图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="102"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="103"/>
         <source>3D Sketch Environment</source>
         <translation>3D草图环境</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="158"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="159"/>
         <source>Line 3D</source>
         <translation>3D直线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="168"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="169"/>
         <source>Circle 3D</source>
         <translation>3D圆</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="178"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="179"/>
         <source>Arc 3D</source>
         <translation type="unfinished">3D圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="188"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="189"/>
         <source>Arc by 3 Points 3D</source>
         <translation type="unfinished">3D三点圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="198"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="199"/>
         <source>Rectangle 3D</source>
         <translation type="unfinished">3D矩形</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="208"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="209"/>
         <source>Center Rectangle 3D</source>
         <translation type="unfinished">3D中心矩形</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="214"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="215"/>
         <source>Ellipse 3D</source>
         <translation type="unfinished">3D椭圆</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="224"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="225"/>
         <source>Ellipse Arc 3D</source>
         <translation type="unfinished">3D椭圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="230"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="231"/>
         <source>Spline 3D</source>
         <translation type="unfinished">3D样条曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="240"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="241"/>
         <source>Style Spline 3D</source>
         <translation type="unfinished">3D样式样条曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="246"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="247"/>
         <source>Include Curve</source>
         <translation type="unfinished">包含曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="256"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="257"/>
         <source>Intersection Curve</source>
         <translation type="unfinished">交叉曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="277"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="278"/>
         <source>End 3D Sketch</source>
         <translation>结束3D草绘</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="283"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="284"/>
         <source>Cancel 3D Sketch</source>
         <translation>取消3D草绘</translation>
     </message>

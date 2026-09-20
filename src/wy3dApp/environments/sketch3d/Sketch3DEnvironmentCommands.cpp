@@ -41,6 +41,7 @@
 #include "commands/sketch3d/SketchIntersectionCurve3DGuiCmd.h"
 #include "commands/UndoRedoCommands.h"
 #include "commands/sketch3d/Sketch3DCommands.h"
+#include "commands/utilities/FindElementByIdCommand.h"
 
 #define WY3DAPP_SKETCH3D_ENV_COMMAND_LIST(X) \
     X(CommandNames::Select, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, Sketch3DSelectGuiCmd::classInfo()) \
@@ -56,6 +57,7 @@
     X(CommandNames::StyleSpline3D, WYAP_CMD_MODAL, SketchDrawSpline3DGuiCmd_ControlPoints::classInfo()) \
     X(CommandNames::IncludeCurve3D, WYAP_CMD_MODAL, SketchIncludeCurve3DGuiCmd::classInfo()) \
     X(CommandNames::IntersectionCurve3D, WYAP_CMD_MODAL, SketchIntersectionCurve3DGuiCmd::classInfo()) \
+    X(CommandNames::FindElementById, WYAP_CMD_MODAL, FindElementByIdCommand::classInfo()) \
     X(CommandNames::Undo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, UndoCommand::classInfo()) \
     X(CommandNames::Redo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, RedoCommand::classInfo()) \
     X(CommandNames::EndSketch3D, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, EndSketch3DCommand::classInfo()) \

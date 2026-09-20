@@ -87,6 +87,7 @@ struct ViewActions
     CommandAction* pActionShadedWithEdgesDisplay;
     CommandAction* pActionShadedDisplay;
     CommandAction* pActionWireframeDisplay;
+    CommandAction* pActionFindElementById;
 };
 
 UiTargets createUiTargets(Sketch3DEnvironment* pEnv)
@@ -355,6 +356,14 @@ ViewActions createViewActions(Sketch3DEnvironment* pEnv, QActionGroup* pActionGr
         QCoreApplication::translate("MainWindow", "Wireframe"),
         QIcon(":/images/View_Wireframe.svg"));
 
+    actions.pActionFindElementById = pEnv->newCommandAction(
+        CommandNames::FindElementById,
+        QCoreApplication::translate("MainWindow", "Find Element By ID"),
+        QIcon(":/images/Utility_FindElementById.svg"),
+        pActionGroup);
+    actions.pActionFindElementById->setShortcut(QKeySequence::Find);
+    actions.pActionFindElementById->setShortcutContext(Qt::ApplicationShortcut);
+
     return actions;
 }
 
@@ -416,6 +425,7 @@ void buildViewToolBarUi(
     pToolBarView->addAction(actions.pActionRightView);
     pToolBarView->addAction(actions.pActionTopView);
     pToolBarView->addAction(actions.pActionBottomView);
+    pToolBarView->addAction(actions.pActionFindElementById);
 
     pToolBarView->addSeparator();
 
