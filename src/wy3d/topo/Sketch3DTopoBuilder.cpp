@@ -45,8 +45,8 @@
 
 NS_WY3D_BEG
 
-// 椭圆/椭圆弧共用的定位基(长轴方向 = xDir)
-static bool buildEllipseAx2(const wy::Vector3& center, const wy::Vector3& normal,
+// 圆/圆弧/椭圆/椭圆弧共用的定位基(xDir 正交化到法向平面内)
+static bool buildPlaneAx2(const wy::Vector3& center, const wy::Vector3& normal,
     const wy::Vector3& xDirIn, gp_Ax2& ax2)
 {
     if (normal.length() < 0.5)
@@ -70,6 +70,30 @@ static bool buildEllipseAx2(const wy::Vector3& center, const wy::Vector3& normal
     xDir.normalize();
 
     ax2 = gp_Ax2(OccUtil::toPnt(center), OccUtil::toDir(normal), OccUtil::toDir(xDir));
+    return true;
+}
+
+// Geom_Ellipse 的参数是参数角(偏近点角),而实体存的是极角,须先把区间长度换到参数角
+// (极角到参数角是保向的一一映射,区间长度直接对应;用"起点+长度"可避免跨 2π 回卷)
+static bool ellipseArcParametricRange(const wy3d::SketchEllipseArc3D* pEllipseArc,
+    double& startAngle, double& totalAngle)
+{
+    const double majorRadius = pEllipseArc->getMajorRadius();
+    const double minorRadius = pEllipseArc->getMinorRadius();
+    if (majorRadius < 1e-7 || minorRadius < 1e-7)
+    {
+        assert(false);
+        return false;
+    }
+
+    const double startPolar = wy3d::normalizeRadian(pEllipseArc->getStartAngle());
+    startAngle = wy3d::ellipsePolarAngleToParametricAngle(startPolar, majorRadius, minorRadius);
+    totalAngle = wy3d::ellipsePolarAngleToParametricAngle(startPolar + pEllipseArc->getTotalAngle(),
+        majorRadius, minorRadius) - startAngle;
+    while (totalAngle < 0.0)
+    {
+        totalAngle += wy3d::TWO_PI;
+    }
     return true;
 }
 
@@ -219,7 +243,7 @@ TopoDS_Edge Sketch3DTopoBuilder::makeEdge(const wy3d::SketchEllipse3D* pEllipse)
     }
 
     gp_Ax2 ax2;
-    if (!buildEllipseAx2(pEllipse->getCenter(), pEllipse->getNormal(), pEllipse->getXDir(), ax2))
+    if (!buildPlaneAx2(pEllipse->getCenter(), pEllipse->getNormal(), pEllipse->getXDir(), ax2))
     {
         return TopoDS_Edge();
     }
@@ -243,23 +267,16 @@ TopoDS_Edge Sketch3DTopoBuilder::makeEdge(const wy3d::SketchEllipseArc3D* pEllip
     }
 
     gp_Ax2 ax2;
-    if (!buildEllipseAx2(pEllipseArc->getCenter(), pEllipseArc->getNormal(), pEllipseArc->getXDir(), ax2))
+    if (!buildPlaneAx2(pEllipseArc->getCenter(), pEllipseArc->getNormal(), pEllipseArc->getXDir(), ax2))
     {
         return TopoDS_Edge();
     }
 
     Handle(Geom_Ellipse) ellipse = new Geom_Ellipse(ax2, pEllipseArc->getMajorRadius(), pEllipseArc->getMinorRadius());
-    // Geom_TrimmedCurve 的参数是参数角(偏近点角),而实体存的是极角,须先把区间长度换到参数角
-    // (极角到参数角是保向的一一映射,区间长度直接对应;用"起点+长度"可避免跨 2π 回卷)
-    const double majorRadius = pEllipseArc->getMajorRadius();
-    const double minorRadius = pEllipseArc->getMinorRadius();
-    const double startPolar = wy3d::normalizeRadian(pEllipseArc->getStartAngle());
-    const double startAngle = wy3d::ellipsePolarAngleToParametricAngle(startPolar, majorRadius, minorRadius);
-    double totalAngle = wy3d::ellipsePolarAngleToParametricAngle(startPolar + pEllipseArc->getTotalAngle(), majorRadius, minorRadius)
-        - startAngle;
-    while (totalAngle < 0.0)
+    double startAngle(0.0), totalAngle(0.0);
+    if (!ellipseArcParametricRange(pEllipseArc, startAngle, totalAngle))
     {
-        totalAngle += wy3d::TWO_PI;
+        return TopoDS_Edge();
     }
     Handle(Geom_TrimmedCurve) geomCurve = new Geom_TrimmedCurve(ellipse, startAngle, startAngle + totalAngle);
     return this->makeEdgeFromCurve(geomCurve, pEllipseArc->getId().value());
@@ -310,6 +327,147 @@ TopoDS_Edge Sketch3DTopoBuilder::makeEdge(const wy3d::SketchSpline3D* pSpline)
         geomCurve = new Geom_BSplineCurve(poles, knots, mults, degree, isPeriodic);
     }
     return this->makeEdgeFromCurve(geomCurve, pSpline->getId().value());
+}
+
+Handle(Geom_Curve) Sketch3DTopoBuilder::toGeomCurve(
+    const wy3d::SketchEntity3D* pEntity, double& first, double& last) const
+{
+    return this->toGeomCurveWidened(pEntity, 0.0, first, last);
+}
+
+Handle(Geom_Curve) Sketch3DTopoBuilder::toGeomCurveWidened(
+    const wy3d::SketchEntity3D* pEntity, double reach, double& first, double& last) const
+{
+    assert(pEntity);
+    assert(reach >= 0.0);
+    first = 0.0;
+    last = 0.0;
+
+    if (const wy3d::SketchLine3D* pLine = wy3d::SketchLine3D::cast(pEntity))
+    {
+        const wy::Vector3 startPnt = pLine->getStartPoint();
+        const wy::Vector3 dir = pLine->getEndPoint() - startPnt;
+        const double length = dir.length();
+        if (length < 1e-7) // degenerate line
+        {
+            return Handle(Geom_Curve)();
+        }
+        // Geom_Line 的参数即自 location 起的弧长,故加宽就是把区间往外扩
+        first = -reach;
+        last = length + reach;
+        return new Geom_Line(OccUtil::toPnt(startPnt), OccUtil::toDir(dir));
+    }
+    else if (const wy3d::SketchCircle3D* pCircle = wy3d::SketchCircle3D::cast(pEntity))
+    {
+        if (pCircle->getRadius() < 1e-7)
+        {
+            assert(false);
+            return Handle(Geom_Curve)();
+        }
+        gp_Ax2 ax2;
+        if (!buildPlaneAx2(pCircle->getCenter(), pCircle->getNormal(), pCircle->getXDir(), ax2))
+        {
+            return Handle(Geom_Curve)();
+        }
+        first = 0.0;
+        last = wy3d::TWO_PI;
+        return new Geom_Circle(ax2, pCircle->getRadius());
+    }
+    else if (const wy3d::SketchArc3D* pArc = wy3d::SketchArc3D::cast(pEntity))
+    {
+        if (pArc->getRadius() < 1e-7)
+        {
+            assert(false);
+            return Handle(Geom_Curve)();
+        }
+        if (pArc->getTotalAngle() < 1e-7) // degenerate arc; a full circle is a SketchCircle3D
+        {
+            return Handle(Geom_Curve)();
+        }
+
+        gp_Ax2 ax2;
+        if (!buildPlaneAx2(pArc->getCenter(), pArc->getNormal(), pArc->getXDir(), ax2))
+        {
+            return Handle(Geom_Curve)();
+        }
+        const double startAngle = ElCLib::InPeriod(pArc->getStartAngle(), 0.0, wy3d::TWO_PI);
+        // 延伸时弧可长成整圆,故加宽到整个圆锥曲线
+        first = (reach > 0.0) ? 0.0 : startAngle;
+        last = (reach > 0.0) ? wy3d::TWO_PI : startAngle + pArc->getTotalAngle();
+        return new Geom_Circle(ax2, pArc->getRadius());
+    }
+    else if (const wy3d::SketchEllipse3D* pEllipse = wy3d::SketchEllipse3D::cast(pEntity))
+    {
+        if (pEllipse->getMajorRadius() < 1e-7 || pEllipse->getMinorRadius() < 1e-7)
+        {
+            assert(false);
+            return Handle(Geom_Curve)();
+        }
+        gp_Ax2 ax2;
+        if (!buildPlaneAx2(pEllipse->getCenter(), pEllipse->getNormal(), pEllipse->getXDir(), ax2))
+        {
+            return Handle(Geom_Curve)();
+        }
+        first = 0.0;
+        last = wy3d::TWO_PI;
+        return new Geom_Ellipse(ax2, pEllipse->getMajorRadius(), pEllipse->getMinorRadius());
+    }
+    else if (const wy3d::SketchEllipseArc3D* pEllipseArc = wy3d::SketchEllipseArc3D::cast(pEntity))
+    {
+        if (pEllipseArc->getMajorRadius() < 1e-7 || pEllipseArc->getMinorRadius() < 1e-7)
+        {
+            assert(false);
+            return Handle(Geom_Curve)();
+        }
+        if (pEllipseArc->getTotalAngle() < 1e-7) // degenerate arc; a full ellipse is a SketchEllipse3D
+        {
+            return Handle(Geom_Curve)();
+        }
+
+        gp_Ax2 ax2;
+        if (!buildPlaneAx2(pEllipseArc->getCenter(), pEllipseArc->getNormal(), pEllipseArc->getXDir(), ax2))
+        {
+            return Handle(Geom_Curve)();
+        }
+
+        Handle(Geom_Ellipse) ellipse = new Geom_Ellipse(ax2, pEllipseArc->getMajorRadius(), pEllipseArc->getMinorRadius());
+        if (reach > 0.0) // 延伸时椭圆弧可长成整椭圆
+        {
+            first = 0.0;
+            last = wy3d::TWO_PI;
+            return ellipse;
+        }
+        double startAngle(0.0), totalAngle(0.0);
+        if (!ellipseArcParametricRange(pEllipseArc, startAngle, totalAngle))
+        {
+            return Handle(Geom_Curve)();
+        }
+        first = startAngle;
+        last = startAngle + totalAngle;
+        return ellipse;
+    }
+    else if (const wy3d::SketchSpline3D* pSpline = wy3d::SketchSpline3D::cast(pEntity))
+    {
+        Handle(Geom_BSplineCurve) pCurve = pSpline->getOccSpline();
+        if (pCurve.IsNull() || pSpline->isDegenerate(1e-7))
+        {
+            return Handle(Geom_Curve)();
+        }
+        // 样条没有加宽形式:延伸靠端点切向直线,由调用方另外补上
+        first = pCurve->FirstParameter();
+        last = pCurve->LastParameter();
+        if (last - first < 1e-7)
+        {
+            assert(false);
+            return Handle(Geom_Curve)();
+        }
+        return Handle(Geom_Curve)::DownCast(pCurve->Copy());
+    }
+    else
+    {
+        assert(false);
+        return Handle(Geom_Curve)();
+    }
 }
 
 TopoDS_Edge Sketch3DTopoBuilder::makeEdgeFromCurve(const Handle(Geom_Curve)& geomCurve, unsigned int entityId)

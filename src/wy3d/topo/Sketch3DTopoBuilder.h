@@ -49,6 +49,20 @@ public:
     TopoDS_Edge makeEdge(const wy3d::SketchEllipseArc3D* pEllipseArc);
     TopoDS_Edge makeEdge(const wy3d::SketchSpline3D* pSpline);
 
+    // The entity's supporting curve plus the parameter interval the entity occupies on it.
+    // Lines and arcs come back untrimmed with the interval given separately: the intersection
+    // code needs the interval, and wrapping them in a Geom_TrimmedCurve would only make it
+    // unwrap them again. A null handle means the entity has no usable geometry.
+    Handle(Geom_Curve) toGeomCurve(const wy3d::SketchEntity3D* pEntity, double& first, double& last) const;
+
+    // Same curve widened so the entity may reach `reach` past its own ends: a line becomes the
+    // segment reaching `reach` beyond each end, an arc or an ellipse arc becomes the whole conic,
+    // a circle or an ellipse is unchanged. Widening is clipped rather than infinite so that every
+    // operand keeps a finite range - GeomAPI_ExtremaCurveCurve and the bounding boxes both need it.
+    // A spline has no widened form: it comes back unchanged and the caller adds the tangent rays.
+    Handle(Geom_Curve) toGeomCurveWidened(const wy3d::SketchEntity3D* pEntity, double reach,
+        double& first, double& last) const;
+
     const std::map<Handle(Geom_Curve), unsigned int>& getCurve2IdMap() const
     {
         return _curve2Id;

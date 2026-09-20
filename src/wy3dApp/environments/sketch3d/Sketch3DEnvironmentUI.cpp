@@ -65,6 +65,8 @@ struct Sketch3DActions
     CommandAction* pActionDrawStyleSpline3D;
     CommandAction* pActionIncludeCurve3D;
     CommandAction* pActionIntersectionCurve3D;
+    CommandAction* pActionTrim3D;
+    CommandAction* pActionExtend3D;
 };
 
 struct Sketch3DEnvironmentActions
@@ -262,6 +264,26 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
         actions.pActionIntersectionCurve3D->setShortcut(QKeySequence(Qt::Key_X));
     }
 
+    actions.pActionTrim3D = pEnv->newCommandAction(
+        CommandNames::Trim3D,
+        QCoreApplication::translate("MainWindow", "Trim 3D"),
+        QIcon(":/images/Sketch_Trim.svg"),
+        pActionGroup);
+    if (actions.pActionTrim3D)
+    {
+        actions.pActionTrim3D->setShortcut(QKeySequence::fromString("T,R"));
+    }
+
+    actions.pActionExtend3D = pEnv->newCommandAction(
+        CommandNames::Extend3D,
+        QCoreApplication::translate("MainWindow", "Extend 3D"),
+        QIcon(":/images/Sketch_Extend.svg"),
+        pActionGroup);
+    if (actions.pActionExtend3D)
+    {
+        actions.pActionExtend3D->setShortcut(QKeySequence::fromString("T,E"));
+    }
+
     return actions;
 }
 
@@ -396,6 +418,8 @@ void buildSketch3DToolBarUi(
     pToolBarSketch3D->addAction(actions.pActionDrawStyleSpline3D);
     pToolBarSketch3D->addAction(actions.pActionIncludeCurve3D);
     pToolBarSketch3D->addAction(actions.pActionIntersectionCurve3D);
+    pToolBarSketch3D->addAction(actions.pActionTrim3D);
+    pToolBarSketch3D->addAction(actions.pActionExtend3D);
 }
 
 void buildSketch3DEnvironmentToolBarUi(

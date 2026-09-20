@@ -1,0 +1,20 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <desc>Sketch Project Curve</desc>
+  <defs>
+    <clipPath id="clipProjectCurve">
+      <rect width="64" height="64" fill="white" fill-opacity="0"/>
+    </clipPath>
+    <linearGradient id="planeFill" x1="12" y1="18" x2="48" y2="50" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FBFBFB"/>
+      <stop offset="1" stop-color="#E7E7E7"/>
+    </linearGradient>
+  </defs>
+  <g clip-path="url(#clipProjectCurve)">
+    <!-- 目标面（片体） -->
+    <polygon points="28.5,14.3 7.6,26.4 30.1,51.7 50.9,37.7" fill="url(#planeFill)" stroke="#999999" stroke-width="1" stroke-linejoin="miter"/>
+    <!-- 空间源曲线 -->
+    <path d="M 12 9 C 23.7 8 35.3 10.3 47 15.5" fill="none" stroke="#00A9D0" stroke-width="2"/>
+    <!-- 面上的投影曲线 -->
+    <path d="M 13 23 C 24 24.3 35 27.2 46 42" fill="none" stroke="#EB780C" stroke-width="2"/>
+  </g>
+</svg>
