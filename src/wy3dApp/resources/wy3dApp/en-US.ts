@@ -217,14 +217,6 @@ Do you want to save it to the original file now?
     </message>
 </context>
 <context>
-    <name>ColorEditor</name>
-    <message>
-        <location filename="../../widgets/panels/property/ColorEditor.cpp" line="35"/>
-        <source>Select Color</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>CopyGuiCmd</name>
     <message>
         <location filename="../../commands/edit/CopyGuiCmd.cpp" line="252"/>
@@ -1514,42 +1506,42 @@ Do you want to save it to the original file now?
 <context>
     <name>FindElementByIdCommand</name>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="85"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="98"/>
         <source>Find Element By ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="86"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="99"/>
         <source>Element IDs (separated by ; , or space):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="116"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="129"/>
         <source>No valid element IDs were entered.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="197"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="236"/>
         <source>IDs not found: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="202"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="241"/>
         <source>In the sketch environment, only entities of the current sketch can be found: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="208"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="247"/>
         <source>In the 3D sketch environment, only entities of the current 3D sketch can be found: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="225"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="264"/>
         <source>Selected %1 element(s).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="229"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="268"/>
         <source> %1 ID(s) invalid.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4398,7 +4390,6 @@ Do you want to save it to the original file now?
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../widgets/panels/property/adapters/ColorEditorAdapter.cpp" line="77"/>
         <location filename="../../widgets/panels/property/adapters/SketchPlaneEditorAdapter.cpp" line="81"/>
         <source>Modify failed!</source>
         <translation type="unfinished"></translation>

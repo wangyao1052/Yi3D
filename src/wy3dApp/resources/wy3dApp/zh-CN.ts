@@ -670,9 +670,8 @@ Do you want to save it to the original file now?
 <context>
     <name>ColorEditor</name>
     <message>
-        <location filename="../../widgets/panels/property/ColorEditor.cpp" line="35"/>
         <source>Select Color</source>
-        <translation type="unfinished">选择颜色</translation>
+        <translation type="obsolete">选择颜色</translation>
     </message>
 </context>
 <context>
@@ -2408,37 +2407,37 @@ Do you want to save it to the original file now?
 <context>
     <name>FindElementByIdCommand</name>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="85"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="98"/>
         <source>Find Element By ID</source>
         <translation>按 ID 查找元素</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="86"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="99"/>
         <source>Element IDs (separated by ; , or space):</source>
         <translation>元素 ID（用分号、逗号或空格分隔）：</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="197"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="236"/>
         <source>IDs not found: %1</source>
         <translation>未找到的 ID：%1</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="116"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="129"/>
         <source>No valid element IDs were entered.</source>
         <translation>未输入有效的元素 ID。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="202"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="241"/>
         <source>In the sketch environment, only entities of the current sketch can be found: %1</source>
         <translation>草图环境下只能查找当前草图内的图元：%1</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="208"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="247"/>
         <source>In the 3D sketch environment, only entities of the current 3D sketch can be found: %1</source>
         <translation>3D草图环境下只能查找当前3D草图内的图元：%1</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="225"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="264"/>
         <source>Selected %1 element(s).</source>
         <translation>已选中 %1 个元素。</translation>
     </message>
@@ -2447,7 +2446,7 @@ Do you want to save it to the original file now?
         <translation type="vanished"> %1 个元素在当前环境下不显示。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="229"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="268"/>
         <source> %1 ID(s) invalid.</source>
         <translation> %1 个 ID 无效。</translation>
     </message>
@@ -5691,7 +5690,6 @@ Do you want to save it to the original file now?
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../widgets/panels/property/adapters/ColorEditorAdapter.cpp" line="77"/>
         <location filename="../../widgets/panels/property/adapters/SketchPlaneEditorAdapter.cpp" line="81"/>
         <source>Modify failed!</source>
         <translation type="unfinished">修改失败！</translation>

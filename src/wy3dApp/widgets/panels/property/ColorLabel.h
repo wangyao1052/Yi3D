@@ -16,26 +16,18 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_COLOR_EDITOR_H
-#define WY3DAPP_COLOR_EDITOR_H
+#ifndef WY3DAPP_COLOR_LABEL_H
+#define WY3DAPP_COLOR_LABEL_H
 
-#include <QPushButton>
-#include <string>
+#include <QLabel>
 #include <wy3dColor.h>
 
-class ColorEditor : public QPushButton
+// Read-only color display; color is changed by the Set Color command.
+class ColorLabel : public QLabel
 {
     Q_OBJECT
 public:
-    explicit ColorEditor(const std::string& paramName, const wy3d::Color& color,
-        bool isTheSameValue, QWidget* parent = nullptr);
-
-signals:
-    void colorPicked(const std::string& paramName, const wy3d::Color& newColor);
-
-private:
-    void updateAppearance(const wy3d::Color& color, bool isTheSameValue);
-    std::string _paramName;
+    explicit ColorLabel(const wy3d::Color& color, bool isTheSameValue, QWidget* parent = nullptr);
 };
 
-#endif // WY3DAPP_COLOR_EDITOR_H
+#endif // WY3DAPP_COLOR_LABEL_H
