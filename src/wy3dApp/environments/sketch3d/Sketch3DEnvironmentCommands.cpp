@@ -41,6 +41,8 @@
 #include "commands/sketch3d/SketchIntersectionCurve3DGuiCmd.h"
 #include "commands/sketch3d/Sketch3DTrimGuiCmd.h"
 #include "commands/sketch3d/Sketch3DExtendGuiCmd.h"
+#include "commands/sketch3d/Sketch3DFilletGuiCmd.h"
+#include "commands/sketch3d/Sketch3DChamferGuiCmd.h"
 #include "commands/UndoRedoCommands.h"
 #include "commands/sketch3d/Sketch3DCommands.h"
 #include "commands/utilities/FindElementByIdCommand.h"
@@ -61,6 +63,8 @@
     X(CommandNames::IntersectionCurve3D, WYAP_CMD_MODAL, SketchIntersectionCurve3DGuiCmd::classInfo()) \
     X(CommandNames::Trim3D, WYAP_CMD_MODAL, Sketch3DTrimGuiCmd::classInfo()) \
     X(CommandNames::Extend3D, WYAP_CMD_MODAL, Sketch3DExtendGuiCmd::classInfo()) \
+    X(CommandNames::Fillet3D, WYAP_CMD_MODAL, Sketch3DFilletGuiCmd::classInfo()) \
+    X(CommandNames::Chamfer3D, WYAP_CMD_MODAL, Sketch3DChamferGuiCmd::classInfo()) \
     X(CommandNames::FindElementById, WYAP_CMD_MODAL, FindElementByIdCommand::classInfo()) \
     X(CommandNames::Undo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, UndoCommand::classInfo()) \
     X(CommandNames::Redo, WYAP_CMD_TRANSPARENT | WYAP_CMD_NOHISTORY, RedoCommand::classInfo()) \

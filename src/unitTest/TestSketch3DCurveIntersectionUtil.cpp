@@ -506,3 +506,83 @@ TEST(Sketch3DCurveIntersection, ReachOnACircleChangesNothing)
         Result::Ok);
     EXPECT_EQ(points.size(), 2u);
 }
+
+// ---------------------------------------------------------------------------------------------
+// intersectInfiniteLines: the supports rather than the entities, which is the question a caller
+// that means to extend both curves has to ask.
+// ---------------------------------------------------------------------------------------------
+
+TEST(Sketch3DCurveIntersection, InfiniteLinesCrossWhereTheSegmentsDoNot)
+{
+    Fixture fixture;
+    // The supports cross at (5,0,0), which is four units past the end of the first segment. This is
+    // the case a bounded intersect reports as NoIntersection, and the reason the helper exists.
+    wy3d::SketchLine3D* pLineA = fixture.makeLine(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(1.0, 0.0, 0.0));
+    wy3d::SketchLine3D* pLineB = fixture.makeLine(wy::Vector3(5.0, -1.0, 0.0), wy::Vector3(5.0, 1.0, 0.0));
+
+    std::vector<wy::Vector3> points;
+    EXPECT_EQ(intersectBounded(pLineA, pLineB, points), Result::NoIntersection);
+
+    wy::Vector3 pnt;
+    ASSERT_TRUE(Util::intersectInfiniteLines(pLineA, pLineB, pnt, kTol));
+    EXPECT_LE((pnt - wy::Vector3(5.0, 0.0, 0.0)).length(), 1e-9);
+}
+
+TEST(Sketch3DCurveIntersection, InfiniteLinesAreIndifferentToSegmentOrder)
+{
+    Fixture fixture;
+    wy3d::SketchLine3D* pLineA = fixture.makeLine(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(1.0, 0.0, 0.0));
+    wy3d::SketchLine3D* pLineB = fixture.makeLine(wy::Vector3(5.0, -1.0, 0.0), wy::Vector3(5.0, 1.0, 0.0));
+
+    wy::Vector3 swapped;
+    ASSERT_TRUE(Util::intersectInfiniteLines(pLineB, pLineA, swapped, kTol));
+    EXPECT_LE((swapped - wy::Vector3(5.0, 0.0, 0.0)).length(), 1e-9);
+}
+
+TEST(Sketch3DCurveIntersection, InfiniteLinesRefuseParallelAndCollinear)
+{
+    Fixture fixture;
+    wy3d::SketchLine3D* pLine = fixture.makeLine(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(10.0, 0.0, 0.0));
+    wy3d::SketchLine3D* pParallel = fixture.makeLine(wy::Vector3(0.0, 5.0, 0.0), wy::Vector3(10.0, 5.0, 0.0));
+    // Collinear counts as refused too: a support with no isolated meeting point is of no use to
+    // any caller, and saying so beats handing back an arbitrary point on the shared line.
+    wy3d::SketchLine3D* pCollinear = fixture.makeLine(wy::Vector3(20.0, 0.0, 0.0), wy::Vector3(30.0, 0.0, 0.0));
+
+    wy::Vector3 pnt;
+    EXPECT_FALSE(Util::intersectInfiniteLines(pLine, pParallel, pnt, kTol));
+    EXPECT_FALSE(Util::intersectInfiniteLines(pLine, pCollinear, pnt, kTol));
+    EXPECT_FALSE(Util::intersectInfiniteLines(pLine, pLine, pnt, kTol));
+}
+
+TEST(Sketch3DCurveIntersection, InfiniteLinesTakeSkewWithInTolAndRefuseItBeyond)
+{
+    Fixture fixture;
+    wy3d::SketchLine3D* pLineA = fixture.makeLine(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(10.0, 0.0, 0.0));
+    // Two skew lines whose closest approach is the z offset. Within tol they count as meeting, at
+    // the midpoint of that approach; past it there is no single corner to hand back.
+    wy3d::SketchLine3D* pNear = fixture.makeLine(wy::Vector3(5.0, -5.0, 1e-9), wy::Vector3(5.0, 5.0, 1e-9));
+    wy3d::SketchLine3D* pFar = fixture.makeLine(wy::Vector3(5.0, -5.0, 1e-3), wy::Vector3(5.0, 5.0, 1e-3));
+
+    wy::Vector3 pnt;
+    ASSERT_TRUE(Util::intersectInfiniteLines(pLineA, pNear, pnt, kTol));
+    EXPECT_LE((pnt - wy::Vector3(5.0, 0.0, 5e-10)).length(), 1e-9);
+
+    EXPECT_FALSE(Util::intersectInfiniteLines(pLineA, pFar, pnt, kTol));
+}
+
+TEST(Sketch3DCurveIntersection, InfiniteLinesRefuseAnythingButTwoStraightLines)
+{
+    Fixture fixture;
+    wy3d::SketchLine3D* pLine = fixture.makeLine(wy::Vector3(-10.0, 0.0, 0.0), wy::Vector3(10.0, 0.0, 0.0));
+    wy3d::SketchLine3D* pDegenerate = fixture.makeLine(wy::Vector3::kZero, wy::Vector3::kZero);
+    wy3d::SketchCircle3D* pCircle = fixture.makeCircle(wy::Vector3::kZero, 5.0);
+    wy3d::SketchArc3D* pArc = fixture.makeArc(wy::Vector3::kZero, 5.0, 0.0, wy3d::PI);
+    wy3d::SketchSpline3D* pSpline = fixture.makeSplineByControlPoints(3, archPoles());
+
+    wy::Vector3 pnt;
+    EXPECT_FALSE(Util::intersectInfiniteLines(pCircle, pLine, pnt, kTol));
+    EXPECT_FALSE(Util::intersectInfiniteLines(pLine, pArc, pnt, kTol));
+    EXPECT_FALSE(Util::intersectInfiniteLines(pLine, pSpline, pnt, kTol));
+    EXPECT_FALSE(Util::intersectInfiniteLines(pLine, pDegenerate, pnt, kTol));
+    EXPECT_FALSE(Util::intersectInfiniteLines(nullptr, pLine, pnt, kTol));
+}

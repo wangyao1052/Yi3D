@@ -34,6 +34,13 @@ class Sketch3DCurveTransient : public GuiCmdTransient
 {
 public:
     explicit Sketch3DCurveTransient(const wy3d::SketchCurve3D* pCurve);
+
+    // An arc that is not an entity yet, sampled by SketchArc3D's own evaluation rather than through
+    // getPointAt: there is no entity to ask.
+
+    Sketch3DCurveTransient(const wy::Vector3& center, const wy::Vector3& normal,
+        const wy::Vector3& xDir, double radius, double startAngle, double endAngle);
+
     ~Sketch3DCurveTransient();
 
 private:

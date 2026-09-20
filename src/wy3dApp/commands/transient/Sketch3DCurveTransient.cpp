@@ -19,10 +19,12 @@
 #include "Sketch3DCurveTransient.h"
 
 #include <cassert>
+#include <cmath>
 #include <vector>
 
 #include <osg/LineWidth>
 #include <wyVector3.h>
+#include <wy3dMath.h>
 #include <wy3dSketchCircle3D.h>
 
 #include "scene/RenderConst.h"
@@ -52,6 +54,29 @@ Sketch3DCurveTransient::Sketch3DCurveTransient(const wy3d::SketchCurve3D* pCurve
     // 圆为闭合曲线,补尾首段
     const bool closed = (wy3d::SketchCircle3D::cast(pCurve) != nullptr);
     this->initGeom(points, closed);
+}
+
+Sketch3DCurveTransient::Sketch3DCurveTransient(const wy::Vector3& center, const wy::Vector3& normal,
+    const wy::Vector3& xDir, double radius, double startAngle, double endAngle)
+    : GuiCmdTransient(), _id(wydb::ElementId::kNull)
+{
+    // The sweep is normalized, not taken as endAngle - startAngle: SketchArc3D interprets its own
+    // two angles the same way, and a preview that measured the sweep differently from the entity it
+    // is previewing would come apart exactly where a wrapped pair of angles is involved.
+    const double totalAngle = wy3d::normalizeRadian(endAngle - startAngle);
+    const wy::Vector3 yDir = normal.cross(xDir);
+
+    std::vector<wy::Vector3> points;
+    points.reserve(kSampleSegments + 1);
+    for (int i = 0; i <= kSampleSegments; ++i)
+    {
+        const double t = static_cast<double>(i) / kSampleSegments;
+        const double angle = startAngle + totalAngle * t;
+        points.emplace_back(center + xDir * (std::cos(angle) * radius)
+            + yDir * (std::sin(angle) * radius));
+    }
+
+    this->initGeom(points, false);
 }
 
 Sketch3DCurveTransient::~Sketch3DCurveTransient()

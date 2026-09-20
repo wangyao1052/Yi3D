@@ -71,6 +71,20 @@ public:
     static Result intersect(const Operand& a, const Operand& b,
         std::vector<wy::Vector3>& outPoints, double tol = kDefaultTol);
 
+    // Where the two curves' infinite supports meet. The 3D reading of the 2D wy3d::intersectLineLine,
+    // and the one question intersect() cannot answer: a caller that intends to *extend* both curves
+    // wants the supports, not the entities.
+    //
+    // False when either operand is not a straight line, when the two are parallel (collinear
+    // included - a support with no isolated meeting point is nothing a caller can use), or when
+    // they never come within tol. Two skew lines closer than tol do count as meeting, and outPnt
+    // is then the midpoint of the closest approach.
+    //
+    // It takes no Operand on purpose: reach and the extend flags describe how far an entity may
+    // leave its own ends, and a support has no ends to leave.
+    static bool intersectInfiniteLines(const SketchCurve3D* pCurveA, const SketchCurve3D* pCurveB,
+        wy::Vector3& outPnt, double tol = kDefaultTol);
+
     static constexpr double kDefaultTol = 1e-6;
 };
 

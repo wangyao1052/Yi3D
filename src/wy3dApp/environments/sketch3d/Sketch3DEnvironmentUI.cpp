@@ -67,6 +67,8 @@ struct Sketch3DActions
     CommandAction* pActionIntersectionCurve3D;
     CommandAction* pActionTrim3D;
     CommandAction* pActionExtend3D;
+    CommandAction* pActionFillet3D;
+    CommandAction* pActionChamfer3D;
 };
 
 struct Sketch3DEnvironmentActions
@@ -284,6 +286,26 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
         actions.pActionExtend3D->setShortcut(QKeySequence::fromString("T,E"));
     }
 
+    actions.pActionFillet3D = pEnv->newCommandAction(
+        CommandNames::Fillet3D,
+        QCoreApplication::translate("MainWindow", "Fillet 3D"),
+        QIcon(":/images/Sketch_Fillet.svg"),
+        pActionGroup);
+    if (actions.pActionFillet3D)
+    {
+        actions.pActionFillet3D->setShortcut(QKeySequence::fromString("F,I"));
+    }
+
+    actions.pActionChamfer3D = pEnv->newCommandAction(
+        CommandNames::Chamfer3D,
+        QCoreApplication::translate("MainWindow", "Chamfer 3D"),
+        QIcon(":/images/Sketch_Chamfer.svg"),
+        pActionGroup);
+    if (actions.pActionChamfer3D)
+    {
+        actions.pActionChamfer3D->setShortcut(QKeySequence::fromString("Shift+C,H"));
+    }
+
     return actions;
 }
 
@@ -420,6 +442,8 @@ void buildSketch3DToolBarUi(
     pToolBarSketch3D->addAction(actions.pActionIntersectionCurve3D);
     pToolBarSketch3D->addAction(actions.pActionTrim3D);
     pToolBarSketch3D->addAction(actions.pActionExtend3D);
+    pToolBarSketch3D->addAction(actions.pActionFillet3D);
+    pToolBarSketch3D->addAction(actions.pActionChamfer3D);
 }
 
 void buildSketch3DEnvironmentToolBarUi(

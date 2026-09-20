@@ -20,6 +20,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cfloat>
 #include <cmath>
 #include <utility>
 
@@ -467,6 +468,46 @@ void refineBySampling(const Piece& pieceA, const Piece& pieceB, double tol,
 }
 
 } // namespace
+
+bool Sketch3DCurveIntersectionUtil::intersectInfiniteLines(const SketchCurve3D* pCurveA,
+    const SketchCurve3D* pCurveB, wy::Vector3& outPnt, double tol)
+{
+    assert(tol > 0.0);
+
+    const SketchLine3D* pLineA = SketchLine3D::cast(pCurveA);
+    const SketchLine3D* pLineB = SketchLine3D::cast(pCurveB);
+    if (!pLineA || !pLineB || pLineA == pLineB)
+    {
+        return false;
+    }
+    // getDirectionAt normalizes, and a zero-length line has no direction to normalize.
+    if (pLineA->isDegenerate(tol) || pLineB->isDegenerate(tol))
+    {
+        return false;
+    }
+
+    const wy::Vector3 startA = pLineA->getStartPoint();
+    const wy::Vector3 dirA = pLineA->getDirectionAt(0.0);
+    const wy::Vector3 startB = pLineB->getStartPoint();
+    const wy::Vector3 dirB = pLineB->getDirectionAt(0.0);
+
+    // Parameter intervals wide enough that the clamp inside is a no-op, so what comes back is the
+    // closest approach of the two supports and the caller decides what to do with it.
+    const gp_Lin line1(gp_Pnt(startA.x(), startA.y(), startA.z()),
+        gp_Dir(dirA.x(), dirA.y(), dirA.z()));
+    const gp_Lin line2(gp_Pnt(startB.x(), startB.y(), startB.z()),
+        gp_Dir(dirB.x(), dirB.y(), dirB.z()));
+
+    gp_Pnt pnt;
+    if (LineLineResult::Crossing != intersectLineLine(line1, -DBL_MAX, DBL_MAX,
+        line2, -DBL_MAX, DBL_MAX, tol, pnt))
+    {
+        return false;
+    }
+
+    outPnt = toVector(pnt);
+    return true;
+}
 
 Sketch3DCurveIntersectionUtil::Operand Sketch3DCurveIntersectionUtil::bounded(const SketchCurve3D* pCurve)
 {
