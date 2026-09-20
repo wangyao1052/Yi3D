@@ -16,13 +16,16 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SKETCH_FILLET_ALGO_H
-#define WY3DAPP_SKETCH_FILLET_ALGO_H
+#ifndef WY3D_SKETCH_FILLET_ALGO_H
+#define WY3D_SKETCH_FILLET_ALGO_H
 
 #include <memory>
 #include <wyVector2.h>
 #include <wy3dVector2.h>
+#include <wy3dDefs.h>
 #include <Geom2d_BSplineCurve.hxx>
+
+NS_WY3D_BEG
 
 struct SketchFilletData
 {
@@ -44,7 +47,7 @@ struct SketchFilletData
     double filletEndAngle;
 };
 
-class SketchFilletAlgo
+class WY3D_EXPORT SketchFilletAlgo
 {
 public:
     // line vs line
@@ -130,4 +133,6 @@ private:
         bool isSecondPickPosMajor = true);
 };
 
-#endif // WY3DAPP_SKETCH_FILLET_ALGO_H
+NS_WY3D_END
+
+#endif // WY3D_SKETCH_FILLET_ALGO_H

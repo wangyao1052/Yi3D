@@ -16,9 +16,14 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SketchChamferAlgo.h"
+#include <utils/wy3dSketchChamferAlgo.h>
+#include <algorithm>
+#include <cassert>
+#include <cmath>
 #include <wyVector2.h>
 #include <utils/wy3dCurveIntersectionUtil.h>
+
+NS_WY3D_BEG
 
 std::shared_ptr<SketchChamferData> SketchChamferAlgo::chamferLineLine(double D1, double D2, double tol,
     const wy::Vector2& startPnt1st, const wy::Vector2& endPnt1st, const wy::Vector2& pickPos1st,
@@ -160,3 +165,5 @@ std::shared_ptr<SketchChamferData> SketchChamferAlgo::chamferLineLine(double D1,
 
     return pChamferData;
 }
+
+NS_WY3D_END

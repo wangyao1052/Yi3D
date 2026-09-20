@@ -16,8 +16,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SketchFilletAlgo.h"
+#include <utils/wy3dSketchFilletAlgo.h>
+#include <algorithm>
 #include <cassert>
+#include <cfloat>
+#include <cmath>
 #include <Geom2dAPI_ProjectPointOnCurve.hxx>
 #include <Geom2d_Line.hxx>
 #include <Geom2d_Circle.hxx>
@@ -27,6 +30,8 @@
 #include <wyVector2.h>
 #include <wy3dMath.h>
 #include <utils/wy3dCurveIntersectionUtil.h>
+
+NS_WY3D_BEG
 
 std::shared_ptr<SketchFilletData> SketchFilletAlgo::filletLineLine(double R, double tol,
     const wy::Vector2& startPnt1st, const wy::Vector2& endPnt1st, const wy::Vector2& pickPosOnLine1st,
@@ -2088,3 +2093,5 @@ void SketchFilletAlgo::computeArcStartEndParam(const wy::Vector2& filletPnt,
         }
     }
 }
+
+NS_WY3D_END

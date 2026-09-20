@@ -32,7 +32,7 @@
 #include "commands/UndoRedoCommands.h"
 #include "commands/sketch/SketchTrimExtendUtil.h"
 #include "utils/MathUtils.h"
-#include "SketchFilletAlgo.h"
+#include <utils/wy3dSketchFilletAlgo.h>
 #include "select/filters/CommonSelFilters.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/SplineUtil.h"
@@ -528,7 +528,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreview(
     return nullptr;
 }
 
-static std::shared_ptr<FilletData> makeFilletData(std::shared_ptr<SketchFilletData> pSketchFilletData)
+static std::shared_ptr<FilletData> makeFilletData(std::shared_ptr<wy3d::SketchFilletData> pSketchFilletData)
 {
     std::shared_ptr<FilletData> pFilletData = std::make_shared<FilletData>();
     // curve 1
@@ -560,7 +560,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreviewLineLine(
     wy::Vector2 pickPosOnLine1st = startPnt1st + (endPnt1st - startPnt1st) * refParam1st;
     wy::Vector2 pickPosOnLine2nd = startPnt2nd + (endPnt2nd - startPnt2nd) * refParam2nd;
 
-    std::shared_ptr<SketchFilletData> pSketchFilletData = SketchFilletAlgo::filletLineLine(_R, wy3d::TOL,
+    std::shared_ptr<wy3d::SketchFilletData> pSketchFilletData = wy3d::SketchFilletAlgo::filletLineLine(_R, wy3d::TOL,
         startPnt1st, endPnt1st, pickPosOnLine1st,
         startPnt2nd, endPnt2nd, pickPosOnLine2nd);
     if (!pSketchFilletData) return nullptr;
@@ -590,7 +590,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreviewLineArc(
     double angle = arcStartAngle + pArc->getTotalAngle() * paramPickPosOnArc;
     wy::Vector2 pickPosOnArc = arcCenter + wy::Vector2(arcRadius * std::cos(angle), arcRadius * std::sin(angle));
 
-    std::shared_ptr<SketchFilletData> pSketchFilletData = SketchFilletAlgo::filletLineArc(_R, wy3d::TOL,
+    std::shared_ptr<wy3d::SketchFilletData> pSketchFilletData = wy3d::SketchFilletAlgo::filletLineArc(_R, wy3d::TOL,
         lineStartPnt, lineEndPnt, pickPosOnLine,
         arcCenter, arcRadius, arcStartAngle, pArc->getEndAngle(), pickPosOnArc,
         isSecondPickPosMajor);
@@ -632,7 +632,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreviewLineCircle(
     double angle = wy3d::TWO_PI * paramPickPosOnCircle;
     wy::Vector2 pickPosOnCircle = center + wy::Vector2(radius * std::cos(angle), radius * std::sin(angle));
 
-    std::shared_ptr<SketchFilletData> pSketchFilletData = SketchFilletAlgo::filletLineCircle(_R, wy3d::TOL,
+    std::shared_ptr<wy3d::SketchFilletData> pSketchFilletData = wy3d::SketchFilletAlgo::filletLineCircle(_R, wy3d::TOL,
         lineStartPnt, lineEndPnt, pickPosOnLine,
         center, radius, pickPosOnCircle,
         isSecondPickPosMajor);
@@ -680,7 +680,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreviewLineSpline(
     pBSpline->D0(realParam, pos2d);
     wy::Vector2 pickPosOnSpline(pos2d.X(), pos2d.Y());
 
-    std::shared_ptr<SketchFilletData> pSketchFilletData = SketchFilletAlgo::filletLineSpline(_R, wy3d::TOL,
+    std::shared_ptr<wy3d::SketchFilletData> pSketchFilletData = wy3d::SketchFilletAlgo::filletLineSpline(_R, wy3d::TOL,
         lineStartPnt, lineEndPnt, pickPosOnLine,
         pBSpline, pickPosOnSpline,
         isSecondPickPosMajor);
@@ -723,7 +723,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreviewCircleCircle(
     double angle2 = wy3d::TWO_PI * paramPickPos2nd;
     wy::Vector2 pickPos2nd = center2 + wy::Vector2(radius2 * std::cos(angle2), radius2 * std::sin(angle2));
 
-    std::shared_ptr<SketchFilletData> pSketchFilletData = SketchFilletAlgo::filletCircleCircle(_R, wy3d::TOL,
+    std::shared_ptr<wy3d::SketchFilletData> pSketchFilletData = wy3d::SketchFilletAlgo::filletCircleCircle(_R, wy3d::TOL,
         center1, radius1, pickPos1st,
         center2, radius2, pickPos2nd);
     if (!pSketchFilletData) return nullptr;
@@ -755,7 +755,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreviewCircleArc(
     double angle2 = startAngle + pArc->getTotalAngle() * paramPickPosOnArc;
     wy::Vector2 pickPos2nd = center2 + wy::Vector2(radius2 * std::cos(angle2), radius2 * std::sin(angle2));
 
-    std::shared_ptr<SketchFilletData> pSketchFilletData = SketchFilletAlgo::filletCircleArc(_R, wy3d::TOL,
+    std::shared_ptr<wy3d::SketchFilletData> pSketchFilletData = wy3d::SketchFilletAlgo::filletCircleArc(_R, wy3d::TOL,
         center1, radius1, pickPos1st,
         center2, radius2, startAngle, endAngle, pickPos2nd,
         isSecondPickPosMajor);
@@ -804,7 +804,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreviewCircleSpline(
     pBSpline->D0(realParam, pos2d);
     wy::Vector2 pickPosOnSpline(pos2d.X(), pos2d.Y());
 
-    std::shared_ptr<SketchFilletData> pSketchFilletData = SketchFilletAlgo::filletCircleSpline(_R, wy3d::TOL,
+    std::shared_ptr<wy3d::SketchFilletData> pSketchFilletData = wy3d::SketchFilletAlgo::filletCircleSpline(_R, wy3d::TOL,
         center, radius, pickPosOnCircle,
         pBSpline, pickPosOnSpline,
         isSecondPickPosMajor);
@@ -851,7 +851,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreviewArcArc(
     double angle2 = startAngle2 + pArc2->getTotalAngle() * paramPickPos2;
     wy::Vector2 pickPos2nd = center2 + wy::Vector2(radius2 * std::cos(angle2), radius2 * std::sin(angle2));
 
-    std::shared_ptr<SketchFilletData> pSketchFilletData = SketchFilletAlgo::filletArcArc(_R, wy3d::TOL,
+    std::shared_ptr<wy3d::SketchFilletData> pSketchFilletData = wy3d::SketchFilletAlgo::filletArcArc(_R, wy3d::TOL,
         center1, radius1, startAngle1, endAngle1, pickPos1st,
         center2, radius2, startAngle2, endAngle2, pickPos2nd);
     if (!pSketchFilletData) return nullptr;
@@ -888,7 +888,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreviewArcSpline(
     pBSpline->D0(realParam, pos2d);
     wy::Vector2 pickPosOnSpline(pos2d.X(), pos2d.Y());
 
-    std::shared_ptr<SketchFilletData> pSketchFilletData = SketchFilletAlgo::filletArcSpline(_R, wy3d::TOL,
+    std::shared_ptr<wy3d::SketchFilletData> pSketchFilletData = wy3d::SketchFilletAlgo::filletArcSpline(_R, wy3d::TOL,
         center, radius, startAngle, endAngle, pickPosOnArc,
         pBSpline, pickPosOnSpline,
         isSecondPickPosMajor);
@@ -947,7 +947,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreviewSplineSpline(
         pickPosOnSpline2nd.set(pos2d.X(), pos2d.Y());
     }
 
-    std::shared_ptr<SketchFilletData> pSketchFilletData = SketchFilletAlgo::filletSplineSpline(_R, wy3d::TOL,
+    std::shared_ptr<wy3d::SketchFilletData> pSketchFilletData = wy3d::SketchFilletAlgo::filletSplineSpline(_R, wy3d::TOL,
         pBSpline1st, pickPosOnSpline1st,
         pBSpline2nd, pickPosOnSpline2nd);
     if (!pSketchFilletData) return nullptr;

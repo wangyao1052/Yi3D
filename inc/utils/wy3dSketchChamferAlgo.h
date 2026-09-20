@@ -16,12 +16,15 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SKETCH_CHAMFER_ALGO_H
-#define WY3DAPP_SKETCH_CHAMFER_ALGO_H
+#ifndef WY3D_SKETCH_CHAMFER_ALGO_H
+#define WY3D_SKETCH_CHAMFER_ALGO_H
 
 #include <memory>
 #include <wyVector2.h>
 #include <wy3dVector2.h>
+#include <wy3dDefs.h>
+
+NS_WY3D_BEG
 
 struct SketchChamferData
 {
@@ -38,7 +41,7 @@ struct SketchChamferData
     wy::Vector2 chamferEndPnt;
 };
 
-class SketchChamferAlgo
+class WY3D_EXPORT SketchChamferAlgo
 {
 public:
     // line vs line
@@ -47,4 +50,6 @@ public:
         const wy::Vector2& startPnt2nd, const wy::Vector2& endPnt2nd, const wy::Vector2& pickPosOnLine2nd);
 };
 
-#endif // WY3DAPP_SKETCH_CHAMFER_ALGO_H
+NS_WY3D_END
+
+#endif // WY3D_SKETCH_CHAMFER_ALGO_H

@@ -32,7 +32,7 @@
 #include "commands/UndoRedoCommands.h"
 #include "commands/sketch/SketchTrimExtendUtil.h"
 #include "utils/MathUtils.h"
-#include "SketchChamferAlgo.h"
+#include <utils/wy3dSketchChamferAlgo.h>
 #include "select/filters/CommonSelFilters.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "commands/dialogs/DoubleValueInputDialog.h"
@@ -377,7 +377,7 @@ std::shared_ptr<ChamferData> SketchChamferGuiCmd::chamferPreview(
     return nullptr;
 }
 
-static std::shared_ptr<ChamferData> makeChamferData(std::shared_ptr<SketchChamferData> pSketchChamferData)
+static std::shared_ptr<ChamferData> makeChamferData(std::shared_ptr<wy3d::SketchChamferData> pSketchChamferData)
 {
     std::shared_ptr<ChamferData> pChamferData = std::make_shared<ChamferData>();
     // curve 1
@@ -407,7 +407,7 @@ std::shared_ptr<ChamferData> SketchChamferGuiCmd::chamferPreviewLineLine(
     wy::Vector2 pickPosOnLine1st = startPnt1st + (endPnt1st - startPnt1st) * refParam1st;
     wy::Vector2 pickPosOnLine2nd = startPnt2nd + (endPnt2nd - startPnt2nd) * refParam2nd;
 
-    std::shared_ptr<SketchChamferData> pSketchFilletData = SketchChamferAlgo::chamferLineLine(_D1, _D2, wy3d::TOL,
+    std::shared_ptr<wy3d::SketchChamferData> pSketchFilletData = wy3d::SketchChamferAlgo::chamferLineLine(_D1, _D2, wy3d::TOL,
         startPnt1st, endPnt1st, pickPosOnLine1st,
         startPnt2nd, endPnt2nd, pickPosOnLine2nd);
     if (!pSketchFilletData) return nullptr;
