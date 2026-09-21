@@ -101,8 +101,9 @@ enum class ErrorCode : std::uint32_t
 
     // PlanarSheet
     PLANARSHEET_InvalidData                         = 1851, // 无效的平面片体数据
-    PLANARSHEET_EdgesNotClosed                      = 1852, // 边未构成单一闭合环
+    PLANARSHEET_EdgesNotClosed                      = 1852, // 边未构成闭合的环
     PLANARSHEET_EdgesNotCoplanar                    = 1853, // 边不共面
+    PLANARSHEET_LoopsNotNested                      = 1854, // 环的嵌套关系无效(相交/接触/重合)
 
     // SewnSheet
     SEWNSHEET_InvalidData                           = 1901, // 无效的缝合片体数据

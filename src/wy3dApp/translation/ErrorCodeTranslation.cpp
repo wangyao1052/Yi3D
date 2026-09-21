@@ -161,9 +161,11 @@ ErrorCodeTranslation::ErrorCodeTranslation(QObject* parent) : QObject(parent)
     _code2Desc[TOUINT(wy3d::ErrorCode::PLANARSHEET_InvalidData)] = tr(
         "Invalid planar sheet data!");
     _code2Desc[TOUINT(wy3d::ErrorCode::PLANARSHEET_EdgesNotClosed)] = tr(
-        "The selected edges must form a single closed loop!");
+        "The selected edges must form one or more closed loops!");
     _code2Desc[TOUINT(wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar)] = tr(
         "The selected edges must be coplanar!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::PLANARSHEET_LoopsNotNested)] = tr(
+        "The closed loops must not cross or touch each other!");
 
     // SewnSheet
     _code2Desc[TOUINT(wy3d::ErrorCode::SEWNSHEET_InvalidData)] = tr(

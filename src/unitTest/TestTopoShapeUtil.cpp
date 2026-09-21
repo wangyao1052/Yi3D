@@ -19,6 +19,7 @@
 #include "headers.h"
 
 #include <wy3dErrorCode.h>
+#include <wy3dMath.h>
 #include <wy3dSketchPlane.h>
 
 #include <TopoDS.hxx>
@@ -39,6 +40,20 @@
 #include <gp_Pnt.hxx>
 #include <gp_Circ.hxx>
 #include <gp_Ax2.hxx>
+#include <gp_Pln.hxx>
+#include <TopAbs.hxx>
+#include <TopoDS_Compound.hxx>
+#include <BRep_Builder.hxx>
+#include <BRepBuilderAPI_Copy.hxx>
+#include <BRepBuilderAPI_MakeFace.hxx>
+#include <BRepBuilderAPI_MakeWire.hxx>
+#include <BRepCheck_Analyzer.hxx>
+#include <BRepClass_FaceClassifier.hxx>
+#include <BRepLib_FindSurface.hxx>
+#include <GeomAdaptor_Surface.hxx>
+#include <Precision.hxx>
+
+#include <iostream>
 
 #include "wy3d/topo/TopoShapeUtil.h"
 
@@ -46,6 +61,11 @@
 
 namespace
 {
+    // BRepLib_FindSurface arguments: Tol = -1 asks for the max of the shape's own edge tolerances
+    // instead of a fixed value, and OnlyPlane keeps the fitted surface to a plane
+    const double kUseShapeTolerance = -1.0;
+    const Standard_Boolean kOnlyPlane = Standard_True;
+
     TopoDS_Edge makeEdge(const gp_Pnt& p1, const gp_Pnt& p2)
     {
         return TopoDS::Edge(BRepBuilderAPI_MakeEdge(p1, p2).Edge());
@@ -112,6 +132,76 @@ namespace
         zMax = zMaxBox;
         return true;
     }
+
+    // Axis parallel square, edges running counter-clockwise seen from +Z
+    std::vector<TopoDS_Edge> makeSquareEdges(double x0, double y0, double x1, double y1, double z = 0.0)
+    {
+        const gp_Pnt p0(x0, y0, z), p1(x1, y0, z), p2(x1, y1, z), p3(x0, y1, z);
+        return { makeEdge(p0, p1), makeEdge(p1, p2), makeEdge(p2, p3), makeEdge(p3, p0) };
+    }
+
+    // The same square traversed clockwise: the edges themselves run that way
+    std::vector<TopoDS_Edge> makeSquareEdgesClockwise(double x0, double y0, double x1, double y1, double z = 0.0)
+    {
+        const gp_Pnt p0(x0, y0, z), p1(x1, y0, z), p2(x1, y1, z), p3(x0, y1, z);
+        return { makeEdge(p0, p3), makeEdge(p3, p2), makeEdge(p2, p1), makeEdge(p1, p0) };
+    }
+
+    // Wire in exactly the order given, so the traversal sense is the caller's
+    TopoDS_Wire makeWire(const std::vector<TopoDS_Edge>& edges)
+    {
+        BRepBuilderAPI_MakeWire makeWire;
+        for (const TopoDS_Edge& edge : edges)
+        {
+            makeWire.Add(edge);
+        }
+        return makeWire.Wire();
+    }
+
+    int wireCount(const TopoDS_Shape& shape)
+    {
+        TopTools_IndexedMapOfShape wireMap;
+        TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_WIRE, wireMap);
+        return wireMap.Extent();
+    }
+
+    std::vector<TopoDS_Face> shapeFaces(const TopoDS_Shape& shape)
+    {
+        std::vector<TopoDS_Face> faces;
+        for (TopExp_Explorer exp(shape, TopAbs_ShapeEnum::TopAbs_FACE); exp.More(); exp.Next())
+        {
+            faces.emplace_back(TopoDS::Face(exp.Current()));
+        }
+        return faces;
+    }
+
+    int shapeShellCount(const TopoDS_Shape& shape)
+    {
+        TopTools_IndexedMapOfShape shellMap;
+        TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_SHELL, shellMap);
+        return shellMap.Extent();
+    }
+
+    double totalArea(const TopoDS_Shape& shape)
+    {
+        double area = 0.0;
+        for (const TopoDS_Face& face : shapeFaces(shape))
+        {
+            area += faceArea(face);
+        }
+        return area;
+    }
+
+    const char* stateName(TopAbs_State state)
+    {
+        switch (state)
+        {
+        case TopAbs_IN: return "IN";
+        case TopAbs_OUT: return "OUT";
+        case TopAbs_ON: return "ON";
+        default: return "UNKNOWN";
+        }
+    }
 }
 
 TEST(TopoShapeUtil, MakeWireFromEdges_ClosesRectangle)
@@ -140,43 +230,54 @@ TEST(TopoShapeUtil, MakeWireFromEdges_ShuffledAndReversed)
     EXPECT_TRUE(wire.Closed());
 }
 
-TEST(TopoShapeUtil, MakePlanarFaceFromEdges_ExactPlane)
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_ExactPlane)
 {
     std::vector<TopoDS_Edge> edges = makeRectangleEdges();
 
-    TopoDS_Face face;
-    EXPECT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makePlanarFaceFromEdges(edges, face));
-    ASSERT_FALSE(face.IsNull());
-    EXPECT_TRUE(isPlaneSurface(face));
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+    ASSERT_FALSE(shape.IsNull());
+
+    // Even a single loop comes back as a compound of one shell, the shape a sketch profile
+    // produces for the same command
+    EXPECT_EQ(TopAbs_ShapeEnum::TopAbs_COMPOUND, shape.ShapeType());
+    EXPECT_EQ(1, shapeShellCount(shape));
+
+    const std::vector<TopoDS_Face> faces = shapeFaces(shape);
+    ASSERT_EQ(1u, faces.size());
+    EXPECT_TRUE(isPlaneSurface(faces[0]));
 
     wy3d::SketchPlane plane;
-    ASSERT_TRUE(wy3d::TopoShapeUtil::getFacePlane(face, plane));
+    ASSERT_TRUE(wy3d::TopoShapeUtil::getFacePlane(faces[0], plane));
     EXPECT_NEAR(1.0, std::abs(plane.getNormal().z()), 1e-9);
     EXPECT_NEAR(0.0, plane.getOrigin().z(), 1e-9);
-    EXPECT_NEAR(10000.0, faceArea(face), 1e-6);
+    EXPECT_NEAR(10000.0, faceArea(faces[0]), 1e-6);
+    EXPECT_TRUE(BRepCheck_Analyzer(faces[0]).IsValid());
 }
 
-TEST(TopoShapeUtil, MakePlanarFaceFromEdges_OpenChain)
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_OpenChain)
 {
     const gp_Pnt p0(0, 0, 0), p1(100, 0, 0), p2(100, 100, 0), p3(0, 100, 0);
     const std::vector<TopoDS_Edge> openChain{ makeEdge(p0, p1), makeEdge(p1, p2), makeEdge(p2, p3) };
 
-    TopoDS_Face face;
+    TopoDS_Shape shape;
     EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_EdgesNotClosed,
-        wy3d::TopoShapeUtil::makePlanarFaceFromEdges(openChain, face));
-    EXPECT_TRUE(face.IsNull());
+        wy3d::TopoShapeUtil::makePlanarSheetFromEdges(openChain, shape));
+    EXPECT_TRUE(shape.IsNull());
 }
 
-TEST(TopoShapeUtil, MakePlanarFaceFromEdges_ClosedLoopPlusStrayEdge)
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_ClosedLoopPlusStrayEdge)
 {
     const gp_Pnt p0(0, 0, 0), p1(100, 0, 0), p2(0, 100, 0), s0(200, 200, 0), s1(300, 200, 0);
     const std::vector<TopoDS_Edge> edges{
         makeEdge(p0, p1), makeEdge(p1, p2), makeEdge(p2, p0), makeEdge(s0, s1)
     };
 
-    TopoDS_Face face;
+    // The stray edge leaves its two vertices with degree one, which the loop split rejects
+    TopoDS_Shape shape;
     EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_EdgesNotClosed,
-        wy3d::TopoShapeUtil::makePlanarFaceFromEdges(edges, face));
+        wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
 }
 
 TEST(TopoShapeUtil, MakeWireFromEdges_SingleClosedEdge)
@@ -254,13 +355,14 @@ TEST(TopoShapeUtil, MakeWireFromEdges_BranchReportsNotClosed)
     EXPECT_TRUE(wire.IsNull());
 }
 
-TEST(TopoShapeUtil, MakePlanarFaceFromEdges_EmptyInput)
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_EmptyInput)
 {
     const std::vector<TopoDS_Edge> edges;
 
-    TopoDS_Face face;
+    TopoDS_Shape shape;
     EXPECT_EQ(wy3d::ErrorCode::warnTOPOSHAPE_NullShape,
-        wy3d::TopoShapeUtil::makePlanarFaceFromEdges(edges, face));
+        wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
 }
 
 TEST(TopoShapeUtil, MakeFilledFaceFromEdges_PlanarLoopTakesPlaneShortcut)
@@ -278,14 +380,13 @@ TEST(TopoShapeUtil, MakeFilledFaceFromEdges_NonPlanarLoop)
 {
     std::vector<TopoDS_Edge> edges = makeNonPlanarQuadEdges();
 
-    // Measured on the bundled OCCT 7.7: the plane shortcut does not throw for this
-    // wire, it yields a null face and the coplanarity code. Other geometries may throw
-    // instead (then PLANARSHEET_InvalidData surfaces), so callers must treat every
-    // non-NoError as "the loop is not planar"
-    TopoDS_Face planarFace;
+    // The four edges share no plane, which is what the planar builder reports. The verdict
+    // comes from BRepLib_FindSurface (see the KernelProbe cases), and callers must treat
+    // every non-NoError from the planar builder as "this set of edges has no common plane"
+    TopoDS_Shape planarShape;
     EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar,
-        wy3d::TopoShapeUtil::makePlanarFaceFromEdges(edges, planarFace));
-    EXPECT_TRUE(planarFace.IsNull());
+        wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, planarShape));
+    EXPECT_TRUE(planarShape.IsNull());
 
     TopoDS_Face face;
     EXPECT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makeFilledFaceFromEdges(edges, face));
@@ -305,4 +406,415 @@ TEST(TopoShapeUtil, MakeFilledFaceFromEdges_NonPlanarLoop)
         EXPECT_TRUE(hasVertexAt(face, corner, 1e-6)) << "missing corner (" << corner.X()
             << ", " << corner.Y() << ", " << corner.Z() << ")";
     }
+}
+
+// The KernelProbe cases below measure what the bundled OCCT 7.7 does with the three calls the
+// multi-loop planar sheet builder is planned around: BRepLib_FindSurface for the common plane,
+// BRepClass_FaceClassifier for the loop nesting, and MakeFace + Add for the holes. Keep them as
+// regression tests once the builder lands.
+
+TEST(TopoShapeUtil, KernelProbe_FindSurface_PlaneAndNonPlanar)
+{
+    // Two loops in z=0, copied into a compound the way the builder will do it
+    BRep_Builder builder;
+    TopoDS_Compound coplanar;
+    builder.MakeCompound(coplanar);
+    for (const TopoDS_Edge& edge : makeSquareEdges(0.0, 0.0, 100.0, 100.0))
+    {
+        builder.Add(coplanar, BRepBuilderAPI_Copy(edge).Shape());
+    }
+    for (const TopoDS_Edge& edge : makeSquareEdges(20.0, 20.0, 60.0, 60.0))
+    {
+        builder.Add(coplanar, BRepBuilderAPI_Copy(edge).Shape());
+    }
+
+    BRepLib_FindSurface coplanarFinder(coplanar, kUseShapeTolerance, kOnlyPlane);
+    std::cout << "[probe] coplanar: found=" << coplanarFinder.Found()
+        << " tolerance=" << coplanarFinder.Tolerance() << std::endl;
+    ASSERT_TRUE(coplanarFinder.Found());
+
+    const gp_Pln plane = GeomAdaptor_Surface(coplanarFinder.Surface()).Plane();
+    const gp_Dir normal = plane.Axis().Direction();
+    EXPECT_NEAR(1.0, std::abs(normal.Z()), 1e-9);
+    EXPECT_NEAR(0.0, plane.Distance(gp_Pnt(0.0, 0.0, 0.0)), 1e-9);
+
+    // Same set with the inner loop lifted off the plane
+    TopoDS_Compound nonCoplanar;
+    builder.MakeCompound(nonCoplanar);
+    for (const TopoDS_Edge& edge : makeSquareEdges(0.0, 0.0, 100.0, 100.0))
+    {
+        builder.Add(nonCoplanar, BRepBuilderAPI_Copy(edge).Shape());
+    }
+    for (const TopoDS_Edge& edge : makeSquareEdges(20.0, 20.0, 60.0, 60.0, 50.0))
+    {
+        builder.Add(nonCoplanar, BRepBuilderAPI_Copy(edge).Shape());
+    }
+
+    BRepLib_FindSurface nonCoplanarFinder(nonCoplanar, kUseShapeTolerance, kOnlyPlane);
+    std::cout << "[probe] non-coplanar: found=" << nonCoplanarFinder.Found() << std::endl;
+    EXPECT_FALSE(nonCoplanarFinder.Found());
+
+    // A single loop that is twisted on its own
+    TopoDS_Compound twisted;
+    builder.MakeCompound(twisted);
+    for (const TopoDS_Edge& edge : makeNonPlanarQuadEdges())
+    {
+        builder.Add(twisted, BRepBuilderAPI_Copy(edge).Shape());
+    }
+
+    BRepLib_FindSurface twistedFinder(twisted, kUseShapeTolerance, kOnlyPlane);
+    std::cout << "[probe] twisted single loop: found=" << twistedFinder.Found() << std::endl;
+    EXPECT_FALSE(twistedFinder.Found());
+}
+
+TEST(TopoShapeUtil, KernelProbe_FindSurface_AttachesSurfaceToEdges)
+{
+    // The edges are handed over as they are, without a copy: if FindSurface attaches the plane
+    // to them, the second call reports Existed() and the copy in the builder is mandatory
+    BRep_Builder builder;
+    TopoDS_Compound compound;
+    builder.MakeCompound(compound);
+    for (const TopoDS_Edge& edge : makeSquareEdges(0.0, 0.0, 100.0, 100.0))
+    {
+        builder.Add(compound, edge);
+    }
+
+    BRepLib_FindSurface first(compound, kUseShapeTolerance, kOnlyPlane);
+    BRepLib_FindSurface second(compound, kUseShapeTolerance, kOnlyPlane);
+    std::cout << "[probe] without copy: first found=" << first.Found() << " existed=" << first.Existed()
+        << ", second found=" << second.Found() << " existed=" << second.Existed() << std::endl;
+    EXPECT_TRUE(first.Found());
+    EXPECT_TRUE(second.Found());
+    // Measured on the bundled OCCT 7.7: FindSurface does not attach the surface to the edges it
+    // was given, so the builder can hand over the picked edges themselves (FreeCAD copies, but
+    // that is defensive). If the second call ever reports Existed() the lookup mutated the model
+    // and the caller must copy
+    EXPECT_FALSE(second.Existed());
+}
+
+TEST(TopoShapeUtil, KernelProbe_FaceClassifier_3DPointOnOurOwnFace)
+{
+    // The wire comes from the production builder, so this also says whether that wire is
+    // usable by the classifier
+    TopoDS_Wire wire;
+    ASSERT_EQ(wy3d::ErrorCode::NoError,
+        wy3d::TopoShapeUtil::makeWireFromEdges(makeSquareEdges(0.0, 0.0, 100.0, 100.0), wire));
+
+    const gp_Pln plane(gp_Pnt(0.0, 0.0, 0.0), gp_Dir(0.0, 0.0, 1.0));
+    BRepBuilderAPI_MakeFace makeFace(plane, wire);
+    ASSERT_TRUE(makeFace.IsDone());
+    const TopoDS_Face face = makeFace.Face();
+    ASSERT_FALSE(face.IsNull());
+
+    BRepClass_FaceClassifier inside(face, gp_Pnt(50.0, 50.0, 0.0), Precision::Confusion());
+    BRepClass_FaceClassifier outside(face, gp_Pnt(150.0, 50.0, 0.0), Precision::Confusion());
+    BRepClass_FaceClassifier boundary(face, gp_Pnt(50.0, 0.0, 0.0), Precision::Confusion());
+    std::cout << "[probe] classifier: inside=" << stateName(inside.State())
+        << " outside=" << stateName(outside.State())
+        << " on-edge=" << stateName(boundary.State()) << std::endl;
+
+    EXPECT_EQ(TopAbs_IN, inside.State());
+    EXPECT_EQ(TopAbs_OUT, outside.State());
+    EXPECT_EQ(TopAbs_ON, boundary.State());
+}
+
+TEST(TopoShapeUtil, KernelProbe_HoleOrientationAndGProp)
+{
+    const gp_Pln plane(gp_Pnt(0.0, 0.0, 0.0), gp_Dir(0.0, 0.0, 1.0));
+    // Both wires are built in the order given: counter-clockwise outer, and a hole traversed
+    // either way, which is what shows whether the winding is load bearing
+    const TopoDS_Wire outer = makeWire(makeSquareEdges(0.0, 0.0, 100.0, 100.0));
+    const TopoDS_Wire holeClockwise = makeWire(makeSquareEdgesClockwise(20.0, 20.0, 60.0, 60.0));
+    const TopoDS_Wire holeCounterClockwise = makeWire(makeSquareEdges(20.0, 20.0, 60.0, 60.0));
+
+    auto buildFace = [&plane, &outer](const TopoDS_Wire& hole) {
+        BRepBuilderAPI_MakeFace makeFace(plane, outer);
+        try
+        {
+            makeFace.Add(hole);
+            makeFace.Build();
+        }
+        catch (const Standard_Failure& failure)
+        {
+            std::cout << "[probe] build threw: " << failure.GetMessageString() << std::endl;
+            return TopoDS_Face();
+        }
+        return makeFace.Face();
+    };
+
+    const TopoDS_Face face = buildFace(holeClockwise);
+    const TopoDS_Face sameSenseFace = buildFace(holeCounterClockwise);
+    ASSERT_FALSE(face.IsNull());
+    ASSERT_FALSE(sameSenseFace.IsNull());
+
+    BRepClass_FaceClassifier holeCentre(face, gp_Pnt(40.0, 40.0, 0.0), Precision::Confusion());
+    BRepClass_FaceClassifier ring(face, gp_Pnt(10.0, 50.0, 0.0), Precision::Confusion());
+    BRepClass_FaceClassifier holeEdge(face, gp_Pnt(20.0, 40.0, 0.0), Precision::Confusion());
+    BRepClass_FaceClassifier sameSenseHoleCentre(sameSenseFace, gp_Pnt(40.0, 40.0, 0.0), Precision::Confusion());
+
+    std::cout << "[probe] cw-hole: wires=" << wireCount(face) << " area=" << faceArea(face)
+        << " valid=" << BRepCheck_Analyzer(face).IsValid()
+        << " | hole-centre=" << stateName(holeCentre.State())
+        << " ring=" << stateName(ring.State())
+        << " hole-edge=" << stateName(holeEdge.State()) << std::endl;
+    std::cout << "[probe] ccw-hole: wires=" << wireCount(sameSenseFace) << " area=" << faceArea(sameSenseFace)
+        << " valid=" << BRepCheck_Analyzer(sameSenseFace).IsValid()
+        << " | hole-centre=" << stateName(sameSenseHoleCentre.State()) << std::endl;
+
+    EXPECT_EQ(2, wireCount(face));
+    EXPECT_EQ(TopAbs_OUT, holeCentre.State());
+    EXPECT_EQ(TopAbs_IN, ring.State());
+    EXPECT_EQ(TopAbs_ON, holeEdge.State());
+    EXPECT_TRUE(BRepCheck_Analyzer(face).IsValid());
+}
+
+TEST(TopoShapeUtil, KernelProbe_FindSurface_ToleranceBoundary)
+{
+    // The verdict is a distance check against one tolerance, so this measures where it flips:
+    // two squares in parallel planes a distance apart, the second one lifted off the first
+    auto findSurface = [](const std::vector<TopoDS_Edge>& edges, double tol, double& tolerance,
+                          double& reached) {
+        BRep_Builder builder;
+        TopoDS_Compound compound;
+        builder.MakeCompound(compound);
+        for (const TopoDS_Edge& edge : edges)
+        {
+            builder.Add(compound, edge);
+        }
+        BRepLib_FindSurface finder(compound, tol, kOnlyPlane);
+        tolerance = finder.Tolerance();
+        reached = finder.ToleranceReached();
+        return finder.Found();
+    };
+
+    auto twoSquares = [](double offset) {
+        std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+        const std::vector<TopoDS_Edge> lifted = makeSquareEdges(20.0, 20.0, 60.0, 60.0, offset);
+        edges.insert(edges.end(), lifted.cbegin(), lifted.cend());
+        return edges;
+    };
+
+    std::cout << "[probe] default tolerance (-1):" << std::endl;
+    for (const double offset : { 0.0, 1.0e-8, 1.0e-7, 1.0e-6, 1.0e-5 })
+    {
+        double tolerance(0), reached(0);
+        const bool found = findSurface(twoSquares(offset), -1.0, tolerance, reached);
+        std::cout << "[probe]   offset=" << offset << " found=" << found
+            << " tolerance=" << tolerance << " reached=" << reached << std::endl;
+    }
+
+    // An explicit tolerance is the whole criterion: the same edges flip with it alone
+    double tolerance(0), reached(0);
+    std::cout << "[probe] explicit tolerance: offset=1e-4 found(tol=1e-3)="
+        << findSurface(twoSquares(1.0e-4), 1.0e-3, tolerance, reached)
+        << " reached=" << reached
+        << ", found(tol=1e-5)=" << findSurface(twoSquares(1.0e-4), 1.0e-5, tolerance, reached)
+        << std::endl;
+}
+
+TEST(TopoShapeUtil, KernelProbe_FindSurface_OpenEdgeSelections)
+{
+    // The coplanarity of a selection has to be answerable before the loops close, so that a
+    // half picked set of edges already reports the plane it can never reach
+    auto sharePlane = [](const std::vector<TopoDS_Edge>& edges) {
+        BRep_Builder builder;
+        TopoDS_Compound compound;
+        builder.MakeCompound(compound);
+        for (const TopoDS_Edge& edge : edges)
+        {
+            builder.Add(compound, edge);
+        }
+        return BRepLib_FindSurface(compound, kUseShapeTolerance, kOnlyPlane).Found();
+    };
+
+    // Measured on the bundled OCCT 7.7: a lone edge defines no surface, Found is false for a
+    // single straight edge (a line leaves the plane free to rotate about itself) and for a
+    // single circle alike. Callers that ask "can these edges still reach a common plane" must
+    // therefore leave a one edge selection unjudged instead of reading it as a failure
+    const gp_Circ circle(gp_Ax2(gp_Pnt(0, 0, 0), gp_Dir(0, 0, 1)), 50.0);
+    std::cout << "[probe] single edge: line=" << sharePlane({ makeEdge(gp_Pnt(0, 0, 0), gp_Pnt(100, 0, 0)) })
+        << " circle=" << sharePlane({ TopoDS::Edge(BRepBuilderAPI_MakeEdge(circle).Edge()) }) << std::endl;
+    EXPECT_FALSE(sharePlane({ makeEdge(gp_Pnt(0, 0, 0), gp_Pnt(100, 0, 0)) }));
+
+    // Two straight edges sharing a vertex span a plane, as any two intersecting lines do
+    EXPECT_TRUE(sharePlane({ makeEdge(gp_Pnt(0, 0, 0), gp_Pnt(100, 0, 0)),
+        makeEdge(gp_Pnt(0, 0, 0), gp_Pnt(0, 100, 0)) }));
+
+    // Two skew straight edges lie in no common plane
+    EXPECT_FALSE(sharePlane({ makeEdge(gp_Pnt(0, 0, 0), gp_Pnt(100, 0, 0)),
+        makeEdge(gp_Pnt(0, 50, 50), gp_Pnt(100, 50, 60)) }));
+
+    // Three of the four edges of the twisted quad: open, and already past saving
+    std::vector<TopoDS_Edge> threeEdges = makeNonPlanarQuadEdges();
+    threeEdges.pop_back();
+    EXPECT_FALSE(sharePlane(threeEdges));
+}
+
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_SingleClosedEdge)
+{
+    // One closed edge is a complete loop on its own, as a solid's rim edge is when picked
+    const gp_Circ circle(gp_Ax2(gp_Pnt(0, 0, 0), gp_Dir(0, 0, 1)), 50.0);
+    const std::vector<TopoDS_Edge> edges{ TopoDS::Edge(BRepBuilderAPI_MakeEdge(circle).Edge()) };
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+    EXPECT_EQ(TopAbs_ShapeEnum::TopAbs_COMPOUND, shape.ShapeType());
+    EXPECT_EQ(1, shapeShellCount(shape));
+
+    const std::vector<TopoDS_Face> faces = shapeFaces(shape);
+    ASSERT_EQ(1u, faces.size());
+    EXPECT_EQ(1, wireCount(faces[0]));
+    EXPECT_TRUE(BRepCheck_Analyzer(faces[0]).IsValid());
+    EXPECT_NEAR(wy3d::PI * 2500.0, faceArea(faces[0]), 1.0);
+}
+
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_SquareWithSquareHole)
+{
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> hole = makeSquareEdges(20.0, 20.0, 40.0, 40.0);
+    edges.insert(edges.end(), hole.cbegin(), hole.cend());
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+
+    // Enclosing a loop turns it into a hole of the face around it, not into a second face
+    EXPECT_EQ(1, shapeShellCount(shape));
+    const std::vector<TopoDS_Face> faces = shapeFaces(shape);
+    ASSERT_EQ(1u, faces.size());
+    EXPECT_EQ(2, wireCount(faces[0]));
+    EXPECT_TRUE(BRepCheck_Analyzer(faces[0]).IsValid());
+    EXPECT_NEAR(9600.0, faceArea(faces[0]), 1e-6);
+}
+
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_HoleEdgesShuffledAndReversed)
+{
+    // The hole arrives shuffled and running the other way round: the builder orders the loops
+    // and normalises their winding, so the face comes out the same
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> hole = makeSquareEdgesClockwise(20.0, 20.0, 40.0, 40.0);
+    edges.emplace_back(TopoDS::Edge(hole[1].Reversed()));
+    edges.emplace_back(hole[3]);
+    edges.emplace_back(hole[0]);
+    edges.emplace_back(TopoDS::Edge(hole[2].Reversed()));
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+
+    const std::vector<TopoDS_Face> faces = shapeFaces(shape);
+    ASSERT_EQ(1u, faces.size());
+    EXPECT_EQ(2, wireCount(faces[0]));
+    EXPECT_TRUE(BRepCheck_Analyzer(faces[0]).IsValid());
+    EXPECT_NEAR(9600.0, faceArea(faces[0]), 1e-6);
+}
+
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_TwoDisjointSquares)
+{
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> second = makeSquareEdges(200.0, 0.0, 300.0, 100.0);
+    edges.insert(edges.end(), second.cbegin(), second.cend());
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+
+    // Loops that do not enclose one another end up as separate faces of the same element
+    EXPECT_EQ(2, shapeShellCount(shape));
+    EXPECT_EQ(2u, shapeFaces(shape).size());
+    EXPECT_NEAR(20000.0, totalArea(shape), 1e-6);
+}
+
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_IslandInsideHole)
+{
+    // Outer 300, hole 200, island 100: the island is material again, so it becomes a face of
+    // its own instead of a second hole of the outer face (the point FaceMakerCheese misses)
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 300.0, 300.0);
+    const std::vector<TopoDS_Edge> hole = makeSquareEdges(50.0, 50.0, 250.0, 250.0);
+    const std::vector<TopoDS_Edge> island = makeSquareEdges(100.0, 100.0, 200.0, 200.0);
+    edges.insert(edges.end(), hole.cbegin(), hole.cend());
+    edges.insert(edges.end(), island.cbegin(), island.cend());
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+
+    const std::vector<TopoDS_Face> faces = shapeFaces(shape);
+    ASSERT_EQ(2u, faces.size());
+    EXPECT_EQ(3, wireCount(shape));
+    EXPECT_NEAR(50000.0 + 10000.0, totalArea(shape), 1e-6);
+    for (const TopoDS_Face& face : faces)
+    {
+        EXPECT_TRUE(BRepCheck_Analyzer(face).IsValid());
+    }
+}
+
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_FourLevelNesting)
+{
+    // Nesting alternates all the way down, so the island carries a hole of its own
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 300.0, 300.0);
+    const std::vector<TopoDS_Edge> hole = makeSquareEdges(50.0, 50.0, 250.0, 250.0);
+    const std::vector<TopoDS_Edge> island = makeSquareEdges(100.0, 100.0, 200.0, 200.0);
+    const std::vector<TopoDS_Edge> islandHole = makeSquareEdges(125.0, 125.0, 175.0, 175.0);
+    edges.insert(edges.end(), hole.cbegin(), hole.cend());
+    edges.insert(edges.end(), island.cbegin(), island.cend());
+    edges.insert(edges.end(), islandHole.cbegin(), islandHole.cend());
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+
+    EXPECT_EQ(2, shapeShellCount(shape));
+    EXPECT_EQ(4, wireCount(shape));
+    EXPECT_NEAR(50000.0 + (10000.0 - 2500.0), totalArea(shape), 1e-6);
+}
+
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_CrossingLoops)
+{
+    // The rectangles cross: part of the second one lies inside the first
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> crossing = makeSquareEdges(50.0, -50.0, 150.0, 50.0);
+    edges.insert(edges.end(), crossing.cbegin(), crossing.cend());
+
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_LoopsNotNested,
+        wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
+}
+
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_TouchingLoops)
+{
+    // The triangle runs along the lower edge of the square, sharing no vertex with it
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    edges.emplace_back(makeEdge(gp_Pnt(25.0, 0.0, 0.0), gp_Pnt(75.0, 0.0, 0.0)));
+    edges.emplace_back(makeEdge(gp_Pnt(75.0, 0.0, 0.0), gp_Pnt(50.0, -50.0, 0.0)));
+    edges.emplace_back(makeEdge(gp_Pnt(50.0, -50.0, 0.0), gp_Pnt(25.0, 0.0, 0.0)));
+
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_LoopsNotNested,
+        wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
+}
+
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_NonCoplanarSecondLoop)
+{
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> lifted = makeSquareEdges(20.0, 20.0, 40.0, 40.0, 50.0);
+    edges.insert(edges.end(), lifted.cbegin(), lifted.cend());
+
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar,
+        wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
+}
+
+TEST(TopoShapeUtil, MakePlanarSheetFromEdges_CircularHole)
+{
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 200.0, 200.0);
+    const gp_Circ circle(gp_Ax2(gp_Pnt(100.0, 100.0, 0.0), gp_Dir(0.0, 0.0, 1.0)), 50.0);
+    edges.emplace_back(TopoDS::Edge(BRepBuilderAPI_MakeEdge(circle).Edge()));
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, shape));
+
+    const std::vector<TopoDS_Face> faces = shapeFaces(shape);
+    ASSERT_EQ(1u, faces.size());
+    EXPECT_EQ(2, wireCount(faces[0]));
+    EXPECT_TRUE(BRepCheck_Analyzer(faces[0]).IsValid());
+    EXPECT_NEAR(40000.0 - wy3d::PI * 2500.0, faceArea(faces[0]), 1.0);
 }

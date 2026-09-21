@@ -42,9 +42,12 @@ public:
         const std::vector<TopoDS_Edge>& edges,
         TopoDS_Wire& outWire);
 
-    static ErrorCode makePlanarFaceFromEdges(
+    // Planar sheet from coplanar edges: nested loops merge into one face (even nesting depth
+    // is an outer wire, odd is a hole), loops that do not nest become separate faces. Every
+    // face is wrapped in its own shell inside a compound, as a sketch profile produces them
+    static ErrorCode makePlanarSheetFromEdges(
         const std::vector<TopoDS_Edge>& edges,
-        TopoDS_Face& outFace);
+        TopoDS_Shape& outShape);
 
     static ErrorCode makeFilledFaceFromEdges(
         const std::vector<TopoDS_Edge>& edges,

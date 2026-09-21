@@ -20,13 +20,15 @@
 
 #include <cassert>
 #include <map>
-#include <QCursor>
 #include <QCoreApplication>
-#include <QToolTip>
 
 #include <TopoDS.hxx>
+#include <TopoDS_Compound.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
 #include <TopExp.hxx>
+#include <BRep_Builder.hxx>
+#include <BRepLib_FindSurface.hxx>
+#include <Standard_Failure.hxx>
 
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
@@ -49,6 +51,53 @@
 #include "select/filters/CommonSelFilters.h"
 #include "commands/transient/ValidSketchTransient.h"
 #include "wy3d/topo/TopoShapeUtil.h"
+
+namespace
+{
+
+// BRepLib_FindSurface arguments: Tol = -1 asks for the max of the shape's own edge tolerances,
+// and OnlyPlane keeps the fitted surface to a plane. Held to the same values as the core
+// builder so this early verdict cannot disagree with the one reached on commit
+const double kUseShapeTolerance = -1.0;
+const Standard_Boolean kOnlyPlane = Standard_True;
+
+// std::stoul throws on a malformed sub-path, a bad value only makes collection fail
+bool _parseSubPathIndex(const std::string& subPath, unsigned int& index)
+{
+    if (subPath.empty()) return false;
+    unsigned long long value(0);
+    for (char c : subPath)
+    {
+        if (c < '0' || c > '9') return false;
+        value = value * 10 + static_cast<unsigned long long>(c - '0');
+        if (value > 0xFFFFFFFFull) return false;
+    }
+    index = static_cast<unsigned int>(value);
+    return true;
+}
+
+bool _edgesSharePlane(const std::vector<TopoDS_Edge>& edges)
+{   
+    try
+    {
+        if (edges.size() < 2) return true;
+        BRep_Builder builder;
+        TopoDS_Compound compound;
+        builder.MakeCompound(compound);
+        for (const TopoDS_Edge& edge : edges)
+        {
+            builder.Add(compound, edge);
+        }
+
+        return BRepLib_FindSurface(compound, kUseShapeTolerance, kOnlyPlane).Found();
+    }
+    catch (const Standard_Failure&)
+    {
+        return false;
+    }
+}
+
+} // namespace
 
 // ============================================================================
 // MakePlanarSheet
@@ -168,7 +217,7 @@ wyap::CmdExecution::StartResult PlanarSheetGuiCmd::onStart()
         if (edgePicked)
         {
             this->gotoStep(Step::SelectEdges);
-            this->tryAutoFinishEdgeSelection();
+            this->updateEdgeSelectionFeedback();
         }
         else
         {
@@ -233,17 +282,20 @@ bool PlanarSheetGuiCmd::finishStep(Step step)
             return false;
         }
 
-        TopoDS_Face face;
-        wy3d::ErrorCode faceError = wy3d::TopoShapeUtil::makePlanarFaceFromEdges(edges, face);
-        if (wy3d::ErrorCode::NoError != faceError)
+        TopoDS_Shape sheetShape;
+        wy3d::ErrorCode shapeError = wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, sheetShape);
+        if (wy3d::ErrorCode::NoError != shapeError)
         {
-            MessageBoxUtil::showError(static_cast<unsigned int>(faceError));
+            MessageBoxUtil::showError(static_cast<unsigned int>(shapeError));
+            // No abort on this path, so the command is still alive: refresh the reason on the
+            // status bar here rather than after finishStep returns
+            this->updateEdgeSelectionFeedback();
             return false;
         }
 
         _pMakeNonParametricSheet = std::make_shared<MakeNonParametricSheet>(this);
         unsigned int errorCode(0);
-        if (!_pMakeNonParametricSheet->init(face, errorCode))
+        if (!_pMakeNonParametricSheet->init(sheetShape, errorCode))
         {
             _pEdgePreview = nullptr;
             _pMakeNonParametricSheet = nullptr;
@@ -299,7 +351,7 @@ void PlanarSheetGuiCmd::gotoStep(Step step)
         _pEdgePreview = nullptr;
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
-            "Select edges to enclose a planar face; a sheet is created when the loop closes. Esc: clear edges."));
+            "Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         Application::instance().setCursor(CursorType::SelectElements);
     }
     break;
@@ -377,7 +429,7 @@ void PlanarSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
             _pSelSetHighlightor->addSelection(sel);
             _pEdgePreview = nullptr;
             this->gotoStep(Step::SelectEdges);
-            this->tryAutoFinishEdgeSelection();
+            this->updateEdgeSelectionFeedback();
         }
     }
     else if (_step == Step::SelectEdges)
@@ -394,7 +446,7 @@ void PlanarSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
                 _pSelSetHighlightor->addSelection(sel);
             }
             _pEdgePreview = nullptr;
-            this->tryAutoFinishEdgeSelection();
+            this->updateEdgeSelectionFeedback();
         }
     }
 
@@ -433,16 +485,38 @@ void PlanarSheetGuiCmd::onEscapeKey()
 
 bool PlanarSheetGuiCmd::isContextMenuActionVisible_CompleteSelection() const
 {
-    return Step::SelectEdges == _step;
+    // Hiding it while nothing is picked keeps the entry from doing nothing at all
+    return Step::SelectEdges == _step && _pSelSetHighlightor
+        && !_pSelSetHighlightor->getSelectionSet().isEmpty();
 }
 
 void PlanarSheetGuiCmd::onContextMenuAction_CompleteSelection()
 {
-    unsigned int errorCode(0);
-    if (!this->completeEdgeSelection(errorCode))
+    this->onEnterKey();
+}
+
+void PlanarSheetGuiCmd::onEnterKey()
+{
+    if (Step::SelectEdges != _step) return;
+    // Nothing picked yet: keep the tip rather than report invalid data
+    if (!_pSelSetHighlightor || _pSelSetHighlightor->getSelectionSet().isEmpty()) return;
+
+    // The same precondition finishStep asserts on: a selection that cannot be read is
+    // reported by the feedback instead of finishing, which would abort the command
+    std::vector<TopoDS_Edge> edges;
+    if (!this->collectPickedEdges(edges))
     {
-        if (0 != errorCode) MessageBoxUtil::showError(errorCode);
+        this->updateEdgeSelectionFeedback();
+        return;
     }
+
+    // finishStep ends or aborts the command: no member access after this call
+    this->finishStep(_step);
+}
+
+void PlanarSheetGuiCmd::onSpaceKey()
+{
+    this->onEnterKey();
 }
 
 bool PlanarSheetGuiCmd::isContextMenuActionVisible_ClearSelection() const
@@ -459,7 +533,7 @@ void PlanarSheetGuiCmd::onContextMenuAction_ClearSelection()
             _pSelSetHighlightor->clearSelections();
             _edgePickOption.pSelPreFilter = nullptr;
             Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
-                "Select edges to enclose a planar face; a sheet is created when the loop closes. Esc: clear edges."));
+                "Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         }
     }
 }
@@ -564,7 +638,8 @@ bool PlanarSheetGuiCmd::collectPickedEdges(std::vector<TopoDS_Edge>& edges) cons
         TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_EDGE, edgeMap);
         for (const std::string& subPath : kv.second)
         {
-            unsigned int edgeIndex = std::stoul(subPath);
+            unsigned int edgeIndex = 0;
+            if (!_parseSubPathIndex(subPath, edgeIndex)) return false;
             if (edgeIndex >= static_cast<unsigned int>(edgeMap.Extent())) return false;
             edges.emplace_back(TopoDS::Edge(edgeMap(edgeIndex + 1)));
         }
@@ -573,7 +648,7 @@ bool PlanarSheetGuiCmd::collectPickedEdges(std::vector<TopoDS_Edge>& edges) cons
     return !edges.empty();
 }
 
-void PlanarSheetGuiCmd::tryAutoFinishEdgeSelection()
+void PlanarSheetGuiCmd::updateEdgeSelectionFeedback()
 {
     std::vector<TopoDS_Edge> edges;
     if (!this->collectPickedEdges(edges))
@@ -583,40 +658,36 @@ void PlanarSheetGuiCmd::tryAutoFinishEdgeSelection()
         return;
     }
 
-    TopoDS_Face face;
-    wy3d::ErrorCode errorCode = wy3d::TopoShapeUtil::makePlanarFaceFromEdges(edges, face);
+    // Only a verdict: the sheet is created by Enter, Spacebar or the context menu, so that
+    // more loops (a hole, another opening) can be added after the first one closes
+    TopoDS_Shape sheetShape;
+    const wy3d::ErrorCode errorCode = wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, sheetShape);
     if (wy3d::ErrorCode::NoError == errorCode)
     {
-        this->finishStep(Step::SelectEdges);
+        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+            "Closed loops found; press Enter or Spacebar to confirm, or keep selecting edges to add more loops."));
         return;
     }
-    if (wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar == errorCode)
+    if (wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar == errorCode ||
+        wy3d::ErrorCode::PLANARSHEET_LoopsNotNested == errorCode)
     {
-        QToolTip::showText(QCursor::pos(),
-            ErrorCodeTranslation::instance().getErrorCodeDescription(errorCode), nullptr, QRect(), 3000);
+        // The reason stays in the status bar: a tooltip is gone after three seconds, which is
+        // easy to miss while the next edge is being picked
+        Application::instance().getStatusBar()->setTips(
+            ErrorCodeTranslation::instance().getErrorCodeDescription(errorCode));
+        return;
+    }
+
+    // The loops may only not be closed yet, but edges that already span two planes can never
+    // close into a planar sheet: say so instead of inviting more edges
+    if (!_edgesSharePlane(edges))
+    {
+        Application::instance().getStatusBar()->setTips(
+            ErrorCodeTranslation::instance().getErrorCodeDescription(
+                wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar));
+        return;
     }
 
     Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
         "Keep selecting edges to close the loop."));
-}
-
-bool PlanarSheetGuiCmd::completeEdgeSelection(unsigned int& errorCode)
-{
-    errorCode = 0;
-    std::vector<TopoDS_Edge> edges;
-    if (!this->collectPickedEdges(edges))
-    {
-        errorCode = static_cast<unsigned int>(wy3d::ErrorCode::PLANARSHEET_InvalidData);
-        return false;
-    }
-
-    TopoDS_Face face;
-    wy3d::ErrorCode faceError = wy3d::TopoShapeUtil::makePlanarFaceFromEdges(edges, face);
-    if (wy3d::ErrorCode::NoError == faceError)
-    {
-        return this->finishStep(Step::SelectEdges);
-    }
-
-    errorCode = static_cast<unsigned int>(faceError);
-    return false;
 }

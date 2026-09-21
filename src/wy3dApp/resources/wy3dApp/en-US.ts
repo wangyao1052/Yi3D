@@ -798,7 +798,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="163"/>
-        <source>The selected edges must form a single closed loop!</source>
+        <source>The selected edges must form one or more closed loops!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -807,122 +807,127 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="169"/>
-        <source>Invalid sewn sheet data!</source>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="167"/>
+        <source>The closed loops must not cross or touch each other!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="171"/>
+        <source>Invalid sewn sheet data!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="173"/>
         <source>Generate sewn sheet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="175"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="177"/>
         <source>Invalid solidify data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="177"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="179"/>
         <source>Generate solidify failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="181"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="183"/>
         <source>Invalid swept sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="183"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="185"/>
         <source>Generate swept sheet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="187"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="189"/>
         <source>Invalid lofted sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="189"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="191"/>
         <source>Generate lofted sheet failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="193"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="195"/>
         <source>Invalid filled sheet data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="195"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="197"/>
         <source>Generate filled surface failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="197"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="199"/>
         <source>The sketch curves must form a single closed loop!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="201"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
         <source>Invalid split face data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
         <source>The face to split no longer exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
         <source>The sketch holds no curve to split with!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
         <source>Generate split face failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="211"/>
         <source>The curves do not divide any of the selected faces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
         <source>Invalid delete face data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
         <source>The faces to delete no longer exist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="219"/>
         <source>A sheet cannot lose every one of its faces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="219"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="221"/>
         <source>Delete face failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="223"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="225"/>
         <source>Invalid helix data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="225"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="227"/>
         <source>The sketch used to generate the helix must be a circle.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="242"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="244"/>
         <source>ErrorCode: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="242"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="244"/>
         <source>!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4373,23 +4378,28 @@ Do you want to save it to the original file now?
 <context>
     <name>PlanarSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="286"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="306"/>
         <source>Select a sketch to create a planar sheet, or select edges to enclose a planar face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="301"/>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="461"/>
-        <source>Select edges to enclose a planar face; a sheet is created when the loop closes. Esc: clear edges.</source>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="496"/>
+        <source>Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="581"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="617"/>
         <source>Select edges to enclose a planar face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="599"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="628"/>
+        <source>Closed loops found; press Enter or Spacebar to confirm, or keep selecting edges to add more loops.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="639"/>
         <source>Keep selecting edges to close the loop.</source>
         <translation type="unfinished"></translation>
     </message>

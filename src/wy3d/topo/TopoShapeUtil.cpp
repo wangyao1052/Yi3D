@@ -18,6 +18,7 @@
 
 #include <wyVector3.h>
 #include "topo/TopoShapeUtil.h"
+#include <wy3dImpl.h>
 #include <BRep_Builder.hxx>
 #include <BRep_Tool.hxx>
 #include <Geom_Plane.hxx>
@@ -25,11 +26,23 @@
 #include <TopoDS_Edge.hxx>
 #include <TopoDS_Vertex.hxx>
 #include <TopoDS_Wire.hxx>
+#include <TopoDS_Shell.hxx>
+#include <TopAbs.hxx>
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
+#include <Bnd_Box.hxx>
+#include <BRepBndLib.hxx>
+#include <BRepAdaptor_CompCurve.hxx>
 #include <BRepBuilderAPI_MakeWire.hxx>
 #include <BRepBuilderAPI_MakeFace.hxx>
+#include <BRepClass_FaceClassifier.hxx>
+#include <BRepLib_FindSurface.hxx>
 #include <BRepFill_Filling.hxx>
+#include <GCPnts_QuasiUniformDeflection.hxx>
+#include <GeomAdaptor_Surface.hxx>
+#include <Precision.hxx>
+#include <gp_Pln.hxx>
+#include <cmath>
 
 NS_WY3D_BEG
 
@@ -86,6 +99,12 @@ bool TopoShapeUtil::getFacePlane(const TopoDS_Face& face, wy3d::SketchPlane& pla
 
 namespace
 {
+    // BRepLib_FindSurface arguments: Tol = -1 asks for the max of the shape's own edge tolerances
+    // instead of a fixed value, and OnlyPlane keeps the fitted surface to a plane so that no
+    // cylinder fit can pass as "coplanar"
+    const double kUseShapeTolerance = -1.0;
+    const Standard_Boolean kOnlyPlane = Standard_True;
+
     class EdgeVertexTable
     {
     public:
@@ -150,6 +169,256 @@ namespace
         // two vertex indices per edge, in the order the edge runs
         std::vector<int> _edgeVertexIndices;
     };
+
+    // Builds one closed wire per connected component of the edges. Every vertex has to be
+    // shared by exactly two edges, which rules out open chains, branches and self-touching
+    // loops; that leaves every component a simple closed loop of its own
+    ErrorCode _splitEdgeLoops(const std::vector<TopoDS_Edge>& edges, std::vector<TopoDS_Wire>& outWires)
+    {
+        outWires.clear();
+
+        EdgeVertexTable vertexTable;
+        ErrorCode errorCode = vertexTable.build(edges);
+        if (ErrorCode::NoError != errorCode) return errorCode;
+
+        for (const std::vector<int>& adjEdges : vertexTable.adjacentEdges())
+        {
+            if (adjEdges.size() != 2) return ErrorCode::PLANARSHEET_EdgesNotClosed;
+        }
+
+        // Walk each component from its first unused edge: with every vertex of degree two the
+        // walk runs around the loop and stops when it comes back to where it started
+        std::vector<bool> used(edges.size(), false);
+        for (size_t seed = 0; seed < edges.size(); ++seed)
+        {
+            if (used[seed]) continue;
+
+            std::vector<size_t> orderedEdgeIndices;
+            orderedEdgeIndices.reserve(edges.size());
+            size_t curEdge = seed;
+            for (;;)
+            {
+                orderedEdgeIndices.emplace_back(curEdge);
+                used[curEdge] = true;
+
+                size_t nextEdge = edges.size();
+                for (int end = 0; end < 2; ++end)
+                {
+                    const int vertexIndex = vertexTable.edgeVertexIndex(curEdge, end);
+                    for (int neighborEdge : vertexTable.adjacentEdges(vertexIndex))
+                    {
+                        if (!used[static_cast<size_t>(neighborEdge)])
+                        {
+                            nextEdge = static_cast<size_t>(neighborEdge);
+                            break;
+                        }
+                    }
+                    if (nextEdge != edges.size()) break;
+                }
+                if (nextEdge == edges.size()) break;
+                curEdge = nextEdge;
+            }
+
+            TopoDS_Wire wire;
+            try
+            {
+                BRepBuilderAPI_MakeWire makeWire;
+                for (size_t edgeIndex : orderedEdgeIndices)
+                {
+                    makeWire.Add(edges[edgeIndex]);
+                }
+                wire = makeWire.Wire();
+            }
+            catch (const Standard_Failure&)
+            {
+                return ErrorCode::PLANARSHEET_EdgesNotClosed;
+            }
+            if (wire.IsNull() || !wire.Closed())
+            {
+                return ErrorCode::PLANARSHEET_EdgesNotClosed;
+            }
+            outWires.emplace_back(wire);
+        }
+
+        return ErrorCode::NoError;
+    }
+
+    struct _PlanarLoop
+    {
+        TopoDS_Wire wire;
+        // Face with this loop as its only wire: what the nesting tests classify against
+        TopoDS_Face face;
+        // Points along the loop, used both for the winding and for the nesting tests
+        std::vector<gp_Pnt> samples;
+        Bnd_Box box;
+        double signedArea = 0.0;
+        int depth = 0;
+        int parent = -1;
+    };
+
+    // Samples the loop and measures the area it encloses as seen from the plane normal: a
+    // positive area means the loop runs counter clockwise and suits an outer wire
+    ErrorCode _measureLoop(_PlanarLoop& loop, const gp_Pln& plane)
+    {
+        try
+        {
+            BRepBndLib::Add(loop.wire, loop.box);
+            if (loop.box.IsVoid()) return ErrorCode::PLANARSHEET_InvalidData;
+
+            Standard_Real xMin(0), yMin(0), zMin(0), xMax(0), yMax(0), zMax(0);
+            loop.box.Get(xMin, yMin, zMin, xMax, yMax, zMax);
+            const double dx = xMax - xMin, dy = yMax - yMin, dz = zMax - zMin;
+            const double diagonal = std::sqrt(dx * dx + dy * dy + dz * dz);
+
+            BRepAdaptor_CompCurve compCurve(loop.wire);
+            GCPnts_QuasiUniformDeflection sampler(compCurve, std::max(wy3d::TOL, 1.0e-4 * diagonal));
+            if (!sampler.IsDone()) return ErrorCode::PLANARSHEET_InvalidData;
+
+            std::vector<gp_Pnt> points;
+            points.reserve(static_cast<size_t>(sampler.NbPoints()));
+            for (Standard_Integer i = 1; i <= sampler.NbPoints(); ++i)
+            {
+                points.emplace_back(compCurve.Value(sampler.Parameter(i)));
+            }
+            if (points.size() < 3) return ErrorCode::PLANARSHEET_InvalidData;
+
+            // The nesting tests only need enough samples to notice that a loop leaves another
+            // one; thinning them keeps the pairwise tests cheap and does not move the winding
+            const size_t kMaxSamples = 64;
+            if (points.size() > kMaxSamples)
+            {
+                std::vector<gp_Pnt> thinned;
+                thinned.reserve(kMaxSamples);
+                for (size_t i = 0; i < kMaxSamples; ++i)
+                {
+                    thinned.emplace_back(points[i * points.size() / kMaxSamples]);
+                }
+                points.swap(thinned);
+            }
+            loop.samples.swap(points);
+
+            // Newell's area vector of the closed polygon, projected on the plane normal
+            gp_XYZ sum(0.0, 0.0, 0.0);
+            for (size_t i = 0; i < loop.samples.size(); ++i)
+            {
+                const gp_Pnt& a = loop.samples[i];
+                const gp_Pnt& b = loop.samples[(i + 1) % loop.samples.size()];
+                sum += a.XYZ().Crossed(b.XYZ());
+            }
+            loop.signedArea = 0.5 * gp_Vec(sum).Dot(gp_Vec(plane.Axis().Direction()));
+
+            return ErrorCode::NoError;
+        }
+        catch (const Standard_Failure&)
+        {
+            return ErrorCode::PLANARSHEET_InvalidData;
+        }
+    }
+
+    // Where the samples of one loop sit in another loop's face: all inside means the face
+    // contains the loop, all outside means the two do not interact, and anything else means
+    // the loops cross or touch each other
+    ErrorCode _testLoopInside(const std::vector<gp_Pnt>& samples, const TopoDS_Face& face, bool& outInside)
+    {
+        outInside = false;
+
+        size_t insideCount = 0;
+        for (const gp_Pnt& sample : samples)
+        {
+            BRepClass_FaceClassifier classifier(face, sample, Precision::Confusion());
+            const TopAbs_State state = classifier.State();
+            if (TopAbs_IN == state)
+            {
+                ++insideCount;
+            }
+            else if (TopAbs_OUT != state)
+            {
+                return ErrorCode::PLANARSHEET_LoopsNotNested;
+            }
+        }
+
+        if (0 == insideCount) return ErrorCode::NoError;
+        if (insideCount == samples.size())
+        {
+            outInside = true;
+            return ErrorCode::NoError;
+        }
+        return ErrorCode::PLANARSHEET_LoopsNotNested;
+    }
+
+    // Nesting depth of every loop: how many other loops contain it. Even depths are outer
+    // wires, odd depths are the holes of the directly enclosing loop
+    ErrorCode _resolveNesting(std::vector<_PlanarLoop>& loops)
+    {
+        const size_t count = loops.size();
+        std::vector<std::vector<bool>> contains(count, std::vector<bool>(count, false));
+        for (size_t i = 0; i < count; ++i)
+        {
+            for (size_t j = 0; j < count; ++j)
+            {
+                if (i == j) continue;
+                if (loops[i].box.IsOut(loops[j].box)) continue;
+
+                bool inside = false;
+                ErrorCode errorCode = _testLoopInside(loops[i].samples, loops[j].face, inside);
+                if (ErrorCode::NoError != errorCode) return errorCode;
+                contains[j][i] = inside;
+                if (inside) ++loops[i].depth;
+            }
+        }
+
+        for (size_t i = 0; i < count; ++i)
+        {
+            if (0 == loops[i].depth % 2) continue;
+
+            // A hole belongs to the one loop that contains it directly
+            int parent = -1;
+            for (size_t j = 0; j < count; ++j)
+            {
+                if (!contains[j][i] || loops[j].depth != loops[i].depth - 1) continue;
+                if (parent >= 0) return ErrorCode::PLANARSHEET_LoopsNotNested;
+                parent = static_cast<int>(j);
+            }
+            if (parent < 0) return ErrorCode::PLANARSHEET_LoopsNotNested;
+            loops[i].parent = parent;
+        }
+
+        return ErrorCode::NoError;
+    }
+
+    // One face per even depth loop, with the odd depth loops it directly contains as holes
+    ErrorCode _makeFacesWithHoles(const std::vector<_PlanarLoop>& loops, const gp_Pln& plane,
+        std::vector<TopoDS_Face>& outFaces)
+    {
+        for (size_t i = 0; i < loops.size(); ++i)
+        {
+            if (0 != loops[i].depth % 2) continue;
+
+            // The outer wire has to run counter clockwise seen from the plane normal, the
+            // holes the other way round: swapping them turns a hole into a second plate
+            TopoDS_Wire outerWire = loops[i].wire;
+            if (loops[i].signedArea < 0.0) outerWire = TopoDS::Wire(outerWire.Reversed());
+
+            BRepBuilderAPI_MakeFace makeFace(plane, outerWire);
+            if (!makeFace.IsDone() || makeFace.Face().IsNull()) return ErrorCode::PLANARSHEET_InvalidData;
+
+            for (size_t k = 0; k < loops.size(); ++k)
+            {
+                if (loops[k].parent != static_cast<int>(i)) continue;
+
+                TopoDS_Wire holeWire = loops[k].wire;
+                if (loops[k].signedArea > 0.0) holeWire = TopoDS::Wire(holeWire.Reversed());
+                makeFace.Add(holeWire);
+            }
+
+            makeFace.Build();
+            if (!makeFace.IsDone() || makeFace.Face().IsNull()) return ErrorCode::PLANARSHEET_InvalidData;
+            outFaces.emplace_back(makeFace.Face());
+        }
+
+        if (outFaces.empty()) return ErrorCode::PLANARSHEET_InvalidData;
+        return ErrorCode::NoError;
+    }
 }
 
 ErrorCode TopoShapeUtil::makeWireFromEdges(
@@ -166,108 +435,20 @@ ErrorCode TopoShapeUtil::makeWireFromEdges(
     // makes the OCCT accessors below raise; that is invalid input, not an open loop
     try
     {
-        EdgeVertexTable vertexTable;
-        ErrorCode errorCode = vertexTable.build(edges);
+        std::vector<TopoDS_Wire> wires;
+        ErrorCode errorCode = _splitEdgeLoops(edges, wires);
         if (ErrorCode::NoError != errorCode)
         {
             return errorCode;
         }
-
-        // Every vertex must be shared by exactly two edges, which rules out open chains,
-        // branches and self-touching loops; with the connectivity check below it leaves
-        // exactly one simple closed loop
-        for (const std::vector<int>& adjEdges : vertexTable.adjacentEdges())
-        {
-            if (adjEdges.size() != 2)
-            {
-                return ErrorCode::PLANARSHEET_EdgesNotClosed;
-            }
-        }
-
-        std::vector<bool> visited(edges.size(), false);
-        std::vector<size_t> stack{0};
-        visited[0] = true;
-        while (!stack.empty())
-        {
-            const size_t edgeIndex = stack.back();
-            stack.pop_back();
-            for (int end = 0; end < 2; ++end)
-            {
-                const int vertexIndex = vertexTable.edgeVertexIndex(edgeIndex, end);
-                for (int neighborEdge : vertexTable.adjacentEdges(vertexIndex))
-                {
-                    if (!visited[static_cast<size_t>(neighborEdge)])
-                    {
-                        visited[static_cast<size_t>(neighborEdge)] = true;
-                        stack.emplace_back(static_cast<size_t>(neighborEdge));
-                    }
-                }
-            }
-        }
-        for (bool b : visited)
-        {
-            if (!b)
-            {
-                return ErrorCode::PLANARSHEET_EdgesNotClosed;
-            }
-        }
-
-        std::vector<size_t> orderedEdgeIndices;
-        orderedEdgeIndices.reserve(edges.size());
-        std::vector<bool> used(edges.size(), false);
-        size_t curEdge = 0;
-        for (size_t k = 0; k < edges.size(); ++k)
-        {
-            orderedEdgeIndices.emplace_back(curEdge);
-            used[curEdge] = true;
-            if (k + 1 == edges.size())
-            {
-                break;
-            }
-            size_t nextEdge = edges.size();
-            for (int end = 0; end < 2; ++end)
-            {
-                const int vertexIndex = vertexTable.edgeVertexIndex(curEdge, end);
-                for (int neighborEdge : vertexTable.adjacentEdges(vertexIndex))
-                {
-                    if (!used[static_cast<size_t>(neighborEdge)])
-                    {
-                        nextEdge = static_cast<size_t>(neighborEdge);
-                        break;
-                    }
-                }
-                if (nextEdge != edges.size())
-                {
-                    break;
-                }
-            }
-            if (nextEdge == edges.size())
-            {
-                return ErrorCode::PLANARSHEET_EdgesNotClosed;
-            }
-            curEdge = nextEdge;
-        }
-
-        TopoDS_Wire wire;
-        try
-        {
-            BRepBuilderAPI_MakeWire makeWire;
-            for (size_t edgeIndex : orderedEdgeIndices)
-            {
-                makeWire.Add(edges[edgeIndex]);
-            }
-            wire = makeWire.Wire();
-        }
-        catch (const Standard_Failure&)
-        {
-            return ErrorCode::PLANARSHEET_EdgesNotClosed;
-        }
-        if (wire.IsNull() || !wire.Closed())
+        // This entry point keeps its single loop contract: the filled sheet builds one face
+        // per wire and has no use for a hole
+        if (1 != wires.size())
         {
             return ErrorCode::PLANARSHEET_EdgesNotClosed;
         }
 
-        outWire = wire;
+        outWire = wires.front();
         return ErrorCode::NoError;
     }
     catch (const Standard_Failure&)
@@ -277,34 +458,98 @@ ErrorCode TopoShapeUtil::makeWireFromEdges(
     }
 }
 
-ErrorCode TopoShapeUtil::makePlanarFaceFromEdges(
+ErrorCode TopoShapeUtil::makePlanarSheetFromEdges(
     const std::vector<TopoDS_Edge>& edges,
-    TopoDS_Face& outFace)
+    TopoDS_Shape& outShape)
 {
-    outFace = TopoDS_Face();
-
-    TopoDS_Wire wire;
-    ErrorCode errorCode = makeWireFromEdges(edges, wire);
-    if (ErrorCode::NoError != errorCode)
+    outShape = TopoDS_Shape();
+    if (edges.empty())
     {
-        return errorCode;
+        return ErrorCode::warnTOPOSHAPE_NullShape;
     }
 
     try
     {
-        BRepBuilderAPI_MakeFace makeFace(wire, Standard_True);
-        outFace = makeFace.Face();
+        std::vector<TopoDS_Wire> wires;
+        ErrorCode errorCode = _splitEdgeLoops(edges, wires);
+        if (ErrorCode::NoError != errorCode)
+        {
+            return errorCode;
+        }
+        if (wires.empty())
+        {
+            return ErrorCode::PLANARSHEET_EdgesNotClosed;
+        }
+
+        // One lookup for the whole set: it answers whether the loops share a plane at all and
+        // hands the plane back. FindSurface does not attach that plane to the edges it is
+        // given (measured on the bundled OCCT 7.7), so the picked edges can go in as they are
+        BRep_Builder brepBuilder;
+        TopoDS_Compound compound;
+        brepBuilder.MakeCompound(compound);
+        for (const TopoDS_Wire& wire : wires)
+        {
+            brepBuilder.Add(compound, wire);
+        }
+
+        BRepLib_FindSurface planeFinder(compound, kUseShapeTolerance, kOnlyPlane);
+        if (!planeFinder.Found())
+        {
+            return ErrorCode::PLANARSHEET_EdgesNotCoplanar;
+        }
+        const gp_Pln plane = GeomAdaptor_Surface(planeFinder.Surface()).Plane();
+
+        std::vector<_PlanarLoop> loops(wires.size());
+        for (size_t i = 0; i < wires.size(); ++i)
+        {
+            loops[i].wire = wires[i];
+            errorCode = _measureLoop(loops[i], plane);
+            if (ErrorCode::NoError != errorCode)
+            {
+                return errorCode;
+            }
+
+            // The loop on its own, to classify the samples of the other loops against
+            BRepBuilderAPI_MakeFace makeFace(plane, loops[i].wire);
+            if (!makeFace.IsDone() || makeFace.Face().IsNull())
+            {
+                return ErrorCode::PLANARSHEET_InvalidData;
+            }
+            loops[i].face = makeFace.Face();
+        }
+
+        errorCode = _resolveNesting(loops);
+        if (ErrorCode::NoError != errorCode)
+        {
+            return errorCode;
+        }
+
+        std::vector<TopoDS_Face> faces;
+        errorCode = _makeFacesWithHoles(loops, plane, faces);
+        if (ErrorCode::NoError != errorCode)
+        {
+            return errorCode;
+        }
+
+        // The shape the sketch profile path produces: one shell per face inside a compound
+        TopoDS_Compound result;
+        brepBuilder.MakeCompound(result);
+        for (const TopoDS_Face& face : faces)
+        {
+            TopoDS_Shell shell;
+            brepBuilder.MakeShell(shell);
+            brepBuilder.Add(shell, face);
+            brepBuilder.Add(result, shell);
+        }
+
+        outShape = result;
+        return ErrorCode::NoError;
     }
     catch (const Standard_Failure&)
     {
+        outShape = TopoDS_Shape();
         return ErrorCode::PLANARSHEET_InvalidData;
     }
-    if (outFace.IsNull())
-    {
-        return ErrorCode::PLANARSHEET_EdgesNotCoplanar;
-    }
-
-    return ErrorCode::NoError;
 }
 
 ErrorCode TopoShapeUtil::makeFilledFaceFromEdges(

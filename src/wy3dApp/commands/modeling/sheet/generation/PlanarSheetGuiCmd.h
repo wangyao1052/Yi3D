@@ -82,6 +82,8 @@ protected:
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) override;
 
     virtual void onEscapeKey() override;
+    virtual void onEnterKey() override;
+    virtual void onSpaceKey() override;
     virtual bool isContextMenuActionVisible_CompleteSelection() const override;
     virtual void onContextMenuAction_CompleteSelection() override;
     virtual bool isContextMenuActionVisible_ClearSelection() const override;
@@ -94,10 +96,9 @@ private:
 
     // 从已选边提取 TopoDS_Edge 序列（支持跨实体）
     bool collectPickedEdges(std::vector<TopoDS_Edge>& edges) const;
-    // 每次选择变更后校验: 闭合+共面 → 自动创建
-    void tryAutoFinishEdgeSelection();
-    // 右键 Complete: 强制围合
-    bool completeEdgeSelection(unsigned int& errorCode);
+    // Reports what the picked edges enclose; creating the sheet is left to Enter/Spacebar
+    // and the context menu
+    void updateEdgeSelectionFeedback();
 
 protected:
     Step _step;
