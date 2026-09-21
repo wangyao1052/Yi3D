@@ -29,7 +29,6 @@
 #include <memory>
 #include <vector>
 #include <TopoDS_Edge.hxx>
-#include <TopoDS_Face.hxx>
 #include <wy3dFilledSheet.h>
 #include <wy3dSketch.h>
 #include <wy3dSketch3D.h>
@@ -75,6 +74,10 @@ protected:
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) override;
 
     virtual void onEscapeKey() override;
+    virtual void onEnterKey() override;
+    virtual void onSpaceKey() override;
+    virtual bool isContextMenuActionVisible_CompleteSelection() const override;
+    virtual void onContextMenuAction_CompleteSelection() override;
     virtual bool isContextMenuActionVisible_ClearSelection() const override;
     virtual void onContextMenuAction_ClearSelection() override;
 
@@ -85,9 +88,6 @@ private:
 
     // Extract the picked edges of Solid/Sheet elements
     bool collectPickedEdges(std::vector<TopoDS_Edge>& edges) const;
-    // Re-check the picked edges on every selection change
-    void tryAutoFinishEdgeSelection();
-    bool createSheetFromFace(const TopoDS_Face& face);
 
 protected:
     Step _step;

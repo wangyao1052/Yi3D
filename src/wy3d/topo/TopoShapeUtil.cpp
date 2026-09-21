@@ -256,21 +256,21 @@ namespace
         int parent = -1;
     };
 
-    // Samples the loop and measures the area it encloses as seen from the plane normal: a
-    // positive area means the loop runs counter clockwise and suits an outer wire
-    ErrorCode _measureLoop(_PlanarLoop& loop, const gp_Pln& plane)
+    // Points along the loop, thinned to what the nesting tests need: enough of them to notice
+    // that a loop leaves another one, few enough to keep the pairwise tests cheap. The
+    // deflection follows the box the caller has already taken, so it stays one formula
+    ErrorCode _sampleLoop(const TopoDS_Wire& wire, const Bnd_Box& box, std::vector<gp_Pnt>& outSamples)
     {
         try
         {
-            BRepBndLib::Add(loop.wire, loop.box);
-            if (loop.box.IsVoid()) return ErrorCode::PLANARSHEET_InvalidData;
+            if (box.IsVoid()) return ErrorCode::PLANARSHEET_InvalidData;
 
             Standard_Real xMin(0), yMin(0), zMin(0), xMax(0), yMax(0), zMax(0);
-            loop.box.Get(xMin, yMin, zMin, xMax, yMax, zMax);
+            box.Get(xMin, yMin, zMin, xMax, yMax, zMax);
             const double dx = xMax - xMin, dy = yMax - yMin, dz = zMax - zMin;
             const double diagonal = std::sqrt(dx * dx + dy * dy + dz * dz);
 
-            BRepAdaptor_CompCurve compCurve(loop.wire);
+            BRepAdaptor_CompCurve compCurve(wire);
             GCPnts_QuasiUniformDeflection sampler(compCurve, std::max(wy3d::TOL, 1.0e-4 * diagonal));
             if (!sampler.IsDone()) return ErrorCode::PLANARSHEET_InvalidData;
 
@@ -282,8 +282,6 @@ namespace
             }
             if (points.size() < 3) return ErrorCode::PLANARSHEET_InvalidData;
 
-            // The nesting tests only need enough samples to notice that a loop leaves another
-            // one; thinning them keeps the pairwise tests cheap and does not move the winding
             const size_t kMaxSamples = 64;
             if (points.size() > kMaxSamples)
             {
@@ -295,7 +293,25 @@ namespace
                 }
                 points.swap(thinned);
             }
-            loop.samples.swap(points);
+            outSamples.swap(points);
+
+            return ErrorCode::NoError;
+        }
+        catch (const Standard_Failure&)
+        {
+            return ErrorCode::PLANARSHEET_InvalidData;
+        }
+    }
+
+    // Samples the loop and measures the area it encloses as seen from the plane normal: a
+    // positive area means the loop runs counter clockwise and suits an outer wire
+    ErrorCode _measureLoop(_PlanarLoop& loop, const gp_Pln& plane)
+    {
+        try
+        {
+            BRepBndLib::Add(loop.wire, loop.box);
+            ErrorCode errorCode = _sampleLoop(loop.wire, loop.box, loop.samples);
+            if (ErrorCode::NoError != errorCode) return errorCode;
 
             // Newell's area vector of the closed polygon, projected on the plane normal
             gp_XYZ sum(0.0, 0.0, 0.0);
@@ -419,6 +435,74 @@ namespace
         if (outFaces.empty()) return ErrorCode::PLANARSHEET_InvalidData;
         return ErrorCode::NoError;
     }
+
+    // One loop into one face: the planar shortcut first, the plate filler for everything a
+    // plane cannot take. Shared by the single loop entry point and the per loop patches of
+    // makeFilledSheetFromEdges
+    ErrorCode _fillLoop(const TopoDS_Wire& wire, TopoDS_Face& outFace)
+    {
+        outFace = TopoDS_Face();
+
+        try
+        {
+            BRepBuilderAPI_MakeFace planarMakeFace(wire, Standard_True);
+            if (planarMakeFace.IsDone())
+            {
+                outFace = planarMakeFace.Face();
+            }
+        }
+        catch (const Standard_Failure&)
+        {
+            outFace = TopoDS_Face();
+        }
+
+        if (outFace.IsNull())
+        {
+            // Fill with the wire's own edges: BRepFill requires a continuous constraint
+            // sequence while the picked edges come in arbitrary order and orientation
+            try
+            {
+                BRepFill_Filling filling;
+                for (TopExp_Explorer exp(wire, TopAbs_ShapeEnum::TopAbs_EDGE); exp.More(); exp.Next())
+                {
+                    filling.Add(TopoDS::Edge(exp.Current()), GeomAbs_C0, Standard_True);
+                }
+                filling.Build();
+                if (filling.IsDone())
+                {
+                    outFace = filling.Face();
+                }
+            }
+            catch (const Standard_Failure&)
+            {
+                outFace = TopoDS_Face();
+            }
+        }
+        if (outFace.IsNull())
+        {
+            return ErrorCode::FILLEDSHEET_GenerateError;
+        }
+
+        return ErrorCode::NoError;
+    }
+
+    // The shape a sheet arrives in: one shell per face inside a compound, which is what a
+    // sketch profile makes and what the planar path above produces
+    void _compoundOfShells(const std::vector<TopoDS_Face>& faces, TopoDS_Shape& outShape)
+    {
+        BRep_Builder brepBuilder;
+        TopoDS_Compound compound;
+        brepBuilder.MakeCompound(compound);
+        for (const TopoDS_Face& face : faces)
+        {
+            TopoDS_Shell shell;
+            brepBuilder.MakeShell(shell);
+            brepBuilder.Add(shell, face);
+            brepBuilder.Add(compound, shell);
+        }
+        outShape = compound;
+    }
+
 }
 
 ErrorCode TopoShapeUtil::makeWireFromEdges(
@@ -532,17 +616,7 @@ ErrorCode TopoShapeUtil::makePlanarSheetFromEdges(
         }
 
         // The shape the sketch profile path produces: one shell per face inside a compound
-        TopoDS_Compound result;
-        brepBuilder.MakeCompound(result);
-        for (const TopoDS_Face& face : faces)
-        {
-            TopoDS_Shell shell;
-            brepBuilder.MakeShell(shell);
-            brepBuilder.Add(shell, face);
-            brepBuilder.Add(result, shell);
-        }
-
-        outShape = result;
+        _compoundOfShells(faces, outShape);
         return ErrorCode::NoError;
     }
     catch (const Standard_Failure&)
@@ -565,47 +639,76 @@ ErrorCode TopoShapeUtil::makeFilledFaceFromEdges(
         return errorCode;
     }
 
+    return _fillLoop(wire, outFace);
+}
+
+ErrorCode TopoShapeUtil::makeFilledSheetFromEdges(
+    const std::vector<TopoDS_Edge>& edges,
+    TopoDS_Shape& outShape)
+{
+    outShape = TopoDS_Shape();
+    if (edges.empty())
+    {
+        return ErrorCode::warnTOPOSHAPE_NullShape;
+    }
+
     try
     {
-        BRepBuilderAPI_MakeFace planarMakeFace(wire, Standard_True);
-        if (planarMakeFace.IsDone())
+        std::vector<TopoDS_Wire> wires;
+        ErrorCode errorCode = _splitEdgeLoops(edges, wires);
+        if (ErrorCode::NoError != errorCode)
         {
-            outFace = planarMakeFace.Face();
+            return errorCode;
         }
+        if (wires.empty())
+        {
+            return ErrorCode::PLANARSHEET_EdgesNotClosed;
+        }
+
+        // One loop is filled on its own, with a plane of its own or without one
+        if (1 == wires.size())
+        {
+            TopoDS_Face face;
+            errorCode = _fillLoop(wires.front(), face);
+            if (ErrorCode::NoError != errorCode)
+            {
+                return errorCode;
+            }
+
+            const std::vector<TopoDS_Face> faces{ face };
+            _compoundOfShells(faces, outShape);
+            return ErrorCode::NoError;
+        }
+
+        // Several loops have to share a plane, and the planar path owns that verdict along with
+        // the hole rules. A second region comes back as a second face, which is where this
+        // entry point's one face ends
+        TopoDS_Shape planarShape;
+        errorCode = makePlanarSheetFromEdges(edges, planarShape);
+        if (ErrorCode::NoError != errorCode)
+        {
+            return errorCode;
+        }
+
+        size_t faceCount = 0;
+        for (TopExp_Explorer faceExp(planarShape, TopAbs_ShapeEnum::TopAbs_FACE); faceExp.More(); faceExp.Next())
+        {
+            ++faceCount;
+        }
+        // One region is exactly one face: a second one is the refusal, and so is none at all
+        if (1 != faceCount)
+        {
+            return ErrorCode::FILLEDSHEET_EdgesNotSingleRegion;
+        }
+
+        outShape = planarShape;
+        return ErrorCode::NoError;
     }
     catch (const Standard_Failure&)
     {
-        outFace = TopoDS_Face();
+        outShape = TopoDS_Shape();
+        return ErrorCode::PLANARSHEET_InvalidData;
     }
-
-    if (outFace.IsNull())
-    {
-        // Fill with the wire's own edges: BRepFill requires a continuous constraint
-        // sequence while the picked edges come in arbitrary order and orientation
-        try
-        {
-            BRepFill_Filling filling;
-            for (TopExp_Explorer exp(wire, TopAbs_ShapeEnum::TopAbs_EDGE); exp.More(); exp.Next())
-            {
-                filling.Add(TopoDS::Edge(exp.Current()), GeomAbs_C0, Standard_True);
-            }
-            filling.Build();
-            if (filling.IsDone())
-            {
-                outFace = filling.Face();
-            }
-        }
-        catch (const Standard_Failure&)
-        {
-            outFace = TopoDS_Face();
-        }
-    }
-    if (outFace.IsNull())
-    {
-        return ErrorCode::FILLEDSHEET_GenerateError;
-    }
-
-    return ErrorCode::NoError;
 }
 
 NS_WY3D_END

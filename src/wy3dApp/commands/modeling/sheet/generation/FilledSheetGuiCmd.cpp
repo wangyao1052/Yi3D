@@ -24,6 +24,7 @@
 #include <QCoreApplication>
 
 #include <TopoDS.hxx>
+#include <TopoDS_Shape.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
 #include <TopExp.hxx>
 
@@ -184,7 +185,6 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
         if (edgePicked)
         {
             this->gotoStep(Step::SelectEdges);
-            this->tryAutoFinishEdgeSelection();
         }
         else
         {
@@ -208,8 +208,9 @@ void FilledSheetGuiCmd::cleanup()
     _pMakeNonParametricSheet = nullptr;
 }
 
-// The edge path never passes through finishStep: it ends inside
-// tryAutoFinishEdgeSelection/createSheetFromFace as soon as the loop closes
+// The edge path is created by Enter, Spacebar or the context menu rather than on the pick that
+// closes the loop: what the picked edges amount to is only asked here, so the status bar stays
+// free of a running verdict
 bool FilledSheetGuiCmd::finishStep(Step step)
 {
     switch (step)
@@ -231,6 +232,43 @@ bool FilledSheetGuiCmd::finishStep(Step step)
         _pInvalidSketchTooltip = nullptr;
         _pMakeFilledSheet->commit();
         _pMakeFilledSheet = nullptr;
+        this->requestEnd();
+        return true;
+    }
+    break;
+
+    case Step::SelectEdges:
+    {
+        std::vector<TopoDS_Edge> edges;
+        if (!this->collectPickedEdges(edges))
+        {
+            assert(false);
+            this->requestAbort(AbortCause::ErrorTerminate);
+            return false;
+        }
+
+        // The one place the picked edges are judged: the pick path only collects them
+        TopoDS_Shape sheetShape;
+        wy3d::ErrorCode shapeError = wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, sheetShape);
+        if (wy3d::ErrorCode::NoError != shapeError)
+        {
+            MessageBoxUtil::showError(static_cast<unsigned int>(shapeError));
+            return false;
+        }
+
+        _pMakeNonParametricSheet = std::make_shared<MakeNonParametricSheet>(this);
+        unsigned int errorCode(0);
+        if (!_pMakeNonParametricSheet->init(sheetShape, errorCode))
+        {
+            _pEdgePreview = nullptr;
+            _pMakeNonParametricSheet = nullptr;
+            if (0 != errorCode) MessageBoxUtil::showError(errorCode);
+            this->requestAbort(AbortCause::ErrorTerminate);
+            return false;
+        }
+        _pEdgePreview = nullptr;
+        _pMakeNonParametricSheet->commit();
+        _pMakeNonParametricSheet = nullptr;
         this->requestEnd();
         return true;
     }
@@ -281,7 +319,7 @@ void FilledSheetGuiCmd::gotoStep(Step step)
         _pEdgePreview = nullptr;
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
-            "Select edges to enclose a loop; a filled surface is created when the loop closes. Esc: clear edges."));
+            "Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         Application::instance().setCursor(CursorType::SelectElements);
     }
     break;
@@ -354,7 +392,6 @@ void FilledSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
             _pSelSetHighlightor->addSelection(sel);
             _pEdgePreview = nullptr;
             this->gotoStep(Step::SelectEdges);
-            this->tryAutoFinishEdgeSelection();
         }
     }
     else if (_step == Step::SelectEdges)
@@ -371,7 +408,6 @@ void FilledSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
                 _pSelSetHighlightor->addSelection(sel);
             }
             _pEdgePreview = nullptr;
-            this->tryAutoFinishEdgeSelection();
         }
     }
 
@@ -412,6 +448,38 @@ void FilledSheetGuiCmd::onEscapeKey()
     }
 }
 
+bool FilledSheetGuiCmd::isContextMenuActionVisible_CompleteSelection() const
+{
+    // Hiding it while nothing is picked keeps the entry from doing nothing at all
+    return Step::SelectEdges == _step && _pSelSetHighlightor
+        && !_pSelSetHighlightor->getSelectionSet().isEmpty();
+}
+
+void FilledSheetGuiCmd::onContextMenuAction_CompleteSelection()
+{
+    this->onEnterKey();
+}
+
+void FilledSheetGuiCmd::onEnterKey()
+{
+    if (Step::SelectEdges != _step) return;
+    // Nothing picked yet: keep the tip rather than report invalid data
+    if (!_pSelSetHighlightor || _pSelSetHighlightor->getSelectionSet().isEmpty()) return;
+
+    // A selection that cannot be read is the precondition finishStep asserts on, so such a pick
+    // is answered with silence rather than by finishing
+    std::vector<TopoDS_Edge> edges;
+    if (!this->collectPickedEdges(edges)) return;
+
+    // finishStep ends or aborts the command: no member access after this call
+    this->finishStep(_step);
+}
+
+void FilledSheetGuiCmd::onSpaceKey()
+{
+    this->onEnterKey();
+}
+
 bool FilledSheetGuiCmd::isContextMenuActionVisible_ClearSelection() const
 {
     return Step::SelectEdges == _step;
@@ -426,7 +494,7 @@ void FilledSheetGuiCmd::onContextMenuAction_ClearSelection()
             _pSelSetHighlightor->clearSelections();
             _edgePickOption.pSelPreFilter = nullptr;
             Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
-                "Select edges to enclose a loop; a filled surface is created when the loop closes. Esc: clear edges."));
+                "Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         }
     }
 }
@@ -557,52 +625,4 @@ bool FilledSheetGuiCmd::collectPickedEdges(std::vector<TopoDS_Edge>& edges) cons
     }
 
     return !edges.empty();
-}
-
-void FilledSheetGuiCmd::tryAutoFinishEdgeSelection()
-{
-    std::vector<TopoDS_Edge> edges;
-    if (!this->collectPickedEdges(edges))
-    {
-        // Open loop or nothing picked: stay silent, keep the user in edge mode
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
-            "Select edges to enclose a loop."));
-        return;
-    }
-
-    TopoDS_Face face;
-    wy3d::ErrorCode errorCode = wy3d::TopoShapeUtil::makeFilledFaceFromEdges(edges, face);
-    if (wy3d::ErrorCode::NoError == errorCode)
-    {
-        this->createSheetFromFace(face);
-        return;
-    }
-    if (wy3d::ErrorCode::FILLEDSHEET_GenerateError == errorCode)
-    {
-        MessageBoxUtil::showError(static_cast<unsigned int>(errorCode));
-        this->requestAbort(AbortCause::ErrorTerminate);
-        return;
-    }
-
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
-        "Keep selecting edges to close the loop."));
-}
-
-bool FilledSheetGuiCmd::createSheetFromFace(const TopoDS_Face& face)
-{
-    _pMakeNonParametricSheet = std::make_shared<MakeNonParametricSheet>(this);
-    unsigned int errorCode(0);
-    if (!_pMakeNonParametricSheet->init(face, errorCode))
-    {
-        _pEdgePreview = nullptr;
-        _pMakeNonParametricSheet = nullptr;
-        if (0 != errorCode) MessageBoxUtil::showError(errorCode);
-        this->requestAbort(AbortCause::ErrorTerminate);
-        return false;
-    }
-    _pEdgePreview = nullptr;
-    _pMakeNonParametricSheet->commit();
-    _pMakeNonParametricSheet = nullptr;
-    this->requestEnd();
-    return true;
 }

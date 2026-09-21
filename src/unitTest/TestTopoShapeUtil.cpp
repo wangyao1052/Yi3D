@@ -57,6 +57,7 @@
 
 #include "wy3d/topo/TopoShapeUtil.h"
 
+#include <cmath>
 #include <vector>
 
 namespace
@@ -817,4 +818,226 @@ TEST(TopoShapeUtil, MakePlanarSheetFromEdges_CircularHole)
     EXPECT_EQ(2, wireCount(faces[0]));
     EXPECT_TRUE(BRepCheck_Analyzer(faces[0]).IsValid());
     EXPECT_NEAR(40000.0 - wy3d::PI * 2500.0, faceArea(faces[0]), 1.0);
+}
+
+// Filled sheet from picked edges: a compound holding one shell with one face, whether the loop
+// has a plane of its own or not. Several loops only get there by sharing a plane and enclosing
+// a single region - a second region is a second face, which is the planar sheet's shape, not
+// this one's. Two loops can never go into one BRepFill_Filling anyway (measured: five of six
+// arrangements die with an access violation inside Build)
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_EmptyInput)
+{
+    const std::vector<TopoDS_Edge> edges;
+
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::warnTOPOSHAPE_NullShape,
+        wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_OpenChain)
+{
+    std::vector<TopoDS_Edge> edges = makeRectangleEdges();
+    edges.pop_back();
+
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_EdgesNotClosed,
+        wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_SingleLoopIsCompoundOfOneShell)
+{
+    // The shape a filled sheet arrives in, on every path: a compound holding one shell per
+    // face, never a bare face
+    const std::vector<TopoDS_Edge> edges = makeRectangleEdges();
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_EQ(TopAbs_COMPOUND, shape.ShapeType());
+    EXPECT_EQ(1, shapeShellCount(shape));
+
+    const std::vector<TopoDS_Face> faces = shapeFaces(shape);
+    ASSERT_EQ(1u, faces.size());
+    EXPECT_TRUE(isPlaneSurface(faces[0]));
+    EXPECT_TRUE(BRepCheck_Analyzer(faces[0]).IsValid());
+    EXPECT_NEAR(10000.0, totalArea(shape), 1e-6);
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_SingleClosedEdge)
+{
+    // A full circle is a closed loop on its own
+    const gp_Circ circle(gp_Ax2(gp_Pnt(0.0, 0.0, 0.0), gp_Dir(0.0, 0.0, 1.0)), 50.0);
+    const std::vector<TopoDS_Edge> edges{ TopoDS::Edge(BRepBuilderAPI_MakeEdge(circle).Edge()) };
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_EQ(1, shapeShellCount(shape));
+    EXPECT_NEAR(wy3d::PI * 2500.0, totalArea(shape), 1e-6);
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_SingleNonPlanarLoop)
+{
+    // Four edges with no common plane: the filler's own case, unchanged by the multi loop work
+    const std::vector<TopoDS_Edge> edges = makeNonPlanarQuadEdges();
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_EQ(1, shapeShellCount(shape));
+
+    const std::vector<TopoDS_Face> faces = shapeFaces(shape);
+    ASSERT_EQ(1u, faces.size());
+    EXPECT_FALSE(isPlaneSurface(faces[0]));
+    EXPECT_GT(faceArea(faces[0]), 0.0);
+    for (const gp_Pnt& corner : makeNonPlanarQuadCorners())
+    {
+        EXPECT_TRUE(hasVertexAt(faces[0], corner, 1e-6));
+    }
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_CoplanarLoopsUsePlanarHoleRules)
+{
+    // Both loops lie in z=0, so this is a planar sheet and the inner loop is its hole
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> inner = makeSquareEdges(20.0, 20.0, 40.0, 40.0);
+    edges.insert(edges.end(), inner.cbegin(), inner.cend());
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_EQ(1, shapeShellCount(shape));
+
+    const std::vector<TopoDS_Face> faces = shapeFaces(shape);
+    ASSERT_EQ(1u, faces.size());
+    EXPECT_EQ(2, wireCount(faces[0]));
+    EXPECT_NEAR(10000.0 - 400.0, totalArea(shape), 1e-6);
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_CoplanarDisjointRegionsRefused)
+{
+    // Two squares side by side in z=0: coplanar, so the planar path takes them, but they are two
+    // regions - and this entry point answers with one face
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> beside = makeSquareEdges(200.0, 0.0, 300.0, 100.0);
+    edges.insert(edges.end(), beside.cbegin(), beside.cend());
+
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::FILLEDSHEET_EdgesNotSingleRegion,
+        wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_CoplanarOuterWithTwoHolesAllowed)
+{
+    // One outer loop with two holes is still a single region, so it is still a single face
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> firstHole = makeSquareEdges(10.0, 10.0, 30.0, 30.0);
+    const std::vector<TopoDS_Edge> secondHole = makeSquareEdges(60.0, 60.0, 90.0, 90.0);
+    edges.insert(edges.end(), firstHole.cbegin(), firstHole.cend());
+    edges.insert(edges.end(), secondHole.cbegin(), secondHole.cend());
+
+    TopoDS_Shape shape;
+    ASSERT_EQ(wy3d::ErrorCode::NoError, wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_EQ(1, shapeShellCount(shape));
+
+    const std::vector<TopoDS_Face> faces = shapeFaces(shape);
+    ASSERT_EQ(1u, faces.size());
+    EXPECT_EQ(3, wireCount(faces[0]));
+    EXPECT_NEAR(10000.0 - 400.0 - 900.0, totalArea(shape), 1e-6);
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_CoplanarIslandInsideHoleRefused)
+{
+    // An outer loop, a hole in it and a loop inside that hole: the planar rules fill every even
+    // nesting depth, so the island is a region of its own - two faces' worth of input
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> hole = makeSquareEdges(20.0, 20.0, 80.0, 80.0);
+    const std::vector<TopoDS_Edge> island = makeSquareEdges(40.0, 40.0, 60.0, 60.0);
+    edges.insert(edges.end(), hole.cbegin(), hole.cend());
+    edges.insert(edges.end(), island.cbegin(), island.cend());
+
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::FILLEDSHEET_EdgesNotSingleRegion,
+        wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_CoplanarCrossingLoopsRefused)
+{
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> crossing = makeSquareEdges(50.0, -50.0, 150.0, 50.0);
+    edges.insert(edges.end(), crossing.cbegin(), crossing.cend());
+
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_LoopsNotNested,
+        wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_LoopsOnDifferentPlanesRefused)
+{
+    // A small rectangle raised above a large one: the two loops share no plane, and the planar
+    // path answers with its coplanarity verdict before anything is filled. Keeping this input
+    // away from the filler is also what keeps the process alive (see the note above)
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> lifted = makeSquareEdges(20.0, 20.0, 40.0, 40.0, 10.0);
+    edges.insert(edges.end(), lifted.cbegin(), lifted.cend());
+
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar,
+        wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_StackedCoincidentSquaresRefused)
+{
+    // Two squares of the same size, one above the other: not coplanar either, and how the two sit
+    // over each other makes no difference to that
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> lifted = makeSquareEdges(0.0, 0.0, 100.0, 100.0, 10.0);
+    edges.insert(edges.end(), lifted.cbegin(), lifted.cend());
+
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar,
+        wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_LoopsOnParallelPlanesRefused)
+{
+    // Parallel planes, apart in xy: one execution would have to make two faces, which is what
+    // this entry point does not do - the second loop belongs to an execution of its own
+    std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+    const std::vector<TopoDS_Edge> lifted = makeSquareEdges(200.0, 0.0, 300.0, 100.0, 50.0);
+    edges.insert(edges.end(), lifted.cbegin(), lifted.cend());
+
+    TopoDS_Shape shape;
+    EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar,
+        wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+    EXPECT_TRUE(shape.IsNull());
+}
+
+TEST(TopoShapeUtil, MakeFilledSheetFromEdges_WarpedLoopWithPlanarLoopRefused)
+{
+    // A warped loop beside a planar one: whichever way the two sit, they share no plane, so the
+    // warped loop cannot be a second loop - it is refused over the square and clear of it alike,
+    // and refused before anything is filled
+    const std::vector<gp_Pnt> overSquare{ gp_Pnt(20.0, 20.0, 10.0), gp_Pnt(40.0, 20.0, 10.0),
+        gp_Pnt(40.0, 40.0, 30.0), gp_Pnt(20.0, 40.0, 10.0) };
+    const std::vector<gp_Pnt> clear{ gp_Pnt(0.0, 500.0, 0.0), gp_Pnt(100.0, 500.0, 0.0),
+        gp_Pnt(100.0, 600.0, 50.0), gp_Pnt(0.0, 600.0, 0.0) };
+
+    for (const std::vector<gp_Pnt>& corners : { overSquare, clear })
+    {
+        std::vector<TopoDS_Edge> edges = makeSquareEdges(0.0, 0.0, 100.0, 100.0);
+        for (size_t i = 0; i < corners.size(); ++i)
+        {
+            edges.emplace_back(makeEdge(corners[i], corners[(i + 1) % corners.size()]));
+        }
+
+        TopoDS_Shape shape;
+        EXPECT_EQ(wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar,
+            wy3d::TopoShapeUtil::makeFilledSheetFromEdges(edges, shape));
+        EXPECT_TRUE(shape.IsNull());
+    }
 }

@@ -52,6 +52,15 @@ public:
     static ErrorCode makeFilledFaceFromEdges(
         const std::vector<TopoDS_Edge>& edges,
         TopoDS_Face& outFace);
+
+    // Filled sheet from picked edges: a compound holding one shell with one face, the shape
+    // both filled sketch paths produce. A single loop is filled whether or not it has a plane
+    // of its own. Two or more loops must share a plane and enclose a single region, which is
+    // the planar sheet's own judgement (nested loops become its holes); a second region, or
+    // loops that do not share a plane, is refused
+    static ErrorCode makeFilledSheetFromEdges(
+        const std::vector<TopoDS_Edge>& edges,
+        TopoDS_Shape& outShape);
 };
 
 NS_WY3D_END

@@ -1651,6 +1651,11 @@ Do you want to save it to the original file now?
         <translation>所选边必须构成一个或多个闭合环！</translation>
     </message>
     <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="201"/>
+        <source>The selected edges must enclose a single region!</source>
+        <translation type="unfinished">所选边只能围成一个面域！</translation>
+    </message>
+    <message>
         <source>The selected edges must form a single closed loop!</source>
         <translation type="obsolete">所选边必须构成单一闭合环！</translation>
     </message>
@@ -1720,17 +1725,17 @@ Do you want to save it to the original file now?
         <translation type="unfinished">草图曲线必须构成单一闭合环！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
         <source>Invalid split face data!</source>
         <translation type="unfinished">无效的分割面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
         <source>The face to split no longer exists!</source>
         <translation type="unfinished">要分割的面已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
         <source>The sketch holds no curve to split with!</source>
         <translation type="unfinished">草图里没有可用的曲线！</translation>
     </message>
@@ -1739,52 +1744,52 @@ Do you want to save it to the original file now?
         <translation type="obsolete">分割曲线已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="211"/>
         <source>Generate split face failed!</source>
         <translation type="unfinished">生成分割面失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="211"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
         <source>The curves do not divide any of the selected faces!</source>
         <translation type="unfinished">曲线没有切开任何要分割的面！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
         <source>Invalid delete face data!</source>
         <translation type="unfinished">无效的删除面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="219"/>
         <source>The faces to delete no longer exist!</source>
         <translation type="unfinished">要删除的面已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="219"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="221"/>
         <source>A sheet cannot lose every one of its faces!</source>
         <translation type="unfinished">不能删除曲面的全部面！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="221"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="223"/>
         <source>Delete face failed!</source>
         <translation type="unfinished">删除面失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="225"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="227"/>
         <source>Invalid helix data!</source>
         <translation type="unfinished">无效的螺旋线数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="227"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="229"/>
         <source>The sketch used to generate the helix must be a circle.</source>
         <translation type="unfinished">用于生成螺旋线的草图必须为一个圆形。</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="244"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="246"/>
         <source>ErrorCode: </source>
         <translation type="unfinished">错误码：</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="244"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="246"/>
         <source>!</source>
         <translation type="unfinished">！</translation>
     </message>
@@ -2346,25 +2351,19 @@ Do you want to save it to the original file now?
 <context>
     <name>FilledSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="267"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="305"/>
         <source>Select a 2D or 3D sketch, or edges of a solid or sheet, to create a filled surface.</source>
         <translation>选择二维或三维草图，或选择实体或曲面的边创建填充曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="283"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="428"/>
         <source>Select edges to enclose a loop; a filled surface is created when the loop closes. Esc: clear edges.</source>
-        <translation>选择边围成闭合环，闭合后自动创建填充曲面；按 Esc 清除已选边。</translation>
+        <translation type="vanished">选择边围成闭合环，闭合后自动创建填充曲面；按 Esc 清除已选边。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="568"/>
-        <source>Select edges to enclose a loop.</source>
-        <translation>选择边围成闭合环。</translation>
-    </message>
-    <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="587"/>
-        <source>Keep selecting edges to close the loop.</source>
-        <translation>继续选择边以闭合环。</translation>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="496"/>
+        <source>Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
+        <translation type="unfinished">选择边线围合成一个或多个环；按 Enter 键或空格键将完成操作；按 Esc 键将清除已选边。</translation>
     </message>
 </context>
 <context>
@@ -5634,7 +5633,7 @@ Do you want to save it to the original file now?
 <context>
     <name>PlanarSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="306"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="338"/>
         <source>Select a sketch to create a planar sheet, or select edges to enclose a planar face.</source>
         <translation>选择草图创建平面曲面，或选择边线围合成无参平面曲面。</translation>
     </message>
@@ -5643,23 +5642,23 @@ Do you want to save it to the original file now?
         <translation type="vanished">选择边围合成平面面，闭合后自动创建片体；按 Esc 清除已选边。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="321"/>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="496"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="353"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="535"/>
         <source>Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation>选择边线围合成一个或多个平面环；按 Enter 键或空格键将完成操作；按 Esc 键将清除已选边。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="617"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="656"/>
         <source>Select edges to enclose a planar face.</source>
         <translation>选择边线围合成无参平面曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="628"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="667"/>
         <source>Closed loops found; press Enter or Spacebar to confirm, or keep selecting edges to add more loops.</source>
         <translation>已找到闭合环；按 Enter 键或空格键将完成操作，或继续选择边线以添加更多环。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="639"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="691"/>
         <source>Keep selecting edges to close the loop.</source>
         <translation>继续选择边线以闭合环。</translation>
     </message>

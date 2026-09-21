@@ -867,67 +867,72 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
-        <source>Invalid split face data!</source>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="201"/>
+        <source>The selected edges must enclose a single region!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
-        <source>The face to split no longer exists!</source>
+        <source>Invalid split face data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
-        <source>The sketch holds no curve to split with!</source>
+        <source>The face to split no longer exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
-        <source>Generate split face failed!</source>
+        <source>The sketch holds no curve to split with!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="211"/>
+        <source>Generate split face failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
         <source>The curves do not divide any of the selected faces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
         <source>Invalid delete face data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="219"/>
         <source>The faces to delete no longer exist!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="219"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="221"/>
         <source>A sheet cannot lose every one of its faces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="221"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="223"/>
         <source>Delete face failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="225"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="227"/>
         <source>Invalid helix data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="227"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="229"/>
         <source>The sketch used to generate the helix must be a circle.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="244"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="246"/>
         <source>ErrorCode: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="244"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="246"/>
         <source>!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1441,24 +1446,14 @@ Do you want to save it to the original file now?
 <context>
     <name>FilledSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="267"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="305"/>
         <source>Select a 2D or 3D sketch, or edges of a solid or sheet, to create a filled surface.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="283"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="428"/>
-        <source>Select edges to enclose a loop; a filled surface is created when the loop closes. Esc: clear edges.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="568"/>
-        <source>Select edges to enclose a loop.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="587"/>
-        <source>Keep selecting edges to close the loop.</source>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="496"/>
+        <source>Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4378,28 +4373,28 @@ Do you want to save it to the original file now?
 <context>
     <name>PlanarSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="306"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="338"/>
         <source>Select a sketch to create a planar sheet, or select edges to enclose a planar face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="321"/>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="496"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="353"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="535"/>
         <source>Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="617"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="656"/>
         <source>Select edges to enclose a planar face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="628"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="667"/>
         <source>Closed loops found; press Enter or Spacebar to confirm, or keep selecting edges to add more loops.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="639"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="691"/>
         <source>Keep selecting edges to close the loop.</source>
         <translation type="unfinished"></translation>
     </message>

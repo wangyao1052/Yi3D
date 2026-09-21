@@ -198,6 +198,8 @@ ErrorCodeTranslation::ErrorCodeTranslation(QObject* parent) : QObject(parent)
         "Generate filled surface failed!");
     _code2Desc[TOUINT(wy3d::ErrorCode::FILLEDSHEET_EdgesNotClosed)] = tr(
         "The sketch curves must form a single closed loop!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::FILLEDSHEET_EdgesNotSingleRegion)] = tr(
+        "The selected edges must enclose a single region!");
 
     // SplitFace
     _code2Desc[TOUINT(wy3d::ErrorCode::SPLITFACE_InvalidData)] = tr(
