@@ -97,6 +97,7 @@ protected:
 protected:
     GuiCmdSketch3DInfo _sketch3DInfo;
     std::unique_ptr<Sketch3DWorkingPlane> _pWorkPlane;
+    SelectionSetHighlightorSPtr _pCustomWorkPlaneHighlight;
 };
 
 class Sketch3DDrawGuiCmdMenu : public GuiCmdMenu

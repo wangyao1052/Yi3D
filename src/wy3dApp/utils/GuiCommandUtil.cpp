@@ -258,10 +258,15 @@ GuiCmdSketchInfo GuiCommandUtil::initSketchInfo()
     return info;
 }
 
-bool GuiCommandUtil::initSketch3DInfo(GuiCmdSketch3DInfo& info)
+Sketch3DEnvironment* GuiCommandUtil::getActiveSketch3DEnvironment()
 {
     wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
-    if (Sketch3DEnvironment* pSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pEnv))
+    return dynamic_cast<Sketch3DEnvironment*>(pEnv);
+}
+
+bool GuiCommandUtil::initSketch3DInfo(GuiCmdSketch3DInfo& info)
+{
+    if (Sketch3DEnvironment* pSketch3DEnv = getActiveSketch3DEnvironment())
     {
         info.sketch3dId = pSketch3DEnv->getSketch3dId();
         return true;

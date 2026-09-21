@@ -57,6 +57,10 @@ public:
     void setSelectMode(SelectMode m)    { _selMode = m; }
     SelectMode getSelectMode() const    { return _selMode; }
 
+    // What a click at this position would select, without writing the selection set.
+    // Lets a command decide who a click belongs to, using this handler's own criteria.
+    wyap::Selection querySelectionAt(float x, float y) { return this->pointPick(x, y); }
+
 protected:
     // ── 事件回调（由子类从渲染引擎事件中提取数据后调用）──
     void onMouseDown(float x, float y);

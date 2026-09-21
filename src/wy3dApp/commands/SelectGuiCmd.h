@@ -85,7 +85,6 @@ private:
     void copy();
     void erase();
 
-    void updateSelectTipAndLabel();
     bool beginPaste(double x, double y);
     void endPaste(const wy::Vector3& pos);
     void cancelPaste();
@@ -132,6 +131,9 @@ protected:
     virtual SketchSnapSystem* getSketchSnapSys() const { return nullptr; }
     virtual wydb::ElementId getSketchId() const { return wydb::ElementId::kNull; }
     virtual const wy3d::SketchPlane& getSketchPlane() const { static wy3d::SketchPlane s; return s; }
+
+    // 更新状态栏提示
+    virtual void updateSelectTipAndLabel();
 };
 
 #endif // WY3DAPP_SELECT_GUI_CMD_H

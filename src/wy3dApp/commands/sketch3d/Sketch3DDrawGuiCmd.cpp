@@ -338,17 +338,21 @@ wyap::CmdExecution::StartResult Sketch3DDrawGuiCmd::onStart()
     }
 
     _pWorkPlane.reset();
-    wy3d::SketchPlane plane;
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
-    if (ss.getCount() == 1 &&
-        GuiCommandUtil::getWorkingPlane(ss.createIterator().current(), plane) &&
-        plane.isValid())
+    _pCustomWorkPlaneHighlight = nullptr;
     {
-        _pWorkPlane = std::make_unique<Sketch3DWorkingPlane>(plane);
-    }
-    else
-    {
-        _pWorkPlane = std::make_unique<Sketch3DWorkingPlane>();
+        wy3d::SketchPlane plane;
+        wyap::Selection planeSelection(wydb::ElementId::kNull);
+        Sketch3DEnvironment* pSketch3DEnv = GuiCommandUtil::getActiveSketch3DEnvironment();
+        if (pSketch3DEnv && pSketch3DEnv->takePendingWorkPlane(plane, planeSelection) && plane.isValid())
+        {
+            _pWorkPlane = std::make_unique<Sketch3DWorkingPlane>(plane);
+            _pCustomWorkPlaneHighlight = std::make_shared<SelectionSetHighlightor>();
+            _pCustomWorkPlaneHighlight->addSelection(planeSelection);
+        }
+        else
+        {
+            _pWorkPlane = std::make_unique<Sketch3DWorkingPlane>();
+        }
     }
 
     Application::instance().getSelManager()->beginChange();
@@ -370,6 +374,7 @@ void Sketch3DDrawGuiCmd::onEnd()
     }
 
     _pWorkPlane = nullptr;
+    _pCustomWorkPlaneHighlight = nullptr;
 }
 
 void Sketch3DDrawGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
@@ -382,6 +387,7 @@ void Sketch3DDrawGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     }
 
     _pWorkPlane = nullptr;
+    _pCustomWorkPlaneHighlight = nullptr;
 }
 
 void Sketch3DDrawGuiCmd::onSpaceKey()

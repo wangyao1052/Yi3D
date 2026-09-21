@@ -37,6 +37,8 @@ Sketch3DEnvironment::Sketch3DEnvironment()
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
     , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
+    , _pendingWorkPlane(wy3d::SketchPlane::kInvalid)
+    , _pendingPlaneSelection(wydb::ElementId::kNull)
 {
     setName("sketch3d");
 }
@@ -49,6 +51,8 @@ Sketch3DEnvironment::Sketch3DEnvironment(const wy3d::Sketch3D* pSketch3D)
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
     , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
+    , _pendingWorkPlane(wy3d::SketchPlane::kInvalid)
+    , _pendingPlaneSelection(wydb::ElementId::kNull)
 {
     assert(pSketch3D);
     setName("sketch3d");
@@ -57,6 +61,31 @@ Sketch3DEnvironment::Sketch3DEnvironment(const wy3d::Sketch3D* pSketch3D)
 
 Sketch3DEnvironment::~Sketch3DEnvironment()
 {
+}
+
+void Sketch3DEnvironment::setPendingWorkPlane(const wy3d::SketchPlane& plane, const wyap::Selection& sel)
+{
+    _pendingWorkPlane = plane;
+    _pendingPlaneSelection = sel;
+}
+
+bool Sketch3DEnvironment::takePendingWorkPlane(wy3d::SketchPlane& plane, wyap::Selection& sel)
+{
+    if (!_pendingWorkPlane.isValid())
+    {
+        return false;
+    }
+
+    plane = _pendingWorkPlane;
+    sel = _pendingPlaneSelection;
+    this->clearPendingWorkPlane();
+    return true;
+}
+
+void Sketch3DEnvironment::clearPendingWorkPlane()
+{
+    _pendingWorkPlane = wy3d::SketchPlane::kInvalid;
+    _pendingPlaneSelection = wyap::Selection(wydb::ElementId::kNull);
 }
 
 void Sketch3DEnvironment::onCommandStartFailed(
@@ -95,6 +124,7 @@ void Sketch3DEnvironment::onEnter()
     Application::instance().getSelManager()->beginChange();
     Application::instance().getSelManager()->clearSelections();
     Application::instance().getSelManager()->endChange();
+    this->clearPendingWorkPlane();
 
     // 同步显示模式按钮状态
     this->syncDisplayModeAction();
@@ -178,6 +208,7 @@ void Sketch3DEnvironment::onExit(ExitCode exitCode)
     Application::instance().getSelManager()->beginChange();
     Application::instance().getSelManager()->clearSelections();
     Application::instance().getSelManager()->endChange();
+    this->clearPendingWorkPlane();
 
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     assert(pDb);
@@ -246,6 +277,7 @@ void Sketch3DEnvironment::onSuspend()
     Application::instance().getSelManager()->beginChange();
     Application::instance().getSelManager()->clearSelections();
     Application::instance().getSelManager()->endChange();
+    this->clearPendingWorkPlane();
 
     EnvironmentBase::onSuspend();
     wyap::TaskEnvironment::onSuspend();
@@ -263,6 +295,7 @@ void Sketch3DEnvironment::onResume()
     Application::instance().getSelManager()->beginChange();
     Application::instance().getSelManager()->clearSelections();
     Application::instance().getSelManager()->endChange();
+    this->clearPendingWorkPlane();
 
     this->updateCommandActionStates();
 
