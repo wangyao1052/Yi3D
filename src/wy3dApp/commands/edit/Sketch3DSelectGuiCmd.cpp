@@ -61,7 +61,7 @@ public:
 
         switch (wy3d::UIntToSelectionType(sel.getSelectionType()))
         {
-        case wy3d::SelectionType::SolidFace:
+        case wy3d::SelectionType::Face:
             if (sel.getSubPath().empty()) return SelectFilterStatus::Continue;
             return (wy3d::Solid::cast(pElement) || wy3d::Sheet::cast(pElement))
                 ? SelectFilterStatus::Ok : SelectFilterStatus::Continue;
@@ -105,7 +105,7 @@ wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
     _planePickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
         static_cast<unsigned int>(ElementNodeType::Sheet) |
         static_cast<unsigned int>(ElementNodeType::DatumPlane);
-    _planePickOption.selType = wy3d::SelectionType::SolidFace;
+    _planePickOption.selType = wy3d::SelectionType::Face;
     _planePickOption.pSelFilter = std::make_shared<WorkPlaneSourceSelFilter>();
 
     _pPlanePreview = nullptr;

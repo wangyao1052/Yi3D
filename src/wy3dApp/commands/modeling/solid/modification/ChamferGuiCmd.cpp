@@ -101,7 +101,7 @@ wyap::CmdExecution::StartResult ChamferGuiCmd::onStart()
 
     // 初始化
     _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) | static_cast<unsigned int>(ElementNodeType::Sheet);
-    _pointPickOption.selType = wy3d::SelectionType::SolidEdge | wy3d::SelectionType::SolidFace;
+    _pointPickOption.selType = wy3d::SelectionType::Edge | wy3d::SelectionType::Face;
     _pointPickOption.acceptElement = false;
     this->gotoStep(Step::SelectEdges);
 
@@ -350,7 +350,7 @@ bool ChamferGuiCmd::resolveChamferPick(const wyap::Selection& sel,
 
     switch (wy3d::UIntToSelectionType(sel.getSelectionType()))
     {
-    case wy3d::SelectionType::SolidEdge:
+    case wy3d::SelectionType::Edge:
     {
         unsigned int edgeIndex(0);
         if (!ChamferFilletCmdCommon::parseSubPathIndex(sel.getSubPath(), edgeIndex))
@@ -374,7 +374,7 @@ bool ChamferGuiCmd::resolveChamferPick(const wyap::Selection& sel,
         return true;
     }
 
-    case wy3d::SelectionType::SolidFace:
+    case wy3d::SelectionType::Face:
     {
         unsigned int faceIndex(0);
         if (!ChamferFilletCmdCommon::parseSubPathIndex(sel.getSubPath(), faceIndex))
@@ -401,7 +401,7 @@ bool ChamferGuiCmd::resolveChamferPick(const wyap::Selection& sel,
         for (unsigned int edgeIndex : edgeIndices)
         {
             outSels.emplace_back(wyap::Selection(
-                static_cast<unsigned int>(wy3d::SelectionType::SolidEdge), hostId, std::to_string(edgeIndex)));
+                static_cast<unsigned int>(wy3d::SelectionType::Edge), hostId, std::to_string(edgeIndex)));
         }
         return true;
     }

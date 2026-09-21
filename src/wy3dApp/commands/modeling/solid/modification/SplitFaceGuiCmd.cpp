@@ -187,7 +187,7 @@ void SplitFaceGuiCmd::gotoStep(Step step)
 
         // 拾取配置: 实体或片体的面
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) | static_cast<unsigned int>(ElementNodeType::Sheet);
-        _pointPickOption.selType = wy3d::SelectionType::SolidFace;
+        _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.acceptElement = false;
         _pointPickOption.pSelFilter = nullptr;
         _pointPickOption.pSelPreFilter = std::make_shared<SplitFacePreSelFilter>(
@@ -419,7 +419,7 @@ bool SplitFaceGuiCmd::createSplitFace(
             assert(false);
             return false;
         }
-        if (static_cast<wy3d::SelectionType>(sel.getSelectionType()) != wy3d::SelectionType::SolidFace)
+        if (static_cast<wy3d::SelectionType>(sel.getSelectionType()) != wy3d::SelectionType::Face)
         {
             assert(false);
             return false;

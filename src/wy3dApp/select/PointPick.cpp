@@ -46,7 +46,7 @@ bool _traverseIntersections(
             if (!geom) continue;
 
             // added by wangyao 2025.05.06 {
-            // 在选择实体边时(wy3d::SelectionType::SolidEdge)
+            // 在选择实体边时(wy3d::SelectionType::Edge)
             // 如果拾取到的是GL_TRIANGLES则继续
             DrawMode curDrawMode = PickCommon::getDrawableModeOfGeometry(geom);
             if (!(static_cast<unsigned int>(curDrawMode) & static_cast<unsigned int>(allowedDrawMode)))
@@ -101,7 +101,7 @@ bool _traverseIntersections(
             if (!geom) continue;
 
             // added by wangyao 2025.05.06 {
-            // 在选择实体边时(wy3d::SelectionType::SolidEdge)
+            // 在选择实体边时(wy3d::SelectionType::Edge)
             // 如果拾取到的是GL_TRIANGLES则继续
             DrawMode curDrawMode = PickCommon::getDrawableModeOfGeometry(geom);
             if (!(static_cast<unsigned int>(curDrawMode) & static_cast<unsigned int>(allowedDrawMode)))
@@ -153,7 +153,7 @@ wyap::Selection _newSelection(
         {
         case DrawMode::Face:
         {
-            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SolidFace))
+            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Face))
             {
                 unsigned int faceIndex = pSolidNode->getFaceIndex(primitiveIndex);
                 if (-1 == faceIndex)
@@ -161,7 +161,7 @@ wyap::Selection _newSelection(
                     assert(false);
                     return wyap::Selection(wydb::ElementId::kNull);
                 }
-                return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::SolidFace), id, std::to_string(faceIndex));
+                return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::Face), id, std::to_string(faceIndex));
             }
             else if (acceptElement)
             {
@@ -173,7 +173,7 @@ wyap::Selection _newSelection(
 
         case DrawMode::Edge:
         {
-            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SolidEdge))
+            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Edge))
             {
                 unsigned int edgeIndex = pSolidNode->getEdgeIndex(primitiveIndex);
                 if (-1 == edgeIndex)
@@ -181,7 +181,7 @@ wyap::Selection _newSelection(
                     assert(false);
                     return wyap::Selection(wydb::ElementId::kNull);
                 }
-                return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::SolidEdge), id, std::to_string(edgeIndex));
+                return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::Edge), id, std::to_string(edgeIndex));
             }
             else if (acceptElement)
             {
@@ -193,7 +193,7 @@ wyap::Selection _newSelection(
 
         case DrawMode::Vertex:
         {
-            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SolidVertex))
+            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Vertex))
             {
                 // TODO 后续支持
                 assert(false);
@@ -225,7 +225,7 @@ wyap::Selection _newSelection(
         {
         case DrawMode::Face:
         {
-            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SolidFace))
+            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Face))
             {
                 unsigned int faceIndex = pSheetNode->getFaceIndex(primitiveIndex);
                 if (-1 == faceIndex)
@@ -233,7 +233,7 @@ wyap::Selection _newSelection(
                     assert(false);
                     return wyap::Selection(wydb::ElementId::kNull);
                 }
-                return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::SolidFace), id, std::to_string(faceIndex));
+                return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::Face), id, std::to_string(faceIndex));
             }
             else if (acceptElement)
             {
@@ -245,7 +245,7 @@ wyap::Selection _newSelection(
 
         case DrawMode::Edge:
         {
-            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SolidEdge))
+            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Edge))
             {
                 unsigned int edgeIndex = pSheetNode->getEdgeIndex(primitiveIndex);
                 if (-1 == edgeIndex)
@@ -253,7 +253,7 @@ wyap::Selection _newSelection(
                     assert(false);
                     return wyap::Selection(wydb::ElementId::kNull);
                 }
-                return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::SolidEdge), id, std::to_string(edgeIndex));
+                return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::Edge), id, std::to_string(edgeIndex));
             }
             else if (acceptElement)
             {
@@ -444,7 +444,7 @@ inline wyap::Selection _userFilter(
 }
 
 // 多面体求交器
-// 用于选择wy3d::SelectionType::Element or SolidEdge or SolidVertex
+// 用于选择wy3d::SelectionType::Element or Edge or Vertex
 wyap::Selection pointPick_PolytopeIntersector(
     const wydb::Database* pDb,
     osgViewer::View* pView,
@@ -480,7 +480,7 @@ wyap::Selection pointPick_PolytopeIntersector(
         pickedElemId,
         pIntersection->drawable.get(),
         pIntersection->primitiveIndex,
-        wy3d::SelectionTypeUtil::RemoveValues(option.selType, wy3d::SelectionType::SolidFace),
+        wy3d::SelectionTypeUtil::RemoveValues(option.selType, wy3d::SelectionType::Face),
         option.acceptElement);
     if (sel.getElementId().isNull()) return wyap::Selection(wydb::ElementId::kNull);
     sel.setPickPosition(MathUtils::toVector3(pIntersection->localIntersectionPoint));
@@ -490,7 +490,7 @@ wyap::Selection pointPick_PolytopeIntersector(
 }
 
 // 线段求交器
-// 用于选择wy3d::SelectionType::SolidFace
+// 用于选择wy3d::SelectionType::Face
 wyap::Selection pointPick_LineSegmentIntersector(
     const wydb::Database* pDb,
     osgViewer::View* pView, 
@@ -523,7 +523,7 @@ wyap::Selection pointPick_LineSegmentIntersector(
     wyap::Selection sel = _newSelection(pickedElemId,
         pIntersection->drawable.get(),
         pIntersection->primitiveIndex,
-        option.selType & wy3d::SelectionType::SolidFace,
+        option.selType & wy3d::SelectionType::Face,
         option.acceptElement);
     if (sel.getElementId().isNull()) return wyap::Selection(wydb::ElementId::kNull);
     sel.setPickPosition(MathUtils::toVector3(pIntersection->localIntersectionPoint));
@@ -543,14 +543,14 @@ wyap::Selection PointPick::pick(
     if (!pDb || !pView) return wyap::Selection(wydb::ElementId::kNull);
 
     // 多面体求交器(用于选择元素&边&顶点)
-    // /*正常情况下,这三种选择类型只能三选一*/在命令成角度基准面中,确定旋转轴线步骤时,要支持选择:SolidEdge + SolidFace + DatumPlane
+    // /*正常情况下,这三种选择类型只能三选一*/在命令成角度基准面中,确定旋转轴线步骤时,要支持选择:Edge + Face + DatumPlane
     wyap::Selection selRet = wyap::Selection(wydb::ElementId::kNull);
-    if (wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SolidVertex))
+    if (wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::Vertex))
     {
         selRet = pointPick_PolytopeIntersector(pDb, pView, x, y, option, DrawMode::Vertex);
         if (!selRet.getElementId().isNull()) return selRet;
     }
-    if (wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SolidEdge) ||
+    if (wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::Edge) ||
         wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SketchCurve) ||
         wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SketchCurve3D))
     {
@@ -565,7 +565,7 @@ wyap::Selection PointPick::pick(
     if (!selRet.getElementId().isNull()) return selRet;
 
     // 线段求交器(用于选择面)
-    if (wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SolidFace))
+    if (wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::Face))
     {
         selRet = pointPick_LineSegmentIntersector(pDb, pView, x, y, option, DrawMode::Face);
     }

@@ -1218,7 +1218,7 @@ void Scene::onSelectionChanged(
         }
         break;
 
-        case wy3d::SelectionType::SolidFace:
+        case wy3d::SelectionType::Face:
         {
             if (sel.getSubPath().empty())
             {
@@ -1240,7 +1240,7 @@ void Scene::onSelectionChanged(
         }
         break;
 
-        case wy3d::SelectionType::SolidEdge:
+        case wy3d::SelectionType::Edge:
         {
             if (sel.getSubPath().empty())
             {
@@ -1323,7 +1323,7 @@ void Scene::onSelectionChanged(
         }
         break;
 
-        case wy3d::SelectionType::SolidFace:
+        case wy3d::SelectionType::Face:
         {
             if (sel.getSubPath().empty())
             {
@@ -1345,7 +1345,7 @@ void Scene::onSelectionChanged(
         }
         break;
 
-        case wy3d::SelectionType::SolidEdge:
+        case wy3d::SelectionType::Edge:
         {
             if (sel.getSubPath().empty())
             {

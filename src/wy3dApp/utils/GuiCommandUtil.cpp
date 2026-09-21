@@ -40,7 +40,7 @@ bool GuiCommandUtil::getWorkingPlane(const wyap::Selection& sel, wy3d::SketchPla
         return false;
     }
 
-    if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::SolidFace)
+    if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::Face)
     {
         if (sel.getSubPath().empty())
         {

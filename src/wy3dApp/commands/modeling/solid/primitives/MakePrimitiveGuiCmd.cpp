@@ -58,7 +58,7 @@ bool _getWorkingPlane(const wyap::Selection& sel, wy3d::SketchPlane& workPln)
         return false;
     }
 
-    if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::SolidFace)
+    if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::Face)
     {
         if (sel.getSubPath().empty())
         {
@@ -121,7 +121,7 @@ wyap::CmdExecution::StartResult MakePrimitiveGuiCmd::onStart()
     // 点选选项
     // 选择工作平面:基准面or实体面
     _pickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::DatumPlane);
-    _pickOption.selType = wy3d::SelectionType::SolidFace;
+    _pickOption.selType = wy3d::SelectionType::Face;
     _pickOption.pSelFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
 
     // 初始化

@@ -58,7 +58,7 @@ public:
         }
 
         // 实体面
-        if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::SolidFace)
+        if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::Face)
         {
             if (sel.getSubPath().empty()) return SelectFilterStatus::Continue;
             unsigned int faceIndex = std::stoul(sel.getSubPath());

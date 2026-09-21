@@ -116,7 +116,7 @@ wyap::CmdExecution::StartResult DraftGuiCmd::onStart()
 
     // 初始化
     _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
-    _pointPickOption.selType = wy3d::SelectionType::SolidFace;
+    _pointPickOption.selType = wy3d::SelectionType::Face;
     _pointPickOption.acceptElement = false;
     _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
     _pSelSetHighlightor_NeutralFace = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet(), Colors::kPink);
@@ -457,7 +457,7 @@ bool DraftGuiCmd::createDraft(
             assert(false);
             return false;
         }
-        if (static_cast<wy3d::SelectionType>(sel.getSelectionType()) != wy3d::SelectionType::SolidFace)
+        if (static_cast<wy3d::SelectionType>(sel.getSelectionType()) != wy3d::SelectionType::Face)
         {
             assert(false);
             return false;
@@ -475,7 +475,7 @@ bool DraftGuiCmd::createDraft(
     assert(!draftFaceIndices.empty());
 
     // 中性面的索引
-    if (static_cast<wy3d::SelectionType>(neutralFaceSel.getSelectionType()) != wy3d::SelectionType::SolidFace)
+    if (static_cast<wy3d::SelectionType>(neutralFaceSel.getSelectionType()) != wy3d::SelectionType::Face)
     {
         assert(false);
         return false;

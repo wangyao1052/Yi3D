@@ -170,7 +170,7 @@ void DeleteFaceGuiCmd::gotoStep(Step step)
 
         // 拾取配置: 只能是片体的面
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sheet);
-        _pointPickOption.selType = wy3d::SelectionType::SolidFace;
+        _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.acceptElement = false;
         _pointPickOption.pSelFilter = nullptr;
         _pointPickOption.pSelPreFilter = std::make_shared<DeleteFacePreSelFilter>(
@@ -337,7 +337,7 @@ bool DeleteFaceGuiCmd::createDeleteFace(const wyap::SelectionSet& faceSels, unsi
             assert(false);
             return false;
         }
-        if (static_cast<wy3d::SelectionType>(sel.getSelectionType()) != wy3d::SelectionType::SolidFace)
+        if (static_cast<wy3d::SelectionType>(sel.getSelectionType()) != wy3d::SelectionType::Face)
         {
             assert(false);
             return false;

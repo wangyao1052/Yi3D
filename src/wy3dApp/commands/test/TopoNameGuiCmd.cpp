@@ -101,7 +101,7 @@ wyap::CmdExecution::StartResult TopoNameGuiCmd::onStart()
 
     // 初始化
     _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::Sheet);
-    _pointPickOption.selType = wy3d::SelectionType::SolidEdge | wy3d::SelectionType::SolidFace;
+    _pointPickOption.selType = wy3d::SelectionType::Edge | wy3d::SelectionType::Face;
     _pointPickOption.acceptElement = false;
 
     // 清空选择集
@@ -156,7 +156,7 @@ void TopoNameGuiCmd::showTopoName(const wyap::Selection& sel)
 
     switch (static_cast<wy3d::SelectionType>(sel.getSelectionType()))
     {
-    case wy3d::SelectionType::SolidEdge:
+    case wy3d::SelectionType::Edge:
     {
         const std::string& subPath = sel.getSubPath();
         if (subPath.empty())
@@ -179,7 +179,7 @@ void TopoNameGuiCmd::showTopoName(const wyap::Selection& sel)
     }
     break;
 
-    case wy3d::SelectionType::SolidFace:
+    case wy3d::SelectionType::Face:
     {
         const std::string& subPath = sel.getSubPath();
         if (subPath.empty())
@@ -282,11 +282,11 @@ void TopoNameGuiCmdMenu::addSelection(TopAbs_ShapeEnum shapeType, const std::str
     wy3d::SelectionType selectionType(wy3d::SelectionType::Element);
     if (TopAbs_ShapeEnum::TopAbs_EDGE == shapeType)
     {
-        selectionType = wy3d::SelectionType::SolidEdge;
+        selectionType = wy3d::SelectionType::Edge;
     }
     else if (TopAbs_ShapeEnum::TopAbs_FACE == shapeType)
     {
-        selectionType = wy3d::SelectionType::SolidFace;
+        selectionType = wy3d::SelectionType::Face;
     }
     else
     {

@@ -94,7 +94,7 @@ wyap::CmdExecution::StartResult ShellGuiCmd::onStart()
 
     // 初始化
     _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
-    _pointPickOption.selType = wy3d::SelectionType::SolidFace;
+    _pointPickOption.selType = wy3d::SelectionType::Face;
     _pointPickOption.acceptElement = false;
     _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
     this->gotoStep(Step::SelectFaces);
@@ -350,7 +350,7 @@ bool ShellGuiCmd::createShell(const wyap::SelectionSet& sels, double thickness, 
 
         switch (static_cast<wy3d::SelectionType>(sel.getSelectionType()))
         {
-        case wy3d::SelectionType::SolidFace:
+        case wy3d::SelectionType::Face:
         {
             const std::string& subPath = sel.getSubPath();
             if (subPath.empty())

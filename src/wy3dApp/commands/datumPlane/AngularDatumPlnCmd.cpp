@@ -69,7 +69,7 @@ public:
         }
 
         // 实体面
-        if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::SolidFace)
+        if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::Face)
         {
             if (sel.getSubPath().empty()) return SelectFilterStatus::Continue;
             unsigned int faceIndex = std::stoul(sel.getSubPath());
@@ -102,7 +102,7 @@ public:
             return SelectFilterStatus::Ok;
         }
         // 实体边
-        else if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::SolidEdge)
+        else if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::Edge)
         {
             if (sel.getSubPath().empty()) return SelectFilterStatus::Continue;
             unsigned int edgeIndex = std::stoul(sel.getSubPath());
@@ -403,7 +403,7 @@ void AngularDatumPlnCmd::gotoStep(Step step)
 
         // 点选选项
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::DatumPlane);
-        _pointPickOption.selType = wy3d::SelectionType::SolidFace;
+        _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.pSelFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
     }
     break;
@@ -431,7 +431,7 @@ void AngularDatumPlnCmd::gotoStep(Step step)
 
         // 点选选项
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::DatumPlane);
-        _pointPickOption.selType = wy3d::SelectionType::SolidFace | wy3d::SelectionType::SolidEdge;
+        _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Edge;
         _pointPickOption.pSelFilter = std::make_shared<AngularDatumPlnCmdRotationAxisSelFilter>(_plane);
     }
     break;
@@ -603,7 +603,7 @@ void AngularDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
         _pPreview = nullptr;
 
         unsigned int selType = sel.getSelectionType();
-        if (selType == static_cast<unsigned int>(wy3d::SelectionType::SolidFace)
+        if (selType == static_cast<unsigned int>(wy3d::SelectionType::Face)
             || selType == static_cast<unsigned int>(wy3d::SelectionType::Element))
         {
             // 面
@@ -632,7 +632,7 @@ void AngularDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
                 return;
             }
         }
-        else if (selType == static_cast<unsigned int>(wy3d::SelectionType::SolidEdge))
+        else if (selType == static_cast<unsigned int>(wy3d::SelectionType::Edge))
         {
             // 边
             wy::Vector3 startPnt, endPnt;

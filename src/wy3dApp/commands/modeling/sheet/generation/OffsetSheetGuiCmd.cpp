@@ -90,7 +90,7 @@ void collectFaceGroups(const wyap::SelectionSet& faceSels, std::vector<OffsetFac
     for (auto iter = faceSels.createIterator(); !iter.isDone(); iter.moveNext())
     {
         const wyap::Selection& sel = iter.current();
-        if (static_cast<wy3d::SelectionType>(sel.getSelectionType()) != wy3d::SelectionType::SolidFace)
+        if (static_cast<wy3d::SelectionType>(sel.getSelectionType()) != wy3d::SelectionType::Face)
         {
             assert(false);
             continue;
@@ -133,7 +133,7 @@ void collectAllFaceSelections(
     for (int index = 1; index <= faceMap.Extent(); ++index)
     {
         sels.add(wyap::Selection(
-            static_cast<unsigned int>(wy3d::SelectionType::SolidFace),
+            static_cast<unsigned int>(wy3d::SelectionType::Face),
             id, std::to_string(index - 1)));
     }
 }
@@ -625,7 +625,7 @@ void OffsetSheetGuiCmd::updatePickOption()
             pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
 
         _pointPickOption.pickMask = pickMask;
-        _pointPickOption.selType = wy3d::SelectionType::SolidFace;
+        _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.acceptElement = false;
         _pointPickOption.pSelPreFilter = std::make_shared<OffsetSheetPreSelFilter>(_hostKind, _hostId);
         _pointPickOption.pSelFilter = nullptr;
@@ -782,7 +782,7 @@ void OffsetSheetGuiCmd::adoptPreSelectedFaces(const wyap::SelectionSet& ss)
     for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
     {
         const wyap::Selection& sel = iter.current();
-        if (static_cast<wy3d::SelectionType>(sel.getSelectionType()) != wy3d::SelectionType::SolidFace)
+        if (static_cast<wy3d::SelectionType>(sel.getSelectionType()) != wy3d::SelectionType::Face)
             continue;
 
         wydb::ElementId hostId(wydb::ElementId::kNull);
@@ -932,7 +932,7 @@ void OffsetSheetGuiCmd::refreshFaceColors()
         for (std::uint32_t faceIndex : pOffsetSheet->getNewFaceIndices())
         {
             newFaceSels.add(wyap::Selection(
-                static_cast<unsigned int>(wy3d::SelectionType::SolidFace),
+                static_cast<unsigned int>(wy3d::SelectionType::Face),
                 _hostId, std::to_string(faceIndex)));
         }
     }

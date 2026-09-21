@@ -149,7 +149,7 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
 
     _edgePickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
         static_cast<unsigned int>(ElementNodeType::Sheet);
-    _edgePickOption.selType = wy3d::SelectionType::SolidEdge;
+    _edgePickOption.selType = wy3d::SelectionType::Edge;
     _edgePickOption.acceptElement = false;
 
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
@@ -170,7 +170,7 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
         if (ss.getCount() == 1)
         {
             const wyap::Selection& sel = ss.createIterator().current();
-            if (sel.getSelectionType() == static_cast<unsigned int>(wy3d::SelectionType::SolidEdge) &&
+            if (sel.getSelectionType() == static_cast<unsigned int>(wy3d::SelectionType::Edge) &&
                 !sel.getElementId().isNull())
             {
                 _pSelSetHighlightor->addSelection(sel);
@@ -589,7 +589,7 @@ bool FilledSheetGuiCmd::collectPickedEdges(std::vector<TopoDS_Edge>& edges) cons
     {
         const wyap::Selection& sel = iter.current();
         if (sel.getElementId().isNull()) return false;
-        if (sel.getSelectionType() != static_cast<unsigned int>(wy3d::SelectionType::SolidEdge)) return false;
+        if (sel.getSelectionType() != static_cast<unsigned int>(wy3d::SelectionType::Edge)) return false;
         const std::string& subPath = sel.getSubPath();
         if (subPath.empty()) return false;
         id2SubPaths[sel.getElementId()].emplace_back(subPath);

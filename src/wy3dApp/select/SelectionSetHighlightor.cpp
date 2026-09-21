@@ -104,7 +104,7 @@ void SelectionSetHighlightor::showSelection(const wyap::Selection& sel, bool val
     }
     break;
 
-    case wy3d::SelectionType::SolidFace:
+    case wy3d::SelectionType::Face:
     {
         const std::string& subPath = sel.getSubPath();
         if (subPath.empty()) return;
@@ -125,7 +125,7 @@ void SelectionSetHighlightor::showSelection(const wyap::Selection& sel, bool val
     }
     break;
 
-    case wy3d::SelectionType::SolidEdge:
+    case wy3d::SelectionType::Edge:
     {
         const std::string& subPath = sel.getSubPath();
         if (subPath.empty()) return;

@@ -50,7 +50,7 @@ public:
     {
         assert(pDb);
 
-        if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::SolidFace) return SelectFilterStatus::Continue;
+        if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::Face) return SelectFilterStatus::Continue;
         if (sel.getSubPath().empty()) return SelectFilterStatus::Continue;
         unsigned int faceIndex = std::stoul(sel.getSubPath());
         if (faceIndex == -1) return SelectFilterStatus::Continue;

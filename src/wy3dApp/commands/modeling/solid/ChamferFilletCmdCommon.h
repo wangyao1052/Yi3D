@@ -77,7 +77,7 @@ public:
 
             switch (static_cast<wy3d::SelectionType>(sel.getSelectionType()))
             {
-            case wy3d::SelectionType::SolidEdge:
+            case wy3d::SelectionType::Edge:
             {
                 const std::string& subPath = sel.getSubPath();
                 if (subPath.empty())
@@ -90,7 +90,7 @@ public:
             }
             break;
 
-            case wy3d::SelectionType::SolidFace:
+            case wy3d::SelectionType::Face:
             {
                 const std::string& subPath = sel.getSubPath();
                 if (subPath.empty())
@@ -192,7 +192,7 @@ public:
 
             switch (static_cast<wy3d::SelectionType>(sel.getSelectionType()))
             {
-            case wy3d::SelectionType::SolidEdge:
+            case wy3d::SelectionType::Edge:
             {
                 const std::string& subPath = sel.getSubPath();
                 if (subPath.empty())
@@ -205,7 +205,7 @@ public:
             }
             break;
 
-            case wy3d::SelectionType::SolidFace:
+            case wy3d::SelectionType::Face:
             {
                 const std::string& subPath = sel.getSubPath();
                 if (subPath.empty())

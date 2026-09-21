@@ -84,7 +84,7 @@ wyap::CmdExecution::StartResult SketchProjectGuiCmd::onStart()
 
     // 点选选项：选择实体边
     _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
-    _pointPickOption.selType = wy3d::SelectionType::SolidEdge;
+    _pointPickOption.selType = wy3d::SelectionType::Edge;
     _pointPickOption.acceptElement = false;
 
     // 提示信息
@@ -123,7 +123,7 @@ void SketchProjectGuiCmd::onLeftMouseUp(const MouseEvent& event)
         return;
 
     // 必须是SolidEdge类型
-    if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::SolidEdge)
+    if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::Edge)
         return;
 
     // 立即投影

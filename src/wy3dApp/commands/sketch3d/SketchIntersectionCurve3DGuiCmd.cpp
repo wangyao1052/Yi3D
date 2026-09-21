@@ -86,7 +86,7 @@ public:
 
         switch (wy3d::UIntToSelectionType(sel.getSelectionType()))
         {
-        case wy3d::SelectionType::SolidFace:
+        case wy3d::SelectionType::Face:
             if (sel.getSubPath().empty()) return SelectFilterStatus::Continue;
             // Any face will do, curved ones included: a cylinder is the point of this tool.
             return (wy3d::Solid::cast(pElement) || wy3d::Sheet::cast(pElement))
@@ -142,7 +142,7 @@ wyap::CmdExecution::StartResult SketchIntersectionCurve3DGuiCmd::onStart()
     _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
         static_cast<unsigned int>(ElementNodeType::Sheet) |
         static_cast<unsigned int>(ElementNodeType::DatumPlane);
-    _pointPickOption.selType = wy3d::SelectionType::SolidFace;
+    _pointPickOption.selType = wy3d::SelectionType::Face;
     this->setAllowPlane(true);
 
     _hasFirst = false;
@@ -220,7 +220,7 @@ bool SketchIntersectionCurve3DGuiCmd::resolveSource(const wyap::Selection& sel, 
     const wydb::Element* pElement = pDb->getElement(sel.getElementId());
     if (!pElement) return false;
 
-    if (wy3d::SelectionType::SolidFace == wy3d::UIntToSelectionType(sel.getSelectionType()))
+    if (wy3d::SelectionType::Face == wy3d::UIntToSelectionType(sel.getSelectionType()))
     {
         TopoDS_Shape shape;
         if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElement))

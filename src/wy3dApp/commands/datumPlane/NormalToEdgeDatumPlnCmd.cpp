@@ -80,7 +80,7 @@ public:
         bool isValid(false);
         switch (wy3d::UIntToSelectionType(sel.getSelectionType()))
         {
-        case wy3d::SelectionType::SolidEdge:
+        case wy3d::SelectionType::Edge:
         {
             isValid = this->isValid_SolidEdge(pDb, sel);
         }
@@ -156,7 +156,7 @@ private:
     bool isValid_SolidEdge(const wydb::Database* pDb, const wyap::Selection& sel) const
     {
         assert(pDb);
-        if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::SolidEdge)
+        if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::Edge)
         {
             assert(false);
             return false;
@@ -406,7 +406,7 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
         _pointPickOption.pickMask = static_cast<unsigned int>(
             ElementNodeType::Solid | ElementNodeType::Sketch | ElementNodeType::Sketch3D |
             ElementNodeType::Curve);
-        _pointPickOption.selType = wy3d::SelectionType::SolidEdge | wy3d::SelectionType::SketchCurve |
+        _pointPickOption.selType = wy3d::SelectionType::Edge | wy3d::SelectionType::SketchCurve |
             wy3d::SelectionType::SketchCurve3D;
         _pointPickOption.pSelFilter = std::make_shared<NormalToEdgeDatumPlnCmdSelFilter>();
     }
@@ -773,7 +773,7 @@ bool NormalToEdgeDatumPlnCmd::extractCurveInfoImpl(const wyap::Selection& sel, C
     Handle(Geom_Curve) geomCurve(nullptr);
     switch (wy3d::UIntToSelectionType(sel.getSelectionType()))
     {
-    case wy3d::SelectionType::SolidEdge:
+    case wy3d::SelectionType::Edge:
     {
         geomCurve = MakeDatumPlane::getSolidEdgeGeomCurve(sel);
     }

@@ -59,7 +59,7 @@ std::list<TraverseItem> _traverseIntersections(
             if (!geom) continue;
 
             // added by wangyao 2025.05.06 {
-            // 在选择实体边时(wy3d::SelectionType::SolidEdge)
+            // 在选择实体边时(wy3d::SelectionType::Edge)
             // 如果拾取到的是GL_TRIANGLES则继续
             DrawMode curDrawMode = PickCommon::getDrawableModeOfGeometry(geom);
             if (!(static_cast<unsigned int>(curDrawMode) & static_cast<unsigned int>(allowedDrawMode)))
@@ -112,7 +112,7 @@ std::list<TraverseItem> _traverseIntersections(
             if (!geom) continue;
 
             // added by wangyao 2025.05.06 {
-            // 在选择实体边时(wy3d::SelectionType::SolidEdge)
+            // 在选择实体边时(wy3d::SelectionType::Edge)
             // 如果拾取到的是GL_TRIANGLES则继续
             DrawMode curDrawMode = PickCommon::getDrawableModeOfGeometry(geom);
             if (!(static_cast<unsigned int>(curDrawMode) & static_cast<unsigned int>(allowedDrawMode)))
@@ -160,7 +160,7 @@ std::list<TraverseItem> _traverseIntersections_OneBreak(
             if (!geom) continue;
 
             // added by wangyao 2025.05.06 {
-            // 在选择实体边时(wy3d::SelectionType::SolidEdge)
+            // 在选择实体边时(wy3d::SelectionType::Edge)
             // 如果拾取到的是GL_TRIANGLES则继续
             DrawMode curDrawMode = PickCommon::getDrawableModeOfGeometry(geom);
             if (!(static_cast<unsigned int>(curDrawMode) & static_cast<unsigned int>(allowedDrawMode)))
@@ -218,7 +218,7 @@ std::list<TraverseItem> _traverseIntersections_OneBreak(
             if (!geom) continue;
 
             // added by wangyao 2025.05.06 {
-            // 在选择实体边时(wy3d::SelectionType::SolidEdge)
+            // 在选择实体边时(wy3d::SelectionType::Edge)
             // 如果拾取到的是GL_TRIANGLES则继续
             DrawMode curDrawMode = PickCommon::getDrawableModeOfGeometry(geom);
             if (!(static_cast<unsigned int>(curDrawMode) & static_cast<unsigned int>(allowedDrawMode)))
@@ -265,12 +265,12 @@ wyap::SelectionSet BoxPick::pick(
     if (yMin > yMax) std::swap(yMin, yMax);
 
     // 框选不支持同时选择多种类型,只支持一种类型
-    // Element or SolidFace or SolidEdge or SolidVertex or SketchCurve
+    // Element or Face or Edge or Vertex or SketchCurve
     // 不支持它们的组合
     assert(option.selType == wy3d::SelectionType::Element
-        || option.selType == wy3d::SelectionType::SolidFace
-        || option.selType == wy3d::SelectionType::SolidEdge
-        || option.selType == wy3d::SelectionType::SolidVertex
+        || option.selType == wy3d::SelectionType::Face
+        || option.selType == wy3d::SelectionType::Edge
+        || option.selType == wy3d::SelectionType::Vertex
         || option.selType == wy3d::SelectionType::SketchCurve);
 
     wyap::SelectionSet ss;
@@ -302,8 +302,8 @@ wyap::SelectionSet BoxPick::pick(
             ss.add(wyap::Selection(id));
         }
     }
-    else if (option.selType == wy3d::SelectionType::SolidEdge
-        || option.selType == wy3d::SelectionType::SolidFace
+    else if (option.selType == wy3d::SelectionType::Edge
+        || option.selType == wy3d::SelectionType::Face
         || option.selType == wy3d::SelectionType::SketchCurve
         || option.selType == wy3d::SelectionType::SketchCurve3D)
     {
@@ -333,8 +333,8 @@ wyap::SelectionSet BoxPick::pick(
         SketchElementNode* pSketchElemNode(nullptr);
         Sketch3DElementNode* pSketch3DElemNode(nullptr);
         osg::Group* pOsgNode(nullptr);
-        if (option.selType == wy3d::SelectionType::SolidEdge
-            || option.selType == wy3d::SelectionType::SolidFace)
+        if (option.selType == wy3d::SelectionType::Edge
+            || option.selType == wy3d::SelectionType::Face)
         {
             ElementNode* pElemNode = Application::instance().getActiveScene()->getElementNode(id);
             pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
@@ -385,12 +385,12 @@ wyap::SelectionSet BoxPick::pick(
         // 遍历求交结果
         unsigned int idValue(0), idXData(0);
         DrawMode allowedDrawMode = DrawMode::Undefined;
-        if (option.selType == wy3d::SelectionType::SolidEdge || option.selType == wy3d::SelectionType::SketchCurve
+        if (option.selType == wy3d::SelectionType::Edge || option.selType == wy3d::SelectionType::SketchCurve
             || option.selType == wy3d::SelectionType::SketchCurve3D)
         {
             allowedDrawMode = DrawMode::Edge;
         }
-        else if (option.selType == wy3d::SelectionType::SolidFace)
+        else if (option.selType == wy3d::SelectionType::Face)
         {
             allowedDrawMode = DrawMode::Face;
         }
@@ -416,7 +416,7 @@ wyap::SelectionSet BoxPick::pick(
                 continue;
             }
 
-            if (option.selType == wy3d::SelectionType::SolidEdge
+            if (option.selType == wy3d::SelectionType::Edge
                 && (pSolidElemNode || pSheetElemNode))
             {
                 unsigned int edgeIndex(-1);
@@ -427,10 +427,10 @@ wyap::SelectionSet BoxPick::pick(
                     assert(false);
                     continue;
                 }
-                wyap::Selection edgeSel(static_cast<unsigned int>(wy3d::SelectionType::SolidEdge), id, std::to_string(edgeIndex));
+                wyap::Selection edgeSel(static_cast<unsigned int>(wy3d::SelectionType::Edge), id, std::to_string(edgeIndex));
                 ss.add(edgeSel);
             }
-            else if (option.selType == wy3d::SelectionType::SolidFace
+            else if (option.selType == wy3d::SelectionType::Face
                 && (pSolidElemNode || pSheetElemNode))
             {
                 unsigned int faceIndex(-1);
@@ -441,7 +441,7 @@ wyap::SelectionSet BoxPick::pick(
                     assert(false);
                     continue;
                 }
-                wyap::Selection faceSel(static_cast<unsigned int>(wy3d::SelectionType::SolidFace), id, std::to_string(faceIndex));
+                wyap::Selection faceSel(static_cast<unsigned int>(wy3d::SelectionType::Face), id, std::to_string(faceIndex));
                 ss.add(faceSel);
             }
             else if (option.selType == wy3d::SelectionType::SketchCurve && pSketchElemNode)

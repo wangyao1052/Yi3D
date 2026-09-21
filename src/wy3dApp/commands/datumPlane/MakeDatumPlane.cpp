@@ -138,7 +138,7 @@ bool MakeDatumPlane::getSketchPlane(const wyap::Selection& sel, wy3d::SketchPlan
         return false;
     }
 
-    if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::SolidFace)
+    if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::Face)
     {
         if (sel.getSubPath().empty())
         {
@@ -186,7 +186,7 @@ bool MakeDatumPlane::getSolidEdgeEndPoints(const wyap::Selection& sel, wy::Vecto
         assert(false);
         return false;
     }
-    if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::SolidEdge)
+    if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::Edge)
     {
         assert(false);
         return false;
@@ -222,7 +222,7 @@ Handle(Geom_Curve) MakeDatumPlane::getSolidEdgeGeomCurve(const wyap::Selection& 
         assert(false);
         return nullptr;
     }
-    if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::SolidEdge)
+    if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::Edge)
     {
         assert(false);
         return nullptr;
@@ -611,7 +611,7 @@ bool MakeDatumPlane::getSolidCylindricalFaceCenterPlane(
         assert(false);
         return false;
     }
-    if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::SolidFace)
+    if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::Face)
     {
         assert(false);
         return false;

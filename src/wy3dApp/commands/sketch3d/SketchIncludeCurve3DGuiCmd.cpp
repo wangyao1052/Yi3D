@@ -93,7 +93,7 @@ wyap::CmdExecution::StartResult SketchIncludeCurve3DGuiCmd::onStart()
         static_cast<unsigned int>(ElementNodeType::Sheet) |
         static_cast<unsigned int>(ElementNodeType::Sketch) |
         static_cast<unsigned int>(ElementNodeType::Sketch3D);
-    _pointPickOption.selType = wy3d::SelectionType::SolidEdge |
+    _pointPickOption.selType = wy3d::SelectionType::Edge |
         wy3d::SelectionType::SketchCurve |
         wy3d::SelectionType::SketchCurve3D;
     _pointPickOption.acceptElement = false;
@@ -133,7 +133,7 @@ void SketchIncludeCurve3DGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
     switch (wy3d::UIntToSelectionType(sel.getSelectionType()))
     {
-    case wy3d::SelectionType::SolidEdge:
+    case wy3d::SelectionType::Edge:
         this->includeModelEdge(sel);
         break;
 

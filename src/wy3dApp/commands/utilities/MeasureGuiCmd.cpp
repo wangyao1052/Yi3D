@@ -493,7 +493,7 @@ void MeasureGuiCmd::applyPickOptionForMode()
     {
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid)
             | static_cast<unsigned int>(ElementNodeType::Sheet);
-        _pointPickOption.selType = wy3d::SelectionType::SolidEdge;
+        _pointPickOption.selType = wy3d::SelectionType::Edge;
         _pointPickOption.acceptElement = false;
     }
     break;
@@ -502,7 +502,7 @@ void MeasureGuiCmd::applyPickOptionForMode()
     {
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid)
             | static_cast<unsigned int>(ElementNodeType::Sheet);
-        _pointPickOption.selType = wy3d::SelectionType::SolidFace;
+        _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.acceptElement = false;
     }
     break;
@@ -567,7 +567,7 @@ QVector<MeasureValue> MeasureGuiCmd::measureSelectionValues(const wyap::Selectio
     {
         switch (wy3d::UIntToSelectionType(sel.getSelectionType()))
         {
-        case wy3d::SelectionType::SolidEdge:
+        case wy3d::SelectionType::Edge:
         {
             const std::string& subPath = sel.getSubPath();
             unsigned int edgeIndex = 0;
@@ -578,7 +578,7 @@ QVector<MeasureValue> MeasureGuiCmd::measureSelectionValues(const wyap::Selectio
         }
         break;
 
-        case wy3d::SelectionType::SolidFace:
+        case wy3d::SelectionType::Face:
         {
             const std::string& subPath = sel.getSubPath();
             unsigned int faceIndex = 0;
@@ -639,7 +639,7 @@ void MeasureGuiCmd::onResultHovered(const wyap::Selection& sel)
     this->refreshAccumulatedHighlight();
     if (sel.getElementId().isNull()) return;
 
-    if (wy3d::SelectionType::SolidFace == wy3d::UIntToSelectionType(sel.getSelectionType()))
+    if (wy3d::SelectionType::Face == wy3d::UIntToSelectionType(sel.getSelectionType()))
     {
         // 面的高亮态会挡住previewFace(节点守卫),改用自定义色高亮器直接覆写预览色
         wyap::SelectionSet previewSet;

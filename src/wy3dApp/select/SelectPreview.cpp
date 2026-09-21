@@ -55,7 +55,7 @@ void SelectPreview::showSelection(const wyap::Selection& selection, bool value)
     }
     break;
 
-    case wy3d::SelectionType::SolidFace:
+    case wy3d::SelectionType::Face:
     {
         const std::string& subPath = selection.getSubPath();
         if (subPath.empty()) return;
@@ -70,7 +70,7 @@ void SelectPreview::showSelection(const wyap::Selection& selection, bool value)
     }
     break;
 
-    case wy3d::SelectionType::SolidEdge:
+    case wy3d::SelectionType::Edge:
     {
         const std::string& subPath = selection.getSubPath();
         if (subPath.empty()) return;
