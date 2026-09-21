@@ -265,10 +265,9 @@ wyap::SelectionSet BoxPick::pick(
     if (yMin > yMax) std::swap(yMin, yMax);
 
     // 框选不支持同时选择多种类型,只支持一种类型
-    // Element or SolidBody or SolidFace or SolidEdge or SolidVertex or SketchCurve
+    // Element or SolidFace or SolidEdge or SolidVertex or SketchCurve
     // 不支持它们的组合
     assert(option.selType == wy3d::SelectionType::Element
-        || option.selType == wy3d::SelectionType::SolidBody
         || option.selType == wy3d::SelectionType::SolidFace
         || option.selType == wy3d::SelectionType::SolidEdge
         || option.selType == wy3d::SelectionType::SolidVertex

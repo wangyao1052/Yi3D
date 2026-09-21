@@ -480,7 +480,7 @@ wyap::Selection pointPick_PolytopeIntersector(
         pickedElemId,
         pIntersection->drawable.get(),
         pIntersection->primitiveIndex,
-        wy3d::SelectionTypeUtil::RemoveValues(option.selType, wy3d::SelectionType::SolidFace | wy3d::SelectionType::SolidBody),
+        wy3d::SelectionTypeUtil::RemoveValues(option.selType, wy3d::SelectionType::SolidFace),
         option.acceptElement);
     if (sel.getElementId().isNull()) return wyap::Selection(wydb::ElementId::kNull);
     sel.setPickPosition(MathUtils::toVector3(pIntersection->localIntersectionPoint));
@@ -490,7 +490,7 @@ wyap::Selection pointPick_PolytopeIntersector(
 }
 
 // 线段求交器
-// 用于选择wy3d::SelectionType::SolidFace or SolidBody
+// 用于选择wy3d::SelectionType::SolidFace
 wyap::Selection pointPick_LineSegmentIntersector(
     const wydb::Database* pDb,
     osgViewer::View* pView, 
@@ -523,7 +523,7 @@ wyap::Selection pointPick_LineSegmentIntersector(
     wyap::Selection sel = _newSelection(pickedElemId,
         pIntersection->drawable.get(),
         pIntersection->primitiveIndex,
-        option.selType & (wy3d::SelectionType::SolidFace | wy3d::SelectionType::SolidBody),
+        option.selType & wy3d::SelectionType::SolidFace,
         option.acceptElement);
     if (sel.getElementId().isNull()) return wyap::Selection(wydb::ElementId::kNull);
     sel.setPickPosition(MathUtils::toVector3(pIntersection->localIntersectionPoint));
@@ -564,16 +564,9 @@ wyap::Selection PointPick::pick(
     }
     if (!selRet.getElementId().isNull()) return selRet;
 
-    // 线段求交器(用于选择面&体)
-    // 正常情况下,这两种选择类型只能三选一
+    // 线段求交器(用于选择面)
     if (wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SolidFace))
     {
-        assert(!wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SolidBody));
-        selRet = pointPick_LineSegmentIntersector(pDb, pView, x, y, option, DrawMode::Face);
-    }
-    else if (wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SolidBody))
-    {
-        assert(!wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::SolidFace));
         selRet = pointPick_LineSegmentIntersector(pDb, pView, x, y, option, DrawMode::Face);
     }
     return selRet;

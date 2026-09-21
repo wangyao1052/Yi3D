@@ -510,7 +510,7 @@ void MeasureGuiCmd::applyPickOptionForMode()
     case MeasureMode::Body:
     {
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
-        _pointPickOption.selType = wy3d::SelectionType::SolidBody;
+        _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.acceptElement = true;
         // 仅实体有体积,过滤掉其他元素类
         _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
