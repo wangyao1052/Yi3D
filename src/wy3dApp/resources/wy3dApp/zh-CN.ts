@@ -3621,7 +3621,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="261"/>
         <source>Intersection Curve</source>
-        <translation type="unfinished">交叉曲线</translation>
+        <translation type="unfinished">相交曲线</translation>
     </message>
     <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="271"/>
@@ -6224,7 +6224,7 @@ Do you want to save it to the original file now?
 <context>
     <name>Sketch3DDrawGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="459"/>
+        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="458"/>
         <source>View Normal To Working Plane</source>
         <translation type="unfinished">正视于工作平面</translation>
     </message>
@@ -6263,17 +6263,17 @@ Do you want to save it to the original file now?
 <context>
     <name>Sketch3DSelectGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="229"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="241"/>
         <source>Only planar faces can be used as the sketch plane.</source>
         <translation type="unfinished">只有平面型面可以作为草图平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="249"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="261"/>
         <source>Sketch plane set. It will be used by the next drawing command.</source>
         <translation type="unfinished">已设置草图平面，将用于下一条绘制命令。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="308"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="320"/>
         <source>Select elements. Pick a planar face or a datum plane to set the sketch plane.</source>
         <translation type="unfinished">选择元素；拾取平面型面或基准面可设置草图平面。</translation>
     </message>
@@ -7139,12 +7139,12 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="362"/>
         <source>Select the face to intersect with the datum plane.</source>
-        <translation type="unfinished">选择要与基准面求交叉曲线的面。</translation>
+        <translation type="unfinished">选择要与基准面求相交曲线的面。</translation>
     </message>
     <message>
         <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="364"/>
         <source>Select the face or datum plane to intersect with the first one.</source>
-        <translation type="unfinished">选择要与第一个面求交叉曲线的面或基准面。</translation>
+        <translation type="unfinished">选择要与第一个面求相交曲线的面或基准面。</translation>
     </message>
     <message>
         <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="374"/>
@@ -7185,7 +7185,7 @@ Do you want to save it to the original file now?
         <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="404"/>
         <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="433"/>
         <source>Intersection Curve</source>
-        <translation type="unfinished">交叉曲线</translation>
+        <translation type="unfinished">相交曲线</translation>
     </message>
     <message>
         <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="414"/>
@@ -7213,7 +7213,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../commands/dialogs/SketchIntersectionCurvePanel.cpp" line="39"/>
         <source>Intersection Curve</source>
-        <translation type="unfinished">交叉曲线</translation>
+        <translation type="unfinished">相交曲线</translation>
     </message>
     <message>
         <source>A smooth spline for any section that is not a circle or a line.</source>

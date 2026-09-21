@@ -4869,7 +4869,7 @@ Do you want to save it to the original file now?
 <context>
     <name>Sketch3DDrawGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="459"/>
+        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="458"/>
         <source>View Normal To Working Plane</source>
         <translation>View Normal To Working Plane</translation>
     </message>
@@ -4908,17 +4908,17 @@ Do you want to save it to the original file now?
 <context>
     <name>Sketch3DSelectGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="229"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="241"/>
         <source>Only planar faces can be used as the sketch plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="249"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="261"/>
         <source>Sketch plane set. It will be used by the next drawing command.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="308"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="320"/>
         <source>Select elements. Pick a planar face or a datum plane to set the sketch plane.</source>
         <translation type="unfinished"></translation>
     </message>
