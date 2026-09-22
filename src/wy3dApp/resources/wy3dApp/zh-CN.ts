@@ -2800,14 +2800,14 @@ Do you want to save it to the original file now?
         <translation type="obsolete">相机</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="911"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="919"/>
         <source>Modeling</source>
         <translation type="unfinished">建模</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="249"/>
         <source>New Sketch</source>
-        <translation type="unfinished">创建草绘</translation>
+        <translation type="unfinished">创建草图</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="125"/>
@@ -2852,12 +2852,12 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="233"/>
         <source>Trim</source>
-        <translation type="unfinished">修剪草绘图元</translation>
+        <translation type="unfinished">修剪草图图元</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="243"/>
         <source>Extend</source>
-        <translation type="unfinished">延伸草绘图元</translation>
+        <translation type="unfinished">延伸草图图元</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="253"/>
@@ -2872,7 +2872,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="273"/>
         <source>Sketch Offset</source>
-        <translation type="unfinished">偏移草绘曲线</translation>
+        <translation type="unfinished">偏移草图曲线</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="456"/>
@@ -2957,12 +2957,12 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="473"/>
         <source>End Sketch</source>
-        <translation type="unfinished">结束草绘</translation>
+        <translation type="unfinished">结束草图</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="479"/>
         <source>Cancel Sketch</source>
-        <translation type="unfinished">取消草绘</translation>
+        <translation type="unfinished">取消草图</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="485"/>
@@ -2972,21 +2972,21 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="547"/>
         <source>Orient to Sketch</source>
-        <translation type="unfinished">草绘视图</translation>
+        <translation type="unfinished">草图视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="923"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="931"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="129"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="915"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="923"/>
         <source>Primitive</source>
         <translation type="unfinished">基础形体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="919"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="927"/>
         <source>Boolean</source>
         <translation type="unfinished">布尔运算</translation>
     </message>
@@ -2996,12 +2996,12 @@ Do you want to save it to the original file now?
         <translation type="unfinished">草图环境</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="927"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="935"/>
         <source>Utility</source>
         <translation type="unfinished">实用工具</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="936"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="944"/>
         <source>Test</source>
         <translation type="unfinished">测试</translation>
     </message>
@@ -3122,7 +3122,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1549"/>
         <source>Edit 3D Sketch</source>
-        <translation>编辑3D草绘</translation>
+        <translation>编辑3D草图</translation>
     </message>
     <message>
         <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="211"/>
@@ -3169,7 +3169,7 @@ Do you want to save it to the original file now?
         <translation type="unfinished">并集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="796"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="804"/>
         <source>Datum Plane Series</source>
         <translation type="unfinished">基准面命令集</translation>
     </message>
@@ -3242,13 +3242,13 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="255"/>
         <source>New 3D Sketch</source>
-        <translation>创建3D草绘</translation>
+        <translation>创建3D草图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="261"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1528"/>
         <source>Edit Sketch</source>
-        <translation type="unfinished">编辑草绘</translation>
+        <translation type="unfinished">编辑草图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="315"/>
@@ -3427,19 +3427,24 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="950"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="787"/>
+        <source>Sketch Series</source>
+        <translation type="unfinished">草图命令集</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="958"/>
         <source>Sheet</source>
         <translation type="unfinished">曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="889"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="897"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="694"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="488"/>
         <source>Display Mode</source>
         <translation>显示模式</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="931"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="939"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="137"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="111"/>
         <source>View</source>
@@ -3670,12 +3675,12 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="322"/>
         <source>End 3D Sketch</source>
-        <translation>结束3D草绘</translation>
+        <translation>结束3D草图</translation>
     </message>
     <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="328"/>
         <source>Cancel 3D Sketch</source>
-        <translation>取消3D草绘</translation>
+        <translation>取消3D草图</translation>
     </message>
 </context>
 <context>
@@ -4150,7 +4155,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../utils/MessageBoxUtil.cpp" line="83"/>
         <source>No sketches available. Please create a sketch using the sketch command first.</source>
-        <translation type="unfinished">没有可用的草图，请先使用草绘命令创建草图。</translation>
+        <translation type="unfinished">没有可用的草图，请先使用草图命令创建。</translation>
     </message>
     <message>
         <location filename="../../utils/MessageBoxUtil.cpp" line="105"/>
@@ -6143,12 +6148,12 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="115"/>
         <source>Trim</source>
-        <translation type="unfinished">修剪草绘图元</translation>
+        <translation type="unfinished">修剪草图图元</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="116"/>
         <source>Extend</source>
-        <translation type="unfinished">延伸草绘图元</translation>
+        <translation type="unfinished">延伸草图图元</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="117"/>
@@ -6178,7 +6183,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="138"/>
         <source>New Sketch</source>
-        <translation type="unfinished">创建草绘</translation>
+        <translation type="unfinished">创建草图</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="139"/>

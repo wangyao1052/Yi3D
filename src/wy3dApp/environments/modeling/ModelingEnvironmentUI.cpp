@@ -778,8 +778,16 @@ void buildModelingToolBarUi(
     assert(pToolBarModeling);
 
     pToolBarModeling->addAction(actions.pActionSelect);
-    pToolBarModeling->addAction(actions.pActionNewSketch);
-    pToolBarModeling->addAction(actions.pActionNewSketch3D);
+
+    std::list<QAction*> sketchActions;
+    sketchActions.emplace_back(actions.pActionNewSketch);
+    sketchActions.emplace_back(actions.pActionNewSketch3D);
+    QToolButton* pToolBtnSketch = pEnv->newMenuPopupToolButton(
+        pToolBarModeling,
+        QCoreApplication::translate("MainWindow", "Sketch Series"),
+        pActionGroup,
+        sketchActions);
+    pToolBarModeling->addWidget(pToolBtnSketch);
 
     std::list<QAction*> datumPlaneActions;
     datumPlaneActions.emplace_back(actions.pActionParallelDatumPlane);

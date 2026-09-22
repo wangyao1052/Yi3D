@@ -1829,7 +1829,7 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="911"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="919"/>
         <source>Modeling</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1846,7 +1846,12 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="796"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="787"/>
+        <source>Sketch Series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="804"/>
         <source>Datum Plane Series</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2404,30 +2409,30 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="923"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="931"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="129"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="915"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="923"/>
         <source>Primitive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="950"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="958"/>
         <source>Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="889"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="897"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="694"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="488"/>
         <source>Display Mode</source>
         <translation>Display Mode</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="919"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="927"/>
         <source>Boolean</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2437,19 +2442,19 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="927"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="935"/>
         <source>Utility</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="931"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="939"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="137"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="111"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="936"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="944"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
