@@ -1,0 +1,92 @@
+///////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (C) 2024-2026 Wang Yao <wangyao1052@163.com>
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+///////////////////////////////////////////////////////////////////////////////
+
+#include "SketchSplinePointLineEdit.h"
+#include <cassert>
+
+#include <wyVector2.h>
+#include <wy3dSketchSpline.h>
+
+#include "SketchSplinePointsEditor.h"
+
+SketchSplinePointLineEdit::SketchSplinePointLineEdit(Coord coord, wydb::ParameterValueUPtr&& pParamValue,
+    SketchSplinePointsEditor* pPointsEditor, PropertyEditorWidget* parent)
+    : ParamLineEdit("", "", std::move(pParamValue), true, false, parent)
+    , _coord(coord)
+    , _pPointsEditor(pPointsEditor)
+{
+}
+
+wy::ErrorStatus SketchSplinePointLineEdit::modifyElement(wydb::Element* pElem, const wydb::ParameterValue& paramValue)
+{
+    if (!pElem || !_pPointsEditor)
+    {
+        assert(false);
+        return wy::ErrorStatus::Error;
+    }
+    wy3d::SketchSpline* pSketchSpline = wy3d::SketchSpline::cast(pElem);
+    if (!pSketchSpline)
+    {
+        assert(false);
+        return wy::ErrorStatus::Error;
+    }
+
+    const std::size_t index = _pPointsEditor->getCurrPointIndex();
+    std::vector<wy::Vector2> points = pSketchSpline->getPoints();
+    if (index >= points.size())
+    {
+        assert(false);
+        return wy::ErrorStatus::Error;
+    }
+
+    // A closed spline has two coincident ends, each with its own index: editing one of
+    // them deliberately opens the spline
+    if (Coord::X == _coord) points[index].setX(paramValue.asDouble());
+    else points[index].setY(paramValue.asDouble());
+    return pSketchSpline->setPoints(points);
+}
+
+void SketchSplinePointLineEdit::getCurrParamValueFromDb(
+    bool& isAllTheSameValue, wydb::ParameterValueUPtr& pOutParamValue)
+{
+    isAllTheSameValue = true;
+    pOutParamValue = nullptr;
+
+    if (!_pPointsEditor)
+    {
+        assert(false);
+        return;
+    }
+    const wy3d::SketchSpline* pSketchSpline = _pPointsEditor->getSplineFromDb();
+    if (!pSketchSpline)
+    {
+        assert(false);
+        return;
+    }
+
+    const std::vector<wy::Vector2>& points = pSketchSpline->getPoints();
+    const std::size_t index = _pPointsEditor->getCurrPointIndex();
+    if (index >= points.size())
+    {
+        assert(false);
+        return;
+    }
+
+    const wy::Vector2& point = points[index];
+    pOutParamValue = wydb::ParameterValue::createDouble(Coord::X == _coord ? point.x() : point.y());
+}

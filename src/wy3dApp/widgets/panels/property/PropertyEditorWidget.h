@@ -83,6 +83,8 @@ private:
         std::string& commonClassName);
     // 显示Transform
     void showTransform(const std::vector<const wydb::Element*>& elems);
+    // 显示样条的点选择器(仅单选一条样条时)
+    void showSketchSplinePoints(const std::vector<const wydb::Element*>& elems);
     // 创建Transform位置布局
     QGridLayout* newTransformLayout_Position(const wy::Vector3& pos, bool isSameX, bool isSameY, bool isSameZ);
     // 创建Transform旋转布局

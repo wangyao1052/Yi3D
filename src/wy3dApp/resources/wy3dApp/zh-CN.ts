@@ -5691,12 +5691,12 @@ Do you want to save it to the original file now?
         <translation type="obsolete">颜色</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="434"/>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="450"/>
         <source>Position </source>
         <translation type="unfinished">位置 </translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="443"/>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="459"/>
         <source>Rotation </source>
         <translation type="unfinished">旋转 </translation>
     </message>
@@ -7652,6 +7652,19 @@ Do you want to save it to the original file now?
     <message>
         <source>X Axis</source>
         <translation type="obsolete">X轴</translation>
+    </message>
+</context>
+<context>
+    <name>SketchSplinePointsEditor</name>
+    <message>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="184"/>
+        <source>Points</source>
+        <translation>点</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="213"/>
+        <source>Index</source>
+        <translation>序号</translation>
     </message>
 </context>
 <context>

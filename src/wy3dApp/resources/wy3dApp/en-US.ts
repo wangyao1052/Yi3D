@@ -4407,12 +4407,12 @@ Do you want to save it to the original file now?
 <context>
     <name>PropertyEditorWidget</name>
     <message>
-        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="434"/>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="450"/>
         <source>Position </source>
         <translation type="unfinished">Position </translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="443"/>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="459"/>
         <source>Rotation </source>
         <translation type="unfinished">Rotation </translation>
     </message>
@@ -6021,6 +6021,19 @@ Do you want to save it to the original file now?
         <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="145"/>
         <source>Specify the X axis.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SketchSplinePointsEditor</name>
+    <message>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="184"/>
+        <source>Points</source>
+        <translation>Points</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="213"/>
+        <source>Index</source>
+        <translation>Index</translation>
     </message>
 </context>
 <context>
