@@ -165,7 +165,7 @@ void TangentDatumPlnCmd::gotoStep(Step step)
         // 禁用输入
         // 提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
-            "Select solid cylindrical face."));
+            "Select a cylindrical face."));
 
         // 鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);
@@ -175,10 +175,10 @@ void TangentDatumPlnCmd::gotoStep(Step step)
         if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
 
         // 点选选项
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::Sheet);
         _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.acceptElement = false;
-        _pointPickOption.pSelFilter = std::make_shared<SolidFaceSelFilterFunctor<Geom_CylindricalSurface>>();
+        _pointPickOption.pSelFilter = std::make_shared<FaceSelFilterFunctor<Geom_CylindricalSurface>>();
     }
     break;
 

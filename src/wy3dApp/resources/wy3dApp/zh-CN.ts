@@ -236,8 +236,12 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="233"/>
+        <source>Select a cylindrical face.</source>
+        <translation type="unfinished">选择圆柱面。</translation>
+    </message>
+    <message>
         <source>Select solid cylindrical face.</source>
-        <translation type="unfinished">选择实体圆柱面。</translation>
+        <translation type="obsolete">选择实体圆柱面。</translation>
     </message>
     <message>
         <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="269"/>
@@ -1090,32 +1094,36 @@ Do you want to save it to the original file now?
 <context>
     <name>DatumPlnCmd</name>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="394"/>
-        <location filename="../../commands/datumPlane/CoincidentDatumPlnCmd.cpp" line="113"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="162"/>
         <source>Select datum plane or solid plane surface.</source>
-        <translation type="unfinished">选择基准面或实体平面。</translation>
+        <translation type="obsolete">选择基准面或实体平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="218"/>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="796"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="241"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="821"/>
         <source>Select solid edge or solid face or datum plane to determine the rotation axis.</source>
         <translation type="unfinished">选择实体边、实体面或基准面以确定旋转轴线。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="448"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="417"/>
+        <location filename="../../commands/datumPlane/CoincidentDatumPlnCmd.cpp" line="114"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="163"/>
+        <source>Select a planar face or datum plane.</source>
+        <translation type="unfinished">选择平面或基准面。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="473"/>
         <source>Specify the rotation angle.</source>
         <translation type="unfinished">指定旋转角度。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="681"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="746"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="706"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="759"/>
         <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="352"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="864"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="889"/>
         <source>Select solid edge or solid face or datum plane to determine the X axis.</source>
         <translation type="unfinished">选择实体边、实体面或基准面以确定新基准面的X轴。</translation>
     </message>
@@ -1124,21 +1132,25 @@ Do you want to save it to the original file now?
         <translation type="obsolete">选择实体边或草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="395"/>
         <source>Select solid edge, sketch curve or 3D sketch curve.</source>
-        <translation type="unfinished">选择实体边、草图曲线或 3D 草图曲线。</translation>
+        <translation type="obsolete">选择实体边、草图曲线或 3D 草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="424"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="183"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="408"/>
+        <source>Select an edge, sketch curve or 3D sketch curve.</source>
+        <translation type="unfinished">选择边、草图曲线或 3D 草图曲线。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="437"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="184"/>
         <source>Specify through point or directly input the distance value.</source>
         <translation type="unfinished">指定通过点或直接输入距离值。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="600"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="742"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="749"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="329"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="613"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="755"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="762"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="330"/>
         <source>Distance</source>
         <translation type="unfinished">距离</translation>
     </message>
@@ -1181,9 +1193,13 @@ Do you want to save it to the original file now?
         <translation type="unfinished">三点共线无法确定唯一平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="167"/>
         <source>Select solid cylindrical face.</source>
-        <translation type="unfinished">选择实体圆柱面。</translation>
+        <translation type="obsolete">选择实体圆柱面。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="167"/>
+        <source>Select a cylindrical face.</source>
+        <translation type="unfinished">选择圆柱面。</translation>
     </message>
     <message>
         <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="194"/>

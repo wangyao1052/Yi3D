@@ -36,11 +36,13 @@
 #include <wydbDatabase.h>
 #include <wyapSelection.h>
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dSelectionType.h>
 #include "select/SelectFilterFunctor.h"
+#include "utils/GuiCommandUtil.h"
 
 template<typename T>
-class SolidFaceSelFilterFunctor : public SelectFilterFunctor
+class FaceSelFilterFunctor : public SelectFilterFunctor
 {
 public:
     inline virtual SelectFilterStatus operator()(
@@ -55,14 +57,26 @@ public:
         unsigned int faceIndex = std::stoul(sel.getSubPath());
         if (faceIndex == -1) return SelectFilterStatus::Continue;
 
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-        if (!pSolid) return SelectFilterStatus::Continue;
-        if (_excludeIds.find(pSolid->getId()) != _excludeIds.cend())
+        const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+        if (!pElem) return SelectFilterStatus::Continue;
+        if (_excludeIds.find(pElem->getId()) != _excludeIds.cend())
         {
             return SelectFilterStatus::Continue;
         }
-        if (!pSolid->getParent().isNull()) return SelectFilterStatus::Continue;
-        TopoDS_Shape shape = pSolid->getShape();
+        if (!GuiCommandUtil::isTopLevelBody(pElem)) return SelectFilterStatus::Continue;
+        TopoDS_Shape shape;
+        if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+        {
+            shape = pSolid->getShape();
+        }
+        else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+        {
+            shape = pSheet->getShape();
+        }
+        else
+        {
+            return SelectFilterStatus::Continue;
+        }
         if (shape.IsNull()) return SelectFilterStatus::Continue;
 
         TopTools_IndexedMapOfShape faceMap;

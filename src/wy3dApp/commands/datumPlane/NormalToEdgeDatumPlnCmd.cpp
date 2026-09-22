@@ -40,12 +40,14 @@
 #include <wy3dSketchCurve3D.h>
 #include <wy3dSketchLine.h>
 #include <wy3dCurve.h>
+#include <wy3dSheet.h>
 #include "application/Application.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/Colors.h"
 #include "snap/SnapConsts.h"
 #include "utils/MathUtils.h"
+#include "utils/GuiCommandUtil.h"
 #include "widgets/frame/MainWindow.h"
 #include <QCoreApplication>
 #include <QCursor>
@@ -167,11 +169,22 @@ private:
         unsigned int edgeIndex = std::stoul(sel.getSubPath());
         if (edgeIndex == -1) return false;
 
-        // 实体
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-        if (!pSolid) return false;
-        if (!pSolid->getParent().isNull()) return false;
-        TopoDS_Shape shape = pSolid->getShape();
+        // 实体或片体
+        const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+        TopoDS_Shape shape;
+        if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+        {
+            shape = pSolid->getShape();
+        }
+        else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+        {
+            shape = pSheet->getShape();
+        }
+        else
+        {
+            return false;
+        }
+        if (!GuiCommandUtil::isTopLevelBody(pElem)) return false;
         if (shape.IsNull()) return false;
 
         // 获取拓扑边
@@ -393,7 +406,7 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
         // 禁用输入
         // 提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
-            "Select solid edge, sketch curve or 3D sketch curve."));
+            "Select an edge, sketch curve or 3D sketch curve."));
 
         // 鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);
@@ -404,8 +417,8 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
 
         // 点选选项
         _pointPickOption.pickMask = static_cast<unsigned int>(
-            ElementNodeType::Solid | ElementNodeType::Sketch | ElementNodeType::Sketch3D |
-            ElementNodeType::Curve);
+            ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::Sketch |
+            ElementNodeType::Sketch3D | ElementNodeType::Curve);
         _pointPickOption.selType = wy3d::SelectionType::Edge | wy3d::SelectionType::SketchCurve |
             wy3d::SelectionType::SketchCurve3D;
         _pointPickOption.pSelFilter = std::make_shared<NormalToEdgeDatumPlnCmdSelFilter>();

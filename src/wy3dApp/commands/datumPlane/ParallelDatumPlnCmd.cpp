@@ -76,7 +76,8 @@ wyap::CmdExecution::StartResult ParallelDatumPlnCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::DatumPlane);
+    _pointPickOption.pickMask = static_cast<unsigned int>(
+        ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::DatumPlane);
     _pointPickOption.selType = wy3d::SelectionType::Face;
     _pointPickOption.pSelFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
     _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
@@ -160,7 +161,7 @@ void ParallelDatumPlnCmd::gotoStep(Step step)
         // 禁用输入
         // 提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
-            "Select datum plane or solid plane surface."));
+            "Select a planar face or datum plane."));
 
         // 鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);

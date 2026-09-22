@@ -231,16 +231,16 @@ void CircularPatternGuiCmd::gotoStep(Step step)
         // 禁用文本输入
         // 提示
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("CircularPatternGuiCmd",
-            "Select solid cylindrical face."));
+            "Select a cylindrical face."));
 
         // 鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项:实体圆柱面
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::Sheet);
         _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.acceptElement = false;
-        auto pSelFilter = std::make_shared<SolidFaceSelFilterFunctor<Geom_CylindricalSurface>>();
+        auto pSelFilter = std::make_shared<FaceSelFilterFunctor<Geom_CylindricalSurface>>();
         pSelFilter->addExcludeId(_sourceId);
         _pointPickOption.pSelFilter = pSelFilter;
 

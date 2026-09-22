@@ -53,11 +53,13 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
 #include <wy3dCurve.h>
+#include <wy3dSheet.h>
 #include "wy3d/topo/Sketch3DTopoBuilder.h"
 
 #include "application/Application.h"
 #include "scene/Scene.h"
 #include "utils/TopoShapeUtil.h"
+#include "utils/GuiCommandUtil.h"
 #include "utils/MathUtils.h"
 #include "utils/SplineUtil.h"
 
@@ -131,51 +133,7 @@ bool MakeDatumPlane::update(const wy3d::SketchPlane& sketchPlane)
 
 bool MakeDatumPlane::getSketchPlane(const wyap::Selection& sel, wy3d::SketchPlane& sketchPlane)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
-    if (!pDb)
-    {
-        assert(false);
-        return false;
-    }
-
-    if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::Face)
-    {
-        if (sel.getSubPath().empty())
-        {
-            assert(false);
-            return false;
-        }
-        unsigned int faceIndex = std::stoul(sel.getSubPath());
-        if (faceIndex == -1)
-        {
-            assert(false);
-            return false;
-        }
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-        if (!pSolid)
-        {
-            assert(false);
-            return false;
-        }
-        TopoDS_Shape shape = pSolid->getShape();
-        return TopoShapeUtil::getShapeFacePlane(shape, faceIndex, sketchPlane);
-    }
-    else if (wy3d::UIntToSelectionType(sel.getSelectionType()) == wy3d::SelectionType::Element)
-    {
-        const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pDb->getElement(sel.getElementId()));
-        if (!pDatumPlane)
-        {
-            assert(false);
-            return false;
-        }
-        sketchPlane = pDatumPlane->getPlane();
-        return true;
-    }
-    else
-    {
-        assert(false);
-        return false;
-    }
+    return GuiCommandUtil::getWorkingPlane(sel, sketchPlane);
 }
 
 bool MakeDatumPlane::getSolidEdgeEndPoints(const wyap::Selection& sel, wy::Vector3& startPnt, wy::Vector3& endPnt)
@@ -204,13 +162,21 @@ bool MakeDatumPlane::getSolidEdgeEndPoints(const wyap::Selection& sel, wy::Vecto
         return false;
     }
 
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-    if (!pSolid)
+    const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+    TopoDS_Shape shape;
+    if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+    {
+        shape = pSolid->getShape();
+    }
+    else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+    {
+        shape = pSheet->getShape();
+    }
+    else
     {
         assert(false);
         return false;
     }
-    TopoDS_Shape shape = pSolid->getShape();
     return TopoShapeUtil::getShapeEdgeEndPoints(shape, edgeIndex, startPnt, endPnt);
 }
 
@@ -240,13 +206,21 @@ Handle(Geom_Curve) MakeDatumPlane::getSolidEdgeGeomCurve(const wyap::Selection& 
         return nullptr;
     }
 
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-    if (!pSolid)
+    const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+    TopoDS_Shape shape;
+    if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+    {
+        shape = pSolid->getShape();
+    }
+    else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+    {
+        shape = pSheet->getShape();
+    }
+    else
     {
         assert(false);
         return nullptr;
     }
-    TopoDS_Shape shape = pSolid->getShape();
     return TopoShapeUtil::getShapeEdgeCurve(shape, edgeIndex);
 }
 
@@ -629,9 +603,21 @@ bool MakeDatumPlane::getSolidCylindricalFaceCenterPlane(
         return false;
     }
 
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-    if (!pSolid) return false;
-    TopoDS_Shape shape = pSolid->getShape();
+    const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+    TopoDS_Shape shape;
+    if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+    {
+        shape = pSolid->getShape();
+    }
+    else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+    {
+        shape = pSheet->getShape();
+    }
+    else
+    {
+        assert(false);
+        return false;
+    }
     if (shape.IsNull()) return false;
 
     TopTools_IndexedMapOfShape faceMap;

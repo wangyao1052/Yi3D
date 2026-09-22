@@ -28,6 +28,7 @@
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wy3dImpl.h>
+#include <wy3dSheet.h>
 #include "application/Application.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "select/SketchPlaneSelFilter.h"
@@ -75,9 +76,20 @@ public:
             unsigned int faceIndex = std::stoul(sel.getSubPath());
             if (faceIndex == -1) return SelectFilterStatus::Continue;
 
-            const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-            if (!pSolid) return SelectFilterStatus::Continue;
-            TopoDS_Shape shape = pSolid->getShape();
+            const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+            TopoDS_Shape shape;
+            if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+            {
+                shape = pSolid->getShape();
+            }
+            else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+            {
+                shape = pSheet->getShape();
+            }
+            else
+            {
+                return SelectFilterStatus::Continue;
+            }
             if (shape.IsNull()) return SelectFilterStatus::Continue;
 
             TopTools_IndexedMapOfShape faceMap;
@@ -108,9 +120,20 @@ public:
             unsigned int edgeIndex = std::stoul(sel.getSubPath());
             if (edgeIndex == -1) return SelectFilterStatus::Continue;
 
-            const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-            if (!pSolid) return SelectFilterStatus::Continue;
-            TopoDS_Shape shape = pSolid->getShape();
+            const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+            TopoDS_Shape shape;
+            if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+            {
+                shape = pSolid->getShape();
+            }
+            else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+            {
+                shape = pSheet->getShape();
+            }
+            else
+            {
+                return SelectFilterStatus::Continue;
+            }
             if (shape.IsNull()) return SelectFilterStatus::Continue;
 
             TopTools_IndexedMapOfShape edgeMap;
@@ -392,7 +415,7 @@ void AngularDatumPlnCmd::gotoStep(Step step)
         // 禁用输入
         // 提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
-            "Select datum plane or solid plane surface."));
+            "Select a planar face or datum plane."));
 
         // 鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);
@@ -402,7 +425,8 @@ void AngularDatumPlnCmd::gotoStep(Step step)
         if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
 
         // 点选选项
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::DatumPlane);
+        _pointPickOption.pickMask = static_cast<unsigned int>(
+            ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::DatumPlane);
         _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.pSelFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
     }
@@ -430,7 +454,8 @@ void AngularDatumPlnCmd::gotoStep(Step step)
         }
 
         // 点选选项
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::DatumPlane);
+        _pointPickOption.pickMask = static_cast<unsigned int>(
+            ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::DatumPlane);
         _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Edge;
         _pointPickOption.pSelFilter = std::make_shared<AngularDatumPlnCmdRotationAxisSelFilter>(_plane);
     }
