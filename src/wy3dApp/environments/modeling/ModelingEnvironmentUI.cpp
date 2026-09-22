@@ -457,7 +457,7 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
     actions.pActionSplitFace = pEnv->newCommandAction(
         CommandNames::SplitFace,
         QCoreApplication::translate("MainWindow", "Split Face"),
-        QIcon(),
+        QIcon(":/images/Modeling_SplitFace.png"),
         pActionGroup);
 
     actions.pActionDeleteFace = pEnv->newCommandAction(
