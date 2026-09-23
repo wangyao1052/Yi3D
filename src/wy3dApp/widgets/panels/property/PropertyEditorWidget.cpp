@@ -523,6 +523,14 @@ void PropertyEditorWidget::refresh()
         assert(pParamLineEdit);
         pParamLineEdit->refresh();
     }
+
+    // 样条的点分组里还有复选框,它们不在上面那条路径里,顺带让各行重新评估可用性.
+    QList<SketchSplinePointsEditor*> splinePointsEditors = this->findChildren<SketchSplinePointsEditor*>();
+    for (SketchSplinePointsEditor* pPointsEditor : splinePointsEditors)
+    {
+        assert(pPointsEditor);
+        if (pPointsEditor) pPointsEditor->refresh();
+    }
 }
 
 void PropertyEditorWidget::setReadOnly(bool isReadOnly)
@@ -564,6 +572,14 @@ void PropertyEditorWidget::setReadOnly(bool isReadOnly)
         {
             checkBox->setCheckable(!isReadOnly);
         }
+    }
+
+    // 样条的点分组按状态给个别行置灰,只读态翻转后要重新评估.
+    QList<SketchSplinePointsEditor*> splinePointsEditors = this->findChildren<SketchSplinePointsEditor*>();
+    for (SketchSplinePointsEditor* pPointsEditor : splinePointsEditors)
+    {
+        assert(pPointsEditor);
+        if (pPointsEditor) pPointsEditor->updateTangentRows();
     }
 }
 

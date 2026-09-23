@@ -21,6 +21,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QStyle>
 
 #include <muParser.h>
 
@@ -101,6 +102,15 @@ ParamLineEdit::ParamLineEdit(const std::string& className, const std::string& pa
     _lastText = this->text();
     _pLastParamValue = wydb::ParameterValueUPtr(_pInitParamValue->clone());
     this->connect(this, &QLineEdit::editingFinished, this, &ParamLineEdit::onEditingFinished);
+}
+
+void ParamLineEdit::setReadOnly(bool isReadOnly)
+{
+    QLineEdit::setReadOnly(isReadOnly);
+    // The grey comes from the read only rule of the style sheet, which Qt folds into the palette
+    // when the widget is polished, and setReadOnly raises no style change
+    this->style()->unpolish(this);
+    this->style()->polish(this);
 }
 
 void ParamLineEdit::refresh()

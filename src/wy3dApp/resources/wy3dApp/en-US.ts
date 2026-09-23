@@ -2281,7 +2281,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="223"/>
         <source>Scale</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scale</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="233"/>
@@ -3221,17 +3221,17 @@ Do you want to save it to the original file now?
 <context>
     <name>ParamLineEdit</name>
     <message>
-        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="270"/>
+        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="280"/>
         <source>The parameter does not support modification.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="273"/>
+        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="283"/>
         <source>Invalid parameter value.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="276"/>
+        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="286"/>
         <source>Failed to modify the parameter value!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4407,12 +4407,12 @@ Do you want to save it to the original file now?
 <context>
     <name>PropertyEditorWidget</name>
     <message>
-        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="450"/>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="451"/>
         <source>Position </source>
         <translation type="unfinished">Position </translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="459"/>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="460"/>
         <source>Rotation </source>
         <translation type="unfinished">Rotation </translation>
     </message>
@@ -4533,7 +4533,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="474"/>
         <source>Scale</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scale</translation>
     </message>
 </context>
 <context>
@@ -4760,7 +4760,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="114"/>
         <source>Scale</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scale</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="115"/>
@@ -6026,14 +6026,29 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchSplinePointsEditor</name>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="184"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="198"/>
         <source>Points</source>
         <translation>Points</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="213"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="229"/>
         <source>Index</source>
         <translation>Index</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="247"/>
+        <source>Direction Angle</source>
+        <translation>Direction Angle</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="251"/>
+        <source>Weight</source>
+        <translation>Weight</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="241"/>
+        <source>Tangent Driving</source>
+        <translation>Tangent Driving</translation>
     </message>
 </context>
 <context>

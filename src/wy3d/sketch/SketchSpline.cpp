@@ -18,13 +18,18 @@
 
 #include <cassert>
 #include <Geom2dAPI_Interpolate.hxx>
+#include <Geom2dAPI_ProjectPointOnCurve.hxx>
 #include <TColgp_HArray1OfPnt2d.hxx>
+#include <TColgp_Array1OfVec2d.hxx>
+#include <TColStd_HArray1OfBoolean.hxx>
 #include <gp_Pnt.hxx>
+#include <gp_Vec2d.hxx>
 #include <Precision.hxx>
 #include <Geom2dAdaptor_Curve.hxx>
 #include <GCPnts_AbscissaPoint.hxx>
 
 #include <wyVector2.h>
+#include <wy3dMath.h>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dSketchSpline.h>
@@ -46,10 +51,74 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(SketchSpline, _points)
     REGISTER_FIELD(SketchSpline, _knots)
     REGISTER_FIELD(SketchSpline, _multiplicities)
+    REGISTER_FIELD(SketchSpline, _tangents)
     REGISTER_FIELD(SketchSpline, _pBSpline)
 END_FIELD_REGISTRATION()
 
-SketchSpline::SketchSpline() : wy3d::SketchCurve(), _mode(SplineMode::Undefined), _degree(0), _pBSpline(nullptr)
+namespace
+{
+    bool isClosedFit(const std::vector<wy::Vector2>& points)
+    {
+        return points.size() >= 4 && points.front() == points.back();
+    }
+
+    double spanChordLength(const std::vector<wy::Vector2>& points, std::size_t index)
+    {
+        const std::size_t count = points.size();
+        if (index >= count) return 1.0;
+
+        const double leaving = (index + 1 < count)
+            ? (points[index + 1] - points[index]).length() : 0.0;
+        if (leaving > wy3d::TOL) return leaving;
+
+        const double arriving = (index > 0)
+            ? (points[index] - points[index - 1]).length() : 0.0;
+        if (arriving > wy3d::TOL) return arriving;
+
+        return 1.0;
+    }
+
+    SketchSpline::Tangent chordTangentAt(const std::vector<wy::Vector2>& points, std::size_t index)
+    {
+        SketchSpline::Tangent tangent;
+        tangent.magnitude = spanChordLength(points, index);
+        const std::size_t count = points.size();
+        if (count < 2 || index >= count) return tangent;
+
+        const bool isClosed = isClosedFit(points);
+        const std::size_t distinctCount = isClosed ? count - 1 : count;
+        const std::size_t at = index;
+
+        const std::size_t prev = isClosed
+            ? (at + distinctCount - 1) % distinctCount
+            : (at > 0 ? at - 1 : 0);
+        const std::size_t next = isClosed
+            ? (at + 1) % distinctCount
+            : (at + 1 < count ? at + 1 : count - 1);
+
+        wy::Vector2 direction = (prev == next) ? wy::Vector2::kZero : (points[next] - points[prev]);
+        if (direction.length() <= wy3d::TOL)
+        {
+            direction = (next > at) ? (points[next] - points[at]) : (points[at] - points[prev]);
+            if (direction.length() <= wy3d::TOL) return tangent;
+        }
+
+        tangent.angle = wy3d::normalizeRadian(std::atan2(direction.y(), direction.x()));
+        return tangent;
+    }
+
+    bool isUsableTangent(const SketchSpline::Tangent& tangent)
+    {
+        return std::isfinite(tangent.angle)
+            && std::isfinite(tangent.magnitude)
+            && tangent.magnitude > wy3d::TOL;
+    }
+}
+
+SketchSpline::SketchSpline() : wy3d::SketchCurve()
+    , _mode(SplineMode::Undefined)
+    , _degree(0),
+    _pBSpline(nullptr)
 {
 }
 
@@ -57,24 +126,42 @@ SketchSpline::~SketchSpline()
 {
 }
 
-wy::ErrorStatus SketchSpline::create(wydb::Transaction* pTrans, const std::vector<wy::Vector2>& fitPoints, SketchSpline*& pOut)
+wy::ErrorStatus SketchSpline::create(
+    wydb::Transaction* pTrans,
+    const std::vector<wy::Vector2>& fitPoints,
+    SketchSpline*& pOut)
 {
-    if (!pTrans) { pOut = nullptr; return wy::ErrorStatus::NullDatabasePointer; }
-    if (fitPoints.size() < 2) { pOut = nullptr; return wy::ErrorStatus::InvalidInput; }
+    pOut = nullptr;
+    if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
+    if (fitPoints.size() < 2) return wy::ErrorStatus::InvalidInput;
 
     SketchSpline* pSketchSpline = new SketchSpline();
     wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pSketchSpline);
-    if (error != wy::ErrorStatus::Ok) { wydb::deleteElement(pSketchSpline); pSketchSpline = nullptr; return error; }
+    if (error != wy::ErrorStatus::Ok)
+    {
+        wydb::deleteElement(pSketchSpline);
+        pSketchSpline = nullptr;
+        return error;
+    }
 
-    error = pSketchSpline->setMode(SplineMode::InterpolationPoints); CHECK_ERROR_FOR_CREATE(error, pSketchSpline);
-    error = pSketchSpline->setPoints(fitPoints); CHECK_ERROR_FOR_CREATE(error, pSketchSpline);
+    error = pSketchSpline->setMode(SplineMode::InterpolationPoints);
+    CHECK_ERROR_FOR_CREATE(error, pSketchSpline);
+    error = pSketchSpline->setPoints(fitPoints);
+    CHECK_ERROR_FOR_CREATE(error, pSketchSpline);
+    std::vector<Tangent> tangents;
+    tangents.resize(fitPoints.size());
+    error = pSketchSpline->setTangents(tangents);
+    CHECK_ERROR_FOR_CREATE(error, pSketchSpline);
 
     pOut = pSketchSpline;
     return wy::ErrorStatus::Ok;
 }
 
-wy::ErrorStatus SketchSpline::create(wydb::Transaction* pTrans, std::uint32_t degree,
-    const std::vector<wy::Vector2>& controlPoints, SketchSpline*& pOut)
+wy::ErrorStatus SketchSpline::create(
+    wydb::Transaction* pTrans,
+    std::uint32_t degree,
+    const std::vector<wy::Vector2>& controlPoints,
+    SketchSpline*& pOut)
 {
     if (!pTrans) { pOut = nullptr; return wy::ErrorStatus::NullDatabasePointer; }
     if (degree < 1 || degree > 8) { pOut = nullptr; return wy::ErrorStatus::InvalidInput; }
@@ -167,6 +254,120 @@ wy::ErrorStatus SketchSpline::setPoints(const std::vector<wy::Vector2>& points)
     {
         return error;
     }
+}
+
+wy::ErrorStatus SketchSpline::setTangents(const std::vector<Tangent>& tangents)
+{
+    if (SplineMode::InterpolationPoints != _mode) return wy::ErrorStatus::NotCurrentlyAllowed;
+    if (tangents.size() != _points.size()) return wy::ErrorStatus::InvalidInput;
+    for (const Tangent& tangent : tangents)
+    {
+        if (!isUsableTangent(tangent)) return wy::ErrorStatus::InvalidInput;
+    }
+
+    if (tangents == _tangents) return wy::ErrorStatus::Ok;
+    wy::ErrorStatus error = this->prepareForFieldChange(kSketchSpline_tangents);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _tangents = tangents;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+void SketchSpline::refreshTangents()
+{
+    if (!_pBSpline) return;
+    if (SplineMode::InterpolationPoints != _mode || _points.size() < 2) return;
+    if (_tangents.size() != _points.size())
+    {
+        assert(false);
+        return;
+    }
+
+    bool isClosed = isClosedFit(_points);
+    const std::size_t count = isClosed ? _points.size() - 1 : _points.size();
+
+    bool isAllDriving = true;
+    for (std::size_t i = 0; i < count; ++i)
+    {
+        if (!_tangents[i].isDriving)
+        {
+            isAllDriving = false;
+            break;
+        }
+    }
+    if (isAllDriving) return;
+
+    std::vector<double> params(count, 0.0);
+    for (std::size_t i = 1; i < count; ++i)
+    {
+        params[i] = params[i - 1] + (_points[i] - _points[i - 1]).length();
+    }
+
+    struct SplineParam
+    {
+        bool isPeriodic;
+        double firstParam;
+        double lastParam;
+        double paramSpan;
+    } splineParam;
+    splineParam.firstParam = _pBSpline->FirstParameter();
+    splineParam.lastParam = _pBSpline->LastParameter();
+    splineParam.isPeriodic = _pBSpline->IsPeriodic();
+    splineParam.paramSpan = splineParam.lastParam - splineParam.firstParam;
+
+    auto derivativeAtFitPoint = [&splineParam, &params, this](std::size_t index, gp_Vec2d& outDerivative) -> bool
+    {
+        try
+        {
+            double curveParam(0.0);
+            if (splineParam.isPeriodic)
+            {
+                Geom2dAPI_ProjectPointOnCurve projector(
+                    gp_Pnt2d(_points[index].x(), _points[index].y()), _pBSpline);
+                if (projector.NbPoints() < 1) return false;
+                curveParam = projector.LowerDistanceParameter();
+            }
+            else
+            {
+                if (params.back() <= wy3d::TOL) return false;
+                curveParam = splineParam.firstParam + splineParam.paramSpan * (params[index] / params.back());
+            }
+
+            if (curveParam < splineParam.firstParam) curveParam = splineParam.firstParam;
+            else if (curveParam > splineParam.lastParam) curveParam = splineParam.lastParam;
+
+            gp_Pnt2d pntOnCurve;
+            _pBSpline->D1(curveParam, pntOnCurve, outDerivative);
+            return outDerivative.Magnitude() > wy3d::TOL;
+        }
+        catch (const Standard_Failure&)
+        {
+            return false;
+        }
+    };
+
+    std::vector<Tangent> tangents = _tangents;
+    for (std::size_t i = 0; i < count; ++i)
+    {
+        if (tangents[i].isDriving) continue;
+
+        gp_Vec2d derivative;
+        if (derivativeAtFitPoint(i, derivative))
+        {
+            tangents[i].angle = wy3d::normalizeRadian(std::atan2(derivative.Y(), derivative.X()));
+            tangents[i].magnitude = derivative.Magnitude() * spanChordLength(_points, i);
+        }
+        else
+        {
+            tangents[i] = chordTangentAt(_points, i);
+        }
+    }
+    this->setTangents(tangents);
 }
 
 wy::ErrorStatus SketchSpline::setKnots(const std::vector<double>& knots)
@@ -273,10 +474,7 @@ bool SketchSpline::isClosed() const
     {
     case SplineMode::InterpolationPoints:
     {
-        if (_points.size() <= 3) return false;
-        const wy::Vector2& firstPnt = _points.front();
-        const wy::Vector2& lastPnt = _points.back();
-        return firstPnt.x() == lastPnt.x() && firstPnt.y() == lastPnt.y();
+        return isClosedFit(_points);
     }
     case SplineMode::ControlPoints:
     {
@@ -331,14 +529,31 @@ wy::ErrorStatus SketchSpline::translate(const wy::Vector2& vector)
 wy::ErrorStatus SketchSpline::rotateAround(const wy::Vector2& center, double angle)
 {
     if (angle == 0.0) return wy::ErrorStatus::Ok;
-    double cosTheta = std::cos(angle), sinTheta = std::sin(angle);
+
+    double cosTheta = std::cos(angle);
+    double sinTheta = std::sin(angle);
     std::vector<wy::Vector2> newPoints;
     newPoints.reserve(_points.size());
     for (const wy::Vector2& pnt : _points)
     {
         newPoints.emplace_back(SketchEntity::rotateAround(pnt, center, cosTheta, sinTheta));
     }
-    return this->setPoints(newPoints);
+    wy::ErrorStatus error = this->setPoints(newPoints);
+    if (wy::ErrorStatus::Ok != error) return error;
+
+    if (SplineMode::InterpolationPoints == _mode)
+    {
+        std::vector<Tangent> newTangents = _tangents;
+        for (Tangent& tangent : newTangents)
+        {
+            tangent.angle = wy3d::normalizeRadian(tangent.angle + angle);
+        }
+        return this->setTangents(newTangents);
+    }
+    else
+    {
+        return wy::ErrorStatus::Ok;
+    }
 }
 
 wy::ErrorStatus SketchSpline::transform(const wy3d::geom::Matrix3& matrix)
@@ -346,7 +561,37 @@ wy::ErrorStatus SketchSpline::transform(const wy3d::geom::Matrix3& matrix)
     std::vector<wy::Vector2> newPoints;
     newPoints.reserve(_points.size());
     for (const wy::Vector2& pnt : _points) { newPoints.emplace_back(pnt * matrix); }
-    return this->setPoints(newPoints);
+
+    wy::ErrorStatus error = this->setPoints(newPoints);
+    if (wy::ErrorStatus::Ok != error) return error;
+
+    if (SplineMode::InterpolationPoints == _mode)
+    {
+        // The linear part of the matrix turns the direction, a mirror without a special case, and the
+        // sign of a magnitude, which is part of the direction it stands for, comes through untouched.
+        // A magnitude is also as long as the span it is measured against, so it takes the stretch the
+        // matrix puts on the tangent: a rotation or a mirror leaves it, a scaling multiplies it.
+        const double m00 = matrix.get(0, 0), m01 = matrix.get(0, 1);
+        const double m10 = matrix.get(1, 0), m11 = matrix.get(1, 1);
+
+        std::vector<Tangent> newTangents = _tangents;
+        for (Tangent& tangent : newTangents)
+        {
+            const double x = std::cos(tangent.angle);
+            const double y = std::sin(tangent.angle);
+            const double newX = x * m00 + y * m10;
+            const double newY = x * m01 + y * m11;
+            const double stretch = std::sqrt(newX * newX + newY * newY);
+            if (stretch <= wy3d::TOL) continue;
+            tangent.angle = wy3d::normalizeRadian(std::atan2(newY, newX));
+            tangent.magnitude *= stretch;
+        }
+        return this->setTangents(newTangents);
+    }
+    else
+    {
+        return wy::ErrorStatus::Ok;
+    }
 }
 
 std::uint32_t SketchSpline::intersectWith(const SketchCurve& other, std::vector<wy::Vector2>& out) const
@@ -361,7 +606,6 @@ std::uint32_t SketchSpline::intersectWith(const SketchCurve& other, std::vector<
     else if (const auto* pS = dynamic_cast<const SketchSpline*>(pO)) return SketchCurveIntersectUtil::intersect(pS, this, out);
     else { assert(false); return 0; }
 }
-
 
 void SketchSpline::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
@@ -407,6 +651,9 @@ bool SketchSpline::getFieldValue(wydb::FieldId fieldId, std::any& value)
     case kSketchSpline_multiplicities.value():
         value = _multiplicities;
         return true;
+    case kSketchSpline_tangents.value():
+        value = _tangents;
+        return true;
     case kSketchSpline_pBSpline.value():
         value = _pBSpline;
         return true;
@@ -436,6 +683,9 @@ bool SketchSpline::setFieldValue(wydb::FieldId fieldId, const std::any& value)
     case kSketchSpline_multiplicities.value():
         _multiplicities = std::any_cast<const std::vector<std::uint32_t>&>(value);
         return true;
+    case kSketchSpline_tangents.value():
+        _tangents = std::any_cast<const std::vector<Tangent>&>(value);
+        return true;
     case kSketchSpline_pBSpline.value():
         _pBSpline = std::any_cast<Handle(Geom2d_BSplineCurve)>(value);
         return true;
@@ -449,25 +699,67 @@ bool SketchSpline::setFieldValue(wydb::FieldId fieldId, const std::any& value)
 wy::ErrorStatus SketchSpline::writeToFiler(wydb::OutFiler& filer) const
 {
     __baseClass::writeToFiler(filer);
+
     filer << static_cast<std::int32_t>(_mode) << _degree;
     FilerUtil::writeVector(filer, _points);
-    if (SplineMode::ControlPoints == _mode) {
+    if (SplineMode::ControlPoints == _mode)
+    {
         FilerUtil::writeVector(filer, _knots);
         FilerUtil::writeVector(filer, _multiplicities);
     }
+    else if (SplineMode::InterpolationPoints == _mode)
+    {
+        filer << static_cast<std::uint32_t>(_tangents.size());
+        for (const Tangent& tangent : _tangents)
+        {
+            filer << tangent.angle << tangent.magnitude << tangent.isDriving;
+        }
+    }
+    else
+    {
+        assert(false);
+    }
+
     return wy::ErrorStatus::Ok;
 }
 
 wy::ErrorStatus SketchSpline::readFromFiler(wydb::InFiler& filer)
 {
     __baseClass::readFromFiler(filer);
-    std::int32_t mode(0); filer >> mode; _mode = static_cast<SplineMode>(mode);
+
+    std::int32_t mode(0);
+    filer >> mode;
+    _mode = static_cast<SplineMode>(mode);
     filer >> _degree;
     FilerUtil::readVector(filer, _points);
-    if (SplineMode::ControlPoints == _mode) {
+
+    if (SplineMode::ControlPoints == _mode)
+    {
         FilerUtil::readVector(filer, _knots);
         FilerUtil::readVector(filer, _multiplicities);
     }
+    else if (SplineMode::InterpolationPoints == _mode)
+    {
+        if (filer.getFileVersion() >= wydb::FileVersion(0, 20))
+        {
+            std::uint32_t numTangent(0);
+            filer >> numTangent;
+            _tangents.resize(numTangent);
+            for (Tangent& tangent : _tangents)
+            {
+                filer >> tangent.angle >> tangent.magnitude >> tangent.isDriving;
+            }
+        }
+        else
+        {
+            _tangents.resize(_points.size());
+        }
+    }
+    else
+    {
+        assert(false);
+    }
+
     return wy::ErrorStatus::Ok;
 }
 
@@ -498,8 +790,9 @@ void SketchSpline::updateGeometry()
     {
     case SplineMode::InterpolationPoints:
     {
-        Handle(Geom2d_BSplineCurve) pBSpline = this->newBSpline(_points);
+        Handle(Geom2d_BSplineCurve) pBSpline = this->newBSpline(_points, _tangents);
         this->_setOccSpline(pBSpline);
+        this->refreshTangents();
         if (pBSpline) this->_setDegree(pBSpline->Degree());
         this->_setKnots({});
         this->_setMultiplicities({});
@@ -532,37 +825,75 @@ void SketchSpline::updateGeometry()
     }
 }
 
-Handle(Geom2d_BSplineCurve) SketchSpline::newBSpline(const std::vector<wy::Vector2>& points) const
+Handle(Geom2d_BSplineCurve) SketchSpline::newBSpline(
+    const std::vector<wy::Vector2>& points,
+    const std::vector<Tangent>& tangents) const
 {
+    if (points.size() < 2)
+    {
+        assert(false);
+        return nullptr;
+    }
+
+    if (points.size() != tangents.size())
+    {
+        assert(false);
+        return nullptr;
+    }
+
     try
     {
-        if (points.size() < 2) { assert(false); return nullptr; }
-        std::vector<wy::Vector2> fitPoints = points;
+        bool isClosed = isClosedFit(points);
+        size_t originalNumPoints = points.size();
+        size_t numPoints = isClosed ? originalNumPoints - 1 : originalNumPoints;
 
-        bool isClosed = false;
-        if (fitPoints.size() >= 4)
+        Handle(TColgp_HArray1OfPnt2d) occPoints =
+            new TColgp_HArray1OfPnt2d(1, static_cast<Standard_Integer>(numPoints));
+        for (std::size_t i = 0; i < numPoints; ++i)
         {
-            const wy::Vector2& firstPnt = fitPoints.front();
-            const wy::Vector2& lastPnt = fitPoints.back();
-            if (firstPnt.x() == lastPnt.x() && firstPnt.y() == lastPnt.y()) isClosed = true;
-            if (isClosed) fitPoints.pop_back();
+            occPoints->SetValue(static_cast<Standard_Integer>(i) + 1,
+                gp_Pnt2d(points[i].x(), points[i].y()));
         }
+        
+        Geom2dAPI_Interpolate interpolator(occPoints, isClosed, wy3d::TOL);
 
-        const size_t numPoints = fitPoints.size();
-        Handle(TColgp_HArray1OfPnt2d) occPoints = new TColgp_HArray1OfPnt2d(1, static_cast<Standard_Integer>(numPoints));
+        bool hasDrivingTangent = false;
         for (size_t i = 0; i < numPoints; ++i)
         {
-            const wy::Vector2& pt = fitPoints[i];
-            occPoints->SetValue(static_cast<Standard_Integer>(i) + 1, gp_Pnt2d(pt.x(), pt.y()));
+            if (tangents[i].isDriving)
+            {
+                hasDrivingTangent = true;
+                break;
+            }
         }
-
-        Geom2dAPI_Interpolate interpolator(occPoints, isClosed, wy3d::TOL);
+        if (hasDrivingTangent)
+        {
+            TColgp_Array1OfVec2d occTangents(1, static_cast<Standard_Integer>(numPoints));
+            Handle(TColStd_HArray1OfBoolean) occTangentFlags =
+                new TColStd_HArray1OfBoolean(1, static_cast<Standard_Integer>(numPoints), Standard_False);
+            for (size_t i = 0; i < numPoints; ++i)
+            {
+                const Tangent tangent = tangents[i];
+                double speed = tangent.magnitude / spanChordLength(points, i);
+                if (std::fabs(speed) <= wy3d::TOL) speed = 1.0;
+                occTangents.SetValue(static_cast<Standard_Integer>(i) + 1,
+                    gp_Vec2d(speed * std::cos(tangent.angle), speed * std::sin(tangent.angle)));
+                occTangentFlags->SetValue(static_cast<Standard_Integer>(i) + 1,
+                    tangent.isDriving ? Standard_True : Standard_False);
+            }
+            interpolator.Load(occTangents, occTangentFlags, Standard_False);
+        }
         interpolator.Perform();
-
-        if (!interpolator.IsDone()) { assert(false); return nullptr; }
+        if (!interpolator.IsDone())
+        {
+            return nullptr;
+        }
         return interpolator.Curve();
     }
-    catch (const Standard_Failure&) { return nullptr; }
+    catch (const Standard_Failure&)
+    {
+        return nullptr;
+    }
 }
 
 Handle(Geom2d_BSplineCurve) SketchSpline::newBSpline(std::uint32_t order, const std::vector<wy::Vector2>& points) const

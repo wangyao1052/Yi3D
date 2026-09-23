@@ -837,6 +837,17 @@ bool MakeSketchSpline::update(const std::vector<wy::Vector2>& points)
         return false;
     }
 
+    if (wy3d::SplineMode::InterpolationPoints == _mode)
+    {
+        std::vector<wy3d::SketchSpline::Tangent> tangents;
+        tangents.resize(points.size());
+        if (wy::ErrorStatus::Ok != _pSketchSpline->setTangents(tangents))
+        {
+            _pDb->getTransactionManager()->abortTransaction();
+            return false;
+        }
+    }
+
     if (wy::ErrorStatus::Ok == _pDb->getTransactionManager()->endTransaction())
     {
         wydb::TransactionManager* pTransMgr = _pDb->getTransactionManager();

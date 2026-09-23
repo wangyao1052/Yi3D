@@ -24,17 +24,18 @@
 class PropertyEditorWidget;
 class SketchSplinePointsEditor;
 
-// One coordinate field of one spline point; an instance handles either X or Y.
-// A coordinate is not a parameter, so this only overrides "which value to read/write",
+// One value of one spline point; an instance handles a single field of it.
+// Such a value is not a parameter, so this only overrides "which value to read/write",
 // the same way TransformLineEdit does. Transaction, error reporting and the regen
 // suppression around the commit all come from ParamLineEdit.
+// The tangent angle is a degrees value here: the core stores radians.
 class SketchSplinePointLineEdit : public ParamLineEdit
 {
     Q_OBJECT
 public:
-    enum class Coord { X = 1, Y = 2 };
+    enum class Field { X = 1, Y = 2, TangentAngle = 3, TangentWeight = 4 };
 
-    SketchSplinePointLineEdit(Coord coord, wydb::ParameterValueUPtr&& pParamValue,
+    SketchSplinePointLineEdit(Field field, wydb::ParameterValueUPtr&& pParamValue,
         SketchSplinePointsEditor* pPointsEditor, PropertyEditorWidget* parent);
 
     virtual QSize sizeHint() const override
@@ -49,7 +50,7 @@ private:
     virtual void getCurrParamValueFromDb(bool& isAllTheSameValue, wydb::ParameterValueUPtr& pOutParamValue) override;
 
 private:
-    Coord _coord;
+    Field _field;
     SketchSplinePointsEditor* _pPointsEditor;
 };
 

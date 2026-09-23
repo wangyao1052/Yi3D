@@ -23,20 +23,54 @@ class WY3D_EXPORT SketchSpline : public wy3d::SketchCurve
     WYDB_DECLARE_MEMBERS(SketchSpline, wy3d::SketchSpline, wy3d::SketchCurve)
 
 public:
+    struct Tangent
+    {
+        double angle = 0.0;
+        double magnitude = 1.0;
+        bool isDriving = false;
+
+        friend bool operator==(const Tangent& a, const Tangent& b)
+        {
+            return a.angle == b.angle
+                && a.magnitude == b.magnitude
+                && a.isDriving == b.isDriving;
+        }
+        friend bool operator!=(const Tangent& a, const Tangent& b)
+        {
+            return !(a == b);
+        }
+    };
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, const std::vector<wy::Vector2>& fitPoints, SketchSpline*& pOut);
     static wy::ErrorStatus create(wydb::Transaction* pTrans, std::uint32_t degree, const std::vector<wy::Vector2>& controlPoints, SketchSpline*& pOut);
     static wy::ErrorStatus create(wydb::Transaction* pTrans, std::uint32_t degree, const std::vector<wy::Vector2>& controlPoints, const std::vector<double>& knots, const std::vector<std::uint32_t>& multiplicities, SketchSpline*& pOut);
 
     SplineMode getMode() const { return _mode; }
     wy::ErrorStatus setMode(SplineMode mode);
+
     std::uint32_t getDegree() const { return _degree; }
     wy::ErrorStatus setDegree(std::uint32_t degree);
+
     const std::vector<wy::Vector2>& getPoints() const { return _points; }
     wy::ErrorStatus setPoints(const std::vector<wy::Vector2>& points);
+
     const std::vector<double>& getKnots() const { return _knots; }
     wy::ErrorStatus setKnots(const std::vector<double>& knots);
+
     const std::vector<std::uint32_t> getMultiplicities() const { return _multiplicities; }
     wy::ErrorStatus setMultiplicities(const std::vector<std::uint32_t>& multiplicities);
+
+    const std::vector<Tangent>& getTangents() const { return _tangents; }
+    Tangent getTangentAt(std::size_t index) const
+    {
+        Tangent tangent;
+        if (index < _tangents.size())
+        {
+            tangent = _tangents[index];
+        }
+        return tangent;
+    }
+    wy::ErrorStatus setTangents(const std::vector<Tangent>& tangents);
 
     Handle(Geom2d_BSplineCurve) getOccSpline() const { return _pBSpline; }
     wy::ErrorStatus _setOccSpline(Handle(Geom2d_BSplineCurve) pBSpline);
@@ -74,7 +108,12 @@ private:
     wy::ErrorStatus _setDegree(std::uint32_t degree);
     wy::ErrorStatus _setKnots(const std::vector<double>& knots);
     wy::ErrorStatus _setMultiplicities(const std::vector<std::uint32_t>& multiplicities);
-    Handle(Geom2d_BSplineCurve) newBSpline(const std::vector<wy::Vector2>& fitPoints) const;
+
+    void refreshTangents();
+
+    Handle(Geom2d_BSplineCurve) newBSpline(
+        const std::vector<wy::Vector2>& fitPoints,
+        const std::vector<Tangent>& tangents) const;
     Handle(Geom2d_BSplineCurve) newBSpline(std::uint32_t order, const std::vector<wy::Vector2>& controlPoints) const;
     Handle(Geom2d_BSplineCurve) newBSpline(std::uint32_t order, const std::vector<wy::Vector2>& controlPoints, const std::vector<double>& knots, const std::vector<std::uint32_t>& multiplicities) const;
 
@@ -84,6 +123,9 @@ private:
     std::vector<wy::Vector2> _points;
     std::vector<double> _knots;
     std::vector<std::uint32_t> _multiplicities;
+
+    std::vector<Tangent> _tangents;
+
     Handle(Geom2d_BSplineCurve) _pBSpline;
 };
 

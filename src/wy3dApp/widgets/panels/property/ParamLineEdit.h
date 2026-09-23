@@ -51,6 +51,12 @@ public:
     // 刷新
     void refresh();
 
+    // Qt folds a style sheet's color into the palette when the widget is polished, and this call
+    // raises no style change, so the grey of the read only rule would neither come nor go with it:
+    // wrapping it keeps the paint in step with the state. Call it on a ParamLineEdit, not a
+    // QLineEdit, or the wrapper is passed by
+    void setReadOnly(bool isReadOnly);
+
 protected:
     virtual void keyPressEvent(QKeyEvent* event) override
     {
