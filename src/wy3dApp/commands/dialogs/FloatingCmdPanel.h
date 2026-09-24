@@ -38,6 +38,9 @@ public:
 
     void setTitle(const QString& title);
     void setFooterVisible(bool visible);
+    // OK is enabled by default; a command that has nothing to confirm yet keeps it disabled
+    // until there is.
+    void setOkEnabled(bool enabled);
 
     // returns the content area widget for subclasses to populate
     QWidget* contentWidget() const { return _pContent; }

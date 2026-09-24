@@ -79,6 +79,9 @@ public:
     // ghost gizmo
     static const osg::Vec4 kGhostGizmo;
 
+    // direction arrow
+    static const osg::Vec4 kDirectionArrow;
+
     // 备选的一些颜色
     // 粉色
     static const osg::Vec4 kPink;

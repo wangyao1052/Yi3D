@@ -83,5 +83,8 @@ const osg::Vec4 Colors::kTransparent(0.72f, 0.25f, 0.15f, 0.4f); // 暗黄色
 // ghost gizmo
 const osg::Vec4 Colors::kGhostGizmo(0.5f, 0.5f, 0.5f, 0.5f); // 灰色
 
+// direction arrow
+const osg::Vec4 Colors::kDirectionArrow(0.0f, 0.498f, 0.698f, 1.0f); // #007FB2
+
 // pink
 const osg::Vec4 Colors::kPink(1.0f, 0.5f, 0.75f, 1.0f);  // 粉红色(SolidWorks)

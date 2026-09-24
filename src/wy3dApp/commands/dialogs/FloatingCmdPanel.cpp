@@ -143,6 +143,12 @@ void FloatingCmdPanel::setFooterVisible(bool visible)
         _pFooter->setVisible(visible);
 }
 
+void FloatingCmdPanel::setOkEnabled(bool enabled)
+{
+    if (_pOkButton)
+        _pOkButton->setEnabled(enabled);
+}
+
 void FloatingCmdPanel::setTitleBarWidget(QWidget* pTitleBar)
 {
     _pTitleBar = pTitleBar;

@@ -39,6 +39,7 @@
 #include "commands/sketch3d/SketchDrawSpline3DGuiCmd.h"
 #include "commands/sketch3d/SketchIncludeCurve3DGuiCmd.h"
 #include "commands/sketch3d/SketchIntersectionCurve3DGuiCmd.h"
+#include "commands/sketch3d/SketchProjectCurve3DGuiCmd.h"
 #include "commands/sketch3d/Sketch3DTrimGuiCmd.h"
 #include "commands/sketch3d/Sketch3DExtendGuiCmd.h"
 #include "commands/sketch3d/Sketch3DFilletGuiCmd.h"
@@ -61,6 +62,7 @@
     X(CommandNames::StyleSpline3D, WYAP_CMD_MODAL, SketchDrawSpline3DGuiCmd_ControlPoints::classInfo()) \
     X(CommandNames::IncludeCurve3D, WYAP_CMD_MODAL, SketchIncludeCurve3DGuiCmd::classInfo()) \
     X(CommandNames::IntersectionCurve3D, WYAP_CMD_MODAL, SketchIntersectionCurve3DGuiCmd::classInfo()) \
+    X(CommandNames::ProjectCurve3D, WYAP_CMD_MODAL, SketchProjectCurve3DGuiCmd::classInfo()) \
     X(CommandNames::Trim3D, WYAP_CMD_MODAL, Sketch3DTrimGuiCmd::classInfo()) \
     X(CommandNames::Extend3D, WYAP_CMD_MODAL, Sketch3DExtendGuiCmd::classInfo()) \
     X(CommandNames::Fillet3D, WYAP_CMD_MODAL, Sketch3DFilletGuiCmd::classInfo()) \
