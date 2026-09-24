@@ -325,43 +325,43 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
     actions.pActionExtrudedSheet = pEnv->newCommandAction(
         CommandNames::ExtrudedSheet,
         QCoreApplication::translate("MainWindow", "Extruded Sheet"),
-        QIcon(),
+        QIcon(":/images/Modeling_ExtrudedSheet.svg"),
         pActionGroup);
 
     actions.pActionRevolvedSheet = pEnv->newCommandAction(
         CommandNames::RevolvedSheet,
         QCoreApplication::translate("MainWindow", "Revolved Sheet"),
-        QIcon(),
+        QIcon(":/images/Modeling_RevolvedSheet.svg"),
         pActionGroup);
 
     actions.pActionSweptSheet = pEnv->newCommandAction(
         CommandNames::SweptSheet,
         QCoreApplication::translate("MainWindow", "Swept Sheet"),
-        QIcon(),
+        QIcon(":/images/Modeling_SweptSheet.svg"),
         pActionGroup);
 
     actions.pActionLoftedSheet = pEnv->newCommandAction(
         CommandNames::LoftedSheet,
         QCoreApplication::translate("MainWindow", "Lofted Sheet"),
-        QIcon(),
+        QIcon(":/images/Modeling_LoftedSheet.svg"),
         pActionGroup);
 
     actions.pActionPlanarSheet = pEnv->newCommandAction(
         CommandNames::PlanarSheet,
         QCoreApplication::translate("MainWindow", "Planar Sheet"),
-        QIcon(),
+        QIcon(":/images/Modeling_PlanarSheet.svg"),
         pActionGroup);
 
     actions.pActionFilledSheet = pEnv->newCommandAction(
         CommandNames::FilledSheet,
         QCoreApplication::translate("MainWindow", "Filled Surface"),
-        QIcon(),
+        QIcon(":/images/Modeling_FilledSheet.svg"),
         pActionGroup);
 
     actions.pActionSewnSheet = pEnv->newCommandAction(
         CommandNames::SewnSheet,
         QCoreApplication::translate("MainWindow", "Sewn Sheet"),
-        QIcon(),
+        QIcon(":/images/Modeling_SewnSheet.svg"),
         pActionGroup);
 
     actions.pActionThicken = pEnv->newCommandAction(
@@ -463,7 +463,7 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
     actions.pActionDeleteFace = pEnv->newCommandAction(
         CommandNames::DeleteFace,
         QCoreApplication::translate("MainWindow", "Delete Face"),
-        QIcon(),
+        QIcon(":/images/Modeling_DeleteFace.svg"),
         pActionGroup);
 
     return actions;

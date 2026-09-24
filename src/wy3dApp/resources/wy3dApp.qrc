@@ -107,6 +107,14 @@
         <file>images/Sketch_RectArray.svg</file>
         <file>images/Sketch_PolarArray.svg</file>
         <file>images/Sketch_CSYS.svg</file>
+        <file>images/Modeling_ExtrudedSheet.svg</file>
+        <file>images/Modeling_RevolvedSheet.svg</file>
+        <file>images/Modeling_SweptSheet.svg</file>
+        <file>images/Modeling_LoftedSheet.svg</file>
+        <file>images/Modeling_PlanarSheet.svg</file>
+        <file>images/Modeling_FilledSheet.svg</file>
+        <file>images/Modeling_SewnSheet.svg</file>
+        <file>images/Modeling_DeleteFace.svg</file>
         <file>images/Curve_Helix.svg</file>
         <file>images/Test_TopoName.svg</file>
         <file>images/Test_CheckTopoName.svg</file>

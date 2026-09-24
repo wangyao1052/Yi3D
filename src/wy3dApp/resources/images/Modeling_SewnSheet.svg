@@ -1,0 +1,17 @@
+<svg width="256.000000" height="256.000000" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Sewn Sheet
+	</desc>
+	<g id="sheet">
+		<rect id="panelLeft" x="16" y="16" width="101" height="224" fill="#5B82AB" fill-opacity="1.000000" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000"/>
+		<rect id="panelRight" x="139" y="16" width="101" height="224" fill="#5B82AB" fill-opacity="1.000000" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000"/>
+		<path id="stitch1Outline" d="M111 52L145 52" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="16.000000" stroke-linecap="round" fill="none"/>
+		<path id="stitch2Outline" d="M111 104L145 104" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="16.000000" stroke-linecap="round" fill="none"/>
+		<path id="stitch3Outline" d="M111 156L145 156" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="16.000000" stroke-linecap="round" fill="none"/>
+		<path id="stitch4Outline" d="M111 208L145 208" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="16.000000" stroke-linecap="round" fill="none"/>
+		<path id="stitch1Fill" d="M111 52L145 52" stroke="#466A6E" stroke-opacity="1.000000" stroke-width="9.000000" stroke-linecap="round" fill="none"/>
+		<path id="stitch2Fill" d="M111 104L145 104" stroke="#466A6E" stroke-opacity="1.000000" stroke-width="9.000000" stroke-linecap="round" fill="none"/>
+		<path id="stitch3Fill" d="M111 156L145 156" stroke="#466A6E" stroke-opacity="1.000000" stroke-width="9.000000" stroke-linecap="round" fill="none"/>
+		<path id="stitch4Fill" d="M111 208L145 208" stroke="#466A6E" stroke-opacity="1.000000" stroke-width="9.000000" stroke-linecap="round" fill="none"/>
+	</g>
+</svg>
