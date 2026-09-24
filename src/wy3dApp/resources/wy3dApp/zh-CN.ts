@@ -7662,22 +7662,22 @@ Do you want to save it to the original file now?
         <translation>点</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="229"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="231"/>
         <source>Index</source>
         <translation>序号</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="247"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="249"/>
         <source>Direction Angle</source>
         <translation>方向角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="251"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="253"/>
         <source>Weight</source>
         <translation>权重</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="241"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="243"/>
         <source>Tangent Driving</source>
         <translation>相切驱动</translation>
     </message>

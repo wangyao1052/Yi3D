@@ -6031,22 +6031,22 @@ Do you want to save it to the original file now?
         <translation>Points</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="229"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="231"/>
         <source>Index</source>
         <translation>Index</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="247"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="249"/>
         <source>Direction Angle</source>
         <translation>Direction Angle</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="251"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="253"/>
         <source>Weight</source>
         <translation>Weight</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="241"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="243"/>
         <source>Tangent Driving</source>
         <translation>Tangent Driving</translation>
     </message>

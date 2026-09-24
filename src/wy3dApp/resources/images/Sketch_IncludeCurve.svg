@@ -1,0 +1,14 @@
+<svg width="64.000000" height="64.000000" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Sketch Include Curve
+	</desc>
+	<defs>
+		<clipPath id="clipSketchIncludeCurve">
+			<rect id="Sketch_IncludeCurve" width="64.000000" height="64.000000" fill="white" fill-opacity="0"/>
+		</clipPath>
+	</defs>
+	<g clip-path="url(#clipSketchIncludeCurve)">
+		<path id="path" d="M43.05 0L16.8 0L0 16.84L0 64L47.22 64L64.02 47.15L64.02 0L43.05 0ZM16.8 4.76L16.8 16.84L4.75 16.84L16.8 4.76ZM3.35 20.21L16.8 20.21L16.8 44.77L3.35 58.24L3.35 20.21ZM43.86 60.62L5.73 60.62L19.17 47.15L43.86 47.15L43.86 60.62ZM43.86 43.78L20.16 43.78L20.16 20.21L43.86 20.21L43.86 43.78ZM44.84 16.84L20.16 16.84L20.16 3.35L58.29 3.35L44.84 16.84ZM47.22 59.22L47.22 47.13L59.26 47.13L47.22 59.22ZM60.66 43.77L47.21 43.77L47.21 19.22L60.67 5.74L60.67 43.78L60.66 43.77Z" fill="#495057" fill-opacity="1.000000" fill-rule="nonzero"/>
+		<path id="includedEdge" d="M43.86 16.84L47.21 16.84L47.21 64L43.86 64L43.86 16.84Z" fill="#1296DB" fill-opacity="1.000000" fill-rule="nonzero"/>
+	</g>
+</svg>

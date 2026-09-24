@@ -249,7 +249,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionIncludeCurve3D = pEnv->newCommandAction(
         CommandNames::IncludeCurve3D,
         QCoreApplication::translate("MainWindow", "Include Curve"),
-        QIcon(":/images/Sketch_Project.svg"),
+        QIcon(":/images/Sketch_IncludeCurve.svg"),
         pActionGroup);
     if (actions.pActionIncludeCurve3D)
     {
@@ -259,7 +259,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionIntersectionCurve3D = pEnv->newCommandAction(
         CommandNames::IntersectionCurve3D,
         QCoreApplication::translate("MainWindow", "Intersection Curve"),
-        QIcon(":/images/Sketch_IntersectionCurve.svg"),
+        QIcon(":/images/Sketch_IntersectionCurve.png"),
         pActionGroup);
     if (actions.pActionIntersectionCurve3D)
     {
