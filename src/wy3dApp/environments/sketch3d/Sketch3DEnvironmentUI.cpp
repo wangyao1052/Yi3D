@@ -270,7 +270,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionProjectCurve3D = pEnv->newCommandAction(
         CommandNames::ProjectCurve3D,
         QCoreApplication::translate("MainWindow", "Project Curve"),
-        QIcon(":/images/Sketch_ProjectCurve.svg"),
+        QIcon(":/images/Sketch_ProjectCurve.png"),
         pActionGroup);
     if (actions.pActionProjectCurve3D)
     {
