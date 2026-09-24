@@ -29,7 +29,7 @@ BEGIN
             VALUE "OriginalFilename", "YI3D.exe"
             VALUE "ProductName",      "Yi3D"
             VALUE "ProductVersion",   "@PROJECT_VERSION@"
-            VALUE "Comments",         "@CMAKE_BUILD_TYPE@ build"
+            VALUE "Comments",         "Yi3D"
         END
     END
     BLOCK "VarFileInfo"

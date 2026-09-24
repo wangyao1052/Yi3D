@@ -29,7 +29,7 @@ BEGIN
             VALUE "OriginalFilename", "YI3D.exe"
             VALUE "ProductName",      "Yi3D"
             VALUE "ProductVersion",   "0.20.0"
-            VALUE "Comments",         "Debug build"
+            VALUE "Comments",         "Yi3D"
         END
     END
     BLOCK "VarFileInfo"
