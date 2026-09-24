@@ -79,6 +79,11 @@ add_subdirectory(src/wy3d)
 configure_file(
     "${CMAKE_SOURCE_DIR}/src/wy3dApp/wy3dAppVersion.h.in"
     "${CMAKE_SOURCE_DIR}/src/wy3dApp/wy3dAppVersion.h")
+
+configure_file(
+    "${CMAKE_SOURCE_DIR}/src/wy3dApp/resources/Yi3D.rc.in"
+    "${CMAKE_SOURCE_DIR}/src/wy3dApp/resources/Yi3D.rc" @ONLY)
+
 add_subdirectory(src/wy3dApp)
 add_subdirectory(src/wy3dPY)
 add_subdirectory(src/unitTest)

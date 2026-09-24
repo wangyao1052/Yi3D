@@ -5,8 +5,8 @@
 1 ICON "Yi3D.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION    0,20,0,0
- PRODUCTVERSION 0,20,0,0
+ FILEVERSION    @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
+ PRODUCTVERSION @PROJECT_VERSION_MAJOR@,@PROJECT_VERSION_MINOR@,@PROJECT_VERSION_PATCH@,0
  FILEFLAGSMASK  VS_FFI_FILEFLAGSMASK
 #ifdef _DEBUG
  FILEFLAGS      VS_FF_DEBUG
@@ -23,13 +23,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName",      "WangYao"
             VALUE "FileDescription",  "Yi3D"
-            VALUE "FileVersion",      "0.20.0"
+            VALUE "FileVersion",      "@PROJECT_VERSION@"
             VALUE "InternalName",     "Yi3D"
             VALUE "LegalCopyright",   "Copyright (C) 2024-2026 WangYao <wangyao1052@163.com>"
             VALUE "OriginalFilename", "YI3D.exe"
             VALUE "ProductName",      "Yi3D"
-            VALUE "ProductVersion",   "0.20.0"
-            VALUE "Comments",         "Debug build"
+            VALUE "ProductVersion",   "@PROJECT_VERSION@"
+            VALUE "Comments",         "@CMAKE_BUILD_TYPE@ build"
         END
     END
     BLOCK "VarFileInfo"
