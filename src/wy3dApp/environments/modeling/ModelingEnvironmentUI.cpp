@@ -44,9 +44,6 @@ struct UiTargets
     QMenu* pMenuSheet;
     QToolBar* pToolBarBasic;
     QToolBar* pToolBarModeling;
-    QToolBar* pToolBarPrimitive;
-    QToolBar* pToolBarBoolean;
-    QToolBar* pToolBarEdit;
     QToolBar* pToolBarUtility;
     QToolBar* pToolBarView;
 #ifdef _DEBUG
@@ -643,7 +640,7 @@ ViewActions createViewActions(ModelingEnvironment* pEnv)
 
     actions.pActionIsometricView = pEnv->newCommandAction(
         CommandNames::IsometricView,
-        QCoreApplication::translate("MainWindow", "IsometricView View"),
+        QCoreApplication::translate("MainWindow", "Isometric View"),
         QIcon(":/images/View_ISO.svg"));
 
     actions.pActionFrontView = pEnv->newCommandAction(
@@ -771,6 +768,9 @@ void buildModelingToolBarUi(
     ModelingEnvironment* pEnv,
     QActionGroup* pActionGroup,
     const ModelingActions& actions,
+    const BooleanActions& booleanActions,
+    const PrimitiveActions& primitiveActions,
+    const EditActions& editActions,
     QToolBar* pToolBarModeling)
 {
     assert(pEnv);
@@ -812,48 +812,71 @@ void buildModelingToolBarUi(
 
     pToolBarModeling->addAction(actions.pActionSweep);
     pToolBarModeling->addAction(actions.pActionLoft);
-    pToolBarModeling->addAction(actions.pActionExtrudeCut);
-    pToolBarModeling->addAction(actions.pActionRevolveCut);
-    pToolBarModeling->addAction(actions.pActionSweepCut);
-    pToolBarModeling->addAction(actions.pActionLoftCut);
+
+    std::list<QAction*> cutActions;
+    cutActions.emplace_back(actions.pActionExtrudeCut);
+    cutActions.emplace_back(actions.pActionRevolveCut);
+    cutActions.emplace_back(actions.pActionSweepCut);
+    cutActions.emplace_back(actions.pActionLoftCut);
+    QToolButton* pToolBtnCut = pEnv->newMenuPopupToolButton(
+        pToolBarModeling,
+        QCoreApplication::translate("MainWindow", "Cut Series"),
+        pActionGroup,
+        cutActions);
+    pToolBarModeling->addWidget(pToolBtnCut);
+
     pToolBarModeling->addAction(actions.pActionMerge);
-    pToolBarModeling->addAction(actions.pActionChamfer);
-    pToolBarModeling->addAction(actions.pActionFillet);
-    pToolBarModeling->addAction(actions.pActionShell);
-    pToolBarModeling->addAction(actions.pActionDraft);
-    pToolBarModeling->addAction(actions.pActionSplitFace);
-}
 
-void buildPrimitiveToolBarUi(const PrimitiveActions& actions, QToolBar* pToolBarPrimitive)
-{
-    assert(pToolBarPrimitive);
+    std::list<QAction*> modificationActions;
+    modificationActions.emplace_back(actions.pActionChamfer);
+    modificationActions.emplace_back(actions.pActionFillet);
+    modificationActions.emplace_back(actions.pActionShell);
+    modificationActions.emplace_back(actions.pActionDraft);
+    modificationActions.emplace_back(actions.pActionSplitFace);
+    QToolButton* pToolBtnModification = pEnv->newMenuPopupToolButton(
+        pToolBarModeling,
+        QCoreApplication::translate("MainWindow", "Modification Series"),
+        pActionGroup,
+        modificationActions);
+    pToolBarModeling->addWidget(pToolBtnModification);
 
-    pToolBarPrimitive->addAction(actions.pActionMakeBox);
-    pToolBarPrimitive->addAction(actions.pActionMakeCylinder);
-    pToolBarPrimitive->addAction(actions.pActionMakeSphere);
-    pToolBarPrimitive->addAction(actions.pActionMakeCone);
-    pToolBarPrimitive->addAction(actions.pActionMakeTorus);
-    pToolBarPrimitive->addAction(actions.pActionMakeTube);
-}
+    std::list<QAction*> booleanActionsList;
+    booleanActionsList.emplace_back(booleanActions.pActionUnion);
+    booleanActionsList.emplace_back(booleanActions.pActionSubtract);
+    booleanActionsList.emplace_back(booleanActions.pActionIntersect);
+    QToolButton* pToolBtnBoolean = pEnv->newMenuPopupToolButton(
+        pToolBarModeling,
+        QCoreApplication::translate("MainWindow", "Boolean Series"),
+        pActionGroup,
+        booleanActionsList);
+    pToolBarModeling->addWidget(pToolBtnBoolean);
 
-void buildBooleanToolBarUi(const BooleanActions& actions, QToolBar* pToolBarBoolean)
-{
-    assert(pToolBarBoolean);
+    std::list<QAction*> primitiveActionsList;
+    primitiveActionsList.emplace_back(primitiveActions.pActionMakeBox);
+    primitiveActionsList.emplace_back(primitiveActions.pActionMakeCylinder);
+    primitiveActionsList.emplace_back(primitiveActions.pActionMakeSphere);
+    primitiveActionsList.emplace_back(primitiveActions.pActionMakeCone);
+    primitiveActionsList.emplace_back(primitiveActions.pActionMakeTorus);
+    primitiveActionsList.emplace_back(primitiveActions.pActionMakeTube);
+    QToolButton* pToolBtnPrimitive = pEnv->newMenuPopupToolButton(
+        pToolBarModeling,
+        QCoreApplication::translate("MainWindow", "Primitive Series"),
+        pActionGroup,
+        primitiveActionsList);
+    pToolBarModeling->addWidget(pToolBtnPrimitive);
 
-    pToolBarBoolean->addAction(actions.pActionUnion);
-    pToolBarBoolean->addAction(actions.pActionSubtract);
-    pToolBarBoolean->addAction(actions.pActionIntersect);
-}
-
-void buildEditToolBarUi(const EditActions& actions, QToolBar* pToolBarEdit)
-{
-    assert(pToolBarEdit);
-
-    pToolBarEdit->addAction(actions.pActionMove);
-    pToolBarEdit->addAction(actions.pActionRotate);
-    pToolBarEdit->addAction(actions.pActionMirror);
-    pToolBarEdit->addAction(actions.pActionLinearPattern);
-    pToolBarEdit->addAction(actions.pActionCircularPattern);
+    std::list<QAction*> editActionsList;
+    editActionsList.emplace_back(editActions.pActionMove);
+    editActionsList.emplace_back(editActions.pActionRotate);
+    editActionsList.emplace_back(editActions.pActionMirror);
+    editActionsList.emplace_back(editActions.pActionLinearPattern);
+    editActionsList.emplace_back(editActions.pActionCircularPattern);
+    QToolButton* pToolBtnEdit = pEnv->newMenuPopupToolButton(
+        pToolBarModeling,
+        QCoreApplication::translate("MainWindow", "Edit Series"),
+        pActionGroup,
+        editActionsList);
+    pToolBarModeling->addWidget(pToolBtnEdit);
 }
 
 void buildUtilityToolBarUi(const UtilityActions& actions, QToolBar* pToolBarUtility)
@@ -876,13 +899,21 @@ void buildViewToolBarUi(
 
     pToolBarView->addAction(actions.pActionFitView);
     pToolBarView->addAction(actions.pActionFitSelection);
-    pToolBarView->addAction(actions.pActionIsometricView);
-    pToolBarView->addAction(actions.pActionFrontView);
-    pToolBarView->addAction(actions.pActionBackView);
-    pToolBarView->addAction(actions.pActionLeftView);
-    pToolBarView->addAction(actions.pActionRightView);
-    pToolBarView->addAction(actions.pActionTopView);
-    pToolBarView->addAction(actions.pActionBottomView);
+
+    std::list<QAction*> standardViewActions;
+    standardViewActions.emplace_back(actions.pActionIsometricView);
+    standardViewActions.emplace_back(actions.pActionFrontView);
+    standardViewActions.emplace_back(actions.pActionBackView);
+    standardViewActions.emplace_back(actions.pActionLeftView);
+    standardViewActions.emplace_back(actions.pActionRightView);
+    standardViewActions.emplace_back(actions.pActionTopView);
+    standardViewActions.emplace_back(actions.pActionBottomView);
+    QToolButton* pToolBtnStandardView = pEnv->newMenuPopupToolButton(
+        pToolBarView,
+        QCoreApplication::translate("MainWindow", "Standard View Series"),
+        nullptr,
+        standardViewActions);
+    pToolBarView->addWidget(pToolBtnStandardView);
 
     pToolBarView->addSeparator();
 
@@ -918,18 +949,6 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
     targets.pToolBarModeling = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "Modeling"),
         wy3dApp::ToolBarNames::Modeling);
-
-    targets.pToolBarPrimitive = pEnv->addToolBar(
-        QCoreApplication::translate("MainWindow", "Primitive"),
-        wy3dApp::ToolBarNames::Primitive);
-
-    targets.pToolBarBoolean = pEnv->addToolBar(
-        QCoreApplication::translate("MainWindow", "Boolean"),
-        wy3dApp::ToolBarNames::Boolean);
-
-    targets.pToolBarEdit = pEnv->addToolBar(
-        QCoreApplication::translate("MainWindow", "Edit"),
-        wy3dApp::ToolBarNames::ModelingEdit);
 
     targets.pToolBarUtility = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "Utility"),
@@ -1003,10 +1022,14 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
     buildFileMenuUi(fileActions, uiTargets.pMenuFile);
     buildSheetMenuUi(modelingActions, uiTargets.pMenuSheet);
     buildBasicToolBarUi(fileActions, undoRedoActions, uiTargets.pToolBarBasic);
-    buildModelingToolBarUi(pEnv, pActionGroup, modelingActions, uiTargets.pToolBarModeling);
-    buildPrimitiveToolBarUi(primitiveActions, uiTargets.pToolBarPrimitive);
-    buildBooleanToolBarUi(booleanActions, uiTargets.pToolBarBoolean);
-    buildEditToolBarUi(editActions, uiTargets.pToolBarEdit);
+    buildModelingToolBarUi(
+        pEnv,
+        pActionGroup,
+        modelingActions,
+        booleanActions,
+        primitiveActions,
+        editActions,
+        uiTargets.pToolBarModeling);
     buildUtilityToolBarUi(utilityActions, uiTargets.pToolBarUtility);
     buildViewToolBarUi(pEnv, viewActions, uiTargets.pToolBarView);
 #ifdef _DEBUG
