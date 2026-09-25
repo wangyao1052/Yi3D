@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="256.000000" height="256.000000" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+	<desc>Solidify</desc>
+	<g id="body">
+		<!-- 实体化:等轴测立方体,面 = 拉伸面片的那条渐变(#5B82AB→#4D6E91),不透明、不画背棱 -->
+		<!-- 与 Modeling_Sheetify.svg 同一形体、同坐标 —— 两个图标只差"透不透 + 画不画背棱":实体挡住背面,片体是面无厚度所以背棱透得出来 -->
+		<defs>
+		<linearGradient id="solidifyGrad" x1="28.4" y1="128" x2="227.6" y2="128" gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-color="#5B82AB"/>
+			<stop offset="1" stop-color="#4D6E91"/>
+		</linearGradient>
+		</defs>
+		<path id="bodyFill" d="M28.4 70.5L128.0 13.0L227.6 70.5L227.6 185.5L128.0 243.0L28.4 185.5Z" fill="url(#solidifyGrad)" fill-opacity="1.00"/>
+		<path id="bodyOutline" d="M28.4 70.5L128.0 13.0L227.6 70.5L227.6 185.5L128.0 243.0L28.4 185.5Z" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linejoin="round" fill="none"/>
+		<path id="edge0" d="M28.4 185.5L128.0 243.0" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linecap="round" fill="none"/>
+		<path id="edge1" d="M128.0 243.0L227.6 185.5" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linecap="round" fill="none"/>
+		<path id="edge4" d="M128.0 13.0L227.6 70.5" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linecap="round" fill="none"/>
+		<path id="edge4" d="M128.0 13.0L28.4 70.5" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linecap="round" fill="none"/>
+		<path id="edge2" d="M227.6 185.5L227.6 70.5" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linecap="round" fill="none"/>
+		<path id="edge0" d="M28.4 185.5L28.4 70.5" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linecap="round" fill="none"/>
+		<path id="edge5" d="M227.6 70.5L128.0 128.0" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linecap="round" fill="none"/>
+		<path id="edge6" d="M128.0 128.0L28.4 70.5" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linecap="round" fill="none"/>
+		<path id="edge1" d="M128.0 243.0L128.0 128.0" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linecap="round" fill="none"/>
+	</g>
+</svg>

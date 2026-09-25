@@ -367,19 +367,19 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
     actions.pActionThicken = pEnv->newCommandAction(
         CommandNames::Thicken,
         QCoreApplication::translate("MainWindow", "Thicken"),
-        QIcon(),
+        QIcon(":/images/Modeling_Thicken.svg"),
         pActionGroup);
 
     actions.pActionSolidify = pEnv->newCommandAction(
         CommandNames::Solidify,
         QCoreApplication::translate("MainWindow", "Solidify"),
-        QIcon(),
+        QIcon(":/images/Modeling_Solidify.svg"),
         pActionGroup);
 
     actions.pActionOffsetSheet = pEnv->newCommandAction(
         CommandNames::OffsetSheet,
         QCoreApplication::translate("MainWindow", "Offset Sheet"),
-        QIcon(),
+        QIcon(":/images/Modeling_OffsetSheet.png"),
         pActionGroup);
 
     actions.pActionRevolve = pEnv->newCommandAction(

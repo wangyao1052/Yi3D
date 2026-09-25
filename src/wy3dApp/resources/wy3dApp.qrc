@@ -112,8 +112,11 @@
         <file>images/Modeling_SweptSheet.svg</file>
         <file>images/Modeling_LoftedSheet.svg</file>
         <file>images/Modeling_PlanarSheet.svg</file>
+        <file>images/Modeling_OffsetSheet.png</file>
         <file>images/Modeling_FilledSheet.svg</file>
         <file>images/Modeling_SewnSheet.svg</file>
+        <file>images/Modeling_Thicken.svg</file>
+        <file>images/Modeling_Solidify.svg</file>
         <file>images/Modeling_DeleteFace.svg</file>
         <file>images/Curve_Helix.svg</file>
         <file>images/Test_TopoName.svg</file>
