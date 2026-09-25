@@ -41,6 +41,7 @@ namespace
 struct UiTargets
 {
     QMenu* pMenuFile;
+    QMenu* pMenuTools;
     QMenu* pMenuView;
     QMenu* pMenuSolid;
     QMenu* pMenuSheet;
@@ -617,7 +618,7 @@ UtilityActions createUtilityActions(ModelingEnvironment* pEnv, QActionGroup* pAc
 
     actions.pActionFindElementById = pEnv->newCommandAction(
         CommandNames::FindElementById,
-        QCoreApplication::translate("MainWindow", "Find Element By ID"),
+        QCoreApplication::translate("MainWindow", "Find"),
         QIcon(":/images/Utility_FindElementById.svg"),
         pActionGroup);
     actions.pActionFindElementById->setShortcut(QKeySequence::Find);
@@ -895,6 +896,34 @@ void buildViewMenuUi(const ViewActions& actions, QMenu* pMenuView)
     pMenuDisplayMode->addAction(actions.pActionWireframeDisplay);
 }
 
+void buildToolsMenuUi(const UtilityActions& actions, QMenu* pMenuTools)
+{
+    assert(pMenuTools);
+
+    const QList<QAction*> existingActions = pMenuTools->actions();
+    QAction* pAnchor = existingActions.isEmpty() ? nullptr : existingActions.first();
+
+    std::list<QAction*> utilityActions;
+    utilityActions.emplace_back(actions.pActionSetColor);
+    utilityActions.emplace_back(actions.pActionMeasure);
+    utilityActions.emplace_back(actions.pActionRunScript);
+    utilityActions.emplace_back(actions.pActionFindElementById);
+    for (QAction* pAction : utilityActions)
+    {
+        if (pAnchor)
+            pMenuTools->insertAction(pAnchor, pAction);
+        else
+            pMenuTools->addAction(pAction);
+    }
+
+    if (pAnchor)
+    {
+        QAction* pSeparator = new QAction(actions.pActionSetColor);
+        pSeparator->setSeparator(true);
+        pMenuTools->insertAction(pAnchor, pSeparator);
+    }
+}
+
 void buildBasicToolBarUi(
     const FileActions& fileActions,
     const UndoRedoActions& undoRedoActions,
@@ -1131,6 +1160,9 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
     if (pAnchorMenu)
         pMainWindow->menuBar()->insertMenu(pAnchorMenu->menuAction(), targets.pMenuSheet);
 
+    targets.pMenuTools = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::Tools);
+    assert(targets.pMenuTools);
+
     targets.pMenuSolid = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Solid"),
                                        wy3dApp::MenuBarNames::Solid);
     assert(targets.pMenuSolid);
@@ -1194,6 +1226,7 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
         editActions,
         uiTargets.pToolBarModeling);
     buildUtilityToolBarUi(utilityActions, uiTargets.pToolBarUtility);
+    buildToolsMenuUi(utilityActions, uiTargets.pMenuTools);
     buildViewToolBarUi(pEnv, viewActions, uiTargets.pToolBarView);
 #ifdef _DEBUG
     buildTestToolBarUi(testActions, uiTargets.pToolBarTest);

@@ -41,6 +41,7 @@ namespace
 struct UiTargets
 {
     QMenu* pMenuView;
+    QMenu* pMenuTools;
     QToolBar* pToolBarBasic;
     QToolBar* pToolBarEdit;
     QToolBar* pToolBarSketch;
@@ -157,6 +158,9 @@ UiTargets createUiTargets(SketchEnvironment* pEnv)
     assert(pMenuFile);
     if (pMenuFile)
         pEnv->insertMenuAfter(pMenuFile, targets.pMenuView);
+
+    targets.pMenuTools = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::Tools);
+    assert(targets.pMenuTools);
 
     return targets;
 }
@@ -575,7 +579,7 @@ ViewActions createViewActions(SketchEnvironment* pEnv, QActionGroup* pActionGrou
 
     actions.pActionFindElementById = pEnv->newCommandAction(
         CommandNames::FindElementById,
-        QCoreApplication::translate("MainWindow", "Find Element By ID"),
+        QCoreApplication::translate("MainWindow", "Find"),
         QIcon(":/images/Utility_FindElementById.svg"),
         pActionGroup);
     actions.pActionFindElementById->setShortcut(QKeySequence::Find);
@@ -733,6 +737,27 @@ void buildViewMenuUi(const ViewActions& actions, QMenu* pMenuView)
     pMenuDisplayMode->addAction(actions.pActionShadedDisplay);
     pMenuDisplayMode->addAction(actions.pActionWireframeDisplay);
 }
+
+void buildToolsMenuUi(const ViewActions& actions, QMenu* pMenuTools)
+{
+    assert(pMenuTools);
+
+    const QList<QAction*> existingActions = pMenuTools->actions();
+    QAction* pAnchor = existingActions.isEmpty() ? nullptr : existingActions.first();
+
+    if (pAnchor)
+    {
+        pMenuTools->insertAction(pAnchor, actions.pActionFindElementById);
+
+        QAction* pSeparator = new QAction(actions.pActionFindElementById);
+        pSeparator->setSeparator(true);
+        pMenuTools->insertAction(pAnchor, pSeparator);
+    }
+    else
+    {
+        pMenuTools->addAction(actions.pActionFindElementById);
+    }
+}
 } // namespace
 
 SketchEnvironmentUI::SketchEnvironmentUI()
@@ -773,6 +798,7 @@ void SketchEnvironmentUI::initialize(SketchEnvironment* pEnv)
     buildViewToolBarUi(pEnv, viewActions, uiTargets.pToolBarView);
 
     buildViewMenuUi(viewActions, uiTargets.pMenuView);
+    buildToolsMenuUi(viewActions, uiTargets.pMenuTools);
 
     pEnv->restoreUiState();
 }
