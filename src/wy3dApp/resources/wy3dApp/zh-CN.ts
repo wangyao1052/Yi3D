@@ -2835,7 +2835,7 @@ Do you want to save it to the original file now?
         <translation type="unfinished">绘制中心线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="638"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="669"/>
         <source>Line Series</source>
         <translation type="unfinished">绘制线命令集</translation>
     </message>
@@ -2945,7 +2945,48 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="659"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="622"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="512"/>
+        <source>Trim Series</source>
+        <translation type="unfinished">修剪命令集</translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="632"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="522"/>
+        <source>Fillet Series</source>
+        <translation type="unfinished">圆角命令集</translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="644"/>
+        <source>Array Series</source>
+        <translation type="unfinished">阵列命令集</translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="679"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="479"/>
+        <source>Rectangle Series</source>
+        <translation type="unfinished">绘制矩形命令集</translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="691"/>
+        <source>Circle Series</source>
+        <translation type="unfinished">绘制圆命令集</translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="701"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="469"/>
+        <source>Arc Series</source>
+        <translation type="unfinished">绘制圆弧命令集</translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="711"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="489"/>
+        <source>Ellipse Series</source>
+        <translation type="unfinished">绘制椭圆命令集</translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="722"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="499"/>
         <source>Spline Series</source>
         <translation type="unfinished">样条曲线命令集</translation>
     </message>
@@ -3485,8 +3526,8 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="883"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="725"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="530"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="797"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="591"/>
         <source>Standard View</source>
         <translation type="unfinished">标准视图</translation>
     </message>
@@ -3521,6 +3562,8 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1085"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="764"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="559"/>
         <source>Standard View Series</source>
         <translation type="unfinished">标准视图命令集</translation>
     </message>
@@ -3537,10 +3580,10 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="893"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1100"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="709"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="735"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="515"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="540"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="779"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="807"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="574"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="601"/>
         <source>Display Mode</source>
         <translation>显示模式</translation>
     </message>

@@ -598,8 +598,14 @@ void buildBasicToolBarUi(
     pToolBarBasic->addAction(undoRedoActions.pActionRedo);
 }
 
-void buildEditToolBarUi(const EditActions& actions, QToolBar* pToolBarEdit)
+void buildEditToolBarUi(
+    SketchEnvironment* pEnv,
+    QActionGroup* pActionGroup,
+    const EditActions& actions,
+    QToolBar* pToolBarEdit)
 {
+    assert(pEnv);
+    assert(pActionGroup);
     assert(pToolBarEdit);
 
     pToolBarEdit->addAction(actions.pActionCopy);
@@ -607,13 +613,38 @@ void buildEditToolBarUi(const EditActions& actions, QToolBar* pToolBarEdit)
     pToolBarEdit->addAction(actions.pActionRotate);
     pToolBarEdit->addAction(actions.pActionSketchMirror);
     pToolBarEdit->addAction(actions.pActionSketchScale);
-    pToolBarEdit->addAction(actions.pActionTrim);
-    pToolBarEdit->addAction(actions.pActionExtend);
-    pToolBarEdit->addAction(actions.pActionSketchFillet);
-    pToolBarEdit->addAction(actions.pActionSketchChamfer);
+
+    std::list<QAction*> trimSeriesActions;
+    trimSeriesActions.emplace_back(actions.pActionTrim);
+    trimSeriesActions.emplace_back(actions.pActionExtend);
+    QToolButton* pToolBtnTrimSeries = pEnv->newMenuPopupToolButton(
+        pToolBarEdit,
+        QCoreApplication::translate("MainWindow", "Trim Series"),
+        pActionGroup,
+        trimSeriesActions);
+    pToolBarEdit->addWidget(pToolBtnTrimSeries);
+
+    std::list<QAction*> filletSeriesActions;
+    filletSeriesActions.emplace_back(actions.pActionSketchFillet);
+    filletSeriesActions.emplace_back(actions.pActionSketchChamfer);
+    QToolButton* pToolBtnFilletSeries = pEnv->newMenuPopupToolButton(
+        pToolBarEdit,
+        QCoreApplication::translate("MainWindow", "Fillet Series"),
+        pActionGroup,
+        filletSeriesActions);
+    pToolBarEdit->addWidget(pToolBtnFilletSeries);
+
     pToolBarEdit->addAction(actions.pActionSketchOffset);
-    pToolBarEdit->addAction(actions.pActionSketchRectArray);
-    pToolBarEdit->addAction(actions.pActionSketchPolarArray);
+
+    std::list<QAction*> arraySeriesActions;
+    arraySeriesActions.emplace_back(actions.pActionSketchRectArray);
+    arraySeriesActions.emplace_back(actions.pActionSketchPolarArray);
+    QToolButton* pToolBtnArraySeries = pEnv->newMenuPopupToolButton(
+        pToolBarEdit,
+        QCoreApplication::translate("MainWindow", "Array Series"),
+        pActionGroup,
+        arraySeriesActions);
+    pToolBarEdit->addWidget(pToolBtnArraySeries);
 }
 
 void buildSketchToolBarUi(
@@ -640,15 +671,47 @@ void buildSketchToolBarUi(
         lineSeriesActions);
     pToolBarSketch->addWidget(pToolBtnLineSeries);
 
-    pToolBarSketch->addAction(actions.pActionDrawRectangle);
-    pToolBarSketch->addAction(actions.pActionDrawCenterRectangle);
+    std::list<QAction*> rectangleSeriesActions;
+    rectangleSeriesActions.emplace_back(actions.pActionDrawRectangle);
+    rectangleSeriesActions.emplace_back(actions.pActionDrawCenterRectangle);
+    QToolButton* pToolBtnRectangleSeries = pEnv->newMenuPopupToolButton(
+        pToolBarSketch,
+        QCoreApplication::translate("MainWindow", "Rectangle Series"),
+        pActionGroup,
+        rectangleSeriesActions);
+    pToolBarSketch->addWidget(pToolBtnRectangleSeries);
+
     pToolBarSketch->addAction(actions.pActionDrawPolygon);
-    pToolBarSketch->addAction(actions.pActionDrawCircle);
-    pToolBarSketch->addAction(actions.pActionDrawCircleBy3Points);
-    pToolBarSketch->addAction(actions.pActionDrawArc);
-    pToolBarSketch->addAction(actions.pActionDrawArcBy3Points);
-    pToolBarSketch->addAction(actions.pActionDrawEllipse);
-    pToolBarSketch->addAction(actions.pActionDrawEllipseArc);
+
+    std::list<QAction*> circleSeriesActions;
+    circleSeriesActions.emplace_back(actions.pActionDrawCircle);
+    circleSeriesActions.emplace_back(actions.pActionDrawCircleBy3Points);
+    QToolButton* pToolBtnCircleSeries = pEnv->newMenuPopupToolButton(
+        pToolBarSketch,
+        QCoreApplication::translate("MainWindow", "Circle Series"),
+        pActionGroup,
+        circleSeriesActions);
+    pToolBarSketch->addWidget(pToolBtnCircleSeries);
+
+    std::list<QAction*> arcSeriesActions;
+    arcSeriesActions.emplace_back(actions.pActionDrawArc);
+    arcSeriesActions.emplace_back(actions.pActionDrawArcBy3Points);
+    QToolButton* pToolBtnArcSeries = pEnv->newMenuPopupToolButton(
+        pToolBarSketch,
+        QCoreApplication::translate("MainWindow", "Arc Series"),
+        pActionGroup,
+        arcSeriesActions);
+    pToolBarSketch->addWidget(pToolBtnArcSeries);
+
+    std::list<QAction*> ellipseSeriesActions;
+    ellipseSeriesActions.emplace_back(actions.pActionDrawEllipse);
+    ellipseSeriesActions.emplace_back(actions.pActionDrawEllipseArc);
+    QToolButton* pToolBtnEllipseSeries = pEnv->newMenuPopupToolButton(
+        pToolBarSketch,
+        QCoreApplication::translate("MainWindow", "Ellipse Series"),
+        pActionGroup,
+        ellipseSeriesActions);
+    pToolBarSketch->addWidget(pToolBtnEllipseSeries);
 
     std::list<QAction*> splineSeriesActions;
     splineSeriesActions.emplace_back(actions.pActionDrawSpline);
@@ -686,15 +749,22 @@ void buildViewToolBarUi(
 
     pToolBarView->addAction(actions.pActionFitView);
     pToolBarView->addAction(actions.pActionFitSelection);
-    pToolBarView->addAction(actions.pActionIsometricView);
-    pToolBarView->addAction(actions.pActionFrontView);
-    pToolBarView->addAction(actions.pActionBackView);
-    pToolBarView->addAction(actions.pActionLeftView);
-    pToolBarView->addAction(actions.pActionRightView);
-    pToolBarView->addAction(actions.pActionTopView);
-    pToolBarView->addAction(actions.pActionBottomView);
     pToolBarView->addAction(actions.pActionOrientToSketch);
-    pToolBarView->addAction(actions.pActionFindElementById);
+
+    std::list<QAction*> standardViewActions;
+    standardViewActions.emplace_back(actions.pActionIsometricView);
+    standardViewActions.emplace_back(actions.pActionFrontView);
+    standardViewActions.emplace_back(actions.pActionBackView);
+    standardViewActions.emplace_back(actions.pActionLeftView);
+    standardViewActions.emplace_back(actions.pActionRightView);
+    standardViewActions.emplace_back(actions.pActionTopView);
+    standardViewActions.emplace_back(actions.pActionBottomView);
+    QToolButton* pToolBtnStandardView = pEnv->newMenuPopupToolButton(
+        pToolBarView,
+        QCoreApplication::translate("MainWindow", "Standard View Series"),
+        nullptr,
+        standardViewActions);
+    pToolBarView->addWidget(pToolBtnStandardView);
 
     pToolBarView->addSeparator();
 
@@ -710,6 +780,8 @@ void buildViewToolBarUi(
         pDisplayModeGroup,
         displayModeActions);
     pToolBarView->addWidget(pToolBtn);
+
+    pToolBarView->addAction(actions.pActionFindElementById);
 }
 
 void buildViewMenuUi(const ViewActions& actions, QMenu* pMenuView)
@@ -786,7 +858,11 @@ void SketchEnvironmentUI::initialize(SketchEnvironment* pEnv)
     const ViewActions viewActions = createViewActions(pEnv, pActionGroup);
 
     buildBasicToolBarUi(undoRedoActions, uiTargets.pToolBarBasic);
-    buildEditToolBarUi(editActions, uiTargets.pToolBarEdit);
+    buildEditToolBarUi(
+        pEnv,
+        pActionGroup,
+        editActions,
+        uiTargets.pToolBarEdit);
     buildSketchToolBarUi(
         pEnv,
         pActionGroup,

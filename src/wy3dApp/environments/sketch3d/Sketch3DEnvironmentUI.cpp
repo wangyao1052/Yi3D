@@ -448,29 +448,81 @@ void buildBasicToolBarUi(
 }
 
 void buildSketch3DToolBarUi(
+    Sketch3DEnvironment* pEnv,
+    QActionGroup* pActionGroup,
     const Sketch3DActions& actions,
     QToolBar* pToolBarSketch3D)
 {
+    assert(pEnv);
+    assert(pActionGroup);
     assert(pToolBarSketch3D);
 
     pToolBarSketch3D->addAction(actions.pActionSelect);
     pToolBarSketch3D->addAction(actions.pActionDrawLine3D);
     pToolBarSketch3D->addAction(actions.pActionDrawCircle3D);
-    pToolBarSketch3D->addAction(actions.pActionDrawArc3D);
-    pToolBarSketch3D->addAction(actions.pActionDrawArcBy3Points3D);
-    pToolBarSketch3D->addAction(actions.pActionDrawRectangle3D);
-    pToolBarSketch3D->addAction(actions.pActionDrawCenterRectangle3D);
-    pToolBarSketch3D->addAction(actions.pActionDrawEllipse3D);
-    pToolBarSketch3D->addAction(actions.pActionDrawEllipseArc3D);
-    pToolBarSketch3D->addAction(actions.pActionDrawSpline3D);
-    pToolBarSketch3D->addAction(actions.pActionDrawStyleSpline3D);
+
+    std::list<QAction*> arcSeriesActions;
+    arcSeriesActions.emplace_back(actions.pActionDrawArc3D);
+    arcSeriesActions.emplace_back(actions.pActionDrawArcBy3Points3D);
+    QToolButton* pToolBtnArcSeries = pEnv->newMenuPopupToolButton(
+        pToolBarSketch3D,
+        QCoreApplication::translate("MainWindow", "Arc Series"),
+        pActionGroup,
+        arcSeriesActions);
+    pToolBarSketch3D->addWidget(pToolBtnArcSeries);
+
+    std::list<QAction*> rectangleSeriesActions;
+    rectangleSeriesActions.emplace_back(actions.pActionDrawRectangle3D);
+    rectangleSeriesActions.emplace_back(actions.pActionDrawCenterRectangle3D);
+    QToolButton* pToolBtnRectangleSeries = pEnv->newMenuPopupToolButton(
+        pToolBarSketch3D,
+        QCoreApplication::translate("MainWindow", "Rectangle Series"),
+        pActionGroup,
+        rectangleSeriesActions);
+    pToolBarSketch3D->addWidget(pToolBtnRectangleSeries);
+
+    std::list<QAction*> ellipseSeriesActions;
+    ellipseSeriesActions.emplace_back(actions.pActionDrawEllipse3D);
+    ellipseSeriesActions.emplace_back(actions.pActionDrawEllipseArc3D);
+    QToolButton* pToolBtnEllipseSeries = pEnv->newMenuPopupToolButton(
+        pToolBarSketch3D,
+        QCoreApplication::translate("MainWindow", "Ellipse Series"),
+        pActionGroup,
+        ellipseSeriesActions);
+    pToolBarSketch3D->addWidget(pToolBtnEllipseSeries);
+
+    std::list<QAction*> splineSeriesActions;
+    splineSeriesActions.emplace_back(actions.pActionDrawSpline3D);
+    splineSeriesActions.emplace_back(actions.pActionDrawStyleSpline3D);
+    QToolButton* pToolBtnSplineSeries = pEnv->newMenuPopupToolButton(
+        pToolBarSketch3D,
+        QCoreApplication::translate("MainWindow", "Spline Series"),
+        pActionGroup,
+        splineSeriesActions);
+    pToolBarSketch3D->addWidget(pToolBtnSplineSeries);
+
     pToolBarSketch3D->addAction(actions.pActionIncludeCurve3D);
     pToolBarSketch3D->addAction(actions.pActionIntersectionCurve3D);
     pToolBarSketch3D->addAction(actions.pActionProjectCurve3D);
-    pToolBarSketch3D->addAction(actions.pActionTrim3D);
-    pToolBarSketch3D->addAction(actions.pActionExtend3D);
-    pToolBarSketch3D->addAction(actions.pActionFillet3D);
-    pToolBarSketch3D->addAction(actions.pActionChamfer3D);
+    std::list<QAction*> trimSeriesActions;
+    trimSeriesActions.emplace_back(actions.pActionTrim3D);
+    trimSeriesActions.emplace_back(actions.pActionExtend3D);
+    QToolButton* pToolBtnTrimSeries = pEnv->newMenuPopupToolButton(
+        pToolBarSketch3D,
+        QCoreApplication::translate("MainWindow", "Trim Series"),
+        pActionGroup,
+        trimSeriesActions);
+    pToolBarSketch3D->addWidget(pToolBtnTrimSeries);
+
+    std::list<QAction*> filletSeriesActions;
+    filletSeriesActions.emplace_back(actions.pActionFillet3D);
+    filletSeriesActions.emplace_back(actions.pActionChamfer3D);
+    QToolButton* pToolBtnFilletSeries = pEnv->newMenuPopupToolButton(
+        pToolBarSketch3D,
+        QCoreApplication::translate("MainWindow", "Fillet Series"),
+        pActionGroup,
+        filletSeriesActions);
+    pToolBarSketch3D->addWidget(pToolBtnFilletSeries);
 }
 
 void buildSketch3DEnvironmentToolBarUi(
@@ -493,14 +545,21 @@ void buildViewToolBarUi(
 
     pToolBarView->addAction(actions.pActionFitView);
     pToolBarView->addAction(actions.pActionFitSelection);
-    pToolBarView->addAction(actions.pActionIsometricView);
-    pToolBarView->addAction(actions.pActionFrontView);
-    pToolBarView->addAction(actions.pActionBackView);
-    pToolBarView->addAction(actions.pActionLeftView);
-    pToolBarView->addAction(actions.pActionRightView);
-    pToolBarView->addAction(actions.pActionTopView);
-    pToolBarView->addAction(actions.pActionBottomView);
-    pToolBarView->addAction(actions.pActionFindElementById);
+
+    std::list<QAction*> standardViewActions;
+    standardViewActions.emplace_back(actions.pActionIsometricView);
+    standardViewActions.emplace_back(actions.pActionFrontView);
+    standardViewActions.emplace_back(actions.pActionBackView);
+    standardViewActions.emplace_back(actions.pActionLeftView);
+    standardViewActions.emplace_back(actions.pActionRightView);
+    standardViewActions.emplace_back(actions.pActionTopView);
+    standardViewActions.emplace_back(actions.pActionBottomView);
+    QToolButton* pToolBtnStandardView = pEnv->newMenuPopupToolButton(
+        pToolBarView,
+        QCoreApplication::translate("MainWindow", "Standard View Series"),
+        nullptr,
+        standardViewActions);
+    pToolBarView->addWidget(pToolBtnStandardView);
 
     pToolBarView->addSeparator();
 
@@ -516,6 +575,8 @@ void buildViewToolBarUi(
         pDisplayModeGroup,
         displayModeActions);
     pToolBarView->addWidget(pToolBtn);
+
+    pToolBarView->addAction(actions.pActionFindElementById);
 }
 
 void buildViewMenuUi(const ViewActions& actions, QMenu* pMenuView)
@@ -591,6 +652,8 @@ void Sketch3DEnvironmentUI::initialize(Sketch3DEnvironment* pEnv)
 
     buildBasicToolBarUi(undoRedoActions, uiTargets.pToolBarBasic);
     buildSketch3DToolBarUi(
+        pEnv,
+        pActionGroup,
         sketch3DActions,
         uiTargets.pToolBarSketch3D);
     buildSketch3DEnvironmentToolBarUi(
