@@ -41,6 +41,7 @@ namespace
 struct UiTargets
 {
     QMenu* pMenuFile;
+    QMenu* pMenuSolid;
     QMenu* pMenuSheet;
     QToolBar* pToolBarBasic;
     QToolBar* pToolBarModeling;
@@ -811,6 +812,63 @@ void buildSheetToolBarUi(
     pToolBarSheet->addWidget(pToolBtnSolidify);
 }
 
+void buildSolidMenuUi(
+    const ModelingActions& actions,
+    const BooleanActions& booleanActions,
+    const PrimitiveActions& primitiveActions,
+    const EditActions& editActions,
+    QMenu* pMenuSolid)
+{
+    assert(pMenuSolid);
+
+    QMenu* pMenuBoss = pMenuSolid->addMenu(
+        QCoreApplication::translate("MainWindow", "Boss"));
+    pMenuBoss->addAction(actions.pActionExtrude);
+    pMenuBoss->addAction(actions.pActionRevolve);
+    pMenuBoss->addAction(actions.pActionSweep);
+    pMenuBoss->addAction(actions.pActionLoft);
+
+    QMenu* pMenuCut = pMenuSolid->addMenu(
+        QCoreApplication::translate("MainWindow", "Cut"));
+    pMenuCut->addAction(actions.pActionExtrudeCut);
+    pMenuCut->addAction(actions.pActionRevolveCut);
+    pMenuCut->addAction(actions.pActionSweepCut);
+    pMenuCut->addAction(actions.pActionLoftCut);
+
+    pMenuSolid->addAction(actions.pActionMerge);
+
+    QMenu* pMenuModification = pMenuSolid->addMenu(
+        QCoreApplication::translate("MainWindow", "Modification"));
+    pMenuModification->addAction(actions.pActionChamfer);
+    pMenuModification->addAction(actions.pActionFillet);
+    pMenuModification->addAction(actions.pActionShell);
+    pMenuModification->addAction(actions.pActionDraft);
+    pMenuModification->addAction(actions.pActionSplitFace);
+
+    QMenu* pMenuBoolean = pMenuSolid->addMenu(
+        QCoreApplication::translate("MainWindow", "Boolean"));
+    pMenuBoolean->addAction(booleanActions.pActionUnion);
+    pMenuBoolean->addAction(booleanActions.pActionSubtract);
+    pMenuBoolean->addAction(booleanActions.pActionIntersect);
+
+    QMenu* pMenuPrimitive = pMenuSolid->addMenu(
+        QCoreApplication::translate("MainWindow", "Primitive"));
+    pMenuPrimitive->addAction(primitiveActions.pActionMakeBox);
+    pMenuPrimitive->addAction(primitiveActions.pActionMakeCylinder);
+    pMenuPrimitive->addAction(primitiveActions.pActionMakeSphere);
+    pMenuPrimitive->addAction(primitiveActions.pActionMakeCone);
+    pMenuPrimitive->addAction(primitiveActions.pActionMakeTorus);
+    pMenuPrimitive->addAction(primitiveActions.pActionMakeTube);
+
+    QMenu* pMenuTransform = pMenuSolid->addMenu(
+        QCoreApplication::translate("MainWindow", "Transform"));
+    pMenuTransform->addAction(editActions.pActionMove);
+    pMenuTransform->addAction(editActions.pActionRotate);
+    pMenuTransform->addAction(editActions.pActionMirror);
+    pMenuTransform->addAction(editActions.pActionLinearPattern);
+    pMenuTransform->addAction(editActions.pActionCircularPattern);
+}
+
 void buildBasicToolBarUi(
     const FileActions& fileActions,
     const UndoRedoActions& undoRedoActions,
@@ -932,7 +990,7 @@ void buildModelingToolBarUi(
     editActionsList.emplace_back(editActions.pActionCircularPattern);
     QToolButton* pToolBtnEdit = pEnv->newMenuPopupToolButton(
         pToolBarModeling,
-        QCoreApplication::translate("MainWindow", "Edit Series"),
+        QCoreApplication::translate("MainWindow", "Transform Series"),
         pActionGroup,
         editActionsList);
     pToolBarModeling->addWidget(pToolBtnEdit);
@@ -1047,6 +1105,13 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
     if (pAnchorMenu)
         pMainWindow->menuBar()->insertMenu(pAnchorMenu->menuAction(), targets.pMenuSheet);
 
+    targets.pMenuSolid = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Solid"),
+                                       wy3dApp::MenuBarNames::Solid);
+    assert(targets.pMenuSolid);
+    // Anchor on the sheet menu so the solid menu lands immediately to its left.
+    if (targets.pMenuSolid && targets.pMenuSheet)
+        pMainWindow->menuBar()->insertMenu(targets.pMenuSheet->menuAction(), targets.pMenuSolid);
+
     targets.pToolBarBasic = pMainWindow->findChild<QToolBar*>(wy3dApp::ToolBarNames::Basic);
     assert(targets.pToolBarBasic);
 
@@ -1083,6 +1148,8 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
 #endif // _DEBUG
 
     buildFileMenuUi(fileActions, uiTargets.pMenuFile);
+    buildSolidMenuUi(modelingActions, booleanActions, primitiveActions, editActions,
+                     uiTargets.pMenuSolid);
     buildSheetMenuUi(modelingActions, uiTargets.pMenuSheet);
     buildSheetToolBarUi(pEnv, pActionGroup, modelingActions, uiTargets.pToolBarSheet);
     buildBasicToolBarUi(fileActions, undoRedoActions, uiTargets.pToolBarBasic);
