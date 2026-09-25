@@ -28,6 +28,7 @@ namespace ToolBarNames
     inline constexpr const char* Basic = "basic";
     inline constexpr const char* File = "file";
     inline constexpr const char* Modeling = "modeling";
+    inline constexpr const char* Sheet = "sheet";
     inline constexpr const char* Sketch = "sketch";
     inline constexpr const char* ModelingView = "modeling-view";
     inline constexpr const char* SketchEdit = "sketch-edit";

@@ -44,6 +44,7 @@ struct UiTargets
     QMenu* pMenuSheet;
     QToolBar* pToolBarBasic;
     QToolBar* pToolBarModeling;
+    QToolBar* pToolBarSheet;
     QToolBar* pToolBarUtility;
     QToolBar* pToolBarView;
 #ifdef _DEBUG
@@ -740,16 +741,74 @@ void buildSheetMenuUi(
     pMenuSheet->addAction(actions.pActionRevolvedSheet);
     pMenuSheet->addAction(actions.pActionSweptSheet);
     pMenuSheet->addAction(actions.pActionLoftedSheet);
+    pMenuSheet->addSeparator();
     pMenuSheet->addAction(actions.pActionPlanarSheet);
     pMenuSheet->addAction(actions.pActionFilledSheet);
-    pMenuSheet->addAction(actions.pActionSewnSheet);
-    pMenuSheet->addAction(actions.pActionDeleteFace);
     pMenuSheet->addAction(actions.pActionOffsetSheet);
+    pMenuSheet->addSeparator();
+    pMenuSheet->addAction(actions.pActionDeleteFace);
     pMenuSheet->addAction(actions.pActionChamfer);
     pMenuSheet->addAction(actions.pActionFillet);
     pMenuSheet->addSeparator();
-    pMenuSheet->addAction(actions.pActionThicken);
+    pMenuSheet->addAction(actions.pActionSewnSheet);
     pMenuSheet->addAction(actions.pActionSolidify);
+    pMenuSheet->addAction(actions.pActionThicken);
+}
+
+void buildSheetToolBarUi(
+    ModelingEnvironment* pEnv,
+    QActionGroup* pActionGroup,
+    const ModelingActions& actions,
+    QToolBar* pToolBarSheet)
+{
+    assert(pEnv);
+    assert(pActionGroup);
+    assert(pToolBarSheet);
+
+    std::list<QAction*> sheetGenerationActions;
+    sheetGenerationActions.emplace_back(actions.pActionExtrudedSheet);
+    sheetGenerationActions.emplace_back(actions.pActionRevolvedSheet);
+    sheetGenerationActions.emplace_back(actions.pActionSweptSheet);
+    sheetGenerationActions.emplace_back(actions.pActionLoftedSheet);
+    QToolButton* pToolBtnSheetGeneration = pEnv->newMenuPopupToolButton(
+        pToolBarSheet,
+        QCoreApplication::translate("MainWindow", "Sheet Generation Series"),
+        pActionGroup,
+        sheetGenerationActions);
+    pToolBarSheet->addWidget(pToolBtnSheetGeneration);
+
+    std::list<QAction*> sheetBuildActions;
+    sheetBuildActions.emplace_back(actions.pActionPlanarSheet);
+    sheetBuildActions.emplace_back(actions.pActionFilledSheet);
+    sheetBuildActions.emplace_back(actions.pActionOffsetSheet);
+    QToolButton* pToolBtnSheetBuild = pEnv->newMenuPopupToolButton(
+        pToolBarSheet,
+        QCoreApplication::translate("MainWindow", "Sheet Build Series"),
+        pActionGroup,
+        sheetBuildActions);
+    pToolBarSheet->addWidget(pToolBtnSheetBuild);
+
+    std::list<QAction*> faceModifyActions;
+    faceModifyActions.emplace_back(actions.pActionDeleteFace);
+    faceModifyActions.emplace_back(actions.pActionChamfer);
+    faceModifyActions.emplace_back(actions.pActionFillet);
+    QToolButton* pToolBtnFaceModify = pEnv->newMenuPopupToolButton(
+        pToolBarSheet,
+        QCoreApplication::translate("MainWindow", "Face Modify Series"),
+        pActionGroup,
+        faceModifyActions);
+    pToolBarSheet->addWidget(pToolBtnFaceModify);
+
+    std::list<QAction*> solidifyActions;
+    solidifyActions.emplace_back(actions.pActionSewnSheet);
+    solidifyActions.emplace_back(actions.pActionSolidify);
+    solidifyActions.emplace_back(actions.pActionThicken);
+    QToolButton* pToolBtnSolidify = pEnv->newMenuPopupToolButton(
+        pToolBarSheet,
+        QCoreApplication::translate("MainWindow", "Solidify Series"),
+        pActionGroup,
+        solidifyActions);
+    pToolBarSheet->addWidget(pToolBtnSolidify);
 }
 
 void buildBasicToolBarUi(
@@ -950,6 +1009,10 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
         QCoreApplication::translate("MainWindow", "Modeling"),
         wy3dApp::ToolBarNames::Modeling);
 
+    targets.pToolBarSheet = pEnv->addToolBar(
+        QCoreApplication::translate("MainWindow", "Sheet"),
+        wy3dApp::ToolBarNames::Sheet);
+
     targets.pToolBarUtility = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "Utility"),
         wy3dApp::ToolBarNames::Utility);
@@ -1021,6 +1084,7 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
 
     buildFileMenuUi(fileActions, uiTargets.pMenuFile);
     buildSheetMenuUi(modelingActions, uiTargets.pMenuSheet);
+    buildSheetToolBarUi(pEnv, pActionGroup, modelingActions, uiTargets.pToolBarSheet);
     buildBasicToolBarUi(fileActions, undoRedoActions, uiTargets.pToolBarBasic);
     buildModelingToolBarUi(
         pEnv,
