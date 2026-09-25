@@ -2322,6 +2322,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="339"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="179"/>
         <source>Line</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2342,6 +2343,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="361"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="219"/>
         <source>Rectangle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2352,21 +2354,25 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="248"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="297"/>
         <source>Trim</source>
         <translation type="unfinished">Trim sketch entities.</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="258"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="307"/>
         <source>Extend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="268"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="317"/>
         <source>Sketch Fillet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="278"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="327"/>
         <source>Sketch Chamfer</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2392,6 +2398,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="371"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="229"/>
         <source>CenterRectangle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2402,6 +2409,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="387"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="189"/>
         <source>Circle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2412,31 +2420,37 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="403"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="199"/>
         <source>Arc</source>
         <translation type="unfinished">Arc</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="413"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="209"/>
         <source>Arc by 3 Points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="419"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="235"/>
         <source>Ellipse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="429"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="245"/>
         <source>Ellipse Arc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="439"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="251"/>
         <source>Spline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="449"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="261"/>
         <source>Style Spline</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2674,54 +2688,12 @@ Do you want to save it to the original file now?
         <translation>3D Sketch Environment</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="179"/>
         <source>Line 3D</source>
-        <translation>Line 3D</translation>
+        <translation type="vanished">Line 3D</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="189"/>
         <source>Circle 3D</source>
-        <translation>Circle 3D</translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="199"/>
-        <source>Arc 3D</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="209"/>
-        <source>Arc by 3 Points 3D</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="219"/>
-        <source>Rectangle 3D</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="229"/>
-        <source>Center Rectangle 3D</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="235"/>
-        <source>Ellipse 3D</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="245"/>
-        <source>Ellipse Arc 3D</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="251"/>
-        <source>Spline 3D</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="261"/>
-        <source>Style Spline 3D</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Circle 3D</translation>
     </message>
     <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="267"/>
@@ -2739,24 +2711,12 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="297"/>
         <source>Trim 3D</source>
-        <translation type="unfinished">Trim 3D</translation>
+        <translation type="obsolete">Trim 3D</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="307"/>
         <source>Extend 3D</source>
-        <translation type="unfinished">Extend 3D</translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="317"/>
-        <source>Fillet 3D</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="327"/>
-        <source>Chamfer 3D</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Extend 3D</translation>
     </message>
     <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="348"/>

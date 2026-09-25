@@ -176,7 +176,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionDrawLine3D = pEnv->newCommandAction(
         CommandNames::Line3D,
-        QCoreApplication::translate("MainWindow", "Line 3D"),
+        QCoreApplication::translate("MainWindow", "Line"),
         QIcon(":/images/Sketch_DrawLine.svg"),
         pActionGroup);
     if (actions.pActionDrawLine3D)
@@ -186,7 +186,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionDrawCircle3D = pEnv->newCommandAction(
         CommandNames::Circle3D,
-        QCoreApplication::translate("MainWindow", "Circle 3D"),
+        QCoreApplication::translate("MainWindow", "Circle"),
         QIcon(":/images/Sketch_DrawCircle.svg"),
         pActionGroup);
     if (actions.pActionDrawCircle3D)
@@ -196,7 +196,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionDrawArc3D = pEnv->newCommandAction(
         CommandNames::Arc3D,
-        QCoreApplication::translate("MainWindow", "Arc 3D"),
+        QCoreApplication::translate("MainWindow", "Arc"),
         QIcon(":/images/Sketch_DrawArc.svg"),
         pActionGroup);
     if (actions.pActionDrawArc3D)
@@ -206,7 +206,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionDrawArcBy3Points3D = pEnv->newCommandAction(
         CommandNames::ArcBy3Points3D,
-        QCoreApplication::translate("MainWindow", "Arc by 3 Points 3D"),
+        QCoreApplication::translate("MainWindow", "Arc by 3 Points"),
         QIcon(":/images/Sketch_DrawArcBy3Points.svg"),
         pActionGroup);
     if (actions.pActionDrawArcBy3Points3D)
@@ -216,7 +216,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionDrawRectangle3D = pEnv->newCommandAction(
         CommandNames::Rectangle3D,
-        QCoreApplication::translate("MainWindow", "Rectangle 3D"),
+        QCoreApplication::translate("MainWindow", "Rectangle"),
         QIcon(":/images/Sketch_DrawRectangle.svg"),
         pActionGroup);
     if (actions.pActionDrawRectangle3D)
@@ -226,13 +226,13 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionDrawCenterRectangle3D = pEnv->newCommandAction(
         CommandNames::CenterRectangle3D,
-        QCoreApplication::translate("MainWindow", "Center Rectangle 3D"),
+        QCoreApplication::translate("MainWindow", "CenterRectangle"),
         QIcon(":/images/Sketch_DrawCenterRectangle.svg"),
         pActionGroup);
 
     actions.pActionDrawEllipse3D = pEnv->newCommandAction(
         CommandNames::Ellipse3D,
-        QCoreApplication::translate("MainWindow", "Ellipse 3D"),
+        QCoreApplication::translate("MainWindow", "Ellipse"),
         QIcon(":/images/Sketch_DrawEllipse.svg"),
         pActionGroup);
     if (actions.pActionDrawEllipse3D)
@@ -242,13 +242,13 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionDrawEllipseArc3D = pEnv->newCommandAction(
         CommandNames::EllipseArc3D,
-        QCoreApplication::translate("MainWindow", "Ellipse Arc 3D"),
+        QCoreApplication::translate("MainWindow", "Ellipse Arc"),
         QIcon(":/images/Sketch_DrawEllipseArc.svg"),
         pActionGroup);
 
     actions.pActionDrawSpline3D = pEnv->newCommandAction(
         CommandNames::Spline3D,
-        QCoreApplication::translate("MainWindow", "Spline 3D"),
+        QCoreApplication::translate("MainWindow", "Spline"),
         QIcon(":/images/Sketch_DrawSpline.svg"),
         pActionGroup);
     if (actions.pActionDrawSpline3D)
@@ -258,7 +258,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionDrawStyleSpline3D = pEnv->newCommandAction(
         CommandNames::StyleSpline3D,
-        QCoreApplication::translate("MainWindow", "Style Spline 3D"),
+        QCoreApplication::translate("MainWindow", "Style Spline"),
         QIcon(":/images/Sketch_DrawStyleSpline.svg"),
         pActionGroup);
 
@@ -294,7 +294,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionTrim3D = pEnv->newCommandAction(
         CommandNames::Trim3D,
-        QCoreApplication::translate("MainWindow", "Trim 3D"),
+        QCoreApplication::translate("MainWindow", "Trim"),
         QIcon(":/images/Sketch_Trim.svg"),
         pActionGroup);
     if (actions.pActionTrim3D)
@@ -304,7 +304,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionExtend3D = pEnv->newCommandAction(
         CommandNames::Extend3D,
-        QCoreApplication::translate("MainWindow", "Extend 3D"),
+        QCoreApplication::translate("MainWindow", "Extend"),
         QIcon(":/images/Sketch_Extend.svg"),
         pActionGroup);
     if (actions.pActionExtend3D)
@@ -314,7 +314,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionFillet3D = pEnv->newCommandAction(
         CommandNames::Fillet3D,
-        QCoreApplication::translate("MainWindow", "Fillet 3D"),
+        QCoreApplication::translate("MainWindow", "Sketch Fillet"),
         QIcon(":/images/Sketch_Fillet.svg"),
         pActionGroup);
     if (actions.pActionFillet3D)
@@ -324,7 +324,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
 
     actions.pActionChamfer3D = pEnv->newCommandAction(
         CommandNames::Chamfer3D,
-        QCoreApplication::translate("MainWindow", "Chamfer 3D"),
+        QCoreApplication::translate("MainWindow", "Sketch Chamfer"),
         QIcon(":/images/Sketch_Chamfer.svg"),
         pActionGroup);
     if (actions.pActionChamfer3D)

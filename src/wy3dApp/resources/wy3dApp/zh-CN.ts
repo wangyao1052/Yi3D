@@ -2817,22 +2817,23 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="329"/>
         <source>Point</source>
-        <translation type="unfinished">绘制点</translation>
+        <translation type="unfinished">点</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="339"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="179"/>
         <source>Line</source>
-        <translation type="unfinished">绘制线</translation>
+        <translation type="unfinished">线</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="349"/>
         <source>Line Tangent</source>
-        <translation type="unfinished">绘制相切线</translation>
+        <translation type="unfinished">相切线</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="355"/>
         <source>Center Line</source>
-        <translation type="unfinished">绘制中心线</translation>
+        <translation type="unfinished">中心线</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="669"/>
@@ -2841,31 +2842,36 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="361"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="219"/>
         <source>Rectangle</source>
-        <translation type="unfinished">绘制矩形</translation>
+        <translation type="unfinished">矩形</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="238"/>
         <source>Scale</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">缩放</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="248"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="297"/>
         <source>Trim</source>
-        <translation type="unfinished">修剪草图图元</translation>
+        <translation type="unfinished">修剪</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="258"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="307"/>
         <source>Extend</source>
-        <translation type="unfinished">延伸草图图元</translation>
+        <translation type="unfinished">延伸</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="268"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="317"/>
         <source>Sketch Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="278"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="327"/>
         <source>Sketch Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
@@ -2891,58 +2897,66 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="371"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="229"/>
         <source>CenterRectangle</source>
-        <translation type="unfinished">绘制中心矩形</translation>
+        <translation type="unfinished">中心矩形</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="377"/>
         <source>Polygon</source>
-        <translation type="unfinished">绘制多边形</translation>
+        <translation type="unfinished">多边形</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="387"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="189"/>
         <source>Circle</source>
-        <translation type="unfinished">绘制圆</translation>
+        <translation type="unfinished">圆</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="397"/>
         <source>Circle by 3 Points</source>
-        <translation type="unfinished">通过3点绘制圆</translation>
+        <translation type="unfinished">周边圆</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="403"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="199"/>
         <source>Arc</source>
-        <translation type="unfinished">绘制圆弧</translation>
+        <translation type="unfinished">圆弧</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="413"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="209"/>
         <source>Arc by 3 Points</source>
-        <translation type="unfinished">通过3点绘制圆弧</translation>
+        <translation type="unfinished">三点圆弧</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="419"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="235"/>
         <source>Ellipse</source>
-        <translation type="unfinished">绘制椭圆</translation>
+        <translation type="unfinished">椭圆</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="429"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="245"/>
         <source>Ellipse Arc</source>
-        <translation type="unfinished">绘制椭圆弧</translation>
+        <translation type="unfinished">椭圆弧</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="439"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="251"/>
         <source>Spline</source>
         <translation type="unfinished">样条曲线</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="449"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="261"/>
         <source>Style Spline</source>
         <translation type="unfinished">样式样条曲线</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="455"/>
         <source>Equation Driven Spline</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">方程式驱动样条曲线</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="622"/>
@@ -2965,24 +2979,24 @@ Do you want to save it to the original file now?
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="679"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="479"/>
         <source>Rectangle Series</source>
-        <translation type="unfinished">绘制矩形命令集</translation>
+        <translation type="unfinished">矩形命令集</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="691"/>
         <source>Circle Series</source>
-        <translation type="unfinished">绘制圆命令集</translation>
+        <translation type="unfinished">圆命令集</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="701"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="469"/>
         <source>Arc Series</source>
-        <translation type="unfinished">绘制圆弧命令集</translation>
+        <translation type="unfinished">圆弧命令集</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="711"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="489"/>
         <source>Ellipse Series</source>
-        <translation type="unfinished">绘制椭圆命令集</translation>
+        <translation type="unfinished">椭圆命令集</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="722"/>
@@ -2993,7 +3007,7 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="461"/>
         <source>Sketch Text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">草图文字</translation>
     </message>
     <message>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="488"/>
@@ -3752,54 +3766,44 @@ Do you want to save it to the original file now?
         <translation>3D草图环境</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="179"/>
         <source>Line 3D</source>
-        <translation>3D直线</translation>
+        <translation type="vanished">3D直线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="189"/>
         <source>Circle 3D</source>
-        <translation>3D圆</translation>
+        <translation type="vanished">3D圆</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="199"/>
         <source>Arc 3D</source>
-        <translation type="unfinished">3D圆弧</translation>
+        <translation type="obsolete">3D圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="209"/>
         <source>Arc by 3 Points 3D</source>
-        <translation type="unfinished">3D三点圆弧</translation>
+        <translation type="obsolete">3D三点圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="219"/>
         <source>Rectangle 3D</source>
-        <translation type="unfinished">3D矩形</translation>
+        <translation type="obsolete">3D矩形</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="229"/>
         <source>Center Rectangle 3D</source>
-        <translation type="unfinished">3D中心矩形</translation>
+        <translation type="obsolete">3D中心矩形</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="235"/>
         <source>Ellipse 3D</source>
-        <translation type="unfinished">3D椭圆</translation>
+        <translation type="obsolete">3D椭圆</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="245"/>
         <source>Ellipse Arc 3D</source>
-        <translation type="unfinished">3D椭圆弧</translation>
+        <translation type="obsolete">3D椭圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="251"/>
         <source>Spline 3D</source>
-        <translation type="unfinished">3D样条曲线</translation>
+        <translation type="obsolete">3D样条曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="261"/>
         <source>Style Spline 3D</source>
-        <translation type="unfinished">3D样式样条曲线</translation>
+        <translation type="obsolete">3D样式样条曲线</translation>
     </message>
     <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="267"/>
@@ -3817,24 +3821,20 @@ Do you want to save it to the original file now?
         <translation type="unfinished">投影曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="297"/>
         <source>Trim 3D</source>
-        <translation type="unfinished">3D修剪</translation>
+        <translation type="obsolete">3D修剪</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="307"/>
         <source>Extend 3D</source>
-        <translation type="unfinished">3D延伸</translation>
+        <translation type="obsolete">3D延伸</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="317"/>
         <source>Fillet 3D</source>
-        <translation type="unfinished">3D圆角</translation>
+        <translation type="obsolete">3D圆角</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="327"/>
         <source>Chamfer 3D</source>
-        <translation type="unfinished">3D倒角</translation>
+        <translation type="obsolete">3D倒角</translation>
     </message>
     <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="348"/>
@@ -6242,17 +6242,17 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="100"/>
         <source>Point</source>
-        <translation type="unfinished">绘制点</translation>
+        <translation type="unfinished">点</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="101"/>
         <source>Line</source>
-        <translation type="unfinished">绘制线</translation>
+        <translation type="unfinished">线</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="102"/>
         <source>Circle</source>
-        <translation type="unfinished">绘制圆</translation>
+        <translation type="unfinished">圆</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="103"/>
@@ -6262,22 +6262,22 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="104"/>
         <source>Rectangle</source>
-        <translation type="unfinished">绘制矩形</translation>
+        <translation type="unfinished">矩形</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="105"/>
         <source>Polygon</source>
-        <translation type="unfinished">绘制多边形</translation>
+        <translation type="unfinished">多边形</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="106"/>
         <source>Ellipse</source>
-        <translation type="unfinished">绘制椭圆</translation>
+        <translation type="unfinished">椭圆</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="107"/>
         <source>Ellipse Arc</source>
-        <translation type="unfinished">绘制椭圆弧</translation>
+        <translation type="unfinished">椭圆弧</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="108"/>
@@ -6312,12 +6312,12 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="115"/>
         <source>Trim</source>
-        <translation type="unfinished">修剪草图图元</translation>
+        <translation type="unfinished">修剪</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="116"/>
         <source>Extend</source>
-        <translation type="unfinished">延伸草图图元</translation>
+        <translation type="unfinished">延伸</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="117"/>
