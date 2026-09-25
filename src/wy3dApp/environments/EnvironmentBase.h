@@ -41,6 +41,9 @@ public:
     // Add menu.
     QMenu* addMenu(const QString& title, const std::string& name);
 
+    // Insert menu immediately after an existing menu in the menu bar.
+    void insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu);
+
     // Add tool bar.
     QToolBar* addToolBar(const QString& title, const std::string& name);
 

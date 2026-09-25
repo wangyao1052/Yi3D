@@ -72,6 +72,40 @@ QMenu* EnvironmentBase::addMenu(const QString& title, const std::string& name)
     return pMenu;
 }
 
+void EnvironmentBase::insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu)
+{
+    if (!pAnchorMenu || !pMenu)
+    {
+        assert(false);
+        return;
+    }
+
+    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    if (!pMainWindow)
+    {
+        assert(false);
+        return;
+    }
+
+    QMenuBar* pMenuBar = pMainWindow->menuBar();
+    if (!pMenuBar)
+    {
+        assert(false);
+        return;
+    }
+
+    // insertMenu inserts before its anchor, so look up the action after the anchor menu
+    const QList<QAction*> menuActions = pMenuBar->actions();
+    for (int i = 0; i + 1 < menuActions.size(); ++i)
+    {
+        if (menuActions[i] == pAnchorMenu->menuAction())
+        {
+            pMenuBar->insertMenu(menuActions[i + 1], pMenu);
+            return;
+        }
+    }
+}
+
 QToolBar* EnvironmentBase::addToolBar(const QString& title, const std::string& name)
 {
     MainWindow* pMainWindow = Application::instance().getMainWindow();

@@ -32,6 +32,7 @@
 #include "scene/Scene.h"
 #include "commands/CommandAction.h"
 #include "commands/CommandNames.h"
+#include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
 #include "widgets/frame/MainWindow.h"
 
@@ -39,6 +40,7 @@ namespace
 {
 struct UiTargets
 {
+    QMenu* pMenuView;
     QToolBar* pToolBarBasic;
     QToolBar* pToolBarEdit;
     QToolBar* pToolBarSketch;
@@ -146,6 +148,15 @@ UiTargets createUiTargets(SketchEnvironment* pEnv)
 
     targets.pToolBarBasic = pMainWindow->findChild<QToolBar*>(wy3dApp::ToolBarNames::Basic);
     assert(targets.pToolBarBasic);
+
+    targets.pMenuView = pEnv->addMenu(QCoreApplication::translate("MainWindow", "View"),
+                                      wy3dApp::MenuBarNames::View);
+    assert(targets.pMenuView);
+
+    QMenu* pMenuFile = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::File);
+    assert(pMenuFile);
+    if (pMenuFile)
+        pEnv->insertMenuAfter(pMenuFile, targets.pMenuView);
 
     return targets;
 }
@@ -509,7 +520,7 @@ ViewActions createViewActions(SketchEnvironment* pEnv, QActionGroup* pActionGrou
 
     actions.pActionIsometricView = pEnv->newCommandAction(
         CommandNames::IsometricView,
-        QCoreApplication::translate("MainWindow", "IsometricView View"),
+        QCoreApplication::translate("MainWindow", "Isometric View"),
         QIcon(":/images/View_ISO.svg"));
 
     actions.pActionFrontView = pEnv->newCommandAction(
@@ -696,6 +707,32 @@ void buildViewToolBarUi(
         displayModeActions);
     pToolBarView->addWidget(pToolBtn);
 }
+
+void buildViewMenuUi(const ViewActions& actions, QMenu* pMenuView)
+{
+    assert(pMenuView);
+
+    pMenuView->addAction(actions.pActionFitView);
+    pMenuView->addAction(actions.pActionFitSelection);
+    pMenuView->addAction(actions.pActionOrientToSketch);
+    pMenuView->addSeparator();
+
+    QMenu* pMenuStandardView = pMenuView->addMenu(
+        QCoreApplication::translate("MainWindow", "Standard View"));
+    pMenuStandardView->addAction(actions.pActionIsometricView);
+    pMenuStandardView->addAction(actions.pActionFrontView);
+    pMenuStandardView->addAction(actions.pActionBackView);
+    pMenuStandardView->addAction(actions.pActionLeftView);
+    pMenuStandardView->addAction(actions.pActionRightView);
+    pMenuStandardView->addAction(actions.pActionTopView);
+    pMenuStandardView->addAction(actions.pActionBottomView);
+
+    QMenu* pMenuDisplayMode = pMenuView->addMenu(
+        QCoreApplication::translate("MainWindow", "Display Mode"));
+    pMenuDisplayMode->addAction(actions.pActionShadedWithEdgesDisplay);
+    pMenuDisplayMode->addAction(actions.pActionShadedDisplay);
+    pMenuDisplayMode->addAction(actions.pActionWireframeDisplay);
+}
 } // namespace
 
 SketchEnvironmentUI::SketchEnvironmentUI()
@@ -734,6 +771,8 @@ void SketchEnvironmentUI::initialize(SketchEnvironment* pEnv)
         sketchEnvironmentActions,
         uiTargets.pToolBarSketchEnvironment);
     buildViewToolBarUi(pEnv, viewActions, uiTargets.pToolBarView);
+
+    buildViewMenuUi(viewActions, uiTargets.pMenuView);
 
     pEnv->restoreUiState();
 }

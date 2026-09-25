@@ -1803,22 +1803,22 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="179"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="180"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="186"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="187"/>
         <source>Save As</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="191"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="192"/>
         <source>Import</source>
         <translation type="unfinished">Import</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="196"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="197"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1611"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
@@ -1829,711 +1829,720 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1067"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1093"/>
         <source>Modeling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="242"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="308"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="158"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="243"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="319"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="169"/>
         <source>Select</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="248"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="249"/>
         <source>New Sketch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="645"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="646"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="523"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="377"/>
         <source>Isometric View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="776"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="777"/>
         <source>Sheet Generation Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="787"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="788"/>
         <source>Sheet Build Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="825"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="826"/>
         <source>Boss</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="832"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="833"/>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="841"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="842"/>
         <source>Modification</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="849"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="850"/>
         <source>Boolean</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="855"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="856"/>
         <source>Primitive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="864"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="865"/>
         <source>Transform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="993"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1019"/>
         <source>Transform Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="904"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="930"/>
         <source>Sketch Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="921"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="947"/>
         <source>Datum Plane Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="272"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="273"/>
         <source>Coincident Datum Plane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="266"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="267"/>
         <source>Parallel Datum Plane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="260"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="261"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1528"/>
         <source>Edit Sketch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="201"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="202"/>
         <source>Import Sketch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="206"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="207"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1534"/>
         <source>Export Sketch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="219"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="160"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="135"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="220"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="171"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="146"/>
         <source>Undo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="226"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="167"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="142"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="227"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="178"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="153"/>
         <source>Redo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="254"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="255"/>
         <source>New 3D Sketch</source>
         <translation>New 3D Sketch</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="278"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="279"/>
         <source>Angular Datum Plane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="284"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="285"/>
         <source>Perpendicular Datum Plane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="290"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="291"/>
         <source>Through Axis Datum Plane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="296"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="297"/>
         <source>Normal To Curve Datum Plane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="302"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="303"/>
         <source>Through 3 Points Datum Plane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="308"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="309"/>
         <source>Tangent Datum Plane</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="314"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="315"/>
         <source>Helix</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="326"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="327"/>
         <source>Extruded Sheet</source>
         <translation>Extruded Sheet</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="332"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="333"/>
         <source>Revolved Sheet</source>
         <translation type="unfinished">Revolved Sheet</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="338"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="339"/>
         <source>Swept Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="344"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="345"/>
         <source>Lofted Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="350"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="351"/>
         <source>Planar Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="356"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="357"/>
         <source>Filled Surface</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="362"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="363"/>
         <source>Sewn Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="368"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="369"/>
         <source>Thicken</source>
         <translation>Thicken</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="374"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="375"/>
         <source>Solidify</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="380"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="381"/>
         <source>Offset Sheet</source>
         <translation>Offset Sheet</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="434"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="435"/>
         <source>Chamfer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="440"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="441"/>
         <source>Fillet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="446"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="447"/>
         <source>Shell</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="452"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="453"/>
         <source>Draft</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="458"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="459"/>
         <source>Split Face</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="464"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="465"/>
         <source>Delete Face</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="479"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="480"/>
         <source>Box</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="486"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="487"/>
         <source>Cylinder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="493"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="494"/>
         <source>Sphere</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="500"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="501"/>
         <source>Cone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="507"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="508"/>
         <source>Torus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="514"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="515"/>
         <source>Tube</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="530"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="531"/>
         <source>Union</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="536"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="537"/>
         <source>Subtract</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="542"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="543"/>
         <source>Intersect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="578"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="579"/>
         <source>Linear Pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="585"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="586"/>
         <source>Circular Pattern</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="601"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="602"/>
         <source>Set Color</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="607"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="608"/>
         <source>Measure</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="613"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="614"/>
         <source>Run Script</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="619"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="567"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="416"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="620"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="578"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="427"/>
         <source>Find Element By ID</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="635"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="500"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="354"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="636"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="511"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="365"/>
         <source>Fit View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="798"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="799"/>
         <source>Face Modify Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="809"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="810"/>
         <source>Solidify Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="940"/>
-        <source>Cut Series</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="512"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="366"/>
-        <source>IsometricView View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="650"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="517"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="371"/>
-        <source>Front View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="655"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="522"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="376"/>
-        <source>Back View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="660"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="527"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="381"/>
-        <source>Left View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="665"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="532"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="386"/>
-        <source>Right View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="670"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="537"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="391"/>
-        <source>Top View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="675"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="542"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="396"/>
-        <source>Bottom View</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="680"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="552"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="401"/>
-        <source>Shaded with Edges</source>
-        <translation>Shaded with Edges</translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="685"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="557"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="406"/>
-        <source>Shaded</source>
-        <translation>Shaded</translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="690"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="562"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="411"/>
-        <source>Wireframe</source>
-        <translation>Wireframe</translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="705"/>
-        <source>TopoName</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="711"/>
-        <source>CheckTopoName</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="320"/>
-        <source>Extrude</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="386"/>
-        <source>Revolve</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="392"/>
-        <source>Sweep</source>
-        <translation>Sweep</translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="398"/>
-        <source>Loft</source>
-        <translation>Loft</translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="404"/>
-        <source>Extrude Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="410"/>
-        <source>Revolve Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="416"/>
-        <source>Sweep Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="422"/>
-        <source>Loft Cut</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="428"/>
-        <source>Merge</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="557"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="193"/>
-        <source>Move</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="564"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="203"/>
-        <source>Rotate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="571"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="213"/>
-        <source>Mirror</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="125"/>
-        <source>Sketch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="314"/>
-        <source>Point</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="324"/>
-        <source>Line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="334"/>
-        <source>Line Tangent</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="340"/>
-        <source>Center Line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="623"/>
-        <source>Line Series</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="346"/>
-        <source>Rectangle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="223"/>
-        <source>Scale</source>
-        <translation type="unfinished">Scale</translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="233"/>
-        <source>Trim</source>
-        <translation type="unfinished">Trim sketch entities.</translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="243"/>
-        <source>Extend</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="253"/>
-        <source>Sketch Fillet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="263"/>
-        <source>Sketch Chamfer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="273"/>
-        <source>Sketch Offset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="456"/>
-        <source>Project Edge</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="283"/>
-        <source>Sketch Rect Array</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="293"/>
-        <source>Sketch Polar Array</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="356"/>
-        <source>CenterRectangle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="362"/>
-        <source>Polygon</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="372"/>
-        <source>Circle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="382"/>
-        <source>Circle by 3 Points</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="388"/>
-        <source>Arc</source>
-        <translation type="unfinished">Arc</translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="398"/>
-        <source>Arc by 3 Points</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="404"/>
-        <source>Ellipse</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="414"/>
-        <source>Ellipse Arc</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="424"/>
-        <source>Spline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="434"/>
-        <source>Style Spline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="440"/>
-        <source>Equation Driven Spline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="644"/>
-        <source>Spline Series</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="446"/>
-        <source>Sketch Text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="473"/>
-        <source>End Sketch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="479"/>
-        <source>Cancel Sketch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="485"/>
-        <source>Relocate Sketch CSYS</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="547"/>
-        <source>Orient to Sketch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="129"/>
-        <source>Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="955"/>
-        <source>Modification Series</source>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="882"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="722"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="527"/>
+        <source>Standard View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="966"/>
+        <source>Cut Series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="651"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="528"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="382"/>
+        <source>Front View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="656"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="533"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="387"/>
+        <source>Back View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="661"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="538"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="392"/>
+        <source>Left View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="666"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="543"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="397"/>
+        <source>Right View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="671"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="548"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="402"/>
+        <source>Top View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="676"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="553"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="407"/>
+        <source>Bottom View</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="681"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="563"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="412"/>
+        <source>Shaded with Edges</source>
+        <translation>Shaded with Edges</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="686"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="568"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="417"/>
+        <source>Shaded</source>
+        <translation>Shaded</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="691"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="573"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="422"/>
+        <source>Wireframe</source>
+        <translation>Wireframe</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="706"/>
+        <source>TopoName</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="712"/>
+        <source>CheckTopoName</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="321"/>
+        <source>Extrude</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="387"/>
+        <source>Revolve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="393"/>
+        <source>Sweep</source>
+        <translation>Sweep</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="399"/>
+        <source>Loft</source>
+        <translation>Loft</translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="405"/>
+        <source>Extrude Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="411"/>
+        <source>Revolve Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="417"/>
+        <source>Sweep Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="423"/>
+        <source>Loft Cut</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="429"/>
+        <source>Merge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="558"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="204"/>
+        <source>Move</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="565"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="214"/>
+        <source>Rotate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="572"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="224"/>
+        <source>Mirror</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="127"/>
+        <source>Sketch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="325"/>
+        <source>Point</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="335"/>
+        <source>Line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="345"/>
+        <source>Line Tangent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="351"/>
+        <source>Center Line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="634"/>
+        <source>Line Series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="357"/>
+        <source>Rectangle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="234"/>
+        <source>Scale</source>
+        <translation type="unfinished">Scale</translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="244"/>
+        <source>Trim</source>
+        <translation type="unfinished">Trim sketch entities.</translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="254"/>
+        <source>Extend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="264"/>
+        <source>Sketch Fillet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="274"/>
+        <source>Sketch Chamfer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="284"/>
+        <source>Sketch Offset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="467"/>
+        <source>Project Edge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="294"/>
+        <source>Sketch Rect Array</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="304"/>
+        <source>Sketch Polar Array</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="367"/>
+        <source>CenterRectangle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="373"/>
+        <source>Polygon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="383"/>
+        <source>Circle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="393"/>
+        <source>Circle by 3 Points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="399"/>
+        <source>Arc</source>
+        <translation type="unfinished">Arc</translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="409"/>
+        <source>Arc by 3 Points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="415"/>
+        <source>Ellipse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="425"/>
+        <source>Ellipse Arc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="435"/>
+        <source>Spline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="445"/>
+        <source>Style Spline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="451"/>
+        <source>Equation Driven Spline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="655"/>
+        <source>Spline Series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="457"/>
+        <source>Sketch Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="484"/>
+        <source>End Sketch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="490"/>
+        <source>Cancel Sketch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="496"/>
+        <source>Relocate Sketch CSYS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="558"/>
+        <source>Orient to Sketch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="131"/>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="981"/>
+        <source>Modification Series</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="992"/>
         <source>Boolean Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="980"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1006"/>
         <source>Primitive Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1030"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1056"/>
         <source>Standard View Series</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1108"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1134"/>
         <source>Solid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1071"/>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1098"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1097"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1124"/>
         <source>Sheet</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1045"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="694"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="500"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="892"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1071"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="705"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="732"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="511"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="537"/>
         <source>Display Mode</source>
         <translation>Display Mode</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="133"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="135"/>
         <source>SketchEnvironment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1075"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1101"/>
         <source>Utility</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1079"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="137"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="112"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1105"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1141"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="139"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="152"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="114"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="127"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1084"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1110"/>
         <source>Test</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2592,16 +2601,16 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="564"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="183"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="194"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1597"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="558"/>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="640"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="506"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="360"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="641"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="517"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="371"/>
         <source>Fit Selection</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2612,107 +2621,107 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="104"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="106"/>
         <source>3D Sketch</source>
         <translation>3D Sketch</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="108"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="110"/>
         <source>3D Sketch Environment</source>
         <translation>3D Sketch Environment</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="164"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="175"/>
         <source>Line 3D</source>
         <translation>Line 3D</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="174"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="185"/>
         <source>Circle 3D</source>
         <translation>Circle 3D</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="184"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="195"/>
         <source>Arc 3D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="194"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="205"/>
         <source>Arc by 3 Points 3D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="204"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="215"/>
         <source>Rectangle 3D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="214"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="225"/>
         <source>Center Rectangle 3D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="220"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="231"/>
         <source>Ellipse 3D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="230"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="241"/>
         <source>Ellipse Arc 3D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="236"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="247"/>
         <source>Spline 3D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="246"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="257"/>
         <source>Style Spline 3D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="252"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="263"/>
         <source>Include Curve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="262"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="273"/>
         <source>Intersection Curve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="272"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="283"/>
         <source>Project Curve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="282"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="293"/>
         <source>Trim 3D</source>
         <translation type="unfinished">Trim 3D</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="292"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="303"/>
         <source>Extend 3D</source>
         <translation type="unfinished">Extend 3D</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="302"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="313"/>
         <source>Fillet 3D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="312"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="323"/>
         <source>Chamfer 3D</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="333"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="344"/>
         <source>End 3D Sketch</source>
         <translation>End 3D Sketch</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="339"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="350"/>
         <source>Cancel 3D Sketch</source>
         <translation>Cancel 3D Sketch</translation>
     </message>
