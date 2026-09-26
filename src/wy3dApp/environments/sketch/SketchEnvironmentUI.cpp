@@ -35,6 +35,9 @@
 #include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
 #include "widgets/frame/MainWindow.h"
+#include "widgets/frame/ViewWidget.h"
+#include "widgets/frame/ViewWidgetContainer.h"
+#include "widgets/frame/ViewportOverlayBar.h"
 
 namespace
 {
@@ -778,6 +781,35 @@ void buildSketchEnvironmentToolBarUi(
     pToolBarSketchEnvironment->addAction(actions.pActionRelocateSketchCsys);
 }
 
+// The viewport of the document being sketched. findChild<QOpenGLWidget*>() would answer with the
+// first document's viewport instead whenever more than one document is open.
+QWidget* findActiveViewWidget()
+{
+    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    wyap::Document* pActiveDoc = Application::instance().getActiveDocument();
+    if (!pMainWindow || !pActiveDoc) return nullptr;
+
+    ViewWidgetContainer* pViewWidgetContainer = pMainWindow->getViewWidgetContainer();
+    if (!pViewWidgetContainer) return nullptr;
+
+    return pViewWidgetContainer->getViewWidget(pActiveDoc);
+}
+
+ViewportOverlayBar* buildOverlayBarUi(
+    QWidget* pViewWidget,
+    const SketchEnvironmentActions& actions)
+{
+    assert(pViewWidget);
+    assert(actions.pActionEndSketch);
+    assert(actions.pActionCancelSketch);
+
+    ViewportOverlayBar* pBar = new ViewportOverlayBar(pViewWidget);
+    pBar->addAction(actions.pActionCancelSketch);
+    pBar->addAction(actions.pActionEndSketch);
+    pBar->show();
+    return pBar;
+}
+
 void buildViewToolBarUi(
     SketchEnvironment* pEnv,
     const ViewActions& actions,
@@ -936,6 +968,10 @@ void SketchEnvironmentUI::initialize(SketchEnvironment* pEnv)
     buildToolsMenuUi(sketchActions.pActionSelect, utilityActions, uiTargets.pMenuTools);
 
     pEnv->restoreUiState();
+
+    QWidget* pViewWidget = findActiveViewWidget();
+    if (pViewWidget)
+        _pOverlayBar = buildOverlayBarUi(pViewWidget, sketchEnvironmentActions);
 }
 
 void SketchEnvironmentUI::teardown(SketchEnvironment* pEnv)
@@ -944,6 +980,14 @@ void SketchEnvironmentUI::teardown(SketchEnvironment* pEnv)
     {
         assert(false);
         return;
+    }
+
+    // The bar's buttons are bound to command actions and destroyUI() destroys those:
+    // the bar goes first or it would be left holding dangling pointers.
+    if (_pOverlayBar)
+    {
+        _pOverlayBar->hide();
+        delete _pOverlayBar;
     }
 
     pEnv->destroyUI();
