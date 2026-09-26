@@ -40,10 +40,12 @@ namespace
 struct UiTargets
 {
     QMenu* pMenuView;
+    QMenu* pMenuEdit;
     QMenu* pMenuTools;
-    QToolBar* pToolBarBasic;
+    QToolBar* pToolBarEdit;
     QToolBar* pToolBarSketch3D;
     QToolBar* pToolBarSketch3DEnvironment;
+    QToolBar* pToolBarUtility;
     QToolBar* pToolBarView;
 };
 
@@ -95,6 +97,10 @@ struct ViewActions
     CommandAction* pActionShadedWithEdgesDisplay;
     CommandAction* pActionShadedDisplay;
     CommandAction* pActionWireframeDisplay;
+};
+
+struct UtilityActions
+{
     CommandAction* pActionFindElementById;
 };
 
@@ -103,6 +109,11 @@ UiTargets createUiTargets(Sketch3DEnvironment* pEnv)
     assert(pEnv);
 
     UiTargets targets = {};
+    targets.pToolBarEdit = pEnv->addToolBar(
+        QCoreApplication::translate("MainWindow", "Edit"),
+        wy3dApp::ToolBarNames::Edit);
+    assert(targets.pToolBarEdit);
+
     targets.pToolBarSketch3D = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "3D Sketch"),
         wy3dApp::ToolBarNames::Sketch3D);
@@ -110,6 +121,10 @@ UiTargets createUiTargets(Sketch3DEnvironment* pEnv)
     targets.pToolBarSketch3DEnvironment = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "3D Sketch Environment"),
         wy3dApp::ToolBarNames::Sketch3DEnvironment);
+
+    targets.pToolBarUtility = pEnv->addToolBar(
+        QCoreApplication::translate("MainWindow", "Utility"),
+        wy3dApp::ToolBarNames::Utility);
 
     targets.pToolBarView = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "View"),
@@ -122,9 +137,6 @@ UiTargets createUiTargets(Sketch3DEnvironment* pEnv)
         return targets;
     }
 
-    targets.pToolBarBasic = pMainWindow->findChild<QToolBar*>(wy3dApp::ToolBarNames::Basic);
-    assert(targets.pToolBarBasic);
-
     targets.pMenuView = pEnv->addMenu(QCoreApplication::translate("MainWindow", "View"),
                                       wy3dApp::MenuBarNames::View);
     assert(targets.pMenuView);
@@ -133,6 +145,12 @@ UiTargets createUiTargets(Sketch3DEnvironment* pEnv)
     assert(pMenuFile);
     if (pMenuFile)
         pEnv->insertMenuAfter(pMenuFile, targets.pMenuView);
+
+    targets.pMenuEdit = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Edit"),
+                                      wy3dApp::MenuBarNames::Edit);
+    assert(targets.pMenuEdit);
+    if (pMenuFile)
+        pEnv->insertMenuAfter(pMenuFile, targets.pMenuEdit);
 
     targets.pMenuTools = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::Tools);
     assert(targets.pMenuTools);
@@ -426,6 +444,15 @@ ViewActions createViewActions(Sketch3DEnvironment* pEnv, QActionGroup* pActionGr
         QCoreApplication::translate("MainWindow", "Wireframe"),
         QIcon(":/images/View_Wireframe.svg"));
 
+    return actions;
+}
+
+UtilityActions createUtilityActions(Sketch3DEnvironment* pEnv, QActionGroup* pActionGroup)
+{
+    assert(pEnv);
+    assert(pActionGroup);
+
+    UtilityActions actions = {};
     actions.pActionFindElementById = pEnv->newCommandAction(
         CommandNames::FindElementById,
         QCoreApplication::translate("MainWindow", "Find"),
@@ -437,14 +464,24 @@ ViewActions createViewActions(Sketch3DEnvironment* pEnv, QActionGroup* pActionGr
     return actions;
 }
 
-void buildBasicToolBarUi(
+void buildEditMenuUi(
     const UndoRedoActions& undoRedoActions,
-    QToolBar* pToolBarBasic)
+    QMenu* pMenuEdit)
 {
-    assert(pToolBarBasic);
+    assert(pMenuEdit);
 
-    pToolBarBasic->addAction(undoRedoActions.pActionUndo);
-    pToolBarBasic->addAction(undoRedoActions.pActionRedo);
+    pMenuEdit->addAction(undoRedoActions.pActionUndo);
+    pMenuEdit->addAction(undoRedoActions.pActionRedo);
+}
+
+void buildEditToolBarUi(
+    const UndoRedoActions& undoRedoActions,
+    QToolBar* pToolBarEdit)
+{
+    assert(pToolBarEdit);
+
+    pToolBarEdit->addAction(undoRedoActions.pActionUndo);
+    pToolBarEdit->addAction(undoRedoActions.pActionRedo);
 }
 
 void buildSketch3DToolBarUi(
@@ -575,8 +612,13 @@ void buildViewToolBarUi(
         pDisplayModeGroup,
         displayModeActions);
     pToolBarView->addWidget(pToolBtn);
+}
 
-    pToolBarView->addAction(actions.pActionFindElementById);
+void buildUtilityToolBarUi(const UtilityActions& actions, QToolBar* pToolBarUtility)
+{
+    assert(pToolBarUtility);
+
+    pToolBarUtility->addAction(actions.pActionFindElementById);
 }
 
 void buildViewMenuUi(const ViewActions& actions, QMenu* pMenuView)
@@ -604,15 +646,26 @@ void buildViewMenuUi(const ViewActions& actions, QMenu* pMenuView)
     pMenuDisplayMode->addAction(actions.pActionWireframeDisplay);
 }
 
-void buildToolsMenuUi(const ViewActions& actions, QMenu* pMenuTools)
+void buildToolsMenuUi(
+    CommandAction* pActionSelect,
+    const UtilityActions& actions,
+    QMenu* pMenuTools)
 {
+    assert(pActionSelect);
     assert(pMenuTools);
 
     const QList<QAction*> existingActions = pMenuTools->actions();
     QAction* pAnchor = existingActions.isEmpty() ? nullptr : existingActions.first();
 
+    // Inserted before the anchor, so the first insertion ends up on top.
     if (pAnchor)
     {
+        pMenuTools->insertAction(pAnchor, pActionSelect);
+
+        QAction* pSeparatorSelect = new QAction(pActionSelect);
+        pSeparatorSelect->setSeparator(true);
+        pMenuTools->insertAction(pAnchor, pSeparatorSelect);
+
         pMenuTools->insertAction(pAnchor, actions.pActionFindElementById);
 
         QAction* pSeparator = new QAction(actions.pActionFindElementById);
@@ -621,6 +674,7 @@ void buildToolsMenuUi(const ViewActions& actions, QMenu* pMenuTools)
     }
     else
     {
+        pMenuTools->addAction(pActionSelect);
         pMenuTools->addAction(actions.pActionFindElementById);
     }
 }
@@ -649,8 +703,9 @@ void Sketch3DEnvironmentUI::initialize(Sketch3DEnvironment* pEnv)
     const Sketch3DEnvironmentActions sketch3DEnvironmentActions =
         createSketch3DEnvironmentActions(pEnv, pActionGroup);
     const ViewActions viewActions = createViewActions(pEnv, pActionGroup);
+    const UtilityActions utilityActions = createUtilityActions(pEnv, pActionGroup);
 
-    buildBasicToolBarUi(undoRedoActions, uiTargets.pToolBarBasic);
+    buildEditToolBarUi(undoRedoActions, uiTargets.pToolBarEdit);
     buildSketch3DToolBarUi(
         pEnv,
         pActionGroup,
@@ -659,10 +714,12 @@ void Sketch3DEnvironmentUI::initialize(Sketch3DEnvironment* pEnv)
     buildSketch3DEnvironmentToolBarUi(
         sketch3DEnvironmentActions,
         uiTargets.pToolBarSketch3DEnvironment);
+    buildUtilityToolBarUi(utilityActions, uiTargets.pToolBarUtility);
     buildViewToolBarUi(pEnv, viewActions, uiTargets.pToolBarView);
 
     buildViewMenuUi(viewActions, uiTargets.pMenuView);
-    buildToolsMenuUi(viewActions, uiTargets.pMenuTools);
+    buildEditMenuUi(undoRedoActions, uiTargets.pMenuEdit);
+    buildToolsMenuUi(sketch3DActions.pActionSelect, utilityActions, uiTargets.pMenuTools);
 
     pEnv->restoreUiState();
 }

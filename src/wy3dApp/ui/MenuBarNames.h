@@ -26,7 +26,9 @@ NS_WY3DAPP_BEG
 namespace MenuBarNames
 {
     inline constexpr const char* File = "File";
+    inline constexpr const char* Edit = "Edit";
     inline constexpr const char* View = "View";
+    inline constexpr const char* Sketch = "Sketch";
     inline constexpr const char* Model = "Model";
     inline constexpr const char* Solid = "Solid";
     inline constexpr const char* Sheet = "Sheet";

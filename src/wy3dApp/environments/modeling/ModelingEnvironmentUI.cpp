@@ -42,10 +42,13 @@ struct UiTargets
 {
     QMenu* pMenuFile;
     QMenu* pMenuTools;
+    QMenu* pMenuEdit;
     QMenu* pMenuView;
+    QMenu* pMenuSketch;
     QMenu* pMenuSolid;
     QMenu* pMenuSheet;
-    QToolBar* pToolBarBasic;
+    QToolBar* pToolBarFile;
+    QToolBar* pToolBarEdit;
     QToolBar* pToolBarModeling;
     QToolBar* pToolBarSheet;
     QToolBar* pToolBarUtility;
@@ -718,6 +721,16 @@ TestActions createTestActions(ModelingEnvironment* pEnv, QActionGroup* pActionGr
 }
 #endif // _DEBUG
 
+void buildEditMenuUi(
+    const UndoRedoActions& undoRedoActions,
+    QMenu* pMenuEdit)
+{
+    assert(pMenuEdit);
+
+    pMenuEdit->addAction(undoRedoActions.pActionUndo);
+    pMenuEdit->addAction(undoRedoActions.pActionRedo);
+}
+
 void buildFileMenuUi(
     const FileActions& actions,
     QMenu* pMenuFile)
@@ -732,6 +745,33 @@ void buildFileMenuUi(
     pMenuFile->addSeparator();
     pMenuFile->addAction(actions.pActionImportSketch);
     pMenuFile->addAction(actions.pActionExportSketch);
+}
+
+void buildSketchMenuUi(
+    const ModelingActions& actions,
+    QMenu* pMenuSketch)
+{
+    assert(pMenuSketch);
+
+    pMenuSketch->addAction(actions.pActionNewSketch);
+    pMenuSketch->addAction(actions.pActionNewSketch3D);
+
+    pMenuSketch->addSeparator();
+
+    pMenuSketch->addAction(actions.pActionHelix);
+
+    pMenuSketch->addSeparator();
+
+    QMenu* pMenuDatumPlane = pMenuSketch->addMenu(
+        QCoreApplication::translate("MainWindow", "Datum Plane"));
+    pMenuDatumPlane->addAction(actions.pActionParallelDatumPlane);
+    pMenuDatumPlane->addAction(actions.pActionCoincidentDatumPlane);
+    pMenuDatumPlane->addAction(actions.pActionAngularDatumPlane);
+    pMenuDatumPlane->addAction(actions.pActionPerpendicularDatumPlane);
+    pMenuDatumPlane->addAction(actions.pActionThroughAxisDatumPlane);
+    pMenuDatumPlane->addAction(actions.pActionNormalToCurveDatumPlane);
+    pMenuDatumPlane->addAction(actions.pActionThrough3PointsDatumPlane);
+    pMenuDatumPlane->addAction(actions.pActionTangentDatumPlane);
 }
 
 void buildSheetMenuUi(
@@ -896,12 +936,30 @@ void buildViewMenuUi(const ViewActions& actions, QMenu* pMenuView)
     pMenuDisplayMode->addAction(actions.pActionWireframeDisplay);
 }
 
-void buildToolsMenuUi(const UtilityActions& actions, QMenu* pMenuTools)
+void buildToolsMenuUi(
+    CommandAction* pActionSelect,
+    const UtilityActions& actions,
+    QMenu* pMenuTools)
 {
+    assert(pActionSelect);
     assert(pMenuTools);
 
     const QList<QAction*> existingActions = pMenuTools->actions();
     QAction* pAnchor = existingActions.isEmpty() ? nullptr : existingActions.first();
+
+    // Inserted before the anchor, so the first insertion ends up on top.
+    if (pAnchor)
+    {
+        pMenuTools->insertAction(pAnchor, pActionSelect);
+
+        QAction* pSeparatorSelect = new QAction(pActionSelect);
+        pSeparatorSelect->setSeparator(true);
+        pMenuTools->insertAction(pAnchor, pSeparatorSelect);
+    }
+    else
+    {
+        pMenuTools->addAction(pActionSelect);
+    }
 
     std::list<QAction*> utilityActions;
     utilityActions.emplace_back(actions.pActionSetColor);
@@ -924,16 +982,23 @@ void buildToolsMenuUi(const UtilityActions& actions, QMenu* pMenuTools)
     }
 }
 
-void buildBasicToolBarUi(
+void buildFileToolBarUi(
     const FileActions& fileActions,
-    const UndoRedoActions& undoRedoActions,
-    QToolBar* pToolBarBasic)
+    QToolBar* pToolBarFile)
 {
-    assert(pToolBarBasic);
+    assert(pToolBarFile);
 
-    pToolBarBasic->addAction(fileActions.pActionSaveFile);
-    pToolBarBasic->addAction(undoRedoActions.pActionUndo);
-    pToolBarBasic->addAction(undoRedoActions.pActionRedo);
+    pToolBarFile->addAction(fileActions.pActionSaveFile);
+}
+
+void buildEditToolBarUi(
+    const UndoRedoActions& undoRedoActions,
+    QToolBar* pToolBarEdit)
+{
+    assert(pToolBarEdit);
+
+    pToolBarEdit->addAction(undoRedoActions.pActionUndo);
+    pToolBarEdit->addAction(undoRedoActions.pActionRedo);
 }
 
 void buildModelingToolBarUi(
@@ -1118,6 +1183,13 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
     assert(pEnv);
 
     UiTargets targets = {};
+    // Created before the environment's own tool bars so it lands right after the file
+    // tool bar, which the gateway environment owns.
+    targets.pToolBarEdit = pEnv->addToolBar(
+        QCoreApplication::translate("MainWindow", "Edit"),
+        wy3dApp::ToolBarNames::Edit);
+    assert(targets.pToolBarEdit);
+
     targets.pToolBarModeling = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "Modeling"),
         wy3dApp::ToolBarNames::Modeling);
@@ -1175,8 +1247,21 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
     assert(targets.pMenuView);
     pEnv->insertMenuAfter(targets.pMenuFile, targets.pMenuView);
 
-    targets.pToolBarBasic = pMainWindow->findChild<QToolBar*>(wy3dApp::ToolBarNames::Basic);
-    assert(targets.pToolBarBasic);
+    targets.pMenuSketch = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Sketch"),
+                                        wy3dApp::MenuBarNames::Sketch);
+    assert(targets.pMenuSketch);
+    // Anchor on the view menu so the sketch menu lands immediately to its right,
+    // i.e. before the solid menu.
+    pEnv->insertMenuAfter(targets.pMenuView, targets.pMenuSketch);
+
+    targets.pMenuEdit = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Edit"),
+                                      wy3dApp::MenuBarNames::Edit);
+    assert(targets.pMenuEdit);
+    // Anchor on the file menu so the edit menu lands immediately to its right.
+    pEnv->insertMenuAfter(targets.pMenuFile, targets.pMenuEdit);
+
+    targets.pToolBarFile = pMainWindow->findChild<QToolBar*>(wy3dApp::ToolBarNames::File);
+    assert(targets.pToolBarFile);
 
     return targets;
 }
@@ -1212,11 +1297,14 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
 
     buildFileMenuUi(fileActions, uiTargets.pMenuFile);
     buildViewMenuUi(viewActions, uiTargets.pMenuView);
+    buildEditMenuUi(undoRedoActions, uiTargets.pMenuEdit);
+    buildSketchMenuUi(modelingActions, uiTargets.pMenuSketch);
     buildSolidMenuUi(modelingActions, booleanActions, primitiveActions, editActions,
                      uiTargets.pMenuSolid);
     buildSheetMenuUi(modelingActions, uiTargets.pMenuSheet);
     buildSheetToolBarUi(pEnv, pActionGroup, modelingActions, uiTargets.pToolBarSheet);
-    buildBasicToolBarUi(fileActions, undoRedoActions, uiTargets.pToolBarBasic);
+    buildFileToolBarUi(fileActions, uiTargets.pToolBarFile);
+    buildEditToolBarUi(undoRedoActions, uiTargets.pToolBarEdit);
     buildModelingToolBarUi(
         pEnv,
         pActionGroup,
@@ -1226,7 +1314,7 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
         editActions,
         uiTargets.pToolBarModeling);
     buildUtilityToolBarUi(utilityActions, uiTargets.pToolBarUtility);
-    buildToolsMenuUi(utilityActions, uiTargets.pMenuTools);
+    buildToolsMenuUi(modelingActions.pActionSelect, utilityActions, uiTargets.pMenuTools);
     buildViewToolBarUi(pEnv, viewActions, uiTargets.pToolBarView);
 #ifdef _DEBUG
     buildTestToolBarUi(testActions, uiTargets.pToolBarTest);

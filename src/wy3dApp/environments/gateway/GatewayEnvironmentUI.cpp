@@ -84,7 +84,7 @@ GatewayEnvironmentUI::GatewayEnvironmentUI()
     : _pMenuFile(nullptr)
     , _pMenuTools(nullptr)
     , _pMenuHelp(nullptr)
-    , _pToolBarBasic(nullptr)
+    , _pToolBarFile(nullptr)
 {
 }
 
@@ -106,15 +106,15 @@ void GatewayEnvironmentUI::initialize(GatewayEnvironment* pEnv)
     assert(_pMenuFile);
     assert(_pMenuTools);
     assert(_pMenuHelp);
-    assert(_pToolBarBasic);
+    assert(_pToolBarFile);
     _pMenuFile->addAction(actions.pActionNewFile);
     _pMenuFile->addAction(actions.pActionOpenFile);
     _pMenuTools->addAction(actions.pActionOptions);
     _pMenuHelp->addAction(actions.pActionHelpDocumentation);
     _pMenuHelp->addAction(actions.pActionShortcutKeys);
     _pMenuHelp->addAction(actions.pActionAbout);
-    _pToolBarBasic->addAction(actions.pActionNewFile);
-    _pToolBarBasic->addAction(actions.pActionOpenFile);
+    _pToolBarFile->addAction(actions.pActionNewFile);
+    _pToolBarFile->addAction(actions.pActionOpenFile);
 
     pEnv->restoreUiState();
 }
@@ -136,7 +136,7 @@ void GatewayEnvironmentUI::clear()
     _pMenuFile = nullptr;
     _pMenuTools = nullptr;
     _pMenuHelp = nullptr;
-    _pToolBarBasic = nullptr;
+    _pToolBarFile = nullptr;
 }
 
 void GatewayEnvironmentUI::createMenus(GatewayEnvironment* pEnv)
@@ -156,7 +156,7 @@ void GatewayEnvironmentUI::createMenus(GatewayEnvironment* pEnv)
 
 void GatewayEnvironmentUI::createToolBars(GatewayEnvironment* pEnv)
 {
-    _pToolBarBasic = pEnv->addToolBar(
-        QCoreApplication::translate("MainWindow", "Basic"),
-        wy3dApp::ToolBarNames::Basic);
+    _pToolBarFile = pEnv->addToolBar(
+        QCoreApplication::translate("MainWindow", "File"),
+        wy3dApp::ToolBarNames::File);
 }

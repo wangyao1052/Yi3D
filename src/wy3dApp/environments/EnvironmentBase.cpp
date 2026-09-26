@@ -252,6 +252,10 @@ void EnvironmentBase::destroyToolBars()
             continue;
         }
         if (pMainWindow) pMainWindow->removeToolBar(pToolBar);
+        // Deletion is deferred, so the tool bar is still around when the next environment
+        // builds its UI. Drop the name now: a lookup would otherwise hand out this doomed
+        // tool bar instead of the live one the next environment just created.
+        pToolBar->setObjectName(QString());
         pToolBar->deleteLater();
     }
     _toolBars.clear();

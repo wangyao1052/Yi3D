@@ -25,8 +25,8 @@ NS_WY3DAPP_BEG
 
 namespace ToolBarNames
 {
-    inline constexpr const char* Basic = "basic";
     inline constexpr const char* File = "file";
+    inline constexpr const char* Edit = "edit";
     inline constexpr const char* Modeling = "modeling";
     inline constexpr const char* Sheet = "sheet";
     inline constexpr const char* Sketch = "sketch";

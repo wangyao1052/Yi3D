@@ -42,7 +42,7 @@ private:
     QMenu* _pMenuFile;
     QMenu* _pMenuTools;
     QMenu* _pMenuHelp;
-    QToolBar* _pToolBarBasic;
+    QToolBar* _pToolBarFile;
 };
 
 #endif // WY3DAPP_GATEWAY_ENVIRONMENT_UI_H
