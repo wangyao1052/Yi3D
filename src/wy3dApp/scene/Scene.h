@@ -41,6 +41,7 @@
 #include <wy3dSolid.h>
 
 #include "select/BoxSelectRectangle.h"
+#include "scene/ViewCube.h"
 #include "RTree/RTree.h"
 
 namespace wyap
@@ -131,6 +132,11 @@ public:
     void initBoxSelectRect(osgViewer::View* pView);
     // 框选矩形节点
     BoxSelectRectangle* getBoxSelectRectNode() const { return _pBoxSelectRect.get(); }
+
+    // Initialise the navigation cube in the viewport's top right corner
+    void initViewCube(osgViewer::View* pView);
+    // Navigation cube node
+    ViewCube* getViewCubeNode() const { return _pViewCube.get(); }
 
     // 默认框选(完全框住才选中)
     std::list<wydb::ElementId> pickByNormalBox(osg::Polytope& polytope, unsigned int pickMask) const;
@@ -284,6 +290,8 @@ private:
     osg::ref_ptr<osg::AutoTransform> _pSketchCsys;
     // 框选矩形
     osg::ref_ptr<BoxSelectRectangle> _pBoxSelectRect;
+    // Navigation cube in the viewport's top right corner
+    osg::ref_ptr<ViewCube> _pViewCube;
     // 主光源
     osg::ref_ptr<osg::LightSource> _mainLightSource;
     // Gizmos

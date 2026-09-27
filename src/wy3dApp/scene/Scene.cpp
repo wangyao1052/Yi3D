@@ -480,6 +480,22 @@ void Scene::initBoxSelectRect(osgViewer::View* pView)
     }
 }
 
+void Scene::initViewCube(osgViewer::View* pView)
+{
+    if (_pViewCube)
+    {
+        _pRoot->removeChild(_pViewCube);
+        _pViewCube = nullptr;
+    }
+
+    if (pView)
+    {
+        // The cube sets its own node mask and lighting state
+        _pViewCube = new ViewCube(pView);
+        _pRoot->addChild(_pViewCube);
+    }
+}
+
 osg::BoundingSphere Scene::getElementsBoundingBox() const
 {
     return _pElemsRoot->getBound();

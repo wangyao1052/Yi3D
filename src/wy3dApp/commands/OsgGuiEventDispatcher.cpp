@@ -49,6 +49,20 @@ bool OsgGuiEventDispatcher::handle(
     osg::Object* object,
     osg::NodeVisitor* nv)
 {
+    // The ViewCube is a screen space overlay and comes before gizmo, selection and modal
+    // commands. It has to come first: the PUSH branch of handleGizmoEvent unconditionally
+    // picks and may activate a gizmo, so a click on a cube corner would be stolen by it.
+    if (Scene* pScene = Application::instance().getActiveScene())
+    {
+        if (ViewCube* pViewCube = pScene->getViewCubeNode())
+        {
+            if (pViewCube->handleEvent(ea, aa))
+            {
+                return true;
+            }
+        }
+    }
+
     // Gizmo
     if (handleGizmoEvent(ea, aa))
     {

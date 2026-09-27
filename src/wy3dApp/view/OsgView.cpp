@@ -62,6 +62,7 @@ void OsgView::initialize()
     {
         _pOsgView->setSceneData(REAL_SCENE(pScene)->getRoot());
         REAL_SCENE(pScene)->initBoxSelectRect(_pOsgView);
+        REAL_SCENE(pScene)->initViewCube(_pOsgView);
         REAL_SCENE(pScene)->initLight(_pOsgView);
     }
 }
