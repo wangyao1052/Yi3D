@@ -33,6 +33,7 @@
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
+#include "utils/IconUtil.h"
 #include "widgets/frame/MainWindow.h"
 #include "widgets/frame/ViewWidget.h"
 #include "widgets/frame/ViewWidgetContainer.h"
@@ -169,14 +170,14 @@ UndoRedoActions createUndoRedoActions(Sketch3DEnvironment* pEnv)
     actions.pActionUndo = pEnv->newCommandAction(
         CommandNames::Undo,
         QCoreApplication::translate("MainWindow", "Undo"),
-        QIcon(":/images/Basic_Undo.svg"));
+        IconUtil::get(":/images/Basic_Undo.svg"));
     actions.pActionUndo->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z));
     actions.pActionUndo->setShortcutContext(Qt::ApplicationShortcut);
 
     actions.pActionRedo = pEnv->newCommandAction(
         CommandNames::Redo,
         QCoreApplication::translate("MainWindow", "Redo"),
-        QIcon(":/images/Basic_Redo.svg"));
+        IconUtil::get(":/images/Basic_Redo.svg"));
     actions.pActionRedo->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Y));
     actions.pActionRedo->setShortcutContext(Qt::ApplicationShortcut);
 
@@ -192,13 +193,13 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionSelect = pEnv->newCommandAction(
         CommandNames::Select,
         QCoreApplication::translate("MainWindow", "Select"),
-        QIcon(":/images/Basic_Select.svg"),
+        IconUtil::get(":/images/Basic_Select.svg"),
         pActionGroup);
 
     actions.pActionDrawLine3D = pEnv->newCommandAction(
         CommandNames::Line3D,
         QCoreApplication::translate("MainWindow", "Line"),
-        QIcon(":/images/Sketch_DrawLine.svg"),
+        IconUtil::get(":/images/Sketch_DrawLine.svg"),
         pActionGroup);
     if (actions.pActionDrawLine3D)
     {
@@ -208,7 +209,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionDrawCircle3D = pEnv->newCommandAction(
         CommandNames::Circle3D,
         QCoreApplication::translate("MainWindow", "Circle"),
-        QIcon(":/images/Sketch_DrawCircle.svg"),
+        IconUtil::get(":/images/Sketch_DrawCircle.svg"),
         pActionGroup);
     if (actions.pActionDrawCircle3D)
     {
@@ -218,7 +219,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionDrawArc3D = pEnv->newCommandAction(
         CommandNames::Arc3D,
         QCoreApplication::translate("MainWindow", "Arc"),
-        QIcon(":/images/Sketch_DrawArc.svg"),
+        IconUtil::get(":/images/Sketch_DrawArc.svg"),
         pActionGroup);
     if (actions.pActionDrawArc3D)
     {
@@ -228,7 +229,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionDrawArcBy3Points3D = pEnv->newCommandAction(
         CommandNames::ArcBy3Points3D,
         QCoreApplication::translate("MainWindow", "Arc by 3 Points"),
-        QIcon(":/images/Sketch_DrawArcBy3Points.svg"),
+        IconUtil::get(":/images/Sketch_DrawArcBy3Points.svg"),
         pActionGroup);
     if (actions.pActionDrawArcBy3Points3D)
     {
@@ -238,7 +239,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionDrawRectangle3D = pEnv->newCommandAction(
         CommandNames::Rectangle3D,
         QCoreApplication::translate("MainWindow", "Rectangle"),
-        QIcon(":/images/Sketch_DrawRectangle.svg"),
+        IconUtil::get(":/images/Sketch_DrawRectangle.svg"),
         pActionGroup);
     if (actions.pActionDrawRectangle3D)
     {
@@ -248,13 +249,13 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionDrawCenterRectangle3D = pEnv->newCommandAction(
         CommandNames::CenterRectangle3D,
         QCoreApplication::translate("MainWindow", "CenterRectangle"),
-        QIcon(":/images/Sketch_DrawCenterRectangle.svg"),
+        IconUtil::get(":/images/Sketch_DrawCenterRectangle.svg"),
         pActionGroup);
 
     actions.pActionDrawEllipse3D = pEnv->newCommandAction(
         CommandNames::Ellipse3D,
         QCoreApplication::translate("MainWindow", "Ellipse"),
-        QIcon(":/images/Sketch_DrawEllipse.svg"),
+        IconUtil::get(":/images/Sketch_DrawEllipse.svg"),
         pActionGroup);
     if (actions.pActionDrawEllipse3D)
     {
@@ -264,13 +265,13 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionDrawEllipseArc3D = pEnv->newCommandAction(
         CommandNames::EllipseArc3D,
         QCoreApplication::translate("MainWindow", "Ellipse Arc"),
-        QIcon(":/images/Sketch_DrawEllipseArc.svg"),
+        IconUtil::get(":/images/Sketch_DrawEllipseArc.svg"),
         pActionGroup);
 
     actions.pActionDrawSpline3D = pEnv->newCommandAction(
         CommandNames::Spline3D,
         QCoreApplication::translate("MainWindow", "Spline"),
-        QIcon(":/images/Sketch_DrawSpline.svg"),
+        IconUtil::get(":/images/Sketch_DrawSpline.svg"),
         pActionGroup);
     if (actions.pActionDrawSpline3D)
     {
@@ -280,13 +281,13 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionDrawStyleSpline3D = pEnv->newCommandAction(
         CommandNames::StyleSpline3D,
         QCoreApplication::translate("MainWindow", "Style Spline"),
-        QIcon(":/images/Sketch_DrawStyleSpline.svg"),
+        IconUtil::get(":/images/Sketch_DrawStyleSpline.svg"),
         pActionGroup);
 
     actions.pActionIncludeCurve3D = pEnv->newCommandAction(
         CommandNames::IncludeCurve3D,
         QCoreApplication::translate("MainWindow", "Include Curve"),
-        QIcon(":/images/Sketch_IncludeCurve.svg"),
+        IconUtil::get(":/images/Sketch_IncludeCurve.svg"),
         pActionGroup);
     if (actions.pActionIncludeCurve3D)
     {
@@ -296,7 +297,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionIntersectionCurve3D = pEnv->newCommandAction(
         CommandNames::IntersectionCurve3D,
         QCoreApplication::translate("MainWindow", "Intersection Curve"),
-        QIcon(":/images/Sketch_IntersectionCurve.png"),
+        IconUtil::get(":/images/Sketch_IntersectionCurve.png"),
         pActionGroup);
     if (actions.pActionIntersectionCurve3D)
     {
@@ -306,7 +307,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionProjectCurve3D = pEnv->newCommandAction(
         CommandNames::ProjectCurve3D,
         QCoreApplication::translate("MainWindow", "Project Curve"),
-        QIcon(":/images/Sketch_ProjectCurve.png"),
+        IconUtil::get(":/images/Sketch_ProjectCurve.png"),
         pActionGroup);
     if (actions.pActionProjectCurve3D)
     {
@@ -316,7 +317,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionTrim3D = pEnv->newCommandAction(
         CommandNames::Trim3D,
         QCoreApplication::translate("MainWindow", "Trim"),
-        QIcon(":/images/Sketch_Trim.svg"),
+        IconUtil::get(":/images/Sketch_Trim.svg"),
         pActionGroup);
     if (actions.pActionTrim3D)
     {
@@ -326,7 +327,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionExtend3D = pEnv->newCommandAction(
         CommandNames::Extend3D,
         QCoreApplication::translate("MainWindow", "Extend"),
-        QIcon(":/images/Sketch_Extend.svg"),
+        IconUtil::get(":/images/Sketch_Extend.svg"),
         pActionGroup);
     if (actions.pActionExtend3D)
     {
@@ -336,7 +337,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionFillet3D = pEnv->newCommandAction(
         CommandNames::Fillet3D,
         QCoreApplication::translate("MainWindow", "Sketch Fillet"),
-        QIcon(":/images/Sketch_Fillet.svg"),
+        IconUtil::get(":/images/Sketch_Fillet.svg"),
         pActionGroup);
     if (actions.pActionFillet3D)
     {
@@ -346,7 +347,7 @@ Sketch3DActions createSketch3DActions(Sketch3DEnvironment* pEnv, QActionGroup* p
     actions.pActionChamfer3D = pEnv->newCommandAction(
         CommandNames::Chamfer3D,
         QCoreApplication::translate("MainWindow", "Sketch Chamfer"),
-        QIcon(":/images/Sketch_Chamfer.svg"),
+        IconUtil::get(":/images/Sketch_Chamfer.svg"),
         pActionGroup);
     if (actions.pActionChamfer3D)
     {
@@ -367,13 +368,13 @@ Sketch3DEnvironmentActions createSketch3DEnvironmentActions(
     actions.pActionEndSketch3D = pEnv->newCommandAction(
         CommandNames::EndSketch3D,
         QCoreApplication::translate("MainWindow", "End 3D Sketch"),
-        QIcon(":/images/Sketch_OK.svg"),
+        IconUtil::get(":/images/Sketch_OK.svg"),
         pActionGroup);
 
     actions.pActionCancelSketch3D = pEnv->newCommandAction(
         CommandNames::CancelSketch3D,
         QCoreApplication::translate("MainWindow", "Cancel 3D Sketch"),
-        QIcon(":/images/Sketch_Cancel.svg"),
+        IconUtil::get(":/images/Sketch_Cancel.svg"),
         pActionGroup);
 
     return actions;
@@ -388,64 +389,64 @@ ViewActions createViewActions(Sketch3DEnvironment* pEnv, QActionGroup* pActionGr
     actions.pActionFitView = pEnv->newCommandAction(
         CommandNames::FitView,
         QCoreApplication::translate("MainWindow", "Fit View"),
-        QIcon(":/images/View_FullScreen.svg"),
+        IconUtil::get(":/images/View_FullScreen.svg"),
         pActionGroup);
 
     actions.pActionFitSelection = pEnv->newCommandAction(
         CommandNames::FitSelection,
         QCoreApplication::translate("MainWindow", "Fit Selection"),
-        QIcon(":/images/View_FitSelection.svg"),
+        IconUtil::get(":/images/View_FitSelection.svg"),
         pActionGroup);
 
     actions.pActionIsometricView = pEnv->newCommandAction(
         CommandNames::IsometricView,
         QCoreApplication::translate("MainWindow", "Isometric View"),
-        QIcon(":/images/View_ISO.svg"));
+        IconUtil::get(":/images/View_ISO.svg"));
 
     actions.pActionFrontView = pEnv->newCommandAction(
         CommandNames::FrontView,
         QCoreApplication::translate("MainWindow", "Front View"),
-        QIcon(":/images/View_Front.svg"));
+        IconUtil::get(":/images/View_Front.svg"));
 
     actions.pActionBackView = pEnv->newCommandAction(
         CommandNames::BackView,
         QCoreApplication::translate("MainWindow", "Back View"),
-        QIcon(":/images/View_Back.svg"));
+        IconUtil::get(":/images/View_Back.svg"));
 
     actions.pActionLeftView = pEnv->newCommandAction(
         CommandNames::LeftView,
         QCoreApplication::translate("MainWindow", "Left View"),
-        QIcon(":/images/View_Left.svg"));
+        IconUtil::get(":/images/View_Left.svg"));
 
     actions.pActionRightView = pEnv->newCommandAction(
         CommandNames::RightView,
         QCoreApplication::translate("MainWindow", "Right View"),
-        QIcon(":/images/View_Right.svg"));
+        IconUtil::get(":/images/View_Right.svg"));
 
     actions.pActionTopView = pEnv->newCommandAction(
         CommandNames::TopView,
         QCoreApplication::translate("MainWindow", "Top View"),
-        QIcon(":/images/View_Top.svg"));
+        IconUtil::get(":/images/View_Top.svg"));
 
     actions.pActionBottomView = pEnv->newCommandAction(
         CommandNames::BottomView,
         QCoreApplication::translate("MainWindow", "Bottom View"),
-        QIcon(":/images/View_Bottom.svg"));
+        IconUtil::get(":/images/View_Bottom.svg"));
 
     actions.pActionShadedWithEdgesDisplay = pEnv->newCommandAction(
         CommandNames::ShadedWithEdgesDisplay,
         QCoreApplication::translate("MainWindow", "Shaded with Edges"),
-        QIcon(":/images/View_ShadedWithEdges.svg"));
+        IconUtil::get(":/images/View_ShadedWithEdges.svg"));
 
     actions.pActionShadedDisplay = pEnv->newCommandAction(
         CommandNames::ShadedDisplay,
         QCoreApplication::translate("MainWindow", "Shaded"),
-        QIcon(":/images/View_Shaded.svg"));
+        IconUtil::get(":/images/View_Shaded.svg"));
 
     actions.pActionWireframeDisplay = pEnv->newCommandAction(
         CommandNames::WireframeDisplay,
         QCoreApplication::translate("MainWindow", "Wireframe"),
-        QIcon(":/images/View_Wireframe.svg"));
+        IconUtil::get(":/images/View_Wireframe.svg"));
 
     return actions;
 }
@@ -459,7 +460,7 @@ UtilityActions createUtilityActions(Sketch3DEnvironment* pEnv, QActionGroup* pAc
     actions.pActionFindElementById = pEnv->newCommandAction(
         CommandNames::FindElementById,
         QCoreApplication::translate("MainWindow", "Find"),
-        QIcon(":/images/Utility_FindElementById.svg"),
+        IconUtil::get(":/images/Utility_FindElementById.svg"),
         pActionGroup);
     actions.pActionFindElementById->setShortcut(QKeySequence::Find);
     actions.pActionFindElementById->setShortcutContext(Qt::ApplicationShortcut);

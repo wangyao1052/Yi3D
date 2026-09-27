@@ -34,6 +34,7 @@
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
+#include "utils/IconUtil.h"
 #include "widgets/frame/MainWindow.h"
 
 namespace
@@ -182,34 +183,34 @@ FileActions createFileActions(ModelingEnvironment* pEnv)
     actions.pActionSaveFile = pEnv->newCommandAction(
         CommandNames::SaveFile,
         QCoreApplication::translate("MainWindow", "Save"),
-        QIcon(":/images/Document_Save.svg"));
+        IconUtil::get(":/images/Document_Save.svg"));
     actions.pActionSaveFile->setShortcut(QKeySequence::Save);
     actions.pActionSaveFile->setShortcutContext(Qt::ApplicationShortcut);
 
     actions.pActionSaveAsFile = pEnv->newCommandAction(
         CommandNames::SaveAsFile,
         QCoreApplication::translate("MainWindow", "Save As"),
-        QIcon(":/images/Document_SaveAs.svg"));
+        IconUtil::get(":/images/Document_SaveAs.svg"));
 
     actions.pActionImportFile = pEnv->newCommandAction(
         CommandNames::ImportFile,
         QCoreApplication::translate("MainWindow", "Import"),
-        QIcon(":/images/Document_Import.svg"));
+        IconUtil::get(":/images/Document_Import.svg"));
 
     actions.pActionExportFile = pEnv->newCommandAction(
         CommandNames::ExportFile,
         QCoreApplication::translate("MainWindow", "Export"),
-        QIcon(":/images/Document_Export.svg"));
+        IconUtil::get(":/images/Document_Export.svg"));
 
     actions.pActionImportSketch = pEnv->newCommandAction(
         CommandNames::ImportSketch,
         QCoreApplication::translate("MainWindow", "Import Sketch"),
-        QIcon(":/images/Document_Import.svg"));
+        IconUtil::get(":/images/Document_Import.svg"));
 
     actions.pActionExportSketch = pEnv->newCommandAction(
         CommandNames::ExportSketch,
         QCoreApplication::translate("MainWindow", "Export Sketch"),
-        QIcon(":/images/Document_Export.svg"));
+        IconUtil::get(":/images/Document_Export.svg"));
 
     return actions;
 }
@@ -222,14 +223,14 @@ UndoRedoActions createUndoRedoActions(ModelingEnvironment* pEnv)
     actions.pActionUndo = pEnv->newCommandAction(
         CommandNames::Undo,
         QCoreApplication::translate("MainWindow", "Undo"),
-        QIcon(":/images/Basic_Undo.svg"));
+        IconUtil::get(":/images/Basic_Undo.svg"));
     actions.pActionUndo->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z));
     actions.pActionUndo->setShortcutContext(Qt::ApplicationShortcut);
 
     actions.pActionRedo = pEnv->newCommandAction(
         CommandNames::Redo,
         QCoreApplication::translate("MainWindow", "Redo"),
-        QIcon(":/images/Basic_Redo.svg"));
+        IconUtil::get(":/images/Basic_Redo.svg"));
     actions.pActionRedo->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Y));
     actions.pActionRedo->setShortcutContext(Qt::ApplicationShortcut);
 
@@ -245,229 +246,229 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
     actions.pActionSelect = pEnv->newCommandAction(
         CommandNames::Select,
         QCoreApplication::translate("MainWindow", "Select"),
-        QIcon(":/images/Basic_Select.svg"),
+        IconUtil::get(":/images/Basic_Select.svg"),
         pActionGroup);
 
     actions.pActionNewSketch = pEnv->newCommandAction(
         CommandNames::NewSketch,
         QCoreApplication::translate("MainWindow", "New Sketch"),
-        QIcon(":/images/Modeling_NewSketch.svg"),
+        IconUtil::get(":/images/Modeling_NewSketch.svg"),
         pActionGroup);
 
     actions.pActionNewSketch3D = pEnv->newCommandAction(
         CommandNames::NewSketch3D,
         QCoreApplication::translate("MainWindow", "New 3D Sketch"),
-        QIcon(":/images/Modeling_NewSketch3D.svg"),
+        IconUtil::get(":/images/Modeling_NewSketch3D.svg"),
         pActionGroup);
 
     actions.pActionEditSketch = pEnv->newCommandAction(
         CommandNames::EditSketch,
         QCoreApplication::translate("MainWindow", "Edit Sketch"),
-        QIcon(":/images/Edit_Sketch.svg"),
+        IconUtil::get(":/images/Edit_Sketch.svg"),
         pActionGroup);
 
     actions.pActionParallelDatumPlane = pEnv->newCommandAction(
         CommandNames::ParallelDatumPlane,
         QCoreApplication::translate("MainWindow", "Parallel Datum Plane"),
-        QIcon(":/images/DatumPlane_Parallel.svg"),
+        IconUtil::get(":/images/DatumPlane_Parallel.svg"),
         pActionGroup);
 
     actions.pActionCoincidentDatumPlane = pEnv->newCommandAction(
         CommandNames::CoincidentDatumPlane,
         QCoreApplication::translate("MainWindow", "Coincident Datum Plane"),
-        QIcon(":/images/DatumPlane_Coincident.svg"),
+        IconUtil::get(":/images/DatumPlane_Coincident.svg"),
         pActionGroup);
 
     actions.pActionAngularDatumPlane = pEnv->newCommandAction(
         CommandNames::AngularDatumPlane,
         QCoreApplication::translate("MainWindow", "Angular Datum Plane"),
-        QIcon(":/images/DatumPlane_Angular.svg"),
+        IconUtil::get(":/images/DatumPlane_Angular.svg"),
         pActionGroup);
 
     actions.pActionPerpendicularDatumPlane = pEnv->newCommandAction(
         CommandNames::PerpendicularDatumPlane,
         QCoreApplication::translate("MainWindow", "Perpendicular Datum Plane"),
-        QIcon(":/images/DatumPlane_Perpendicular.svg"),
+        IconUtil::get(":/images/DatumPlane_Perpendicular.svg"),
         pActionGroup);
 
     actions.pActionThroughAxisDatumPlane = pEnv->newCommandAction(
         CommandNames::ThroughAxisDatumPlane,
         QCoreApplication::translate("MainWindow", "Through Axis Datum Plane"),
-        QIcon(":/images/DatumPlane_ThroughAxis.svg"),
+        IconUtil::get(":/images/DatumPlane_ThroughAxis.svg"),
         pActionGroup);
 
     actions.pActionNormalToCurveDatumPlane = pEnv->newCommandAction(
         CommandNames::NormalToCurveDatumPlane,
         QCoreApplication::translate("MainWindow", "Normal To Curve Datum Plane"),
-        QIcon(":/images/DatumPlane_NormalToEdge.svg"),
+        IconUtil::get(":/images/DatumPlane_NormalToEdge.svg"),
         pActionGroup);
 
     actions.pActionThrough3PointsDatumPlane = pEnv->newCommandAction(
         CommandNames::Through3PointsDatumPlane,
         QCoreApplication::translate("MainWindow", "Through 3 Points Datum Plane"),
-        QIcon(":/images/DatumPlane_Through3Points.svg"),
+        IconUtil::get(":/images/DatumPlane_Through3Points.svg"),
         pActionGroup);
 
     actions.pActionTangentDatumPlane = pEnv->newCommandAction(
         CommandNames::TangentDatumPlane,
         QCoreApplication::translate("MainWindow", "Tangent Datum Plane"),
-        QIcon(":/images/DatumPlane_Tangent.svg"),
+        IconUtil::get(":/images/DatumPlane_Tangent.svg"),
         pActionGroup);
 
     actions.pActionHelix = pEnv->newCommandAction(
         CommandNames::Helix,
         QCoreApplication::translate("MainWindow", "Helix"),
-        QIcon(":/images/Curve_Helix.svg"),
+        IconUtil::get(":/images/Curve_Helix.svg"),
         pActionGroup);
 
     actions.pActionExtrude = pEnv->newCommandAction(
         CommandNames::Extrude,
         QCoreApplication::translate("MainWindow", "Extrude"),
-        QIcon(":/images/Modeling_Extrusion.png"),
+        IconUtil::get(":/images/Modeling_Extrusion.png"),
         pActionGroup);
 
     actions.pActionExtrudedSheet = pEnv->newCommandAction(
         CommandNames::ExtrudedSheet,
         QCoreApplication::translate("MainWindow", "Extruded Sheet"),
-        QIcon(":/images/Modeling_ExtrudedSheet.svg"),
+        IconUtil::get(":/images/Modeling_ExtrudedSheet.svg"),
         pActionGroup);
 
     actions.pActionRevolvedSheet = pEnv->newCommandAction(
         CommandNames::RevolvedSheet,
         QCoreApplication::translate("MainWindow", "Revolved Sheet"),
-        QIcon(":/images/Modeling_RevolvedSheet.svg"),
+        IconUtil::get(":/images/Modeling_RevolvedSheet.svg"),
         pActionGroup);
 
     actions.pActionSweptSheet = pEnv->newCommandAction(
         CommandNames::SweptSheet,
         QCoreApplication::translate("MainWindow", "Swept Sheet"),
-        QIcon(":/images/Modeling_SweptSheet.svg"),
+        IconUtil::get(":/images/Modeling_SweptSheet.svg"),
         pActionGroup);
 
     actions.pActionLoftedSheet = pEnv->newCommandAction(
         CommandNames::LoftedSheet,
         QCoreApplication::translate("MainWindow", "Lofted Sheet"),
-        QIcon(":/images/Modeling_LoftedSheet.svg"),
+        IconUtil::get(":/images/Modeling_LoftedSheet.svg"),
         pActionGroup);
 
     actions.pActionPlanarSheet = pEnv->newCommandAction(
         CommandNames::PlanarSheet,
         QCoreApplication::translate("MainWindow", "Planar Sheet"),
-        QIcon(":/images/Modeling_PlanarSheet.svg"),
+        IconUtil::get(":/images/Modeling_PlanarSheet.svg"),
         pActionGroup);
 
     actions.pActionFilledSheet = pEnv->newCommandAction(
         CommandNames::FilledSheet,
         QCoreApplication::translate("MainWindow", "Filled Surface"),
-        QIcon(":/images/Modeling_FilledSheet.svg"),
+        IconUtil::get(":/images/Modeling_FilledSheet.svg"),
         pActionGroup);
 
     actions.pActionSewnSheet = pEnv->newCommandAction(
         CommandNames::SewnSheet,
         QCoreApplication::translate("MainWindow", "Sewn Sheet"),
-        QIcon(":/images/Modeling_SewnSheet.svg"),
+        IconUtil::get(":/images/Modeling_SewnSheet.svg"),
         pActionGroup);
 
     actions.pActionThicken = pEnv->newCommandAction(
         CommandNames::Thicken,
         QCoreApplication::translate("MainWindow", "Thicken"),
-        QIcon(":/images/Modeling_Thicken.svg"),
+        IconUtil::get(":/images/Modeling_Thicken.svg"),
         pActionGroup);
 
     actions.pActionSolidify = pEnv->newCommandAction(
         CommandNames::Solidify,
         QCoreApplication::translate("MainWindow", "Solidify"),
-        QIcon(":/images/Modeling_Solidify.svg"),
+        IconUtil::get(":/images/Modeling_Solidify.svg"),
         pActionGroup);
 
     actions.pActionOffsetSheet = pEnv->newCommandAction(
         CommandNames::OffsetSheet,
         QCoreApplication::translate("MainWindow", "Offset Sheet"),
-        QIcon(":/images/Modeling_OffsetSheet.png"),
+        IconUtil::get(":/images/Modeling_OffsetSheet.png"),
         pActionGroup);
 
     actions.pActionRevolve = pEnv->newCommandAction(
         CommandNames::Revolve,
         QCoreApplication::translate("MainWindow", "Revolve"),
-        QIcon(":/images/Modeling_Revolution.png"),
+        IconUtil::get(":/images/Modeling_Revolution.png"),
         pActionGroup);
 
     actions.pActionSweep = pEnv->newCommandAction(
         CommandNames::Sweep,
         QCoreApplication::translate("MainWindow", "Sweep"),
-        QIcon(":/images/Modeling_Sweep.png"),
+        IconUtil::get(":/images/Modeling_Sweep.png"),
         pActionGroup);
 
     actions.pActionLoft = pEnv->newCommandAction(
         CommandNames::Loft,
         QCoreApplication::translate("MainWindow", "Loft"),
-        QIcon(":/images/Modeling_Loft.png"),
+        IconUtil::get(":/images/Modeling_Loft.png"),
         pActionGroup);
 
     actions.pActionExtrudeCut = pEnv->newCommandAction(
         CommandNames::ExtrudeCut,
         QCoreApplication::translate("MainWindow", "Extrude Cut"),
-        QIcon(":/images/Modeling_ExtrusionCut.png"),
+        IconUtil::get(":/images/Modeling_ExtrusionCut.png"),
         pActionGroup);
 
     actions.pActionRevolveCut = pEnv->newCommandAction(
         CommandNames::RevolveCut,
         QCoreApplication::translate("MainWindow", "Revolve Cut"),
-        QIcon(":/images/Modeling_RevolutionCut.png"),
+        IconUtil::get(":/images/Modeling_RevolutionCut.png"),
         pActionGroup);
 
     actions.pActionSweepCut = pEnv->newCommandAction(
         CommandNames::SweepCut,
         QCoreApplication::translate("MainWindow", "Sweep Cut"),
-        QIcon(":/images/Modeling_SweepCut.png"),
+        IconUtil::get(":/images/Modeling_SweepCut.png"),
         pActionGroup);
 
     actions.pActionLoftCut = pEnv->newCommandAction(
         CommandNames::LoftCut,
         QCoreApplication::translate("MainWindow", "Loft Cut"),
-        QIcon(":/images/Modeling_LoftCut.png"),
+        IconUtil::get(":/images/Modeling_LoftCut.png"),
         pActionGroup);
 
     actions.pActionMerge = pEnv->newCommandAction(
         CommandNames::Merge,
         QCoreApplication::translate("MainWindow", "Merge"),
-        QIcon(":/images/Modeling_Merge.svg"),
+        IconUtil::get(":/images/Modeling_Merge.svg"),
         pActionGroup);
 
     actions.pActionChamfer = pEnv->newCommandAction(
         CommandNames::Chamfer,
         QCoreApplication::translate("MainWindow", "Chamfer"),
-        QIcon(":/images/Modeling_Chamfer.png"),
+        IconUtil::get(":/images/Modeling_Chamfer.png"),
         pActionGroup);
 
     actions.pActionFillet = pEnv->newCommandAction(
         CommandNames::Fillet,
         QCoreApplication::translate("MainWindow", "Fillet"),
-        QIcon(":/images/Modeling_Fillet.png"),
+        IconUtil::get(":/images/Modeling_Fillet.png"),
         pActionGroup);
 
     actions.pActionShell = pEnv->newCommandAction(
         CommandNames::Shell,
         QCoreApplication::translate("MainWindow", "Shell"),
-        QIcon(":/images/Modeling_Shell.png"),
+        IconUtil::get(":/images/Modeling_Shell.png"),
         pActionGroup);
 
     actions.pActionDraft = pEnv->newCommandAction(
         CommandNames::Draft,
         QCoreApplication::translate("MainWindow", "Draft"),
-        QIcon(":/images/Modeling_Draft.png"),
+        IconUtil::get(":/images/Modeling_Draft.png"),
         pActionGroup);
 
     actions.pActionSplitFace = pEnv->newCommandAction(
         CommandNames::SplitFace,
         QCoreApplication::translate("MainWindow", "Split Face"),
-        QIcon(":/images/Modeling_SplitFace.png"),
+        IconUtil::get(":/images/Modeling_SplitFace.png"),
         pActionGroup);
 
     actions.pActionDeleteFace = pEnv->newCommandAction(
         CommandNames::DeleteFace,
         QCoreApplication::translate("MainWindow", "Delete Face"),
-        QIcon(":/images/Modeling_DeleteFace.svg"),
+        IconUtil::get(":/images/Modeling_DeleteFace.svg"),
         pActionGroup);
 
     return actions;
@@ -482,42 +483,42 @@ PrimitiveActions createPrimitiveActions(ModelingEnvironment* pEnv, QActionGroup*
     actions.pActionMakeBox = pEnv->newCommandAction(
         CommandNames::MakeBox,
         QCoreApplication::translate("MainWindow", "Box"),
-        QIcon(":/images/Primitive_Box.png"),
+        IconUtil::get(":/images/Primitive_Box.png"),
         pActionGroup);
     actions.pActionMakeBox->setShortcut(QKeySequence::fromString("B,O,X"));
 
     actions.pActionMakeCylinder = pEnv->newCommandAction(
         CommandNames::MakeCylinder,
         QCoreApplication::translate("MainWindow", "Cylinder"),
-        QIcon(":/images/Primitive_Cylinder.png"),
+        IconUtil::get(":/images/Primitive_Cylinder.png"),
         pActionGroup);
     actions.pActionMakeCylinder->setShortcut(QKeySequence::fromString("C,Y,L"));
 
     actions.pActionMakeSphere = pEnv->newCommandAction(
         CommandNames::MakeSphere,
         QCoreApplication::translate("MainWindow", "Sphere"),
-        QIcon(":/images/Primitive_Sphere.png"),
+        IconUtil::get(":/images/Primitive_Sphere.png"),
         pActionGroup);
     actions.pActionMakeSphere->setShortcut(QKeySequence::fromString("S,P,H"));
 
     actions.pActionMakeCone = pEnv->newCommandAction(
         CommandNames::MakeCone,
         QCoreApplication::translate("MainWindow", "Cone"),
-        QIcon(":/images/Primitive_Cone.png"),
+        IconUtil::get(":/images/Primitive_Cone.png"),
         pActionGroup);
     actions.pActionMakeCone->setShortcut(QKeySequence::fromString("C,O,N"));
 
     actions.pActionMakeTorus = pEnv->newCommandAction(
         CommandNames::MakeTorus,
         QCoreApplication::translate("MainWindow", "Torus"),
-        QIcon(":/images/Primitive_Torus.png"),
+        IconUtil::get(":/images/Primitive_Torus.png"),
         pActionGroup);
     actions.pActionMakeTorus->setShortcut(QKeySequence::fromString("T,O,R"));
 
     actions.pActionMakeTube = pEnv->newCommandAction(
         CommandNames::MakeTube,
         QCoreApplication::translate("MainWindow", "Tube"),
-        QIcon(":/images/Primitive_Tube.png"),
+        IconUtil::get(":/images/Primitive_Tube.png"),
         pActionGroup);
     actions.pActionMakeTube->setShortcut(QKeySequence::fromString("T,U,B"));
 
@@ -533,19 +534,19 @@ BooleanActions createBooleanActions(ModelingEnvironment* pEnv, QActionGroup* pAc
     actions.pActionUnion = pEnv->newCommandAction(
         CommandNames::Union,
         QCoreApplication::translate("MainWindow", "Union"),
-        QIcon(":/images/Modeling_Fuse.svg"),
+        IconUtil::get(":/images/Modeling_Fuse.svg"),
         pActionGroup);
 
     actions.pActionSubtract = pEnv->newCommandAction(
         CommandNames::Subtract,
         QCoreApplication::translate("MainWindow", "Subtract"),
-        QIcon(":/images/Modeling_Cut.svg"),
+        IconUtil::get(":/images/Modeling_Cut.svg"),
         pActionGroup);
 
     actions.pActionIntersect = pEnv->newCommandAction(
         CommandNames::Intersect,
         QCoreApplication::translate("MainWindow", "Intersect"),
-        QIcon(":/images/Modeling_Common.svg"),
+        IconUtil::get(":/images/Modeling_Common.svg"),
         pActionGroup);
 
     return actions;
@@ -560,35 +561,35 @@ EditActions createEditActions(ModelingEnvironment* pEnv, QActionGroup* pActionGr
     actions.pActionMove = pEnv->newCommandAction(
         CommandNames::Move,
         QCoreApplication::translate("MainWindow", "Move"),
-        QIcon(":/images/Edit_Move.svg"),
+        IconUtil::get(":/images/Edit_Move.svg"),
         pActionGroup);
     actions.pActionMove->setShortcut(QKeySequence::fromString("M,O"));
 
     actions.pActionRotate = pEnv->newCommandAction(
         CommandNames::Rotate,
         QCoreApplication::translate("MainWindow", "Rotate"),
-        QIcon(":/images/Edit_Rotate.svg"),
+        IconUtil::get(":/images/Edit_Rotate.svg"),
         pActionGroup);
     actions.pActionRotate->setShortcut(QKeySequence::fromString("R,O"));
 
     actions.pActionMirror = pEnv->newCommandAction(
         CommandNames::Mirror,
         QCoreApplication::translate("MainWindow", "Mirror"),
-        QIcon(":/images/Sketch_Mirror.svg"),
+        IconUtil::get(":/images/Sketch_Mirror.svg"),
         pActionGroup);
     actions.pActionMirror->setShortcut(QKeySequence::fromString("M,I"));
 
     actions.pActionLinearPattern = pEnv->newCommandAction(
         CommandNames::LinearPattern,
         QCoreApplication::translate("MainWindow", "Linear Pattern"),
-        QIcon(":/images/Sketch_RectArray.svg"),
+        IconUtil::get(":/images/Sketch_RectArray.svg"),
         pActionGroup);
     actions.pActionLinearPattern->setShortcut(QKeySequence::fromString("L,P"));
 
     actions.pActionCircularPattern = pEnv->newCommandAction(
         CommandNames::CircularPattern,
         QCoreApplication::translate("MainWindow", "Circular Pattern"),
-        QIcon(":/images/Sketch_PolarArray.svg"),
+        IconUtil::get(":/images/Sketch_PolarArray.svg"),
         pActionGroup);
     actions.pActionCircularPattern->setShortcut(QKeySequence::fromString("C,P"));
 
@@ -604,25 +605,25 @@ UtilityActions createUtilityActions(ModelingEnvironment* pEnv, QActionGroup* pAc
     actions.pActionSetColor = pEnv->newCommandAction(
         CommandNames::SetColor,
         QCoreApplication::translate("MainWindow", "Set Color"),
-        QIcon(":/images/Utility_SetColor.svg"),
+        IconUtil::get(":/images/Utility_SetColor.svg"),
         pActionGroup);
 
     actions.pActionMeasure = pEnv->newCommandAction(
         CommandNames::Measure,
         QCoreApplication::translate("MainWindow", "Measure"),
-        QIcon(":/images/Utility_MeasureDistance.svg"),
+        IconUtil::get(":/images/Utility_MeasureDistance.svg"),
         pActionGroup);
 
     actions.pActionRunScript = pEnv->newCommandAction(
         CommandNames::RunScript,
         QCoreApplication::translate("MainWindow", "Run Script"),
-        QIcon(":/images/Utility_RunScript.svg"),
+        IconUtil::get(":/images/Utility_RunScript.svg"),
         pActionGroup);
 
     actions.pActionFindElementById = pEnv->newCommandAction(
         CommandNames::FindElementById,
         QCoreApplication::translate("MainWindow", "Find"),
-        QIcon(":/images/Utility_FindElementById.svg"),
+        IconUtil::get(":/images/Utility_FindElementById.svg"),
         pActionGroup);
     actions.pActionFindElementById->setShortcut(QKeySequence::Find);
     actions.pActionFindElementById->setShortcutContext(Qt::ApplicationShortcut);
@@ -638,62 +639,62 @@ ViewActions createViewActions(ModelingEnvironment* pEnv)
     actions.pActionFitView = pEnv->newCommandAction(
         CommandNames::FitView,
         QCoreApplication::translate("MainWindow", "Fit View"),
-        QIcon(":/images/View_FullScreen.svg"));
+        IconUtil::get(":/images/View_FullScreen.svg"));
 
     actions.pActionFitSelection = pEnv->newCommandAction(
         CommandNames::FitSelection,
         QCoreApplication::translate("MainWindow", "Fit Selection"),
-        QIcon(":/images/View_FitSelection.svg"));
+        IconUtil::get(":/images/View_FitSelection.svg"));
 
     actions.pActionIsometricView = pEnv->newCommandAction(
         CommandNames::IsometricView,
         QCoreApplication::translate("MainWindow", "Isometric View"),
-        QIcon(":/images/View_ISO.svg"));
+        IconUtil::get(":/images/View_ISO.svg"));
 
     actions.pActionFrontView = pEnv->newCommandAction(
         CommandNames::FrontView,
         QCoreApplication::translate("MainWindow", "Front View"),
-        QIcon(":/images/View_Front.svg"));
+        IconUtil::get(":/images/View_Front.svg"));
 
     actions.pActionBackView = pEnv->newCommandAction(
         CommandNames::BackView,
         QCoreApplication::translate("MainWindow", "Back View"),
-        QIcon(":/images/View_Back.svg"));
+        IconUtil::get(":/images/View_Back.svg"));
 
     actions.pActionLeftView = pEnv->newCommandAction(
         CommandNames::LeftView,
         QCoreApplication::translate("MainWindow", "Left View"),
-        QIcon(":/images/View_Left.svg"));
+        IconUtil::get(":/images/View_Left.svg"));
 
     actions.pActionRightView = pEnv->newCommandAction(
         CommandNames::RightView,
         QCoreApplication::translate("MainWindow", "Right View"),
-        QIcon(":/images/View_Right.svg"));
+        IconUtil::get(":/images/View_Right.svg"));
 
     actions.pActionTopView = pEnv->newCommandAction(
         CommandNames::TopView,
         QCoreApplication::translate("MainWindow", "Top View"),
-        QIcon(":/images/View_Top.svg"));
+        IconUtil::get(":/images/View_Top.svg"));
 
     actions.pActionBottomView = pEnv->newCommandAction(
         CommandNames::BottomView,
         QCoreApplication::translate("MainWindow", "Bottom View"),
-        QIcon(":/images/View_Bottom.svg"));
+        IconUtil::get(":/images/View_Bottom.svg"));
 
     actions.pActionShadedWithEdgesDisplay = pEnv->newCommandAction(
         CommandNames::ShadedWithEdgesDisplay,
         QCoreApplication::translate("MainWindow", "Shaded with Edges"),
-        QIcon(":/images/View_ShadedWithEdges.svg"));
+        IconUtil::get(":/images/View_ShadedWithEdges.svg"));
 
     actions.pActionShadedDisplay = pEnv->newCommandAction(
         CommandNames::ShadedDisplay,
         QCoreApplication::translate("MainWindow", "Shaded"),
-        QIcon(":/images/View_Shaded.svg"));
+        IconUtil::get(":/images/View_Shaded.svg"));
 
     actions.pActionWireframeDisplay = pEnv->newCommandAction(
         CommandNames::WireframeDisplay,
         QCoreApplication::translate("MainWindow", "Wireframe"),
-        QIcon(":/images/View_Wireframe.svg"));
+        IconUtil::get(":/images/View_Wireframe.svg"));
 
     return actions;
 }
@@ -708,13 +709,13 @@ TestActions createTestActions(ModelingEnvironment* pEnv, QActionGroup* pActionGr
     actions.pActionTopoName = pEnv->newCommandAction(
         CommandNames::TopoName,
         QCoreApplication::translate("MainWindow", "TopoName"),
-        QIcon(":/images/Test_TopoName.svg"),
+        IconUtil::get(":/images/Test_TopoName.svg"),
         pActionGroup);
 
     actions.pActionCheckTopoName = pEnv->newCommandAction(
         CommandNames::CheckTopoName,
         QCoreApplication::translate("MainWindow", "CheckTopoName"),
-        QIcon(":/images/Test_CheckTopoName.svg"),
+        IconUtil::get(":/images/Test_CheckTopoName.svg"),
         pActionGroup);
 
     return actions;

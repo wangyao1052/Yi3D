@@ -28,6 +28,7 @@
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
+#include "utils/IconUtil.h"
 
 namespace
 {
@@ -49,12 +50,12 @@ GatewayActions createActions(GatewayEnvironment* pEnv)
     actions.pActionNewFile = pEnv->newCommandAction(
         CommandNames::NewFile,
         QCoreApplication::translate("MainWindow", "New"),
-        QIcon(":/images/Document_New.svg"));
+        IconUtil::get(":/images/Document_New.svg"));
 
     actions.pActionOpenFile = pEnv->newCommandAction(
         CommandNames::OpenFile,
         QCoreApplication::translate("MainWindow", "Open"),
-        QIcon(":/images/Document_Open.svg"));
+        IconUtil::get(":/images/Document_Open.svg"));
 
     actions.pActionOptions = pEnv->newCommandAction(
         CommandNames::Options,

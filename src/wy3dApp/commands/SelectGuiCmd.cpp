@@ -43,6 +43,7 @@
 #include <wy3dSketchSpline.h>
 
 #include "scene/nodes/ElementNode.h"
+#include "utils/IconUtil.h"
 #include "utils/TransactionUtil.h"
 #include "utils/CopyPasteUtil.h"
 #include "environments/sketch/SketchEnvironment.h"
@@ -556,11 +557,11 @@ bool SelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
     {
         CommandAction* pActionFitSelection = new CommandAction(CommandNames::FitSelection, menu);
         pActionFitSelection->setText(QCoreApplication::translate("MainWindow", "Fit Selection"));
-        pActionFitSelection->setIcon(QIcon(":/images/View_FitSelection.svg"));
+        pActionFitSelection->setIcon(IconUtil::get(":/images/View_FitSelection.svg"));
         menu->addAction(pActionFitSelection);
 
         QAction* pActionCopy = new QAction(
-            QIcon(":/images/Edit_Copy.svg"),
+            IconUtil::get(":/images/Edit_Copy.svg"),
             QCoreApplication::translate("MainWindow", "Copy"), menu);
         menu->addAction(pActionCopy);
         connect(pActionCopy, &QAction::triggered, this, &SelectGuiCmdMenu::onCopy);
@@ -572,7 +573,7 @@ bool SelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
     if (CopyPasteUtil::canPaste())
     {
         QAction* pActionPaste = new QAction(
-            QIcon(":/images/Edit_PasteClip.svg"),
+            IconUtil::get(":/images/Edit_PasteClip.svg"),
             QCoreApplication::translate("MainWindow", "Paste"), menu);
         menu->addAction(pActionPaste);
         connect(pActionPaste, &QAction::triggered, this, &SelectGuiCmdMenu::onPaste);

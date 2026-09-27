@@ -21,6 +21,7 @@
 #include <QPainter>
 #include <QIcon>
 #include "CursorType.h"
+#include "utils/IconUtil.h"
 
 CursorCenter& CursorCenter::instance()
 {
@@ -79,7 +80,7 @@ CursorCenter::CursorCenter()
         _cursorForbid = QCursor(pixmap, 6, 16);
     }
     {
-        QPixmap pixmap = QIcon(":/images/Cursor_Rotate.svg").pixmap(QSize(32, 32));
+        QPixmap pixmap = IconUtil::get(":/images/Cursor_Rotate.svg").pixmap(QSize(32, 32));
         _cursorRotate = QCursor(pixmap, 16, 16);
     }
 }

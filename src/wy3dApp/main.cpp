@@ -31,6 +31,7 @@
 #include "application/crashDump/CrashDump.h"
 #include "commands/FileCommands.h"
 #include "environments/gateway/GatewayEnvironment.h"
+#include "utils/IconUtil.h"
 
 int main(int argc, char *argv[])
 {
@@ -40,7 +41,7 @@ int main(int argc, char *argv[])
     // 初始化
     wy3dQApplication app(argc, argv);
     Application::instance().initialize();
-    app.setWindowIcon(QIcon(":/images/Yi3D.svg"));
+    app.setWindowIcon(IconUtil::get(":/images/Yi3D.svg"));
 
     // 语言
     {

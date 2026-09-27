@@ -94,6 +94,7 @@
 #include "commands/CommandAction.h"
 #include "scene/Scene.h"
 #include "scene/nodes/ElementNode.h"
+#include "utils/IconUtil.h"
 #include "utils/TransactionUtil.h"
 #include "utils/MessageBoxUtil.h"
 #include "utils/CopyPasteUtil.h"
@@ -1526,19 +1527,19 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
                 // 编辑草图
                 CommandAction* pActionEditSketch = new CommandAction(CommandNames::EditSketch, &menu);
                 pActionEditSketch->setText(QCoreApplication::translate("MainWindow","Edit Sketch"));
-                pActionEditSketch->setIcon(QIcon(":/images/Edit_Sketch.svg"));
+                pActionEditSketch->setIcon(IconUtil::get(":/images/Edit_Sketch.svg"));
                 menu.addAction(pActionEditSketch);
 
                 // 导出草图
                 CommandAction* pActionExportSketch = new CommandAction(CommandNames::ExportSketch, &menu);
                 pActionExportSketch->setText(QCoreApplication::translate("MainWindow", "Export Sketch"));
-                pActionExportSketch->setIcon(QIcon(":/images/Document_Export.svg"));
+                pActionExportSketch->setIcon(IconUtil::get(":/images/Document_Export.svg"));
                 menu.addAction(pActionExportSketch);
 
                 // 正视于
                 CommandAction* pActionViewNormalTo = new CommandAction(CommandNames::ViewNormalTo, &menu);
                 pActionViewNormalTo->setText(QCoreApplication::translate("MainWindow", "View Normal To"));
-                pActionViewNormalTo->setIcon(QIcon(":/images/View_Normal.svg"));
+                pActionViewNormalTo->setIcon(IconUtil::get(":/images/View_Normal.svg"));
                 menu.addAction(pActionViewNormalTo);
 
             }
@@ -1547,7 +1548,7 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
                 // 编辑3D草图
                 CommandAction* pActionEditSketch3D = new CommandAction(CommandNames::EditSketch3D, &menu);
                 pActionEditSketch3D->setText(QCoreApplication::translate("MainWindow", "Edit 3D Sketch"));
-                pActionEditSketch3D->setIcon(QIcon(":/images/Edit_Sketch.svg"));
+                pActionEditSketch3D->setIcon(IconUtil::get(":/images/Edit_Sketch.svg"));
                 menu.addAction(pActionEditSketch3D);
             }
             else if (const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pElem))
@@ -1555,7 +1556,7 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
                 // 正视于
                 CommandAction* pActionViewNormalTo = new CommandAction(CommandNames::ViewNormalTo, &menu);
                 pActionViewNormalTo->setText(QCoreApplication::translate("MainWindow", "View Normal To"));
-                pActionViewNormalTo->setIcon(QIcon(":/images/View_Normal.svg"));
+                pActionViewNormalTo->setIcon(IconUtil::get(":/images/View_Normal.svg"));
                 menu.addAction(pActionViewNormalTo);
             }
 
@@ -1577,7 +1578,7 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
         {
             CommandAction* pActionShow = new CommandAction(CommandNames::Show, &menu);
             pActionShow->setText(QCoreApplication::translate("MainWindow", "Show"));
-            pActionShow->setIcon(QIcon(":/images/Edit_Show.svg"));
+            pActionShow->setIcon(IconUtil::get(":/images/Edit_Show.svg"));
             menu.addAction(pActionShow);
         }
 
@@ -1586,7 +1587,7 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
         {
             CommandAction* pActionHide = new CommandAction(CommandNames::Hide, &menu);
             pActionHide->setText(QCoreApplication::translate("MainWindow", "Hide"));
-            pActionHide->setIcon(QIcon(":/images/Edit_Hide.svg"));
+            pActionHide->setIcon(IconUtil::get(":/images/Edit_Hide.svg"));
             menu.addAction(pActionHide);
         }
 
@@ -1595,13 +1596,13 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
         {
             CommandAction* pActionCopyClip = new CommandAction(CommandNames::CopyClip, &menu);
             pActionCopyClip->setText(QCoreApplication::translate("MainWindow", "Copy"));
-            pActionCopyClip->setIcon(QIcon(":/images/Edit_Copy.svg"));
+            pActionCopyClip->setIcon(IconUtil::get(":/images/Edit_Copy.svg"));
             menu.addAction(pActionCopyClip);
         }
 
         // 删除
         QAction* actionErase = menu.addAction(tr("Erase"));
-        actionErase->setIcon(QIcon(":/images/Edit_Delete.svg"));
+        actionErase->setIcon(IconUtil::get(":/images/Edit_Delete.svg"));
         this->connect(actionErase, SIGNAL(triggered()), this, SLOT(onContextMenu_Erase()));
 
         // 导出实体
@@ -1609,7 +1610,7 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
         {
             QAction* pActionExport = new CommandAction(CommandNames::ExportSelected, &menu);
             pActionExport->setText(QCoreApplication::translate("MainWindow", "Export"));
-            pActionExport->setIcon(QIcon(":/images/Document_Export.svg"));
+            pActionExport->setIcon(IconUtil::get(":/images/Document_Export.svg"));
             menu.addAction(pActionExport);
         }
 
@@ -1638,7 +1639,7 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
         {
             CommandAction* pActionPasteClip = new CommandAction(CommandNames::PasteClip, &menu);
             pActionPasteClip->setText(QCoreApplication::translate("MainWindow", "Paste"));
-            pActionPasteClip->setIcon(QIcon(":/images/Edit_PasteClip.svg"));
+            pActionPasteClip->setIcon(IconUtil::get(":/images/Edit_PasteClip.svg"));
             menu.addAction(pActionPasteClip);
         }
 

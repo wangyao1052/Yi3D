@@ -39,6 +39,7 @@
 #include "snap/SnapObject.h"
 #include "snap/SketchSnapSystem.h"
 #include "select/SketchPlaneSelFilter.h"
+#include "utils/IconUtil.h"
 #include "utils/MathUtils.h"
 #include "utils/TopoShapeUtil.h"
 #include "environments/sketch/SketchEnvironment.h"
@@ -380,7 +381,7 @@ bool MakePrimitiveGuiCmdMenu::initCustomHeaderActions(QMenu* menu)
     {
         // 正视于工作平面
         QAction* pActionNormalToWorkPln = new QAction(tr("View Normal To Working Plane"), menu);
-        pActionNormalToWorkPln->setIcon(QIcon(":/images/View_Normal.svg"));
+        pActionNormalToWorkPln->setIcon(IconUtil::get(":/images/View_Normal.svg"));
         menu->addAction(pActionNormalToWorkPln);
         this->connect(pActionNormalToWorkPln, &QAction::triggered, this, &MakePrimitiveGuiCmdMenu::onViewNormalToWorkingPlane);
         return true;

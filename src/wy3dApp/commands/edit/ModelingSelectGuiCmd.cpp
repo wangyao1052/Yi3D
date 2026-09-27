@@ -26,6 +26,7 @@
 #include "gizmo/GizmoFactory.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "select/filters/CommonSelFilters.h"
+#include "utils/IconUtil.h"
 #include "utils/TransactionUtil.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
@@ -209,7 +210,7 @@ bool ModelingSelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
     {
         CommandAction* pActionShow = new CommandAction(CommandNames::Show, menu);
         pActionShow->setText(QCoreApplication::translate("MainWindow", "Show"));
-        pActionShow->setIcon(QIcon(":/images/Edit_Show.svg"));
+        pActionShow->setIcon(IconUtil::get(":/images/Edit_Show.svg"));
         menu->addAction(pActionShow);
     }
 
@@ -217,7 +218,7 @@ bool ModelingSelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
     {
         CommandAction* pActionHide = new CommandAction(CommandNames::Hide, menu);
         pActionHide->setText(QCoreApplication::translate("MainWindow", "Hide"));
-        pActionHide->setIcon(QIcon(":/images/Edit_Hide.svg"));
+        pActionHide->setIcon(IconUtil::get(":/images/Edit_Hide.svg"));
         menu->addAction(pActionHide);
     }
 

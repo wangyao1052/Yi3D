@@ -41,6 +41,7 @@
 #include "snap/SnapObject.h"
 #include "snap3d/Sketch3DSnapSystem.h"
 #include "environments/sketch3d/Sketch3DEnvironment.h"
+#include "utils/IconUtil.h"
 #include "view/BaseView.h"
 #include "utils/GuiCommandUtil.h"
 #include "widgets/frame/MainWindow.h"
@@ -456,7 +457,7 @@ bool Sketch3DDrawGuiCmdMenu::initCustomHeaderActions(QMenu* menu)
     }
 
      QAction* pActionNormalToWorkPln = new QAction(tr("View Normal To Working Plane"), menu);
-     pActionNormalToWorkPln->setIcon(QIcon(":/images/View_Normal.svg"));
+     pActionNormalToWorkPln->setIcon(IconUtil::get(":/images/View_Normal.svg"));
      menu->addAction(pActionNormalToWorkPln);
      this->connect(pActionNormalToWorkPln, &QAction::triggered, this, &Sketch3DDrawGuiCmdMenu::onViewNormalToWorkingPlane);
      return true;
