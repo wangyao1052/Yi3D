@@ -161,6 +161,9 @@ QToolButton* EnvironmentBase::newMenuPopupToolButton(
     if (pActionGroup) pActionGroup->addAction(pActionSeries);
 
     QToolButton* pToolBtn = new QToolButton(pToolBar);
+    // Hand the series action to the button: with the default parent (this environment) it would
+    // outlive every UI rebuild and pile up one action per rebuild for the life of the document.
+    pActionSeries->setParent(pToolBtn);
     pToolBtn->setDefaultAction(pActionSeries);
     pToolBtn->setPopupMode(QToolButton::MenuButtonPopup);
 
