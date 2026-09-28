@@ -53,10 +53,18 @@ AboutDialog::AboutDialog(QWidget *parent)
         QLabel* labelWebsite = new QLabel(this);
         labelWebsite->setAlignment(Qt::AlignmentFlag::AlignHCenter | Qt::AlignmentFlag::AlignVCenter);
         labelWebsite->setFont(QFont("Microsoft YaHei", 12, QFont::Normal));
-        labelWebsite->setText(QString("<a href=\"%1\" style=\"color:#0066cc;\">%1</a>").arg("https://www.wangyaosoft.com/"));
+        labelWebsite->setText(QString("<a href=\"%1\" style=\"color:#0066cc;\">%1</a>").arg("https://www.yuanyicad.com/"));
         labelWebsite->setTextFormat(Qt::RichText);
         labelWebsite->setOpenExternalLinks(true); // 允许点击链接
         mainLayout->addWidget(labelWebsite);
+
+        QLabel* labelGitHub = new QLabel(this);
+        labelGitHub->setAlignment(Qt::AlignmentFlag::AlignHCenter | Qt::AlignmentFlag::AlignVCenter);
+        labelGitHub->setFont(QFont("Microsoft YaHei", 12, QFont::Normal));
+        labelGitHub->setText(QString("<a href=\"%1\" style=\"color:#0066cc;\">%1</a>").arg("https://github.com/wangyao1052/Yi3D"));
+        labelGitHub->setTextFormat(Qt::RichText);
+        labelGitHub->setOpenExternalLinks(true);
+        mainLayout->addWidget(labelGitHub);
 
 		//
 		QLabel* labelVersion = new QLabel(this);
