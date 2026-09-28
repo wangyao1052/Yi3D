@@ -55,11 +55,13 @@
 #include <wy3dSketchArc.h>
 #include <wy3dSketchCurve.h>
 #include <wy3dSketchSpline.h>
+#include <wy3dSketchSpline3D.h>
 
 #include "application/Application.h"
 #include "ParamLineEdit.h"
 #include "TransformLineEdit.h"
 #include "SketchSplinePointsEditor.h"
+#include "SketchSpline3DPointsEditor.h"
 #include "translation/ParamNamesTranslation.h"
 #include "environments/sketch/SketchEnvironment.h"
 #include "utils/MessageBoxUtil.h"
@@ -365,6 +367,21 @@ void PropertyEditorWidget::showSketchSplinePoints(const std::vector<const wydb::
     pPointsEditor->addToGrid(_pParamsGridLayout);
 }
 
+void PropertyEditorWidget::showSketchSpline3DPoints(const std::vector<const wydb::Element*>& elements)
+{
+    // 多选时以哪条样条为准都不合适,所以只在单选时显示
+    if (elements.size() != 1) return;
+    const wydb::Element* pElem = elements.front();
+    if (!pElem) return;
+    const wy3d::SketchSpline3D* pSketchSpline3D = wy3d::SketchSpline3D::cast(pElem);
+    if (!pSketchSpline3D) return;
+
+    // The section draws its own header bar; the panel decides where it and its content
+    // rows go, so adding them to the grid is a separate step
+    SketchSpline3DPointsEditor* pPointsEditor = new SketchSpline3DPointsEditor(pSketchSpline3D->getId(), this);
+    pPointsEditor->addToGrid(_pParamsGridLayout);
+}
+
 void PropertyEditorWidget::showTransform(const std::vector<const wydb::Element*>& elements)
 {
     if (elements.empty()) return;
@@ -505,6 +522,7 @@ void PropertyEditorWidget::regen()
     this->showParameterValueList(elements);
     // 样条的点选择器:草图环境下也要显示,所以不能跟着下面的 showTransform 走
     this->showSketchSplinePoints(elements);
+    this->showSketchSpline3DPoints(elements);
 
     wyap::Environment* pCurEnv = Application::instance().getEnvManager()->getActiveEnvironment();
     // 草图环境下不显示 Transform

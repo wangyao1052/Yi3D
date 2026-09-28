@@ -1028,22 +1028,22 @@ Do you want to save it to the original file now?
 <context>
     <name>ContactUsDialog</name>
     <message>
-        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="59"/>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="63"/>
         <source>Contact Us</source>
         <translation type="unfinished">联系我们</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="66"/>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="70"/>
         <source>Official QQ Group</source>
         <translation type="unfinished">官方QQ群</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="69"/>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="73"/>
         <source>WeChat Official Account</source>
         <translation type="unfinished">微信公众号</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="75"/>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="79"/>
         <source>Close</source>
         <translation type="unfinished">关闭</translation>
     </message>
@@ -4749,17 +4749,17 @@ Do you want to save it to the original file now?
 <context>
     <name>ParamLineEdit</name>
     <message>
-        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="280"/>
+        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="337"/>
         <source>The parameter does not support modification.</source>
         <translation type="unfinished">该参数不支持修改。</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="283"/>
+        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="340"/>
         <source>Invalid parameter value.</source>
         <translation type="unfinished">无效的参数值！</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="286"/>
+        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="343"/>
         <source>Failed to modify the parameter value!</source>
         <translation type="unfinished">参数值修改失败！</translation>
     </message>
@@ -5952,12 +5952,12 @@ Do you want to save it to the original file now?
         <translation type="obsolete">颜色</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="451"/>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="468"/>
         <source>Position </source>
         <translation type="unfinished">位置 </translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="460"/>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="477"/>
         <source>Rotation </source>
         <translation type="unfinished">旋转 </translation>
     </message>
@@ -8069,29 +8069,42 @@ Do you want to save it to the original file now?
     </message>
 </context>
 <context>
-    <name>SketchSplinePointsEditor</name>
+    <name>SketchSpline3DPointsEditor</name>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="198"/>
+        <location filename="../../widgets/panels/property/SketchSpline3DPointsEditor.cpp" line="131"/>
         <source>Points</source>
         <translation>点</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="231"/>
+        <location filename="../../widgets/panels/property/SketchSpline3DPointsEditor.cpp" line="162"/>
+        <source>Index</source>
+        <translation>序号</translation>
+    </message>
+</context>
+<context>
+    <name>SketchSplinePointsEditor</name>
+    <message>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="137"/>
+        <source>Points</source>
+        <translation>点</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="170"/>
         <source>Index</source>
         <translation>序号</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="249"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="188"/>
         <source>Direction Angle</source>
         <translation>方向角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="253"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="192"/>
         <source>Weight</source>
         <translation>权重</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="243"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="182"/>
         <source>Tangent Driving</source>
         <translation>相切驱动</translation>
     </message>

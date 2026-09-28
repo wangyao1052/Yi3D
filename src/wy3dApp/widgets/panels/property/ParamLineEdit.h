@@ -32,6 +32,7 @@
 #include <wyapSelManager.h>
 #include <wyapDocManager.h>
 
+class QSpinBox;
 class PropertyEditorWidget;
 
 class ParamLineEdit : public QLineEdit
@@ -47,6 +48,10 @@ public:
         PropertyEditorWidget* parent);
 
     static void setWidgetFontSize(QWidget* pWidget, int pointSize = 12);
+    // Dresses a spin box like the parameter edits above it: the stock step arrows come from
+    // the native style at a fixed ~7x4 px bitmap, far too small to read here, so the button
+    // strip and its arrows are taken over by the style sheet
+    static void applySpinBoxStyle(QSpinBox* pSpinBox);
 
     // 刷新
     void refresh();

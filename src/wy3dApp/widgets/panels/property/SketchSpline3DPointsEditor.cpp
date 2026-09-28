@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2024-2026 Wang Yao <wangyao1052@163.com>
+// Copyright (C) 2026 Wang Yao <wangyao1052@163.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SketchSplinePointsEditor.h"
+#include "SketchSpline3DPointsEditor.h"
 #include <cassert>
 #include <QLabel>
 #include <QSpinBox>
@@ -26,34 +26,29 @@
 #include <QToolButton>
 #include <QSignalBlocker>
 
-#include <wyVector2.h>
-#include <wy3dMath.h>
+#include <wyVector3.h>
 #include <wydbDatabase.h>
-#include <wy3dSketchSpline.h>
+#include <wy3dSketchSpline3D.h>
 
 #include "application/Application.h"
 #include "ParamLineEdit.h"
 #include "PropertyEditorWidget.h"
-#include "SketchSplinePointLineEdit.h"
-#include "SketchSplineTangentCheckBox.h"
+#include "SketchSpline3DPointLineEdit.h"
 
 namespace
 {
 constexpr bool kIndexSpinBoxAccelerated = true;
 }
 
-SketchSplinePointsEditor::SketchSplinePointsEditor(const wydb::ElementId& id, PropertyEditorWidget* pPropertyPanel)
-    : QWidget(pPropertyPanel), _id(id), _pPropertyPanel(pPropertyPanel), _pArrowButton(nullptr),
-    _pIndexSpinBox(nullptr), _pLineEditX(nullptr), _pLineEditY(nullptr),
-    _pLineEditTangentAngle(nullptr), _pLineEditTangentWeight(nullptr),
-    _pTangentDrivingCheckBox(nullptr), _isExpanded(true), _isTangentRowsVisible(true)
+SketchSpline3DPointsEditor::SketchSpline3DPointsEditor(const wydb::ElementId& id, PropertyEditorWidget* pPropertyPanel)
+    : QWidget(pPropertyPanel), _id(id), _pArrowButton(nullptr), _pIndexSpinBox(nullptr),
+    _pLineEditX(nullptr), _pLineEditY(nullptr), _pLineEditZ(nullptr), _isExpanded(true)
 {
     this->initUi(pPropertyPanel);
     this->updateIndexRange();
-    this->updateTangentRows();
 }
 
-void SketchSplinePointsEditor::addToGrid(QGridLayout* pParamsGridLayout)
+void SketchSpline3DPointsEditor::addToGrid(QGridLayout* pParamsGridLayout)
 {
     if (!pParamsGridLayout)
     {
@@ -73,7 +68,7 @@ void SketchSplinePointsEditor::addToGrid(QGridLayout* pParamsGridLayout)
     this->setExpanded(_isExpanded);
 }
 
-const wy3d::SketchSpline* SketchSplinePointsEditor::getSplineFromDb() const
+const wy3d::SketchSpline3D* SketchSpline3DPointsEditor::getSplineFromDb() const
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb)
@@ -85,10 +80,10 @@ const wy3d::SketchSpline* SketchSplinePointsEditor::getSplineFromDb() const
     {
         return nullptr;
     }
-    return wy3d::SketchSpline::cast(pElem);
+    return wy3d::SketchSpline3D::cast(pElem);
 }
 
-std::size_t SketchSplinePointsEditor::getCurrPointIndex() const
+std::size_t SketchSpline3DPointsEditor::getCurrPointIndex() const
 {
     if (!_pIndexSpinBox)
     {
@@ -100,18 +95,17 @@ std::size_t SketchSplinePointsEditor::getCurrPointIndex() const
     return value > 0 ? static_cast<std::size_t>(value - 1) : 0;
 }
 
-void SketchSplinePointsEditor::initUi(PropertyEditorWidget* pPropertyPanel)
+void SketchSpline3DPointsEditor::initUi(PropertyEditorWidget* pPropertyPanel)
 {
-    double initX(0.0), initY(0.0);
-    wy3d::SketchSpline::Tangent initTangent;
-    if (const wy3d::SketchSpline* pSketchSpline = this->getSplineFromDb())
+    double initX(0.0), initY(0.0), initZ(0.0);
+    if (const wy3d::SketchSpline3D* pSketchSpline3D = this->getSplineFromDb())
     {
-        const std::vector<wy::Vector2>& points = pSketchSpline->getPoints();
+        const std::vector<wy::Vector3>& points = pSketchSpline3D->getPoints();
         if (!points.empty())
         {
             initX = points.front().x();
             initY = points.front().y();
-            initTangent = pSketchSpline->getTangentAt(0);
+            initZ = points.front().z();
         }
     }
 
@@ -138,17 +132,16 @@ void SketchSplinePointsEditor::initUi(PropertyEditorWidget* pPropertyPanel)
         pHeaderLayout->addStretch();
 
         this->setAttribute(Qt::WA_StyledBackground, true);
-        this->setObjectName("SketchSplinePointsHeader");
+        this->setObjectName("SketchSpline3DPointsHeader");
         this->setStyleSheet(
-            "#SketchSplinePointsHeader{background:#e0e0e0;border:1px solid #b7b7b7;}"
-            "#SketchSplinePointsHeader:hover{background:#d4d4d4;}");
+            "#SketchSpline3DPointsHeader{background:#e0e0e0;border:1px solid #b7b7b7;}"
+            "#SketchSpline3DPointsHeader:hover{background:#d4d4d4;}");
         this->setCursor(Qt::PointingHandCursor);
     }
 
     // Content rows are built parented to the panel and stay hidden until addToGrid() puts
     // them in place and setExpanded() reveals them
-    auto addContentRow = [this, pPropertyPanel](const QString& labelText, QWidget* pEditor,
-        bool isTangentRow)
+    auto addContentRow = [this, pPropertyPanel](const QString& labelText, QWidget* pEditor)
     {
         QLabel* pLabel = new QLabel(labelText, pPropertyPanel);
         ParamLineEdit::setWidgetFontSize(pLabel);
@@ -158,7 +151,6 @@ void SketchSplinePointsEditor::initUi(PropertyEditorWidget* pPropertyPanel)
         ContentRow contentRow;
         contentRow.pLabel = pLabel;
         contentRow.pEditor = pEditor;
-        contentRow.isTangentRow = isTangentRow;
         _contentRows.push_back(contentRow);
     };
 
@@ -167,74 +159,32 @@ void SketchSplinePointsEditor::initUi(PropertyEditorWidget* pPropertyPanel)
     // Step buttons and arrow keys wrap around: up from the last point lands on the first
     _pIndexSpinBox->setWrapping(true);
     ParamLineEdit::applySpinBoxStyle(_pIndexSpinBox);
-    addContentRow(tr("Index"), _pIndexSpinBox, false);
+    addContentRow(tr("Index"), _pIndexSpinBox);
 
-    _pLineEditX = new SketchSplinePointLineEdit(SketchSplinePointLineEdit::Field::X,
+    _pLineEditX = new SketchSpline3DPointLineEdit(SketchSpline3DPointLineEdit::Field::X,
         wydb::ParameterValue::createDouble(initX), this, pPropertyPanel);
-    addContentRow("X", _pLineEditX, false);
+    addContentRow("X", _pLineEditX);
 
-    _pLineEditY = new SketchSplinePointLineEdit(SketchSplinePointLineEdit::Field::Y,
+    _pLineEditY = new SketchSpline3DPointLineEdit(SketchSpline3DPointLineEdit::Field::Y,
         wydb::ParameterValue::createDouble(initY), this, pPropertyPanel);
-    addContentRow("Y", _pLineEditY, false);
+    addContentRow("Y", _pLineEditY);
 
-    _pTangentDrivingCheckBox = new SketchSplineTangentCheckBox(
-        wydb::ParameterValue::createBoolean(initTangent.isDriving), this, pPropertyPanel);
-    addContentRow(tr("Tangent Driving"), _pTangentDrivingCheckBox, true);
-
-    // The angle is a degrees value here, the core stores radians
-    _pLineEditTangentAngle = new SketchSplinePointLineEdit(SketchSplinePointLineEdit::Field::TangentAngle,
-        wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(initTangent.angle)),
-        this, pPropertyPanel);
-    addContentRow(tr("Direction Angle"), _pLineEditTangentAngle, true);
-
-    _pLineEditTangentWeight = new SketchSplinePointLineEdit(SketchSplinePointLineEdit::Field::TangentWeight,
-        wydb::ParameterValue::createDouble(initTangent.magnitude), this, pPropertyPanel);
-    addContentRow(tr("Weight"), _pLineEditTangentWeight, true);
+    _pLineEditZ = new SketchSpline3DPointLineEdit(SketchSpline3DPointLineEdit::Field::Z,
+        wydb::ParameterValue::createDouble(initZ), this, pPropertyPanel);
+    addContentRow("Z", _pLineEditZ);
 
     QObject::connect(_pIndexSpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
-        this, &SketchSplinePointsEditor::onIndexChanged);
+        this, &SketchSpline3DPointsEditor::onIndexChanged);
 }
 
-void SketchSplinePointsEditor::refresh()
+void SketchSpline3DPointsEditor::refresh()
 {
     if (_pLineEditX) _pLineEditX->refresh();
     if (_pLineEditY) _pLineEditY->refresh();
-    if (_pLineEditTangentAngle) _pLineEditTangentAngle->refresh();
-    if (_pLineEditTangentWeight) _pLineEditTangentWeight->refresh();
-    if (_pTangentDrivingCheckBox) _pTangentDrivingCheckBox->refresh();
-    this->updateTangentRows();
+    if (_pLineEditZ) _pLineEditZ->refresh();
 }
 
-void SketchSplinePointsEditor::updateTangentRows()
-{
-    const wy3d::SketchSpline* pSketchSpline = this->getSplineFromDb();
-    // A control point spline has no interpolation to constrain, so it does not carry the
-    // tangency rows at all; an interpolated one always shows the angle and the magnitude, and
-    // only the ones that have no say at the moment are made read only
-    const bool isInterpolation = pSketchSpline
-        && (wy3d::SplineMode::InterpolationPoints == pSketchSpline->getMode());
-
-    if (_isTangentRowsVisible != isInterpolation)
-    {
-        _isTangentRowsVisible = isInterpolation;
-        this->applyContentRowsVisible();
-    }
-
-    wy3d::SketchSpline::Tangent tangent;
-    if (isInterpolation)
-    {
-        tangent = pSketchSpline->getTangentAt(this->getCurrPointIndex());
-    }
-    // The panel hands its own read only state to every line edit it owns, so it is folded in
-    // here as well; otherwise this would give editing back while a gizmo is driving the spline
-    const bool isReadOnly = _pPropertyPanel && _pPropertyPanel->isReadOnly();
-    const bool isTangentReadOnly = isReadOnly || !tangent.isDriving;
-
-    if (_pLineEditTangentAngle) _pLineEditTangentAngle->setReadOnly(isTangentReadOnly);
-    if (_pLineEditTangentWeight) _pLineEditTangentWeight->setReadOnly(isTangentReadOnly);
-}
-
-void SketchSplinePointsEditor::mousePressEvent(QMouseEvent* pEvent)
+void SketchSpline3DPointsEditor::mousePressEvent(QMouseEvent* pEvent)
 {
     if (pEvent && Qt::LeftButton == pEvent->button())
     {
@@ -245,7 +195,7 @@ void SketchSplinePointsEditor::mousePressEvent(QMouseEvent* pEvent)
     QWidget::mousePressEvent(pEvent);
 }
 
-void SketchSplinePointsEditor::setExpanded(bool isExpanded)
+void SketchSpline3DPointsEditor::setExpanded(bool isExpanded)
 {
     _isExpanded = isExpanded;
     if (_pArrowButton)
@@ -256,18 +206,16 @@ void SketchSplinePointsEditor::setExpanded(bool isExpanded)
     this->applyContentRowsVisible();
 }
 
-void SketchSplinePointsEditor::applyContentRowsVisible()
+void SketchSpline3DPointsEditor::applyContentRowsVisible()
 {
     for (const ContentRow& contentRow : _contentRows)
     {
-        const bool isRowVisible = _isExpanded
-            && (!contentRow.isTangentRow || _isTangentRowsVisible);
-        if (contentRow.pLabel) contentRow.pLabel->setVisible(isRowVisible);
-        if (contentRow.pEditor) contentRow.pEditor->setVisible(isRowVisible);
+        if (contentRow.pLabel) contentRow.pLabel->setVisible(_isExpanded);
+        if (contentRow.pEditor) contentRow.pEditor->setVisible(_isExpanded);
     }
 }
 
-void SketchSplinePointsEditor::updateIndexRange()
+void SketchSpline3DPointsEditor::updateIndexRange()
 {
     if (!_pIndexSpinBox)
     {
@@ -276,9 +224,9 @@ void SketchSplinePointsEditor::updateIndexRange()
     }
 
     std::size_t count(0);
-    if (const wy3d::SketchSpline* pSketchSpline = this->getSplineFromDb())
+    if (const wy3d::SketchSpline3D* pSketchSpline3D = this->getSplineFromDb())
     {
-        count = pSketchSpline->getPoints().size();
+        count = pSketchSpline3D->getPoints().size();
     }
 
     // Leave the range alone when the count did not change, so the selected index survives
@@ -294,7 +242,7 @@ void SketchSplinePointsEditor::updateIndexRange()
     _pIndexSpinBox->setValue(1);
 }
 
-void SketchSplinePointsEditor::onIndexChanged()
+void SketchSpline3DPointsEditor::onIndexChanged()
 {
     this->refresh();
 }

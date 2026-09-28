@@ -21,7 +21,9 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QSpinBox>
 #include <QStyle>
+#include <cassert>
 
 #include <muParser.h>
 
@@ -55,6 +57,61 @@ void ParamLineEdit::setWidgetFontSize(QWidget* pWidget, int pointSize)
         pWidget->setFont(font);
     }
 };
+
+void ParamLineEdit::applySpinBoxStyle(QSpinBox* pSpinBox)
+{
+    if (!pSpinBox)
+    {
+        assert(false);
+        return;
+    }
+
+    pSpinBox->setStyleSheet(
+        "QSpinBox {"
+        "   border: 1px solid #C0C0C0;"
+        "   background: white;"
+        "}"
+        "QSpinBox:read-only {"
+        "   color: gray;"
+        "}"
+        "QSpinBox:focus {"
+        "   border: 1px solid #4A90E2;"
+        "}"
+        "QSpinBox::up-button {"
+        "   subcontrol-origin: border;"
+        "   subcontrol-position: top right;"
+        "   width: 18px;"
+        "   background: #f0f0f0;"
+        "   border-left: 1px solid #C0C0C0;"
+        "   border-bottom: 1px solid #C0C0C0;"
+        "}"
+        "QSpinBox::down-button {"
+        "   subcontrol-origin: border;"
+        "   subcontrol-position: bottom right;"
+        "   width: 18px;"
+        "   background: #f0f0f0;"
+        "   border-left: 1px solid #C0C0C0;"
+        "}"
+        "QSpinBox::up-button:hover, QSpinBox::down-button:hover {"
+        "   background: #d8d8d8;"
+        "}"
+        "QSpinBox::up-button:pressed, QSpinBox::down-button:pressed {"
+        "   background: #c0c0c0;"
+        "}"
+        "QSpinBox::up-arrow {"
+        "   image: url(:/images/Arrow_Up.svg);"
+        "}"
+        "QSpinBox::down-arrow {"
+        "   image: url(:/images/Arrow_Down.svg);"
+        "}"
+    );
+
+    // The internal line edit does not pick up the font set on the spin box
+    if (QLineEdit* pLineEdit = pSpinBox->findChild<QLineEdit*>())
+    {
+        ParamLineEdit::setWidgetFontSize(pLineEdit);
+    }
+}
 
 ParamLineEdit::ParamLineEdit(const std::string& className, const std::string& paramName, wydb::ParameterValueUPtr&& pParamValue,
     bool isAllTheSameValue, bool readonly, PropertyEditorWidget* parent)
