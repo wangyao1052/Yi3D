@@ -72,6 +72,15 @@ void bindWy3dSketch3D(py::module_& m)
     py::class_<wy3d::Sketch3D, wy3d::Feature, std::unique_ptr<wy3d::Sketch3D, py::nodelete>>(m, "Sketch3D")
         .def("getChildren", &wy3d::Sketch3D::getChildren)
         .def("addEntity", &wy3d::Sketch3D::addEntity, py::arg("entity"))
+        // A sketch read back from the database comes back as a plain Element, which the
+        // feature entry points cannot take; this recovers the Sketch3D view of it
+        .def_static("cast",
+            [](wydb::Element* pElement) -> wy3d::Sketch3D*
+            {
+                return wy3d::Sketch3D::cast(pElement);
+            },
+            py::arg("element"),
+            py::return_value_policy::reference)
 
         // iterator
         .def("__iter__", [](const wy3d::Sketch3D& sketch3d) {

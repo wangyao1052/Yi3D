@@ -61,12 +61,17 @@ public:
         return isValidProfile(sketch, error);
     }
 
-    static bool isValidProfileForFilledSheet(const wy3d::Sketch& sketch, QString& error)
-    {
-        return isValidProfile(sketch, error);
-    }
+    // Filled-surface boundary: one whole sketch is one boundary wire, so the profile has to be a
+    // single closed loop - no islands and no holes
+    static bool isValidProfileForFilledSheet(const wy3d::Sketch& sketch, QString& error);
 
     static bool isValidProfile3DForFilledSheet(const wy3d::Sketch3D& sketch3D, QString& error);
+
+    // Filled-surface constraint curve: a constraint is one whole sketch and every curve in it
+    // becomes a constraint of its own, so several chains or loops are allowed; it may not be empty
+    static bool isValidConstraintCurve(const wy3d::Sketch& sketch, QString& error);
+
+    static bool isValidConstraintCurve3D(const wy3d::Sketch3D& sketch3D, QString& error);
 
     static bool isValidProfileForExtrudedSheet(const wy3d::Sketch& sketch, QString& error)
     {

@@ -20,6 +20,10 @@
 #define WY3D_FILLED_SHEET_H
 
 #include <utility>
+#include <vector>
+
+#include <TopoDS_Edge.hxx>
+#include <TopoDS_Vertex.hxx>
 
 #include <wy3dDefs.h>
 #include <wy3dSheet.h>
@@ -49,13 +53,24 @@ public:
     {
         std::vector<wydb::ElementId> children;
         std::vector<wydb::ElementId> baseChildren = __baseClass::getChildren();
-        children.reserve(1 + baseChildren.size());
-        if (!_sketchId.isNull()) children.emplace_back(_sketchId);
+        children.reserve(_constraintSketchIds.size() + 1 + baseChildren.size());
+        if (!_boundarySketchId.isNull()) children.emplace_back(_boundarySketchId);
+        children.insert(children.cend(), _constraintSketchIds.cbegin(), _constraintSketchIds.cend());
         children.insert(children.cend(), baseChildren.cbegin(), baseChildren.cend());
         return children;
     }
 
-    wydb::ElementId getSketch() const { return _sketchId; }
+    wydb::ElementId getBoundarySketch() const { return _boundarySketchId; }
+
+    const std::vector<wydb::ElementId>& getConstraintSketches() const
+    {
+        return _constraintSketchIds;
+    }
+
+    wy::ErrorStatus addConstraintSketch(wy3d::Sketch* pConstraintSketch);
+    wy::ErrorStatus addConstraintSketch(wy3d::Sketch3D* pConstraintSketch);
+    wy::ErrorStatus removeConstraintSketch(wy3d::Sketch* pConstraintSketch);
+    wy::ErrorStatus removeConstraintSketch(wy3d::Sketch3D* pConstraintSketch);
 
 protected:
     virtual bool getFieldValue(wydb::FieldId fieldId, std::any& value) override;
@@ -72,9 +87,16 @@ protected:
         wydb::ChainUpdateFeedbackCollector& feedbackCollector) override;
 
 private:
-    wy::ErrorStatus setSketchImpl(const wydb::ElementId& sketchId);
-    wy::ErrorStatus setSketchImpl(wy3d::Sketch* pSketch);
-    wy::ErrorStatus setSketchImpl(wy3d::Sketch3D* pSketch3D);
+    wy::ErrorStatus setBoundarySketchImpl(const wydb::ElementId& sketchId);
+    wy::ErrorStatus setBoundarySketchImpl(wy3d::Sketch* pSketch);
+    wy::ErrorStatus setBoundarySketchImpl(wy3d::Sketch3D* pSketch3D);
+
+    wy::ErrorStatus setConstraintSketchImpl(const std::vector<wydb::ElementId>& constraintSketchIds);
+    wy::ErrorStatus addConstraintSketchImpl(const wydb::ElementId& constraintSketchId);
+    wy::ErrorStatus removeConstraintSketchImpl(const wydb::ElementId& constraintSketchId);
+
+    ErrorCode collectConstraints(std::vector<TopoDS_Edge>& constraintEdges,
+        std::vector<TopoDS_Vertex>& constraintVertices) const;
 
     struct GenerateShapeResult
     {
@@ -82,11 +104,12 @@ private:
         TopoDS_Shape shape;
         TopoNaming topoNaming;
     };
-    GenerateShapeResult generateShape2D(const wy3d::Sketch* pSketch);
-    GenerateShapeResult generateShape3D(const wy3d::Sketch3D* pSketch3D);
+    GenerateShapeResult generateShape(const wy3d::Sketch* pSketch);
+    GenerateShapeResult generateShape(const wy3d::Sketch3D* pSketch3D);
 
 protected:
-    wydb::ElementId _sketchId;
+    wydb::ElementId _boundarySketchId;
+    std::vector<wydb::ElementId> _constraintSketchIds;
 };
 
 NS_WY3D_END

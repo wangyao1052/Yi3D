@@ -200,6 +200,10 @@ ErrorCodeTranslation::ErrorCodeTranslation(QObject* parent) : QObject(parent)
         "The sketch curves must form a single closed loop!");
     _code2Desc[TOUINT(wy3d::ErrorCode::FILLEDSHEET_EdgesNotSingleRegion)] = tr(
         "The selected edges must enclose a single region!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::FILLEDSHEET_ConstraintCurveInvalid)] = tr(
+        "The constraint sketch has no usable curve or point!");
+    _code2Desc[TOUINT(wy3d::ErrorCode::FILLEDSHEET_ConstraintCurveNotSatisfied)] = tr(
+        "The surface cannot be made to pass through the constraint!");
 
     // SplitFace
     _code2Desc[TOUINT(wy3d::ErrorCode::SPLITFACE_InvalidData)] = tr(

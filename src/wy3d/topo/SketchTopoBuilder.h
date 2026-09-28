@@ -54,6 +54,11 @@ public:
         return _curve2Id;
     }
 
+    std::map<Handle(Geom_Curve), unsigned int>& getCurve2IdMap()
+    {
+        return _curve2Id;
+    }
+
 private:
     Handle(Geom_Curve) toGeomCurve(const wy3d::SketchCurve* pSketchCurve) const;
 

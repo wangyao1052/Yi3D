@@ -872,67 +872,77 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
-        <source>Invalid split face data!</source>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
+        <source>The constraint sketch has no usable curve or point!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
-        <source>The face to split no longer exists!</source>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
+        <source>The surface cannot be made to pass through the constraint!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
-        <source>The sketch holds no curve to split with!</source>
+        <source>Invalid split face data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="211"/>
-        <source>Generate split face failed!</source>
+        <source>The face to split no longer exists!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
-        <source>The curves do not divide any of the selected faces!</source>
+        <source>The sketch holds no curve to split with!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
+        <source>Generate split face failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
-        <source>Invalid delete face data!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="219"/>
-        <source>The faces to delete no longer exist!</source>
+        <source>The curves do not divide any of the selected faces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="221"/>
-        <source>A sheet cannot lose every one of its faces!</source>
+        <source>Invalid delete face data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="223"/>
-        <source>Delete face failed!</source>
+        <source>The faces to delete no longer exist!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="225"/>
+        <source>A sheet cannot lose every one of its faces!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="227"/>
+        <source>Delete face failed!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="231"/>
         <source>Invalid helix data!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="229"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="233"/>
         <source>The sketch used to generate the helix must be a circle.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="246"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="250"/>
         <source>ErrorCode: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="246"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="250"/>
         <source>!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1446,14 +1456,35 @@ Do you want to save it to the original file now?
 <context>
     <name>FilledSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="305"/>
-        <source>Select a 2D or 3D sketch, or edges of a solid or sheet, to create a filled surface.</source>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="477"/>
+        <source>Select the boundary of the filled surface: a 2D or 3D sketch, or edges of a solid or sheet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="321"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="496"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="493"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="790"/>
         <source>Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="519"/>
+        <source>Select constraint curves (optional); press Enter or Spacebar to complete.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="824"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="836"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="845"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="859"/>
+        <source>Sketch not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="828"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="833"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="851"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="856"/>
+        <source>Sketch is already in use</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6386,12 +6417,12 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchUtil</name>
     <message>
-        <location filename="../../utils/SketchUtil.cpp" line="94"/>
-        <location filename="../../utils/SketchUtil.cpp" line="223"/>
-        <location filename="../../utils/SketchUtil.cpp" line="250"/>
-        <location filename="../../utils/SketchUtil.cpp" line="277"/>
-        <location filename="../../utils/SketchUtil.cpp" line="304"/>
-        <location filename="../../utils/SketchUtil.cpp" line="335"/>
+        <location filename="../../utils/SketchUtil.cpp" line="96"/>
+        <location filename="../../utils/SketchUtil.cpp" line="225"/>
+        <location filename="../../utils/SketchUtil.cpp" line="252"/>
+        <location filename="../../utils/SketchUtil.cpp" line="320"/>
+        <location filename="../../utils/SketchUtil.cpp" line="347"/>
+        <location filename="../../utils/SketchUtil.cpp" line="378"/>
         <source>Element IDs: %1</source>
         <translation type="unfinished"></translation>
     </message>

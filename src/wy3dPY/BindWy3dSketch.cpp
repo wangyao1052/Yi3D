@@ -131,6 +131,15 @@ void bindWy3dSketch(py::module_& m)
         .def("getPlane", &wy3d::Sketch::getPlane)
         .def("setPlane", &wy3d::Sketch::setPlane)
         .def("addEntity", &wy3d::Sketch::addEntity, py::arg("entity"))
+        // A sketch read back from the database comes back as a plain Element, which the
+        // feature entry points cannot take; this recovers the Sketch view of it
+        .def_static("cast",
+            [](wydb::Element* pElement) -> wy3d::Sketch*
+            {
+                return wy3d::Sketch::cast(pElement);
+            },
+            py::arg("element"),
+            py::return_value_policy::reference)
 
         // iterator
         .def("__iter__", [](const wy3d::Sketch& sketch) {

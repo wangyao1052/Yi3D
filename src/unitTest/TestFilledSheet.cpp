@@ -22,6 +22,7 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchLine.h>
 #include <wy3dSketchPlane.h>
+#include <wy3dSketchPoint.h>
 #include <wy3dSketch3D.h>
 #include <wy3dSketch3DProfile.h>
 #include <wy3dSketchLine3D.h>
@@ -34,16 +35,25 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <TopoDS.hxx>
+#include <TopoDS_Face.hxx>
 #include <TopoDS_Shape.hxx>
+#include <TopoDS_Vertex.hxx>
 #include <TopExp.hxx>
 #include <TopExp_Explorer.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
 #include <Bnd_Box.hxx>
 #include <BRepBndLib.hxx>
+#include <BRepBuilderAPI_MakeVertex.hxx>
+#include <BRepExtrema_DistShapeShape.hxx>
 #include <BRepGProp.hxx>
-#include <GProp_GProps.hxx>
 #include <BRepMesh_IncrementalMesh.hxx>
+#include <BRep_Tool.hxx>
+#include <GProp_GProps.hxx>
+#include <Poly_Triangulation.hxx>
+#include <TopLoc_Location.hxx>
 
+#include <algorithm>
+#include <cstdio>
 #include <set>
 
 namespace
@@ -92,6 +102,82 @@ namespace
                     return wydb::ElementId::kNull;
                 }
                 EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+            }
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch->getId();
+        }
+        return sketchId;
+    }
+
+    // The same 100x50 rectangle drawn the other way round: same region, opposite winding
+    static wydb::ElementId createReversedRectSketch(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::SketchPlane plane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+            wy3d::Sketch* pSketch(nullptr);
+            EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+            if (!pSketch)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            const wy::Vector2 pts[4] = {
+                wy::Vector2(0.0, 0.0), wy::Vector2(0.0, 50.0),
+                wy::Vector2(100.0, 50.0), wy::Vector2(100.0, 0.0) };
+            for (int i = 0; i < 4; ++i)
+            {
+                wy3d::SketchLine* pLine(nullptr);
+                EXPECT_EQ(wy3d::SketchLine::create(pTrans, pts[i], pts[(i + 1) % 4], pLine), wy::ErrorStatus::Ok);
+                if (!pLine)
+                {
+                    pDb->getTransactionManager()->abortTransaction();
+                    return wydb::ElementId::kNull;
+                }
+                EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+            }
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch->getId();
+        }
+        return sketchId;
+    }
+
+    // Two 2D triangles that do not touch: a boundary of two regions, not one closed loop
+    static wydb::ElementId createTwoLoopSketch(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::SketchPlane plane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+            wy3d::Sketch* pSketch(nullptr);
+            EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+            if (!pSketch)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            const wy::Vector2 tri1[3] = {
+                wy::Vector2(0.0, 0.0), wy::Vector2(10.0, 0.0), wy::Vector2(0.0, 10.0) };
+            const wy::Vector2 tri2[3] = {
+                wy::Vector2(50.0, 50.0), wy::Vector2(60.0, 50.0), wy::Vector2(50.0, 60.0) };
+            for (const wy::Vector2* tri : { tri1, tri2 })
+            {
+                for (int i = 0; i < 3; ++i)
+                {
+                    wy3d::SketchLine* pLine(nullptr);
+                    EXPECT_EQ(wy3d::SketchLine::create(pTrans, tri[i], tri[(i + 1) % 3], pLine), wy::ErrorStatus::Ok);
+                    if (!pLine)
+                    {
+                        pDb->getTransactionManager()->abortTransaction();
+                        return wydb::ElementId::kNull;
+                    }
+                    EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+                }
             }
 
             EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
@@ -619,7 +705,7 @@ TEST(FilledSheet, CreateSketch)
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
     ASSERT_NE(pSheet, nullptr);
-    EXPECT_EQ(pSheet->getSketch(), sketchId);
+    EXPECT_EQ(pSheet->getBoundarySketch(), sketchId);
     EXPECT_FALSE(pSheet->getShape().IsNull());
     {
         double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
@@ -656,7 +742,7 @@ TEST(FilledSheet, CreateSketch3D)
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
     ASSERT_NE(pSheet, nullptr);
-    EXPECT_EQ(pSheet->getSketch(), sketchId);
+    EXPECT_EQ(pSheet->getBoundarySketch(), sketchId);
     // A single open line cannot fill a surface
     EXPECT_TRUE(pSheet->getShape().IsNull());
     EXPECT_EQ(getChainErrorCode(pDb.get(), pSheet->getId()),
@@ -796,14 +882,14 @@ TEST(FilledSheet, IO)
 
         const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
         ASSERT_NE(pSheet, nullptr);
-        EXPECT_EQ(pSheet->getSketch(), sketchId);
+        EXPECT_EQ(pSheet->getBoundarySketch(), sketchId);
         const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
         ASSERT_NE(pSketch, nullptr);
         EXPECT_EQ(pSketch->getParent(), sheetId);
 
         const wy3d::FilledSheet* pSheet3D = wy3d::FilledSheet::cast(pDb->getElement(sheet3DId));
         ASSERT_NE(pSheet3D, nullptr);
-        EXPECT_EQ(pSheet3D->getSketch(), sketch3DId);
+        EXPECT_EQ(pSheet3D->getBoundarySketch(), sketch3DId);
         const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pDb->getElement(sketch3DId));
         ASSERT_NE(pSketch3D, nullptr);
         EXPECT_EQ(pSketch3D->getParent(), sheet3DId);
@@ -1185,6 +1271,28 @@ TEST(FilledSheet, Generate3DTwoLoopsFails)
         wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pTrans->getElementForWrite(sketchId));
         ASSERT_NE(pSketch3D, nullptr);
         EXPECT_EQ(wy3d::FilledSheet::create(pTrans, pSketch3D, pSheet), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_TRUE(pSheet->getShape().IsNull());
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSheet->getId()),
+        static_cast<std::uint32_t>(wy3d::ErrorCode::FILLEDSHEET_EdgesNotClosed));
+}
+
+// A filled surface takes one boundary wire, and a 2D sketch with a second region would need a
+// second one: refused the way the 3D two-loop sketch already is
+TEST(FilledSheet, Generate2DTwoLoopsFails)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+    wydb::ElementId sketchId = createTwoLoopSketch(pDb.get());
+
+    wy3d::FilledSheet* pSheet(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
+        ASSERT_NE(pSketch, nullptr);
+        EXPECT_EQ(wy3d::FilledSheet::create(pTrans, pSketch, pSheet), wy::ErrorStatus::Ok);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
     ASSERT_NE(pSheet, nullptr);
@@ -1644,4 +1752,1144 @@ TEST(FilledSheet, Generate2DDuplicateCoincidentLines)
     GProp_GProps gprops;
     BRepGProp::SurfaceProperties(pSheet->getShape(), gprops);
     EXPECT_NEAR(gprops.Mass(), 0.0, 1e-9);
+}
+
+// --- Constraint curves ---
+
+namespace
+{
+    // A constraint arching over the middle of the non-planar quad: both ends land on the
+    // boundary edges (x=0 and x=100 at y=50), the middle rides at z=80
+    static wydb::ElementId createArchConstraintSketch3D(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch3D* pSketch3D(nullptr);
+            EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+            if (!pSketch3D)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            const wy::Vector3 pts[3] = {
+                wy::Vector3(0.0, 50.0, 0.0),
+                wy::Vector3(50.0, 50.0, 80.0),
+                wy::Vector3(100.0, 50.0, 25.0) };
+            for (int i = 0; i < 2; ++i)
+            {
+                wy3d::SketchLine3D* pLine(nullptr);
+                EXPECT_EQ(wy3d::SketchLine3D::create(pTrans, pts[i], pts[i + 1], pLine), wy::ErrorStatus::Ok);
+                if (!pLine)
+                {
+                    pDb->getTransactionManager()->abortTransaction();
+                    return wydb::ElementId::kNull;
+                }
+                EXPECT_EQ(pSketch3D->addEntity(pLine), wy::ErrorStatus::Ok);
+            }
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch3D->getId();
+        }
+        return sketchId;
+    }
+
+    // Two arches crossing at the apex, each one a chain of its own, all four ends landing on
+    // the r=25 boundary circle: the shape test-001.wy3dt draws
+    static wydb::ElementId createCrossingArchesSketch3D(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch3D* pSketch3D(nullptr);
+            EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+            if (!pSketch3D)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            const wy::Vector3 pts[5] = {
+                wy::Vector3(0.0, -25.0, 0.0), wy::Vector3(0.0, 0.0, 10.0), wy::Vector3(0.0, 25.0, 0.0),
+                wy::Vector3(25.0, 0.0, 0.0), wy::Vector3(-25.0, 0.0, 0.0) };
+            const int segs[4][2] = { { 0, 1 }, { 1, 2 }, { 3, 1 }, { 1, 4 } };
+            for (const int* seg : segs)
+            {
+                wy3d::SketchLine3D* pLine(nullptr);
+                EXPECT_EQ(wy3d::SketchLine3D::create(pTrans, pts[seg[0]], pts[seg[1]], pLine), wy::ErrorStatus::Ok);
+                if (!pLine)
+                {
+                    pDb->getTransactionManager()->abortTransaction();
+                    return wydb::ElementId::kNull;
+                }
+                EXPECT_EQ(pSketch3D->addEntity(pLine), wy::ErrorStatus::Ok);
+            }
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch3D->getId();
+        }
+        return sketchId;
+    }
+
+    // An arch as a 2D sketch on the y=30 plane, both ends again on the boundary: at
+    // y=30 the x=100 edge sits at z=15. yDir = normal x xDir = -Z, so the local v of
+    // an upward arch is negative: (u, v) -> (u, 30, -v)
+    static wydb::ElementId createArchConstraintSketch(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::SketchPlane plane(wy::Vector3(0.0, 30.0, 0.0), wy::Vector3::kYAxis, wy::Vector3::kXAxis);
+            wy3d::Sketch* pSketch(nullptr);
+            EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+            if (!pSketch)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            const wy::Vector2 pts[3] = {
+                wy::Vector2(0.0, 0.0),
+                wy::Vector2(50.0, -70.0),
+                wy::Vector2(100.0, -15.0) };
+            for (int i = 0; i < 2; ++i)
+            {
+                wy3d::SketchLine* pLine(nullptr);
+                EXPECT_EQ(wy3d::SketchLine::create(pTrans, pts[i], pts[i + 1], pLine), wy::ErrorStatus::Ok);
+                if (!pLine)
+                {
+                    pDb->getTransactionManager()->abortTransaction();
+                    return wydb::ElementId::kNull;
+                }
+                EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+            }
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch->getId();
+        }
+        return sketchId;
+    }
+
+    // The 3D arch above as a 2D sketch on the y=50 plane: the same arch in space,
+    // drawn twice, so the plate gets one constraint twice over
+    static wydb::ElementId createTwinArchConstraintSketch(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::SketchPlane plane(wy::Vector3(0.0, 50.0, 0.0), wy::Vector3::kYAxis, wy::Vector3::kXAxis);
+            wy3d::Sketch* pSketch(nullptr);
+            EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+            if (!pSketch)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            const wy::Vector2 pts[3] = {
+                wy::Vector2(0.0, 0.0),
+                wy::Vector2(50.0, -80.0),
+                wy::Vector2(100.0, -25.0) };
+            for (int i = 0; i < 2; ++i)
+            {
+                wy3d::SketchLine* pLine(nullptr);
+                EXPECT_EQ(wy3d::SketchLine::create(pTrans, pts[i], pts[i + 1], pLine), wy::ErrorStatus::Ok);
+                if (!pLine)
+                {
+                    pDb->getTransactionManager()->abortTransaction();
+                    return wydb::ElementId::kNull;
+                }
+                EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+            }
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch->getId();
+        }
+        return sketchId;
+    }
+
+    // A sketch holding a single point and nothing else: on the arch's plane (y = 30), so
+    // (u, v) -> (u, 30, -v) puts it at (50, 30, 70)
+    static wydb::ElementId createPointConstraintSketch(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::SketchPlane plane(wy::Vector3(0.0, 30.0, 0.0), wy::Vector3::kYAxis, wy::Vector3::kXAxis);
+            wy3d::Sketch* pSketch(nullptr);
+            EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+            if (!pSketch)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            wy3d::SketchPoint* pPoint(nullptr);
+            EXPECT_EQ(wy3d::SketchPoint::create(pTrans, wy::Vector2(50.0, -70.0), pPoint), wy::ErrorStatus::Ok);
+            if (!pPoint)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pSketch->addEntity(pPoint), wy::ErrorStatus::Ok);
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch->getId();
+        }
+        return sketchId;
+    }
+
+    // The arch above and a point riding higher than it, in one sketch: the point sits at
+    // (25, 30, 70), while the arch at u=25 is only at v=-35, that is z=35
+    static wydb::ElementId createArchAndPointConstraintSketch(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::SketchPlane plane(wy::Vector3(0.0, 30.0, 0.0), wy::Vector3::kYAxis, wy::Vector3::kXAxis);
+            wy3d::Sketch* pSketch(nullptr);
+            EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+            if (!pSketch)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            const wy::Vector2 pts[3] = {
+                wy::Vector2(0.0, 0.0),
+                wy::Vector2(50.0, -70.0),
+                wy::Vector2(100.0, -15.0) };
+            for (int i = 0; i < 2; ++i)
+            {
+                wy3d::SketchLine* pLine(nullptr);
+                EXPECT_EQ(wy3d::SketchLine::create(pTrans, pts[i], pts[i + 1], pLine), wy::ErrorStatus::Ok);
+                if (!pLine)
+                {
+                    pDb->getTransactionManager()->abortTransaction();
+                    return wydb::ElementId::kNull;
+                }
+                EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+            }
+
+            wy3d::SketchPoint* pPoint(nullptr);
+            EXPECT_EQ(wy3d::SketchPoint::create(pTrans, wy::Vector2(25.0, -70.0), pPoint), wy::ErrorStatus::Ok);
+            if (!pPoint)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pSketch->addEntity(pPoint), wy::ErrorStatus::Ok);
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch->getId();
+        }
+        return sketchId;
+    }
+
+    // How far the built surface stays from a point it was asked to pass through
+    static bool distanceFromPointToShape(const wy::Vector3& position, const TopoDS_Shape& shape, double& distance)
+    {
+        TopoDS_Vertex vertex = BRepBuilderAPI_MakeVertex(gp_Pnt(position.x(), position.y(), position.z()));
+        BRepExtrema_DistShapeShape dist(vertex, shape);
+        dist.Perform();
+        if (!dist.IsDone()) return false;
+        distance = dist.Value();
+        return true;
+    }
+
+    // Two 2D lines that do not touch: not a single chain, hence no constraint curve
+    static wydb::ElementId createTwoLineSketch(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::SketchPlane plane(wy::Vector3(0.0, 50.0, 0.0), wy::Vector3::kYAxis, wy::Vector3::kXAxis);
+            wy3d::Sketch* pSketch(nullptr);
+            EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+            if (!pSketch)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            wy3d::SketchLine* pLines[2] = { nullptr, nullptr };
+            EXPECT_EQ(wy3d::SketchLine::create(pTrans, wy::Vector2(0.0, 0.0), wy::Vector2(10.0, 0.0), pLines[0]), wy::ErrorStatus::Ok);
+            EXPECT_EQ(wy3d::SketchLine::create(pTrans, wy::Vector2(40.0, 20.0), wy::Vector2(60.0, 20.0), pLines[1]), wy::ErrorStatus::Ok);
+            for (wy3d::SketchLine* pLine : pLines)
+            {
+                if (!pLine)
+                {
+                    pDb->getTransactionManager()->abortTransaction();
+                    return wydb::ElementId::kNull;
+                }
+                EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+            }
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch->getId();
+        }
+        return sketchId;
+    }
+
+    // A closed 40x40 loop floating far above the quad: the plate solver gives up on
+    // constraints it cannot reach in a reasonable way (measured: the built face stays
+    // 108~124 away from every one of its edges) instead of failing Build()
+    static wydb::ElementId createFloatingLoopSketch3D(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch3D* pSketch3D(nullptr);
+            EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+            if (!pSketch3D)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            const wy::Vector3 pts[4] = {
+                wy::Vector3(30.0, 30.0, 150.0),
+                wy::Vector3(70.0, 30.0, 150.0),
+                wy::Vector3(70.0, 70.0, 150.0),
+                wy::Vector3(30.0, 70.0, 150.0) };
+            for (int i = 0; i < 4; ++i)
+            {
+                wy3d::SketchLine3D* pLine(nullptr);
+                EXPECT_EQ(wy3d::SketchLine3D::create(pTrans, pts[i], pts[(i + 1) % 4], pLine), wy::ErrorStatus::Ok);
+                if (!pLine)
+                {
+                    pDb->getTransactionManager()->abortTransaction();
+                    return wydb::ElementId::kNull;
+                }
+                EXPECT_EQ(pSketch3D->addEntity(pLine), wy::ErrorStatus::Ok);
+            }
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch3D->getId();
+        }
+        return sketchId;
+    }
+
+    // A FilledSheet on the non-planar quad, with no constraint curve yet
+    static wydb::ElementId createNonPlanarSheet(wy3d::Database* pDb, const wydb::ElementId& boundaryId)
+    {
+        wydb::ElementId sheetId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch3D* pBoundary = wy3d::Sketch3D::cast(pTrans->getElementForWrite(boundaryId));
+            if (!pBoundary)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            wy3d::FilledSheet* pSheet(nullptr);
+            EXPECT_EQ(wy3d::FilledSheet::create(pTrans, pBoundary, pSheet), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            if (!pSheet) return wydb::ElementId::kNull;
+            sheetId = pSheet->getId();
+        }
+        return sheetId;
+    }
+
+    // Add a constraint sketch the way the command layer does: the sheet and the sketch opened
+    // for write in one transaction
+    static bool addConstraintSketch(wy3d::Database* pDb, const wydb::ElementId& sheetId,
+        const wydb::ElementId& constraintSketchId)
+    {
+        wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pTrans->getElementForWrite(sheetId));
+        wydb::Element* pConstraintElem = pTrans->getElementForWrite(constraintSketchId);
+        if (!pSheet || !pConstraintElem)
+        {
+            pMgr->abortTransaction();
+            return false;
+        }
+
+        wy::ErrorStatus error(wy::ErrorStatus::InvalidInput);
+        if (wy3d::Sketch* pSketch = wy3d::Sketch::cast(pConstraintElem))
+        {
+            error = pSheet->addConstraintSketch(pSketch);
+        }
+        else if (wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pConstraintElem))
+        {
+            error = pSheet->addConstraintSketch(pSketch3D);
+        }
+        if (wy::ErrorStatus::Ok != error)
+        {
+            pMgr->abortTransaction();
+            return false;
+        }
+        return wy::ErrorStatus::Ok == pMgr->endTransaction();
+    }
+
+    static bool removeConstraintSketch(wy3d::Database* pDb, const wydb::ElementId& sheetId,
+        const wydb::ElementId& constraintSketchId)
+    {
+        wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pTrans->getElementForWrite(sheetId));
+        wydb::Element* pConstraintElem = pTrans->getElementForWrite(constraintSketchId);
+        if (!pSheet || !pConstraintElem)
+        {
+            pMgr->abortTransaction();
+            return false;
+        }
+        wy::ErrorStatus error(wy::ErrorStatus::InvalidInput);
+        if (wy3d::Sketch* pSketch = wy3d::Sketch::cast(pConstraintElem))
+        {
+            error = pSheet->removeConstraintSketch(pSketch);
+        }
+        else if (wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pConstraintElem))
+        {
+            error = pSheet->removeConstraintSketch(pSketch3D);
+        }
+        if (wy::ErrorStatus::Ok != error)
+        {
+            pMgr->abortTransaction();
+            return false;
+        }
+        return wy::ErrorStatus::Ok == pMgr->endTransaction();
+    }
+
+    // Bounds of the meshed shape, taken from the mesh nodes themselves: they sit on
+    // the surface, while BRepBndLib widens the box (and, with no triangulation, falls
+    // back to the whole underlying surface, which for a BRepFill patch runs past the
+    // boundary). Coarser than getShapeBounds on purpose: a constraint ridge is not a
+    // topological edge, so meshing it at 1e-4 buys nothing but triangles.
+    static void getMeshBounds(const TopoDS_Shape& shape, double& xmin, double& xmax,
+        double& ymin, double& ymax, double& zmin, double& zmax)
+    {
+        BRepMesh_IncrementalMesh mesher(shape, 0.05);
+        xmin = ymin = zmin = 1.0e300;
+        xmax = ymax = zmax = -1.0e300;
+        for (TopExp_Explorer exp(shape, TopAbs_FACE); exp.More(); exp.Next())
+        {
+            TopLoc_Location loc;
+            const Handle(Poly_Triangulation)& pTri =
+                BRep_Tool::Triangulation(TopoDS::Face(exp.Current()), loc);
+            if (pTri.IsNull()) continue;
+            const gp_Trsf& trsf = loc.Transformation();
+            for (int i = 1; i <= pTri->NbNodes(); ++i)
+            {
+                const gp_Pnt p = pTri->Node(i).Transformed(trsf);
+                xmin = std::min(xmin, p.X());
+                xmax = std::max(xmax, p.X());
+                ymin = std::min(ymin, p.Y());
+                ymax = std::max(ymax, p.Y());
+                zmin = std::min(zmin, p.Z());
+                zmax = std::max(zmax, p.Z());
+            }
+        }
+    }
+
+    // The constraint is soft: the plate passes through it when it can, and
+    // the surface must then be visibly pulled up to the arch (z=80) and fall back to
+    // the constraint-free patch (z<=50) once it is removed
+    static void expectConstraintSketchLiftsTheSurface(wy3d::Database* pDb, const wydb::ElementId& constraintSketchId)
+    {
+        wydb::ElementId boundaryId = createNonPlanarQuadSketch3D(pDb);
+        ASSERT_FALSE(boundaryId.isNull());
+        wydb::ElementId sheetId = createNonPlanarSheet(pDb, boundaryId);
+        ASSERT_FALSE(sheetId.isNull());
+
+        const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+        ASSERT_NE(pSheet, nullptr);
+        {
+            double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+            getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+            EXPECT_NEAR(xmin, 0.0, 1e-3);
+            EXPECT_NEAR(xmax, 100.0, 1e-3);
+            EXPECT_NEAR(ymin, 0.0, 1e-3);
+            EXPECT_NEAR(ymax, 100.0, 1e-3);
+            EXPECT_GT(zmax, 49.0);  // the patch does reach the quad's z=50 corner
+            EXPECT_LT(zmax, 51.0);
+        }
+
+        // Take it as a constraint
+        ASSERT_TRUE(addConstraintSketch(pDb, sheetId, constraintSketchId));
+        EXPECT_EQ(getChainErrorCode(pDb, sheetId), 0u);
+        pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+        ASSERT_NE(pSheet, nullptr);
+        const std::vector<wydb::ElementId>& constraintSketchIds = pSheet->getConstraintSketches();
+        ASSERT_EQ(constraintSketchIds.size(), 1u);
+        EXPECT_EQ(constraintSketchIds[0], constraintSketchId);
+        EXPECT_NE(constraintSketchIds.cend(),
+            std::find(constraintSketchIds.cbegin(), constraintSketchIds.cend(), constraintSketchId));
+        const wydb::Element* pConstraintSketch = pDb->getElement(constraintSketchId);
+        ASSERT_NE(pConstraintSketch, nullptr);
+        EXPECT_EQ(pConstraintSketch->getParent(), sheetId);
+        {
+            double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+            getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+            // The lift is up, not sideways: the patch still covers the boundary quad.
+            // The constrained plate is solved and re-trimmed by approximation, so it
+            // now overshoots the outline by ~0.1 (measured 0.135) where the constraint-free
+            // one lands on it exactly. The plate is also pulled through the arch and
+            // bulges well past its top (measured 129.4 with the z=80 arch)
+            EXPECT_NEAR(xmin, 0.0, 0.5);
+            EXPECT_NEAR(xmax, 100.0, 0.5);
+            EXPECT_NEAR(ymin, 0.0, 0.5);
+            EXPECT_NEAR(ymax, 100.0, 0.5);
+            EXPECT_GT(zmax, 60.0);
+        }
+        expectAllTopoNamed(pSheet);
+
+        // Clear it: the surface returns to the constraint-free patch
+        ASSERT_TRUE(removeConstraintSketch(pDb, sheetId, constraintSketchId));
+        EXPECT_EQ(getChainErrorCode(pDb, sheetId), 0u);
+        pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+        ASSERT_NE(pSheet, nullptr);
+        const std::vector<wydb::ElementId>& remainingConstraintSketchIds = pSheet->getConstraintSketches();
+        EXPECT_TRUE(remainingConstraintSketchIds.empty());
+        EXPECT_EQ(remainingConstraintSketchIds.cend(),
+            std::find(remainingConstraintSketchIds.cbegin(), remainingConstraintSketchIds.cend(), constraintSketchId));
+        {
+            double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+            getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+            EXPECT_GT(zmax, 49.0);
+            EXPECT_LT(zmax, 51.0);
+        }
+        expectAllTopoNamed(pSheet);
+
+        // Released: the sketch can be handed to another feature
+        pConstraintSketch = pDb->getElement(constraintSketchId);
+        ASSERT_NE(pConstraintSketch, nullptr);
+        EXPECT_TRUE(pConstraintSketch->getParent().isNull());
+    }
+
+    // A FilledSheet on a 2D sketch, with no constraint curve yet
+    static wydb::ElementId createPlanarSheet(wy3d::Database* pDb, const wydb::ElementId& boundaryId)
+    {
+        wydb::ElementId sheetId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch* pBoundary = wy3d::Sketch::cast(pTrans->getElementForWrite(boundaryId));
+            if (!pBoundary)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            wy3d::FilledSheet* pSheet(nullptr);
+            EXPECT_EQ(wy3d::FilledSheet::create(pTrans, pBoundary, pSheet), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            if (!pSheet) return wydb::ElementId::kNull;
+            sheetId = pSheet->getId();
+        }
+        return sheetId;
+    }
+
+    // An arch as a 2D sketch over the 100x50 rectangle's own plane (y = 25), both ends on the
+    // rectangle: at y=25 the x=0 and x=100 edges sit at z=0. yDir = normal x xDir = -Z, so the
+    // local v of an upward arch is negative: (u, v) -> (u, 25, -v)
+    static wydb::ElementId createArchConstraintSketchOverRect(wy3d::Database* pDb)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::SketchPlane plane(wy::Vector3(0.0, 25.0, 0.0), wy::Vector3::kYAxis, wy::Vector3::kXAxis);
+            wy3d::Sketch* pSketch(nullptr);
+            EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+            if (!pSketch)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            const wy::Vector2 pts[3] = {
+                wy::Vector2(0.0, 0.0),
+                wy::Vector2(50.0, -80.0),
+                wy::Vector2(100.0, 0.0) };
+            for (int i = 0; i < 2; ++i)
+            {
+                wy3d::SketchLine* pLine(nullptr);
+                EXPECT_EQ(wy3d::SketchLine::create(pTrans, pts[i], pts[i + 1], pLine), wy::ErrorStatus::Ok);
+                if (!pLine)
+                {
+                    pDb->getTransactionManager()->abortTransaction();
+                    return wydb::ElementId::kNull;
+                }
+                EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+            }
+
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch->getId();
+        }
+        return sketchId;
+    }
+
+    // Area-weighted normal of the meshed shape, taken the way the face points: the direction a
+    // sheet grows in, which is what the offset and thicken directions read
+    static gp_XYZ meshAreaNormal(const TopoDS_Shape& shape)
+    {
+        BRepMesh_IncrementalMesh mesher(shape, 0.05);
+        gp_XYZ sum(0.0, 0.0, 0.0);
+        for (TopExp_Explorer exp(shape, TopAbs_FACE); exp.More(); exp.Next())
+        {
+            const TopoDS_Face& face = TopoDS::Face(exp.Current());
+            TopLoc_Location loc;
+            const Handle(Poly_Triangulation)& pTri = BRep_Tool::Triangulation(face, loc);
+            if (pTri.IsNull()) continue;
+            const bool isReversed = (TopAbs_REVERSED == face.Orientation());
+            for (int i = 1; i <= pTri->NbTriangles(); ++i)
+            {
+                Standard_Integer n1(0), n2(0), n3(0);
+                pTri->Triangle(i).Get(n1, n2, n3);
+                if (isReversed) std::swap(n2, n3);
+                const gp_Pnt p1 = pTri->Node(n1).Transformed(loc.Transformation());
+                const gp_Pnt p2 = pTri->Node(n2).Transformed(loc.Transformation());
+                const gp_Pnt p3 = pTri->Node(n3).Transformed(loc.Transformation());
+                sum += (p2.XYZ() - p1.XYZ()).Crossed(p3.XYZ() - p1.XYZ());
+            }
+        }
+        return sum;
+    }
+
+    // The 2D boundary twin of expectConstraintSketchLiftsTheSurface: a flat patch off the
+    // rectangle, which the arch then lifts off its plane. It also pins the winding: the plate
+    // solver reads the boundary chain, not the sketch plane, so it must land on the same side
+    // as the flat face does
+    static void expectConstraintSketchLiftsThePlanarSurface(wy3d::Database* pDb,
+        const wydb::ElementId& boundaryId, const wydb::ElementId& constraintSketchId)
+    {
+        ASSERT_FALSE(boundaryId.isNull());
+        wydb::ElementId sheetId = createPlanarSheet(pDb, boundaryId);
+        ASSERT_FALSE(sheetId.isNull());
+
+        const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+        ASSERT_NE(pSheet, nullptr);
+        EXPECT_EQ(countFaces(pSheet->getShape()), 1);
+        {
+            double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+            getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+            EXPECT_NEAR(xmin, 0.0, 1e-3);
+            EXPECT_NEAR(xmax, 100.0, 1e-3);
+            EXPECT_NEAR(ymin, 0.0, 1e-3);
+            EXPECT_NEAR(ymax, 50.0, 1e-3);
+            EXPECT_NEAR(zmax, 0.0, 1e-3);
+        }
+        EXPECT_GT(meshAreaNormal(pSheet->getShape()).Z(), 0.0);
+        expectAllTopoNamed(pSheet);
+
+        // Take it as a constraint
+        ASSERT_TRUE(addConstraintSketch(pDb, sheetId, constraintSketchId));
+        EXPECT_EQ(getChainErrorCode(pDb, sheetId), 0u);
+        pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+        ASSERT_NE(pSheet, nullptr);
+        ASSERT_EQ(pSheet->getConstraintSketches().size(), 1u);
+        EXPECT_EQ(pSheet->getConstraintSketches()[0], constraintSketchId);
+        const wydb::Element* pConstraintSketch = pDb->getElement(constraintSketchId);
+        ASSERT_NE(pConstraintSketch, nullptr);
+        EXPECT_EQ(pConstraintSketch->getParent(), sheetId);
+        EXPECT_EQ(countFaces(pSheet->getShape()), 1);
+        {
+            double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+            getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+            // The lift is up, not sideways: the patch still covers the rectangle
+            EXPECT_NEAR(xmin, 0.0, 0.5);
+            EXPECT_NEAR(xmax, 100.0, 0.5);
+            EXPECT_NEAR(ymin, 0.0, 0.5);
+            EXPECT_NEAR(ymax, 50.0, 0.5);
+            EXPECT_GT(zmax, 60.0);
+        }
+        EXPECT_GT(meshAreaNormal(pSheet->getShape()).Z(), 0.0);
+        expectAllTopoNamed(pSheet);
+
+        // Clear it: the surface returns to the flat patch
+        ASSERT_TRUE(removeConstraintSketch(pDb, sheetId, constraintSketchId));
+        EXPECT_EQ(getChainErrorCode(pDb, sheetId), 0u);
+        pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+        ASSERT_NE(pSheet, nullptr);
+        EXPECT_TRUE(pSheet->getConstraintSketches().empty());
+        {
+            double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+            getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+            EXPECT_NEAR(zmax, 0.0, 1e-3);
+        }
+        expectAllTopoNamed(pSheet);
+
+        // Released: the sketch can be handed to another feature
+        pConstraintSketch = pDb->getElement(constraintSketchId);
+        ASSERT_NE(pConstraintSketch, nullptr);
+        EXPECT_TRUE(pConstraintSketch->getParent().isNull());
+    }
+}
+
+TEST(FilledSheet, ConstraintCurveLiftsTheSurfaceFrom3DSketch)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId constraintSketchId = createArchConstraintSketch3D(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    expectConstraintSketchLiftsTheSurface(pDb.get(), constraintSketchId);
+}
+
+TEST(FilledSheet, ConstraintCurveLiftsTheSurfaceFrom2DSketch)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId constraintSketchId = createArchConstraintSketch(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    expectConstraintSketchLiftsTheSurface(pDb.get(), constraintSketchId);
+}
+
+// The same, with the boundary itself a 2D sketch: the planar patch has to take the constraint too
+TEST(FilledSheet, ConstraintCurveLifts2DBoundarySurface)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId constraintSketchId = createArchConstraintSketchOverRect(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    expectConstraintSketchLiftsThePlanarSurface(pDb.get(), createRectSketch(pDb.get()), constraintSketchId);
+}
+
+// The boundary drawn the other way round must land on the same side: the plate solver reads the
+// boundary chain rather than the sketch plane, so the winding has to be normalised either way
+TEST(FilledSheet, ConstraintCurveLiftsReversed2DBoundarySurface)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId constraintSketchId = createArchConstraintSketchOverRect(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    expectConstraintSketchLiftsThePlanarSurface(pDb.get(), createReversedRectSketch(pDb.get()), constraintSketchId);
+}
+
+// Several constraint sketches at once: each one is a constraint of its own, so the plate has to
+// pass through all of them, and one going away leaves the others in place
+TEST(FilledSheet, ConstraintCurvesAccumulate)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createNonPlanarQuadSketch3D(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId constraintSketch3DId = createArchConstraintSketch3D(pDb.get()); // arch at y=50, apex z=80
+    ASSERT_FALSE(constraintSketch3DId.isNull());
+    wydb::ElementId constraintSketch2DId = createArchConstraintSketch(pDb.get()); // arch at y=30, apex z=70
+    ASSERT_FALSE(constraintSketch2DId.isNull());
+    wydb::ElementId sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketch3DId));
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketch2DId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    const std::vector<wydb::ElementId>& constraintSketchIds = pSheet->getConstraintSketches();
+    ASSERT_EQ(constraintSketchIds.size(), 2u);
+    EXPECT_EQ(constraintSketchIds[0], constraintSketch3DId);
+    EXPECT_EQ(constraintSketchIds[1], constraintSketch2DId);
+    EXPECT_NE(constraintSketchIds.cend(),
+        std::find(constraintSketchIds.cbegin(), constraintSketchIds.cend(), constraintSketch2DId));
+    for (const wydb::ElementId& constraintSketchId : { constraintSketch3DId, constraintSketch2DId })
+    {
+        const wydb::Element* pConstraintSketch = pDb->getElement(constraintSketchId);
+        ASSERT_NE(pConstraintSketch, nullptr);
+        EXPECT_EQ(pConstraintSketch->getParent(), sheetId);
+    }
+    {
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_GT(zmax, 60.0);
+    }
+    expectAllTopoNamed(pSheet);
+
+    // Taking the same sketch twice changes nothing
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketch3DId));
+    pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_EQ(pSheet->getConstraintSketches().size(), 2u);
+
+    // Drop the 3D one: the 2D arch still holds the surface up
+    ASSERT_TRUE(removeConstraintSketch(pDb.get(), sheetId, constraintSketch3DId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    ASSERT_EQ(pSheet->getConstraintSketches().size(), 1u);
+    EXPECT_EQ(pSheet->getConstraintSketches()[0], constraintSketch2DId);
+    {
+        const wydb::Element* pConstraintSketch3D = pDb->getElement(constraintSketch3DId);
+        ASSERT_NE(pConstraintSketch3D, nullptr);
+        EXPECT_TRUE(pConstraintSketch3D->getParent().isNull());
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_GT(zmax, 60.0);
+    }
+    expectAllTopoNamed(pSheet);
+}
+
+// Two geometrically coincident constraint sketches ask the plate for the same thing twice: it has
+// no face to give, and the pair has to be broken up again for the surface to come back
+TEST(FilledSheet, CoincidentConstraintCurvesOverConstrain)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createNonPlanarQuadSketch3D(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId constraintSketch3DId = createArchConstraintSketch3D(pDb.get());
+    ASSERT_FALSE(constraintSketch3DId.isNull());
+    wydb::ElementId twinId = createTwinArchConstraintSketch(pDb.get());
+    ASSERT_FALSE(twinId.isNull());
+    wydb::ElementId sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketch3DId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, twinId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId),
+        static_cast<std::uint32_t>(wy3d::ErrorCode::FILLEDSHEET_GenerateError));
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_EQ(pSheet->getConstraintSketches().size(), 2u);
+    EXPECT_TRUE(pSheet->getShape().IsNull());
+
+    // The twin is the one to go: one arch is a solvable problem again
+    ASSERT_TRUE(removeConstraintSketch(pDb.get(), sheetId, twinId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    ASSERT_EQ(pSheet->getConstraintSketches().size(), 1u);
+    EXPECT_EQ(pSheet->getConstraintSketches()[0], constraintSketch3DId);
+    EXPECT_FALSE(pSheet->getShape().IsNull());
+}
+
+// The boundary is the wire the surface is built on, so it cannot be taken as a constraint on top
+// of that; the command layer never offers it, the core refuses it anyway
+TEST(FilledSheet, BoundaryIsNotAConstraintSketch)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createNonPlanarQuadSketch3D(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    EXPECT_FALSE(addConstraintSketch(pDb.get(), sheetId, boundaryId));
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_TRUE(pSheet->getConstraintSketches().empty());
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+}
+
+// A constraint sketch may hold more than one loop: every curve of it becomes a constraint
+// of its own, so two disjoint triangles are as usable as one chain would be
+TEST(FilledSheet, ConstraintCurveAcceptsSeveralLoops3D)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createNonPlanarQuadSketch3D(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId constraintSketchId = createTwoLoopSketch3D(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    wydb::ElementId sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketchId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_FALSE(pSheet->getShape().IsNull());
+    expectAllTopoNamed(pSheet);
+}
+
+// The 2D counterpart: two lines that do not touch are several chains, and still a constraint
+TEST(FilledSheet, ConstraintCurveAcceptsSeveralChains2D)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createNonPlanarQuadSketch3D(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId constraintSketchId = createTwoLineSketch(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    wydb::ElementId sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketchId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_FALSE(pSheet->getShape().IsNull());
+    expectAllTopoNamed(pSheet);
+}
+
+// The two arches of test-001.wy3dt cross at the apex, so no single chain runs through all
+// four lines; every curve of the constraint sketch being a constraint of its own, the dome comes out
+TEST(FilledSheet, ConstraintCurveCrossingArches3D)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createCircleSketch3D(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId constraintSketchId = createCrossingArchesSketch3D(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    wydb::ElementId sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketchId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_FALSE(pSheet->getShape().IsNull());
+    EXPECT_EQ(countFaces(pSheet->getShape()), 1);
+    {
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getShapeBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_NEAR(xmin, -25.0, 0.5);
+        EXPECT_NEAR(xmax, 25.0, 0.5);
+        EXPECT_NEAR(ymin, -25.0, 0.5);
+        EXPECT_NEAR(ymax, 25.0, 0.5);
+        EXPECT_GT(zmax, 8.0); // the plate is pulled up to the z=10 apex
+        EXPECT_LT(zmax, 40.0);
+    }
+    expectAllTopoNamed(pSheet);
+}
+
+// An empty constraint sketch is the one thing a constraint may not be
+TEST(FilledSheet, ConstraintCurveRejectsEmptySketch3D)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createNonPlanarQuadSketch3D(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId constraintSketchId = createEmptySketch3D(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    wydb::ElementId sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketchId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId),
+        static_cast<std::uint32_t>(wy3d::ErrorCode::FILLEDSHEET_ConstraintCurveInvalid));
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_TRUE(pSheet->getShape().IsNull());
+}
+
+TEST(FilledSheet, ConstraintCurveNotSatisfied)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createNonPlanarQuadSketch3D(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId constraintSketchId = createFloatingLoopSketch3D(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    wydb::ElementId sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketchId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId),
+        static_cast<std::uint32_t>(wy3d::ErrorCode::FILLEDSHEET_ConstraintCurveNotSatisfied));
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_TRUE(pSheet->getShape().IsNull());
+}
+
+// A point is a constraint the way a curve is: the plate is pulled onto it, and it is no edge
+// of the result
+TEST(FilledSheet, ConstraintPointLiftsTheSurface)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createNonPlanarQuadSketch3D(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId constraintSketchId = createPointConstraintSketch(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    wydb::ElementId sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketchId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    {
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_NEAR(xmin, 0.0, 0.5);
+        EXPECT_NEAR(xmax, 100.0, 0.5);
+        EXPECT_NEAR(ymin, 0.0, 0.5);
+        EXPECT_NEAR(ymax, 100.0, 0.5);
+        EXPECT_GT(zmax, 60.0);
+    }
+    double distance(0.0);
+    ASSERT_TRUE(distanceFromPointToShape(wy::Vector3(50.0, 30.0, 70.0), pSheet->getShape(), distance));
+    EXPECT_LT(distance, 1.0);
+    expectAllTopoNamed(pSheet);
+
+    // Clear it: the surface returns to the constraint-free patch
+    ASSERT_TRUE(removeConstraintSketch(pDb.get(), sheetId, constraintSketchId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_TRUE(pSheet->getConstraintSketches().empty());
+    {
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_GT(zmax, 49.0);
+        EXPECT_LT(zmax, 51.0);
+    }
+    expectAllTopoNamed(pSheet);
+}
+
+// The same on a 2D boundary: a sketch holding nothing but a point is a constraint, so the
+// planar shortcut (which solves unconstrained and would ignore it) must not be taken
+TEST(FilledSheet, ConstraintPointLifts2DBoundarySurface)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createRectSketch(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId constraintSketchId = createPointConstraintSketch(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    wydb::ElementId sheetId = createPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    {
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_NEAR(zmax, 0.0, 1e-3);
+    }
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketchId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    {
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_NEAR(xmax, 100.0, 0.5);
+        EXPECT_NEAR(ymax, 50.0, 0.5);
+        EXPECT_GT(zmax, 20.0);
+    }
+    double distance(0.0);
+    ASSERT_TRUE(distanceFromPointToShape(wy::Vector3(50.0, 30.0, 70.0), pSheet->getShape(), distance));
+    EXPECT_LT(distance, 1.0);
+    expectAllTopoNamed(pSheet);
+
+    // Clear it: the flat patch is back
+    ASSERT_TRUE(removeConstraintSketch(pDb.get(), sheetId, constraintSketchId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    {
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_NEAR(zmax, 0.0, 1e-3);
+    }
+    expectAllTopoNamed(pSheet);
+}
+
+// A sketch may hold curves and points at once, and each one is a constraint of its own
+TEST(FilledSheet, ConstraintPointAndCurveInOneSketch)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createNonPlanarQuadSketch3D(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId constraintSketchId = createArchAndPointConstraintSketch(pDb.get());
+    ASSERT_FALSE(constraintSketchId.isNull());
+    wydb::ElementId sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketchId));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    {
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_GT(zmax, 60.0);
+    }
+    // The arch holds its apex (50, 30, 70) and the point holds (25, 30, 70), which the arch
+    // alone leaves 35 below it
+    double distance(0.0);
+    ASSERT_TRUE(distanceFromPointToShape(wy::Vector3(50.0, 30.0, 70.0), pSheet->getShape(), distance));
+    EXPECT_LT(distance, 1.0);
+    ASSERT_TRUE(distanceFromPointToShape(wy::Vector3(25.0, 30.0, 70.0), pSheet->getShape(), distance));
+    EXPECT_LT(distance, 1.0);
+    expectAllTopoNamed(pSheet);
+}
+
+TEST(FilledSheet, EraseConstraintSketchKeepsTheSheet)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boundaryId = createNonPlanarQuadSketch3D(pDb.get());
+    ASSERT_FALSE(boundaryId.isNull());
+    wydb::ElementId constraintSketch3DId = createArchConstraintSketch3D(pDb.get());
+    ASSERT_FALSE(constraintSketch3DId.isNull());
+    wydb::ElementId sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+    ASSERT_FALSE(sheetId.isNull());
+
+    ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketch3DId));
+    const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    const std::vector<wydb::ElementId>& constraintSketchIds = pSheet->getConstraintSketches();
+    ASSERT_NE(constraintSketchIds.cend(),
+        std::find(constraintSketchIds.cbegin(), constraintSketchIds.cend(), constraintSketch3DId));
+
+    // A constraint sketch going away costs one constraint, not the feature
+    ASSERT_TRUE(erase3DEntity(pDb.get(), constraintSketch3DId));
+    pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_FALSE(pSheet->isErased());
+    EXPECT_TRUE(pSheet->getConstraintSketches().empty());
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    {
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_GT(zmax, 49.0); // back to the constraint-free patch
+        EXPECT_LT(zmax, 51.0);
+    }
+    expectAllTopoNamed(pSheet);
+}
+
+// The constraint set is written as a count followed by the ids, so several of them and their
+// order have to come back the way they went in
+TEST(FilledSheet, ConstraintSketchesRoundTrip)
+{
+    std::string filePath("./test_filled_sheet_constraints.wy3dt");
+    wydb::ElementId boundaryId = wydb::ElementId::kNull;
+    wydb::ElementId constraintSketch3DId = wydb::ElementId::kNull;
+    wydb::ElementId constraintSketch2DId = wydb::ElementId::kNull;
+    wydb::ElementId sheetId = wydb::ElementId::kNull;
+
+    {
+        std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+        boundaryId = createNonPlanarQuadSketch3D(pDb.get());
+        constraintSketch3DId = createArchConstraintSketch3D(pDb.get());
+        constraintSketch2DId = createArchConstraintSketch(pDb.get());
+        ASSERT_FALSE(boundaryId.isNull());
+        ASSERT_FALSE(constraintSketch3DId.isNull());
+        ASSERT_FALSE(constraintSketch2DId.isNull());
+        sheetId = createNonPlanarSheet(pDb.get(), boundaryId);
+        ASSERT_FALSE(sheetId.isNull());
+
+        ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketch3DId));
+        ASSERT_TRUE(addConstraintSketch(pDb.get(), sheetId, constraintSketch2DId));
+        const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+        ASSERT_NE(pSheet, nullptr);
+        ASSERT_EQ(pSheet->getConstraintSketches().size(), 2u);
+
+        EXPECT_EQ(pDb->writeFile(filePath, {wydb::FileType::Text}), wy::ErrorStatus::Ok);
+    }
+
+    {
+        std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+        EXPECT_EQ(pDb->readFile(filePath, {wydb::FileType::Text}), wy::ErrorStatus::Ok);
+
+        const wy3d::FilledSheet* pSheet = wy3d::FilledSheet::cast(pDb->getElement(sheetId));
+        ASSERT_NE(pSheet, nullptr);
+        EXPECT_EQ(pSheet->getBoundarySketch(), boundaryId);
+        ASSERT_EQ(pSheet->getConstraintSketches().size(), 2u);
+        EXPECT_EQ(pSheet->getConstraintSketches()[0], constraintSketch3DId);
+        EXPECT_EQ(pSheet->getConstraintSketches()[1], constraintSketch2DId);
+
+        const wy3d::Sketch3D* pConstraintSketch3D = wy3d::Sketch3D::cast(pDb->getElement(constraintSketch3DId));
+        ASSERT_NE(pConstraintSketch3D, nullptr);
+        EXPECT_EQ(pConstraintSketch3D->getParent(), sheetId);
+        const wy3d::Sketch* pConstraintSketch2D = wy3d::Sketch::cast(pDb->getElement(constraintSketch2DId));
+        ASSERT_NE(pConstraintSketch2D, nullptr);
+        EXPECT_EQ(pConstraintSketch2D->getParent(), sheetId);
+
+        const std::vector<wydb::ElementId> children = pSheet->getChildren();
+        ASSERT_EQ(children.size(), 3u);
+        EXPECT_EQ(children[0], boundaryId);
+        EXPECT_EQ(children[1], constraintSketch3DId);
+        EXPECT_EQ(children[2], constraintSketch2DId);
+
+        // The reloaded feature rebuilt the same surface: the constraints still hold it up
+        EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+        double xmin(0.0), xmax(0.0), ymin(0.0), ymax(0.0), zmin(0.0), zmax(0.0);
+        getMeshBounds(pSheet->getShape(), xmin, xmax, ymin, ymax, zmin, zmax);
+        EXPECT_GT(zmax, 60.0);
+        expectAllTopoNamed(pSheet);
+    }
+
+    std::remove(filePath.c_str());
 }

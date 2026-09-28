@@ -24,6 +24,8 @@
 #include <wy3dErrorCode.h>
 #include <wy3dSketchPoint.h>
 #include <wy3dSketchCenterLine.h>
+#include <wy3dSketchCurve.h>
+#include <wy3dSketchCurve3D.h>
 #include <wy3dSketchProfile.h>
 #include <wy3dSketchProfileForSheet.h>
 #include <wy3dSketch3DProfile.h>
@@ -251,6 +253,63 @@ bool SketchUtil::isValidProfile3DForFilledSheet(const wy3d::Sketch3D& sketch3D, 
             .arg(idStrs.join(", "));
     }
 
+    return false;
+}
+
+bool SketchUtil::isValidProfileForFilledSheet(const wy3d::Sketch& sketch, QString& error)
+{
+    wy3d::SketchProfile sketchProfile(&sketch);
+    if (!sketchProfile.check()) return isValidProfile(sketch, error);
+
+    const std::vector<wy3d::SketchProfile::FaceSPtr>& faces = sketchProfile.getFaces();
+    if (1 == faces.size() && 1 == faces.front()->loops.size()) return true;
+
+    error = ErrorCodeTranslation::instance().getErrorCodeDescription(
+        wy3d::ErrorCode::FILLEDSHEET_EdgesNotClosed);
+    return false;
+}
+
+bool SketchUtil::isValidConstraintCurve(const wy3d::Sketch& sketch, QString& error)
+{
+    const wydb::Database* pDb = sketch.getDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return false;
+    }
+
+    for (auto iter = sketch.createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        const wydb::Element* pEntity = pDb->getElement(iter.current());
+        // A point constrains the surface the way a curve does, so it is usable on its own
+        if (wy3d::SketchPoint::cast(pEntity)) return true;
+        const wy3d::SketchCurve* pCurve = wy3d::SketchCurve::cast(pEntity);
+        if (!pCurve) continue;
+        if (pCurve->isConstruction()) continue;
+        return true;
+    }
+
+    error = ErrorCodeTranslation::instance().getErrorCodeDescription(
+        wy3d::ErrorCode::FILLEDSHEET_ConstraintCurveInvalid);
+    return false;
+}
+
+bool SketchUtil::isValidConstraintCurve3D(const wy3d::Sketch3D& sketch3D, QString& error)
+{
+    const wydb::Database* pDb = sketch3D.getDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return false;
+    }
+
+    for (auto iter = sketch3D.createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        if (wy3d::SketchCurve3D::cast(pDb->getElement(iter.current()))) return true;
+    }
+
+    error = ErrorCodeTranslation::instance().getErrorCodeDescription(
+        wy3d::ErrorCode::FILLEDSHEET_ConstraintCurveInvalid);
     return false;
 }
 

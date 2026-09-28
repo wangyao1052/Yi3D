@@ -40,7 +40,16 @@ void bindWy3dSolids(py::module_& m)
         .def("isCut", &wy3d::Solid::isCut)
         .def("setCut", &wy3d::Solid::setCut)
         .def("getColor", &wy3d::Solid::getColor)
-        .def("setColor", &wy3d::Solid::setColor);
+        .def("setColor", &wy3d::Solid::setColor)
+        // A body read back from the database comes back as a plain Element, which the
+        // cut/boolean entry points cannot take; this recovers the Solid view of it
+        .def_static("cast",
+            [](wydb::Element* pElement) -> wy3d::Solid*
+            {
+                return wy3d::Solid::cast(pElement);
+            },
+            py::arg("element"),
+            py::return_value_policy::reference);
 
     py::enum_<wy3d::ExtrusionDirection>(m, "ExtrusionDirection")
         .value("OneSide", wy3d::ExtrusionDirection::OneSide)

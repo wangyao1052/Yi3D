@@ -126,6 +126,8 @@ enum class ErrorCode : std::uint32_t
     FILLEDSHEET_GenerateError                       = 2102, // 填充曲面生成失败
     FILLEDSHEET_EdgesNotClosed                      = 2103, // 草图曲线必须构成单一闭合环
     FILLEDSHEET_EdgesNotSingleRegion                = 2104, // 所选边只能围成一个面域
+    FILLEDSHEET_ConstraintCurveInvalid              = 2105, // 约束草图中没有可用的曲线或点
+    FILLEDSHEET_ConstraintCurveNotSatisfied         = 2106, // 无法生成通过该约束的曲面
 
     // SplitFace
     SPLITFACE_InvalidData                           = 2151, // 无效的分割面数据

@@ -1672,6 +1672,16 @@ Do you want to save it to the original file now?
         <translation type="unfinished">所选边只能围成一个面域！</translation>
     </message>
     <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="203"/>
+        <source>The constraint sketch has no usable curve or point!</source>
+        <translation>约束草图中没有可用的曲线或点！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
+        <source>The surface cannot be made to pass through the constraint!</source>
+        <translation>无法生成通过该约束的曲面！</translation>
+    </message>
+    <message>
         <source>The selected edges must form a single closed loop!</source>
         <translation type="obsolete">所选边必须构成单一闭合环！</translation>
     </message>
@@ -1741,17 +1751,25 @@ Do you want to save it to the original file now?
         <translation type="unfinished">草图曲线必须构成单一闭合环！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="205"/>
+        <source>The guide sketch has no usable curve!</source>
+        <translation type="vanished">引导线草图中没有可用的曲线！</translation>
+    </message>
+    <message>
+        <source>The surface cannot be made to pass through the guide curve!</source>
+        <translation type="vanished">无法生成通过该引导线的曲面！</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
         <source>Invalid split face data!</source>
         <translation type="unfinished">无效的分割面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="207"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="211"/>
         <source>The face to split no longer exists!</source>
         <translation type="unfinished">要分割的面已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="209"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
         <source>The sketch holds no curve to split with!</source>
         <translation type="unfinished">草图里没有可用的曲线！</translation>
     </message>
@@ -1760,52 +1778,52 @@ Do you want to save it to the original file now?
         <translation type="obsolete">分割曲线已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="211"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="215"/>
         <source>Generate split face failed!</source>
         <translation type="unfinished">生成分割面失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="213"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
         <source>The curves do not divide any of the selected faces!</source>
         <translation type="unfinished">曲线没有切开任何要分割的面！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="217"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="221"/>
         <source>Invalid delete face data!</source>
         <translation type="unfinished">无效的删除面数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="219"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="223"/>
         <source>The faces to delete no longer exist!</source>
         <translation type="unfinished">要删除的面已不存在！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="221"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="225"/>
         <source>A sheet cannot lose every one of its faces!</source>
         <translation type="unfinished">不能删除曲面的全部面！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="223"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="227"/>
         <source>Delete face failed!</source>
         <translation type="unfinished">删除面失败！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="227"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="231"/>
         <source>Invalid helix data!</source>
         <translation type="unfinished">无效的螺旋线数据！</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="229"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="233"/>
         <source>The sketch used to generate the helix must be a circle.</source>
         <translation type="unfinished">用于生成螺旋线的草图必须为一个圆形。</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="246"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="250"/>
         <source>ErrorCode: </source>
         <translation type="unfinished">错误码：</translation>
     </message>
     <message>
-        <location filename="../../translation/ErrorCodeTranslation.cpp" line="246"/>
+        <location filename="../../translation/ErrorCodeTranslation.cpp" line="250"/>
         <source>!</source>
         <translation type="unfinished">！</translation>
     </message>
@@ -2367,17 +2385,50 @@ Do you want to save it to the original file now?
 <context>
     <name>FilledSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="305"/>
         <source>Select a 2D or 3D sketch, or edges of a solid or sheet, to create a filled surface.</source>
-        <translation>选择二维或三维草图，或选择实体或曲面的边创建填充曲面。</translation>
+        <translation type="vanished">选择二维或三维草图，或选择实体或曲面的边创建填充曲面。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="477"/>
+        <source>Select the boundary of the filled surface: a 2D or 3D sketch, or edges of a solid or sheet.</source>
+        <translation>选择填充曲面的边界：二维或三维草图，或实体或曲面的边。</translation>
+    </message>
+    <message>
+        <source>Select a guide curve (optional); press Enter or Spacebar to complete.</source>
+        <translation type="vanished">选择引导线（可选）；按 Enter 键或空格键将完成操作。</translation>
+    </message>
+    <message>
+        <source>Select a constraint curve (optional); press Enter or Spacebar to complete.</source>
+        <translation type="vanished">选择约束曲线（可选）；按 Enter 键或空格键将完成操作。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="519"/>
+        <source>Select constraint curves (optional); press Enter or Spacebar to complete.</source>
+        <translation>选择约束曲线（可选）；按 Enter 键或空格键将完成操作。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="824"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="836"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="845"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="859"/>
+        <source>Sketch not found</source>
+        <translation>草图不存在</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="828"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="833"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="851"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="856"/>
+        <source>Sketch is already in use</source>
+        <translation>草图已被其他特征使用</translation>
     </message>
     <message>
         <source>Select edges to enclose a loop; a filled surface is created when the loop closes. Esc: clear edges.</source>
         <translation type="vanished">选择边围成闭合环，闭合后自动创建填充曲面；按 Esc 清除已选边。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="321"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="496"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="493"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="790"/>
         <source>Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation type="unfinished">选择边线围合成一个或多个环；按 Enter 键或空格键将完成操作；按 Esc 键将清除已选边。</translation>
     </message>
@@ -8125,12 +8176,12 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchUtil</name>
     <message>
-        <location filename="../../utils/SketchUtil.cpp" line="94"/>
-        <location filename="../../utils/SketchUtil.cpp" line="223"/>
-        <location filename="../../utils/SketchUtil.cpp" line="250"/>
-        <location filename="../../utils/SketchUtil.cpp" line="277"/>
-        <location filename="../../utils/SketchUtil.cpp" line="304"/>
-        <location filename="../../utils/SketchUtil.cpp" line="335"/>
+        <location filename="../../utils/SketchUtil.cpp" line="96"/>
+        <location filename="../../utils/SketchUtil.cpp" line="225"/>
+        <location filename="../../utils/SketchUtil.cpp" line="252"/>
+        <location filename="../../utils/SketchUtil.cpp" line="320"/>
+        <location filename="../../utils/SketchUtil.cpp" line="347"/>
+        <location filename="../../utils/SketchUtil.cpp" line="378"/>
         <source>Element IDs: %1</source>
         <translation>元素 ID：%1</translation>
     </message>
