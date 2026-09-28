@@ -16,14 +16,15 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_HELP_COMMANDS_H
-#define WY3DAPP_HELP_COMMANDS_H
+#pragma once
 
-#include "commands/SimpleCommand.h"
+#include <QDialog>
 
-DEFINE_SIMPLE_CMD(AboutCommand)
-DEFINE_SIMPLE_CMD(ContactUsCommand)
-DEFINE_SIMPLE_CMD(HelpDocumentationCommand)
-DEFINE_SIMPLE_CMD(ShortcutKeysCommand)
+class ContactUsDialog : public QDialog
+{
+    Q_OBJECT
 
-#endif // WY3DAPP_HELP_COMMANDS_H
+public:
+    ContactUsDialog(QWidget *parent = Q_NULLPTR);
+    ~ContactUsDialog();
+};

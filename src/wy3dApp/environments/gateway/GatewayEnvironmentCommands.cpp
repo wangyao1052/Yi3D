@@ -36,6 +36,7 @@
     X(CommandNames::Options, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, OptionsCommand::classInfo()) \
     X(CommandNames::HelpDocumentation, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, HelpDocumentationCommand::classInfo()) \
     X(CommandNames::ShortcutKeys, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShortcutKeysCommand::classInfo()) \
+    X(CommandNames::ContactUs, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ContactUsCommand::classInfo()) \
     X(CommandNames::About, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, AboutCommand::classInfo())
 
 namespace

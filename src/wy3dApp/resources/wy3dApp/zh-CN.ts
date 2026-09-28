@@ -19,17 +19,17 @@
         <translation>永久免费</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="65"/>
+        <location filename="../../widgets/frame/AboutDialog.cpp" line="73"/>
         <source>Version</source>
         <translation type="unfinished">版本</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="73"/>
+        <location filename="../../widgets/frame/AboutDialog.cpp" line="81"/>
         <source>© 2024-2026 WangYao &lt;wangyao1052@163.com&gt;</source>
         <translation type="unfinished">© 2024-2026 王垚 &lt;wangyao1052@163.com&gt;</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="81"/>
+        <location filename="../../widgets/frame/AboutDialog.cpp" line="89"/>
         <source>Source code is licensed under Apache 2.0</source>
         <translation>源码采用 Apache 2.0 协议</translation>
     </message>
@@ -50,7 +50,7 @@
         <translation type="obsolete">本计算机程序受版权法及国际条约保护。未经授权复制、分发本程序或其任何部分，可能导致严重的民事和刑事处罚，并将依法被追究最严厉的法律责任。</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="89"/>
+        <location filename="../../widgets/frame/AboutDialog.cpp" line="97"/>
         <source>Third-Party Libraries</source>
         <translation type="unfinished">第三方库</translation>
     </message>
@@ -1023,6 +1023,29 @@ Do you want to save it to the original file now?
         <source>Extrusion depth</source>
         <comment>extrude</comment>
         <translation type="obsolete">拉伸深度</translation>
+    </message>
+</context>
+<context>
+    <name>ContactUsDialog</name>
+    <message>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="59"/>
+        <source>Contact Us</source>
+        <translation type="unfinished">联系我们</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="66"/>
+        <source>Official QQ Group</source>
+        <translation type="unfinished">官方QQ群</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="69"/>
+        <source>WeChat Official Account</source>
+        <translation type="unfinished">微信公众号</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="75"/>
+        <source>Close</source>
+        <translation type="unfinished">关闭</translation>
     </message>
 </context>
 <context>
@@ -2671,7 +2694,7 @@ Do you want to save it to the original file now?
 <context>
     <name>Help</name>
     <message>
-        <location filename="../../commands/help/HelpCommands.cpp" line="51"/>
+        <location filename="../../commands/help/HelpCommands.cpp" line="60"/>
         <source>Unable to open the browser or the help documentation URL.</source>
         <translation type="unfinished">无法打开浏览器或帮助文档网址。</translation>
     </message>
@@ -2803,28 +2826,28 @@ Do you want to save it to the original file now?
         <translation type="unfinished">易三维</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="146"/>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="161"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="153"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="168"/>
         <source>File</source>
         <translation type="unfinished">文件</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="52"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="53"/>
         <source>New</source>
         <translation type="unfinished">新建</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="57"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="58"/>
         <source>Open</source>
         <translation type="unfinished">打开</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="67"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="68"/>
         <source>Help Documentation</source>
         <translation type="unfinished">帮助文档</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="72"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="73"/>
         <source>Shortcut Keys</source>
         <translation type="unfinished">快捷键</translation>
     </message>
@@ -3206,22 +3229,27 @@ Do you want to save it to the original file now?
         <translation type="unfinished">圆管</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="154"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="161"/>
         <source>Help</source>
         <translation type="unfinished">帮助</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="77"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="83"/>
         <source>About</source>
         <translation type="unfinished">关于</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="150"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="78"/>
+        <source>Contact Us</source>
+        <translation type="unfinished">联系我们</translation>
+    </message>
+    <message>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="157"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="62"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="63"/>
         <source>Options</source>
         <translation>选项</translation>
     </message>

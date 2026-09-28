@@ -21,6 +21,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include "widgets/frame/AboutDialog.h"
+#include "widgets/frame/ContactUsDialog.h"
 #include "widgets/frame/ShortcutKeysDialog.h"
 #include "utils/MessageBoxUtil.h"
 
@@ -28,6 +29,14 @@
 int AboutCommand::run()
 {
     AboutDialog dlg;
+    dlg.exec();
+
+    return 0;
+}
+
+int ContactUsCommand::run()
+{
+    ContactUsDialog dlg;
     dlg.exec();
 
     return 0;

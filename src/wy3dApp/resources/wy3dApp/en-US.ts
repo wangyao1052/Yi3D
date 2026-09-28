@@ -19,22 +19,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="65"/>
+        <location filename="../../widgets/frame/AboutDialog.cpp" line="73"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="73"/>
+        <location filename="../../widgets/frame/AboutDialog.cpp" line="81"/>
         <source>© 2024-2026 WangYao &lt;wangyao1052@163.com&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="81"/>
+        <location filename="../../widgets/frame/AboutDialog.cpp" line="89"/>
         <source>Source code is licensed under Apache 2.0</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/AboutDialog.cpp" line="89"/>
+        <location filename="../../widgets/frame/AboutDialog.cpp" line="97"/>
         <source>Third-Party Libraries</source>
         <translation type="unfinished"></translation>
     </message>
@@ -214,6 +214,29 @@ Do you want to save it to the original file now?
     <message>
         <source>Trim</source>
         <translation type="obsolete">Trim sketch entities.</translation>
+    </message>
+</context>
+<context>
+    <name>ContactUsDialog</name>
+    <message>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="59"/>
+        <source>Contact Us</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="66"/>
+        <source>Official QQ Group</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="69"/>
+        <source>WeChat Official Account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="75"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1677,7 +1700,7 @@ Do you want to save it to the original file now?
 <context>
     <name>Help</name>
     <message>
-        <location filename="../../commands/help/HelpCommands.cpp" line="51"/>
+        <location filename="../../commands/help/HelpCommands.cpp" line="60"/>
         <source>Unable to open the browser or the help documentation URL.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1789,42 +1812,47 @@ Do you want to save it to the original file now?
         <translation type="unfinished">Yi3D</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="52"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="53"/>
         <source>New</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="57"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="58"/>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="62"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="63"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="67"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="68"/>
         <source>Help Documentation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="72"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="73"/>
         <source>Shortcut Keys</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="77"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="78"/>
+        <source>Contact Us</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="83"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="150"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="157"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="154"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="161"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1850,8 +1878,8 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="146"/>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="161"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="153"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="168"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>

@@ -126,5 +126,7 @@
         <file>images/Utility_SetColor.svg</file>
         <file>images/Utility_FindElementById.svg</file>
         <file>images/View_FitSelection.svg</file>
+        <file>images/Contact_QQGroup.jpg</file>
+        <file>images/Contact_WeChat.jpg</file>
     </qresource>
 </RCC>
