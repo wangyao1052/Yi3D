@@ -13,7 +13,5 @@
 		<path id="sheetFace" d="M82 82A46 13 0 0 0 174 82C184 122 212 150 212 196A84 18 0 0 1 44 196C44 150 72 122 82 82Z" fill="url(#revGrad)" fill-opacity="1.000000"/>
 		<ellipse id="topRim" cx="128" cy="82" rx="46" ry="13" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" fill="none"/>
 		<path id="sheetOutline" d="M82 82A46 13 0 0 0 174 82C184 122 212 150 212 196A84 18 0 0 1 44 196C44 150 72 122 82 82Z" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linejoin="round"/>
-		<path id="profileOutline" d="M175 91C179 122 212 149 212 187L212 201" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="18.000000" stroke-linecap="round" fill="none"/>
-		<path id="profileFill" d="M175 91C179 122 212 149 212 187L212 201" stroke="#E38B5E" stroke-opacity="1.000000" stroke-width="10.000000" stroke-linecap="round" fill="none"/>
 	</g>
 </svg>

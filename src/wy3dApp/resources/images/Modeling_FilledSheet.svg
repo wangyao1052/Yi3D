@@ -2,15 +2,8 @@
 	<desc>
 			Filled Sheet
 	</desc>
-	<defs>
-		<radialGradient id="fillGrad" cx="128" cy="128" r="100" gradientUnits="userSpaceOnUse">
-			<stop offset="0" stop-color="#7FA6CC"/>
-			<stop offset="1" stop-color="#43617F"/>
-		</radialGradient>
-	</defs>
-	<g id="sheet" transform="translate(-37.12,-37.12) scale(1.29)">
-		<path id="sheetFace" d="M60 84Q128 58 196 88Q218 150 180 196Q120 218 64 188Q40 132 60 84Z" fill="url(#fillGrad)" fill-opacity="1.000000"/>
-		<path id="boundaryOutline" d="M60 84Q128 58 196 88Q218 150 180 196Q120 218 64 188Q40 132 60 84Z" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="18.000000" stroke-linejoin="round" fill="none"/>
-		<path id="boundaryFill" d="M60 84Q128 58 196 88Q218 150 180 196Q120 218 64 188Q40 132 60 84Z" stroke="#E38B5E" stroke-opacity="1.000000" stroke-width="10.000000" stroke-linejoin="round" fill="none"/>
+	<g id="sheet">
+		<path id="sheetFace" d="M 29.12 47.97Q 128.75 9.88 228.39 53.83Q 260.62 144.68 204.94 212.07Q 117.03 244.31 34.98 200.35Q -0.18 118.30 29.12 47.97Z" fill="#54789E" fill-opacity="1.000000"/>
+		<path id="boundaryOutline" d="M 29.12 47.97Q 128.75 9.88 228.39 53.83Q 260.62 144.68 204.94 212.07Q 117.03 244.31 34.98 200.35Q -0.18 118.30 29.12 47.97Z" stroke="#555555" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linejoin="round" fill="none"/>
 	</g>
 </svg>

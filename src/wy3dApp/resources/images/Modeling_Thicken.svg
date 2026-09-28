@@ -12,8 +12,5 @@
 		<!-- 加厚出来的料:L 形断面,沿着原片体的一侧长出来(OneSide 是默认方向) -->
 		<path id="bodyFace" d="M20 20L246 20L246 100L100 100L100 246L20 246L20 20Z" fill="url(#thickenGrad)" fill-opacity="1.000000"/>
 		<path id="bodyOutline" d="M20 20L246 20L246 100L100 100L100 246L20 246L20 20Z" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linejoin="round" fill="none"/>
-		<!-- 被加厚的源片体:就是料的这一侧内表面 -->
-		<path id="sourceOutline" d="M236 100L100 100L100 236" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="18.000000" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-		<path id="sourceFill" d="M236 100L100 100L100 236" stroke="#E38B5E" stroke-opacity="1.000000" stroke-width="10.000000" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 	</g>
 </svg>

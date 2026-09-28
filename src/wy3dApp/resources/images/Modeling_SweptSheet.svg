@@ -5,7 +5,5 @@
 	<g id="sheet" transform="translate(-33.28,-33.28) scale(1.26)">
 		<path id="sweepPathDark" d="M50 74L160 74L106 182L226 182" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="46.000000" stroke-linejoin="round" fill="none"/>
 		<path id="sweepPathFace" d="M50 74L160 74L106 182L226 182" stroke="#5B82AB" stroke-opacity="1.000000" stroke-width="40.000000" stroke-linejoin="round" fill="none"/>
-		<path id="sectionOutline" d="M50 59L50 89" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="14.000000" stroke-linecap="round" fill="none"/>
-		<path id="sectionFill" d="M50 59L50 89" stroke="#E38B5E" stroke-opacity="1.000000" stroke-width="8.000000" stroke-linecap="round" fill="none"/>
 	</g>
 </svg>

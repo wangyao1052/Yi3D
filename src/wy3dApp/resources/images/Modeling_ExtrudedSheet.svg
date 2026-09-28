@@ -12,7 +12,5 @@
 		<path id="sheetFace" d="M128 52L228 74L228 198L128 176L28 198L28 74L128 52Z" fill="url(#sheetGrad3)" fill-opacity="1.000000"/>
 		<path id="foldEdge" d="M128 52L128 176" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" fill="none"/>
 		<path id="sheetOutline" d="M128 52L228 74L228 198L128 176L28 198L28 74L128 52Z" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linejoin="round"/>
-		<path id="profileOutline" d="M36.8 196.1L128 176L219.2 196.1" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="18.000000" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-		<path id="profileFill" d="M36.8 196.1L128 176L219.2 196.1" stroke="#E38B5E" stroke-opacity="1.000000" stroke-width="10.000000" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 	</g>
 </svg>

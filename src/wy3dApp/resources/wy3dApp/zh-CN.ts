@@ -2389,7 +2389,7 @@ Do you want to save it to the original file now?
         <translation type="vanished">选择二维或三维草图，或选择实体或曲面的边创建填充曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="477"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="470"/>
         <source>Select the boundary of the filled surface: a 2D or 3D sketch, or edges of a solid or sheet.</source>
         <translation>选择填充曲面的边界：二维或三维草图，或实体或曲面的边。</translation>
     </message>
@@ -2402,23 +2402,23 @@ Do you want to save it to the original file now?
         <translation type="vanished">选择约束曲线（可选）；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="519"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="512"/>
         <source>Select constraint curves (optional); press Enter or Spacebar to complete.</source>
         <translation>选择约束曲线（可选）；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="824"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="836"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="845"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="859"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="855"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="867"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="876"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="890"/>
         <source>Sketch not found</source>
         <translation>草图不存在</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="828"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="833"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="851"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="856"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="859"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="864"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="882"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="887"/>
         <source>Sketch is already in use</source>
         <translation>草图已被其他特征使用</translation>
     </message>
@@ -2427,8 +2427,8 @@ Do you want to save it to the original file now?
         <translation type="vanished">选择边围成闭合环，闭合后自动创建填充曲面；按 Esc 清除已选边。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="493"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="790"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="486"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="821"/>
         <source>Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation type="unfinished">选择边线围合成一个或多个环；按 Enter 键或空格键将完成操作；按 Esc 键将清除已选边。</translation>
     </message>
@@ -8179,9 +8179,9 @@ Do you want to save it to the original file now?
         <location filename="../../utils/SketchUtil.cpp" line="96"/>
         <location filename="../../utils/SketchUtil.cpp" line="225"/>
         <location filename="../../utils/SketchUtil.cpp" line="252"/>
-        <location filename="../../utils/SketchUtil.cpp" line="320"/>
-        <location filename="../../utils/SketchUtil.cpp" line="347"/>
-        <location filename="../../utils/SketchUtil.cpp" line="378"/>
+        <location filename="../../utils/SketchUtil.cpp" line="336"/>
+        <location filename="../../utils/SketchUtil.cpp" line="363"/>
+        <location filename="../../utils/SketchUtil.cpp" line="394"/>
         <source>Element IDs: %1</source>
         <translation>元素 ID：%1</translation>
     </message>

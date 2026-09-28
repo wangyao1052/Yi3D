@@ -148,6 +148,8 @@ public:
     }
     // 激活
     virtual void setActive(bool flag);
+    // 计算是否Active
+    virtual bool computeWhetherActive(const wydb::Element* pCurElem) const { return true; }
 
     // 是否隐藏
     inline bool isHidden() const
@@ -243,9 +245,6 @@ protected:
     virtual void highlightImpl(bool flag) {}
     virtual void previewImpl(bool flag) {}
     virtual void setActiveImpl(bool flag) {}
-
-    // 计算是否Active
-    virtual bool computeWhetherActive(const wydb::Element* pCurElem) const { return true; }
 
 private:
     inline void updateVisibleNodeMask()

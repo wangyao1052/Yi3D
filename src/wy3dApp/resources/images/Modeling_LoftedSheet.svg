@@ -14,9 +14,5 @@
 		<path id="sheetOutline" d="M96 44C108 54 148 54 160 44C176 74 196 122 214 168L128 214L42 168C58 122 78 74 96 44Z" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linejoin="round"/>
 		<path id="sideLeft" d="M42 168C58 122 78 74 96 44" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linecap="round" fill="none"/>
 		<path id="sideRight" d="M160 44C176 74 196 122 214 168" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linecap="round" fill="none"/>
-		<path id="sectionBottomOutline" d="M48.2 171.3L128 214L207.8 171.3" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="18.000000" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-		<path id="sectionBottomFill" d="M48.2 171.3L128 214L207.8 171.3" stroke="#E38B5E" stroke-opacity="1.000000" stroke-width="10.000000" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-		<path id="sectionTopOutline" d="M101.4 48.5C110 54.5 146 54.5 154.6 48.5" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="18.000000" stroke-linecap="round" fill="none"/>
-		<path id="sectionTopFill" d="M101.4 48.5C110 54.5 146 54.5 154.6 48.5" stroke="#E38B5E" stroke-opacity="1.000000" stroke-width="10.000000" stroke-linecap="round" fill="none"/>
 	</g>
 </svg>
