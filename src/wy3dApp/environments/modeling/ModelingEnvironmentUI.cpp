@@ -462,7 +462,7 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
     actions.pActionSplitFace = pEnv->newCommandAction(
         CommandNames::SplitFace,
         QCoreApplication::translate("MainWindow", "Split Face"),
-        IconUtil::get(":/images/Modeling_SplitFace.png"),
+        IconUtil::get(":/images/Modeling_SplitFace.svg"),
         pActionGroup);
 
     actions.pActionDeleteFace = pEnv->newCommandAction(
@@ -790,6 +790,7 @@ void buildSheetMenuUi(
     pMenuSheet->addAction(actions.pActionFilledSheet);
     pMenuSheet->addAction(actions.pActionOffsetSheet);
     pMenuSheet->addSeparator();
+    pMenuSheet->addAction(actions.pActionSplitFace);
     pMenuSheet->addAction(actions.pActionDeleteFace);
     pMenuSheet->addAction(actions.pActionChamfer);
     pMenuSheet->addAction(actions.pActionFillet);
@@ -833,6 +834,7 @@ void buildSheetToolBarUi(
     pToolBarSheet->addWidget(pToolBtnSheetBuild);
 
     std::list<QAction*> faceModifyActions;
+    faceModifyActions.emplace_back(actions.pActionSplitFace);
     faceModifyActions.emplace_back(actions.pActionDeleteFace);
     faceModifyActions.emplace_back(actions.pActionChamfer);
     faceModifyActions.emplace_back(actions.pActionFillet);

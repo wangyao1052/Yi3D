@@ -1,0 +1,11 @@
+<svg width="256.000000" height="256.000000" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Split Face
+	</desc>
+	<g id="sheet">
+		<path id="leftFace" d="M145.92 31.12C105.92 87.52 105.92 162.72 145.92 219.12L16.00 240.00L16.00 52.00Z" fill="#5B82AB" fill-opacity="1.000000"/>
+		<path id="rightFace" d="M145.92 31.12L240.00 16.00L240.00 204.00L145.92 219.12C105.92 162.72 105.92 87.52 145.92 31.12Z" fill="#4D6E91" fill-opacity="1.000000"/>
+		<path id="leftOutline" d="M145.92 31.12C105.92 87.52 105.92 162.72 145.92 219.12L16.00 240.00L16.00 52.00Z" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linejoin="round"/>
+		<path id="rightOutline" d="M145.92 31.12L240.00 16.00L240.00 204.00L145.92 219.12C105.92 162.72 105.92 87.52 145.92 31.12Z" stroke="#2E2E2E" stroke-opacity="1.000000" stroke-width="6.000000" stroke-linejoin="round"/>
+	</g>
+</svg>
