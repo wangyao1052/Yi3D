@@ -6058,35 +6058,35 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchProject</name>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="92"/>
-        <source>Click on solid edges to project them onto the sketch plane. Press Esc to exit.</source>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="91"/>
+        <source>Click on model edges to project them onto the sketch plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="191"/>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="197"/>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="203"/>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="209"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="194"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="200"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="206"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="212"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="192"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="195"/>
         <source>The edge is perpendicular to the sketch plane, projection degenerates to a point.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="198"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="201"/>
         <source>Projection failed: unable to retrieve curve geometry from the edge.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="204"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="207"/>
         <source>Projection failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="210"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="213"/>
         <source>Unsupported curve type for projection.</source>
         <translation type="unfinished"></translation>
     </message>

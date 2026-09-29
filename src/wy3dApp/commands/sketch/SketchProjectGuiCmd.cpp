@@ -24,14 +24,11 @@
 #include <QCoreApplication>
 #include <QMessageBox>
 
-#include <TopExp.hxx>
-#include <TopoDS.hxx>
-#include <TopTools_IndexedMapOfShape.hxx>
-
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wyapSelManager.h>
 
+#include <wy3dSheet.h>
 #include <wy3dSolid.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchEntity.h>
@@ -42,6 +39,7 @@
 #include "select/SelectPreview.h"
 #include "utils/GuiCommandUtil.h"
 #include "utils/SketchProjectUtil.h"
+#include "utils/TopoShapeUtil.h"
 
 
 SketchProjectGuiCmd::SketchProjectGuiCmd()
@@ -82,14 +80,15 @@ wyap::CmdExecution::StartResult SketchProjectGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    // 点选选项：选择实体边
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+    // 点选选项：选择模型边
+    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
+        static_cast<unsigned int>(ElementNodeType::Sheet);
     _pointPickOption.selType = wy3d::SelectionType::Edge;
     _pointPickOption.acceptElement = false;
 
     // 提示信息
     Application::instance().getStatusBar()->setTips(
-        QCoreApplication::translate("SketchProject", "Click on solid edges to project them onto the sketch plane. Press Esc to exit."));
+        QCoreApplication::translate("SketchProject", "Click on model edges to project them onto the sketch plane."));
 
     // 鼠标样式
     Application::instance().setCursor(CursorType::SelectElements);
@@ -141,20 +140,24 @@ bool SketchProjectGuiCmd::projectEdge(const wyap::Selection& sel)
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return false;
 
-    // 获取Solid的TopoDS_Shape
-    const wy3d::Solid* pConstSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
-    if (!pConstSolid) return false;
+    // 获取宿主形体(实体或片体)的TopoDS_Shape
+    const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+    if (!pElem) return false;
 
-    const TopoDS_Shape& shape = pConstSolid->getShape();
+    TopoDS_Shape shape;
+    if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+        shape = pSolid->getShape();
+    else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+        shape = pSheet->getShape();
+    else
+        return false;
     if (shape.IsNull()) return false;
 
     // 按索引提取边
-    TopTools_IndexedMapOfShape edgeMap;
-    TopExp::MapShapes(shape, TopAbs_EDGE, edgeMap);
-    unsigned int occIndex = edgeIndex + 1; // OCCT以1为起始
-    if (occIndex > edgeMap.Size()) return false;
+    const std::pair<bool, TopoDS_Edge> edgeRet = TopoShapeUtil::getEdge(shape, edgeIndex);
+    if (!edgeRet.first) return false;
 
-    const TopoDS_Edge& edge = TopoDS::Edge(edgeMap.FindKey(occIndex));
+    const TopoDS_Edge& edge = edgeRet.second;
     if (edge.IsNull()) return false;
 
     // 开启事务
