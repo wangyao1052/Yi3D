@@ -44,9 +44,9 @@ public:
     static inline std::string DepthSortedBin = "DepthSortedBin";
 };
 
-// 中心线
+// 中心线 / 构造线（0x33FF：20实 4空 4实 4空。GL 从 bit0 起用图案，所以长划写在低位字节）
 static const inline int CENTER_LINE_STIPPLE_FACTOR = 2;
-static const inline unsigned short CENTER_LINE_STIPPLE_PATTERN = 0xFF18;
+static const inline unsigned short CENTER_LINE_STIPPLE_PATTERN = 0x33FF;
 
 // 点划线
 static const inline int DOT_LINE_STIPPLE_FACTOR = 2;

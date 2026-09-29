@@ -77,9 +77,6 @@ private:
     //---------------------------------
     // 线索引
     osg::ref_ptr<osg::UIntArray> _lineIndices;
-
-    // 是否是构造线
-    bool _isConstruction;
 };
 
 #endif // WY3DAPP_SKETCH_ENTITY_ELEMENT_NODE_H

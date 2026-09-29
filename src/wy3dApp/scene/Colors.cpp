@@ -47,11 +47,6 @@ const osg::Vec4 Colors::kSketchEntity(0.44f, 0.19f, 0.63f, 1.0f);        // 紫�
 const osg::Vec4 Colors::kSketchEntity_Highlight = kSketch_Highlight;     // 绿色++
 const osg::Vec4 Colors::kSketchEntity_Preview(1.0f, 0.39f, 0.04f, 1.0f); // 亮橙色++
 
-// sketch entity construction
-const osg::Vec4 Colors::kSketchEntityConstruction(0.0f, 0.0f, 0.0f, 1.0); // 黑色
-const osg::Vec4 Colors::kSketchEntityConstruction_Highlight(1.0f, 0.0f, 0.0f, 1.0f); // 红色
-const osg::Vec4 Colors::kSketchEntityConstruction_Preview = Colors::kSketch_Preview;
-
 // datum plane
 const osg::Vec4 Colors::kDatumPlaneFace(0.47f, 0.32f, 0.32f, 0.05f); // 暗棕色(CREO)
 const osg::Vec4 Colors::kDatumPlaneEdge(0.47f, 0.32f, 0.32f, 1.0f);  // 暗棕色(CREO)

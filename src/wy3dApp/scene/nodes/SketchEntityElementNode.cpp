@@ -66,7 +66,26 @@
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 
-SketchEntityElementNode::SketchEntityElementNode(const wydb::ElementId& id) : ElementNode(id), _isConstruction(false)
+// GL_LINES resets the stipple counter before every segment, while GL_LINE_STRIP keeps it running.
+// Drawing the tessellated curves as a strip is what makes their dashes continuous.
+static osg::ref_ptr<osg::UIntArray> makeStripIndices(const osg::UIntArray& lineIndices)
+{
+    assert(lineIndices.size() % 2 == 0);
+
+    osg::ref_ptr<osg::UIntArray> stripIndices = new osg::UIntArray();
+    stripIndices->reserve(lineIndices.size() / 2 + 1);
+    for (size_t i = 0; i + 1 < lineIndices.size(); i += 2)
+    {
+        // The linearizations emit chained pairs (0,1)(1,2)..., so each pair only adds its end point.
+        assert(0 == i || lineIndices[i - 1] == lineIndices[i]);
+        if (0 == i) stripIndices->push_back(lineIndices[i]);
+        stripIndices->push_back(lineIndices[i + 1]);
+    }
+
+    return stripIndices;
+}
+
+SketchEntityElementNode::SketchEntityElementNode(const wydb::ElementId& id) : ElementNode(id)
 {
     // added by wangyao 2025.02.24 {
     // 设置草图图元渲染在前以防被遮挡
@@ -103,16 +122,18 @@ void SketchEntityElementNode::generateRenderObjectImpl(Scene* pScene, const wydb
         return;
     }
 
-    _isConstruction = false;
+    bool isConstruction(false);
     bool isCenterLine(false);
     if (const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pSketchEntity))
     {
-        _isConstruction = pSketchCurve->isConstruction();
+        isConstruction = pSketchCurve->isConstruction();
         const wy3d::SketchCenterLine* pCenterLine = wy3d::SketchCenterLine::cast(pSketchCurve);
         if (pCenterLine) isCenterLine = true;
     }
-    float lineWidth = _isConstruction ? 1.0f : 2.0f;
-    osg::Vec4 color = _isConstruction ? Colors::kSketchEntityConstruction : Colors::kSketchEntity;
+    // Construction and centre lines share the curve colour, only thinner and dashed.
+    const bool isDashed = (isConstruction || isCenterLine);
+    float lineWidth = isDashed ? 1.5f : 2.0f;
+    osg::Vec4 color = Colors::kSketchEntity;
 
     assert(_vertices);
     assert(_lineIndices);
@@ -132,12 +153,13 @@ void SketchEntityElementNode::generateRenderObjectImpl(Scene* pScene, const wydb
             osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
             colors->push_back(color);
             _curvesGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-            _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, _lineIndices->begin(), _lineIndices->end()));
+            osg::ref_ptr<osg::UIntArray> stripIndices = makeStripIndices(*_lineIndices);
+            _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINE_STRIP, stripIndices->begin(), stripIndices->end()));
             _curvesGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
             _curvesGeom->setUserValue("ElementId", static_cast<unsigned int>(pElem->getId().value()));
             _curvesGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(lineWidth));
 
-            if (isCenterLine)
+            if (isDashed)
             {
                 _curvesGeom->getOrCreateStateSet()->setAttributeAndModes(new osg::LineStipple(
                     CENTER_LINE_STIPPLE_FACTOR, CENTER_LINE_STIPPLE_PATTERN), osg::StateAttribute::ON);
@@ -221,13 +243,7 @@ ElementNode::GenRenderDataRet SketchEntityElementNode::generateRenderDataImpl(Sc
 void SketchEntityElementNode::highlightImpl(bool flag)
 {
     if (_curvesGeom)
-    {
-        if (_isConstruction)
-            OsgUtils::setNodeColor(_curvesGeom,
-                flag ? Colors::kSketchEntityConstruction_Highlight : Colors::kSketchEntityConstruction);
-        else
-            OsgUtils::setNodeColor(_curvesGeom, flag ? Colors::kSketchEntity_Highlight : Colors::kSketchEntity);
-    }
+        OsgUtils::setNodeColor(_curvesGeom, flag ? Colors::kSketchEntity_Highlight : Colors::kSketchEntity);
 }
 
 void SketchEntityElementNode::previewImpl(bool flag)
@@ -238,13 +254,7 @@ void SketchEntityElementNode::previewImpl(bool flag)
         return;
     }
     if (_curvesGeom)
-    {
-        if (_isConstruction)
-            OsgUtils::setNodeColor(_curvesGeom,
-                flag ? Colors::kSketchEntityConstruction_Preview : Colors::kSketchEntityConstruction);
-        else
-            OsgUtils::setNodeColor(_curvesGeom, flag ? Colors::kSketchEntity_Preview : Colors::kSketchEntity);
-    }
+        OsgUtils::setNodeColor(_curvesGeom, flag ? Colors::kSketchEntity_Preview : Colors::kSketchEntity);
 }
 
 void SketchEntityElementNode::setActiveImpl(bool flag)

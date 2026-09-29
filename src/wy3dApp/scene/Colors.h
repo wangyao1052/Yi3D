@@ -50,10 +50,6 @@ public:
     static const osg::Vec4 kSketchEntity;
     static const osg::Vec4 kSketchEntity_Highlight;
     static const osg::Vec4 kSketchEntity_Preview;
-    // sketch entity construction
-    static const osg::Vec4 kSketchEntityConstruction;
-    static const osg::Vec4 kSketchEntityConstruction_Highlight;
-    static const osg::Vec4 kSketchEntityConstruction_Preview;
 
     // datum plane
     static const osg::Vec4 kDatumPlaneFace;
