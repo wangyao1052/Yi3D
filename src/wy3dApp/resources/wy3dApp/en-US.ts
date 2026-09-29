@@ -3249,7 +3249,7 @@ Do you want to save it to the original file now?
 <context>
     <name>NewSketch</name>
     <message>
-        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="209"/>
+        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="206"/>
         <source>Select datum plane or planar face.</source>
         <translation type="unfinished">Select datum plane or planar face.</translation>
     </message>

@@ -4589,7 +4589,7 @@ Do you want to save it to the original file now?
         <translation type="obsolete">选择参考面或实体面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="209"/>
+        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="206"/>
         <source>Select datum plane or planar face.</source>
         <translation type="unfinished">选择基准面或平面。</translation>
     </message>

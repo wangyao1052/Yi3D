@@ -152,7 +152,7 @@ bool FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserC
             QString::fromStdString(u8FileName),
             filter,
             &selectedFilter,
-            QFileDialog::DontUseNativeDialog);
+            QFileDialog::Options());
         if (fileFullPath.isEmpty() || fileFullPath.isNull())
         {
             isUserCanceled = true;
@@ -418,7 +418,7 @@ int OpenFileCommand::run()
 
     QString fileFullPath = QFileDialog::getOpenFileName(Application::instance().getMainWindow(),
         QCoreApplication::translate("FileCmds", "Open file"), "", filter,
-        0, QFileDialog::DontUseNativeDialog);
+        0, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
     {
         return 0;
@@ -716,7 +716,7 @@ int ImportFileCommand::run()
     // 导入文件对话框
     QString selectedFilter;
     QString fileFullPath = QFileDialog::getOpenFileName(Application::instance().getMainWindow(),
-        QCoreApplication::translate("FileCmds", "Import file"), "", filter, &selectedFilter, QFileDialog::DontUseNativeDialog);
+        QCoreApplication::translate("FileCmds", "Import file"), "", filter, &selectedFilter, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
     {
         return 0;
@@ -759,7 +759,7 @@ int RunScriptCommand::run()
     QString filter = filterList.join(";;");
     QString selectedFilter;
     QString fileFullPath = QFileDialog::getOpenFileName(Application::instance().getMainWindow(),
-        QCoreApplication::translate("RunScriptCommand", "Run Python Script"), "", filter, &selectedFilter, QFileDialog::DontUseNativeDialog);
+        QCoreApplication::translate("RunScriptCommand", "Run Python Script"), "", filter, &selectedFilter, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
     {
         return 0;
@@ -814,7 +814,7 @@ int ImportSketchCommand::run()
 
     QString selectedFilter;
     QString fileFullPath = QFileDialog::getOpenFileName(Application::instance().getMainWindow(),
-        QCoreApplication::translate("FileCmds", "Import sketch"), "", filter, &selectedFilter, QFileDialog::DontUseNativeDialog);
+        QCoreApplication::translate("FileCmds", "Import sketch"), "", filter, &selectedFilter, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
     {
         return 0;
