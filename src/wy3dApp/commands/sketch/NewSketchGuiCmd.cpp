@@ -19,6 +19,7 @@
 #include "NewSketchGuiCmd.h"
 
 #include <QCoreApplication>
+#include <QTimer>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wyapSelManager.h>
@@ -72,14 +73,26 @@ wyap::CmdExecution::StartResult NewSketchGuiCmd::onStart()
     };
     wydb::ElementId id = extractDatumPlaneFromSelSet(ss);
     this->clearSelections();
+    this->gotoStep(Step::SelectDatumPlaneOrFace);
+
     if (!id.isNull())
     {
         _pPreview = std::make_shared<SelectPreview>(wyap::Selection(id));
-        this->finishStep(Step::SelectDatumPlaneOrFace);
-    }
-    else
-    {
-        this->gotoStep(Step::SelectDatumPlaneOrFace);
+
+        // onStart runs inside executeCommand(), where CmdManager is busy and requestEnd()
+        // reports SystemBusy. Defer the confirmation to the next event loop turn, after
+        // executeCommand() has returned and the command is running. The command is looked up
+        // again rather than captured: until this runs it may have been aborted, and the
+        // pointer would then be dangling.
+        QTimer::singleShot(0, &Application::instance(), []()
+        {
+            wyap::CmdManager* pCmdMgr = Application::instance().getCmdManager();
+            if (!pCmdMgr) return;
+            NewSketchGuiCmd* pCmd = dynamic_cast<NewSketchGuiCmd*>(
+                pCmdMgr->getCurrentModalCmdExecution());
+            if (!pCmd) return;
+            pCmd->finishStep(Step::SelectDatumPlaneOrFace);
+        });
     }
 
     return wyap::CmdExecution::StartResult::Succeeded;
@@ -147,25 +160,9 @@ bool NewSketchGuiCmd::finishStep(Step step)
         wyap::Selection sel = _pPreview->getSelection();
         if (this->perform(sel))
         {
-            /*
-            // 进入草图环境
-            std::unique_ptr<SketchEnvironment> pSketchEnv = std::make_unique<SketchEnvironment>(_plane);
-            // added by wangyao 2025.04.24 {
-            // 当选择的是参照面时对齐草图
-            //if (sel.getSelectionType() == static_cast<unsigned int>(wy3d::SelectionType::Element))
-            //{
-            //    pSketchEnv->setWhetherOrientToSketch(true);
-            //}
-            // }
-            wy::ErrorStatus error = Application::instance().getEnvManager()->enterEnvironment(std::move(pSketchEnv));
-            if (wy::ErrorStatus::Ok != error)
-            {
-                assert(false);
-            }
-            */
-
             // exit
-            this->requestEnd();
+            wy::ErrorStatus error = this->requestEnd();
+            assert(wy::ErrorStatus::Ok == error);
             return true;
         }
         else
