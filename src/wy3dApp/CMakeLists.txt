@@ -103,5 +103,19 @@ foreach(TSFILE ${TS_FILES})
 	execute_process(COMMAND ${LRELEASE_EXECUTABLE} "${TS_DIR}/${TSFILE}")
 endforeach()
 
+# Hand-maintained supplement for the Qt contexts missing from the official zh_CN catalogue:
+# compile only, no lupdate (there is no source code to scan)
+execute_process(COMMAND ${LRELEASE_EXECUTABLE} "${TS_DIR}/qt-supplement-zh-CN.ts")
+
+# Qt's official zh_CN catalogue lives in the Qt bundle (3rdParty is not tracked by git).
+# Where it is absent (system Qt) embed an empty placeholder so the qrc still compiles.
+set(QT_ZH_CN_QM_SRC "${CMAKE_SOURCE_DIR}/3rdParty/bundles/qt5/translations/qt_zh_CN.qm")
+set(QT_ZH_CN_QM "${TS_DIR}/qt_zh_CN.qm")
+if(EXISTS "${QT_ZH_CN_QM_SRC}")
+	file(COPY "${QT_ZH_CN_QM_SRC}" DESTINATION "${TS_DIR}")
+else()
+	execute_process(COMMAND ${LRELEASE_EXECUTABLE} -qm "${QT_ZH_CN_QM}" "${TS_DIR}/qt-empty.ts")
+endif()
+
 # 拷贝配置项
 #file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/config.ini" DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})

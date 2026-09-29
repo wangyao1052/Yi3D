@@ -1043,9 +1043,8 @@ Do you want to save it to the original file now?
         <translation type="unfinished">微信公众号</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="79"/>
         <source>Close</source>
-        <translation type="unfinished">关闭</translation>
+        <translation type="obsolete">关闭</translation>
     </message>
 </context>
 <context>
@@ -4661,67 +4660,65 @@ Do you want to save it to the original file now?
         <translation>选项</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="65"/>
         <source>OK</source>
-        <translation>确定</translation>
+        <translation type="vanished">确定</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="66"/>
         <source>Cancel</source>
-        <translation>取消</translation>
+        <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="89"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="86"/>
         <source>View</source>
         <translation>视图</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="91"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="88"/>
         <source>Mouse Rotation Speed</source>
         <translation>鼠标中键旋转速度</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="104"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="101"/>
         <source>Invert Mouse Wheel Zoom Direction</source>
         <translation>反转鼠标滚轮缩放方向</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="115"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="112"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="117"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="114"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="119"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="116"/>
         <source>Chinese</source>
         <translation>中文</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="120"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="117"/>
         <source>English</source>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="122"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="119"/>
         <source>Takes effect after restart</source>
         <translation>重启程序后生效</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="138"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="135"/>
         <source>Auto Save</source>
         <translation>自动保存</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="140"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="137"/>
         <source>Auto Save Interval (minutes)</source>
         <translation>自动保存间隔(分钟)</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="145"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="142"/>
         <source>0 disables auto save</source>
         <translation>0 表示禁用自动保存</translation>
     </message>

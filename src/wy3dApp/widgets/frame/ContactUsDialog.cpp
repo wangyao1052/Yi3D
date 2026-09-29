@@ -76,7 +76,6 @@ ContactUsDialog::ContactUsDialog(QWidget *parent)
         mainLayout->addLayout(qrCodeLayout);
 
         QDialogButtonBox* pButtonBox = new QDialogButtonBox(QDialogButtonBox::Close, this);
-        pButtonBox->button(QDialogButtonBox::Close)->setText(tr("Close"));
         connect(pButtonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
         mainLayout->addWidget(pButtonBox);
     }

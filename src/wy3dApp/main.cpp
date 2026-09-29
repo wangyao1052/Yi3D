@@ -46,6 +46,22 @@ int main(int argc, char *argv[])
     // 语言
     {
         QString qstrLang = Application::instance().getConfig()->system.language;
+
+        // Installed first => lowest priority, so the application's own translations win
+        if ("zh-CN" == qstrLang)
+        {
+            // Qt standard strings; the shipped catalogue is the legacy merged one (Qt4 era)
+            QTranslator* pQtTranslator = new QTranslator();
+            if (pQtTranslator->load(":/translator/qt_zh_CN")) app.installTranslator(pQtTranslator);
+            else delete pQtTranslator;
+
+            // Supplies QPlatformTheme (dialog buttons) and QWidgetTextControl (multi-line
+            // text context menu), both absent from the catalogue above
+            QTranslator* pQtSupplementTranslator = new QTranslator();
+            if (pQtSupplementTranslator->load(":/translator/qt-supplement-zh-CN")) app.installTranslator(pQtSupplementTranslator);
+            else delete pQtSupplementTranslator;
+        }
+
         QTranslator* pTranslator = new QTranslator();
         if (pTranslator->load(":/translator/" + qstrLang))
         {

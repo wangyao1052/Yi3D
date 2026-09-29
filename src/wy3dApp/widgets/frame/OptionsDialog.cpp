@@ -61,9 +61,6 @@ void OptionsDialog::initUi()
 
 	QDialogButtonBox* pButtonBox = new QDialogButtonBox(
 		QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
-	// 标准按钮文字取自Qt自带qtbase翻译(Qt5.15无简体版),改为走应用自身的翻译
-	pButtonBox->button(QDialogButtonBox::Ok)->setText(tr("OK"));
-	pButtonBox->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
 	this->connect(pButtonBox, SIGNAL(accepted()), this, SLOT(accept()));
 	this->connect(pButtonBox, SIGNAL(rejected()), this, SLOT(reject()));
 	pMainLayout->addWidget(pButtonBox);

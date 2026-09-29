@@ -233,11 +233,6 @@ Do you want to save it to the original file now?
         <source>WeChat Official Account</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../../widgets/frame/ContactUsDialog.cpp" line="79"/>
-        <source>Close</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>CopyGuiCmd</name>
@@ -3309,67 +3304,65 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="65"/>
         <source>OK</source>
-        <translation type="unfinished">OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="66"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancel</translation>
+        <translation type="obsolete">Cancel</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="89"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="86"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="91"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="88"/>
         <source>Mouse Rotation Speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="104"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="101"/>
         <source>Invert Mouse Wheel Zoom Direction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="115"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="112"/>
         <source>System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="117"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="114"/>
         <source>Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="119"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="116"/>
         <source>Chinese</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="120"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="117"/>
         <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="122"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="119"/>
         <source>Takes effect after restart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="138"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="135"/>
         <source>Auto Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="140"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="137"/>
         <source>Auto Save Interval (minutes)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="145"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="142"/>
         <source>0 disables auto save</source>
         <translation type="unfinished"></translation>
     </message>

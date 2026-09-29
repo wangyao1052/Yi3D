@@ -2,6 +2,8 @@
     <qresource prefix="/translator">
         <file alias="en-US">wy3dApp/en-US.qm</file>
         <file alias="zh-CN">wy3dApp/zh-CN.qm</file>
+        <file alias="qt_zh_CN">wy3dApp/qt_zh_CN.qm</file>
+        <file alias="qt-supplement-zh-CN">wy3dApp/qt-supplement-zh-CN.qm</file>
     </qresource>
     <qresource>
         <file>images/Yi3D.svg</file>
