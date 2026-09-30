@@ -21,6 +21,7 @@
 #include "application/Config.h"
 #include "view/CameraManipulator3d.h"
 #include "commands/OsgGuiEventDispatcher.h"
+#include "scene/Scene.h"
 #include "widgets/CursorCenter.h"
 #include "widgets/CursorType.h"
 
@@ -52,7 +53,7 @@
 
 #include <vector>
 
-OsgViewWidget::OsgViewWidget(QWidget *parent) : ViewWidget(parent), _pOsgGLWidget(nullptr), _navCursorActive(false)
+OsgViewWidget::OsgViewWidget(QWidget *parent) : ViewWidget(parent), _pOsgGLWidget(nullptr), _pGuiEventDispatcher(nullptr), _navCursorActive(false)
 {
 	this->resize(400, 300);
 	this->setMinimumWidth(400);
@@ -75,6 +76,7 @@ OsgViewWidget::OsgViewWidget(QWidget *parent) : ViewWidget(parent), _pOsgGLWidge
     _pOsgGLWidget->setFormat(format);
     _pOsgGLWidget->setMouseTracking(true);
     _pOsgGLWidget->setFocusPolicy(Qt::WheelFocus);
+    _pOsgGLWidget->installEventFilter(this);
 
     connect(_pOsgGLWidget, SIGNAL(initialized()), this, SLOT(initWindow()));
 }
@@ -140,7 +142,29 @@ void OsgViewWidget::initWindow()
     mainView->getCamera()->setCullingMode(cullingMode);
 
     // Gui event dispatcher.
-    mainView->addEventHandler(new OsgGuiEventDispatcher());
+    _pGuiEventDispatcher = new OsgGuiEventDispatcher();
+    mainView->addEventHandler(_pGuiEventDispatcher);
+}
+
+bool OsgViewWidget::eventFilter(QObject* pWatched, QEvent* pEvent)
+{
+    // A cursor leaving the viewport delivers no further MOVE -- the last one still sits on
+    // the cube -- and osg 3.6 has no LEAVE event to report the exit either, so the hover
+    // highlight would stay lit. Qt does report the exit; hand it to the dispatcher, then
+    // ask for one frame to show the cleared state.
+    if (_pOsgGLWidget == pWatched && QEvent::Leave == pEvent->type())
+    {
+        if (_pGuiEventDispatcher)
+        {
+            _pGuiEventDispatcher->onCursorLeftViewport();
+        }
+        if (osgViewer::View* pOsgView = _pOsgGLWidget->getOsgViewer())
+        {
+            pOsgView->requestRedraw();
+        }
+    }
+
+    return QWidget::eventFilter(pWatched, pEvent);
 }
 
 void OsgViewWidget::setCursor(const QCursor& cursor)

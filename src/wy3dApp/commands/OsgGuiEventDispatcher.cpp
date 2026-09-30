@@ -103,6 +103,23 @@ bool OsgGuiEventDispatcher::handle(
     return false;
 }
 
+void OsgGuiEventDispatcher::onCursorLeftViewport()
+{
+    // The hovered facet of the navigation cube, through the same lookup handle() uses
+    if (Scene* pScene = Application::instance().getActiveScene())
+    {
+        if (ViewCube* pViewCube = pScene->getViewCubeNode())
+        {
+            pViewCube->clearHover();
+        }
+    }
+
+    if (_pSelectHandler)
+    {
+        _pSelectHandler->clearPreview();
+    }
+}
+
 bool OsgGuiEventDispatcher::handleGizmoEvent(
     const osgGA::GUIEventAdapter& ea,
     osgGA::GUIActionAdapter& aa)

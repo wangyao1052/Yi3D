@@ -541,9 +541,21 @@ bool ViewCube::handleEvent(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAda
         return false;
 
     default:
-        // OSG 3.6 has no LEAVE event, so the hover clears through MOVE once the cursor
-        // leaves the cube
+        // OSG 3.6 has no LEAVE event: a cursor that leaves the viewport is reported through
+        // clearHover instead
         return false;
+    }
+}
+
+void ViewCube::clearHover()
+{
+    if (!setHoverFacet(-1))
+    {
+        return;
+    }
+    if (_pView.valid())
+    {
+        _pView->requestRedraw();
     }
 }
 

@@ -45,6 +45,10 @@ public:
     // true if the event was consumed: the caller must stop dispatching it
     bool handleEvent(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
 
+    // Drop the hover highlight. OSG 3.6 delivers no LEAVE event, so the viewport widget has
+    // to report the cursor leaving on its own.
+    void clearHover();
+
 private:
     class CubeCullCallback;
 

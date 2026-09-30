@@ -54,6 +54,10 @@ public:
     void enablePreview(bool flag)       { _supportPreview = flag; }
     bool isSupportPreview() const       { return _supportPreview; }
 
+    // Drop the hover preview when the cursor leaves the viewport. The preview is a transient
+    // state with no flag of its own: its destructor undoes the highlight.
+    void clearPreview()                 { _pPreview = nullptr; }
+
     void setSelectMode(SelectMode m)    { _selMode = m; }
     SelectMode getSelectMode() const    { return _selMode; }
 

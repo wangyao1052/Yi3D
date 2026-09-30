@@ -34,6 +34,10 @@ public:
         osg::Object*,
         osg::NodeVisitor*) override;
 
+    // The cursor left the viewport: drop the ViewCube's hover highlight and the selection
+    // preview. OSG 3.6 delivers no LEAVE event, so the viewport widget reports this.
+    void onCursorLeftViewport();
+
 private:
     // 分发 Gizmo 事件
     bool handleGizmoEvent(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);

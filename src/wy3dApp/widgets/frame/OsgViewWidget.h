@@ -34,6 +34,7 @@
 #include <osgViewer/Viewer>
 
 class CameraManipulator;
+class OsgGuiEventDispatcher;
 class StateButton;
 
 class OsgViewWidget : public ViewWidget
@@ -54,6 +55,11 @@ public:
 	void setCursor(const QCursor& cursor) override;
 	QRect getRenderAreaGlobalRect() const override;
 
+protected:
+	// Keeps the ViewCube's hover highlight and the selection preview from outliving the
+	// cursor leaving the viewport
+	bool eventFilter(QObject* pWatched, QEvent* pEvent) override;
+
 protected slots:
 	void initWindow();
 
@@ -61,6 +67,8 @@ private:
 	void setNavigationCursor(NavCursorMode mode);
 
 	osgQOpenGLWidget* _pOsgGLWidget;
+	// GUI event dispatcher (cached)
+	OsgGuiEventDispatcher* _pGuiEventDispatcher;
 	osg::ref_ptr<CameraManipulator3d> _pCameraManipulator;
 	bool _navCursorActive;
 	QCursor _cursorBeforeNav;
