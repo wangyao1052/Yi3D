@@ -252,11 +252,11 @@ wydb::ParameterValueUPtr RevolvedSheet::getParameterValue(const std::string& cla
     {
         if (ParamNames::REVOLUTION_PARAM_START_ANGLE == paramName)
         {
-            return wydb::ParameterValue::createDouble(_startAngle);
+            return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_startAngle));
         }
         else if (ParamNames::REVOLUTION_PARAM_END_ANGLE == paramName)
         {
-            return wydb::ParameterValue::createDouble(_endAngle);
+            return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_endAngle));
         }
         else
         {
@@ -273,12 +273,12 @@ wy::ErrorStatus RevolvedSheet::setParameterValue(const std::string& className, c
         if (ParamNames::REVOLUTION_PARAM_START_ANGLE == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
-            return this->setStartAngle(paramValue.asDouble());
+            return this->setStartAngle(wy3d::degreesToRadians(paramValue.asDouble()));
         }
         else if (ParamNames::REVOLUTION_PARAM_END_ANGLE == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
-            return this->setEndAngle(paramValue.asDouble());
+            return this->setEndAngle(wy3d::degreesToRadians(paramValue.asDouble()));
         }
         else
         {
