@@ -24,6 +24,10 @@
 #include <vector>
 
 #include <wy3dSplitFace.h>
+#include <wy3dSketch.h>
+#include <wy3dSketchLine.h>
+#include <wy3dSketchCircle.h>
+#include <wy3dSketchCenterLine.h>
 #include <wy3dSketch3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
@@ -221,6 +225,99 @@ namespace
             wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pTrans->getElementForWrite(sketchId));
             EXPECT_NE(pSketch3D, nullptr);
             EXPECT_EQ(wy3d::SplitFace::create(pTrans, pSolid, { topFaceIndex }, pSketch3D, pSplitFace),
+                wy::ErrorStatus::Ok);
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+        }
+        return pSplitFace;
+    }
+
+    // 2D counterpart: the curves are drawn in the sketch plane and lifted onto it by the feature.
+    // The plane z = 10 is the plane of the box's top face, so a sketch "drawn on the face" is
+    // just a 2D sketch on that plane
+    static wydb::ElementId createEmptySketch2D(wy3d::Database* pDb, double z)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::SketchPlane plane(wy::Vector3(0.0, 0.0, z), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+            wy3d::Sketch* pSketch(nullptr);
+            EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch->getId();
+        }
+        return sketchId;
+    }
+
+    static wydb::ElementId addLine2D(wy3d::Database* pDb, const wydb::ElementId& sketchId,
+        const wy::Vector2& startPnt, const wy::Vector2& endPnt, bool isConstruction = false)
+    {
+        wydb::ElementId lineId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
+            EXPECT_NE(pSketch, nullptr);
+
+            wy3d::SketchLine* pLine(nullptr);
+            EXPECT_EQ(wy3d::SketchLine::create(pTrans, startPnt, endPnt, pLine), wy::ErrorStatus::Ok);
+            if (isConstruction) EXPECT_EQ(pLine->setConstruction(true), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            lineId = pLine->getId();
+        }
+        return lineId;
+    }
+
+    static wydb::ElementId addCenterLine2D(wy3d::Database* pDb, const wydb::ElementId& sketchId,
+        const wy::Vector2& startPnt, const wy::Vector2& endPnt)
+    {
+        wydb::ElementId lineId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
+            EXPECT_NE(pSketch, nullptr);
+
+            wy3d::SketchCenterLine* pLine(nullptr);
+            EXPECT_EQ(wy3d::SketchCenterLine::create(pTrans, startPnt, endPnt, pLine), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            lineId = pLine->getId();
+        }
+        return lineId;
+    }
+
+    static wydb::ElementId addCircle2D(wy3d::Database* pDb, const wydb::ElementId& sketchId,
+        const wy::Vector2& center, double radius)
+    {
+        wydb::ElementId circleId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
+            EXPECT_NE(pSketch, nullptr);
+
+            wy3d::SketchCircle* pCircle(nullptr);
+            EXPECT_EQ(wy3d::SketchCircle::create(pTrans, center, radius, pCircle), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pSketch->addEntity(pCircle), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            circleId = pCircle->getId();
+        }
+        return circleId;
+    }
+
+    // Split the top face with the whole 2D sketch and hand back the feature
+    static wy3d::SplitFace* splitTopFace2D(wy3d::Database* pDb, const wydb::ElementId& boxId,
+        const wydb::ElementId& sketchId)
+    {
+        wy3d::SplitFace* pSplitFace(nullptr);
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Solid* pSolid = wy3d::Solid::cast(pTrans->getElementForWrite(boxId));
+            EXPECT_NE(pSolid, nullptr);
+
+            const std::uint32_t topFaceIndex = findFaceIndexAtZ(pSolid->getShape(), 10.0);
+            EXPECT_NE(topFaceIndex, UINT_MAX);
+            wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
+            EXPECT_NE(pSketch, nullptr);
+            EXPECT_EQ(wy3d::SplitFace::create(pTrans, pSolid, { topFaceIndex }, pSketch, pSplitFace),
                 wy::ErrorStatus::Ok);
             EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
         }
@@ -495,4 +592,316 @@ TEST(SplitFace, IO)
         EXPECT_NEAR(bodyArea(pSolid->getShape()), 2200.0, 1e-6);
         expectAllTopoNamed(pSolid);
     }
+}
+
+// --- A 2D sketch works the same way: its curves are lifted onto its plane and become the tools ---
+
+TEST(SplitFace, SplitTopFaceWith2DSketchLine)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boxId = createBaseBox(pDb.get());
+    wydb::ElementId sketchId = createEmptySketch2D(pDb.get(), 10.0);
+    addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 5.0), wy::Vector2(30.0, 5.0));
+
+    wy3d::SplitFace* pSplitFace = splitTopFace2D(pDb.get(), boxId, sketchId);
+    ASSERT_NE(pSplitFace, nullptr);
+    EXPECT_EQ(pSplitFace->getSketch(), sketchId);
+    EXPECT_FALSE(pSplitFace->getFaces().empty());
+
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(boxId));
+    ASSERT_NE(pSolid, nullptr);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), boxId), 0u);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSplitFace->getId()), 0u);
+    EXPECT_EQ(countFaces(pSolid->getShape()), 7);
+    EXPECT_NEAR(bodyArea(pSolid->getShape()), 2200.0, 1e-6);
+    EXPECT_EQ(pSplitFace->getNewFaceIndices().size(), 2u);
+    expectAllTopoNamed(pSolid);
+}
+
+TEST(SplitFace, SplitTopFaceWith2DSketchCircle)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boxId = createBaseBox(pDb.get());
+    wydb::ElementId sketchId = createEmptySketch2D(pDb.get(), 10.0);
+    addCircle2D(pDb.get(), sketchId, wy::Vector2(15.0, 10.0), 3.0);
+
+    wy3d::SplitFace* pSplitFace = splitTopFace2D(pDb.get(), boxId, sketchId);
+    ASSERT_NE(pSplitFace, nullptr);
+
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(boxId));
+    ASSERT_NE(pSolid, nullptr);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSplitFace->getId()), 0u);
+    EXPECT_EQ(countFaces(pSolid->getShape()), 7);
+    EXPECT_NEAR(bodyArea(pSolid->getShape()), 2200.0, 1e-6);
+    expectAllTopoNamed(pSolid);
+}
+
+// --- Every curve of a 2D sketch is a tool too ---
+
+TEST(SplitFace, All2DCurvesOfSketchAreUsed)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boxId = createBaseBox(pDb.get());
+    wydb::ElementId sketchId = createEmptySketch2D(pDb.get(), 10.0);
+    addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 5.0), wy::Vector2(30.0, 5.0));
+    addCircle2D(pDb.get(), sketchId, wy::Vector2(15.0, 15.0), 3.0);
+
+    wy3d::SplitFace* pSplitFace = splitTopFace2D(pDb.get(), boxId, sketchId);
+    ASSERT_NE(pSplitFace, nullptr);
+
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(boxId));
+    ASSERT_NE(pSolid, nullptr);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSplitFace->getId()), 0u);
+    EXPECT_EQ(countFaces(pSolid->getShape()), 8);
+    EXPECT_NEAR(bodyArea(pSolid->getShape()), 2200.0, 1e-6);
+    expectAllTopoNamed(pSolid);
+}
+
+// --- Construction lines and center lines are not tools (they do not exist in a 3D sketch) ---
+
+TEST(SplitFace, ConstructionAndCenterLinesAreIgnored)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boxId = createBaseBox(pDb.get());
+    wydb::ElementId sketchId = createEmptySketch2D(pDb.get(), 10.0);
+    addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 5.0), wy::Vector2(30.0, 5.0));
+    addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 15.0), wy::Vector2(30.0, 15.0), true);
+    addCenterLine2D(pDb.get(), sketchId, wy::Vector2(15.0, 0.0), wy::Vector2(15.0, 20.0));
+
+    wy3d::SplitFace* pSplitFace = splitTopFace2D(pDb.get(), boxId, sketchId);
+    ASSERT_NE(pSplitFace, nullptr);
+
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(boxId));
+    ASSERT_NE(pSolid, nullptr);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSplitFace->getId()), 0u);
+    // Only the one real line cuts: the other two would each have cut the face as well
+    EXPECT_EQ(countFaces(pSolid->getShape()), 7);
+    EXPECT_NEAR(bodyArea(pSolid->getShape()), 2200.0, 1e-6);
+    expectAllTopoNamed(pSolid);
+}
+
+TEST(SplitFace, OnlyConstructionAndCenterLinesFails)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boxId = createBaseBox(pDb.get());
+    wydb::ElementId sketchId = createEmptySketch2D(pDb.get(), 10.0);
+    addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 15.0), wy::Vector2(30.0, 15.0), true);
+    addCenterLine2D(pDb.get(), sketchId, wy::Vector2(15.0, 0.0), wy::Vector2(15.0, 20.0));
+
+    wy3d::SplitFace* pSplitFace = splitTopFace2D(pDb.get(), boxId, sketchId);
+    ASSERT_NE(pSplitFace, nullptr);
+
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(boxId));
+    ASSERT_NE(pSolid, nullptr);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSplitFace->getId()),
+        static_cast<std::uint32_t>(wy3d::ErrorCode::SPLITFACE_CurveNotExists));
+    EXPECT_EQ(countFaces(pSolid->getShape()), 6);
+}
+
+// --- A 2D curve away from the face does not reach it: the curves are not projected ---
+
+TEST(SplitFace, TwoDSketchCurveOffFaceFails)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boxId = createBaseBox(pDb.get());
+    wydb::ElementId sketchId = createEmptySketch2D(pDb.get(), 10.0);
+    addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 50.0), wy::Vector2(30.0, 50.0));
+
+    wy3d::SplitFace* pSplitFace = splitTopFace2D(pDb.get(), boxId, sketchId);
+    ASSERT_NE(pSplitFace, nullptr);
+
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(boxId));
+    ASSERT_NE(pSolid, nullptr);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSplitFace->getId()),
+        static_cast<std::uint32_t>(wy3d::ErrorCode::SPLITFACE_NoFaceSplit));
+    EXPECT_EQ(countFaces(pSolid->getShape()), 6);
+}
+
+TEST(SplitFace, TwoDSketchIsNotProjected)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boxId = createBaseBox(pDb.get());
+    // Same curve as the splitting test above, but on a plane 10 above the top face: it is used
+    // where it lies, so there is nothing under it to split
+    wydb::ElementId sketchId = createEmptySketch2D(pDb.get(), 20.0);
+    addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 5.0), wy::Vector2(30.0, 5.0));
+
+    wy3d::SplitFace* pSplitFace = splitTopFace2D(pDb.get(), boxId, sketchId);
+    ASSERT_NE(pSplitFace, nullptr);
+
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(boxId));
+    ASSERT_NE(pSolid, nullptr);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSplitFace->getId()),
+        static_cast<std::uint32_t>(wy3d::ErrorCode::SPLITFACE_NoFaceSplit));
+    EXPECT_EQ(countFaces(pSolid->getShape()), 6);
+}
+
+TEST(SplitFace, Empty2DSketchFails)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boxId = createBaseBox(pDb.get());
+    wydb::ElementId sketchId = createEmptySketch2D(pDb.get(), 10.0);
+
+    wy3d::SplitFace* pSplitFace = splitTopFace2D(pDb.get(), boxId, sketchId);
+    ASSERT_NE(pSplitFace, nullptr);
+
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(boxId));
+    ASSERT_NE(pSolid, nullptr);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSplitFace->getId()),
+        static_cast<std::uint32_t>(wy3d::ErrorCode::SPLITFACE_CurveNotExists));
+    EXPECT_EQ(countFaces(pSolid->getShape()), 6);
+}
+
+// --- A 2D tool sketch is owned the same way a 3D one is ---
+
+TEST(SplitFace, TwoDSketchOwnership)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+    wydb::ElementId boxId = createBaseBox(pDb.get());
+    wydb::ElementId sketchId = createEmptySketch2D(pDb.get(), 10.0);
+    addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 5.0), wy::Vector2(30.0, 5.0));
+
+    wy3d::SplitFace* pSplitFace = splitTopFace2D(pDb.get(), boxId, sketchId);
+    ASSERT_NE(pSplitFace, nullptr);
+
+    const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
+    ASSERT_NE(pSketch, nullptr);
+    EXPECT_EQ(pSketch->getParent(), pSplitFace->getId());
+
+    // A sketch that already has an owner is refused (the rule FilledSheet keeps)
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Solid* pSolidWrite = wy3d::Solid::cast(pTrans->getElementForWrite(boxId));
+        wy3d::Sketch* pSketchWrite = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
+        ASSERT_NE(pSolidWrite, nullptr);
+        ASSERT_NE(pSketchWrite, nullptr);
+
+        const std::uint32_t topFaceIndex = findFaceIndexAtZ(pSolidWrite->getShape(), 10.0);
+        wy3d::SplitFace* pSplitFaceAgain(nullptr);
+        EXPECT_EQ(wy3d::SplitFace::create(pTrans, pSolidWrite, { topFaceIndex }, pSketchWrite, pSplitFaceAgain),
+            wy::ErrorStatus::InvalidInput);
+        EXPECT_EQ(pSplitFaceAgain, nullptr);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+
+    // Erasing the owner releases the sketch instead of taking it along
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::SplitFace* pWrite = wy3d::SplitFace::cast(pTrans->getElementForWrite(pSplitFace->getId()));
+        ASSERT_NE(pWrite, nullptr);
+        EXPECT_EQ(pWrite->erase(true), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+
+    pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
+    ASSERT_NE(pSketch, nullptr);
+    EXPECT_FALSE(pSketch->isErased());
+    EXPECT_TRUE(pSketch->getParent().isNull());
+}
+
+// --- The feature follows edits of a 2D tool sketch as well ---
+
+TEST(SplitFace, ChainUpdateOn2DSketchEdit)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId boxId = createBaseBox(pDb.get());
+    wydb::ElementId sketchId = createEmptySketch2D(pDb.get(), 10.0);
+    addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 5.0), wy::Vector2(30.0, 5.0));
+
+    wy3d::SplitFace* pSplitFace = splitTopFace2D(pDb.get(), boxId, sketchId);
+    ASSERT_NE(pSplitFace, nullptr);
+    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(boxId));
+    ASSERT_NE(pSolid, nullptr);
+    EXPECT_EQ(countFaces(pSolid->getShape()), 7);
+
+    // Draw one more line across the face and stop there: the sketch going dirty has to be
+    // enough to bring the feature up again
+    addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 15.0), wy::Vector2(30.0, 15.0));
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSplitFace->getId()), 0u);
+
+    EXPECT_EQ(countFaces(pSolid->getShape()), 8);
+    EXPECT_NEAR(bodyArea(pSolid->getShape()), 2200.0, 1e-6);
+    expectAllTopoNamed(pSolid);
+}
+
+// --- IO with a 2D tool sketch ---
+
+TEST(SplitFace, IO2D)
+{
+    std::string filePath("./test_split_face_2d.wy3dt");
+    wydb::ElementId boxId = wydb::ElementId::kNull;
+    wydb::ElementId sketchId = wydb::ElementId::kNull;
+    wydb::ElementId splitFaceId = wydb::ElementId::kNull;
+
+    {
+        std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+        boxId = createBaseBox(pDb.get());
+        sketchId = createEmptySketch2D(pDb.get(), 10.0);
+        addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 5.0), wy::Vector2(30.0, 5.0));
+
+        wy3d::SplitFace* pSplitFace = splitTopFace2D(pDb.get(), boxId, sketchId);
+        ASSERT_NE(pSplitFace, nullptr);
+        splitFaceId = pSplitFace->getId();
+
+        EXPECT_EQ(pDb->writeFile(filePath, { wydb::FileType::Text }), wy::ErrorStatus::Ok);
+    }
+
+    {
+        std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+        EXPECT_EQ(pDb->readFile(filePath, { wydb::FileType::Text }), wy::ErrorStatus::Ok);
+
+        const wy3d::SplitFace* pSplitFace = wy3d::SplitFace::cast(pDb->getElement(splitFaceId));
+        ASSERT_NE(pSplitFace, nullptr);
+        EXPECT_EQ(pSplitFace->getSketch(), sketchId);
+        EXPECT_FALSE(pSplitFace->getFaces().empty());
+
+        const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
+        ASSERT_NE(pSketch, nullptr);
+        EXPECT_EQ(pSketch->getParent(), splitFaceId);
+
+        const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(boxId));
+        ASSERT_NE(pSolid, nullptr);
+        EXPECT_EQ(countFaces(pSolid->getShape()), 7);
+        EXPECT_NEAR(bodyArea(pSolid->getShape()), 2200.0, 1e-6);
+        expectAllTopoNamed(pSolid);
+    }
+}
+
+// --- Null and empty inputs, 2D flavor ---
+
+TEST(SplitFace, NullArgs2D)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+    wydb::ElementId boxId = createBaseBox(pDb.get());
+    wydb::ElementId sketchId = createEmptySketch2D(pDb.get(), 10.0);
+    addLine2D(pDb.get(), sketchId, wy::Vector2(0.0, 5.0), wy::Vector2(30.0, 5.0));
+
+    const std::size_t numElements = countElements(pDb.get());
+
+    wy3d::SplitFace* pSplitFace(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Solid* pSolid = wy3d::Solid::cast(pTrans->getElementForWrite(boxId));
+        ASSERT_NE(pSolid, nullptr);
+        const std::uint32_t topFaceIndex = findFaceIndexAtZ(pSolid->getShape(), 10.0);
+        ASSERT_NE(topFaceIndex, UINT_MAX);
+        wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
+        ASSERT_NE(pSketch, nullptr);
+
+        EXPECT_EQ(wy3d::SplitFace::create(nullptr, pSolid, { topFaceIndex }, pSketch, pSplitFace),
+            wy::ErrorStatus::NullTransactionPointer);
+        EXPECT_EQ(wy3d::SplitFace::create(pTrans, static_cast<wy3d::Solid*>(nullptr),
+            { topFaceIndex }, pSketch, pSplitFace), wy::ErrorStatus::NullElementPointer);
+        EXPECT_EQ(wy3d::SplitFace::create(pTrans, pSolid, {}, pSketch, pSplitFace),
+            wy::ErrorStatus::InvalidInput);
+        EXPECT_EQ(wy3d::SplitFace::create(pTrans, pSolid, { topFaceIndex },
+            static_cast<wy3d::Sketch*>(nullptr), pSplitFace), wy::ErrorStatus::NullElementPointer);
+        EXPECT_EQ(pSplitFace, nullptr);
+
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+
+    EXPECT_EQ(countElements(pDb.get()), numElements);
 }

@@ -29,6 +29,7 @@
 #include <wy3dMirror.h>
 #include <wy3dDraft.h>
 #include <wy3dSplitFace.h>
+#include <wy3dSketch.h>
 #include <wy3dSketch3D.h>
 #include <wy3dDeleteFace.h>
 #include <wy3dMove.h>
@@ -327,6 +328,40 @@ void bindWy3dBodyModifications(py::module_& m)
             py::arg("host"),
             py::arg("faceIndices"),
             py::arg("sketch3d"),
+            py::return_value_policy::reference)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans,
+               wy3d::Solid* pHost,
+               const std::vector<std::uint32_t>& faceIndices,
+               wy3d::Sketch* pSketch) -> wy3d::SplitFace*
+            {
+                wy3d::SplitFace* pOutSplitFace = nullptr;
+                wy::ErrorStatus status = wy3d::SplitFace::create(
+                    pTrans, pHost, faceIndices, pSketch, pOutSplitFace);
+                return pOutSplitFace;
+            },
+            py::arg("transaction"),
+            py::arg("host"),
+            py::arg("faceIndices"),
+            py::arg("sketch"),
+            py::return_value_policy::reference)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans,
+               wy3d::Sheet* pHost,
+               const std::vector<std::uint32_t>& faceIndices,
+               wy3d::Sketch* pSketch) -> wy3d::SplitFace*
+            {
+                wy3d::SplitFace* pOutSplitFace = nullptr;
+                wy::ErrorStatus status = wy3d::SplitFace::create(
+                    pTrans, pHost, faceIndices, pSketch, pOutSplitFace);
+                return pOutSplitFace;
+            },
+            py::arg("transaction"),
+            py::arg("host"),
+            py::arg("faceIndices"),
+            py::arg("sketch"),
             py::return_value_policy::reference);
 
     // ========== DeleteFace 删除面 ==========

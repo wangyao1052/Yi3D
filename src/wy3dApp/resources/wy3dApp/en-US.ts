@@ -5134,7 +5134,7 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchCommand</name>
     <message>
-        <location filename="../../commands/sketch/SketchCommands.cpp" line="234"/>
+        <location filename="../../commands/sketch/SketchCommands.cpp" line="240"/>
         <source>Yi3D</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6472,13 +6472,13 @@ Do you want to save it to the original file now?
 <context>
     <name>SplitFaceGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="197"/>
+        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="198"/>
         <source>Select the face to split. Press Enter or Spacebar to confirm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="224"/>
-        <source>Select the 3D sketch to split the face with.</source>
+        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="227"/>
+        <source>Select the 2D or 3D sketch to split the face with.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6581,32 +6581,32 @@ Do you want to save it to the original file now?
 <context>
     <name>ViewCube</name>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="986"/>
+        <location filename="../../scene/ViewCube.cpp" line="998"/>
         <source>Front</source>
         <translation type="unfinished">Front</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="987"/>
+        <location filename="../../scene/ViewCube.cpp" line="999"/>
         <source>Back</source>
         <translation type="unfinished">Back</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="988"/>
+        <location filename="../../scene/ViewCube.cpp" line="1000"/>
         <source>Left</source>
         <translation type="unfinished">Left</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="989"/>
+        <location filename="../../scene/ViewCube.cpp" line="1001"/>
         <source>Right</source>
         <translation type="unfinished">Right</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="990"/>
+        <location filename="../../scene/ViewCube.cpp" line="1002"/>
         <source>Top</source>
         <translation type="unfinished">Top</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="991"/>
+        <location filename="../../scene/ViewCube.cpp" line="1003"/>
         <source>Bottom</source>
         <translation type="unfinished">Bottom</translation>
     </message>

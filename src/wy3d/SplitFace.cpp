@@ -22,17 +22,23 @@
 #include <TopTools_ListOfShape.hxx>
 #include <BRepAlgoAPI_Splitter.hxx>
 
+#include <cassert>
+
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dSplitFace.h>
 #include <wy3dSheet.h>
+#include <wy3dSketch.h>
+#include <wy3dSketchCurve.h>
+#include <wy3dSketchCenterLine.h>
 #include <wy3dSketch3D.h>
 #include <wy3dSketchCurve3D.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include "topo/Sketch3DTopoBuilder.h"
+#include "topo/SketchTopoBuilder.h"
 #include "topo/TopoNamingUtil.h"
 #include "topo/SplitFaceTopoShapeComparer.h"
 #include "BodyModificationUtil.h"
@@ -41,6 +47,67 @@
 
 NS_WY3D_BEG
 WYDB_IMPLEMENT_MEMBERS(SplitFace)
+
+namespace
+{
+
+void collectToolEdges(
+    const wydb::Database* pDb,
+    const wy3d::Sketch3D* pSketch3D,
+    TopTools_ListOfShape& toolEdges,
+    std::vector<std::uint32_t>& toolCurveIds)
+{
+    assert(pDb);
+    assert(pSketch3D);
+    toolCurveIds.reserve(5);
+
+    wy3d::Sketch3DTopoBuilder toolBuilder(false);
+    for (wy::Iterator<wydb::ElementId> iter = pSketch3D->createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        wydb::ElementId id = iter.current();
+        const wy3d::SketchCurve3D* pCurve = wy3d::SketchCurve3D::cast(pDb->getElement(id));
+        if (!pCurve) continue;
+        TopoDS_Edge edge = toolBuilder.makeEdge(pCurve);
+        if (edge.IsNull())
+        {
+            assert(false);
+            continue;
+        }
+        toolEdges.Append(edge);
+        toolCurveIds.push_back(id.value());
+    }
+}
+
+void collectToolEdges(
+    const wydb::Database* pDb,
+    const wy3d::Sketch* pSketch,
+    TopTools_ListOfShape& toolEdges,
+    std::vector<std::uint32_t>& toolCurveIds)
+{
+    assert(pDb);
+    assert(pSketch);
+    toolCurveIds.reserve(5);
+
+    wy3d::SketchTopoBuilder toolBuilder(pSketch, false);
+    for (wy::Iterator<wydb::ElementId> iter = pSketch->createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        wydb::ElementId id = iter.current();
+        const wy3d::SketchCurve* pCurve = wy3d::SketchCurve::cast(pDb->getElement(id));
+        if (!pCurve) continue;
+        if (pCurve->isConstruction()) continue;
+        if (pCurve->isKindOf(wy3d::SketchCenterLine::classInfo())) continue;
+        TopoDS_Edge edge = toolBuilder.makeEdge(pCurve);
+        if (edge.IsNull())
+        {
+            assert(false);
+            continue;
+        }
+        toolEdges.Append(edge);
+        toolCurveIds.push_back(id.value());
+    }
+}
+
+} // namespace
 
 BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(SplitFace, _faceNames)
@@ -107,6 +174,54 @@ wy::ErrorStatus SplitFace::create(
     return wy::ErrorStatus::Ok;
 }
 
+wy::ErrorStatus SplitFace::create(
+    wydb::Transaction* pTrans,
+    wy3d::Solid* pSolid,
+    const std::vector<unsigned int>& faceIndices,
+    wy3d::Sketch* pSketch,
+    SplitFace*& pOutSplitFace)
+{
+    pOutSplitFace = nullptr;
+
+    if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
+    if (!pSolid) return wy::ErrorStatus::NullElementPointer;
+    if (faceIndices.empty()) return wy::ErrorStatus::InvalidInput;
+    if (!pSketch) return wy::ErrorStatus::NullElementPointer;
+
+    wy::ErrorStatus error = createImpl(pTrans,
+        pSolid->getShape(), pSolid->getTopoNaming(),
+        faceIndices, pSketch, pOutSplitFace);
+    if (wy::ErrorStatus::Ok != error) return error;
+
+    error = pSolid->addModification(pOutSplitFace);
+    CHECK_ERROR_FOR_CREATE(error, pOutSplitFace);
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus SplitFace::create(
+    wydb::Transaction* pTrans,
+    wy3d::Sheet* pSheet,
+    const std::vector<unsigned int>& faceIndices,
+    wy3d::Sketch* pSketch,
+    SplitFace*& pOutSplitFace)
+{
+    pOutSplitFace = nullptr;
+
+    if (!pTrans) return wy::ErrorStatus::NullTransactionPointer;
+    if (!pSheet) return wy::ErrorStatus::NullElementPointer;
+    if (faceIndices.empty()) return wy::ErrorStatus::InvalidInput;
+    if (!pSketch) return wy::ErrorStatus::NullElementPointer;
+
+    wy::ErrorStatus error = createImpl(pTrans,
+        pSheet->getShape(), pSheet->getTopoNaming(),
+        faceIndices, pSketch, pOutSplitFace);
+    if (wy::ErrorStatus::Ok != error) return error;
+
+    error = pSheet->addModification(pOutSplitFace);
+    CHECK_ERROR_FOR_CREATE(error, pOutSplitFace);
+    return wy::ErrorStatus::Ok;
+}
+
 wy::ErrorStatus SplitFace::createImpl(
     wydb::Transaction* pTrans,
     const TopoDS_Shape& shape,
@@ -149,6 +264,48 @@ wy::ErrorStatus SplitFace::createImpl(
     return wy::ErrorStatus::Ok;
 }
 
+wy::ErrorStatus SplitFace::createImpl(
+    wydb::Transaction* pTrans,
+    const TopoDS_Shape& shape,
+    TopoNaming* pTopoNaming,
+    const std::vector<unsigned int>& faceIndices,
+    wy3d::Sketch* pSketch,
+    SplitFace*& pOutSplitFace)
+{
+    assert(pTrans);
+    assert(!faceIndices.empty());
+    assert(pSketch);
+    if (!pTopoNaming) { assert(false); return wy::ErrorStatus::InvalidInput; }
+
+    TopoNameList faceNames;
+    if (!TopoNamingUtil::assemblyTopoNames(*pTopoNaming, shape,
+        TopAbs_ShapeEnum::TopAbs_FACE, faceIndices, faceNames))
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+    if (faceNames.empty())
+    {
+        assert(false);
+        return wy::ErrorStatus::InvalidInput;
+    }
+
+    SplitFace* pSplitFace = new SplitFace();
+    wy::ErrorStatus error = pTrans->addNewlyCreatedElement(pSplitFace);
+    if (wy::ErrorStatus::Ok != error)
+    {
+        wydb::deleteElement(pSplitFace);
+        return error;
+    }
+
+    error = pSplitFace->setSketchImpl(pSketch);
+    CHECK_ERROR_FOR_CREATE(error, pSplitFace);
+    error = pSplitFace->setFacesImpl(faceNames);
+    CHECK_ERROR_FOR_CREATE(error, pSplitFace);
+
+    pOutSplitFace = pSplitFace;
+    return wy::ErrorStatus::Ok;
+}
+
 wy::ErrorStatus SplitFace::setFacesImpl(const TopoNameList& faceNames)
 {
     if (faceNames.empty()) return wy::ErrorStatus::InvalidInput;
@@ -176,6 +333,25 @@ wy::ErrorStatus SplitFace::setSketchImpl(wy3d::Sketch3D* pSketch3D)
     if (wy::ErrorStatus::Ok == error)
     {
         error = pSketch3D->setParent(this->getId());
+        return error;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+wy::ErrorStatus SplitFace::setSketchImpl(wy3d::Sketch* pSketch)
+{
+    assert(_sketchId.isNull());
+
+    if (!pSketch) return wy::ErrorStatus::NullElementPointer;
+    if (!pSketch->getParent().isNull()) return wy::ErrorStatus::InvalidInput;
+
+    wy::ErrorStatus error = this->setSketchIdImpl(pSketch->getId());
+    if (wy::ErrorStatus::Ok == error)
+    {
+        error = pSketch->setOwner(this->getId());
         return error;
     }
     else
@@ -284,8 +460,10 @@ std::pair<bool, TopoDS_Shape> SplitFace::modifyOwnerShape(const TopoDS_Shape& sh
         return std::pair<bool, TopoDS_Shape>(false, shape);
     }
 
-    const wy3d::Sketch3D* pToolSketch = wy3d::Sketch3D::cast(pDb->getElement(_sketchId));
-    if (!pToolSketch)
+    const wydb::Element* pToolElem = pDb->getElement(_sketchId);
+    const wy3d::Sketch3D* pToolSketch3D = wy3d::Sketch3D::cast(pToolElem);
+    const wy3d::Sketch* pToolSketch = wy3d::Sketch::cast(pToolElem);
+    if (!pToolSketch3D && !pToolSketch)
     {
         wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
             static_cast<std::uint32_t>(ErrorCode::SPLITFACE_InvalidData));
@@ -304,19 +482,11 @@ std::pair<bool, TopoDS_Shape> SplitFace::modifyOwnerShape(const TopoDS_Shape& sh
 
     try
     {
-        Sketch3DTopoBuilder sketch3DTopoBuilder(false);
         TopTools_ListOfShape toolEdges;
         std::vector<std::uint32_t> toolCurveIds;
         toolCurveIds.reserve(10);
-        for (wy::Iterator<wydb::ElementId> iter = pToolSketch->createIterator(); !iter.isDone(); iter.moveNext())
-        {
-            const wy3d::SketchCurve3D* pCurve = wy3d::SketchCurve3D::cast(pDb->getElement(iter.current()));
-            if (!pCurve) continue;
-            TopoDS_Edge edge = sketch3DTopoBuilder.makeEdge(pCurve);
-            if (edge.IsNull()) continue;
-            toolEdges.Append(edge);
-            toolCurveIds.push_back(pCurve->getId().value());
-        }
+        if (pToolSketch3D) collectToolEdges(pDb, pToolSketch3D, toolEdges, toolCurveIds);
+        else collectToolEdges(pDb, pToolSketch, toolEdges, toolCurveIds);
         if (toolEdges.IsEmpty())
         {
             wy3d::reportChainUpdateError(feedbackCollector, this->getId(),

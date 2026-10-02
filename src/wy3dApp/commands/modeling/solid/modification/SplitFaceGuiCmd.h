@@ -25,12 +25,13 @@
 #include "select/SelectPreview.h"
 #include "select/SelectionSetHighlightor.h"
 
-// Divides faces of a solid along 3D sketch curves: pick the faces, then pick the sketch whose
-// curves run across them, and the curves become edges of the body with the faces split along
-// them. The curves are the ones the Intersection Curve command leaves behind, so the two chain.
-// The whole sketch is the tool, the way a profile sketch is consumed whole, so picking it is the
-// whole of the second step - the feature is made there and then, no confirm key. One run makes
-// one feature, hence one undo step.
+// Divides faces of a solid along the curves of a sketch: pick the faces, then pick the sketch
+// whose curves run across them, and the curves become edges of the body with the faces split
+// along them. A 3D sketch is used as drawn - its curves are the ones the Intersection Curve
+// command leaves behind, so the two chain; a 2D sketch has its curves lifted onto its plane
+// first. The whole sketch is the tool, the way a profile sketch is consumed whole, so picking it
+// is the whole of the second step - the feature is made there and then, no confirm key. One run
+// makes one feature, hence one undo step.
 class SplitFaceGuiCmd : public OsgGuiCommand
 {
     WYRX_DECLARE_MEMBERS(SplitFaceGuiCmd, wy3dApp::SplitFaceGuiCmd, OsgGuiCommand)
@@ -65,7 +66,7 @@ protected:
     virtual void onContextMenuAction_ClearSelection() override;
 
 private:
-    // 拾取作为分割工具的3D草图: 拾取成功即记下草图, 由调用方随即执行
+    // 拾取作为分割工具的草图(2D或3D): 拾取成功即记下草图, 由调用方随即执行
     bool pickSketch(const wyap::Selection& sel);
 
     // 创建分割面
@@ -77,7 +78,7 @@ private:
 private:
     Step _step;
     wyap::SelectionSet _faceSels;
-    // 作为分割工具的3D草图
+    // 作为分割工具的草图(2D或3D)
     wydb::ElementId _sketchId;
 
     // 点选选项

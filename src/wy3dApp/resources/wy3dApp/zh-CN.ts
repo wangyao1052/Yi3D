@@ -6617,7 +6617,7 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchCommand</name>
     <message>
-        <location filename="../../commands/sketch/SketchCommands.cpp" line="234"/>
+        <location filename="../../commands/sketch/SketchCommands.cpp" line="240"/>
         <source>Yi3D</source>
         <translation type="unfinished">易三维</translation>
     </message>
@@ -8266,14 +8266,18 @@ Do you want to save it to the original file now?
 <context>
     <name>SplitFaceGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="197"/>
+        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="198"/>
         <source>Select the face to split. Press Enter or Spacebar to confirm.</source>
         <translation type="unfinished">选择要分割的面；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="224"/>
+        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="227"/>
+        <source>Select the 2D or 3D sketch to split the face with.</source>
+        <translation>选择用于分割的二维或三维草图。</translation>
+    </message>
+    <message>
         <source>Select the 3D sketch to split the face with.</source>
-        <translation type="unfinished">选择用于分割的三维草图。</translation>
+        <translation type="obsolete">选择用于分割的三维草图。</translation>
     </message>
     <message>
         <source>Select the 3D sketch whose curves split the face; the split is created right away.</source>
@@ -8391,32 +8395,32 @@ Do you want to save it to the original file now?
 <context>
     <name>ViewCube</name>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="986"/>
+        <location filename="../../scene/ViewCube.cpp" line="998"/>
         <source>Front</source>
         <translation type="unfinished">前</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="987"/>
+        <location filename="../../scene/ViewCube.cpp" line="999"/>
         <source>Back</source>
         <translation type="unfinished">后</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="988"/>
+        <location filename="../../scene/ViewCube.cpp" line="1000"/>
         <source>Left</source>
         <translation type="unfinished">左</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="989"/>
+        <location filename="../../scene/ViewCube.cpp" line="1001"/>
         <source>Right</source>
         <translation type="unfinished">右</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="990"/>
+        <location filename="../../scene/ViewCube.cpp" line="1002"/>
         <source>Top</source>
         <translation type="unfinished">上</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="991"/>
+        <location filename="../../scene/ViewCube.cpp" line="1003"/>
         <source>Bottom</source>
         <translation type="unfinished">下</translation>
     </message>

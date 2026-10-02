@@ -372,6 +372,76 @@ namespace
         return pSplitFace;
     }
 
+    // The 2D counterpart of the tool sketch: an empty sketch on the plane z = z, the plane the
+    // sheet lies in, plus the curves drawn in it
+    static wydb::ElementId createEmptySketch2DAtZ(wy3d::Database* pDb, double z)
+    {
+        wydb::ElementId sketchId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::SketchPlane plane(wy::Vector3(0.0, 0.0, z), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+            wy3d::Sketch* pSketch(nullptr);
+            EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
+            if (!pSketch)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            sketchId = pSketch->getId();
+        }
+        return sketchId;
+    }
+
+    static wydb::ElementId addLine2D(wy3d::Database* pDb, const wydb::ElementId& sketchId,
+        const wy::Vector2& startPnt, const wy::Vector2& endPnt)
+    {
+        wydb::ElementId lineId = wydb::ElementId::kNull;
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
+            if (!pSketch)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+
+            wy3d::SketchLine* pLine(nullptr);
+            EXPECT_EQ(wy3d::SketchLine::create(pTrans, startPnt, endPnt, pLine), wy::ErrorStatus::Ok);
+            if (!pLine)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return wydb::ElementId::kNull;
+            }
+            EXPECT_EQ(pSketch->addEntity(pLine), wy::ErrorStatus::Ok);
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+            lineId = pLine->getId();
+        }
+        return lineId;
+    }
+
+    // Split the given face of the sheet with the whole 2D sketch and hand back the feature
+    static wy3d::SplitFace* splitFace2D(wy3d::Database* pDb, const wydb::ElementId& sheetId,
+        std::uint32_t faceIndex, const wydb::ElementId& sketchId)
+    {
+        wy3d::SplitFace* pSplitFace(nullptr);
+        {
+            wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
+            wy3d::Sheet* pSheet = wy3d::Sheet::cast(pTrans->getElementForWrite(sheetId));
+            wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTrans->getElementForWrite(sketchId));
+            if (!pSheet || !pSketch)
+            {
+                pDb->getTransactionManager()->abortTransaction();
+                return nullptr;
+            }
+            EXPECT_NE(faceIndex, UINT_MAX);
+            EXPECT_EQ(wy3d::SplitFace::create(pTrans, pSheet, { faceIndex }, pSketch, pSplitFace),
+                wy::ErrorStatus::Ok);
+            EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
+        }
+        return pSplitFace;
+    }
+
     // Sew the walls of an extruded rectangle to a filled cap on each end, which closes the
     // shell. The caps need sketches of their own: a sketch belongs to the one feature that
     // consumes it, and the walls already took theirs.
@@ -454,6 +524,45 @@ TEST(SplitFaceSheet, SplitFilledSheetFaceWithOpenLine)
     EXPECT_EQ(countFaces(pSheet->getShape()), 2);
     EXPECT_NEAR(bodyArea(pSheet->getShape()), 5000.0, 1e-6);
     EXPECT_EQ(pSheet->getShape().ShapeType(), TopAbs_ShapeEnum::TopAbs_COMPOUND);
+    EXPECT_EQ(countShells(pSheet->getShape()), 1);
+    expectAllTopoNamed(pSheet);
+}
+
+// --- A 2D tool sketch works on a sheet the same way ---
+
+TEST(SplitFaceSheet, SplitFilledSheetFaceWith2DSketchLine)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::ElementId sketchId = createRectSketch(pDb.get());
+    wydb::ElementId sheetId = createFilledSheet(pDb.get(), sketchId);
+    wydb::ElementId curveSketchId = createEmptySketch2DAtZ(pDb.get(), 0.0);
+    wydb::ElementId lineId = addLine2D(pDb.get(), curveSketchId,
+        wy::Vector2(0.0, 25.0), wy::Vector2(100.0, 25.0));
+
+    const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_EQ(countFaces(pSheet->getShape()), 1);
+
+    wy3d::SplitFace* pSplitFace = splitFace2D(pDb.get(), sheetId,
+        findFaceIndexAt(pSheet->getShape(), 2, 0.0), curveSketchId);
+    ASSERT_NE(pSplitFace, nullptr);
+
+    EXPECT_EQ(getChainErrorCode(pDb.get(), sheetId), 0u);
+    EXPECT_EQ(getChainErrorCode(pDb.get(), pSplitFace->getId()), 0u);
+    EXPECT_EQ(pSplitFace->getParent(), sheetId);
+    EXPECT_EQ(pSplitFace->getSketch(), curveSketchId);
+    EXPECT_EQ(pSplitFace->getNewFaceIndices().size(), 2u);
+
+    // The tool sketch hangs under the feature, the way a profile sketch does
+    const wy3d::Sketch* pToolSketch = wy3d::Sketch::cast(pDb->getElement(curveSketchId));
+    ASSERT_NE(pToolSketch, nullptr);
+    EXPECT_EQ(pToolSketch->getParent(), pSplitFace->getId());
+
+    // The sheet stays a compound of one shell
+    pSheet = wy3d::Sheet::cast(pDb->getElement(sheetId));
+    ASSERT_NE(pSheet, nullptr);
+    EXPECT_EQ(countFaces(pSheet->getShape()), 2);
+    EXPECT_NEAR(bodyArea(pSheet->getShape()), 5000.0, 1e-6);
     EXPECT_EQ(countShells(pSheet->getShape()), 1);
     expectAllTopoNamed(pSheet);
 }

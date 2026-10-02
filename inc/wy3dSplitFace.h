@@ -16,6 +16,7 @@
 
 NS_WY3D_BEG
 
+class Sketch;
 class Sketch3D;
 
 class WY3D_EXPORT SplitFace : public wy3d::BodyModification
@@ -35,6 +36,20 @@ public:
         wy3d::Sheet* pSheet,
         const std::vector<unsigned int>& faceIndices,
         wy3d::Sketch3D* pSketch3D,
+        SplitFace*& pOutSplitFace);
+
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        wy3d::Solid* pSolid,
+        const std::vector<unsigned int>& faceIndices,
+        wy3d::Sketch* pSketch,
+        SplitFace*& pOutSplitFace);
+
+    static wy::ErrorStatus create(
+        wydb::Transaction* pTrans,
+        wy3d::Sheet* pSheet,
+        const std::vector<unsigned int>& faceIndices,
+        wy3d::Sketch* pSketch,
         SplitFace*& pOutSplitFace);
 
     const TopoNameList& getFaces() const { return _faceNames; }
@@ -59,8 +74,17 @@ private:
         wy3d::Sketch3D* pSketch3D,
         SplitFace*& pOutSplitFace);
 
+    static wy::ErrorStatus createImpl(
+        wydb::Transaction* pTrans,
+        const TopoDS_Shape& shape,
+        TopoNaming* pTopoNaming,
+        const std::vector<unsigned int>& faceIndices,
+        wy3d::Sketch* pSketch,
+        SplitFace*& pOutSplitFace);
+
     wy::ErrorStatus setFacesImpl(const TopoNameList& faceNames);
     wy::ErrorStatus setSketchImpl(wy3d::Sketch3D* pSketch3D);
+    wy::ErrorStatus setSketchImpl(wy3d::Sketch* pSketch);
     wy::ErrorStatus setSketchIdImpl(const wydb::ElementId& sketchId);
 
 private:

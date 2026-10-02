@@ -22,6 +22,7 @@
 #include <wydbTransaction.h>
 #include <wy3dSplitFace.h>
 #include <wy3dSheet.h>
+#include <wy3dSketch.h>
 #include <wy3dSketch3D.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
@@ -212,17 +213,19 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         Application::instance().getSelManager()->clearSelections();
         Application::instance().getSelManager()->endChange();
 
-        // 拾取配置: 整张3D草图(点草图里的任意一条曲线选中的就是它所属的草图)
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch3D);
+        // 拾取配置: 整张草图(点草图里的任意一条曲线选中的就是它所属的草图)
+        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch) |
+            static_cast<unsigned int>(ElementNodeType::Sketch3D);
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.acceptElement = true;
-        _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(wy3d::Sketch3D::classInfo());
+        _pointPickOption.pSelFilter = std::make_shared<MultiClassSelFilter>(
+            std::vector<wyrx::ClassInfo*>{ wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo() });
         _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
-            wy3d::Sketch3D::classInfo());
+            wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo());
 
         // 提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SplitFaceGuiCmd",
-            "Select the 3D sketch to split the face with."));
+            "Select the 2D or 3D sketch to split the face with."));
 
         // 鼠标样式
         Application::instance().setCursor(CursorType::SelectElements);
@@ -316,7 +319,8 @@ bool SplitFaceGuiCmd::pickSketch(const wyap::Selection& sel)
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return false;
-    if (!wy3d::Sketch3D::cast(pDb->getElement(sel.getElementId())))
+    const wydb::Element* pElem = pDb->getElement(sel.getElementId());
+    if (!wy3d::Sketch3D::cast(pElem) && !wy3d::Sketch::cast(pElem))
     {
         assert(false);
         return false;
@@ -442,19 +446,35 @@ bool SplitFaceGuiCmd::createSplitFace(
     wy3d::Solid* pSolidHost = pHost ? wy3d::Solid::cast(pHost) : nullptr;
     wy3d::Sheet* pSheetHost = (pHost && !pSolidHost) ? wy3d::Sheet::cast(pHost) : nullptr;
     // 工具草图要收到本特征名下, 所以拿的是本次事务的写副本
-    wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pTrans->getElementForWrite(sketchId));
-    if ((!pSolidHost && !pSheetHost) || !pSketch3D)
+    wy3d::Sketch3D* pSketch3D = nullptr;
+    wy3d::Sketch* pSketch = nullptr;
+    if (wydb::Element* pSketchElem = pTrans->getElementForWrite(sketchId))
+    {
+        pSketch3D = wy3d::Sketch3D::cast(pSketchElem);
+        if (!pSketch3D) pSketch = wy3d::Sketch::cast(pSketchElem);
+    }
+    if ((!pSolidHost && !pSheetHost) || (!pSketch3D && !pSketch))
     {
         assert(false);
         pDb->getTransactionManager()->abortTransaction();
         return false;
     }
 
-    // 宿主是实体还是片体决定了走哪个重载
+    // 宿主是实体还是片体、草图是2D还是3D决定了走哪个重载
     wy3d::SplitFace* pSplitFace(nullptr);
-    const wy::ErrorStatus createStatus = pSolidHost
-        ? wy3d::SplitFace::create(pTrans, pSolidHost, faceIndices, pSketch3D, pSplitFace)
-        : wy3d::SplitFace::create(pTrans, pSheetHost, faceIndices, pSketch3D, pSplitFace);
+    wy::ErrorStatus createStatus = wy::ErrorStatus::Ok;
+    if (pSketch3D)
+    {
+        createStatus = pSolidHost
+            ? wy3d::SplitFace::create(pTrans, pSolidHost, faceIndices, pSketch3D, pSplitFace)
+            : wy3d::SplitFace::create(pTrans, pSheetHost, faceIndices, pSketch3D, pSplitFace);
+    }
+    else
+    {
+        createStatus = pSolidHost
+            ? wy3d::SplitFace::create(pTrans, pSolidHost, faceIndices, pSketch, pSplitFace)
+            : wy3d::SplitFace::create(pTrans, pSheetHost, faceIndices, pSketch, pSplitFace);
+    }
     if (wy::ErrorStatus::Ok != createStatus)
     {
         assert(false);

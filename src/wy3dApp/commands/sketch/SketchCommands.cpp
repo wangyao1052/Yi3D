@@ -39,6 +39,7 @@
 #include <wy3dLoft.h>
 #include <wy3dSketchCenterLine.h>
 #include <wy3dHelix.h>
+#include <wy3dSplitFace.h>
 
 #include "application/Application.h"
 #include "widgets/sketch/SketchPlaneDialog.h"
@@ -222,6 +223,11 @@ static bool canEndEditingSketch(const wydb::ElementId& sketchId)
         {
             return true;
         }
+    }
+    else if (wy3d::SplitFace::cast(pSketchOwner))
+    {
+        // 分割面的工具草图就是一组自由曲线, 没有轮廓合法性要求
+        return true;
     }
     else
     {
