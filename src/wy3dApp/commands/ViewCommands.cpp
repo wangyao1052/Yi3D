@@ -40,7 +40,7 @@ int FitViewCommand::run()
     if (!pActiveView) return -1;
     Scene* pScene = Application::instance().getActiveScene();
     if (!pScene) return -1;
-    osg::BoundingSphere bsSphere = pScene->getElementsBoundingBox();
+    osg::BoundingSphere bsSphere = pScene->getFitViewBoundingSphere();
     pActiveView->viewAll(bsSphere);
 
     return 0;

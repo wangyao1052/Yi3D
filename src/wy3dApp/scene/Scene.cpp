@@ -496,9 +496,50 @@ void Scene::initViewCube(osgViewer::View* pView)
     }
 }
 
-osg::BoundingSphere Scene::getElementsBoundingBox() const
+osg::BoundingSphere Scene::getElementsBoundingSphere() const
 {
     return _pElemsRoot->getBound();
+}
+
+osg::BoundingSphere Scene::getFitViewBoundingSphere() const
+{
+    osg::BoundingBox bbox;
+    for (const auto& kvp : _id2ElemNode)
+    {
+        const ElementNode* pElemNode = kvp.second;
+        if (!pElemNode)
+        {
+            assert(false);
+            continue;
+        }
+
+        const ElementNodeType nodeType = pElemNode->getNodeType();
+        // datum planes
+        if (ElementNodeType::DatumPlane == nodeType) continue;
+        // body modifications (no geometry of their own)
+        if (ElementNodeType::BodyModification == nodeType) continue;
+
+        // elements removed from the scene graph (sketch and its parent in sketch environment) are not displayed
+        const osg::Node::ParentList& parents = pElemNode->getOsgNode()->getParents();
+        if (parents.empty() || _pElemsRoot.get() != parents.front()) continue;
+
+        // hidden or inactive
+        if (0 == (pElemNode->getOsgNode()->getNodeMask() & ElementNode::Visible)) continue;
+
+        const osg::BoundingBox& elemBox = pElemNode->getBoundingBox();
+        if (elemBox.valid()) bbox.expandBy(elemBox);
+    }
+
+    if (bbox.valid())
+    {
+        return osg::BoundingSphere(osg::Vec3d(bbox.center()), bbox.radius());
+    }
+    else
+    {
+        // no model, fall back to the whole scene so that a new document keeps its initial view
+        return this->getElementsBoundingSphere();
+    }
+    
 }
 
 ElementNode* Scene::getElementNode(const wydb::ElementId& id) const
@@ -967,7 +1008,7 @@ void Scene::onDatabaseChanged(
     // 刷新草图坐标系的尺寸
     if (_pSketchCsys)
     {
-        osg::BoundingSphere boundSphere = this->getElementsBoundingBox();
+        osg::BoundingSphere boundSphere = this->getElementsBoundingSphere();
         float maxDistanceFromOrigin = boundSphere.center().length() + boundSphere.radius();
         maxDistanceFromOrigin *= 1.2;
         float remainder = fmod(maxDistanceFromOrigin, 500.0f);

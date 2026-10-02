@@ -316,7 +316,7 @@ void Application::fitView()
     if (!pActiveView) return;
     Scene* pScene = Application::instance().getActiveScene();
     if (!pScene) return;
-    osg::BoundingSphere bsSphere = pScene->getElementsBoundingBox();
+    osg::BoundingSphere bsSphere = pScene->getFitViewBoundingSphere();
     pActiveView->viewAll(bsSphere);
 }
 

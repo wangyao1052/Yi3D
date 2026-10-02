@@ -68,7 +68,9 @@ public:
     Scene& operator=(Scene&&) = delete;
 
     // 获取元素外包围盒
-    osg::BoundingSphere getElementsBoundingBox() const;
+    osg::BoundingSphere getElementsBoundingSphere() const;
+    // Bounding sphere for fit-view: datum planes and invisible elements are excluded
+    osg::BoundingSphere getFitViewBoundingSphere() const;
 
     // 根节点
     osg::Group* getRoot() const { return _pRoot.get(); }

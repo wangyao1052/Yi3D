@@ -248,7 +248,7 @@ void OsgView::onDatabaseChanged(
     // 动态设置ModelSize
     CameraManipulator3d* pCamMan3d = dynamic_cast<CameraManipulator3d*>(_pOsgView->getCameraManipulator());
     if (!pCamMan3d) return;
-    osg::BoundingSphere boundSphere = REAL_SCENE(pScene)->getElementsBoundingBox();
+    osg::BoundingSphere boundSphere = REAL_SCENE(pScene)->getElementsBoundingSphere();
     if (boundSphere.radius() > 0)
     {
         pCamMan3d->setModelSize(boundSphere.radius());

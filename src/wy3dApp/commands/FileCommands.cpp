@@ -225,7 +225,7 @@ void FileCmdsUtil::fitViewToAll(wyap::Document* pDoc)
     Scene* pAppScene = dynamic_cast<Scene*>(pScene);
     if (pAppScene)
     {
-        pAppView->viewAll(pAppScene->getElementsBoundingBox());
+        pAppView->viewAll(pAppScene->getFitViewBoundingSphere());
     }
 }
 
@@ -343,7 +343,7 @@ int NewFileCommand::run()
         Scene* pAppScene = dynamic_cast<Scene*>(pScene);
         if (pAppScene)
         {
-            pAppView->viewAll(pAppScene->getElementsBoundingBox());
+            pAppView->viewAll(pAppScene->getFitViewBoundingSphere());
         }
     }
     //// 刷新窗口标题
