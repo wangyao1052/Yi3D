@@ -123,6 +123,9 @@ void RotateGuiCmd::onEnd()
     // 建模环境
     cleanupEnvSpecific();
 
+    // 清空工作平面捕捉对象
+    if (_pWorkPlnSnapSystem) _pWorkPlnSnapSystem->clearSnapResult();
+
 }
 void RotateGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
@@ -139,6 +142,8 @@ void RotateGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     // 建模环境
     cleanupEnvSpecific();
 
+    // 清空工作平面捕捉对象
+    if (_pWorkPlnSnapSystem) _pWorkPlnSnapSystem->clearSnapResult();
 }
 
 void RotateGuiCmd::reset()

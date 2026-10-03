@@ -129,6 +129,9 @@ void MoveGuiCmd::onEnd()
     // 建模环境
     cleanupEnvSpecific();
 
+    // 清空工作平面捕捉对象
+    if (_pWorkPlnSnapSystem) _pWorkPlnSnapSystem->clearSnapResult();
+
 }
 void MoveGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
@@ -145,6 +148,8 @@ void MoveGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     // 建模环境
     cleanupEnvSpecific();
 
+    // 清空工作平面捕捉对象
+    if (_pWorkPlnSnapSystem) _pWorkPlnSnapSystem->clearSnapResult();
 }
 
 bool MoveGuiCmd::finishStep(Step step)
