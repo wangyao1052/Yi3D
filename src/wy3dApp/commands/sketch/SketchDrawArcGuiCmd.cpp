@@ -34,6 +34,7 @@
 #include "application/Application.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/SketchBasicTransient.h"
+#include "scene/RenderConst.h"
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
 
@@ -43,6 +44,18 @@ static bool parseDoubleText(const QString& text, double& value)
     bool ok(false);
     value = text.trimmed().toDouble(&ok);
     return ok;
+}
+
+// 创建半径线瞬态（虚线）
+static LineTransientSPtr createRadiusLineTransient(const wy3d::SketchPlane& sketchPlane,
+    const wy::Vector2& startPnt, const wy::Vector2& endPnt)
+{
+    LineTransientSPtr pRadiusLineTransient = std::make_shared<LineTransient>(
+        new osg::LineStipple(DASH_LINE_STIPPLE_FACTOR, DASH_LINE_STIPPLE_PATTERN));
+    pRadiusLineTransient->setColor(osg::Vec4(1.0f, 0.392f, 0.039f, 1.0f));
+    pRadiusLineTransient->update(sketchPlane, startPnt, endPnt);
+    pRadiusLineTransient->show();
+    return pRadiusLineTransient;
 }
 
 SketchDrawArcGuiCmd::SketchDrawArcGuiCmd()
@@ -95,6 +108,8 @@ void SketchDrawArcGuiCmd::cleanup()
 
     _pCircleTransient = nullptr;
     _pCenterPointTransient = nullptr;
+    _pStartRadiusLineTransient = nullptr;
+    _pEndRadiusLineTransient = nullptr;
     _pMakeSketchArc = nullptr;
 }
 
@@ -135,6 +150,10 @@ bool SketchDrawArcGuiCmd::finishStep(Step step)
         _pCenterPointTransient->update(_sketchInfo.sketchPlane, _centerPnt);
         _pCenterPointTransient->show();
 
+        // 起点半径线
+        _pStartRadiusLineTransient = createRadiusLineTransient(
+            _sketchInfo.sketchPlane, _centerPnt, _centerPnt);
+
         // next step
         this->gotoStep(Step::SpecifyStartPoint);
         return true;
@@ -162,6 +181,13 @@ bool SketchDrawArcGuiCmd::finishStep(Step step)
         // 圆
         _pCircleTransient = nullptr;
 
+        // 起点半径线固定在起点
+        if (_pStartRadiusLineTransient) _pStartRadiusLineTransient->update(_sketchInfo.sketchPlane, _centerPnt, _startPnt);
+
+        // 终点半径线
+        _pEndRadiusLineTransient = createRadiusLineTransient(
+            _sketchInfo.sketchPlane, _centerPnt, _startPnt);
+
         // next step
         this->gotoStep(Step::SpecifyEndPoint);
         return true;
@@ -182,6 +208,10 @@ bool SketchDrawArcGuiCmd::finishStep(Step step)
 
         // 圆心标记
         _pCenterPointTransient = nullptr;
+
+        // 半径线
+        _pStartRadiusLineTransient = nullptr;
+        _pEndRadiusLineTransient = nullptr;
 
         // next step
         this->gotoStep(Step::SpecifyCenterPnt);
@@ -290,6 +320,7 @@ void SketchDrawArcGuiCmd::onMouseMove(const MouseEvent& event)
             {
                 _pCircleTransient->update(_centerPnt, radius);
             }
+            if (_pStartRadiusLineTransient) _pStartRadiusLineTransient->update(_sketchInfo.sketchPlane, _centerPnt, startPnt);
         }
     }
     break;
@@ -303,6 +334,7 @@ void SketchDrawArcGuiCmd::onMouseMove(const MouseEvent& event)
         _hoverPopupState.totalAngleDeg = totalAngleInDegree;
         {
             if (_pMakeSketchArc) _pMakeSketchArc->update(totalAngle);
+            if (_pEndRadiusLineTransient) _pEndRadiusLineTransient->update(_sketchInfo.sketchPlane, _centerPnt, endPnt);
         }
     }
     break;

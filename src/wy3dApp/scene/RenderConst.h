@@ -52,6 +52,10 @@ static const inline unsigned short CENTER_LINE_STIPPLE_PATTERN = 0x33FF;
 static const inline int DOT_LINE_STIPPLE_FACTOR = 2;
 static const inline unsigned short DOT_LINE_STIPPLE_PATTERN = 0xAAAA;
 
+// 虚线（20实 12空。GL 从 bit0 起用图案，长划写在低位）
+static const inline int DASH_LINE_STIPPLE_FACTOR = 2;
+static const inline unsigned short DASH_LINE_STIPPLE_PATTERN = 0x03FF;
+
 #define PICK_MASK 0x0000FFFF
 
 #endif // WY3DAPP_RENDER_CONST_H

@@ -124,6 +124,10 @@ private:
     std::shared_ptr<SketchCircleTransient> _pCircleTransient;
     // 圆心标记
     CenterPointTransientSPtr _pCenterPointTransient;
+    // 起点半径线
+    LineTransientSPtr _pStartRadiusLineTransient;
+    // 终点半径线
+    LineTransientSPtr _pEndRadiusLineTransient;
 
     std::unique_ptr<GuiCmdHoverInputPopup2> _pXYPopup;
     std::unique_ptr<GuiCmdHoverInputPopup2> _pRadiusAnglePopup;
