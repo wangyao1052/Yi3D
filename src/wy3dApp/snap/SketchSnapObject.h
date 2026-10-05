@@ -344,8 +344,9 @@ typedef std::shared_ptr<KeyPointSnapObject> KeyPointSnapObjectSPtr;
 class EndPointSnapObject : public PointSnapObject
 {
 public:
-    EndPointSnapObject(const wydb::ElementId& id, const wy::Vector2& point)
-        : PointSnapObject(id, point, 0) {}
+    // extra --- which end point of the curve: START or END
+    EndPointSnapObject(const wydb::ElementId& id, const wy::Vector2& point, short extra = 0)
+        : PointSnapObject(id, point, extra) {}
 
     // 类型
     virtual SketchSnapType getType() const override { return SketchSnapType::EndPoint; }

@@ -28,8 +28,10 @@ SketchSnapResult::SketchSnapResult(
     const wy3d::SketchPlane& sketchPlane,
     const wy::Vector2& position,
     SketchSnapContextSPtr pContext,
-    SketchSnapObjectSPtr pSnapObject)
-    : _sketchPlane(sketchPlane), _position(position), _pContext(pContext)
+    SketchSnapObjectSPtr pSnapObject,
+    bool drawPoint)
+    : _sketchPlane(sketchPlane), _position(position), _pContext(pContext),
+      _isPointToDraw(drawPoint)
 {
     assert(pContext);
     assert(pSnapObject);
@@ -42,8 +44,10 @@ SketchSnapResult::SketchSnapResult(
     const wy3d::SketchPlane& sketchPlane,
     const wy::Vector2& position,
     SketchSnapContextSPtr pContext,
-    SketchSnapObjectSPtr pSnapObject, SketchSnapObjectSPtr pOtherSnapObject)
-    : _sketchPlane(sketchPlane), _position(position), _pContext(pContext)
+    SketchSnapObjectSPtr pSnapObject, SketchSnapObjectSPtr pOtherSnapObject,
+    bool drawPoint)
+    : _sketchPlane(sketchPlane), _position(position), _pContext(pContext),
+      _isPointToDraw(drawPoint)
 {
     assert(pContext);
     assert(pSnapObject);
@@ -295,6 +299,11 @@ void SketchSnapResult::show(const std::map<wydb::ElementId, SketchCurveTransient
         case SketchSnapType::EndPoint:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getEnd();
+            if (_isPointToDraw)
+            {
+                item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, _position,
+                    SnapConsts::PointSize, SnapConsts::PointColor));
+            }
         }
         break;
 

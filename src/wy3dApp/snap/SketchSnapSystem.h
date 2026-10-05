@@ -240,6 +240,13 @@ private:
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
 
+    // 曲线端点+捕捉到对象
+    SketchSnapResultSPtr snapImplPicked(
+        const SketchCurveEndPointContext* pCurveEndPointContext, const wydb::Database* pDb,
+        const wydb::ElementId& pickedId,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY);
+
     // 捕捉角度
     AngleSnapObjectSPtr snapAngleSnapObject(
         const std::vector<AngleSnapObjectSPtr>& angleSnapObjs,

@@ -47,13 +47,15 @@ public:
         const wy3d::SketchPlane& sketchPlane,
         const wy::Vector2& position,
         SketchSnapContextSPtr pContext,
-        SketchSnapObjectSPtr pSnapObject);
+        SketchSnapObjectSPtr pSnapObject,
+        bool drawPoint = true);
     SketchSnapResult(
         const wy3d::SketchPlane& sketchPlane,
         const wy::Vector2& position,
         SketchSnapContextSPtr pContext,
         SketchSnapObjectSPtr pSnapObject,
-        SketchSnapObjectSPtr pOtherSnapObject);
+        SketchSnapObjectSPtr pOtherSnapObject,
+        bool drawPoint = true);
     ~SketchSnapResult();
 
     // 获取位置坐标
@@ -94,6 +96,8 @@ private:
     wy3d::SketchPlane _sketchPlane;
     wy::Vector2 _position;
     SketchSnapContextSPtr _pContext;
+    // Whether the sketch layer draws the point marker for this result
+    bool _isPointToDraw;
     std::vector<SketchSnapResultItem> _items;
 
     // 跟随鼠标移动

@@ -422,7 +422,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchCurveEndPointContext>(wydb::ElementId::kNull);
     }
     break;
 
@@ -500,8 +500,8 @@ void SketchDrawArcTangentGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::SpecifyStartPoint:
     {
-        // Only to refresh the snap result so that the snap marker follows the cursor
-        this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane,
+            this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys, false); // snap3d = false
     }
     break;
 
@@ -564,7 +564,8 @@ void SketchDrawArcTangentGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyStartPoint:
     {
-        this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane,
+            this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys, false); // snap3d = false
 
         wy::Vector2 startPnt, tangent;
         if (!this->getEndpointSnap(startPnt, tangent))

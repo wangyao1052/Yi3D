@@ -80,7 +80,8 @@ static SketchSnapResultSPtr convertSnapResult(
 
     if (pSketchSnapObj)
     {
-        return std::make_shared<SketchSnapResult>(sketchPlane, retPos, pSnapContext, pSketchSnapObj);
+        return std::make_shared<SketchSnapResult>(
+            sketchPlane, retPos, pSnapContext, pSketchSnapObj, false); // drawPoint = false
     }
     else
     {

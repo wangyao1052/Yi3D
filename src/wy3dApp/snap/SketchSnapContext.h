@@ -70,6 +70,14 @@ public:
 };
 typedef std::shared_ptr<SketchLocateContext> SketchLocateContextSPtr;
 
+// End point of an existing curve: only the start/end points of eligible curves snap
+class SketchCurveEndPointContext : public SketchSnapContext
+{
+public:
+    explicit SketchCurveEndPointContext(const wydb::ElementId& id) : SketchSnapContext(id) {}
+};
+typedef std::shared_ptr<SketchCurveEndPointContext> SketchCurveEndPointContextSPtr;
+
 // 绘制线
 class SketchDrawLineContext : public SketchSnapContext
 {

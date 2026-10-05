@@ -695,6 +695,14 @@ SketchSnapResultSPtr SketchSnapSystem::snapImpl(
                 pDrawArcContext, pDb, pickedId, pos, xPerPixel, yPerPixel);
             if (pSnapRet) return pSnapRet;
         }
+        // Curve end point. Deliberately no counterpart in the no-picked section below:
+        // this context snaps only to the eligible curve end points, align snaps never appear.
+        else if (const SketchCurveEndPointContext* pCurveEndPointContext = dynamic_cast<const SketchCurveEndPointContext*>(pContext.get()))
+        {
+            SketchSnapResultSPtr pSnapRet = this->snapImplPicked(
+                pCurveEndPointContext, pDb, pickedId, pos, xPerPixel, yPerPixel);
+            if (pSnapRet) return pSnapRet;
+        }
     }
 
     // 定位点
@@ -1931,6 +1939,42 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
     else if (const wy3d::SketchCircle* pCircle = wy3d::SketchCircle::cast(pPickedElem))
     {
         return nullptr;
+    }
+
+    return nullptr;
+}
+
+// 曲线端点
+SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
+    const SketchCurveEndPointContext* pCurveEndPointContext, const wydb::Database* pDb,
+    const wydb::ElementId& pickedId,
+    const wy::Vector2& pos,
+    double scaleScreenX, double scaleScreenY)
+{
+    assert(pCurveEndPointContext);
+    assert(_pSnapContext);
+    assert(pCurveEndPointContext == _pSnapContext.get());
+    assert(pDb);
+    assert(!pickedId.isNull());
+
+    // Only lines, centerlines, arcs, ellipse arcs and open splines of this sketch qualify
+    const wy3d::SketchCurve* pCurve = wy3d::SketchCurve::cast(pDb->getElement(pickedId));
+    if (!pCurve || pCurve->isClosed() || pCurve->getParent() != _sketchId)
+    {
+        return nullptr;
+    }
+
+    std::list<PointSnapObjectSPtr> pointSnapObjs;
+    pointSnapObjs.push_back(std::make_shared<EndPointSnapObject>(
+        pickedId, pCurve->getStartPoint(), SketchSnapObject::START));
+    pointSnapObjs.push_back(std::make_shared<EndPointSnapObject>(
+        pickedId, pCurve->getEndPoint(), SketchSnapObject::END));
+
+    PointSnapObjectSPtr pSnapObj = this->snapPointSnapObject_Nearest(
+        pointSnapObjs, pos, 10, scaleScreenX, scaleScreenY);
+    if (pSnapObj)
+    {
+        return std::make_shared<SketchSnapResult>(_sketchPlane, pSnapObj->getValue(), _pSnapContext, pSnapObj);
     }
 
     return nullptr;
