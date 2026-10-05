@@ -38,6 +38,7 @@
 #include "commands/sketch/SketchDrawCircleBy3PointsGuiCmd.h"
 #include "commands/sketch/SketchDrawArcGuiCmd.h"
 #include "commands/sketch/SketchDrawArcBy3PointsGuiCmd.h"
+#include "commands/sketch/SketchDrawArcTangentGuiCmd.h"
 #include "commands/sketch/SketchDrawEllipseGuiCmd.h"
 #include "commands/sketch/SketchDrawEllipseArcGuiCmd.h"
 #include "commands/sketch/SketchDrawSplineGuiCmd.h"
@@ -80,6 +81,7 @@
     X(CommandNames::CircleBy3Points, WYAP_CMD_MODAL, SketchDrawCircleBy3PointsGuiCmd::classInfo()) \
     X(CommandNames::Arc, WYAP_CMD_MODAL, SketchDrawArcGuiCmd::classInfo()) \
     X(CommandNames::ArcBy3Points, WYAP_CMD_MODAL, SketchDrawArcBy3PointsGuiCmd::classInfo()) \
+    X(CommandNames::ArcTangent, WYAP_CMD_MODAL, SketchDrawArcTangentGuiCmd::classInfo()) \
     X(CommandNames::Ellipse, WYAP_CMD_MODAL, SketchDrawEllipseGuiCmd::classInfo()) \
     X(CommandNames::EllipseArc, WYAP_CMD_MODAL, SketchDrawEllipseArcGuiCmd::classInfo()) \
     X(CommandNames::Spline, WYAP_CMD_MODAL, SketchDrawSplineGuiCmd_FitPoints::classInfo()) \

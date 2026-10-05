@@ -115,6 +115,7 @@ public:
     static inline const std::string CircleBy3Points = "CircleBy3Points";
     static inline const std::string Arc = "Arc";
     static inline const std::string ArcBy3Points = "ArcBy3Points";
+    static inline const std::string ArcTangent = "ArcTangent";
     static inline const std::string Ellipse = "Ellipse";
     static inline const std::string EllipseArc = "EllipseArc";
     static inline const std::string SplineSeries = "SplineSeries";

@@ -41,6 +41,9 @@ public:
     // OK is enabled by default; a command that has nothing to confirm yet keeps it disabled
     // until there is.
     void setOkEnabled(bool enabled);
+    // Top-left anchor in parent coordinates, used while the panel has not been moved by the
+    // user; takes effect on the next anchoring (i.e. before show()).
+    void setAnchorOffset(const QPoint& offset);
 
     // returns the content area widget for subclasses to populate
     QWidget* contentWidget() const { return _pContent; }
@@ -67,6 +70,7 @@ private:
 
 protected:
     QPoint _parentOffset;
+    QPoint _anchorOffset;
     bool _userMoved;
 
 private:

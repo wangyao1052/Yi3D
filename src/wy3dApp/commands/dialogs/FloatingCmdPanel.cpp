@@ -31,6 +31,7 @@
 FloatingCmdPanel::FloatingCmdPanel(QWidget* parent)
     : QWidget(parent)
     , _parentOffset(8, 8)
+    , _anchorOffset(8, 8)
     , _userMoved(false)
     , _pContent(nullptr)
     , _pTitleLabel(nullptr)
@@ -149,6 +150,11 @@ void FloatingCmdPanel::setOkEnabled(bool enabled)
         _pOkButton->setEnabled(enabled);
 }
 
+void FloatingCmdPanel::setAnchorOffset(const QPoint& offset)
+{
+    _anchorOffset = offset;
+}
+
 void FloatingCmdPanel::setTitleBarWidget(QWidget* pTitleBar)
 {
     _pTitleBar = pTitleBar;
@@ -262,8 +268,7 @@ void FloatingCmdPanel::anchorToTopLeft()
     QWidget* pParent = parentWidget();
     if (!pParent) return;
 
-    const int margin = 8;
-    _parentOffset = QPoint(margin, margin);
+    _parentOffset = _anchorOffset;
     clampToParentBounds();
     move(pParent->mapToGlobal(_parentOffset));
 }

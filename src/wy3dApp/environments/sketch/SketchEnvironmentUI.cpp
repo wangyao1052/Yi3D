@@ -91,6 +91,7 @@ struct SketchActions
     CommandAction* pActionDrawCircleBy3Points;
     CommandAction* pActionDrawArc;
     CommandAction* pActionDrawArcBy3Points;
+    CommandAction* pActionDrawArcTangent;
     CommandAction* pActionDrawEllipse;
     CommandAction* pActionDrawEllipseArc;
     CommandAction* pActionDrawSpline;
@@ -438,6 +439,12 @@ SketchActions createSketchActions(SketchEnvironment* pEnv, QActionGroup* pAction
         IconUtil::get(":/images/Sketch_DrawArcBy3Points.svg"),
         pActionGroup);
 
+    actions.pActionDrawArcTangent = pEnv->newCommandAction(
+        CommandNames::ArcTangent,
+        QCoreApplication::translate("MainWindow", "Tangent Arc"),
+        IconUtil::get(":/images/Sketch_DrawTangentArc.svg"),
+        pActionGroup);
+
     actions.pActionDrawEllipse = pEnv->newCommandAction(
         CommandNames::Ellipse,
         QCoreApplication::translate("MainWindow", "Ellipse"),
@@ -739,6 +746,7 @@ void buildSketchToolBarUi(
     std::list<QAction*> arcSeriesActions;
     arcSeriesActions.emplace_back(actions.pActionDrawArc);
     arcSeriesActions.emplace_back(actions.pActionDrawArcBy3Points);
+    arcSeriesActions.emplace_back(actions.pActionDrawArcTangent);
     QToolButton* pToolBtnArcSeries = pEnv->newMenuPopupToolButton(
         pToolBarSketch,
         QCoreApplication::translate("MainWindow", "Arc Series"),
