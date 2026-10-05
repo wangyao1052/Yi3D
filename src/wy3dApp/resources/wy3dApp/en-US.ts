@@ -5284,12 +5284,12 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="658"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="659"/>
         <source>Radius</source>
         <translation type="unfinished">Radius</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="669"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="670"/>
         <source>SweepAngle</source>
         <translation type="unfinished"></translation>
     </message>

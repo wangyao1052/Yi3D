@@ -6831,12 +6831,12 @@ Do you want to save it to the original file now?
         <translation type="vanished">选择相切的直线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="658"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="659"/>
         <source>Radius</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="669"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="670"/>
         <source>SweepAngle</source>
         <translation>扫掠角度</translation>
     </message>
