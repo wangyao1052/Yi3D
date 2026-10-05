@@ -4,8 +4,6 @@ set(PROJECT_NAME "wy3dApp")
 set(APPLICATION_NAME "YI3D")
 project(${PROJECT_NAME} VERSION 0.0.1 LANGUAGES CXX)
 
-add_definitions(-DWY3D_APP_LIBRARY)
-
 # qt
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -15,19 +13,21 @@ find_package(OpenSceneGraph REQUIRED COMPONENTS osg osgDB osgViewer osgUtil osgG
 find_package(wydb)
 find_package(wyap)
 
-file(GLOB_RECURSE SRCS ./*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/resources/wy3dApp.qrc)
-list(APPEND SRCS "${CMAKE_SOURCE_DIR}/src/common/osg/OsgUtils.cpp")
-list(APPEND SRCS "${CMAKE_SOURCE_DIR}/src/common/osg/OsgSelectUtils.cpp")
-list(APPEND SRCS "${CMAKE_SOURCE_DIR}/3rdParty/base64/base64.cpp")
+# 应用框架共享库(app framework shared library): YI3D.exe 与插件共同链接
+# Application framework shared library: linked by both YI3D.exe and plugins
+file(GLOB_RECURSE APP_SRCS ./*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/resources/wy3dApp.qrc)
+list(APPEND APP_SRCS "${CMAKE_SOURCE_DIR}/src/common/osg/OsgUtils.cpp")
+list(APPEND APP_SRCS "${CMAKE_SOURCE_DIR}/src/common/osg/OsgSelectUtils.cpp")
+list(APPEND APP_SRCS "${CMAKE_SOURCE_DIR}/3rdParty/base64/base64.cpp")
+# main.cpp 只属于可执行程序
+list(REMOVE_ITEM APP_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
 
-# execuable application icon
-if(WIN32)
-    list(APPEND SRCS ${CMAKE_CURRENT_SOURCE_DIR}/resources/Yi3D.rc)
-endif()
+add_library(wy3dApp SHARED ${APP_SRCS})
+target_compile_definitions(wy3dApp PRIVATE WY3DAPP_LIBRARY)
+# 自动导出全部符号, 保证薄壳 exe 与插件能链接到框架类(插件 SDK 面的类再显式加 WY3DAPP_EXPORT)
+set_target_properties(wy3dApp PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 
-add_executable(${APPLICATION_NAME} ${SRCS})
-
-target_include_directories(${APPLICATION_NAME} PRIVATE
+target_include_directories(wy3dApp PUBLIC
     "${CMAKE_SOURCE_DIR}/src/common/osg"
     "${CMAKE_SOURCE_DIR}/src/common/wyap"
     "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -39,27 +39,22 @@ target_include_directories(${APPLICATION_NAME} PRIVATE
 )
 if(UNIX)
     # osgQOpenGL generate_export_header output
-    target_include_directories(${APPLICATION_NAME} PRIVATE "${osgQt_BINARY_DIR}/src")
-endif()
-# Release版本不需要命令行窗口
-if(MSVC AND CMAKE_BUILD_TYPE STREQUAL "Release")
-    set_target_properties(${APPLICATION_NAME} PROPERTIES
-        LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+    target_include_directories(wy3dApp PUBLIC "${osgQt_BINARY_DIR}/src")
 endif()
 
 # link wycad libraries
-target_link_libraries(${APPLICATION_NAME} wydb wyap)
-target_link_libraries(${APPLICATION_NAME} wy3d)
+target_link_libraries(wy3dApp PUBLIC wydb wyap)
+target_link_libraries(wy3dApp PUBLIC wy3d)
 # link opencascade libraries
 find_package(OpenCASCADE REQUIRED)
-target_link_libraries(${APPLICATION_NAME} TKernel TKMath TKG2d TKG3d TKGeomBase TKBRep
+target_link_libraries(wy3dApp PUBLIC TKernel TKMath TKG2d TKG3d TKGeomBase TKBRep
     TKGeomAlgo TKTopAlgo TKPrim TKBO TKBool TKFeat TKFillet TKOffset
     TKHLR TKMesh TKSTEP TKXSBase TKIGES)
 # link qt libraries
-target_link_libraries(${APPLICATION_NAME} Qt5::Core Qt5::Gui Qt5::Widgets Qt5::OpenGL Qt5::OpenGLExtensions Qt5::Network)
+target_link_libraries(wy3dApp PUBLIC Qt5::Core Qt5::Gui Qt5::Widgets Qt5::OpenGL Qt5::OpenGLExtensions Qt5::Network)
 # link osg libraries
 if(WIN32)
-    target_link_libraries(${APPLICATION_NAME}
+    target_link_libraries(wy3dApp PUBLIC
         OpenSceneGraph::OpenThreads
         OpenSceneGraph::osg
         OpenSceneGraph::osgDB
@@ -70,16 +65,28 @@ if(WIN32)
         OpenSceneGraph::osgQOpenGL
     )
 else()
-    target_link_libraries(${APPLICATION_NAME} ${OPENSCENEGRAPH_LIBRARIES})
-    target_include_directories(${APPLICATION_NAME} PRIVATE ${OPENSCENEGRAPH_INCLUDE_DIRS})
-    target_link_libraries(${APPLICATION_NAME} osgQOpenGL)
+    target_link_libraries(wy3dApp PUBLIC ${OPENSCENEGRAPH_LIBRARIES})
+    target_include_directories(wy3dApp PUBLIC ${OPENSCENEGRAPH_INCLUDE_DIRS})
+    target_link_libraries(wy3dApp PUBLIC osgQOpenGL)
 endif()
 # link muparser libraries
-target_link_libraries(${APPLICATION_NAME} muparser)
+target_link_libraries(wy3dApp PUBLIC muparser)
 # link dl library (dlopen/dlsym/dlclose) - required on Linux for PythonScriptExecutor
 if(NOT WIN32)
-    target_link_libraries(${APPLICATION_NAME} ${CMAKE_DL_LIBS})
-    target_compile_definitions(${APPLICATION_NAME} PRIVATE PYTHON_LIBRARY_NAME="${PYTHON3_LIB_NAME}")
+    target_link_libraries(wy3dApp PUBLIC ${CMAKE_DL_LIBS})
+    target_compile_definitions(wy3dApp PRIVATE PYTHON_LIBRARY_NAME="${PYTHON3_LIB_NAME}")
+endif()
+
+# 可执行程序: 薄壳(main.cpp + 图标资源)
+add_executable(${APPLICATION_NAME} main.cpp)
+if(WIN32)
+    target_sources(${APPLICATION_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/resources/Yi3D.rc)
+endif()
+target_link_libraries(${APPLICATION_NAME} PRIVATE wy3dApp)
+# Release版本不需要命令行窗口
+if(MSVC AND CMAKE_BUILD_TYPE STREQUAL "Release")
+    set_target_properties(${APPLICATION_NAME} PROPERTIES
+        LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
 endif()
 
 # 编译后自动拷贝运行时依赖 DLL（仅 Windows）
@@ -99,7 +106,7 @@ set(TS_FILES "zh-CN.ts" "en-US.ts")
 find_program(LUPDATE_EXECUTABLE lupdate)
 find_program(LRELEASE_EXECUTABLE lrelease)
 foreach(TSFILE ${TS_FILES})
-	execute_process(COMMAND ${LUPDATE_EXECUTABLE} ${SRCS} -ts "${TS_DIR}/${TSFILE}")
+	execute_process(COMMAND ${LUPDATE_EXECUTABLE} ${APP_SRCS} -ts "${TS_DIR}/${TSFILE}")
 	execute_process(COMMAND ${LRELEASE_EXECUTABLE} "${TS_DIR}/${TSFILE}")
 endforeach()
 

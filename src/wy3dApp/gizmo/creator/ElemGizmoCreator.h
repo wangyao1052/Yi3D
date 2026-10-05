@@ -25,7 +25,9 @@
 #include <wydbElement.h>
 #include <wyapGizmo.h>
 
-class ElemGizmoCreator
+#include "wy3dAppDefs.h"
+
+class WY3DAPP_EXPORT ElemGizmoCreator
 {
 public:
     virtual ~ElemGizmoCreator() {}
@@ -34,7 +36,7 @@ public:
 };
 
 // 空的Gizmo生成器
-class NullGizmoCreator : public ElemGizmoCreator
+class WY3DAPP_EXPORT NullGizmoCreator : public ElemGizmoCreator
 {
 public:
     virtual std::list<wyap::GizmoSPtr> createGizmos(const wydb::Element* pElem) const override

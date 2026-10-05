@@ -31,12 +31,13 @@
 #include <wy3dSolid.h>
 #include <wy3dSketch.h>
 #include "ElementNodeType.h"
+#include "wy3dAppDefs.h"
 
 class Scene;
 
 // 元素节点
 // 生命周期由Scene类管理
-class ElementNode
+class WY3DAPP_EXPORT ElementNode
 {
 public:
     static osg::Matrix createMatrix(const wy::Vector3& pos, const wy::Vector3& rot);

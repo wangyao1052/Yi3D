@@ -22,7 +22,9 @@
 #include <QIcon>
 #include <QString>
 
-class IconUtil
+#include "wy3dAppDefs.h"
+
+class WY3DAPP_EXPORT IconUtil
 {
 public:
     static QIcon get(const QString& path);

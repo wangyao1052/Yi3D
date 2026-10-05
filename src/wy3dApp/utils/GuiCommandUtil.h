@@ -26,6 +26,8 @@
 #include <wy3dSolid.h>
 #include <wy3dSheet.h>
 
+#include "wy3dAppDefs.h"
+
 class SketchSnapSystem;
 class Sketch3DEnvironment;
 
@@ -45,7 +47,7 @@ struct GuiCmdSketch3DInfo
     GuiCmdSketch3DInfo() : sketch3dId(wydb::ElementId::kNull) {}
 };
 
-class GuiCommandUtil
+class WY3DAPP_EXPORT GuiCommandUtil
 {
 public:
     // 获取工作平面

@@ -38,6 +38,7 @@
 #include <wyapSceneManager.h>
 #include "snap/SnapSystemBase.h"
 #include "widgets/StatusBarHelper.h"
+#include "wy3dAppDefs.h"
 
 namespace wydb
 {
@@ -69,7 +70,7 @@ class AutoSave;
 
 enum class CursorType;
 
-class Application : public QObject, public wyap::Application
+class WY3DAPP_EXPORT Application : public QObject, public wyap::Application
 {
     Q_OBJECT
 private:

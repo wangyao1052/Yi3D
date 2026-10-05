@@ -25,9 +25,11 @@
 #include <QObject>
 #include <QLineEdit>
 
+#include "wy3dAppDefs.h"
+
 class GuiCmdLabel;
 
-class GuiCmdControls : public QObject
+class WY3DAPP_EXPORT GuiCmdControls : public QObject
 {
 public:
 	GuiCmdControls();

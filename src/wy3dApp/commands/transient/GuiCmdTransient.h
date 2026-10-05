@@ -26,7 +26,9 @@
 #include <wy3dVector2.h>
 #include <wy3dVector3.h>
 
-class GuiCmdTransient
+#include "wy3dAppDefs.h"
+
+class WY3DAPP_EXPORT GuiCmdTransient
 {
 public:
     GuiCmdTransient();

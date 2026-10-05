@@ -24,7 +24,9 @@
 #include <QObject>
 #include <QString>
 
-class ParamNamesTranslation : public QObject
+#include "wy3dAppDefs.h"
+
+class WY3DAPP_EXPORT ParamNamesTranslation : public QObject
 {
     Q_OBJECT
 public:

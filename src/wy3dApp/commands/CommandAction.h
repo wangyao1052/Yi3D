@@ -22,7 +22,9 @@
 #include <string>
 #include <QAction>
 
-class CommandAction : public QAction
+#include "wy3dAppDefs.h"
+
+class WY3DAPP_EXPORT CommandAction : public QAction
 {
 public:
     CommandAction(

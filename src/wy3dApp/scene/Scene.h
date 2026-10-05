@@ -43,6 +43,7 @@
 #include "select/BoxSelectRectangle.h"
 #include "scene/ViewCube.h"
 #include "RTree/RTree.h"
+#include "wy3dAppDefs.h"
 
 namespace wyap
 {
@@ -57,7 +58,7 @@ class Sketch3DEnvironment;
 // 场景
 // 每个文档对应一个场景
 // 场景的生命周期由SceneManager来管理
-class Scene : public wyap::Scene, public wyap::SnapSystemReactor
+class WY3DAPP_EXPORT Scene : public wyap::Scene, public wyap::SnapSystemReactor
 {
 public:
     Scene(wyap::Document* pDoc);

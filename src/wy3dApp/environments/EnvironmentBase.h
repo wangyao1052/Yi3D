@@ -30,8 +30,9 @@
 #include <wyapCmdStack.h>
 
 #include "commands/CommandAction.h"
+#include "wy3dAppDefs.h"
 
-class EnvironmentBase : public QObject
+class WY3DAPP_EXPORT EnvironmentBase : public QObject
 {
     Q_OBJECT
 public:

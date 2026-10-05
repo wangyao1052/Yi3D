@@ -27,8 +27,9 @@
 #include <wy3dSketchPlane.h>
 #include "commands/GuiCommand.h"
 #include "snap/SketchSnapContext.h"
+#include "wy3dAppDefs.h"
 
-class OsgGuiCommand : public GuiCommand
+class WY3DAPP_EXPORT OsgGuiCommand : public GuiCommand
 {
     WYRX_DECLARE_ABSTRACT_MEMBERS(OsgGuiCommand, OsgGuiCommand, GuiCommand)
 public:

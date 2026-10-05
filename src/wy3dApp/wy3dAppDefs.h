@@ -19,6 +19,17 @@
 #ifndef WY3DAPP_DEFS_H
 #define WY3DAPP_DEFS_H
 
+// Export/import macro for the app framework shared library (wy3dApp).
+#if defined(_WIN32)
+    #if defined(WY3DAPP_LIBRARY)
+        #define WY3DAPP_EXPORT __declspec(dllexport)
+    #else
+        #define WY3DAPP_EXPORT __declspec(dllimport)
+    #endif
+#else
+    #define WY3DAPP_EXPORT __attribute__((visibility("default")))
+#endif
+
 #define NS_WY3DAPP_BEG namespace wy3dApp {
 #define NS_WY3DAPP_END }
 

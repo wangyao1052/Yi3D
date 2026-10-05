@@ -26,6 +26,7 @@
 #include <wyapGizmoManager.h>
 #include "commands/OsgGuiCommand.h"
 #include "commands/GuiCommandMenu.h"
+#include "wy3dAppDefs.h"
 
 class ElementNode;
 #include "commands/edit/PasteElements.h"
@@ -43,7 +44,7 @@ private:
     void onPaste();
 };
 
-class SelectGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor
+class WY3DAPP_EXPORT SelectGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor
 {
     WYRX_DECLARE_MEMBERS(SelectGuiCmd, SelectGuiCmd, OsgGuiCommand)
 

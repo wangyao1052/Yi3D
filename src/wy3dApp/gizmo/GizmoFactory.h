@@ -25,11 +25,16 @@
 #include <wydbElement.h>
 #include <wyapGizmo.h>
 #include "creator/ElemGizmoCreator.h"
+#include "wy3dAppDefs.h"
 
-class GizmoFactory
+class WY3DAPP_EXPORT GizmoFactory
 {
 public:
     GizmoFactory();
+    GizmoFactory(const GizmoFactory&) = delete;
+    GizmoFactory& operator=(const GizmoFactory&) = delete;
+    GizmoFactory(GizmoFactory&&) = delete;
+    GizmoFactory& operator=(GizmoFactory&&) = delete;
 
     std::list<wyap::GizmoSPtr> createGizmos(const wydb::Element* pElem) const;
 

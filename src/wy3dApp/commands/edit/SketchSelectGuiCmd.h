@@ -20,8 +20,9 @@
 #define WY3DAPP_SKETCH_SELECT_GUI_CMD_H
 
 #include "commands/SelectGuiCmd.h"
+#include "wy3dAppDefs.h"
 
-class SketchSelectGuiCmd : public SelectGuiCmd
+class WY3DAPP_EXPORT SketchSelectGuiCmd : public SelectGuiCmd
 {
     WYRX_DECLARE_MEMBERS(SketchSelectGuiCmd, SketchSelectGuiCmd, SelectGuiCmd)
 public:

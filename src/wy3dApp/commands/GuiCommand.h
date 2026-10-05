@@ -60,6 +60,7 @@ class GuiCmdMenu;
 class GuiEventDispatcher;
 
 #include "commands/GuiCmdMakeElement.h"
+#include "wy3dAppDefs.h"
 
 // 命令选择选项
 struct GuiCmdSelectOptions
@@ -151,7 +152,7 @@ struct KeyEvent
     double time;
 };
 
-class GuiCommand : public wyap::InteractiveCmdExecution
+class WY3DAPP_EXPORT GuiCommand : public wyap::InteractiveCmdExecution
 {
     WYRX_DECLARE_ABSTRACT_MEMBERS(GuiCommand, GuiCommand, wyap::InteractiveCmdExecution)
 public:
