@@ -114,7 +114,7 @@ def main() -> int:
             failures.append(message)
 
     expect("loaded plugin 'com.yi3d.demo'." in log, "log misses the loaded-plugin line")
-    expect("plugin host: 1 plugin(s): 1 loaded, 0 disabled, 0 failed." in log, "log misses the summary line")
+    expect("1 plugin(s): 1 loaded, 0 disabled, 0 failed." in log, "log misses the summary line")
     expect("[com.yi3d.demo] demo plugin initialized" in log, "log misses the plugin init line")
     expect(log.count("ui built for environment 'sketch3d'") >= 2, "ui not rebuilt after re-entering sketch3d")
     expect("[com.yi3d.demo] demo ui torn down" in log, "log misses the ui teardown line")

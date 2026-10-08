@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
 set(PROJECT_NAME "wy3dApp")
-set(APPLICATION_NAME "YI3D")
 project(${PROJECT_NAME} VERSION 0.0.1 LANGUAGES CXX)
 
 # qt
@@ -19,8 +18,6 @@ file(GLOB_RECURSE APP_SRCS ./*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/resources/wy3dApp
 list(APPEND APP_SRCS "${CMAKE_SOURCE_DIR}/src/common/osg/OsgUtils.cpp")
 list(APPEND APP_SRCS "${CMAKE_SOURCE_DIR}/src/common/osg/OsgSelectUtils.cpp")
 list(APPEND APP_SRCS "${CMAKE_SOURCE_DIR}/3rdParty/base64/base64.cpp")
-# main.cpp 只属于可执行程序
-list(REMOVE_ITEM APP_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
 
 add_library(wy3dApp SHARED ${APP_SRCS})
 target_compile_definitions(wy3dApp PRIVATE WY3DAPP_LIBRARY)
@@ -75,29 +72,6 @@ target_link_libraries(wy3dApp PUBLIC muparser)
 if(NOT WIN32)
     target_link_libraries(wy3dApp PUBLIC ${CMAKE_DL_LIBS})
     target_compile_definitions(wy3dApp PRIVATE PYTHON_LIBRARY_NAME="${PYTHON3_LIB_NAME}")
-endif()
-
-# 可执行程序: 薄壳(main.cpp + 图标资源)
-add_executable(${APPLICATION_NAME} main.cpp)
-if(WIN32)
-    target_sources(${APPLICATION_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/resources/Yi3D.rc)
-endif()
-target_link_libraries(${APPLICATION_NAME} PRIVATE wy3dApp)
-# Release版本不需要命令行窗口
-if(MSVC AND CMAKE_BUILD_TYPE STREQUAL "Release")
-    set_target_properties(${APPLICATION_NAME} PROPERTIES
-        LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-endif()
-
-# 编译后自动拷贝运行时依赖 DLL（仅 Windows）
-if(WIN32)
-    add_custom_command(TARGET ${APPLICATION_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND}
-            -DTARGET_FILE=$<TARGET_FILE:${APPLICATION_NAME}>
-            -DOUT_DIR=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-            -DSEARCH_DIRS="${CMAKE_SOURCE_DIR}/3rdParty/bundles"
-            -P ${CMAKE_SOURCE_DIR}/cmake/copy_dlls.cmake
-    )
 endif()
 
 # 多语言
