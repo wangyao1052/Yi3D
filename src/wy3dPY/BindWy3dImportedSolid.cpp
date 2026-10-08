@@ -28,23 +28,20 @@ void bindWy3dImportedSolid(py::module_& m)
 {
     py::class_<wy3d::ImportedSolid, wy3d::Solid, std::unique_ptr<wy3d::ImportedSolid, py::nodelete>>(
         m, "ImportedSolid")
-        .def("getFilePath", [](const wy3d::ImportedSolid& self) -> std::string {
-            const std::wstring& ws = self.getFilePath();
-            return std::string(ws.begin(), ws.end());
+        .def("getFilePath", [](const wy3d::ImportedSolid& self) -> std::wstring {
+            return self.getFilePath();
         })
-        .def("setFilePath", [](wy3d::ImportedSolid& self, const std::string& path) {
-            return self.setFilePath(std::wstring(path.begin(), path.end()));
+        .def("setFilePath", [](wy3d::ImportedSolid& self, const std::wstring& path) {
+            return self.setFilePath(path);
         })
-        .def_static("isValidFilePath", [](const std::string& path) -> bool {
-            std::wstring ws(path.begin(), path.end());
-            return wy3d::ImportedSolid::isValidFilePath(ws) == wy::ErrorStatus::Ok;
+        .def_static("isValidFilePath", [](const std::wstring& path) -> bool {
+            return wy3d::ImportedSolid::isValidFilePath(path) == wy::ErrorStatus::Ok;
         })
         .def_static("create",
-            [](wydb::Transaction* pTrans, const std::string& filePath) -> wy3d::ImportedSolid*
+            [](wydb::Transaction* pTrans, const std::wstring& filePath) -> wy3d::ImportedSolid*
             {
                 wy3d::ImportedSolid* pOut = nullptr;
-                std::wstring ws(filePath.begin(), filePath.end());
-                wy::ErrorStatus status = wy3d::ImportedSolid::create(pTrans, ws, pOut);
+                wy::ErrorStatus status = wy3d::ImportedSolid::create(pTrans, filePath, pOut);
                 return pOut;
             },
             py::arg("transaction"),

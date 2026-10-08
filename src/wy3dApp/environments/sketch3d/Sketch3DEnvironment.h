@@ -31,11 +31,12 @@
 
 #include "environments/EnvironmentBase.h"
 #include "environments/ICommandActionStateHost.h"
+#include "wy3dAppDefs.h"
 
 class Sketch3DEnvironmentUI;
 class Sketch3DSnapSystem;
 
-class Sketch3DEnvironment
+class WY3DAPP_EXPORT Sketch3DEnvironment
     : public wyap::TaskEnvironment
     , public EnvironmentBase
     , public ICommandActionStateHost

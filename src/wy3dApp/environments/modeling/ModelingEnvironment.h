@@ -23,10 +23,11 @@
 
 #include "environments/EnvironmentBase.h"
 #include "environments/ICommandActionStateHost.h"
+#include "wy3dAppDefs.h"
 
 class ModelingEnvironmentUI;
 
-class ModelingEnvironment
+class WY3DAPP_EXPORT ModelingEnvironment
     : public EnvironmentBase
     , public wyap::DocumentEnvironment
     , public ICommandActionStateHost

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugin/com.yi3d.demo">
+        <file>demo_hello.svg</file>
+    </qresource>
+</RCC>

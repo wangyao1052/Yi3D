@@ -85,5 +85,6 @@ configure_file(
 
 add_subdirectory(src/wy3d)
 add_subdirectory(src/wy3dApp)
+add_subdirectory(src/pluginSamples)
 add_subdirectory(src/wy3dPY)
 add_subdirectory(src/unitTest)

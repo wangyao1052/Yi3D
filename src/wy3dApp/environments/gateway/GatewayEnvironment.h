@@ -25,10 +25,11 @@
 #include <wyapEnvironment.h>
 
 #include "environments/EnvironmentBase.h"
+#include "wy3dAppDefs.h"
 
 class GatewayEnvironmentUI;
 
-class GatewayEnvironment
+class WY3DAPP_EXPORT GatewayEnvironment
     : public wyap::GatewayEnvironment
     , public EnvironmentBase
     , public wydb::TransactionReactor

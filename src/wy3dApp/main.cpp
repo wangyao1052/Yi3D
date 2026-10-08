@@ -31,6 +31,7 @@
 #include "application/crashDump/CrashDump.h"
 #include "commands/FileCommands.h"
 #include "environments/gateway/GatewayEnvironment.h"
+#include "plugins/PluginManager.h"
 #include "utils/IconUtil.h"
 
 int main(int argc, char *argv[])
@@ -77,6 +78,10 @@ int main(int argc, char *argv[])
     MainWindow mainWindow;
     mainWindow.showMaximized();
 
+    // Plugin loading must stay before the gateway environment entry below: the
+    // manager registers as an EnvManagerReactor and must see the first Entered event.
+    PluginManager::instance().initialize();
+
     // Enter gateway environment.
     std::unique_ptr<wyap::Environment> gatewayEnv = std::make_unique<GatewayEnvironment>();
     Application::instance().getEnvManager()->enterEnvironment(
@@ -109,6 +114,7 @@ int main(int argc, char *argv[])
     // session (idempotent, closeEvent has already cleaned up).
     QObject::connect(&app, &QCoreApplication::aboutToQuit, []()
     {
+        PluginManager::instance().terminate();
         Application::instance().getAutoSave()->cleanupOnExit();
     });
 
