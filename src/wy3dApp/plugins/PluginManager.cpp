@@ -32,7 +32,7 @@
 
 #include "application/Application.h"
 #include "plugins/PluginManifest.h"
-#include "wy3dAppVersion.h"
+#include "Version.h"
 #include "environments/gateway/GatewayEnvironment.h"
 
 #if defined(_WIN32)
@@ -103,20 +103,15 @@ bool PluginManager::loadPlugin(
         error = "entry point wy3dappGetPluginSdkVersion not found.";
         return false;
     }
-    const PluginSdkVersion pluginSdkVersion =
+    const Version pluginSdkVersion =
         reinterpret_cast<wy3dappGetPluginSdkVersionFn>(procVersion)();
-    if (YI3D_APP_VERSION_MAJOR != pluginSdkVersion.major ||
-        YI3D_APP_VERSION_MINOR != pluginSdkVersion.minor)
+    if (kAppVersion.major != pluginSdkVersion.major ||
+        kAppVersion.minor != pluginSdkVersion.minor)
     {
         bool freeRet = ::FreeLibrary(hModule);
         assert(true == freeRet);
         error = "plugin SDK version mismatch (plugin built for "
-            + std::to_string(pluginSdkVersion.major) + "."
-            + std::to_string(pluginSdkVersion.minor) + "."
-            + std::to_string(pluginSdkVersion.patch) + ", host is "
-            + std::to_string(YI3D_APP_VERSION_MAJOR) + "."
-            + std::to_string(YI3D_APP_VERSION_MINOR) + "."
-            + std::to_string(YI3D_APP_VERSION_PATCH) + ")";
+            + pluginSdkVersion.toString() + ", host is " + kAppVersion.toString() + ")";
         return false;
     }
 
@@ -158,20 +153,15 @@ bool PluginManager::loadPlugin(
         error = "entry point wy3dappGetPluginSdkVersion not found.";
         return false;
     }
-    const PluginSdkVersion pluginSdkVersion =
+    const Version pluginSdkVersion =
         reinterpret_cast<wy3dappGetPluginSdkVersionFn>(procVersion)();
-    if (YI3D_APP_VERSION_MAJOR != pluginSdkVersion.major ||
-        YI3D_APP_VERSION_MINOR != pluginSdkVersion.minor)
+    if (kAppVersion.major != pluginSdkVersion.major ||
+        kAppVersion.minor != pluginSdkVersion.minor)
     {
         bool freeRet = (0 == ::dlclose(hModule));
         assert(true == freeRet);
         error = "plugin SDK version mismatch (plugin built for "
-            + std::to_string(pluginSdkVersion.major) + "."
-            + std::to_string(pluginSdkVersion.minor) + "."
-            + std::to_string(pluginSdkVersion.patch) + ", host is "
-            + std::to_string(YI3D_APP_VERSION_MAJOR) + "."
-            + std::to_string(YI3D_APP_VERSION_MINOR) + "."
-            + std::to_string(YI3D_APP_VERSION_PATCH) + ")";
+            + pluginSdkVersion.toString() + ", host is " + kAppVersion.toString() + ")";
         return false;
     }
 

@@ -76,8 +76,8 @@ if(UNIX)
 endif()
 
 configure_file(
-    "${CMAKE_SOURCE_DIR}/src/wy3dApp/wy3dAppVersion.h.in"
-    "${CMAKE_SOURCE_DIR}/src/wy3dApp/wy3dAppVersion.h")
+    "${CMAKE_SOURCE_DIR}/src/wy3dApp/Version.h.in"
+    "${CMAKE_SOURCE_DIR}/src/wy3dApp/Version.h" @ONLY)
 
 configure_file(
     "${CMAKE_SOURCE_DIR}/src/main/resources/Yi3D.rc.in"

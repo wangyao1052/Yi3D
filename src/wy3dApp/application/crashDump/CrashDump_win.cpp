@@ -25,7 +25,7 @@
 #include <QDir>
 
 #include <wy3dAppDefs.h>
-#include <wy3dAppVersion.h>
+#include <Version.h>
 
 NS_WY3DAPP_BEG
 

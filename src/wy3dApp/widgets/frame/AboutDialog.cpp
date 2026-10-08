@@ -24,7 +24,7 @@
 #include <QScrollArea>
 
 #include "AboutDialog.h"
-#include <wy3dAppVersion.h>
+#include <Version.h>
 
 AboutDialog::AboutDialog(QWidget *parent)
 	: QDialog(parent)

@@ -19,26 +19,18 @@
 #ifndef YI3D_PLUGIN_API_H
 #define YI3D_PLUGIN_API_H
 
-#include <cstdint>
 #include <cassert>
 
-#include "wy3dAppVersion.h"
+#include "Version.h"
 
 class Plugin;
 
 // Baked into the plugin module at compile time; the module reports it through
 // wy3dappGetPluginSdkVersion and the host requires its major.minor to equal
 // its own before creating an instance (patch differences are tolerated).
-struct PluginSdkVersion
-{
-    std::uint8_t major;
-    std::uint8_t minor;
-    std::uint8_t patch;
-};
-
 using wy3dappNewPluginFn = Plugin* (*)();
 using wy3dappDeletePluginFn = void (*)(Plugin*);
-using wy3dappGetPluginSdkVersionFn = PluginSdkVersion (*)();
+using wy3dappGetPluginSdkVersionFn = Version (*)();
 
 #if defined(_WIN32)
 #define WY3DAPP_PLUGIN_EXPORT extern "C" __declspec(dllexport)
@@ -63,13 +55,9 @@ using wy3dappGetPluginSdkVersionFn = PluginSdkVersion (*)();
             assert(false); \
         } \
     } \
-    WY3DAPP_PLUGIN_EXPORT PluginSdkVersion wy3dappGetPluginSdkVersion() \
+    WY3DAPP_PLUGIN_EXPORT Version wy3dappGetPluginSdkVersion() \
     { \
-        return PluginSdkVersion{ \
-            YI3D_APP_VERSION_MAJOR, \
-            YI3D_APP_VERSION_MINOR, \
-            YI3D_APP_VERSION_PATCH \
-        }; \
+        return kAppVersion; \
     }
         
 
