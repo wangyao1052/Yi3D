@@ -36,7 +36,6 @@
 #include "snap/SketchSnapSystem.h"
 #include "select/SelectHandler.h"
 #include "select/SelectFilterFunctor.h"
-#include "select/SelectPreview.h"
 #include "view/BaseView.h"
 
 OsgGuiCommand::OsgGuiCommand() : GuiCommand(), _pOsgView(nullptr)
@@ -181,34 +180,6 @@ void OsgGuiCommand::screenToWindowPos(double screenX, double screenY,
     const osg::GraphicsContext::Traits* traits = camera->getGraphicsContext()->getTraits();
     windowX = screenX - traits->x;
     windowY = traits->y + traits->height - screenY;
-}
-
-void OsgGuiCommand::mouseMovePointPickPreview(double x, double y,
-    const PointPickOption& pointPickOption, SelectPreviewSPtr& pSelPreview)
-{
-    wyap::Selection sel = this->pointPick(x, y, pointPickOption);
-    if (pSelPreview)
-    {
-        if (sel.getElementId().isNull())
-        {
-            pSelPreview = nullptr;
-        }
-        else
-        {
-            if (!pSelPreview->isEqual(sel))
-            {
-                pSelPreview = nullptr;
-                pSelPreview = std::make_shared<SelectPreview>(sel);
-            }
-        }
-    }
-    else
-    {
-        if (!sel.getElementId().isNull())
-        {
-            pSelPreview = std::make_shared<SelectPreview>(sel);
-        }
-    }
 }
 
 void OsgGuiCommand::configSelect(GuiCmdSelectOptions options)

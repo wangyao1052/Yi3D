@@ -46,10 +46,6 @@ protected:
     void screenToWindowPos(double screenX, double screenY,
                            double& windowX, double& windowY) const override;
 
-    // 鼠标移动+点选预览
-    void mouseMovePointPickPreview(double x, double y,
-        const PointPickOption& pointPickOption, SelectPreviewSPtr& pSelPreview);
-
     void configSelect(GuiCmdSelectOptions options);
 
     // 点选
