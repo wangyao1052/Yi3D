@@ -87,6 +87,10 @@ public:
     // 初始化
     bool initialize();
 
+    // Create the Qt application and main window, load plugins, enter the gateway
+    // environment, then run the event loop. Returns the event loop's exit code.
+    int runApplication(int argc, char** argv);
+
     // 程序配置
     const Config* getConfig() const
     {

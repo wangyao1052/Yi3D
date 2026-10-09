@@ -24,9 +24,8 @@
 #include <QEvent>
 
 #include "IpcServer.h"
-#include "wy3dAppDefs.h"
 
-class WY3DAPP_EXPORT wy3dQApplication : public QApplication
+class wy3dQApplication : public QApplication
 {
     Q_OBJECT
 public:

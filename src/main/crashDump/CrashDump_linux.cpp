@@ -16,19 +16,24 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#if defined(__APPLE__)
+#if defined(__linux__)
 
-#include <wy3dAppDefs.h>
+#include "CrashDump.h"
 
-NS_WY3DAPP_BEG
+#include <cassert>
+#include <sys/resource.h>
 
-void platformInitializeCrashDump(const QString& dumpDir)
+void initializeCrashDump(const QString& dumpDir)
 {
+    // Core file location on Linux is controlled by system policy
+    // (ulimit/core_pattern/systemd-coredump), not by application path.
     (void)dumpDir;
-    // macOS crash reporting: consider using signal() for SIGSEGV/SIGABRT,
-    // or Google Breakpad. For now, stubbed.
-}
 
-NS_WY3DAPP_END
+    struct rlimit coreLimit;
+    coreLimit.rlim_cur = RLIM_INFINITY;
+    coreLimit.rlim_max = RLIM_INFINITY;
+    const int ret = setrlimit(RLIMIT_CORE, &coreLimit);
+    assert(ret == 0);
+}
 
 #endif

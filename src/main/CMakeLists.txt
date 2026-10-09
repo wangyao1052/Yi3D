@@ -4,6 +4,13 @@ set(APPLICATION_NAME "YI3D")
 
 add_executable(${APPLICATION_NAME} main.cpp)
 
+# Process-level crash handling; each file is guarded internally by #if.
+target_sources(${APPLICATION_NAME} PRIVATE
+    crashDump/CrashDump_win.cpp
+    crashDump/CrashDump_linux.cpp
+    crashDump/CrashDump_mac.cpp
+)
+
 if(WIN32)
     target_sources(${APPLICATION_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/resources/Yi3D.rc)
 endif()

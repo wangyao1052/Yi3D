@@ -16,106 +16,15 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "widgets/frame/MainWindow.h"
-#include <cassert>
-#include <QTranslator>
 #include <QDir>
-#include <wyapCmdManager.h>
 
-#include "wy3dAppDefs.h"
-
-#include "application/wy3dQApplication.h"
 #include "application/Application.h"
-#include "application/AutoSave.h"
-#include "application/Config.h"
-#include "application/crashDump/CrashDump.h"
-#include "commands/FileCommands.h"
-#include "plugins/PluginManager.h"
-#include "utils/IconUtil.h"
+#include "crashDump/CrashDump.h"
 
 int main(int argc, char *argv[])
 {
     // core dump
-    wy3dApp::CrashDump::initialize(QDir::currentPath());
+    initializeCrashDump(QDir::currentPath());
 
-    // 初始化
-    wy3dQApplication app(argc, argv);
-    Application::instance().initialize();
-    app.setWindowIcon(IconUtil::get(":/images/Yi3D.svg"));
-
-    // 语言
-    {
-        QString qstrLang = Application::instance().getConfig()->system.language;
-
-        // Installed first => lowest priority, so the application's own translations win
-        if ("zh-CN" == qstrLang)
-        {
-            // Qt standard strings; the shipped catalogue is the legacy merged one (Qt4 era)
-            QTranslator* pQtTranslator = new QTranslator();
-            if (pQtTranslator->load(":/translator/qt_zh_CN")) app.installTranslator(pQtTranslator);
-            else delete pQtTranslator;
-
-            // Supplies QPlatformTheme (dialog buttons) and QWidgetTextControl (multi-line
-            // text context menu), both absent from the catalogue above
-            QTranslator* pQtSupplementTranslator = new QTranslator();
-            if (pQtSupplementTranslator->load(":/translator/qt-supplement-zh-CN")) app.installTranslator(pQtSupplementTranslator);
-            else delete pQtSupplementTranslator;
-        }
-
-        QTranslator* pTranslator = new QTranslator();
-        if (pTranslator->load(":/translator/" + qstrLang))
-        {
-            app.installTranslator(pTranslator);
-        }
-        else
-        {
-            delete pTranslator;
-        }
-    }
-
-    // 主窗口
-    MainWindow mainWindow;
-    mainWindow.showMaximized();
-
-    // Plugin loading must stay before the gateway environment entry below: the
-    // manager registers as an EnvManagerReactor and must see the first Entered event.
-    PluginManager::instance().initialize();
-
-    // Enter gateway environment.
-    std::unique_ptr<wyap::Environment> gatewayEnv = Application::instance().newDefaultGatewayEnvironment();
-    Application::instance().getEnvManager()->enterEnvironment(
-        std::move(gatewayEnv),
-        wyap::ExecutionMode::Sync);
-
-    // added by wangyao 2025.08.23 {
-    // 处理双击.wy3dt/.wy3db文件,第二个参数是文件路径
-    if (argc == 2)
-    {
-#ifdef _WIN32
-        QString filePath = QString::fromLocal8Bit(argv[1]);
-#else
-        // 其他平台(Linux&Macos)下argv是UTF-8编码
-        QString filePath = QString::fromUtf8(argv[1]);
-#endif
-        QFileInfo fileInfo(filePath);
-        if (fileInfo.exists() && fileInfo.isFile())
-        {
-            OpenFileCommand::openFile(filePath.toStdString());
-
-            wy::ErrorStatus error = Application::instance().getCmdManager()->abortCurrentModalCommand(
-                wyap::CmdExecution::AbortCause::ForceTerminate);
-            assert(wy::ErrorStatus::NoCurrentModalCommand == error);
-        }
-    }
-    // }
-
-    // Safety net on normal exit: delete all .autosave files produced by this
-    // session (idempotent, closeEvent has already cleaned up).
-    QObject::connect(&app, &QCoreApplication::aboutToQuit, []()
-    {
-        PluginManager::instance().terminate();
-        Application::instance().getAutoSave()->cleanupOnExit();
-    });
-
-    return app.exec();
+    return Application::instance().runApplication(argc, argv);
 }

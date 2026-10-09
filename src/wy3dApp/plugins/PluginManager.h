@@ -27,7 +27,6 @@
 #include <plugin/PluginApi.h>
 
 #include "utils/Log.h"
-#include "wy3dAppDefs.h"
 
 struct PluginManifest;
 
@@ -41,7 +40,7 @@ struct LoadedPlugin
     std::string u8LibraryFullPath;
 };
 
-class WY3DAPP_EXPORT PluginManager : public wyap::EnvManagerReactor
+class PluginManager : public wyap::EnvManagerReactor
 {
 public:
     static PluginManager& instance();

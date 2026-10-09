@@ -30,8 +30,6 @@
 
 #include <wyapDocManager.h>
 
-#include "wy3dAppDefs.h"
-
 // Auto save module.
 // <1> Periodically (10 minutes by default) writes modified documents to
 //     <original-name>.autosave (tmp file + rename, never overwrites the original).
@@ -40,7 +38,7 @@
 //     recover or discard (Krita style, no manifest). Recovery creates an empty
 //     document named with the original path and reads the .autosave content
 //     into it, so the document identity is correct from the start.
-class WY3DAPP_EXPORT AutoSave : public QObject, public wyap::DocManagerReactor
+class AutoSave : public QObject, public wyap::DocManagerReactor
 {
     Q_OBJECT
 public:

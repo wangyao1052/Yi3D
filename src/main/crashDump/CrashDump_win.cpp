@@ -18,16 +18,15 @@
 
 #if defined(_WIN32)
 
+#include "CrashDump.h"
+
 #include <windows.h>
 #include <dbghelp.h>
 
 #include <QDateTime>
 #include <QDir>
 
-#include <wy3dAppDefs.h>
 #include <Version.h>
-
-NS_WY3DAPP_BEG
 
 typedef BOOL(__stdcall* tMDWD)(
     IN HANDLE hProcess,
@@ -43,7 +42,7 @@ static tMDWD s_pMDWD = nullptr;
 static HMODULE s_hDbgHelpMod = nullptr;
 static std::wstring s_miniDumpFileName;
 
-static LONG __stdcall WINAPI wy3dappUnhandledExceptionFilter(EXCEPTION_POINTERS* pEx)
+static LONG __stdcall WINAPI unhandledExceptionFilter(EXCEPTION_POINTERS* pEx)
 {
     HANDLE hFile = CreateFileW(s_miniDumpFileName.c_str(),
         GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -64,7 +63,7 @@ static LONG __stdcall WINAPI wy3dappUnhandledExceptionFilter(EXCEPTION_POINTERS*
     return EXCEPTION_CONTINUE_SEARCH;
 }
 
-void platformInitializeCrashDump(const QString& dumpDir)
+void initializeCrashDump(const QString& dumpDir)
 {
     const QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd-HHmmss");
     const QString fileName = QString("crash-%1-%2-%3.dmp").arg(YI3D_APP_VERSION_STRING).arg(timestamp).arg(GetCurrentProcessId());
@@ -76,20 +75,7 @@ void platformInitializeCrashDump(const QString& dumpDir)
         s_pMDWD = (tMDWD)GetProcAddress(s_hDbgHelpMod, "MiniDumpWriteDump");
     }
 
-    SetUnhandledExceptionFilter(wy3dappUnhandledExceptionFilter);
+    SetUnhandledExceptionFilter(unhandledExceptionFilter);
 }
-
-void platformShutdownCrashDump()
-{
-    if (s_hDbgHelpMod)
-    {
-        FreeLibrary(s_hDbgHelpMod);
-        s_hDbgHelpMod = nullptr;
-    }
-    s_pMDWD = nullptr;
-    s_miniDumpFileName.clear();
-}
-
-NS_WY3DAPP_END
 
 #endif

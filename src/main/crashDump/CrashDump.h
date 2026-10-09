@@ -16,20 +16,12 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_CRASH_DUMP_H
-#define WY3DAPP_CRASH_DUMP_H
+#ifndef CRASH_DUMP_H
+#define CRASH_DUMP_H
 
 #include <QString>
-#include <wy3dAppDefs.h>
 
-NS_WY3DAPP_BEG
+// Install a process-wide crash handler that writes a minidump into dumpDir.
+void initializeCrashDump(const QString& dumpDir);
 
-class WY3DAPP_EXPORT CrashDump
-{
-public:
-    static void initialize(const QString& dumpDir);
-};
-
-NS_WY3DAPP_END
-
-#endif // WY3DAPP_CRASH_DUMP_H
+#endif // CRASH_DUMP_H
