@@ -21,7 +21,9 @@
 
 #include <wyapSelection.h>
 
-class SelectPreview
+#include "wy3dAppDefs.h"
+
+class WY3DAPP_EXPORT SelectPreview
 {
 public:
     SelectPreview();

@@ -24,7 +24,7 @@
 
 NS_WY3DAPP_BEG
 
-class CrashDump
+class WY3DAPP_EXPORT CrashDump
 {
 public:
     static void initialize(const QString& dumpDir);

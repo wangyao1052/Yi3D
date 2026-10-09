@@ -21,8 +21,7 @@ list(APPEND APP_SRCS "${CMAKE_SOURCE_DIR}/3rdParty/base64/base64.cpp")
 
 add_library(wy3dApp SHARED ${APP_SRCS})
 target_compile_definitions(wy3dApp PRIVATE WY3DAPP_LIBRARY)
-# 自动导出全部符号, 保证薄壳 exe 与插件能链接到框架类(插件 SDK 面的类再显式加 WY3DAPP_EXPORT)
-set_target_properties(wy3dApp PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+# Explicit exports only: classes used by YI3D.exe or plugins carry WY3DAPP_EXPORT
 
 target_include_directories(wy3dApp PUBLIC
     "${CMAKE_SOURCE_DIR}/src/common/osg"

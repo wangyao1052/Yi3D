@@ -284,7 +284,7 @@ Do you want to save it to the original file now?
     <name>DatumPlnCmd</name>
     <message>
         <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="241"/>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="821"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="823"/>
         <source>Select solid edge or solid face or datum plane to determine the rotation axis.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -301,14 +301,14 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="706"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="759"/>
-        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="352"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="708"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="760"/>
+        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="353"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="889"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="891"/>
         <source>Select solid edge or solid face or datum plane to determine the X axis.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -324,10 +324,10 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="613"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="755"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="762"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="330"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="614"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="756"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="763"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="331"/>
         <source>Distance</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1009,22 +1009,22 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="559"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="560"/>
         <source>Depth</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="560"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="561"/>
         <source>Direction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="613"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="614"/>
         <source>Symmetric</source>
         <translation type="unfinished">Symmetric</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="614"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="615"/>
         <source>One Side</source>
         <translation type="unfinished">One Side</translation>
     </message>
@@ -1279,17 +1279,17 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="916"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="898"/>
         <source>-Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1604"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1586"/>
         <source>Erase</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1522"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1504"/>
         <source>Cancel Boolean</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1329,17 +1329,17 @@ Do you want to save it to the original file now?
         <translation type="unfinished">Offset Sheet</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1630"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1612"/>
         <source>Error Information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1648"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1630"/>
         <source>Show ID column</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1648"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1630"/>
         <source>Hide ID column</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1480,7 +1480,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="486"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="821"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="824"/>
         <source>Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1490,18 +1490,18 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="855"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="867"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="876"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="890"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="858"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="870"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="879"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="893"/>
         <source>Sketch not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="859"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="864"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="882"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="887"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="862"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="867"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="885"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="890"/>
         <source>Sketch is already in use</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1868,7 +1868,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="202"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1612"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1594"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1976,7 +1976,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="266"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1529"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1511"/>
         <source>Edit Sketch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1987,7 +1987,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="212"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1535"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1517"/>
         <source>Export Sketch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2707,32 +2707,32 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1541"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1558"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1523"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1540"/>
         <source>View Normal To</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1550"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1532"/>
         <source>Edit 3D Sketch</source>
         <translation>Edit 3D Sketch</translation>
     </message>
     <message>
         <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="212"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1580"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1562"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="220"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1589"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1571"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="566"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="223"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1598"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1580"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2746,7 +2746,7 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="578"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1641"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1623"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2902,7 +2902,7 @@ Do you want to save it to the original file now?
 <context>
     <name>MakePrimitiveGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="383"/>
+        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="363"/>
         <source>View Normal To Working Plane</source>
         <translation type="unfinished">View Normal To Working Plane</translation>
     </message>
@@ -3082,17 +3082,17 @@ Do you want to save it to the original file now?
         <translation type="unfinished">Specify the end point.</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="473"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="474"/>
         <source>Select an edge.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="474"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="475"/>
         <source>Select a face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="475"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="476"/>
         <source>Select a body.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3100,7 +3100,7 @@ Do you want to save it to the original file now?
 <context>
     <name>MeasureGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="709"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="710"/>
         <source>Clear Measure Results</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3216,32 +3216,32 @@ Do you want to save it to the original file now?
 <context>
     <name>MoveGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="326"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="325"/>
         <source>Select elements to move; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="344"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="343"/>
         <source>Select datum plane as working plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="368"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="367"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="393"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="392"/>
         <source>Specify the move vector; you can directly input the values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="573"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="552"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="574"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="553"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>
@@ -4551,22 +4551,22 @@ Do you want to save it to the original file now?
     </message>
     <message>
         <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="353"/>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="535"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="537"/>
         <source>Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="656"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="658"/>
         <source>Select edges to enclose a planar face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="667"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="669"/>
         <source>Closed loops found; press Enter or Spacebar to confirm, or keep selecting edges to add more loops.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="691"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="693"/>
         <source>Keep selecting edges to close the loop.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4651,13 +4651,13 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="715"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="695"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="716"/>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="726"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="696"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="706"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>
@@ -4740,7 +4740,7 @@ Do you want to save it to the original file now?
 <context>
     <name>SetColorGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/SetColorGuiCmd.cpp" line="89"/>
+        <location filename="../../commands/utilities/SetColorGuiCmd.cpp" line="88"/>
         <source>Click solid elements to apply the selected color.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5085,17 +5085,17 @@ Do you want to save it to the original file now?
 <context>
     <name>Sketch3DSelectGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="241"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="242"/>
         <source>Only planar faces can be used as the sketch plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="262"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="263"/>
         <source>Sketch plane set. It will be used by the next drawing command.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="322"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="323"/>
         <source>Select elements. Pick a planar face or a datum plane to set the sketch plane.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5773,42 +5773,42 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="168"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="169"/>
         <source>The curve has already been included.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="301"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="302"/>
         <source>Include failed: unable to retrieve curve geometry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="305"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="306"/>
         <source>Include failed: the curve has an infinite parameter range.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="309"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="310"/>
         <source>Include failed: the curve is degenerate.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="313"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="314"/>
         <source>Include failed: the curve geometry is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="317"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="318"/>
         <source>Include failed: unsupported curve type.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="322"/>
         <source>Include failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="327"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="328"/>
         <source>Include Curve</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5816,83 +5816,83 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchIntersectionCurve3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="201"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="202"/>
         <source>The two items must be different.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="354"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="355"/>
         <source>Select the first face or datum plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="362"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="363"/>
         <source>Select the face to intersect with the datum plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="364"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="365"/>
         <source>Select the face or datum plane to intersect with the first one.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="374"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="375"/>
         <source>Intersection failed: the two items do not intersect.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="378"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="379"/>
         <source>Intersection failed: the two items lie on the same plane, so they meet in a surface rather than a curve.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="382"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="383"/>
         <source>Intersection failed: the two items meet in an unbounded line, which cannot become a sketch curve.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="386"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="387"/>
         <source>Intersection failed: the two items cannot be intersected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="390"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="391"/>
         <source>Intersection failed: the intersection algorithm did not complete.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="394"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="395"/>
         <source>Intersection failed: the resulting curve is more complex than the sketch can hold. Switch to interpolation and try again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="398"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="399"/>
         <source>Intersection failed: the geometry is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="404"/>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="433"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="405"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="434"/>
         <source>Intersection Curve</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="414"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="415"/>
         <source>Intersection failed: the resulting curve is degenerate. The two items may be tangent.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="418"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="419"/>
         <source>Intersection failed: the resulting curve is unbounded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="423"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="424"/>
         <source>Intersection failed: the resulting curve cannot be created in the sketch.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="427"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="428"/>
         <source>Intersection failed: the resulting curve geometry is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6112,30 +6112,30 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="194"/>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="200"/>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="206"/>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="212"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="195"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="201"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="207"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="213"/>
         <source>Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="195"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="196"/>
         <source>The edge is perpendicular to the sketch plane, projection degenerates to a point.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="201"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="202"/>
         <source>Projection failed: unable to retrieve curve geometry from the edge.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="207"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="208"/>
         <source>Projection failed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="213"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="214"/>
         <source>Unsupported curve type for projection.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6143,82 +6143,82 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchProjectCurve3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="273"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="274"/>
         <source>Projection failed: the sketch cannot be read.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="282"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="283"/>
         <source>The sketch has no curves to project.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="558"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="559"/>
         <source>Select the sketch to project.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="569"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="570"/>
         <source>Projection curve computed. Press Enter or Spacebar to confirm.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="605"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="606"/>
         <source>Projection failed: the sketch and the picked face or datum plane cannot be used together.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="623"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="624"/>
         <source>Projection failed: the resulting curve is degenerate. The sketch may be tangent to the face or datum plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="567"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="568"/>
         <source>Select the face or datum plane to project onto.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="577"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="578"/>
         <source>Press Tab to flip the direction.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="593"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="594"/>
         <source>No projection curve. The sketch does not reach the picked face or plane; try Reverse or Bidirectional.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="597"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="598"/>
         <source>Projection failed: the projection algorithm did not complete.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="601"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="602"/>
         <source>Projection failed: the resulting curve is more complex than the sketch can hold.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="609"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="610"/>
         <source>Projection failed: the geometry is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="627"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="628"/>
         <source>Projection failed: the resulting curve is unbounded.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="632"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="633"/>
         <source>Projection failed: the resulting curve cannot be created in the sketch.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="636"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="637"/>
         <source>Projection failed: the resulting curve geometry is invalid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="642"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="643"/>
         <source>Project Curve</source>
         <translation type="unfinished"></translation>
     </message>

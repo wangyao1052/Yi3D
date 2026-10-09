@@ -32,6 +32,8 @@
 #include <wydbDatabase.h>
 #include <wyapDocManager.h>
 
+#include "wy3dAppDefs.h"
+
 class Document;
 class DockPanelManager;
 class OutputWidget;
@@ -39,7 +41,7 @@ class GuiCmdActionMgr;
 class MainWindowUI;
 class ViewWidgetContainer;
 
-class MainWindow :
+class WY3DAPP_EXPORT MainWindow :
     public QMainWindow,
     public wyap::DocManagerReactor
 {

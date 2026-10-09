@@ -20,6 +20,7 @@
 #define WY3DAPP_COMMON_SEL_FILTERS_H
 
 #include "select/SelectFilterFunctor.h"
+#include "wy3dAppDefs.h"
 
 class CommonPreSelFilterForPointPick : public SelectPreFilterFunctor
 {
@@ -60,7 +61,7 @@ private:
     wydb::ElementId _excludeId;
 };
 
-class SingleClassSelFilter : public SelectFilterFunctor
+class WY3DAPP_EXPORT SingleClassSelFilter : public SelectFilterFunctor
 {
 public:
     explicit SingleClassSelFilter(wyrx::ClassInfo* classInfo)

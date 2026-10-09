@@ -24,6 +24,8 @@
 #include <wyapCmdExecution.h>
 #include <wyapDocument.h>
 
+#include "wy3dAppDefs.h"
+
 class FileCmdsUtil
 {
 public:
@@ -62,7 +64,7 @@ private:
     void createDefaultElements(wydb::Database* pDb, wydb::Transaction* pTrans);
 };
 
-class OpenFileCommand : public wyap::ImmediateCmdExecution
+class WY3DAPP_EXPORT OpenFileCommand : public wyap::ImmediateCmdExecution
 {
     WYRX_DECLARE_MEMBERS(OpenFileCommand, OpenFileCommand, wyap::ImmediateCmdExecution)
 public:

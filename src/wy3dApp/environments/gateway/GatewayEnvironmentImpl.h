@@ -23,9 +23,11 @@
 
 #include <wy3dApp/GatewayEnvironment.h>
 
+#include "wy3dAppDefs.h"
+
 class GatewayEnvironmentUI;
 
-class GatewayEnvironmentImpl : public GatewayEnvironment
+class WY3DAPP_EXPORT GatewayEnvironmentImpl : public GatewayEnvironment
 {
 public:
     GatewayEnvironmentImpl();
