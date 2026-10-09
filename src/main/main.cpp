@@ -30,7 +30,6 @@
 #include "application/Config.h"
 #include "application/crashDump/CrashDump.h"
 #include "commands/FileCommands.h"
-#include "environments/gateway/GatewayEnvironmentImpl.h"
 #include "plugins/PluginManager.h"
 #include "utils/IconUtil.h"
 
@@ -83,7 +82,7 @@ int main(int argc, char *argv[])
     PluginManager::instance().initialize();
 
     // Enter gateway environment.
-    std::unique_ptr<wyap::Environment> gatewayEnv = std::make_unique<GatewayEnvironmentImpl>();
+    std::unique_ptr<wyap::Environment> gatewayEnv = Application::instance().newDefaultGatewayEnvironment();
     Application::instance().getEnvManager()->enterEnvironment(
         std::move(gatewayEnv),
         wyap::ExecutionMode::Sync);
