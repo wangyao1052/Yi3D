@@ -60,7 +60,7 @@ private:
     // 点选选项
     PointPickOption _pointPickOption;
     // 预览
-    SelectPreviewSPtr _pPreview;
+    SelectPreview _preview;
 };
 
 #endif // WY3DAPP_NEW_SKETCH_GUI_CMD_H

@@ -159,7 +159,7 @@ void ExtrudeGuiCmd::cleanup()
 void ExtrudeCutGuiCmd::reset()
 {
     ExtrudeGuiCmd::reset();
-    _pSolidToCutPreview = nullptr;
+    _solidToCutPreview.clear();
 }
 
 std::shared_ptr<MakeExtrusion> ExtrudeGuiCmd::newMakeExtrusion()
@@ -462,7 +462,8 @@ void ExtrudeCutGuiCmd::onMouseMove(const MouseEvent& event)
     if (Step::SpecifySolidToCut == _step)
     {
         // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pSolidToCutPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _solidToCutPreview.update(sel);
         return;
     }
     else
@@ -533,7 +534,7 @@ void ExtrudeCutGuiCmd::onLeftMouseUp(const MouseEvent& event)
 {
     if (Step::SpecifySolidToCut == _step)
     {
-        if (_pSolidToCutPreview)
+        if (!_solidToCutPreview.isNull())
         {
             this->finishStep(_step);
         }
@@ -785,8 +786,8 @@ void ExtrudeGuiCmd::preview(wydb::ElementId sketchId)
 
 const wy3d::Solid* ExtrudeCutGuiCmd::getSolidToCut() const
 {
-    if (!_pSolidToCutPreview) return nullptr;
-    wydb::ElementId id = _pSolidToCutPreview->getSelection().getElementId();
+    if (_solidToCutPreview.isNull()) return nullptr;
+    wydb::ElementId id = _solidToCutPreview.getSelection().getElementId();
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return nullptr;
     const wy3d::Solid* pSolidToCut = wy3d::Solid::cast(pDb->getElement(id));

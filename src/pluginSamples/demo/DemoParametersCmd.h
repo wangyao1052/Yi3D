@@ -46,7 +46,7 @@ private:
 
 private:
     PointPickOption _pointPickOption;
-    SelectPreviewSPtr _pHoverPreview;
+    SelectPreview _hoverPreview;
 };
 
 #endif // DEMO_PARAMETERS_CMD_H

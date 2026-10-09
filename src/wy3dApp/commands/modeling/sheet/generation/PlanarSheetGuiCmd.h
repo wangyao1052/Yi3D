@@ -110,7 +110,7 @@ protected:
     std::shared_ptr<ValidSketchTransient> _pValidSketchPreview;
     std::shared_ptr<InvalidSketchToolTip> _pInvalidSketchTooltip;
 
-    SelectPreviewSPtr _pEdgePreview;
+    SelectPreview _edgePreview;
     SelectionSetHighlightorSPtr _pSelSetHighlightor;
 
     struct SketchValidInfo

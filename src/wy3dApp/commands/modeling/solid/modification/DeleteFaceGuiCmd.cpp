@@ -109,7 +109,7 @@ void DeleteFaceGuiCmd::cleanup()
     _step = Step::Undefined;
     _faceSels.clear();
 
-    _pPreview = nullptr;
+    _preview.clear();
     _pointPickOption.pSelPreFilter = nullptr;
     if (_pSelSetHighlightor_Faces) _pSelSetHighlightor_Faces->clearSelections();
     _pSelSetHighlightor_Faces = nullptr;
@@ -184,7 +184,7 @@ void DeleteFaceGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
     }
     break;
 
@@ -202,7 +202,8 @@ void DeleteFaceGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::SelectFaces:
     {
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         return;
     }
     break;
@@ -223,9 +224,9 @@ void DeleteFaceGuiCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectFaces:
     {
-        if (_pPreview)
+        if (!_preview.isNull())
         {
-            const wyap::Selection& sel = _pPreview->getSelection();
+            const wyap::Selection& sel = _preview.getSelection();
             if (_pSelSetHighlightor_Faces->containsSelection(sel)) // 再点一次取消选中
             {
                 _pSelSetHighlightor_Faces->removeSelection(sel);
@@ -236,7 +237,7 @@ void DeleteFaceGuiCmd::onLeftMouseUp(const MouseEvent& event)
             }
             _faceSels = _pSelSetHighlightor_Faces->getSelectionSet();
             _pointPickOption.pSelPreFilter = std::make_shared<DeleteFacePreSelFilter>(_faceSels);
-            _pPreview = nullptr;
+            _preview.clear();
             return;
         }
     }

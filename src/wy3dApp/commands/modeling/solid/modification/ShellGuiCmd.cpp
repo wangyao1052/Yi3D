@@ -120,7 +120,7 @@ void ShellGuiCmd::reset()
     _sels.clear();
     _thickness = 0.0;
 
-    _pPreview = nullptr;
+    _preview.clear();
     _pSelSetHighlightor->clearSelections();
 }
 
@@ -174,7 +174,7 @@ void ShellGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
     }
     break;
 
@@ -240,7 +240,8 @@ void ShellGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectFaces:
     {
         // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
     }
     break;
     }
@@ -252,9 +253,9 @@ void ShellGuiCmd::onLeftMouseUp(const MouseEvent& event)
 {
     if (Step::SelectFaces == _step)
     {
-        if (_pPreview)
+        if (!_preview.isNull())
         {
-            const wyap::Selection& sel = _pPreview->getSelection();
+            const wyap::Selection& sel = _preview.getSelection();
             if (_pSelSetHighlightor->containsSelection(sel))
             {
                 _pSelSetHighlightor->removeSelection(sel);
@@ -268,7 +269,7 @@ void ShellGuiCmd::onLeftMouseUp(const MouseEvent& event)
             _pointPickOption.pSelPreFilter = std::make_shared<ShellGuiCmdPreSelFilter>(
                 _pSelSetHighlightor->getSelectionSet());
 
-            _pPreview = nullptr;
+            _preview.clear();
         }
     }
 

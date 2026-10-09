@@ -132,7 +132,7 @@ void DraftGuiCmd::reset()
     _neutralFaceSels.clear();
     _angle = wy3d::degreesToRadians(1.0);
 
-    _pPreview = nullptr;
+    _preview.clear();
     if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
     if (_pSelSetHighlightor_NeutralFace) _pSelSetHighlightor_NeutralFace->clearSelections();
 }
@@ -201,7 +201,7 @@ void DraftGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
     }
     break;
 
@@ -221,7 +221,7 @@ void DraftGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
 
         // 中性面选择过滤器:不能选择拔模面
         assert(_pSelSetHighlightor);
@@ -302,14 +302,16 @@ void DraftGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::SelectDraftFaces:
     {
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         return;
     }
     break;
 
     case Step::SelectNeutralFace:
     {
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         return;
     }
     break;
@@ -330,9 +332,9 @@ void DraftGuiCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectDraftFaces:
     {
-        if (_pPreview)
+        if (!_preview.isNull())
         {
-            const wyap::Selection& sel = _pPreview->getSelection();
+            const wyap::Selection& sel = _preview.getSelection();
             if (_pSelSetHighlightor->containsSelection(sel))
             {
                 _pSelSetHighlightor->removeSelection(sel);
@@ -343,7 +345,7 @@ void DraftGuiCmd::onLeftMouseUp(const MouseEvent& event)
             }
             _pointPickOption.pSelPreFilter = std::make_shared<DraftGuiCmdPreSelFilter>(
                 _pSelSetHighlightor->getSelectionSet());
-            _pPreview = nullptr;
+            _preview.clear();
             return;
         }
     }
@@ -351,9 +353,9 @@ void DraftGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
     case Step::SelectNeutralFace:
     {
-        if (_pPreview)
+        if (!_preview.isNull())
         {
-            const wyap::Selection& sel = _pPreview->getSelection();
+            const wyap::Selection& sel = _preview.getSelection();
             if (_pSelSetHighlightor->containsSelection(sel)) // 中性面是要拔模的面
             {
                 assert(false);
@@ -364,7 +366,7 @@ void DraftGuiCmd::onLeftMouseUp(const MouseEvent& event)
             _neutralFaceSels.clear();
             _neutralFaceSels.add(sel);
 
-            _pPreview = nullptr;
+            _preview.clear();
             this->finishStep(_step);
             return;
         }

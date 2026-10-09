@@ -274,7 +274,7 @@ void NormalToEdgeDatumPlnCmd::cleanup()
     _step = Step::Undefined;
     _curveInfo = CurveInfo();
     _plane = wy3d::SketchPlane();
-    _pPreview = nullptr;
+    _preview.clear();
     if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
     _pEdgeStartPntTransient = nullptr;
     _pMakeDatumPlane = nullptr;
@@ -412,7 +412,7 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
         if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
 
         // 点选选项
@@ -441,7 +441,7 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::Locate);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
         if (_pSelSetHighlightor)
         {
             assert(_pSelSetHighlightor->getSelectionSet().getCount() == 1);
@@ -482,7 +482,8 @@ void NormalToEdgeDatumPlnCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectEdge:
     {
         // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         return;
     }
     break;
@@ -564,12 +565,12 @@ void NormalToEdgeDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
 {
     if (Step::SelectEdge == _step)
     {
-        if (!_pPreview || _pPreview->getSelection().getElementId().isNull())
+        if (_preview.isNull())
         {
             return;
         }
-        wyap::Selection sel = _pPreview->getSelection();
-        _pPreview = nullptr;
+        wyap::Selection sel = _preview.getSelection();
+        _preview.clear();
 
         // 高亮选中
         _pSelSetHighlightor->clearSelections();

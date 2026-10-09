@@ -108,7 +108,7 @@ wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
     _planePickOption.selType = wy3d::SelectionType::Face;
     _planePickOption.pSelFilter = std::make_shared<WorkPlaneSourceSelFilter>();
 
-    _pPlanePreview = nullptr;
+    _planePreview.clear();
     _pCustomWorkPlaneHighlight = nullptr;
     _leftDownX = 0.0f;
     _leftDownY = 0.0f;
@@ -168,23 +168,24 @@ void Sketch3DSelectGuiCmd::onMouseMove(const MouseEvent& event)
 {
     __baseClass::onMouseMove(event);
 
-    this->mouseMovePointPickPreview(event.x, event.y, _planePickOption, _pPlanePreview);
+    wyap::Selection sel = this->pointPick(event.x, event.y, _planePickOption);
+    _planePreview.update(sel);
 
     bool isOverCurvedFace = false;
-    if (_pPlanePreview)
+    if (!_planePreview.isNull())
     {
         wy3d::SketchPlane plane;
-        if (!GuiCommandUtil::getWorkingPlane(_pPlanePreview->getSelection(), plane))
+        if (!GuiCommandUtil::getWorkingPlane(_planePreview.getSelection(), plane))
         {
             // A curved face cannot be a work plane. The preview object is the highlight itself,
             // so dropping it here means nothing is drawn for it: the frame comes after this.
-            _pPlanePreview = nullptr;
+            _planePreview.clear();
             isOverCurvedFace = true;
         }
         else if (this->isEntityUnderPointer(event.x, event.y))
         {
             // An entity in front is what the click would select.
-            _pPlanePreview = nullptr;
+            _planePreview.clear();
         }
     }
 
@@ -222,7 +223,7 @@ void Sketch3DSelectGuiCmd::onLeftMouseUp(const MouseEvent& event)
         this->clearPendingWorkPlane();
     }
 
-    _pPlanePreview = nullptr;
+    _planePreview.clear();
 }
 
 // Returns true when the click was taken by a face or a datum plane, usable or not. Only a click
@@ -274,7 +275,7 @@ void Sketch3DSelectGuiCmd::clearPendingWorkPlane()
     }
 
     _pCustomWorkPlaneHighlight = nullptr;
-    _pPlanePreview = nullptr;
+    _planePreview.clear();
 }
 
 void Sketch3DSelectGuiCmd::setOverCurvedFace(bool value)
@@ -300,7 +301,7 @@ void Sketch3DSelectGuiCmd::onEnd()
     // The pending plane itself has to outlive this command: it is consumed by the drawing
     // command that is about to start.
     this->setOverCurvedFace(false);
-    _pPlanePreview = nullptr;
+    _planePreview.clear();
     _pCustomWorkPlaneHighlight = nullptr;
 
     __baseClass::onEnd();
@@ -309,7 +310,7 @@ void Sketch3DSelectGuiCmd::onEnd()
 void Sketch3DSelectGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
     this->setOverCurvedFace(false);
-    _pPlanePreview = nullptr;
+    _planePreview.clear();
     _pCustomWorkPlaneHighlight = nullptr;
 
     __baseClass::onAbort(cause);

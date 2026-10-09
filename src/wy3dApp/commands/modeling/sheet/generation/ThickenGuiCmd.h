@@ -77,7 +77,7 @@ protected:
     PointPickOption _pointPickOption;
 
     std::shared_ptr<MakeThicken> _pMakeThicken;
-    SelectPreviewSPtr _pSheetPreview;
+    SelectPreview _sheetPreview;
     ThickenCmdPanel* _pCmdPanel;
     double _thickness;
     int _direction;

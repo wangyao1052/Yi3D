@@ -175,7 +175,7 @@ private:
 
     // Hover
     FeatureTreeHoverDelegate* _hoverDelegate; // 自定义委托
-    SelectPreviewSPtr _pHoverpreview;
+    SelectPreview _hoverPreview;
     bool _isHoverPreviewEnabled;
 
     // 类名到显示名称

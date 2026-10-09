@@ -67,7 +67,7 @@ private:
 private:
     GuiCmdSketch3DInfo _sketch3DInfo;
     PointPickOption _pointPickOption;
-    SelectPreviewSPtr _pPreview;  // 悬停高亮预览
+    SelectPreview _preview;  // 悬停高亮预览
     // Included curves of this command run: element id + sub path -> entity id. A curve is
     // included only once, unless its entity has been undone in between.
     std::map<std::pair<wydb::ElementId, std::string>, wydb::ElementId> _includedCurves;

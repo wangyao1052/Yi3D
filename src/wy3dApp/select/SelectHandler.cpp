@@ -28,7 +28,7 @@ SelectHandler::SelectHandler() :
     _supportsPointSelect(true), _supportsBoxSelect(true),
     _pickMask(0x0000FFFF), _selType(wy3d::SelectionType::Element),
     _pPreSelFilter(nullptr), _pSelFilter(nullptr),
-    _supportPreview(false), _pPreview(nullptr), _selMode(SelectMode::Full)
+    _supportPreview(false), _selMode(SelectMode::Full)
 {
 }
 
@@ -50,7 +50,7 @@ void SelectHandler::reset()
     _pSelFilter = nullptr;
 
     _supportPreview = false;
-    _pPreview = nullptr;
+    _preview.clear();
 }
 
 void SelectHandler::onMouseDown(float x, float y)
@@ -64,29 +64,7 @@ void SelectHandler::onMouseMove(float x, float y)
 {
     if (!_supportPreview) return;
 
-    wyap::Selection sel = this->pointPick(x, y);
-    if (_pPreview)
-    {
-        if (sel.getElementId().isNull())
-        {
-            _pPreview = nullptr;
-        }
-        else
-        {
-            if (!_pPreview->isEqual(sel))
-            {
-                _pPreview = nullptr;
-                _pPreview = std::make_shared<SelectPreview>(sel);
-            }
-        }
-    }
-    else
-    {
-        if (!sel.getElementId().isNull())
-        {
-            _pPreview = std::make_shared<SelectPreview>(sel);
-        }
-    }
+    _preview.update(this->pointPick(x, y));
 }
 
 void SelectHandler::onMouseUp(float x, float y, bool isCtrlDown)

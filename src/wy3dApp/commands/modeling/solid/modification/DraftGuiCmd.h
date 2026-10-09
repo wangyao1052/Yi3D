@@ -74,7 +74,7 @@ private:
     // 点选选项
     PointPickOption _pointPickOption;
     // 预览
-    SelectPreviewSPtr _pPreview;
+    SelectPreview _preview;
     // 高亮
     SelectionSetHighlightorSPtr _pSelSetHighlightor;
     SelectionSetHighlightorSPtr _pSelSetHighlightor_NeutralFace;

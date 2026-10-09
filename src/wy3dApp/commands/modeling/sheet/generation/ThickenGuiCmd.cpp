@@ -160,7 +160,7 @@ void ThickenGuiCmd::cleanup()
     _thickness = kDefaultThickness;
     _direction = 0;
     _pMakeThicken = nullptr;
-    _pSheetPreview = nullptr;
+    _sheetPreview.clear();
     this->destroyCmdPanel();
 }
 
@@ -168,9 +168,9 @@ void ThickenGuiCmd::onMouseMove(const MouseEvent& event)
 {
     if (!_sheetId.isNull()) return; // already selected, dialog shown
 
-    this->mouseMovePointPickPreview(
-        event.x, event.y, _pointPickOption, _pSheetPreview);
-    if (_pSheetPreview)
+    wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+    _sheetPreview.update(sel);
+    if (!_sheetPreview.isNull())
         Application::instance().setCursor(CursorType::SelectElements);
 }
 
@@ -178,9 +178,9 @@ void ThickenGuiCmd::onLeftMouseUp(const MouseEvent& event)
 {
     if (!_sheetId.isNull()) return;
 
-    if (_pSheetPreview)
+    if (!_sheetPreview.isNull())
     {
-        _sheetId = _pSheetPreview->getSelection().getElementId();
+        _sheetId = _sheetPreview.getSelection().getElementId();
         this->onSheetSelected();
     }
 }

@@ -110,7 +110,7 @@ protected:
     std::shared_ptr<MakeOffsetSheet> _pMakeOffsetSheet;
     std::shared_ptr<MakeSolidFaceOffsetSheet> _pMakeSolidSheet;
     // 预览
-    SelectPreviewSPtr _pPreview;
+    SelectPreview _preview;
     // 高亮
     SelectionSetHighlightorSPtr _pSelSetHighlightor_Faces;
     // 整片体入口的目标面(面级高亮, 代替元素级)

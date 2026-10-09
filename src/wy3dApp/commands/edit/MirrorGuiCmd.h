@@ -80,10 +80,10 @@ private:
     PointPickOption _pointPickOption;
 
     // 源对象预览
-    SelectPreviewSPtr _pSourcePreview;
+    SelectPreview _sourcePreview;
 
     // 镜像面预览
-    SelectPreviewSPtr _pMirrorPlanePreview;
+    SelectPreview _mirrorPlanePreview;
 };
 
 #endif // WY3DAPP_MIRROR_GUI_CMD_H

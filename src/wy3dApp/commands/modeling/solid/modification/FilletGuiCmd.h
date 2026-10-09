@@ -89,7 +89,7 @@ private:
     PointPickOption _pointPickOption;
 
     // 预览
-    SelectPreviewSPtr _pPreview;
+    SelectPreview _preview;
     // 高亮
     SelectionSetHighlightorSPtr _pSelSetHighlightor;
 

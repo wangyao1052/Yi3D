@@ -52,7 +52,7 @@ private:
 private:
     GuiCmdSketchInfo _sketchInfo;
     PointPickOption _pointPickOption;
-    SelectPreviewSPtr _pPreview;  // 悬停高亮预览
+    SelectPreview _preview;  // 悬停高亮预览
 };
 
 #endif // WY3DAPP_SKETCH_PROJECT_GUI_CMD_H

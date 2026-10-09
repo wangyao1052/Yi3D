@@ -346,8 +346,8 @@ void FilledSheetGuiCmd::cleanup()
     _sketchId = wydb::ElementId::kNull;
     _pValidSketchPreview = nullptr;
     _pInvalidSketchTooltip = nullptr;
-    _pEdgePreview = nullptr;
-    _pConstraintSketchPreview = nullptr;
+    _edgePreview.clear();
+    _constraintSketchPreview.clear();
     if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
     _edgePickOption.pSelPreFilter = nullptr;
     _constraintSketchPickOption.pSelPreFilter = nullptr;
@@ -394,7 +394,7 @@ bool FilledSheetGuiCmd::finishStep(Step step)
             this->requestAbort(AbortCause::ErrorTerminate);
             return false;
         }
-        _pConstraintSketchPreview = nullptr;
+        _constraintSketchPreview.clear();
         _pMakeFilledSheet->commit();
         _pMakeFilledSheet = nullptr;
         this->requestEnd();
@@ -425,13 +425,13 @@ bool FilledSheetGuiCmd::finishStep(Step step)
         unsigned int errorCode(0);
         if (!_pMakeNonParametricSheet->init(sheetShape, errorCode))
         {
-            _pEdgePreview = nullptr;
+            _edgePreview.clear();
             _pMakeNonParametricSheet = nullptr;
             if (0 != errorCode) MessageBoxUtil::showError(errorCode);
             this->requestAbort(AbortCause::ErrorTerminate);
             return false;
         }
-        _pEdgePreview = nullptr;
+        _edgePreview.clear();
         _pMakeNonParametricSheet->commit();
         _pMakeNonParametricSheet = nullptr;
         this->requestEnd();
@@ -465,7 +465,7 @@ void FilledSheetGuiCmd::gotoStep(Step step)
 
         _pValidSketchPreview = nullptr;
         _pInvalidSketchTooltip = nullptr;
-        _pEdgePreview = nullptr;
+        _edgePreview.clear();
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
             "Select the boundary of the filled surface: a 2D or 3D sketch, or edges of a solid or sheet."));
@@ -481,7 +481,7 @@ void FilledSheetGuiCmd::gotoStep(Step step)
 
         _pValidSketchPreview = nullptr;
         _pInvalidSketchTooltip = nullptr;
-        _pEdgePreview = nullptr;
+        _edgePreview.clear();
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
             "Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
@@ -497,8 +497,8 @@ void FilledSheetGuiCmd::gotoStep(Step step)
 
         _pValidSketchPreview = nullptr;
         _pInvalidSketchTooltip = nullptr;
-        _pEdgePreview = nullptr;
-        _pConstraintSketchPreview = nullptr;
+        _edgePreview.clear();
+        _constraintSketchPreview.clear();
 
         // Constraint sketches can be 2D or 3D, the boundary sketch itself excluded
         _constraintSketchPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch) |
@@ -593,7 +593,7 @@ void FilledSheetGuiCmd::onMouseMove(const MouseEvent& event)
         wydb::ElementId pickedSketchId = pickRet.first;
         if (!pickedSketchId.isNull())
         {
-            _pEdgePreview = nullptr;
+            _edgePreview.clear();
             preview(pickedSketchId);
             if (!_pValidSketchPreview)
             {
@@ -615,21 +615,24 @@ void FilledSheetGuiCmd::onMouseMove(const MouseEvent& event)
             _pValidSketchPreview = nullptr;
             _pInvalidSketchTooltip = nullptr;
 
-            this->mouseMovePointPickPreview(event.x, event.y, _edgePickOption, _pEdgePreview);
+            wyap::Selection sel = this->pointPick(event.x, event.y, _edgePickOption);
+            _edgePreview.update(sel);
             Application::instance().setCursor(CursorType::SelectElements);
         }
     }
     else if (_step == Step::SelectEdges)
     {
-        this->mouseMovePointPickPreview(event.x, event.y, _edgePickOption, _pEdgePreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _edgePickOption);
+        _edgePreview.update(sel);
         Application::instance().setCursor(CursorType::SelectElements);
     }
     else if (_step == Step::SelectConstraintCurves)
     {
-        this->mouseMovePointPickPreview(event.x, event.y, _constraintSketchPickOption, _pConstraintSketchPreview);
-        if (_pConstraintSketchPreview)
+        wyap::Selection sel = this->pointPick(event.x, event.y, _constraintSketchPickOption);
+        _constraintSketchPreview.update(sel);
+        if (!_constraintSketchPreview.isNull())
         {
-            const wydb::ElementId constraintSketchId = _pConstraintSketchPreview->getSelection().getElementId();
+            const wydb::ElementId constraintSketchId = _constraintSketchPreview.getSelection().getElementId();
             if (!this->isConstraintSketchValid(constraintSketchId))
             {
                 if (!_pInvalidSketchTooltip || _pInvalidSketchTooltip->getSketchId() != constraintSketchId)
@@ -664,19 +667,19 @@ void FilledSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
             _sketchId = _pValidSketchPreview->getSketchId();
             this->finishStep(_step);
         }
-        else if (_pEdgePreview)
+        else if (!_edgePreview.isNull())
         {
-            const wyap::Selection& sel = _pEdgePreview->getSelection();
+            const wyap::Selection& sel = _edgePreview.getSelection();
             _pSelSetHighlightor->addSelection(sel);
-            _pEdgePreview = nullptr;
+            _edgePreview.clear();
             this->gotoStep(Step::SelectEdges);
         }
     }
     else if (_step == Step::SelectEdges)
     {
-        if (_pEdgePreview)
+        if (!_edgePreview.isNull())
         {
-            const wyap::Selection& sel = _pEdgePreview->getSelection();
+            const wyap::Selection& sel = _edgePreview.getSelection();
             if (_pSelSetHighlightor->containsSelection(sel))
             {
                 _pSelSetHighlightor->removeSelection(sel);
@@ -685,15 +688,15 @@ void FilledSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
             {
                 _pSelSetHighlightor->addSelection(sel);
             }
-            _pEdgePreview = nullptr;
+            _edgePreview.clear();
         }
     }
     else if (_step == Step::SelectConstraintCurves)
     {
-        if (_pConstraintSketchPreview)
+        if (!_constraintSketchPreview.isNull())
         {
-            const wydb::ElementId constraintSketchId = _pConstraintSketchPreview->getSelection().getElementId();
-            _pConstraintSketchPreview = nullptr;
+            const wydb::ElementId constraintSketchId = _constraintSketchPreview.getSelection().getElementId();
+            _constraintSketchPreview.clear();
             this->toggleConstraintSketch(constraintSketchId);
         }
     }
@@ -738,7 +741,7 @@ void FilledSheetGuiCmd::onEscapeKey()
     if (Step::SelectEdges == _step)
     {
         _pSelSetHighlightor->clearSelections();
-        _pEdgePreview = nullptr;
+        _edgePreview.clear();
         _edgePickOption.pSelPreFilter = nullptr;
         this->gotoStep(Step::SelectSketch);
     }

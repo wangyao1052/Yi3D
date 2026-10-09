@@ -169,17 +169,17 @@ bool LinearPatternGuiCmd::finishStep(Step step)
 
     case Step::SpecifyWorkingPlane:
     {
-        if (!_pWorkPlnPreview)
+        if (_workPlnPreview.isNull())
         {
             return false;
         }
-        if (!GuiCommandUtil::getWorkingPlane(_pWorkPlnPreview->getSelection(), _workPln))
+        if (!GuiCommandUtil::getWorkingPlane(_workPlnPreview.getSelection(), _workPln))
         {
             assert(false);
             this->requestAbort(AbortCause::ErrorTerminate);
             return false;
         }
-        _pWorkPlnPreview = nullptr;
+        _workPlnPreview.clear();
 
         // 显示工作平面坐标系
         if (Scene* pScene = Application::instance().getActiveScene())
@@ -234,7 +234,7 @@ void LinearPatternGuiCmd::gotoStep(Step step)
         _pointPickOption.pSelPreFilter = std::make_shared<LinearPatternGuiCmdPreSelFilter>();
 
         // 预览
-        _pSourcePreview = nullptr;
+        _sourcePreview.clear();
     }
     break;
 
@@ -312,7 +312,8 @@ void LinearPatternGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectSource:
     {
         // 点选预览:要阵列的对象
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pSourcePreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _sourcePreview.update(sel);
         return;
     }
     break;
@@ -320,7 +321,8 @@ void LinearPatternGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SpecifyWorkingPlane:
     {
         // 点选预览:工作平面
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pWorkPlnPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _workPlnPreview.update(sel);
         return;
     }
     break;
@@ -335,9 +337,9 @@ void LinearPatternGuiCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectSource:
     {
-        if (_pSourcePreview)
+        if (!_sourcePreview.isNull())
         {
-            _sourceId = _pSourcePreview->getSelection().getElementId();
+            _sourceId = _sourcePreview.getSelection().getElementId();
             this->finishStep(_step);
             return;
         }
@@ -346,7 +348,7 @@ void LinearPatternGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
     case Step::SpecifyWorkingPlane:
     {
-        if (_pWorkPlnPreview)
+        if (!_workPlnPreview.isNull())
         {
             this->finishStep(_step);
             return;
@@ -375,7 +377,7 @@ void LinearPatternGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     }
     else if (Step::SpecifyWorkingPlane == _step)
     {
-        if (_pWorkPlnPreview)
+        if (!_workPlnPreview.isNull())
         {
             assert(false);
             return;
@@ -384,7 +386,7 @@ void LinearPatternGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
         if (!pDb) return;
         const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pDb->getElement(id));
         if (!pDatumPlane) return;
-        _pWorkPlnPreview = std::make_shared<SelectPreview>(wyap::Selection(id));
+        _workPlnPreview.update(wyap::Selection(id));
         this->finishStep(_step);
     }
 }

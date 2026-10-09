@@ -64,7 +64,7 @@ void ParallelDatumPlnCmd::cleanup()
     _pickUV.set(0.0, 0.0);
     _distance = 0.0;
 
-    _pPreview = nullptr;
+    _preview.clear();
     if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
     _pMakeDatumPlane = nullptr;
     _hoverPopupState.resetValue();
@@ -167,7 +167,7 @@ void ParallelDatumPlnCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
         if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
     }
     break;
@@ -188,7 +188,7 @@ void ParallelDatumPlnCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::Locate);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
     }
     break;
 
@@ -222,7 +222,8 @@ void ParallelDatumPlnCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectDatumPlaneOrFace:
     {
         // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         return;
     }
     break;
@@ -287,13 +288,13 @@ void ParallelDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectDatumPlaneOrFace:
     {
-        if (_pPreview && !_pPreview->getSelection().getElementId().isNull())
+        if (!_preview.isNull())
         {
             // 高亮选中
-            wyap::Selection sel = _pPreview->getSelection();
+            wyap::Selection sel = _preview.getSelection();
             _pSelSetHighlightor->clearSelections();
             _pSelSetHighlightor->addSelection(sel);
-            _pPreview = nullptr;
+            _preview.clear();
 
             // 获取平面
             if (!MakeDatumPlane::getSketchPlane(sel, _plane))

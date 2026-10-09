@@ -118,7 +118,7 @@ private:
 
 private:
     // 预览
-    SelectPreviewSPtr _pSolidToCutPreview;
+    SelectPreview _solidToCutPreview;
 };
 
 class MakeSweep : public GuiCmdMakeElement

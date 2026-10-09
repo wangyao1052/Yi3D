@@ -268,7 +268,7 @@ void AngularDatumPlnCmd::cleanup()
     _angle = 0.0;
     _snapExcludeIds.clear();
 
-    _pPreview = nullptr;
+    _preview.clear();
     if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
     _pMakeDatumPlane = nullptr;
     _pRotateAxisTransient = nullptr;
@@ -421,7 +421,7 @@ void AngularDatumPlnCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
         if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
 
         // 点选选项
@@ -447,7 +447,7 @@ void AngularDatumPlnCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
         if (_pSelSetHighlightor)
         {
             assert(_pSelSetHighlightor->getSelectionSet().getCount() == 1);
@@ -477,7 +477,7 @@ void AngularDatumPlnCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::Locate);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
 
         // 捕捉排除项
         assert(_snapExcludeIds.empty());
@@ -519,7 +519,8 @@ void AngularDatumPlnCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectDatumPlaneOrFace:
     {
         // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         return;
     }
     break;
@@ -527,7 +528,8 @@ void AngularDatumPlnCmd::onMouseMove(const MouseEvent& event)
     case Step::SpecifyRotationAxis:
     {
         // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         return;
     }
     break;
@@ -593,12 +595,12 @@ void AngularDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectDatumPlaneOrFace:
     {
-        if (!_pPreview || _pPreview->getSelection().getElementId().isNull())
+        if (_preview.isNull())
         {
             return;
         }
-        wyap::Selection sel = _pPreview->getSelection();
-        _pPreview = nullptr;
+        wyap::Selection sel = _preview.getSelection();
+        _preview.clear();
 
         // 高亮选中
         _pSelSetHighlightor->clearSelections();
@@ -620,12 +622,12 @@ void AngularDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
 
     case Step::SpecifyRotationAxis:
     {
-        if (!_pPreview || _pPreview->getSelection().getElementId().isNull())
+        if (_preview.isNull())
         {
             return;
         }
-        wyap::Selection sel = _pPreview->getSelection();
-        _pPreview = nullptr;
+        wyap::Selection sel = _preview.getSelection();
+        _preview.clear();
 
         unsigned int selType = sel.getSelectionType();
         if (selType == static_cast<unsigned int>(wy3d::SelectionType::Face)

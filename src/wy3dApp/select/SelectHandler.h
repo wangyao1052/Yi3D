@@ -56,7 +56,7 @@ public:
 
     // Drop the hover preview when the cursor leaves the viewport. The preview is a transient
     // state with no flag of its own: its destructor undoes the highlight.
-    void clearPreview()                 { _pPreview = nullptr; }
+    void clearPreview()                 { _preview.clear(); }
 
     void setSelectMode(SelectMode m)    { _selMode = m; }
     SelectMode getSelectMode() const    { return _selMode; }
@@ -109,7 +109,7 @@ protected:
     SelectPreFilterFunctorSPtr _pPreSelFilter;
     SelectFilterFunctorSPtr _pSelFilter;
     bool _supportPreview;
-    SelectPreviewSPtr _pPreview;
+    SelectPreview _preview;
     SelectMode _selMode;
 };
 

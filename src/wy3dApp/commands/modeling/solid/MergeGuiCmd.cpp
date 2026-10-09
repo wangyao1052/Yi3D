@@ -151,7 +151,7 @@ void MergeGuiCmd::cleanup()
 {
     _step = Step::Undefined;
     _hostId = wydb::ElementId::kNull;
-    _pPreview = nullptr;
+    _preview.clear();
     _pSelSetHighlightor = nullptr;
 }
 
@@ -234,7 +234,7 @@ void MergeGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
 
         // 点选:选择过滤器
         assert(_hostId.isNull());
@@ -258,7 +258,7 @@ void MergeGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
 
         // 点选:选择过滤器
         assert(!_hostId.isNull());
@@ -285,7 +285,8 @@ void MergeGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectMembers:
     {
         // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
     }
     break;
     }
@@ -299,9 +300,9 @@ void MergeGuiCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectHost:
     {
-        if (_pPreview)
+        if (!_preview.isNull())
         {
-            const wyap::Selection& sel = _pPreview->getSelection();
+            const wyap::Selection& sel = _preview.getSelection();
             if (!sel.getElementId().isNull())
             {
                 assert(_hostId.isNull());
@@ -316,9 +317,9 @@ void MergeGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
     case Step::SelectMembers:
     {
-        if (_pPreview)
+        if (!_preview.isNull())
         {
-            const wyap::Selection& sel = _pPreview->getSelection();
+            const wyap::Selection& sel = _preview.getSelection();
             assert(sel.getElementId() != _hostId);
             if (_pSelSetHighlightor->containsSelection(sel))
             {
@@ -328,7 +329,7 @@ void MergeGuiCmd::onLeftMouseUp(const MouseEvent& event)
             {
                 _pSelSetHighlightor->addSelection(sel);
             }
-            _pPreview = nullptr;
+            _preview.clear();
         }
     }
     break;

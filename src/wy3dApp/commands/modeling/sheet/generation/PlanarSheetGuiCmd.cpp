@@ -239,7 +239,7 @@ void PlanarSheetGuiCmd::cleanup()
     _sketchId = wydb::ElementId::kNull;
     _pValidSketchPreview = nullptr;
     _pInvalidSketchTooltip = nullptr;
-    _pEdgePreview = nullptr;
+    _edgePreview.clear();
     if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
     _edgePickOption.pSelPreFilter = nullptr;
     _pMakePlanarSheet = nullptr;
@@ -297,13 +297,13 @@ bool PlanarSheetGuiCmd::finishStep(Step step)
         unsigned int errorCode(0);
         if (!_pMakeNonParametricSheet->init(sheetShape, errorCode))
         {
-            _pEdgePreview = nullptr;
+            _edgePreview.clear();
             _pMakeNonParametricSheet = nullptr;
             if (0 != errorCode) MessageBoxUtil::showError(errorCode);
             this->requestAbort(AbortCause::ErrorTerminate);
             return false;
         }
-        _pEdgePreview = nullptr;
+        _edgePreview.clear();
         _pMakeNonParametricSheet->commit();
         _pMakeNonParametricSheet = nullptr;
         this->requestEnd();
@@ -333,7 +333,7 @@ void PlanarSheetGuiCmd::gotoStep(Step step)
         Application::instance().getSelManager()->clearSelections();
         Application::instance().getSelManager()->endChange();
 
-        _pEdgePreview = nullptr;
+        _edgePreview.clear();
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
             "Select a sketch to create a planar sheet, or select edges to enclose a planar face."));
@@ -348,7 +348,7 @@ void PlanarSheetGuiCmd::gotoStep(Step step)
         Application::instance().getSelManager()->endChange();
 
         _pValidSketchPreview = nullptr;
-        _pEdgePreview = nullptr;
+        _edgePreview.clear();
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
             "Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
@@ -374,7 +374,7 @@ void PlanarSheetGuiCmd::onMouseMove(const MouseEvent& event)
         wydb::ElementId pickedSketchId = pickRet.first;
         if (!pickedSketchId.isNull())
         {
-            _pEdgePreview = nullptr;
+            _edgePreview.clear();
             preview(pickedSketchId);
             if (!_pValidSketchPreview)
             {
@@ -396,13 +396,15 @@ void PlanarSheetGuiCmd::onMouseMove(const MouseEvent& event)
             _pValidSketchPreview = nullptr;
             _pInvalidSketchTooltip = nullptr;
 
-            this->mouseMovePointPickPreview(event.x, event.y, _edgePickOption, _pEdgePreview);
+            wyap::Selection sel = this->pointPick(event.x, event.y, _edgePickOption);
+            _edgePreview.update(sel);
             Application::instance().setCursor(CursorType::SelectElements);
         }
     }
     else if (_step == Step::SelectEdges)
     {
-        this->mouseMovePointPickPreview(event.x, event.y, _edgePickOption, _pEdgePreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _edgePickOption);
+        _edgePreview.update(sel);
         Application::instance().setCursor(CursorType::SelectElements);
     }
 
@@ -423,20 +425,20 @@ void PlanarSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
             _sketchId = _pValidSketchPreview->getSketchId();
             this->finishStep(_step);
         }
-        else if (_pEdgePreview)
+        else if (!_edgePreview.isNull())
         {
-            const wyap::Selection& sel = _pEdgePreview->getSelection();
+            const wyap::Selection& sel = _edgePreview.getSelection();
             _pSelSetHighlightor->addSelection(sel);
-            _pEdgePreview = nullptr;
+            _edgePreview.clear();
             this->gotoStep(Step::SelectEdges);
             this->updateEdgeSelectionFeedback();
         }
     }
     else if (_step == Step::SelectEdges)
     {
-        if (_pEdgePreview)
+        if (!_edgePreview.isNull())
         {
-            const wyap::Selection& sel = _pEdgePreview->getSelection();
+            const wyap::Selection& sel = _edgePreview.getSelection();
             if (_pSelSetHighlightor->containsSelection(sel))
             {
                 _pSelSetHighlightor->removeSelection(sel);
@@ -445,7 +447,7 @@ void PlanarSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
             {
                 _pSelSetHighlightor->addSelection(sel);
             }
-            _pEdgePreview = nullptr;
+            _edgePreview.clear();
             this->updateEdgeSelectionFeedback();
         }
     }
@@ -473,7 +475,7 @@ void PlanarSheetGuiCmd::onEscapeKey()
     if (Step::SelectEdges == _step)
     {
         _pSelSetHighlightor->clearSelections();
-        _pEdgePreview = nullptr;
+        _edgePreview.clear();
         _edgePickOption.pSelPreFilter = nullptr;
         this->gotoStep(Step::SelectSketch);
     }

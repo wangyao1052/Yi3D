@@ -111,7 +111,7 @@ void RevolveGuiCmd::cleanup()
     _axisCurveId = wydb::ElementId::kNull;
     _pValidSketch = nullptr;
     _pInvalidSketchTooltip = nullptr;
-    _pAxisCurvePreview = nullptr;
+    _axisCurvePreview.clear();
 }
 
 void RevolveGuiCmd::reset()
@@ -122,7 +122,7 @@ void RevolveGuiCmd::reset()
 void RevolveCutGuiCmd::reset()
 {
     RevolveGuiCmd::cleanup();
-    _pSolidToCutPreview = nullptr;
+    _solidToCutPreview.clear();
 }
 
 bool RevolveGuiCmd::finishStep(Step step)
@@ -142,7 +142,7 @@ bool RevolveGuiCmd::finishStep(Step step)
     {
         assert(!_sketchId.isNull());
         assert(!_axisCurveId.isNull());
-        _pAxisCurvePreview = nullptr;
+        _axisCurvePreview.clear();
         _pMakeRevolution = std::make_shared<MakeRevolution>(this, false); // isCut = false
         unsigned int errorCode(0);
         if (!_pMakeRevolution->create(_sketchId, _axisCurveId, errorCode))
@@ -196,7 +196,7 @@ bool RevolveCutGuiCmd::finishStep(Step step)
     {
         assert(!_sketchId.isNull());
         assert(!_axisCurveId.isNull());
-        _pAxisCurvePreview = nullptr;
+        _axisCurvePreview.clear();
         _pMakeRevolution = std::make_shared<MakeRevolution>(this, true); // isCut = true
         unsigned int errorCode(0);
         if (!_pMakeRevolution->create(_sketchId, _axisCurveId, errorCode))
@@ -396,11 +396,12 @@ void RevolveGuiCmd::onMouseMove(const MouseEvent& event)
     }
     else if (_step == Step::SelectAxisCurve)
     {
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pAxisCurvePreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _axisCurvePreview.update(sel);
         bool valid = false;
-        if (_pAxisCurvePreview)
+        if (!_axisCurvePreview.isNull())
         {
-            const wyap::Selection& sel = _pAxisCurvePreview->getSelection();
+            const wyap::Selection& sel = _axisCurvePreview.getSelection();
             wydb::ElementId curveId(static_cast<std::uint64_t>(std::stoul(sel.getSubPath())));
             const wydb::Database* pDb = Application::instance().getActiveDatabase();
             if (pDb)
@@ -413,7 +414,7 @@ void RevolveGuiCmd::onMouseMove(const MouseEvent& event)
             }
             if (!valid)
             {
-                _pAxisCurvePreview = nullptr;
+                _axisCurvePreview.clear();
             }
         }
         Application::instance().setCursor(valid ? CursorType::SelectElements : CursorType::Forbid);
@@ -431,7 +432,8 @@ void RevolveCutGuiCmd::onMouseMove(const MouseEvent& event)
     if (Step::SpecifySolidToCut == _step)
     {
         // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pSolidToCutPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _solidToCutPreview.update(sel);
     }
     else
     {
@@ -451,9 +453,9 @@ void RevolveGuiCmd::onLeftMouseUp(const MouseEvent& event)
     }
     else if (_step == Step::SelectAxisCurve)
     {
-        if (_pAxisCurvePreview)
+        if (!_axisCurvePreview.isNull())
         {
-            const wyap::Selection& sel = _pAxisCurvePreview->getSelection();
+            const wyap::Selection& sel = _axisCurvePreview.getSelection();
             _axisCurveId = wydb::ElementId(static_cast<std::uint64_t>(std::stoul(sel.getSubPath())));
             this->finishStep(_step);
         }
@@ -466,7 +468,7 @@ void RevolveCutGuiCmd::onLeftMouseUp(const MouseEvent& event)
 {
     if (Step::SpecifySolidToCut == _step)
     {
-        if (_pSolidToCutPreview)
+        if (!_solidToCutPreview.isNull())
         {
             this->finishStep(_step);
         }
@@ -581,8 +583,8 @@ void RevolveGuiCmd::preview(wydb::ElementId sketchId)
 
 const wy3d::Solid* RevolveCutGuiCmd::getSolidToCut() const
 {
-    if (!_pSolidToCutPreview) return nullptr;
-    wydb::ElementId id = _pSolidToCutPreview->getSelection().getElementId();
+    if (_solidToCutPreview.isNull()) return nullptr;
+    wydb::ElementId id = _solidToCutPreview.getSelection().getElementId();
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return nullptr;
     const wy3d::Solid* pSolidToCut = wy3d::Solid::cast(pDb->getElement(id));

@@ -103,7 +103,7 @@ void RevolvedSheetGuiCmd::cleanup()
     _axisCurveId = wydb::ElementId::kNull;
     _pValidSketch = nullptr;
     _pInvalidSketchTooltip = nullptr;
-    _pAxisCurvePreview = nullptr;
+    _axisCurvePreview.clear();
 }
 
 void RevolvedSheetGuiCmd::reset()
@@ -129,7 +129,7 @@ bool RevolvedSheetGuiCmd::finishStep(Step step)
     {
         assert(!_sketchId.isNull());
         assert(!_axisCurveId.isNull());
-        _pAxisCurvePreview = nullptr;
+        _axisCurvePreview.clear();
         if (_pMakeRevolvedSheet)
         {
             unsigned int errorCode(0);
@@ -231,7 +231,8 @@ void RevolvedSheetGuiCmd::onMouseMove(const MouseEvent& event)
     }
     else if (_step == Step::SelectAxisCurve)
     {
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pAxisCurvePreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _axisCurvePreview.update(sel);
     }
 }
 
@@ -247,9 +248,9 @@ void RevolvedSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
     }
     else if (_step == Step::SelectAxisCurve)
     {
-        if (_pAxisCurvePreview)
+        if (!_axisCurvePreview.isNull())
         {
-            const wyap::Selection& sel = _pAxisCurvePreview->getSelection();
+            const wyap::Selection& sel = _axisCurvePreview.getSelection();
             _axisCurveId = wydb::ElementId(static_cast<std::uint64_t>(std::stoul(sel.getSubPath())));
             this->finishStep(_step);
         }

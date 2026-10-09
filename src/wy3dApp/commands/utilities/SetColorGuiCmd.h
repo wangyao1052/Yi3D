@@ -76,7 +76,7 @@ private:
 
     PointPickOption _pointPickOption;
     wydb::ElementId _lastHoverElementId;
-    SelectPreviewSPtr _pHoverPreview;
+    SelectPreview _hoverPreview;
 };
 
 #endif // WY3DAPP_SET_COLOR_GUI_CMD_H

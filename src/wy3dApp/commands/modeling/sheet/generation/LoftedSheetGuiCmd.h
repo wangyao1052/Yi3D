@@ -81,7 +81,7 @@ protected:
     PointPickOption _pointPickOption;
 
     // 预览&提示
-    SelectPreviewSPtr _pProfilePreview;
+    SelectPreview _profilePreview;
     std::shared_ptr<InvalidSketchToolTip> _pInvalidSketchTooltip;
     // 轮廓高亮对象
     SelectionSetHighlightor _profilesHighlightor;

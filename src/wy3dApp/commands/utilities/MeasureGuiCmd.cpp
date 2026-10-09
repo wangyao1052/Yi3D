@@ -97,8 +97,8 @@ void MeasureGuiCmd::onEnd()
 
     this->destroyCmdPanel();
     _pLineTransient = nullptr;
-    _pPreview = nullptr;
-    _pRowPreview = nullptr;
+    _preview.clear();
+    _rowPreview.clear();
     _pRowFacePreviewHighlightor = nullptr;
     _pMeasuredHighlightor = nullptr;
     _measuredSet.clear();
@@ -112,8 +112,8 @@ void MeasureGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
     this->destroyCmdPanel();
     _pLineTransient = nullptr;
-    _pPreview = nullptr;
-    _pRowPreview = nullptr;
+    _preview.clear();
+    _rowPreview.clear();
     _pRowFacePreviewHighlightor = nullptr;
     _pMeasuredHighlightor = nullptr;
     _measuredSet.clear();
@@ -295,11 +295,12 @@ void MeasureGuiCmd::onMouseMove(const MouseEvent& event)
     if (MeasureMode::PointToPoint != _mode)
     {
         // 悬停仅预览高亮,不计算数值,点击后计算
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         // 鼠标回到视口:行悬停预览让位(互斥)
-        if (_pRowPreview || _pRowFacePreviewHighlightor)
+        if (!_rowPreview.isNull() || _pRowFacePreviewHighlightor)
         {
-            _pRowPreview = nullptr;
+            _rowPreview.clear();
             _pRowFacePreviewHighlightor = nullptr;
             this->restoreTempUnhighlightedSel();
             this->refreshAccumulatedHighlight();
@@ -307,8 +308,8 @@ void MeasureGuiCmd::onMouseMove(const MouseEvent& event)
 
         if (_pCmdPanel)
         {
-            if (_pPreview)
-                _pCmdPanel->setHoveredRowBySel(_pPreview->getSelection());
+            if (!_preview.isNull())
+                _pCmdPanel->setHoveredRowBySel(_preview.getSelection());
             else
                 _pCmdPanel->setHoveredRowBySel(wyap::Selection(wydb::ElementId::kNull));
         }
@@ -444,8 +445,8 @@ void MeasureGuiCmd::setMode(MeasureMode mode)
     if (_pCmdPanel) _pCmdPanel->setMode(mode);
 
     // 清理当前模式状态(切换即清空)
-    _pPreview = nullptr;
-    _pRowPreview = nullptr;
+    _preview.clear();
+    _rowPreview.clear();
     _pRowFacePreviewHighlightor = nullptr;
     _pLineTransient = nullptr;
     _pMeasuredHighlightor = nullptr;
@@ -632,8 +633,8 @@ void MeasureGuiCmd::refreshAccumulatedHighlight()
 void MeasureGuiCmd::onResultHovered(const wyap::Selection& sel)
 {
     // 行悬停预览与视口悬停预览互斥(共用节点预览态)
-    _pPreview = nullptr;
-    _pRowPreview = nullptr;
+    _preview.clear();
+    _rowPreview.clear();
     _pRowFacePreviewHighlightor = nullptr;
     this->restoreTempUnhighlightedSel();
     this->refreshAccumulatedHighlight();
@@ -654,7 +655,7 @@ void MeasureGuiCmd::onResultHovered(const wyap::Selection& sel)
             _tempUnhighlightedSel = sel;
             this->refreshAccumulatedHighlight();
         }
-        _pRowPreview = std::make_shared<SelectPreview>(sel);
+        _rowPreview.update(sel);
     }
 }
 
@@ -686,7 +687,7 @@ void MeasureGuiCmd::clearResults()
 {
     // 清除全部:几何高亮+结果行
     _pMeasuredHighlightor = nullptr;
-    _pRowPreview = nullptr;
+    _rowPreview.clear();
     _pRowFacePreviewHighlightor = nullptr;
     _measuredSet.clear();
     _tempUnhighlightedSel = wyap::Selection(wydb::ElementId::kNull);

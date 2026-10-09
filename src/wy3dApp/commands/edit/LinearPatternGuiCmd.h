@@ -67,12 +67,12 @@ private:
     PointPickOption _pointPickOption;
 
     // 预览
-    SelectPreviewSPtr _pSourcePreview;
+    SelectPreview _sourcePreview;
 
     // 工作平面
     wy3d::SketchPlane _workPln;
     // 工作面预览
-    SelectPreviewSPtr _pWorkPlnPreview;
+    SelectPreview _workPlnPreview;
 };
 
 #endif // WY3DAPP_LINEAR_PATTERN_GUI_CMD_H

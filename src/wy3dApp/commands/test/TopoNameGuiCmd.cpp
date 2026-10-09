@@ -117,7 +117,7 @@ wyap::CmdExecution::StartResult TopoNameGuiCmd::onStart()
     Application::instance().setCursor(CursorType::SelectElements);
 
     // 预览
-    _pPreview = nullptr;
+    _preview.clear();
     _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
 
     return wyap::CmdExecution::StartResult::Succeeded;
@@ -137,7 +137,7 @@ void TopoNameGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 void TopoNameGuiCmd::reset()
 {
-    _pPreview = nullptr;
+    _preview.clear();
     _pSelSetHighlightor = nullptr;
 }
 
@@ -214,11 +214,12 @@ void TopoNameGuiCmd::showTopoName(const wyap::Selection& sel)
 void TopoNameGuiCmd::onMouseMove(const MouseEvent& event)
 {
     // 点选预览
-    this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+    wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+    _preview.update(sel);
     Application::instance().getStatusBar()->setTips("");
-    if (_pPreview)
+    if (!_preview.isNull())
     {
-        wyap::Selection sel = _pPreview->getSelection();
+        wyap::Selection sel = _preview.getSelection();
         this->showTopoName(sel);
     }
 

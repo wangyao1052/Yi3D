@@ -41,7 +41,6 @@ SetColorGuiCmd::SetColorGuiCmd()
     , _targetColor(168, 107, 224)
     , _pPanel(nullptr)
     , _lastHoverElementId(wydb::ElementId::kNull)
-    , _pHoverPreview(nullptr)
     , _pointPickOption()
 {
     _options.pointSelect = false;
@@ -109,7 +108,7 @@ void SetColorGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 void SetColorGuiCmd::cleanup()
 {
     _lastHoverElementId = wydb::ElementId::kNull;
-    _pHoverPreview = nullptr;
+    _hoverPreview.clear();
     if (_pPanel)
     {
         _pPanel->hide();
@@ -130,16 +129,16 @@ void SetColorGuiCmd::onMouseMove(const MouseEvent& event)
     }
     _lastHoverElementId = sel.getElementId();
 
-    this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pHoverPreview);
+    _hoverPreview.update(sel);
     return;
 }
 
 void SetColorGuiCmd::onLeftMouseDown(const MouseEvent& event)
 {
     wydb::ElementId solidId = wydb::ElementId::kNull;
-    if (_pHoverPreview && !_pHoverPreview->getSelection().getElementId().isNull())
+    if (!_hoverPreview.isNull())
     {
-        solidId = _pHoverPreview->getSelection().getElementId();
+        solidId = _hoverPreview.getSelection().getElementId();
     }
     else
     {
@@ -147,7 +146,7 @@ void SetColorGuiCmd::onLeftMouseDown(const MouseEvent& event)
         solidId = pickRet.first;
     }
 
-    _pHoverPreview = nullptr;
+    _hoverPreview.clear();
     if (solidId.isNull())
     {
         return;

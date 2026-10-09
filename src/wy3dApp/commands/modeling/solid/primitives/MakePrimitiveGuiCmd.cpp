@@ -103,7 +103,7 @@ bool _getWorkingPlane(const wyap::Selection& sel, wy3d::SketchPlane& workPln)
 }
 
 MakePrimitiveGuiCmd::MakePrimitiveGuiCmd() : OsgGuiCommand(),
-    _step(0), _pickOption(), _workPln(), _pWorkPlnPreview(nullptr)
+    _step(0), _pickOption(), _workPln()
 {
     // 禁止点选和框选
     _options.pointSelect = false;
@@ -146,7 +146,7 @@ wyap::CmdExecution::StartResult MakePrimitiveGuiCmd::onStart()
     };
     if (ss.getCount() == 1 && isValidSS(ss))
     {
-        _pWorkPlnPreview = std::make_shared<SelectPreview>(ss.createIterator().current());
+        _workPlnPreview.update(ss.createIterator().current());
         Application::instance().getSelManager()->beginChange();
         Application::instance().getSelManager()->clearSelections();
         Application::instance().getSelManager()->endChange();
@@ -220,24 +220,24 @@ void MakePrimitiveGuiCmd::reset()
     _step = 0;
     _excludeIds.clear();
     _workPln = wy3d::SketchPlane();
-    _pWorkPlnPreview = nullptr;
+    _workPlnPreview.clear();
 }
 
 bool MakePrimitiveGuiCmd::finishStep(unsigned int step)
 {
     if (1 == step)
     {
-        if (!_pWorkPlnPreview)
+        if (_workPlnPreview.isNull())
         {
             return false;
         }
-        if (!_getWorkingPlane(_pWorkPlnPreview->getSelection(), _workPln))
+        if (!_getWorkingPlane(_workPlnPreview.getSelection(), _workPln))
         {
             assert(false);
             this->requestAbort(AbortCause::ErrorTerminate);
             return false;
         }
-        _pWorkPlnPreview = nullptr;
+        _workPlnPreview.clear();
 
         // 添加工作平面坐标原点为常驻捕捉对象
         wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
@@ -299,27 +299,7 @@ void MakePrimitiveGuiCmd::onMouseMove(const MouseEvent& event)
     if (1 == _step)
     {
         wyap::Selection sel = this->pointPick(event.x, event.y, _pickOption);
-        if (_pWorkPlnPreview)
-        {
-            if (sel.getElementId().isNull())
-            {
-                _pWorkPlnPreview = nullptr;
-            }
-            else
-            {
-                if (!_pWorkPlnPreview->isEqual(sel))
-                {
-                    _pWorkPlnPreview = std::make_shared<SelectPreview>(sel);
-                }
-            }
-        }
-        else
-        {
-            if (!sel.getElementId().isNull())
-            {
-                _pWorkPlnPreview = std::make_shared<SelectPreview>(sel);
-            }
-        }
+        _workPlnPreview.update(sel);
 
         return;
     }
@@ -334,7 +314,7 @@ void MakePrimitiveGuiCmd::onLeftMouseDown(const MouseEvent& event)
 {
     if (1 == _step)
     {
-        if (_pWorkPlnPreview)
+        if (!_workPlnPreview.isNull())
         {
             this->finishStep(_step);
         }
@@ -356,13 +336,13 @@ GuiCmdMenu* MakePrimitiveGuiCmd::initContextMenu()
 void MakePrimitiveGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 {
     if (1 != _step) return;
-    if (_pWorkPlnPreview) return;
+    if (!_workPlnPreview.isNull()) return;
 
     const wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return;
     const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pDb->getElement(id));
     if (!pDatumPlane) return;
-    _pWorkPlnPreview = std::make_shared<SelectPreview>(wyap::Selection(id));
+    _workPlnPreview.update(wyap::Selection(id));
     this->finishStep(_step);
 }
 

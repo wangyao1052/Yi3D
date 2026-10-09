@@ -55,7 +55,7 @@ private:
     // 点选选项
     PointPickOption _pointPickOption;
     // 预览
-    SelectPreviewSPtr _pPreview;
+    SelectPreview _preview;
     //
     std::map<wydb::ElementId, std::vector<std::string>> _id2CheckInfo;
 

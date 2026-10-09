@@ -154,7 +154,7 @@ private:
 
 private:
     // 预览
-    SelectPreviewSPtr _pSolidToCutPreview;
+    SelectPreview _solidToCutPreview;
 };
 
 class MakeExtrusion : public GuiCmdMakeElement

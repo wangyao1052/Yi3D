@@ -68,9 +68,9 @@ private:
     PointPickOption _pointPickOption;
 
     // 阵列源对象预览
-    SelectPreviewSPtr _pSourcePreview;
+    SelectPreview _sourcePreview;
     // 圆柱面预览
-    SelectPreviewSPtr _pCylindricalSurfacePreview;
+    SelectPreview _cylindricalSurfacePreview;
     // 圆柱面高亮
     SelectionSetHighlightorSPtr _pCylindricalSurfaceHighlightor;
 

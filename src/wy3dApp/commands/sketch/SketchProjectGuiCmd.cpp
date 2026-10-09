@@ -98,20 +98,21 @@ wyap::CmdExecution::StartResult SketchProjectGuiCmd::onStart()
 
 void SketchProjectGuiCmd::onEnd()
 {
-    _pPreview = nullptr;
+    _preview.clear();
     GuiCommand::onEnd();
 }
 
 void SketchProjectGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
-    _pPreview = nullptr;
+    _preview.clear();
     GuiCommand::onAbort(cause);
 }
 
 void SketchProjectGuiCmd::onMouseMove(const MouseEvent& event)
 {
     // 悬停高亮预览
-    this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+    wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+    _preview.update(sel);
 }
 
 void SketchProjectGuiCmd::onLeftMouseUp(const MouseEvent& event)

@@ -112,7 +112,7 @@ void SplitFaceGuiCmd::cleanup()
     _faceSels.clear();
     _sketchId = wydb::ElementId::kNull;
 
-    _pPreview = nullptr;
+    _preview.clear();
     _pointPickOption.pSelPreFilter = nullptr;
     _pointPickOption.pSelFilter = nullptr;
     if (_pSelSetHighlightor_Faces) _pSelSetHighlightor_Faces->clearSelections();
@@ -202,7 +202,7 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
     }
     break;
 
@@ -231,7 +231,7 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
     }
     break;
 
@@ -252,7 +252,8 @@ void SplitFaceGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectFaces:
     case Step::SelectSketch:
     {
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         return;
     }
     break;
@@ -273,9 +274,9 @@ void SplitFaceGuiCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectFaces:
     {
-        if (_pPreview)
+        if (!_preview.isNull())
         {
-            const wyap::Selection& sel = _pPreview->getSelection();
+            const wyap::Selection& sel = _preview.getSelection();
             if (_pSelSetHighlightor_Faces->containsSelection(sel))
             {
                 _pSelSetHighlightor_Faces->removeSelection(sel);
@@ -286,7 +287,7 @@ void SplitFaceGuiCmd::onLeftMouseUp(const MouseEvent& event)
             }
             _faceSels = _pSelSetHighlightor_Faces->getSelectionSet();
             _pointPickOption.pSelPreFilter = std::make_shared<SplitFacePreSelFilter>(_faceSels);
-            _pPreview = nullptr;
+            _preview.clear();
             return;
         }
     }
@@ -294,10 +295,10 @@ void SplitFaceGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
     case Step::SelectSketch:
     {
-        if (_pPreview)
+        if (!_preview.isNull())
         {
-            const bool picked = this->pickSketch(_pPreview->getSelection());
-            _pPreview = nullptr;
+            const bool picked = this->pickSketch(_preview.getSelection());
+            _preview.clear();
             // 草图就是这一步的全部输入, 点中即执行(同 FilledSheet 草图那一步)
             if (picked) this->finishStep(_step);
             return;

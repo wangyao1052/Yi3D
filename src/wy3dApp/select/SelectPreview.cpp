@@ -26,15 +26,29 @@
 #include "scene/nodes/SketchElementNode.h"
 #include "scene/nodes/Sketch3DElementNode.h"
 
-SelectPreview::SelectPreview(const wyap::Selection& selection)
-    : _selection(selection)
+SelectPreview::SelectPreview()
+    : _selection(wydb::ElementId::kNull)
 {
-    this->showSelection(_selection, true);
 }
 
 SelectPreview::~SelectPreview()
 {
-    this->showSelection(_selection, false);
+    this->clear();
+}
+
+void SelectPreview::update(const wyap::Selection& selection)
+{
+    if (_selection == selection) return;
+
+    this->clear();
+    _selection = selection;
+    this->showSelection(_selection, true);
+}
+
+void SelectPreview::clear()
+{
+    this->showSelection(_selection, false);   // 空选择时自身早退
+    _selection = wyap::Selection(wydb::ElementId::kNull);
 }
 
 void SelectPreview::showSelection(const wyap::Selection& selection, bool value)

@@ -110,8 +110,8 @@ private:
     // 测量状态
     MeasureMode _mode;
     PointPickOption _pointPickOption;
-    SelectPreviewSPtr _pPreview;
-    SelectPreviewSPtr _pRowPreview;
+    SelectPreview _preview;
+    SelectPreview _rowPreview;
     SelectionSetHighlightorSPtr _pRowFacePreviewHighlightor;
     wyap::SelectionSet _measuredSet;
     SelectionSetHighlightorSPtr _pMeasuredHighlightor;

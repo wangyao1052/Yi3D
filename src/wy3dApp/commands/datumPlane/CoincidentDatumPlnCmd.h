@@ -56,7 +56,7 @@ private:
     // 点选选项
     PointPickOption _pointPickOption;
     // 预览
-    SelectPreviewSPtr _pPreview;
+    SelectPreview _preview;
     // 创建基准面
     std::shared_ptr<MakeDatumPlane> _pMakeDatumPlane;
 };

@@ -553,7 +553,7 @@ void OffsetSheetGuiCmd::cleanup()
 
     _pMakeOffsetSheet = nullptr;
     _pMakeSolidSheet = nullptr;
-    _pPreview = nullptr;
+    _preview.clear();
     _pointPickOption.pSelPreFilter = nullptr;
     _pointPickOption.pSelFilter = nullptr;
     if (_pSelSetHighlightor_Faces) _pSelSetHighlightor_Faces->clearSelections();
@@ -630,7 +630,7 @@ void OffsetSheetGuiCmd::updatePickOption()
         _pointPickOption.pSelPreFilter = std::make_shared<OffsetSheetPreSelFilter>(_hostKind, _hostId);
         _pointPickOption.pSelFilter = nullptr;
     }
-    _pPreview = nullptr;
+    _preview.clear();
 }
 
 void OffsetSheetGuiCmd::onMouseMove(const MouseEvent& event)
@@ -641,9 +641,10 @@ void OffsetSheetGuiCmd::onMouseMove(const MouseEvent& event)
     {
         if (static_cast<int>(wy3d::OffsetSheet::Target::SelectedFaces) != _targetMode) break;
 
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         Application::instance().setCursor(
-            _pPreview ? CursorType::SelectElements : CursorType::Forbid);
+            _preview.isNull() ? CursorType::Forbid : CursorType::SelectElements);
     }
     break;
 
@@ -662,9 +663,9 @@ void OffsetSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
     case Step::SetParameters:
     {
         if (static_cast<int>(wy3d::OffsetSheet::Target::SelectedFaces) != _targetMode) break;
-        if (!_pPreview || !_pSelSetHighlightor_Faces) break;
+        if (_preview.isNull() || !_pSelSetHighlightor_Faces) break;
 
-        const wyap::Selection sel = _pPreview->getSelection();
+        const wyap::Selection sel = _preview.getSelection();
         if (_pSelSetHighlightor_Faces->containsSelection(sel)) // 再点一次取消选中
         {
             _pSelSetHighlightor_Faces->removeSelection(sel);
@@ -674,7 +675,7 @@ void OffsetSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
             _pSelSetHighlightor_Faces->addSelection(sel);
         }
         _faceSels = _pSelSetHighlightor_Faces->getSelectionSet();
-        _pPreview = nullptr;
+        _preview.clear();
 
         if (HostKind::Undefined == _hostKind && !_faceSels.isEmpty())
         {
@@ -896,7 +897,7 @@ void OffsetSheetGuiCmd::clearFaceSelections()
 {
     if (_pSelSetHighlightor_Faces) _pSelSetHighlightor_Faces->clearSelections();
     _faceSels.clear();
-    _pPreview = nullptr;
+    _preview.clear();
 }
 
 void OffsetSheetGuiCmd::refreshFaceColors()

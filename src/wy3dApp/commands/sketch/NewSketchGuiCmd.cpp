@@ -78,7 +78,7 @@ wyap::CmdExecution::StartResult NewSketchGuiCmd::onStart()
 
     if (!id.isNull())
     {
-        _pPreview = std::make_shared<SelectPreview>(wyap::Selection(id));
+        _preview.update(wyap::Selection(id));
 
         // onStart runs inside executeCommand(), where CmdManager is busy and requestEnd()
         // reports SystemBusy. Defer the confirmation to the next event loop turn, after
@@ -142,7 +142,7 @@ void NewSketchGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 void NewSketchGuiCmd::cleanup()
 {
-    _pPreview = nullptr;
+    _preview.clear();
 }
 
 bool NewSketchGuiCmd::finishStep(Step step)
@@ -151,14 +151,14 @@ bool NewSketchGuiCmd::finishStep(Step step)
     {
     case Step::SelectDatumPlaneOrFace:
     {
-        if (!_pPreview)
+        if (_preview.isNull())
         {
             assert(false);
             this->requestAbort(AbortCause::ErrorTerminate);
             return false;
         }
 
-        wyap::Selection sel = _pPreview->getSelection();
+        wyap::Selection sel = _preview.getSelection();
         if (this->perform(sel))
         {
             // exit
@@ -211,7 +211,7 @@ void NewSketchGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
     }
     break;
 
@@ -231,7 +231,8 @@ void NewSketchGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectDatumPlaneOrFace:
     {
         // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
     }
     break;
     }
@@ -245,7 +246,7 @@ void NewSketchGuiCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectDatumPlaneOrFace:
     {
-        if (_pPreview)
+        if (!_preview.isNull())
         {
             this->finishStep(_step);
         }
@@ -259,14 +260,14 @@ void NewSketchGuiCmd::onLeftMouseUp(const MouseEvent& event)
 void NewSketchGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 {
     if (Step::SelectDatumPlaneOrFace != _step) return;
-    if (_pPreview) return;
+    if (!_preview.isNull()) return;
 
     const wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return;
     const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pDb->getElement(id));
     if (!pDatumPlane) return;
 
-    _pPreview = std::make_shared<SelectPreview>(wyap::Selection(id));
+    _preview.update(wyap::Selection(id));
     this->finishStep(_step);
 }
 

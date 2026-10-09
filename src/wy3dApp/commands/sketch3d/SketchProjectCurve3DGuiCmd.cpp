@@ -178,7 +178,7 @@ wyap::CmdExecution::StartResult SketchProjectCurve3DGuiCmd::onStart()
 
 void SketchProjectCurve3DGuiCmd::onEnd()
 {
-    _pPreview = nullptr;
+    _preview.clear();
     _pSourceHighlight = nullptr;
     _pTargetHighlight = nullptr;
     _pProjectionPreview = nullptr;
@@ -189,7 +189,7 @@ void SketchProjectCurve3DGuiCmd::onEnd()
 
 void SketchProjectCurve3DGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
-    _pPreview = nullptr;
+    _preview.clear();
     _pSourceHighlight = nullptr;
     _pTargetHighlight = nullptr;
     _pProjectionPreview = nullptr;
@@ -200,7 +200,8 @@ void SketchProjectCurve3DGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 void SketchProjectCurve3DGuiCmd::onMouseMove(const MouseEvent& event)
 {
-    this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+    wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+    _preview.update(sel);
 }
 
 void SketchProjectCurve3DGuiCmd::onLeftMouseUp(const MouseEvent& event)

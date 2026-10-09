@@ -132,20 +132,21 @@ wyap::CmdExecution::StartResult SolidifyGuiCmd::onStart()
 
 void SolidifyGuiCmd::cleanup()
 {
-    _pSheetPreview = nullptr;
+    _sheetPreview.clear();
     _pMakeSolidify = nullptr;
 }
 
 void SolidifyGuiCmd::onMouseMove(const MouseEvent& event)
 {
-    this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pSheetPreview);
+    wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+    _sheetPreview.update(sel);
 }
 
 void SolidifyGuiCmd::onLeftMouseUp(const MouseEvent& event)
 {
-    if (!_pSheetPreview) return;
+    if (_sheetPreview.isNull()) return;
 
-    wydb::ElementId sheetId = _pSheetPreview->getSelection().getElementId();
+    wydb::ElementId sheetId = _sheetPreview.getSelection().getElementId();
     if (sheetId.isNull())
     {
         assert(false);
@@ -156,7 +157,7 @@ void SolidifyGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
 void SolidifyGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 {
-    _pSheetPreview = nullptr;
+    _sheetPreview.clear();
     if (id.isNull()) return;
     if (!this->isValidSheet(id)) return;
     this->perform(id);

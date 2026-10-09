@@ -123,7 +123,7 @@ void FilletGuiCmd::reset()
     _sels.clear();
     _radius = 0.0;
 
-    _pPreview = nullptr;
+    _preview.clear();
     _pSelSetHighlightor = nullptr;
 
     // 宿主拓扑缓存
@@ -184,7 +184,7 @@ void FilletGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
         // 高亮
         _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
     }
@@ -262,10 +262,10 @@ void FilletGuiCmd::onLeftMouseUp(const MouseEvent& event)
 {
     if (Step::SelectEdges == _step)
     {
-        if (_pPreview)
+        if (!_preview.isNull())
         {
-            // 先拷贝: 下面会置空 _pPreview
-            const wyap::Selection sel = _pPreview->getSelection();
+            // 先拷贝: 下面会置空 _preview
+            const wyap::Selection sel = _preview.getSelection();
 
             std::vector<wyap::Selection> sels;
             if (this->resolveFilletPick(sel, sels)) // 不可圆角的边或面: 不加入选择集
@@ -277,7 +277,7 @@ void FilletGuiCmd::onLeftMouseUp(const MouseEvent& event)
                     _pSelSetHighlightor->getSelectionSet());
             }
 
-            _pPreview = nullptr;
+            _preview.clear();
         }
     }
 
@@ -437,7 +437,7 @@ void FilletGuiCmd::updateHoverPreview(double x, double y)
     const wyap::Selection sel = this->pointPick(x, y, _pointPickOption);
     if (sel.getElementId().isNull())
     {
-        _pPreview = nullptr;
+        _preview.clear();
         Application::instance().setCursor(CursorType::SelectElements);
         return;
     }
@@ -445,16 +445,12 @@ void FilletGuiCmd::updateHoverPreview(double x, double y)
     std::vector<wyap::Selection> sels;
     if (!this->resolveFilletPick(sel, sels))
     {
-        _pPreview = nullptr;
+        _preview.clear();
         Application::instance().setCursor(CursorType::Forbid);
         return;
     }
 
-    // 同一个对象不重建预览
-    if (!_pPreview || !_pPreview->isEqual(sel))
-    {
-        _pPreview = std::make_shared<SelectPreview>(sel);
-    }
+    _preview.update(sel);
     Application::instance().setCursor(CursorType::SelectElements);
 }
 

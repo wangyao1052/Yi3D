@@ -160,7 +160,7 @@ wyap::CmdExecution::StartResult SketchIntersectionCurve3DGuiCmd::onStart()
 
 void SketchIntersectionCurve3DGuiCmd::onEnd()
 {
-    _pPreview = nullptr;
+    _preview.clear();
     _pHeldHighlight = nullptr;
     this->destroyPanel();
     GuiCommand::onEnd();
@@ -168,7 +168,7 @@ void SketchIntersectionCurve3DGuiCmd::onEnd()
 
 void SketchIntersectionCurve3DGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
-    _pPreview = nullptr;
+    _preview.clear();
     _pHeldHighlight = nullptr;
     this->destroyPanel();
     GuiCommand::onAbort(cause);
@@ -176,7 +176,8 @@ void SketchIntersectionCurve3DGuiCmd::onAbort(wyap::CmdExecution::AbortCause cau
 
 void SketchIntersectionCurve3DGuiCmd::onMouseMove(const MouseEvent& event)
 {
-    this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+    wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+    _preview.update(sel);
 }
 
 void SketchIntersectionCurve3DGuiCmd::onLeftMouseUp(const MouseEvent& event)

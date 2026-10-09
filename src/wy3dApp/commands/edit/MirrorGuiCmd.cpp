@@ -110,18 +110,18 @@ bool MirrorGuiCmd::finishStep(Step step)
     case Step::SelectMirrorPlane:
     {
         // 镜像面
-        if (!_pMirrorPlanePreview)
+        if (_mirrorPlanePreview.isNull())
         {
             assert(false);
             return false;
         }
-        if (!GuiCommandUtil::getWorkingPlane(_pMirrorPlanePreview->getSelection(), _mirrorPlane))
+        if (!GuiCommandUtil::getWorkingPlane(_mirrorPlanePreview.getSelection(), _mirrorPlane))
         {
             assert(false);
             this->requestAbort(AbortCause::ErrorTerminate);
             return false;
         }
-        _pMirrorPlanePreview = nullptr;
+        _mirrorPlanePreview.clear();
 
         // 执行镜像
         unsigned int errorCode(0);
@@ -175,7 +175,7 @@ void MirrorGuiCmd::gotoStep(Step step)
         _pointPickOption.pSelPreFilter = std::make_shared<MirrorGuiCmdPreSelFilter>();
 
         // 预览
-        _pSourcePreview = nullptr;
+        _sourcePreview.clear();
     }
     break;
 
@@ -190,7 +190,7 @@ void MirrorGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pMirrorPlanePreview = nullptr;
+        _mirrorPlanePreview.clear();
 
         // 点选选项:基准面
         // 不允许选择实体面,因为若Hover到要镜像的实体特征的表面,再移开,该面会恢复到原始的颜色,但是该实体特征当前是选中态,这就冲突了.
@@ -218,7 +218,8 @@ void MirrorGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectSource:
     {
         // 点选预览:要阵列的对象
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pSourcePreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _sourcePreview.update(sel);
         return;
     }
     break;
@@ -226,7 +227,8 @@ void MirrorGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectMirrorPlane:
     {
         // 点选预览:基准面
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pMirrorPlanePreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _mirrorPlanePreview.update(sel);
         return;
     }
     break;
@@ -241,9 +243,9 @@ void MirrorGuiCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectSource:
     {
-        if (_pSourcePreview)
+        if (!_sourcePreview.isNull())
         {
-            _sourceId = _pSourcePreview->getSelection().getElementId();
+            _sourceId = _sourcePreview.getSelection().getElementId();
             this->finishStep(_step);
             return;
         }
@@ -252,7 +254,7 @@ void MirrorGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
     case Step::SelectMirrorPlane:
     {
-        if (_pMirrorPlanePreview)
+        if (!_mirrorPlanePreview.isNull())
         {
             this->finishStep(_step);
             return;
@@ -285,7 +287,7 @@ void MirrorGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     }
     else if (Step::SelectMirrorPlane == _step)
     {
-        if (_pMirrorPlanePreview)
+        if (!_mirrorPlanePreview.isNull())
         {
             assert(false);
             return;
@@ -294,7 +296,7 @@ void MirrorGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
         if (!pDb) return;
         const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pDb->getElement(id));
         if (!pDatumPlane) return;
-        _pMirrorPlanePreview = std::make_shared<SelectPreview>(wyap::Selection(id));
+        _mirrorPlanePreview.update(wyap::Selection(id));
         this->finishStep(_step);
     }
 }

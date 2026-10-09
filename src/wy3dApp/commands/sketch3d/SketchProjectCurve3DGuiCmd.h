@@ -125,7 +125,7 @@ private:
 private:
     GuiCmdSketch3DInfo _sketch3DInfo;
     PointPickOption _pointPickOption;
-    SelectPreviewSPtr _pPreview;                 // 悬停高亮预览
+    SelectPreview _preview;                 // 悬停高亮预览
     SelectionSetHighlightorSPtr _pSourceHighlight; // 已选中的源草图保持高亮
     SelectionSetHighlightorSPtr _pTargetHighlight; // 已选中的投影目标保持高亮
     SketchProjectCurvePanel* _pPanel;            // reverse / bidirectional switches, owned

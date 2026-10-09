@@ -193,31 +193,3 @@ void GuiCommand::configSelect(GuiCmdSelectOptions options)
     pSelHandler->enablePreview(options.preview);
     pSelHandler->setSelectMode(options.selectMode);
 }
-
-void GuiCommand::mouseMovePointPickPreview(double x, double y,
-    const PointPickOption& pointPickOption, SelectPreviewSPtr& pSelPreview)
-{
-    wyap::Selection sel = this->pointPick(x, y, pointPickOption);
-    if (pSelPreview)
-    {
-        if (sel.getElementId().isNull())
-        {
-            pSelPreview = nullptr;
-        }
-        else
-        {
-            if (!pSelPreview->isEqual(sel))
-            {
-                pSelPreview = nullptr;
-                pSelPreview = std::make_shared<SelectPreview>(sel);
-            }
-        }
-    }
-    else
-    {
-        if (!sel.getElementId().isNull())
-        {
-            pSelPreview = std::make_shared<SelectPreview>(sel);
-        }
-    }
-}

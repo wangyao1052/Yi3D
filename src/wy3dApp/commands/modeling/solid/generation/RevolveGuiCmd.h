@@ -72,7 +72,7 @@ protected:
     // 预览&提示
     std::shared_ptr<ValidSketchTransient> _pValidSketch;
     std::shared_ptr<InvalidSketchToolTip> _pInvalidSketchTooltip;
-    SelectPreviewSPtr _pAxisCurvePreview;
+    SelectPreview _axisCurvePreview;
 
     // 草图信息
     struct SketchValidInfo
@@ -105,7 +105,7 @@ private:
 
 private:
     // 预览
-    SelectPreviewSPtr _pSolidToCutPreview;
+    SelectPreview _solidToCutPreview;
 };
 
 class MakeRevolution : public GuiCmdMakeElement

@@ -125,8 +125,8 @@ protected:
     std::shared_ptr<ValidSketchTransient> _pValidSketchPreview;
     std::shared_ptr<InvalidSketchToolTip> _pInvalidSketchTooltip;
 
-    SelectPreviewSPtr _pEdgePreview;
-    SelectPreviewSPtr _pConstraintSketchPreview;
+    SelectPreview _edgePreview;
+    SelectPreview _constraintSketchPreview;
     SelectionSetHighlightorSPtr _pSelSetHighlightor;
 
     // Preselected constraint sketches, only recognizable once the command reaches SelectConstraintCurves

@@ -129,7 +129,7 @@ void ChamferGuiCmd::reset()
     _chamferType = wy3d::ChamferType::EqualDistance;
     _isFlipped = false;
 
-    _pPreview = nullptr;
+    _preview.clear();
     _pSelSetHighlightor = nullptr;
 
     // 宿主拓扑缓存
@@ -190,7 +190,7 @@ void ChamferGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
         // 高亮
         _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
     }
@@ -273,10 +273,10 @@ void ChamferGuiCmd::onLeftMouseUp(const MouseEvent& event)
 {
     if (Step::SelectEdges == _step)
     {
-        if (_pPreview)
+        if (!_preview.isNull())
         {
-            // 先拷贝: 下面会置空 _pPreview
-            const wyap::Selection sel = _pPreview->getSelection();
+            // 先拷贝: 下面会置空 _preview
+            const wyap::Selection sel = _preview.getSelection();
 
             std::vector<wyap::Selection> sels;
             if (this->resolveChamferPick(sel, sels)) // 不可倒角的边或面: 不加入选择集
@@ -288,7 +288,7 @@ void ChamferGuiCmd::onLeftMouseUp(const MouseEvent& event)
                     _pSelSetHighlightor->getSelectionSet());
             }
 
-            _pPreview = nullptr;
+            _preview.clear();
         }
     }
 
@@ -448,7 +448,7 @@ void ChamferGuiCmd::updateHoverPreview(double x, double y)
     const wyap::Selection sel = this->pointPick(x, y, _pointPickOption);
     if (sel.getElementId().isNull())
     {
-        _pPreview = nullptr;
+        _preview.clear();
         Application::instance().setCursor(CursorType::SelectElements);
         return;
     }
@@ -456,16 +456,12 @@ void ChamferGuiCmd::updateHoverPreview(double x, double y)
     std::vector<wyap::Selection> sels;
     if (!this->resolveChamferPick(sel, sels))
     {
-        _pPreview = nullptr;
+        _preview.clear();
         Application::instance().setCursor(CursorType::Forbid);
         return;
     }
 
-    // 同一个对象不重建预览
-    if (!_pPreview || !_pPreview->isEqual(sel))
-    {
-        _pPreview = std::make_shared<SelectPreview>(sel);
-    }
+    _preview.update(sel);
     Application::instance().setCursor(CursorType::SelectElements);
 }
 

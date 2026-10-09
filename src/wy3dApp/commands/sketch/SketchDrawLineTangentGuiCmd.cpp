@@ -263,7 +263,7 @@ void SketchDrawLineTangentGuiCmd::onEnd()
     GuiCommand::onEnd();
 
     _pLineTransient = nullptr;
-    _pPreview = nullptr;
+    _preview.clear();
     _pSelSetHighlightor = nullptr;
 
 }
@@ -272,7 +272,7 @@ void SketchDrawLineTangentGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     GuiCommand::onAbort(cause);
 
     _pLineTransient = nullptr;
-    _pPreview = nullptr;
+    _preview.clear();
     _pSelSetHighlightor = nullptr;
 
 }
@@ -285,7 +285,7 @@ void SketchDrawLineTangentGuiCmd::reset()
     _endElementId = wydb::ElementId::kNull;
     _endPickPos.set(0.0, 0.0);
     _pLineTransient = nullptr;
-    _pPreview = nullptr;
+    _preview.clear();
     _pSelSetHighlightor = nullptr;
 
     this->gotoStep(Step::SelectStartEntity);
@@ -324,7 +324,7 @@ bool SketchDrawLineTangentGuiCmd::finishStep(Step step)
     {
         // 取消预览&高亮
         _pSelSetHighlightor = nullptr;
-        _pPreview = nullptr;
+        _preview.clear();
 
         // 查找匹配的切线:确定匹配的切线的起点和终点
         wy::Vector2 startPnt, endPnt;
@@ -417,18 +417,20 @@ void SketchDrawLineTangentGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::SelectStartEntity:
     {
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         return;
     }
     break;
 
     case Step::SelectEndEntity:
     {
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         if (_pLineTransient) _pLineTransient->hide();
-        if (_pPreview)
+        if (!_preview.isNull())
         {
-            const wyap::Selection& sel = _pPreview->getSelection();
+            const wyap::Selection& sel = _preview.getSelection();
             wydb::ElementId endElementId = sel.getElementId();
             wy::Vector2 endPickPos = this->computePosition2dWithoutSnap(event.x, event.y, _sketchInfo.sketchPlane);
 
@@ -462,14 +464,14 @@ void SketchDrawLineTangentGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SelectStartEntity:
     {
-        if (_pPreview && _pSelSetHighlightor)
+        if (!_preview.isNull() && _pSelSetHighlightor)
         {
             assert(_pSelSetHighlightor->getSelectionSet().isEmpty());
-            const wyap::Selection& sel = _pPreview->getSelection();
+            const wyap::Selection& sel = _preview.getSelection();
             _pSelSetHighlightor->addSelection(sel);
             _startElementId = sel.getElementId();
             _startPickPos = this->computePosition2dWithoutSnap(event.x, event.y, _sketchInfo.sketchPlane);
-            _pPreview = nullptr;
+            _preview.clear();
             this->finishStep(_step);
         }
         return;
@@ -478,14 +480,14 @@ void SketchDrawLineTangentGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SelectEndEntity:
     {
-        if (_pPreview && _pSelSetHighlightor)
+        if (!_preview.isNull() && _pSelSetHighlightor)
         {
             assert(!_pSelSetHighlightor->getSelectionSet().isEmpty());
-            const wyap::Selection& sel = _pPreview->getSelection();
+            const wyap::Selection& sel = _preview.getSelection();
             _pSelSetHighlightor->addSelection(sel);
             _endElementId = sel.getElementId();
             _endPickPos = this->computePosition2dWithoutSnap(event.x, event.y, _sketchInfo.sketchPlane);
-            _pPreview = nullptr;
+            _preview.clear();
             this->finishStep(_step);
         }
         return;

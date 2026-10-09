@@ -106,7 +106,7 @@ wyap::CmdExecution::StartResult CheckTopoNameGuiCmd::onStart()
     Application::instance().setCursor(CursorType::SelectElements);
 
     // 预览
-    _pPreview = nullptr;
+    _preview.clear();
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -125,7 +125,7 @@ void CheckTopoNameGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 void CheckTopoNameGuiCmd::reset()
 {
-    _pPreview = nullptr;
+    _preview.clear();
 }
 
 void CheckTopoNameGuiCmd::checkTopoName(const wyap::Selection& sel)
@@ -166,11 +166,12 @@ void CheckTopoNameGuiCmd::checkTopoName(const wyap::Selection& sel)
 void CheckTopoNameGuiCmd::onMouseMove(const MouseEvent& event)
 {
     // 点选预览
-    this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+    wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+    _preview.update(sel);
     Application::instance().getStatusBar()->setTips("");
-    if (_pPreview)
+    if (!_preview.isNull())
     {
-        wyap::Selection sel = _pPreview->getSelection();
+        wyap::Selection sel = _preview.getSelection();
         this->checkTopoName(sel);
     }
 

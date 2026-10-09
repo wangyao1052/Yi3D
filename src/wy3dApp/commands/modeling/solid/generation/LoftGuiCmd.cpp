@@ -98,7 +98,7 @@ void LoftGuiCmd::cleanup()
     _step = Step::Undefined;
     _profileIds.clear();
 
-    _pProfilePreview = nullptr;
+    _profilePreview.clear();
     _pInvalidSketchTooltip = nullptr;
     _profilesHighlightor.clearSelections();
 
@@ -110,7 +110,7 @@ void LoftGuiCmd::cleanup()
 void LoftCutGuiCmd::cleanup()
 {
     LoftGuiCmd::cleanup();
-    _pSolidToCutPreview = nullptr;
+    _solidToCutPreview.clear();
 }
 
 bool LoftGuiCmd::finishStep(Step step)
@@ -344,7 +344,7 @@ void LoftGuiCmd::onMouseMove(const MouseEvent& event)
 
         preview(pickedSketchId);
 
-        if (!pickedSketchId.isNull() && !_pProfilePreview)
+        if (!pickedSketchId.isNull() && _profilePreview.isNull())
         {
             if (!_pInvalidSketchTooltip || _pInvalidSketchTooltip->getSketchId() != pickedSketchId)
             {
@@ -377,7 +377,8 @@ void LoftCutGuiCmd::onMouseMove(const MouseEvent& event)
     if (Step::SpecifySolidToCut == _step)
     {
         // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pSolidToCutPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _solidToCutPreview.update(sel);
         return;
     }
     else
@@ -392,9 +393,9 @@ void LoftGuiCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectProfiles:
     {
-        if (_pProfilePreview)
+        if (!_profilePreview.isNull())
         {
-            const wyap::Selection& sel = _pProfilePreview->getSelection();
+            const wyap::Selection& sel = _profilePreview.getSelection();
             if (_profilesHighlightor.containsSelection(sel))
             {
                 _profilesHighlightor.removeSelection(sel);
@@ -403,7 +404,7 @@ void LoftGuiCmd::onLeftMouseUp(const MouseEvent& event)
             {
                 _profilesHighlightor.addSelection(sel);
             }
-            _pProfilePreview = nullptr;
+            _profilePreview.clear();
         }
     }
     break;
@@ -421,7 +422,7 @@ void LoftCutGuiCmd::onLeftMouseUp(const MouseEvent& event)
 {
     if (Step::SpecifySolidToCut == _step)
     {
-        if (_pSolidToCutPreview)
+        if (!_solidToCutPreview.isNull())
         {
             this->finishStep(_step);
         }
@@ -569,22 +570,22 @@ void LoftGuiCmd::preview(wydb::ElementId sketchId)
 {
     if (wydb::ElementId::kNull == sketchId)
     {
-        _pProfilePreview = nullptr;
+        _profilePreview.clear();
         return;
     }
-    if (_pProfilePreview && _pProfilePreview->getSelection().getElementId() == sketchId)
+    if (!_profilePreview.isNull() && _profilePreview.getSelection().getElementId() == sketchId)
     {
         return;
     }
 
-    _pProfilePreview = nullptr;
+    _profilePreview.clear();
 
     auto iter = _sketchId2ValidInfo.find(sketchId);
     if (iter != _sketchId2ValidInfo.cend())
     {
         if (iter->second.valid)
         {
-            _pProfilePreview = std::make_shared<SelectPreview>(wyap::Selection(sketchId));
+            _profilePreview.update(wyap::Selection(sketchId));
         }
     }
     else
@@ -593,7 +594,7 @@ void LoftGuiCmd::preview(wydb::ElementId sketchId)
         SketchValidInfo info;
         if (this->isValidProfile(sketchId, error))
         {
-            _pProfilePreview = std::make_shared<SelectPreview>(wyap::Selection(sketchId));
+            _profilePreview.update(wyap::Selection(sketchId));
             info.valid = true;
         }
         else
@@ -607,8 +608,8 @@ void LoftGuiCmd::preview(wydb::ElementId sketchId)
 
 const wy3d::Solid* LoftCutGuiCmd::getSolidToCut() const
 {
-    if (!_pSolidToCutPreview) return nullptr;
-    wydb::ElementId id = _pSolidToCutPreview->getSelection().getElementId();
+    if (_solidToCutPreview.isNull()) return nullptr;
+    wydb::ElementId id = _solidToCutPreview.getSelection().getElementId();
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return nullptr;
     const wy3d::Solid* pSolidToCut = wy3d::Solid::cast(pDb->getElement(id));

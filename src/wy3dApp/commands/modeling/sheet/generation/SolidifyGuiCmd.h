@@ -66,7 +66,7 @@ private:
 protected:
     PointPickOption _pointPickOption;
     std::shared_ptr<MakeSolidify> _pMakeSolidify;
-    SelectPreviewSPtr _pSheetPreview;
+    SelectPreview _sheetPreview;
 };
 
 #endif // WY3DAPP_SOLIDIFY_GUI_CMD_H

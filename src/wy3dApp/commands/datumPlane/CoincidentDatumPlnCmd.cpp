@@ -118,7 +118,7 @@ void CoincidentDatumPlnCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 预览
-        _pPreview = nullptr;
+        _preview.clear();
     }
     break;
 
@@ -138,7 +138,8 @@ void CoincidentDatumPlnCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectDatumPlaneOrFace:
     {
         // 点选预览
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pPreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _preview.update(sel);
         return;
     }
     break;
@@ -153,10 +154,10 @@ void CoincidentDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectDatumPlaneOrFace:
     {
-        if (_pPreview && !_pPreview->getSelection().getElementId().isNull())
+        if (!_preview.isNull())
         {
-            wyap::Selection sel = _pPreview->getSelection();
-            _pPreview = nullptr;
+            wyap::Selection sel = _preview.getSelection();
+            _preview.clear();
 
             // 获取平面
             if (!MakeDatumPlane::getSketchPlane(sel, _plane))

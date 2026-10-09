@@ -71,7 +71,7 @@ protected:
 
     std::shared_ptr<ValidSketchTransient> _pValidSketch;
     std::shared_ptr<InvalidSketchToolTip> _pInvalidSketchTooltip;
-    SelectPreviewSPtr _pAxisCurvePreview;
+    SelectPreview _axisCurvePreview;
 
     struct SketchValidInfo
     {

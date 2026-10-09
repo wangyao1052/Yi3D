@@ -192,18 +192,18 @@ bool RotateGuiCmd::finishStep(Step step)
     case Step::SelectWorkingPlane:
     {
         // 工作平面
-        if (!_pWorkPlnPreview)
+        if (_workPlnPreview.isNull())
         {
             assert(false);
             return false;
         }
-        if (!GuiCommandUtil::getWorkingPlane(_pWorkPlnPreview->getSelection(), _workPln))
+        if (!GuiCommandUtil::getWorkingPlane(_workPlnPreview.getSelection(), _workPln))
         {
             assert(false);
             this->requestAbort(AbortCause::ErrorTerminate);
             return false;
         }
-        _pWorkPlnPreview = nullptr;
+        _workPlnPreview.clear();
 
         // 添加工作平面坐标原点为常驻捕捉对象
         wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
@@ -488,27 +488,7 @@ void RotateGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectWorkingPlane:
     {
         wyap::Selection sel = this->pointPick(event.x, event.y, _pickWorkPlnOption);
-        if (_pWorkPlnPreview)
-        {
-            if (sel.getElementId().isNull())
-            {
-                _pWorkPlnPreview = nullptr;
-            }
-            else
-            {
-                if (!_pWorkPlnPreview->isEqual(sel))
-                {
-                    _pWorkPlnPreview = std::make_shared<SelectPreview>(sel);
-                }
-            }
-        }
-        else
-        {
-            if (!sel.getElementId().isNull())
-            {
-                _pWorkPlnPreview = std::make_shared<SelectPreview>(sel);
-            }
-        }
+        _workPlnPreview.update(sel);
         return;
     }
     break;
@@ -619,7 +599,7 @@ void RotateGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SelectWorkingPlane:
     {
-        if (_pWorkPlnPreview && this->finishStep(_step))
+        if (!_workPlnPreview.isNull() && this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
         }

@@ -222,7 +222,7 @@ void CircularPatternGuiCmd::gotoStep(Step step)
         _pointPickOption.pSelPreFilter = std::make_shared<CircularPatternGuiCmdPreSelFilter>();
 
         // 预览
-        _pSourcePreview = nullptr;
+        _sourcePreview.clear();
     }
     break;
 
@@ -245,7 +245,7 @@ void CircularPatternGuiCmd::gotoStep(Step step)
         _pointPickOption.pSelFilter = pSelFilter;
 
         // 预览
-        _pCylindricalSurfacePreview = nullptr;
+        _cylindricalSurfacePreview.clear();
     }
     break;
 
@@ -312,7 +312,8 @@ void CircularPatternGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SelectSource:
     {
         // 点选预览:要阵列的对象
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pSourcePreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _sourcePreview.update(sel);
         return;
     }
     break;
@@ -320,7 +321,8 @@ void CircularPatternGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SpecifyCylindricalSurface:
     {
         // 点选预览:圆柱实体面
-        this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pCylindricalSurfacePreview);
+        wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        _cylindricalSurfacePreview.update(sel);
         return;
     }
     break;
@@ -335,10 +337,10 @@ void CircularPatternGuiCmd::onLeftMouseUp(const MouseEvent& event)
     {
     case Step::SelectSource:
     {
-        if (_pSourcePreview)
+        if (!_sourcePreview.isNull())
         {
-            _sourceId = _pSourcePreview->getSelection().getElementId();
-            _pSourcePreview = nullptr;
+            _sourceId = _sourcePreview.getSelection().getElementId();
+            _sourcePreview.clear();
             this->finishStep(_step);
             return;
         }
@@ -347,10 +349,10 @@ void CircularPatternGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
     case Step::SpecifyCylindricalSurface:
     {
-        if (_pCylindricalSurfacePreview)
+        if (!_cylindricalSurfacePreview.isNull())
         {
-            _cylindricalSurfaceSel = _pCylindricalSurfacePreview->getSelection();
-            _pCylindricalSurfacePreview = nullptr;
+            _cylindricalSurfaceSel = _cylindricalSurfacePreview.getSelection();
+            _cylindricalSurfacePreview.clear();
             this->finishStep(_step);
             return;
         }

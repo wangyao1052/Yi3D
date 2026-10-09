@@ -109,7 +109,6 @@ std::vector<const wydb::ParameterDefinition*> collectParamDefinitions(
 DemoParametersCmd::DemoParametersCmd()
     : OsgGuiCommand()
     , _pointPickOption()
-    , _pHoverPreview(nullptr)
 {
     _options.pointSelect = false;
     _options.boxSelect = false;
@@ -144,18 +143,19 @@ wyap::CmdExecution::StartResult DemoParametersCmd::onStart()
 
 void DemoParametersCmd::cleanup()
 {
-    _pHoverPreview = nullptr;
+    _hoverPreview.clear();
 }
 
 void DemoParametersCmd::onMouseMove(const MouseEvent& event)
 {
-    this->mouseMovePointPickPreview(event.x, event.y, _pointPickOption, _pHoverPreview);
+    wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+    _hoverPreview.update(sel);
 }
 
 void DemoParametersCmd::onLeftMouseUp(const MouseEvent& event)
 {
-    if (!_pHoverPreview) return;
-    wydb::ElementId id = _pHoverPreview->getSelection().getElementId();
+    if (_hoverPreview.isNull()) return;
+    wydb::ElementId id = _hoverPreview.getSelection().getElementId();
     if (id.isNull()) return;
 
     QTimer::singleShot(0, &Application::instance(), [this, id]()

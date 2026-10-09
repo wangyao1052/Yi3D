@@ -134,7 +134,7 @@ protected:
     SketchSnapContextSPtr _pSnapContext;
 
     // 工作平面预览
-    SelectPreviewSPtr _pWorkPlnPreview;
+    SelectPreview _workPlnPreview;
     // 工作平面原点捕捉对象
     wyap::SnapObjectSPtr _pWorkPlnOriginSnapObject;
     // 工作平面捕捉系统

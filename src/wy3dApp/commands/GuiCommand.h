@@ -208,10 +208,6 @@ protected:
     // 清除选择集
     void clearSelections() { GuiCommandUtil::clearSelections(); }
 
-    // 鼠标移动+点选预览
-    void mouseMovePointPickPreview(double x, double y,
-        const PointPickOption& pointPickOption, SelectPreviewSPtr& pSelPreview);
-
     void configSelect(GuiCmdSelectOptions options);
 
     // 点选（纯虚，由渲染引擎子类实现）

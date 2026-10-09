@@ -19,23 +19,28 @@
 #ifndef WY3DAPP_SELECT_PREVIEW_H
 #define WY3DAPP_SELECT_PREVIEW_H
 
-#include <memory>
 #include <wyapSelection.h>
 
 class SelectPreview
 {
 public:
-    explicit SelectPreview(const wyap::Selection& selection);
+    SelectPreview();
     ~SelectPreview();
 
-    inline const wyap::Selection& getSelection() const
+    SelectPreview(const SelectPreview&) = delete;
+    SelectPreview& operator=(const SelectPreview&) = delete;
+
+    void update(const wyap::Selection& selection);
+    void clear();
+
+    bool isNull() const
     {
-        return _selection;
+        return _selection.getElementId().isNull();
     }
 
-    inline bool isEqual(const wyap::Selection& selection) const
+    const wyap::Selection& getSelection() const
     {
-        return !(_selection < selection) && !(selection < _selection);
+        return _selection;
     }
 
 private:
@@ -44,6 +49,5 @@ private:
 private:
     wyap::Selection _selection;
 };
-typedef std::shared_ptr<SelectPreview> SelectPreviewSPtr;
 
 #endif // WY3DAPP_SELECT_PREVIEW_H

@@ -262,7 +262,7 @@ void FeatureTreeWidget::setHoverPreviewEnabled(bool enabled)
 
     // Drop the live preview now: it would otherwise die on HoverLeave, i.e. after the command
     // has applied its face colors, and repaint them with the default color
-    if (!enabled) _pHoverpreview = nullptr;
+    if (!enabled) _hoverPreview.clear();
     _isHoverPreviewEnabled = enabled;
 }
 
@@ -290,25 +290,7 @@ bool FeatureTreeWidget::eventFilter(QObject* watched, QEvent* event)
             {
                 id = this->getElementIdByModelIndex(index);
             }
-            if (id.isNull())
-            {
-                _pHoverpreview = nullptr;
-            }
-            else
-            {
-                wyap::Selection sel(id);
-                if (_pHoverpreview)
-                {
-                    if (!_pHoverpreview->isEqual(sel))
-                    {
-                        _pHoverpreview = std::make_shared<SelectPreview>(sel);
-                    }
-                }
-                else
-                {
-                    _pHoverpreview = std::make_shared<SelectPreview>(sel);
-                }
-            }
+            _hoverPreview.update(wyap::Selection(id));
         }
         break;
 
@@ -318,7 +300,7 @@ bool FeatureTreeWidget::eventFilter(QObject* watched, QEvent* event)
             {
                 _hoverDelegate->setHoveredIndex(QModelIndex());
             }
-            _pHoverpreview = nullptr;
+            _hoverPreview.clear();
         }
         break;
         }
