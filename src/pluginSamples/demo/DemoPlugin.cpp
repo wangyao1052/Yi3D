@@ -33,6 +33,7 @@
 #include <plugin/PluginApi.h>
 
 #include "DemoHelloCmd.h"
+#include "DemoParametersCmd.h"
 #include "environments/EnvironmentBase.h"
 #include "environments/sketch/SketchEnvironment.h"
 #include "environments/sketch3d/Sketch3DEnvironment.h"
@@ -110,18 +111,39 @@ void DemoPlugin::enterSketchEnvironment(SketchEnvironment* pSketchEnvironment)
         //demo::log(LogLevel::Warning, "demo: addCommand failed");
     }
 
+    error = pCmdStack->addCommand(
+        demo::kParametersCommand,
+        WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY,
+        DemoParametersCmd::classInfo());
+    if (wy::ErrorStatus::Ok != error)
+    {
+        //demo::log(LogLevel::Warning, "demo: addCommand failed");
+    }
+
     EnvironmentBase* pEnvBase = dynamic_cast<EnvironmentBase*>(pSketchEnvironment);
     assert(pEnvBase);
 
     const QString title = QCoreApplication::translate("DemoPlugin", "Demo");
     QToolBar* pToolBar = pEnvBase->addToolBar(title, "com.yi3d.demo.toolbar");
     QMenu* pMenu = pEnvBase->addMenu(title, "com.yi3d.demo.menu");
+    // One shared group for all demo command actions: it is what makes them checkable,
+    // and the environment base keeps the running command's action pressed through it.
+    QActionGroup* pActionGroup = pEnvBase->newActionGroup();
     CommandAction* pAction = pEnvBase->newCommandAction(
         demo::kHelloCommand,
         QCoreApplication::translate("DemoPlugin", "Hello from Demo"),
-        QIcon(":/plugin/com.yi3d.demo/demo_hello.svg"));
+        QIcon(":/plugin/com.yi3d.demo/demo_hello.svg"),
+        pActionGroup);
     if (pToolBar && pAction) pToolBar->addAction(pAction);
     if (pMenu && pAction) pMenu->addAction(pAction);
+
+    CommandAction* pParametersAction = pEnvBase->newCommandAction(
+        demo::kParametersCommand,
+        QCoreApplication::translate("DemoPlugin", "List Element Parameters"),
+        QIcon(":/plugin/com.yi3d.demo/demo_parameters.svg"),
+        pActionGroup);
+    if (pToolBar && pParametersAction) pToolBar->addAction(pParametersAction);
+    if (pMenu && pParametersAction) pMenu->addAction(pParametersAction);
 }
 
 void DemoPlugin::exitSketchEnvironment(SketchEnvironment* pSketchEnvironment)
@@ -134,6 +156,12 @@ void DemoPlugin::exitSketchEnvironment(SketchEnvironment* pSketchEnvironment)
     assert(pCmdStack);
 
     wy::ErrorStatus error = pCmdStack->removeCommand(demo::kHelloCommand);
+    if (wy::ErrorStatus::Ok != error && wy::ErrorStatus::KeyNotFound != error)
+    {
+        //demo::log(LogLevel::Warning, "demo: removeCommand failed");
+    }
+
+    error = pCmdStack->removeCommand(demo::kParametersCommand);
     if (wy::ErrorStatus::Ok != error && wy::ErrorStatus::KeyNotFound != error)
     {
         //demo::log(LogLevel::Warning, "demo: removeCommand failed");
