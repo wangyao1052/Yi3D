@@ -25,7 +25,8 @@
 #include "application/Application.h"
 #include "snap/SketchSnapSystem.h"
 #include "scene/Scene.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
+#include "environments/sketch/SketchEnvironmentImpl.h"
 
 
 SketchRelocateCsysGuiCmd::SketchRelocateCsysGuiCmd() : OsgGuiCommand(),
@@ -277,7 +278,7 @@ bool SketchRelocateCsysGuiCmd::relocateSketchCsys(const wy3d::SketchPlane& plane
 
     // 刷新草图环境中的草图平面
     wyap::Environment* pCurEnv = Application::instance().getEnvManager()->getActiveEnvironment();
-    SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pCurEnv);
+    SketchEnvironmentImpl* pSketchEnv = dynamic_cast<SketchEnvironmentImpl*>(pCurEnv);
     if (pSketchEnv)
     {
         pSketchEnv->setSketchPlane(newPlane);

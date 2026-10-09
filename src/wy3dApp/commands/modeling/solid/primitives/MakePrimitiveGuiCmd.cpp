@@ -42,7 +42,7 @@
 #include "utils/IconUtil.h"
 #include "utils/MathUtils.h"
 #include "utils/TopoShapeUtil.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/Scene.h"
 #include "view/ViewUtil.h"

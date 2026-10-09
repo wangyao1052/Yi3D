@@ -25,7 +25,8 @@
 #include "application/Application.h"
 #include "commands/OsgCoordUtil.h"
 #include "utils/MathUtils.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
+#include "snap/SketchSnapSystem.h"
 #include "gizmo/renderer/SketchGripOsgRenderer.h"
 #include "gizmo/renderer/OsgGizmoRenderer.h"
 

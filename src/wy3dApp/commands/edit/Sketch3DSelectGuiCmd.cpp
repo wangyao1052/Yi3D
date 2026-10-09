@@ -31,7 +31,7 @@
 
 #include "application/Application.h"
 #include "commands/GuiEventDispatcher.h"
-#include "environments/sketch3d/Sketch3DEnvironment.h"
+#include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "select/SelectHandler.h"
 #include "select/filters/CommonSelFilters.h"
@@ -243,7 +243,8 @@ bool Sketch3DSelectGuiCmd::tryPickWorkPlane(double x, double y)
         return true;
     }
 
-    if (Sketch3DEnvironment* pSketch3DEnv = GuiCommandUtil::getActiveSketch3DEnvironment())
+    if (Sketch3DEnvironmentImpl* pSketch3DEnv = dynamic_cast<Sketch3DEnvironmentImpl*>(
+        GuiCommandUtil::getActiveSketch3DEnvironment()))
     {
         pSketch3DEnv->setPendingWorkPlane(plane, sel);
     }
@@ -266,7 +267,8 @@ bool Sketch3DSelectGuiCmd::tryPickWorkPlane(double x, double y)
 
 void Sketch3DSelectGuiCmd::clearPendingWorkPlane()
 {
-    if (Sketch3DEnvironment* pSketch3DEnv = GuiCommandUtil::getActiveSketch3DEnvironment())
+    if (Sketch3DEnvironmentImpl* pSketch3DEnv = dynamic_cast<Sketch3DEnvironmentImpl*>(
+        GuiCommandUtil::getActiveSketch3DEnvironment()))
     {
         pSketch3DEnv->clearPendingWorkPlane();
     }

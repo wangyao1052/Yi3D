@@ -27,7 +27,7 @@
 #include <QKeySequence>
 #include <QToolButton>
 
-#include "SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "application/Application.h"
 #include "scene/Scene.h"
 #include "commands/CommandAction.h"

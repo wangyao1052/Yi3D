@@ -16,75 +16,37 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAP_SKETCH_ENVIRONMENT_H
-#define WY3DAP_SKETCH_ENVIRONMENT_H
+#ifndef WY3DAPP_SKETCH_ENVIRONMENT_IMPL_H
+#define WY3DAPP_SKETCH_ENVIRONMENT_IMPL_H
 
 #include <memory>
 
 #include <wydbElementId.h>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
-#include <wyapEnvironment.h>
 #include <wy3dSketch.h>
 
 #include "snap/SketchSnapSystem.h"
-#include "environments/EnvironmentBase.h"
-#include "environments/ICommandActionStateHost.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/SketchEnvironment.h>
 
 class SketchEnvironmentUI;
 
-class WY3DAPP_EXPORT SketchEnvironment
-    : public wyap::TaskEnvironment
-    , public EnvironmentBase
-    , public ICommandActionStateHost
+class SketchEnvironmentImpl : public SketchEnvironment
 {
 public:
-    enum class Operation
-    {
-        New = 0,
-        Edit = 1,
-    };
+    explicit SketchEnvironmentImpl(const wy3d::SketchPlane& sketchPlane);
+    explicit SketchEnvironmentImpl(const wy3d::Sketch* pSketch);
+    ~SketchEnvironmentImpl();
 
 public:
-    explicit SketchEnvironment(const wy3d::SketchPlane& sketchPlane);
-    explicit SketchEnvironment(const wy3d::Sketch* pSketch);
-    ~SketchEnvironment();
+    virtual Operation getOperation() const override;
+    virtual wydb::ElementId getSketchId() const override;
+    virtual const wy3d::SketchPlane& getSketchPlane() const override;
+    virtual SketchSnapSystem* getSnapSystem() const override;
 
-    Operation getOperation() const
-    {
-        return _op;
-    }
-
-    wydb::ElementId getSketchId() const
-    {
-        return _sketchId;
-    }
-
-    wydb::Transaction* getSketchTransaction() const
-    {
-        return _pTopTrans;
-    }
-
-    const wy3d::SketchPlane& getSketchPlane() const
-    {
-        return _sketchPlane;
-    }
-
-    void setSketchPlane(const wy3d::SketchPlane& sketchPlane)
-    {
-        _sketchPlane = sketchPlane;
-    }
-
-    bool isTransactionCommited() const
-    {
-        return _isTransCommitted;
-    }
-
-    SketchSnapSystem* getSnapSystem() const
-    {
-        return _pSketchSnapSys.get();
-    }
+    wydb::Transaction* getSketchTransaction() const;
+    void setSketchPlane(const wy3d::SketchPlane& sketchPlane);
+    bool isTransactionCommited() const;
 
 public:
     virtual void onCommandStartFailed(
@@ -123,4 +85,4 @@ private:
     std::unique_ptr<SketchEnvironmentUI> _pUI;
 };
 
-#endif // WY3DAP_SKETCH_ENVIRONMENT_H
+#endif // WY3DAPP_SKETCH_ENVIRONMENT_IMPL_H

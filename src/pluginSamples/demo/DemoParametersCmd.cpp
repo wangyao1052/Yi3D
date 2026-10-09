@@ -34,7 +34,7 @@
 #include <wy3dSketchEntity.h>
 
 #include "application/Application.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "select/filters/CommonSelFilters.h"
 #include "translation/ParamNamesTranslation.h"

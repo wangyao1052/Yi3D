@@ -23,7 +23,7 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
 #include "application/Application.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "commands/dialogs/EquationDrivenSplineDialog.h"
 
 int SketchEquationDrivenSplineCommand::run()

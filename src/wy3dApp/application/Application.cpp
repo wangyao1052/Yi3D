@@ -64,8 +64,8 @@
 #include "view/ViewUtil.h"
 #include "commands/UndoRedoCommands.h"
 #include "commands/CommandNames.h"
-#include "environments/sketch/SketchEnvironment.h"
-#include "environments/modeling/ModelingEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
+#include "environments/modeling/ModelingEnvironmentImpl.h"
 #include "gizmo/GizmoFactory.h"
 #include "widgets/CursorCenter.h"
 #include "utils/StringUtil.h"
@@ -76,8 +76,7 @@
 #include "widgets/frame/ViewWidget.h"
 #include "widgets/frame/OsgViewWidget.h"
 #include "application/Document.h"
-#include "environments/gateway/GatewayEnvironment.h"
-#include "environments/modeling/ModelingEnvironment.h"
+#include "environments/gateway/GatewayEnvironmentImpl.h"
 
 #define WY3DAPP_VIEW(pView) dynamic_cast<BaseView*>(pView)
 #define WY3DAPP_SCENE(pScene) dynamic_cast<Scene*>(pScene)
@@ -278,13 +277,13 @@ wyap::View* Application::newView(wyap::Document* pDoc)
 
 std::unique_ptr<wyap::GatewayEnvironment> Application::newDefaultGatewayEnvironment()
 {
-    GatewayEnvironment* pGatewayEnv = new GatewayEnvironment();
+    GatewayEnvironment* pGatewayEnv = new GatewayEnvironmentImpl();
     return std::unique_ptr<wyap::GatewayEnvironment>(pGatewayEnv);
 }
 
 std::unique_ptr<wyap::DocumentEnvironment> Application::newDefaultDocumentEnvironment()
 {
-    ModelingEnvironment* pModelingEnv = new ModelingEnvironment();
+    ModelingEnvironment* pModelingEnv = new ModelingEnvironmentImpl();
     return std::unique_ptr<wyap::DocumentEnvironment>(pModelingEnv);
 }
 

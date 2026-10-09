@@ -21,7 +21,7 @@
 #include <cassert>
 #include <osgGA/TrackballManipulator>
 #include "application/Application.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 
 void ViewUtil::viewToISO(osgViewer::View* pView)
 {

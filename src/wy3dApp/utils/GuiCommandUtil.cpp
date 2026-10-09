@@ -27,8 +27,8 @@
 #include <wy3dMirror.h>
 #include <wyapSelManager.h>
 #include "application/Application.h"
-#include "environments/sketch/SketchEnvironment.h"
-#include "environments/sketch3d/Sketch3DEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
+#include <wy3dApp/Sketch3DEnvironment.h>
 #include "utils/TopoShapeUtil.h"
 
 bool GuiCommandUtil::getWorkingPlane(const wyap::Selection& sel, wy3d::SketchPlane& workPln)

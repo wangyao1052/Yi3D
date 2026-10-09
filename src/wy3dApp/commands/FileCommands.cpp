@@ -50,7 +50,7 @@
 #include "exporter/SketchExporter.h"
 #include "exporter/SketchImporter.h"
 #include "exporter/Importer.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "scene/Scene.h"
 #include "utils/MessageBoxUtil.h"
 #include "widgets/panels/output/OutputWidget.h"

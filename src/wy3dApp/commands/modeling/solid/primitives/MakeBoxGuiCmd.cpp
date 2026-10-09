@@ -48,7 +48,7 @@
 #include "select/SketchPlaneSelFilter.h"
 #include "utils/MathUtils.h"
 #include "utils/TopoShapeUtil.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/Scene.h"
 #include "widgets/frame/MainWindow.h"

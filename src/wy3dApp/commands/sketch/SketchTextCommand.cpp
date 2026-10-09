@@ -30,7 +30,7 @@
 #include <wy3dMakeSketchText.h>
 #include "application/Application.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "snap/SketchSnapSystem.h"
 #include "commands/dialogs/SketchTextDialog.h"
 #include "scene/Scene.h"

@@ -16,28 +16,22 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_GATEWAY_ENVIRONMENT_H
-#define WY3DAPP_GATEWAY_ENVIRONMENT_H
+#ifndef WY3DAPP_GATEWAY_ENVIRONMENT_IMPL_H
+#define WY3DAPP_GATEWAY_ENVIRONMENT_IMPL_H
 
 #include <memory>
 
-#include <wydbTransaction.h>
-#include <wyapEnvironment.h>
-
-#include "environments/EnvironmentBase.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/GatewayEnvironment.h>
 
 class GatewayEnvironmentUI;
 
-class WY3DAPP_EXPORT GatewayEnvironment
-    : public wyap::GatewayEnvironment
-    , public EnvironmentBase
-    , public wydb::TransactionReactor
+class GatewayEnvironmentImpl : public GatewayEnvironment
 {
 public:
-    GatewayEnvironment();
-    ~GatewayEnvironment();
+    GatewayEnvironmentImpl();
+    ~GatewayEnvironmentImpl();
 
+public:
     // Document manager reactor functions.
     virtual void onDocumentDeactivated(wyap::Document* pDeactivatedDoc) override;
     virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
@@ -78,4 +72,4 @@ private:
     std::unique_ptr<GatewayEnvironmentUI> _pUI;
 };
 
-#endif // WY3DAPP_GATEWAY_ENVIRONMENT_H
+#endif // WY3DAPP_GATEWAY_ENVIRONMENT_IMPL_H

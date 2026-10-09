@@ -16,67 +16,37 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAP_SKETCH3D_ENVIRONMENT_H
-#define WY3DAP_SKETCH3D_ENVIRONMENT_H
+#ifndef WY3DAP_SKETCH3D_ENVIRONMENT_IMPL_H
+#define WY3DAP_SKETCH3D_ENVIRONMENT_IMPL_H
 
 #include <memory>
 
 #include <wydbElementId.h>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
-#include <wyapEnvironment.h>
 #include <wyapSelection.h>
 #include <wy3dSketch3D.h>
 #include <wy3dSketchPlane.h>
 
-#include "environments/EnvironmentBase.h"
-#include "environments/ICommandActionStateHost.h"
-#include "wy3dAppDefs.h"
+#include "snap3d/Sketch3DSnapSystem.h"
+#include <wy3dApp/Sketch3DEnvironment.h>
 
 class Sketch3DEnvironmentUI;
-class Sketch3DSnapSystem;
 
-class WY3DAPP_EXPORT Sketch3DEnvironment
-    : public wyap::TaskEnvironment
-    , public EnvironmentBase
-    , public ICommandActionStateHost
+class Sketch3DEnvironmentImpl : public Sketch3DEnvironment
 {
 public:
-    enum class Operation
-    {
-        New = 0,
-        Edit = 1,
-    };
+    Sketch3DEnvironmentImpl();
+    explicit Sketch3DEnvironmentImpl(const wy3d::Sketch3D* pSketch3D);
+    ~Sketch3DEnvironmentImpl();
 
 public:
-    Sketch3DEnvironment();
-    explicit Sketch3DEnvironment(const wy3d::Sketch3D* pSketch3D);
-    ~Sketch3DEnvironment();
+    virtual Operation getOperation() const override;
+    virtual wydb::ElementId getSketch3dId() const override;
+    virtual Sketch3DSnapSystem* getSnapSystem() const override;
 
-    Operation getOperation() const
-    {
-        return _op;
-    }
-
-    wydb::ElementId getSketch3dId() const
-    {
-        return _sketch3dId;
-    }
-
-    wydb::Transaction* getSketchTransaction() const
-    {
-        return _pTopTrans;
-    }
-
-    bool isTransactionCommited() const
-    {
-        return _isTransCommitted;
-    }
-
-    Sketch3DSnapSystem* getSnapSystem() const
-    {
-        return _pSnapSys.get();
-    }
+    wydb::Transaction* getSketchTransaction() const;
+    bool isTransactionCommited() const;
 
     // Sketch plane picked in the Select command, together with the picked face itself
     // (the drawing command needs the latter to carry the highlight over). Consumed by the
@@ -125,4 +95,4 @@ private:
     wyap::Selection _pendingPlaneSelection;
 };
 
-#endif // WY3DAP_SKETCH3D_ENVIRONMENT_H
+#endif // WY3DAP_SKETCH3D_ENVIRONMENT_IMPL_H

@@ -36,7 +36,7 @@
 #include "scene/Scene.h"
 #include "view/OsgView.h"
 #include "OsgUtils.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 
 
 int OsgNewBoxCommand::run()

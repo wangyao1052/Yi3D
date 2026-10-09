@@ -40,7 +40,7 @@
 #include "scene/Scene.h"
 #include "snap/SnapObject.h"
 #include "snap3d/Sketch3DSnapSystem.h"
-#include "environments/sketch3d/Sketch3DEnvironment.h"
+#include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
 #include "utils/IconUtil.h"
 #include "view/BaseView.h"
 #include "utils/GuiCommandUtil.h"
@@ -343,7 +343,8 @@ wyap::CmdExecution::StartResult Sketch3DDrawGuiCmd::onStart()
     {
         wy3d::SketchPlane plane;
         wyap::Selection planeSelection(wydb::ElementId::kNull);
-        Sketch3DEnvironment* pSketch3DEnv = GuiCommandUtil::getActiveSketch3DEnvironment();
+        Sketch3DEnvironmentImpl* pSketch3DEnv = dynamic_cast<Sketch3DEnvironmentImpl*>(
+            GuiCommandUtil::getActiveSketch3DEnvironment());
         if (pSketch3DEnv && pSketch3DEnv->takePendingWorkPlane(plane, planeSelection) && plane.isValid())
         {
             _pWorkPlane = std::make_unique<Sketch3DWorkingPlane>(plane);

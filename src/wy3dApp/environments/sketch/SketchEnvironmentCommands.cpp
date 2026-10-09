@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SketchEnvironment.h"
+#include "SketchEnvironmentImpl.h"
 
 #include <cassert>
 #include <cstddef>
@@ -150,7 +150,7 @@ static constexpr size_t kCommandEntryCount =
     sizeof(kCommandEntries) / sizeof(kCommandEntries[0]);
 } // namespace
 
-void SketchEnvironment::registerCommands()
+void SketchEnvironmentImpl::registerCommands()
 {
     wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
     if (!pCmdStack)
@@ -168,7 +168,7 @@ void SketchEnvironment::registerCommands()
     }
 }
 
-void SketchEnvironment::removeCommands()
+void SketchEnvironmentImpl::removeCommands()
 {
     wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
     if (!pCmdStack)

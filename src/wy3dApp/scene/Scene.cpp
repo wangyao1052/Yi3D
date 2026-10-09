@@ -60,8 +60,10 @@
 #include "scene/nodes/SketchEntity3DElementNode.h"
 #include "view/OsgView.h"
 #include "snap/SnapResult.h"
-#include "environments/sketch/SketchEnvironment.h"
-#include "environments/sketch3d/Sketch3DEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
+#include "environments/sketch/SketchEnvironmentImpl.h"
+#include <wy3dApp/Sketch3DEnvironment.h>
+#include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
 
@@ -1742,6 +1744,9 @@ void Scene::exitSketchEnvironment(
     assert(pSketchEnv);
     assert(_pSketchEnvInfo);
 
+    SketchEnvironmentImpl* pSketchEnvImpl = dynamic_cast<SketchEnvironmentImpl*>(pSketchEnv);
+    assert(pSketchEnvImpl);
+
     // 隐藏草图坐标系
     this->hideSketchCSYS();
 
@@ -1752,7 +1757,7 @@ void Scene::exitSketchEnvironment(
     if (pSketchEnv->getOperation() == SketchEnvironment::Operation::New)
     {
         if (wyap::Environment::ExitCode::Ok == exitCode &&
-            pSketchEnv->isTransactionCommited())
+            pSketchEnvImpl->isTransactionCommited())
         {
             assert(pSketchElemNode);
             assert(pSketchElemNode == _pSketchEnvInfo->pSketchElemNode);
@@ -1846,6 +1851,9 @@ void Scene::exitSketch3DEnvironment(
     assert(pSketch3DEnv);
     assert(_pSketchEnvInfo);
 
+    Sketch3DEnvironmentImpl* pSketch3DEnvImpl = dynamic_cast<Sketch3DEnvironmentImpl*>(pSketch3DEnv);
+    assert(pSketch3DEnvImpl);
+
     wydb::ElementId sketchId = pSketch3DEnv->getSketch3dId();
     assert(sketchId == _pSketchEnvInfo->sketchId);
     ElementNode* pSketchElemNode = this->getElementNode(sketchId);
@@ -1853,7 +1861,7 @@ void Scene::exitSketch3DEnvironment(
     if (pSketch3DEnv->getOperation() == Sketch3DEnvironment::Operation::New)
     {
         if (wyap::Environment::ExitCode::Ok == exitCode &&
-            pSketch3DEnv->isTransactionCommited())
+            pSketch3DEnvImpl->isTransactionCommited())
         {
             assert(pSketchElemNode);
             assert(pSketchElemNode == _pSketchEnvInfo->pSketchElemNode);

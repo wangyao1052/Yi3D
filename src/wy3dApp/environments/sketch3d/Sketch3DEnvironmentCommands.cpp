@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Sketch3DEnvironment.h"
+#include "Sketch3DEnvironmentImpl.h"
 
 #include <cassert>
 #include <cstddef>
@@ -106,7 +106,7 @@ static constexpr size_t kCommandEntryCount =
     sizeof(kCommandEntries) / sizeof(kCommandEntries[0]);
 } // namespace
 
-void Sketch3DEnvironment::registerCommands()
+void Sketch3DEnvironmentImpl::registerCommands()
 {
     wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
     if (!pCmdStack)
@@ -124,7 +124,7 @@ void Sketch3DEnvironment::registerCommands()
     }
 }
 
-void Sketch3DEnvironment::removeCommands()
+void Sketch3DEnvironmentImpl::removeCommands()
 {
     wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
     if (!pCmdStack)

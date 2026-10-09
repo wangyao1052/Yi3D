@@ -33,7 +33,7 @@
 #include <wy3dBodyModification.h>
 #include <wy3dSelectionType.h>
 #include "application/Application.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "utils/MessageBoxUtil.h"
 
 static inline bool _canCopy(const wydb::Element* pElem)

@@ -33,7 +33,7 @@
 #include "application/Application.h"
 #include "plugins/PluginManifest.h"
 #include "Version.h"
-#include "environments/gateway/GatewayEnvironment.h"
+#include <wy3dApp/GatewayEnvironment.h>
 
 #if defined(_WIN32)
 #define NOMINMAX

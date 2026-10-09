@@ -30,7 +30,7 @@
 #include "scene/nodes/ElementNode.h"
 #include "view/OsgView.h"
 #include "view/ViewUtil.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "utils/MathUtils.h"
 
 

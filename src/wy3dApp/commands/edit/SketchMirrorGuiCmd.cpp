@@ -39,7 +39,7 @@
 #include "view/OsgView.h"
 #include "commands/OsgGuiEventDispatcher.h"
 #include "scene/nodes/ElementNode.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "snap/SketchSnapSystem.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/BasicTransient.h"

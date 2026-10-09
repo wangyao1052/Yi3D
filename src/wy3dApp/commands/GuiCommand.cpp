@@ -34,7 +34,7 @@
 #include "scene/Scene.h"
 #include "scene/RenderConst.h"
 #include "snap/SnapContext.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "snap/SnapTipWidget.h"
 #include "commands/GuiCommandMenu.h"
 #include "commands/GuiEventDispatcher.h"

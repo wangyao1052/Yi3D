@@ -48,7 +48,7 @@
 #include "commands/OsgGuiEventDispatcher.h"
 #include "scene/nodes/ElementNode.h"
 #include "utils/MathUtils.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "select/filters/CommonSelFilters.h"
 #include "select/SketchPlaneSelFilter.h"
 #include "utils/GuiCommandUtil.h"

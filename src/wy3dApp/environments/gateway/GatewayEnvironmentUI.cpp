@@ -23,7 +23,7 @@
 #include <QCoreApplication>
 #include <QIcon>
 
-#include "GatewayEnvironment.h"
+#include <wy3dApp/GatewayEnvironment.h>
 #include "commands/CommandAction.h"
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"

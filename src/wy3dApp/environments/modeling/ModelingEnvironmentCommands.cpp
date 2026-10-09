@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "ModelingEnvironment.h"
+#include "ModelingEnvironmentImpl.h"
 
 #include <cassert>
 #include <cstddef>
@@ -186,7 +186,7 @@ static constexpr size_t kCommandEntryCount =
     sizeof(kCommandEntries) / sizeof(kCommandEntries[0]);
 } // namespace
 
-void ModelingEnvironment::registerCommands()
+void ModelingEnvironmentImpl::registerCommands()
 {
     wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
     if (!pCmdStack)
@@ -211,7 +211,7 @@ void ModelingEnvironment::registerCommands()
 #endif // _DEBUG
 }
 
-void ModelingEnvironment::removeCommands()
+void ModelingEnvironmentImpl::removeCommands()
 {
     wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
     if (!pCmdStack)

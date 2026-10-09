@@ -46,7 +46,8 @@
 #include "utils/IconUtil.h"
 #include "utils/TransactionUtil.h"
 #include "utils/CopyPasteUtil.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
+#include "snap/SketchSnapSystem.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/featureTree/FeatureTreeWidget.h"

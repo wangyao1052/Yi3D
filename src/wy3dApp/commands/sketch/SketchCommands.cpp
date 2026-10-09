@@ -43,7 +43,8 @@
 
 #include "application/Application.h"
 #include "widgets/sketch/SketchPlaneDialog.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
+#include "environments/sketch/SketchEnvironmentImpl.h"
 #include "utils/SketchUtil.h"
 
 
@@ -74,7 +75,7 @@ int EditSketchCommand::run()
         return -1;
     }
 
-    std::unique_ptr<SketchEnvironment> sketchEnv = std::make_unique<SketchEnvironment>(pSketch);
+    std::unique_ptr<SketchEnvironmentImpl> sketchEnv = std::make_unique<SketchEnvironmentImpl>(pSketch);
     wy::ErrorStatus error = Application::instance().getEnvManager()->enterEnvironment(
         std::move(sketchEnv),
         wyap::ExecutionMode::Async);

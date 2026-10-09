@@ -31,7 +31,7 @@
 #include <wy3dSweptSheet.h>
 
 #include "application/Application.h"
-#include "environments/sketch3d/Sketch3DEnvironment.h"
+#include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"
 
@@ -46,7 +46,7 @@ int NewSketch3DCommand::run()
         return -1;
     }
 
-    std::unique_ptr<Sketch3DEnvironment> sketch3DEnv = std::make_unique<Sketch3DEnvironment>();
+    std::unique_ptr<Sketch3DEnvironmentImpl> sketch3DEnv = std::make_unique<Sketch3DEnvironmentImpl>();
     wy::ErrorStatus error = Application::instance().getEnvManager()->enterEnvironment(
         std::move(sketch3DEnv),
         wyap::ExecutionMode::Async);
@@ -85,7 +85,7 @@ int EditSketch3DCommand::run()
         return -1;
     }
 
-    std::unique_ptr<Sketch3DEnvironment> sketch3DEnv = std::make_unique<Sketch3DEnvironment>(pSketch3D);
+    std::unique_ptr<Sketch3DEnvironmentImpl> sketch3DEnv = std::make_unique<Sketch3DEnvironmentImpl>(pSketch3D);
     wy::ErrorStatus error = Application::instance().getEnvManager()->enterEnvironment(
         std::move(sketch3DEnv),
         wyap::ExecutionMode::Async);

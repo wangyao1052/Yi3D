@@ -35,8 +35,8 @@
 #include "DemoHelloCmd.h"
 #include "DemoParametersCmd.h"
 #include "environments/EnvironmentBase.h"
-#include "environments/sketch/SketchEnvironment.h"
-#include "environments/sketch3d/Sketch3DEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
+#include <wy3dApp/Sketch3DEnvironment.h>
 
 DemoPlugin::DemoPlugin() = default;
 

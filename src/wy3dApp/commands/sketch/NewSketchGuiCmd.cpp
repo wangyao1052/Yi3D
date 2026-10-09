@@ -31,7 +31,8 @@
 #include "select/SketchPlaneSelFilter.h"
 #include "utils/GuiCommandUtil.h"
 #include "utils/MathUtils.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
+#include "environments/sketch/SketchEnvironmentImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/Scene.h"
 
@@ -113,7 +114,7 @@ void NewSketchGuiCmd::onEnd()
     Application::instance().getSelManager()->endChange();
 
     // 进入草图环境
-    std::unique_ptr<SketchEnvironment> pSketchEnv = std::make_unique<SketchEnvironment>(_plane);
+    std::unique_ptr<SketchEnvironmentImpl> pSketchEnv = std::make_unique<SketchEnvironmentImpl>(_plane);
     wy::ErrorStatus error = Application::instance().getEnvManager()->enterEnvironment(
         std::move(pSketchEnv),
         wyap::ExecutionMode::Async);

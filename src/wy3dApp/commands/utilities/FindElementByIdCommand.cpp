@@ -36,9 +36,9 @@
 #include <wyapSelection.h>
 
 #include "application/Application.h"
-#include "environments/modeling/ModelingEnvironment.h"
-#include "environments/sketch/SketchEnvironment.h"
-#include "environments/sketch3d/Sketch3DEnvironment.h"
+#include <wy3dApp/ModelingEnvironment.h>
+#include <wy3dApp/SketchEnvironment.h>
+#include <wy3dApp/Sketch3DEnvironment.h>
 #include "utils/MessageBoxUtil.h"
 #include "widgets/frame/MainWindow.h"
 

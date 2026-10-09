@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "GatewayEnvironment.h"
+#include "GatewayEnvironmentImpl.h"
 
 #include <cassert>
 #include <cstddef>
@@ -60,7 +60,7 @@ static constexpr size_t kCommandEntryCount =
     sizeof(kCommandEntries) / sizeof(kCommandEntries[0]);
 } // namespace
 
-void GatewayEnvironment::registerCommands()
+void GatewayEnvironmentImpl::registerCommands()
 {
     wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
     if (!pCmdStack)
@@ -78,7 +78,7 @@ void GatewayEnvironment::registerCommands()
     }
 }
 
-void GatewayEnvironment::removeCommands()
+void GatewayEnvironmentImpl::removeCommands()
 {
     wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
     if (!pCmdStack)

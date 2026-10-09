@@ -19,50 +19,20 @@
 #ifndef WY3DAPP_MODELING_ENVIRONMENT_H
 #define WY3DAPP_MODELING_ENVIRONMENT_H
 
-#include <memory>
+#include <wyapEnvironment.h>
 
 #include "environments/EnvironmentBase.h"
 #include "environments/ICommandActionStateHost.h"
 #include "wy3dAppDefs.h"
-
-class ModelingEnvironmentUI;
 
 class WY3DAPP_EXPORT ModelingEnvironment
     : public EnvironmentBase
     , public wyap::DocumentEnvironment
     , public ICommandActionStateHost
 {
-    Q_OBJECT
-public:
-    ModelingEnvironment();
-    ~ModelingEnvironment();
-
-    // Command manager reactor functions.
-    virtual void onCommandStartFailed(
-        wyap::Command* pCmd,
-        wyap::CmdExecution::StartResult startResult) override;
-    virtual void onCommandStarted(wyap::Command* pCmd) override;
-    virtual void onCommandEnded(wyap::Command* pCmd) override;
-    virtual void onCommandAborted(
-        wyap::Command* pCmd,
-        wyap::CmdExecution::AbortCause abortCause) override;
-
 protected:
-    virtual void onEnter() override;
-    virtual void onExit(ExitCode exitCode) override;
-    virtual void onSuspend() override;
-    virtual void onResume() override;
-    virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
-
-    virtual void updateUndoRedoActionStates() override;
-    virtual void updateFileActionStates() override;
-
-private:
-    void registerCommands();
-    void removeCommands();
-
-private:
-    std::unique_ptr<ModelingEnvironmentUI> _pUI;
+    ModelingEnvironment() = default;
+    ~ModelingEnvironment();
 };
 
 #endif // WY3DAPP_MODELING_ENVIRONMENT_H

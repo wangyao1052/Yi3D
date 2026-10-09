@@ -28,7 +28,7 @@
 #include <wy3dSheet.h>
 
 #include "application/Application.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "commands/dialogs/SetColorCmdPanel.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "select/filters/CommonSelFilters.h"

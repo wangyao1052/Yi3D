@@ -3287,14 +3287,14 @@ Do you want to save it to the original file now?
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="565"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="566"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="223"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1598"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="559"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="560"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="646"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="552"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="397"/>
@@ -3302,7 +3302,7 @@ Do you want to save it to the original file now?
         <translation>缩放到选择</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="577"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="578"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1641"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
@@ -4593,7 +4593,7 @@ Do you want to save it to the original file now?
         <translation type="obsolete">选择参考面或实体面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="206"/>
+        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="207"/>
         <source>Select datum plane or planar face.</source>
         <translation type="unfinished">选择基准面或平面。</translation>
     </message>
@@ -6169,12 +6169,12 @@ Do you want to save it to the original file now?
 <context>
     <name>SelectGuiCmd</name>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="425"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="426"/>
         <source>Select elements. Pick individual items or use window selection.</source>
         <translation type="unfinished">选择元素；点选单个项目或使用窗口选择。</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="472"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="473"/>
         <source>Specify the insertion point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定插入点；可输入具体坐标值。</translation>
     </message>
@@ -6525,7 +6525,7 @@ Do you want to save it to the original file now?
 <context>
     <name>Sketch3DDrawGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="459"/>
+        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="460"/>
         <source>View Normal To Working Plane</source>
         <translation type="unfinished">正视于工作平面</translation>
     </message>
@@ -6569,12 +6569,12 @@ Do you want to save it to the original file now?
         <translation type="unfinished">只有平面型面可以作为草图平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="261"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="262"/>
         <source>Sketch plane set. It will be used by the next drawing command.</source>
         <translation type="unfinished">已设置草图平面，将用于下一条绘制命令。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="322"/>
         <source>Select elements. Pick a planar face or a datum plane to set the sketch plane.</source>
         <translation type="unfinished">选择元素；拾取平面型面或基准面可设置草图平面。</translation>
     </message>
@@ -6652,7 +6652,7 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchCommand</name>
     <message>
-        <location filename="../../commands/sketch/SketchCommands.cpp" line="240"/>
+        <location filename="../../commands/sketch/SketchCommands.cpp" line="241"/>
         <source>Yi3D</source>
         <translation type="unfinished">易三维</translation>
     </message>
@@ -8127,7 +8127,7 @@ Do you want to save it to the original file now?
 <context>
     <name>SketchRelocateCsysGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="128"/>
+        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="129"/>
         <source>Specify the origin point.</source>
         <translation type="unfinished">指定原点。</translation>
     </message>
@@ -8136,7 +8136,7 @@ Do you want to save it to the original file now?
         <translation type="obsolete">原点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="145"/>
+        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="146"/>
         <source>Specify the X axis.</source>
         <translation type="unfinished">指定X轴。</translation>
     </message>

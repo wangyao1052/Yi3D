@@ -63,7 +63,7 @@
 #include "SketchSplinePointsEditor.h"
 #include "SketchSpline3DPointsEditor.h"
 #include "translation/ParamNamesTranslation.h"
-#include "environments/sketch/SketchEnvironment.h"
+#include <wy3dApp/SketchEnvironment.h>
 #include "utils/MessageBoxUtil.h"
 #include "scene/Scene.h"
 #include "scene/nodes/ElementNode.h"
