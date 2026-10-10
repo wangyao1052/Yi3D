@@ -21,8 +21,7 @@
 
 #include "SnapSystemBase.h"
 
-// 拾取点
-class PointContext : public wyap::SnapContext
+class LocateContext : public wyap::SnapContext
 {
 };
 

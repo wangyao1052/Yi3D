@@ -211,7 +211,6 @@ protected:
         double x, double y,
         const PointPickOption& option) = 0;
 
-    // 坐标计算（纯虚，由渲染引擎子类实现）
     virtual std::pair<wy::Vector3, wyap::SnapResultSPtr> computePosition3d(
         double x, double y,
         const wy3d::SketchPlane& sketchPlane,

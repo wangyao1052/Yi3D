@@ -176,7 +176,7 @@ void Through3PointsDatumPlnCmd::onMouseMove(const MouseEvent& event)
     case Step::SpecifyPoint3rd:
     {
         wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(event.x, event.y,
-            std::make_shared<PointContext>(), _snapExcludeIds);
+            std::make_shared<LocateContext>(), _snapExcludeIds);
         return;
     }
     break;
@@ -200,7 +200,7 @@ void Through3PointsDatumPlnCmd::onLeftMouseDown(const MouseEvent& event)
     case Step::SpecifyPoint3rd:
     {
         wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(event.x, event.y,
-            std::make_shared<PointContext>(), _snapExcludeIds);
+            std::make_shared<LocateContext>(), _snapExcludeIds);
         if (pSnapResult)
         {
             QString error;

@@ -165,7 +165,7 @@ std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgCoordUtil::computePosition3d(
 {
     if (snap)
     {
-        wyap::SnapContextSPtr pSnapContext = std::make_shared<PointContext>();
+        wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
         wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(x, y, pSnapContext, excludeIds);
         if (pSnapResult)
         {
@@ -312,7 +312,7 @@ bool OsgCoordUtil::computeHeight(
     osg::Vec3d nearPnt = osg::Vec3d(x, y, 0.0) * inverseMVPW;
     osg::Vec3d farPnt = osg::Vec3d(x, y, 1.0) * inverseMVPW;
 
-    wyap::SnapContextSPtr pSnapContext = std::make_shared<PointContext>();
+    wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
     std::set<wydb::ElementId> excludeIds;
     if (pMakeElement) pMakeElement->collectElements(excludeIds);
     wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(x, y, pSnapContext, excludeIds);
@@ -361,7 +361,7 @@ bool OsgCoordUtil::computeHeight2(
     osg::Vec3d nearPnt = osg::Vec3d(x, y, 0.0) * inverseMVPW;
     osg::Vec3d farPnt = osg::Vec3d(x, y, 1.0) * inverseMVPW;
 
-    wyap::SnapContextSPtr pSnapContext = std::make_shared<PointContext>();
+    wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
     wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(x, y, pSnapContext, excludeIds);
     if (pSnapResult)
     {
@@ -399,7 +399,7 @@ bool OsgCoordUtil::computeRotationAngle(
     rotationAngle = 0.0;
     wy::Vector2 uvPnt;
 
-    wyap::SnapContextSPtr pSnapContext = std::make_shared<PointContext>();
+    wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
     wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(x, y, pSnapContext, excludeIds);
     if (pSnapResult)
     {
