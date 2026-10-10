@@ -81,7 +81,7 @@ void ViewUtil::viewTo(osgViewer::View* pView, const osg::Vec3d& lookDir, const o
 
 void ViewUtil::viewToWorkingPlane(
     osgViewer::View* pView,
-    const wy3d::SketchPlane& workPln)
+    const wy3d::Plane& workPln)
 {
     osg::Camera* camera = pView->getCamera();
     if (!camera) return;

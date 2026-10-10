@@ -32,7 +32,7 @@
 #include <wy3dSolid.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchLine.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dFilledSheet.h>
 #include <wy3dExtrudedSheet.h>
 #include <wy3dNonParametricSheet.h>
@@ -250,7 +250,7 @@ namespace
         wydb::ElementId sketchId = wydb::ElementId::kNull;
         {
             wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
-            wy3d::SketchPlane plane(wy::Vector3(0.0, 0.0, z), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+            wy3d::Plane plane(wy::Vector3(0.0, 0.0, z), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
             wy3d::Sketch* pSketch(nullptr);
             EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
             if (!pSketch)
@@ -437,7 +437,7 @@ namespace
     }
 
     static wy3d::Mirror* mirrorSheet(wy3d::Database* pDb, const wydb::ElementId& sheetId,
-        const wy3d::SketchPlane& plane)
+        const wy3d::Plane& plane)
     {
         wy3d::Mirror* pMirror(nullptr);
         {
@@ -455,15 +455,15 @@ namespace
     }
 
     // The plane z = 0, so a mirror flips z
-    static wy3d::SketchPlane planeXY()
+    static wy3d::Plane planeXY()
     {
-        return wy3d::SketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+        return wy3d::Plane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
     }
 
     // The plane x = 0, so a mirror flips x
-    static wy3d::SketchPlane planeYZ()
+    static wy3d::Plane planeYZ()
     {
-        return wy3d::SketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3::kXAxis, wy::Vector3::kYAxis);
+        return wy3d::Plane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3::kXAxis, wy::Vector3::kYAxis);
     }
 }
 
@@ -879,7 +879,7 @@ TEST(MirrorSheet, ChangePlaneRerunsFromTheHostShape)
 
     // Another plane: the copy goes up to z = 60, the original stays at z = 0
     {
-        const wy3d::SketchPlane plane(wy::Vector3(0.0, 0.0, 30.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+        const wy3d::Plane plane(wy::Vector3(0.0, 0.0, 30.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::Mirror* pMirrorWrite = wy3d::Mirror::cast(pTrans->getElementForWrite(pMirror->getId()));
         ASSERT_NE(pMirrorWrite, nullptr);
@@ -1096,7 +1096,7 @@ TEST(MirrorSheet, SolidHostStillUsesTheBooleanPath)
 
     wy3d::Mirror* pMirror(nullptr);
     {
-        const wy3d::SketchPlane plane(wy::Vector3(0.0, 0.0, 35.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+        const wy3d::Plane plane(wy::Vector3(0.0, 0.0, 35.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::Solid* pBoxWrite = wy3d::Solid::cast(pTrans->getElementForWrite(boxId));
         ASSERT_NE(pBoxWrite, nullptr);

@@ -6,7 +6,7 @@ db = wy3d.getActiveDatabase()
 trans = db.getTransactionManager().startTransaction()
 
 # 创建草图
-plane = wy3d.SketchPlane(wy3d.Vector3(0.0, 0.0, 0.0), wy3d.Vector3(0.0, 0.0, 1.0), wy3d.Vector3(1.0, 0.0, 0.0))
+plane = wy3d.Plane(wy3d.Vector3(0.0, 0.0, 0.0), wy3d.Vector3(0.0, 0.0, 1.0), wy3d.Vector3(1.0, 0.0, 0.0))
 sketch = wy3d.Sketch.create(trans, plane)
 trans.addNewlyCreatedElement(sketch)
 

@@ -178,7 +178,7 @@ int OrientToSketchCommand::run()
         assert(false);
         return 0;
     }
-    const wy3d::SketchPlane& sketchPlane = pSketchEnv->getSketchPlane();
+    const wy3d::Plane& sketchPlane = pSketchEnv->getSketchPlane();
 
     BaseView* pView = Application::instance().getActiveView();
     if (!pView)

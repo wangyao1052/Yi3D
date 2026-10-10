@@ -35,7 +35,7 @@
 #include <wydbTransaction.h>
 #include <wyapCmdExecution.h>
 #include "snap/SnapSystemBase.h"
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dSelectionType.h>
 #include "transient/GuiCmdTransient.h"
 #include "widgets/CursorType.h"
@@ -213,13 +213,13 @@ protected:
 
     virtual std::pair<wy::Vector3, wyap::SnapResultSPtr> computePosition3d(
         double x, double y,
-        const wy3d::SketchPlane& sketchPlane,
+        const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
         bool snap = true) = 0;
 
     virtual wy::Vector2 computePosition2d(
         double x, double y,
-        const wy3d::SketchPlane& sketchPlane,
+        const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
         std::shared_ptr<SketchSnapContext> pSnapContext = nullptr,
         SketchSnapSystem* pSketchSnapSys = nullptr,
@@ -227,7 +227,7 @@ protected:
 
     virtual wy::Vector2 computePosition2dWithoutSnap(
         double x, double y,
-        const wy3d::SketchPlane& sketchPlane) = 0;
+        const wy3d::Plane& sketchPlane) = 0;
 
     virtual bool computeHeight(double x, double y,
         const wy::Vector3& basePnt, double& height,
@@ -236,13 +236,13 @@ protected:
         const osg::Vec3d& basePnt, double& height,
         const GuiCmdMakeElement* pMakeElement = nullptr) = 0;
     virtual bool computeHeight2(double x, double y,
-        const wy3d::SketchPlane& workPln,
+        const wy3d::Plane& workPln,
         const wy::Vector2& basePnt,
         const std::set<wydb::ElementId>& excludeIds,
         double& height) = 0;
 
     virtual bool computeRotationAngle(double x, double y,
-        const wy3d::SketchPlane& workPln,
+        const wy3d::Plane& workPln,
         const wy::Vector2& basis,
         const std::set<wydb::ElementId>& excludeIds,
         double& rotationAngle) = 0;

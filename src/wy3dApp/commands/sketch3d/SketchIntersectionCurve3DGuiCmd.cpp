@@ -247,7 +247,7 @@ bool SketchIntersectionCurve3DGuiCmd::resolveSource(const wyap::Selection& sel, 
         const std::pair<bool, TopoDS_Face> faceRet = TopoShapeUtil::getFace(shape, faceIndex);
         if (!faceRet.first) return false;
 
-        source = Source{false, faceRet.second, wy3d::SketchPlane()};
+        source = Source{false, faceRet.second, wy3d::Plane()};
         return true;
     }
 

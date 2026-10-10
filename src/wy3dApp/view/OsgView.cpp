@@ -217,7 +217,7 @@ void OsgView::perspective()
     ViewUtil::perspective(_pOsgView);
 }
 
-void OsgView::viewToWorkingPlane(const wy3d::SketchPlane& workPln)
+void OsgView::viewToWorkingPlane(const wy3d::Plane& workPln)
 {
     ViewUtil::viewToWorkingPlane(_pOsgView, workPln);
 }

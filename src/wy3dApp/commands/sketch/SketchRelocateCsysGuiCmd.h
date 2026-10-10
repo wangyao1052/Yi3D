@@ -48,7 +48,7 @@ protected:
     virtual void onLeftMouseDown(const MouseEvent& event) override;
 
 private:
-    bool relocateSketchCsys(const wy3d::SketchPlane& plane, const wy::Vector2& origin, double angle);
+    bool relocateSketchCsys(const wy3d::Plane& plane, const wy::Vector2& origin, double angle);
 
 private:
     Step _step;

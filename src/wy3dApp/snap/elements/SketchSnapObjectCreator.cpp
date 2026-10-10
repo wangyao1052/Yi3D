@@ -52,7 +52,7 @@ std::list<wyap::SnapObjectSPtr> SketchSnapObjectCreator::createSnapObjects(const
         return snapPoints;
     }
 
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
     if (!sketchPlane.isValid())
     {
         assert(false);

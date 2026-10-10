@@ -562,7 +562,7 @@ void MakeCone::collectElements(std::set<wydb::ElementId>& idSet) const
     if (_pCone) idSet.insert(_pCone->getId());
 }
 
-bool MakeCone::init(const wy3d::SketchPlane& workPln, const wy::Vector2& pnt1, const wy::Vector2& pnt2)
+bool MakeCone::init(const wy3d::Plane& workPln, const wy::Vector2& pnt1, const wy::Vector2& pnt2)
 {
     if (!_pDb || !_pTopTrans || _pCone || _isFinished)
     {
@@ -589,7 +589,7 @@ bool MakeCone::init(const wy3d::SketchPlane& workPln, const wy::Vector2& pnt1, c
     wy::Vector3 initOrigin = workPln.value(pnt1);
 
     // 创建圆锥体
-    wy3d::SketchPlane oppositeWorkPln;
+    wy3d::Plane oppositeWorkPln;
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction();
     if (!pTrans) return false;
     wy3d::Cone* pCone(nullptr);
@@ -602,7 +602,7 @@ bool MakeCone::init(const wy3d::SketchPlane& workPln, const wy::Vector2& pnt1, c
     _pDb->getTransactionManager()->endTransaction();
     _pCone = pCone;
     _rotation = rotation;
-    oppositeWorkPln = wy3d::SketchPlane(workPln.getOrigin(), -workPln.getNormal(), workPln.getXDir());
+    oppositeWorkPln = wy3d::Plane(workPln.getOrigin(), -workPln.getNormal(), workPln.getXDir());
     _oppositeRot = MathUtils::computeEulerZXY(oppositeWorkPln);
     return true;
 

@@ -221,7 +221,7 @@ wyap::Selection OsgGuiCommand::pointPick(
 
 std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgGuiCommand::computePosition3d(
     double x, double y,
-    const wy3d::SketchPlane& sketchPlane,
+    const wy3d::Plane& sketchPlane,
     const std::set<wydb::ElementId>& excludeIds,
     bool snap)
 {
@@ -230,7 +230,7 @@ std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgGuiCommand::computePosition3d(
 
 wy::Vector2 OsgGuiCommand::computePosition2d(
     double x, double y,
-    const wy3d::SketchPlane& sketchPlane,
+    const wy3d::Plane& sketchPlane,
     const std::set<wydb::ElementId>& excludeIds,
     std::shared_ptr<SketchSnapContext> pSnapContext,
     SketchSnapSystem* pSketchSnapSys,
@@ -241,7 +241,7 @@ wy::Vector2 OsgGuiCommand::computePosition2d(
 
 wy::Vector2 OsgGuiCommand::computePosition2dWithoutSnap(
     double x, double y,
-    const wy3d::SketchPlane& sketchPlane)
+    const wy3d::Plane& sketchPlane)
 {
     return OsgCoordUtil::computePosition2dWithoutSnap(getOsgView(), x, y, sketchPlane);
 }
@@ -259,7 +259,7 @@ bool OsgGuiCommand::computeHeight(double x, double y, const osg::Vec3d& basePnt,
 }
 
 bool OsgGuiCommand::computeHeight2(double x, double y,
-    const wy3d::SketchPlane& workPln,
+    const wy3d::Plane& workPln,
     const wy::Vector2& basePnt,
     const std::set<wydb::ElementId>& excludeIds,
     double& height)
@@ -268,7 +268,7 @@ bool OsgGuiCommand::computeHeight2(double x, double y,
 }
 
 bool OsgGuiCommand::computeRotationAngle(double x, double y,
-    const wy3d::SketchPlane& workPln,
+    const wy3d::Plane& workPln,
     const wy::Vector2& basis,
     const std::set<wydb::ElementId>& excludeIds,
     double& rotationAngle)

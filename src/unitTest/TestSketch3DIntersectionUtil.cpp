@@ -20,7 +20,7 @@
 
 #include <utils/wy3dSketch3DEdgeUtil.h>
 #include <utils/wy3dSketch3DIntersectionUtil.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dMath.h>
 
 #include <BRepAdaptor_Curve.hxx>
@@ -73,13 +73,13 @@ const double kCrossCylinderRadius = 4.0;
 
 Source faceSource(const TopoDS_Shape& face)
 {
-    return Source{false, face, wy3d::SketchPlane()};
+    return Source{false, face, wy3d::Plane()};
 }
 
-wy3d::SketchPlane makePlane(const gp_Pnt& origin, const gp_Dir& normal)
+wy3d::Plane makePlane(const gp_Pnt& origin, const gp_Dir& normal)
 {
-    // A zero xDir is fine: the SketchPlane constructor derives one from the normal.
-    return wy3d::SketchPlane(wy::Vector3(origin.X(), origin.Y(), origin.Z()),
+    // A zero xDir is fine: the Plane constructor derives one from the normal.
+    return wy3d::Plane(wy::Vector3(origin.X(), origin.Y(), origin.Z()),
         wy::Vector3(normal.X(), normal.Y(), normal.Z()), wy::Vector3(0.0, 0.0, 0.0));
 }
 
@@ -530,11 +530,11 @@ TEST(Sketch3DIntersectionUtil, InvalidInputIsRejected)
     EXPECT_EQ(Result::InvalidInput,
         wy3d::Sketch3DIntersectionUtil::intersect(faceSource(TopoDS_Shape()), plane, edges));
 
-    // A default constructed SketchPlane is the XY plane and perfectly valid; a zero normal
+    // A default constructed Plane is the XY plane and perfectly valid; a zero normal
     // is what makes one unusable.
-    EXPECT_TRUE(wy3d::SketchPlane().isValid());
+    EXPECT_TRUE(wy3d::Plane().isValid());
     const Source invalidPlane{true, TopoDS_Shape(),
-        wy3d::SketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 0.0))};
+        wy3d::Plane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 0.0))};
     EXPECT_FALSE(invalidPlane.plane.isValid());
     EXPECT_EQ(Result::InvalidInput,
         wy3d::Sketch3DIntersectionUtil::intersect(invalidPlane, faceSource(makeCylinder()), edges));

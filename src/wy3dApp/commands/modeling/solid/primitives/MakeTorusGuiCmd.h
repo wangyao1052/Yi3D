@@ -110,7 +110,7 @@ public:
     virtual void collectElements(std::set<wydb::ElementId>& idSet) const override;
 
     // 创建
-    bool init(const wy3d::SketchPlane& workPln, const wy::Vector2& pnt1, const wy::Vector2& pnt2);
+    bool init(const wy3d::Plane& workPln, const wy::Vector2& pnt1, const wy::Vector2& pnt2);
     // 更新
     bool update(double minorRadius);
     // 获取主径

@@ -47,7 +47,7 @@ public:
 
     // 注册普通类型适配器（Boolean, Integer, Double, String...）
     void registerForType(wydb::ParameterValue::Type type, const ParamEditorAdapter* adapter);
-    // 注册 Any<T> 类型适配器（Color, SketchPlane...）
+    // 注册 Any<T> 类型适配器（Color, Plane...）
     void registerForAny(std::type_index ti, const ParamEditorAdapter* adapter);
     // 设置兜底适配器
     void setFallback(const ParamEditorAdapter* adapter);

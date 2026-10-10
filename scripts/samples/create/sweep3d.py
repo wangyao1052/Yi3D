@@ -23,7 +23,7 @@ def createSweep3D():
     pathSketch3D.addEntity(line2)
 
     # 创建轮廓草图(在路径起点处, 与起始方向垂直)
-    profilePlane = wy3d.SketchPlane(
+    profilePlane = wy3d.Plane(
         origin = wy3d.Vector3(0.0, 0.0, 0.0),
         normal = wy3d.Vector3(0.0, 0.0, 1.0),
         xDir = wy3d.Vector3(1.0, 0.0, 0.0))

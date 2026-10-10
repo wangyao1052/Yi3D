@@ -41,7 +41,7 @@ protected:
         const std::set<wydb::ElementId>& excludeIds) override;
     SketchSnapSystem* getSketchSnapSys() const override { return _sketchInfo.pSketchSnapSys; }
     wydb::ElementId getSketchId() const override { return _sketchInfo.sketchId; }
-    const wy3d::SketchPlane& getSketchPlane() const override { return _sketchInfo.sketchPlane; }
+    const wy3d::Plane& getSketchPlane() const override { return _sketchInfo.sketchPlane; }
 };
 
 #endif // WY3DAPP_SKETCH_SELECT_GUI_CMD_H

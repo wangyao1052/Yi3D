@@ -87,7 +87,7 @@ ErrorCode SweepTopoUtil::createPathWire(
     const BiCurve& startPathCurve = pathCurves[0];
     const wy3d::SketchCurve* pSweeptartCurve = startPathCurve.curve;
     assert(pSweeptartCurve);
-    const wy3d::SketchPlane& pathPlane = pathSketch.getPlane();
+    const wy3d::Plane& pathPlane = pathSketch.getPlane();
     if (startPathCurve.orient)
     {
         pathStartPos = pathPlane.value(pSweeptartCurve->getStartPoint());

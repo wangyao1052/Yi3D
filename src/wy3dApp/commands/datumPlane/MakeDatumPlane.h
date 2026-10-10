@@ -24,7 +24,7 @@
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wyapSelection.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
 #include <wy3dImpl.h>
 #include "commands/OsgGuiCommand.h"
@@ -46,12 +46,12 @@ public:
     virtual void collectElements(std::set<wydb::ElementId>& idSet) const override;
 
     // 创建
-    bool create(const wy3d::SketchPlane& sketchPlane);
+    bool create(const wy3d::Plane& sketchPlane);
     // 更新
-    bool update(const wy3d::SketchPlane& sketchPlane);
+    bool update(const wy3d::Plane& sketchPlane);
 
     // 获取草图平面
-    static bool getSketchPlane(const wyap::Selection& sel, wy3d::SketchPlane& sketchPlane);
+    static bool getSketchPlane(const wyap::Selection& sel, wy3d::Plane& sketchPlane);
     // 获取边的起点和终点
     static bool getSolidEdgeEndPoints(const wyap::Selection& sel, wy::Vector3& startPnt, wy::Vector3& endPnt);
     // 获取边的曲线
@@ -63,7 +63,7 @@ public:
     // 获取实体圆柱面的中心平面
     static bool getSolidCylindricalFaceCenterPlane(
         const wyap::Selection& sel,
-        wy3d::SketchPlane& plane,
+        wy3d::Plane& plane,
         double& radius);
 
     // 求出直线与基准面的交线
@@ -74,13 +74,13 @@ public:
         wy::Vector2& intStartPnt, wy::Vector2& intEndPnt,
         double tol = wy3d::TOL);
 
-    // 求两个SketchPlane的交线
-    static bool intersect(const wy3d::SketchPlane& lhs, const wy3d::SketchPlane& rhs,
+    // 求两个Plane的交线
+    static bool intersect(const wy3d::Plane& lhs, const wy3d::Plane& rhs,
         wy::Vector3& linePoint, wy::Vector3& lineDir, double tol = wy3d::TOL);
 
     // 过3点求平面
     static bool computeThrough3PointsPlane(const wy::Vector3& pnt1, const wy::Vector3& pnt2, const wy::Vector3& pnt3,
-        wy3d::SketchPlane& sketchPlane, double tol = wy3d::TOL);
+        wy3d::Plane& sketchPlane, double tol = wy3d::TOL);
 
 private:
     wy3d::DatumPlane* _pDatumPlane;

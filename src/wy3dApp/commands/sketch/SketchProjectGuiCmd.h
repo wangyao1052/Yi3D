@@ -23,7 +23,7 @@
 #include "select/SelectPreview.h"
 #include <memory>
 #include <wydbElementId.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 class SketchProjectGuiCmd : public OsgGuiCommand
 {

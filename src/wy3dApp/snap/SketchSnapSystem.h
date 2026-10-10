@@ -48,7 +48,7 @@ class SketchSnapSystem : public wydb::DatabaseReactor
 {
 public:
     explicit SketchSnapSystem(const wy3d::Sketch* pSketch);
-    explicit SketchSnapSystem(const wy3d::SketchPlane& workPlane);
+    explicit SketchSnapSystem(const wy3d::Plane& workPlane);
     ~SketchSnapSystem();
     SketchSnapSystem(const SketchSnapSystem&) = delete;
     SketchSnapSystem& operator=(const SketchSnapSystem&) = delete;
@@ -554,7 +554,7 @@ private:
     // 草图ID
     wydb::ElementId _sketchId;
     // 草图平面
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     // 捕捉上下文
     SketchSnapContextSPtr _pSnapContext;
     // 捕捉结果

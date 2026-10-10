@@ -107,7 +107,7 @@ wy::Vector3 MathUtils::quaternionToEulerZXY(const gp_Quaternion& quat)
     return wy::Vector3(x, y, z);
 }
 
-wy::Vector3 MathUtils::computeEulerZXY(const wy3d::SketchPlane& workPln)
+wy::Vector3 MathUtils::computeEulerZXY(const wy3d::Plane& workPln)
 {
     wy::Vector3 xAxis = workPln.getXDir();
     wy::Vector3 yAxis = workPln.getYDir();
@@ -138,7 +138,7 @@ wy::Vector3 MathUtils::computeEulerZXY(const wy3d::SketchPlane& workPln)
     }
 }
 
-osg::Quat MathUtils::computeQuat(const wy3d::SketchPlane& workPln)
+osg::Quat MathUtils::computeQuat(const wy3d::Plane& workPln)
 {
     wy::Vector3 xAxis = workPln.getXDir();
     wy::Vector3 yAxis = workPln.getYDir();

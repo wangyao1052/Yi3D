@@ -355,7 +355,7 @@ TopoDS_Shape SweptSheet::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdat
     wydb::Database* pDb = this->getDatabase();
     assert(pDb);
 
-    wy3d::SketchPlane pathPlane;
+    wy3d::Plane pathPlane;
     const wydb::Element* pPathElem = pDb->getElement(_pathId);
     const wy3d::Sketch* pPathSketch = wy3d::Sketch::cast(pPathElem);
     const wy3d::Sketch3D* pPathSketch3D = wy3d::Sketch3D::cast(pPathElem);
@@ -380,7 +380,7 @@ TopoDS_Shape SweptSheet::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdat
             static_cast<std::uint32_t>(ErrorCode::PROFILE_InvalidProfile));
         return TopoDS_Shape();
     }
-    const wy3d::SketchPlane& profilePlane = pProfileSketch->getPlane();
+    const wy3d::Plane& profilePlane = pProfileSketch->getPlane();
     assert(profilePlane.isValid());
 
     if (pPathSketch)

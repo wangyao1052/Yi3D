@@ -21,7 +21,7 @@
 
 #include <TopoDS_Edge.hxx>
 #include <wy3dSketchEntity.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 class SketchProjectUtil
 {
@@ -40,7 +40,7 @@ private:
     static ProjectResult projectEdgeImpl(
         wydb::Transaction* pTrans,
         const TopoDS_Edge& edge,
-        const wy3d::SketchPlane& plane,
+        const wy3d::Plane& plane,
         wy3d::SketchEntity*& pOutEntity);
 
 public:
@@ -48,7 +48,7 @@ public:
     static ProjectResult projectEdge(
         wydb::Transaction* pTrans,
         const TopoDS_Edge& edge,
-        const wy3d::SketchPlane& plane,
+        const wy3d::Plane& plane,
         wy3d::SketchEntity*& pOutEntity);
 };
 

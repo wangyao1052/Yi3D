@@ -119,7 +119,7 @@ protected:
     Step _step;
     wyap::SelectionSet _sels;
     PointPickOption _pickWorkPlnOption;
-    wy3d::SketchPlane _workPln;
+    wy3d::Plane _workPln;
     wy::Vector2 _basePnt2;
     wy::Vector3 _basePnt;
     wy::Vector3 _baseLineEndPnt;
@@ -153,7 +153,7 @@ protected:
     // === 子类必须覆写的纯虚方法 ===
 
     // 获取当前工作平面
-    virtual const wy3d::SketchPlane& getActivePlane() const = 0;
+    virtual const wy3d::Plane& getActivePlane() const = 0;
 
     // 获取当前捕捉系统
     virtual SketchSnapSystem* getActiveSnapSystem() const { return nullptr; }

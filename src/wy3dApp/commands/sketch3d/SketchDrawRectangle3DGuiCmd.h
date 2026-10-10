@@ -27,7 +27,7 @@
 #include <utility>
 #include <wyVector2.h>
 #include <wyVector3.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wydbElementId.h>
 #include <wy3dSketchLine3D.h>
 
@@ -55,11 +55,11 @@ public:
     virtual void collectElements(std::set<wydb::ElementId>& idSet) const override;
 
     // 创建(须先让工作平面原点落在锚点上)
-    bool init(const wy::Vector3& corner1Pnt, const wy3d::SketchPlane& plane, wydb::ElementId sketch3dId);
+    bool init(const wy::Vector3& corner1Pnt, const wy3d::Plane& plane, wydb::ElementId sketch3dId);
     // 更新
     bool update(const wy::Vector3& endPnt);
     // 切换工作平面:长宽不变,绕锚点转向新平面
-    bool updatePlane(const wy3d::SketchPlane& plane);
+    bool updatePlane(const wy3d::Plane& plane);
 
     // 最近一次生效的对角点相对锚点的平面内偏移
     bool getUVOffset(wy::Vector2& uvOffset) const;
@@ -79,7 +79,7 @@ private:
 private:
     Mode _mode;
     wy::Vector3 _corner1World;
-    wy3d::SketchPlane _plane;
+    wy3d::Plane _plane;
     wy::Vector2 _uvOffset;
     bool _hasExtent;
     wy::Vector3 _cornerPnt[4];

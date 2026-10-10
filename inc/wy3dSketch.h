@@ -23,7 +23,7 @@
 #include <vector>
 
 #include <wyIterator.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dDefs.h>
 #include <wy3dFeature.h>
 
@@ -37,14 +37,14 @@ class WY3D_EXPORT Sketch : public wy3d::Feature
     WYDB_DECLARE_MEMBERS(Sketch, wy3d::Sketch, wy3d::Feature)
 
 public:
-    static wy::ErrorStatus create(wydb::Transaction* pTrans, const wy3d::SketchPlane& plane, Sketch*& pOutSketch);
+    static wy::ErrorStatus create(wydb::Transaction* pTrans, const wy3d::Plane& plane, Sketch*& pOutSketch);
 
     virtual wydb::ElementId getParent() const override { return _ownerId; }
     wy::ErrorStatus setOwner(const wydb::ElementId& owner);
     virtual std::vector<wydb::ElementId> getChildren() const { return _entities; }
 
-    const wy3d::SketchPlane& getPlane() const { return _plane; }
-    wy::ErrorStatus setPlane(const wy3d::SketchPlane& plane);
+    const wy3d::Plane& getPlane() const { return _plane; }
+    wy::ErrorStatus setPlane(const wy3d::Plane& plane);
 
     wy::Iterator<wydb::ElementId> createIterator() const;
 
@@ -63,7 +63,7 @@ private:
 
 private:
     wydb::ElementId _ownerId;
-    wy3d::SketchPlane _plane;
+    wy3d::Plane _plane;
     std::vector<wydb::ElementId> _entities;
 
     friend class SketchElementIterator;

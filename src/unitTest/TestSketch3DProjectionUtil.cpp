@@ -26,7 +26,7 @@
 #include <wy3dSketchCenterLine.h>
 #include <wy3dSketchCircle.h>
 #include <wy3dSketchLine.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 #include <BRepAdaptor_Curve.hxx>
 #include <BRepAdaptor_Surface.hxx>
@@ -73,7 +73,7 @@ wydb::ElementId createSketchOnXY(wy3d::Database* pDb,
 {
     const wydb::ElementId kNull = wydb::ElementId::kNull;
     wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
-    wy3d::SketchPlane plane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+    wy3d::Plane plane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
     wy3d::Sketch* pSketch(nullptr);
     EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
     if (!pSketch)
@@ -515,7 +515,7 @@ TEST(Sketch3DProjectionUtil, LineOntoADatumPlaneStaysALine)
     ASSERT_EQ(sourceEdges.size(), 1u);
 
     // The plane z = 10, which is what a datum plane in that place stands for.
-    const wy3d::SketchPlane targetPlane(
+    const wy3d::Plane targetPlane(
         wy::Vector3(0.0, 0.0, 10.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
 
     std::vector<TopoDS_Edge> edges;
@@ -566,7 +566,7 @@ TEST(Sketch3DProjectionUtil, ADatumPlaneKeepsWhatAFaceWouldTrim)
         Result::Ok);
     EXPECT_NEAR(totalLength(trimmed), 20.0, kTol);
 
-    const wy3d::SketchPlane targetPlane(
+    const wy3d::Plane targetPlane(
         wy::Vector3(0.0, 0.0, 10.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
     std::vector<TopoDS_Edge> whole;
     ASSERT_EQ(wy3d::Sketch3DProjectionUtil::project(pSketch->getPlane(), sourceEdges, targetPlane, Options(), whole),
@@ -598,7 +598,7 @@ TEST(Sketch3DProjectionUtil, CircleOntoATiltedDatumPlaneIsAnEllipse)
     ASSERT_EQ(sourceEdges.size(), 1u);
 
     // Forty five degrees about the X axis, through the origin.
-    const wy3d::SketchPlane targetPlane(wy::Vector3::kZero,
+    const wy3d::Plane targetPlane(wy::Vector3::kZero,
         wy::Vector3(0.0, -std::sqrt(0.5), std::sqrt(0.5)), wy::Vector3::kXAxis);
 
     std::vector<TopoDS_Edge> edges;
@@ -656,7 +656,7 @@ TEST(Sketch3DProjectionUtil, AStraddlingSourceIsSweptOneWayAtATime)
 
     // z = y, as above: a source point at y travels exactly y to reach it, so the half at y < 0 wants
     // the sweep backwards and the half at y > 0 wants it forwards.
-    const wy3d::SketchPlane targetPlane(wy::Vector3::kZero,
+    const wy3d::Plane targetPlane(wy::Vector3::kZero,
         wy::Vector3(0.0, -std::sqrt(0.5), std::sqrt(0.5)), wy::Vector3::kXAxis);
 
     // One side of the junction is half the source line, at the 45 degrees it is projected across.
@@ -718,7 +718,7 @@ TEST(Sketch3DProjectionUtil, TargetsTheSweepCannotMeetAreNoProjection)
     std::vector<TopoDS_Edge> edges;
 
     // The sketch's own plane: there is nothing to sweep to, and the two planes meet everywhere.
-    const wy3d::SketchPlane coincident(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+    const wy3d::Plane coincident(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
     EXPECT_EQ(wy3d::Sketch3DProjectionUtil::project(pSketch->getPlane(), sourceEdges, coincident, Options(), edges),
         Result::NoProjection);
     EXPECT_TRUE(edges.empty());
@@ -735,20 +735,20 @@ TEST(Sketch3DProjectionUtil, TargetsTheSweepCannotMeetAreNoProjection)
     EXPECT_TRUE(edges.empty());
 
     // A plane the sweep runs along rather than into: it stays parallel to it however far it goes.
-    const wy3d::SketchPlane alongSide(wy::Vector3::kZero, wy::Vector3::kXAxis, wy::Vector3::kYAxis);
+    const wy3d::Plane alongSide(wy::Vector3::kZero, wy::Vector3::kXAxis, wy::Vector3::kYAxis);
     EXPECT_EQ(wy3d::Sketch3DProjectionUtil::project(pSketch->getPlane(), sourceEdges, alongSide, Options(), edges),
         Result::NoProjection);
     EXPECT_TRUE(edges.empty());
 
     // A plane that is not a plane.
-    const wy3d::SketchPlane bad(wy::Vector3::kZero, wy::Vector3::kZero, wy::Vector3::kZero);
+    const wy3d::Plane bad(wy::Vector3::kZero, wy::Vector3::kZero, wy::Vector3::kZero);
     ASSERT_FALSE(bad.isValid());
     EXPECT_EQ(wy3d::Sketch3DProjectionUtil::project(pSketch->getPlane(), sourceEdges, bad, Options(), edges),
         Result::InvalidInput);
     EXPECT_TRUE(edges.empty());
 
     // And a target of either kind with nothing to project.
-    const wy3d::SketchPlane targetPlane(
+    const wy3d::Plane targetPlane(
         wy::Vector3(0.0, 0.0, 10.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
     EXPECT_EQ(wy3d::Sketch3DProjectionUtil::project(pSketch->getPlane(), std::vector<TopoDS_Edge>(),
                   targetPlane, Options(), edges),
@@ -779,16 +779,16 @@ TEST(Sketch3DProjectionUtil, EveryDatumPlaneIsHandled)
     ASSERT_EQ(sourceEdges.size(), 2u);
 
     const wy::Vector3 oblique(0.0, -std::sqrt(0.5), std::sqrt(0.5));
-    std::vector<wy3d::SketchPlane> targets;
-    targets.push_back(wy3d::SketchPlane(wy::Vector3(0.0, 0.0, 10.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis));
-    targets.push_back(wy3d::SketchPlane(wy::Vector3(0.0, 0.0, -10.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis));
-    targets.push_back(wy3d::SketchPlane(wy::Vector3(3.0, 3.0, 10.0), wy::Vector3::kZAxis, wy::Vector3(1.0, 0.0, 0.0)));
-    targets.push_back(wy3d::SketchPlane(wy::Vector3::kZero, oblique, wy::Vector3::kXAxis));
-    targets.push_back(wy3d::SketchPlane(wy::Vector3::kZero, wy::Vector3::kXAxis, wy::Vector3::kYAxis));
-    targets.push_back(wy3d::SketchPlane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis));
+    std::vector<wy3d::Plane> targets;
+    targets.push_back(wy3d::Plane(wy::Vector3(0.0, 0.0, 10.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis));
+    targets.push_back(wy3d::Plane(wy::Vector3(0.0, 0.0, -10.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis));
+    targets.push_back(wy3d::Plane(wy::Vector3(3.0, 3.0, 10.0), wy::Vector3::kZAxis, wy::Vector3(1.0, 0.0, 0.0)));
+    targets.push_back(wy3d::Plane(wy::Vector3::kZero, oblique, wy::Vector3::kXAxis));
+    targets.push_back(wy3d::Plane(wy::Vector3::kZero, wy::Vector3::kXAxis, wy::Vector3::kYAxis));
+    targets.push_back(wy3d::Plane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis));
 
     int projected(0), missed(0);
-    for (const wy3d::SketchPlane& target : targets)
+    for (const wy3d::Plane& target : targets)
     {
         for (int mode = 0; mode < 3; ++mode)
         {
@@ -855,7 +855,7 @@ TEST(Sketch3DProjectionUtil, InvalidInputIsRejected)
         Result::InvalidInput);
     // An invalid plane. Not the default constructor: that one is the XY plane through the origin
     // and is perfectly usable, so it would only prove the call can succeed.
-    wy3d::SketchPlane badPlane(wy::Vector3::kZero, wy::Vector3::kZero, wy::Vector3::kZero);
+    wy3d::Plane badPlane(wy::Vector3::kZero, wy::Vector3::kZero, wy::Vector3::kZero);
     ASSERT_FALSE(badPlane.isValid());
     EXPECT_EQ(wy3d::Sketch3DProjectionUtil::project(badPlane, sourceEdges, targetFace, Options(), edges),
         Result::InvalidInput);

@@ -26,7 +26,7 @@
 #include <set>
 #include <utility>
 #include <wyVector3.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wydbElementId.h>
 #include <wy3dSketchEllipse3D.h>
 
@@ -91,14 +91,14 @@ private:
     std::set<wydb::ElementId> getSnapExcludeIds() const;
     std::pair<wy::Vector3, bool> computePoint3d(double x, double y);
     // 平面内坐标 -> 世界方向(长轴方向按角度取)
-    wy::Vector3 planeDirFromAngle(const wy3d::SketchPlane& plane, double angle) const;
+    wy::Vector3 planeDirFromAngle(const wy3d::Plane& plane, double angle) const;
     // 由世界长轴方向取它在工作平面内的角度
-    double angleFromPlaneDir(const wy3d::SketchPlane& plane, const wy::Vector3& dir) const;
+    double angleFromPlaneDir(const wy3d::Plane& plane, const wy::Vector3& dir) const;
     double currentRatio() const;
     void updateAxisTransient(const wy::Vector3& endPnt);
     void destroyAxisTransient();
     // 用当前成员值刷新实体(切平面/预览共用)
-    bool applyToEntity(const wy3d::SketchPlane& plane);
+    bool applyToEntity(const wy3d::Plane& plane);
 
     void initializePopups();
     void showPopup();

@@ -27,17 +27,17 @@
 #include <TopoDS_Vertex.hxx>
 
 #include <wyVector3.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 class TopoShapeUtil
 {
 public:
     // 获取拓扑面的信息
-    static bool getFacePlane(const TopoDS_Face& face, wy3d::SketchPlane& plane);
+    static bool getFacePlane(const TopoDS_Face& face, wy3d::Plane& plane);
 
     // 获取拓扑形体下的面信息
     // faceIndex --- 面索引,从0开始;
-    static bool getShapeFacePlane(const TopoDS_Shape& shape, unsigned int faceIndex, wy3d::SketchPlane& plane);
+    static bool getShapeFacePlane(const TopoDS_Shape& shape, unsigned int faceIndex, wy3d::Plane& plane);
     // 获取拓扑形体下的边信息
     // edgeIndex --- 边索引,从0开始;
     static bool getShapeEdgeEndPoints(const TopoDS_Shape& shape, unsigned int edgeIndex,

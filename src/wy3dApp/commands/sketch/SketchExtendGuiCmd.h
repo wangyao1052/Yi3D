@@ -84,14 +84,14 @@ private:
 class ExtendSegmentTransient : public GuiCmdTransient
 {
 public:
-    ExtendSegmentTransient(GuiCommand* pGuiCmd, const wy3d::SketchPlane& sketchPlane, const wy3d::SketchCurve* pSketchCurve, const SketchExtendSegment& segment);
+    ExtendSegmentTransient(GuiCommand* pGuiCmd, const wy3d::Plane& sketchPlane, const wy3d::SketchCurve* pSketchCurve, const SketchExtendSegment& segment);
     virtual ~ExtendSegmentTransient();
 
     wydb::ElementId getId() const { return _id; }
     const SketchExtendSegment& getSegment() const { return _segment; }
 
 private:
-    void init(const wy3d::SketchPlane& sketchPlane, const wy3d::SketchCurve* pSketchCurve);
+    void init(const wy3d::Plane& sketchPlane, const wy3d::SketchCurve* pSketchCurve);
     void initGeom(osg::ref_ptr<osg::Vec3Array> vertices, const std::vector<unsigned int>& indices);
 
 private:

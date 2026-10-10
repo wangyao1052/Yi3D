@@ -27,7 +27,7 @@
 
 #include <wyVector3.h>
 #include <wydbElementId.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 #include "commands/GuiCommand.h"
 
@@ -36,7 +36,7 @@ class ElementNode;
 class PasteElements : public GuiCmdMakeElement
 {
 public:
-    PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, GuiCmdEnvType mode, wydb::ElementId sketchId, const wy3d::SketchPlane& sketchPlane);
+    PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, GuiCmdEnvType mode, wydb::ElementId sketchId, const wy3d::Plane& sketchPlane);
     ~PasteElements();
 
     enum class InitRet
@@ -65,7 +65,7 @@ private:
 private:
     GuiCmdEnvType _mode;
     wydb::ElementId _sketchId;
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
 
     // 拷贝的元素
     struct CopyElement

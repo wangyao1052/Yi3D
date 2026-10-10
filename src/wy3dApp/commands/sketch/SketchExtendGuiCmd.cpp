@@ -514,7 +514,7 @@ ABORT_TRANS:
     return false;
 }
 
-ExtendSegmentTransient::ExtendSegmentTransient(GuiCommand* pGuiCmd, const wy3d::SketchPlane& sketchPlane, const wy3d::SketchCurve* pSketchCurve,
+ExtendSegmentTransient::ExtendSegmentTransient(GuiCommand* pGuiCmd, const wy3d::Plane& sketchPlane, const wy3d::SketchCurve* pSketchCurve,
     const SketchExtendSegment& segment) : _segment(segment)
 {
     assert(pGuiCmd);
@@ -529,7 +529,7 @@ ExtendSegmentTransient::~ExtendSegmentTransient()
 {
 }
 
-void ExtendSegmentTransient::init(const wy3d::SketchPlane& sketchPlane, const wy3d::SketchCurve* pSketchCurve)
+void ExtendSegmentTransient::init(const wy3d::Plane& sketchPlane, const wy3d::SketchCurve* pSketchCurve)
 {
     assert(pSketchCurve);
     if (!_segment.isValid()) return;

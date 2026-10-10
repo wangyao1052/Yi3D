@@ -59,13 +59,13 @@ void SketchPlaneDialog::onOkBtnClicked()
     switch (selectedPlane)
     {
     case SystemSketchPlane::PLANE_XOY:
-        _sketchPlane = wy3d::SketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
+        _sketchPlane = wy3d::Plane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
         break;
     case SystemSketchPlane::PLANE_YOZ:
-        _sketchPlane = wy3d::SketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(1.0, 0.0, 0.0), wy::Vector3(0.0, 1.0, 0.0));
+        _sketchPlane = wy3d::Plane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(1.0, 0.0, 0.0), wy::Vector3(0.0, 1.0, 0.0));
         break;
     case SystemSketchPlane::PLANE_XOZ:
-        _sketchPlane = wy3d::SketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, -1.0, 0.0), wy::Vector3(1.0, 0.0, 0.0));
+        _sketchPlane = wy3d::Plane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, -1.0, 0.0), wy::Vector3(1.0, 0.0, 0.0));
         break;
     default:
         assert(false);

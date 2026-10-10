@@ -36,7 +36,7 @@ public:
     // 获取工作步骤
     unsigned int getStep() const { return _step; }
     // 获取工作平面
-    const wy3d::SketchPlane& getWorkingPlane() const { return _workPln; }
+    const wy3d::Plane& getWorkingPlane() const { return _workPln; }
 
 protected:
     virtual wyap::CmdExecution::StartResult onStart() override;
@@ -75,7 +75,7 @@ protected:
     // 捕捉排除元素
     std::set<wydb::ElementId> _excludeIds;
     // 工作平面
-    wy3d::SketchPlane _workPln;
+    wy3d::Plane _workPln;
     // 工作面预览
     SelectPreview _workPlnPreview;
     // 工作平面原点捕捉对象

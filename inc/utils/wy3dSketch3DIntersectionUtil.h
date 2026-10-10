@@ -23,7 +23,7 @@
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Edge.hxx>
 #include <wy3dDefs.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 NS_WY3D_BEG
 
@@ -65,7 +65,7 @@ public:
     {
         bool isPlane = false;
         TopoDS_Shape shape;   // a face, when isPlane is false
-        SketchPlane plane;    // an unbounded plane, when isPlane is true
+        Plane plane;    // an unbounded plane, when isPlane is true
     };
 
     // True when the sketch's own spline entity can carry this edge as it is. A rational spline

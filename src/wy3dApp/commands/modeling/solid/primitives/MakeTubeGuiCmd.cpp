@@ -707,7 +707,7 @@ void MakeTube::collectElements(std::set<wydb::ElementId>& idSet) const
     if (_pTube) idSet.insert(_pTube->getId());
 }
 
-bool MakeTube::init(const wy3d::SketchPlane& workPln,
+bool MakeTube::init(const wy3d::Plane& workPln,
     const wy::Vector2& pnt1,
     const wy::Vector2& pnt2,
     const wy::Vector2& pnt3)

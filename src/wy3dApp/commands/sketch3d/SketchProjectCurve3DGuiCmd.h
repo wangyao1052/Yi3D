@@ -83,7 +83,7 @@ private:
     {
         bool isPlane = false;
         TopoDS_Face face;
-        wy3d::SketchPlane plane;
+        wy3d::Plane plane;
     };
 
     // Rebuilt at every step change: what is worth picking in one step is not in the other.
@@ -133,7 +133,7 @@ private:
     Step _step;
     // Read once when the sketch is picked and reused by every recompute: the sweep margin and the
     // source edges do not change when a flag does.
-    wy3d::SketchPlane _sourcePlane;
+    wy3d::Plane _sourcePlane;
     std::vector<TopoDS_Edge> _sourceEdges;
     wy::Vector3 _arrowOrigin; // middle of the source curves, where the direction arrow is planted
 

@@ -80,7 +80,7 @@ bool CopyElemens::init(const wyap::SelectionSet& ss)
     return true;
 }
 
-bool CopyElemens::update(const wy3d::SketchPlane& plane, const wy::Vector2& moveVec2d)
+bool CopyElemens::update(const wy3d::Plane& plane, const wy::Vector2& moveVec2d)
 {
     wy::Vector3 moveVec = plane.value(moveVec2d) - plane.getOrigin();
     _pat->setPosition(MathUtils::toVec3d(moveVec));

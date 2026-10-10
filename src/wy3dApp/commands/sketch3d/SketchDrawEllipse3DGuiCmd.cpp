@@ -119,7 +119,7 @@ bool SketchDrawEllipse3DGuiCmd::finishStep(unsigned int step)
         // 先让工作平面原点落在中心,再建图元:切平面时中心不动、椭圆绕中心转
         this->moveWorkPlaneOriginTo(_centerPnt);
 
-        const wy3d::SketchPlane& plane = this->getWorkingPlane();
+        const wy3d::Plane& plane = this->getWorkingPlane();
         _majorAxisDir = plane.getXDir();
         _pMakeSketchEllipse3D = std::make_shared<MakeSketchEllipse3D>(this);
         if (!_pMakeSketchEllipse3D->init(_centerPnt, plane.getNormal(), plane.getXDir(),
@@ -163,7 +163,7 @@ bool SketchDrawEllipse3DGuiCmd::finishStep(unsigned int step)
         }
 
         // 另一半轴大于长半轴时互换长短轴(预览期间不互换,与2D一致)
-        const wy3d::SketchPlane& plane = this->getWorkingPlane();
+        const wy3d::Plane& plane = this->getWorkingPlane();
         double majorRadius = _majorRadius;
         double radiusRatio = (_majorRadius > wy3d::TOL) ? (_otherRadius / _majorRadius) : 1.0;
         wy::Vector3 majorDir = _majorAxisDir;
@@ -253,17 +253,17 @@ double SketchDrawEllipse3DGuiCmd::currentRatio() const
     return ratio;
 }
 
-wy::Vector3 SketchDrawEllipse3DGuiCmd::planeDirFromAngle(const wy3d::SketchPlane& plane, double angle) const
+wy::Vector3 SketchDrawEllipse3DGuiCmd::planeDirFromAngle(const wy3d::Plane& plane, double angle) const
 {
     return plane.getXDir() * std::cos(angle) + plane.getYDir() * std::sin(angle);
 }
 
-double SketchDrawEllipse3DGuiCmd::angleFromPlaneDir(const wy3d::SketchPlane& plane, const wy::Vector3& dir) const
+double SketchDrawEllipse3DGuiCmd::angleFromPlaneDir(const wy3d::Plane& plane, const wy::Vector3& dir) const
 {
     return std::atan2(dir.dot(plane.getYDir()), dir.dot(plane.getXDir()));
 }
 
-bool SketchDrawEllipse3DGuiCmd::applyToEntity(const wy3d::SketchPlane& plane)
+bool SketchDrawEllipse3DGuiCmd::applyToEntity(const wy3d::Plane& plane)
 {
     if (!_pMakeSketchEllipse3D)
     {
@@ -287,7 +287,7 @@ void SketchDrawEllipse3DGuiCmd::onSpaceKey()
     }
 
     // 保中心/半轴,长轴方向投影到新平面后整体重发(椭圆绕中心刚性转向)
-    const wy3d::SketchPlane& plane = this->getWorkingPlane();
+    const wy3d::Plane& plane = this->getWorkingPlane();
     const wy::Vector3 normal = plane.getNormal();
     wy::Vector3 xDir = _majorAxisDir - normal * _majorAxisDir.dot(normal);
     if (xDir.length() < wy3d::EPS)
@@ -330,7 +330,7 @@ void SketchDrawEllipse3DGuiCmd::onMouseMove(const MouseEvent& event)
         return;
     }
 
-    const wy3d::SketchPlane& plane = this->getWorkingPlane();
+    const wy3d::Plane& plane = this->getWorkingPlane();
     const wy::Vector3 delta = ret.first - _centerPnt;
 
     if (_step == static_cast<unsigned int>(Step::SpecifyAxisEndPoint))
@@ -386,7 +386,7 @@ void SketchDrawEllipse3DGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == static_cast<unsigned int>(Step::SpecifyAxisEndPoint))
     {
-        const wy3d::SketchPlane& plane = this->getWorkingPlane();
+        const wy3d::Plane& plane = this->getWorkingPlane();
         const wy::Vector3 pnt = this->computePoint3d(event.x, event.y).first;
         const wy::Vector2 uv = plane.uv(pnt) - plane.uv(_centerPnt);
         _majorRadius = uv.length();
@@ -402,7 +402,7 @@ void SketchDrawEllipse3DGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == static_cast<unsigned int>(Step::SpecifyOtherRadius))
     {
-        const wy3d::SketchPlane& plane = this->getWorkingPlane();
+        const wy3d::Plane& plane = this->getWorkingPlane();
         _otherRadius = (plane.uv(this->computePoint3d(event.x, event.y).first) - plane.uv(_centerPnt)).length();
         if (_otherRadius < wy3d::kMinValue)
         {
@@ -558,7 +558,7 @@ void SketchDrawEllipse3DGuiCmd::tryShowPopupOnHover(double time)
 
 void SketchDrawEllipse3DGuiCmd::onPopupEnterKey()
 {
-    const wy3d::SketchPlane& plane = this->getWorkingPlane();
+    const wy3d::Plane& plane = this->getWorkingPlane();
 
     if (_step == static_cast<unsigned int>(Step::SpecifyCenterPnt))
     {

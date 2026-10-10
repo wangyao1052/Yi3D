@@ -65,7 +65,7 @@ static inline wy::Vector3 _toVector3(const gp_Dir& dir)
     return wy::Vector3(dir.X(), dir.Y(), dir.Z());
 }
 
-bool TopoShapeUtil::getFacePlane(const TopoDS_Face& face, wy3d::SketchPlane& plane)
+bool TopoShapeUtil::getFacePlane(const TopoDS_Face& face, wy3d::Plane& plane)
 {
     if (face.IsNull()) return false;
     Handle(Geom_Surface) surface = BRep_Tool::Surface(face);
@@ -81,14 +81,14 @@ bool TopoShapeUtil::getFacePlane(const TopoDS_Face& face, wy3d::SketchPlane& pla
     TopAbs_Orientation orient = face.Orientation();
     if (orient == TopAbs_REVERSED)
     {
-        plane = wy3d::SketchPlane(
+        plane = wy3d::Plane(
             _toVector3(origin),
             _toVector3(zAxis.Reversed()),
             _toVector3(xAxis.Reversed()));
     }
     else
     {
-        plane = wy3d::SketchPlane(
+        plane = wy3d::Plane(
             _toVector3(origin),
             _toVector3(zAxis),
             _toVector3(xAxis));

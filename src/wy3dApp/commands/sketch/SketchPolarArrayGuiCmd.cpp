@@ -402,7 +402,7 @@ void SketchPolarArrayGuiCmd::onContextMenuAction_ClearSelection()
     }
 }
 
-SketchPolarArrayElements::SketchPolarArrayElements(GuiCommand* pGuiCmd, const wy3d::SketchPlane& sketchPlane, wydb::ElementId sketchId) : GuiCmdMakeElement(pGuiCmd), _sketchPlane(sketchPlane), _sketchId(sketchId)
+SketchPolarArrayElements::SketchPolarArrayElements(GuiCommand* pGuiCmd, const wy3d::Plane& sketchPlane, wydb::ElementId sketchId) : GuiCmdMakeElement(pGuiCmd), _sketchPlane(sketchPlane), _sketchId(sketchId)
 {
 }
 
@@ -458,7 +458,7 @@ bool SketchPolarArrayElements::init(const std::set<wydb::ElementId>& ids,
     }
 
     assert(_pGuiCmd);
-    const wy3d::SketchPlane& sketchPlane = _sketchPlane;
+    const wy3d::Plane& sketchPlane = _sketchPlane;
     osg::Vec3d normal = MathUtils::toVec3d(sketchPlane.getNormal());
     osg::Vec3d centerPnt3d = MathUtils::toVec3d(sketchPlane.value(center));
 

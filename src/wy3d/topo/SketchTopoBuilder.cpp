@@ -95,7 +95,7 @@ Handle(Geom_Curve) SketchTopoBuilder::toGeomCurve(const wy3d::SketchCurve* pSket
 {
     assert(pSketchCurve);
     assert(_pSketch);
-    const wy3d::SketchPlane& sketchPlane = _pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = _pSketch->getPlane();
     if (!sketchPlane.isValid())
     {
         assert(false);
@@ -293,7 +293,7 @@ std::pair<ErrorCode, TopoDS_Face> TopoUtil::makeFace(
     SketchTopoBuilder sketchTopoBuilder(pSketch, true); // true --- record topo history
 
     // 草图工作平面
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
     wy::Vector3 sketchNormal = sketchPlane.getNormal();
     assert(sketchNormal.length() > 0.5);
     wy::Vector3 sketchOrigin = sketchPlane.getOrigin();

@@ -24,7 +24,7 @@
 #include <wyVector3.h>
 #include <wy3dVector3.h>
 #include <wy3dSphere.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include "commands/modeling/solid/primitives/MakePrimitiveGuiCmd.h"
 
 class MakeSphere;
@@ -104,7 +104,7 @@ public:
     virtual void collectElements(std::set<wydb::ElementId>& idSet) const override;
 
     // 创建
-    bool init(const wy3d::SketchPlane& workPln, const wy::Vector2& pnt);
+    bool init(const wy3d::Plane& workPln, const wy::Vector2& pnt);
     // 更新
     bool update(double radius);
 

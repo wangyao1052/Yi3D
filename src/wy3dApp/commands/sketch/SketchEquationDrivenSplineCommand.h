@@ -24,7 +24,7 @@
 #include <wy3dVector2.h>
 #include <wydbElementId.h>
 #include <wyapCmdExecution.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 class SketchEquationDrivenSplineCommand : public wyap::ImmediateCmdExecution
 {
@@ -41,7 +41,7 @@ private:
         const std::vector<wy::Vector2>& fitPoints);
 
 private:
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     wydb::ElementId _sketchId;
 };
 

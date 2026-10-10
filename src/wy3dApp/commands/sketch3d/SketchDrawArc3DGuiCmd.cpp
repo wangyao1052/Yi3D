@@ -248,7 +248,7 @@ void SketchDrawArc3DGuiCmd::onSpaceKey()
         return;
     }
 
-    const wy3d::SketchPlane& plane = this->getWorkingPlane();
+    const wy3d::Plane& plane = this->getWorkingPlane();
     if (!_pMakeSketchArc3D->updatePlane(plane.getNormal(), plane.getXDir()))
     {
         return;
@@ -592,7 +592,7 @@ std::pair<wy::Vector3, bool> SketchDrawArc3DGuiCmd::computePoint3d(double x, dou
 
 bool SketchDrawArc3DGuiCmd::computeRadiusAndAngle(const wy::Vector3& pnt, double& outRadius, double& outAngle) const
 {
-    const wy3d::SketchPlane& plane = this->getWorkingPlane();
+    const wy3d::Plane& plane = this->getWorkingPlane();
     const wy::Vector3 normal = plane.getNormal();
     const wy::Vector3 xDir = plane.getXDir();
     const wy::Vector3 yDir = normal.cross(xDir);

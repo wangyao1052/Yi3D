@@ -20,7 +20,7 @@
 #define WY_VIEW_UTIL_H
 
 #include <osgViewer/View>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include "view/OsgView.h"
 
 class ViewUtil
@@ -37,7 +37,7 @@ public:
     static void viewTo(osgViewer::View* pView, const osg::Vec3d& lookDir, const osg::Vec3d up);
 
     // 调整视图方向到垂直于工作平面
-    static void viewToWorkingPlane(osgViewer::View* pView, const wy3d::SketchPlane& workPln);
+    static void viewToWorkingPlane(osgViewer::View* pView, const wy3d::Plane& workPln);
 
     // 获取观察方向
     static bool getLookDir(osgViewer::View* pView, osg::Vec3d& lookDir);

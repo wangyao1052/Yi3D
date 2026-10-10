@@ -22,16 +22,16 @@
 #include <QWidget>
 #include <QLineEdit>
 #include <QPushButton>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 class SketchPlaneEditor : public QWidget
 {
     Q_OBJECT
 public:
-    explicit SketchPlaneEditor(const wy3d::SketchPlane& plane, bool isTheSameValue, QWidget* parent = nullptr);
+    explicit SketchPlaneEditor(const wy3d::Plane& plane, bool isTheSameValue, QWidget* parent = nullptr);
 
     // 从控件读取平面数据，校验失败返回 ok=false
-    wy3d::SketchPlane getPlane(bool& ok) const;
+    wy3d::Plane getPlane(bool& ok) const;
 
 signals:
     void applyRequested();

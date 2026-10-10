@@ -39,7 +39,7 @@ def main():
 
     try:
         # DXF world coordinates map 1:1 onto a sketch on the XY plane
-        plane = wy3d.SketchPlane(
+        plane = wy3d.Plane(
             wy3d.Vector3(0.0, 0.0, 0.0),
             wy3d.Vector3(0.0, 0.0, 1.0),
             wy3d.Vector3(1.0, 0.0, 0.0))

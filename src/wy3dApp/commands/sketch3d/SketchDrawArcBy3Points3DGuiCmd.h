@@ -28,7 +28,7 @@
 #include <wyVector3.h>
 #include <wydbElementId.h>
 #include <wy3dSketchArc3D.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 class MakeSketchArcBy3Points3D;
 class GuiCmdHoverInputPopup3;
@@ -124,7 +124,7 @@ public:
         return _pSketchArc3D ? _pSketchArc3D->getId() : wydb::ElementId::kNull;
     }
 
-    bool init(const wy::Vector3& pnt1, const wy3d::SketchPlane& plane, wydb::ElementId sketch3dId);
+    bool init(const wy::Vector3& pnt1, const wy3d::Plane& plane, wydb::ElementId sketch3dId);
     // 弧平面由落点反算:两点预览(useThirdPoint=false)时法向取 fallbackNormal
     bool update(const wy::Vector3& pnt1, const wy::Vector3& pnt2, const wy::Vector3& pnt3,
         const wy::Vector3& fallbackNormal, bool useThirdPoint);

@@ -166,7 +166,7 @@ Sketch3DWorkingPlane::Sketch3DWorkingPlane()
     this->show();
 }
 
-Sketch3DWorkingPlane::Sketch3DWorkingPlane(const wy3d::SketchPlane& plane)
+Sketch3DWorkingPlane::Sketch3DWorkingPlane(const wy3d::Plane& plane)
     : _workingPlane(plane)
     , _xDir(wy::Vector3::kXAxis)
     , _yDir(wy::Vector3::kYAxis)
@@ -252,24 +252,24 @@ void Sketch3DWorkingPlane::switchToNext()
     switch (_i)
     {
     case 0: // XY
-        _workingPlane = wy3d::SketchPlane(origin, _zDir, _xDir);
+        _workingPlane = wy3d::Plane(origin, _zDir, _xDir);
         break;
     case 1: // YZ
-        _workingPlane = wy3d::SketchPlane(origin, _xDir, _yDir);
+        _workingPlane = wy3d::Plane(origin, _xDir, _yDir);
         break;
     case 2: // ZX
-        _workingPlane = wy3d::SketchPlane(origin, _yDir, _zDir);
+        _workingPlane = wy3d::Plane(origin, _yDir, _zDir);
         break;
     default:
         assert(false);
-        _workingPlane = wy3d::SketchPlane(origin, _zDir, _xDir);
+        _workingPlane = wy3d::Plane(origin, _zDir, _xDir);
         break;
     }
 
     this->showImpl(_workingPlane);
 }
 
-void Sketch3DWorkingPlane::showImpl(const wy3d::SketchPlane& plane)
+void Sketch3DWorkingPlane::showImpl(const wy3d::Plane& plane)
 {
     wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
     if (pSnapSys)
@@ -341,7 +341,7 @@ wyap::CmdExecution::StartResult Sketch3DDrawGuiCmd::onStart()
     _pWorkPlane.reset();
     _pCustomWorkPlaneHighlight = nullptr;
     {
-        wy3d::SketchPlane plane;
+        wy3d::Plane plane;
         wyap::Selection planeSelection(wydb::ElementId::kNull);
         Sketch3DEnvironmentImpl* pSketch3DEnv = dynamic_cast<Sketch3DEnvironmentImpl*>(
             GuiCommandUtil::getActiveSketch3DEnvironment());
@@ -410,9 +410,9 @@ void Sketch3DDrawGuiCmd::onSpaceKey()
     }
 }
 
-const wy3d::SketchPlane& Sketch3DDrawGuiCmd::getWorkingPlane() const
+const wy3d::Plane& Sketch3DDrawGuiCmd::getWorkingPlane() const
 {
-    static const wy3d::SketchPlane kDefaultPlane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+    static const wy3d::Plane kDefaultPlane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
     if (_pWorkPlane)
     {
         return _pWorkPlane->getWorkingPlane();

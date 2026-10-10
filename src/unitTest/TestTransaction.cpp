@@ -19,7 +19,7 @@
 #include "headers.h"
 
 #include <wy3dSketch.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wyIterator.h>
 
 namespace
@@ -64,7 +64,7 @@ TEST(Wy3dTransaction, AbortRollsBackNewlyCreatedSketch)
     std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
     wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
 
-    wy3d::SketchPlane plane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+    wy3d::Plane plane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
     wydb::Transaction* pTrans = pTransMgr->startTransaction();
     wy3d::Sketch* pSketch(nullptr);
     wy::ErrorStatus error = wy3d::Sketch::create(pTrans, plane, pSketch);

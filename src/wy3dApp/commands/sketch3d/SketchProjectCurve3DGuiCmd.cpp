@@ -160,7 +160,7 @@ wyap::CmdExecution::StartResult SketchProjectCurve3DGuiCmd::onStart()
     Application::instance().getSelManager()->endChange();
 
     _step = Step::SelectSketch;
-    _sourcePlane = wy3d::SketchPlane();
+    _sourcePlane = wy3d::Plane();
     _sourceEdges.clear();
     _arrowOrigin = wy::Vector3::kZero;
     _hasTarget = false;

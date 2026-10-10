@@ -24,7 +24,7 @@
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wy3dVector2.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 #include "commands/GuiCommand.h"
 
@@ -48,7 +48,7 @@ private:
 class SketchCircleTransient : public GuiCmdTransient
 {
 public:
-    SketchCircleTransient(const wy3d::SketchPlane& sketchPlane);
+    SketchCircleTransient(const wy3d::Plane& sketchPlane);
     ~SketchCircleTransient();
 
     void update(const wy::Vector2& center, float radius);
@@ -57,7 +57,7 @@ private:
     void fillVertices(const wy::Vector2& center, float radius);
 
 private:
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     wy::Vector3 _origin;
     wy::Vector3 _xDir;
     wy::Vector3 _yDir;
@@ -70,7 +70,7 @@ typedef std::shared_ptr<SketchCircleTransient> SketchCircleTransientSPtr;
 class SketchArcTransient : public GuiCmdTransient
 {
 public:
-    SketchArcTransient(const wy3d::SketchPlane& sketchPlane, const osg::Vec4& color, float lineWidth);
+    SketchArcTransient(const wy3d::Plane& sketchPlane, const osg::Vec4& color, float lineWidth);
     ~SketchArcTransient();
 
     void update(const wy::Vector2& center, double radius, double startAngle, double endAngle);
@@ -79,7 +79,7 @@ private:
     void fillVertices(const wy::Vector2& center, float radius, float startAngle, float endAngle);
 
 private:
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     wy::Vector3 _origin;
     wy::Vector3 _xDir;
     wy::Vector3 _yDir;
@@ -92,7 +92,7 @@ typedef std::shared_ptr<SketchArcTransient> SketchArcTransientSPtr;
 class SketchEllipseTransient : public GuiCmdTransient
 {
 public:
-    SketchEllipseTransient(const wy3d::SketchPlane& sketchPlane);
+    SketchEllipseTransient(const wy3d::Plane& sketchPlane);
     ~SketchEllipseTransient();
 
     void update(const wy::Vector2& center, const wy::Vector2& majorAxis, double radiusRatio);
@@ -101,7 +101,7 @@ private:
     void fillVertices(const wy::Vector2& center, const wy::Vector2& majorAxis, double radiusRatio);
 
 private:
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     wy::Vector3 _origin;
     wy::Vector3 _xDir;
     wy::Vector3 _yDir;
@@ -113,17 +113,17 @@ private:
 class SketchCsysTransient : public GuiCmdTransient
 {
 public:
-    SketchCsysTransient(const wy3d::SketchPlane& sketchPlane);
+    SketchCsysTransient(const wy3d::Plane& sketchPlane);
     ~SketchCsysTransient();
 
     // ����ڳ�ʼ��ͼƽ���λ�ƺ���ת
     void update(const wy::Vector2& origin, double angle);
 
 private:
-    void update(const wy3d::SketchPlane& plane);
+    void update(const wy3d::Plane& plane);
 
 private:
-    wy3d::SketchPlane _initSketchPlane;
+    wy3d::Plane _initSketchPlane;
     osg::ref_ptr<osg::AutoTransform> _csys;
 };
 typedef std::shared_ptr<SketchCsysTransient> SketchCsysTransientSPtr;

@@ -26,7 +26,7 @@
 
 #include <wyVector2.h>
 #include <wydbElementId.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dMakeSketchText.h>
 
 #include "commands/GuiCommand.h"
@@ -47,7 +47,7 @@ private:
     void initCopyNodes();
 
 private:
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     std::set<wydb::ElementId> _ids;
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
 };

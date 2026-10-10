@@ -25,14 +25,14 @@
 #include <osg/ref_ptr>
 
 #include <wydbElementId.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 #include "commands/GuiCommand.h"
 
 class SketchRectArrayElements : public GuiCmdMakeElement
 {
 public:
-    SketchRectArrayElements(GuiCommand* pGuiCmd, const wy3d::SketchPlane& sketchPlane, wydb::ElementId sketchId);
+    SketchRectArrayElements(GuiCommand* pGuiCmd, const wy3d::Plane& sketchPlane, wydb::ElementId sketchId);
     ~SketchRectArrayElements();
 
     bool init(const std::set<wydb::ElementId>& ids, unsigned int cols, unsigned int rows, double colSpacing, double rowSpacing);
@@ -43,7 +43,7 @@ private:
     unsigned int _cols;
     unsigned int _rows;
     std::vector<osg::ref_ptr<osg::PositionAttitudeTransform>> _pats;
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     wydb::ElementId _sketchId;
 };
 

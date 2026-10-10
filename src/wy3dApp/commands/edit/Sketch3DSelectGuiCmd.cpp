@@ -174,7 +174,7 @@ void Sketch3DSelectGuiCmd::onMouseMove(const MouseEvent& event)
     bool isOverCurvedFace = false;
     if (!_planePreview.isNull())
     {
-        wy3d::SketchPlane plane;
+        wy3d::Plane plane;
         if (!GuiCommandUtil::getWorkingPlane(_planePreview.getSelection(), plane))
         {
             // A curved face cannot be a work plane. The preview object is the highlight itself,
@@ -236,7 +236,7 @@ bool Sketch3DSelectGuiCmd::tryPickWorkPlane(double x, double y)
         return false;
     }
 
-    wy3d::SketchPlane plane;
+    wy3d::Plane plane;
     if (!GuiCommandUtil::getWorkingPlane(sel, plane))
     {
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",

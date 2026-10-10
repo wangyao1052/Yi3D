@@ -23,7 +23,7 @@
 #include <memory>
 #include <wyVector2.h>
 #include <wyapSelection.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
 #include "commands/OsgGuiCommand.h"
 #include "commands/datumPlane/MakeDatumPlane.h"
@@ -73,7 +73,7 @@ protected:
         wy::Vector2& axisLineStart, wy::Vector2& axisLineEnd);
 
     // 绕X轴旋转平面
-    wy3d::SketchPlane rotatePlaneAroundXAxis(double angle) const;
+    wy3d::Plane rotatePlaneAroundXAxis(double angle) const;
 
 private:
     void initializePopups();
@@ -110,7 +110,7 @@ private:
 
 protected:
     Step _step;
-    wy3d::SketchPlane _plane;
+    wy3d::Plane _plane;
     QString _step2ndTip;
     // 交线
     wy::Vector2 _intersectLineOrigin;
@@ -119,7 +119,7 @@ protected:
     wy::Vector2 _rotateAxisLineStart;
     wy::Vector2 _rotateAxisLineEnd;
     // 旋转角度平面
-    wy3d::SketchPlane _rotateAnglePlane;
+    wy3d::Plane _rotateAnglePlane;
     // 旋转角度
     double _angle;
 

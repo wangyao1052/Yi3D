@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH3D_DRAW_GUI_CMD_H
 
 #include "commands/OsgGuiCommand.h"
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include "snap/SnapObject.h"
 #include "commands/GuiCommandMenu.h"
 #include "utils/GuiCommandUtil.h"
@@ -34,7 +34,7 @@ class Sketch3DWorkingPlane
 {
 public:
     Sketch3DWorkingPlane();
-    explicit Sketch3DWorkingPlane(const wy3d::SketchPlane& plane);
+    explicit Sketch3DWorkingPlane(const wy3d::Plane& plane);
     ~Sketch3DWorkingPlane();
 
     Sketch3DWorkingPlane(const Sketch3DWorkingPlane&) = delete;
@@ -44,7 +44,7 @@ public:
     void moveTo(const wy::Vector3& pos);
     void switchToNext();
 
-    const wy3d::SketchPlane& getWorkingPlane() const
+    const wy3d::Plane& getWorkingPlane() const
     {
         return _workingPlane;
     }
@@ -53,13 +53,13 @@ public:
     unsigned int cycleIndex() const { return _i; }
 
 private:
-    void showImpl(const wy3d::SketchPlane& plane);
+    void showImpl(const wy3d::Plane& plane);
 
 private:
     wy::Vector3 _xDir;
     wy::Vector3 _yDir;
     wy::Vector3 _zDir;
-    wy3d::SketchPlane _workingPlane;
+    wy3d::Plane _workingPlane;
     bool _isValid;
     unsigned int _i;
     wyap::SnapObjectSPtr _pOriginSnapObject;
@@ -75,7 +75,7 @@ public:
     virtual ~Sketch3DDrawGuiCmd();
 
     // 获取工作平面
-    const wy3d::SketchPlane& getWorkingPlane() const;
+    const wy3d::Plane& getWorkingPlane() const;
 
     // 获取3D草图捕捉体系(当前活动环境为3D草图环境时有效,否则空)
     Sketch3DSnapSystem* getSketch3DSnapSystem() const;

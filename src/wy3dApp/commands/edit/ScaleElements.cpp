@@ -92,7 +92,7 @@ static osg::Matrix createScaleMatrix(const osg::Vec3d& pivotPoint, const double 
     return matrix;
 }
 
-bool ScaleElements::update(const wy3d::SketchPlane& sketchPlane, const wy::Vector2& basePnt, const double scale)
+bool ScaleElements::update(const wy3d::Plane& sketchPlane, const wy::Vector2& basePnt, const double scale)
 {
     if (!sketchPlane.isValid())
     {

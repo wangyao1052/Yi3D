@@ -36,7 +36,7 @@
 #include "application/Application.h"
 #include "scene/RenderConst.h"
 
-SketchPointTransient::SketchPointTransient(const wy3d::SketchPlane& sketchPlane, const wy::Vector2& point,
+SketchPointTransient::SketchPointTransient(const wy3d::Plane& sketchPlane, const wy::Vector2& point,
     float pointSize, const osg::Vec4& color) : _sketchPlane(sketchPlane)
 {
     assert(pointSize > 0.0);

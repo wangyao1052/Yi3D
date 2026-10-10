@@ -197,7 +197,7 @@ def create_spur_gear():
     db = wy3d.getActiveDatabase()
     trans = db.getTransactionManager().startTransaction()
 
-    base_plane = wy3d.SketchPlane(
+    base_plane = wy3d.Plane(
         origin=wy3d.Vector3(0.0, 0.0, 0.0),
         normal=wy3d.Vector3(0.0, 0.0, 1.0),
         xDir=wy3d.Vector3(1.0, 0.0, 0.0),

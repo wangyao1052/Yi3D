@@ -130,7 +130,7 @@ def create_xiaomi_phone_case():
     db = wy3d.getActiveDatabase()
     trans = db.getTransactionManager().startTransaction()
 
-    plane_bottom = wy3d.SketchPlane(
+    plane_bottom = wy3d.Plane(
         origin=wy3d.Vector3(0.0, 0.0, 0.0),
         normal=wy3d.Vector3(0.0, 0.0, 1.0),
         xDir=wy3d.Vector3(1.0, 0.0, 0.0),
@@ -146,7 +146,7 @@ def create_xiaomi_phone_case():
     outer_body = wy3d.Extrusion.create(trans, outer_sketch, CASE_HEIGHT)
     trans.addNewlyCreatedElement(outer_body)
 
-    plane_inner = wy3d.SketchPlane(
+    plane_inner = wy3d.Plane(
         origin=wy3d.Vector3(0.0, 0.0, BACK_THICKNESS),
         normal=wy3d.Vector3(0.0, 0.0, 1.0),
         xDir=wy3d.Vector3(1.0, 0.0, 0.0),
@@ -188,7 +188,7 @@ def create_xiaomi_phone_case():
     shell_with_back_holes = wy3d.Difference.create(trans, shell_with_camera, [flash_cutter])
     trans.addNewlyCreatedElement(shell_with_back_holes)
 
-    bottom_plane = wy3d.SketchPlane(
+    bottom_plane = wy3d.Plane(
         origin=wy3d.Vector3(0.0, -CASE_LENGTH * 0.5 - 0.2, BOTTOM_OPENING_CENTER_Z),
         normal=wy3d.Vector3(0.0, 1.0, 0.0),
         xDir=wy3d.Vector3(1.0, 0.0, 0.0),

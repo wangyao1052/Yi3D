@@ -50,7 +50,7 @@
 #include "commands/CommandNames.h"
 
 
-bool _getWorkingPlane(const wyap::Selection& sel, wy3d::SketchPlane& workPln)
+bool _getWorkingPlane(const wyap::Selection& sel, wy3d::Plane& workPln)
 {
     const wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb)
@@ -134,7 +134,7 @@ wyap::CmdExecution::StartResult MakePrimitiveGuiCmd::onStart()
             return false;
         }
         const wyap::Selection& sel = ss.createIterator().current();
-        wy3d::SketchPlane workPln;
+        wy3d::Plane workPln;
         if (_getWorkingPlane(sel, workPln))
         {
             return true;
@@ -219,7 +219,7 @@ void MakePrimitiveGuiCmd::reset()
 {
     _step = 0;
     _excludeIds.clear();
-    _workPln = wy3d::SketchPlane();
+    _workPln = wy3d::Plane();
     _workPlnPreview.clear();
 }
 

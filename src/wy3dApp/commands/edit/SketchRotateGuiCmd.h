@@ -32,7 +32,7 @@ public:
 protected:
     GuiCmdSketchInfo _sketchInfo;
     virtual wyap::CmdExecution::StartResult onStart() override;
-    virtual const wy3d::SketchPlane& getActivePlane() const override;
+    virtual const wy3d::Plane& getActivePlane() const override;
     virtual SketchSnapSystem* getActiveSnapSystem() const override;
     virtual GuiCmdEnvType getEnvType() const override;
     virtual void gotoNextStepAfterSelectElements() override;

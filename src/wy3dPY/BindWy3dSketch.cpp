@@ -22,7 +22,7 @@
 #include <wyVector3.h>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchEntity.h>
 #include <wy3dSketchPoint.h>
@@ -69,49 +69,49 @@ public:
 
 void bindWy3dSketch(py::module_& m)
 {
-    py::class_<wy3d::SketchPlane>(m, "SketchPlane")
+    py::class_<wy3d::Plane>(m, "Plane")
         .def(py::init<>())
         .def(py::init<const wy::Vector3&, const wy::Vector3&, const wy::Vector3&>(),
             py::arg("origin"),
             py::arg("normal"),
             py::arg("xDir"))
 
-        .def_readonly_static("kInvalid", &wy3d::SketchPlane::kInvalid)
+        .def_readonly_static("kInvalid", &wy3d::Plane::kInvalid)
 
-        .def("getOrigin", &wy3d::SketchPlane::getOrigin)
-        .def("setOrigin", &wy3d::SketchPlane::setOrigin)
-        .def("getNormal", &wy3d::SketchPlane::getNormal)
-        .def("getXDir", &wy3d::SketchPlane::getXDir)
-        .def("getYDir", &wy3d::SketchPlane::getYDir)
-        .def("isValid", &wy3d::SketchPlane::isValid)
+        .def("getOrigin", &wy3d::Plane::getOrigin)
+        .def("setOrigin", &wy3d::Plane::setOrigin)
+        .def("getNormal", &wy3d::Plane::getNormal)
+        .def("getXDir", &wy3d::Plane::getXDir)
+        .def("getYDir", &wy3d::Plane::getYDir)
+        .def("isValid", &wy3d::Plane::isValid)
 
-        .def("value", py::overload_cast<double, double>(&wy3d::SketchPlane::value, py::const_),
+        .def("value", py::overload_cast<double, double>(&wy3d::Plane::value, py::const_),
             py::arg("u"), py::arg("v"))
-        .def("value", py::overload_cast<const wy::Vector2&>(&wy3d::SketchPlane::value, py::const_),
+        .def("value", py::overload_cast<const wy::Vector2&>(&wy3d::Plane::value, py::const_),
             py::arg("uv"))
 
-        .def("uv", py::overload_cast<const wy::Vector3&>(&wy3d::SketchPlane::uv, py::const_),
+        .def("uv", py::overload_cast<const wy::Vector3&>(&wy3d::Plane::uv, py::const_),
             py::arg("pnt"))
-        .def("uv", py::overload_cast<double, double, double>(&wy3d::SketchPlane::uv, py::const_),
+        .def("uv", py::overload_cast<double, double, double>(&wy3d::Plane::uv, py::const_),
             py::arg("x"), py::arg("y"), py::arg("z"))
 
-        .def("project", &wy3d::SketchPlane::project)
-        .def("distanceTo", &wy3d::SketchPlane::distanceTo)
+        .def("project", &wy3d::Plane::project)
+        .def("distanceTo", &wy3d::Plane::distanceTo)
 
-        .def_static("offset", &wy3d::SketchPlane::offset,
+        .def_static("offset", &wy3d::Plane::offset,
             py::arg("plane"), py::arg("distance"))
 
-        .def("__eq__", [](const wy3d::SketchPlane& lhs, const wy3d::SketchPlane& rhs) {
+        .def("__eq__", [](const wy3d::Plane& lhs, const wy3d::Plane& rhs) {
         return lhs == rhs; })
-        .def("__ne__", [](const wy3d::SketchPlane& lhs, const wy3d::SketchPlane& rhs) {
+        .def("__ne__", [](const wy3d::Plane& lhs, const wy3d::Plane& rhs) {
             return lhs != rhs; })
 
-        .def("__repr__", [](const wy3d::SketchPlane& plane) {
+        .def("__repr__", [](const wy3d::Plane& plane) {
             wy::Vector3 origin = plane.getOrigin();
             wy::Vector3 normal = plane.getNormal();
             wy::Vector3 xDir = plane.getXDir();
             // 纯字符串拼接，与Vector3的__repr__风格一致
-            return "SketchPlane(origin=Vector3("
+            return "Plane(origin=Vector3("
                 + std::to_string(origin.x()) + ", "
                 + std::to_string(origin.y()) + ", "
                 + std::to_string(origin.z()) + "), normal=Vector3("
@@ -147,7 +147,7 @@ void bindWy3dSketch(py::module_& m)
         })
 
         .def_static("create",
-            [](wydb::Transaction* pTrans, const wy3d::SketchPlane& plane) -> wy3d::Sketch*
+            [](wydb::Transaction* pTrans, const wy3d::Plane& plane) -> wy3d::Sketch*
             {
                 wy3d::Sketch* pOutSketch = nullptr;
                 wy::ErrorStatus status = wy3d::Sketch::create(pTrans, plane, pOutSketch);

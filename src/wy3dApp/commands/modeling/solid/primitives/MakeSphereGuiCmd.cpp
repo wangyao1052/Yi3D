@@ -458,7 +458,7 @@ void MakeSphere::collectElements(std::set<wydb::ElementId>& idSet) const
     if (_pSphere) idSet.insert(_pSphere->getId());
 }
 
-bool MakeSphere::init(const wy3d::SketchPlane& workPln, const wy::Vector2& uv)
+bool MakeSphere::init(const wy3d::Plane& workPln, const wy::Vector2& uv)
 {
     if (!_pDb || !_pTopTrans || _pSphere || _isFinished)
     {

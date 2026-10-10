@@ -36,7 +36,7 @@ Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl()
     , _isTransCommitted(false)
     , _pUI(std::make_unique<Sketch3DEnvironmentUI>())
     , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
-    , _pendingWorkPlane(wy3d::SketchPlane::kInvalid)
+    , _pendingWorkPlane(wy3d::Plane::kInvalid)
     , _pendingPlaneSelection(wydb::ElementId::kNull)
 {
     setName("sketch3d");
@@ -49,7 +49,7 @@ Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl(const wy3d::Sketch3D* pSketch3D
     , _isTransCommitted(false)
     , _pUI(std::make_unique<Sketch3DEnvironmentUI>())
     , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
-    , _pendingWorkPlane(wy3d::SketchPlane::kInvalid)
+    , _pendingWorkPlane(wy3d::Plane::kInvalid)
     , _pendingPlaneSelection(wydb::ElementId::kNull)
 {
     assert(pSketch3D);
@@ -86,13 +86,13 @@ Sketch3DSnapSystem* Sketch3DEnvironmentImpl::getSnapSystem() const
     return _pSnapSys.get();
 }
 
-void Sketch3DEnvironmentImpl::setPendingWorkPlane(const wy3d::SketchPlane& plane, const wyap::Selection& sel)
+void Sketch3DEnvironmentImpl::setPendingWorkPlane(const wy3d::Plane& plane, const wyap::Selection& sel)
 {
     _pendingWorkPlane = plane;
     _pendingPlaneSelection = sel;
 }
 
-bool Sketch3DEnvironmentImpl::takePendingWorkPlane(wy3d::SketchPlane& plane, wyap::Selection& sel)
+bool Sketch3DEnvironmentImpl::takePendingWorkPlane(wy3d::Plane& plane, wyap::Selection& sel)
 {
     if (!_pendingWorkPlane.isValid())
     {
@@ -107,7 +107,7 @@ bool Sketch3DEnvironmentImpl::takePendingWorkPlane(wy3d::SketchPlane& plane, wya
 
 void Sketch3DEnvironmentImpl::clearPendingWorkPlane()
 {
-    _pendingWorkPlane = wy3d::SketchPlane::kInvalid;
+    _pendingWorkPlane = wy3d::Plane::kInvalid;
     _pendingPlaneSelection = wyap::Selection(wydb::ElementId::kNull);
 }
 

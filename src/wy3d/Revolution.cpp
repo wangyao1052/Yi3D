@@ -468,7 +468,7 @@ TopoDS_Shape Revolution::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdat
         return TopoDS_Shape();
     }
 
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
     if (!sketchPlane.isValid())
     {
         assert(false);
@@ -492,7 +492,7 @@ TopoDS_Shape Revolution::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdat
             static_cast<std::uint32_t>(ErrorCode::REVOLUTION_InvalidRevolutionAxisLine));
         return TopoDS_Shape();
     }
-    const wy3d::SketchPlane& axisSketchPlane = pAxisSketch->getPlane();
+    const wy3d::Plane& axisSketchPlane = pAxisSketch->getPlane();
     if (!axisSketchPlane.isValid())
     {
         assert(false);

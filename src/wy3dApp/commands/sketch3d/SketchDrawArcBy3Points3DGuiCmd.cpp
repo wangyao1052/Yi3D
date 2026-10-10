@@ -463,7 +463,7 @@ void MakeSketchArcBy3Points3D::collectElements(std::set<wydb::ElementId>& idSet)
     if (_pSketchArc3D) idSet.insert(_pSketchArc3D->getId());
 }
 
-bool MakeSketchArcBy3Points3D::init(const wy::Vector3& pnt1, const wy3d::SketchPlane& plane, wydb::ElementId sketch3dId)
+bool MakeSketchArcBy3Points3D::init(const wy::Vector3& pnt1, const wy3d::Plane& plane, wydb::ElementId sketch3dId)
 {
     if (!_pDb || !_pTopTrans || _pSketchArc3D || _isFinished)
     {
@@ -529,7 +529,7 @@ bool MakeSketchArcBy3Points3D::update(const wy::Vector3& pnt1, const wy::Vector3
     }
     normal.normalize();
 
-    const wy3d::SketchPlane plane(pnt1, normal, xDir);
+    const wy3d::Plane plane(pnt1, normal, xDir);
     const wy::Vector2 uv1 = plane.uv(pnt1);
     const wy::Vector2 uv2 = plane.uv(pnt2);
     const wy::Vector2 uv3 = plane.uv(pnt3);

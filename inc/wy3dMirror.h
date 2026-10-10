@@ -10,7 +10,7 @@
 #include <wy3dDefs.h>
 #include <wy3dSolid.h>
 #include <wy3dBodyModification.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 NS_WY3D_BEG
 
@@ -23,19 +23,19 @@ public:
         wydb::Transaction* pTrans,
         wy3d::Solid* pOwner,
         const wy3d::Solid* pSource,
-        const wy3d::SketchPlane& mirrorPlane,
+        const wy3d::Plane& mirrorPlane,
         Mirror*& pOutMirror);
 
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Sheet* pOwner,
-        const wy3d::SketchPlane& mirrorPlane,
+        const wy3d::Plane& mirrorPlane,
         Mirror*& pOutMirror);
 
     wydb::ElementId getSource() const { return _source; }
 
-    const wy3d::SketchPlane& getPlane() const { return _plane; }
-    wy::ErrorStatus setPlane(const wy3d::SketchPlane& plane);
+    const wy3d::Plane& getPlane() const { return _plane; }
+    wy::ErrorStatus setPlane(const wy3d::Plane& plane);
 
 public:
     virtual wydb::ParameterValueUPtr getParameterValue(const std::string& className, const std::string& paramName) const override;
@@ -60,7 +60,7 @@ private:
 
 private:
     wydb::ElementId _source;
-    wy3d::SketchPlane _plane;
+    wy3d::Plane _plane;
 };
 
 NS_WY3D_END

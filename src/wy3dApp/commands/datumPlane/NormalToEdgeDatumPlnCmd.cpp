@@ -273,7 +273,7 @@ void NormalToEdgeDatumPlnCmd::cleanup()
     this->hidePopup();
     _step = Step::Undefined;
     _curveInfo = CurveInfo();
-    _plane = wy3d::SketchPlane();
+    _plane = wy3d::Plane();
     _preview.clear();
     if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
     _pEdgeStartPntTransient = nullptr;
@@ -351,7 +351,7 @@ bool NormalToEdgeDatumPlnCmd::finishStep(Step step)
         }
 
         // 基准面
-        wy3d::SketchPlane plane;
+        wy3d::Plane plane;
         if (!this->computePlane(_curveInfo.geomCurve, _curveInfo.param, plane))
         {
             assert(false);
@@ -507,7 +507,7 @@ void NormalToEdgeDatumPlnCmd::onMouseMove(const MouseEvent& event)
             _hoverPopupState.value = std::fabs(showParam);
             {
                 _curveInfo.param = _hoverPopupState.sign < 0 ? -std::fabs(param) : std::fabs(param);
-                wy3d::SketchPlane plane;
+                wy3d::Plane plane;
                 if (this->computePlane(_curveInfo.geomCurve, _curveInfo.param, plane))
                 {
                     if (_pMakeDatumPlane) _pMakeDatumPlane->update(plane);
@@ -862,7 +862,7 @@ bool NormalToEdgeDatumPlnCmd::extractCurveInfoImpl(const wyap::Selection& sel, C
             yDir = wy::Vector3::kXAxis.cross(xDir);
         }
         wy::Vector3 zDir = xDir.cross(yDir);
-        curveInfo.refPlane = wy3d::SketchPlane(origin, zDir, xDir);
+        curveInfo.refPlane = wy3d::Plane(origin, zDir, xDir);
     }
     else if (basisCurveType == STANDARD_TYPE(Geom_Circle))
     {
@@ -877,7 +877,7 @@ bool NormalToEdgeDatumPlnCmd::extractCurveInfoImpl(const wyap::Selection& sel, C
         }
 
         const gp_Ax2& ax2 = geomCircle->Position();
-        curveInfo.refPlane = wy3d::SketchPlane(
+        curveInfo.refPlane = wy3d::Plane(
             MathUtils::toVector3(ax2.Location()),
             MathUtils::toVector3(ax2.Direction()),
             MathUtils::toVector3(ax2.XDirection()));
@@ -895,7 +895,7 @@ bool NormalToEdgeDatumPlnCmd::extractCurveInfoImpl(const wyap::Selection& sel, C
         }
 
         const gp_Ax2& ax2 = geomEllipse->Position();
-        curveInfo.refPlane = wy3d::SketchPlane(
+        curveInfo.refPlane = wy3d::Plane(
             MathUtils::toVector3(ax2.Location()),
             MathUtils::toVector3(ax2.Direction()),
             MathUtils::toVector3(ax2.XDirection()));
@@ -907,14 +907,14 @@ bool NormalToEdgeDatumPlnCmd::extractCurveInfoImpl(const wyap::Selection& sel, C
     {
         curveInfo.curveType = CurveType::Spline;
         curveInfo.paramType = ParamType::Undefined;
-        curveInfo.refPlane = wy3d::SketchPlane::kInvalid;
+        curveInfo.refPlane = wy3d::Plane::kInvalid;
     }
     else
     {
         assert(false);
         curveInfo.curveType = CurveType::Undefined;
         curveInfo.paramType = ParamType::Undefined;
-        curveInfo.refPlane = wy3d::SketchPlane::kInvalid;
+        curveInfo.refPlane = wy3d::Plane::kInvalid;
     }
 
     // 曲线
@@ -942,7 +942,7 @@ bool NormalToEdgeDatumPlnCmd::extractCurveInfoImpl(const wyap::Selection& sel, C
     return true;
 }
 
-bool NormalToEdgeDatumPlnCmd::computePlane(Handle(Geom_Curve) geomCurve, double param, wy3d::SketchPlane& plane)
+bool NormalToEdgeDatumPlnCmd::computePlane(Handle(Geom_Curve) geomCurve, double param, wy3d::Plane& plane)
 {
     if (geomCurve.IsNull())
     {
@@ -989,7 +989,7 @@ bool NormalToEdgeDatumPlnCmd::computePlane(Handle(Geom_Curve) geomCurve, double 
         wy::Vector3 xDir = yDir.cross(plnNormal);
         assert(xDir.length() > 0.5);
 
-        plane = wy3d::SketchPlane(MathUtils::toVector3(point), plnNormal, xDir);
+        plane = wy3d::Plane(MathUtils::toVector3(point), plnNormal, xDir);
         if (!plane.isValid())
         {
             assert(false);

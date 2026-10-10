@@ -29,7 +29,7 @@
 #include <wyVector3.h>
 #include <wy3dVector3.h>
 #include <wy3dDefs.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 NS_WY3D_BEG
 
@@ -51,7 +51,7 @@ public:
         return gp_Dir(dir.x(), dir.y(), dir.z());
     }
 
-    static gp_Ax2 toAx2(const wy3d::SketchPlane& plane);
+    static gp_Ax2 toAx2(const wy3d::Plane& plane);
 
     static TopoDS_Shape transformShape(
         const TopoDS_Shape& shape,

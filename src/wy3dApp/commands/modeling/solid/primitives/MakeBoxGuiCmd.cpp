@@ -634,7 +634,7 @@ bool MakeBox::init(const osg::Vec3d& pnt1, const osg::Vec3d& pnt2)
     return this->init(wy::Vector2(pnt1.x(), pnt1.y()), wy::Vector2(pnt2.x(), pnt2.y()), pnt1.z());
 }
 
-bool MakeBox::init(const wy3d::SketchPlane& workPln, const wy::Vector2& uv1, const wy::Vector2& uv2)
+bool MakeBox::init(const wy3d::Plane& workPln, const wy::Vector2& uv1, const wy::Vector2& uv2)
 {
     if (!_pDb || !_pTopTrans || _pBox || _isFinished)
     {
@@ -780,7 +780,7 @@ void RectTransient::update(const osg::Vec3d& pnt1, const osg::Vec3d& pnt2)
     return this->update(osg::Vec2(pnt1.x(), pnt1.y()), osg::Vec2(pnt2.x(), pnt2.y()), pnt1.z());
 }
 
-void RectTransient::update(const wy3d::SketchPlane& workPln,
+void RectTransient::update(const wy3d::Plane& workPln,
     const wy::Vector2& uv1, const wy::Vector2& uv2)
 {
     (*_vertices)[0] = MathUtils::toVec3(workPln.value(uv1));

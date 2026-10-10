@@ -33,7 +33,7 @@
 #include <wy3dSheet.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchLine.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dSketch3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dErrorCode.h>
@@ -186,7 +186,7 @@ namespace
         wydb::ElementId sketchId = wydb::ElementId::kNull;
         {
             wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
-            wy3d::SketchPlane plane(wy::Vector3(0.0, 0.0, z), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+            wy3d::Plane plane(wy::Vector3(0.0, 0.0, z), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
             wy3d::Sketch* pSketch(nullptr);
             EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
             if (!pSketch)

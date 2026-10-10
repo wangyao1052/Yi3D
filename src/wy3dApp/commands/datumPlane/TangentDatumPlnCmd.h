@@ -23,7 +23,7 @@
 #include <memory>
 
 #include <wyapSelection.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
 #include "commands/OsgGuiCommand.h"
 #include "commands/datumPlane/MakeDatumPlane.h"
@@ -93,11 +93,11 @@ private:
     };
 
 private:
-    wy3d::SketchPlane computeRotationPlane(double angle) const;
+    wy3d::Plane computeRotationPlane(double angle) const;
 
 protected:
     Step _step;
-    wy3d::SketchPlane _rotationPlane;
+    wy3d::Plane _rotationPlane;
     double _radius;
     double _angle;
 

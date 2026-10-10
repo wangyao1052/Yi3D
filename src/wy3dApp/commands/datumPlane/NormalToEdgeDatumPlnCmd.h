@@ -24,7 +24,7 @@
 #include <memory>
 #include <wyVector3.h>
 #include <wyapSelection.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
 #include "commands/OsgGuiCommand.h"
 #include "commands/datumPlane/MakeDatumPlane.h"
@@ -98,14 +98,14 @@ private:
         double param;
         wy::Vector3 initPoint;
 
-        wy3d::SketchPlane refPlane;
+        wy3d::Plane refPlane;
 
         // 额外参数
         double extraA;
         double extraB;
 
         CurveInfo() : curveType(CurveType::Undefined), paramType(ParamType::Undefined),
-            geomCurve(nullptr), param(0.0), refPlane(wy3d::SketchPlane::kInvalid),
+            geomCurve(nullptr), param(0.0), refPlane(wy3d::Plane::kInvalid),
             extraA(0.0), extraB(0.0)
         {}
     };
@@ -142,12 +142,12 @@ private:
 
     bool extractCurveInfo(const wyap::Selection& sel, CurveInfo& curveInfo);
     bool extractCurveInfoImpl(const wyap::Selection& sel, CurveInfo& curveInfo);
-    bool computePlane(Handle(Geom_Curve) geomCurve, double param, wy3d::SketchPlane& plane);
+    bool computePlane(Handle(Geom_Curve) geomCurve, double param, wy3d::Plane& plane);
     
 protected:
     Step _step;
     CurveInfo _curveInfo;
-    wy3d::SketchPlane _plane;
+    wy3d::Plane _plane;
 
     // 点选选项
     PointPickOption _pointPickOption;

@@ -118,28 +118,28 @@ double SketchDrawEllipseArc3DGuiCmd::currentRatio() const
     return ratio;
 }
 
-wy::Vector3 SketchDrawEllipseArc3DGuiCmd::planeDirFromAngle(const wy3d::SketchPlane& plane, double angle) const
+wy::Vector3 SketchDrawEllipseArc3DGuiCmd::planeDirFromAngle(const wy3d::Plane& plane, double angle) const
 {
     return plane.getXDir() * std::cos(angle) + plane.getYDir() * std::sin(angle);
 }
 
-double SketchDrawEllipseArc3DGuiCmd::angleFromPlaneDir(const wy3d::SketchPlane& plane, const wy::Vector3& dir) const
+double SketchDrawEllipseArc3DGuiCmd::angleFromPlaneDir(const wy3d::Plane& plane, const wy::Vector3& dir) const
 {
     return std::atan2(dir.dot(plane.getYDir()), dir.dot(plane.getXDir()));
 }
 
-double SketchDrawEllipseArc3DGuiCmd::majorAngle(const wy3d::SketchPlane& plane) const
+double SketchDrawEllipseArc3DGuiCmd::majorAngle(const wy3d::Plane& plane) const
 {
     return this->angleFromPlaneDir(plane, _majorAxisDir);
 }
 
-double SketchDrawEllipseArc3DGuiCmd::polarAngleOfPnt(const wy3d::SketchPlane& plane, const wy::Vector3& pnt) const
+double SketchDrawEllipseArc3DGuiCmd::polarAngleOfPnt(const wy3d::Plane& plane, const wy::Vector3& pnt) const
 {
     const wy::Vector2 uv = plane.uv(pnt) - plane.uv(_centerPnt);
     return wy3d::normalizeRadian(std::atan2(uv.y(), uv.x()) - this->majorAngle(plane));
 }
 
-bool SketchDrawEllipseArc3DGuiCmd::applyToEntity(const wy3d::SketchPlane& plane, double startAngle, double endAngle)
+bool SketchDrawEllipseArc3DGuiCmd::applyToEntity(const wy3d::Plane& plane, double startAngle, double endAngle)
 {
     if (!_pMakeSketchEllipseArc3D)
     {
@@ -164,7 +164,7 @@ bool SketchDrawEllipseArc3DGuiCmd::finishStep(unsigned int step)
         // 先让工作平面原点落在中心,再建图元:切平面时中心不动、椭圆绕中心转
         this->moveWorkPlaneOriginTo(_centerPnt);
 
-        const wy3d::SketchPlane& plane = this->getWorkingPlane();
+        const wy3d::Plane& plane = this->getWorkingPlane();
         _majorAxisDir = plane.getXDir();
         _pMakeSketchEllipseArc3D = std::make_shared<MakeSketchEllipseArc3D>(this);
         // 退化占位弧:后续各步都靠实时更新它预览
@@ -198,7 +198,7 @@ bool SketchDrawEllipseArc3DGuiCmd::finishStep(unsigned int step)
     case Step::SpecifyOtherRadius:
     {
         // 另一半轴大于长半轴时互换长短轴(与2D一致,在命令里归一化)
-        const wy3d::SketchPlane& plane = this->getWorkingPlane();
+        const wy3d::Plane& plane = this->getWorkingPlane();
         if (_otherRadius > _majorRadius)
         {
             _majorAxisDir = this->planeDirFromAngle(plane, this->majorAngle(plane) + wy3d::PI_2);
@@ -243,7 +243,7 @@ bool SketchDrawEllipseArc3DGuiCmd::finishStep(unsigned int step)
             assert(false);
             return false;
         }
-        const wy3d::SketchPlane& plane = this->getWorkingPlane();
+        const wy3d::Plane& plane = this->getWorkingPlane();
         if (_sweepAngle < wy3d::kMinValue)
         {
             return false;
@@ -344,7 +344,7 @@ void SketchDrawEllipseArc3DGuiCmd::onSpaceKey()
     }
 
     // 保中心/半轴/起止角,长轴方向投影到新平面后整体重发(椭圆绕中心刚性转向)
-    const wy3d::SketchPlane& plane = this->getWorkingPlane();
+    const wy3d::Plane& plane = this->getWorkingPlane();
     const wy::Vector3 normal = plane.getNormal();
     wy::Vector3 xDir = _majorAxisDir - normal * _majorAxisDir.dot(normal);
     if (xDir.length() < wy3d::EPS)
@@ -394,7 +394,7 @@ void SketchDrawEllipseArc3DGuiCmd::onMouseMove(const MouseEvent& event)
         return;
     }
 
-    const wy3d::SketchPlane& plane = this->getWorkingPlane();
+    const wy3d::Plane& plane = this->getWorkingPlane();
 
     if (_step == static_cast<unsigned int>(Step::SpecifyAxisEndPoint))
     {
@@ -458,7 +458,7 @@ void SketchDrawEllipseArc3DGuiCmd::onLeftMouseDown(const MouseEvent& event)
     _hoverPopupState.lastMouseY = event.y;
     _hoverPopupState.lastMouseMoveTime = event.time;
 
-    const wy3d::SketchPlane& plane = this->getWorkingPlane();
+    const wy3d::Plane& plane = this->getWorkingPlane();
 
     if (_step == static_cast<unsigned int>(Step::SpecifyCenterPnt))
     {
@@ -714,7 +714,7 @@ void SketchDrawEllipseArc3DGuiCmd::tryShowPopupOnHover(double time)
 
 void SketchDrawEllipseArc3DGuiCmd::onPopupEnterKey()
 {
-    const wy3d::SketchPlane& plane = this->getWorkingPlane();
+    const wy3d::Plane& plane = this->getWorkingPlane();
 
     if (_step == static_cast<unsigned int>(Step::SpecifyCenterPnt))
     {

@@ -23,7 +23,7 @@
 #include <TopoDS_Edge.hxx>
 #include <TopoDS_Face.hxx>
 #include <wy3dDefs.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 NS_WY3D_BEG
 
@@ -72,15 +72,15 @@ public:
     // sections the swept surface with it. The one sided sweep is what carries the two flags:
     // bidirectional sweeps both sides, otherwise reverse picks which side of the sketch plane the
     // sweep runs on. Ok always means outEdges holds at least one usable edge.
-    static Result project(const SketchPlane& sketchPlane,
+    static Result project(const Plane& sketchPlane,
         const std::vector<TopoDS_Edge>& sourceEdges, const TopoDS_Face& targetFace,
         const Options& options, std::vector<TopoDS_Edge>& outEdges);
 
     // The datum plane target, i.e. a datum plane's own plane. Nothing trims the result, so what
     // comes back is the whole projection - including the part of it that a face in the same place
     // would have cut off at its edge.
-    static Result project(const SketchPlane& sketchPlane,
-        const std::vector<TopoDS_Edge>& sourceEdges, const SketchPlane& targetPlane,
+    static Result project(const Plane& sketchPlane,
+        const std::vector<TopoDS_Edge>& sourceEdges, const Plane& targetPlane,
         const Options& options, std::vector<TopoDS_Edge>& outEdges);
 };
 

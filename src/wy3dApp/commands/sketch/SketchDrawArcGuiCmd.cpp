@@ -47,7 +47,7 @@ static bool parseDoubleText(const QString& text, double& value)
 }
 
 // 创建半径线瞬态（虚线）
-static LineTransientSPtr createRadiusLineTransient(const wy3d::SketchPlane& sketchPlane,
+static LineTransientSPtr createRadiusLineTransient(const wy3d::Plane& sketchPlane,
     const wy::Vector2& startPnt, const wy::Vector2& endPnt)
 {
     LineTransientSPtr pRadiusLineTransient = std::make_shared<LineTransient>(

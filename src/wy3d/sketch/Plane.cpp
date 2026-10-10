@@ -19,11 +19,11 @@
 #include <cassert>
 #include <wyVector2.h>
 #include <wyVector3.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 NS_WY3D_BEG
 
-SketchPlane SketchPlane::kInvalid = SketchPlane(wy::Vector3::kZero, wy::Vector3::kZero, wy::Vector3::kZero);
+Plane Plane::kInvalid = Plane(wy::Vector3::kZero, wy::Vector3::kZero, wy::Vector3::kZero);
 
 static wy::Vector3 autoComputeXDir(const wy::Vector3& normal)
 {
@@ -37,11 +37,11 @@ static wy::Vector3 autoComputeXDir(const wy::Vector3& normal)
     return yDir.cross(normal);
 }
 
-SketchPlane::SketchPlane() : _origin(0.0, 0.0, 0.0), _normal(0.0, 0.0, 1.0), _xDir(1.0, 0.0, 0.0)
+Plane::Plane() : _origin(0.0, 0.0, 0.0), _normal(0.0, 0.0, 1.0), _xDir(1.0, 0.0, 0.0)
 {
 }
 
-SketchPlane::SketchPlane(const wy::Vector3& origin, const wy::Vector3& normal, const wy::Vector3& xDir)
+Plane::Plane(const wy::Vector3& origin, const wy::Vector3& normal, const wy::Vector3& xDir)
     : _origin(origin), _normal(normal), _xDir(xDir)
 {
     _normal.normalize();
@@ -72,13 +72,13 @@ SketchPlane::SketchPlane(const wy::Vector3& origin, const wy::Vector3& normal, c
     }
 }
 
-bool SketchPlane::isValid() const
+bool Plane::isValid() const
 {
     static wy::Vector3 zeroVec(0.0, 0.0, 0.0);
     return _normal != zeroVec && _xDir != zeroVec;
 }
 
-wy::Vector3 SketchPlane::value(double u, double v) const
+wy::Vector3 Plane::value(double u, double v) const
 {
     if (!this->isValid())
     {
@@ -92,7 +92,7 @@ wy::Vector3 SketchPlane::value(double u, double v) const
         u * _xDir.z() + v * yDir.z() + _origin.z());
 }
 
-wy::Vector2 SketchPlane::uv(const wy::Vector3& point) const
+wy::Vector2 Plane::uv(const wy::Vector3& point) const
 {
     if (!this->isValid())
     {
@@ -105,20 +105,20 @@ wy::Vector2 SketchPlane::uv(const wy::Vector3& point) const
     return wy::Vector2(u, v);
 }
 
-wy::Vector3 SketchPlane::project(const wy::Vector3& pnt) const
+wy::Vector3 Plane::project(const wy::Vector3& pnt) const
 {
     return pnt - (pnt - _origin).dot(_normal) * _normal;
 }
 
-double SketchPlane::distanceTo(const wy::Vector3& pnt) const
+double Plane::distanceTo(const wy::Vector3& pnt) const
 {
     return std::fabs((pnt - _origin).dot(_normal));
 }
 
-SketchPlane SketchPlane::offset(const SketchPlane& plane, double distance)
+Plane Plane::offset(const Plane& plane, double distance)
 {
     wy::Vector3 origin = plane._origin + plane._normal * distance;
-    return wy3d::SketchPlane(origin, plane._normal, plane._xDir);
+    return wy3d::Plane(origin, plane._normal, plane._xDir);
 }
 
 NS_WY3D_END

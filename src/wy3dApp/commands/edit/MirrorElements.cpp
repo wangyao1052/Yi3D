@@ -103,7 +103,7 @@ static osg::Matrix createMirrorMatrix(const osg::Vec3d& planeOrigin, const osg::
     return T * R * M * inverseR * inverseT;
 }
 
-bool MirrorElemens::update(const wy3d::SketchPlane& sketchPlane, const wy::Vector2& axisStartPnt, const wy::Vector2& aixsEndPnt)
+bool MirrorElemens::update(const wy3d::Plane& sketchPlane, const wy::Vector2& axisStartPnt, const wy::Vector2& aixsEndPnt)
 {
     if (!sketchPlane.isValid())
     {

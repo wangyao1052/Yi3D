@@ -60,7 +60,7 @@ void ParallelDatumPlnCmd::cleanup()
     this->hidePopup();
 
     _step = Step::Undefined;
-    _plane = wy3d::SketchPlane();
+    _plane = wy3d::Plane();
     _pickUV.set(0.0, 0.0);
     _distance = 0.0;
 
@@ -113,7 +113,7 @@ bool ParallelDatumPlnCmd::finishStep(Step step)
             this->requestAbort(AbortCause::ErrorTerminate);
             return false;
         }
-        if (!_pMakeDatumPlane->update(wy3d::SketchPlane::offset(_plane, _distance)))
+        if (!_pMakeDatumPlane->update(wy3d::Plane::offset(_plane, _distance)))
         {
             assert(false);
             _pMakeDatumPlane = nullptr;
@@ -236,7 +236,7 @@ void ParallelDatumPlnCmd::onMouseMove(const MouseEvent& event)
             _hoverPopupState.distanceSign = distance < 0.0 ? -1 : 1;
             _hoverPopupState.distance = std::fabs(distance);
             {
-                if (_pMakeDatumPlane) _pMakeDatumPlane->update(wy3d::SketchPlane::offset(_plane, distance));
+                if (_pMakeDatumPlane) _pMakeDatumPlane->update(wy3d::Plane::offset(_plane, distance));
             }
             return;
         }

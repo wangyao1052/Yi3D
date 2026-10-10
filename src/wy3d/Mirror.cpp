@@ -75,7 +75,7 @@ wy::ErrorStatus Mirror::create(
     wydb::Transaction* pTrans,
     wy3d::Solid* pOwner,
     const wy3d::Solid* pSource,
-    const wy3d::SketchPlane& mirrorPlane,
+    const wy3d::Plane& mirrorPlane,
     Mirror*& pOutMirror)
 {
     pOutMirror = nullptr;
@@ -120,7 +120,7 @@ wy::ErrorStatus Mirror::create(
 wy::ErrorStatus Mirror::create(
     wydb::Transaction* pTrans,
     wy3d::Sheet* pOwner,
-    const wy3d::SketchPlane& mirrorPlane,
+    const wy3d::Plane& mirrorPlane,
     Mirror*& pOutMirror)
 {
     pOutMirror = nullptr;
@@ -272,7 +272,7 @@ wy::ErrorStatus Mirror::setSourceId(const wydb::ElementId& source)
     }
 }
 
-wy::ErrorStatus Mirror::setPlane(const wy3d::SketchPlane& plane)
+wy::ErrorStatus Mirror::setPlane(const wy3d::Plane& plane)
 {
     if (plane == _plane) return wy::ErrorStatus::Ok;
     wy::ErrorStatus error = this->prepareForFieldChange(kMirror_plane);
@@ -338,7 +338,7 @@ wy::ErrorStatus Mirror::setParameterValue(const std::string& className, const st
             if (!paramValue.isAny()) return wy::ErrorStatus::InvalidInput;
             const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);
             if (!pAnyVal) return wy::ErrorStatus::InvalidInput;
-            const wy3d::SketchPlane* pPlane = pAnyVal->tryGet<wy3d::SketchPlane>();
+            const wy3d::Plane* pPlane = pAnyVal->tryGet<wy3d::Plane>();
             if (!pPlane) return wy::ErrorStatus::InvalidInput;
             return this->setPlane(*pPlane);
         }
@@ -378,7 +378,7 @@ bool Mirror::setFieldValue(wydb::FieldId fieldId, const std::any& value)
         _source = std::any_cast<const wydb::ElementId&>(value);
         return true;
     case kMirror_plane.value():
-        _plane = std::any_cast<const wy3d::SketchPlane&>(value);
+        _plane = std::any_cast<const wy3d::Plane&>(value);
         return true;
     default:
         bool baseRet = __baseClass::setFieldValue(fieldId, value);
@@ -422,7 +422,7 @@ wy::ErrorStatus Mirror::readFromFiler(wydb::InFiler& filer)
     wy::Vector3 planeNormal(x, y, z);
     filer >> x >> y >> z;
     wy::Vector3 planeXDir(x, y, z);
-    _plane = wy3d::SketchPlane(planeOrigin, planeNormal, planeXDir);
+    _plane = wy3d::Plane(planeOrigin, planeNormal, planeXDir);
 
     return wy::ErrorStatus::Ok;
 }

@@ -29,7 +29,7 @@
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wy3dVector3.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include "commands/GuiCommandMenu.h"
 #include "commands/OsgGuiCommand.h"
 #include "commands/transient/BasicTransient.h"
@@ -95,7 +95,7 @@ private:
 private:
     // 点到点状态
     Step _step;
-    wy3d::SketchPlane _workPln;
+    wy3d::Plane _workPln;
     wy::Vector3 _startPnt;
     wy::Vector2 _startPnt2d;
     wy::Vector3 _endPnt;

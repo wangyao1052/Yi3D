@@ -20,7 +20,7 @@
 #define WY3DAPP_BASE_VIEW_H
 
 #include <wyapView.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <osg/Vec3d>
 #include <osg/BoundingSphere>
 #include "snap/SnapSystemBase.h"
@@ -48,7 +48,7 @@ public:
     virtual void ortho() = 0;
     virtual void perspective() = 0;
 
-    virtual void viewToWorkingPlane(const wy3d::SketchPlane& workPln) = 0;
+    virtual void viewToWorkingPlane(const wy3d::Plane& workPln) = 0;
 
     virtual void viewAll(const osg::BoundingSphere& bdSphere) = 0;
 

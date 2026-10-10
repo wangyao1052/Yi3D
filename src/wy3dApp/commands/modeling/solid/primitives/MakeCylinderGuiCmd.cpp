@@ -563,7 +563,7 @@ void MakeCylinder::collectElements(std::set<wydb::ElementId>& idSet) const
     if (_pCylinder) idSet.insert(_pCylinder->getId());
 }
 
-bool MakeCylinder::init(const wy3d::SketchPlane& workPln, const wy::Vector2& pnt1, const wy::Vector2& pnt2)
+bool MakeCylinder::init(const wy3d::Plane& workPln, const wy::Vector2& pnt1, const wy::Vector2& pnt2)
 {
     if (!_pDb || !_pTopTrans || _pCylinder || _isFinished)
     {

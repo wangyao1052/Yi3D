@@ -23,7 +23,7 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchCircle.h>
 #include <wy3dSketchLine.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dSketch3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
@@ -149,7 +149,7 @@ namespace
     // ------------------------------------------------------------------
 
     // Create a 2D sketch on the given plane holding a single circle
-    static wydb::ElementId createCircleSketch(wy3d::Database* pDb, const wy3d::SketchPlane& plane, double radius)
+    static wydb::ElementId createCircleSketch(wy3d::Database* pDb, const wy3d::Plane& plane, double radius)
     {
         wydb::ElementId sketchId = wydb::ElementId::kNull;
         {
@@ -178,7 +178,7 @@ namespace
     }
 
     // Create a 2D sketch with an L shaped path: (0,0) -> (100,0) -> (100,100)
-    static wydb::ElementId createLPathSketch(wy3d::Database* pDb, const wy3d::SketchPlane& plane)
+    static wydb::ElementId createLPathSketch(wy3d::Database* pDb, const wy3d::Plane& plane)
     {
         wydb::ElementId sketchId = wydb::ElementId::kNull;
         {
@@ -305,7 +305,7 @@ namespace
 
     static wydb::ElementId createXyCircleProfile(wy3d::Database* pDb)
     {
-        wy3d::SketchPlane plane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+        wy3d::Plane plane(wy::Vector3::kZero, wy::Vector3::kZAxis, wy::Vector3::kXAxis);
         return createCircleSketch(pDb, plane, kProfileRadius);
     }
 
@@ -449,7 +449,7 @@ TEST(Sweep3DPath, ClosedCirclePathMakesTorus)
 
     // The path circle starts at (100,0,0), so the profile is placed there and
     // turned to be perpendicular to the path tangent
-    wy3d::SketchPlane profilePlane(wy::Vector3(100.0, 0.0, 0.0), wy::Vector3::kYAxis, wy::Vector3::kXAxis);
+    wy3d::Plane profilePlane(wy::Vector3(100.0, 0.0, 0.0), wy::Vector3::kYAxis, wy::Vector3::kXAxis);
     wydb::ElementId profileId = createCircleSketch(pDb.get(), profilePlane, kProfileRadius);
     ASSERT_FALSE(profileId.isNull());
 
@@ -691,7 +691,7 @@ TEST(Sweep3DPath, CreateCutWith3DPath)
     // repositions the profile onto the path
     ASSERT_TRUE(addLines3D(pDb.get(), pathId, { { wy::Vector3(50.0, 50.0, -10.0), wy::Vector3(50.0, 50.0, 110.0) } }));
     wydb::ElementId profileId = createCircleSketch(pDb.get(),
-        wy3d::SketchPlane(wy::Vector3(50.0, 50.0, 0.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis), kProfileRadius);
+        wy3d::Plane(wy::Vector3(50.0, 50.0, 0.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis), kProfileRadius);
     ASSERT_FALSE(profileId.isNull());
 
     wy3d::Sweep* pCut(nullptr);
@@ -851,7 +851,7 @@ TEST(SweptSheet3DPath, ClosedCirclePath)
     ASSERT_TRUE(addCircle3D(pDb.get(), pathId, wy::Vector3::kZero, wy::Vector3::kZAxis,
         wy::Vector3::kXAxis, 100.0));
 
-    wy3d::SketchPlane profilePlane(wy::Vector3(100.0, 0.0, 0.0), wy::Vector3::kYAxis, wy::Vector3::kXAxis);
+    wy3d::Plane profilePlane(wy::Vector3(100.0, 0.0, 0.0), wy::Vector3::kYAxis, wy::Vector3::kXAxis);
     wydb::ElementId profileId = createCircleSketch(pDb.get(), profilePlane, kProfileRadius);
     ASSERT_FALSE(profileId.isNull());
 
@@ -932,7 +932,7 @@ TEST(Sweep3DPath, IO)
         const wy::Vector3 splineTangent(0.4472135955, 0.0, 0.8944271910);
         const wy::Vector3 splineXDir(0.8944271910, 0.0, -0.4472135955);
         splineProfileId = createCircleSketch(pDb.get(),
-            wy3d::SketchPlane(wy::Vector3(0.0, 200.0, 0.0), splineTangent, splineXDir), kProfileRadius);
+            wy3d::Plane(wy::Vector3(0.0, 200.0, 0.0), splineTangent, splineXDir), kProfileRadius);
         ASSERT_FALSE(splineProfileId.isNull());
         {
             wydb::Transaction* pTrans = pMgr->startTransaction();
@@ -955,7 +955,7 @@ TEST(Sweep3DPath, IO)
               { wy::Vector3(0.0, 400.0, 80.0), wy::Vector3(0.0, 480.0, 80.0) },
               { wy::Vector3(0.0, 480.0, 80.0), wy::Vector3(80.0, 480.0, 80.0) } }));
         sheetProfileId = createCircleSketch(pDb.get(),
-            wy3d::SketchPlane(wy::Vector3(0.0, 400.0, 0.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis), kProfileRadius);
+            wy3d::Plane(wy::Vector3(0.0, 400.0, 0.0), wy::Vector3::kZAxis, wy::Vector3::kXAxis), kProfileRadius);
         ASSERT_FALSE(sheetProfileId.isNull());
         {
             wydb::Transaction* pTrans = pMgr->startTransaction();

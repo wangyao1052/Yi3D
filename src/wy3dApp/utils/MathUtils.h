@@ -35,7 +35,7 @@
 #include <wy3dVector2.h>
 #include <wy3dVector3.h>
 #include <geom/wy3dArc2.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 class MathUtils
 {
@@ -61,10 +61,10 @@ public:
     static wy::Vector3 quaternionToEulerZXY(const gp_Quaternion& quat);
 
     // 计算工作平面的旋转欧拉角(Z-->X-->Y)
-    static wy::Vector3 computeEulerZXY(const wy3d::SketchPlane& workPln);
+    static wy::Vector3 computeEulerZXY(const wy3d::Plane& workPln);
 
     // 计算工作平面的四元数
-    static osg::Quat computeQuat(const wy3d::SketchPlane& workPln);
+    static osg::Quat computeQuat(const wy3d::Plane& workPln);
 
     // 计算向量的旋转角度(v1-->v2)
     // refDir --- 参照方向向量

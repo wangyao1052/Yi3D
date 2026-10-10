@@ -20,7 +20,7 @@
 #define WY3DAPP_THROUGH_3_POINTS_DATUM_PLN_CMD_H
 
 #include <wyVector3.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
 #include "commands/OsgGuiCommand.h"
 #include "commands/datumPlane/MakeDatumPlane.h"
@@ -55,7 +55,7 @@ private:
 
 protected:
     Step _step;
-    wy3d::SketchPlane _plane;
+    wy3d::Plane _plane;
     wy::Vector3 _pnt1st;
     wy::Vector3 _pnt2nd;
     wy::Vector3 _pnt3rd;

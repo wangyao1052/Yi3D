@@ -139,7 +139,7 @@ SketchSnapSystem::SketchSnapSystem(const wy3d::Sketch* pSketch)
     _pickOption.pSelPreFilter = std::make_shared<SketchSnapPreSelFilter>(wy3d::SketchCurve::classInfo(), nullptr);
 }
 
-SketchSnapSystem::SketchSnapSystem(const wy3d::SketchPlane& workPlane)
+SketchSnapSystem::SketchSnapSystem(const wy3d::Plane& workPlane)
     : _sketchId(wydb::ElementId::kNull), _sketchPlane(workPlane), _angleSpansCnt(30), _angleSpan(1.0)
 {
     // 构造平行垂直捕捉数据

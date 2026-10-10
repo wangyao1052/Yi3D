@@ -69,7 +69,7 @@ void TangentDatumPlnCmd::cleanup()
 {
     this->hidePopup();
     _step = Step::Undefined;
-    _rotationPlane = wy3d::SketchPlane();
+    _rotationPlane = wy3d::Plane();
     _radius = 0.0;
     _angle = 0.0;
     _snapExcludeIds.clear();
@@ -436,12 +436,12 @@ void TangentDatumPlnCmd::simulateMouseMoveFromPopup()
                        _hoverPopupState.lastMouseMoveTime});
 }
 
-wy3d::SketchPlane TangentDatumPlnCmd::computeRotationPlane(double angle) const
+wy3d::Plane TangentDatumPlnCmd::computeRotationPlane(double angle) const
 {
     wy::Vector3 yDir = _rotationPlane.getNormal();
     wy::Vector3 origin = _rotationPlane.value(std::cos(angle) * _radius, std::sin(angle) * _radius);
     wy::Vector3 normal = origin - _rotationPlane.getOrigin();
     normal.normalize();
     wy::Vector3 xDir = yDir.cross(normal);
-    return wy3d::SketchPlane(origin, normal, xDir);
+    return wy3d::Plane(origin, normal, xDir);
 }

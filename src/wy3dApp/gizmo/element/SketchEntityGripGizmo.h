@@ -62,7 +62,7 @@ protected:
 
 protected:
     wydb::ElementId _sketchId;
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     SketchSnapContextSPtr _pDragContext;
 
     friend class SketchEntityDragOperation;

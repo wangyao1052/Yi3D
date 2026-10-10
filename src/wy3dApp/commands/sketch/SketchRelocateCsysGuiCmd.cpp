@@ -204,7 +204,7 @@ void SketchRelocateCsysGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
 }
 
-bool SketchRelocateCsysGuiCmd::relocateSketchCsys(const wy3d::SketchPlane& plane, const wy::Vector2& origin2d, double angle)
+bool SketchRelocateCsysGuiCmd::relocateSketchCsys(const wy3d::Plane& plane, const wy::Vector2& origin2d, double angle)
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb)
@@ -237,7 +237,7 @@ bool SketchRelocateCsysGuiCmd::relocateSketchCsys(const wy3d::SketchPlane& plane
     wy::Vector3 origin = plane.value(origin2d);
     wy::Vector3 xDir = plane.value(std::cos(angle), std::sin(angle)) - plane.getOrigin();
     xDir.normalize();
-    wy3d::SketchPlane newPlane(origin, plane.getNormal(), xDir);
+    wy3d::Plane newPlane(origin, plane.getNormal(), xDir);
     if (!newPlane.isValid())
     {
         assert(false);

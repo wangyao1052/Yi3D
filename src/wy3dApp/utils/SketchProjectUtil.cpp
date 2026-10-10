@@ -83,7 +83,7 @@ Handle(Geom_Curve) unwrapTrimmed(
 }
 
 // 将gp_Pnt转换为wy::Vector3，再投影到UV
-wy::Vector2 toUV(const gp_Pnt& pnt, const wy3d::SketchPlane& plane)
+wy::Vector2 toUV(const gp_Pnt& pnt, const wy3d::Plane& plane)
 {
     wy::Vector3 p3d(pnt.X(), pnt.Y(), pnt.Z());
     return plane.uv(p3d);
@@ -93,7 +93,7 @@ wy::Vector2 toUV(const gp_Pnt& pnt, const wy3d::SketchPlane& plane)
 SketchProjectUtil::ProjectResult createFromCircle(
     wydb::Transaction* pTrans,
     const Handle(Geom_Circle)& circle,
-    const wy3d::SketchPlane& plane,
+    const wy3d::Plane& plane,
     wy3d::SketchEntity*& pOutEntity)
 {
     const gp_Pnt& center = circle->Circ().Location();
@@ -123,7 +123,7 @@ SketchProjectUtil::ProjectResult createFromTrimmedCircle(
     wydb::Transaction* pTrans,
     const Handle(Geom_Circle)& circle,
     double first, double last,
-    const wy3d::SketchPlane& plane,
+    const wy3d::Plane& plane,
     wy3d::SketchEntity*& pOutEntity)
 {
     const gp_Pnt& center = circle->Circ().Location();
@@ -182,7 +182,7 @@ SketchProjectUtil::ProjectResult createFromLine(
     wydb::Transaction* pTrans,
     const Handle(Geom_Line)& line,
     double first, double last,
-    const wy3d::SketchPlane& plane,
+    const wy3d::Plane& plane,
     wy3d::SketchEntity*& pOutEntity)
 {
     gp_Pnt startPnt = line->Value(first);
@@ -207,7 +207,7 @@ SketchProjectUtil::ProjectResult createFromLine(
 SketchProjectUtil::ProjectResult createFromEllipse(
     wydb::Transaction* pTrans,
     const Handle(Geom_Ellipse)& ellipse,
-    const wy3d::SketchPlane& plane,
+    const wy3d::Plane& plane,
     wy3d::SketchEntity*& pOutEntity)
 {
     const gp_Pnt& center = ellipse->Location();
@@ -242,7 +242,7 @@ SketchProjectUtil::ProjectResult createFromTrimmedEllipse(
     wydb::Transaction* pTrans,
     const Handle(Geom_Ellipse)& ellipse,
     double first, double last,
-    const wy3d::SketchPlane& plane,
+    const wy3d::Plane& plane,
     wy3d::SketchEntity*& pOutEntity)
 {
     const gp_Pnt& center = ellipse->Location();
@@ -293,7 +293,7 @@ SketchProjectUtil::ProjectResult createFromBSpline(
     wydb::Transaction* pTrans,
     const Handle(Geom_BSplineCurve)& bspline,
     double first, double last,
-    const wy3d::SketchPlane& plane,
+    const wy3d::Plane& plane,
     wy3d::SketchEntity*& pOutEntity)
 {
     // 对B样条采样拟合点
@@ -338,7 +338,7 @@ SketchProjectUtil::ProjectResult createFromBSpline(
 SketchProjectUtil::ProjectResult SketchProjectUtil::projectEdgeImpl(
     wydb::Transaction* pTrans,
     const TopoDS_Edge& edge,
-    const wy3d::SketchPlane& plane,
+    const wy3d::Plane& plane,
     wy3d::SketchEntity*& pOutEntity)
 {
     // 1. 获取曲线 + trim范围
@@ -459,7 +459,7 @@ SketchProjectUtil::ProjectResult SketchProjectUtil::projectEdgeImpl(
 SketchProjectUtil::ProjectResult SketchProjectUtil::projectEdge(
     wydb::Transaction* pTrans,
     const TopoDS_Edge& edge,
-    const wy3d::SketchPlane& plane,
+    const wy3d::Plane& plane,
     wy3d::SketchEntity*& pOutEntity)
 {
     pOutEntity = nullptr;

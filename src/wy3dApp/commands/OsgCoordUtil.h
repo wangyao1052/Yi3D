@@ -28,7 +28,7 @@
 
 #include <wyVector2.h>
 #include <wyVector3.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wydbElementId.h>
 #include "snap/SnapSystemBase.h"
 
@@ -52,14 +52,14 @@ namespace OsgCoordUtil {
     std::pair<wy::Vector3, wyap::SnapResultSPtr> computePosition3d(
         osgViewer::View* pView,
         double x, double y,
-        const wy3d::SketchPlane& sketchPlane,
+        const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
         bool snap = true);
 
     std::pair<wy::Vector3, bool> computePosition3dForSketch3D(
         osgViewer::View* pView,
         double x, double y,
-        const wy3d::SketchPlane& workPlane,
+        const wy3d::Plane& workPlane,
         const std::set<wydb::ElementId>& excludeIds,
         const Sketch3DSnapContext* pSnapContext,
         Sketch3DSnapSystem* pSketch3DSnapSys,
@@ -69,7 +69,7 @@ namespace OsgCoordUtil {
     wy::Vector2 computePosition2d(
         osgViewer::View* pView,
         double x, double y,
-        const wy3d::SketchPlane& sketchPlane,
+        const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
         std::shared_ptr<SketchSnapContext> pSnapContext = nullptr,
         SketchSnapSystem* pSketchSnapSys = nullptr,
@@ -79,7 +79,7 @@ namespace OsgCoordUtil {
     wy::Vector2 computePosition2dWithoutSnap(
         osgViewer::View* pView,
         double x, double y,
-        const wy3d::SketchPlane& sketchPlane);
+        const wy3d::Plane& sketchPlane);
 
     // 计算高度
     bool computeHeight(
@@ -97,7 +97,7 @@ namespace OsgCoordUtil {
     bool computeHeight2(
         osgViewer::View* pView,
         double x, double y,
-        const wy3d::SketchPlane& workPln,
+        const wy3d::Plane& workPln,
         const wy::Vector2& basePnt,
         const std::set<wydb::ElementId>& excludeIds,
         double& height);
@@ -106,7 +106,7 @@ namespace OsgCoordUtil {
     bool computeRotationAngle(
         osgViewer::View* pView,
         double x, double y,
-        const wy3d::SketchPlane& workPln,
+        const wy3d::Plane& workPln,
         const wy::Vector2& basis,
         const std::set<wydb::ElementId>& excludeIds,
         double& rotationAngle);

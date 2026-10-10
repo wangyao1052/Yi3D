@@ -68,7 +68,7 @@ void MakeDatumPlane::collectElements(std::set<wydb::ElementId>& idSet) const
     if (_pDatumPlane) idSet.insert(_pDatumPlane->getId());
 }
 
-bool MakeDatumPlane::create(const wy3d::SketchPlane& sketchPlane)
+bool MakeDatumPlane::create(const wy3d::Plane& sketchPlane)
 {
     if (!_pDb || !_pTopTrans || _pDatumPlane || _isFinished)
     {
@@ -99,7 +99,7 @@ bool MakeDatumPlane::create(const wy3d::SketchPlane& sketchPlane)
     return true;
 }
 
-bool MakeDatumPlane::update(const wy3d::SketchPlane& sketchPlane)
+bool MakeDatumPlane::update(const wy3d::Plane& sketchPlane)
 {
     if (!_pDb || !_pTopTrans || !_pDatumPlane || _isFinished)
     {
@@ -131,7 +131,7 @@ bool MakeDatumPlane::update(const wy3d::SketchPlane& sketchPlane)
     return true;
 }
 
-bool MakeDatumPlane::getSketchPlane(const wyap::Selection& sel, wy3d::SketchPlane& sketchPlane)
+bool MakeDatumPlane::getSketchPlane(const wyap::Selection& sel, wy3d::Plane& sketchPlane)
 {
     return GuiCommandUtil::getWorkingPlane(sel, sketchPlane);
 }
@@ -370,7 +370,7 @@ Handle(Geom_Curve) MakeDatumPlane::getSketchCurveGeomCurve(const wyap::Selection
         assert(false);
         return nullptr;
     }
-    const wy3d::SketchPlane& plane = pSketch->getPlane();
+    const wy3d::Plane& plane = pSketch->getPlane();
     if (!plane.isValid())
     {
         assert(false);
@@ -576,7 +576,7 @@ Handle(Geom_Curve) MakeDatumPlane::getSketchCurveGeomCurve(const wyap::Selection
 
 bool MakeDatumPlane::getSolidCylindricalFaceCenterPlane(
     const wyap::Selection& sel,
-    wy3d::SketchPlane& plane,
+    wy3d::Plane& plane,
     double& radius)
 {
     const wydb::Database* pDb = Application::instance().getActiveDatabase();
@@ -662,7 +662,7 @@ bool MakeDatumPlane::getSolidCylindricalFaceCenterPlane(
         if (axisDir.Y() < 0.0) normal = -normal;
     }
 
-    plane = wy3d::SketchPlane(origin, normal, xDir);
+    plane = wy3d::Plane(origin, normal, xDir);
     radius = cylinder.Radius();
     assert(radius > 0.0);
     return true;
@@ -762,7 +762,7 @@ bool MakeDatumPlane::intersect(
 }
 
 bool MakeDatumPlane::intersect(
-    const wy3d::SketchPlane& lhs, const wy3d::SketchPlane& rhs,
+    const wy3d::Plane& lhs, const wy3d::Plane& rhs,
     wy::Vector3& linePoint, wy::Vector3& lineDir, double tol)
 {
     // 检查平面有效性
@@ -801,7 +801,7 @@ bool MakeDatumPlane::intersect(
 
 bool MakeDatumPlane::computeThrough3PointsPlane(
     const wy::Vector3& pnt1, const wy::Vector3& pnt2, const wy::Vector3& pnt3,
-    wy3d::SketchPlane& sketchPlane, double tol)
+    wy3d::Plane& sketchPlane, double tol)
 {
     // 计算两个向量
     wy::Vector3 v1 = pnt2 - pnt1;
@@ -830,6 +830,6 @@ bool MakeDatumPlane::computeThrough3PointsPlane(
     }
 
     // 结果
-    sketchPlane = wy3d::SketchPlane(pnt1, normal, xDir);
+    sketchPlane = wy3d::Plane(pnt1, normal, xDir);
     return true;
 }

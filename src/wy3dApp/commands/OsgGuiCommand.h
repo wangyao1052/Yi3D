@@ -24,7 +24,7 @@
 
 #include <wyVector2.h>
 #include <wyVector3.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include "commands/GuiCommand.h"
 #include "snap/SketchSnapContext.h"
 #include "wy3dAppDefs.h"
@@ -55,13 +55,13 @@ protected:
     // 坐标计算
     std::pair<wy::Vector3, wyap::SnapResultSPtr> computePosition3d(
         double x, double y,
-        const wy3d::SketchPlane& sketchPlane,
+        const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
         bool snap = true) override;
 
     wy::Vector2 computePosition2d(
         double x, double y,
-        const wy3d::SketchPlane& sketchPlane,
+        const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
         std::shared_ptr<SketchSnapContext> pSnapContext = nullptr,
         SketchSnapSystem* pSketchSnapSys = nullptr,
@@ -69,7 +69,7 @@ protected:
 
     wy::Vector2 computePosition2dWithoutSnap(
         double x, double y,
-        const wy3d::SketchPlane& sketchPlane) override;
+        const wy3d::Plane& sketchPlane) override;
 
     bool computeHeight(double x, double y,
         const wy::Vector3& basePnt, double& height,
@@ -78,13 +78,13 @@ protected:
         const osg::Vec3d& basePnt, double& height,
         const GuiCmdMakeElement* pMakeElement = nullptr) override;
     bool computeHeight2(double x, double y,
-        const wy3d::SketchPlane& workPln,
+        const wy3d::Plane& workPln,
         const wy::Vector2& basePnt,
         const std::set<wydb::ElementId>& excludeIds,
         double& height) override;
 
     bool computeRotationAngle(double x, double y,
-        const wy3d::SketchPlane& workPln,
+        const wy3d::Plane& workPln,
         const wy::Vector2& basis,
         const std::set<wydb::ElementId>& excludeIds,
         double& rotationAngle) override;

@@ -239,7 +239,7 @@ namespace
         wydb::ElementId sketchId = wydb::ElementId::kNull;
         {
             wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction();
-            wy3d::SketchPlane plane(wy::Vector3(0.0, 0.0, z), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
+            wy3d::Plane plane(wy::Vector3(0.0, 0.0, z), wy::Vector3::kZAxis, wy::Vector3::kXAxis);
             wy3d::Sketch* pSketch(nullptr);
             EXPECT_EQ(wy3d::Sketch::create(pTrans, plane, pSketch), wy::ErrorStatus::Ok);
             EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);

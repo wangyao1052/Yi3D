@@ -18,14 +18,14 @@
 
 #include "SketchSnapResult.h"
 #include <wyVector2.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include "application/Application.h"
 #include "scene/RenderConst.h"
 #include "commands/transient/SketchPointTransient.h"
 #include "SnapConsts.h"
 
 SketchSnapResult::SketchSnapResult(
-    const wy3d::SketchPlane& sketchPlane,
+    const wy3d::Plane& sketchPlane,
     const wy::Vector2& position,
     SketchSnapContextSPtr pContext,
     SketchSnapObjectSPtr pSnapObject,
@@ -41,7 +41,7 @@ SketchSnapResult::SketchSnapResult(
 }
 
 SketchSnapResult::SketchSnapResult(
-    const wy3d::SketchPlane& sketchPlane,
+    const wy3d::Plane& sketchPlane,
     const wy::Vector2& position,
     SketchSnapContextSPtr pContext,
     SketchSnapObjectSPtr pSnapObject, SketchSnapObjectSPtr pOtherSnapObject,

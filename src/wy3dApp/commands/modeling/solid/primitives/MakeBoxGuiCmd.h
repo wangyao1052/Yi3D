@@ -123,7 +123,7 @@ public:
     // 创建
     bool init(const wy::Vector2& pnt1, const wy::Vector2& pnt2, double z);
     bool init(const osg::Vec3d& pnt1, const osg::Vec3d& pnt2);
-    bool init(const wy3d::SketchPlane& workPln, const wy::Vector2& uv1, const wy::Vector2& uv2);
+    bool init(const wy3d::Plane& workPln, const wy::Vector2& uv1, const wy::Vector2& uv2);
     // 更新
     bool update(double height);
 
@@ -142,7 +142,7 @@ public:
     void update(const osg::Vec2& pnt1, const osg::Vec2& pnt2, double z);
     void update(const osg::Vec3d& pnt1, const osg::Vec3d& pnt2);
 
-    void update(const wy3d::SketchPlane& workPln,
+    void update(const wy3d::Plane& workPln,
         const wy::Vector2& pnt1, const wy::Vector2& pnt2);
 
 private:

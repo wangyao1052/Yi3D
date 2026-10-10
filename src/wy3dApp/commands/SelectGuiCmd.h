@@ -131,7 +131,7 @@ protected:
     // 获取草图信息(草图子类覆写返回实际值，建模返回默认)
     virtual SketchSnapSystem* getSketchSnapSys() const { return nullptr; }
     virtual wydb::ElementId getSketchId() const { return wydb::ElementId::kNull; }
-    virtual const wy3d::SketchPlane& getSketchPlane() const { static wy3d::SketchPlane s; return s; }
+    virtual const wy3d::Plane& getSketchPlane() const { static wy3d::Plane s; return s; }
 
     // 更新状态栏提示
     virtual void updateSelectTipAndLabel();

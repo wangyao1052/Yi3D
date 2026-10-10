@@ -21,7 +21,7 @@
 
 #include <QDialog>
 #include <QComboBox>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 class SketchPlaneDialog : public QDialog
 {
@@ -44,7 +44,7 @@ public:
     }
 
     // 获取草图平面
-    wy3d::SketchPlane getSketchPlane() const
+    wy3d::Plane getSketchPlane() const
     {
         return _sketchPlane;
     }
@@ -55,7 +55,7 @@ private slots:
 
 private:
     QComboBox* _systemPlaneCombo;
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
 };
 
 #endif // WY3DAPP_SKETCH_PLANE_DIALOG_H

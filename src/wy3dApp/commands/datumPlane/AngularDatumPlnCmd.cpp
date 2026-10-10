@@ -53,7 +53,7 @@ constexpr double kHoverPopupDelaySeconds = 0.45;
 class AngularDatumPlnCmdRotationAxisSelFilter : public SelectFilterFunctor
 {
 public:
-    AngularDatumPlnCmdRotationAxisSelFilter(const wy3d::SketchPlane& plane) : _plane(plane) {}
+    AngularDatumPlnCmdRotationAxisSelFilter(const wy3d::Plane& plane) : _plane(plane) {}
 
 
     inline virtual SelectFilterStatus operator()(
@@ -190,7 +190,7 @@ public:
             }
 
             // 平面平行则直接continue
-            const wy3d::SketchPlane& plane = pDatumPlane->getPlane();
+            const wy3d::Plane& plane = pDatumPlane->getPlane();
             double normalDotProduct = _plane.getNormal().dot(plane.getNormal());
             if (std::fabs(std::fabs(normalDotProduct) - 1.0) <= wy3d::EPS) // 法向量点积的绝对值接近于1则表明两面平行
             {
@@ -207,7 +207,7 @@ public:
     }
 
 private:
-    wy3d::SketchPlane _plane;
+    wy3d::Plane _plane;
 };
 
 AngularDatumPlnCmd::AngularDatumPlnCmd()
@@ -258,13 +258,13 @@ void AngularDatumPlnCmd::cleanup()
     this->hidePopup();
 
     _step = Step::Undefined;
-    _plane = wy3d::SketchPlane();
+    _plane = wy3d::Plane();
     _step2ndTip.clear();
     _intersectLineOrigin.set(0.0, 0.0);
     _intersectLineDir.set(0.0, 0.0);
     _rotateAxisLineStart.set(0.0, 0.0);
     _rotateAxisLineEnd.set(0.0, 0.0);
-    _rotateAnglePlane = wy3d::SketchPlane();
+    _rotateAnglePlane = wy3d::Plane();
     _angle = 0.0;
     _snapExcludeIds.clear();
 
@@ -329,7 +329,7 @@ bool AngularDatumPlnCmd::finishStep(Step step)
         wy::Vector3 axisEnd3d = _plane.value(_rotateAxisLineEnd);
         wy::Vector3 axisDir = axisEnd3d - axisStart3d;
         axisDir.normalize();
-        _plane = wy3d::SketchPlane((axisStart3d + axisEnd3d) / 2, _plane.getNormal(), axisDir);
+        _plane = wy3d::Plane((axisStart3d + axisEnd3d) / 2, _plane.getNormal(), axisDir);
         if (!_plane.isValid())
         {
             assert(false);
@@ -350,7 +350,7 @@ bool AngularDatumPlnCmd::finishStep(Step step)
         }
 
         // 下一步
-        _rotateAnglePlane = wy3d::SketchPlane(_plane.getOrigin(), _plane.getXDir(), _plane.getYDir());
+        _rotateAnglePlane = wy3d::Plane(_plane.getOrigin(), _plane.getXDir(), _plane.getYDir());
         this->gotoStep(Step::SpecifyAngle);
     }
     break;
@@ -365,7 +365,7 @@ bool AngularDatumPlnCmd::finishStep(Step step)
         }
 
         // 旋转基准面
-        wy3d::SketchPlane rotatedPlane = this->rotatePlaneAroundXAxis(_angle);
+        wy3d::Plane rotatedPlane = this->rotatePlaneAroundXAxis(_angle);
         if (!_pMakeDatumPlane->update(rotatedPlane))
         {
             assert(false);
@@ -634,7 +634,7 @@ void AngularDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
             || selType == static_cast<unsigned int>(wy3d::SelectionType::Element))
         {
             // 面
-            wy3d::SketchPlane plane;
+            wy3d::Plane plane;
             if (!MakeDatumPlane::getSketchPlane(sel, plane))
             {
                 assert(false);
@@ -811,11 +811,11 @@ bool AngularDatumPlnCmd::computeRotateAxisLineSegment(
     return MakeDatumPlane::intersect(minPnt, maxPnt, lineOrigin, lineDir, axisLineStart, axisLineEnd);
 }
 
-wy3d::SketchPlane AngularDatumPlnCmd::rotatePlaneAroundXAxis(double angle) const
+wy3d::Plane AngularDatumPlnCmd::rotatePlaneAroundXAxis(double angle) const
 {
     wy::Vector2 uv(-std::sin(angle), std::cos(angle)); // (0,1)旋转angle角度
     wy::Vector3 newNormal = _rotateAnglePlane.value(uv) - _rotateAnglePlane.getOrigin();
-    return wy3d::SketchPlane(_plane.getOrigin(), newNormal, _plane.getXDir());
+    return wy3d::Plane(_plane.getOrigin(), newNormal, _plane.getXDir());
 }
 
 void PerpendicularDatumPlnCmd::initStep2ndTip()
@@ -853,7 +853,7 @@ bool PerpendicularDatumPlnCmd::finishStep(Step step)
         wy::Vector3 axisEnd3d = _plane.value(_rotateAxisLineEnd);
         wy::Vector3 axisDir = axisEnd3d - axisStart3d;
         axisDir.normalize();
-        _plane = wy3d::SketchPlane((axisStart3d + axisEnd3d) / 2, _plane.getNormal(), axisDir);
+        _plane = wy3d::Plane((axisStart3d + axisEnd3d) / 2, _plane.getNormal(), axisDir);
         if (!_plane.isValid())
         {
             assert(false);
@@ -862,10 +862,10 @@ bool PerpendicularDatumPlnCmd::finishStep(Step step)
         }
 
         // 求出旋转角度平面
-        _rotateAnglePlane = wy3d::SketchPlane(_plane.getOrigin(), _plane.getXDir(), _plane.getYDir());
+        _rotateAnglePlane = wy3d::Plane(_plane.getOrigin(), _plane.getXDir(), _plane.getYDir());
 
         // 旋转90度
-        wy3d::SketchPlane rotatedPlane = this->rotatePlaneAroundXAxis(wy3d::PI_2);
+        wy3d::Plane rotatedPlane = this->rotatePlaneAroundXAxis(wy3d::PI_2);
         if (!_pMakeDatumPlane->update(rotatedPlane))
         {
             assert(false);
@@ -921,7 +921,7 @@ bool ThroughAxisDatumPlnCmd::finishStep(Step step)
         wy::Vector3 axisEnd3d = _plane.value(_rotateAxisLineEnd);
         wy::Vector3 axisDir = axisEnd3d - axisStart3d;
         axisDir.normalize();
-        _plane = wy3d::SketchPlane((axisStart3d + axisEnd3d) / 2, _plane.getNormal(), axisDir);
+        _plane = wy3d::Plane((axisStart3d + axisEnd3d) / 2, _plane.getNormal(), axisDir);
         if (!_plane.isValid())
         {
             assert(false);

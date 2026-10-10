@@ -43,7 +43,7 @@ public:
 
     virtual Operation getOperation() const = 0;
     virtual wydb::ElementId getSketchId() const = 0;
-    virtual const wy3d::SketchPlane& getSketchPlane() const = 0;
+    virtual const wy3d::Plane& getSketchPlane() const = 0;
     virtual SketchSnapSystem* getSnapSystem() const = 0;
 
 protected:

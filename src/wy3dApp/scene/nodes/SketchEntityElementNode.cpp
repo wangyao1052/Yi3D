@@ -208,7 +208,7 @@ ElementNode::GenRenderDataRet SketchEntityElementNode::generateRenderDataImpl(Sc
         assert(false);
         return GenRenderDataRet::Ok_Empty;
     }
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
 
     if (const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pSketchEntity))
     {

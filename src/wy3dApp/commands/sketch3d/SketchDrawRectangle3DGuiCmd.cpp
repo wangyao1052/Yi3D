@@ -224,7 +224,7 @@ void SketchDrawRectangle3DGuiCmd::onSpaceKey()
     }
 
     // 长宽不变,矩形绕锚点转到新平面
-    const wy3d::SketchPlane& plane = this->getWorkingPlane();
+    const wy3d::Plane& plane = this->getWorkingPlane();
     if (!_pMakeSketchRectangle3D->updatePlane(plane))
     {
         return;
@@ -264,7 +264,7 @@ void SketchDrawRectangle3DGuiCmd::onMouseMove(const MouseEvent& event)
     }
     else if (_step == static_cast<unsigned int>(Step::SpecifyEndPnt))
     {
-        const wy3d::SketchPlane& plane = this->getWorkingPlane();
+        const wy3d::Plane& plane = this->getWorkingPlane();
         this->updateHoverExtents(plane.uv(ret.first) - plane.uv(_startPnt));
         if (_pMakeSketchRectangle3D)
         {
@@ -524,7 +524,7 @@ void SketchDrawRectangle3DGuiCmd::onPopupEnterKey()
                 return;
             }
 
-            const wy3d::SketchPlane& plane = this->getWorkingPlane();
+            const wy3d::Plane& plane = this->getWorkingPlane();
             const wy::Vector2 uvStart = plane.uv(_startPnt);
             const wy::Vector2 uvHover = plane.uv(_hoverPopupState.point);
             double deltaU = (uvHover.x() < uvStart.x()) ? -length : length;
@@ -686,7 +686,7 @@ bool MakeSketchRectangle3D::applyCorners()
     return true;
 }
 
-bool MakeSketchRectangle3D::init(const wy::Vector3& corner1Pnt, const wy3d::SketchPlane& plane, wydb::ElementId sketch3dId)
+bool MakeSketchRectangle3D::init(const wy::Vector3& corner1Pnt, const wy3d::Plane& plane, wydb::ElementId sketch3dId)
 {
     if (!_pDb || !_pTopTrans || _pSketchLine1st || _pSketchLine2nd || _pSketchLine3rd || _pSketchLine4th || _isFinished)
     {
@@ -777,7 +777,7 @@ bool MakeSketchRectangle3D::update(const wy::Vector3& endPnt)
     return true;
 }
 
-bool MakeSketchRectangle3D::updatePlane(const wy3d::SketchPlane& plane)
+bool MakeSketchRectangle3D::updatePlane(const wy3d::Plane& plane)
 {
     if (!_hasExtent || !_pSketchLine1st || !_pSketchLine2nd || !_pSketchLine3rd || !_pSketchLine4th)
     {

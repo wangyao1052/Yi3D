@@ -29,7 +29,7 @@
 #include "commands/CommandNames.h"
 #include "scene/Scene.h"
 
-SketchEnvironmentImpl::SketchEnvironmentImpl(const wy3d::SketchPlane& sketchPlane)
+SketchEnvironmentImpl::SketchEnvironmentImpl(const wy3d::Plane& sketchPlane)
     : _op(Operation::New)
     , _sketchId(wydb::ElementId::kNull)
     , _sketchPlane(sketchPlane)
@@ -74,12 +74,12 @@ wydb::Transaction* SketchEnvironmentImpl::getSketchTransaction() const
     return _pTopTrans;
 }
 
-const wy3d::SketchPlane& SketchEnvironmentImpl::getSketchPlane() const
+const wy3d::Plane& SketchEnvironmentImpl::getSketchPlane() const
 {
     return _sketchPlane;
 }
 
-void SketchEnvironmentImpl::setSketchPlane(const wy3d::SketchPlane& sketchPlane)
+void SketchEnvironmentImpl::setSketchPlane(const wy3d::Plane& sketchPlane)
 {
     _sketchPlane = sketchPlane;
 }

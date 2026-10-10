@@ -30,7 +30,7 @@
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include "utils/TopoShapeUtil.h"
 
-bool GuiCommandUtil::getWorkingPlane(const wyap::Selection& sel, wy3d::SketchPlane& workPln)
+bool GuiCommandUtil::getWorkingPlane(const wyap::Selection& sel, wy3d::Plane& workPln)
 {
     const wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb)

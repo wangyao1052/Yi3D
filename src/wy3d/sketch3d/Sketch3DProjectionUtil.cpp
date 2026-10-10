@@ -66,7 +66,7 @@ struct Target
 {
     bool isPlane = false;
     TopoDS_Face face;
-    SketchPlane plane;
+    Plane plane;
 };
 
 // Two unit normals whose dot product falls below this are treated as parallel, the same value and
@@ -75,7 +75,7 @@ struct Target
 // of into it, which never meets it however long it is.
 const double kParallelDotTol = 1e-9;
 
-gp_Pln toGpPln(const SketchPlane& plane)
+gp_Pln toGpPln(const Plane& plane)
 {
     const wy::Vector3 origin = plane.getOrigin();
     const wy::Vector3 normal = plane.getNormal();
@@ -150,7 +150,7 @@ Result measureFaceExtent(const TopoDS_Face& targetFace, const gp_Dir& dir, const
 //
 // Planes that coincide come out as a span no bigger than the corners' own slop, which the caller
 // reads as NoProjection through the noise floor, so they need nothing of their own here.
-Result measurePlaneExtent(const SketchPlane& targetPlane,
+Result measurePlaneExtent(const Plane& targetPlane,
     const std::vector<TopoDS_Edge>& sourceEdges, const gp_Dir& dir, double& forward, double& backward,
     double& noise)
 {
@@ -301,7 +301,7 @@ Result sweepAndSection(const TopoDS_Edge& source, const gp_Dir& dir, double offs
 
 // Both project() overloads land here: the target is the only thing that differs, and it differs in
 // exactly two places - how far the sweep has to run, and what it is sectioned against.
-Result projectImpl(const SketchPlane& sketchPlane, const std::vector<TopoDS_Edge>& sourceEdges,
+Result projectImpl(const Plane& sketchPlane, const std::vector<TopoDS_Edge>& sourceEdges,
     const Target& target, const Options& options, std::vector<TopoDS_Edge>& outEdges)
 {
     outEdges.clear();
@@ -363,7 +363,7 @@ Result projectImpl(const SketchPlane& sketchPlane, const std::vector<TopoDS_Edge
 
 // The two overloads differ only in the target they hand over, so the exception guard that keeps a
 // partial result from reaching a caller lives here, once.
-Result projectTarget(const SketchPlane& sketchPlane, const std::vector<TopoDS_Edge>& sourceEdges,
+Result projectTarget(const Plane& sketchPlane, const std::vector<TopoDS_Edge>& sourceEdges,
     const Target& target, const Options& options, std::vector<TopoDS_Edge>& outEdges)
 {
     try
@@ -433,7 +433,7 @@ Sketch3DProjectionUtil::Result Sketch3DProjectionUtil::collectSourceEdges(
     return Result::Ok;
 }
 
-Sketch3DProjectionUtil::Result Sketch3DProjectionUtil::project(const SketchPlane& sketchPlane,
+Sketch3DProjectionUtil::Result Sketch3DProjectionUtil::project(const Plane& sketchPlane,
     const std::vector<TopoDS_Edge>& sourceEdges, const TopoDS_Face& targetFace,
     const Options& options, std::vector<TopoDS_Edge>& outEdges)
 {
@@ -442,8 +442,8 @@ Sketch3DProjectionUtil::Result Sketch3DProjectionUtil::project(const SketchPlane
     return projectTarget(sketchPlane, sourceEdges, target, options, outEdges);
 }
 
-Sketch3DProjectionUtil::Result Sketch3DProjectionUtil::project(const SketchPlane& sketchPlane,
-    const std::vector<TopoDS_Edge>& sourceEdges, const SketchPlane& targetPlane,
+Sketch3DProjectionUtil::Result Sketch3DProjectionUtil::project(const Plane& sketchPlane,
+    const std::vector<TopoDS_Edge>& sourceEdges, const Plane& targetPlane,
     const Options& options, std::vector<TopoDS_Edge>& outEdges)
 {
     Target target;

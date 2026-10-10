@@ -431,7 +431,7 @@ TopoDS_Shape ExtrudedSheet::generateShape(TopoNaming* pTopoNaming, wydb::ChainUp
         return TopoDS_Shape();
     }
 
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
     if (!sketchPlane.isValid())
     {
         assert(false);

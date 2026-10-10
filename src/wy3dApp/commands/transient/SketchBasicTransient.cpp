@@ -84,7 +84,7 @@ void CircleTransient::fillVertices(const osg::Vec3& center, float radius)
     }
 }
 
-SketchCircleTransient::SketchCircleTransient(const wy3d::SketchPlane& sketchPlane)
+SketchCircleTransient::SketchCircleTransient(const wy3d::Plane& sketchPlane)
     : _sketchPlane(sketchPlane), _vertexCnt(100)
 {
     if (_sketchPlane.isValid())
@@ -159,7 +159,7 @@ void SketchCircleTransient::fillVertices(const wy::Vector2& center, float radius
     }
 }
 
-SketchArcTransient::SketchArcTransient(const wy3d::SketchPlane& sketchPlane, const osg::Vec4& color, float lineWidth)
+SketchArcTransient::SketchArcTransient(const wy3d::Plane& sketchPlane, const osg::Vec4& color, float lineWidth)
     : _sketchPlane(sketchPlane), _vertexCnt(100)
 {
     if (_sketchPlane.isValid())
@@ -244,7 +244,7 @@ void SketchArcTransient::fillVertices(const wy::Vector2& center, float radius, f
     }
 }
 
-SketchEllipseTransient::SketchEllipseTransient(const wy3d::SketchPlane& sketchPlane)
+SketchEllipseTransient::SketchEllipseTransient(const wy3d::Plane& sketchPlane)
     : _sketchPlane(sketchPlane), _vertexCnt(100)
 {
     if (_sketchPlane.isValid())
@@ -342,7 +342,7 @@ void SketchEllipseTransient::fillVertices(
     }
 }
 
-SketchCsysTransient::SketchCsysTransient(const wy3d::SketchPlane& sketchPlane)
+SketchCsysTransient::SketchCsysTransient(const wy3d::Plane& sketchPlane)
     : _initSketchPlane(sketchPlane)
 {
     osg::ref_ptr<osg::AutoTransform> csys = new osg::AutoTransform();
@@ -419,11 +419,11 @@ void SketchCsysTransient::update(const wy::Vector2& origin, double angle)
     wy::Vector3 newOrigin = _initSketchPlane.value(origin);
     wy::Vector3 newXDir = _initSketchPlane.value(std::cos(angle), std::sin(angle)) - _initSketchPlane.getOrigin();
     newXDir.normalize();
-    wy3d::SketchPlane plane(newOrigin, _initSketchPlane.getNormal(), newXDir);
+    wy3d::Plane plane(newOrigin, _initSketchPlane.getNormal(), newXDir);
     this->update(plane);
 }
 
-void SketchCsysTransient::update(const wy3d::SketchPlane& plane)
+void SketchCsysTransient::update(const wy3d::Plane& plane)
 {
     // 平移
     _csys->setPosition(MathUtils::toVec3d(plane.getOrigin()));

@@ -234,7 +234,7 @@ void SketchDrawLine3DGuiCmd::onMouseMove(const MouseEvent& event)
         if (!_hoverPopupState.snapped)
         {
             wy::Vector3 delta = endPnt - _startPnt;
-            const wy3d::SketchPlane& plane = this->getWorkingPlane();
+            const wy3d::Plane& plane = this->getWorkingPlane();
             _hoverPopupState.length = delta.length();
             _hoverPopupState.angleDeg = wy3d::radiansToDegrees(
                 std::atan2(delta.dot(plane.getYDir()), delta.dot(plane.getXDir())));
@@ -455,7 +455,7 @@ void SketchDrawLine3DGuiCmd::onPopupEnterKey()
                 return;
             }
 
-            const wy3d::SketchPlane& plane = this->getWorkingPlane();
+            const wy3d::Plane& plane = this->getWorkingPlane();
             const double angle = wy3d::degreesToRadians(angleDeg);
             _endPnt = _startPnt
                 + plane.getXDir() * (length * std::cos(angle))

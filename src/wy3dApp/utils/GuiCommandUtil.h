@@ -22,7 +22,7 @@
 #include <wydbDatabase.h>
 #include <wydbElementId.h>
 #include <wyapSelection.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dSolid.h>
 #include <wy3dSheet.h>
 
@@ -33,7 +33,7 @@ class Sketch3DEnvironment;
 
 struct GuiCmdSketchInfo
 {
-    wy3d::SketchPlane sketchPlane;
+    wy3d::Plane sketchPlane;
     wydb::ElementId sketchId;
     SketchSnapSystem* pSketchSnapSys;
 
@@ -51,7 +51,7 @@ class WY3DAPP_EXPORT GuiCommandUtil
 {
 public:
     // 获取工作平面
-    static bool getWorkingPlane(const wyap::Selection& sel, wy3d::SketchPlane& workPln);
+    static bool getWorkingPlane(const wyap::Selection& sel, wy3d::Plane& workPln);
 
     // 从选择集合中过滤出顶层的实体特征
     static wyap::SelectionSet filterTopSolidFeaturesFrom(const wyap::SelectionSet& ss);

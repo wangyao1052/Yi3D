@@ -20,7 +20,7 @@
 #define WY3DAPP_MIRROR_GUI_CMD_H
 
 #include <wyapSelection.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 #include "commands/OsgGuiCommand.h"
 #include "select/SelectPreview.h"
@@ -55,26 +55,26 @@ private:
     // 创建镜像
     bool createMirror(
         const wydb::ElementId& sourceId,
-        const wy3d::SketchPlane& mirrorPlane,
+        const wy3d::Plane& mirrorPlane,
         unsigned int& errorCode);
 
     // 创建镜像: 实体宿主(可镜像实体内的切割体)
     bool createMirrorOnSolid(
         const wydb::ElementId& ownerId,
         const wy3d::Solid* pSourceSolid,
-        const wy3d::SketchPlane& mirrorPlane,
+        const wy3d::Plane& mirrorPlane,
         unsigned int& errorCode);
 
     // 创建镜像: 片体宿主(镜像它自己, 副本追加到宿主形体上)
     bool createMirrorOnSheet(
         const wydb::ElementId& sheetId,
-        const wy3d::SketchPlane& mirrorPlane,
+        const wy3d::Plane& mirrorPlane,
         unsigned int& errorCode);
 
 private:
     Step _step;
     wydb::ElementId _sourceId;
-    wy3d::SketchPlane _mirrorPlane;
+    wy3d::Plane _mirrorPlane;
 
     // 点选选项
     PointPickOption _pointPickOption;

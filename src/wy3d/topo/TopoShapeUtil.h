@@ -26,7 +26,7 @@
 #include <TopoDS_Wire.hxx>
 #include <TopoDS_Compound.hxx>
 #include <wy3dDefs.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dErrorCode.h>
 
 NS_WY3D_BEG
@@ -36,7 +36,7 @@ class WY3D_EXPORT TopoShapeUtil
 public:
     static TopoDS_Compound makeCompound(const TopoDS_Shape& shape1, const TopoDS_Shape& shape2);
 
-    static bool getFacePlane(const TopoDS_Face& face, wy3d::SketchPlane& plane);
+    static bool getFacePlane(const TopoDS_Face& face, wy3d::Plane& plane);
 
     static ErrorCode makeWireFromEdges(
         const std::vector<TopoDS_Edge>& edges,

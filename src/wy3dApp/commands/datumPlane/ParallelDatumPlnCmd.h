@@ -21,7 +21,7 @@
 
 #include <wyVector2.h>
 #include <wyapSelection.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
 #include "commands/OsgGuiCommand.h"
 #include "commands/datumPlane/MakeDatumPlane.h"
@@ -89,7 +89,7 @@ private:
     };
 
     Step _step;
-    wy3d::SketchPlane _plane;
+    wy3d::Plane _plane;
     wy::Vector2 _pickUV;
     double _distance;
 

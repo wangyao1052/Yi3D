@@ -303,7 +303,7 @@ void MirrorGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 
 bool MirrorGuiCmd::createMirror(
     const wydb::ElementId& sourceId,
-    const wy3d::SketchPlane& mirrorPlane,
+    const wy3d::Plane& mirrorPlane,
     unsigned int& errorCode)
 {
     errorCode = 0;
@@ -353,7 +353,7 @@ bool MirrorGuiCmd::createMirror(
 bool MirrorGuiCmd::createMirrorOnSolid(
     const wydb::ElementId& ownerId,
     const wy3d::Solid* pSourceSolid,
-    const wy3d::SketchPlane& mirrorPlane,
+    const wy3d::Plane& mirrorPlane,
     unsigned int& errorCode)
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
@@ -399,7 +399,7 @@ bool MirrorGuiCmd::createMirrorOnSolid(
 
 bool MirrorGuiCmd::createMirrorOnSheet(
     const wydb::ElementId& sheetId,
-    const wy3d::SketchPlane& mirrorPlane,
+    const wy3d::Plane& mirrorPlane,
     unsigned int& errorCode)
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();

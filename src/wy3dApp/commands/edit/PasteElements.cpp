@@ -32,7 +32,7 @@
 #include "scene/RenderConst.h"
 #include "utils/CopyPasteUtil.h"
 
-PasteElements::PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, GuiCmdEnvType mode, wydb::ElementId sketchId, const wy3d::SketchPlane& sketchPlane)
+PasteElements::PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, GuiCmdEnvType mode, wydb::ElementId sketchId, const wy3d::Plane& sketchPlane)
     : GuiCmdMakeElement(pGuiCmd), _mode(mode), _sketchId(sketchId), _sketchPlane(sketchPlane)
 {
     _pat = new osg::PositionAttitudeTransform();

@@ -26,7 +26,7 @@
 #include <set>
 #include <utility>
 #include <wyVector3.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wydbElementId.h>
 #include <wy3dSketchEllipseArc3D.h>
 
@@ -93,18 +93,18 @@ protected:
 private:
     std::set<wydb::ElementId> getSnapExcludeIds() const;
     std::pair<wy::Vector3, bool> computePoint3d(double x, double y);
-    wy::Vector3 planeDirFromAngle(const wy3d::SketchPlane& plane, double angle) const;
-    double angleFromPlaneDir(const wy3d::SketchPlane& plane, const wy::Vector3& dir) const;
-    double majorAngle(const wy3d::SketchPlane& plane) const;
+    wy::Vector3 planeDirFromAngle(const wy3d::Plane& plane, double angle) const;
+    double angleFromPlaneDir(const wy3d::Plane& plane, const wy::Vector3& dir) const;
+    double majorAngle(const wy3d::Plane& plane) const;
     // 光标点相对长轴方向的极角
-    double polarAngleOfPnt(const wy3d::SketchPlane& plane, const wy::Vector3& pnt) const;
+    double polarAngleOfPnt(const wy3d::Plane& plane, const wy::Vector3& pnt) const;
     double currentRatio() const;
     // 当前预览用的扫角(起点角度步为近整圈)
     double currentSweepForPreview() const;
     void updateAxisTransient(const wy::Vector3& endPnt);
     void destroyAxisTransient();
     // 用当前成员值刷新实体(预览/切平面共用)
-    bool applyToEntity(const wy3d::SketchPlane& plane, double startAngle, double endAngle);
+    bool applyToEntity(const wy3d::Plane& plane, double startAngle, double endAngle);
 
     void initializePopups();
     void showPopup();

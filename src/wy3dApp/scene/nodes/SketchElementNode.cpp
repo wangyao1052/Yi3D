@@ -186,7 +186,7 @@ ElementNode::GenRenderDataRet SketchElementNode::generateRenderDataImpl(Scene* p
     const wydb::Database* pDb = pElement->getDatabase();
     assert(pDb);
 
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
     unsigned int totalNumVertices(0);
     unsigned int totalNumIndices(0);
     unsigned int totalNumIndicesOfCenterLine(0);

@@ -35,7 +35,7 @@ void bindWy3dDatum(py::module_& m)
         .def("setName", &wy3d::DatumPlane::setName)
 
         .def_static("create",
-            [](wydb::Transaction* pTrans, const wy3d::SketchPlane& plane) -> wy3d::DatumPlane*
+            [](wydb::Transaction* pTrans, const wy3d::Plane& plane) -> wy3d::DatumPlane*
             {
                 wy3d::DatumPlane* pDatumPlane = nullptr;
                 wy::ErrorStatus status = wy3d::DatumPlane::create(pTrans, plane, pDatumPlane);

@@ -32,7 +32,7 @@ public:
     ~MoveElemens();
 
     bool init(const wyap::SelectionSet& ss);
-    bool update(const wy3d::SketchPlane& plane, const wy::Vector2& moveVec2d);
+    bool update(const wy3d::Plane& plane, const wy::Vector2& moveVec2d);
     bool update(const wy::Vector3& moveVec);
     bool perform(const wyap::SelectionSet& ss, const wy::Vector3& moveVec, GuiCmdEnvType mode);
 

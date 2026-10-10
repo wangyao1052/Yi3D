@@ -20,7 +20,7 @@
 #define WY3DAPP_COINCIDENT_DATUM_PLN_CMD_H
 
 #include <wyapSelection.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
 #include "commands/OsgGuiCommand.h"
 #include "commands/datumPlane/MakeDatumPlane.h"
@@ -51,7 +51,7 @@ protected:
 
 private:
     Step _step;
-    wy3d::SketchPlane _plane;
+    wy3d::Plane _plane;
 
     // 点选选项
     PointPickOption _pointPickOption;

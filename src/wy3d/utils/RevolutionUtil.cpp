@@ -46,7 +46,7 @@ std::pair<ErrorCode, gp_Ax1> computeRevolutionAxis(
     if (!pAxisSketch)
         return { ErrorCode::REVOLUTION_InvalidRevolutionAxisLine, gp_Ax1() };
 
-    const wy3d::SketchPlane& axisSketchPlane = pAxisSketch->getPlane();
+    const wy3d::Plane& axisSketchPlane = pAxisSketch->getPlane();
     if (!axisSketchPlane.isValid())
         return { ErrorCode::REVOLUTION_InvalidRevolutionAxisLine, gp_Ax1() };
 

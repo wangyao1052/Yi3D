@@ -26,7 +26,7 @@
 #include <wyVector3.h>
 #include <wy3dVector2.h>
 #include <wy3dVector3.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include "GuiCmdTransient.h"
 
 class LineTransient : public GuiCmdTransient
@@ -38,7 +38,7 @@ public:
         const osg::Vec4& color = osg::Vec4(0.0f, 0.0f, 0.0f, 1.0f));
     ~LineTransient();
 
-    void update(const wy3d::SketchPlane& plane,
+    void update(const wy3d::Plane& plane,
         const wy::Vector2& startPnt2d, const wy::Vector2& endPnt2d);
     void update(const wy::Vector3& pnt1, const wy::Vector3& pnt2);
     void setColor(const osg::Vec4& color);
@@ -70,7 +70,7 @@ public:
     CenterPointTransient();
     ~CenterPointTransient();
 
-    void update(const wy3d::SketchPlane& plane, const wy::Vector2& position);
+    void update(const wy3d::Plane& plane, const wy::Vector2& position);
 
 private:
     float _len;

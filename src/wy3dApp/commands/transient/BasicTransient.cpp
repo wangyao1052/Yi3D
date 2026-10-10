@@ -73,7 +73,7 @@ LineTransient::~LineTransient()
 {
 }
 
-void LineTransient::update(const wy3d::SketchPlane& plane,
+void LineTransient::update(const wy3d::Plane& plane,
     const wy::Vector2& startPnt2d, const wy::Vector2& endPnt2d)
 {
     wy::Vector3 startPnt = plane.value(startPnt2d);
@@ -168,7 +168,7 @@ CenterPointTransient::~CenterPointTransient()
 {
 }
 
-void CenterPointTransient::update(const wy3d::SketchPlane& plane, const wy::Vector2& position)
+void CenterPointTransient::update(const wy3d::Plane& plane, const wy::Vector2& position)
 {
     assert(_pat);
     _pat->setPosition(MathUtils::toVec3(plane.value(position)));

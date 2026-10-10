@@ -25,7 +25,7 @@
 #include <QString>
 #include <wyVector2.h>
 #include <wy3dVector2.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include "SketchSnapContext.h"
 #include "SketchSnapObject.h"
 #include "SnapTipWidget.h"
@@ -44,13 +44,13 @@ class SketchSnapResult
 {
 public:
     SketchSnapResult(
-        const wy3d::SketchPlane& sketchPlane,
+        const wy3d::Plane& sketchPlane,
         const wy::Vector2& position,
         SketchSnapContextSPtr pContext,
         SketchSnapObjectSPtr pSnapObject,
         bool drawPoint = true);
     SketchSnapResult(
-        const wy3d::SketchPlane& sketchPlane,
+        const wy3d::Plane& sketchPlane,
         const wy::Vector2& position,
         SketchSnapContextSPtr pContext,
         SketchSnapObjectSPtr pSnapObject,
@@ -93,7 +93,7 @@ public:
     std::map<wydb::ElementId, SketchCurveTransientSPtr> getSketchCurveTransients() const;
 
 private:
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     wy::Vector2 _position;
     SketchSnapContextSPtr _pContext;
     // Whether the sketch layer draws the point marker for this result

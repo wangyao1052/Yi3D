@@ -388,7 +388,7 @@ TopoDS_Shape RevolvedSheet::generateShape(TopoNaming* pTopoNaming, wydb::ChainUp
             static_cast<std::uint32_t>(ErrorCode::PROFILE_InvalidProfile));
         return TopoDS_Shape();
     }
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
     if (!sketchPlane.isValid())
     {
         assert(false);

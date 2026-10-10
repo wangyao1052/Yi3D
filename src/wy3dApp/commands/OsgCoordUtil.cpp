@@ -43,7 +43,7 @@
 // ── 文件级辅助函数 ──────────────────────────────────────────────
 
 static SketchSnapResultSPtr convertSnapResult(
-    const wy3d::SketchPlane& sketchPlane,
+    const wy3d::Plane& sketchPlane,
     std::shared_ptr<SketchSnapContext> pSnapContext,
     const wy::Vector2& retPos,
     const wyap::SnapResultSPtr& pSnapRet3d)
@@ -159,7 +159,7 @@ static bool computeClosestPoints(const osg::LineSegment& l1, const osg::LineSegm
 std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgCoordUtil::computePosition3d(
     osgViewer::View* pView,
     double x, double y,
-    const wy3d::SketchPlane& sketchPlane,
+    const wy3d::Plane& sketchPlane,
     const std::set<wydb::ElementId>& excludeIds,
     bool snap)
 {
@@ -209,7 +209,7 @@ std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgCoordUtil::computePosition3d(
 std::pair<wy::Vector3, bool> OsgCoordUtil::computePosition3dForSketch3D(
     osgViewer::View* pView,
     double x, double y,
-    const wy3d::SketchPlane& workPlane,
+    const wy3d::Plane& workPlane,
     const std::set<wydb::ElementId>& excludeIds,
     const Sketch3DSnapContext* pSnapContext,
     Sketch3DSnapSystem* pSketch3DSnapSys,
@@ -244,7 +244,7 @@ std::pair<wy::Vector3, bool> OsgCoordUtil::computePosition3dForSketch3D(
 wy::Vector2 OsgCoordUtil::computePosition2d(
     osgViewer::View* pView,
     double x, double y,
-    const wy3d::SketchPlane& sketchPlane,
+    const wy3d::Plane& sketchPlane,
     const std::set<wydb::ElementId>& excludeIds,
     std::shared_ptr<SketchSnapContext> pSnapContext,
     SketchSnapSystem* pSketchSnapSys,
@@ -277,7 +277,7 @@ wy::Vector2 OsgCoordUtil::computePosition2d(
 wy::Vector2 OsgCoordUtil::computePosition2dWithoutSnap(
     osgViewer::View* pView,
     double x, double y,
-    const wy3d::SketchPlane& sketchPlane)
+    const wy3d::Plane& sketchPlane)
 {
     static std::set<wydb::ElementId> nullExcludeIds;
     std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePosition3d(pView, x, y, sketchPlane, nullExcludeIds, false);
@@ -346,7 +346,7 @@ bool OsgCoordUtil::computeHeight(
 bool OsgCoordUtil::computeHeight2(
     osgViewer::View* pView,
     double x, double y,
-    const wy3d::SketchPlane& workPln,
+    const wy3d::Plane& workPln,
     const wy::Vector2& baseUV,
     const std::set<wydb::ElementId>& excludeIds,
     double& height)
@@ -391,7 +391,7 @@ bool OsgCoordUtil::computeHeight2(
 bool OsgCoordUtil::computeRotationAngle(
     osgViewer::View* pView,
     double x, double y,
-    const wy3d::SketchPlane& workPln,
+    const wy3d::Plane& workPln,
     const wy::Vector2& basis,
     const std::set<wydb::ElementId>& excludeIds,
     double& rotationAngle)

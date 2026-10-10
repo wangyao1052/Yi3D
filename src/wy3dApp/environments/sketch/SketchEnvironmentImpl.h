@@ -34,18 +34,18 @@ class SketchEnvironmentUI;
 class SketchEnvironmentImpl : public SketchEnvironment
 {
 public:
-    explicit SketchEnvironmentImpl(const wy3d::SketchPlane& sketchPlane);
+    explicit SketchEnvironmentImpl(const wy3d::Plane& sketchPlane);
     explicit SketchEnvironmentImpl(const wy3d::Sketch* pSketch);
     ~SketchEnvironmentImpl();
 
 public:
     virtual Operation getOperation() const override;
     virtual wydb::ElementId getSketchId() const override;
-    virtual const wy3d::SketchPlane& getSketchPlane() const override;
+    virtual const wy3d::Plane& getSketchPlane() const override;
     virtual SketchSnapSystem* getSnapSystem() const override;
 
     wydb::Transaction* getSketchTransaction() const;
-    void setSketchPlane(const wy3d::SketchPlane& sketchPlane);
+    void setSketchPlane(const wy3d::Plane& sketchPlane);
     bool isTransactionCommited() const;
 
 public:
@@ -77,7 +77,7 @@ private:
 private:
     Operation _op;
     wydb::ElementId _sketchId;
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     wydb::Transaction* _pTopTrans;
     bool _isTransCommitted;
 

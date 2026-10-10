@@ -30,7 +30,7 @@
 static void createExtrusion_CylibnderXOY(wydb::Database* pDb, wydb::Transaction* pTrans)
 {
     wy3d::Sketch* pSketch(nullptr);
-    wy3d::SketchPlane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
+    wy3d::Plane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
     wy::ErrorStatus error = wy3d::Sketch::create(pTrans, sketchPlane, pSketch);
     assert(wy::ErrorStatus::Ok == error);
     assert(pSketch);
@@ -50,7 +50,7 @@ static void createExtrusion_CylibnderXOY(wydb::Database* pDb, wydb::Transaction*
 static void createExtrusion_CylibnderYOZ(wydb::Database* pDb, wydb::Transaction* pTrans)
 {
     wy3d::Sketch* pSketch(nullptr);
-    wy3d::SketchPlane sketchPlane(wy::Vector3(0.0, 0.0, 30.0), wy::Vector3(1.0, 0.0, 0.0), wy::Vector3(0.0, 1.0, 0.0));
+    wy3d::Plane sketchPlane(wy::Vector3(0.0, 0.0, 30.0), wy::Vector3(1.0, 0.0, 0.0), wy::Vector3(0.0, 1.0, 0.0));
     wy::ErrorStatus error = wy3d::Sketch::create(pTrans, sketchPlane, pSketch);
     assert(wy::ErrorStatus::Ok == error);
     assert(pSketch);
@@ -70,7 +70,7 @@ static void createExtrusion_CylibnderYOZ(wydb::Database* pDb, wydb::Transaction*
 static void createExtrusion_Box(wydb::Database* pDb, wydb::Transaction* pTrans)
 {
     wy3d::Sketch* pSketch(nullptr);
-    wy3d::SketchPlane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
+    wy3d::Plane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
     wy::ErrorStatus error = wy3d::Sketch::create(pTrans, sketchPlane, pSketch);
     assert(wy::ErrorStatus::Ok == error);
     assert(pSketch);
@@ -113,7 +113,7 @@ static void createExtrusion_Box(wydb::Database* pDb, wydb::Transaction* pTrans)
 static void createExtrusion_Box_WithHole(wydb::Database* pDb, wydb::Transaction* pTrans)
 {
     wy3d::Sketch* pSketch(nullptr);
-    wy3d::SketchPlane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
+    wy3d::Plane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
     wy::ErrorStatus error = wy3d::Sketch::create(pTrans, sketchPlane, pSketch);
     assert(wy::ErrorStatus::Ok == error);
     assert(pSketch);
@@ -166,7 +166,7 @@ static void createExtrusion_Other(wydb::Database* pDb, wydb::Transaction* pTrans
     if (1)
     {
         wy3d::Sketch* pSketch(nullptr);
-        wy3d::SketchPlane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
+        wy3d::Plane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
         wy::ErrorStatus error = wy3d::Sketch::create(pTrans, sketchPlane, pSketch);
         assert(wy::ErrorStatus::Ok == error);
         assert(pSketch);
@@ -274,7 +274,7 @@ static void createExtrusion_Other(wydb::Database* pDb, wydb::Transaction* pTrans
     if (0)
     {
         wy3d::Sketch* pSketch(nullptr);
-        wy3d::SketchPlane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
+        wy3d::Plane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
         wy::ErrorStatus error = wy3d::Sketch::create(pTrans, sketchPlane, pSketch);
         assert(wy::ErrorStatus::Ok == error);
         assert(pSketch);
@@ -358,7 +358,7 @@ static void createExtrusion_Other(wydb::Database* pDb, wydb::Transaction* pTrans
     if (0)
     {
         wy3d::Sketch* pSketch(nullptr);
-        wy3d::SketchPlane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, -1.0), wy::Vector3(1.0, 0.0, 0.0));
+        wy3d::Plane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, -1.0), wy::Vector3(1.0, 0.0, 0.0));
         wy::ErrorStatus error = wy3d::Sketch::create(pTrans, sketchPlane, pSketch);
         assert(wy::ErrorStatus::Ok == error);
         assert(pSketch);
@@ -409,7 +409,7 @@ static void createExtrusion_Other(wydb::Database* pDb, wydb::Transaction* pTrans
 static void createHelix(wydb::Database* pDb, wydb::Transaction* pTrans)
 {
     wy3d::Sketch* pSketch(nullptr);
-    wy3d::SketchPlane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
+    wy3d::Plane sketchPlane(wy::Vector3(0.0, 0.0, 0.0), wy::Vector3(0.0, 0.0, 1.0), wy::Vector3(1.0, 0.0, 0.0));
     wy::ErrorStatus error = wy3d::Sketch::create(pTrans, sketchPlane, pSketch);
     assert(wy::ErrorStatus::Ok == error);
     assert(pSketch);

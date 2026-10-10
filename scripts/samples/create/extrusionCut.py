@@ -9,7 +9,7 @@ def createExtrusionCut():
     box = wy3d.Box.create(trans, 100.0, 100.0, 200.0)
     trans.addNewlyCreatedElement(box)
     # 创建草图
-    plane = wy3d.SketchPlane(
+    plane = wy3d.Plane(
         origin = wy3d.Vector3(0.0, 0.0, 0.0),
         normal = wy3d.Vector3(0.0, 0.0, 1.0),
         xDir = wy3d.Vector3(1.0, 0.0, 0.0))

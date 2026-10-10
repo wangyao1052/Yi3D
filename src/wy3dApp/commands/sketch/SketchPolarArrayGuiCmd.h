@@ -96,7 +96,7 @@ private:
 class SketchPolarArrayElements : public GuiCmdMakeElement
 {
 public:
-    SketchPolarArrayElements(GuiCommand* pGuiCmd, const wy3d::SketchPlane& sketchPlane, wydb::ElementId sketchId);
+    SketchPolarArrayElements(GuiCommand* pGuiCmd, const wy3d::Plane& sketchPlane, wydb::ElementId sketchId);
     ~SketchPolarArrayElements();
 
     bool init(const std::set<wydb::ElementId>& ids, const wy::Vector2& center,
@@ -106,7 +106,7 @@ public:
 
 private:
     std::vector<osg::ref_ptr<osg::MatrixTransform>> _items;
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     wydb::ElementId _sketchId;
 };
 

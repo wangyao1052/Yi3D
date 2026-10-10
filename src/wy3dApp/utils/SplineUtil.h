@@ -20,7 +20,7 @@
 #define WY3DAPP_SPLINE_UTIL_H
 
 #include <wyVector2.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dSketchSpline.h>
 #include <Geom2d_BSplineCurve.hxx>
 #include <Geom_BSplineCurve.hxx>
@@ -56,7 +56,7 @@ public:
     // 2D样条曲线转3D样条曲线
     static Handle(Geom_BSplineCurve) convertToBSplineCurve3D(
         const Handle(Geom2d_BSplineCurve)& pBSpline2d,
-        const wy3d::SketchPlane& plane);
+        const wy3d::Plane& plane);
 };
 
 #endif // WY3DAPP_SPLINE_UTIL_H

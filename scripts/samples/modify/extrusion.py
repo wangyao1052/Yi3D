@@ -8,7 +8,7 @@ def createAndModifyExtrusion():
 
     # ========== 事务1: 创建对称拉伸体 ==========
     trans1 = db.getTransactionManager().startTransaction("create-extrusion")
-    plane = wy3d.SketchPlane(
+    plane = wy3d.Plane(
         origin=wy3d.Vector3(0.0, 0.0, 0.0),
         normal=wy3d.Vector3(0.0, 0.0, 1.0),
         xDir=wy3d.Vector3(1.0, 0.0, 0.0))

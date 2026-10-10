@@ -381,7 +381,7 @@ void NewFileCommand::createDefaultElements(wydb::Database* pDb, wydb::Transactio
         const wy::Vector3& zDir, const wy::Vector3& xDir, const std::string& name) -> bool
     {
         wy3d::DatumPlane* pDatumPlane(nullptr);
-        wy3d::SketchPlane sketchPlane(origin, zDir, xDir);
+        wy3d::Plane sketchPlane(origin, zDir, xDir);
         if (!sketchPlane.isValid()) return false;
         wy::ErrorStatus error = wy3d::DatumPlane::create(pTrans, sketchPlane, pDatumPlane);
         if (wy::ErrorStatus::Ok != error)

@@ -35,7 +35,7 @@
 #include <wy3dSketchEllipse3D.h>
 #include <wy3dSketchEllipseArc3D.h>
 #include <wy3dSketchSpline3D.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wy3dMath.h>
 #include <wyIterator.h>
 
@@ -148,13 +148,13 @@ struct ConvertFixture
 };
 
 // A tilted plane: a curve that is not lifted into 3D cannot pass unnoticed
-wy3d::SketchPlane makeTiltedPlane()
+wy3d::Plane makeTiltedPlane()
 {
     wy::Vector3 normal(1.0, 1.0, 1.0);
     normal.normalize();
     wy::Vector3 xDir(1.0, -1.0, 0.0);
     xDir.normalize();
-    const wy3d::SketchPlane plane(wy::Vector3(2.0, -1.0, 3.0), normal, xDir);
+    const wy3d::Plane plane(wy::Vector3(2.0, -1.0, 3.0), normal, xDir);
     EXPECT_TRUE(plane.isValid());
     return plane;
 }
@@ -164,7 +164,7 @@ struct Sketch2DFixture
     std::unique_ptr<wy3d::Database> pDb;
     wydb::Transaction* pTrans;
     wy3d::Sketch* pSketch;
-    wy3d::SketchPlane plane;
+    wy3d::Plane plane;
 
     Sketch2DFixture()
         : pDb(std::make_unique<wy3d::Database>())
@@ -929,7 +929,7 @@ TEST(Sketch3DEdgeUtil, Convert2DSketchSplineIsExact)
 {
     std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
     wydb::TransactionManager* pMgr = pDb->getTransactionManager();
-    const wy3d::SketchPlane plane = makeTiltedPlane();
+    const wy3d::Plane plane = makeTiltedPlane();
 
     const std::vector<wy::Vector2> fitPoints = {
         wy::Vector2(0.0, 0.0), wy::Vector2(2.0, 4.0), wy::Vector2(6.0, -3.0), wy::Vector2(9.0, 2.0) };

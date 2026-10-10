@@ -112,14 +112,14 @@ private:
 class TrimSegmentTransient : public GuiCmdTransient
 {
 public:
-    TrimSegmentTransient(GuiCommand* pGuiCmd, const wy3d::SketchPlane& sketchPlane, const wy3d::SketchCurve* pSketchCurve, const SketchTrimSegment& trimSegment);
+    TrimSegmentTransient(GuiCommand* pGuiCmd, const wy3d::Plane& sketchPlane, const wy3d::SketchCurve* pSketchCurve, const SketchTrimSegment& trimSegment);
     virtual ~TrimSegmentTransient();
 
     wydb::ElementId getId() const { return _id; }
     const SketchTrimSegment& getSegment() const { return _trimSegment; }
 
 private:
-    void init(const wy3d::SketchPlane& sketchPlane, const wy3d::SketchCurve* pSketchCurve);
+    void init(const wy3d::Plane& sketchPlane, const wy3d::SketchCurve* pSketchCurve);
     void initGeom(osg::ref_ptr<osg::Vec3Array> vertices, const std::vector<unsigned int>& indices);
 
 private:

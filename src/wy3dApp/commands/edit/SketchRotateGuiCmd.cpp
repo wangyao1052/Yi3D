@@ -39,7 +39,7 @@ wyap::CmdExecution::StartResult SketchRotateGuiCmd::onStart()
     return ret;
 }
 
-const wy3d::SketchPlane& SketchRotateGuiCmd::getActivePlane() const
+const wy3d::Plane& SketchRotateGuiCmd::getActivePlane() const
 {
     return _sketchInfo.sketchPlane;
 }

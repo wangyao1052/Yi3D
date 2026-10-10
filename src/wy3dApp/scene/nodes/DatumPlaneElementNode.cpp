@@ -74,7 +74,7 @@ DatumPlaneElementNode::DatumPlaneElementNode(const wydb::ElementId& id)
 {}
 
 inline void updateMinMax(double& uMin, double& vMin, double& uMax, double& vMax,
-    const wy3d::SketchPlane& plane, wy::Vector2& uv, double x, double y, double z)
+    const wy3d::Plane& plane, wy::Vector2& uv, double x, double y, double z)
 {
     uv = plane.uv(x, y, z);
     uMin = std::min(uMin, uv.x());
@@ -110,7 +110,7 @@ void DatumPlaneElementNode::update(const wydb::Database* pDb, const osg::Boundin
         assert(false);
         return;
     }
-    const wy3d::SketchPlane& plane = pDatumPlane->getPlane();
+    const wy3d::Plane& plane = pDatumPlane->getPlane();
 
     // 计算UV范围
     double uMin(DBL_MAX), vMin(DBL_MAX), uMax(-DBL_MAX), vMax(-DBL_MAX);
@@ -340,7 +340,7 @@ ElementNode::GenRenderDataRet DatumPlaneElementNode::generateRenderDataImpl(Scen
         assert(false);
         return GenRenderDataRet::Ok_Empty;
     }
-    const wy3d::SketchPlane& sketchPlane = pDatumPlane->getPlane();
+    const wy3d::Plane& sketchPlane = pDatumPlane->getPlane();
 
     _vertices->reserve(4);
     _vertices->push_back(MathUtils::toVec3(sketchPlane.value(_min.x(), _min.y())));

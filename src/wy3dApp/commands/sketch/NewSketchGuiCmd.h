@@ -20,7 +20,7 @@
 #define WY3DAPP_NEW_SKETCH_GUI_CMD_H
 
 #include <wyapSelManager.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 #include "commands/OsgGuiCommand.h"
 
@@ -55,7 +55,7 @@ private:
 
 private:
     Step _step;
-    wy3d::SketchPlane _plane;
+    wy3d::Plane _plane;
 
     // 点选选项
     PointPickOption _pointPickOption;

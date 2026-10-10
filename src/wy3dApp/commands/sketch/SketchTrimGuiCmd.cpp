@@ -800,7 +800,7 @@ bool SketchTrimGuiCmd::trimSpline(
     return false;
 }
 
-TrimSegmentTransient::TrimSegmentTransient(GuiCommand* pGuiCmd, const wy3d::SketchPlane& sketchPlane, const wy3d::SketchCurve* pSketchCurve,
+TrimSegmentTransient::TrimSegmentTransient(GuiCommand* pGuiCmd, const wy3d::Plane& sketchPlane, const wy3d::SketchCurve* pSketchCurve,
     const SketchTrimSegment& trimSegment) : _trimSegment(trimSegment)
 {
     assert(pGuiCmd);
@@ -815,7 +815,7 @@ TrimSegmentTransient::~TrimSegmentTransient()
 {
 }
 
-void TrimSegmentTransient::init(const wy3d::SketchPlane& sketchPlane, const wy3d::SketchCurve* pSketchCurve)
+void TrimSegmentTransient::init(const wy3d::Plane& sketchPlane, const wy3d::SketchCurve* pSketchCurve)
 {
     assert(pSketchCurve);
     if (!_trimSegment.isValid()) return;

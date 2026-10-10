@@ -21,7 +21,7 @@
 #include "../PropertyEditorWidget.h"
 #include "../SketchPlaneEditor.h"
 
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wyapSelManager.h>
@@ -50,14 +50,14 @@ public:
     {
         const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);
         assert(pAnyVal);
-        const wy3d::SketchPlane* pPlane = pAnyVal->tryGet<wy3d::SketchPlane>();
+        const wy3d::Plane* pPlane = pAnyVal->tryGet<wy3d::Plane>();
         assert(pPlane);
 
         auto* pEditor = new SketchPlaneEditor(*pPlane, isTheSameValue, parent);
         QObject::connect(pEditor, &SketchPlaneEditor::applyRequested, pEditor,
             [pEditor, className, paramName]() {
                 bool ok = false;
-                wy3d::SketchPlane plane = pEditor->getPlane(ok);
+                wy3d::Plane plane = pEditor->getPlane(ok);
                 if (!ok) return;
 
                 auto& app = Application::instance();
@@ -89,12 +89,12 @@ public:
     }
 };
 
-// 自注册到 Any<SketchPlane>
+// 自注册到 Any<Plane>
 static struct {
     struct Reg {
         Reg() {
             ParamEditorRegistry::instance().registerForAny(
-                std::type_index(typeid(wy3d::SketchPlane)),
+                std::type_index(typeid(wy3d::Plane)),
                 SketchPlaneEditorAdapter::instance());
         }
     } reg;

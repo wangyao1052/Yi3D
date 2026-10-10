@@ -1932,7 +1932,7 @@ void Scene::hideWCS()
     }
 }
 
-void Scene::showSketchCSYS(const wy3d::SketchPlane& sketchPlane)
+void Scene::showSketchCSYS(const wy3d::Plane& sketchPlane)
 {
     if (!_pSketchCsys) return;
 

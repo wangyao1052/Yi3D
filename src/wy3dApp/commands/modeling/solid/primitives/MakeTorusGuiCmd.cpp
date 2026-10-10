@@ -575,7 +575,7 @@ void MakeTorus::collectElements(std::set<wydb::ElementId>& idSet) const
     if (_pTorus) idSet.insert(_pTorus->getId());
 }
 
-bool MakeTorus::init(const wy3d::SketchPlane& workPln, const wy::Vector2& pnt1, const wy::Vector2& pnt2)
+bool MakeTorus::init(const wy3d::Plane& workPln, const wy::Vector2& pnt1, const wy::Vector2& pnt2)
 {
     if (!_pDb || !_pTopTrans || _pTorus || _isFinished)
     {

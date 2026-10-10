@@ -29,7 +29,7 @@
 #include <wy3dVector2.h>
 #include <wydbElementId.h>
 #include <wy3dSketchCurve.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 #include "GuiCmdTransient.h"
 
@@ -43,10 +43,10 @@ public:
     explicit SketchCurveTransient(const wy3d::SketchCurve* pCurve,
         double startParam = 0.0, double endParam = 1.0);
     // 圆弧
-    SketchCurveTransient(const wy3d::SketchPlane& sketchPlane,
+    SketchCurveTransient(const wy3d::Plane& sketchPlane,
         const wy::Vector2& center, double radius, double startAngle, double endAngle);
     // 直线段
-    SketchCurveTransient(const wy3d::SketchPlane& sketchPlane,
+    SketchCurveTransient(const wy3d::Plane& sketchPlane,
         const wy::Vector2& startPnt, const wy::Vector2& endPnt,
         osg::ref_ptr<osg::LineStipple> lineStipple = nullptr,
         osg::ref_ptr<osg::LineWidth> lineWidth = nullptr);
@@ -57,9 +57,9 @@ public:
 
 private:
     bool init(const wy3d::SketchCurve* pCurve, double startParam, double endParam);
-    bool init(const wy3d::SketchPlane& sketchPlane, const wy::Vector2& startPnt, const wy::Vector2& endPnt, double startParam, double endParam);
-    bool init(const wy3d::SketchPlane& sketchPlane, const wy::Vector2& center, double radius, double startParam, double endParam);
-    void initGeom(const wy3d::SketchPlane& sketchPlane, SketchEntityLinearization* pLinearization);
+    bool init(const wy3d::Plane& sketchPlane, const wy::Vector2& startPnt, const wy::Vector2& endPnt, double startParam, double endParam);
+    bool init(const wy3d::Plane& sketchPlane, const wy::Vector2& center, double radius, double startParam, double endParam);
+    void initGeom(const wy3d::Plane& sketchPlane, SketchEntityLinearization* pLinearization);
     void initGeom(osg::ref_ptr<osg::Vec3Array> vertices, const std::vector<unsigned int>& indices);
 
     const wy3d::SketchCurve* getCurve(const wydb::ElementId& id);
@@ -77,12 +77,12 @@ typedef std::shared_ptr<SketchCurveTransient> SketchCurveTransientSPtr;
 class SketchDotLineTransient : public GuiCmdTransient
 {
 public:
-    SketchDotLineTransient(const wy3d::SketchPlane& sketchPlane, const wy::Vector2& startPnt, const wy::Vector2& endPnt);
+    SketchDotLineTransient(const wy3d::Plane& sketchPlane, const wy::Vector2& startPnt, const wy::Vector2& endPnt);
 
     void update(const wy::Vector2& startPnt, const wy::Vector2& endPnt);
 
 private:
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     osg::ref_ptr<osg::Geometry> _geom;
     osg::ref_ptr<osg::Vec3Array> _vertices;
 };

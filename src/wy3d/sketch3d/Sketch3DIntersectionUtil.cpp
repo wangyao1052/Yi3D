@@ -51,7 +51,7 @@ using Source = Sketch3DIntersectionUtil::Source;
 // and the caller gets ParallelSources rather than whatever the intersector makes of it.
 const double kParallelDotTol = 1e-9;
 
-gp_Pln toGpPln(const SketchPlane& plane)
+gp_Pln toGpPln(const Plane& plane)
 {
     const wy::Vector3 origin = plane.getOrigin();
     const wy::Vector3 normal = plane.getNormal();

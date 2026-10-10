@@ -46,7 +46,7 @@ Sketch::~Sketch()
 {
 }
 
-wy::ErrorStatus Sketch::create(wydb::Transaction* pTrans, const wy3d::SketchPlane& plane, Sketch*& pOut)
+wy::ErrorStatus Sketch::create(wydb::Transaction* pTrans, const wy3d::Plane& plane, Sketch*& pOut)
 {
     if (!pTrans)
     {
@@ -87,7 +87,7 @@ wy::ErrorStatus Sketch::setOwner(const wydb::ElementId& ownerId)
     }
 }
 
-wy::ErrorStatus Sketch::setPlane(const wy3d::SketchPlane& plane)
+wy::ErrorStatus Sketch::setPlane(const wy3d::Plane& plane)
 {
     if (plane == _plane) return wy::ErrorStatus::Ok;
     if (!plane.isValid()) return wy::ErrorStatus::InvalidInput;
@@ -179,7 +179,7 @@ bool Sketch::setFieldValue(wydb::FieldId fieldId, const std::any& value)
         _ownerId = std::any_cast<wydb::ElementId>(value);
         return true;
     case kSketch_plane.value():
-        _plane = std::any_cast<const wy3d::SketchPlane&>(value);
+        _plane = std::any_cast<const wy3d::Plane&>(value);
         return true;
     case kSketch_entities.value():
         _entities = std::any_cast<const std::vector<wydb::ElementId>&>(value);
@@ -224,7 +224,7 @@ wy::ErrorStatus Sketch::readFromFiler(wydb::InFiler& filer)
     wy::Vector3 planeNormal(x, y, z);
     filer >> x >> y >> z;
     wy::Vector3 planeXDir(x, y, z);
-    _plane = wy3d::SketchPlane(planeOrigin, planeNormal, planeXDir);
+    _plane = wy3d::Plane(planeOrigin, planeNormal, planeXDir);
 
     std::uint32_t numEntities(0);
     filer >> numEntities;

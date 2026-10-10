@@ -214,7 +214,7 @@ void SketchDrawCircle3DGuiCmd::onSpaceKey()
     Sketch3DDrawGuiCmd::onSpaceKey();
     if (_step == static_cast<unsigned int>(Step::SpecifyRadius) && _pMakeSketchCircle3D)
     {
-        const wy3d::SketchPlane& plane = this->getWorkingPlane();
+        const wy3d::Plane& plane = this->getWorkingPlane();
         _pMakeSketchCircle3D->updatePlane(plane.getNormal(), plane.getXDir());
     }
 }
@@ -242,7 +242,7 @@ void SketchDrawCircle3DGuiCmd::onMouseMove(const MouseEvent& event)
         _hoverPopupState.radius = radius;
         if (_pMakeSketchCircle3D)
         {
-            const wy3d::SketchPlane& plane = this->getWorkingPlane();
+            const wy3d::Plane& plane = this->getWorkingPlane();
             wy::Vector3 normal = plane.getNormal();
             wy::Vector3 xDir = plane.getXDir();
             if (ret.second)
@@ -471,7 +471,7 @@ bool SketchDrawCircle3DGuiCmd::computeCirclePlane(const wy::Vector3& pnt, wy::Ve
     if (xDirNew.length() < 1e-5) return false;
     xDirNew.normalize();
 
-    const wy3d::SketchPlane& plane = this->getWorkingPlane();
+    const wy3d::Plane& plane = this->getWorkingPlane();
     wy::Vector3 xDirOld = plane.getXDir();
     xDirOld.normalize();
     wy::Vector3 normalOld = plane.getNormal();

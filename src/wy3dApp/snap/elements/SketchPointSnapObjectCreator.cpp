@@ -33,7 +33,7 @@ std::list<wyap::SnapObjectSPtr> SketchPointSnapObjectCreator::createSnapObjects(
     }
 
     std::list<wyap::SnapObjectSPtr> snapPoints;
-    wy3d::SketchPlane sketchPlane;
+    wy3d::Plane sketchPlane;
     if (!this->getSketchPlane(pSketchPoint, sketchPlane))
     {
         assert(false);

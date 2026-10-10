@@ -26,7 +26,7 @@
 #include <wydbTransaction.h>
 #include <wyapSelection.h>
 #include <wy3dSketch3D.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 #include "snap3d/Sketch3DSnapSystem.h"
 #include <wy3dApp/Sketch3DEnvironment.h>
@@ -51,8 +51,8 @@ public:
     // Sketch plane picked in the Select command, together with the picked face itself
     // (the drawing command needs the latter to carry the highlight over). Consumed by the
     // next drawing command, so take() reads and clears in one step.
-    void setPendingWorkPlane(const wy3d::SketchPlane& plane, const wyap::Selection& sel);
-    bool takePendingWorkPlane(wy3d::SketchPlane& plane, wyap::Selection& sel);
+    void setPendingWorkPlane(const wy3d::Plane& plane, const wyap::Selection& sel);
+    bool takePendingWorkPlane(wy3d::Plane& plane, wyap::Selection& sel);
     void clearPendingWorkPlane();
 
 public:
@@ -90,8 +90,8 @@ private:
     std::unique_ptr<Sketch3DEnvironmentUI> _pUI;
     std::unique_ptr<Sketch3DSnapSystem> _pSnapSys;
 
-    // kInvalid is the empty state: the default constructed SketchPlane is a valid one.
-    wy3d::SketchPlane _pendingWorkPlane;
+    // kInvalid is the empty state: the default constructed Plane is a valid one.
+    wy3d::Plane _pendingWorkPlane;
     wyap::Selection _pendingPlaneSelection;
 };
 

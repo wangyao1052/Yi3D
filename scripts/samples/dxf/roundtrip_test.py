@@ -16,7 +16,7 @@ trans = db.getTransactionManager().startTransaction()
 if trans is None:
     raise SystemExit("ROUNDTRIP_TEST: cannot start transaction")
 
-plane = wy3d.SketchPlane(
+plane = wy3d.Plane(
     wy3d.Vector3(0.0, 0.0, 0.0),
     wy3d.Vector3(0.0, 0.0, 1.0),
     wy3d.Vector3(1.0, 0.0, 0.0))

@@ -111,7 +111,7 @@ public:
     virtual void collectElements(std::set<wydb::ElementId>& idSet) const override;
 
     // 创建
-    bool init(const wy3d::SketchPlane& workPln, const wy::Vector2& uv1, const wy::Vector2& uv2);
+    bool init(const wy3d::Plane& workPln, const wy::Vector2& uv1, const wy::Vector2& uv2);
     // 更新
     bool update(double height);
 

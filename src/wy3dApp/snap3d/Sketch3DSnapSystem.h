@@ -22,7 +22,7 @@
 #include <set>
 
 #include <wyVector3.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include <wydbElementId.h>
 
 #include <osgViewer/View>
@@ -56,7 +56,7 @@ public:
         const Sketch3DSnapContext* pContext,
         osgViewer::View* pView,
         const wy::Vector3& rawPnt,
-        const wy3d::SketchPlane& workPlane,
+        const wy3d::Plane& workPlane,
         const std::set<wydb::ElementId>& excludeIds,
         const wydb::ElementId& sketch3dId);
 
@@ -74,7 +74,7 @@ private:
         const Sketch3DDrawLineContext* pContext,
         osgViewer::View* pView,
         const wy::Vector3& rawPnt,
-        const wy3d::SketchPlane& workPlane,
+        const wy3d::Plane& workPlane,
         const std::set<wydb::ElementId>& excludeIds,
         const wydb::ElementId& sketch3dId);
 
@@ -84,14 +84,14 @@ private:
         const Sketch3DDrawCircleContext* pContext,
         osgViewer::View* pView,
         const wy::Vector3& rawPnt,
-        const wy3d::SketchPlane& workPlane,
+        const wy3d::Plane& workPlane,
         const std::set<wydb::ElementId>& excludeIds,
         const wydb::ElementId& sketch3dId);
 
     // 像素比例:屏幕1像素对应的世界单位数(与2D草图scaleScreen同语义,退化视图返回0)
     double computePixelScale(
         osgViewer::View* pView,
-        const wy3d::SketchPlane& workPlane,
+        const wy3d::Plane& workPlane,
         const wy::Vector3& originPnt) const;
 
 private:

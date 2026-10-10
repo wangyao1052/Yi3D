@@ -20,7 +20,7 @@
 
 #include <wy3dErrorCode.h>
 #include <wy3dMath.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 #include <TopoDS.hxx>
 #include <TopoDS_Edge.hxx>
@@ -248,7 +248,7 @@ TEST(TopoShapeUtil, MakePlanarSheetFromEdges_ExactPlane)
     ASSERT_EQ(1u, faces.size());
     EXPECT_TRUE(isPlaneSurface(faces[0]));
 
-    wy3d::SketchPlane plane;
+    wy3d::Plane plane;
     ASSERT_TRUE(wy3d::TopoShapeUtil::getFacePlane(faces[0], plane));
     EXPECT_NEAR(1.0, std::abs(plane.getNormal().z()), 1e-9);
     EXPECT_NEAR(0.0, plane.getOrigin().z(), 1e-9);

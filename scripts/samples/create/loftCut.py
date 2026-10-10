@@ -12,7 +12,7 @@ def createLoftCut():
     trans.addNewlyCreatedElement(cylinder)
 
     # 创建轮廓草图1
-    plane1 = wy3d.SketchPlane(
+    plane1 = wy3d.Plane(
         origin = wy3d.Vector3(0.0, 0.0, 0.0),
         normal = wy3d.Vector3(0.0, 0.0, 1.0),
         xDir = wy3d.Vector3(1.0, 0.0, 0.0))
@@ -24,7 +24,7 @@ def createLoftCut():
     sketch1.addEntity(circle1)
 
     # 创建轮廓草图2
-    plane2 = wy3d.SketchPlane(
+    plane2 = wy3d.Plane(
         origin = wy3d.Vector3(0.0, 0.0, 50.0),
         normal = wy3d.Vector3(0.0, 0.0, 1.0),
         xDir = wy3d.Vector3(1.0, 0.0, 0.0))

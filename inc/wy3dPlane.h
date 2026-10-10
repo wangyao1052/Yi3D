@@ -4,8 +4,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3D_SKETCH_PLANE_H
-#define WY3D_SKETCH_PLANE_H
+#ifndef WY3D_PLANE_H
+#define WY3D_PLANE_H
 
 #include <wyVector2.h>
 #include <wyVector3.h>
@@ -15,14 +15,14 @@
 
 NS_WY3D_BEG
 
-class WY3D_EXPORT SketchPlane
+class WY3D_EXPORT Plane
 {
 public:
-    SketchPlane();
-    SketchPlane(const wy::Vector3& origin, const wy::Vector3& normal, const wy::Vector3& xDir);
+    Plane();
+    Plane(const wy::Vector3& origin, const wy::Vector3& normal, const wy::Vector3& xDir);
 
     // 无效的平面
-    static SketchPlane kInvalid;
+    static Plane kInvalid;
 
     // 获取原点
     inline wy::Vector3 getOrigin() const { return _origin; }
@@ -60,11 +60,11 @@ public:
     double distanceTo(const wy::Vector3& pnt) const;
 
     // 偏移
-    static SketchPlane offset(const SketchPlane& plane, double distance);
+    static Plane offset(const Plane& plane, double distance);
 
     // 操作符
-    friend inline bool operator==(const SketchPlane& lhs, const SketchPlane& rhs);
-    friend inline bool operator!=(const SketchPlane& lhs, const SketchPlane& rhs);
+    friend inline bool operator==(const Plane& lhs, const Plane& rhs);
+    friend inline bool operator!=(const Plane& lhs, const Plane& rhs);
 
 private:
     wy::Vector3 _origin;
@@ -73,16 +73,16 @@ private:
 };
 
 // 操作符
-inline bool operator==(const SketchPlane& lhs, const SketchPlane& rhs)
+inline bool operator==(const Plane& lhs, const Plane& rhs)
 {
     return lhs._origin == rhs._origin && lhs._normal == rhs._normal && lhs._xDir == rhs._xDir;
 }
 
-inline bool operator!=(const SketchPlane& lhs, const SketchPlane& rhs)
+inline bool operator!=(const Plane& lhs, const Plane& rhs)
 {
     return lhs._origin != rhs._origin || lhs._normal != rhs._normal || lhs._xDir != rhs._xDir;
 }
 
 NS_WY3D_END
 
-#endif // WY3D_SKETCH_PLANE_H
+#endif // WY3D_PLANE_H

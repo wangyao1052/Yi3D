@@ -405,7 +405,7 @@ TopoDS_Edge Helix::generateShape(
         return TopoDS_Edge();
     }
 
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
     if (!sketchPlane.isValid())
     {
         assert(false);

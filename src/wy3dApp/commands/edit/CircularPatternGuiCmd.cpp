@@ -161,7 +161,7 @@ bool CircularPatternGuiCmd::finishStep(Step step)
             assert(false);
             return false;
         }
-        wy3d::SketchPlane plane;
+        wy3d::Plane plane;
         double radius(0.0);
         if (!MakeDatumPlane::getSolidCylindricalFaceCenterPlane(
             _cylindricalSurfaceSel, plane, radius))

@@ -35,7 +35,7 @@ public:
     ~ScaleElements();
 
     bool init(const wyap::SelectionSet& ss);
-    bool update(const wy3d::SketchPlane& sketchPlane, const wy::Vector2& basePnt, const double scale);
+    bool update(const wy3d::Plane& sketchPlane, const wy::Vector2& basePnt, const double scale);
     bool perform(const wyap::SelectionSet& ss,
         const wydb::ElementId& sketchId,
         const wy::Vector2& basePnt, const double scale);

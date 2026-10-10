@@ -29,7 +29,7 @@
 #include <wy3dVector3.h>
 #include <wy3dMath.h>
 
-SketchPlaneEditor::SketchPlaneEditor(const wy3d::SketchPlane& plane, bool isTheSameValue, QWidget* parent)
+SketchPlaneEditor::SketchPlaneEditor(const wy3d::Plane& plane, bool isTheSameValue, QWidget* parent)
     : QWidget(parent)
     , _pOriginX(nullptr), _pOriginY(nullptr), _pOriginZ(nullptr)
     , _pNormalX(nullptr), _pNormalY(nullptr), _pNormalZ(nullptr)
@@ -130,7 +130,7 @@ SketchPlaneEditor::SketchPlaneEditor(const wy3d::SketchPlane& plane, bool isTheS
     connect(_pApplyBtn, &QPushButton::clicked, this, &SketchPlaneEditor::applyRequested);
 }
 
-wy3d::SketchPlane SketchPlaneEditor::getPlane(bool& ok) const
+wy3d::Plane SketchPlaneEditor::getPlane(bool& ok) const
 {
     QString qstrInvalidInput = tr("Invalid input.");
 
@@ -150,35 +150,35 @@ wy3d::SketchPlane SketchPlaneEditor::getPlane(bool& ok) const
 
     // origin
     double originX, originY, originZ;
-    if (!toDouble(_pOriginX, originX)) return wy3d::SketchPlane();
-    if (!toDouble(_pOriginY, originY)) return wy3d::SketchPlane();
-    if (!toDouble(_pOriginZ, originZ)) return wy3d::SketchPlane();
+    if (!toDouble(_pOriginX, originX)) return wy3d::Plane();
+    if (!toDouble(_pOriginY, originY)) return wy3d::Plane();
+    if (!toDouble(_pOriginZ, originZ)) return wy3d::Plane();
     wy::Vector3 origin(originX, originY, originZ);
 
     // normal
     double nx, ny, nz;
-    if (!toDouble(_pNormalX, nx)) return wy3d::SketchPlane();
-    if (!toDouble(_pNormalY, ny)) return wy3d::SketchPlane();
-    if (!toDouble(_pNormalZ, nz)) return wy3d::SketchPlane();
+    if (!toDouble(_pNormalX, nx)) return wy3d::Plane();
+    if (!toDouble(_pNormalY, ny)) return wy3d::Plane();
+    if (!toDouble(_pNormalZ, nz)) return wy3d::Plane();
     wy::Vector3 normal(nx, ny, nz);
     normal.normalize();
     if (normal.length() < 0.5)
     {
         MessageBoxUtil::showError(tr("Invalid Normal data."));
-        return wy3d::SketchPlane();
+        return wy3d::Plane();
     }
 
     // xDir
     double xx, xy, xz;
-    if (!toDouble(_pXDirX, xx)) return wy3d::SketchPlane();
-    if (!toDouble(_pXDirY, xy)) return wy3d::SketchPlane();
-    if (!toDouble(_pXDirZ, xz)) return wy3d::SketchPlane();
+    if (!toDouble(_pXDirX, xx)) return wy3d::Plane();
+    if (!toDouble(_pXDirY, xy)) return wy3d::Plane();
+    if (!toDouble(_pXDirZ, xz)) return wy3d::Plane();
     wy::Vector3 xDir(xx, xy, xz);
     xDir.normalize();
     if (xDir.length() < 0.5)
     {
         MessageBoxUtil::showError(tr("Invalid X Axis data."));
-        return wy3d::SketchPlane();
+        return wy3d::Plane();
     }
 
     wy::Vector3 yDir = normal.cross(xDir);
@@ -186,7 +186,7 @@ wy3d::SketchPlane SketchPlaneEditor::getPlane(bool& ok) const
     if (yDir.length() < 0.5)
     {
         MessageBoxUtil::showError(qstrInvalidInput);
-        return wy3d::SketchPlane();
+        return wy3d::Plane();
     }
 
     xDir = yDir.cross(normal);
@@ -194,14 +194,14 @@ wy3d::SketchPlane SketchPlaneEditor::getPlane(bool& ok) const
     if (xDir.length() < 0.5)
     {
         MessageBoxUtil::showError(qstrInvalidInput);
-        return wy3d::SketchPlane();
+        return wy3d::Plane();
     }
 
-    wy3d::SketchPlane plane(origin, normal, xDir);
+    wy3d::Plane plane(origin, normal, xDir);
     if (!plane.isValid())
     {
         MessageBoxUtil::showError(qstrInvalidInput);
-        return wy3d::SketchPlane();
+        return wy3d::Plane();
     }
 
     ok = true;

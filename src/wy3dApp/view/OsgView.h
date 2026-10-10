@@ -60,7 +60,7 @@ public:
     virtual void ortho() override;
     virtual void perspective() override;
 
-    virtual void viewToWorkingPlane(const wy3d::SketchPlane& workPln) override;
+    virtual void viewToWorkingPlane(const wy3d::Plane& workPln) override;
 
     virtual void viewAll(const osg::BoundingSphere& bdSphere) override;
 

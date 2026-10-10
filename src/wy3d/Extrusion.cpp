@@ -504,7 +504,7 @@ TopoDS_Shape Extrusion::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdate
     }
 
     // 草图平面
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
     if (!sketchPlane.isValid())
     {
         assert(false);

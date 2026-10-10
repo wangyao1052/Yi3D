@@ -110,7 +110,7 @@ std::list<wyap::SnapObjectSPtr> ElemSnapObjectCreator::newSnapObjects(const wydb
     }
 }
 
-bool ElemSnapObjectCreator::getSketchPlane(const wy3d::SketchEntity* pSketchEntity, wy3d::SketchPlane& outSketchPlane) const
+bool ElemSnapObjectCreator::getSketchPlane(const wy3d::SketchEntity* pSketchEntity, wy3d::Plane& outSketchPlane) const
 {
     assert(pSketchEntity);
     const wydb::Database* pDb = pSketchEntity->getDatabase();
@@ -134,7 +134,7 @@ bool ElemSnapObjectCreator::getSketchPlane(const wy3d::SketchEntity* pSketchEnti
         return false;
     }
 
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
     if (!sketchPlane.isValid())
     {
         assert(false);

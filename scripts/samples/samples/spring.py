@@ -19,7 +19,7 @@ def createSpring():
     path_plane_normal = wy3d.Vector3(0.0, 0.0, 1.0)
     path_plane_xdir = wy3d.Vector3(1.0, 0.0, 0.0)
 
-    pathPlane = wy3d.SketchPlane(
+    pathPlane = wy3d.Plane(
         origin=path_plane_origin,
         normal=path_plane_normal,
         xDir=path_plane_xdir,
@@ -61,7 +61,7 @@ def createSpring():
     startTangent = tangentAround + axial_sign * axial_ratio * path_plane_normal
     startTangent = startTangent.normalized()
 
-    profilePlane = wy3d.SketchPlane(
+    profilePlane = wy3d.Plane(
         origin=startPoint,
         normal=startTangent,
         xDir=startRadial,

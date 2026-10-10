@@ -26,7 +26,7 @@
 #include <wyVector3.h>
 #include "../SnapSystemBase.h"
 #include <wy3dSketchEntity.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 // 元素捕捉对象工厂
 class ElemSnapObjectCreator
@@ -40,7 +40,7 @@ public:
 protected:
     std::list<wyap::SnapObjectSPtr> newSnapObjects(const wydb::ElementId& id, const TopoDS_Shape& shape) const;
 
-    bool getSketchPlane(const wy3d::SketchEntity* pSketchEntity, wy3d::SketchPlane& outSketchPlane) const;
+    bool getSketchPlane(const wy3d::SketchEntity* pSketchEntity, wy3d::Plane& outSketchPlane) const;
 
 protected:
     template<typename T>

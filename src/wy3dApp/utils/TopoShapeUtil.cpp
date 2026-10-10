@@ -29,7 +29,7 @@
 #include <wy3dImpl.h>
 #include "MathUtils.h"
 
-bool TopoShapeUtil::getFacePlane(const TopoDS_Face& face, wy3d::SketchPlane& plane)
+bool TopoShapeUtil::getFacePlane(const TopoDS_Face& face, wy3d::Plane& plane)
 {
     if (face.IsNull()) return false;
     Handle(Geom_Plane) planeSurf = Handle(Geom_Plane)::DownCast(BRep_Tool::Surface(face));
@@ -43,14 +43,14 @@ bool TopoShapeUtil::getFacePlane(const TopoDS_Face& face, wy3d::SketchPlane& pla
     TopAbs_Orientation orient = face.Orientation();
     if (orient == TopAbs_REVERSED)
     {
-        plane = wy3d::SketchPlane(
+        plane = wy3d::Plane(
             MathUtils::toVector3(origin),
             MathUtils::toVector3(zAxis.Reversed()),
             MathUtils::toVector3(xAxis.Reversed()));
     }
     else
     {
-        plane = wy3d::SketchPlane(
+        plane = wy3d::Plane(
             MathUtils::toVector3(origin),
             MathUtils::toVector3(zAxis),
             MathUtils::toVector3(xAxis));
@@ -59,7 +59,7 @@ bool TopoShapeUtil::getFacePlane(const TopoDS_Face& face, wy3d::SketchPlane& pla
     else return false;
 }
 
-bool TopoShapeUtil::getShapeFacePlane(const TopoDS_Shape& shape, unsigned int faceIndex, wy3d::SketchPlane& plane)
+bool TopoShapeUtil::getShapeFacePlane(const TopoDS_Shape& shape, unsigned int faceIndex, wy3d::Plane& plane)
 {
     if (shape.IsNull()) return false;
 

@@ -71,7 +71,7 @@ Sketch3DSnapResultSPtr Sketch3DSnapSystem::snap(
     const Sketch3DSnapContext* pContext,
     osgViewer::View* pView,
     const wy::Vector3& rawPnt,
-    const wy3d::SketchPlane& workPlane,
+    const wy3d::Plane& workPlane,
     const std::set<wydb::ElementId>& excludeIds,
     const wydb::ElementId& sketch3dId)
 {
@@ -116,7 +116,7 @@ Sketch3DSnapResultSPtr Sketch3DSnapSystem::snapDrawLine(
     const Sketch3DDrawLineContext* pContext,
     osgViewer::View* pView,
     const wy::Vector3& rawPnt,
-    const wy3d::SketchPlane& workPlane,
+    const wy3d::Plane& workPlane,
     const std::set<wydb::ElementId>& excludeIds,
     const wydb::ElementId& sketch3dId)
 {
@@ -423,7 +423,7 @@ Sketch3DSnapResultSPtr Sketch3DSnapSystem::snapDrawCircle(
     const Sketch3DDrawCircleContext* pContext,
     osgViewer::View* pView,
     const wy::Vector3& rawPnt,
-    const wy3d::SketchPlane& workPlane,
+    const wy3d::Plane& workPlane,
     const std::set<wydb::ElementId>& excludeIds,
     const wydb::ElementId& sketch3dId)
 {
@@ -505,7 +505,7 @@ void Sketch3DSnapSystem::setSnapResult(Sketch3DSnapResultSPtr pResult)
 
 double Sketch3DSnapSystem::computePixelScale(
     osgViewer::View* pView,
-    const wy3d::SketchPlane& workPlane,
+    const wy3d::Plane& workPlane,
     const wy::Vector3& originPnt) const
 {
     // 返回"每像素对应的世界单位数"(与2D草图scaleScreen同语义):

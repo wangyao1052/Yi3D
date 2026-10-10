@@ -34,7 +34,7 @@
 #include <wy3dDeleteFace.h>
 #include <wy3dMove.h>
 #include <wy3dRotate.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 namespace py = pybind11;
 
@@ -233,7 +233,7 @@ void bindWy3dBodyModifications(py::module_& m)
             [](wydb::Transaction* pTrans,
                wy3d::Solid* pOwner,
                const wy3d::Solid* pSource,
-               const wy3d::SketchPlane& mirrorPlane) -> wy3d::Mirror*
+               const wy3d::Plane& mirrorPlane) -> wy3d::Mirror*
             {
                 wy3d::Mirror* pOutMirror = nullptr;
                 wy::ErrorStatus status = wy3d::Mirror::create(
@@ -249,7 +249,7 @@ void bindWy3dBodyModifications(py::module_& m)
         .def_static("create",
             [](wydb::Transaction* pTrans,
                wy3d::Sheet* pOwner,
-               const wy3d::SketchPlane& mirrorPlane) -> wy3d::Mirror*
+               const wy3d::Plane& mirrorPlane) -> wy3d::Mirror*
             {
                 wy3d::Mirror* pOutMirror = nullptr;
                 wy::ErrorStatus status = wy3d::Mirror::create(

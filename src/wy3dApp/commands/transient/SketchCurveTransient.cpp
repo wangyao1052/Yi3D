@@ -58,14 +58,14 @@ SketchCurveTransient::SketchCurveTransient(const wy3d::SketchCurve* pCurve, doub
     this->init(pCurve, startParam, endParam);
 }
 
-SketchCurveTransient::SketchCurveTransient(const wy3d::SketchPlane& sketchPlane,
+SketchCurveTransient::SketchCurveTransient(const wy3d::Plane& sketchPlane,
     const wy::Vector2& center, double radius, double startAngle, double endAngle)
     : _id(wydb::ElementId::kNull), _startParam(0.0), _endParam(1.0)
 {
     this->init(sketchPlane, center, radius, startAngle, endAngle);
 }
 
-SketchCurveTransient::SketchCurveTransient(const wy3d::SketchPlane& sketchPlane,
+SketchCurveTransient::SketchCurveTransient(const wy3d::Plane& sketchPlane,
     const wy::Vector2& startPnt, const wy::Vector2& endPnt,
     osg::ref_ptr<osg::LineStipple> lineStipple,
     osg::ref_ptr<osg::LineWidth> lineWidth)
@@ -82,7 +82,7 @@ bool SketchCurveTransient::init(const wy3d::SketchCurve* pCurve, double startPar
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(pCurve->getParent()));
     assert(pSketch);
     if (!pSketch) return false;
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
 
     std::shared_ptr<SketchEntityLinearization> pLinearization;
     if (const wy3d::SketchLine* pLine = wy3d::SketchLine::cast(pCurve))
@@ -156,7 +156,7 @@ bool SketchCurveTransient::init(const wy3d::SketchCurve* pCurve, double startPar
     return true;
 }
 
-bool SketchCurveTransient::init(const wy3d::SketchPlane& sketchPlane, const wy::Vector2& startPnt, const wy::Vector2& endPnt, double startParam, double endParam)
+bool SketchCurveTransient::init(const wy3d::Plane& sketchPlane, const wy::Vector2& startPnt, const wy::Vector2& endPnt, double startParam, double endParam)
 {
     wy::Vector2 lineVec = endPnt - startPnt;
     std::shared_ptr<SketchEntityLinearization> pLinearization = std::make_shared<SketchEntityLinearization>(
@@ -165,7 +165,7 @@ bool SketchCurveTransient::init(const wy3d::SketchPlane& sketchPlane, const wy::
     return true;
 }
 
-bool SketchCurveTransient::init(const wy3d::SketchPlane& sketchPlane, const wy::Vector2& center, double radius, double startAngle, double endAngle)
+bool SketchCurveTransient::init(const wy3d::Plane& sketchPlane, const wy::Vector2& center, double radius, double startAngle, double endAngle)
 {
     startAngle = wy3d::normalizeRadian(startAngle);
     endAngle = wy3d::normalizeRadian(endAngle);
@@ -175,7 +175,7 @@ bool SketchCurveTransient::init(const wy3d::SketchPlane& sketchPlane, const wy::
     return true;
 }
 
-void SketchCurveTransient::initGeom(const wy3d::SketchPlane& sketchPlane, SketchEntityLinearization* pLinearization)
+void SketchCurveTransient::initGeom(const wy3d::Plane& sketchPlane, SketchEntityLinearization* pLinearization)
 {
     if (!pLinearization) return;
     const std::vector<wy::Vector2>& vertices2 = pLinearization->getVertices();
@@ -230,7 +230,7 @@ const wy3d::SketchCurve* SketchCurveTransient::getCurve(const wydb::ElementId& i
 }
 
 SketchDotLineTransient::SketchDotLineTransient(
-    const wy3d::SketchPlane& sketchPlane, const wy::Vector2& startPnt, const wy::Vector2& endPnt)
+    const wy3d::Plane& sketchPlane, const wy::Vector2& startPnt, const wy::Vector2& endPnt)
     : _sketchPlane(sketchPlane)
 {
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();

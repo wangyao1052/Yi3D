@@ -23,20 +23,20 @@
 #include <osg/Vec4>
 #include <wyVector2.h>
 #include <wy3dVector2.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 
 #include "GuiCmdTransient.h"
 
 class SketchPointTransient : public GuiCmdTransient
 {
 public:
-    SketchPointTransient(const wy3d::SketchPlane& sketchPlane, const wy::Vector2& point,
+    SketchPointTransient(const wy3d::Plane& sketchPlane, const wy::Vector2& point,
         float pointSize, const osg::Vec4& color);
 
     void update(const wy::Vector2& point);
 
 private:
-    wy3d::SketchPlane _sketchPlane;
+    wy3d::Plane _sketchPlane;
     osg::ref_ptr<osg::Geometry> _geom;
     osg::ref_ptr<osg::Vec3Array> _vertices;
 };

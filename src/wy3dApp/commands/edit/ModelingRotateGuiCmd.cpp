@@ -101,7 +101,7 @@ void ModelingRotateGuiCmd::cleanupEnvSpecific()
     }
 }
 
-const wy3d::SketchPlane& ModelingRotateGuiCmd::getActivePlane() const
+const wy3d::Plane& ModelingRotateGuiCmd::getActivePlane() const
 {
     return _workPln;
 }

@@ -42,7 +42,7 @@ DatumPlane::~DatumPlane()
 {
 }
 
-wy::ErrorStatus DatumPlane::create(wydb::Transaction* pTrans, const wy3d::SketchPlane& plane, DatumPlane*& pOut)
+wy::ErrorStatus DatumPlane::create(wydb::Transaction* pTrans, const wy3d::Plane& plane, DatumPlane*& pOut)
 {
     if (!pTrans)
     {
@@ -66,7 +66,7 @@ wy::ErrorStatus DatumPlane::create(wydb::Transaction* pTrans, const wy3d::Sketch
     return wy::ErrorStatus::Ok;
 }
 
-wy::ErrorStatus DatumPlane::setPlane(const wy3d::SketchPlane& plane)
+wy::ErrorStatus DatumPlane::setPlane(const wy3d::Plane& plane)
 {
     if (!plane.isValid())
     {
@@ -117,7 +117,7 @@ wy::ErrorStatus DatumPlane::setParameterValue(const std::string& className, cons
             if (!paramValue.isAny()) return wy::ErrorStatus::InvalidInput;
             const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);
             if (!pAnyVal) return wy::ErrorStatus::InvalidInput;
-            const auto* pPlane = pAnyVal->tryGet<wy3d::SketchPlane>();
+            const auto* pPlane = pAnyVal->tryGet<wy3d::Plane>();
             if (!pPlane) return wy::ErrorStatus::InvalidInput;
             return this->setPlane(*pPlane);
         }
@@ -166,7 +166,7 @@ bool DatumPlane::setFieldValue(wydb::FieldId fieldId, const std::any& v)
     switch (fieldId.value())
     {
     case kDatumPlane_plane.value():
-        _plane = std::any_cast<const wy3d::SketchPlane&>(v);
+        _plane = std::any_cast<const wy3d::Plane&>(v);
         return true;
     case kDatumPlane_name.value():
         _name = std::any_cast<const std::string&>(v);
@@ -204,7 +204,7 @@ wy::ErrorStatus DatumPlane::readFromFiler(wydb::InFiler& f)
     wy::Vector3 planeNormal(x, y, z);
     f >> x >> y >> z;
     wy::Vector3 planeXDir(x, y, z);
-    _plane = wy3d::SketchPlane(planeOrigin, planeNormal, planeXDir);
+    _plane = wy3d::Plane(planeOrigin, planeNormal, planeXDir);
 
     f >> _name;
     return wy::ErrorStatus::Ok;

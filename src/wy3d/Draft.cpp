@@ -282,7 +282,7 @@ std::pair<bool, TopoDS_Shape> Draft::modifyOwnerShape(const TopoDS_Shape& shape,
     }
 
     TopoDS_Face neutralFace = neutralTopoFaces[0];
-    wy3d::SketchPlane neutralPlane;
+    wy3d::Plane neutralPlane;
     if (!TopoShapeUtil::getFacePlane(neutralFace, neutralPlane))
     {
         wy3d::reportChainUpdateError(feedbackCollector, this->getId(), static_cast<std::uint32_t>(ErrorCode::DRAFT_InvalidData));

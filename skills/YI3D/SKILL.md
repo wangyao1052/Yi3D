@@ -37,9 +37,9 @@ description: 生成 YI3D Python 建模脚本，通过 IpcClient.py 传入脚本�
 ## 建模原则
 
 - 先阅读 `../../scripts/samples/` 下与目标最接近的示例脚本，再决定建模策略，不要直接凭空假设 API。
-- Sketch 图元是 2D 坐标；其在 3D 中的位置与朝向由 `SketchPlane`（`normal` + `xDir`）决定。
-- SketchPlane 必须先做右手系验算再建模：`yDir = normal × xDir`。禁止把草图 `v` 方向默认当成世界 `+Z`（或任意固定方向）。
-- 创建每一个 SketchPlane 后，必须立即计算 `yDir = normal × xDir` 并做方向断言（例如校验 `v` 方向是否与预期世界方向一致）。若断言不通过，必须直接报错并停止本次建模，禁止继续执行后续特征创建。
+- Sketch 图元是 2D 坐标；其在 3D 中的位置与朝向由 `Plane`（`normal` + `xDir`）决定。
+- Plane 必须先做右手系验算再建模：`yDir = normal × xDir`。禁止把草图 `v` 方向默认当成世界 `+Z`（或任意固定方向）。
+- 创建每一个 Plane 后，必须立即计算 `yDir = normal × xDir` 并做方向断言（例如校验 `v` 方向是否与预期世界方向一致）。若断言不通过，必须直接报错并停止本次建模，禁止继续执行后续特征创建。
 - Yi3D 中 `SketchArc` 只能创建逆时针（CCW）圆弧，不能直接创建顺时针圆弧。
 - 拉伸深度与 `normal` 同向约定：`depth > 0` 沿 `normal` 增厚，`depth < 0` 沿 `-normal` 增厚。
 - 优先使用拉伸体 `Extrusion.create` 构造主体外形；只有当拉伸明显不适合时，才使用旋转、扫掠、螺旋等更复杂特征。

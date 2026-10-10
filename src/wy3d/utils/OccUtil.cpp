@@ -22,7 +22,7 @@
 
 NS_WY3D_BEG
 
-gp_Ax2 OccUtil::toAx2(const wy3d::SketchPlane& plane)
+gp_Ax2 OccUtil::toAx2(const wy3d::Plane& plane)
 {
     return gp_Ax2(toPnt(plane.getOrigin()), toDir(plane.getNormal()), toDir(plane.getXDir()));
 }

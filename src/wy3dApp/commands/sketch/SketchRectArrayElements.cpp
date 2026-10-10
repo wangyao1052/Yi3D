@@ -31,7 +31,7 @@
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
 
-SketchRectArrayElements::SketchRectArrayElements(GuiCommand* pGuiCmd, const wy3d::SketchPlane& sketchPlane, wydb::ElementId sketchId) : GuiCmdMakeElement(pGuiCmd), _sketchPlane(sketchPlane), _sketchId(sketchId), _cols(0), _rows(0)
+SketchRectArrayElements::SketchRectArrayElements(GuiCommand* pGuiCmd, const wy3d::Plane& sketchPlane, wydb::ElementId sketchId) : GuiCmdMakeElement(pGuiCmd), _sketchPlane(sketchPlane), _sketchId(sketchId), _cols(0), _rows(0)
 {
 }
 
@@ -82,7 +82,7 @@ bool SketchRectArrayElements::init(const std::set<wydb::ElementId>& ids, unsigne
     }
 
     assert(_pGuiCmd);
-    const wy3d::SketchPlane& sketchPlane = _sketchPlane;
+    const wy3d::Plane& sketchPlane = _sketchPlane;
     wy::Vector3 xDir = sketchPlane.getXDir();
     wy::Vector3 yDir = sketchPlane.getYDir();
 
@@ -104,7 +104,7 @@ bool SketchRectArrayElements::init(const std::set<wydb::ElementId>& ids, unsigne
 bool SketchRectArrayElements::update(double colSpacing, double rowSpacing)
 {
     assert(_pGuiCmd);
-    const wy3d::SketchPlane& sketchPlane = _sketchPlane;
+    const wy3d::Plane& sketchPlane = _sketchPlane;
     wy::Vector3 xDir = sketchPlane.getXDir();
     wy::Vector3 yDir = sketchPlane.getYDir();
 

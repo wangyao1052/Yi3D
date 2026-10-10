@@ -323,7 +323,7 @@ bool SplineUtil::getBSplineData(const Handle(Geom2d_BSplineCurve)& pBSpline,
 
 Handle(Geom_BSplineCurve) SplineUtil::convertToBSplineCurve3D(
     const Handle(Geom2d_BSplineCurve)& pBSpline2d,
-    const wy3d::SketchPlane& plane)
+    const wy3d::Plane& plane)
 {
     if (pBSpline2d.IsNull() || !plane.isValid())
     {

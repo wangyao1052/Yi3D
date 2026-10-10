@@ -35,7 +35,7 @@ public:
     ~MirrorElemens();
 
     bool init(const wyap::SelectionSet& ss);
-    bool update(const wy3d::SketchPlane& sketchPlane, const wy::Vector2& axisStartPnt, const wy::Vector2& aixsEndPnt);
+    bool update(const wy3d::Plane& sketchPlane, const wy::Vector2& axisStartPnt, const wy::Vector2& aixsEndPnt);
     bool perform(const wyap::SelectionSet& ss, const wydb::ElementId& sketchId,
         const wy::Vector2& axisStartPnt, const wy::Vector2& aixsEndPnt);
 

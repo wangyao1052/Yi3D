@@ -36,7 +36,7 @@
 #include <wydbDatabase.h>
 #include <wyapSelManager.h>
 #include <wyapScene.h>
-#include <wy3dSketchPlane.h>
+#include <wy3dPlane.h>
 #include "snap/SnapSystemBase.h"
 #include <wy3dSolid.h>
 
@@ -172,7 +172,7 @@ public:
     void hideWCS();
 
     // 显示草图坐标系
-    void showSketchCSYS(const wy3d::SketchPlane& sketchPlane);
+    void showSketchCSYS(const wy3d::Plane& sketchPlane);
     // 隐藏草图坐标系
     void hideSketchCSYS();
 

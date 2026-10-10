@@ -70,7 +70,7 @@ private:
     SelectPreview _sourcePreview;
 
     // 工作平面
-    wy3d::SketchPlane _workPln;
+    wy3d::Plane _workPln;
     // 工作面预览
     SelectPreview _workPlnPreview;
 };

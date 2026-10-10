@@ -71,7 +71,7 @@ osg::ref_ptr<osg::Geometry> SketchSplineCtrolPointsPathOsgRenderer::generateGeom
         assert(false);
         return nullptr;
     }
-    const wy3d::SketchPlane& sketchPlane = pSketch->getPlane();
+    const wy3d::Plane& sketchPlane = pSketch->getPlane();
     if (!sketchPlane.isValid())
     {
         assert(false);
