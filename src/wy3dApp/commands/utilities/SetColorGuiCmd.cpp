@@ -142,8 +142,8 @@ void SetColorGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else
     {
-        const std::pair<wydb::ElementId, wy::Vector3> pickRet = this->pointPickElement(event.x, event.y, _pointPickOption);
-        solidId = pickRet.first;
+        const wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        solidId = sel.getElementId();
     }
 
     _hoverPreview.clear();

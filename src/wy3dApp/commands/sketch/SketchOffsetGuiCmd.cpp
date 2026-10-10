@@ -243,9 +243,9 @@ void SketchOffsetGuiCmd::onMouseMove(const MouseEvent& event)
 
     if (_step == Step::SelectElement)
     {
-        std::pair<wydb::ElementId, wy::Vector3> pickRet = this->pointPickElement(event.x, event.y, _pointPickOption);
+        const wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
             //wy3d::SketchEntity::classInfo()->className());
-        wydb::ElementId id = pickRet.first;
+        wydb::ElementId id = sel.getElementId();
         previewCurve(id);
 
         if (!id.isNull() && !_pCurve)

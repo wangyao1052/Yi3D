@@ -185,15 +185,15 @@ void SketchFilletGuiCmd::onMouseMove(const MouseEvent& event)
     //    assert(_pCurveTransient1st);
     //    if (_pCurveTransient1st) excludeId = _pCurveTransient1st->getId();
     //}
-    std::pair<wydb::ElementId, wy::Vector3> pickRet = this->pointPickElement(event.x, event.y, _pointPickOption);
+    const wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
 
     // 预览
-    preview(pickRet.first, pickRet.second);
+    preview(sel.getElementId(), sel.getPickPosition());
 
     // 第一步
     if (Step::First == _step)
     {
-        if (!pickRet.first.isNull() && !_pCurveTransient1st)
+        if (!sel.getElementId().isNull() && !_pCurveTransient1st)
             Application::instance().setCursor(CursorType::Forbid);
         else
             Application::instance().setCursor(CursorType::SelectElements);
@@ -209,7 +209,7 @@ void SketchFilletGuiCmd::onMouseMove(const MouseEvent& event)
             }
         }
 
-        if (!pickRet.first.isNull() && !_pCurveTransient2nd)
+        if (!sel.getElementId().isNull() && !_pCurveTransient2nd)
             Application::instance().setCursor(CursorType::Forbid);
         else
             Application::instance().setCursor(CursorType::SelectElements);
@@ -242,8 +242,8 @@ void SketchFilletGuiCmd::onLeftMouseDown(const MouseEvent& event)
             // 如果单击的是选中的第一条曲线则重置
             if (_pCurveTransient1st)
             {
-                std::pair<wydb::ElementId, wy::Vector3> pickRet = this->pointPickElement(event.x, event.y, _pointPickOption);
-                if (pickRet.first == _pCurveTransient1st->getId())
+                const wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+                if (sel.getElementId() == _pCurveTransient1st->getId())
                 {
                     this->reset();
                 }

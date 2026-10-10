@@ -217,27 +217,6 @@ wyap::Selection OsgGuiCommand::pointPick(
     return PointPick::pick(pDb, pView, x, y, option);
 }
 
-std::pair<wydb::ElementId, wy::Vector3> OsgGuiCommand::pointPickElement(
-    double x, double y,
-    const PointPickOption& option)
-{
-    static std::pair<wydb::ElementId, wy::Vector3> nullPickRet(wydb::ElementId::kNull, wy::Vector3(0.0, 0.0, 0.0));
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
-    if (!pDb) return nullPickRet;
-    osgViewer::View* pView = _pOsgView.get();
-    if (!pView) return nullPickRet;
-
-    wyap::Selection sel = PointPick::pick(pDb, pView, x, y, option);
-    if (sel.getElementId().isNull())
-    {
-        return nullPickRet;
-    }
-    else
-    {
-        return std::pair<wydb::ElementId, wy::Vector3>(sel.getElementId(), sel.getPickPosition());
-    }
-}
-
 // ── 坐标计算（转发到 OsgCoordUtil）────────────────────────
 
 std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgGuiCommand::computePosition3d(

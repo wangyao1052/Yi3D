@@ -200,10 +200,10 @@ void SketchTrimGuiCmd::onMouseMove(const MouseEvent& event)
     if (!this->getOsgView()) return;
 
     // 点选
-    std::pair<wydb::ElementId, wy::Vector3> pickRet = this->pointPickElement(event.x, event.y, _pointPickOption);
+    const wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
 
     // 拾取修剪段
-    pickTrimSegment(pickRet.first, pickRet.second);
+    pickTrimSegment(sel.getElementId(), sel.getPickPosition());
 
     // 设置鼠标样式
     if (_pTransient)

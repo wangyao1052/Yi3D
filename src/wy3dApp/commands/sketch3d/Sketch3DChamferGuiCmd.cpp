@@ -181,16 +181,16 @@ void Sketch3DChamferGuiCmd::onMouseMove(const MouseEvent& event)
 {
     if (!this->getOsgView()) return;
 
-    const std::pair<wydb::ElementId, wy::Vector3> pickRet =
-        this->pointPickElement(event.x, event.y, _pointPickOption);
-    this->preview(pickRet.first, pickRet.second);
+    const wyap::Selection sel =
+        this->pointPick(event.x, event.y, _pointPickOption);
+    this->preview(sel.getElementId(), sel.getPickPosition());
 
     // An entity under the cursor the command cannot use reads the same in either step: something is
     // there and no preview came of it.
     const bool usable = (Step::First == _step)
         ? (_pCurveTransient1st != nullptr)
         : (_pCurveTransient2nd != nullptr);
-    if (!pickRet.first.isNull() && !usable)
+    if (!sel.getElementId().isNull() && !usable)
     {
         Application::instance().setCursor(CursorType::Forbid);
     }
@@ -321,9 +321,9 @@ void Sketch3DChamferGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
     // Clicking the first line again drops it, so that a pair can be started over without leaving
     // the command.
-    const std::pair<wydb::ElementId, wy::Vector3> pickRet =
-        this->pointPickElement(event.x, event.y, _pointPickOption);
-    if (pickRet.first == _id1st)
+    const wyap::Selection sel =
+        this->pointPick(event.x, event.y, _pointPickOption);
+    if (sel.getElementId() == _id1st)
     {
         this->reset();
     }

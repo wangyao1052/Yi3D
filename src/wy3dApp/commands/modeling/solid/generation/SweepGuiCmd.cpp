@@ -409,10 +409,10 @@ void SweepGuiCmd::mouseMovePreview(
     IsValidSketchFuncPtr isValidSketchFunc,
     const wydb::ElementId& excludeId)
 {
-    std::pair<wydb::ElementId, wy::Vector3> pickRet = this->pointPickElement(x, y, _pointPickOption);
+    const wyap::Selection sel = this->pointPick(x, y, _pointPickOption);
         //wy3d::Sketch::classInfo()->className(), excludeId.isNull() ? 
         //std::set<wydb::ElementId>() : std::set<wydb::ElementId>{ excludeId });
-    wydb::ElementId pickedSketchId = pickRet.first;
+    wydb::ElementId pickedSketchId = sel.getElementId();
 
     preview(pickedSketchId, pSketchPreview, isValidSketchFunc);
 

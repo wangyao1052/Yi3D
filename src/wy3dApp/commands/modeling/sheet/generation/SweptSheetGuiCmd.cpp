@@ -265,8 +265,8 @@ void SweptSheetGuiCmd::mouseMovePreview(
     IsValidSketchFuncPtr isValidSketchFunc,
     const wydb::ElementId& excludeId)
 {
-    std::pair<wydb::ElementId, wy::Vector3> pickRet = this->pointPickElement(x, y, _pointPickOption);
-    wydb::ElementId pickedSketchId = pickRet.first;
+    const wyap::Selection sel = this->pointPick(x, y, _pointPickOption);
+    wydb::ElementId pickedSketchId = sel.getElementId();
 
     preview(pickedSketchId, pSketchPreview, isValidSketchFunc);
 

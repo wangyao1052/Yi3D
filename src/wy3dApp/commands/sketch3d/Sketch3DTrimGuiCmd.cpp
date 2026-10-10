@@ -171,9 +171,9 @@ void Sketch3DTrimGuiCmd::onMouseMove(const MouseEvent& event)
 {
     if (!this->getOsgView()) return;
 
-    const std::pair<wydb::ElementId, wy::Vector3> pickRet =
-        this->pointPickElement(event.x, event.y, _pointPickOption);
-    this->pickTrimSegment(pickRet.first, pickRet.second);
+    const wyap::Selection sel =
+        this->pointPick(event.x, event.y, _pointPickOption);
+    this->pickTrimSegment(sel.getElementId(), sel.getPickPosition());
 
     Application::instance().setCursor(_pTransient ? CursorType::Delete : CursorType::SelectElements);
 }

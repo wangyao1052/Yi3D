@@ -170,12 +170,12 @@ void Sketch3DExtendGuiCmd::onMouseMove(const MouseEvent& event)
 {
     if (!this->getOsgView()) return;
 
-    const std::pair<wydb::ElementId, wy::Vector3> pickRet =
-        this->pointPickElement(event.x, event.y, _pointPickOption);
-    this->pickExtendSegment(pickRet.first, pickRet.second);
+    const wyap::Selection sel =
+        this->pointPick(event.x, event.y, _pointPickOption);
+    this->pickExtendSegment(sel.getElementId(), sel.getPickPosition());
 
     Application::instance().setCursor(
-        (!pickRet.first.isNull() && !_pTransient) ? CursorType::Forbid : CursorType::SelectElements);
+        (!sel.getElementId().isNull() && !_pTransient) ? CursorType::Forbid : CursorType::SelectElements);
 }
 
 void Sketch3DExtendGuiCmd::pickExtendSegment(const wydb::ElementId& id, const wy::Vector3& pickPos3d)

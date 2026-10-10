@@ -196,13 +196,13 @@ void SketchExtendGuiCmd::onMouseMove(const MouseEvent& event)
     if (!this->getOsgView()) return;
 
     // 点选
-    std::pair<wydb::ElementId, wy::Vector3> pickRet = this->pointPickElement(event.x, event.y, _pointPickOption);
+    const wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
 
     // 拾取延伸段
-    pickExtendSegment(pickRet.first, pickRet.second);
+    pickExtendSegment(sel.getElementId(), sel.getPickPosition());
 
     // 设置鼠标样式
-    if (!pickRet.first.isNull() && !_pTransient)
+    if (!sel.getElementId().isNull() && !_pTransient)
         Application::instance().setCursor(CursorType::Forbid);
     else
         Application::instance().setCursor(CursorType::SelectElements);

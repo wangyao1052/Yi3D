@@ -345,9 +345,9 @@ void ExtrudedSheetGuiCmd::onMouseMove(const MouseEvent& event)
 
     if (_step == Step::SelectSketch)
     {
-        std::pair<wydb::ElementId, wy::Vector3> pickRet = this->pointPickElement(event.x, event.y, _pointPickOption);
-        wydb::ElementId pickedSketchId = pickRet.first;
-        _pickPos = pickRet.second;
+        const wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
+        wydb::ElementId pickedSketchId = sel.getElementId();
+        _pickPos = sel.getPickPosition();
 
         if (!pickedSketchId.isNull())
             preview(pickedSketchId);
