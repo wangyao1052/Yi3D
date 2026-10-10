@@ -122,12 +122,16 @@ wyap::CmdExecution::StartResult SewnSheetGuiCmd::onStart()
 
     if (allSheets && !_sourceIds.empty())
     {
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSources);
     }
     else
     {
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         _sourceIds.clear();
         this->gotoStep(Step::SelectSources);
     }

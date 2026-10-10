@@ -140,7 +140,9 @@ wyap::CmdExecution::StartResult BooleanGuiCmd::onStart()
     {
         if (toolIds.empty())
         {
-            this->clearSelections();
+            Application::instance().getSelManager()->beginChange();
+            Application::instance().getSelManager()->clearSelections();
+            Application::instance().getSelManager()->endChange();
             _targetId = targetId;
             this->finishStep(Step::SpecifyTarget);
 
@@ -149,7 +151,9 @@ wyap::CmdExecution::StartResult BooleanGuiCmd::onStart()
         }
         else
         {
-            this->clearSelections();
+            Application::instance().getSelManager()->beginChange();
+            Application::instance().getSelManager()->clearSelections();
+            Application::instance().getSelManager()->endChange();
             _targetId = targetId;
             _toolIds = toolIds;
             this->finishStep(Step::SpecifyTools);
@@ -157,7 +161,9 @@ wyap::CmdExecution::StartResult BooleanGuiCmd::onStart()
     }
     else
     {
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         this->gotoStep(Step::SpecifyTarget);
 
         // 监听选择集

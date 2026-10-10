@@ -67,9 +67,6 @@ public:
 
     static bool isTopLevelBody(const wydb::Element* pElem);
 
-    // 清除选择集
-    static void clearSelections();
-
     // 初始化草图环境信息
     static GuiCmdSketchInfo initSketchInfo();
 

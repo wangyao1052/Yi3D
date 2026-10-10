@@ -82,7 +82,9 @@ wyap::CmdExecution::StartResult SketchIncludeCurve3DGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    GuiCommandUtil::clearSelections();
+    Application::instance().getSelManager()->beginChange();
+    Application::instance().getSelManager()->clearSelections();
+    Application::instance().getSelManager()->endChange();
 
     // Model edges and 2D/3D sketch curves share the sub path form: the element id is the
     // solid, sheet or sketch, and the sub path is the curve inside it. The entities of the

@@ -91,7 +91,9 @@ wyap::CmdExecution::StartResult Sketch3DExtendGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    GuiCommandUtil::clearSelections();
+    Application::instance().getSelManager()->beginChange();
+    Application::instance().getSelManager()->clearSelections();
+    Application::instance().getSelManager()->endChange();
 
     if (!this->initExtendGraph())
     {

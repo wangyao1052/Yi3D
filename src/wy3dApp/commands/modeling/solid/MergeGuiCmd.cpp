@@ -122,7 +122,9 @@ wyap::CmdExecution::StartResult MergeGuiCmd::onStart()
     std::vector<wydb::ElementId> ids;
     if (isValidSelectionSet(ss, ids) && !ids.empty())
     {
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         _hostId = ids.front();
         for (const wydb::ElementId& id : ids)
         {
@@ -140,7 +142,9 @@ wyap::CmdExecution::StartResult MergeGuiCmd::onStart()
     }
     else
     {
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectHost);
     }
 

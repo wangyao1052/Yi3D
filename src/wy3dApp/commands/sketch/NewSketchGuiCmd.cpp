@@ -73,7 +73,9 @@ wyap::CmdExecution::StartResult NewSketchGuiCmd::onStart()
         return id;
     };
     wydb::ElementId id = extractDatumPlaneFromSelSet(ss);
-    this->clearSelections();
+    Application::instance().getSelManager()->beginChange();
+    Application::instance().getSelManager()->clearSelections();
+    Application::instance().getSelManager()->endChange();
     this->gotoStep(Step::SelectDatumPlaneOrFace);
 
     if (!id.isNull())

@@ -60,7 +60,6 @@ private:
     bool isValidSketchSelectionSet(const wyap::SelectionSet& ss, wydb::ElementId& sketchId);
     bool isValidSketch(const wydb::ElementId& sketchId, QString& error);
     void preview(wydb::ElementId sketchId);
-    void clearSelections();
 
 protected:
     Step _step;

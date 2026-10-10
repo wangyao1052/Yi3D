@@ -205,9 +205,6 @@ protected:
         double& windowX, double& windowY) const = 0;
 
 protected:
-    // 清除选择集
-    void clearSelections() { GuiCommandUtil::clearSelections(); }
-
     void configSelect(GuiCmdSelectOptions options);
 
     virtual wyap::Selection pointPick(

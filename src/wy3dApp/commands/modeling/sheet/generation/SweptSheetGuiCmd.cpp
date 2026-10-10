@@ -77,7 +77,9 @@ wyap::CmdExecution::StartResult SweptSheetGuiCmd::onStart()
         {
             _pathId = pathId;
             _profileId = profileId;
-            this->clearSelections();
+            Application::instance().getSelManager()->beginChange();
+            Application::instance().getSelManager()->clearSelections();
+            Application::instance().getSelManager()->endChange();
             this->finishStep(Step::SelectProfile);
         }
         else if (!pathId.isNull())
@@ -88,13 +90,17 @@ wyap::CmdExecution::StartResult SweptSheetGuiCmd::onStart()
         else
         {
             assert(false);
-            this->clearSelections();
+            Application::instance().getSelManager()->beginChange();
+            Application::instance().getSelManager()->clearSelections();
+            Application::instance().getSelManager()->endChange();
             this->gotoStep(Step::SelectPath);
         }
     }
     else
     {
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectPath);
     }
 

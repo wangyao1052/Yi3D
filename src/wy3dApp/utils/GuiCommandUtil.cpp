@@ -25,7 +25,6 @@
 #include <wy3dSheet.h>
 #include <wy3dPattern.h>
 #include <wy3dMirror.h>
-#include <wyapSelManager.h>
 #include "application/Application.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
@@ -229,20 +228,6 @@ const wy3d::Solid* GuiCommandUtil::autoGetSolidToCut(const wydb::Database* pDb)
     }
 
     return pSolidToCut;
-}
-
-void GuiCommandUtil::clearSelections()
-{
-    if (wyap::SelManager* pSelMgr = Application::instance().getSelManager())
-    {
-        pSelMgr->beginChange();
-        pSelMgr->clearSelections();
-        pSelMgr->endChange();
-    }
-    else
-    {
-        assert(false);
-    }
 }
 
 GuiCmdSketchInfo GuiCommandUtil::initSketchInfo()

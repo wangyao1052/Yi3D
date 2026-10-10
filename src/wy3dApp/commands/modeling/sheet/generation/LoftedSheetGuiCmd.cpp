@@ -66,13 +66,17 @@ wyap::CmdExecution::StartResult LoftedSheetGuiCmd::onStart()
     {
         if (profileIds.size() == 1)
         {
-            this->clearSelections();
+            Application::instance().getSelManager()->beginChange();
+            Application::instance().getSelManager()->clearSelections();
+            Application::instance().getSelManager()->endChange();
             _profilesHighlightor.addSelection(wyap::Selection(profileIds.front()));
             this->gotoStep(Step::SelectProfiles);
         }
         else // 多个
         {
-            this->clearSelections();
+            Application::instance().getSelManager()->beginChange();
+            Application::instance().getSelManager()->clearSelections();
+            Application::instance().getSelManager()->endChange();
             for (const wydb::ElementId& profileId : profileIds)
             {
                 _profilesHighlightor.addSelection(wyap::Selection(profileId));
@@ -82,7 +86,9 @@ wyap::CmdExecution::StartResult LoftedSheetGuiCmd::onStart()
     }
     else
     {
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectProfiles);
     }
 

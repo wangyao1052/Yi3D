@@ -134,7 +134,9 @@ wyap::CmdExecution::StartResult SketchIntersectionCurve3DGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    GuiCommandUtil::clearSelections();
+    Application::instance().getSelManager()->beginChange();
+    Application::instance().getSelManager()->clearSelections();
+    Application::instance().getSelManager()->endChange();
 
     // Faces and datum planes in one pick. acceptElement has to stay on, see the filter above.
     // The sketch being edited is not reachable here: its entities are Sketch3DEntity nodes

@@ -78,12 +78,16 @@ wyap::CmdExecution::StartResult RevolveGuiCmd::onStart()
     if (this->isValidSketchSelectionSet(ss, sketchId) && !sketchId.isNull())
     {
         _sketchId = sketchId;
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSketch);
     }
     else
     {
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectSketch);
     }
 
@@ -495,7 +499,9 @@ void RevolveGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (this->isValidSketch(id, error))
     {
         _sketchId = id;
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSketch);
     }
     else

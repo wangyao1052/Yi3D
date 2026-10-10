@@ -72,12 +72,16 @@ wyap::CmdExecution::StartResult RevolvedSheetGuiCmd::onStart()
     if (this->isValidSketchSelectionSet(ss, sketchId) && !sketchId.isNull())
     {
         _sketchId = sketchId;
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSketch);
     }
     else
     {
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectSketch);
     }
 
@@ -170,7 +174,9 @@ void RevolvedSheetGuiCmd::gotoStep(Step step)
     {
     case Step::SelectSketch:
     {
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolvedSheetGuiCmd",
             "Select the sketch to revolve."));
@@ -180,7 +186,9 @@ void RevolvedSheetGuiCmd::gotoStep(Step step)
 
     case Step::SelectAxisCurve:
     {
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolvedSheetGuiCmd",
             "Select an axis line in the sketch."));
@@ -266,7 +274,9 @@ void RevolvedSheetGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (this->isValidSketch(id, error))
     {
         _sketchId = id;
-        this->clearSelections();
+        Application::instance().getSelManager()->beginChange();
+        Application::instance().getSelManager()->clearSelections();
+        Application::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSketch);
     }
 }
@@ -329,13 +339,6 @@ void RevolvedSheetGuiCmd::preview(wydb::ElementId sketchId)
     {
         _pValidSketch = nullptr;
     }
-}
-
-void RevolvedSheetGuiCmd::clearSelections()
-{
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
 }
 
 // ============================================================================

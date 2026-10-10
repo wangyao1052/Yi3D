@@ -82,7 +82,9 @@ wyap::CmdExecution::StartResult Sketch3DFilletGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    GuiCommandUtil::clearSelections();
+    Application::instance().getSelManager()->beginChange();
+    Application::instance().getSelManager()->clearSelections();
+    Application::instance().getSelManager()->endChange();
 
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb)
