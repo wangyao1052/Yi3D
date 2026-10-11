@@ -45,8 +45,7 @@ Yi3D
 | [OpenCASCADE (OCCT)](https://dev.opencascade.org/) | 3D geometry kernel |
 | [Qt 5](https://www.qt.io/) | GUI framework |
 | [OpenSceneGraph (OSG)](http://www.openscenegraph.org/) | 3D rendering engine |
-| [wydb 1.0.2](https://github.com/wangyao1052/WYAF) | Application framework (free for non-commercial use) |
-| [wyap 1.0.2](https://github.com/wangyao1052/WYAF) | Application framework (free for non-commercial use) |
+| [WYAF](https://github.com/wangyao1052/WYAF) | Application framework (free for non-commercial use) |
 | [Python 3.10](https://www.python.org/) | Scripting runtime |
 | [ezdxf](https://ezdxf.mozman.at/) | DXF reading/writing for sketch import/export |
 | [pybind11](https://github.com/pybind/pybind11) | C++/Python bindings |
