@@ -91,6 +91,7 @@ struct MouseEvent
 {
     // Window coordinates: origin bottom left, device pixels.
     float x, y;
+    // Seconds since the program started.
     double time;
 };
 
@@ -143,6 +144,7 @@ struct KeyEvent
 {
     int key;
     int modKeyMask;
+    // Seconds since the program started.
     double time;
 };
 
@@ -166,6 +168,7 @@ protected:
     // Space键响应
     virtual void onSpaceKey() {}
     // 帧事件
+    // time: seconds since the program started.
     virtual void onFrame(double time) {}
 
     // 鼠标响应
