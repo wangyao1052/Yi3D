@@ -49,7 +49,6 @@
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 
-#include <wy3dApp/GuiCmdControls.h>
 #include <wy3dApp/GuiCommandUtil.h>
 
 class GuiCmdOsgEventHandler;
@@ -189,8 +188,6 @@ protected:
     virtual void onContextMenuAction_CompleteSelection() {}
     virtual bool isContextMenuActionVisible_ClearSelection() const { return false; }
     virtual void onContextMenuAction_ClearSelection() {}
-    // 控件
-    virtual GuiCmdControlsSPtr initControls() { return nullptr; }
     // 单击特征树上的元素
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) { return; }
 
@@ -250,8 +247,6 @@ protected:
     std::set<wydb::ElementId> _snapExcludeIds;
     // 上下文菜单
     GuiCmdMenu* _pContextMenu;
-    // 控件
-    GuiCmdControlsSPtr _pControls;
 
     friend class GuiCmdMenu;
     friend class FeatureTreeWidget;

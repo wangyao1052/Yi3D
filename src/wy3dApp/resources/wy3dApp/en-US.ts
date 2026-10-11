@@ -3072,27 +3072,27 @@ Do you want to save it to the original file now?
 <context>
     <name>MeasureGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="245"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="241"/>
         <source>Specify the start point.</source>
         <translation type="unfinished">Specify the start point.</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="271"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="264"/>
         <source>Specify the end point.</source>
         <translation type="unfinished">Specify the end point.</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="474"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="462"/>
         <source>Select an edge.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="475"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="463"/>
         <source>Select a face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="476"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="464"/>
         <source>Select a body.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3100,7 +3100,7 @@ Do you want to save it to the original file now?
 <context>
     <name>MeasureGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="707"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="695"/>
         <source>Clear Measure Results</source>
         <translation type="unfinished"></translation>
     </message>

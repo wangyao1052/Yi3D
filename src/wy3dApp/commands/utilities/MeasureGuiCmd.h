@@ -36,7 +36,25 @@
 #include "commands/utilities/MeasureCmdPanel.h"
 
 class QMenu;
-class MeasureGuiCmdControls;
+
+// 只读长度浮层:文本变化时自适应尺寸,可见期间跟随光标
+class MeasureLengthLabel : public QLineEdit
+{
+public:
+    explicit MeasureLengthLabel(QWidget* parent = nullptr);
+
+    void setLength(double length);
+
+protected:
+    virtual void timerEvent(QTimerEvent* event) override;
+
+private:
+    QSize labelSizeForText(const QString& text) const;
+    void updateSize();
+
+private:
+    int _minWidth;
+};
 
 class MeasureGuiCmd : public OsgGuiCommand
 {
@@ -67,9 +85,6 @@ protected:
 
     virtual void onMouseMove(const MouseEvent& event) override;
     virtual void onLeftMouseDown(const MouseEvent& event) override;
-
-    // 初始化控件
-    virtual GuiCmdControlsSPtr initControls() override;
 
     // 上下文菜单
     virtual GuiCmdMenu* initContextMenu() override;
@@ -105,7 +120,8 @@ private:
     // 点到点持久测量线(与结果行一一对应)及行悬停预览中的线
     QList<LineTransientSPtr> _pMeasureLines;
     LineTransientSPtr _pP2pHoverLine;
-    MeasureGuiCmdControls* _pMeasureGuiCmdCtrls;
+    // 点到点测量的长度浮层
+    std::unique_ptr<MeasureLengthLabel> _pLengthLabel;
 
     // 测量状态
     MeasureMode _mode;
@@ -132,23 +148,6 @@ protected:
 
 private slots:
     void onClearMeasureResults();
-};
-
-class MeasureGuiCmdControls : public GuiCmdControls
-{
-public:
-    MeasureGuiCmdControls();
-    ~MeasureGuiCmdControls();
-
-    void showLength();
-    void hideLength();
-    void setLength(double length);
-
-protected:
-    virtual void timerEvent(QTimerEvent* event) override;
-
-private:
-    GuiCmdLabel* _pLengthLabel;
 };
 
 #endif // WY3DAPP_MEASURE_GUI_CMD_H

@@ -86,11 +86,6 @@ wyap::CmdExecution::StartResult GuiCommand::onStart()
     // 清除动态生成的面&边
     Application::instance().getActiveScene()->endNoBatchRender();
     // }
-    
-    // added by wangyao 2025.07.02 {
-    // 初始化控件
-    _pControls = this->initControls();
-    // }
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -110,7 +105,6 @@ void GuiCommand::onEnd()
     Application::instance().getGizmoManager()->clearGizmos();
     Application::instance().getGizmoManager()->endChange();
 
-    _pControls = nullptr;
     this->cleanup();
 }
 
@@ -129,7 +123,6 @@ void GuiCommand::onAbort(wyap::CmdExecution::AbortCause cause)
     Application::instance().getGizmoManager()->clearGizmos();
     Application::instance().getGizmoManager()->endChange();
 
-    _pControls = nullptr;
     this->cleanup();
 }
 

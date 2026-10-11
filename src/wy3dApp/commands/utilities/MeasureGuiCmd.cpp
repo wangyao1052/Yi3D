@@ -19,6 +19,7 @@
 #include "commands/utilities/MeasureGuiCmd.h"
 
 #include <QAction>
+#include <QCursor>
 #include <QOpenGLWidget>
 
 #include <Standard_Failure.hxx>
@@ -57,9 +58,12 @@ bool parseSubPathIndex(const std::string& subPath, unsigned int& index)
 }
 
 
-MeasureGuiCmd::MeasureGuiCmd() : OsgGuiCommand(), _step(Step::Undefined), _pMeasureGuiCmdCtrls(nullptr),
+MeasureGuiCmd::MeasureGuiCmd() : OsgGuiCommand(), _step(Step::Undefined),
     _mode(MeasureMode::PointToPoint), _tempUnhighlightedSel(wydb::ElementId::kNull), _pCmdPanel(nullptr)
 {
+    _pLengthLabel = std::make_unique<MeasureLengthLabel>(Application::instance().getMainWindow());
+    assert(_pLengthLabel);
+
     _options.pointSelect = false;
     _options.boxSelect = false;
 }
@@ -71,10 +75,6 @@ wyap::CmdExecution::StartResult MeasureGuiCmd::onStart()
 
     _sketchInfo = GuiCommandUtil::initSketchInfo();
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
-
-    // 命令控件
-    _pMeasureGuiCmdCtrls = dynamic_cast<MeasureGuiCmdControls*>(_pControls.get());
-    assert(_pMeasureGuiCmdCtrls);
 
     // 测量面板
     if (!this->createCmdPanel())
@@ -95,6 +95,7 @@ void MeasureGuiCmd::onEnd()
 {
     __baseClass::onEnd();
 
+    _pLengthLabel.reset();
     this->destroyCmdPanel();
     _pLineTransient = nullptr;
     _preview.clear();
@@ -110,6 +111,7 @@ void MeasureGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
     __baseClass::onAbort(cause);
 
+    _pLengthLabel.reset();
     this->destroyCmdPanel();
     _pLineTransient = nullptr;
     _preview.clear();
@@ -132,11 +134,8 @@ void MeasureGuiCmd::reset()
     _pSketchSnapContext = nullptr;
     _pLineTransient = nullptr;
 
-    if (_pMeasureGuiCmdCtrls)
-    {
-        _pMeasureGuiCmdCtrls->hideLength();
-        _pMeasureGuiCmdCtrls->setLength(0.0);
-    }
+    _pLengthLabel->hide();
+    _pLengthLabel->setLength(0.0);
 
     this->gotoStep(Step::SpecifyStartPnt);
 }
@@ -234,11 +233,8 @@ void MeasureGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyStartPnt:
     {
-        // 隐藏长度标签控件
-        if (_pMeasureGuiCmdCtrls)
-        {
-            _pMeasureGuiCmdCtrls->hideLength();
-        }
+        // 隐藏长度浮层
+        _pLengthLabel->hide();
 
         // 禁用文本输入
         // 提示信息
@@ -259,12 +255,9 @@ void MeasureGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyEndPnt:
     {
-        // 显示长度标签控件
-        if (_pMeasureGuiCmdCtrls)
-        {
-            _pMeasureGuiCmdCtrls->setLength(0.0);
-            _pMeasureGuiCmdCtrls->showLength();
-        }
+        // 显示长度浮层
+        _pLengthLabel->setLength(0.0);
+        _pLengthLabel->show();
 
         // 禁用文本输入
         // 提示信息
@@ -343,7 +336,7 @@ void MeasureGuiCmd::onMouseMove(const MouseEvent& event)
         {
             wy::Vector2 endPnt2d = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSketchSnapContext, _sketchInfo.pSketchSnapSys);
             if (_pLineTransient) _pLineTransient->update(_sketchInfo.sketchPlane, _startPnt2d, endPnt2d);
-            if (_pMeasureGuiCmdCtrls) _pMeasureGuiCmdCtrls->setLength((endPnt2d - _startPnt2d).length());
+            _pLengthLabel->setLength((endPnt2d - _startPnt2d).length());
         }
         else
         {
@@ -354,7 +347,7 @@ void MeasureGuiCmd::onMouseMove(const MouseEvent& event)
                 endPnt = ret.second->getPosition();
             }
             if (_pLineTransient) _pLineTransient->update(_startPnt, endPnt);
-            if (_pMeasureGuiCmdCtrls) _pMeasureGuiCmdCtrls->setLength((endPnt - _startPnt).length());
+            _pLengthLabel->setLength((endPnt - _startPnt).length());
         }
         return;
     }
@@ -430,11 +423,6 @@ void MeasureGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
 
     return;
-}
-
-GuiCmdControlsSPtr MeasureGuiCmd::initControls()
-{
-    return std::make_shared<MeasureGuiCmdControls>();
 }
 
 void MeasureGuiCmd::setMode(MeasureMode mode)
@@ -753,39 +741,87 @@ void MeasureGuiCmd::destroyCmdPanel()
     }
 }
 
-MeasureGuiCmdControls::MeasureGuiCmdControls() : GuiCmdControls(), _pLengthLabel(nullptr)
+MeasureLengthLabel::MeasureLengthLabel(QWidget* parent) : QLineEdit(parent), _minWidth(10)
 {
-    _pLengthLabel = this->newLabel();
-    _pLengthLabel->setText("");
-    _pLengthLabel->hide();
+    // 样式
+    this->setStyleSheet(
+        "QLineEdit {"
+        "   border: 1px solid #C0C0C0;" // 去除3D显示效果
+        "   background: white;"
+        "}"
+        "QLineEdit:read-only {" // 只读时文本灰色
+        "   color: gray;"
+        "}"
+        "QLineEdit:focus {"
+        "   border: 1px solid #4A90E2;"  // 获得焦点时蓝色边框
+        "}"
+    );
+
+    // 只读
+    this->setReadOnly(true);
+
+    // 不接受焦点
+    this->setFocusPolicy(Qt::NoFocus);
+
+    // 设置字体大小
+    QFont font = this->font();
+    font.setPointSize(10);
+    this->setFont(font);
+
+    // 计算最小宽度
+    _minWidth = this->labelSizeForText("0.0000").width();
+
+    // 更新尺寸
+    this->updateSize();
+
+    // 跟随光标(10ms)
+    this->startTimer(10);
+
+    this->hide();
 }
 
-MeasureGuiCmdControls::~MeasureGuiCmdControls()
+void MeasureLengthLabel::setLength(double length)
 {
+    QLineEdit::setText(QString::number(length, 'f', 2));
+    this->updateSize();
 }
 
-void MeasureGuiCmdControls::showLength()
+// 计算适合文本的尺寸
+QSize MeasureLengthLabel::labelSizeForText(const QString& text) const
 {
-    _pLengthLabel->show();
+    // 计算文本宽度和高度
+    QFontMetrics fm(this->font());
+    int textWidth = fm.horizontalAdvance(text);
+    int textHeight = fm.height();
+
+    // 添加水平和垂直边距
+    static const int horizontalPadding = 10; // 左右各5px边距
+    static const int verticalPadding = 6;    // 上下各3px边距
+    static const int borderWidth = 2;        // 边框宽度(上下各1px)
+
+    // 计算最终尺寸
+    int finalWidth = textWidth + horizontalPadding;
+    int finalHeight = textHeight + verticalPadding + borderWidth;
+    return QSize(finalWidth, finalHeight);
 }
 
-void MeasureGuiCmdControls::hideLength()
+void MeasureLengthLabel::updateSize()
 {
-    _pLengthLabel->hide();
+    QSize size = this->labelSizeForText(this->text());
+    if (size.width() < _minWidth)
+    {
+        size.setWidth(_minWidth);
+    }
+    this->setFixedSize(size);
 }
 
-void MeasureGuiCmdControls::setLength(double length)
-{
-    _pLengthLabel->setText(QString::number(length, 'f', 2));
-}
-
-void MeasureGuiCmdControls::timerEvent(QTimerEvent* event)
+void MeasureLengthLabel::timerEvent(QTimerEvent* event)
 {
     static QPoint delta(12, -12);
-    QPoint newPosLocal = _pLengthLabel->parentWidget()->mapFromGlobal(
-        QCursor::pos() + delta - QPoint(0, _pLengthLabel->size().height()));
-    if (newPosLocal != _pLengthLabel->pos())
+    QPoint newPosLocal = this->parentWidget()->mapFromGlobal(
+        QCursor::pos() + delta - QPoint(0, this->size().height()));
+    if (newPosLocal != this->pos())
     {
-        _pLengthLabel->move(newPosLocal);
+        this->move(newPosLocal);
     }
 }
