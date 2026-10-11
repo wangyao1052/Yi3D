@@ -159,8 +159,8 @@ osgViewer::View* OsgGuiCommand::getOsgView() const
     return _pOsgView.get();
 }
 
-void OsgGuiCommand::screenToWindowPos(double screenX, double screenY,
-                                      double& windowX, double& windowY) const
+void OsgGuiCommand::screenToWindow(double screenX, double screenY,
+                                   double& windowX, double& windowY) const
 {
     osgViewer::View* pView = _pOsgView.get();
     if (!pView)

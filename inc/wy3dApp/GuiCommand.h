@@ -87,9 +87,10 @@ struct GuiCmdSelectOptions
     {}
 };
 
-// 鼠标事件
+// Mouse event
 struct MouseEvent
 {
+    // Window coordinates: origin bottom left, device pixels.
     float x, y;
     double time;
 };
@@ -149,11 +150,10 @@ struct KeyEvent
 class WY3DAPP_EXPORT GuiCommand : public wyap::InteractiveCmdExecution
 {
     WYRX_DECLARE_ABSTRACT_MEMBERS(GuiCommand, GuiCommand, wyap::InteractiveCmdExecution)
-public:
+protected:
     GuiCommand();
     virtual ~GuiCommand();
 
-protected:
     virtual wyap::CmdExecution::StartResult onStart() override;
     virtual void onEnd() override;
     virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
@@ -194,8 +194,10 @@ protected:
     // 单击特征树上的元素
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) { return; }
 
-    // 屏幕坐标 → 窗口坐标（纯虚，由渲染引擎子类实现）
-    virtual void screenToWindowPos(double screenX, double screenY,
+    // Converts desktop screen coordinates (top-left origin, QCursor::pos) to window
+    // coordinates (bottom-left origin, device pixels), the same system as MouseEvent.
+    virtual void screenToWindow(
+        double screenX, double screenY,
         double& windowX, double& windowY) const = 0;
 
 protected:

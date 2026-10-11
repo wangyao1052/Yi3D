@@ -315,7 +315,7 @@ void SelectGuiCmd::onKeyDown(const KeyEvent& event)
         {
             QPoint screenPos = QCursor::pos();
             double wx, wy;
-            this->screenToWindowPos(screenPos.x(), screenPos.y(), wx, wy);
+            this->screenToWindow(screenPos.x(), screenPos.y(), wx, wy);
             this->beginPaste(wx, wy);
         }
     }
@@ -596,7 +596,7 @@ void SelectGuiCmdMenu::onPaste()
     if (!pCmd) return;
     QPoint screenPos = QCursor::pos();
     double wx, wy;
-    pCmd->screenToWindowPos(screenPos.x(), screenPos.y(), wx, wy);
+    pCmd->screenToWindow(screenPos.x(), screenPos.y(), wx, wy);
     pCmd->beginPaste(wx, wy);
 }
 

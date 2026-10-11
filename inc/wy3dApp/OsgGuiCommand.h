@@ -44,9 +44,9 @@ protected:
     // 获取 OSG 视图
     osgViewer::View* getOsgView() const;
 
-    // 屏幕坐标 → 窗口坐标
-    void screenToWindowPos(double screenX, double screenY,
-                           double& windowX, double& windowY) const override;
+    // Converts screen coordinates to window coordinates.
+    void screenToWindow(double screenX, double screenY,
+                        double& windowX, double& windowY) const override;
 
     void configSelect(GuiCmdSelectOptions options);
 
