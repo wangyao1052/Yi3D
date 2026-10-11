@@ -28,12 +28,12 @@
 #include <QToolButton>
 
 #include <wy3dApp/Sketch3DEnvironment.h>
-#include "application/Application.h"
-#include "commands/CommandAction.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/CommandAction.h>
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
-#include "utils/IconUtil.h"
+#include <wy3dApp/IconUtil.h>
 #include "widgets/frame/MainWindow.h"
 #include "widgets/frame/ViewWidget.h"
 #include "widgets/frame/ViewWidgetContainer.h"

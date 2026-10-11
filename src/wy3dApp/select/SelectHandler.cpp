@@ -18,7 +18,7 @@
 
 #include "SelectHandler.h"
 #include <cassert>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wyapSelManager.h>
 #include <wydbDatabase.h>
 #include <wydbElementId.h>

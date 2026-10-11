@@ -23,10 +23,10 @@
 #include <QToolButton>
 #include <QTimer>
 
-#include "EnvironmentBase.h"
-#include "application/Application.h"
+#include <wy3dApp/EnvironmentBase.h>
+#include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "widgets/frame/MainWindow.h"
 
 #define TOOLBAR_ICON_SIZE 32

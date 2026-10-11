@@ -21,16 +21,16 @@
 #include <osgViewer/View>
 #include <osgUtil/LineSegmentIntersector>
 #include "select/OsgSelectHandler.h"
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "OsgSelectUtils.h"
 #include <wyapGizmoManager.h>
 #include <wyapCmdManager.h>
 #include <wyapCommand.h>
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "gizmo/BaseGizmo.h"
 #include "gizmo/renderer/OsgGizmoRenderer.h"
-#include "commands/GuiCommand.h" // MouseEvent
+#include <wy3dApp/GuiCommand.h> // MouseEvent
 
 static BaseGizmo* getActiveOsgGizmo()
 {

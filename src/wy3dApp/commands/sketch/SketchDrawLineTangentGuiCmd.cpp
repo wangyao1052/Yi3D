@@ -31,7 +31,7 @@
 #include <wy3dSketchArc.h>
 #include <wy3dSketchSpline.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "snap/SketchSnapSystem.h"
 #include "commands/sketch/SketchTrimExtendUtil.h"
 #include "utils/MathUtils.h"

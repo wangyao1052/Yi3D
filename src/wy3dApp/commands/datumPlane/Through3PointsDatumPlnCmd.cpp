@@ -20,7 +20,7 @@
 #include <QToolTip>
 #include <wyVector3.h>
 #include <wyapSelManager.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "snap/SnapContext.h"
 #include "scene/Colors.h"
 #include "snap/SnapConsts.h"

@@ -20,7 +20,7 @@
 #define WY3DAPP_EXTRUDED_SHEET_GUI_CMD_H
 
 #include <cfloat>
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCmdMakeElement.h"
 #include <map>
 #include <wyVector3.h>

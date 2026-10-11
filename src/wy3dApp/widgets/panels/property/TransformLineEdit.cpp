@@ -36,7 +36,7 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 
 TransformLineEdit::TransformLineEdit(
     TransformUnit unit,

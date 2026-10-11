@@ -25,9 +25,9 @@
 #include <wydbTransaction.h>
 #include <wy3dSketch.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 
 SketchEnvironmentImpl::SketchEnvironmentImpl(const wy3d::Plane& sketchPlane)
     : _op(Operation::New)

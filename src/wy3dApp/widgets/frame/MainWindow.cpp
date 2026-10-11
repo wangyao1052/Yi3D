@@ -18,11 +18,11 @@
 
 #include "MainWindow.h"
 #include "ViewWidgetContainer.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "application/AutoSave.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "OsgUtils.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "utils/MessageBoxUtil.h"
 
 #include <wyapCommand.h>
@@ -70,7 +70,7 @@
 #include <wyapDocManager.h>
 #include <wyapCmdManager.h>
 #include <wyapCmdManager.h>
-#include "commands/GuiCommand.h"
+#include <wy3dApp/GuiCommand.h>
 #include "AboutDialog.h"
 #include "exporter/Exporter.h"
 #include "test/Test.h"

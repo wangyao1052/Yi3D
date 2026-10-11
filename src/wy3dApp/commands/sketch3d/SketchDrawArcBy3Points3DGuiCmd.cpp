@@ -34,11 +34,11 @@
 #include <wy3dSketchArc3D.h>
 #include <wy3dImpl.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "utils/MathUtils.h"
 #include "widgets/frame/MainWindow.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 
 static bool parseDoubleText(const QString& text, double& value)
 {

@@ -25,11 +25,11 @@
 #include <wyVector2.h>
 #include <wy3dSketchEntity.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/BasicTransient.h"
 #include "scene/nodes/ElementNodeType.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
 

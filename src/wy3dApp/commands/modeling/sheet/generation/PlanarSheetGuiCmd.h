@@ -19,11 +19,11 @@
 #ifndef WY3DAPP_PLANAR_SHEET_GUI_CMD_H
 #define WY3DAPP_PLANAR_SHEET_GUI_CMD_H
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCmdMakeElement.h"
 #include "commands/modeling/sheet/generation/MakeNonParametricSheet.h"
 #include "select/SelectionSetHighlightor.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/SelectPreview.h>
 #include <map>
 #include <vector>
 #include <TopoDS_Edge.hxx>

@@ -20,9 +20,9 @@
 #define WY3DAPP_SOLIDIFY_GUI_CMD_H
 
 #include <memory>
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCmdMakeElement.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/SelectPreview.h>
 
 namespace wy3d { class Solidify; }
 

@@ -16,8 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "CommandAction.h"
-#include "application/Application.h"
+#include <wy3dApp/CommandAction.h>
+#include <wy3dApp/Application.h>
 
 CommandAction::CommandAction(
     const std::string& commandName,

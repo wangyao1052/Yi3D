@@ -22,16 +22,16 @@
 #include <wy3dDatumPlane.h>
 #include <wy3dSketch.h>
 
-#include "application/Application.h"
-#include "gizmo/GizmoFactory.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/GizmoFactory.h>
 #include "scene/nodes/ElementNodeType.h"
-#include "select/filters/CommonSelFilters.h"
-#include "utils/IconUtil.h"
+#include <wy3dApp/CommonSelFilters.h>
+#include <wy3dApp/IconUtil.h>
 #include "utils/TransactionUtil.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/featureTree/FeatureTreeWidget.h"
-#include "commands/CommandAction.h"
+#include <wy3dApp/CommandAction.h>
 #include "commands/CommandNames.h"
 
 class SelectGuiCmdSelFilter_Modeling : public SelectFilterFunctor

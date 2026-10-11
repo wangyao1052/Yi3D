@@ -23,6 +23,17 @@ add_library(wy3dApp SHARED ${APP_SRCS})
 target_compile_definitions(wy3dApp PRIVATE WY3DAPP_LIBRARY)
 # Explicit exports only: classes used by YI3D.exe or plugins carry WY3DAPP_EXPORT
 
+# The Q_OBJECT public headers (inc/wy3dApp) have no sibling .cpp files, so
+# AUTOMOC only finds them when listed in the target's sources. New public
+# Q_OBJECT headers must be added here.
+set(APP_MOC_HEADERS
+    "${CMAKE_SOURCE_DIR}/inc/wy3dApp/Application.h"
+    "${CMAKE_SOURCE_DIR}/inc/wy3dApp/EnvironmentBase.h"
+    "${CMAKE_SOURCE_DIR}/inc/wy3dApp/GuiCmdControls.h"
+    "${CMAKE_SOURCE_DIR}/inc/wy3dApp/ParamNamesTranslation.h"
+)
+target_sources(wy3dApp PRIVATE ${APP_MOC_HEADERS})
+
 target_include_directories(wy3dApp PUBLIC
     "${CMAKE_SOURCE_DIR}/src/common/osg"
     "${CMAKE_SOURCE_DIR}/src/common/wyap"

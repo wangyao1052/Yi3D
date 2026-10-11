@@ -19,7 +19,7 @@
 #include <wyVector3.h>
 #include "SketchEntityDragOperation.h"
 #include "gizmo/element/SketchEntityGripGizmo.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "widgets/panels/property/PropertyEditorWidget.h"
 #include "utils/MathUtils.h"
 

@@ -42,7 +42,7 @@
 #include <wy3dSketch.h>
 #include <wy3dDatabase.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "application/AutoSave.h"
 #include "widgets/frame/MainWindow.h"
 #include "test/Test.h"
@@ -51,7 +51,7 @@
 #include "exporter/SketchImporter.h"
 #include "exporter/Importer.h"
 #include <wy3dApp/SketchEnvironment.h>
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "utils/MessageBoxUtil.h"
 #include "widgets/panels/output/OutputWidget.h"
 #include "application/PythonScriptExecutor.h"

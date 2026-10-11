@@ -20,8 +20,8 @@
 #define WY3DAPP_DELETE_FACE_GUI_CMD_H
 
 #include <wydbElementId.h>
-#include "commands/OsgGuiCommand.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/OsgGuiCommand.h>
+#include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 
 // Deletes faces from a sheet: pick the faces and the sheet is left with an opening where they

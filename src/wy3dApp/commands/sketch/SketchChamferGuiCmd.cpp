@@ -28,12 +28,12 @@
 #include <wy3dImpl.h>
 #include <wy3dSketch.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/UndoRedoCommands.h"
 #include "commands/sketch/SketchTrimExtendUtil.h"
 #include "utils/MathUtils.h"
 #include <utils/wy3dSketchChamferAlgo.h>
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "commands/dialogs/DoubleValueInputDialog.h"
 

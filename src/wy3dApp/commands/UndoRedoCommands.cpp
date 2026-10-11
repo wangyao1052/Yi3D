@@ -23,10 +23,10 @@
 #include <wyapSelManager.h>
 #include <wyapEnvironment.h>
 #include <wyapEnvManager.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "commands/CommandNames.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 
 
 int UndoCommand::run()

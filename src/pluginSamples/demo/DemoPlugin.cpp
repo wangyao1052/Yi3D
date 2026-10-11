@@ -34,7 +34,7 @@
 
 #include "DemoHelloCmd.h"
 #include "DemoParametersCmd.h"
-#include "environments/EnvironmentBase.h"
+#include <wy3dApp/EnvironmentBase.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
 

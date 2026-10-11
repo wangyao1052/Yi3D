@@ -28,13 +28,13 @@
 #include <QToolButton>
 
 #include <wy3dApp/ModelingEnvironment.h>
-#include "application/Application.h"
-#include "scene/Scene.h"
-#include "commands/CommandAction.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/CommandAction.h>
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
-#include "utils/IconUtil.h"
+#include <wy3dApp/IconUtil.h>
 #include "widgets/frame/MainWindow.h"
 
 namespace

@@ -28,11 +28,11 @@
 #include <wy3dSheet.h>
 #include <wy3dMove.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/ElementNode.h>
 #include "scene/RenderConst.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 
 
 MoveElemens::MoveElemens(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)

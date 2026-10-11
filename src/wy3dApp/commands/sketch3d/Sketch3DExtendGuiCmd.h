@@ -32,9 +32,9 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchSpline3D.h>
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/transient/Sketch3DTrimExtendTransient.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 
 // Grows the end of a 3D sketch curve that the cursor points at, out to the nearest crossing its own
 // extension would meet.

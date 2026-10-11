@@ -34,7 +34,7 @@
 
 #include "FeatureTreeView.h"
 #include "FeatureTreeHoverDelegate.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/SelectPreview.h>
 
 class QFeatureNameItem;
 class QFeatureIdItem;

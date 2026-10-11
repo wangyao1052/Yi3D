@@ -36,14 +36,14 @@
 #include <wyapEnvManager.h>
 #include <wyapEnvironment.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "snap/SnapObject.h"
 #include "snap3d/Sketch3DSnapSystem.h"
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
-#include "utils/IconUtil.h"
+#include <wy3dApp/IconUtil.h>
 #include "view/BaseView.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
 
 class Sketch3DPlaneLabel : public QLabel

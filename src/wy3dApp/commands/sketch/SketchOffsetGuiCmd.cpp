@@ -29,10 +29,10 @@
 #include "snap/SnapSystemBase.h"
 #include <wy3dSketch.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap/SketchSnapSystem.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "widgets/frame/MainWindow.h"
 

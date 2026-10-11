@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include <cassert>
 #include <wydbDatabase.h>
 #include <wydbElement.h>

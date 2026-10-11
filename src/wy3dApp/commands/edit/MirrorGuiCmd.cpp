@@ -24,12 +24,12 @@
 #include <wy3dSolid.h>
 #include <wy3dSheet.h>
 #include <wy3dMirror.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/MessageBoxUtil.h"
 #include "select/SketchPlaneSelFilter.h"
-#include "utils/GuiCommandUtil.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/GuiCommandUtil.h>
+#include <wy3dApp/CommonSelFilters.h>
 
 
 class MirrorGuiCmdPreSelFilter : public SelectPreFilterFunctor

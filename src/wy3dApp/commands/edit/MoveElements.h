@@ -23,7 +23,7 @@
 
 #include <wyapSelection.h>
 
-#include "commands/GuiCommand.h"
+#include <wy3dApp/GuiCommand.h>
 
 class MoveElemens : public GuiCmdMakeElement
 {

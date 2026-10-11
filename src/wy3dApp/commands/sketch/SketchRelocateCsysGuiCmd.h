@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_SKETCH_RELOCATE_CSYS_CMD_H
 #define WY3DAPP_SKETCH_RELOCATE_CSYS_CMD_H
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include <wyVector2.h>
 #include "commands/transient/SketchBasicTransient.h"
 

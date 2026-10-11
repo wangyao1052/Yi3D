@@ -37,20 +37,20 @@
 #include <wy3dImpl.h>
 #include <wy3dDatumPlane.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "utils/MathUtils.h"
 #include "utils/TopoShapeUtil.h"
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "snap/SketchSnapSystem.h"
 #include "select/SketchPlaneSelFilter.h"
 #include "utils/MathUtils.h"
 #include "utils/TopoShapeUtil.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "scene/nodes/ElementNodeType.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "widgets/frame/MainWindow.h"
 
 static bool parseDoubleText(const QString& text, double& value)

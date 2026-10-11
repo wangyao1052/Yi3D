@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/ElementNode.h>
 
 #include <cassert>
 

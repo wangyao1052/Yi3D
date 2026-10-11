@@ -33,11 +33,11 @@
 #include <wy3dDefs.h>
 #include <wy3dSketchEntity.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "scene/nodes/ElementNodeType.h"
-#include "select/filters/CommonSelFilters.h"
-#include "translation/ParamNamesTranslation.h"
+#include <wy3dApp/CommonSelFilters.h>
+#include <wy3dApp/ParamNamesTranslation.h>
 #include "widgets/frame/MainWindow.h"
 
 namespace {

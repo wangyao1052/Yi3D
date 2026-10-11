@@ -26,12 +26,12 @@
 #include <wy3dSketchEntity.h>
 #include <wy3dSketchCurve.h>
 #include <wyapClipboard.h>
-#include "application/Application.h"
-#include "scene/Scene.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/ElementNode.h>
 #include "scene/RenderConst.h"
 #include "utils/CopyPasteUtil.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 
 PasteElements::PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, wydb::ElementId sketchId, const wy3d::Plane& sketchPlane)
     : GuiCmdMakeElement(pGuiCmd), _isSketching(nullptr != GuiCommandUtil::getActiveSketchEnvironment()), _sketchId(sketchId), _sketchPlane(sketchPlane)

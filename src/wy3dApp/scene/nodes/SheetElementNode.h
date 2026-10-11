@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_SHEET_ELEMENT_NODE_H
 #define WY3DAPP_SHEET_ELEMENT_NODE_H
 
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/ElementNode.h>
 
 class SheetElementNode : public ElementNode
 {

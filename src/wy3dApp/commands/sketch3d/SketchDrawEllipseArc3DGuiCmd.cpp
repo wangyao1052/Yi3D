@@ -33,9 +33,9 @@
 #include <wy3dSketch3D.h>
 #include <wy3dImpl.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
 
 // 起点角度预览时的近整圈(整椭圆使用SketchEllipse3D)

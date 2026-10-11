@@ -18,9 +18,9 @@
 
 #include "PointPick.h"
 #include "select/PickCommon.h"
-#include "application/Application.h"
-#include "scene/Scene.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/ElementNode.h>
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/SketchElementNode.h"

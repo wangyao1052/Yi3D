@@ -23,7 +23,7 @@
 #include <wydbTransaction.h>
 #include <wyapSelManager.h>
 #include <wyapSelection.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "utils/CopyPasteUtil.h"
 
 

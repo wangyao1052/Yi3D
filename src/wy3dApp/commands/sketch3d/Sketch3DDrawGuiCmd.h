@@ -19,11 +19,11 @@
 #ifndef WY3DAPP_SKETCH3D_DRAW_GUI_CMD_H
 #define WY3DAPP_SKETCH3D_DRAW_GUI_CMD_H
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include <wy3dPlane.h>
 #include "snap/SnapObject.h"
 #include "commands/GuiCommandMenu.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 #include <memory>
 
 class Sketch3DPlaneLabel;

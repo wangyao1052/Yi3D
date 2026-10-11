@@ -20,9 +20,9 @@
 #include <cassert>
 #include <wy3dPrimitive.h>
 #include "gizmo/element/SolidMoveGizmo.h"
-#include "application/Application.h"
-#include "scene/Scene.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/ElementNode.h>
 
 std::list<wyap::GizmoSPtr> PrimitiveGizmoCreator::createGizmos(const wydb::Element* pElem) const
 {

@@ -24,7 +24,7 @@
 #include <wyapSelManager.h>
 #include <wy3dSewnSheet.h>
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 
 class SewnSheetGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor
 {

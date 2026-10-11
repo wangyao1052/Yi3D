@@ -32,8 +32,8 @@
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchCurve.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "view/OsgView.h"
 #include "OsgUtils.h"
 #include <wy3dApp/SketchEnvironment.h>

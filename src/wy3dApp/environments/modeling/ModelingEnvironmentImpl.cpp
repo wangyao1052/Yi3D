@@ -25,7 +25,7 @@
 
 #include <wydbTransaction.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
 
 ModelingEnvironmentImpl::ModelingEnvironmentImpl()

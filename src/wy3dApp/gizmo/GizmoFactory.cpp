@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "GizmoFactory.h"
+#include <wy3dApp/GizmoFactory.h>
 
 #include <wy3dSolid.h>
 #include <wy3dBox.h>

@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 #include <cassert>
 #include <wydbDatabase.h>
 #include <wy3dSelectionType.h>
@@ -25,7 +25,7 @@
 #include <wy3dSheet.h>
 #include <wy3dPattern.h>
 #include <wy3dMirror.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include "utils/TopoShapeUtil.h"

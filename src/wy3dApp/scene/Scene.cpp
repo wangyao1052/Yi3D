@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Scene.h"
+#include <wy3dApp/Scene.h>
 
 #include <cassert>
 
@@ -43,9 +43,9 @@
 #include <wy3dBoolean.h>
 #include <wy3dCurve.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wyapSceneManager.h>
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/ElementNode.h>
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
 #include "scene/nodes/SketchEntityElementNode.h"

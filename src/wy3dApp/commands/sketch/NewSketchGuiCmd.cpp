@@ -26,15 +26,15 @@
 #include "snap/SnapSystemBase.h"
 #include <wy3dSketch.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "snap/SketchSnapSystem.h"
 #include "select/SketchPlaneSelFilter.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 #include "utils/MathUtils.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "environments/sketch/SketchEnvironmentImpl.h"
 #include "scene/nodes/ElementNodeType.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 
 
 NewSketchGuiCmd::NewSketchGuiCmd()

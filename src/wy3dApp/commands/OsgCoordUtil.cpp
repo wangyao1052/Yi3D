@@ -26,7 +26,7 @@
 
 #include <wyapSelManager.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "snap/SnapContext.h"
 #include "commands/GuiCmdMakeElement.h"
 #include "snap/SketchSnapSystem.h"

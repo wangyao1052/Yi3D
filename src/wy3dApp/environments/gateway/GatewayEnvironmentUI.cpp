@@ -24,11 +24,11 @@
 #include <QIcon>
 
 #include <wy3dApp/GatewayEnvironment.h>
-#include "commands/CommandAction.h"
+#include <wy3dApp/CommandAction.h>
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
-#include "utils/IconUtil.h"
+#include <wy3dApp/IconUtil.h>
 
 namespace
 {

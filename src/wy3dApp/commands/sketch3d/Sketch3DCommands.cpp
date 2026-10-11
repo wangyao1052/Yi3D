@@ -30,7 +30,7 @@
 #include <wy3dSweep.h>
 #include <wy3dSweptSheet.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"

@@ -28,8 +28,8 @@
 #include <wyVector3.h>
 #include <wyapSelection.h>
 
-#include "commands/GuiCommand.h"
-#include "commands/transient/GuiCmdTransient.h"
+#include <wy3dApp/GuiCommand.h>
+#include <wy3dApp/GuiCmdTransient.h>
 
 class RotateElements : public GuiCmdMakeElement
 {

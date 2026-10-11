@@ -30,7 +30,7 @@
 #include <wy3dSketchEllipse.h>
 #include <wy3dSketchEllipseArc.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 
 SketchTrimGraph::SketchTrimGraph(const wy3d::Sketch* pSketch, double tol) : _pSketch(pSketch), _tol(tol), _isValid(false)
 {

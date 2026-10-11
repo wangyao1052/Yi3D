@@ -24,7 +24,7 @@
 #include <wyapCmdStack.h>
 #include <wyrxClassInfo.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
 #include "commands/edit/ModelingSelectGuiCmd.h"
 #include "commands/modeling/solid/primitives/PrimitiveCommands.h"

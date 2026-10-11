@@ -34,14 +34,14 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dImpl.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/ElementNode.h>
 #include "commands/transient/BasicTransient.h"
 #include "utils/MathUtils.h"
 #include "commands/sketch/dialogs/SketchPolarArrayDialog.h"
 #include "snap/SketchSnapSystem.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 
 
 bool SketchPolarArrayGuiCmd::isValidTotalAngleAndCount(double totalAngle, unsigned int count)

@@ -21,7 +21,7 @@
 
 #include <osg/Geometry>
 
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/ElementNode.h>
 
 class BodyModificationElementNode : public ElementNode
 {

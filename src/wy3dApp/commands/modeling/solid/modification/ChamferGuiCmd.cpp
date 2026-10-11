@@ -32,13 +32,13 @@
 #include <wy3dErrorCode.h>
 #include <wy3dSelectionType.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/SolidElementNode.h"
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "utils/TopoShapeUtil.h"
 #include "commands/dialogs/ChamferDialog.h"
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"

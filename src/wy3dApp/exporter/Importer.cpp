@@ -22,8 +22,8 @@
 #include <wydbTransaction.h>
 #include <wy3dImportedSolid.h>
 #include <wy3dImportedSheet.h>
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 
 ImporterManager& ImporterManager::instance()
 {

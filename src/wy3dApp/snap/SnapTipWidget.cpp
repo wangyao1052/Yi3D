@@ -20,7 +20,7 @@
 #include <QVBoxLayout>
 #include <wy3dMath.h>
 #include "SnapPixmap.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "widgets/frame/MainWindow.h"
 
 SnapTipWidget_UseLabel::SnapTipWidget_UseLabel(QWidget* parent)

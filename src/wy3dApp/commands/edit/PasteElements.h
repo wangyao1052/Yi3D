@@ -29,7 +29,7 @@
 #include <wydbElementId.h>
 #include <wy3dPlane.h>
 
-#include "commands/GuiCommand.h"
+#include <wy3dApp/GuiCommand.h>
 
 class ElementNode;
 

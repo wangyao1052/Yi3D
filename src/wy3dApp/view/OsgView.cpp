@@ -19,7 +19,7 @@
 #include "OsgView.h"
 #include <wyVector3.h>
 #include <wyapDocument.h>
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "commands/OsgGuiEventDispatcher.h"
 #include "OsgSelectUtils.h"
 #include "snap/SnapObject.h"
@@ -27,7 +27,7 @@
 #include "snap/SnapConsts.h"
 #include "CameraManipulator3d.h"
 #include "scene/RenderConst.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "ViewUtil.h"
 
 #define REAL_SCENE(pScene) dynamic_cast<Scene*>(pScene)

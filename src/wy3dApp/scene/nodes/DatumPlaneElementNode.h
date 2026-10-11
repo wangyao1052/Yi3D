@@ -20,7 +20,7 @@
 #define WY3DAPP_DATUM_PLANE_ELEMENT_NODE_H
 
 #include <wyVector2.h>
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/ElementNode.h>
 
 class DatumPlaneElementNode : public ElementNode
 {

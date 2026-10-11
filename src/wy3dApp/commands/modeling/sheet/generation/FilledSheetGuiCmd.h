@@ -19,12 +19,12 @@
 #ifndef WY3DAPP_FILLED_SHEET_GUI_CMD_H
 #define WY3DAPP_FILLED_SHEET_GUI_CMD_H
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCmdMakeElement.h"
 #include "commands/modeling/sheet/generation/MakeNonParametricSheet.h"
 #include "commands/transient/ValidSketchTransient.h"
 #include "select/SelectionSetHighlightor.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/SelectPreview.h>
 #include <map>
 #include <memory>
 #include <vector>

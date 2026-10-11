@@ -57,16 +57,16 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline3D.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "ParamLineEdit.h"
 #include "TransformLineEdit.h"
 #include "SketchSplinePointsEditor.h"
 #include "SketchSpline3DPointsEditor.h"
-#include "translation/ParamNamesTranslation.h"
+#include <wy3dApp/ParamNamesTranslation.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "utils/MessageBoxUtil.h"
-#include "scene/Scene.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/ElementNode.h>
 
 PropertyEditorWidget::PropertyEditorWidget(QWidget* parent)
     : QWidget(parent), _pMainLayout(nullptr), _pParamsGridLayout(nullptr), _isModifyingElems(false), _isReadOnly(false)

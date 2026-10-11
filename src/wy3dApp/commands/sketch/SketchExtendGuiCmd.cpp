@@ -39,7 +39,7 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "utils/MathUtils.h"
 #include "utils/SplineUtil.h"
 #include "scene/SketchEntityLinearization.h"
@@ -47,7 +47,7 @@
 #include "SketchExtendGraph.h"
 #include "scene/RenderConst.h"
 #include "scene/nodes/ElementNodeType.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 
 
 SketchExtendGuiCmd::SketchExtendGuiCmd() : OsgGuiCommand()

@@ -17,10 +17,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "CameraCommands.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "view/OsgView.h"
 #include "view/ViewUtil.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 
 
 int OrthoCameraCommand::run()

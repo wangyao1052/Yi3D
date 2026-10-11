@@ -31,7 +31,7 @@
 
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/output/OutputWidget.h"

@@ -56,10 +56,10 @@
 #include <wy3dSheet.h>
 #include "wy3d/topo/Sketch3DTopoBuilder.h"
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "utils/TopoShapeUtil.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 #include "utils/MathUtils.h"
 #include "utils/SplineUtil.h"
 

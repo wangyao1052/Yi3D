@@ -20,9 +20,9 @@
 #include <wyVector3.h>
 #include "SketchEntityGripGizmo.h"
 #include <cassert>
-#include "commands/GuiCommand.h" // MouseEvent
+#include <wy3dApp/GuiCommand.h> // MouseEvent
 #include "commands/OsgCoordUtil.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/OsgCoordUtil.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/SketchEnvironment.h>

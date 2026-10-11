@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_SKETCH_TEXT_COMMAND_H
 #define WY3DAPP_SKETCH_TEXT_COMMAND_H
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include <cfloat>
 #include <map>
 #include <memory>

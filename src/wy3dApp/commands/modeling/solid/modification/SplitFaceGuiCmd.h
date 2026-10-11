@@ -21,8 +21,8 @@
 
 #include <vector>
 #include <wydbElementId.h>
-#include "commands/OsgGuiCommand.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/OsgGuiCommand.h>
+#include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 
 // Divides faces of a solid along the curves of a sketch: pick the faces, then pick the sketch

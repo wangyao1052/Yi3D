@@ -24,7 +24,7 @@
 #include <wyVector3.h>
 #include <wyapSelManager.h>
 #include <wyapGizmoManager.h>
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCommandMenu.h"
 #include "wy3dAppDefs.h"
 

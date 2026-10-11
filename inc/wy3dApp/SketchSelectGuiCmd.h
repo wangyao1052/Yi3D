@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_SKETCH_SELECT_GUI_CMD_H
 #define WY3DAPP_SKETCH_SELECT_GUI_CMD_H
 
-#include "commands/SelectGuiCmd.h"
+#include <wy3dApp/SelectGuiCmd.h>
 #include "wy3dAppDefs.h"
 
 class WY3DAPP_EXPORT SketchSelectGuiCmd : public SelectGuiCmd

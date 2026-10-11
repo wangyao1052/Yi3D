@@ -21,7 +21,7 @@
 
 #include <wyapEnvironment.h>
 
-#include "environments/EnvironmentBase.h"
+#include <wy3dApp/EnvironmentBase.h>
 #include "environments/ICommandActionStateHost.h"
 #include "wy3dAppDefs.h"
 

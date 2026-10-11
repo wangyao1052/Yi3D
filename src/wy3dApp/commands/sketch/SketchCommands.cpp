@@ -41,7 +41,7 @@
 #include <wy3dHelix.h>
 #include <wy3dSplitFace.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "widgets/sketch/SketchPlaneDialog.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "environments/sketch/SketchEnvironmentImpl.h"

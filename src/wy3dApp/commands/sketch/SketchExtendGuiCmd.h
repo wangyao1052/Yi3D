@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_SKETCH_EXTEND_GUI_CMD_H
 #define WY3DAPP_SKETCH_EXTEND_GUI_CMD_H
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include <map>
 #include <memory>
 #include <osg/Array>
@@ -36,7 +36,7 @@
 #include <wy3dSketchEllipse.h>
 #include <wy3dSketchEllipseArc.h>
 
-#include "commands/transient/GuiCmdTransient.h"
+#include <wy3dApp/GuiCmdTransient.h>
 #include "SketchExtendGraph.h"
 #include "SketchTrimGuiCmd.h"
 

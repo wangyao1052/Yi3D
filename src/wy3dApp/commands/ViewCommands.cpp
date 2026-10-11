@@ -25,9 +25,9 @@
 #include <wyapSelManager.h>
 #include <wyapSelection.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/ElementNode.h>
 #include "view/OsgView.h"
 #include "view/ViewUtil.h"
 #include <wy3dApp/SketchEnvironment.h>

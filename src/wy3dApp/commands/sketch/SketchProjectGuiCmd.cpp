@@ -33,11 +33,11 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchEntity.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "snap/SketchSnapSystem.h"
-#include "select/SelectPreview.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/SelectPreview.h>
+#include <wy3dApp/GuiCommandUtil.h>
 #include "utils/SketchProjectUtil.h"
 #include "utils/TopoShapeUtil.h"
 

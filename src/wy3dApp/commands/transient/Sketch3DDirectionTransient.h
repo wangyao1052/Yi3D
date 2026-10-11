@@ -23,7 +23,7 @@
 
 #include <wyVector3.h>
 
-#include "GuiCmdTransient.h"
+#include <wy3dApp/GuiCmdTransient.h>
 
 // An arrow rooted at a point and pointing along a direction. It is drawn at a size that does not
 // change with the model or with the zoom, the way the gizmo arrows are: the question it answers -

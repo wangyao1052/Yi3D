@@ -22,7 +22,7 @@
 #include <wyapSelection.h>
 #include <wy3dSelectionType.h>
 #include "SelectFilterFunctor.h"
-#include "SelectPreview.h"
+#include <wy3dApp/SelectPreview.h>
 #include "select/SelectMode.h"
 
 // 选择处理器基类（渲染引擎无关）

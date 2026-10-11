@@ -21,7 +21,7 @@
 #include <QCoreApplication>
 #include <QMessageBox>
 #include <wy3dErrorCode.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "translation/ErrorCodeTranslation.h"
 
 void MessageBoxUtil::showError(unsigned int code)

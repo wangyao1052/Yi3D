@@ -36,18 +36,18 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dMove.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "view/OsgView.h"
 #include "commands/OsgGuiEventDispatcher.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/ElementNode.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/BasicTransient.h"
 #include "snap/SketchSnapSystem.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "select/SketchPlaneSelFilter.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 #include "snap/SnapObject.h"
 #include "commands/edit/MoveRotateGuiCmdUtil.h"
 #include "widgets/frame/MainWindow.h"

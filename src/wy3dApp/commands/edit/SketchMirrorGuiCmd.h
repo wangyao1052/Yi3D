@@ -24,7 +24,7 @@
 #include <wyVector2.h>
 #include <wyapSelManager.h>
 #include <wyapSelection.h>
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCommandMenu.h"
 
 class GuiCmdHoverInputPopup2;

@@ -37,7 +37,7 @@
 #include <wy3dSketchEntity3D.h>
 #include <wy3dSolid.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/dialogs/SketchIntersectionCurvePanel.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "select/SelectionSetHighlightor.h"

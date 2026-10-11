@@ -24,8 +24,8 @@
 #include <wyapCmdExecution.h>
 #include <wy3dApp/PointPickOption.h>
 
-#include "commands/OsgGuiCommand.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/OsgGuiCommand.h>
+#include <wy3dApp/SelectPreview.h>
 
 // Demonstrates picking a sketch element and listing all its parameters.
 class DemoParametersCmd : public OsgGuiCommand

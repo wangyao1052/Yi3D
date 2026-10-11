@@ -16,8 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "commands/GuiCmdControls.h"
-#include "application/Application.h"
+#include <wy3dApp/GuiCmdControls.h>
+#include <wy3dApp/Application.h>
 #include "widgets/frame/MainWindow.h"
 
 GuiCmdControls::GuiCmdControls()

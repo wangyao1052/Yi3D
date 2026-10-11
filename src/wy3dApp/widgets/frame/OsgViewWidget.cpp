@@ -17,11 +17,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "OsgViewWidget.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "application/Config.h"
 #include "view/CameraManipulator3d.h"
 #include "commands/OsgGuiEventDispatcher.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "widgets/CursorCenter.h"
 #include "widgets/CursorType.h"
 

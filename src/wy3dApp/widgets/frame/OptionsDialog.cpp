@@ -29,7 +29,7 @@
 #include <QSpinBox>
 #include <QVBoxLayout>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "application/AutoSave.h"
 #include "application/Config.h"
 #include "widgets/frame/MainWindow.h"

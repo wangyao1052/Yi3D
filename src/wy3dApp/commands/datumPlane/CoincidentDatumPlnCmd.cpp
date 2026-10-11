@@ -17,9 +17,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "commands/datumPlane/CoincidentDatumPlnCmd.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "select/SketchPlaneSelFilter.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 
 

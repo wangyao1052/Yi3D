@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include <cassert>
 
 #include <osg/Camera>
@@ -29,7 +29,7 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/GuiEventDispatcher.h"
 #include "commands/OsgCoordUtil.h"
 #include "commands/GuiCommandMenu.h"

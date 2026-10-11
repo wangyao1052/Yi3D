@@ -35,10 +35,10 @@
 #include <wy3dSketchSpline3D.h>
 
 #include "Sketch3DCurveRangeUtil.h"
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/transient/Sketch3DCurveTransient.h"
 #include "commands/transient/Sketch3DTrimExtendTransient.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 
 // What the two picks came to, by element: the algorithm's answer knows the geometry but not which
 // entities it belongs to, and the command is the only layer that does.

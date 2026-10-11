@@ -34,10 +34,10 @@
 #include <wy3dSketchArc3D.h>
 #include <wy3dImpl.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 
 // 起点悬停时的预览弧为近整圆(整圆使用SketchCircle3D)
 static const double kPreviewTotalAngle = wy3d::TWO_PI - wy3d::kMinValue;

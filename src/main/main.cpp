@@ -18,7 +18,7 @@
 
 #include <QDir>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "crashDump/CrashDump.h"
 
 int main(int argc, char *argv[])

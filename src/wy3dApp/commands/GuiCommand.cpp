@@ -16,10 +16,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "commands/GuiCommand.h"
+#include <wy3dApp/GuiCommand.h>
 #include <cassert>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wydbDatabase.h>
@@ -31,7 +31,7 @@
 #include "widgets/panels/property/PropertyEditorWidget.h"
 #include "widgets/frame/MainWindow.h"
 
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
 #include "snap/SnapContext.h"
 #include <wy3dApp/SketchEnvironment.h>
@@ -41,7 +41,7 @@
 #include "select/SelectHandler.h"
 #include "view/BaseView.h"
 #include "select/SelectFilterFunctor.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 
 
 GuiCommand::GuiCommand() : wyap::InteractiveCmdExecution(), _pContextMenu(nullptr)

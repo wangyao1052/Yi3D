@@ -26,7 +26,7 @@
 #include <wydbTransaction.h>
 #include <wyapSelManager.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "utils/MessageBoxUtil.h"
 
 #include <typeindex>

@@ -38,11 +38,11 @@
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchSpline.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "SnapContext.h"
 #include "SnapConsts.h"
 #include "utils/MathUtils.h"
-#include "commands/GuiCommand.h"
+#include <wy3dApp/GuiCommand.h>
 #include "utils/StlUtil.h"
 #include "scene/nodes/ElementNodeType.h"
 

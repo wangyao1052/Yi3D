@@ -26,7 +26,7 @@
 #include <wyVector3.h>
 #include <wyapSelection.h>
 
-#include "commands/GuiCommand.h"
+#include <wy3dApp/GuiCommand.h>
 
 class CopyElemens : public GuiCmdMakeElement
 {

@@ -18,8 +18,8 @@
 
 #include "ElementNodeHighlightor.h"
 #include <wyapSelection.h>
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "scene/nodes/SolidElementNode.h"
 
 ElementNodeHighlightor::ElementNodeHighlightor(const wydb::ElementId& id)

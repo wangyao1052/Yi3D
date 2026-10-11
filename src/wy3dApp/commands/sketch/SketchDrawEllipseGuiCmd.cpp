@@ -33,7 +33,7 @@
 #include <wy3dSketchEllipse.h>
 #include <wy3dSketchEllipse.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/BasicTransient.h"
 #include "snap/SketchSnapSystem.h"

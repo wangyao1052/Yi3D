@@ -18,8 +18,8 @@
 
 #include "ValidSketchTransient.h"
 #include <QToolTip>
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "scene/nodes/SketchElementNode.h"
 
 ValidSketchTransient::ValidSketchTransient(const wydb::ElementId& sketchId) : _sketchId(sketchId)

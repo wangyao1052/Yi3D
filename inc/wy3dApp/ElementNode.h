@@ -30,7 +30,7 @@
 #include <wy3dFeature.h>
 #include <wy3dSolid.h>
 #include <wy3dSketch.h>
-#include "ElementNodeType.h"
+#include "scene/nodes/ElementNodeType.h"
 #include "wy3dAppDefs.h"
 
 class Scene;

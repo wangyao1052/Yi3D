@@ -33,12 +33,12 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dImpl.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/OsgCoordUtil.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap3d/Sketch3DSnapContext.h"
 #include "snap3d/Sketch3DSnapSystem.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
 
 static bool parseDoubleText(const QString& text, double& value)

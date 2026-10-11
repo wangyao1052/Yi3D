@@ -24,7 +24,7 @@
 #include <wydbElementId.h>
 #include <wy3dSketchCurve3D.h>
 
-#include "GuiCmdTransient.h"
+#include <wy3dApp/GuiCmdTransient.h>
 
 // The piece of a 3D sketch curve a trim or an extend would act on, drawn in the same orange as the
 // 2D commands use. The range may run past the curve's own ends, which is exactly what an extension

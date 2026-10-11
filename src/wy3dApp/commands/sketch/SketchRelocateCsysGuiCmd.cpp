@@ -22,9 +22,9 @@
 #include <wyapSelManager.h>
 #include <wy3dSketchEntity.h>
 #include <wy3dSketchEntity.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "snap/SketchSnapSystem.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "environments/sketch/SketchEnvironmentImpl.h"
 

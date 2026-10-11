@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "ParamNamesTranslation.h"
+#include <wy3dApp/ParamNamesTranslation.h>
 #include <wy3dParamNames.h>
 #include <wy3dSketchParamNames.h>
 #include <wy3dBox.h>

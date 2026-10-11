@@ -27,7 +27,7 @@
 
 #include <wy3dSolid.h>
 #include <wy3dBodyModification.h>
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
 #include "scene/RenderConst.h"

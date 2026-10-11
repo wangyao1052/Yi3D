@@ -41,13 +41,13 @@
 #include <wy3dSketchLine.h>
 #include <wy3dCurve.h>
 #include <wy3dSheet.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/Colors.h"
 #include "snap/SnapConsts.h"
 #include "utils/MathUtils.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
 #include <QCoreApplication>
 #include <QCursor>

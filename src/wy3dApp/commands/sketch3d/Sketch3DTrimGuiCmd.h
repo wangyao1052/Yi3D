@@ -35,9 +35,9 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchSpline3D.h>
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/transient/Sketch3DTrimExtendTransient.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 
 // Cuts the piece of a 3D sketch curve under the cursor away at the crossings on either side of it.
 class Sketch3DTrimGuiCmd : public OsgGuiCommand, public wydb::DatabaseReactor

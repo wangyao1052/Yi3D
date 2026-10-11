@@ -30,7 +30,7 @@
 #include <wy3dSketchEllipse.h>
 #include <wy3dSketchEllipseArc.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "SketchExtendGraph.h"
 #include "SketchTrimExtendUtil.h"
 

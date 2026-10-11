@@ -18,7 +18,7 @@
 
 #include "GatewayEnvironmentImpl.h"
 #include "GatewayEnvironmentUI.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
 #include "environments/ICommandActionStateHost.h"
 

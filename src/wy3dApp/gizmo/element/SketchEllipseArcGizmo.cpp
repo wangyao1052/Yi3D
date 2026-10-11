@@ -20,7 +20,7 @@
 #include <cassert>
 #include <wyVector2.h>
 #include <wy3dSketchEllipseArc.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "utils/MathUtils.h"
 #include "gizmo/renderer/SketchEllipseArcGhostOsgRenderer.h"
 

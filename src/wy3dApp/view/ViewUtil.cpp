@@ -20,7 +20,7 @@
 #include "ViewUtil.h"
 #include <cassert>
 #include <osgGA/TrackballManipulator>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wy3dApp/SketchEnvironment.h>
 
 void ViewUtil::viewToISO(osgViewer::View* pView)

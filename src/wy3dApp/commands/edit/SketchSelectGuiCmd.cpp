@@ -16,15 +16,15 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SketchSelectGuiCmd.h"
+#include <wy3dApp/SketchSelectGuiCmd.h>
 
 #include <wy3dSketch.h>
 #include <wy3dSketchEntity.h>
 
-#include "application/Application.h"
-#include "gizmo/GizmoFactory.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/GizmoFactory.h>
 #include "scene/nodes/ElementNodeType.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "snap/SketchSnapSystem.h"
 
 

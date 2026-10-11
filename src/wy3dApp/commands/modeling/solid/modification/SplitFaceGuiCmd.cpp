@@ -28,10 +28,10 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include <wy3dImpl.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/MessageBoxUtil.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 
 namespace
 {

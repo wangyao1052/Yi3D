@@ -25,7 +25,7 @@
 #include <wy3dVector2.h>
 #include <wy3dPlane.h>
 
-#include "GuiCmdTransient.h"
+#include <wy3dApp/GuiCmdTransient.h>
 
 class SketchPointTransient : public GuiCmdTransient
 {

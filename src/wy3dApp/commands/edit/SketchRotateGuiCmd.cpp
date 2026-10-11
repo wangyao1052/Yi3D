@@ -21,7 +21,7 @@
 #include <wy3dSketchEntity.h>
 
 #include "scene/nodes/ElementNodeType.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 
 
 SketchRotateGuiCmd::SketchRotateGuiCmd() : RotateGuiCmd()

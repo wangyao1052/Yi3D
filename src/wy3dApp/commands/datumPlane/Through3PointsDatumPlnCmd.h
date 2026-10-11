@@ -22,7 +22,7 @@
 #include <wyVector3.h>
 #include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/datumPlane/MakeDatumPlane.h"
 #include "commands/transient/BasicTransient.h"
 

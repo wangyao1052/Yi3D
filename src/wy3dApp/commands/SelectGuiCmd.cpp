@@ -16,17 +16,17 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SelectGuiCmd.h"
+#include <wy3dApp/SelectGuiCmd.h>
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wydbElementId.h>
 #include <wyapSelManager.h>
 #include <wyapGizmoManager.h>
-#include "gizmo/GizmoFactory.h"
+#include <wy3dApp/GizmoFactory.h>
 #include <wyapClipboard.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include <wy3dFeature.h>
 #include <wy3dSolid.h>
 #include <wy3dPrimitive.h>
@@ -42,8 +42,8 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
 
-#include "scene/nodes/ElementNode.h"
-#include "utils/IconUtil.h"
+#include <wy3dApp/ElementNode.h>
+#include <wy3dApp/IconUtil.h>
 #include "utils/TransactionUtil.h"
 #include "utils/CopyPasteUtil.h"
 #include <wy3dApp/SketchEnvironment.h>
@@ -52,9 +52,9 @@
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/featureTree/FeatureTreeWidget.h"
 #include "widgets/panels/property/PropertyEditorWidget.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "widgets/frame/MainWindow.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "commands/CommandNames.h"
 
 #include <wy3dSketchEllipseArc.h>

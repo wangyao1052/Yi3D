@@ -19,7 +19,7 @@
 #include "ViewWidgetContainer.h"
 #include "ViewWidget.h"
 #include "OsgViewWidget.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/FileCommands.h"
 
 #include <QHBoxLayout>

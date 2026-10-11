@@ -33,7 +33,7 @@
 #include <wy3dSketchCenterLine.h>
 #include <wy3dSketchCurve.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"
 #include "widgets/frame/ViewWidget.h"

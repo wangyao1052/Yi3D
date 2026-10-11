@@ -28,16 +28,16 @@
 #include <wy3dPrimitive.h>
 #include <wy3dMove.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/BasicTransient.h"
 #include "commands/edit/MoveRotateGuiCmdUtil.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "snap/SketchSnapSystem.h"
 #include "snap/SnapObject.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
 
 static bool parseDoubleText(const QString& text, double& value)

@@ -37,14 +37,14 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dImpl.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/sketch/dialogs/SketchRectArrayDialog.h"
 #include "commands/transient/BasicTransient.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/ElementNode.h>
 #include "scene/RenderConst.h"
-#include "scene/Scene.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/CommonSelFilters.h>
 #include "snap/SketchSnapSystem.h"
 #include "utils/MathUtils.h"
 #include "widgets/frame/MainWindow.h"

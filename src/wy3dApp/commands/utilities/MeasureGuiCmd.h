@@ -31,7 +31,7 @@
 #include <wy3dVector3.h>
 #include <wy3dPlane.h>
 #include "commands/GuiCommandMenu.h"
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/transient/BasicTransient.h"
 #include "commands/utilities/MeasureCmdPanel.h"
 

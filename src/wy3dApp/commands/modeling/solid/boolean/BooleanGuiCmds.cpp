@@ -17,13 +17,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "commands/modeling/solid/boolean/BooleanGuiCmds.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dUnion.h>
 #include <wy3dDifference.h>
 #include <wy3dIntersection.h>
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/SolidElementNode.h"
 

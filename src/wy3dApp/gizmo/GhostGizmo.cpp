@@ -18,7 +18,7 @@
 
 #include "gizmo/GhostGizmo.h"
 #include <cassert>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 
 GhostGizmo::GhostGizmo(const wydb::Element* pElem)
     : BaseGizmo(pElem ? pElem->getId() : wydb::ElementId{})

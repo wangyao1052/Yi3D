@@ -22,9 +22,9 @@
 #include <osg/ref_ptr>
 #include <wy3dSketchSpline.h>
 #include <wy3dMakeSketchText.h>
-#include "application/Application.h"
-#include "scene/Scene.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/ElementNode.h>
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
 

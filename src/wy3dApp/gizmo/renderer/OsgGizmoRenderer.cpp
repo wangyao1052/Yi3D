@@ -19,7 +19,7 @@
 #include "OsgGizmoRenderer.h"
 #include <cassert>
 #include "gizmo/BaseGizmo.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
 
 OsgGizmoRenderer::OsgGizmoRenderer(BaseGizmo* pGizmo)

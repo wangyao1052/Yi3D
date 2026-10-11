@@ -24,9 +24,9 @@
 #include <set>
 #include <vector>
 #include <wydbElementId.h>
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCmdMakeElement.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 
 class OffsetSheetCmdPanel;

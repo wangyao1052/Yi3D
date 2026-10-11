@@ -37,7 +37,7 @@
 #include "snap/SnapSystemBase.h"
 #include <wy3dPlane.h>
 #include <wy3dSelectionType.h>
-#include "transient/GuiCmdTransient.h"
+#include <wy3dApp/GuiCmdTransient.h>
 #include "widgets/CursorType.h"
 #include <osgGA/GUIEventAdapter>
 #include "snap/SketchSnapContext.h"
@@ -46,11 +46,11 @@
 #include "select/SelectMode.h"
 #include <wy3dApp/PointPickOption.h>
 #include "select/SelectFilterFunctor.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 
-#include "commands/GuiCmdControls.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCmdControls.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 class GuiCmdOsgEventHandler;
 class GuiCmdMakeElement;

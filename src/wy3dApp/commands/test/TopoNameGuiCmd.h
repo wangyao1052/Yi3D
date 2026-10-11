@@ -21,8 +21,8 @@
 
 #include <TopAbs_ShapeEnum.hxx>
 
-#include "commands/OsgGuiCommand.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/OsgGuiCommand.h>
+#include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 #include "commands/GuiCommandMenu.h"
 

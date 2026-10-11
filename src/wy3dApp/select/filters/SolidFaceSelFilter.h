@@ -39,7 +39,7 @@
 #include <wy3dSheet.h>
 #include <wy3dSelectionType.h>
 #include "select/SelectFilterFunctor.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 
 template<typename T>
 class FaceSelFilterFunctor : public SelectFilterFunctor

@@ -19,8 +19,8 @@
 #ifndef WY3DAPP_SKETCH_PROJECT_GUI_CMD_H
 #define WY3DAPP_SKETCH_PROJECT_GUI_CMD_H
 
-#include "commands/OsgGuiCommand.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/OsgGuiCommand.h>
+#include <wy3dApp/SelectPreview.h>
 #include <memory>
 #include <wydbElementId.h>
 #include <wy3dPlane.h>

@@ -27,7 +27,7 @@
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wy3dPlane.h>
-#include "commands/GuiCommand.h"
+#include <wy3dApp/GuiCommand.h>
 #include "snap/SketchSnapContext.h"
 #include "wy3dAppDefs.h"
 

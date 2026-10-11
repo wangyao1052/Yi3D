@@ -32,7 +32,7 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchEllipseArc.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "utils/MathUtils.h"
 #include "commands/transient/BasicTransient.h"

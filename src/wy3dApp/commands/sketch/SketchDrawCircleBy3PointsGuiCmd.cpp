@@ -30,7 +30,7 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchCircle.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap/SketchSnapSystem.h"
 #include "utils/MathUtils.h"

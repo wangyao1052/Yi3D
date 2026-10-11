@@ -26,7 +26,7 @@
 #include <wydbElementId.h>
 #include <wy3dSketchCurve3D.h>
 
-#include "GuiCmdTransient.h"
+#include <wy3dApp/GuiCmdTransient.h>
 
 // 3D草图曲线临时渲染对象(高亮被捕捉参考的3D曲线,样式与2D草图一致:橙色加粗)
 // 通过SketchCurve3D::getPointAt采样折线化,空间曲线(圆/弧/样条)通用

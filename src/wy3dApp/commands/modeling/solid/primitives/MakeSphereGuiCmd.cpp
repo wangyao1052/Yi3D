@@ -36,9 +36,9 @@
 #include <wy3dSphere.h>
 #include <wy3dImpl.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "widgets/frame/MainWindow.h"
 
 static bool parseDoubleText(const QString& text, double& value)

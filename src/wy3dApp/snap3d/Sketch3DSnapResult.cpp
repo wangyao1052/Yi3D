@@ -25,7 +25,7 @@
 #include <wy3dImpl.h>
 #include <wy3dSketchCurve3D.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/transient/Sketch3DCurveTransient.h"
 
 Sketch3DSnapResult::Sketch3DSnapResult(const wy::Vector3& position)

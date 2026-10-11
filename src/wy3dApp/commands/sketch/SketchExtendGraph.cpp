@@ -34,7 +34,7 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "SketchTrimExtendUtil.h"
 
 #define MAKE_ID_PAIR(id1st, id2st) std::pair<wydb::ElementId, wydb::ElementId>(id1st, id2st)

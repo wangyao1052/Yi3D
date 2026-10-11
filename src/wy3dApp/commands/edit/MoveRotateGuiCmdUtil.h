@@ -24,8 +24,8 @@
 #include <wy3dSolid.h>
 #include <wy3dSelectionType.h>
 
-#include "application/Application.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 // 获取当前选择集中有效的形体元素(实体或片体、顶层、无父级)
 // 供 Move 和 Rotate 建模环境命令共用

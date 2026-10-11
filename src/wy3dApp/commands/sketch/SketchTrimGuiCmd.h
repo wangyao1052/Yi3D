@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_SKETCH_TRIM_GUI_CMD_H
 #define WY3DAPP_SKETCH_TRIM_GUI_CMD_H
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include <map>
 #include <memory>
 #include <osg/Array>
@@ -38,7 +38,7 @@
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchSpline.h>
 
-#include "commands/transient/GuiCmdTransient.h"
+#include <wy3dApp/GuiCmdTransient.h>
 #include "SketchTrimGraph.h"
 
 class TrimSegmentTransient;

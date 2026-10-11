@@ -27,11 +27,11 @@
 #include <wy3dSolid.h>
 #include <wy3dSheet.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "commands/dialogs/SetColorCmdPanel.h"
 #include "scene/nodes/ElementNodeType.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "widgets/frame/MainWindow.h"
 
 

@@ -28,13 +28,13 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
 #include <wy3dMakeSketchText.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "snap/SketchSnapSystem.h"
 #include "commands/dialogs/SketchTextDialog.h"
-#include "scene/Scene.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/ElementNode.h>
 #include "utils/MathUtils.h"
 #include "utils/MessageBoxUtil.h"
 #include "widgets/frame/MainWindow.h"

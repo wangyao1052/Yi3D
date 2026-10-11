@@ -22,7 +22,7 @@
 #include <QColor>
 #include <wy3dColor.h>
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 
 class SetColorCmdPanel;
 

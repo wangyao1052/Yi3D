@@ -24,9 +24,9 @@
 #include <wyapCmdStack.h>
 #include <wyrxClassInfo.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
-#include "commands/edit/SketchSelectGuiCmd.h"
+#include <wy3dApp/SketchSelectGuiCmd.h>
 #include "commands/ViewCommands.h"
 #include "commands/sketch/SketchDrawPointGuiCmd.h"
 #include "commands/sketch/SketchDrawLineGuiCmd.h"

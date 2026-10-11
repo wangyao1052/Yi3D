@@ -39,7 +39,7 @@
 #include <wy3dSketchEntity3D.h>
 #include <wy3dSolid.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/dialogs/SketchProjectCurvePanel.h"
 #include "commands/transient/Sketch3DDirectionTransient.h"
 #include "commands/transient/Sketch3DEdgesTransient.h"

@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_HELIX_GUI_CMD_H
 #define WY3DAPP_HELIX_GUI_CMD_H
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include <map>
 #include <memory>
 #include <wy3dHelix.h>

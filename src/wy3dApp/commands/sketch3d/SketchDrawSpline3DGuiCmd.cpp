@@ -36,12 +36,12 @@
 #include <wy3dSketch3D.h>
 #include <wy3dImpl.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "gizmo/OsgGizmoNode.h"
 #include "scene/Colors.h"
 #include "snap/SnapConsts.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
 
 static bool parseDoubleText(const QString& text, double& value)

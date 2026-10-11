@@ -30,9 +30,9 @@
 #include <wy3dSelectionType.h>
 #include <wy3dSketchEntity3D.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "scene/nodes/ElementNodeType.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 
 Sketch3DTrimGuiCmd::Sketch3DTrimGuiCmd() : OsgGuiCommand()
 {

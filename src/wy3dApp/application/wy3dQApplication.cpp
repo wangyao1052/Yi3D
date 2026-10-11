@@ -19,7 +19,7 @@
 #include "wy3dQApplication.h"
 #include <QMessageBox>
 #include <QFile>
-#include "Application.h"
+#include <wy3dApp/Application.h>
 #include "PythonScriptExecutor.h"
 #include "widgets/panels/output/OutputWidget.h"
 

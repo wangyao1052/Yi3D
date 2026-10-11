@@ -31,7 +31,7 @@
 #include <wydbDatabase.h>
 #include <wy3dSketchSpline.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "ParamLineEdit.h"
 #include "PropertyEditorWidget.h"
 #include "SketchSplinePointLineEdit.h"

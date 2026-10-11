@@ -28,8 +28,8 @@
 #include <wy3dImpl.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"

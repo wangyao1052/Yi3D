@@ -39,7 +39,7 @@
 #include <OsgUtils.h>
 #include <osg/LineWidth>
 
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 
 #include <wy3dMath.h>
 #include <wydbDatabase.h>

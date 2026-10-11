@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_SKETCH_ELLIPSE_GIZMO_CREATOR_H
 #define WY3DAPP_SKETCH_ELLIPSE_GIZMO_CREATOR_H
 
-#include "ElemGizmoCreator.h"
+#include <wy3dApp/ElemGizmoCreator.h>
 
 class SketchEllipseGizmoCreator : public ElemGizmoCreator
 {

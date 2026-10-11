@@ -28,9 +28,9 @@
 #include <utils/wy3dSketch3DEdgeUtil.h>
 #include <utils/wy3dSketch3DProjectionUtil.h>
 
-#include "commands/OsgGuiCommand.h"
-#include "select/SelectPreview.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/OsgGuiCommand.h>
+#include <wy3dApp/SelectPreview.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 class SketchProjectCurvePanel;
 class Sketch3DDirectionTransient;

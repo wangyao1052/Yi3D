@@ -24,7 +24,7 @@
 
 #include <TopoDS_Edge.hxx>
 
-#include "GuiCmdTransient.h"
+#include <wy3dApp/GuiCmdTransient.h>
 
 // A group of bare BRep edges, drawn in the same orange as the other previews. Its twin
 // Sketch3DCurveTransient samples entities that already exist; this one is for the commands that

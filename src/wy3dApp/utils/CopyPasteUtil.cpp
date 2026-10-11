@@ -32,7 +32,7 @@
 #include <wy3dSolid.h>
 #include <wy3dBodyModification.h>
 #include <wy3dSelectionType.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "utils/MessageBoxUtil.h"
 

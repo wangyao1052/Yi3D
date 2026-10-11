@@ -20,14 +20,14 @@
 #define WY3DAPP_EXTRUSION_GUI_CMD_H
 
 #include <cfloat>
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include <map>
 #include <wyVector3.h>
 #include <wy3dVector3.h>
 #include <wy3dExtrusion.h>
 #include <wy3dSketch.h>
 #include "commands/transient/ValidSketchTransient.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/SelectPreview.h>
 
 class MakeExtrusion;
 class GuiCmdHoverInputPopup2_2ndTabLabel;

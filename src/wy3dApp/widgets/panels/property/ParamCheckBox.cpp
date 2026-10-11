@@ -32,11 +32,11 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "PropertyEditorWidget.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 
 static void setWidgetFontSize(QWidget* pWidget, int pointSize = 12)
 {

@@ -29,13 +29,13 @@
 #include <wy3dSketchEntity3D.h>
 #include <wy3dSolid.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/GuiEventDispatcher.h"
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "select/SelectHandler.h"
-#include "select/filters/CommonSelFilters.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/CommonSelFilters.h>
+#include <wy3dApp/GuiCommandUtil.h>
 #include "view/BaseView.h"
 
 namespace

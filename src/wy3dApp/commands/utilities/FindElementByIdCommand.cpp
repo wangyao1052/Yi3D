@@ -35,7 +35,7 @@
 #include <wyapSelManager.h>
 #include <wyapSelection.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wy3dApp/ModelingEnvironment.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>

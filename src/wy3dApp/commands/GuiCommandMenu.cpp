@@ -19,13 +19,13 @@
 #include <QCoreApplication>
 #include <QMouseEvent>
 #include "commands/GuiCommandMenu.h"
-#include "commands/GuiCommand.h"
+#include <wy3dApp/GuiCommand.h>
 #include "commands/CommandNames.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
-#include "environments/EnvironmentBase.h"
-#include "scene/Scene.h"
+#include <wy3dApp/EnvironmentBase.h>
+#include <wy3dApp/Scene.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
 

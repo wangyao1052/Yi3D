@@ -33,13 +33,13 @@
 #include <wy3dSolid.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"
-#include "utils/GuiCommandUtil.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/GuiCommandUtil.h>
+#include <wy3dApp/CommonSelFilters.h>
 #include "select/filters/SolidToCutSelFilter.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"

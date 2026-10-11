@@ -22,7 +22,7 @@
 #include <wyapSelManager.h>
 #include <wy3dPlane.h>
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 
 class NewSketchGuiCmd : public OsgGuiCommand
 {

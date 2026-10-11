@@ -26,7 +26,7 @@
 #include <wy3dSketch3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
-#include <wy3dApp/application/Application.h>
+#include <wy3dApp/Application.h>
 
 #include "commands/OsgCoordUtil.h"
 

@@ -19,7 +19,7 @@
 #include "SketchSnapResult.h"
 #include <wyVector2.h>
 #include <wy3dPlane.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "scene/RenderConst.h"
 #include "commands/transient/SketchPointTransient.h"
 #include "SnapConsts.h"

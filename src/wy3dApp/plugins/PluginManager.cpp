@@ -30,7 +30,7 @@
 
 #include <plugin/Plugin.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "plugins/PluginManifest.h"
 #include "Version.h"
 #include <wy3dApp/GatewayEnvironment.h>

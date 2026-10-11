@@ -44,11 +44,11 @@
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "scene/Colors.h"
 #include "scene/nodes/ElementNodeType.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "commands/dialogs/OffsetSheetCmdPanel.h"
 #include "utils/MessageBoxUtil.h"
 #include "widgets/frame/MainWindow.h"

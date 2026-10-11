@@ -26,7 +26,7 @@
 #include <wyapSelection.h>
 #include <wydbElementId.h>
 
-#include "commands/GuiCommand.h"
+#include <wy3dApp/GuiCommand.h>
 
 class MirrorElemens : public GuiCmdMakeElement
 {

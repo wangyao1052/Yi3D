@@ -22,7 +22,7 @@
 #include <wyapSelection.h>
 #include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/datumPlane/MakeDatumPlane.h"
 
 class CoincidentDatumPlnCmd : public OsgGuiCommand

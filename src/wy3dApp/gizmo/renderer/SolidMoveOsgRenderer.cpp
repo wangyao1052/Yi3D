@@ -30,11 +30,11 @@
 #include <wyVector3.h>
 
 #include "gizmo/BaseGizmo.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <wy3dPrimitive.h>
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/ElementNode.h>
 #include "scene/RenderConst.h"
 
 #define RADIUS 2.0

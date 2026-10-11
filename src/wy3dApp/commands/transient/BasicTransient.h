@@ -27,7 +27,7 @@
 #include <wy3dVector2.h>
 #include <wy3dVector3.h>
 #include <wy3dPlane.h>
-#include "GuiCmdTransient.h"
+#include <wy3dApp/GuiCmdTransient.h>
 
 class LineTransient : public GuiCmdTransient
 {

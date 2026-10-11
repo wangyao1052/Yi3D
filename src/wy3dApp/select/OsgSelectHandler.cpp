@@ -18,11 +18,11 @@
 
 #include "OsgSelectHandler.h"
 #include <cassert>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include <osg/Camera>
 #include <osgUtil/PolytopeIntersector>
 #include "OsgSelectUtils.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
 #include "select/PointPick.h"
 #include "select/BoxPick.h"

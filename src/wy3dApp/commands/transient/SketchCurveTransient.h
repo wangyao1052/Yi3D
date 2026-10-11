@@ -31,7 +31,7 @@
 #include <wy3dSketchCurve.h>
 #include <wy3dPlane.h>
 
-#include "GuiCmdTransient.h"
+#include <wy3dApp/GuiCmdTransient.h>
 
 class SketchEntityLinearization;
 

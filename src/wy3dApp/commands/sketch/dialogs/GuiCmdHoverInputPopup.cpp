@@ -31,7 +31,7 @@
 #include <QTimer>
 #include <algorithm>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "widgets/frame/MainWindow.h"
 #include "widgets/frame/ViewWidget.h"
 #include "widgets/frame/ViewWidgetContainer.h"

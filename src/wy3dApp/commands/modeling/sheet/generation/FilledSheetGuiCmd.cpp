@@ -40,13 +40,13 @@
 #include <wy3dSheet.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/ElementNode.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "wy3d/topo/TopoShapeUtil.h"
 
 // ============================================================================

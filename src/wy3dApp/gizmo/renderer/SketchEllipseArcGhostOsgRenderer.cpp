@@ -25,7 +25,7 @@
 #include "scene/Colors.h"
 #include "gizmo/BaseGizmo.h"
 #include "utils/MathUtils.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 
 void SketchEllipseArcGhostOsgRenderer::refresh()
 {

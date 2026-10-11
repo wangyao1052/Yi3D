@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_SKETCH_ENTITY3D_ELEMENT_NODE_H
 #define WY3DAPP_SKETCH_ENTITY3D_ELEMENT_NODE_H
 
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/ElementNode.h>
 
 class SketchEntity3DElementNode : public ElementNode
 {

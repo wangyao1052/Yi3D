@@ -29,7 +29,7 @@
 #include <wy3dPlane.h>
 #include <wy3dMakeSketchText.h>
 
-#include "commands/GuiCommand.h"
+#include <wy3dApp/GuiCommand.h>
 
 class MakeText : public GuiCmdMakeElement
 {

@@ -23,7 +23,7 @@
 #include <map>
 #include <wy3dLoftedSheet.h>
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/transient/ValidSketchTransient.h"
 #include "select/SelectionSetHighlightor.h"
 

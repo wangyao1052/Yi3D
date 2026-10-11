@@ -17,7 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "FeatureTreeWidget.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -90,11 +90,11 @@
 
 #include "FeatureTreeModel.h"
 #include "commands/CommandNames.h"
-#include "commands/GuiCommand.h"
-#include "commands/CommandAction.h"
-#include "scene/Scene.h"
-#include "scene/nodes/ElementNode.h"
-#include "utils/IconUtil.h"
+#include <wy3dApp/GuiCommand.h>
+#include <wy3dApp/CommandAction.h>
+#include <wy3dApp/Scene.h>
+#include <wy3dApp/ElementNode.h>
+#include <wy3dApp/IconUtil.h>
 #include "utils/TransactionUtil.h"
 #include "utils/MessageBoxUtil.h"
 #include "utils/CopyPasteUtil.h"

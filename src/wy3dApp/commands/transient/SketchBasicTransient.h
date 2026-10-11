@@ -26,7 +26,7 @@
 #include <wy3dVector2.h>
 #include <wy3dPlane.h>
 
-#include "commands/GuiCommand.h"
+#include <wy3dApp/GuiCommand.h>
 
 class CircleTransient : public GuiCmdTransient
 {

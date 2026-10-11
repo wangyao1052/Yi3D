@@ -33,7 +33,7 @@
 
 #include "utils/MathUtils.h"
 #include "scene/SketchEntityLinearization.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "scene/RenderConst.h"
 
 SketchPointTransient::SketchPointTransient(const wy3d::Plane& sketchPlane, const wy::Vector2& point,

@@ -35,7 +35,7 @@
 
 #include "utils/MathUtils.h"
 #include "scene/SketchEntityLinearization.h"
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "scene/RenderConst.h"
 
 SketchCurveTransient::SketchCurveTransient(const wydb::ElementId& id, double startParam, double endParam)

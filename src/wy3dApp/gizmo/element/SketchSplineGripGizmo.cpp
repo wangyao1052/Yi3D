@@ -20,7 +20,7 @@
 #include <cassert>
 #include <wyVector2.h>
 #include <wy3dSketchSpline.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "gizmo/renderer/SketchSplineCtrolPointsPathOsgRenderer.h"
 
 SplineCtrolPointsPathGhostGizmo::SplineCtrolPointsPathGhostGizmo(const wy3d::SketchSpline* pSpline)

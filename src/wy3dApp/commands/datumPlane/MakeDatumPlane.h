@@ -27,7 +27,7 @@
 #include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
 #include <wy3dImpl.h>
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 
 class MakeDatumPlane : public GuiCmdMakeElement
 {

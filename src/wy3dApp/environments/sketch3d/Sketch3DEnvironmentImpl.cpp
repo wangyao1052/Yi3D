@@ -25,7 +25,7 @@
 #include <wydbTransaction.h>
 #include <wy3dSketch3D.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
 #include "snap3d/Sketch3DSnapSystem.h"
 

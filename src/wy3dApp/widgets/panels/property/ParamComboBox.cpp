@@ -29,7 +29,7 @@
 #include <wyapSelection.h>
 #include <wyapSelManager.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "PropertyEditorWidget.h"

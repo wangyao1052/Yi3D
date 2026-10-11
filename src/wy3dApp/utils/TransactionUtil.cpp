@@ -20,7 +20,7 @@
 #include <cassert>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 
 bool TransactionUtil::hasActiveTransaction()
 {

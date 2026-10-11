@@ -19,9 +19,9 @@
 #ifndef WY3DAPP_SKETCH_INCLUDE_CURVE3D_GUI_CMD_H
 #define WY3DAPP_SKETCH_INCLUDE_CURVE3D_GUI_CMD_H
 
-#include "commands/OsgGuiCommand.h"
-#include "select/SelectPreview.h"
-#include "utils/GuiCommandUtil.h"
+#include <wy3dApp/OsgGuiCommand.h>
+#include <wy3dApp/SelectPreview.h>
+#include <wy3dApp/GuiCommandUtil.h>
 #include <map>
 #include <string>
 #include <utility>

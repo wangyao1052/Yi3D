@@ -33,7 +33,7 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "SketchTrimGraph.h"
 #include "SketchTrimExtendUtil.h"
 

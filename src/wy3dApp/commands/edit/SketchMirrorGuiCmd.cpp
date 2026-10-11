@@ -34,17 +34,17 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "view/OsgView.h"
 #include "commands/OsgGuiEventDispatcher.h"
-#include "scene/nodes/ElementNode.h"
+#include <wy3dApp/ElementNode.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "snap/SketchSnapSystem.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/BasicTransient.h"
 #include "utils/MathUtils.h"
-#include "select/filters/CommonSelFilters.h"
+#include <wy3dApp/CommonSelFilters.h>
 #include "widgets/frame/MainWindow.h"
 
 static bool parseDoubleText(const QString& text, double& value)

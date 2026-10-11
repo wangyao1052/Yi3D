@@ -28,11 +28,11 @@
 #include <QFileInfo>
 #include <QTranslator>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "application/AutoSave.h"
 #include "commands/FileCommands.h"
 #include "plugins/PluginManager.h"
-#include "utils/IconUtil.h"
+#include <wy3dApp/IconUtil.h>
 #include "OsgUtils.h"
 #include <wyVector3.h>
 #include <wyapSceneManager.h>
@@ -61,7 +61,7 @@
 
 #include <wyapCmdStack.h>
 #include "view/OsgView.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "commands/OsgGuiEventDispatcher.h"
 #include "Config.h"
 #include "snap/SnapObjectFactory.h"
@@ -72,7 +72,7 @@
 #include "commands/CommandNames.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "environments/modeling/ModelingEnvironmentImpl.h"
-#include "gizmo/GizmoFactory.h"
+#include <wy3dApp/GizmoFactory.h>
 #include "widgets/CursorCenter.h"
 #include "utils/StringUtil.h"
 #include "application/wy3dQApplication.h"

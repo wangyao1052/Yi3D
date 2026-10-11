@@ -20,8 +20,8 @@
 
 #include <cassert>
 
-#include "application/Application.h"
-#include "commands/GuiCommand.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/GuiCommand.h>
 
 GuiCmdMakeElement::GuiCmdMakeElement(GuiCommand* pGuiCmd)
     : _pGuiCmd(pGuiCmd), _pTopTrans(nullptr), _isFinished(false)

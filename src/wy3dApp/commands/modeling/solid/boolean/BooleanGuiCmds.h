@@ -25,7 +25,7 @@
 #include <wyapSelManager.h>
 #include <wy3dBoolean.h>
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCommandMenu.h"
 #include "commands/transient/ElementNodeHighlightor.h"
 

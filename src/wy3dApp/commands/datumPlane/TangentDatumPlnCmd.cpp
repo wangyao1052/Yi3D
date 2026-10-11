@@ -21,7 +21,7 @@
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wyapSelManager.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/Colors.h"

@@ -30,21 +30,21 @@
 #include <wy3dImpl.h>
 #include <wy3dDatumPlane.h>
 
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "utils/MathUtils.h"
 #include "utils/TopoShapeUtil.h"
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "snap/SnapObject.h"
 #include "snap/SketchSnapSystem.h"
 #include "select/SketchPlaneSelFilter.h"
-#include "utils/IconUtil.h"
+#include <wy3dApp/IconUtil.h>
 #include "utils/MathUtils.h"
 #include "utils/TopoShapeUtil.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "scene/nodes/ElementNodeType.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "view/ViewUtil.h"
 #include "view/OsgView.h"
 #include "commands/CommandNames.h"

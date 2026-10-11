@@ -19,7 +19,7 @@
 #include "SolidMoveGizmo.h"
 #include <cassert>
 
-#include "commands/GuiCommand.h" // MouseEvent
+#include <wy3dApp/GuiCommand.h> // MouseEvent
 
 #include <osg/Camera>
 #include <osgViewer/View>
@@ -29,8 +29,8 @@
 #include <wyVector3.h>
 
 #include "gizmo/OsgGizmoNode.h"
-#include "application/Application.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Application.h>
+#include <wy3dApp/Scene.h>
 #include "gizmo/operation/SolidDragOperation.h"
 #include "gizmo/renderer/SolidMoveOsgRenderer.h"
 #include "gizmo/renderer/OsgGizmoRenderer.h"

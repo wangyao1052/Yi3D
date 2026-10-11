@@ -29,10 +29,10 @@
 #include <wyVector3.h>
 #include <wy3dImpl.h>
 #include <wy3dSheet.h>
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "select/SketchPlaneSelFilter.h"
-#include "scene/Scene.h"
+#include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/DatumPlaneElementNode.h"
 #include "widgets/frame/MainWindow.h"

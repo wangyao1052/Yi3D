@@ -34,7 +34,7 @@
 #include <wydbTransaction.h>
 #include <wyapEnums.h>
 
-#include "application/Application.h"
+#include <wy3dApp/Application.h>
 #include "application/Config.h"
 #include "application/Document.h"
 #include "commands/FileCommands.h"

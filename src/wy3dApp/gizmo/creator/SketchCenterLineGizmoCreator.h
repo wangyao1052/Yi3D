@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_SKETCH_CENTER_LINE_GIZMO_CREATOR_H
 #define WY3DAPP_SKETCH_CENTER_LINE_GIZMO_CREATOR_H
 
-#include "ElemGizmoCreator.h"
+#include <wy3dApp/ElemGizmoCreator.h>
 
 class SketchCenterLineGizmoCreator : public ElemGizmoCreator
 {

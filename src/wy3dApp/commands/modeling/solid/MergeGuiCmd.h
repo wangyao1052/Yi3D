@@ -19,9 +19,9 @@
 #ifndef WY3DAPP_MERGE_GUI_CMD_H
 #define WY3DAPP_MERGE_GUI_CMD_H
 
-#include "commands/OsgGuiCommand.h"
+#include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCommandMenu.h"
-#include "select/SelectPreview.h"
+#include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 
 class MergeGuiCmd : public OsgGuiCommand

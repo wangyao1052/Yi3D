@@ -21,7 +21,7 @@
 #include <QPainter>
 #include <QIcon>
 #include "CursorType.h"
-#include "utils/IconUtil.h"
+#include <wy3dApp/IconUtil.h>
 
 CursorCenter& CursorCenter::instance()
 {
