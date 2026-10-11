@@ -49,11 +49,6 @@ SketchSnapSystem* SketchRotateGuiCmd::getActiveSnapSystem() const
     return _sketchInfo.pSketchSnapSys;
 }
 
-GuiCmdEnvType SketchRotateGuiCmd::getEnvType() const
-{
-    return GuiCmdEnvType::Sketching;
-}
-
 void SketchRotateGuiCmd::gotoNextStepAfterSelectElements()
 {
     this->gotoStep(Step::SpecifyBasePnt);

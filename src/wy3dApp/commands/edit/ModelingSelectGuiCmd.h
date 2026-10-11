@@ -45,7 +45,6 @@ protected:
     virtual void onStart_EnvSpecific() override;
     virtual void selectAll_Impl(wyap::SelectionSet& ss) override;
     virtual bool tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos) override;
-    virtual GuiCmdEnvType getPasteEnvType() const override;
     virtual wy::Vector3 computePastePosition(double x, double y,
         const std::set<wydb::ElementId>& excludeIds) override;
 };

@@ -284,7 +284,7 @@ bool RotateGuiCmd::finishStep(Step step)
         }
 
         // 执行旋转
-        bool ret = _pRotateElements->perform(_sels, _rotateAngle, getEnvType());
+        bool ret = _pRotateElements->perform(_sels, _rotateAngle);
         if (ret)
         {
             _pRotateElements->commit();

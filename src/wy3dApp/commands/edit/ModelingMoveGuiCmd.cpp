@@ -239,7 +239,7 @@ void ModelingMoveGuiCmd::handlePopupEnterKey()
 
 bool ModelingMoveGuiCmd::executeMove()
 {
-    return _pMoveElements->perform(_sels, _moveVec, GuiCmdEnvType::Modeling);
+    return _pMoveElements->perform(_sels, _moveVec);
 }
 
 wy::Vector3 ModelingMoveGuiCmd::snapInWorkPlane(double x, double y, const wy::Vector3& pos3d) const

@@ -243,6 +243,12 @@ GuiCmdSketchInfo GuiCommandUtil::initSketchInfo()
     return info;
 }
 
+SketchEnvironment* GuiCommandUtil::getActiveSketchEnvironment()
+{
+    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    return dynamic_cast<SketchEnvironment*>(pEnv);
+}
+
 Sketch3DEnvironment* GuiCommandUtil::getActiveSketch3DEnvironment()
 {
     wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();

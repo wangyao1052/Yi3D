@@ -165,5 +165,5 @@ void SketchMoveGuiCmd::handlePopupEnterKey()
 
 bool SketchMoveGuiCmd::executeMove()
 {
-    return _pMoveElements->perform(_sels, _moveVec, GuiCmdEnvType::Sketching);
+    return _pMoveElements->perform(_sels, _moveVec);
 }

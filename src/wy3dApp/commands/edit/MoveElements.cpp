@@ -32,6 +32,7 @@
 #include "scene/Scene.h"
 #include "scene/nodes/ElementNode.h"
 #include "scene/RenderConst.h"
+#include "utils/GuiCommandUtil.h"
 
 
 MoveElemens::MoveElemens(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
@@ -97,19 +98,7 @@ bool MoveElemens::update(const wy::Vector3& moveVec)
     return true;
 }
 
-static void getElementAllLevelsChildren(wydb::Database* pDb, const wydb::Element* pElem, std::list<wydb::ElementId>& allLevelChildren)
-{
-    std::vector<wydb::ElementId> children = pElem->getChildren();
-    for (const wydb::ElementId& childId : children)
-    {
-        allLevelChildren.emplace_back(childId);
-        const wydb::Element* pChildElem = pDb->getElement(childId);
-        if (!pChildElem) continue;
-        getElementAllLevelsChildren(pDb, pChildElem, allLevelChildren);
-    }
-}
-
-bool MoveElemens::perform(const wyap::SelectionSet& ss, const wy::Vector3& moveVec, GuiCmdEnvType mode)
+bool MoveElemens::perform(const wyap::SelectionSet& ss, const wy::Vector3& moveVec)
 {
     if (!_pDb)
     {
@@ -125,9 +114,11 @@ bool MoveElemens::perform(const wyap::SelectionSet& ss, const wy::Vector3& moveV
     }
     if (ids.empty()) return true;
 
+    const bool isSketching = (nullptr != GuiCommandUtil::getActiveSketchEnvironment());
+
     // 启动事务
     wydb::TransactionOption option;
-    option.chainUpdateScope = GuiCmdEnvType::Sketching == mode ? wydb::ChainUpdateScope::Local : wydb::ChainUpdateScope::Cascade;
+    option.chainUpdateScope = isSketching ? wydb::ChainUpdateScope::Local : wydb::ChainUpdateScope::Cascade;
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans)
     {
@@ -136,7 +127,7 @@ bool MoveElemens::perform(const wyap::SelectionSet& ss, const wy::Vector3& moveV
     }
 
     // 草图环境
-    if (GuiCmdEnvType::Sketching == mode)
+    if (isSketching)
     {
         for (const wydb::ElementId& id : ids)
         {

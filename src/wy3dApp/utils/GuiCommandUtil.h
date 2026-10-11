@@ -29,6 +29,7 @@
 #include "wy3dAppDefs.h"
 
 class SketchSnapSystem;
+class SketchEnvironment;
 class Sketch3DEnvironment;
 
 struct GuiCmdSketchInfo
@@ -73,6 +74,7 @@ public:
     // 初始化3D草图环境信息
     static bool initSketch3DInfo(GuiCmdSketch3DInfo& info);
 
+    static SketchEnvironment* getActiveSketchEnvironment();
     static Sketch3DEnvironment* getActiveSketch3DEnvironment();
 };
 

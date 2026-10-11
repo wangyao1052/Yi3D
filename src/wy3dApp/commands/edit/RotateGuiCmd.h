@@ -158,9 +158,6 @@ protected:
     // 获取当前捕捉系统
     virtual SketchSnapSystem* getActiveSnapSystem() const { return nullptr; }
 
-    // 获取环境类型(用于 RotateElements::perform 分发)
-    virtual GuiCmdEnvType getEnvType() const { return GuiCmdEnvType::Modeling; }
-
     // 选择元素步骤完成后跳转的下一步
     virtual void gotoNextStepAfterSelectElements() {}
 

@@ -160,11 +160,6 @@ bool ModelingSelectGuiCmd::tryAddPositionGizmo_Impl(const wyap::SelectionSet& se
     return true;
 }
 
-GuiCmdEnvType ModelingSelectGuiCmd::getPasteEnvType() const
-{
-    return GuiCmdEnvType::Modeling;
-}
-
 wy::Vector3 ModelingSelectGuiCmd::computePastePosition(double x, double y,
     const std::set<wydb::ElementId>& excludeIds)
 {

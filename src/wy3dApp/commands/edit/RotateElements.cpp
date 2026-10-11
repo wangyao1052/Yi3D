@@ -37,6 +37,7 @@
 #include "scene/Scene.h"
 #include "scene/nodes/ElementNode.h"
 #include "scene/RenderConst.h"
+#include "utils/GuiCommandUtil.h"
 #include "utils/MathUtils.h"
 
 
@@ -107,19 +108,7 @@ bool RotateElements::update(double rotateAngle)
     return true;
 }
 
-static void getElementAllLevelsChildren(wydb::Database* pDb, const wydb::Element* pElem, std::list<wydb::ElementId>& allLevelChildren)
-{
-    std::vector<wydb::ElementId> children = pElem->getChildren();
-    for (const wydb::ElementId& childId : children)
-    {
-        allLevelChildren.emplace_back(childId);
-        const wydb::Element* pChildElem = pDb->getElement(childId);
-        if (!pChildElem) continue;
-        getElementAllLevelsChildren(pDb, pChildElem, allLevelChildren);
-    }
-}
-
-bool RotateElements::perform(const wyap::SelectionSet& ss, double rotateAngle, GuiCmdEnvType mode)
+bool RotateElements::perform(const wyap::SelectionSet& ss, double rotateAngle)
 {
     if (!_pDb)
     {
@@ -136,7 +125,8 @@ bool RotateElements::perform(const wyap::SelectionSet& ss, double rotateAngle, G
     if (ids.empty()) return true;
     
     // 旋转
-    if (GuiCmdEnvType::Sketching == mode)
+    const bool isSketching = (nullptr != GuiCommandUtil::getActiveSketchEnvironment());
+    if (isSketching)
     {
         return this->performImpl_Sketching(ids, rotateAngle);
     }

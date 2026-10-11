@@ -31,9 +31,10 @@
 #include "scene/nodes/ElementNode.h"
 #include "scene/RenderConst.h"
 #include "utils/CopyPasteUtil.h"
+#include "utils/GuiCommandUtil.h"
 
-PasteElements::PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, GuiCmdEnvType mode, wydb::ElementId sketchId, const wy3d::Plane& sketchPlane)
-    : GuiCmdMakeElement(pGuiCmd), _mode(mode), _sketchId(sketchId), _sketchPlane(sketchPlane)
+PasteElements::PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, wydb::ElementId sketchId, const wy3d::Plane& sketchPlane)
+    : GuiCmdMakeElement(pGuiCmd), _isSketching(nullptr != GuiCommandUtil::getActiveSketchEnvironment()), _sketchId(sketchId), _sketchPlane(sketchPlane)
 {
     _pat = new osg::PositionAttitudeTransform();
     Scene* pActiveScene = Application::instance().getActiveScene();
@@ -129,7 +130,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
     // 在 SketchEntityElementNode::generateRenderDataImpl 中因找不到父草图而 assert.
     {
         wydb::TransactionOption tempOpt;
-        if (GuiCmdEnvType::Sketching == _mode)
+        if (_isSketching)
             tempOpt.chainUpdateScope = wydb::ChainUpdateScope::Local;
         wydb::Transaction* pTempTrans = _pDb->getTransactionManager()->startTransaction("", tempOpt);
         if (!pTempTrans)
@@ -151,7 +152,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
             return InitRet::Failed;
         }
         // 草图环境下在同一事务中将图元加入草图
-        if (GuiCmdEnvType::Sketching == _mode)
+        if (_isSketching)
         {
             wy3d::Sketch* pSketch = wy3d::Sketch::cast(pTempTrans->getElementForWrite(_sketchId));
             if (!pSketch)
@@ -182,7 +183,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
         }
 
         // 建模环境下, 不支持重定位则直接结束(无需交互预览)
-        if (GuiCmdEnvType::Modeling == _mode)
+        if (!_isSketching)
         {
             if (!whetherSupportsRelocating_Modeling(copyElements))
                 return InitRet::Success_End;
@@ -190,7 +191,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
     }
 
     // 计算初始原点
-    if (GuiCmdEnvType::Sketching == _mode)
+    if (_isSketching)
     {
         bool originInit(false);
         double xMin(0.0), yMin(0.0);
@@ -253,7 +254,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
     }
 
     // 草图环境下的图元已在临时事务中加入草图, 此处仅建模环境需要开启事务.
-    if (GuiCmdEnvType::Modeling == _mode)
+    if (!_isSketching)
     {
         wydb::TransactionOption option;
         option.chainUpdateScope = wydb::ChainUpdateScope::Cascade;
@@ -284,7 +285,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
         ElementNode* pElemNode = pActiveScene->getElementNode(copyElem.pElem->getId());
         if (!pElemNode)
         {
-            if (GuiCmdEnvType::Sketching == _mode)
+            if (_isSketching)
             {
                 assert(false);
             }
@@ -321,7 +322,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
 
 bool PasteElements::update(const wy::Vector3& pos)
 {
-    if (GuiCmdEnvType::Sketching == _mode) // 草图模式
+    if (_isSketching) // 草图模式
     {
         wy::Vector3 spnt = _sketchPlane.value(_initOrigin.x(), _initOrigin.y());
         wy::Vector3 epnt = _sketchPlane.value(pos.x(), pos.y());
@@ -344,14 +345,14 @@ bool PasteElements::perform(const wy::Vector3& pos)
     wy::Vector3 translate = pos - _initOrigin;
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = GuiCmdEnvType::Sketching == _mode ? wydb::ChainUpdateScope::Local : wydb::ChainUpdateScope::Cascade;
+    option.chainUpdateScope = _isSketching ? wydb::ChainUpdateScope::Local : wydb::ChainUpdateScope::Cascade;
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans)
     {
         assert(false);
         return false;
     }
-    if (GuiCmdEnvType::Sketching == _mode)
+    if (_isSketching)
     {
         for (const CopyElement& copyElem : _copyElements)
         {

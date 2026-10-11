@@ -96,11 +96,6 @@ bool SketchSelectGuiCmd::tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels
     return true;
 }
 
-GuiCmdEnvType SketchSelectGuiCmd::getPasteEnvType() const
-{
-    return GuiCmdEnvType::Sketching;
-}
-
 wy::Vector3 SketchSelectGuiCmd::computePastePosition(double x, double y,
     const std::set<wydb::ElementId>& excludeIds)
 {

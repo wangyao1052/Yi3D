@@ -87,12 +87,6 @@ struct GuiCmdSelectOptions
     {}
 };
 
-enum class GuiCmdEnvType
-{
-    Modeling  = 0,
-    Sketching = 1,
-};
-
 // 鼠标事件
 struct MouseEvent
 {

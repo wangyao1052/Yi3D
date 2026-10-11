@@ -111,11 +111,6 @@ SketchSnapSystem* ModelingRotateGuiCmd::getActiveSnapSystem() const
     return _pWorkPlnSnapSystem.get();
 }
 
-GuiCmdEnvType ModelingRotateGuiCmd::getEnvType() const
-{
-    return GuiCmdEnvType::Modeling;
-}
-
 void ModelingRotateGuiCmd::gotoNextStepAfterSelectElements()
 {
     this->gotoStep(Step::SelectWorkingPlane);

@@ -41,7 +41,7 @@ public:
         const wy::Vector3& centerPnt, const wy::Vector2& centerPnt2,
         const wy::Vector3& axisDir);
     bool update(double rotateAngle);
-    bool perform(const wyap::SelectionSet& ss, double rotateAngle, GuiCmdEnvType mode);
+    bool perform(const wyap::SelectionSet& ss, double rotateAngle);
 
 private:
     bool performImpl_Modeling(const std::set<wydb::ElementId>& ids, double rotateAngle);

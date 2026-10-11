@@ -121,9 +121,6 @@ protected:
     // 添加位置 Gizmo(填充 gizmos). 返回 false 表示跳过
     virtual bool tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos) { return true; }
 
-    // 粘贴时获取环境类型
-    virtual GuiCmdEnvType getPasteEnvType() const { return GuiCmdEnvType::Modeling; }
-
     // 粘贴时计算位置
     virtual wy::Vector3 computePastePosition(double x, double y,
         const std::set<wydb::ElementId>& excludeIds) { return wy::Vector3(); }

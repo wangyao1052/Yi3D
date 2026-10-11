@@ -36,7 +36,7 @@ class ElementNode;
 class PasteElements : public GuiCmdMakeElement
 {
 public:
-    PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, GuiCmdEnvType mode, wydb::ElementId sketchId, const wy3d::Plane& sketchPlane);
+    PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, wydb::ElementId sketchId, const wy3d::Plane& sketchPlane);
     ~PasteElements();
 
     enum class InitRet
@@ -63,7 +63,7 @@ private:
     static bool whetherSupportsRelocating_Modeling(const std::vector<wydb::Element*>& copyElements);
 
 private:
-    GuiCmdEnvType _mode;
+    bool _isSketching;
     wydb::ElementId _sketchId;
     wy3d::Plane _sketchPlane;
 
