@@ -131,8 +131,7 @@ wyap::Selection _newSelection(
     const wydb::ElementId& id,
     osg::Drawable* pDrawable,
     unsigned int primitiveIndex,
-    wy3d::SelectionType selType,
-    bool acceptElement)
+    wy3d::SelectionType selType)
 {
     assert(!id.isNull());
 
@@ -163,7 +162,7 @@ wyap::Selection _newSelection(
                 }
                 return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::Face), id, std::to_string(faceIndex));
             }
-            else if (acceptElement)
+            else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
             {
                 return wyap::Selection(id);
             }
@@ -183,7 +182,7 @@ wyap::Selection _newSelection(
                 }
                 return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::Edge), id, std::to_string(edgeIndex));
             }
-            else if (acceptElement)
+            else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
             {
                 return wyap::Selection(id);
             }
@@ -199,7 +198,7 @@ wyap::Selection _newSelection(
                 assert(false);
                 return wyap::Selection(wydb::ElementId::kNull);
             }
-            else if (acceptElement)
+            else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
             {
                 return wyap::Selection(id);
             }
@@ -235,7 +234,7 @@ wyap::Selection _newSelection(
                 }
                 return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::Face), id, std::to_string(faceIndex));
             }
-            else if (acceptElement)
+            else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
             {
                 return wyap::Selection(id);
             }
@@ -255,7 +254,7 @@ wyap::Selection _newSelection(
                 }
                 return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::Edge), id, std::to_string(edgeIndex));
             }
-            else if (acceptElement)
+            else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
             {
                 return wyap::Selection(id);
             }
@@ -265,7 +264,7 @@ wyap::Selection _newSelection(
 
         case DrawMode::Vertex:
         {
-            if (acceptElement)
+            if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
             {
                 return wyap::Selection(id);
             }
@@ -311,7 +310,7 @@ wyap::Selection _newSelection(
 
             return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::SketchCurve), id, std::to_string(curveId));
         }
-        else if (acceptElement)
+        else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
         {
             return wyap::Selection(id);
         }
@@ -325,7 +324,7 @@ wyap::Selection _newSelection(
 
     case ElementNodeType::SketchEntity:
     {
-        if (acceptElement)
+        if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
         {
             return wyap::Selection(id);
         }
@@ -357,7 +356,7 @@ wyap::Selection _newSelection(
 
             return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::SketchCurve3D), id, std::to_string(curveId));
         }
-        else if (acceptElement)
+        else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
         {
             return wyap::Selection(id);
         }
@@ -371,7 +370,7 @@ wyap::Selection _newSelection(
 
     case ElementNodeType::Sketch3DEntity:
     {
-        if (acceptElement)
+        if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
         {
             return wyap::Selection(id);
         }
@@ -385,7 +384,7 @@ wyap::Selection _newSelection(
 
     case ElementNodeType::DatumPlane:
     {
-        if (acceptElement)
+        if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
         {
             return wyap::Selection(id);
         }
@@ -399,7 +398,7 @@ wyap::Selection _newSelection(
 
     case ElementNodeType::Curve:
     {
-        if (acceptElement)
+        if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
         {
             return wyap::Selection(id);
         }
@@ -480,8 +479,7 @@ wyap::Selection pointPick_PolytopeIntersector(
         pickedElemId,
         pIntersection->drawable.get(),
         pIntersection->primitiveIndex,
-        wy3d::SelectionTypeUtil::RemoveValues(option.selType, wy3d::SelectionType::Face),
-        option.acceptElement);
+        wy3d::SelectionTypeUtil::RemoveValues(option.selType, wy3d::SelectionType::Face));
     if (sel.getElementId().isNull()) return wyap::Selection(wydb::ElementId::kNull);
     sel.setPickPosition(MathUtils::toVector3(pIntersection->localIntersectionPoint));
 
@@ -520,11 +518,11 @@ wyap::Selection pointPick_LineSegmentIntersector(
 
     // 新建选择对象
     assert(pIntersection);
+    // The Element bit must survive the Face narrowing (element-only nodes are answered by this pass).
     wyap::Selection sel = _newSelection(pickedElemId,
         pIntersection->drawable.get(),
         pIntersection->primitiveIndex,
-        option.selType & wy3d::SelectionType::Face,
-        option.acceptElement);
+        option.selType & (wy3d::SelectionType::Face | wy3d::SelectionType::Element));
     if (sel.getElementId().isNull()) return wyap::Selection(wydb::ElementId::kNull);
     sel.setPickPosition(MathUtils::toVector3(pIntersection->localIntersectionPoint));
 
@@ -557,7 +555,8 @@ wyap::Selection PointPick::pick(
         selRet = pointPick_PolytopeIntersector(pDb, pView, x, y, option, DrawMode::Edge);
         if (!selRet.getElementId().isNull()) return selRet;
     }
-    if (option.acceptElement)
+    // The Element bit enables the whole-element fallback (nodes having no sub-element picks).
+    if (wy3d::SelectionTypeUtil::HasValue(option.selType, wy3d::SelectionType::Element))
     {
         selRet = pointPick_PolytopeIntersector(pDb, pView, x, y, option, DrawMode::All);
         if (!selRet.getElementId().isNull()) return selRet;

@@ -117,7 +117,6 @@ wyap::CmdExecution::StartResult DraftGuiCmd::onStart()
     // 初始化
     _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
     _pointPickOption.selType = wy3d::SelectionType::Face;
-    _pointPickOption.acceptElement = false;
     _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
     _pSelSetHighlightor_NeutralFace = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet(), Colors::kPink);
     this->gotoStep(Step::SelectDraftFaces);

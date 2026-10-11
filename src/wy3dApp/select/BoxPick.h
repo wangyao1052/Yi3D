@@ -33,8 +33,6 @@ struct BoxPickOption
     unsigned int pickMask;
     // 选择类型
     wy3d::SelectionType selType;
-    // 是否接受整元素选择
-    bool acceptElement;
     // 排除的元素ID(前置过滤)
     SelectPreFilterFunctorSPtr pSelPreFilter;
     // 自定义函数过滤器(后置过滤)
@@ -43,7 +41,6 @@ struct BoxPickOption
     BoxPickOption() :
         pickMask(PICK_MASK),
         selType(wy3d::SelectionType::Element),
-        acceptElement(true),
         pSelPreFilter(nullptr),
         pSelFilter(nullptr)
     {}

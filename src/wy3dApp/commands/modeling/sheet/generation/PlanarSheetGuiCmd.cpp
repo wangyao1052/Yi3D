@@ -182,7 +182,6 @@ wyap::CmdExecution::StartResult PlanarSheetGuiCmd::onStart()
     _edgePickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
         static_cast<unsigned int>(ElementNodeType::Sheet);
     _edgePickOption.selType = wy3d::SelectionType::Edge;
-    _edgePickOption.acceptElement = false;
 
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
     wydb::ElementId sketchId(wydb::ElementId::kNull);

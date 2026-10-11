@@ -608,7 +608,6 @@ void OffsetSheetGuiCmd::updatePickOption()
     {
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sheet);
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.acceptElement = true;
         _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
             wy3d::Sheet::classInfo());
         _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(
@@ -626,7 +625,6 @@ void OffsetSheetGuiCmd::updatePickOption()
 
         _pointPickOption.pickMask = pickMask;
         _pointPickOption.selType = wy3d::SelectionType::Face;
-        _pointPickOption.acceptElement = false;
         _pointPickOption.pSelPreFilter = std::make_shared<OffsetSheetPreSelFilter>(_hostKind, _hostId);
         _pointPickOption.pSelFilter = nullptr;
     }

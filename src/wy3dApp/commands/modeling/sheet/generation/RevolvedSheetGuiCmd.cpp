@@ -195,7 +195,7 @@ void RevolvedSheetGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch);
-        _pointPickOption.selType = wy3d::SelectionType::SketchCurve;
+        _pointPickOption.selType = wy3d::SelectionType::SketchCurve | wy3d::SelectionType::Element;
         _pointPickOption.pSelFilter = nullptr;
     }
     break;

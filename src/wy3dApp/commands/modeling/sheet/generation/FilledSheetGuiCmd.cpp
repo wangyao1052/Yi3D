@@ -273,7 +273,6 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
     _edgePickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
         static_cast<unsigned int>(ElementNodeType::Sheet);
     _edgePickOption.selType = wy3d::SelectionType::Edge;
-    _edgePickOption.acceptElement = false;
 
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
     std::vector<wydb::ElementId> pickedSketchIds;

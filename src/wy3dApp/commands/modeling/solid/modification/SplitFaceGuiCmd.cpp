@@ -189,7 +189,6 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         // 拾取配置: 实体或片体的面
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) | static_cast<unsigned int>(ElementNodeType::Sheet);
         _pointPickOption.selType = wy3d::SelectionType::Face;
-        _pointPickOption.acceptElement = false;
         _pointPickOption.pSelFilter = nullptr;
         _pointPickOption.pSelPreFilter = std::make_shared<SplitFacePreSelFilter>(
             _pSelSetHighlightor_Faces ? _pSelSetHighlightor_Faces->getSelectionSet() : wyap::SelectionSet());
@@ -217,7 +216,6 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch) |
             static_cast<unsigned int>(ElementNodeType::Sketch3D);
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.acceptElement = true;
         _pointPickOption.pSelFilter = std::make_shared<MultiClassSelFilter>(
             std::vector<wyrx::ClassInfo*>{ wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo() });
         _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(

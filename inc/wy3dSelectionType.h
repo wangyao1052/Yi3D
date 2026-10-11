@@ -13,7 +13,7 @@ NS_WY3D_BEG
 
 enum class SelectionType : std::uint32_t
 {
-    Element       = 0,
+    Element       = 0x00000001,
     Face          = 0x00000020,
     Edge          = 0x00000040,
     Vertex        = 0x00000080,

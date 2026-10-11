@@ -122,7 +122,7 @@ wyap::CmdExecution::StartResult MakePrimitiveGuiCmd::onStart()
     // 点选选项
     // 选择工作平面:基准面or实体面
     _pickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::DatumPlane);
-    _pickOption.selType = wy3d::SelectionType::Face;
+    _pickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
     _pickOption.pSelFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
 
     // 初始化

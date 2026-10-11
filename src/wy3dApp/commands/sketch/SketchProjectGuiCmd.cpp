@@ -84,7 +84,6 @@ wyap::CmdExecution::StartResult SketchProjectGuiCmd::onStart()
     _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
         static_cast<unsigned int>(ElementNodeType::Sheet);
     _pointPickOption.selType = wy3d::SelectionType::Edge;
-    _pointPickOption.acceptElement = false;
 
     // 提示信息
     Application::instance().getStatusBar()->setTips(

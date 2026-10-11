@@ -66,7 +66,7 @@ bool parseSubPathIndex(const std::string& subPath, unsigned int& index)
     return true;
 }
 
-// The face pass of the pick needs acceptElement, or a click on a body becomes a whole-element
+// The pick needs the Element bit, or a click on a body becomes a whole-element
 // selection and every face pick is swallowed. That same coarse pass is what this filter undoes:
 // anything that is not a face of a body or a datum plane is rejected, which lets the ray fall
 // through to the face pass and find the face underneath. Both kinds of target are wanted here:
@@ -242,18 +242,16 @@ void SketchProjectCurve3DGuiCmd::setPickForStep(Step step)
         // mask as well - a 3D sketch has no plane, so there is no direction to project along.
         _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch);
         _pointPickOption.selType = wy3d::SelectionType::SketchCurve;
-        _pointPickOption.acceptElement = false;
         _pointPickOption.pSelFilter = nullptr;
         return;
     }
 
-    // Faces and datum planes in one pick, as in the intersection command. acceptElement has to stay
-    // on, see the filter above: that is what lets the whole-element pass see the datum plane at all.
+    // Faces and datum planes in one pick, as in the intersection command. The Element bit has to
+    // stay on, see the filter above: that is what lets the whole-element pass see the datum plane at all.
     _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
         static_cast<unsigned int>(ElementNodeType::Sheet) |
         static_cast<unsigned int>(ElementNodeType::DatumPlane);
-    _pointPickOption.selType = wy3d::SelectionType::Face;
-    _pointPickOption.acceptElement = true;
+    _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
     _pointPickOption.pSelFilter = std::make_shared<ProjectTargetSelFilter>();
 }
 

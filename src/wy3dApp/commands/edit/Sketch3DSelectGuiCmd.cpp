@@ -101,11 +101,11 @@ wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
     }
 
     // Faces and datum planes are picked by this command itself, so they never reach the
-    // selection set. acceptElement has to stay on, see the filter above.
+    // selection set. The Element bit has to stay on, see the filter above.
     _planePickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
         static_cast<unsigned int>(ElementNodeType::Sheet) |
         static_cast<unsigned int>(ElementNodeType::DatumPlane);
-    _planePickOption.selType = wy3d::SelectionType::Face;
+    _planePickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
     _planePickOption.pSelFilter = std::make_shared<WorkPlaneSourceSelFilter>();
 
     _planePreview.clear();

@@ -88,9 +88,8 @@ wyap::CmdExecution::StartResult SketchIncludeCurve3DGuiCmd::onStart()
 
     // Model edges and 2D/3D sketch curves share the sub path form: the element id is the
     // solid, sheet or sketch, and the sub path is the curve inside it. The entities of the
-    // sketch being edited are Sketch3DEntity nodes, which only answer to acceptElement and
-    // are therefore left out: including a curve into its own sketch would only stack a
-    // coincident copy.
+    // sketch being edited are Sketch3DEntity nodes and are left out of the pick mask:
+    // including a curve into its own sketch would only stack a coincident copy.
     _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
         static_cast<unsigned int>(ElementNodeType::Sheet) |
         static_cast<unsigned int>(ElementNodeType::Sketch) |
@@ -98,7 +97,6 @@ wyap::CmdExecution::StartResult SketchIncludeCurve3DGuiCmd::onStart()
     _pointPickOption.selType = wy3d::SelectionType::Edge |
         wy3d::SelectionType::SketchCurve |
         wy3d::SelectionType::SketchCurve3D;
-    _pointPickOption.acceptElement = false;
 
     _includedCurves.clear();
 

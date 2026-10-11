@@ -264,17 +264,25 @@ wyap::SelectionSet BoxPick::pick(
     if (xMin > xMax) std::swap(xMin, xMax);
     if (yMin > yMax) std::swap(yMin, yMax);
 
+    // Box picking answers one concrete type; strip the Element fallback bit (pure Element stays)
+    wy3d::SelectionType selType = option.selType;
+    if (wy3d::SelectionType::Element != selType)
+    {
+        selType = wy3d::SelectionTypeUtil::RemoveValues(selType, wy3d::SelectionType::Element);
+    }
+
     // 框选不支持同时选择多种类型,只支持一种类型
     // Element or Face or Edge or Vertex or SketchCurve
     // 不支持它们的组合
-    assert(option.selType == wy3d::SelectionType::Element
-        || option.selType == wy3d::SelectionType::Face
-        || option.selType == wy3d::SelectionType::Edge
-        || option.selType == wy3d::SelectionType::Vertex
-        || option.selType == wy3d::SelectionType::SketchCurve);
+    assert(selType == wy3d::SelectionType::Element
+        || selType == wy3d::SelectionType::Face
+        || selType == wy3d::SelectionType::Edge
+        || selType == wy3d::SelectionType::Vertex
+        || selType == wy3d::SelectionType::SketchCurve
+        || selType == wy3d::SelectionType::SketchCurve3D);
 
     wyap::SelectionSet ss;
-    if (option.selType == wy3d::SelectionType::Element)
+    if (selType == wy3d::SelectionType::Element)
     {
         // 使用OSG多面体求交器
         osg::ref_ptr<osgUtil::PolytopeIntersector> intersector = new osgUtil::PolytopeIntersector(
@@ -302,10 +310,10 @@ wyap::SelectionSet BoxPick::pick(
             ss.add(wyap::Selection(id));
         }
     }
-    else if (option.selType == wy3d::SelectionType::Edge
-        || option.selType == wy3d::SelectionType::Face
-        || option.selType == wy3d::SelectionType::SketchCurve
-        || option.selType == wy3d::SelectionType::SketchCurve3D)
+    else if (selType == wy3d::SelectionType::Edge
+        || selType == wy3d::SelectionType::Face
+        || selType == wy3d::SelectionType::SketchCurve
+        || selType == wy3d::SelectionType::SketchCurve3D)
     {
         // 框选实体边(面)时,先获取Pick到的第一个元素;再去Pick该元素的边(面);
         // 参照SolidWorks倒圆角时,框选只支持选择Pick到的第一个特征的边;
@@ -333,8 +341,8 @@ wyap::SelectionSet BoxPick::pick(
         SketchElementNode* pSketchElemNode(nullptr);
         Sketch3DElementNode* pSketch3DElemNode(nullptr);
         osg::Group* pOsgNode(nullptr);
-        if (option.selType == wy3d::SelectionType::Edge
-            || option.selType == wy3d::SelectionType::Face)
+        if (selType == wy3d::SelectionType::Edge
+            || selType == wy3d::SelectionType::Face)
         {
             ElementNode* pElemNode = Application::instance().getActiveScene()->getElementNode(id);
             pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
@@ -348,13 +356,13 @@ wyap::SelectionSet BoxPick::pick(
                 if (pSheetElemNode) pOsgNode = pSheetElemNode->getOsgNode();
             }
         }
-        else if (option.selType == wy3d::SelectionType::SketchCurve)
+        else if (selType == wy3d::SelectionType::SketchCurve)
         {
             pSketchElemNode = dynamic_cast<SketchElementNode*>(
                 Application::instance().getActiveScene()->getElementNode(id));
             if (pSketchElemNode) pOsgNode = pSketchElemNode->getOsgNode();
         }
-        else if (option.selType == wy3d::SelectionType::SketchCurve3D)
+        else if (selType == wy3d::SelectionType::SketchCurve3D)
         {
             pSketch3DElemNode = dynamic_cast<Sketch3DElementNode*>(
                 Application::instance().getActiveScene()->getElementNode(id));
@@ -385,12 +393,12 @@ wyap::SelectionSet BoxPick::pick(
         // 遍历求交结果
         unsigned int idValue(0), idXData(0);
         DrawMode allowedDrawMode = DrawMode::Undefined;
-        if (option.selType == wy3d::SelectionType::Edge || option.selType == wy3d::SelectionType::SketchCurve
-            || option.selType == wy3d::SelectionType::SketchCurve3D)
+        if (selType == wy3d::SelectionType::Edge || selType == wy3d::SelectionType::SketchCurve
+            || selType == wy3d::SelectionType::SketchCurve3D)
         {
             allowedDrawMode = DrawMode::Edge;
         }
-        else if (option.selType == wy3d::SelectionType::Face)
+        else if (selType == wy3d::SelectionType::Face)
         {
             allowedDrawMode = DrawMode::Face;
         }
@@ -416,7 +424,7 @@ wyap::SelectionSet BoxPick::pick(
                 continue;
             }
 
-            if (option.selType == wy3d::SelectionType::Edge
+            if (selType == wy3d::SelectionType::Edge
                 && (pSolidElemNode || pSheetElemNode))
             {
                 unsigned int edgeIndex(-1);
@@ -430,7 +438,7 @@ wyap::SelectionSet BoxPick::pick(
                 wyap::Selection edgeSel(static_cast<unsigned int>(wy3d::SelectionType::Edge), id, std::to_string(edgeIndex));
                 ss.add(edgeSel);
             }
-            else if (option.selType == wy3d::SelectionType::Face
+            else if (selType == wy3d::SelectionType::Face
                 && (pSolidElemNode || pSheetElemNode))
             {
                 unsigned int faceIndex(-1);
@@ -444,7 +452,7 @@ wyap::SelectionSet BoxPick::pick(
                 wyap::Selection faceSel(static_cast<unsigned int>(wy3d::SelectionType::Face), id, std::to_string(faceIndex));
                 ss.add(faceSel);
             }
-            else if (option.selType == wy3d::SelectionType::SketchCurve && pSketchElemNode)
+            else if (selType == wy3d::SelectionType::SketchCurve && pSketchElemNode)
             {
                 unsigned int curveId(0);
                 if (geom == pSketchElemNode->getCenterLinesGeom())
@@ -463,7 +471,7 @@ wyap::SelectionSet BoxPick::pick(
                 wyap::Selection sketchCurveSel(static_cast<unsigned int>(wy3d::SelectionType::SketchCurve), id, std::to_string(curveId));
                 ss.add(sketchCurveSel);
             }
-            else if (option.selType == wy3d::SelectionType::SketchCurve3D && pSketch3DElemNode)
+            else if (selType == wy3d::SelectionType::SketchCurve3D && pSketch3DElemNode)
             {
                 unsigned int curveId = pSketch3DElemNode->getCurveId(intersection.primitiveIndex);
                 if (0 == curveId)
