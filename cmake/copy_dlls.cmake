@@ -8,7 +8,9 @@ set(GP_APPEND_UNKNOWN TRUE)
 
 # --- Step 0: 构建搜索路径 ---
 file(GLOB bundle_bin_dirs "${SEARCH_DIRS}/*/bin")
-set(_search_paths "${OUT_DIR}" ${bundle_bin_dirs})
+# Bundle dirs first: otherwise a dependency already present in OUT_DIR resolves
+# back to its own (possibly stale) copy. OUT_DIR last still resolves in-tree DLLs.
+set(_search_paths ${bundle_bin_dirs} "${OUT_DIR}")
 
 # 过滤掉不存在的路径
 set(search_paths "")
@@ -48,9 +50,14 @@ foreach(DEP ${DEPS})
 
     get_filename_component(fname "${resolved}" NAME)
 
-    # 已经在输出目录的跳过
+    # Skip only when the copy already in OUT_DIR is identical to the bundle source;
+    # otherwise fall through and overwrite the stale one.
     if(EXISTS "${OUT_DIR}/${fname}")
-        continue()
+        file(MD5 "${resolved}" _src_md5)
+        file(MD5 "${OUT_DIR}/${fname}" _dst_md5)
+        if(NOT _src_md5 STREQUAL "" AND _src_md5 STREQUAL _dst_md5)
+            continue()
+        endif()
     endif()
 
     # 去重
