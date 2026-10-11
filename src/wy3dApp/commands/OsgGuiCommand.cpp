@@ -34,6 +34,7 @@
 #include "commands/OsgCoordUtil.h"
 #include "commands/GuiCommandMenu.h"
 #include "snap/SketchSnapSystem.h"
+#include "select/PointPick.h"
 #include "select/SelectHandler.h"
 #include "select/SelectFilterFunctor.h"
 #include "view/BaseView.h"

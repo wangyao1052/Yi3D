@@ -19,36 +19,9 @@
 #ifndef WY3DAPP_POINT_PICK_H
 #define WY3DAPP_POINT_PICK_H
 
-#include <set>
-#include <memory>
 #include <osgViewer/View>
 #include <wyapSelection.h>
-#include <wy3dSelectionType.h>
-#include "scene/RenderConst.h"
-#include "select/SelectFilterFunctor.h"
-
-// 点选配置项
-struct PointPickOption
-{
-    // 拾取框大小(边长的一般)
-    double pickHalfSize;
-    // 拾取掩码
-    unsigned int pickMask;
-    // 选择类型
-    wy3d::SelectionType selType;
-    // 排除的元素ID(前置过滤)
-    SelectPreFilterFunctorSPtr pSelPreFilter;
-    // 自定义函数过滤器(后置过滤)
-    SelectFilterFunctorSPtr pSelFilter;
-
-    PointPickOption() :
-        pickHalfSize(6.0f),
-        pickMask(PICK_MASK),
-        selType(wy3d::SelectionType::Element),
-        pSelPreFilter(nullptr),
-        pSelFilter(nullptr)
-    {}
-};
+#include <wy3dApp/PointPickOption.h>
 
 class PointPick
 {

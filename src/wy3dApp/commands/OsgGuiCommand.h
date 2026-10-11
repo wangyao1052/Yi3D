@@ -21,6 +21,8 @@
 
 #include <osg/observer_ptr>
 #include <osg/Vec3d>
+#include <osgGA/GUIActionAdapter>
+#include <osgViewer/View>
 
 #include <wyVector2.h>
 #include <wyVector3.h>

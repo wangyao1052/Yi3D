@@ -22,9 +22,9 @@
 #include <wydbElementId.h>
 
 #include <wyapCmdExecution.h>
+#include <wy3dApp/PointPickOption.h>
 
 #include "commands/OsgGuiCommand.h"
-#include "select/PointPick.h"
 #include "select/SelectPreview.h"
 
 // Demonstrates picking a sketch element and listing all its parameters.

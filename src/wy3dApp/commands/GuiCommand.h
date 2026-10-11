@@ -44,7 +44,7 @@
 #include "scene/RenderConst.h"
 
 #include "select/SelectMode.h"
-#include "select/PointPick.h"
+#include <wy3dApp/PointPickOption.h>
 #include "select/SelectFilterFunctor.h"
 #include "select/SelectPreview.h"
 #include "select/SelectionSetHighlightor.h"
