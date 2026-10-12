@@ -112,7 +112,7 @@ protected:
     PasteOpSPtr _pPasteOp;
     // === 子类覆写的虚方法 ===
 
-    // 配置选择(enableSelect)时的 pickMask & filter
+    // 配置选择(enableSelect)时的 allowedElemTypes & filter
     virtual void configureSelectOptions(SelectOptions& options) {}
 
     // 启动时环境特定操作

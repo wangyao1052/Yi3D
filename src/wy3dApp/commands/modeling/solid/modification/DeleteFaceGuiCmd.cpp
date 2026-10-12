@@ -172,7 +172,7 @@ void DeleteFaceGuiCmd::gotoStep(Step step)
         Application::instance().getSelManager()->endChange();
 
         // 拾取配置: 只能是片体的面
-        _pointPickOption.pickMask = ElementNodeType::Sheet;
+        _pointPickOption.allowedElemTypes = ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.pSelFilter = nullptr;
         _pointPickOption.pSelPreFilter = std::make_shared<DeleteFacePreSelFilter>(

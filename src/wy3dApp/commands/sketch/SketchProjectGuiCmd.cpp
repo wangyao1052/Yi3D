@@ -83,7 +83,7 @@ wyap::CmdExecution::StartResult SketchProjectGuiCmd::onStart()
     }
 
     // 点选选项：选择模型边
-    _pointPickOption.pickMask = ElementNodeType::Solid |
+    _pointPickOption.allowedElemTypes = ElementNodeType::Solid |
         ElementNodeType::Sheet;
     _pointPickOption.selType = wy3d::SelectionType::Edge;
 

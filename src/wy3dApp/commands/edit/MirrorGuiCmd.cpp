@@ -172,7 +172,7 @@ void MirrorGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项
-        _pointPickOption.pickMask = ElementNodeType::Solid | ElementNodeType::Sheet;
+        _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = std::make_shared<MirrorGuiCmdPreSelFilter>();
 
@@ -197,7 +197,7 @@ void MirrorGuiCmd::gotoStep(Step step)
         // 点选选项:基准面
         // 不允许选择实体面,因为若Hover到要镜像的实体特征的表面,再移开,该面会恢复到原始的颜色,但是该实体特征当前是选中态,这就冲突了.
         assert(!_sourceId.isNull());
-        _pointPickOption.pickMask = ElementNodeType::DatumPlane;
+        _pointPickOption.allowedElemTypes = ElementNodeType::DatumPlane;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = nullptr;
     }

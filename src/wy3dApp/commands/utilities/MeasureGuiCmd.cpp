@@ -483,7 +483,7 @@ void MeasureGuiCmd::applyPickOptionForMode()
     {
     case MeasureMode::Edge:
     {
-        _pointPickOption.pickMask = ElementNodeType::Solid
+        _pointPickOption.allowedElemTypes = ElementNodeType::Solid
             | ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Edge;
     }
@@ -491,7 +491,7 @@ void MeasureGuiCmd::applyPickOptionForMode()
 
     case MeasureMode::Face:
     {
-        _pointPickOption.pickMask = ElementNodeType::Solid
+        _pointPickOption.allowedElemTypes = ElementNodeType::Solid
             | ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Face;
     }
@@ -499,7 +499,7 @@ void MeasureGuiCmd::applyPickOptionForMode()
 
     case MeasureMode::Body:
     {
-        _pointPickOption.pickMask = ElementNodeType::Solid;
+        _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         // 仅实体有体积,过滤掉其他元素类
         _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(

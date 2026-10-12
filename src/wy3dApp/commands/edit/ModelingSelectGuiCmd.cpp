@@ -94,7 +94,7 @@ GuiCmdMenu* ModelingSelectGuiCmd::initContextMenu()
 
 void ModelingSelectGuiCmd::configureSelectOptions(SelectOptions& options)
 {
-    options.pickMask = ElementNodeType::Solid |
+    options.allowedElemTypes = ElementNodeType::Solid |
         ElementNodeType::Sheet |
         ElementNodeType::Sketch |
         ElementNodeType::DatumPlane |

@@ -66,7 +66,7 @@ wyap::CmdExecution::StartResult RevolvedSheetGuiCmd::onStart()
     wyap::CmdExecution::StartResult ret = GuiCommand::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
-    _pointPickOption.pickMask = ElementNodeType::Sketch;
+    _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(wy3d::Sketch::classInfo());
 
@@ -197,7 +197,7 @@ void RevolvedSheetGuiCmd::gotoStep(Step step)
             "Select an axis line in the sketch."));
         Application::instance().setCursor(CursorType::SelectElements);
 
-        _pointPickOption.pickMask = ElementNodeType::Sketch;
+        _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
         _pointPickOption.selType = wy3d::SelectionType::SketchCurve | wy3d::SelectionType::Element;
         _pointPickOption.pSelFilter = nullptr;
     }

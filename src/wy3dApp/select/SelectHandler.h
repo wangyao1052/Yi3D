@@ -45,8 +45,8 @@ public:
     void enableBoxSelect(bool flag)     { _supportsBoxSelect = flag; }
     bool isSupportsBoxSelect() const    { return _supportsBoxSelect; }
 
-    void setPickMask(unsigned int mask) { _pickMask = mask; }
-    unsigned int getPickMask() const    { return _pickMask; }
+    void setAllowedElemTypes(unsigned int mask) { _allowedElemTypes = mask; }
+    unsigned int getAllowedElemTypes() const    { return _allowedElemTypes; }
 
     void setSelectionType(wy3d::SelectionType t) { _selType = t; }
     wy3d::SelectionType getSelectionType() const { return _selType; }
@@ -107,7 +107,7 @@ protected:
     // 配置状态
     bool _supportsPointSelect;
     bool _supportsBoxSelect;
-    unsigned int _pickMask;
+    unsigned int _allowedElemTypes;
     wy3d::SelectionType _selType;
     SelectPreFilterFunctorSPtr _pPreSelFilter;
     SelectFilterFunctorSPtr _pSelFilter;

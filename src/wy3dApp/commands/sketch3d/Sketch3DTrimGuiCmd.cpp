@@ -144,7 +144,7 @@ wyap::CmdExecution::StartResult Sketch3DTrimGuiCmd::onStart()
     Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DTrimGuiCmd",
         "Select sketch entities to trim."));
 
-    _pointPickOption.pickMask = ElementNodeType::Sketch3DEntity;
+    _pointPickOption.allowedElemTypes = ElementNodeType::Sketch3DEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
         wy3d::SketchEntity3D::classInfo());

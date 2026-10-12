@@ -178,11 +178,11 @@ wyap::CmdExecution::StartResult PlanarSheetGuiCmd::onStart()
     wyap::CmdExecution::StartResult ret = GuiCommand::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
-    _sketchPickOption.pickMask = ElementNodeType::Sketch;
+    _sketchPickOption.allowedElemTypes = ElementNodeType::Sketch;
     _sketchPickOption.selType = wy3d::SelectionType::Element;
     _sketchPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(wy3d::Sketch::classInfo());
 
-    _edgePickOption.pickMask = ElementNodeType::Solid |
+    _edgePickOption.allowedElemTypes = ElementNodeType::Solid |
         ElementNodeType::Sheet;
     _edgePickOption.selType = wy3d::SelectionType::Edge;
 

@@ -32,8 +32,8 @@ namespace wy3dApp {
 // 框选配置项
 struct BoxPickOption
 {
-    // 拾取掩码
-    unsigned int pickMask;
+    // 允许选择的元素类型(ElementNodeType 位集)
+    unsigned int allowedElemTypes;
     // 选择类型
     wy3d::SelectionType selType;
     // 排除的元素ID(前置过滤)
@@ -42,7 +42,7 @@ struct BoxPickOption
     SelectFilterFunctorSPtr pSelFilter;
 
     BoxPickOption() :
-        pickMask(PICK_MASK),
+        allowedElemTypes(PICK_MASK),
         selType(wy3d::SelectionType::Element),
         pSelPreFilter(nullptr),
         pSelFilter(nullptr)

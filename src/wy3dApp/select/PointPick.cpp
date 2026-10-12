@@ -463,7 +463,7 @@ wyap::Selection pointPick_PolytopeIntersector(
         x - option.pickHalfSize, y - option.pickHalfSize,
         x + option.pickHalfSize, y + option.pickHalfSize);
     osgUtil::IntersectionVisitor iv(intersector.get());
-    iv.setTraversalMask(option.pickMask);
+    iv.setTraversalMask(option.allowedElemTypes);
     pView->getCamera()->accept(iv);
     const osgUtil::PolytopeIntersector::Intersections& intersections = intersector->getIntersections();
     if (intersections.empty()) return wyap::Selection(wydb::ElementId::kNull);
@@ -506,7 +506,7 @@ wyap::Selection pointPick_LineSegmentIntersector(
     osg::ref_ptr<osgUtil::LineSegmentIntersector> intersector = new osgUtil::LineSegmentIntersector(
         osgUtil::Intersector::WINDOW, x, y);
     osgUtil::IntersectionVisitor iv(intersector.get());
-    iv.setTraversalMask(option.pickMask);
+    iv.setTraversalMask(option.allowedElemTypes);
     pView->getCamera()->accept(iv);
     const osgUtil::LineSegmentIntersector::Intersections& intersections = intersector->getIntersections();
     if (intersections.empty()) return wyap::Selection(wydb::ElementId::kNull);

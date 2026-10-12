@@ -93,7 +93,7 @@ wyap::CmdExecution::StartResult MergeGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化:点选选项
-    _pointPickOption.pickMask = ElementNodeType::Solid;
+    _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
 

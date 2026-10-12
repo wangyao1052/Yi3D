@@ -48,7 +48,7 @@ wyap::CmdExecution::StartResult SketchSelectGuiCmd::onStart()
 
 void SketchSelectGuiCmd::configureSelectOptions(SelectOptions& options)
 {
-    options.pickMask = ElementNodeType::SketchEntity;
+    options.allowedElemTypes = ElementNodeType::SketchEntity;
     options.filter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
 }
 

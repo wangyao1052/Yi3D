@@ -147,7 +147,7 @@ protected:
     // 选择元素步骤完成后跳转的下一步
     virtual void gotoNextStepAfterSelectElements() {}
 
-    // 配置选择元素步骤的 pickMask & filter
+    // 配置选择元素步骤的 allowedElemTypes & filter
     virtual void configureSelectElementOptions(SelectOptions& options) {}
 
     // 鼠标移动:指定起点

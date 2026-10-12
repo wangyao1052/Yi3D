@@ -144,9 +144,9 @@ public:
     ViewCube* getViewCubeNode() const { return _pViewCube.get(); }
 
     // 默认框选(完全框住才选中)
-    std::list<wydb::ElementId> pickByNormalBox(osg::Polytope& polytope, unsigned int pickMask) const;
+    std::list<wydb::ElementId> pickByNormalBox(osg::Polytope& polytope, unsigned int allowedElemTypes) const;
     // 交叉框选(任何部分有交集就选中)
-    std::list<wydb::ElementId> pickByCrossBox(osg::Polytope& polytope, unsigned int pickMask) const;
+    std::list<wydb::ElementId> pickByCrossBox(osg::Polytope& polytope, unsigned int allowedElemTypes) const;
 
     // pick gizmo
     wyap::GizmoSPtr pickGizmo(osg::Polytope& polytope) const;
@@ -264,7 +264,7 @@ private:
     void removeFromRTree(const ElementNode* pElemNode);
 
     // 框选
-    std::list<wydb::ElementId> pickByBoxImpl(osg::Polytope& polytope, bool isCross, unsigned int pickMask) const;
+    std::list<wydb::ElementId> pickByBoxImpl(osg::Polytope& polytope, bool isCross, unsigned int allowedElemTypes) const;
 
     // 进入草图环境
     void enterSketchEnvironment(SketchEnvironment* pSketchEnv);

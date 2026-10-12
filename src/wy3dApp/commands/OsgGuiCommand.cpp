@@ -201,7 +201,7 @@ void OsgGuiCommand::configSelect(SelectOptions options)
     pSelHandler->reset();
     pSelHandler->enablePointSelect(options.pointSelect);
     pSelHandler->enableBoxSelect(options.boxSelect);
-    pSelHandler->setPickMask(options.pickMask);
+    pSelHandler->setAllowedElemTypes(options.allowedElemTypes);
     pSelHandler->setSelectionType(options.selectionType);
     pSelHandler->setPreFilterFunctor(options.preFilter);
     pSelHandler->setFilterFunctor(options.filter);

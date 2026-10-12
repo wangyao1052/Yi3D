@@ -110,7 +110,7 @@ wyap::CmdExecution::StartResult Sketch3DFilletGuiCmd::onStart()
     }
     _R = std::fabs(dialog.getValue());
 
-    _pointPickOption.pickMask = ElementNodeType::Sketch3DEntity;
+    _pointPickOption.allowedElemTypes = ElementNodeType::Sketch3DEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
 
     this->gotoStep(Step::First);

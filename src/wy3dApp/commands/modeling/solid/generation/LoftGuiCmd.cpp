@@ -62,7 +62,7 @@ wyap::CmdExecution::StartResult LoftGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化:点选选项
-    _pointPickOption.pickMask = ElementNodeType::Sketch;
+    _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
     _pointPickOption.selType = wy3d::SelectionType::Element;
 
     // 初始化:步骤
@@ -292,7 +292,7 @@ void LoftGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选配置项
-        _pointPickOption.pickMask = ElementNodeType::Sketch;
+        _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
         _pointPickOption.selType = wy3d::SelectionType::Element;
     }
     break;
@@ -330,7 +330,7 @@ void LoftCutGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项
-        _pointPickOption.pickMask = ElementNodeType::Solid;
+        _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = std::make_shared<SolidToCutSelectPreFilter>();
         _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(wy3d::Solid::classInfo());

@@ -127,7 +127,7 @@ wyap::CmdExecution::StartResult ThickenGuiCmd::onStart()
     wyap::CmdExecution::StartResult ret = GuiCommand::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
-    _pointPickOption.pickMask = ElementNodeType::Sheet;
+    _pointPickOption.allowedElemTypes = ElementNodeType::Sheet;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
         wy3d::Sheet::classInfo());

@@ -95,8 +95,8 @@ protected:
         bool pointSelect;
         // 框选
         bool boxSelect;
-        // 拾取掩码
-        unsigned int pickMask;
+        // 允许选择的元素类型(ElementNodeType 位集)
+        unsigned int allowedElemTypes;
         // 选择类型
         wy3d::SelectionType selectionType;
         // 前置选择过滤函数
@@ -108,7 +108,7 @@ protected:
         // 选择模式:全量还是增量
         SelectMode selectMode;
 
-        SelectOptions() : pointSelect(false), boxSelect(false), pickMask(PICK_MASK),
+        SelectOptions() : pointSelect(false), boxSelect(false), allowedElemTypes(PICK_MASK),
             selectionType(wy3d::SelectionType::Element), preview(true), selectMode(SelectMode::Full)
         {}
     };

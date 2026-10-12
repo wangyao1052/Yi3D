@@ -137,7 +137,7 @@ SketchSnapSystem::SketchSnapSystem(const wy3d::Sketch* pSketch)
 
     // 点选选项
     _pickOption.pickHalfSize = SnapConsts::PickSize;
-    _pickOption.pickMask = ElementNodeType::SketchEntity;
+    _pickOption.allowedElemTypes = ElementNodeType::SketchEntity;
     _pickOption.selType = wy3d::SelectionType::Element;
     _pickOption.pSelPreFilter = std::make_shared<SketchSnapPreSelFilter>(wy3d::SketchCurve::classInfo(), nullptr);
 }
@@ -167,7 +167,7 @@ SketchSnapSystem::SketchSnapSystem(const wy3d::Plane& workPlane)
     */
 
     // 点选选项
-    _pickOption.pickMask = 0; // 不支持Pick
+    _pickOption.allowedElemTypes = 0; // 不支持Pick
 }
 
 void SketchSnapSystem::constructParlAndPerpsData()

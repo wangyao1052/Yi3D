@@ -130,7 +130,7 @@ wyap::CmdExecution::StartResult SketchExtendGuiCmd::onStart()
     Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Extend", "Select sketch entities to extend."));
 
     // 点选控制项
-    _pointPickOption.pickMask = ElementNodeType::SketchEntity;
+    _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
         wy3d::SketchEntity::classInfo(), wydb::ElementId::kNull);

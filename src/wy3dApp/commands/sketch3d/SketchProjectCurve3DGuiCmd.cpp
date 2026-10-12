@@ -243,7 +243,7 @@ void SketchProjectCurve3DGuiCmd::setPickForStep(Step step)
         // The sketch is picked whole: the sub path names the one curve that was clicked and is
         // ignored, because all of the sketch is the source. Sketch3D is deliberately out of the
         // mask as well - a 3D sketch has no plane, so there is no direction to project along.
-        _pointPickOption.pickMask = ElementNodeType::Sketch;
+        _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
         _pointPickOption.selType = wy3d::SelectionType::SketchCurve;
         _pointPickOption.pSelFilter = nullptr;
         return;
@@ -251,7 +251,7 @@ void SketchProjectCurve3DGuiCmd::setPickForStep(Step step)
 
     // Faces and datum planes in one pick, as in the intersection command. The Element bit has to
     // stay on, see the filter above: that is what lets the whole-element pass see the datum plane at all.
-    _pointPickOption.pickMask = ElementNodeType::Solid |
+    _pointPickOption.allowedElemTypes = ElementNodeType::Solid |
         ElementNodeType::Sheet |
         ElementNodeType::DatumPlane;
     _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;

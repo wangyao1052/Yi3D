@@ -1554,17 +1554,17 @@ void Scene::onSnapResultChanged(
     }
 }
 
-std::list<wydb::ElementId> Scene::pickByNormalBox(osg::Polytope& polytope, unsigned int pickMask) const
+std::list<wydb::ElementId> Scene::pickByNormalBox(osg::Polytope& polytope, unsigned int allowedElemTypes) const
 {
-    return this->pickByBoxImpl(polytope, false, pickMask);
+    return this->pickByBoxImpl(polytope, false, allowedElemTypes);
 }
 
-std::list<wydb::ElementId> Scene::pickByCrossBox(osg::Polytope& polytope, unsigned int pickMask) const
+std::list<wydb::ElementId> Scene::pickByCrossBox(osg::Polytope& polytope, unsigned int allowedElemTypes) const
 {
-    return this->pickByBoxImpl(polytope, true, pickMask);
+    return this->pickByBoxImpl(polytope, true, allowedElemTypes);
 }
 
-std::list<wydb::ElementId> Scene::pickByBoxImpl(osg::Polytope& polytope, bool isCross, unsigned int pickMask) const
+std::list<wydb::ElementId> Scene::pickByBoxImpl(osg::Polytope& polytope, bool isCross, unsigned int allowedElemTypes) const
 {
     // RTree初筛
     std::set<unsigned int> rtreeSelectIds;
@@ -1587,7 +1587,7 @@ std::list<wydb::ElementId> Scene::pickByBoxImpl(osg::Polytope& polytope, bool is
 
         const ElementNode* pElemNode = kvp.second;
         assert(pElemNode);
-        bool canPick = pElemNode->getNodeType() & pickMask;
+        bool canPick = pElemNode->getNodeType() & allowedElemTypes;
         if (!canPick) continue;
 
         if (isCross)

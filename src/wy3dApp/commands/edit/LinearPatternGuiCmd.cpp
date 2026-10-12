@@ -231,7 +231,7 @@ void LinearPatternGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
         
         // 点选选项
-        _pointPickOption.pickMask = ElementNodeType::Solid;
+        _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = std::make_shared<LinearPatternGuiCmdPreSelFilter>();
 
@@ -251,7 +251,7 @@ void LinearPatternGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项:工作平面
-        _pointPickOption.pickMask = ElementNodeType::DatumPlane;
+        _pointPickOption.allowedElemTypes = ElementNodeType::DatumPlane;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = nullptr;
     }

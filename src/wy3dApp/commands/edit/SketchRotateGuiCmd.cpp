@@ -58,7 +58,7 @@ void SketchRotateGuiCmd::gotoNextStepAfterSelectElements()
 
 void SketchRotateGuiCmd::configureSelectElementOptions(SelectOptions& options)
 {
-    options.pickMask = ElementNodeType::SketchEntity;
+    options.allowedElemTypes = ElementNodeType::SketchEntity;
     options.filter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
 }
 

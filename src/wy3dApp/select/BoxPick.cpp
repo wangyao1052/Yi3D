@@ -292,7 +292,7 @@ wyap::SelectionSet BoxPick::pick(
             osgUtil::Intersector::WINDOW, xMin, yMin, xMax, yMax);
         intersector->setIntersectionLimit(osgUtil::Intersector::IntersectionLimit::LIMIT_ONE_PER_DRAWABLE); // 优化性能
         osgUtil::IntersectionVisitor iv(intersector.get());
-        iv.setTraversalMask(option.pickMask);
+        iv.setTraversalMask(option.allowedElemTypes);
         pView->getCamera()->accept(iv);
         const osgUtil::PolytopeIntersector::Intersections& intersections = intersector->getIntersections();
         if (intersections.empty()) return ss;
@@ -326,7 +326,7 @@ wyap::SelectionSet BoxPick::pick(
             osgUtil::Intersector::WINDOW, xMin, yMin, xMax, yMax);
         intersector->setIntersectionLimit(osgUtil::Intersector::IntersectionLimit::LIMIT_ONE_PER_DRAWABLE); // 优化性能
         osgUtil::IntersectionVisitor iv(intersector.get());
-        iv.setTraversalMask(option.pickMask);
+        iv.setTraversalMask(option.allowedElemTypes);
         pView->getCamera()->accept(iv);
         const osgUtil::PolytopeIntersector::Intersections& intersections = intersector->getIntersections();
         if (intersections.empty()) return ss;
@@ -388,7 +388,7 @@ wyap::SelectionSet BoxPick::pick(
         // 对元素节点使用多面体求交器
         intersector = new osgUtil::PolytopeIntersector(osgUtil::Intersector::PROJECTION, polytope);
         osgUtil::IntersectionVisitor ivDetail(intersector.get());
-        ivDetail.setTraversalMask(option.pickMask);
+        ivDetail.setTraversalMask(option.allowedElemTypes);
         pOsgNode->accept(ivDetail);
         const osgUtil::PolytopeIntersector::Intersections& detailIntersections = intersector->getIntersections();
         if (detailIntersections.empty()) return ss;

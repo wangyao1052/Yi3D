@@ -102,7 +102,7 @@ wyap::CmdExecution::StartResult TopoNameGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化
-    _pointPickOption.pickMask = ElementNodeType::Solid | ElementNodeType::Sheet;
+    _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
     _pointPickOption.selType = wy3d::SelectionType::Edge | wy3d::SelectionType::Face;
 
     // 清空选择集

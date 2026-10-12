@@ -216,7 +216,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
         selOptions.pointSelect = true;
         selOptions.boxSelect = true;
         selOptions.selectionType = wy3d::SelectionType::Element;
-        selOptions.pickMask = ElementNodeType::SketchEntity;
+        selOptions.allowedElemTypes = ElementNodeType::SketchEntity;
         selOptions.filter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;

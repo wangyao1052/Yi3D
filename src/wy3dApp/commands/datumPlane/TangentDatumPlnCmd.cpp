@@ -178,7 +178,7 @@ void TangentDatumPlnCmd::gotoStep(Step step)
         if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
 
         // 点选选项
-        _pointPickOption.pickMask = ElementNodeType::Solid | ElementNodeType::Sheet;
+        _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.pSelFilter = std::make_shared<FaceSelFilterFunctor<Geom_CylindricalSurface>>();
     }

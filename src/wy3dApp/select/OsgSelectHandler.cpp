@@ -84,7 +84,7 @@ bool OsgSelectHandler::handle(const osgGA::GUIEventAdapter& ea,
 wyap::Selection OsgSelectHandler::pointPick(float x, float y)
 {
     static PointPickOption option;
-    option.pickMask = _pickMask;
+    option.allowedElemTypes = _allowedElemTypes;
     option.selType = _selType;
     option.pSelPreFilter = _pPreSelFilter;
     option.pSelFilter = _pSelFilter;
@@ -97,7 +97,7 @@ wyap::SelectionSet OsgSelectHandler::boxPick_cross(
     float xMax, float yMax)
 {
     static BoxPickOption option;
-    option.pickMask = _pickMask;
+    option.allowedElemTypes = _allowedElemTypes;
     option.selType = _selType;
     option.pSelPreFilter = _pPreSelFilter;
     option.pSelFilter = _pSelFilter;
@@ -126,7 +126,7 @@ wyap::SelectionSet OsgSelectHandler::boxPick_window(
     // 窗口框选
     Scene* pScene = Application::instance().getActiveScene();
     std::list<wydb::ElementId> pickedIdsList;
-    pickedIdsList = pScene->pickByNormalBox(polytope, _pickMask == 0 ? PICK_MASK : _pickMask);
+    pickedIdsList = pScene->pickByNormalBox(polytope, _allowedElemTypes == 0 ? PICK_MASK : _allowedElemTypes);
 
     wyap::SelectionSet ss;
     for (const wydb::ElementId& id : pickedIdsList)

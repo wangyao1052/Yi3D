@@ -117,7 +117,7 @@ wyap::CmdExecution::StartResult DraftGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化
-    _pointPickOption.pickMask = ElementNodeType::Solid;
+    _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
     _pointPickOption.selType = wy3d::SelectionType::Face;
     _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
     _pSelSetHighlightor_NeutralFace = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet(), Colors::kPink);

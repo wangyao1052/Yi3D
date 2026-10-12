@@ -190,7 +190,7 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         Application::instance().getSelManager()->endChange();
 
         // 拾取配置: 实体或片体的面
-        _pointPickOption.pickMask = ElementNodeType::Solid | ElementNodeType::Sheet;
+        _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.pSelFilter = nullptr;
         _pointPickOption.pSelPreFilter = std::make_shared<SplitFacePreSelFilter>(
@@ -216,7 +216,7 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         Application::instance().getSelManager()->endChange();
 
         // 拾取配置: 整张草图(点草图里的任意一条曲线选中的就是它所属的草图)
-        _pointPickOption.pickMask = ElementNodeType::Sketch |
+        _pointPickOption.allowedElemTypes = ElementNodeType::Sketch |
             ElementNodeType::Sketch3D;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelFilter = std::make_shared<MultiClassSelFilter>(
