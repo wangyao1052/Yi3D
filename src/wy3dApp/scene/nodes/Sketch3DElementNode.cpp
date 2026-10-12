@@ -69,7 +69,7 @@ void Sketch3DElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::El
     if (!_lineIndices->empty())
     {
         _curveGeom = new osg::Geometry();
-        _curveGeom->setNodeMask(static_cast<unsigned int>(this->getNodeType()));
+        _curveGeom->setNodeMask(this->getNodeType());
         _curveGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchElement, "RenderBin");
         {
             _curveGeom->setUseDisplayList(false);

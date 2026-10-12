@@ -129,7 +129,7 @@ wyap::CmdExecution::StartResult DemoParametersCmd::onStart()
         return wyap::CmdExecution::StartResult::Rejected;
     }
 
-    _pointPickOption.pickMask = static_cast<unsigned int>(wy3dApp::ElementNodeType::SketchEntity);
+    _pointPickOption.pickMask = wy3dApp::ElementNodeType::SketchEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.pSelFilter = std::make_shared<wy3dApp::SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
 

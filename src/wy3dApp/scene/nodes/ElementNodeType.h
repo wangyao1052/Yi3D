@@ -23,7 +23,8 @@
 
 namespace wy3dApp {
 
-enum class ElementNodeType
+// Underlying type matches osg::NodeMask (unsigned int).
+enum ElementNodeType : unsigned int
 {
     Undefined         = 0,
     Solid             = 0x00000001, // 实体
@@ -36,27 +37,6 @@ enum class ElementNodeType
     Sketch3D          = 0x00000080, // 3D草图
     Sketch3DEntity    = 0x00000100, // 3D草图图元
 };
-
-// 按位或(组合类型)
-constexpr ElementNodeType operator|(ElementNodeType a, ElementNodeType b) noexcept
-{
-    using Underlying = std::underlying_type_t<ElementNodeType>;
-    return static_cast<ElementNodeType>(static_cast<Underlying>(a) | static_cast<Underlying>(b));
-}
-
-// 按位与(检查类型)
-constexpr ElementNodeType operator&(ElementNodeType a, ElementNodeType b) noexcept
-{
-    using Underlying = std::underlying_type_t<ElementNodeType>;
-    return static_cast<ElementNodeType>(static_cast<Underlying>(a) & static_cast<Underlying>(b));
-}
-
-// 按位取反
-constexpr ElementNodeType operator~(ElementNodeType flags) noexcept
-{
-    using Underlying = std::underlying_type_t<ElementNodeType>;
-    return static_cast<ElementNodeType>(~static_cast<Underlying>(flags));
-}
 
 } // namespace wy3dApp
 

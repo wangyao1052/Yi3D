@@ -428,8 +428,7 @@ void AngularDatumPlnCmd::gotoStep(Step step)
         if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
 
         // 点选选项
-        _pointPickOption.pickMask = static_cast<unsigned int>(
-            ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::DatumPlane);
+        _pointPickOption.pickMask = ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::DatumPlane;
         _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
         _pointPickOption.pSelFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
     }
@@ -457,8 +456,7 @@ void AngularDatumPlnCmd::gotoStep(Step step)
         }
 
         // 点选选项
-        _pointPickOption.pickMask = static_cast<unsigned int>(
-            ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::DatumPlane);
+        _pointPickOption.pickMask = ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::DatumPlane;
         _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Edge |
             wy3d::SelectionType::Element;
         _pointPickOption.pSelFilter = std::make_shared<AngularDatumPlnCmdRotationAxisSelFilter>(_plane);

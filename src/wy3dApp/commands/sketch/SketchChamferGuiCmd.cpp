@@ -100,7 +100,7 @@ wyap::CmdExecution::StartResult SketchChamferGuiCmd::onStart()
     _D2 = std::fabs(dialog.getValue2nd());
 
     // 第一步
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::SketchEntity);
+    _pointPickOption.pickMask = ElementNodeType::SketchEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     this->gotoStep(Step::First);
 

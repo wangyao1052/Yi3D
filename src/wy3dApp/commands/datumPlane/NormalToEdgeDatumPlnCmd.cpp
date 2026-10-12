@@ -419,9 +419,8 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
         if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
 
         // 点选选项
-        _pointPickOption.pickMask = static_cast<unsigned int>(
-            ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::Sketch |
-            ElementNodeType::Sketch3D | ElementNodeType::Curve);
+        _pointPickOption.pickMask = ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::Sketch |
+            ElementNodeType::Sketch3D | ElementNodeType::Curve;
         _pointPickOption.selType = wy3d::SelectionType::Edge | wy3d::SelectionType::SketchCurve |
             wy3d::SelectionType::SketchCurve3D | wy3d::SelectionType::Element;
         _pointPickOption.pSelFilter = std::make_shared<NormalToEdgeDatumPlnCmdSelFilter>();

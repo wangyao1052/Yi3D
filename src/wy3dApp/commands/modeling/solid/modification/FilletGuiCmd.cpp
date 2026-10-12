@@ -99,7 +99,7 @@ wyap::CmdExecution::StartResult FilletGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) | static_cast<unsigned int>(ElementNodeType::Sheet);
+    _pointPickOption.pickMask = ElementNodeType::Solid | ElementNodeType::Sheet;
     _pointPickOption.selType = wy3d::SelectionType::Edge | wy3d::SelectionType::Face;
     this->gotoStep(Step::SelectEdges);
 

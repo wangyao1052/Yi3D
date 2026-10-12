@@ -58,7 +58,7 @@ wyap::CmdExecution::StartResult LoftedSheetGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化:点选选项
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch);
+    _pointPickOption.pickMask = ElementNodeType::Sketch;
     _pointPickOption.selType = wy3d::SelectionType::Element;
 
     // 初始化:步骤
@@ -181,7 +181,7 @@ void LoftedSheetGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选配置项
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch);
+        _pointPickOption.pickMask = ElementNodeType::Sketch;
         _pointPickOption.selType = wy3d::SelectionType::Element;
     }
     break;

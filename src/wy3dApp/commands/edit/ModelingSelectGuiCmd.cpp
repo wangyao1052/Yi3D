@@ -94,13 +94,12 @@ GuiCmdMenu* ModelingSelectGuiCmd::initContextMenu()
 
 void ModelingSelectGuiCmd::configureSelectOptions(SelectOptions& options)
 {
-    options.pickMask = static_cast<unsigned int>(
-        ElementNodeType::Solid |
+    options.pickMask = ElementNodeType::Solid |
         ElementNodeType::Sheet |
         ElementNodeType::Sketch |
         ElementNodeType::DatumPlane |
         ElementNodeType::Curve |
-        ElementNodeType::Sketch3D);
+        ElementNodeType::Sketch3D;
     options.filter = std::make_shared<SelectGuiCmdSelFilter_Modeling>();
 }
 

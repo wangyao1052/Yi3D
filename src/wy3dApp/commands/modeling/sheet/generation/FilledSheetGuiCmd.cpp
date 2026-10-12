@@ -265,16 +265,16 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
     wyap::CmdExecution::StartResult ret = GuiCommand::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
-    _sketchPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch) |
-        static_cast<unsigned int>(ElementNodeType::Sketch3D);
+    _sketchPickOption.pickMask = ElementNodeType::Sketch |
+        ElementNodeType::Sketch3D;
     _sketchPickOption.selType = wy3d::SelectionType::Element;
     _sketchPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
         wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo());
     _sketchPickOption.pSelFilter = std::make_shared<MultiClassSelFilter>(
         std::vector<wyrx::ClassInfo*>{ wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo() });
 
-    _edgePickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
-        static_cast<unsigned int>(ElementNodeType::Sheet);
+    _edgePickOption.pickMask = ElementNodeType::Solid |
+        ElementNodeType::Sheet;
     _edgePickOption.selType = wy3d::SelectionType::Edge;
 
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
@@ -503,8 +503,8 @@ void FilledSheetGuiCmd::gotoStep(Step step)
         _constraintSketchPreview.clear();
 
         // Constraint sketches can be 2D or 3D, the boundary sketch itself excluded
-        _constraintSketchPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch) |
-            static_cast<unsigned int>(ElementNodeType::Sketch3D);
+        _constraintSketchPickOption.pickMask = ElementNodeType::Sketch |
+            ElementNodeType::Sketch3D;
         _constraintSketchPickOption.selType = wy3d::SelectionType::Element;
         _constraintSketchPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
             wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo(), _sketchId);

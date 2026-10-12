@@ -135,6 +135,7 @@ wyap::CmdExecution::StartResult BooleanGuiCmd::onStart()
                 toolIds.insert(id);
             }
         }
+        return true;
     };
     wydb::ElementId targetId(wydb::ElementId::kNull);
     std::set<wydb::ElementId> toolIds;
@@ -296,7 +297,7 @@ void BooleanGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = true;
         selOptions.boxSelect = false;
-        selOptions.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+        selOptions.pickMask = ElementNodeType::Solid;
         selOptions.selectionType = wy3d::SelectionType::Element;
         selOptions.filter = std::make_shared<BooleanTargetSelFilter>();
         selOptions.preview = true;
@@ -318,7 +319,7 @@ void BooleanGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = true;
         selOptions.boxSelect = true;
-        selOptions.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+        selOptions.pickMask = ElementNodeType::Solid;
         selOptions.selectionType = wy3d::SelectionType::Element;
         selOptions.filter = std::make_shared<BooleanToolsSelFilter>(_targetId);
         selOptions.preview = true;

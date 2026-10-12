@@ -148,7 +148,7 @@ void SketchEntityElementNode::generateRenderObjectImpl(Scene* pScene, const wydb
     if (!_lineIndices->empty())
     {
         _curvesGeom = new osg::Geometry();
-        _curvesGeom->setNodeMask(static_cast<unsigned int>(this->getNodeType()));
+        _curvesGeom->setNodeMask(this->getNodeType());
         {
             _curvesGeom->setUseDisplayList(false);
             _curvesGeom->setUseVertexBufferObjects(true);
@@ -173,7 +173,7 @@ void SketchEntityElementNode::generateRenderObjectImpl(Scene* pScene, const wydb
     else if (!_vertices->empty()) // 草图点
     {
         _curvesGeom = new osg::Geometry();
-        _curvesGeom->setNodeMask(static_cast<unsigned int>(this->getNodeType()));
+        _curvesGeom->setNodeMask(this->getNodeType());
         {
             _curvesGeom->setUseDisplayList(false);
             _curvesGeom->setUseVertexBufferObjects(true);

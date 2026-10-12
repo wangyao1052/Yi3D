@@ -379,7 +379,7 @@ void SketchDrawLineTangentGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::SketchEntity);
+        _pointPickOption.pickMask = ElementNodeType::SketchEntity;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = std::make_shared<DrawLineTangentPreFilter>(wydb::ElementId::kNull, _cachedTangentLines);
 
@@ -399,7 +399,7 @@ void SketchDrawLineTangentGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::SketchEntity);
+        _pointPickOption.pickMask = ElementNodeType::SketchEntity;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = std::make_shared<DrawLineTangentPreFilter>(_startElementId, _cachedTangentLines);
     }

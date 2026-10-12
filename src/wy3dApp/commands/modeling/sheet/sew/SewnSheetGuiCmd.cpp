@@ -245,7 +245,7 @@ void SewnSheetGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = true;
         selOptions.boxSelect = true;
-        selOptions.pickMask = static_cast<unsigned int>(ElementNodeType::Sheet);
+        selOptions.pickMask = ElementNodeType::Sheet;
         selOptions.selectionType = wy3d::SelectionType::Element;
         selOptions.filter = std::make_shared<SewnSheetSourceSelFilter>();
         selOptions.preview = true;

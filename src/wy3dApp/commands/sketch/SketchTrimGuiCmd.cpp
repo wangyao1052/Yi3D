@@ -163,7 +163,7 @@ wyap::CmdExecution::StartResult SketchTrimGuiCmd::onStart()
     Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Trim", "Select sketch entities to trim."));
 
     // 点选选项
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::SketchEntity);
+    _pointPickOption.pickMask = ElementNodeType::SketchEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
         wy3d::SketchEntity::classInfo());

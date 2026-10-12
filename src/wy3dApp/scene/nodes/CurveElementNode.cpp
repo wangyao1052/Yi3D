@@ -107,7 +107,7 @@ void CurveElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Eleme
     if (!_lineIndices->empty())
     {
         _curvesGeom = new osg::Geometry();
-        _curvesGeom->setNodeMask(static_cast<unsigned int>(this->getNodeType()));
+        _curvesGeom->setNodeMask(this->getNodeType());
         _curvesGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchElement, "RenderBin");
         {
             _curvesGeom->setUseDisplayList(false);

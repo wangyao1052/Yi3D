@@ -77,7 +77,7 @@ wyap::CmdExecution::StartResult SketchOffsetGuiCmd::onStart()
     Application::instance().getSelManager()->endChange();
 
     // 初始化
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::SketchEntity);
+    _pointPickOption.pickMask = ElementNodeType::SketchEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
         wy3d::SketchEntity::classInfo(), wydb::ElementId::kNull);

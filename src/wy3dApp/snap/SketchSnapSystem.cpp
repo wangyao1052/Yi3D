@@ -137,7 +137,7 @@ SketchSnapSystem::SketchSnapSystem(const wy3d::Sketch* pSketch)
 
     // 点选选项
     _pickOption.pickHalfSize = SnapConsts::PickSize;
-    _pickOption.pickMask = static_cast<unsigned int>(ElementNodeType::SketchEntity);
+    _pickOption.pickMask = ElementNodeType::SketchEntity;
     _pickOption.selType = wy3d::SelectionType::Element;
     _pickOption.pSelPreFilter = std::make_shared<SketchSnapPreSelFilter>(wy3d::SketchCurve::classInfo(), nullptr);
 }

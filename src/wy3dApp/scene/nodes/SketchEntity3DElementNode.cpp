@@ -75,7 +75,7 @@ void SketchEntity3DElementNode::generateRenderObjectImpl(Scene* pScene, const wy
     if (!_lineIndices->empty())
     {
         _curvesGeom = new osg::Geometry();
-        _curvesGeom->setNodeMask(static_cast<unsigned int>(this->getNodeType()));
+        _curvesGeom->setNodeMask(this->getNodeType());
         {
             _curvesGeom->setUseDisplayList(false);
             _curvesGeom->setUseVertexBufferObjects(true);

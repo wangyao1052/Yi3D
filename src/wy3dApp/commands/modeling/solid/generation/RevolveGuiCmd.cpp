@@ -70,7 +70,7 @@ wyap::CmdExecution::StartResult RevolveGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化:点选选项
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch);
+    _pointPickOption.pickMask = ElementNodeType::Sketch;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(wy3d::Sketch::classInfo());
 
@@ -320,7 +320,7 @@ void RevolveGuiCmd::gotoStep(Step step)
         Application::instance().getSelManager()->endChange();
 
         // 点选选项
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch);
+        _pointPickOption.pickMask = ElementNodeType::Sketch;
         _pointPickOption.selType = wy3d::SelectionType::SketchCurve | wy3d::SelectionType::Element;
         _pointPickOption.pSelFilter = nullptr;
 
@@ -365,7 +365,7 @@ void RevolveCutGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+        _pointPickOption.pickMask = ElementNodeType::Solid;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = std::make_shared<SolidToCutSelectPreFilter>();
         _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(wy3d::Solid::classInfo());

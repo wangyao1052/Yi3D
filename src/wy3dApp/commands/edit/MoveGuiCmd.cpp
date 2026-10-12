@@ -351,7 +351,7 @@ void MoveGuiCmd::gotoStep(Step step)
 
         // 点选配置项:选择基准面
         // 不允许选择实体面,因为若Hover到要镜像的实体特征的表面,再移开,该面会恢复到原始的颜色,但是该实体特征当前是选中态,这就冲突了.
-        _pickWorkPlnOption.pickMask = static_cast<unsigned int>(/*ElementNodeType::Solid | */ElementNodeType::DatumPlane);
+        _pickWorkPlnOption.pickMask = /*ElementNodeType::Solid | */ElementNodeType::DatumPlane;
         _pickWorkPlnOption.selType = wy3d::SelectionType::Element;
         //_pointPickOption.pSelFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
     }

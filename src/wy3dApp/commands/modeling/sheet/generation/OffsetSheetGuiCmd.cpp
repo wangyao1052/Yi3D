@@ -609,7 +609,7 @@ void OffsetSheetGuiCmd::updatePickOption()
 {
     if (static_cast<int>(wy3d::OffsetSheet::Target::WholeSheet) == _targetMode)
     {
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sheet);
+        _pointPickOption.pickMask = ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
             wy3d::Sheet::classInfo());
@@ -619,12 +619,12 @@ void OffsetSheetGuiCmd::updatePickOption()
     else
     {
         // 种类没定之前实体与片体的面都收, 定下来就只收那一类
-        unsigned int pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
-            static_cast<unsigned int>(ElementNodeType::Sheet);
+        unsigned int pickMask = ElementNodeType::Solid |
+            ElementNodeType::Sheet;
         if (HostKind::Sheet == _hostKind)
-            pickMask = static_cast<unsigned int>(ElementNodeType::Sheet);
+            pickMask = ElementNodeType::Sheet;
         else if (HostKind::Solid == _hostKind)
-            pickMask = static_cast<unsigned int>(ElementNodeType::Solid);
+            pickMask = ElementNodeType::Solid;
 
         _pointPickOption.pickMask = pickMask;
         _pointPickOption.selType = wy3d::SelectionType::Face;

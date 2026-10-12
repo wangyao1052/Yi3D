@@ -1587,7 +1587,7 @@ std::list<wydb::ElementId> Scene::pickByBoxImpl(osg::Polytope& polytope, bool is
 
         const ElementNode* pElemNode = kvp.second;
         assert(pElemNode);
-        bool canPick = static_cast<unsigned int>(pElemNode->getNodeType()) & pickMask;
+        bool canPick = pElemNode->getNodeType() & pickMask;
         if (!canPick) continue;
 
         if (isCross)

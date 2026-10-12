@@ -187,7 +187,7 @@ wyap::CmdExecution::StartResult ExtrudedSheetGuiCmd::onStart()
     wyap::CmdExecution::StartResult ret = GuiCommand::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch);
+    _pointPickOption.pickMask = ElementNodeType::Sketch;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(wy3d::Sketch::classInfo());
 

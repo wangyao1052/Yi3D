@@ -144,9 +144,9 @@ wyap::CmdExecution::StartResult SketchIntersectionCurve3DGuiCmd::onStart()
     // Faces and datum planes in one pick. The Element bit has to stay on, see the filter above.
     // The sketch being edited is not reachable here: its entities are Sketch3DEntity nodes
     // and its own Sketch3D node has been swapped out by the environment.
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Solid) |
-        static_cast<unsigned int>(ElementNodeType::Sheet) |
-        static_cast<unsigned int>(ElementNodeType::DatumPlane);
+    _pointPickOption.pickMask = ElementNodeType::Solid |
+        ElementNodeType::Sheet |
+        ElementNodeType::DatumPlane;
     _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
     this->setAllowPlane(true);
 

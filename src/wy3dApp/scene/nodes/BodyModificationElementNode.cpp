@@ -169,7 +169,7 @@ osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateShapeGeom(const
     }
 
     osg::ref_ptr<osg::Geometry> shapeGeom = new osg::Geometry();
-    shapeGeom->setNodeMask(static_cast<unsigned int>(this->getNodeType()));
+    shapeGeom->setNodeMask(this->getNodeType());
     shapeGeom->setUseDisplayList(false);
     shapeGeom->setUseVertexBufferObjects(true);
     shapeGeom->getOrCreateStateSet()->setMode(GL_CULL_FACE, osg::StateAttribute::ON);
@@ -194,7 +194,7 @@ osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateEdgeGeom(const 
     }
 
     osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(static_cast<unsigned int>(this->getNodeType()));
+    edgeGeom->setNodeMask(this->getNodeType());
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
     edgeGeom->setVertexArray(_vertices);

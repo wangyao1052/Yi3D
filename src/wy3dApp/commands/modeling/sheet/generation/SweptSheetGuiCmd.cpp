@@ -222,8 +222,7 @@ void SweptSheetGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项:路径可以是2D草图、3D草图或模型曲线
-        _pointPickOption.pickMask = static_cast<unsigned int>(
-            ElementNodeType::Sketch | ElementNodeType::Sketch3D | ElementNodeType::Curve);
+        _pointPickOption.pickMask = ElementNodeType::Sketch | ElementNodeType::Sketch3D | ElementNodeType::Curve;
         _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
             std::vector<wyrx::ClassInfo*>{ wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo(),
                 wy3d::Curve::classInfo() },
@@ -250,7 +249,7 @@ void SweptSheetGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项:轮廓只能是2D草图
-        _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch);
+        _pointPickOption.pickMask = ElementNodeType::Sketch;
         _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
             wy3d::Sketch::classInfo(), _pathId);
     }

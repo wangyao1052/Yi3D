@@ -100,7 +100,7 @@ wyap::CmdExecution::StartResult SolidifyGuiCmd::onStart()
     wyap::CmdExecution::StartResult ret = __baseClass::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::Sheet);
+    _pointPickOption.pickMask = ElementNodeType::Sheet;
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
         wy3d::Sheet::classInfo());

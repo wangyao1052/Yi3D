@@ -107,7 +107,7 @@ void SketchElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Elem
     if (!_lineIndices->empty())
     {
         _curveGeom = new osg::Geometry();
-        _curveGeom->setNodeMask(static_cast<unsigned int>(this->getNodeType()));
+        _curveGeom->setNodeMask(this->getNodeType());
         _curveGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchElement, "RenderBin");
         {
             _curveGeom->setUseDisplayList(false);
@@ -129,7 +129,7 @@ void SketchElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Elem
     if (!_centerLineIndices->empty())
     {
         _centerLinesGeom = new osg::Geometry();
-        _centerLinesGeom->setNodeMask(static_cast<unsigned int>(this->getNodeType()));
+        _centerLinesGeom->setNodeMask(this->getNodeType());
         _centerLinesGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchElement, "RenderBin");
         {
             _centerLinesGeom->setUseDisplayList(false);
@@ -155,7 +155,7 @@ void SketchElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Elem
     if (!_pointIndices->empty())
     {
         _pointsGeom = new osg::Geometry();
-        _pointsGeom->setNodeMask(static_cast<unsigned int>(this->getNodeType()));
+        _pointsGeom->setNodeMask(this->getNodeType());
         _pointsGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchElement, "RenderBin");
         {
             _pointsGeom->setUseDisplayList(false);

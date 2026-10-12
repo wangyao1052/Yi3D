@@ -122,7 +122,7 @@ void ModelingMoveGuiCmd::gotoNextStepAfterSelectElements()
 
 void ModelingMoveGuiCmd::configureSelectElementOptions(SelectOptions& options)
 {
-    options.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::Sheet);
+    options.pickMask = ElementNodeType::Solid | ElementNodeType::Sheet;
     options.preFilter = std::make_shared<MoveGuiCmdPreFilter_Modeling>();
     options.filter = std::make_shared<MultiClassSelFilter>(
         std::vector<wyrx::ClassInfo*>{wy3d::Solid::classInfo(), wy3d::Sheet::classInfo()});
