@@ -37,6 +37,9 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -757,4 +760,6 @@ bool MakeSketchEllipse3D::updatePlane(const wy::Vector3& normal, const wy::Vecto
     }
     // 半轴取实体现值,避免命令侧缓存过期导致切平面无效
     return this->update(normal, xDir, _pSketchEllipse3D->getMajorRadius(), _pSketchEllipse3D->getRadiusRatio());
+}
+
 }

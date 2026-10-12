@@ -29,12 +29,15 @@
 #include <wy3dVector3.h>
 #include <wyapSelection.h>
 #include "commands/GuiCommandMenu.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchPolarArrayElements;
 
 class SketchPolarArrayGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchPolarArrayGuiCmd, SketchPolarArrayGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchPolarArrayGuiCmd, wy3dApp::SketchPolarArrayGuiCmd, OsgGuiCommand)
 public:
     SketchPolarArrayGuiCmd();
     virtual ~SketchPolarArrayGuiCmd();
@@ -109,5 +112,7 @@ private:
     wy3d::Plane _sketchPlane;
     wydb::ElementId _sketchId;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_POLAR_ARRAY_GUI_CMD_H

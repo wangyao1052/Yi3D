@@ -32,6 +32,9 @@
 #include <wy3dFilledSheet.h>
 #include <wy3dSketch.h>
 #include <wy3dSketch3D.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeFilledSheet : public GuiCmdMakeElement
 {
@@ -148,5 +151,7 @@ protected:
     std::shared_ptr<MakeFilledSheet> _pMakeFilledSheet;
     std::shared_ptr<MakeNonParametricSheet> _pMakeNonParametricSheet;
 };
+
+}
 
 #endif // WY3DAPP_FILLED_SHEET_GUI_CMD_H

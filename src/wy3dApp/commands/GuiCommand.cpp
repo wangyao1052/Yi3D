@@ -42,7 +42,9 @@
 #include "view/BaseView.h"
 #include "select/SelectFilterFunctor.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 GuiCommand::GuiCommand() : wyap::InteractiveCmdExecution(), _pContextMenu(nullptr)
 {
@@ -185,4 +187,6 @@ void GuiCommand::configSelect(GuiCmdSelectOptions options)
     pSelHandler->setFilterFunctor(options.filter);
     pSelHandler->enablePreview(options.preview);
     pSelHandler->setSelectMode(options.selectMode);
+}
+
 }

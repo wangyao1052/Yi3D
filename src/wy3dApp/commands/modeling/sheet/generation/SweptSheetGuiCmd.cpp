@@ -37,7 +37,9 @@
 #include "translation/ErrorCodeTranslation.h"
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/CommonSelFilters.h>
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 SweptSheetGuiCmd::SweptSheetGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _pathId(wydb::ElementId::kNull), _profileId(wydb::ElementId::kNull)
@@ -707,4 +709,6 @@ ABORT_TRANS:
         _pSweptSheet = nullptr;
     }
     return false;
+}
+
 }

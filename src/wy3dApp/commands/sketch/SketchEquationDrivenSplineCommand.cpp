@@ -25,6 +25,9 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "commands/dialogs/EquationDrivenSplineDialog.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 int SketchEquationDrivenSplineCommand::run()
 {
@@ -98,4 +101,6 @@ ABORT_TRANS:
     pDb->getTransactionManager()->abortTransaction();
     pSketchSpline = nullptr;
     return false;
+}
+
 }

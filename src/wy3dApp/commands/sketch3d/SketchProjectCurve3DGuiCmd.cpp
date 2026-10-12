@@ -47,6 +47,9 @@
 #include "select/SelectionSetHighlightor.h"
 #include "utils/TopoShapeUtil.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -676,4 +679,6 @@ void SketchProjectCurve3DGuiCmd::destroyPanel()
     _pPanel->hide();
     delete _pPanel;
     _pPanel = nullptr;
+}
+
 }

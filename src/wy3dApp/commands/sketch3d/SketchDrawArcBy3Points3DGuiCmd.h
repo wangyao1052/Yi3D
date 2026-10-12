@@ -29,13 +29,16 @@
 #include <wydbElementId.h>
 #include <wy3dSketchArc3D.h>
 #include <wy3dPlane.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchArcBy3Points3D;
 class GuiCmdHoverInputPopup3;
 
 class SketchDrawArcBy3Points3DGuiCmd : public Sketch3DDrawGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawArcBy3Points3DGuiCmd, SketchDrawArcBy3Points3DGuiCmd, Sketch3DDrawGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawArcBy3Points3DGuiCmd, wy3dApp::SketchDrawArcBy3Points3DGuiCmd, Sketch3DDrawGuiCmd)
 public:
     SketchDrawArcBy3Points3DGuiCmd();
     virtual ~SketchDrawArcBy3Points3DGuiCmd();
@@ -132,5 +135,7 @@ public:
 private:
     wy3d::SketchArc3D* _pSketchArc3D;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_ARC_BY_3_POINTS3D_GUI_CMD_H

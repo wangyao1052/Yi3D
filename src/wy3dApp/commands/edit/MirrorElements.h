@@ -27,6 +27,9 @@
 #include <wydbElementId.h>
 
 #include <wy3dApp/GuiCommand.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MirrorElemens : public GuiCmdMakeElement
 {
@@ -42,5 +45,7 @@ public:
 private:
     osg::ref_ptr<osg::MatrixTransform> _pMatrixTransform;
 };
+
+}
 
 #endif // WY3DAPP_MIRROR_ELEMENTS_H

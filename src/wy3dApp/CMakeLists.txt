@@ -88,8 +88,10 @@ set(TS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/resources/wy3dApp")
 set(TS_FILES "zh-CN.ts" "en-US.ts")
 find_program(LUPDATE_EXECUTABLE lupdate)
 find_program(LRELEASE_EXECUTABLE lrelease)
+# The include paths let lupdate resolve class declarations, so tr() contexts come
+# out namespace-qualified (wy3dApp::X) exactly like the ones moc generates.
 foreach(TSFILE ${TS_FILES})
-	execute_process(COMMAND ${LUPDATE_EXECUTABLE} ${APP_SRCS} -ts "${TS_DIR}/${TSFILE}")
+	execute_process(COMMAND ${LUPDATE_EXECUTABLE} ${APP_SRCS} -I "${CMAKE_CURRENT_SOURCE_DIR}" -I "${CMAKE_SOURCE_DIR}/inc" -ts "${TS_DIR}/${TSFILE}")
 	execute_process(COMMAND ${LRELEASE_EXECUTABLE} "${TS_DIR}/${TSFILE}")
 endforeach()
 

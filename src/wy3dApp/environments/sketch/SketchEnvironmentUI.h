@@ -22,6 +22,9 @@
 #include <QPointer>
 
 #include "widgets/frame/ViewportOverlayBar.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchEnvironment;
 
@@ -41,5 +44,7 @@ private:
     // this object is still alive, so the pointer has to notice the bar going away with it.
     QPointer<ViewportOverlayBar> _pOverlayBar;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ENVIRONMENT_UI_H

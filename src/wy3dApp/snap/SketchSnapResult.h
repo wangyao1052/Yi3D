@@ -30,6 +30,9 @@
 #include "SketchSnapObject.h"
 #include "SnapTipWidget.h"
 #include "commands/transient/SketchCurveTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 struct SketchSnapResultItem
 {
@@ -104,5 +107,7 @@ private:
     std::shared_ptr<SketchSnapTipMouseFollow> _pSnapTipMouseFollow;
 };
 typedef std::shared_ptr<SketchSnapResult> SketchSnapResultSPtr;
+
+}
 
 #endif // WY3DAPP_SKETCH_SNAP_RESULT_H

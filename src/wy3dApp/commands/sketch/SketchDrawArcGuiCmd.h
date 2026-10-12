@@ -28,6 +28,9 @@
 #include <wydbElementId.h>
 #include <wy3dSketchArc.h>
 #include "commands/transient/BasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchArc;
 class SketchCircleTransient;
@@ -37,7 +40,7 @@ class GuiCmdHoverInputPopup2;
 
 class SketchDrawArcGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawArcGuiCmd, SketchDrawArcGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawArcGuiCmd, wy3dApp::SketchDrawArcGuiCmd, OsgGuiCommand)
 public:
     SketchDrawArcGuiCmd();
     virtual ~SketchDrawArcGuiCmd();
@@ -159,5 +162,7 @@ public:
 private:
     wy3d::SketchArc* _pSketchArc;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_ARC_GUI_CMD_H

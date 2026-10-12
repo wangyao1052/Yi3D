@@ -23,8 +23,11 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCmdMakeElement.h"
 #include <wy3dApp/SelectPreview.h>
+#include "wy3dAppDefs.h"
 
 namespace wy3d { class Solidify; }
+
+namespace wy3dApp {
 
 class MakeSolidify : public GuiCmdMakeElement
 {
@@ -68,5 +71,7 @@ protected:
     std::shared_ptr<MakeSolidify> _pMakeSolidify;
     SelectPreview _sheetPreview;
 };
+
+}
 
 #endif // WY3DAPP_SOLIDIFY_GUI_CMD_H

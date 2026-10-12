@@ -27,6 +27,9 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <wy3dImpl.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 FilletRadiusLineEdit::FilletRadiusLineEdit(QWidget* parent) : QLineEdit(parent)
 {
@@ -140,4 +143,6 @@ void FilletDialog::keyPressEvent(QKeyEvent* event)
     }
 
     QWidget::keyPressEvent(event);
+}
+
 }

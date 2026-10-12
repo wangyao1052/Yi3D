@@ -48,7 +48,9 @@
 #include "view/ViewUtil.h"
 #include "view/OsgView.h"
 #include "commands/CommandNames.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 bool _getWorkingPlane(const wyap::Selection& sel, wy3d::Plane& workPln)
 {
@@ -387,4 +389,6 @@ void MakePrimitiveGuiCmdMenu::onViewNormalToWorkingPlane()
         return;
     }
     pView->viewToWorkingPlane(pCmd->getWorkingPlane());
+}
+
 }

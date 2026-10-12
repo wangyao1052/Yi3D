@@ -36,12 +36,15 @@
 #include "scene/RenderConst.h"
 #include <wy3dApp/ElementNode.h>
 #include "scene/RenderConst.h"
+#include "wy3dAppDefs.h"
 
 #define RADIUS 2.0
 #define LEN1 50.0
 #define LEN2 20.0
 
 // ── 辅助函数 ──
+
+namespace wy3dApp {
 
 namespace
 {
@@ -264,4 +267,6 @@ void SolidMoveOsgRenderer::onCancelDrag()
         pElementsRenderNode->removeChild(_ghostPat);
     }
     _ghostPat = nullptr;
+}
+
 }

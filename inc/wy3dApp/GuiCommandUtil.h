@@ -28,6 +28,8 @@
 
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class SketchSnapSystem;
 class SketchEnvironment;
 class Sketch3DEnvironment;
@@ -77,5 +79,7 @@ public:
     static SketchEnvironment* getActiveSketchEnvironment();
     static Sketch3DEnvironment* getActiveSketch3DEnvironment();
 };
+
+}
 
 #endif // WY3DAPP_GUI_COMMAND_UTIL_H

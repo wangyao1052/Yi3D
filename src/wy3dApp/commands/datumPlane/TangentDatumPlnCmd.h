@@ -29,12 +29,15 @@
 #include "commands/datumPlane/MakeDatumPlane.h"
 #include "commands/transient/BasicTransient.h"
 #include "commands/transient/SketchBasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopup1;
 
 class TangentDatumPlnCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(TangentDatumPlnCmd, TangentDatumPlnCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(TangentDatumPlnCmd, wy3dApp::TangentDatumPlnCmd, OsgGuiCommand)
 public:
     TangentDatumPlnCmd();
     ~TangentDatumPlnCmd();
@@ -115,5 +118,7 @@ protected:
     std::unique_ptr<GuiCmdHoverInputPopup1> _pAnglePopup;
     HoverPopupState _hoverPopupState;
 };
+
+}
 
 #endif // WY3DAPP_TANGENT_DATUM_PLN_CMD_H

@@ -36,6 +36,9 @@
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -527,4 +530,6 @@ bool MakeSketchCenterLine::update(const wy::Vector2& endPnt)
         pTransMgr->mergeTransaction();
     }
     return true;
+}
+
 }

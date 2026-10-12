@@ -65,6 +65,9 @@
 
 #include <wy3dDatumPlane.h>
 #include <wy3dMirror.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static inline std::string globalName(const std::string& className, const std::string& paramName)
 {
@@ -489,4 +492,6 @@ QString ParamNamesTranslation::getParamDisplayName(const std::string& className,
     {
         return QString::fromStdString(paramName);
     }
+}
+
 }

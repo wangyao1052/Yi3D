@@ -21,10 +21,13 @@
 
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/edit/RotateGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchRotateGuiCmd : public RotateGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchRotateGuiCmd, SketchRotateGuiCmd, RotateGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchRotateGuiCmd, wy3dApp::SketchRotateGuiCmd, RotateGuiCmd)
 public:
     SketchRotateGuiCmd();
     virtual ~SketchRotateGuiCmd();
@@ -38,5 +41,7 @@ protected:
     virtual void configureSelectElementOptions(GuiCmdSelectOptions& options) override;
     SketchSnapSystem* getSketchSnapSys() const override { return _sketchInfo.pSketchSnapSys; }
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ROTATE_GUI_CMD_H

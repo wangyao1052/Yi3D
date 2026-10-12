@@ -21,6 +21,9 @@
 #include "../ParamLineEdit.h"
 
 #include <wydbParameter.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class FallbackEditorAdapter : public ParamEditorAdapter
 {
@@ -53,3 +56,5 @@ static struct {
         }
     } reg;
 } _regFallbackEditor;
+
+}

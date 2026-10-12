@@ -23,17 +23,21 @@
 #include <vector>
 #include <QWidget>
 #include <wydbElement.h>
+#include "wy3dAppDefs.h"
 
 class QLabel;
 class QSpinBox;
 class QGridLayout;
 class QMouseEvent;
 class QToolButton;
+
+namespace wy3d { class SketchSpline; }
+
+namespace wy3dApp {
+
 class PropertyEditorWidget;
 class SketchSplinePointLineEdit;
 class SketchSplineTangentCheckBox;
-
-namespace wy3d { class SketchSpline; }
 
 // Collapsible "Points" section of the property panel, SolidWorks style.
 // This widget is the header bar itself and spans the panel's label + editor columns; the
@@ -106,5 +110,7 @@ private:
     bool _isExpanded;
     bool _isTangentRowsVisible;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_SPLINE_POINTS_EDITOR_H

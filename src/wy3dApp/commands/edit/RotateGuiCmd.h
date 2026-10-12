@@ -29,6 +29,10 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCommandMenu.h"
 #include "snap/SketchSnapSystem.h"
+#include "commands/edit/RotateElements.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopupBase;
 class GuiCmdHoverInputPopup1;
@@ -38,7 +42,7 @@ class RotateTransient;
 
 class RotateGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(RotateGuiCmd, RotateGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_ABSTRACT_MEMBERS(RotateGuiCmd, wy3dApp::RotateGuiCmd, OsgGuiCommand)
 public:
     RotateGuiCmd();
     virtual ~RotateGuiCmd();
@@ -174,6 +178,6 @@ protected:
     virtual SketchSnapSystem* getSketchSnapSys() const { return nullptr; }
 };
 
-#include "commands/edit/RotateElements.h"
+}
 
 #endif // WY3DAPP_ROTATE_GUI_CMD_H

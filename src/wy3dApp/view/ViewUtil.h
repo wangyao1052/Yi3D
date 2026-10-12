@@ -22,6 +22,9 @@
 #include <osgViewer/View>
 #include <wy3dPlane.h>
 #include "view/OsgView.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ViewUtil
 {
@@ -51,5 +54,7 @@ public:
     // 透视显示
     static void perspective(osgViewer::View* pView);
 };
+
+}
 
 #endif // WY_VIEW_UTIL_H

@@ -33,7 +33,9 @@
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 LoftedSheetGuiCmd::LoftedSheetGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined)
@@ -505,4 +507,6 @@ ABORT_TRANS:
     _pDb->getTransactionManager()->abortTransaction();
     _pLoftedSheet = nullptr;
     return false;
+}
+
 }

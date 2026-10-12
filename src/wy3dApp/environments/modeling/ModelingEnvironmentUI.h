@@ -19,6 +19,10 @@
 #ifndef WY3DAPP_MODELING_ENVIRONMENT_UI_H
 #define WY3DAPP_MODELING_ENVIRONMENT_UI_H
 
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
+
 class ModelingEnvironment;
 
 class ModelingEnvironmentUI
@@ -30,5 +34,7 @@ public:
     void initialize(ModelingEnvironment* pEnv);
     void teardown(ModelingEnvironment* pEnv);
 };
+
+}
 
 #endif // WY3DAPP_MODELING_ENVIRONMENT_UI_H

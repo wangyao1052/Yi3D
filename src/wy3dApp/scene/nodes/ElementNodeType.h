@@ -19,6 +19,10 @@
 #ifndef WY3DAPP_ELEMENT_NODE_TYPE_H
 #define WY3DAPP_ELEMENT_NODE_TYPE_H
 
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
+
 enum class ElementNodeType
 {
     Undefined         = 0,
@@ -52,6 +56,8 @@ constexpr ElementNodeType operator~(ElementNodeType flags) noexcept
 {
     using Underlying = std::underlying_type_t<ElementNodeType>;
     return static_cast<ElementNodeType>(~static_cast<Underlying>(flags));
+}
+
 }
 
 #endif // WY3DAPP_ELEMENT_NODE_TYPE_H

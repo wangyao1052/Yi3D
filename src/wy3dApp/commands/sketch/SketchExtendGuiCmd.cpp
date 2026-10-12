@@ -48,7 +48,9 @@
 #include "scene/RenderConst.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 SketchExtendGuiCmd::SketchExtendGuiCmd() : OsgGuiCommand()
 {
@@ -653,4 +655,6 @@ void ExtendSegmentTransient::initGeom(osg::ref_ptr<osg::Vec3Array> vertices, con
     }
     // 添加到根节点
     _root->addChild(geom.get());
+}
+
 }

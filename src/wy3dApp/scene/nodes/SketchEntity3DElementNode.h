@@ -20,6 +20,9 @@
 #define WY3DAPP_SKETCH_ENTITY3D_ELEMENT_NODE_H
 
 #include <wy3dApp/ElementNode.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchEntity3DElementNode : public ElementNode
 {
@@ -78,5 +81,7 @@ private:
     // 线索引
     osg::ref_ptr<osg::UIntArray> _lineIndices;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ENTITY3D_ELEMENT_NODE_H

@@ -27,6 +27,9 @@
 #include <QObject>
 
 #include <wy3dSketch.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchExporter;
 
@@ -66,5 +69,7 @@ protected:
     // 具体导出草图执行函数,需要子类继承
     virtual bool performImpl(const wy3d::Sketch* pSketch, const std::wstring& fileFullPath) = 0;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_EXPORTER_H

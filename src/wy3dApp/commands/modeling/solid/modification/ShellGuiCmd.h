@@ -24,6 +24,9 @@
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 #include "commands/GuiCommandMenu.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ShellGuiCmd : public OsgGuiCommand
 {
@@ -80,5 +83,7 @@ private:
 
     friend class ShellGuiCmdMenu;
 };
+
+}
 
 #endif // WY3DAPP_SHELL_GUI_CMD_H

@@ -21,6 +21,9 @@
 
 #include <QRect>
 #include <QWidget>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ViewWidget : public QWidget
 {
@@ -34,5 +37,7 @@ public:
 	virtual void setCursor(const QCursor& cursor);
 	virtual QRect getRenderAreaGlobalRect() const = 0;
 };
+
+}
 
 #endif // WY3DAPP_VIEW_WIDGET_H

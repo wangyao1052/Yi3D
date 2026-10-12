@@ -31,6 +31,9 @@
 
 #include <typeindex>
 #include <cassert>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchPlaneEditorAdapter : public ParamEditorAdapter
 {
@@ -99,3 +102,5 @@ static struct {
         }
     } reg;
 } _regSketchPlaneEditor;
+
+}

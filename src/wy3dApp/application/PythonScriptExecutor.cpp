@@ -35,6 +35,9 @@
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/output/OutputWidget.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 typedef void (*Py_InitializeFunc)();
 typedef void (*Py_FinalizeFunc)();
@@ -259,4 +262,6 @@ void PythonScriptExecutor::abortActiveTransaction()
     {
         pDb->getTransactionManager()->abortTransaction();
     }
+}
+
 }

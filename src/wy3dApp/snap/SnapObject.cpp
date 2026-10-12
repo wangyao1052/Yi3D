@@ -23,6 +23,9 @@
 #include <osg/Point>
 #include "SnapContext.h"
 #include "SnapConsts.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool SnapPoint::snap(osg::Polytope& polytope, wy::Vector3& position) const
 {
@@ -58,4 +61,6 @@ osg::ref_ptr<osg::Node> SnapPoint::generateOsgNode() const
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     geode->addDrawable(geom);
     return geode;
+}
+
 }

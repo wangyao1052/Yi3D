@@ -27,6 +27,9 @@
 #include <wyVector3.h>
 #include <wydbElementId.h>
 #include <wy3dSketchArc3D.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchArc3D;
 class GuiCmdHoverInputPopup1;
@@ -35,7 +38,7 @@ class GuiCmdHoverInputPopup3;
 
 class SketchDrawArc3DGuiCmd : public Sketch3DDrawGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawArc3DGuiCmd, SketchDrawArc3DGuiCmd, Sketch3DDrawGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawArc3DGuiCmd, wy3dApp::SketchDrawArc3DGuiCmd, Sketch3DDrawGuiCmd)
 public:
     SketchDrawArc3DGuiCmd();
     virtual ~SketchDrawArc3DGuiCmd();
@@ -151,5 +154,7 @@ public:
 private:
     wy3d::SketchArc3D* _pSketchArc3D;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_ARC3D_GUI_CMD_H

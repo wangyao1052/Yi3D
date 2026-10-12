@@ -52,6 +52,9 @@
 #include <QCoreApplication>
 #include <QCursor>
 #include <cmath>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -1011,3 +1014,4 @@ bool NormalToEdgeDatumPlnCmd::computePlane(Handle(Geom_Curve) geomCurve, double 
     }
 }
 
+}

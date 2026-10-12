@@ -52,14 +52,17 @@
 #include <wy3dApp/GuiCommandUtil.h>
 
 class GuiCmdOsgEventHandler;
+
+#include "commands/GuiCmdMakeElement.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
+
 class GuiCmdMakeElement;
 class GuiCommand;
 class SketchSnapSystem;
 class GuiCmdMenu;
 class GuiEventDispatcher;
-
-#include "commands/GuiCmdMakeElement.h"
-#include "wy3dAppDefs.h"
 
 // 命令选择选项
 struct GuiCmdSelectOptions
@@ -150,7 +153,7 @@ struct KeyEvent
 
 class WY3DAPP_EXPORT GuiCommand : public wyap::InteractiveCmdExecution
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(GuiCommand, GuiCommand, wyap::InteractiveCmdExecution)
+    WYRX_DECLARE_ABSTRACT_MEMBERS(GuiCommand, wy3dApp::GuiCommand, wyap::InteractiveCmdExecution)
 protected:
     GuiCommand();
     virtual ~GuiCommand();
@@ -254,5 +257,7 @@ protected:
     friend class GuiCmdMenu;
     friend class FeatureTreeWidget;
 };
+
+}
 
 #endif // WY3DAPP_GUI_CMDS_H

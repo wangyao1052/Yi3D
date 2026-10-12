@@ -21,6 +21,9 @@
 
 #include <QLabel>
 #include <wy3dColor.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // Read-only color display; color is changed by the Set Color command.
 class ColorLabel : public QLabel
@@ -29,5 +32,7 @@ class ColorLabel : public QLabel
 public:
     explicit ColorLabel(const wy3d::Color& color, bool isTheSameValue, QWidget* parent = nullptr);
 };
+
+}
 
 #endif // WY3DAPP_COLOR_LABEL_H

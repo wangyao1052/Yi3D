@@ -19,6 +19,9 @@
 #include "GizmoOperation.h"
 #include <cassert>
 #include "gizmo/BaseGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 GizmoOperation::GizmoOperation(wydb::Database* pDb, BaseGizmo* pGizmo)
     : _pDb(pDb), _pGizmo(pGizmo), _pTopTransaction(nullptr)
@@ -59,4 +62,6 @@ void GizmoOperation::abortTopTransaction()
         assert(wy::ErrorStatus::Ok == error);
         _pTopTransaction = nullptr;
     }
+}
+
 }

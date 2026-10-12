@@ -39,6 +39,9 @@
 #include <wyapEnvironment.h>
 #include <wyapSelManager.h>
 #include "commands/CommandNames.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 ViewWidgetContainer::ViewWidgetContainer(QWidget* parent)
     : QWidget(parent), _pTabWidget(nullptr), _middlePressTabIndex(-1)
@@ -493,4 +496,6 @@ QString ViewWidgetContainer::buildTabTitle(wyap::Document* pDoc) const
         title.prepend("*");
     }
     return title;
+}
+
 }

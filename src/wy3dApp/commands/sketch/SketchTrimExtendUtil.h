@@ -32,6 +32,9 @@
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchTrimExtendUtil
 {
@@ -229,5 +232,7 @@ public:
         }
     }
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_TRIM_EXTEND_UTIL_H

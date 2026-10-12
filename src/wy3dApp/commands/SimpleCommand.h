@@ -24,7 +24,7 @@
 #define DEFINE_SIMPLE_CMD(CLASS) \
 class CLASS : public wyap::ImmediateCmdExecution \
 { \
-    WYRX_DECLARE_MEMBERS(CLASS, CLASS, wyap::ImmediateCmdExecution) \
+    WYRX_DECLARE_MEMBERS(CLASS, wy3dApp::CLASS, wyap::ImmediateCmdExecution) \
 public: \
     CLASS() : wyap::ImmediateCmdExecution() {}; \
     ~CLASS() {} \

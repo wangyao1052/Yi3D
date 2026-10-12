@@ -28,8 +28,11 @@
 #include "commands/GuiCommandMenu.h"
 #include "wy3dAppDefs.h"
 
-class ElementNode;
 #include "commands/edit/PasteElements.h"
+
+namespace wy3dApp {
+
+class ElementNode;
 
 class SelectGuiCmdMenu : public GuiCmdMenu
 {
@@ -46,7 +49,7 @@ private:
 
 class WY3DAPP_EXPORT SelectGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor
 {
-    WYRX_DECLARE_MEMBERS(SelectGuiCmd, SelectGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SelectGuiCmd, wy3dApp::SelectGuiCmd, OsgGuiCommand)
 
     friend class SelectGuiCmdMenu;
 public:
@@ -133,5 +136,7 @@ protected:
     // 更新状态栏提示
     virtual void updateSelectTipAndLabel();
 };
+
+}
 
 #endif // WY3DAPP_SELECT_GUI_CMD_H

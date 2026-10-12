@@ -27,6 +27,9 @@
 
 #include "gizmo/BaseGizmo.h"
 #include "gizmo/OsgGizmoNode.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 单轴移动 Gizmo 基类
 class SolidMoveGizmo : public BaseGizmo
@@ -80,5 +83,7 @@ class SolidMoveZGizmo : public SolidMoveGizmo
 public:
     explicit SolidMoveZGizmo(const wy3d::Primitive* pPrimitive);
 };
+
+}
 
 #endif // WY3DAPP_SOLID_MOVE_GIZMO_H

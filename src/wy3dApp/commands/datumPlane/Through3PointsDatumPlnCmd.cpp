@@ -25,7 +25,9 @@
 #include "scene/Colors.h"
 #include "snap/SnapConsts.h"
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 Through3PointsDatumPlnCmd::Through3PointsDatumPlnCmd()
     : OsgGuiCommand(), _step(Step::Undefined), _plane(), _pnt1st(), _pnt2nd(), _pnt3rd()
@@ -282,4 +284,6 @@ bool Through3PointsDatumPlnCmd::setPoint(const wy::Vector3& pnt, QString& error)
     }
 
     return false;
+}
+
 }

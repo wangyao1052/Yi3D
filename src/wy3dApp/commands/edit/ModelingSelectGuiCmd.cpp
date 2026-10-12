@@ -33,6 +33,9 @@
 #include "widgets/panels/featureTree/FeatureTreeWidget.h"
 #include <wy3dApp/CommandAction.h>
 #include "commands/CommandNames.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SelectGuiCmdSelFilter_Modeling : public SelectFilterFunctor
 {
@@ -220,4 +223,6 @@ bool ModelingSelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
     bool baseRet = SelectGuiCmdMenu::initCustomMiddleActions(menu);
 
     return baseRet || addShowAction || addHideAction;
+}
+
 }

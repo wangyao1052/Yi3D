@@ -17,6 +17,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "ParamEditorAdapter.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 ParamEditorRegistry& ParamEditorRegistry::instance()
 {
@@ -61,4 +64,6 @@ const ParamEditorAdapter* ParamEditorRegistry::find(
             return it->second;
     }
     return _fallback;
+}
+
 }

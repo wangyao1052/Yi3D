@@ -21,6 +21,9 @@
 #include "gizmo/BaseGizmo.h"
 #include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 OsgGizmoRenderer::OsgGizmoRenderer(BaseGizmo* pGizmo)
     : GizmoRenderer(pGizmo)
@@ -38,3 +41,4 @@ void OsgGizmoRenderer::detachFromScene(Scene* pScene)
     pScene->getGizmosGroup()->removeChild(_osgNode);
 }
 
+}

@@ -21,6 +21,9 @@
 
 #include <map>
 #include <string>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class PythonScriptExecutor
 {
@@ -46,5 +49,7 @@ public:
 private:
     void abortActiveTransaction();
 };
+
+}
 
 #endif // WY3DAPP_PYTHON_SCRIPT_EXECUTOR_H

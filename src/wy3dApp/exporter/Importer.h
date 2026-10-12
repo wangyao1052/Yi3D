@@ -25,6 +25,9 @@
 #include <QObject>
 #include <QString>
 #include <wydbDatabase.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Importer;
 
@@ -75,5 +78,7 @@ class StepImporter : public Importer
 //class IgesImporter : public Importer
 //{
 //};
+
+}
 
 #endif // WY3DAPP_IMPORTER_H

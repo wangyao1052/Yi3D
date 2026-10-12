@@ -22,6 +22,9 @@
 #include "SketchEntityGripGizmo.h"
 #include <wyVector2.h>
 #include <wy3dSketchPoint.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchPointGripGizmo : public SketchEntityGripGizmo
 {
@@ -41,5 +44,7 @@ protected:
 private:
     wy::Vector2 _position;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_POINT_GRIP_GIZMO_H

@@ -31,6 +31,9 @@
 #include <QRadioButton>
 #include <QTableWidget>
 #include <QVBoxLayout>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 MeasureCmdPanel::MeasureCmdPanel(QWidget* parent)
     : FloatingCmdPanel(parent)
@@ -426,4 +429,6 @@ QString MeasureCmdPanel::modeName() const
     case MeasureMode::Body: return tr("Body");
     }
     return QString();
+}
+
 }

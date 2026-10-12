@@ -22,6 +22,9 @@
 #include <wyapSelManager.h>
 #include <wydbDatabase.h>
 #include <wydbElementId.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SelectHandler::SelectHandler() :
     _mouseDownX(0), _mouseDownY(0), _mouseUpX(0), _mouseUpY(0), _isMouseDown(false),
@@ -234,4 +237,6 @@ void SelectHandler::updateSelectionSet_Incremental(const wyap::SelectionSet& ss,
                 pSelMgr->addSelection(iter.current());
         }
     }
+}
+
 }

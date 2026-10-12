@@ -20,6 +20,9 @@
 #define WY3DAPP_GIZMO_RENDERER_H
 
 #include <wyVector3.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class BaseGizmo;
 class Scene;
@@ -45,5 +48,7 @@ public:
 protected:
     BaseGizmo* _pGizmo;
 };
+
+}
 
 #endif // WY3DAPP_GIZMO_RENDERER_H

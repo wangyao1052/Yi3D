@@ -30,6 +30,9 @@
 #include <wy3dSketchSpline.h>
 #include "utils/MathUtils.h"
 #include "commands/sketch/SketchTrimExtendUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static const unsigned int kCirclePointsNum  = 100;
 static const unsigned int kEllipsePointsNum = 200;
@@ -394,4 +397,6 @@ SketchEntityLinearization::SketchEntityLinearization(const wy::Vector2& center, 
 SketchEntityLinearization::SketchEntityLinearization(Handle(Geom2d_BSplineCurve) pBSpline, double startParam, double endParam)
 {
     bsplineLinearization(pBSpline, _vertices, _indices, startParam, endParam);
+}
+
 }

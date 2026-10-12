@@ -27,6 +27,8 @@
 
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT ElemGizmoCreator
 {
 public:
@@ -44,5 +46,7 @@ public:
         return std::list<wyap::GizmoSPtr>();
     }
 };
+
+}
 
 #endif // WY3DAPP_ELEM_GIZMO_CREATOR_H

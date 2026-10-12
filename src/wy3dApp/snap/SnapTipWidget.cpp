@@ -22,6 +22,9 @@
 #include "SnapPixmap.h"
 #include <wy3dApp/Application.h>
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SnapTipWidget_UseLabel::SnapTipWidget_UseLabel(QWidget* parent)
     : SnapTipWidget(parent), _label(nullptr)
@@ -219,4 +222,6 @@ void SketchSnapTipMouseFollow::updatePositions()
 
         newPosGlobal += spacing;
     }
+}
+
 }

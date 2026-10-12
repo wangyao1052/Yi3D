@@ -77,9 +77,12 @@
 #include "commands/FileCommands.h"
 #include "commands/CommandNames.h"
 #include "ViewWidget.h"
+#include "wy3dAppDefs.h"
 
 #define TOOLBAR_ICON_SIZE 32
 #define QSTR(wstr) QString::fromStdWString(wstr)
+
+namespace wy3dApp {
 
 static ViewWidgetContainer* g_mainLayoutWindow = nullptr;
 
@@ -341,4 +344,6 @@ void MainWindow::onDocumentActivated(wyap::Document* pActivatedDoc)
     assert(pActivatedDoc);
     const std::string& fileName = pActivatedDoc->getFileName();
     this->setWindowTitle(QString::fromStdString(fileName));
+}
+
 }

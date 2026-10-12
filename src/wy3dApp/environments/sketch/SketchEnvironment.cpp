@@ -17,7 +17,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <wy3dApp/SketchEnvironment.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchEnvironment::~SketchEnvironment()
 {
+}
+
 }

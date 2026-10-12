@@ -29,6 +29,9 @@
 #include <wy3dApp/Application.h>
 
 #include "commands/OsgCoordUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -527,4 +530,6 @@ double Sketch3DSnapSystem::computePixelScale(
     }
     // 1世界单位=pxX/pxY像素 → 1像素=(pxX+pxY)/2取倒数的世界单位
     return 2.0 / (pxX + pxY);
+}
+
 }

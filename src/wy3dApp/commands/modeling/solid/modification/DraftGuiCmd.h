@@ -23,6 +23,9 @@
 #include <wy3dDraft.h>
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class DraftGuiCmd : public OsgGuiCommand
 {
@@ -79,5 +82,7 @@ private:
     SelectionSetHighlightorSPtr _pSelSetHighlightor;
     SelectionSetHighlightorSPtr _pSelSetHighlightor_NeutralFace;
 };
+
+}
 
 #endif // WY3DAPP_DRAFT_GUI_CMD_H

@@ -28,6 +28,9 @@
 #include "gizmo/BaseGizmo.h"
 #include "gizmo/operation/SketchEntityDragOperation.h"
 #include "snap/SketchSnapContext.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchEntityGripGizmo : public BaseGizmo
 {
@@ -68,5 +71,7 @@ protected:
     friend class SketchEntityDragOperation;
     friend class SketchGripOsgRenderer;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ENTITY_GRIP_GIZMO_H

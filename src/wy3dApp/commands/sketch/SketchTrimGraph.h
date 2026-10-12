@@ -27,6 +27,9 @@
 #include <wy3dSketchCurve.h>
 
 #include "SketchTrimNode.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchTrimGraph
 {
@@ -55,5 +58,7 @@ private:
     // 所有结点
     std::map<wydb::ElementId, SketchTrimNodeSPtr> _id2Node;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_TRIM_GRAPH_H

@@ -25,6 +25,9 @@
 #include <wy3dVector3.h>
 #include <wy3dCylinder.h>
 #include "commands/modeling/solid/primitives/MakePrimitiveGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeCylinder;
 class SketchCircleTransient;
@@ -33,7 +36,7 @@ class GuiCmdHoverInputPopup2;
 
 class MakeCylinderGuiCmd : public MakePrimitiveGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(MakeCylinderGuiCmd, MakeCylinderGuiCmd, MakePrimitiveGuiCmd)
+    WYRX_DECLARE_MEMBERS(MakeCylinderGuiCmd, wy3dApp::MakeCylinderGuiCmd, MakePrimitiveGuiCmd)
 public:
     MakeCylinderGuiCmd();
     virtual ~MakeCylinderGuiCmd();
@@ -120,5 +123,7 @@ private:
     wy::Vector3 _initOrigin;
     wy::Vector3 _zAxis;
 };
+
+}
 
 #endif // WY3DAPP_MAKE_CYLINDER_GUI_CMD_H

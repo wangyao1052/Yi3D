@@ -20,10 +20,13 @@
 #define WY3DAPP_MODELING_ROTATE_GUI_CMD_H
 
 #include "commands/edit/RotateGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ModelingRotateGuiCmd : public RotateGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(ModelingRotateGuiCmd, ModelingRotateGuiCmd, RotateGuiCmd)
+    WYRX_DECLARE_MEMBERS(ModelingRotateGuiCmd, wy3dApp::ModelingRotateGuiCmd, RotateGuiCmd)
 public:
     ModelingRotateGuiCmd();
     virtual ~ModelingRotateGuiCmd();
@@ -36,5 +39,7 @@ protected:
     virtual void onStart_EnvSpecific() override;
     virtual void cleanupEnvSpecific() override;
 };
+
+}
 
 #endif // WY3DAPP_MODELING_ROTATE_GUI_CMD_H

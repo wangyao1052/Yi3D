@@ -21,6 +21,9 @@
 #include "../ParamCheckBox.h"
 
 #include <wydbParameter.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class CheckBoxEditorAdapter : public ParamEditorAdapter
 {
@@ -54,3 +57,5 @@ static struct {
         }
     } reg;
 } _regCheckBoxEditor;
+
+}

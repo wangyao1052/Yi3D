@@ -48,7 +48,9 @@
 #include "scene/RenderConst.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include "scene/nodes/ElementNodeType.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 SketchTrimGuiCmd::SketchTrimGuiCmd() : OsgGuiCommand()
 {
@@ -939,4 +941,6 @@ void TrimSegmentTransient::initGeom(osg::ref_ptr<osg::Vec3Array> vertices, const
     }
     // 添加到根节点
     _root->addChild(geom.get());
+}
+
 }

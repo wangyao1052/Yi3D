@@ -27,6 +27,9 @@
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 #include "commands/GuiCommandMenu.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ChamferGuiCmd : public OsgGuiCommand
 {
@@ -107,5 +110,7 @@ private:
 
     friend class ChamferGuiCmdMenu;
 };
+
+}
 
 #endif // WY3DAPP_CHAMFER_GUI_CMD_H

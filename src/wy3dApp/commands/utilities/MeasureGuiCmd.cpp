@@ -39,6 +39,9 @@
 #include "snap/SketchSnapSystem.h"
 #include "utils/MeasureUtil.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -462,7 +465,7 @@ void MeasureGuiCmd::setMode(MeasureMode mode)
         const char* tip = QT_TR_NOOP("Select an edge.");
         if (MeasureMode::Face == mode) tip = QT_TR_NOOP("Select a face.");
         else if (MeasureMode::Body == mode) tip = QT_TR_NOOP("Select a body.");
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MeasureGuiCmd", tip));
+        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("wy3dApp::MeasureGuiCmd", tip));
     }
 }
 
@@ -824,4 +827,6 @@ void MeasureLengthLabel::timerEvent(QTimerEvent* event)
     {
         this->move(newPosLocal);
     }
+}
+
 }

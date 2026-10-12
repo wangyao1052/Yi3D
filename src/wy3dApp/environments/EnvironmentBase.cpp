@@ -28,8 +28,11 @@
 #include "commands/CommandNames.h"
 #include <wy3dApp/Scene.h>
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
 
 #define TOOLBAR_ICON_SIZE 32
+
+namespace wy3dApp {
 
 EnvironmentBase::EnvironmentBase() : _isCmdTerminatedOnEventLoopPosted(false)
 {
@@ -459,4 +462,6 @@ void EnvironmentBase::syncDisplayModeAction()
         break;
     }
     if (pAction) pAction->trigger();
+}
+
 }

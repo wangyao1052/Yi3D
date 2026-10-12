@@ -37,6 +37,9 @@
 #include <QGridLayout>
 
 #include <wy3dApp/Application.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 TransformLineEdit::TransformLineEdit(
     TransformUnit unit,
@@ -195,4 +198,6 @@ void TransformLineEdit::getCurrParamValueFromDb(bool& isAllTheSameValue, wydb::P
             }
         }
     }
+}
+
 }

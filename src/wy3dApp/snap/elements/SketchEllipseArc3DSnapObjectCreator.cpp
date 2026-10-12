@@ -20,6 +20,9 @@
 #include <cassert>
 #include <wy3dSketchEllipseArc3D.h>
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> SketchEllipseArc3DSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -37,4 +40,6 @@ std::list<wyap::SnapObjectSPtr> SketchEllipseArc3DSnapObjectCreator::createSnapO
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipseArc->getId(), pEllipseArc->getStartPoint()));
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipseArc->getId(), pEllipseArc->getEndPoint()));
     return snapPoints;
+}
+
 }

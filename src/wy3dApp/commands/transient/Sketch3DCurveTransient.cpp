@@ -28,6 +28,9 @@
 #include <wy3dSketchCircle3D.h>
 
 #include "scene/RenderConst.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 采样段数(圆/弧足够圆滑,直线多点无碍)
 static const int kSampleSegments = 64;
@@ -128,4 +131,6 @@ void Sketch3DCurveTransient::initGeom(const std::vector<wy::Vector3>& points, bo
     geom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(3.0));
 
     _root->addChild(geom.get());
+}
+
 }

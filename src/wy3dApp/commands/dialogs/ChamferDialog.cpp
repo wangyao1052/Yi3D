@@ -27,6 +27,9 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <wy3dImpl.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 ChamferDistanceLineEdit::ChamferDistanceLineEdit(QWidget* parent) : QLineEdit(parent)
 {
@@ -238,4 +241,6 @@ void ChamferDialog::keyPressEvent(QKeyEvent* event)
     }
 
     QWidget::keyPressEvent(event);
+}
+
 }

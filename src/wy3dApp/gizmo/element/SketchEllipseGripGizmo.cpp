@@ -19,6 +19,9 @@
 #include "SketchEllipseGripGizmo.h"
 #include <wyVector2.h>
 #include <wy3dSketchEllipse.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchEllipseGripGizmo::SketchEllipseGripGizmo(const wy3d::SketchEllipse* pSketchEllipse, Type type)
     : SketchEntityGripGizmo(pSketchEllipse), _type(type), _startMajorRadius(0.0), _startMinorRadius(0.0)
@@ -161,4 +164,6 @@ void SketchEllipseGripGizmo::onEndDrag(wydb::Database* pDb, bool commit)
     }
     pTransMgr->endTransaction();
     return;
+}
+
 }

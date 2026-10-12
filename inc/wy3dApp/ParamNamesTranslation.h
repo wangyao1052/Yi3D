@@ -26,6 +26,8 @@
 
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT ParamNamesTranslation : public QObject
 {
     Q_OBJECT
@@ -43,5 +45,7 @@ private:
     explicit ParamNamesTranslation(QObject* parent = nullptr);
     ~ParamNamesTranslation();
 };
+
+}
 
 #endif // WY3D_APP_PARAM_NAMES_TRANSLATION_H

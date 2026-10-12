@@ -22,6 +22,9 @@
 #include <TopoDS_Shape.hxx>
 
 #include <utility>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MeasureUtil
 {
@@ -35,5 +38,7 @@ public:
     static std::pair<bool, double> bodyVolume(const TopoDS_Shape& shape);
     static std::pair<bool, double> bodySurfaceArea(const TopoDS_Shape& shape);
 };
+
+}
 
 #endif // WY3DAPP_MEASURE_UTIL_H

@@ -20,11 +20,16 @@
 #define WY3DAPP_SKETCH_ELLIPSE_GIZMO_CREATOR_H
 
 #include <wy3dApp/ElemGizmoCreator.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchEllipseGizmoCreator : public ElemGizmoCreator
 {
 public:
     virtual std::list<wyap::GizmoSPtr> createGizmos(const wydb::Element* pElem) const override;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ELLIPSE_GIZMO_CREATOR_H

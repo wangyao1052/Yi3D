@@ -44,7 +44,9 @@
 #include <wy3dSketchEllipse.h>
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchSpline.h>
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 double SketchFilletGuiCmd::_R = 10.0;  // 圆角半径
 
@@ -1096,4 +1098,6 @@ bool SketchFilletGuiCmd::filletArc(wydb::Database* pDb, const wy::Vector2& cente
 ABORT_TRANS:
     pDb->getTransactionManager()->abortTransaction();
     return false;
+}
+
 }

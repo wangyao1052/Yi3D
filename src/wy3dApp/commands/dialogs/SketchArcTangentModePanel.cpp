@@ -20,6 +20,9 @@
 
 #include <QRadioButton>
 #include <QVBoxLayout>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchArcTangentModePanel::SketchArcTangentModePanel(QWidget* parent)
     : FloatingCmdPanel(parent)
@@ -70,4 +73,6 @@ void SketchArcTangentModePanel::setMode(ArcTangentMode mode)
     _mode = mode;
     _pRbPassPoint->setChecked(ArcTangentMode::PassPoint == mode);
     _pRbRadius->setChecked(ArcTangentMode::Radius == mode);
+}
+
 }

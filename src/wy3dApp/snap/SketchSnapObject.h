@@ -25,6 +25,9 @@
 #include <wydbElementId.h>
 #include <wydbElement.h>
 #include <wy3dSketchCurve.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 草图捕捉类型
 enum class SketchSnapType
@@ -376,5 +379,7 @@ public:
     virtual SketchSnapType getType() const override { return SketchSnapType::CenterPoint; }
 };
 typedef std::shared_ptr<CenterPointSnapObject> CenterPointSnapObjectSPtr;
+
+}
 
 #endif // WY3DAPP_SKETCH_SNAP_OBJECT_H

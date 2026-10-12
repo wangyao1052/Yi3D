@@ -25,6 +25,9 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QTimer>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SnapTipWidget : public QWidget
 {
@@ -145,5 +148,7 @@ private:
     int _timerId;
     std::vector<SnapTipWidget*> _tips;
 };
+
+}
 
 #endif // WY3DAPP_SNAP_TIP_WIDGET_H

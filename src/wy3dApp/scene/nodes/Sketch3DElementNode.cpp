@@ -30,6 +30,9 @@
 #include "scene/SketchEntity3DLinearization.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool Sketch3DElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
 {
@@ -436,4 +439,6 @@ unsigned int Sketch3DElementNode::getCurveIndexById(unsigned int id) const
         }
     }
     return static_cast<unsigned int>(-1);
+}
+
 }

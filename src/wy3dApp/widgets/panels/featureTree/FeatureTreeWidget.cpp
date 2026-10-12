@@ -98,6 +98,9 @@
 #include "utils/TransactionUtil.h"
 #include "utils/MessageBoxUtil.h"
 #include "utils/CopyPasteUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 const int FeatureTreeWidget::kColumn_Name = 0;
 const int FeatureTreeWidget::kColumn_Id = 1;
@@ -1676,4 +1679,6 @@ void FeatureTreeWidget::onTreeViewClicked(const QModelIndex& index)
     GuiCommand* pGuiCommand = dynamic_cast<GuiCommand*>(pCmdExecutor);
     if (!pGuiCommand) return; // 当前模态命令不是GuiCommand时忽略
     pGuiCommand->onFeatureTreeItemClicked(id);
+}
+
 }

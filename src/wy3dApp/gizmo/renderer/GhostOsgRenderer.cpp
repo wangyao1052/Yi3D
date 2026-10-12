@@ -19,6 +19,9 @@
 #include "GhostOsgRenderer.h"
 #include <cassert>
 #include "gizmo/BaseGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 GhostOsgRenderer::GhostOsgRenderer(BaseGizmo* pGizmo)
     : OsgGizmoRenderer(pGizmo)
@@ -27,3 +30,4 @@ GhostOsgRenderer::GhostOsgRenderer(BaseGizmo* pGizmo)
     _osgNode->setNodeMask(~PICK_GIZMO_MASK);
 }
 
+}

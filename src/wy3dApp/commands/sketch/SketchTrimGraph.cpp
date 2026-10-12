@@ -31,6 +31,9 @@
 #include <wy3dSketchEllipseArc.h>
 
 #include <wy3dApp/Application.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchTrimGraph::SketchTrimGraph(const wy3d::Sketch* pSketch, double tol) : _pSketch(pSketch), _tol(tol), _isValid(false)
 {
@@ -211,4 +214,6 @@ SketchTrimSegment SketchTrimGraph::pick(const wydb::ElementId& id, const wy::Vec
     }
 
     return iter->second->pick(this, position);
+}
+
 }

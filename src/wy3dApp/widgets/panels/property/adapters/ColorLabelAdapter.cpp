@@ -25,6 +25,9 @@
 
 #include <typeindex>
 #include <cassert>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ColorLabelAdapter : public ParamEditorAdapter
 {
@@ -61,3 +64,5 @@ static struct {
         }
     } reg;
 } _regColorLabel;
+
+}

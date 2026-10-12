@@ -25,10 +25,13 @@
 #include <wydbElementId.h>
 #include <wyapCmdExecution.h>
 #include <wy3dPlane.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchEquationDrivenSplineCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(SketchEquationDrivenSplineCommand, SketchEquationDrivenSplineCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(SketchEquationDrivenSplineCommand, wy3dApp::SketchEquationDrivenSplineCommand, wyap::ImmediateCmdExecution)
 public:
     SketchEquationDrivenSplineCommand() : wyap::ImmediateCmdExecution(), _sketchId(wydb::ElementId::kNull) {};
 
@@ -44,5 +47,7 @@ private:
     wy3d::Plane _sketchPlane;
     wydb::ElementId _sketchId;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_EQUATION_DRIVEN_SPLINE_COMMAND_H

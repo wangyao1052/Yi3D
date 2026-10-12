@@ -25,6 +25,8 @@
 #include "environments/ICommandActionStateHost.h"
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT ModelingEnvironment
     : public EnvironmentBase
     , public wyap::DocumentEnvironment
@@ -34,5 +36,7 @@ protected:
     ModelingEnvironment() = default;
     ~ModelingEnvironment();
 };
+
+}
 
 #endif // WY3DAPP_MODELING_ENVIRONMENT_H

@@ -35,6 +35,9 @@
 #include "widgets/frame/MainWindow.h"
 #include "widgets/frame/ViewWidget.h"
 #include "widgets/frame/ViewWidgetContainer.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -1033,4 +1036,6 @@ void GuiCmdHoverInputPopup2_2ndTabLabel::applyPresetWidths()
     _pRowEdit->setMaximumWidth(valueWidth);
     _pDirectionEdit->setMinimumWidth(valueWidth);
     _pDirectionEdit->setMaximumWidth(valueWidth);
+}
+
 }

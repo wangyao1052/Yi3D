@@ -22,6 +22,9 @@
 #include <QFileInfo>
 #include <QSettings>
 #include <QLocale>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 const std::string Config::kConfigFileName = "config.ini";
 
@@ -271,4 +274,6 @@ bool Config::readDouble(const QSettings& settings, const QString& key, double& o
     {
         return false;
     }
+}
+
 }

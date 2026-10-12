@@ -21,6 +21,9 @@
 #include <wy3dTube.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> TubeSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -52,4 +55,6 @@ std::list<wyap::SnapObjectSPtr> TubeSnapObjectCreator::createSnapObjects(const w
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, -outerRadius, height, matrix));
 
     return snapPoints;
+}
+
 }

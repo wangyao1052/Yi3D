@@ -26,6 +26,9 @@
 
 #include "operation/GizmoOperation.h"
 #include "renderer/GizmoRenderer.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 struct MouseEvent;
 struct KeyEvent;
@@ -64,5 +67,7 @@ protected:
 };
 
 #define PICK_GIZMO_MASK 0x0000FFFF
+
+}
 
 #endif // WY3DAPP_BASE_GIZMO_H

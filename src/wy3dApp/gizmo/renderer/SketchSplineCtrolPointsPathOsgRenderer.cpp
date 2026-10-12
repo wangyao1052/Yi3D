@@ -27,6 +27,9 @@
 #include "gizmo/BaseGizmo.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/Application.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 void SketchSplineCtrolPointsPathOsgRenderer::refresh()
 {
@@ -123,4 +126,6 @@ osg::ref_ptr<osg::Geometry> SketchSplineCtrolPointsPathOsgRenderer::generateGeom
             osg::StateAttribute::ON);
     }
     return geometry;
+}
+
 }

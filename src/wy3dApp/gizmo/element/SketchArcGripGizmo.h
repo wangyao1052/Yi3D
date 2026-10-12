@@ -22,6 +22,9 @@
 #include "SketchEntityGripGizmo.h"
 #include <wyVector2.h>
 #include <wy3dSketchArc.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchArcGripGizmo : public SketchEntityGripGizmo
 {
@@ -54,5 +57,7 @@ private:
     wy::Vector2 _startEPnt;
     wy::Vector2 _startMPnt;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ARC_GRIP_GIZMO_H

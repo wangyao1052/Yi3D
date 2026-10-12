@@ -27,6 +27,9 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wy3dApp/SelectPreview.h>
 #include "commands/GuiCommandMenu.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class CheckTopoNameGuiCmd : public OsgGuiCommand
 {
@@ -75,5 +78,7 @@ protected:
 private:
     void onCheckAll();
 };
+
+}
 
 #endif // WY3DAPP_CHECK_TOPONAME_GUI_CMD_H

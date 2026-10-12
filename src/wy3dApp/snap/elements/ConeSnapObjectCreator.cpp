@@ -21,6 +21,9 @@
 #include <wy3dCone.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> ConeSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -48,3 +51,4 @@ std::list<wyap::SnapObjectSPtr> ConeSnapObjectCreator::createSnapObjects(const w
     return snapPoints;
 }
 
+}

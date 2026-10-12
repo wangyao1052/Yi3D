@@ -30,6 +30,9 @@
 
 #include <wy3dMakeSketchText.h>
 #include "commands/sketch/SketchTextCommand.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchTextDialog : public QDialog
 {
@@ -111,5 +114,7 @@ private:
     // 字体面序号
     FT_Long _fontFaceIndex;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_TEXT_DIALOG_H

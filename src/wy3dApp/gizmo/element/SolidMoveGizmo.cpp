@@ -35,12 +35,15 @@
 #include "gizmo/renderer/SolidMoveOsgRenderer.h"
 #include "gizmo/renderer/OsgGizmoRenderer.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
 
 #define RADIUS 2.0
 #define LEN1 50.0
 #define LEN2 20.0
 
 // ── 辅助函数 ──
+
+namespace wy3dApp {
 
 static bool computeClosestPoints(const osg::LineSegment& l1, const osg::LineSegment& l2,
     osg::Vec3d& p1, osg::Vec3d& p2)
@@ -238,4 +241,6 @@ SolidMoveZGizmo::SolidMoveZGizmo(const wy3d::Primitive* pPrimitive)
         OsgGizmoNode::BLUE_COLOR,
         osg::Quat())
 {
+}
+
 }

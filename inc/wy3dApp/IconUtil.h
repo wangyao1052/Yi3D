@@ -24,10 +24,14 @@
 
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT IconUtil
 {
 public:
     static QIcon get(const QString& path);
 };
+
+}
 
 #endif // WY3DAPP_ICON_UTIL_H

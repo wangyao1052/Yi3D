@@ -40,12 +40,15 @@
 
 #include <wy3dApp/GuiCmdTransient.h>
 #include "SketchTrimGraph.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class TrimSegmentTransient;
 
 class SketchTrimGuiCmd : public OsgGuiCommand, public wydb::DatabaseReactor
 {
-    WYRX_DECLARE_MEMBERS(SketchTrimGuiCmd, SketchTrimGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchTrimGuiCmd, wy3dApp::SketchTrimGuiCmd, OsgGuiCommand)
 public:
     SketchTrimGuiCmd();
     virtual ~SketchTrimGuiCmd();
@@ -127,5 +130,7 @@ private:
     SketchTrimSegment _trimSegment;
     osg::ref_ptr<osg::LineStipple> _lineStipple;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_TRIM_GUI_CMD_H

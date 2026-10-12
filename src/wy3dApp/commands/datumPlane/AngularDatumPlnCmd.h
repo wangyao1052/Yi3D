@@ -28,12 +28,15 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/datumPlane/MakeDatumPlane.h"
 #include "commands/transient/SketchCurveTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopup1;
 
 class AngularDatumPlnCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(AngularDatumPlnCmd, AngularDatumPlnCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(AngularDatumPlnCmd, wy3dApp::AngularDatumPlnCmd, OsgGuiCommand)
 public:
     AngularDatumPlnCmd();
     ~AngularDatumPlnCmd();
@@ -141,7 +144,7 @@ protected:
 
 class PerpendicularDatumPlnCmd : public AngularDatumPlnCmd
 {
-    WYRX_DECLARE_MEMBERS(PerpendicularDatumPlnCmd, PerpendicularDatumPlnCmd, AngularDatumPlnCmd)
+    WYRX_DECLARE_MEMBERS(PerpendicularDatumPlnCmd, wy3dApp::PerpendicularDatumPlnCmd, AngularDatumPlnCmd)
 protected:
     virtual void initStep2ndTip() override;
     virtual bool finishStep(Step step) override;
@@ -149,10 +152,12 @@ protected:
 
 class ThroughAxisDatumPlnCmd : public AngularDatumPlnCmd
 {
-    WYRX_DECLARE_MEMBERS(ThroughAxisDatumPlnCmd, ThroughAxisDatumPlnCmd, AngularDatumPlnCmd)
+    WYRX_DECLARE_MEMBERS(ThroughAxisDatumPlnCmd, wy3dApp::ThroughAxisDatumPlnCmd, AngularDatumPlnCmd)
 protected:
     virtual void initStep2ndTip() override;
     virtual bool finishStep(Step step) override;
 };
+
+}
 
 #endif 

@@ -19,6 +19,10 @@
 #ifndef WY3DAPP_CURSOR_TYPE_H
 #define WY3DAPP_CURSOR_TYPE_H
 
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
+
 enum class CursorType
 {
     Select = 0,
@@ -29,5 +33,7 @@ enum class CursorType
     Rotate = 5,
     Pan = 6,
 };
+
+}
 
 #endif // WY3DAPP_CURSOR_TYPE_H

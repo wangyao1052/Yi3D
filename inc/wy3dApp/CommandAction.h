@@ -24,6 +24,8 @@
 
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT CommandAction : public QAction
 {
 public:
@@ -42,5 +44,7 @@ private:
 private:
     std::string _commandName;
 };
+
+}
 
 #endif // WY3DAPP_COMMAND_ACTION_H

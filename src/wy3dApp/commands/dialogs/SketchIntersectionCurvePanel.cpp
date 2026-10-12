@@ -23,6 +23,9 @@
 #include <QKeyEvent>
 #include <QRadioButton>
 #include <QVBoxLayout>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchIntersectionCurvePanel::SketchIntersectionCurvePanel(QWidget* parent)
     : FloatingCmdPanel(parent)
@@ -98,4 +101,6 @@ bool SketchIntersectionCurvePanel::eventFilter(QObject* watched, QEvent* event)
 bool SketchIntersectionCurvePanel::isFit() const
 {
     return _pRbFit->isChecked();
+}
+
 }

@@ -33,7 +33,9 @@
 #include <wy3dApp/ElementNode.h>
 #include "scene/RenderConst.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 MoveElemens::MoveElemens(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 {
@@ -199,4 +201,6 @@ bool MoveElemens::perform(const wyap::SelectionSet& ss, const wy::Vector3& moveV
     _pDb->getTransactionManager()->endTransaction();
 
     return true;
+}
+
 }

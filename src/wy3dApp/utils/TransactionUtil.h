@@ -21,6 +21,9 @@
 
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class TransactionUtil
 {
@@ -29,5 +32,7 @@ public:
 
     static wydb::Transaction* startSolitaryTransaction(wydb::Database* pDb);
 };
+
+}
 
 #endif // WY3DAPP_TRANSACTION_UTIL_H

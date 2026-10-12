@@ -21,6 +21,9 @@
 #include <wy3dBoolean.h>
 #include <wy3dPrimitive.h>
 #include "gizmo/element/SolidMoveGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SolidDragOperation::SolidDragOperation(wydb::Database* pDb, BaseGizmo* pGizmo)
     : GizmoOperation(pDb, pGizmo)
@@ -165,4 +168,6 @@ bool SolidDragOperation::perform()
         pTransMgr->abortTransaction();
         return false;
     }
+}
+
 }

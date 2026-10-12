@@ -23,6 +23,9 @@
 #include <osg/Polytope>
 #include <wyVector3.h>
 #include "SnapSystemBase.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SnapObject : public wyap::SnapObject
 {
@@ -137,5 +140,7 @@ public:
 
     virtual Type getType() const override { return Type::Center; }
 };
+
+}
 
 #endif // WY3DAPP_SNAP_OBJECT_H

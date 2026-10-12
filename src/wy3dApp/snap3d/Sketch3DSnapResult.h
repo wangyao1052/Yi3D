@@ -26,6 +26,9 @@
 
 #include "snap3d/Sketch3DSnapObject.h"
 #include "snap/SnapTipWidget.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchSnapTipMouseFollow;
 class GuiCmdTransient;
@@ -69,5 +72,7 @@ private:
 };
 
 using Sketch3DSnapResultSPtr = std::shared_ptr<Sketch3DSnapResult>;
+
+}
 
 #endif // WY3DAPP_SKETCH3D_SNAP_RESULT_H

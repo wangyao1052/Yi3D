@@ -18,6 +18,9 @@
 
 #include "OsgGizmoNode.h"
 #include "scene/RenderConst.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 const osg::Vec4 OsgGizmoNode::RED_COLOR = osg::Vec4(0.7f, 0.0f, 0.0f, 1.0f);
 // modified by wangyao 2025.04.27 {
@@ -46,4 +49,6 @@ OsgGizmoNode::OsgGizmoNode(const OsgGizmoNode& rhs, const osg::CopyOp& copyop)
 
 OsgGizmoNode::~OsgGizmoNode()
 {
+}
+
 }

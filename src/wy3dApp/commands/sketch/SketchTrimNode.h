@@ -30,6 +30,9 @@
 #include <wy3dSketchCurve.h>
 #include <wy3dSketchSpline.h>
 #include <RTree/RTree.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchTrimGraph;
 
@@ -150,5 +153,7 @@ private:
     std::list<std::shared_ptr<SketchTrimNode>> _children;
 };
 typedef std::shared_ptr<SketchTrimNode> SketchTrimNodeSPtr;
+
+}
 
 #endif // WY3DAPP_SKETCH_TRIM_NODE_H

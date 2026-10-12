@@ -34,6 +34,9 @@
 #include "widgets/panels/DockPanelManager.h"
 #include "PropertyEditorWidget.h"
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static void setWidgetFontSize(QWidget* pWidget, int pointSize = 12)
 {
@@ -230,4 +233,6 @@ bool ParamComboBox::modifyElement(wydb::Element* pElem, const wydb::ParameterVal
     }
     wy::ErrorStatus error = pElem->setParameterValue(_className, _paramName, paramValue);
     return wy::ErrorStatus::Ok == error;
+}
+
 }

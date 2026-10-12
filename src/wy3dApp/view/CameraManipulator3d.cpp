@@ -24,6 +24,9 @@
 #include <GeomAPI_IntCS.hxx>
 #include "scene/RenderConst.h"
 #include "scene/nodes/ElementNodeType.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 CameraManipulator3d::CameraManipulator3d()
 	: osgGA::TrackballManipulator(), _maxNearFarDis(1000.0)
@@ -492,4 +495,6 @@ bool CameraManipulator3d::handleMouseWheelImpl_Ortho(const osgGA::GUIEventAdapte
 	}
 
 	return true;
+}
+
 }

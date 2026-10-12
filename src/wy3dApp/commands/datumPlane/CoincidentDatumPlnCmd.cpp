@@ -21,7 +21,9 @@
 #include "select/SketchPlaneSelFilter.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 CoincidentDatumPlnCmd::CoincidentDatumPlnCmd()
     : OsgGuiCommand(), _step(Step::Undefined), _plane()
@@ -175,4 +177,6 @@ void CoincidentDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
     }
 
     return;
+}
+
 }

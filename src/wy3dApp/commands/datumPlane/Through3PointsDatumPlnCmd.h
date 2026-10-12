@@ -25,10 +25,13 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/datumPlane/MakeDatumPlane.h"
 #include "commands/transient/BasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Through3PointsDatumPlnCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(Through3PointsDatumPlnCmd, Through3PointsDatumPlnCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(Through3PointsDatumPlnCmd, wy3dApp::Through3PointsDatumPlnCmd, OsgGuiCommand)
 public:
     Through3PointsDatumPlnCmd();
     ~Through3PointsDatumPlnCmd();
@@ -68,5 +71,7 @@ protected:
     // 创建基准面
     std::shared_ptr<MakeDatumPlane> _pMakeDatumPlane;
 };
+
+}
 
 #endif // WY3DAPP_THROUGH_3_POINTS_DATUM_PLN_CMD_H

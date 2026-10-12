@@ -21,6 +21,9 @@
 
 #include <cassert>
 #include <osg/Geometry>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 绘制类型
 enum class DrawMode
@@ -87,6 +90,8 @@ inline DrawMode PickCommon::getDrawableMode(osg::Drawable* drawable)
     assert(drawable);
     osg::Geometry* geometry = dynamic_cast<osg::Geometry*>(drawable);
     return getDrawableModeOfGeometry(geometry);
+}
+
 }
 
 #endif // WY3DAPP_PICK_COMMON_H

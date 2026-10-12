@@ -22,6 +22,9 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class LinearPatternGuiCmd : public OsgGuiCommand
 {
@@ -74,5 +77,7 @@ private:
     // 工作面预览
     SelectPreview _workPlnPreview;
 };
+
+}
 
 #endif // WY3DAPP_LINEAR_PATTERN_GUI_CMD_H

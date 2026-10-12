@@ -24,6 +24,9 @@
 #include <wy3dSweep.h>
 #include "commands/transient/ValidSketchTransient.h"
 #include "select/SelectionSetHighlightor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSweep;
 
@@ -140,5 +143,7 @@ private:
     bool _isCut;
     wy3d::Sweep* _pSweep;
 };
+
+}
 
 #endif // WY3DAPP_SWEEP_GUI_CMD_H

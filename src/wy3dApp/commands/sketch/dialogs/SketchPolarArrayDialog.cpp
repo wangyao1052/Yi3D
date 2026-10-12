@@ -27,6 +27,9 @@
 #include <QMessageBox>
 #include <QRegExpValidator>
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchPolarArrayDialog::SketchPolarArrayDialog(
     const QString& title,
@@ -153,4 +156,6 @@ void SketchPolarArrayDialog::onOkBtnClicked()
 void SketchPolarArrayDialog::onCancelBtnClicked()
 {
     this->reject();
+}
+
 }

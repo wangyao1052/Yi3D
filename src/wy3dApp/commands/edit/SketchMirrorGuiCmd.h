@@ -26,6 +26,10 @@
 #include <wyapSelection.h>
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCommandMenu.h"
+#include "commands/edit/MirrorElements.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopup2;
 class MirrorElemens;
@@ -33,7 +37,7 @@ class LineTransient;
 
 class SketchMirrorGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchMirrorGuiCmd, SketchMirrorGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchMirrorGuiCmd, wy3dApp::SketchMirrorGuiCmd, OsgGuiCommand)
 public:
     SketchMirrorGuiCmd();
     virtual ~SketchMirrorGuiCmd();
@@ -124,6 +128,6 @@ private:
     friend class MirrorGuiCmdMenu;
 };
 
-#include "commands/edit/MirrorElements.h"
+}
 
 #endif // WY3DAPP_SKETCH_MIRROR_GUI_CMD_H

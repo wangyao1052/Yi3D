@@ -33,13 +33,16 @@
 #include <wy3dSketchEllipseArc.h>
 
 #include "commands/transient/SketchCurveTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class OffsetSketchCurve;
 class GuiCmdHoverInputPopup1;
 
 class SketchOffsetGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchOffsetGuiCmd, SketchOffsetGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchOffsetGuiCmd, wy3dApp::SketchOffsetGuiCmd, OsgGuiCommand)
 public:
     SketchOffsetGuiCmd();
     virtual ~SketchOffsetGuiCmd();
@@ -214,5 +217,7 @@ private:
     bool _orient; // true --- 表示向外偏移
     wy3d::SketchArc* _pSketchArc;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_OFFSET_GUI_CMD_H

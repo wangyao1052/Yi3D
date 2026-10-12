@@ -20,11 +20,16 @@
 #define WY3DAPP_SKETCH_CENTER_LINE_GIZMO_CREATOR_H
 
 #include <wy3dApp/ElemGizmoCreator.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchCenterLineGizmoCreator : public ElemGizmoCreator
 {
 public:
     virtual std::list<wyap::GizmoSPtr> createGizmos(const wydb::Element* pElem) const override;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_CENTER_LINE_GIZMO_CREATOR_H

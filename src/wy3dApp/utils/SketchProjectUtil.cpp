@@ -42,6 +42,9 @@
 #include <wy3dImpl.h>
 #include <wy3dMath.h>
 #include "MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -479,4 +482,6 @@ SketchProjectUtil::ProjectResult SketchProjectUtil::projectEdge(
     {
         return ProjectResult::ProjectFailed;
     }
+}
+
 }

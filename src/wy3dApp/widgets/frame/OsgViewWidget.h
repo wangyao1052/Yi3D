@@ -32,10 +32,14 @@
 #include <osgQOpenGL/osgQOpenGLWidget>
 #include <osgViewer/View>
 #include <osgViewer/Viewer>
+#include "wy3dAppDefs.h"
 
 class CameraManipulator;
-class OsgGuiEventDispatcher;
 class StateButton;
+
+namespace wy3dApp {
+
+class OsgGuiEventDispatcher;
 
 class OsgViewWidget : public ViewWidget
 {
@@ -73,5 +77,7 @@ private:
 	bool _navCursorActive;
 	QCursor _cursorBeforeNav;
 };
+
+}
 
 #endif // WY3DAPP_OSG_VIEW_WIDGET_H

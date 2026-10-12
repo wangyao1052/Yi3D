@@ -23,6 +23,9 @@
 #include <map>
 #include <set>
 #include <string>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class StlUtil
 {
@@ -48,5 +51,7 @@ public:
         return map.lower_bound(value);
     }
 };
+
+}
 
 #endif // WY3DAPP_STL_UTIL_H

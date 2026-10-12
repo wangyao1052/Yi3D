@@ -22,6 +22,9 @@
 #include <QStyledItemDelegate>
 #include <QPainter>
 #include <QTreeView>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class FeatureTreeHoverDelegate : public QStyledItemDelegate
 {
@@ -38,5 +41,7 @@ private:
     QTreeView* _treeView;
     QPersistentModelIndex _hoveredIndex;
 };
+
+}
 
 #endif // WY3DAPP_FEATURE_TREE_HOVER_DELEGATE_H

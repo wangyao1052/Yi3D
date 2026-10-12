@@ -28,6 +28,9 @@
 #include <QStackedWidget>
 #include <QButtonGroup>
 #include <QToolButton>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 ShortcutKeysDialog::ShortcutKeysDialog(QWidget *parent)
     : QDialog(parent)
@@ -220,4 +223,6 @@ void ShortcutKeysDialog::addShortcut(QWidget* parent, const QString& key, const 
     pRow->addWidget(pDescLabel, 1);
 
     static_cast<QVBoxLayout*>(parent->layout())->addLayout(pRow);
+}
+
 }

@@ -43,6 +43,9 @@
 #include "SketchSnapObject.h"
 #include "SketchSnapResult.h"
 #include "select/PointPick.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchSnapSystem : public wydb::DatabaseReactor
 {
@@ -610,5 +613,7 @@ private:
 };
 
 typedef std::shared_ptr<SketchSnapSystem> SketchSnapSystemSPtr;
+
+}
 
 #endif // WY3DAPP_SKETCH_SNAP_SYSTEM_H

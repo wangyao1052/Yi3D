@@ -23,6 +23,9 @@
 
 #include "plugins/PluginManifest.h"
 
+using wy3dApp::PluginManifest;
+using wy3dApp::PluginManifestParser;
+
 namespace {
 
 const std::string kGoodLibrary = "demo.dll";

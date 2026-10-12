@@ -19,6 +19,9 @@
 #include <wy3dApp/IconUtil.h>
 
 #include <QHash>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 QIcon IconUtil::get(const QString& path)
 {
@@ -29,4 +32,6 @@ QIcon IconUtil::get(const QString& path)
     if (pIcons->end() == iter)
         iter = pIcons->insert(path, QIcon(path));
     return iter.value();
+}
+
 }

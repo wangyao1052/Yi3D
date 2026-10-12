@@ -18,6 +18,9 @@
 
 #include "commands/GuiEventDispatcher.h"
 #include "select/SelectHandler.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 GuiEventDispatcher::GuiEventDispatcher()
     : _pSelectHandler(nullptr)
@@ -29,4 +32,6 @@ GuiEventDispatcher::~GuiEventDispatcher() = default;
 SelectHandler* GuiEventDispatcher::getSelectHandler() const
 {
     return _pSelectHandler.get();
+}
+
 }

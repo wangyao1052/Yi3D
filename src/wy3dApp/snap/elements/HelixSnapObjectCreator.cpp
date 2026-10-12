@@ -28,6 +28,9 @@
 #include <wy3dHelix.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> HelixSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -71,4 +74,6 @@ std::list<wyap::SnapObjectSPtr> HelixSnapObjectCreator::createSnapObjects(const 
         assert(false);
         return std::list<wyap::SnapObjectSPtr>();
     }
+}
+
 }

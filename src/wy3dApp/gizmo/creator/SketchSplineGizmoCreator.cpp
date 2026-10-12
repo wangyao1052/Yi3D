@@ -21,6 +21,9 @@
 #include <wyVector2.h>
 #include <wy3dSketchSpline.h>
 #include "gizmo/element/SketchSplineGripGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::GizmoSPtr> SketchSplineGizmoCreator::createGizmos(const wydb::Element* pElem) const
 {
@@ -43,4 +46,6 @@ std::list<wyap::GizmoSPtr> SketchSplineGizmoCreator::createGizmos(const wydb::El
         gizmos.emplace_back(std::make_shared<SketchSplineGripGizmo>(pSketchSpline, i));
     }
     return gizmos;
+}
+
 }

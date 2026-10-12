@@ -24,6 +24,9 @@
 #include "SelectFilterFunctor.h"
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectMode.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 选择处理器基类（渲染引擎无关）
 class SelectHandler
@@ -112,5 +115,7 @@ protected:
     SelectPreview _preview;
     SelectMode _selMode;
 };
+
+}
 
 #endif // WY3DAPP_SELECT_HANDLER_H

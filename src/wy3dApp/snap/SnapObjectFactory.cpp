@@ -89,6 +89,7 @@
 #include <wy3dFilledSheet.h>
 #include <wy3dSewnSheet.h>
 #include <wy3dNonParametricSheet.h>
+#include "wy3dAppDefs.h"
 #define REGISTER_CREATOR(CLASS, SNAP_OBJ_CREATOR) \
     { \
         static_assert(std::is_base_of_v<ElemSnapObjectCreator, SNAP_OBJ_CREATOR>, \
@@ -96,6 +97,8 @@
         assert(!_className2SnapObjCreator.count(CLASS::className())); \
         _className2SnapObjCreator[CLASS::className()] = std::make_unique<SNAP_OBJ_CREATOR>(); \
     }
+
+namespace wy3dApp {
 
 SnapObjectFactory::SnapObjectFactory()
 {
@@ -182,4 +185,6 @@ std::list<wyap::SnapObjectSPtr> SnapObjectFactory::createSnapObjects(const wydb:
     }
 
     return iter->second->createSnapObjects(pElem);
+}
+
 }

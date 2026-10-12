@@ -20,10 +20,13 @@
 #define WY3DAPP_SKETCH_MOVE_GUI_CMD_H
 
 #include "commands/edit/MoveGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchMoveGuiCmd : public MoveGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchMoveGuiCmd, SketchMoveGuiCmd, MoveGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchMoveGuiCmd, wy3dApp::SketchMoveGuiCmd, MoveGuiCmd)
 public:
     SketchMoveGuiCmd();
     virtual ~SketchMoveGuiCmd();
@@ -44,5 +47,7 @@ protected:
     virtual bool executeMove() override;
     SketchSnapSystem* getSketchSnapSys() const override { return _sketchInfo.pSketchSnapSys; }
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_MOVE_GUI_CMD_H

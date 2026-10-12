@@ -30,6 +30,9 @@
 #include <wy3dApp/Application.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -381,4 +384,6 @@ bool DeleteFaceGuiCmd::createDeleteFace(const wyap::SelectionSet& faceSels, unsi
         return false;
     }
     return true;
+}
+
 }

@@ -27,6 +27,9 @@
 #include <plugin/PluginApi.h>
 
 #include "utils/Log.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 struct PluginManifest;
 
@@ -78,5 +81,7 @@ private:
     std::vector<LoadedPlugin> _plugins;
     Log _log;
 };
+
+}
 
 #endif // WY3DAPP_PLUGIN_MANAGER_H

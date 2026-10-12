@@ -33,6 +33,9 @@
 #include <wy3dSketchSpline3D.h>
 #include <wydbElementId.h>
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopup3;
 
@@ -68,7 +71,7 @@ private:
 // 3D草图样条:插值点式/控制点式共用基类(不注册),子类只设模式与闭合阈值
 class SketchDrawSpline3DGuiCmd : public Sketch3DDrawGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawSpline3DGuiCmd, SketchDrawSpline3DGuiCmd, Sketch3DDrawGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawSpline3DGuiCmd, wy3dApp::SketchDrawSpline3DGuiCmd, Sketch3DDrawGuiCmd)
 public:
     SketchDrawSpline3DGuiCmd();
     virtual ~SketchDrawSpline3DGuiCmd();
@@ -167,7 +170,7 @@ private:
 // 插值点式:曲线过每个点
 class SketchDrawSpline3DGuiCmd_FitPoints : public SketchDrawSpline3DGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawSpline3DGuiCmd_FitPoints, SketchDrawSpline3DGuiCmd_FitPoints, SketchDrawSpline3DGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawSpline3DGuiCmd_FitPoints, wy3dApp::SketchDrawSpline3DGuiCmd_FitPoints, SketchDrawSpline3DGuiCmd)
 public:
     SketchDrawSpline3DGuiCmd_FitPoints() : SketchDrawSpline3DGuiCmd()
     {
@@ -179,7 +182,7 @@ public:
 // 控制点式:点作控制多边形顶点
 class SketchDrawSpline3DGuiCmd_ControlPoints : public SketchDrawSpline3DGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawSpline3DGuiCmd_ControlPoints, SketchDrawSpline3DGuiCmd_ControlPoints, SketchDrawSpline3DGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawSpline3DGuiCmd_ControlPoints, wy3dApp::SketchDrawSpline3DGuiCmd_ControlPoints, SketchDrawSpline3DGuiCmd)
 public:
     SketchDrawSpline3DGuiCmd_ControlPoints() : SketchDrawSpline3DGuiCmd()
     {
@@ -187,5 +190,7 @@ public:
         _closureMinPoints = 5;
     }
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_SPLINE3D_GUI_CMD_H

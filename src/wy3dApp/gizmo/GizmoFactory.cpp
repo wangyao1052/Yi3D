@@ -63,6 +63,7 @@
 #include "creator/SketchEllipseGizmoCreator.h"
 #include "creator/SketchEllipseArcGizmoCreator.h"
 #include "creator/SketchSplineGizmoCreator.h"
+#include "wy3dAppDefs.h"
 
 #define REGISTER_CREATOR(CLASS, GIZMO_CREATOR) \
     { \
@@ -71,6 +72,8 @@
         assert(!_name2Creator.count(CLASS::className())); \
         _name2Creator[CLASS::className()] = std::make_unique<GIZMO_CREATOR>(); \
     }
+
+namespace wy3dApp {
 
 GizmoFactory::GizmoFactory()
 {
@@ -135,3 +138,4 @@ std::list<wyap::GizmoSPtr> GizmoFactory::createGizmos(const wydb::Element* pElem
     return iter->second->createGizmos(pElem);
 }
 
+}

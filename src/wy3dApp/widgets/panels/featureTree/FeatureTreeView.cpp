@@ -20,6 +20,9 @@
 #include <QKeyEvent>
 #include "utils/CopyPasteUtil.h"
 #include "utils/TransactionUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 FeatureTreeView::FeatureTreeView(QWidget* parent) : QTreeView(parent)
 {
@@ -62,4 +65,6 @@ void FeatureTreeView::keyPressEvent(QKeyEvent* event)
     }
 
     return QTreeView::keyPressEvent(event);
+}
+
 }

@@ -25,7 +25,9 @@
 #include <wyapSelection.h>
 #include <wy3dApp/Application.h>
 #include "utils/CopyPasteUtil.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 int ShowCommand::run()
 {
@@ -123,4 +125,6 @@ int PasteClipCommand::run()
         CopyPasteUtil::showPasteErrorMsgBox(ret);
     }
     return 0;
+}
+
 }

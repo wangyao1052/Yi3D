@@ -18,6 +18,9 @@
 
 #include <wyVector2.h>
 #include "SketchCircleGripGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchCircleGripGizmo::SketchCircleGripGizmo(const wy3d::SketchCircle* pSketchCircle, Type type)
     : SketchEntityGripGizmo(pSketchCircle), _type(type)
@@ -102,4 +105,6 @@ SketchSnapContextSPtr SketchCircleGripGizmo::newDragContext() const
     default:
         return SketchEntityGripGizmo::newDragContext();
     }
+}
+
 }

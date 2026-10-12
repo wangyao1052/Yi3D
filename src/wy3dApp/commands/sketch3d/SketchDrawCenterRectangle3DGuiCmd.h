@@ -20,11 +20,14 @@
 #define WY3DAPP_SKETCH_DRAW_CENTER_RECTANGLE3D_GUI_CMD_H
 
 #include "commands/sketch3d/SketchDrawRectangle3DGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 中心式矩形:中心 + 角点
 class SketchDrawCenterRectangle3DGuiCmd : public SketchDrawRectangle3DGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawCenterRectangle3DGuiCmd, SketchDrawCenterRectangle3DGuiCmd, SketchDrawRectangle3DGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawCenterRectangle3DGuiCmd, wy3dApp::SketchDrawCenterRectangle3DGuiCmd, SketchDrawRectangle3DGuiCmd)
 public:
     SketchDrawCenterRectangle3DGuiCmd();
     virtual ~SketchDrawCenterRectangle3DGuiCmd();
@@ -33,5 +36,7 @@ protected:
     virtual QString getStartTip() const override;
     virtual QString getEndTip() const override;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_CENTER_RECTANGLE3D_GUI_CMD_H

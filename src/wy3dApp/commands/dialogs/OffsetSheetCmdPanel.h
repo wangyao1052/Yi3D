@@ -20,8 +20,11 @@
 #define WY3DAPP_OFFSET_SHEET_CMD_PANEL_H
 
 #include "FloatingCmdPanel.h"
+#include "wy3dAppDefs.h"
 
 class QLineEdit;
+
+namespace wy3dApp {
 
 class OffsetSheetCmdPanel : public FloatingCmdPanel
 {
@@ -44,5 +47,7 @@ private:
     double _lastValidOffset;
     bool _isSmallValueAllowed;
 };
+
+}
 
 #endif // WY3DAPP_OFFSET_SHEET_CMD_PANEL_H

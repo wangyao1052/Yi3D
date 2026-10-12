@@ -20,6 +20,9 @@
 #define WY3DAPP_SKETCH3D_SNAP_CONTEXT_H
 
 #include <wyVector3.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 enum class Sketch3DSnapContextType
 {
@@ -69,5 +72,7 @@ public:
 private:
     wy::Vector3 _centerPnt;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH3D_SNAP_CONTEXT_H

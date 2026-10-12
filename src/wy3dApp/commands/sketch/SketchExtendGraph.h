@@ -27,6 +27,9 @@
 #include <wy3dSketchCurve.h>
 
 #include "SketchExtendNode.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchExtendGraph
 {
@@ -55,5 +58,7 @@ private:
     // 所有结点
     std::map<wydb::ElementId, SketchExtendNodeSPtr> _id2Node;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_EXTEND_GRAPH_H

@@ -26,6 +26,9 @@
 #include <wydbDatabase.h>
 #include <wy3dSketch.h>
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> ElemSnapObjectCreator::newSnapObjects(const wydb::ElementId& id, const TopoDS_Shape& shape) const
 {
@@ -143,4 +146,6 @@ bool ElemSnapObjectCreator::getSketchPlane(const wy3d::SketchEntity* pSketchEnti
 
     outSketchPlane = sketchPlane;
     return true;
+}
+
 }

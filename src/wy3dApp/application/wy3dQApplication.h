@@ -24,6 +24,9 @@
 #include <QEvent>
 
 #include "IpcServer.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class wy3dQApplication : public QApplication
 {
@@ -98,5 +101,7 @@ public:
 private:
     std::string _strCmdName;
 };
+
+}
 
 #endif // WY3DAPP_QAPPLICATION_H

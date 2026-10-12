@@ -22,6 +22,9 @@
 #include <osgGA/GUIEventHandler>
 #include <osgViewer/View>
 #include "SelectHandler.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // OSG 选择处理器
 class OsgSelectHandler : public SelectHandler
@@ -56,5 +59,7 @@ private:
     // 当前事件对应的 OSG View
     osg::observer_ptr<osgViewer::View> _pOsgView;
 };
+
+}
 
 #endif // WY3DAPP_OSG_SELECT_HANDLER_H

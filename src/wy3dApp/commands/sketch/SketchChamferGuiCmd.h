@@ -32,6 +32,9 @@
 #include <wy3dSketchEllipseArc.h>
 
 #include "commands/transient/SketchCurveTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 struct ChamferData
 {
@@ -77,7 +80,7 @@ struct ChamferData
 
 class SketchChamferGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchChamferGuiCmd, SketchChamferGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchChamferGuiCmd, wy3dApp::SketchChamferGuiCmd, OsgGuiCommand)
 public:
     SketchChamferGuiCmd();
     virtual ~SketchChamferGuiCmd();
@@ -134,5 +137,7 @@ private:
     std::shared_ptr<SketchCurveTransient> _pChamferTransient;
     std::shared_ptr<ChamferData> _pChamferData;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_CHAMFER_GUI_CMD_H

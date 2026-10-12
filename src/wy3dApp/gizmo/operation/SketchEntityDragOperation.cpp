@@ -22,6 +22,9 @@
 #include <wy3dApp/Application.h>
 #include "widgets/panels/property/PropertyEditorWidget.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchEntityDragOperation::SketchEntityDragOperation(wydb::Database* pDb, SketchEntityGripGizmo* pGizmo)
     : GizmoOperation(pDb, pGizmo), _pGripGizmo(pGizmo)
@@ -83,4 +86,6 @@ void SketchEntityDragOperation::onCancelDrag()
     assert(_pDb);
     _pGripGizmo->onEndDrag(_pDb, false);
     this->abortTopTransaction();
+}
+
 }

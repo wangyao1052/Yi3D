@@ -29,6 +29,9 @@
 #include <wy3dApp/ElementNode.h>
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 MirrorElemens::MirrorElemens(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 {
@@ -201,4 +204,6 @@ ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
     return false;
+}
+
 }

@@ -26,6 +26,8 @@
 #include "scene/RenderConst.h"
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 // 点选配置项
 struct WY3DAPP_EXPORT PointPickOption
 {
@@ -48,5 +50,7 @@ struct WY3DAPP_EXPORT PointPickOption
         pSelFilter(nullptr)
     {}
 };
+
+}
 
 #endif // WY3DAPP_POINT_PICK_OPTION_H

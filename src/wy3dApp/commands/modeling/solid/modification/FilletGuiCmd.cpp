@@ -41,7 +41,9 @@
 #include "utils/TopoShapeUtil.h"
 #include "commands/dialogs/FilletDialog.h"
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 // 前置过滤器: 确保只能选择单一主体的面或边
 class FilletGuiCmdPreSelFilter : public SelectPreFilterFunctor
@@ -500,4 +502,6 @@ bool FilletGuiCmd::createFillet(unsigned int& errorCode)
 {
     return ChamferFilletCmdCommon::createChamferOrFillet<wy3d::Fillet,
         wy3d::ErrorCode::FILLET_CreateFilletError>(_sels, _radius, errorCode);
+}
+
 }

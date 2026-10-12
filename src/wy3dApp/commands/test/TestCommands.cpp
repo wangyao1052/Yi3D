@@ -37,7 +37,9 @@
 #include "view/OsgView.h"
 #include "OsgUtils.h"
 #include <wy3dApp/SketchEnvironment.h>
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 int OsgNewBoxCommand::run()
 {
@@ -252,4 +254,6 @@ int SketchTestBoundingBoxCommand::run()
     pDb->getTransactionManager()->endTransaction();
 
     return 0;
+}
+
 }

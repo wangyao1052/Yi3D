@@ -17,6 +17,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "BaseGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 BaseGizmo::~BaseGizmo()
 {
@@ -38,4 +41,6 @@ void BaseGizmo::onDeactivate()
         _pRenderer->onCancelDrag();
         _pGizmoOp = nullptr;
     }
+}
+
 }

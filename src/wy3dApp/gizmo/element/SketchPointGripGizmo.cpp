@@ -18,6 +18,9 @@
 
 #include <wyVector2.h>
 #include "SketchPointGripGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchPointGripGizmo::SketchPointGripGizmo(const wy3d::SketchPoint* pSketchPoint)
     : SketchEntityGripGizmo(pSketchPoint), _position()
@@ -70,4 +73,6 @@ bool SketchPointGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vecto
 SketchSnapContextSPtr SketchPointGripGizmo::newDragContext() const
 {
     return std::make_shared<SketchLocateContext>(_id);
+}
+
 }

@@ -26,6 +26,9 @@
 #include <wyapSelManager.h>
 #include <wy3dBox.h>
 #include "commands/modeling/solid/primitives/MakePrimitiveGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeBox;
 class RectTransient;
@@ -34,7 +37,7 @@ class GuiCmdHoverInputPopup2;
 
 class MakeBoxGuiCmd : public MakePrimitiveGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(MakeBoxGuiCmd, MakeBoxGuiCmd, MakePrimitiveGuiCmd)
+    WYRX_DECLARE_MEMBERS(MakeBoxGuiCmd, wy3dApp::MakeBoxGuiCmd, MakePrimitiveGuiCmd)
 public:
     MakeBoxGuiCmd();
     virtual ~MakeBoxGuiCmd();
@@ -149,5 +152,7 @@ private:
     osg::ref_ptr<osg::Geometry> _geom;
     osg::ref_ptr<osg::Vec3Array> _vertices;
 };
+
+}
 
 #endif // WY3DAPP_MAKE_BOX_GUI_CMD_H

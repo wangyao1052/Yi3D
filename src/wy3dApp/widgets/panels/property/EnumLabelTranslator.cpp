@@ -20,6 +20,9 @@
 
 #include <QCoreApplication>
 #include <map>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 QString EnumLabelTranslator::translate(const std::string& englishLabel)
 {
@@ -67,4 +70,6 @@ void _enumLabelTrDummy()
     QCoreApplication::translate("EnumLabelTranslator", "Equal distance");
     QCoreApplication::translate("EnumLabelTranslator", "Distance-Distance");
     QCoreApplication::translate("EnumLabelTranslator", "Distance-Angle");
+}
+
 }

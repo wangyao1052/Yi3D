@@ -30,6 +30,9 @@
 #include <QCoreApplication>
 #include <QCursor>
 #include <cmath>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -443,4 +446,6 @@ wy3d::Plane TangentDatumPlnCmd::computeRotationPlane(double angle) const
     normal.normalize();
     wy::Vector3 xDir = yDir.cross(normal);
     return wy3d::Plane(origin, normal, xDir);
+}
+
 }

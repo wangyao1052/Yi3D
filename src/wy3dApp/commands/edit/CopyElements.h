@@ -27,6 +27,9 @@
 #include <wyapSelection.h>
 
 #include <wy3dApp/GuiCommand.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class CopyElemens : public GuiCmdMakeElement
 {
@@ -46,5 +49,7 @@ public:
 private:
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
 };
+
+}
 
 #endif // WY3DAPP_COPY_ELEMENTS_H

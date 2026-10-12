@@ -30,6 +30,9 @@
 #include "commands/transient/SketchBasicTransient.h"
 #include "commands/dialogs/SketchArcTangentModePanel.h"
 #include "snap/SketchSnapContext.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopupBase;
 class GuiCmdHoverInputPopup1;
@@ -37,7 +40,7 @@ class GuiCmdHoverInputPopup2;
 
 class SketchDrawArcTangentGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawArcTangentGuiCmd, SketchDrawArcTangentGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawArcTangentGuiCmd, wy3dApp::SketchDrawArcTangentGuiCmd, OsgGuiCommand)
 public:
     SketchDrawArcTangentGuiCmd();
     virtual ~SketchDrawArcTangentGuiCmd();
@@ -164,5 +167,7 @@ private:
     std::unique_ptr<GuiCmdHoverInputPopup1> _pSweepPopup;
     HoverPopupState _hoverPopupState;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_ARC_TANGENT_GUI_CMD_H

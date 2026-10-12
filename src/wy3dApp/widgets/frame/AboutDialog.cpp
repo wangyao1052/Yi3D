@@ -25,6 +25,9 @@
 
 #include "AboutDialog.h"
 #include <Version.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 AboutDialog::AboutDialog(QWidget *parent)
 	: QDialog(parent)
@@ -177,4 +180,6 @@ void AboutDialog::addThirdPartyLibraryInfo(
     line->setFrameShape(QFrame::HLine);
     line->setFrameShadow(QFrame::Sunken);
     layout->addWidget(line);
+}
+
 }

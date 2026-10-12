@@ -21,6 +21,9 @@
 
 #include <fstream>
 #include <string>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class OutputWidget;
 
@@ -49,5 +52,7 @@ private:
     std::ofstream _file;
     OutputWidget* _pOutputWidget = nullptr;
 };
+
+}
 
 #endif // WY3DAPP_LOG_H

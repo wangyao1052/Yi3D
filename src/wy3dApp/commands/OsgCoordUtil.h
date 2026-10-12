@@ -31,6 +31,11 @@
 #include <wy3dPlane.h>
 #include <wydbElementId.h>
 #include "snap/SnapSystemBase.h"
+#include "wy3dAppDefs.h"
+
+namespace wydb { class Database; }
+
+namespace wy3dApp {
 
 class GuiCmdMakeElement;
 class SketchSnapSystem;
@@ -43,7 +48,6 @@ class CenterPointSnapObject;
 class Sketch3DSnapContext;
 class Sketch3DSnapSystem;
 class Sketch3DSnapResult;
-namespace wydb { class Database; }
 
 // OSG 坐标计算工具函数
 namespace OsgCoordUtil {
@@ -117,5 +121,7 @@ namespace OsgCoordUtil {
         const wy::Vector3& worldPnt);
 
 } // namespace OsgCoordUtil
+
+}
 
 #endif // WY3DAPP_OSG_COORD_UTIL_H

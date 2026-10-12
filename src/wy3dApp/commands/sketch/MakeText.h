@@ -30,6 +30,9 @@
 #include <wy3dMakeSketchText.h>
 
 #include <wy3dApp/GuiCommand.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeText : public GuiCmdMakeElement
 {
@@ -51,5 +54,7 @@ private:
     std::set<wydb::ElementId> _ids;
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
 };
+
+}
 
 #endif // WY3DAPP_MAKE_TEXT_H

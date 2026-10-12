@@ -25,6 +25,9 @@
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 #include "commands/GuiCommandMenu.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class TopoNameGuiCmd : public OsgGuiCommand
 {
@@ -83,5 +86,7 @@ protected:
 private:
     void addSelection(TopAbs_ShapeEnum shapeType, const std::string& topoName);
 };
+
+}
 
 #endif // WY3DAPP_TOPONAME_GUI_CMD_H

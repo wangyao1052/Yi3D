@@ -22,6 +22,9 @@
 #include "SketchEntityGripGizmo.h"
 #include <wyVector2.h>
 #include <wy3dSketchCircle.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchCircleGripGizmo : public SketchEntityGripGizmo
 {
@@ -51,5 +54,7 @@ protected:
 private:
     Type _type;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_CIRCLE_GRIP_GIZMO_H

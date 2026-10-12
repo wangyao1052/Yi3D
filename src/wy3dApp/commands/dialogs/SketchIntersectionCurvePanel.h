@@ -20,8 +20,11 @@
 #define WY3DAPP_SKETCH_INTERSECTION_CURVE_PANEL_H
 
 #include "FloatingCmdPanel.h"
+#include "wy3dAppDefs.h"
 
 class QRadioButton;
+
+namespace wy3dApp {
 
 // Whether the intersector may leave the points it computed, i.e. wy3d::Sketch3DIntersectionUtil's
 // two modes, put in front of the user while the command runs. There is nothing to confirm, so
@@ -42,5 +45,7 @@ private:
     QRadioButton* _pRbFit;
     QRadioButton* _pRbInterpolate;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_INTERSECTION_CURVE_PANEL_H

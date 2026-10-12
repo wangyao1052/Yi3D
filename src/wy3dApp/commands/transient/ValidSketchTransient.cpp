@@ -21,6 +21,9 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/SketchElementNode.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 ValidSketchTransient::ValidSketchTransient(const wydb::ElementId& sketchId) : _sketchId(sketchId)
 {
@@ -50,4 +53,6 @@ InvalidSketchToolTip::InvalidSketchToolTip(const wydb::ElementId& sketchId, cons
 InvalidSketchToolTip::~InvalidSketchToolTip()
 {
     QToolTip::hideText();
+}
+
 }

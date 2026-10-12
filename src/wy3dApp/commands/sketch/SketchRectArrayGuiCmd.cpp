@@ -48,6 +48,9 @@
 #include "snap/SketchSnapSystem.h"
 #include "utils/MathUtils.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -860,3 +863,4 @@ void SketchRectArrayGuiCmd::computeDefaultColRowSpacing(
     }
 }
 
+}

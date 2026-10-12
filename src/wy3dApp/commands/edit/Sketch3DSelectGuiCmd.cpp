@@ -37,6 +37,9 @@
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/GuiCommandUtil.h>
 #include "view/BaseView.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -333,4 +336,6 @@ void Sketch3DSelectGuiCmd::onKeyDown(const KeyEvent& event)
         return;
     }
     __baseClass::onKeyDown(event);
+}
+
 }

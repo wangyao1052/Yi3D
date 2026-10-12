@@ -33,6 +33,9 @@
 #include <wy3dApp/Application.h>
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 Sketch3DTrimGuiCmd::Sketch3DTrimGuiCmd() : OsgGuiCommand()
 {
@@ -626,4 +629,6 @@ bool Sketch3DTrimGuiCmd::trimSpline(wydb::Transaction* pTrans, wy3d::Sketch3D* p
         _id2Parent[pNewSpline->getId()] = pSpline->getId();
         return true;
     }
+}
+
 }

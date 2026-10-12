@@ -67,6 +67,9 @@
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 PropertyEditorWidget::PropertyEditorWidget(QWidget* parent)
     : QWidget(parent), _pMainLayout(nullptr), _pParamsGridLayout(nullptr), _isModifyingElems(false), _isReadOnly(false)
@@ -742,4 +745,6 @@ void PropertyEditorWidget::onGizmoToBeDeactivated(wyap::GizmoSPtr pGizmo)
         this->refresh();
         _gizmoState.needsRefresh = false;
     }
+}
+
 }

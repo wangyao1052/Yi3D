@@ -27,6 +27,9 @@
 #include <utility>
 #include <wydbElementId.h>
 #include <utils/wy3dSketch3DEdgeUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // Takes a curve that already exists somewhere in the model (an edge of a solid or sheet,
 // a curve of a 2D sketch, a curve of another 3D sketch) and copies it into the 3D sketch
@@ -34,7 +37,7 @@
 // later changes of the source.
 class SketchIncludeCurve3DGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchIncludeCurve3DGuiCmd, SketchIncludeCurve3DGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchIncludeCurve3DGuiCmd, wy3dApp::SketchIncludeCurve3DGuiCmd, OsgGuiCommand)
 
 public:
     SketchIncludeCurve3DGuiCmd();
@@ -72,5 +75,7 @@ private:
     // included only once, unless its entity has been undone in between.
     std::map<std::pair<wydb::ElementId, std::string>, wydb::ElementId> _includedCurves;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_INCLUDE_CURVE3D_GUI_CMD_H

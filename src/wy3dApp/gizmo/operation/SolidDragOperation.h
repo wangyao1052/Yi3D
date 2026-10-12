@@ -22,6 +22,9 @@
 #include "GizmoOperation.h"
 #include <wyVector3.h>
 #include <wydbDatabase.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class BaseGizmo;
 
@@ -50,5 +53,7 @@ private:
     // 拖拽终点
     wy::Vector3 _dragEndPnt;
 };
+
+}
 
 #endif // WY3DAPP_SOLID_DRAG_OPERATION_H

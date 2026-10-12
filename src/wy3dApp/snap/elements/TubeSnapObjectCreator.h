@@ -20,11 +20,16 @@
 #define WY3DAPP_TUBE_SNAP_OBJECT_CREATOR_H
 
 #include "ElemSnapObjectCreator.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class TubeSnapObjectCreator : public ElemSnapObjectCreator
 {
 public:
     virtual std::list<wyap::SnapObjectSPtr> createSnapObjects(const wydb::Element* pElem) override;
 };
+
+}
 
 #endif // WY3DAPP_TUBE_SNAP_OBJECT_CREATOR_H

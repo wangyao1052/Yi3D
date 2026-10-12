@@ -40,6 +40,9 @@
 #include "widgets/frame/ViewWidgetContainer.h"
 #include "scene/Colors.h"
 #include "snap/SketchSnapSystem.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -977,4 +980,6 @@ ABORT_TRANS:
     assert(false);
     pDb->getTransactionManager()->abortTransaction();
     return false;
+}
+
 }

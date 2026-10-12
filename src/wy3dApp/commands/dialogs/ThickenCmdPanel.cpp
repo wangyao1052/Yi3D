@@ -28,6 +28,9 @@
 
 #include <wy3dThicken.h>
 #include <wy3dImpl.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static constexpr double kDefaultThickness = 2.0;
 
@@ -128,4 +131,6 @@ void ThickenCmdPanel::onThicknessEditChanged()
 void ThickenCmdPanel::onDirectionComboChanged(int index)
 {
     emit directionChanged(index);
+}
+
 }

@@ -25,6 +25,10 @@
 #include <wyapSelManager.h>
 #include <wyapSelection.h>
 #include <wy3dApp/OsgGuiCommand.h>
+#include "commands/edit/ScaleElements.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopup1;
 class GuiCmdHoverInputPopup2;
@@ -33,7 +37,7 @@ class LineTransient;
 
 class SketchScaleGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchScaleGuiCmd, SketchScaleGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchScaleGuiCmd, wy3dApp::SketchScaleGuiCmd, OsgGuiCommand)
 public:
     SketchScaleGuiCmd();
     virtual ~SketchScaleGuiCmd();
@@ -127,6 +131,6 @@ private:
     HoverPopupState _hoverPopupState;
 };
 
-#include "commands/edit/ScaleElements.h"
+}
 
 #endif // WY3DAPP_SKETCH_SCALE_GUI_CMD_H

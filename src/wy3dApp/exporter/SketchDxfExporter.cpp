@@ -26,6 +26,9 @@
 #include <QFileInfo>
 
 #include "application/PythonScriptExecutor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool SketchDxfExporter::performImpl(const wy3d::Sketch* pSketch, const std::wstring& fileFullPath)
 {
@@ -55,4 +58,6 @@ bool SketchDxfExporter::performImpl(const wy3d::Sketch* pSketch, const std::wstr
         return false;
 
     return true;
+}
+
 }

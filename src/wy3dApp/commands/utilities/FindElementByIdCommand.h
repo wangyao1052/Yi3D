@@ -20,7 +20,12 @@
 #define WY3DAPP_FIND_ELEMENT_BY_ID_COMMAND_H
 
 #include "commands/SimpleCommand.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 DEFINE_SIMPLE_CMD(FindElementByIdCommand)
+
+}
 
 #endif // WY3DAPP_FIND_ELEMENT_BY_ID_COMMAND_H

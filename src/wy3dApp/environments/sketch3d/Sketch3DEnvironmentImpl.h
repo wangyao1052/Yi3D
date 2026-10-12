@@ -30,6 +30,9 @@
 
 #include "snap3d/Sketch3DSnapSystem.h"
 #include <wy3dApp/Sketch3DEnvironment.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Sketch3DEnvironmentUI;
 
@@ -94,5 +97,7 @@ private:
     wy3d::Plane _pendingWorkPlane;
     wyap::Selection _pendingPlaneSelection;
 };
+
+}
 
 #endif // WY3DAP_SKETCH3D_ENVIRONMENT_IMPL_H

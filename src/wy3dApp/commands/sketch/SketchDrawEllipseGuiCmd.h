@@ -27,6 +27,9 @@
 #include <wy3dVector2.h>
 #include <wydbElementId.h>
 #include <wy3dSketchEllipse.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchEllipse;
 class LineTransient;
@@ -35,7 +38,7 @@ class GuiCmdHoverInputPopup2;
 
 class SketchDrawEllipseGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawEllipseGuiCmd, SketchDrawEllipseGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawEllipseGuiCmd, wy3dApp::SketchDrawEllipseGuiCmd, OsgGuiCommand)
 public:
     SketchDrawEllipseGuiCmd();
     virtual ~SketchDrawEllipseGuiCmd();
@@ -143,5 +146,7 @@ public:
 private:
     wy3d::SketchEllipse* _pSketchEllipse;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_ELLIPSE_GUI_CMD_H

@@ -27,6 +27,9 @@
 
 #include <wy3dApp/Application.h>
 #include "commands/transient/Sketch3DCurveTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 Sketch3DSnapResult::Sketch3DSnapResult(const wy::Vector3& position)
     : _items(), _position(position), _pMouseFollow(nullptr)
@@ -155,4 +158,6 @@ bool Sketch3DSnapResult::isLooseEqual(const Sketch3DSnapResult& other) const
         }
     }
     return true;
+}
+
 }

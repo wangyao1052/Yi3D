@@ -24,6 +24,9 @@
 #include <wyVector3.h>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCommand;
 
@@ -56,5 +59,7 @@ protected:
     wydb::Transaction* _pTopTrans;
     bool _isFinished;
 };
+
+}
 
 #endif // WY3DAPP_GUI_CMD_MAKE_ELEMENT_H

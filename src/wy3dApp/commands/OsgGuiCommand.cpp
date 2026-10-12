@@ -38,6 +38,9 @@
 #include "select/SelectHandler.h"
 #include "select/SelectFilterFunctor.h"
 #include "view/BaseView.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 OsgGuiCommand::OsgGuiCommand() : GuiCommand(), _pOsgView(nullptr)
 {
@@ -275,4 +278,6 @@ bool OsgGuiCommand::computeRotationAngle(double x, double y,
     double& rotationAngle)
 {
     return OsgCoordUtil::computeRotationAngle(getOsgView(), x, y, workPln, basis, excludeIds, rotationAngle);
+}
+
 }

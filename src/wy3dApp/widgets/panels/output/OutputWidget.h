@@ -23,6 +23,9 @@
 
 #include <QWidget>
 #include <QTextBrowser>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class OutputWidget : public QWidget
 {
@@ -53,5 +56,7 @@ private slots:
 private:
 	QTextBrowser* _textBrowser;
 };
+
+}
 
 #endif // WY3DAPP_OUTPUT_WIDGET_H

@@ -18,7 +18,9 @@
 
 #include "OptionsCommands.h"
 #include "widgets/frame/OptionsDialog.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 int OptionsCommand::run()
 {
@@ -26,4 +28,6 @@ int OptionsCommand::run()
 	dlg.exec();
 
 	return 0;
+}
+
 }

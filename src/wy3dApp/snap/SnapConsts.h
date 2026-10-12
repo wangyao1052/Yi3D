@@ -20,6 +20,9 @@
 #define WY3DAPP_SNAP_CONSTS_H
 
 #include <osg/Vec4>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SnapConsts
 {
@@ -35,5 +38,7 @@ public:
     static inline const float PointSizeOnSketchCurve = 8.0f;
     static inline const osg::Vec4 PointColorOnSketchCurve = osg::Vec4(1.0f, 1.0f, 1.0f, 1.0f); // 白色
 };
+
+}
 
 #endif // WY3DAPP_SNAP_CONSTS_H

@@ -27,6 +27,9 @@
 #include <wyVector3.h>
 #include <wydbElementId.h>
 #include <wy3dSketchLine3D.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Sketch3DSnapContext;
 
@@ -36,7 +39,7 @@ class MakeSketchLine3D;
 
 class SketchDrawLine3DGuiCmd : public Sketch3DDrawGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawLine3DGuiCmd, SketchDrawLine3DGuiCmd, Sketch3DDrawGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawLine3DGuiCmd, wy3dApp::SketchDrawLine3DGuiCmd, Sketch3DDrawGuiCmd)
 public:
     SketchDrawLine3DGuiCmd();
     virtual ~SketchDrawLine3DGuiCmd();
@@ -138,5 +141,7 @@ public:
 private:
     wy3d::SketchLine3D* _pSketchLine3D;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_LINE3D_GUI_CMD_H

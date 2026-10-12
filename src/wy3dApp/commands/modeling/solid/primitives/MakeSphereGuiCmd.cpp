@@ -40,6 +40,9 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/Scene.h>
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -570,4 +573,6 @@ void RadiusTransient::update(const wy::Vector3& pnt1, const wy::Vector3& pnt2)
     (*_vertices)[1].set(pnt2.x(), pnt2.y(), pnt2.z());
     _vertices->dirty();
     _geom->dirtyBound();
+}
+
 }

@@ -24,6 +24,9 @@
 #include <wy3dExtrusion.h>
 #include <wy3dRevolution.h>
 #include "select/SelectFilterFunctor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SolidToCutSelectPreFilter : public SelectPreFilterFunctor
 {
@@ -53,5 +56,7 @@ public:
         return SelectFilterStatus::Ok;
     }
 };
+
+}
 
 #endif // WY3DAPP_SOLID_FACE_SEL_FILTER_H

@@ -22,6 +22,9 @@
 #include <memory>
 
 #include <wy3dApp/GatewayEnvironment.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GatewayEnvironmentUI;
 
@@ -71,5 +74,7 @@ private:
 private:
     std::unique_ptr<GatewayEnvironmentUI> _pUI;
 };
+
+}
 
 #endif // WY3DAPP_GATEWAY_ENVIRONMENT_IMPL_H

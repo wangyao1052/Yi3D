@@ -26,7 +26,9 @@
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/SolidElementNode.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 // 目标体选择过滤器
 // 只能选择wy3d::Solid并且owner为空;
@@ -584,4 +586,6 @@ bool BooleanGuiCmd::newBooleanFeature()
 ABORT_TRANS:
     pTransMgr->abortTransaction();
     return false;
+}
+
 }

@@ -42,7 +42,9 @@
 #include "commands/sketch/dialogs/SketchPolarArrayDialog.h"
 #include "snap/SketchSnapSystem.h"
 #include <wy3dApp/CommonSelFilters.h>
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 bool SketchPolarArrayGuiCmd::isValidTotalAngleAndCount(double totalAngle, unsigned int count)
 {
@@ -596,4 +598,6 @@ ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
     return false;
+}
+
 }

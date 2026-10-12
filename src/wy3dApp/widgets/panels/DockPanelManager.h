@@ -25,10 +25,13 @@
 #include <map>
 #include <set>
 #include <string>
+#include "wy3dAppDefs.h"
 
 class QDockWidget;
 class QMainWindow;
 class QWidget;
+
+namespace wy3dApp {
 
 class FeatureTreeWidget;
 class PropertyEditorWidget;
@@ -89,3 +92,5 @@ private:
     std::map<std::string, DockPanelEntry> _panelMap;
     std::set<std::string> _builtinPanelIds;
 };
+
+}

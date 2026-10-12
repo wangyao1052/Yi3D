@@ -21,6 +21,9 @@
 
 #include <QString>
 #include <string>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 枚举标签翻译工具 —— 将 ParamEnumDef 中的英文标签转为显示文本
 // 新增枚举标签时，在 .cpp 文件末尾添加 tr() 调用即可（lupdate 扫描用）
@@ -29,5 +32,7 @@ class EnumLabelTranslator
 public:
     static QString translate(const std::string& englishLabel);
 };
+
+}
 
 #endif

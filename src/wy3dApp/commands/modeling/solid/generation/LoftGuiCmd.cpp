@@ -37,7 +37,9 @@
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include "select/filters/SolidToCutSelFilter.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 LoftGuiCmd::LoftGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined)
@@ -750,4 +752,6 @@ bool MakeLoft::cutSolid(const wy3d::Solid* pConstSolidToCut, unsigned int& error
     }
 
     return true;
+}
+
 }

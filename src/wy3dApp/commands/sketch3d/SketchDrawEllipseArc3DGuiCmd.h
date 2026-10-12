@@ -29,6 +29,9 @@
 #include <wy3dPlane.h>
 #include <wydbElementId.h>
 #include <wy3dSketchEllipseArc3D.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopup1;
 class GuiCmdHoverInputPopup2;
@@ -64,7 +67,7 @@ private:
 // 3D草图椭圆弧:中心 -> 长轴端点 -> 另一半轴 -> 起点角度 -> 扫掠角度
 class SketchDrawEllipseArc3DGuiCmd : public Sketch3DDrawGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawEllipseArc3DGuiCmd, SketchDrawEllipseArc3DGuiCmd, Sketch3DDrawGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawEllipseArc3DGuiCmd, wy3dApp::SketchDrawEllipseArc3DGuiCmd, Sketch3DDrawGuiCmd)
 public:
     SketchDrawEllipseArc3DGuiCmd();
     virtual ~SketchDrawEllipseArc3DGuiCmd();
@@ -174,5 +177,7 @@ private:
     // 中心 -> 当前点 的辅助线
     LineTransientSPtr _pAxisTransient;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_ELLIPSE_ARC3D_GUI_CMD_H

@@ -35,10 +35,12 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
 
 #define MIN_SIDES 3
 #define MAX_SIDES 100
 
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -635,4 +637,6 @@ void MakePolygonUtil::CircumscribedPolygon(unsigned int numSides,
             center.x() + radius * std::cos(angle),
             center.y() + radius * std::sin(angle)));
     }
+}
+
 }

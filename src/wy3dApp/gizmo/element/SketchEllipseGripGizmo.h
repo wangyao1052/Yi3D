@@ -22,6 +22,9 @@
 #include "SketchEntityGripGizmo.h"
 #include <wyVector2.h>
 #include <wy3dSketchEllipse.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchEllipseGripGizmo : public SketchEntityGripGizmo
 {
@@ -53,5 +56,7 @@ private:
     double _startMajorRadius;
     double _startMinorRadius;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ELLIPSE_GRIP_GIZMO_H

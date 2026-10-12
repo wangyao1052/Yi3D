@@ -24,6 +24,9 @@
 #include <fstream>
 #include <regex>
 #include <sstream>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace {
 
@@ -133,4 +136,6 @@ bool PluginManifestParser::loadFromFile(const std::string& u8FilePath, PluginMan
     std::stringstream buffer;
     buffer << file.rdbuf();
     return parse(buffer.str(), out, error);
+}
+
 }

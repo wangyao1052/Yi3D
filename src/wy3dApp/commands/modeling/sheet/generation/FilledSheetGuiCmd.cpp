@@ -48,10 +48,13 @@
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include "wy3d/topo/TopoShapeUtil.h"
+#include "wy3dAppDefs.h"
 
 // ============================================================================
 // MakeFilledSheet
 // ============================================================================
+
+namespace wy3dApp {
 
 void MakeFilledSheet::collectElements(std::set<wydb::ElementId>& idSet) const
 {
@@ -1044,4 +1047,6 @@ bool FilledSheetGuiCmd::collectPickedEdges(std::vector<TopoDS_Edge>& edges) cons
     }
 
     return !edges.empty();
+}
+
 }

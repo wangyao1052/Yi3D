@@ -31,6 +31,9 @@
 #include "commands/dialogs/DoubleValueInputDialog.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -409,4 +412,6 @@ ABORT_TRANS:
     assert(false);
     pDb->getTransactionManager()->abortTransaction();
     return false;
+}
+
 }

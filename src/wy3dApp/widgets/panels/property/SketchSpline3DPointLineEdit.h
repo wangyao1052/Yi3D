@@ -20,6 +20,9 @@
 #define WY3DAPP_SKETCH_SPLINE3D_POINT_LINE_EDIT_H
 
 #include "ParamLineEdit.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class PropertyEditorWidget;
 class SketchSpline3DPointsEditor;
@@ -55,5 +58,7 @@ private:
     Field _field;
     SketchSpline3DPointsEditor* _pPointsEditor;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_SPLINE3D_POINT_LINE_EDIT_H

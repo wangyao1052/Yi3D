@@ -60,6 +60,9 @@
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool CurveElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
 {
@@ -252,4 +255,6 @@ bool CurveElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
 {
     assert(pCurElem);
     return pCurElem->getParent().isNull();
+}
+
 }

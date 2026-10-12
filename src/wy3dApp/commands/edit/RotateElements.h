@@ -30,6 +30,9 @@
 
 #include <wy3dApp/GuiCommand.h>
 #include <wy3dApp/GuiCmdTransient.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class RotateElements : public GuiCmdMakeElement
 {
@@ -79,5 +82,7 @@ private:
     osg::ref_ptr<osg::Vec3Array> _verticesBaseLine;
     osg::ref_ptr<osg::Vec3Array> _verticesRotateLine;
 };
+
+}
 
 #endif // WY3DAPP_ROTATE_ELEMENTS_H

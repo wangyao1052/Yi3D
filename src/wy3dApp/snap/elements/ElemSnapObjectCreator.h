@@ -27,6 +27,9 @@
 #include "../SnapSystemBase.h"
 #include <wy3dSketchEntity.h>
 #include <wy3dPlane.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 元素捕捉对象工厂
 class ElemSnapObjectCreator
@@ -73,5 +76,7 @@ public:
         return std::list<wyap::SnapObjectSPtr>();
     }
 };
+
+}
 
 #endif // WY3DAPP_ELEM_SNAP_OBJECT_CREATOR_H

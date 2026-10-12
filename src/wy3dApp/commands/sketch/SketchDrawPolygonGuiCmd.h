@@ -29,6 +29,9 @@
 #include <wy3dSketchLine.h>
 #include "commands/transient/SketchBasicTransient.h"
 #include "commands/transient/BasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchPolygon;
 class GuiCmdHoverInputPopup1;
@@ -42,7 +45,7 @@ enum class DrawPolygonType
 
 class SketchDrawPolygonGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawPolygonGuiCmd, SketchDrawPolygonGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawPolygonGuiCmd, wy3dApp::SketchDrawPolygonGuiCmd, OsgGuiCommand)
 public:
     SketchDrawPolygonGuiCmd();
     virtual ~SketchDrawPolygonGuiCmd();
@@ -161,5 +164,7 @@ private:
     wy::Vector2 _centerPnt;
     wydb::ElementId _sketchId;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_POLYGON_GUI_CMD_H

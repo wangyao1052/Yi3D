@@ -47,6 +47,7 @@
 #include "commands/UndoRedoCommands.h"
 #include "commands/sketch3d/Sketch3DCommands.h"
 #include "commands/utilities/FindElementByIdCommand.h"
+#include "wy3dAppDefs.h"
 
 #define WY3DAPP_SKETCH3D_ENV_COMMAND_LIST(X) \
     X(CommandNames::Select, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, Sketch3DSelectGuiCmd::classInfo()) \
@@ -84,6 +85,8 @@
     X(CommandNames::ShadedWithEdgesDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShadedWithEdgesDisplayCommand::classInfo()) \
     X(CommandNames::ShadedDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShadedDisplayCommand::classInfo()) \
     X(CommandNames::WireframeDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, WireframeDisplayCommand::classInfo())
+
+namespace wy3dApp {
 
 namespace
 {
@@ -140,4 +143,6 @@ void Sketch3DEnvironmentImpl::removeCommands()
         error = pCmdStack->removeCommand(entry.commandName);
         assert(wy::ErrorStatus::Ok == error);
     }
+}
+
 }

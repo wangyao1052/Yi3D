@@ -20,6 +20,9 @@
 #define WY3DAPP_SKETCH_SPLINE_CTROL_POINTS_PATH_OSG_RENDERER_H
 
 #include "GhostOsgRenderer.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 样条控制点连线 Ghost 渲染器
 class SketchSplineCtrolPointsPathOsgRenderer : public GhostOsgRenderer
@@ -34,5 +37,7 @@ public:
 private:
     osg::ref_ptr<osg::Geometry> generateGeometry(const wydb::Element* pElem);
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_SPLINE_CTROL_POINTS_PATH_OSG_RENDERER_H

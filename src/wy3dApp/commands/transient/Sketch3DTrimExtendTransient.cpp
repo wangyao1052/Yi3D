@@ -35,6 +35,9 @@
 #include <wy3dSketchSpline3D.h>
 
 #include "scene/RenderConst.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -253,4 +256,6 @@ Sketch3DTrimExtendTransient::Sketch3DTrimExtendTransient(const wy3d::SketchCurve
 
 Sketch3DTrimExtendTransient::~Sketch3DTrimExtendTransient()
 {
+}
+
 }

@@ -22,6 +22,9 @@
 #include <wy3dSketchSpline.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> SketchSplineSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -49,4 +52,6 @@ std::list<wyap::SnapObjectSPtr> SketchSplineSnapObjectCreator::createSnapObjects
         snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(points.back())));
     }
     return snapPoints;
+}
+
 }

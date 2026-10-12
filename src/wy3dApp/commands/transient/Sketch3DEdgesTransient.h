@@ -25,6 +25,9 @@
 #include <TopoDS_Edge.hxx>
 
 #include <wy3dApp/GuiCmdTransient.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // A group of bare BRep edges, drawn in the same orange as the other previews. Its twin
 // Sketch3DCurveTransient samples entities that already exist; this one is for the commands that
@@ -46,5 +49,7 @@ private:
 };
 
 typedef std::shared_ptr<Sketch3DEdgesTransient> Sketch3DEdgesTransientSPtr;
+
+}
 
 #endif // WY3DAPP_SKETCH3D_EDGES_TRANSIENT_H

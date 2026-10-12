@@ -50,6 +50,8 @@ namespace wyap
     class Document;
 }
 
+namespace wy3dApp {
+
 class ElementNode;
 class OsgGizmoNode;
 class SketchEnvironment;
@@ -323,5 +325,7 @@ private:
     };
     std::shared_ptr<SketchEnvInfo> _pSketchEnvInfo;
 };
+
+}
 
 #endif // WY3DAPP_SCENE_H

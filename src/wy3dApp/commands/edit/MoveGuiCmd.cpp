@@ -52,6 +52,9 @@
 #include "commands/edit/MoveRotateGuiCmdUtil.h"
 #include "widgets/frame/MainWindow.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -695,4 +698,6 @@ void MoveGuiCmd::onContextMenuAction_ClearSelection()
         Application::instance().getSelManager()->clearSelections();
         Application::instance().getSelManager()->endChange();
     }
+}
+
 }

@@ -42,6 +42,9 @@
 #include <wy3dImpl.h>
 #include "utils/MessageBoxUtil.h"
 #include "utils/FontSystem.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchTextDialog::SketchTextDialog(
     QWidget* parent, const SketchTextHistory* pTextHistory)
@@ -332,4 +335,6 @@ bool SketchTextDialog::getFontFilePathAndFaceIndex(const QFont& font,
         }
     }
     return false;
+}
+
 }

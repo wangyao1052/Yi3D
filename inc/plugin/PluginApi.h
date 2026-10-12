@@ -30,7 +30,7 @@ class Plugin;
 // its own before creating an instance (patch differences are tolerated).
 using wy3dappNewPluginFn = Plugin* (*)();
 using wy3dappDeletePluginFn = void (*)(Plugin*);
-using wy3dappGetPluginSdkVersionFn = Version (*)();
+using wy3dappGetPluginSdkVersionFn = wy3dApp::Version (*)();
 
 #if defined(_WIN32)
 #define WY3DAPP_PLUGIN_EXPORT extern "C" __declspec(dllexport)
@@ -55,9 +55,9 @@ using wy3dappGetPluginSdkVersionFn = Version (*)();
             assert(false); \
         } \
     } \
-    WY3DAPP_PLUGIN_EXPORT Version wy3dappGetPluginSdkVersion() \
+    WY3DAPP_PLUGIN_EXPORT wy3dApp::Version wy3dappGetPluginSdkVersion() \
     { \
-        return kAppVersion; \
+        return wy3dApp::kAppVersion; \
     }
         
 

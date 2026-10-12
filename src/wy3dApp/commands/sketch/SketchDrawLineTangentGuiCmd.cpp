@@ -36,6 +36,9 @@
 #include "commands/sketch/SketchTrimExtendUtil.h"
 #include "utils/MathUtils.h"
 #include "scene/nodes/ElementNodeType.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class DrawLineTangentPreFilter : public SelectPreFilterFunctor
 {
@@ -592,4 +595,6 @@ bool SketchDrawLineTangentGuiCmd::findMatchedTangentLine(
     startPnt = candidates[nearestIdx].startPoint;
     endPnt = candidates[nearestIdx].endPoint;
     return true;
+}
+
 }

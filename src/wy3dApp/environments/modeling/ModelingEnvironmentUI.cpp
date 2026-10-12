@@ -36,6 +36,9 @@
 #include "ui/ToolBarNames.h"
 #include <wy3dApp/IconUtil.h>
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -1335,4 +1338,6 @@ void ModelingEnvironmentUI::teardown(ModelingEnvironment* pEnv)
     }
 
     pEnv->destroyUI();
+}
+
 }

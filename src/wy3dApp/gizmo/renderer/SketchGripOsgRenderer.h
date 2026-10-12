@@ -23,6 +23,9 @@
 #include <osg/AutoTransform>
 
 #include "OsgGizmoRenderer.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // SketchEntityGripGizmo 的 OSG 渲染器
 // 负责：抓取点几何创建、高亮、位置更新
@@ -54,5 +57,7 @@ private:
     osg::ref_ptr<osg::Geometry> _geom;
     osg::ref_ptr<osg::AutoTransform> _at;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_GRIP_OSG_RENDERER_H

@@ -20,6 +20,9 @@
 #define WY3DAPP_GUI_EVENT_DISPATCHER_H
 
 #include <memory>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SelectHandler;
 
@@ -36,5 +39,7 @@ protected:
     // 子类在构造函数中创建具体的处理器（引擎相关）
     std::shared_ptr<SelectHandler> _pSelectHandler;
 };
+
+}
 
 #endif // WY3DAPP_GUI_EVENT_DISPATCHER_H

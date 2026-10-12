@@ -27,6 +27,10 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCommandMenu.h"
 #include "snap/SketchSnapSystem.h"
+#include "commands/edit/MoveElements.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MoveElemens;
 class LineTransient;
@@ -35,7 +39,7 @@ class GuiCmdHoverInputPopup3;
 
 class MoveGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(MoveGuiCmd, MoveGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(MoveGuiCmd, wy3dApp::MoveGuiCmd, OsgGuiCommand)
 public:
     MoveGuiCmd();
     virtual ~MoveGuiCmd();
@@ -184,6 +188,6 @@ protected:
     virtual SketchSnapSystem* getSketchSnapSys() const { return nullptr; }
 };
 
-#include "commands/edit/MoveElements.h"
+}
 
 #endif // WY3DAPP_MOVE_GUI_CMD_H

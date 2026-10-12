@@ -20,11 +20,14 @@
 #define WY3DAPP_OPTIONS_DIALOG_H
 
 #include <QDialog>
+#include "wy3dAppDefs.h"
 
 class QCheckBox;
 class QComboBox;
 class QSlider;
 class QSpinBox;
+
+namespace wy3dApp {
 
 // 选项对话框(工具菜单):视图/系统/自动保存设置
 class OptionsDialog : public QDialog
@@ -54,5 +57,7 @@ private:
 	QComboBox* _pLanguageCombo;
 	QSpinBox* _pAutoSaveIntervalSpin;
 };
+
+}
 
 #endif // WY3DAPP_OPTIONS_DIALOG_H

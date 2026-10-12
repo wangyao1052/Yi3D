@@ -26,6 +26,9 @@
 #include "snap/SnapSystemBase.h"
 
 #include "view/BaseView.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class OsgGuiEventDispatcher;
 
@@ -80,5 +83,7 @@ private:
     // GUI事件分发器(缓存)
     GuiEventDispatcher* _pGuiEventDispatcher;
 };
+
+}
 
 #endif // WY3DAPP_VIEW_H

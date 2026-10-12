@@ -41,6 +41,9 @@
 #include "snap/SketchSnapSystem.h"
 #include "commands/sketch/SketchTrimExtendUtil.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -626,3 +629,4 @@ bool MakeSketchLine::update(const wy::Vector2& endPnt)
     return true;
 }
 
+}

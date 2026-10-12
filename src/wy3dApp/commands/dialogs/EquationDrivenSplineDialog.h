@@ -26,6 +26,9 @@
 #include <muParser.h>
 #include <wyVector2.h>
 #include <wy3dVector2.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class EquationDrivenSplineDialog : public QDialog
 {
@@ -68,5 +71,7 @@ private:
 
     std::vector<wy::Vector2> _points;
 };
+
+}
 
 #endif // WY3DAPP_EQUATION_DRIVEN_SPLINE_DIALOG_H

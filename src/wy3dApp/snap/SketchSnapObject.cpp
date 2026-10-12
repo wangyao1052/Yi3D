@@ -24,6 +24,9 @@
 #include <wy3dSketchArc.h>
 #include <wy3dSketchEllipse.h>
 #include <wy3dSketchEllipseArc.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 ParallelSnapObject::ParallelSnapObject(
     const wydb::ElementId& id,
@@ -41,4 +44,6 @@ PerpendicularSnapObject::PerpendicularSnapObject(
     : AngleSnapObject(id)
 {
     _angle = computePerpendicularAngle(startPnt, endPnt);
+}
+
 }

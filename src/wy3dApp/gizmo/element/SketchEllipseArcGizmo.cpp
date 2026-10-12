@@ -23,6 +23,9 @@
 #include <wy3dApp/Application.h>
 #include "utils/MathUtils.h"
 #include "gizmo/renderer/SketchEllipseArcGhostOsgRenderer.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 EllipseArcGhostGizmo::EllipseArcGhostGizmo(const wy3d::SketchEllipseArc* pSketchEllipseArc)
     : GhostGizmo(pSketchEllipseArc)
@@ -214,4 +217,6 @@ void SketchEllipseArcGripGizmo::onEndDrag(wydb::Database* pDb, bool commit)
     pTransMgr->endTransaction();
 
     return;
+}
+
 }

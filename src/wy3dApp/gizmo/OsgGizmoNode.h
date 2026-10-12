@@ -20,6 +20,9 @@
 #define WY3DAPP_OSG_GIZMO_NODE_H
 
 #include <osg/PositionAttitudeTransform>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // Gizmo的OSG节点
 class OsgGizmoNode : public osg::PositionAttitudeTransform
@@ -37,5 +40,7 @@ public:
     static const osg::Vec4 YELLOW_COLOR;
     static const osg::Vec4 SKETCH_ENTITY_COLOR;
 };
+
+}
 
 #endif // WY3DAPP_OSG_GIZMO_NODE_H

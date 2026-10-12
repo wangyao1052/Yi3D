@@ -34,6 +34,9 @@
 #include "ParamLineEdit.h"
 #include "PropertyEditorWidget.h"
 #include "SketchSpline3DPointLineEdit.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -245,4 +248,6 @@ void SketchSpline3DPointsEditor::updateIndexRange()
 void SketchSpline3DPointsEditor::onIndexChanged()
 {
     this->refresh();
+}
+
 }

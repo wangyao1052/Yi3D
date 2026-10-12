@@ -36,6 +36,9 @@
 #include <wy3dVector3.h>
 #include <geom/wy3dArc2.h>
 #include <wy3dPlane.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MathUtils
 {
@@ -430,5 +433,7 @@ private:
     static gp_Vec kAxisY;
     static gp_Vec kAxisZ;
 };
+
+}
 
 #endif // WY3DAPP_MATH_UTILS_H

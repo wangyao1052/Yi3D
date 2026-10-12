@@ -23,6 +23,9 @@
 #include <QLineEdit>
 #include <QRadioButton>
 #include <QCheckBox>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class HelixDialog : public QDialog
 {
@@ -79,5 +82,7 @@ private:
     QRadioButton* _ccwRadio;
     bool _isClockWise;
 };
+
+}
 
 #endif // WY3DAPP_HELIX_DIALOG_H

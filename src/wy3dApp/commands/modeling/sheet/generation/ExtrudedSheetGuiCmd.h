@@ -28,6 +28,9 @@
 #include <wy3dExtrudedSheet.h>
 #include <wy3dSketch.h>
 #include "commands/transient/ValidSketchTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopup2_2ndTabLabel;
 
@@ -149,5 +152,7 @@ protected:
     std::unique_ptr<GuiCmdHoverInputPopup2_2ndTabLabel> _pDepthPopup;
     HoverPopupState _hoverPopupState;
 };
+
+}
 
 #endif // WY3DAPP_EXTRUDED_SHEET_GUI_CMD_H

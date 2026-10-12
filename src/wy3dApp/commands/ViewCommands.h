@@ -20,6 +20,9 @@
 #define WY3DAPP_VIEW_COMMANDS_H
 
 #include "SimpleCommand.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 DEFINE_SIMPLE_CMD(FitViewCommand)
 DEFINE_SIMPLE_CMD(FitSelectionCommand)
@@ -39,5 +42,7 @@ DEFINE_SIMPLE_CMD(ViewNormalToCommand)
 DEFINE_SIMPLE_CMD(ShadedWithEdgesDisplayCommand)
 DEFINE_SIMPLE_CMD(ShadedDisplayCommand)
 DEFINE_SIMPLE_CMD(WireframeDisplayCommand)
+
+}
 
 #endif // WY3DAPP_VIEW_COMMANDS_H

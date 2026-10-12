@@ -33,6 +33,8 @@
 #include "scene/nodes/ElementNodeType.h"
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class Scene;
 
 // 元素节点
@@ -281,5 +283,7 @@ protected:
     // 顶点数据
     osg::ref_ptr<osg::Vec3Array> _vertices;
 };
+
+}
 
 #endif // WY3DAPP_ELEMENT_NODE_H

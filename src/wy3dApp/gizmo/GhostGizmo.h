@@ -23,6 +23,9 @@
 #include <wydbElement.h>
 
 #include "gizmo/BaseGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GhostOsgRenderer;
 
@@ -34,5 +37,7 @@ public:
     explicit GhostGizmo(const wydb::Element* pElem);
     virtual ~GhostGizmo() {}
 };
+
+}
 
 #endif // WY3DAPP_GHOST_GIZMO_H

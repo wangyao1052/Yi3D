@@ -21,6 +21,9 @@
 #include <wy3dSketchCenterLine.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> SketchCenterLineSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -44,4 +47,6 @@ std::list<wyap::SnapObjectSPtr> SketchCenterLineSnapObjectCreator::createSnapObj
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(pSketchCenterLine->getStartPoint())));
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(pSketchCenterLine->getEndPoint())));
     return snapPoints;
+}
+
 }

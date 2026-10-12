@@ -20,6 +20,9 @@
 #define WY3DAPP_FEATURE_TREE_VIEW_H
 
 #include <QTreeView>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class FeatureTreeView : public QTreeView
 {
@@ -37,5 +40,7 @@ protected:
 private:
 
 };
+
+}
 
 #endif // WY3DAPP_FEATURE_TREE_VIEW_H

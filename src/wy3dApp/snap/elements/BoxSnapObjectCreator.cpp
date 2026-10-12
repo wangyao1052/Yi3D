@@ -21,6 +21,9 @@
 #include <wy3dBox.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> BoxSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -49,4 +52,6 @@ std::list<wyap::SnapObjectSPtr> BoxSnapObjectCreator::createSnapObjects(const wy
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, width, height, matrix));
 
     return snapPoints;
+}
+
 }

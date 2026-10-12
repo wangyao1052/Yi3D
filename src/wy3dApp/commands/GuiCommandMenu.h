@@ -22,6 +22,9 @@
 #include <QMenu>
 #include <QObject>
 #include <QAction>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCommand;
 
@@ -82,5 +85,7 @@ private slots:
 protected:
     virtual bool eventFilter(QObject* obj, QEvent* event) override;
 };
+
+}
 
 #endif // WY3DAPP_GUI_CMD_MENU_H

@@ -38,7 +38,9 @@
 #include "utils/TopoShapeUtil.h"
 #include "commands/dialogs/DoubleValueInputDialog.h"
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 // 前置过滤器: 确保只能选择单一主体的面或边
 class ShellGuiCmdPreSelFilter : public SelectPreFilterFunctor
@@ -402,4 +404,6 @@ bool ShellGuiCmd::createShell(const wyap::SelectionSet& sels, double thickness, 
     }
 
     return true;
+}
+
 }

@@ -20,11 +20,14 @@
 #define WY3DAPP_VIEWPORT_OVERLAY_BAR_H
 
 #include <QWidget>
+#include "wy3dAppDefs.h"
 
 class QAction;
 class QEvent;
 class QHBoxLayout;
 class QShowEvent;
+
+namespace wy3dApp {
 
 // A row of square icon-only buttons floating over the top-center of a viewport.
 // Each button is bound to the caller's action, so icon, tooltip, enabled state and triggering
@@ -50,5 +53,7 @@ private:
 private:
     QHBoxLayout* _pLayout;
 };
+
+}
 
 #endif // WY3DAPP_VIEWPORT_OVERLAY_BAR_H

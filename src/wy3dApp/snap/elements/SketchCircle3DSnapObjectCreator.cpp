@@ -20,6 +20,9 @@
 #include <cassert>
 #include <wy3dSketchCircle3D.h>
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> SketchCircle3DSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -44,4 +47,6 @@ std::list<wyap::SnapObjectSPtr> SketchCircle3DSnapObjectCreator::createSnapObjec
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pCircle->getId(), center - xDir * radius));
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pCircle->getId(), center - yDir * radius));
     return snapPoints;
+}
+
 }

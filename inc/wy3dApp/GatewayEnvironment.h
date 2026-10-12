@@ -25,6 +25,8 @@
 #include <wy3dApp/EnvironmentBase.h>
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT GatewayEnvironment
     : public wyap::GatewayEnvironment
     , public EnvironmentBase
@@ -34,5 +36,7 @@ protected:
     GatewayEnvironment() = default;
     ~GatewayEnvironment();
 };
+
+}
 
 #endif // WY3DAPP_GATEWAY_ENVIRONMENT_H

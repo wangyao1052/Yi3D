@@ -18,6 +18,9 @@
 
 #include "ColorLabel.h"
 #include <QSizePolicy>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 ColorLabel::ColorLabel(const wy3d::Color& color, bool isTheSameValue, QWidget* parent)
     : QLabel(parent)
@@ -42,4 +45,6 @@ ColorLabel::ColorLabel(const wy3d::Color& color, bool isTheSameValue, QWidget* p
         "}").arg(static_cast<int>(color.red))
            .arg(static_cast<int>(color.green))
            .arg(static_cast<int>(color.blue)));
+}
+
 }

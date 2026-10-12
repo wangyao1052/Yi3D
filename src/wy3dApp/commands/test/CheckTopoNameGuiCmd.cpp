@@ -49,7 +49,9 @@
 #include "utils/TopoShapeUtil.h"
 #include "commands/dialogs/ChamferDialog.h"
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 // 前置过滤器: 确保只能选择单一主体的面或边
 class CheckTopoNameGuiCmdPreSelFilter : public SelectPreFilterFunctor
@@ -235,4 +237,6 @@ void CheckTopoNameGuiCmdMenu::onCheckAll()
         }
         QMessageBox::warning(nullptr, "Yi3D", ss.str().c_str());
     }
+}
+
 }

@@ -20,11 +20,16 @@
 #define WY3DAPP_SKETCH_LINE3D_SNAP_OBJECT_CREATOR_H
 
 #include "ElemSnapObjectCreator.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchLine3DSnapObjectCreator : public ElemSnapObjectCreator
 {
 public:
     virtual std::list<wyap::SnapObjectSPtr> createSnapObjects(const wydb::Element* pElem) override;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_LINE3D_SNAP_OBJECT_CREATOR_H

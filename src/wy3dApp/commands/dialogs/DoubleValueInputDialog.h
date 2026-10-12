@@ -22,6 +22,9 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <wy3dImpl.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class DoubleValueLineEdit : public QLineEdit
 {
@@ -98,5 +101,7 @@ private:
     double _value2nd;
     Options _options;
 };
+
+}
 
 #endif // WY3DAPP_DOUBLE_VALUE_INPUT_DIALOG_H

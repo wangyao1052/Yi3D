@@ -39,6 +39,9 @@
 #include "snap3d/Sketch3DSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -641,4 +644,6 @@ bool MakeSketchCircle3D::updatePlane(const wy::Vector3& normal, const wy::Vector
         pTransMgr->mergeTransaction();
     }
     return true;
+}
+
 }

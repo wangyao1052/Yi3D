@@ -20,6 +20,9 @@
 #define WY3DAPP_SKETCH3D_ELEMENT_NODE_H
 
 #include <wy3dApp/ElementNode.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Sketch3DElementNode : public ElementNode
 {
@@ -140,5 +143,7 @@ private:
     // 线数据
     std::vector<CurveInfo> _curveInfos;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH3D_ELEMENT_NODE_H

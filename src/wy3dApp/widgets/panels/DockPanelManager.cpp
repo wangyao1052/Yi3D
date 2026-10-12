@@ -28,6 +28,9 @@
 #include <QWidget>
 
 #include <cassert>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 DockPanelManager::DockPanelManager(QMainWindow* pMainWindow) :
     QObject(pMainWindow),
@@ -232,4 +235,6 @@ void DockPanelManager::createDockPanel(DockPanelEntry& entry)
 
     entry.dockWidget = pDockWidget;
     entry.widget = pWidget;
+}
+
 }

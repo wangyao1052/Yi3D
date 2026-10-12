@@ -27,6 +27,9 @@
 #include <wyVector2.h>
 #include <wy3dMath.h>
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 EquationDrivenSplineDialog::EquationDrivenSplineDialog(QWidget* parent)
     : QDialog(parent), _minNum(3), _maxNum(100)
@@ -317,4 +320,6 @@ bool EquationDrivenSplineDialog::evalute()
         assert(false);
         return false;
     }
+}
+
 }

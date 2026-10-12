@@ -23,6 +23,9 @@
 #include <QObject>
 #include <QString>
 #include <wy3dErrorCode.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ErrorCodeTranslation : public QObject
 {
@@ -45,5 +48,7 @@ private:
     explicit ErrorCodeTranslation(QObject* parent = nullptr);
     ~ErrorCodeTranslation();
 };
+
+}
 
 #endif // WY3D_APP_ERROR_CODE_TRANSLATION_H

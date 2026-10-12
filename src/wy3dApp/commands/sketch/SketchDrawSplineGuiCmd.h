@@ -29,13 +29,16 @@
 #include <wydbElementId.h>
 #include <wy3dSketchSpline.h>
 #include "commands/transient/BasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchSpline;
 class GuiCmdHoverInputPopup2;
 
 class SketchDrawSplineGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawSplineGuiCmd, SketchDrawSplineGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawSplineGuiCmd, wy3dApp::SketchDrawSplineGuiCmd, OsgGuiCommand)
 public:
     SketchDrawSplineGuiCmd();
     virtual ~SketchDrawSplineGuiCmd();
@@ -150,7 +153,7 @@ protected:
 
 class SketchDrawSplineGuiCmd_FitPoints : public SketchDrawSplineGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawSplineGuiCmd_FitPoints, SketchDrawSplineGuiCmd_FitPoints, SketchDrawSplineGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawSplineGuiCmd_FitPoints, wy3dApp::SketchDrawSplineGuiCmd_FitPoints, SketchDrawSplineGuiCmd)
 public:
     SketchDrawSplineGuiCmd_FitPoints() : SketchDrawSplineGuiCmd()
     {
@@ -169,7 +172,7 @@ protected:
 
 class SketchDrawSplineGuiCmd_ControlPoints : public SketchDrawSplineGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawSplineGuiCmd_ControlPoints, SketchDrawSplineGuiCmd_ControlPoints, SketchDrawSplineGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawSplineGuiCmd_ControlPoints, wy3dApp::SketchDrawSplineGuiCmd_ControlPoints, SketchDrawSplineGuiCmd)
 public:
     SketchDrawSplineGuiCmd_ControlPoints() : SketchDrawSplineGuiCmd()
     {
@@ -217,5 +220,7 @@ private:
     // 点集合
     std::vector<wy::Vector2> _pnts;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_SPLINE_GUI_CMD_H

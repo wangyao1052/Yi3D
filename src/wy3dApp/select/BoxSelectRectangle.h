@@ -20,6 +20,9 @@
 
 #include <osg/Camera>
 #include <osg/View>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 框选框
 class BoxSelectRectangle : public osg::Camera
@@ -44,3 +47,5 @@ public:
     osg::Vec2d pnt1_;
     osg::Vec2d pnt2_;
 };
+
+}

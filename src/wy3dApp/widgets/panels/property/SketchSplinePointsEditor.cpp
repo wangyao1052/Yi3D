@@ -36,6 +36,9 @@
 #include "PropertyEditorWidget.h"
 #include "SketchSplinePointLineEdit.h"
 #include "SketchSplineTangentCheckBox.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -297,4 +300,6 @@ void SketchSplinePointsEditor::updateIndexRange()
 void SketchSplinePointsEditor::onIndexChanged()
 {
     this->refresh();
+}
+
 }

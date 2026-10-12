@@ -25,6 +25,9 @@
 #include <wydbParameter.h>
 #include <wydbElement.h>
 #include <wy3dParamEnumDef.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class PropertyEditorWidget;
 
@@ -66,5 +69,7 @@ protected:
     // 是否正在程序中更新 (避免信号循环)
     bool _updating;
 };
+
+}
 
 #endif // WY3DAPP_PARAM_COMBO_BOX_H

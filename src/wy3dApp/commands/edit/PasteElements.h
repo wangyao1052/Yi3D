@@ -30,6 +30,9 @@
 #include <wy3dPlane.h>
 
 #include <wy3dApp/GuiCommand.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ElementNode;
 
@@ -83,5 +86,7 @@ private:
     // 隐藏的元素渲染节点
     std::list<wydb::ElementId> _hiddenElemIds;
 };
+
+}
 
 #endif // WY3DAPP_PASTE_ELEMENTS_H

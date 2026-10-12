@@ -39,6 +39,9 @@
 #include <wy3dApp/Application.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/TopoShapeUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // std::stoul throws on a malformed sub path, a bad value should only make the pick fail
 static bool parseSubPathIndex(const std::string& subPath, unsigned int& index)
@@ -327,4 +330,6 @@ void SketchIncludeCurve3DGuiCmd::reportFailure(wy3d::Sketch3DEdgeUtil::Result re
     QMessageBox::warning(nullptr,
         QCoreApplication::translate("SketchIncludeCurve3DGuiCmd", "Include Curve"),
         message);
+}
+
 }

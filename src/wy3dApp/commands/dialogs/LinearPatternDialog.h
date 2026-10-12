@@ -21,6 +21,9 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class LinearPatternDialog : public QDialog
 {
@@ -78,5 +81,7 @@ private:
     unsigned int _count2nd;
     double _spacing2nd;
 };
+
+}
 
 #endif // WY3DAPP_LINEAR_PATTERN_DIALOG_H

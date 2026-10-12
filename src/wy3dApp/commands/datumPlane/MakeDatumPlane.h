@@ -28,6 +28,9 @@
 #include <wy3dDatumPlane.h>
 #include <wy3dImpl.h>
 #include <wy3dApp/OsgGuiCommand.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeDatumPlane : public GuiCmdMakeElement
 {
@@ -85,5 +88,7 @@ public:
 private:
     wy3d::DatumPlane* _pDatumPlane;
 };
+
+}
 
 #endif // WY3DAPP_MAKE_DATUM_PLANE_H

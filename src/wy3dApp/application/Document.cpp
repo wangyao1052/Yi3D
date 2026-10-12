@@ -17,6 +17,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Document.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 Document::Document() :
     wyap::Document(),
@@ -40,4 +43,6 @@ void Document::onDatabaseChanged(
     {
         wyap::Document::onDatabaseChanged(pDatabase, pTransaction, changeInfo);
     }
+}
+
 }

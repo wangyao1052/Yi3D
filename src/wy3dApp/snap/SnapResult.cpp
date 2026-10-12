@@ -17,6 +17,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "SnapResult.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 osg::ref_ptr<osg::Node> SnapResultPoint::generateOsgNode() const
 {
@@ -30,4 +33,6 @@ osg::ref_ptr<osg::Node> SnapResultPoint::generateOsgNode() const
     {
         return nullptr;
     }
+}
+
 }

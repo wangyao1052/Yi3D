@@ -30,6 +30,9 @@
 
 #include "scene/Colors.h"
 #include "scene/RenderConst.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -130,4 +133,6 @@ Sketch3DDirectionTransient::Sketch3DDirectionTransient(const wy::Vector3& origin
 
 Sketch3DDirectionTransient::~Sketch3DDirectionTransient()
 {
+}
+
 }

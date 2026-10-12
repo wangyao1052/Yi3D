@@ -40,6 +40,9 @@
 #include "commands/dialogs/ThickenCmdPanel.h"
 #include "utils/MessageBoxUtil.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static constexpr double kDefaultThickness = 2.0;
 
@@ -323,4 +326,6 @@ void ThickenGuiCmd::onDialogCanceled()
     Application::instance().getSelManager()->endChange();
     _pMakeThicken = nullptr;
     this->requestAbort(AbortCause::UserCancel);
+}
+
 }

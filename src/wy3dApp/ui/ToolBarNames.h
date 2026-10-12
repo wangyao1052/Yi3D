@@ -21,7 +21,7 @@
 
 #include "wy3dAppDefs.h"
 
-NS_WY3DAPP_BEG
+namespace wy3dApp {
 
 namespace ToolBarNames
 {
@@ -41,6 +41,6 @@ namespace ToolBarNames
     inline constexpr const char* Test = "test";
 }
 
-NS_WY3DAPP_END
+}
 
 #endif // WY3DAPP_TOOL_BAR_NAMES_H

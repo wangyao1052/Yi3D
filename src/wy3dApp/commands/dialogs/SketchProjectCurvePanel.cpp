@@ -24,6 +24,9 @@
 #include <QKeyEvent>
 #include <QLabel>
 #include <QVBoxLayout>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchProjectCurvePanel::SketchProjectCurvePanel(QWidget* parent)
     : FloatingCmdPanel(parent)
@@ -165,4 +168,6 @@ void SketchProjectCurvePanel::setDirectionAvailable(bool available)
 bool SketchProjectCurvePanel::isDirectionAvailable() const
 {
     return _isDirectionAvailable;
+}
+
 }

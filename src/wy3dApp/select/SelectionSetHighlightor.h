@@ -22,6 +22,9 @@
 #include <memory>
 #include <wyapSelection.h>
 #include <osg/Vec4>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SelectionSetHighlightor
 {
@@ -52,5 +55,7 @@ private:
 
 };
 typedef std::shared_ptr<SelectionSetHighlightor> SelectionSetHighlightorSPtr;
+
+}
 
 #endif // WY3DAPP_SELECTION_SET_HIGHLIGHTOR_H

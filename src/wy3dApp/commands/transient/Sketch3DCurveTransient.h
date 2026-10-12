@@ -27,6 +27,9 @@
 #include <wy3dSketchCurve3D.h>
 
 #include <wy3dApp/GuiCmdTransient.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 3D草图曲线临时渲染对象(高亮被捕捉参考的3D曲线,样式与2D草图一致:橙色加粗)
 // 通过SketchCurve3D::getPointAt采样折线化,空间曲线(圆/弧/样条)通用
@@ -52,5 +55,7 @@ private:
 };
 
 typedef std::shared_ptr<Sketch3DCurveTransient> Sketch3DCurveTransientSPtr;
+
+}
 
 #endif // WY3DAPP_SKETCH3D_CURVE_TRANSIENT_H

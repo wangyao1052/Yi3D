@@ -26,6 +26,9 @@
 #include <QVBoxLayout>
 
 #include <wy3dImpl.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static constexpr double kDefaultOffset = 2.0;
 
@@ -114,4 +117,6 @@ void OffsetSheetCmdPanel::onOffsetEditChanged()
     _lastValidOffset = value;
     QToolTip::hideText();
     emit offsetChanged(value);
+}
+
 }

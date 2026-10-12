@@ -21,6 +21,9 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchRectArrayDialog : public QDialog
 {
@@ -57,5 +60,7 @@ private:
     unsigned int _cols;
     unsigned int _rows;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_RECT_ARRAY_DIALOG_H

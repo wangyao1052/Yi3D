@@ -35,12 +35,15 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/transient/Sketch3DTrimExtendTransient.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // Grows the end of a 3D sketch curve that the cursor points at, out to the nearest crossing its own
 // extension would meet.
 class Sketch3DExtendGuiCmd : public OsgGuiCommand, public wydb::DatabaseReactor
 {
-    WYRX_DECLARE_MEMBERS(Sketch3DExtendGuiCmd, Sketch3DExtendGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(Sketch3DExtendGuiCmd, wy3dApp::Sketch3DExtendGuiCmd, OsgGuiCommand)
 public:
     Sketch3DExtendGuiCmd();
     virtual ~Sketch3DExtendGuiCmd();
@@ -78,5 +81,7 @@ private:
 
     PointPickOption _pointPickOption;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH3D_EXTEND_GUI_CMD_H

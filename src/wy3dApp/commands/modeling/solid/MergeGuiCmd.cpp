@@ -25,7 +25,9 @@
 #include <wy3dApp/Application.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 // 主体选择过滤器
 // 只能选择wy3d::Solid并且owner为空;
@@ -483,3 +485,4 @@ bool MergeGuiCmd::merge(unsigned int errorCode)
     return true;
 }
 
+}

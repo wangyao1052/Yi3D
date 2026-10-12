@@ -23,6 +23,9 @@
 #include <wydbTransaction.h>
 #include <wyapCmdExecution.h>
 #include <wyapDocument.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class FileCmdsUtil
 {
@@ -51,7 +54,7 @@ public:
 
 class NewFileCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(NewFileCommand, NewFileCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(NewFileCommand, wy3dApp::NewFileCommand, wyap::ImmediateCmdExecution)
 public:
     NewFileCommand() : wyap::ImmediateCmdExecution() {};
     ~NewFileCommand() {}
@@ -64,7 +67,7 @@ private:
 
 class OpenFileCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(OpenFileCommand, OpenFileCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(OpenFileCommand, wy3dApp::OpenFileCommand, wyap::ImmediateCmdExecution)
 public:
     OpenFileCommand() : wyap::ImmediateCmdExecution() {};
     ~OpenFileCommand() {}
@@ -77,7 +80,7 @@ public:
 
 class SaveFileCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(SaveFileCommand, SaveFileCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(SaveFileCommand, wy3dApp::SaveFileCommand, wyap::ImmediateCmdExecution)
 public:
     SaveFileCommand() : wyap::ImmediateCmdExecution() {}
     ~SaveFileCommand() {}
@@ -87,7 +90,7 @@ public:
 
 class SaveAsFileCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(SaveAsFileCommand, SaveAsFileCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(SaveAsFileCommand, wy3dApp::SaveAsFileCommand, wyap::ImmediateCmdExecution)
 public:
     SaveAsFileCommand() : wyap::ImmediateCmdExecution() {}
     ~SaveAsFileCommand() {}
@@ -97,7 +100,7 @@ public:
 
 class ExportFileCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(ExportFileCommand, ExportFileCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(ExportFileCommand, wy3dApp::ExportFileCommand, wyap::ImmediateCmdExecution)
 public:
     ExportFileCommand() : wyap::ImmediateCmdExecution() {}
     ~ExportFileCommand() {}
@@ -107,40 +110,42 @@ public:
 
 class ExportSelectedCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(ExportSelectedCommand, ExportSelectedCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(ExportSelectedCommand, wy3dApp::ExportSelectedCommand, wyap::ImmediateCmdExecution)
 public:
     virtual int run() override;
 };
 
 class ImportFileCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(ImportFileCommand, ImportFileCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(ImportFileCommand, wy3dApp::ImportFileCommand, wyap::ImmediateCmdExecution)
 public:
     virtual int run() override;
 };
 
 class ImportSketchCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(ImportSketchCommand, ImportSketchCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(ImportSketchCommand, wy3dApp::ImportSketchCommand, wyap::ImmediateCmdExecution)
 public:
     virtual int run() override;
 };
 
 class ExportSketchCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(ExportSketchCommand, ExportSketchCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(ExportSketchCommand, wy3dApp::ExportSketchCommand, wyap::ImmediateCmdExecution)
 public:
     virtual int run() override;
 };
 
 class RunScriptCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(RunScriptCommand, RunScriptCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(RunScriptCommand, wy3dApp::RunScriptCommand, wyap::ImmediateCmdExecution)
 public:
     virtual int run() override;
 
 private:
     void abortActiveTransaction();
 };
+
+}
 
 #endif // WY3DAPP_FILE_COMMANDS_H

@@ -39,7 +39,9 @@
 #include "scene/RenderConst.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 RotateElements::RotateElements(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 {
@@ -337,4 +339,6 @@ void RotateTransient::updateRotateLine(const wy::Vector3& pnt1, const wy::Vector
     (*_verticesRotateLine)[1].set(pnt2.x(), pnt2.y(), pnt2.z());
     _verticesRotateLine->dirty();
     _geomRotateLine->dirtyBound();
+}
+
 }

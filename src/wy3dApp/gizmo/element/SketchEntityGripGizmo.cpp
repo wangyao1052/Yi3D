@@ -29,6 +29,9 @@
 #include "snap/SketchSnapSystem.h"
 #include "gizmo/renderer/SketchGripOsgRenderer.h"
 #include "gizmo/renderer/OsgGizmoRenderer.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchEntityGripGizmo::SketchEntityGripGizmo(const wy3d::SketchEntity* pSketchEntity)
     : BaseGizmo(pSketchEntity ? pSketchEntity->getId() : wydb::ElementId{}), _sketchId(), _sketchPlane()
@@ -186,4 +189,6 @@ const wy3d::SketchEntity* SketchEntityGripGizmo::getSketchEntity() const
     if (!pDb) return nullptr;
     const wydb::Element* pElem = pDb->getElement(_id);
     return wy3d::SketchEntity::cast(pElem);
+}
+
 }

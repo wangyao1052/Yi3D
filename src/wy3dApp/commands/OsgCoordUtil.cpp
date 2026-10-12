@@ -39,8 +39,11 @@
 #include "snap3d/Sketch3DSnapResult.h"
 #include "snap3d/Sketch3DSnapSystem.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
 
 // ── 文件级辅助函数 ──────────────────────────────────────────────
+
+namespace wy3dApp {
 
 static SketchSnapResultSPtr convertSnapResult(
     const wy3d::Plane& sketchPlane,
@@ -474,4 +477,6 @@ osg::Vec2d OsgCoordUtil::projectWorldToWindow(
         camera->getViewport()->computeWindowMatrix();
     osg::Vec3d win = osg::Vec3d(worldPnt.x(), worldPnt.y(), worldPnt.z()) * MVPW;
     return osg::Vec2d(win.x(), win.y());
+}
+
 }

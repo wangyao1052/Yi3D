@@ -21,6 +21,9 @@
 #include <wydbDatabase.h>
 #include <wydbElement.h>
 #include <wyrxClassInfo.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SelectFilterStatus CommonPreSelFilterForPointPick::operator()(
     const wydb::Database* pDb,
@@ -101,4 +104,6 @@ SelectFilterStatus MultiClassSelFilter::operator()(
         }
     }
     return SelectFilterStatus::Continue;
+}
+
 }

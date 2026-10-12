@@ -21,7 +21,7 @@
 
 #include "wy3dAppDefs.h"
 
-NS_WY3DAPP_BEG
+namespace wy3dApp {
 
 namespace MenuBarNames
 {
@@ -38,6 +38,6 @@ namespace MenuBarNames
     inline constexpr const char* Help = "Help";
 }
 
-NS_WY3DAPP_END
+}
 
 #endif // WY3DAPP_MENU_BAR_NAMES_H

@@ -31,7 +31,9 @@
 #include "utils/MathUtils.h"
 #include "scene/Colors.h"
 #include "common/osg/OsgUtils.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 ScaleElements::ScaleElements(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 {
@@ -179,4 +181,6 @@ ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
     return false;
+}
+
 }

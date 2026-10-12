@@ -66,8 +66,11 @@
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
 
 #define SIDE 100.0
+
+namespace wy3dApp {
 
 DatumPlaneElementNode::DatumPlaneElementNode(const wydb::ElementId& id)
     : ElementNode(id), _min(-SIDE, -SIDE), _max(SIDE, SIDE)
@@ -418,4 +421,6 @@ void DatumPlaneElementNode::previewImpl(bool flag)
 
 void DatumPlaneElementNode::setActiveImpl(bool flag)
 {
+}
+
 }

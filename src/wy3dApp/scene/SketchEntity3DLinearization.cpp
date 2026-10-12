@@ -27,6 +27,9 @@
 #include <wy3dSketchSpline3D.h>
 #include <Geom_BSplineCurve.hxx>
 #include <gp_Pnt.hxx>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static const unsigned int kCirclePointsNum = 100;
 static const unsigned int kEllipsePointsNum = 200;
@@ -271,4 +274,6 @@ SketchEntity3DLinearization::SketchEntity3DLinearization(const wy::Vector3& star
 SketchEntity3DLinearization::SketchEntity3DLinearization(const wy::Vector3& center, const wy::Vector3& normal, const wy::Vector3& xDir, double radius)
 {
     circleLinearization(center, normal, xDir, radius, _vertices, _indices);
+}
+
 }

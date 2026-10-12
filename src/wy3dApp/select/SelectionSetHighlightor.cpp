@@ -25,6 +25,9 @@
 #include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
 #include "scene/nodes/Sketch3DElementNode.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SelectionSetHighlightor::SelectionSetHighlightor(const wyap::SelectionSet& ss)
     : _ss(ss), _useCustomColor(false)
@@ -167,4 +170,6 @@ void SelectionSetHighlightor::showSelection(const wyap::Selection& sel, bool val
     }
     break;
     }
+}
+
 }

@@ -29,6 +29,9 @@
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include "utils/TopoShapeUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool GuiCommandUtil::getWorkingPlane(const wyap::Selection& sel, wy3d::Plane& workPln)
 {
@@ -267,4 +270,6 @@ bool GuiCommandUtil::initSketch3DInfo(GuiCmdSketch3DInfo& info)
         info.sketch3dId = wydb::ElementId::kNull;
         return false;
     }
+}
+
 }

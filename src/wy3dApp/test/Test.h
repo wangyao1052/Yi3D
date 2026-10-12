@@ -21,11 +21,16 @@
 
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Test
 {
 public:
     static void test(wydb::Database* pDb, wydb::Transaction* pTrans);
 };
+
+}
 
 #endif // WY3DAPP_TEST_H

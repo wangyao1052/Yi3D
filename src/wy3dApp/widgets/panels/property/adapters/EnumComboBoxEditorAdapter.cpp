@@ -25,6 +25,9 @@
 
 #include <typeindex>
 #include <cassert>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class EnumComboBoxEditorAdapter : public ParamEditorAdapter
 {
@@ -58,3 +61,5 @@ static struct {
         }
     } reg;
 } _regEnumComboBoxEditor;
+
+}

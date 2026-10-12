@@ -29,6 +29,9 @@
 #include <osgGA/GUIActionAdapter>
 #include <osgGA/GUIEventAdapter>
 #include <osgViewer/View>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // Navigation cube in the top right corner of the viewport (CrownCAD style).
 //
@@ -91,3 +94,5 @@ private:
     int _pressedFacet = -1;
     bool _isPressed = false;
 };
+
+}

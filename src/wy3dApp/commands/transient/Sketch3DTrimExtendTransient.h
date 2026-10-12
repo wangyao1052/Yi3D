@@ -25,6 +25,9 @@
 #include <wy3dSketchCurve3D.h>
 
 #include <wy3dApp/GuiCmdTransient.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // The piece of a 3D sketch curve a trim or an extend would act on, drawn in the same orange as the
 // 2D commands use. The range may run past the curve's own ends, which is exactly what an extension
@@ -46,5 +49,7 @@ private:
 };
 
 typedef std::shared_ptr<Sketch3DTrimExtendTransient> Sketch3DTrimExtendTransientSPtr;
+
+}
 
 #endif // WY3DAPP_SKETCH3D_TRIM_EXTEND_TRANSIENT_H

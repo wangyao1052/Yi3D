@@ -21,6 +21,7 @@
 
 #include <QPoint>
 #include <QWidget>
+#include "wy3dAppDefs.h"
 
 class QFrame;
 class QHBoxLayout;
@@ -28,6 +29,8 @@ class QLabel;
 class QPushButton;
 class QShowEvent;
 class QEvent;
+
+namespace wy3dApp {
 
 class FloatingCmdPanel : public QWidget
 {
@@ -85,5 +88,7 @@ private:
     bool _dragging;
     QPoint _dragOffset;
 };
+
+}
 
 #endif // WY3DAPP_FLOATING_CMD_PANEL_H

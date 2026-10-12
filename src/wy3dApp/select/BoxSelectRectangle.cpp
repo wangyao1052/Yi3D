@@ -20,6 +20,9 @@
 #include <osg/Geometry>
 #include <osg/LineStipple>
 #include <osg/LineWidth>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SelectBoxDrawCallback : public osg::Camera::DrawCallback
 {
@@ -113,4 +116,6 @@ void BoxSelectRectangle::update(const osg::Vec2d& pnt1, const osg::Vec2d& pnt2)
     vertices_->at(3).set(pnt1_.x(), pnt2_.y(), 0.0f);
     vertices_->dirty();
     geom_->dirtyBound();
+}
+
 }

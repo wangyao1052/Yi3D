@@ -26,6 +26,9 @@
 #include <wy3dMath.h>
 #include <utils/wy3dCurveIntersectionUtil.h>
 #include <wy3dImpl.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 gp_Vec MathUtils::kAxisX(1.0, 0.0, 0.0);
 gp_Vec MathUtils::kAxisY(0.0, 1.0, 0.0);
@@ -626,4 +629,6 @@ bool MathUtils::tangentLinesOfArcArc(
     }
 
     return !tangentLines.empty();
+}
+
 }

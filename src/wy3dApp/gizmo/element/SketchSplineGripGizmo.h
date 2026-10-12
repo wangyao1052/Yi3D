@@ -23,6 +23,9 @@
 #include <wy3dSketchSpline.h>
 #include "SketchEntityGripGizmo.h"
 #include "gizmo/GhostGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SplineCtrolPointsPathGhostGizmo : public GhostGizmo
 {
@@ -48,5 +51,7 @@ protected:
 private:
     unsigned int _index;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_SPLINE_GRIP_GIZMO_H

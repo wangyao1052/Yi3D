@@ -40,6 +40,9 @@
 #include "commands/FileCommands.h"
 #include "utils/MessageBoxUtil.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -438,4 +441,6 @@ bool AutoSave::autosaveDocument(wyap::Document* pDoc)
     iter->second.lastAutoSaveIndex = changeCount;
     iter->second.lastAutoSaveFilePath = autosavePath;
     return true;
+}
+
 }

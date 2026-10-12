@@ -38,11 +38,14 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/transient/Sketch3DTrimExtendTransient.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // Cuts the piece of a 3D sketch curve under the cursor away at the crossings on either side of it.
 class Sketch3DTrimGuiCmd : public OsgGuiCommand, public wydb::DatabaseReactor
 {
-    WYRX_DECLARE_MEMBERS(Sketch3DTrimGuiCmd, Sketch3DTrimGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(Sketch3DTrimGuiCmd, wy3dApp::Sketch3DTrimGuiCmd, OsgGuiCommand)
 public:
     Sketch3DTrimGuiCmd();
     virtual ~Sketch3DTrimGuiCmd();
@@ -95,5 +98,7 @@ private:
 
     PointPickOption _pointPickOption;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH3D_TRIM_GUI_CMD_H

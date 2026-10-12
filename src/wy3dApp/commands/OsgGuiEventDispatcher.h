@@ -21,6 +21,9 @@
 
 #include <osgGA/GUIEventHandler>
 #include "commands/GuiEventDispatcher.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class OsgGuiEventDispatcher : public GuiEventDispatcher, public osgGA::GUIEventHandler
 {
@@ -42,5 +45,7 @@ private:
     // 分发 Gizmo 事件
     bool handleGizmoEvent(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
 };
+
+}
 
 #endif // WY3DAPP_COMMAND_EVENT_DISPATCHER_H

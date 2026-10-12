@@ -29,7 +29,9 @@
 #include "select/SketchPlaneSelFilter.h"
 #include "snap/SnapObject.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 class RotateGuiCmdPreFilter_Modeling : public SelectPreFilterFunctor
 {
@@ -122,4 +124,6 @@ void ModelingRotateGuiCmd::configureSelectElementOptions(GuiCmdSelectOptions& op
     options.preFilter = std::make_shared<RotateGuiCmdPreFilter_Modeling>();
     options.filter = std::make_shared<MultiClassSelFilter>(
         std::vector<wyrx::ClassInfo*>{wy3d::Solid::classInfo(), wy3d::Sheet::classInfo()});
+}
+
 }

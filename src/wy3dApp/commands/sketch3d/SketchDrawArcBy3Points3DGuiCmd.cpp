@@ -39,6 +39,9 @@
 #include "utils/MathUtils.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -593,4 +596,6 @@ bool MakeSketchArcBy3Points3D::update(const wy::Vector3& pnt1, const wy::Vector3
         pTransMgr->mergeTransaction();
     }
     return true;
+}
+
 }

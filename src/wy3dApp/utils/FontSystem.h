@@ -30,6 +30,9 @@
 #include FT_OUTLINE_H
 #include FT_SFNT_NAMES_H
 #include FT_TRUETYPE_IDS_H
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class FontSystem
 {
@@ -48,5 +51,7 @@ private:
     std::vector<QString> _fontFiles;
     std::map<std::wstring, std::pair<size_t, FT_Long>> _fontName2Index;
 };
+
+}
 
 #endif // WY3DAPP_FONT_SYSTEM_H

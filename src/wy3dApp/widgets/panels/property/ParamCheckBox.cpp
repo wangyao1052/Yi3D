@@ -37,6 +37,9 @@
 #include "widgets/panels/DockPanelManager.h"
 #include "PropertyEditorWidget.h"
 #include <wy3dApp/Scene.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static void setWidgetFontSize(QWidget* pWidget, int pointSize = 12)
 {
@@ -187,4 +190,6 @@ bool ParamCheckBox::modifyElement(wydb::Element* pElem, const wydb::ParameterVal
         return true;
     else
         return false;
+}
+
 }

@@ -30,6 +30,9 @@
 #include <wy3dSketchCircle.h>
 
 #include "commands/transient/BasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchCircle;
 class GuiCmdHoverInputPopup1;
@@ -37,7 +40,7 @@ class GuiCmdHoverInputPopup2;
 
 class SketchDrawCircleGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawCircleGuiCmd, SketchDrawCircleGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawCircleGuiCmd, wy3dApp::SketchDrawCircleGuiCmd, OsgGuiCommand)
 public:
     SketchDrawCircleGuiCmd();
     virtual ~SketchDrawCircleGuiCmd();
@@ -141,5 +144,6 @@ private:
     wy3d::SketchCircle* _pSketchCircle;
 };
 
-#endif // WY3DAPP_SKETCH_DRAW_CIRCLE_GUI_CMD_H
+}
 
+#endif // WY3DAPP_SKETCH_DRAW_CIRCLE_GUI_CMD_H

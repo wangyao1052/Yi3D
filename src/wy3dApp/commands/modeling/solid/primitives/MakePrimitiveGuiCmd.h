@@ -25,10 +25,13 @@
 #include <wy3dBox.h>
 #include <wy3dApp/SelectPreview.h>
 #include "commands/GuiCommandMenu.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakePrimitiveGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(MakePrimitiveGuiCmd, MakePrimitiveGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(MakePrimitiveGuiCmd, wy3dApp::MakePrimitiveGuiCmd, OsgGuiCommand)
 public:
     MakePrimitiveGuiCmd();
     virtual ~MakePrimitiveGuiCmd();
@@ -95,5 +98,7 @@ protected:
 private slots:
     void onViewNormalToWorkingPlane();
 };
+
+}
 
 #endif // WY3DAPP_MAKE_PRIMITIVE_GUI_CMD_H

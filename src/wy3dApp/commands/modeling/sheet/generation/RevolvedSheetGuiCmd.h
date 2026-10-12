@@ -24,6 +24,9 @@
 #include <memory>
 #include <wy3dRevolvedSheet.h>
 #include "commands/transient/ValidSketchTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeRevolvedSheet;
 
@@ -98,5 +101,7 @@ public:
 private:
     wy3d::RevolvedSheet* _pRevolvedSheet;
 };
+
+}
 
 #endif // WY3DAPP_REVOLVED_SHEET_GUI_CMD_H

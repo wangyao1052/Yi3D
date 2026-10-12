@@ -24,10 +24,13 @@
 #include <memory>
 #include <wydbElementId.h>
 #include <wy3dPlane.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchProjectGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchProjectGuiCmd, SketchProjectGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchProjectGuiCmd, wy3dApp::SketchProjectGuiCmd, OsgGuiCommand)
 
 public:
     SketchProjectGuiCmd();
@@ -54,5 +57,7 @@ private:
     PointPickOption _pointPickOption;
     SelectPreview _preview;  // 悬停高亮预览
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_PROJECT_GUI_CMD_H

@@ -23,9 +23,13 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCmdMakeElement.h"
 #include <wy3dApp/SelectPreview.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3d { class Thicken; }
+
+namespace wy3dApp {
 
 class ThickenCmdPanel;
-namespace wy3d { class Thicken; }
 
 class MakeThicken : public GuiCmdMakeElement
 {
@@ -82,5 +86,7 @@ protected:
     double _thickness;
     int _direction;
 };
+
+}
 
 #endif // WY3DAPP_THICKEN_GUI_CMD_H

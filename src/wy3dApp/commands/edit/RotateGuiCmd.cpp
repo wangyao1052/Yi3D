@@ -57,6 +57,9 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"
 #include "commands/edit/MoveRotateGuiCmdUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -946,4 +949,6 @@ void RotateGuiCmd::onContextMenuAction_ClearSelection()
         Application::instance().getSelManager()->clearSelections();
         Application::instance().getSelManager()->endChange();
     }
+}
+
 }

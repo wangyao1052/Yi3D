@@ -31,9 +31,11 @@
 #include "snap/SketchSnapContext.h"
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT OsgGuiCommand : public GuiCommand
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(OsgGuiCommand, OsgGuiCommand, GuiCommand)
+    WYRX_DECLARE_ABSTRACT_MEMBERS(OsgGuiCommand, wy3dApp::OsgGuiCommand, GuiCommand)
 public:
     OsgGuiCommand();
 
@@ -95,5 +97,7 @@ protected:
     // 当前命令事件对应的视图(非拥有)
     osg::observer_ptr<osgViewer::View> _pOsgView;
 };
+
+}
 
 #endif // WY3DAPP_OSG_GUI_COMMAND_H

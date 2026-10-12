@@ -22,6 +22,9 @@
 #include <osg/Geometry>
 
 #include <wy3dApp/ElementNode.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class BodyModificationElementNode : public ElementNode
 {
@@ -106,5 +109,7 @@ private:
     // 线索引
     osg::ref_ptr<osg::UIntArray> _lineIndices;
 };
+
+}
 
 #endif // WY3DAPP_SOLID_MODIFICATION_ELEMENT_NODE_H

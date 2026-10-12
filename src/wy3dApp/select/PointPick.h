@@ -22,6 +22,9 @@
 #include <osgViewer/View>
 #include <wyapSelection.h>
 #include <wy3dApp/PointPickOption.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class PointPick
 {
@@ -32,5 +35,7 @@ public:
         float x, float y,
         const PointPickOption& option);
 };
+
+}
 
 #endif // WY3DAPP_POINT_PICK_H

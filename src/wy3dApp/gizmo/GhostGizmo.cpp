@@ -19,6 +19,9 @@
 #include "gizmo/GhostGizmo.h"
 #include <cassert>
 #include <wy3dApp/Application.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 GhostGizmo::GhostGizmo(const wydb::Element* pElem)
     : BaseGizmo(pElem ? pElem->getId() : wydb::ElementId{})
@@ -26,3 +29,4 @@ GhostGizmo::GhostGizmo(const wydb::Element* pElem)
     assert(pElem);
 }
 
+}

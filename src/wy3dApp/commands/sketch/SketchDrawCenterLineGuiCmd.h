@@ -27,13 +27,16 @@
 #include <wy3dVector2.h>
 #include <wydbElementId.h>
 #include <wy3dSketchCenterLine.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchCenterLine;
 class GuiCmdHoverInputPopup2;
 
 class SketchDrawCenterLineGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawCenterLineGuiCmd, SketchDrawCenterLineGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawCenterLineGuiCmd, wy3dApp::SketchDrawCenterLineGuiCmd, OsgGuiCommand)
 public:
     SketchDrawCenterLineGuiCmd();
     virtual ~SketchDrawCenterLineGuiCmd();
@@ -139,5 +142,7 @@ public:
 private:
     wy3d::SketchCenterLine* _pSketchLine;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_CENTER_LINE_GUI_CMD_H

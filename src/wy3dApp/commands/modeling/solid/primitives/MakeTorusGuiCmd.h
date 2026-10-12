@@ -26,6 +26,9 @@
 #include <wy3dTorus.h>
 #include "commands/modeling/solid/primitives/MakePrimitiveGuiCmd.h"
 #include "commands/modeling/solid/primitives/MakeSphereGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeTorus;
 class SketchCircleTransient;
@@ -34,7 +37,7 @@ class GuiCmdHoverInputPopup2;
 
 class MakeTorusGuiCmd : public MakePrimitiveGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(MakeTorusGuiCmd, MakeTorusGuiCmd, MakePrimitiveGuiCmd)
+    WYRX_DECLARE_MEMBERS(MakeTorusGuiCmd, wy3dApp::MakeTorusGuiCmd, MakePrimitiveGuiCmd)
 public:
     MakeTorusGuiCmd();
     virtual ~MakeTorusGuiCmd();
@@ -124,5 +127,7 @@ private:
     wy::Vector3 _initOrigin;
     double _majorRadius;
 };
+
+}
 
 #endif // WY3DAPP_MAKE_TORUS_GUI_CMD_H

@@ -28,6 +28,9 @@
 #include <wy3dVector3.h>
 #include <wy3dPlane.h>
 #include <wy3dApp/GuiCmdTransient.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class LineTransient : public GuiCmdTransient
 {
@@ -77,5 +80,7 @@ private:
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
 };
 typedef std::shared_ptr<CenterPointTransient> CenterPointTransientSPtr;
+
+}
 
 #endif // WY3DAPP_BASIC_TRANSIENT_H

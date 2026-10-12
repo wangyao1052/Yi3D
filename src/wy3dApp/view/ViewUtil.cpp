@@ -22,6 +22,9 @@
 #include <osgGA/TrackballManipulator>
 #include <wy3dApp/Application.h>
 #include <wy3dApp/SketchEnvironment.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 void ViewUtil::viewToISO(osgViewer::View* pView)
 {
@@ -285,4 +288,6 @@ bool ViewUtil::getLookDir(osgViewer::View* pView, osg::Vec3d& lookDir)
     lookDir = center - eye;
     lookDir.normalize();
     return true;
+}
+
 }

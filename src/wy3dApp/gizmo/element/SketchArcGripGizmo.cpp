@@ -20,6 +20,9 @@
 #include <geom/wy3dArc2.h>
 #include "SketchArcGripGizmo.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchArcGripGizmo::SketchArcGripGizmo(const wy3d::SketchArc* pSketchArc, Type type)
     : SketchEntityGripGizmo(pSketchArc), _type(type)
@@ -107,4 +110,6 @@ bool SketchArcGripGizmo::updateArcByThreePoints(
     if (wy::ErrorStatus::Ok != pArc->setEndAngle(arc.endAngle())) return false;
 
     return true;
+}
+
 }

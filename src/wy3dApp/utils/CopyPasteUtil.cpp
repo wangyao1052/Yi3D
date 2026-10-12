@@ -35,6 +35,9 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static inline bool _canCopy(const wydb::Element* pElem)
 {
@@ -283,4 +286,6 @@ std::string CopyPasteUtil::generateCopyPasteLabel()
     {
         return "";
     }
+}
+
 }

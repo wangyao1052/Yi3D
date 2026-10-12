@@ -23,6 +23,9 @@
 #include <wy3dVector3.h>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class BaseGizmo;
 
@@ -46,5 +49,7 @@ protected:
     wydb::Transaction* _pTopTransaction;
     BaseGizmo* _pGizmo;
 };
+
+}
 
 #endif // WY3DAPP_GIZMO_OPERATION_H

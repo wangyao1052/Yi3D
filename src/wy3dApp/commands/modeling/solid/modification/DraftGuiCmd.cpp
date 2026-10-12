@@ -39,7 +39,9 @@
 #include "commands/dialogs/DoubleValueInputDialog.h"
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
 #include "scene/Colors.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 // 前置过滤器: 确保只能选择单一主体的面或边
 class DraftGuiCmdPreSelFilter : public SelectPreFilterFunctor
@@ -517,4 +519,6 @@ bool DraftGuiCmd::createDraft(
         return false;
     }
     return true;
+}
+
 }

@@ -28,6 +28,9 @@
 #include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
 #include <wy3dApp/Scene.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchEnvironmentImpl::SketchEnvironmentImpl(const wy3d::Plane& sketchPlane)
     : _op(Operation::New)
@@ -378,4 +381,6 @@ void SketchEnvironmentImpl::updateFileActionStates()
 {
     // 草图环境不支持文件操作:
     // 无文件动作需要更新,文件操作动作也不存在于此环境。
+}
+
 }

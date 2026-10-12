@@ -27,6 +27,8 @@
 #include <wy3dApp/ElemGizmoCreator.h>
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT GizmoFactory
 {
 public:
@@ -41,5 +43,7 @@ public:
 private:
     std::map<std::string, std::unique_ptr<ElemGizmoCreator>> _name2Creator;
 };
+
+}
 
 #endif // WY3DAPP_GIZMO_FACTORY_H

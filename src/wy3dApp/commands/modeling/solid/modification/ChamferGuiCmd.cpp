@@ -42,7 +42,9 @@
 #include "utils/TopoShapeUtil.h"
 #include "commands/dialogs/ChamferDialog.h"
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 // 前置过滤器: 确保只能选择单一主体的面或边
 class ChamferGuiCmdPreSelFilter : public SelectPreFilterFunctor
@@ -512,4 +514,6 @@ bool ChamferGuiCmd::createChamfer(unsigned int& errorCode)
 {
     return ChamferFilletCmdCommon::createChamfer(
         _sels, _chamferType, _distance1, _distance2, _angle, _isFlipped, errorCode);
+}
+
 }

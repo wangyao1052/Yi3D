@@ -20,6 +20,9 @@
 #define WY3DAPP_TEST_COMMANDS_H
 
 #include "commands/SimpleCommand.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 DEFINE_SIMPLE_CMD(OsgNewBoxCommand)
 DEFINE_SIMPLE_CMD(OpenGLNewBoxCommand)
@@ -29,5 +32,7 @@ DEFINE_SIMPLE_CMD(OsgNewCowCommand)
 
 DEFINE_SIMPLE_CMD(SketchTestIntersectionCommand)
 DEFINE_SIMPLE_CMD(SketchTestBoundingBoxCommand)
+
+}
 
 #endif // WY3DAPP_TEST_COMMANDS_H

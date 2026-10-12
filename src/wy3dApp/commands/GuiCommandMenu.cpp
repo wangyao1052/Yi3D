@@ -28,6 +28,9 @@
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -294,4 +297,6 @@ bool GuiCmdQMenu::eventFilter(QObject* obj, QEvent* event)
     }
 
     return QMenu::eventFilter(obj, event);
+}
+
 }

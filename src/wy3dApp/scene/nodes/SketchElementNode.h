@@ -20,6 +20,9 @@
 #define WY3DAPP_SKETCH_ELEMENT_NODE_H
 
 #include <wy3dApp/ElementNode.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchElementNode : public ElementNode
 {
@@ -170,5 +173,7 @@ private:
     // 中心线数据
     std::vector<CurveInfo> _centerLineInfos;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ELEMENT_NODE_H

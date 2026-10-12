@@ -25,6 +25,9 @@
 #include <TopoDS_Face.hxx>
 
 #include "TopoShapeUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::pair<bool, double> MeasureUtil::edgeLength(const TopoDS_Shape& shape, unsigned int edgeIndex)
 {
@@ -82,4 +85,6 @@ std::pair<bool, double> MeasureUtil::bodySurfaceArea(const TopoDS_Shape& shape)
     GProp_GProps sProps;
     BRepGProp::SurfaceProperties(shape, sProps);
     return { true, sProps.Mass() };
+}
+
 }

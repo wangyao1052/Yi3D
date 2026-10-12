@@ -20,6 +20,9 @@
 #define WY3DAPP_SKETCH_SPLINE_TANGENT_CHECK_BOX_H
 
 #include "ParamCheckBox.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class PropertyEditorWidget;
 class SketchSplinePointsEditor;
@@ -47,5 +50,7 @@ private slots:
 private:
     SketchSplinePointsEditor* _pPointsEditor;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_SPLINE_TANGENT_CHECK_BOX_H

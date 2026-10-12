@@ -52,6 +52,9 @@
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/Scene.h>
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -789,4 +792,6 @@ void RectTransient::update(const wy3d::Plane& workPln,
     (*_vertices)[3] = MathUtils::toVec3(workPln.value(uv1.x(), uv2.y()));
     _vertices->dirty();
     _geom->dirtyBound();
+}
+
 }

@@ -24,6 +24,9 @@
 #include <osg/LineSegment>
 
 #include "OsgGizmoRenderer.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Scene;
 class ElementNode;
@@ -73,5 +76,7 @@ private:
     wy::Vector3 _dragStartPnt;    // 拖拽起始点（轴上最近点）
     osg::ref_ptr<osg::PositionAttitudeTransform> _ghostPat;
 };
+
+}
 
 #endif // WY3DAPP_SOLID_MOVE_OSG_RENDERER_H

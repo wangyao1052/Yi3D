@@ -28,13 +28,16 @@
 #include <wydbElementId.h>
 #include <wy3dSketchLine.h>
 #include "snap/SketchSnapContext.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchLine;
 class GuiCmdHoverInputPopup2;
 
 class SketchDrawLineGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawLineGuiCmd, SketchDrawLineGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawLineGuiCmd, wy3dApp::SketchDrawLineGuiCmd, OsgGuiCommand)
 public:
     SketchDrawLineGuiCmd();
     virtual ~SketchDrawLineGuiCmd();
@@ -143,5 +146,7 @@ public:
 private:
     wy3d::SketchLine* _pSketchLine;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_LINE_GUI_CMD_H

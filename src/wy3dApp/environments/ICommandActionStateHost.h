@@ -19,6 +19,10 @@
 #ifndef WY3DAPP_COMMAND_ACTION_STATE_HOST_H
 #define WY3DAPP_COMMAND_ACTION_STATE_HOST_H
 
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
+
 class ICommandActionStateHost
 {
 public:
@@ -34,5 +38,7 @@ protected:
     virtual void updateUndoRedoActionStates() = 0;
     virtual void updateFileActionStates() = 0;
 };
+
+}
 
 #endif // WY3DAPP_COMMAND_ACTION_STATE_HOST_H

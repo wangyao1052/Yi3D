@@ -29,6 +29,9 @@
 #include <QTimer>
 
 #include <wyapDocManager.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // Auto save module.
 // <1> Periodically (10 minutes by default) writes modified documents to
@@ -90,5 +93,7 @@ private:
     };
     std::map<wyap::Document*, AutosaveInfo> _autoSaveInfoMap;
 };
+
+}
 
 #endif // WY3DAPP_AUTO_SAVE_H

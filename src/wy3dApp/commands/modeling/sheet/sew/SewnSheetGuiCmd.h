@@ -25,6 +25,9 @@
 #include <wy3dSewnSheet.h>
 
 #include <wy3dApp/OsgGuiCommand.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SewnSheetGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor
 {
@@ -77,5 +80,7 @@ private:
     // 源片体
     std::set<wydb::ElementId> _sourceIds;
 };
+
+}
 
 #endif // WY3DAPP_SEWN_SHEET_GUI_CMD_H

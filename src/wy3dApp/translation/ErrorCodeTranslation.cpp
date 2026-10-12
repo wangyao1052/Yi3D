@@ -17,8 +17,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "ErrorCodeTranslation.h"
+#include "wy3dAppDefs.h"
 
 #define TOUINT(code) static_cast<std::uint32_t>(code)
+
+namespace wy3dApp {
 
 ErrorCodeTranslation& ErrorCodeTranslation::instance()
 {
@@ -249,4 +252,6 @@ QString ErrorCodeTranslation::getErrorCodeDescription(std::uint32_t code) const
     {
         return tr("ErrorCode: ") + QString::number(code) + tr("!");
     }
+}
+
 }

@@ -23,6 +23,8 @@
 
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT SelectPreview
 {
 public:
@@ -51,5 +53,7 @@ private:
 private:
     wyap::Selection _selection;
 };
+
+}
 
 #endif // WY3DAPP_SELECT_PREVIEW_H

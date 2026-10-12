@@ -29,8 +29,11 @@
 #include "scene/RenderConst.h"
 #include <wy3dApp/Application.h>
 #include "ViewUtil.h"
+#include "wy3dAppDefs.h"
 
 #define REAL_SCENE(pScene) dynamic_cast<Scene*>(pScene)
+
+namespace wy3dApp {
 
 OsgView::OsgView(wyap::Document* pDoc, osgViewer::View* pOsgView) : BaseView(pDoc), _pOsgView(pOsgView), _pGuiEventDispatcher(nullptr)
 {
@@ -257,4 +260,6 @@ void OsgView::onDatabaseChanged(
     {
         pCamMan3d->setModelSize(100.0);
     }
+}
+
 }

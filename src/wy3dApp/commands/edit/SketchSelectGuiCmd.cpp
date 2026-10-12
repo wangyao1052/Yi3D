@@ -26,7 +26,9 @@
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include "snap/SketchSnapSystem.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 SketchSelectGuiCmd::SketchSelectGuiCmd() : SelectGuiCmd()
 {
@@ -102,4 +104,6 @@ wy::Vector3 SketchSelectGuiCmd::computePastePosition(double x, double y,
     wy::Vector2 pos2d = this->computePosition2d(x, y, _sketchInfo.sketchPlane, excludeIds,
         _pPasteOp ? _pPasteOp->pSnapContext : nullptr, _sketchInfo.pSketchSnapSys);
     return wy::Vector3(pos2d.x(), pos2d.y(), 0.0);
+}
+
 }

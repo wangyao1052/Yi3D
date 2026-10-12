@@ -40,6 +40,9 @@
 #include <wy3dDatumPlane.h>
 
 #include "SelectFilterFunctor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchPlaneSelFilterFunctor : public SelectFilterFunctor
 {
@@ -110,5 +113,7 @@ public:
         }
     }
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_PLANE_SEL_FILTER_H

@@ -20,9 +20,14 @@
 #define WY3DAPP_SNAP_CONTEXT_H
 
 #include "SnapSystemBase.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class LocateContext : public wyap::SnapContext
 {
 };
+
+}
 
 #endif // WY3DAPP_SNAP_CONTEXT_H

@@ -22,6 +22,9 @@
 #include <QDir>
 
 #include "wy3d/utils/FreeTypeUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 FontSystem& FontSystem::instance()
 {
@@ -145,4 +148,6 @@ std::pair<std::string, FT_Long> FontSystem::getFontFilePath(const std::wstring& 
     ret.second = indexPair.second;
 
     return ret;
+}
+
 }

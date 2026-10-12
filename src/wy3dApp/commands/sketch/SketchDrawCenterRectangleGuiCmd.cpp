@@ -35,6 +35,9 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -497,4 +500,6 @@ void SketchDrawCenterRectangleGuiCmd::updateDiagonalTransients(const wy::Vector2
 
     _pDiagonal1st->update(_sketchInfo.sketchPlane, pnt1, pnt3);
     _pDiagonal2nd->update(_sketchInfo.sketchPlane, pnt2, pnt4);
+}
+
 }

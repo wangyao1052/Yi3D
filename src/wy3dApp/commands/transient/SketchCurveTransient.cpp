@@ -37,6 +37,9 @@
 #include "scene/SketchEntityLinearization.h"
 #include <wy3dApp/Application.h>
 #include "scene/RenderConst.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchCurveTransient::SketchCurveTransient(const wydb::ElementId& id, double startParam, double endParam)
     : _id(id), _startParam(startParam), _endParam(endParam)
@@ -272,4 +275,6 @@ void SketchDotLineTransient::update(const wy::Vector2& startPnt, const wy::Vecto
     (*_vertices)[1] = MathUtils::toVec3(_sketchPlane.value(endPnt));
     _vertices->dirty();
     _geom->dirtyBound();
+}
+
 }

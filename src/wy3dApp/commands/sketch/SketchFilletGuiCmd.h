@@ -34,6 +34,9 @@
 #include <wy3dSketchEllipse.h>
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchSpline.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 struct FilletData
 {
@@ -85,7 +88,7 @@ struct FilletData
 
 class SketchFilletGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchFilletGuiCmd, SketchFilletGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchFilletGuiCmd, wy3dApp::SketchFilletGuiCmd, OsgGuiCommand)
 public:
     SketchFilletGuiCmd();
     virtual ~SketchFilletGuiCmd();
@@ -216,5 +219,7 @@ private:
     std::shared_ptr<SketchCurveTransient> _pFilletTransient;
     std::shared_ptr<FilletData> _pFilletData;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_FILLET_GUI_CMD_H

@@ -27,6 +27,9 @@
 #include <QAction>
 #include <QFile>
 #include <QTextStream>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 OutputWidget::OutputWidget(QWidget* parent, Qt::WindowFlags flags)
 	: QWidget(parent, flags)
@@ -112,4 +115,6 @@ void OutputWidget::refresh()
 const QString& OutputWidget::text() const
 {
 	return _textBrowser->toPlainText();
+}
+
 }

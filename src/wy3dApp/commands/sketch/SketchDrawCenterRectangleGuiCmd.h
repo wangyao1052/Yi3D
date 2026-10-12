@@ -29,13 +29,16 @@
 #include <wy3dSketchLine.h>
 #include "SketchDrawRectangleGuiCmd.h"
 #include "commands/transient/BasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchRectangle;
 class GuiCmdHoverInputPopup2;
 
 class SketchDrawCenterRectangleGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawCenterRectangleGuiCmd, SketchDrawCenterRectangleGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawCenterRectangleGuiCmd, wy3dApp::SketchDrawCenterRectangleGuiCmd, OsgGuiCommand)
 public:
     SketchDrawCenterRectangleGuiCmd();
     virtual ~SketchDrawCenterRectangleGuiCmd();
@@ -123,5 +126,6 @@ private:
     std::shared_ptr<MakeSketchRectangle> _pMakeSketchRectangle;
 };
 
-#endif // WY3DAPP_SKETCH_DRAW_CENTER_RECTANGLE_GUI_CMD_H
+}
 
+#endif // WY3DAPP_SKETCH_DRAW_CENTER_RECTANGLE_GUI_CMD_H

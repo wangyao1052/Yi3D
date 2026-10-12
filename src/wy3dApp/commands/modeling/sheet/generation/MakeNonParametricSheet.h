@@ -24,6 +24,9 @@
 #include <wy3dNonParametricSheet.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include "commands/GuiCmdMakeElement.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeNonParametricSheet : public GuiCmdMakeElement
 {
@@ -71,5 +74,7 @@ public:
 private:
     wy3d::NonParametricSheet* _pNonParametricSheet;
 };
+
+}
 
 #endif // WY3DAPP_MAKE_NON_PARAMETRIC_SHEET_H

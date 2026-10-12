@@ -24,6 +24,9 @@
 #include <osg/LineWidth>
 #include <osg/LineStipple>
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 CircleTransient::CircleTransient() : _vertexCnt(100)
 {
@@ -441,4 +444,6 @@ void SketchCsysTransient::update(const wy3d::Plane& plane)
     matrix.transpose(matrix); // 转置矩阵以适配OSG的列优先存储
     osg::Quat quat = matrix.getRotate();
     _csys->setRotation(quat);
+}
+
 }

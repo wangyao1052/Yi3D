@@ -26,6 +26,9 @@
 #include <wy3dSphere.h>
 #include <wy3dPlane.h>
 #include "commands/modeling/solid/primitives/MakePrimitiveGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSphere;
 class RadiusTransient;
@@ -34,7 +37,7 @@ class GuiCmdHoverInputPopup2;
 
 class MakeSphereGuiCmd : public MakePrimitiveGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(MakeSphereGuiCmd, MakeSphereGuiCmd, MakePrimitiveGuiCmd)
+    WYRX_DECLARE_MEMBERS(MakeSphereGuiCmd, wy3dApp::MakeSphereGuiCmd, MakePrimitiveGuiCmd)
 public:
     MakeSphereGuiCmd();
     virtual ~MakeSphereGuiCmd();
@@ -127,5 +130,7 @@ private:
     osg::ref_ptr<osg::Geometry> _geom;
     osg::ref_ptr<osg::Vec3Array> _vertices;
 };
+
+}
 
 #endif // WY3DAPP_MAKE_SPHERE_GUI_CMD_H

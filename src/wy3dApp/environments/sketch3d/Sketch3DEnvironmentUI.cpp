@@ -38,6 +38,9 @@
 #include "widgets/frame/ViewWidget.h"
 #include "widgets/frame/ViewWidgetContainer.h"
 #include "widgets/frame/ViewportOverlayBar.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -778,4 +781,6 @@ void Sketch3DEnvironmentUI::teardown(Sketch3DEnvironment* pEnv)
     }
 
     pEnv->destroyUI();
+}
+
 }

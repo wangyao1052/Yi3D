@@ -24,8 +24,11 @@
 #include <QComboBox>
 #include <QCheckBox>
 #include <wy3dChamfer.h>
+#include "wy3dAppDefs.h"
 
 class QLabel;
+
+namespace wy3dApp {
 
 class ChamferDistanceLineEdit : public QLineEdit
 {
@@ -107,5 +110,7 @@ private:
     wy3d::ChamferType _chamferType;
     bool _isFlipped;
 };
+
+}
 
 #endif // WY3DAPP_CHAMFER_DIALOG_H

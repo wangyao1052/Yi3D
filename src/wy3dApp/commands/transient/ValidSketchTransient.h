@@ -21,6 +21,9 @@
 
 #include <QString>
 #include <wydbElementId.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ValidSketchTransient
 {
@@ -48,5 +51,7 @@ public:
 private:
     wydb::ElementId _sketchId;
 };
+
+}
 
 #endif // WY3DAPP_VALID_SKETCH_TRANSIENT_H

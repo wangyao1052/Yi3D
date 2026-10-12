@@ -25,6 +25,9 @@
 #include <wydbElementId.h>
 #include <utils/wy3dSketch3DIntersectionUtil.h>
 #include <utils/wy3dSketch3DEdgeUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchIntersectionCurvePanel;
 
@@ -36,7 +39,7 @@ class SketchIntersectionCurvePanel;
 // the model.
 class SketchIntersectionCurve3DGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchIntersectionCurve3DGuiCmd, SketchIntersectionCurve3DGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchIntersectionCurve3DGuiCmd, wy3dApp::SketchIntersectionCurve3DGuiCmd, OsgGuiCommand)
 
 public:
     SketchIntersectionCurve3DGuiCmd();
@@ -84,5 +87,7 @@ private:
     wyap::Selection _firstSelection;
     wy3d::Sketch3DIntersectionUtil::Source _firstSource;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_INTERSECTION_CURVE3D_GUI_CMD_H

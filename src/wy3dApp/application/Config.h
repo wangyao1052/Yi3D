@@ -23,6 +23,9 @@
 #include <string>
 #include <QString>
 #include <QSettings>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Config
 {
@@ -88,5 +91,7 @@ private:
     // 文件名称:"config.ini"
     static const std::string kConfigFileName;
 };
+
+}
 
 #endif // WY3DAPP_CONFIG_H

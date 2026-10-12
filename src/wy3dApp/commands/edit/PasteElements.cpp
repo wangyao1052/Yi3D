@@ -32,6 +32,9 @@
 #include "scene/RenderConst.h"
 #include "utils/CopyPasteUtil.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 PasteElements::PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, wydb::ElementId sketchId, const wy3d::Plane& sketchPlane)
     : GuiCmdMakeElement(pGuiCmd), _isSketching(nullptr != GuiCommandUtil::getActiveSketchEnvironment()), _sketchId(sketchId), _sketchPlane(sketchPlane)
@@ -395,4 +398,6 @@ void PasteElements::freeCopyElements()
 {
     _copyElements.clear();
     _newlyCreatedIds.clear();
+}
+
 }

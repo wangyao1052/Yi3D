@@ -27,6 +27,9 @@
 #include <QCoreApplication>
 #include <QCursor>
 #include <cmath>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -415,4 +418,6 @@ void ParallelDatumPlnCmd::simulateMouseMoveFromPopup()
     this->onMouseMove({static_cast<float>(_hoverPopupState.lastMouseX),
                        static_cast<float>(_hoverPopupState.lastMouseY),
                        _hoverPopupState.lastMouseMoveTime});
+}
+
 }

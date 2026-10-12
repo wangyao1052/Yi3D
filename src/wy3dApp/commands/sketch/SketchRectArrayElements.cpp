@@ -30,6 +30,9 @@
 #include <wy3dApp/ElementNode.h>
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchRectArrayElements::SketchRectArrayElements(GuiCommand* pGuiCmd, const wy3d::Plane& sketchPlane, wydb::ElementId sketchId) : GuiCmdMakeElement(pGuiCmd), _sketchPlane(sketchPlane), _sketchId(sketchId), _cols(0), _rows(0)
 {
@@ -235,4 +238,6 @@ ABORT_TRANS:
     assert(false);
     _pDb->getTransactionManager()->abortTransaction();
     return false;
+}
+
 }

@@ -21,6 +21,9 @@
 #include <wy3dCylinder.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> CylinderSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -51,4 +54,6 @@ std::list<wyap::SnapObjectSPtr> CylinderSnapObjectCreator::createSnapObjects(con
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, -radius, height, matrix));
 
     return snapPoints;
+}
+
 }

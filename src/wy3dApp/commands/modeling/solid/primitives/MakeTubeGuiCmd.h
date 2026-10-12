@@ -25,6 +25,9 @@
 #include <wy3dVector3.h>
 #include <wy3dTube.h>
 #include "commands/modeling/solid/primitives/MakePrimitiveGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeTube;
 class SketchCircleTransient;
@@ -33,7 +36,7 @@ class GuiCmdHoverInputPopup2;
 
 class MakeTubeGuiCmd : public MakePrimitiveGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(MakeTubeGuiCmd, MakeTubeGuiCmd, MakePrimitiveGuiCmd)
+    WYRX_DECLARE_MEMBERS(MakeTubeGuiCmd, wy3dApp::MakeTubeGuiCmd, MakePrimitiveGuiCmd)
 public:
     MakeTubeGuiCmd();
     virtual ~MakeTubeGuiCmd();
@@ -133,5 +136,7 @@ private:
     wy::Vector3 _initOrigin;
     wy::Vector3 _zAxis;
 };
+
+}
 
 #endif // WY3DAPP_MAKE_TUBE_GUI_CMD_H

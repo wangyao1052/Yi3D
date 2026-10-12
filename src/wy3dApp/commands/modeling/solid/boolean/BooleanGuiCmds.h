@@ -28,6 +28,9 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCommandMenu.h"
 #include "commands/transient/ElementNodeHighlightor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class BooleanGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor
 {
@@ -117,5 +120,7 @@ public:
     IntersectGuiCmd() : BooleanGuiCmd(wy3d::BooleanType::Intersection) {}
     ~IntersectGuiCmd() {}
 };
+
+}
 
 #endif // WY3DAPP_BOOLEAN_GUI_CMDS_H

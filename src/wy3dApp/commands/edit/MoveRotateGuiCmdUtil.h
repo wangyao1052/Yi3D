@@ -26,6 +26,9 @@
 
 #include <wy3dApp/Application.h>
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 获取当前选择集中有效的形体元素(实体或片体、顶层、无父级)
 // 供 Move 和 Rotate 建模环境命令共用
@@ -48,6 +51,8 @@ inline wyap::SelectionSet getValidSSFromCurrentSelSet_MoveRotateGuiCmd()
     }
 
     return filterSS;
+}
+
 }
 
 #endif // WY3DAPP_MOVE_ROTATE_GUI_CMD_UTIL_H

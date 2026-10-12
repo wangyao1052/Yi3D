@@ -35,10 +35,15 @@
 #include "FeatureTreeView.h"
 #include "FeatureTreeHoverDelegate.h"
 #include <wy3dApp/SelectPreview.h>
+#include "wy3dAppDefs.h"
+
+class QFeatureItemManager;
+
+namespace wy3dApp {
 
 class QFeatureNameItem;
 class QFeatureIdItem;
-class QFeatureItemManager;
+
 class FeatureTreeModel;
 
 class FeatureTreeWidget : public QWidget,
@@ -293,3 +298,5 @@ private:
         OnSelChangeType& _onSelChangeType;
     };
 };
+
+}

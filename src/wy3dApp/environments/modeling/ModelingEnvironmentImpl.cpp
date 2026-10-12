@@ -27,6 +27,9 @@
 
 #include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 ModelingEnvironmentImpl::ModelingEnvironmentImpl()
     : _pUI(std::make_unique<ModelingEnvironmentUI>())
@@ -177,4 +180,6 @@ void ModelingEnvironmentImpl::updateFileActionStates()
         }
         pAction->setEnabled(enabled);
     }
+}
+
 }

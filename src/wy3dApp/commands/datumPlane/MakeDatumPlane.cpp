@@ -62,6 +62,9 @@
 #include <wy3dApp/GuiCommandUtil.h>
 #include "utils/MathUtils.h"
 #include "utils/SplineUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 void MakeDatumPlane::collectElements(std::set<wydb::ElementId>& idSet) const
 {
@@ -832,4 +835,6 @@ bool MakeDatumPlane::computeThrough3PointsPlane(
     // 结果
     sketchPlane = wy3d::Plane(pnt1, normal, xDir);
     return true;
+}
+
 }

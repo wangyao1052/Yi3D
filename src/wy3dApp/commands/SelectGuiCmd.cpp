@@ -58,7 +58,9 @@
 #include "commands/CommandNames.h"
 
 #include <wy3dSketchEllipseArc.h>
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 class SelectGuiCmdSelFilter_Modeling : public SelectFilterFunctor
 {
@@ -605,3 +607,4 @@ GuiCmdMenu* SelectGuiCmd::initContextMenu()
     return new SelectGuiCmdMenu(this);
 }
 
+}

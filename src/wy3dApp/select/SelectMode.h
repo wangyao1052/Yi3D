@@ -19,6 +19,10 @@
 #ifndef WY3DAPP_SELECT_MODE_H
 #define WY3DAPP_SELECT_MODE_H
 
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
+
 // 选择模式
 // 参考借鉴了SolidWorks&Creo的选择行为
 enum class SelectMode
@@ -38,5 +42,7 @@ enum class SelectMode
     // 增量式主要在移动镜像等具体需要选择元素的命令中使用
     Incremental = 1,
 };
+
+}
 
 #endif // WY3DAPP_SELECT_MODE_H

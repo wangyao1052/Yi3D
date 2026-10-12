@@ -23,6 +23,9 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::GizmoSPtr> PrimitiveGizmoCreator::createGizmos(const wydb::Element* pElem) const
 {
@@ -71,4 +74,6 @@ std::list<wyap::GizmoSPtr> PrimitiveGizmoCreator::createGizmos(const wydb::Eleme
     gizmos.emplace_back(std::move(pGizmoY));
     gizmos.emplace_back(std::move(pGizmoZ));
     return gizmos;
+}
+
 }

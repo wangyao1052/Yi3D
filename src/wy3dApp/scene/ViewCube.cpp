@@ -47,6 +47,9 @@
 #include <QImage>
 #include <QPainter>
 #include <QString>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -1075,4 +1078,6 @@ void ViewCube::buildLabels()
 
     // Added last, drawn last
     _pCubeXform->addChild(pLabelGroup.get());
+}
+
 }

@@ -39,12 +39,15 @@
 #include <wy3dApp/GuiCmdTransient.h>
 #include "SketchExtendGraph.h"
 #include "SketchTrimGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ExtendSegmentTransient;
 
 class SketchExtendGuiCmd : public OsgGuiCommand, public wydb::DatabaseReactor
 {
-    WYRX_DECLARE_MEMBERS(SketchExtendGuiCmd, SketchExtendGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchExtendGuiCmd, wy3dApp::SketchExtendGuiCmd, OsgGuiCommand)
 public:
     SketchExtendGuiCmd();
     virtual ~SketchExtendGuiCmd();
@@ -99,5 +102,7 @@ private:
     SketchExtendSegment _segment;
     osg::ref_ptr<osg::LineStipple> _lineStipple;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_EXTEND_GUI_CMD_H

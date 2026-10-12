@@ -33,7 +33,9 @@
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 SetColorGuiCmd::SetColorGuiCmd()
     : OsgGuiCommand()
@@ -322,4 +324,6 @@ bool SetColorGuiCmd::applyColorToSolid(const wydb::ElementId& solidId)
     }
 
     return true;
+}
+
 }

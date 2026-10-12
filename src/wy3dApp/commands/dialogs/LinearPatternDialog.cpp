@@ -27,6 +27,9 @@
 #include <QRegExpValidator>
 #include <wy3dImpl.h>
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 LinearPatternDialog::LinearPatternDialog(
     unsigned int count1st, double spacing1st,
@@ -193,4 +196,6 @@ void LinearPatternDialog::onOkBtnClicked()
 void LinearPatternDialog::onCancelBtnClicked()
 {
     this->reject();
+}
+
 }

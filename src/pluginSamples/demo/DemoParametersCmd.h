@@ -28,9 +28,9 @@
 #include <wy3dApp/SelectPreview.h>
 
 // Demonstrates picking a sketch element and listing all its parameters.
-class DemoParametersCmd : public OsgGuiCommand
+class DemoParametersCmd : public wy3dApp::OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(DemoParametersCmd, com.yi3d.demo::DemoParametersCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(DemoParametersCmd, com.yi3d.demo::DemoParametersCmd, wy3dApp::OsgGuiCommand)
 public:
     DemoParametersCmd();
     ~DemoParametersCmd() override;
@@ -38,15 +38,15 @@ public:
 protected:
     wyap::CmdExecution::StartResult onStart() override;
     void cleanup() override;
-    void onMouseMove(const MouseEvent& event) override;
-    void onLeftMouseUp(const MouseEvent& event) override;
+    void onMouseMove(const wy3dApp::MouseEvent& event) override;
+    void onLeftMouseUp(const wy3dApp::MouseEvent& event) override;
 
 private:
     void showParameters(const wydb::ElementId& elementId);
 
 private:
-    PointPickOption _pointPickOption;
-    SelectPreview _hoverPreview;
+    wy3dApp::PointPickOption _pointPickOption;
+    wy3dApp::SelectPreview _hoverPreview;
 };
 
 #endif // DEMO_PARAMETERS_CMD_H

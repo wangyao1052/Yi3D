@@ -41,6 +41,9 @@
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include "utils/MessageBoxUtil.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 int FindElementByIdCommand::run()
 {
@@ -272,4 +275,6 @@ int FindElementByIdCommand::run()
     Application::instance().getStatusBar()->setTips(tips);
 
     return 0;
+}
+
 }

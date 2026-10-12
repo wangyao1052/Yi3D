@@ -32,7 +32,9 @@
 #include "view/ViewUtil.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 int FitViewCommand::run()
 {
@@ -279,4 +281,6 @@ int WireframeDisplayCommand::run()
     if (!pScene) return -1;
     pScene->setDisplayMode(Scene::DisplayMode::Wireframe);
     return 0;
+}
+
 }

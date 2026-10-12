@@ -21,6 +21,9 @@
 #include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
 #include "environments/ICommandActionStateHost.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 GatewayEnvironmentImpl::GatewayEnvironmentImpl()
     : _pUI(std::make_unique<GatewayEnvironmentUI>())
@@ -162,4 +165,6 @@ void GatewayEnvironmentImpl::updateFileActionStates()
 
     pNewFileAction->setEnabled(enabled);
     pOpenFileAction->setEnabled(enabled);
+}
+
 }

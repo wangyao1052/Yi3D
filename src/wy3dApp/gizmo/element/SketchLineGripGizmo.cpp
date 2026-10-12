@@ -18,6 +18,9 @@
 
 #include <wyVector2.h>
 #include "SketchLineGripGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchLineGripGizmo::SketchLineGripGizmo(const wy3d::SketchLine* pSketchLine, Type type)
     : SketchEntityGripGizmo(pSketchLine), _type(type)
@@ -102,4 +105,6 @@ SketchSnapContextSPtr SketchLineGripGizmo::newDragContext() const
     default:
         return SketchEntityGripGizmo::newDragContext();
     }
+}
+
 }

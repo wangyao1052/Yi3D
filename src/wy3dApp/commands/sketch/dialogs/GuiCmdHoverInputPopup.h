@@ -25,9 +25,12 @@
 #include <QPoint>
 #include <QRect>
 #include <functional>
+#include "wy3dAppDefs.h"
 
 class QLabel;
 class QLineEdit;
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopupBase : public QWidget
 {
@@ -194,5 +197,7 @@ private:
     QString _valueSample;
     std::function<void()> _directionToggleHandler;
 };
+
+}
 
 #endif // WY3DAPP_GUI_CMD_HOVER_INPUT_POPUP_H

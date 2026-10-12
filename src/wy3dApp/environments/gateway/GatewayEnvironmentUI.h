@@ -21,6 +21,9 @@
 
 #include <QMenu>
 #include <QToolBar>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GatewayEnvironment;
 
@@ -44,5 +47,7 @@ private:
     QMenu* _pMenuHelp;
     QToolBar* _pToolBarFile;
 };
+
+}
 
 #endif // WY3DAPP_GATEWAY_ENVIRONMENT_UI_H

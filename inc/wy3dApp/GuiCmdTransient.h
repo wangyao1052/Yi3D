@@ -28,6 +28,8 @@
 
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT GuiCmdTransient
 {
 public:
@@ -41,5 +43,7 @@ protected:
     osg::ref_ptr<osg::Group> _root;
 };
 typedef std::shared_ptr<GuiCmdTransient> GuiCmdTransientSPtr;
+
+}
 
 #endif // WY3DAPP_GUI_CMD_TRANSIENT_H

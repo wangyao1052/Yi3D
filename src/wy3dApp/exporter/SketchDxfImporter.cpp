@@ -26,6 +26,9 @@
 #include <QFileInfo>
 
 #include "application/PythonScriptExecutor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool SketchDxfImporter::performImpl(wydb::Database* pDb, const std::wstring& fileFullPath)
 {
@@ -54,4 +57,6 @@ bool SketchDxfImporter::performImpl(wydb::Database* pDb, const std::wstring& fil
         return false;
 
     return true;
+}
+
 }

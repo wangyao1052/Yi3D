@@ -27,6 +27,10 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCommandMenu.h"
 #include "snap/SketchSnapSystem.h"
+#include "commands/edit/CopyElements.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class CopyElemens;
 class LineTransient;
@@ -34,7 +38,7 @@ class GuiCmdHoverInputPopup2;
 
 class CopyGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(CopyGuiCmd, CopyGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(CopyGuiCmd, wy3dApp::CopyGuiCmd, OsgGuiCommand)
 public:
     CopyGuiCmd();
     virtual ~CopyGuiCmd();
@@ -122,6 +126,6 @@ private:
     HoverPopupState _hoverPopupState;
 };
 
-#include "commands/edit/CopyElements.h"
+}
 
 #endif // WY3DAPP_MOVE_GUI_CMD_H

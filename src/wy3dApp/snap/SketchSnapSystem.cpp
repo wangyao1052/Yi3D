@@ -47,6 +47,9 @@
 #include "scene/nodes/ElementNodeType.h"
 
 #include <iostream>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 typedef AngleSnapObjectSPtr AngleSPtr;
 typedef ParallelSnapObjectSPtr ParlSPtr;
@@ -2017,4 +2020,6 @@ void SketchSnapSystem::onDatabaseChanged(
             _erasedIds.insert(id);
         }
     }
+}
+
 }

@@ -29,6 +29,9 @@
 #include "scene/SketchEntity3DLinearization.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchEntity3DElementNode::SketchEntity3DElementNode(const wydb::ElementId& id) : ElementNode(id)
 {
@@ -140,4 +143,6 @@ void SketchEntity3DElementNode::previewImpl(bool flag)
 
 void SketchEntity3DElementNode::setActiveImpl(bool flag)
 {
+}
+
 }

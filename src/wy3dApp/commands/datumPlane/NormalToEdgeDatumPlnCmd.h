@@ -29,12 +29,15 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/datumPlane/MakeDatumPlane.h"
 #include "commands/transient/BasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopup1;
 
 class NormalToEdgeDatumPlnCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(NormalToEdgeDatumPlnCmd, NormalToEdgeDatumPlnCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(NormalToEdgeDatumPlnCmd, wy3dApp::NormalToEdgeDatumPlnCmd, OsgGuiCommand)
 public:
     NormalToEdgeDatumPlnCmd();
     ~NormalToEdgeDatumPlnCmd();
@@ -163,5 +166,7 @@ protected:
     std::unique_ptr<GuiCmdHoverInputPopup1> _pDistancePopup;
     HoverPopupState _hoverPopupState;
 };
+
+}
 
 #endif 

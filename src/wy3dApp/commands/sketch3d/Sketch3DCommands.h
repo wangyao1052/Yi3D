@@ -20,10 +20,15 @@
 #define WY3DAPP_SKETCH3D_COMMANDS_H
 
 #include "commands/SimpleCommand.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 DEFINE_SIMPLE_CMD(NewSketch3DCommand)
 DEFINE_SIMPLE_CMD(EditSketch3DCommand)
 DEFINE_SIMPLE_CMD(EndSketch3DCommand)
 DEFINE_SIMPLE_CMD(CancelSketch3DCommand)
+
+}
 
 #endif // WY3DAPP_SKETCH3D_COMMANDS_H

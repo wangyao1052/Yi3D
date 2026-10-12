@@ -21,7 +21,9 @@
 
 #include <plugin/Plugin.h>
 
+namespace wy3dApp {
 class SketchEnvironment;
+}
 
 namespace demo {
 
@@ -45,8 +47,8 @@ public:
     void onEnvironmentResumed(wyap::Environment* pEnvironment) override;
 
 private:
-    void enterSketchEnvironment(SketchEnvironment* pSketchEnvironment);
-    void exitSketchEnvironment(SketchEnvironment* pSketchEnvironment);
+    void enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvironment);
+    void exitSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvironment);
 };
 
 #endif // DEMO_PLUGIN_H

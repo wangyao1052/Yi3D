@@ -21,6 +21,9 @@
 #include <wy3dSketchPoint.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> SketchPointSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -42,4 +45,6 @@ std::list<wyap::SnapObjectSPtr> SketchPointSnapObjectCreator::createSnapObjects(
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pSketchPoint->getId(),
         sketchPlane.value(pSketchPoint->getPosition())));
     return snapPoints;
+}
+
 }

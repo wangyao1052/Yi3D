@@ -26,6 +26,9 @@
 
 #include "GizmoRenderer.h"
 #include "gizmo/OsgGizmoNode.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class BaseGizmo;
 class ElementNode;
@@ -48,5 +51,7 @@ protected:
     osg::observer_ptr<osgViewer::View> _pOsgView;
     osg::ref_ptr<OsgGizmoNode> _osgNode;
 };
+
+}
 
 #endif // WY3DAPP_OSG_GIZMO_RENDERER_H

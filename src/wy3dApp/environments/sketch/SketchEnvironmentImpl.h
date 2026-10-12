@@ -28,6 +28,9 @@
 
 #include "snap/SketchSnapSystem.h"
 #include <wy3dApp/SketchEnvironment.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchEnvironmentUI;
 
@@ -84,5 +87,7 @@ private:
     SketchSnapSystemSPtr _pSketchSnapSys;
     std::unique_ptr<SketchEnvironmentUI> _pUI;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ENVIRONMENT_IMPL_H

@@ -32,6 +32,9 @@
 #include <wy3dPlane.h>
 
 #include <wy3dApp/GuiCmdTransient.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchEntityLinearization;
 
@@ -86,5 +89,7 @@ private:
     osg::ref_ptr<osg::Geometry> _geom;
     osg::ref_ptr<osg::Vec3Array> _vertices;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_CURVE_TRANSIENT_H

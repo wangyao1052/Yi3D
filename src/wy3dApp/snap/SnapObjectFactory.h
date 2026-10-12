@@ -26,6 +26,9 @@
 #include "SnapSystemBase.h"
 
 #include "elements/ElemSnapObjectCreator.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 元素捕捉对象工厂
 class SnapObjectFactory : public wyap::SnapObjectFactoryIF
@@ -39,5 +42,7 @@ public:
 private:
     std::map<std::string, std::unique_ptr<ElemSnapObjectCreator>> _className2SnapObjCreator;
 };
+
+}
 
 #endif // WY3DAPP_SNAP_OBJECT_FACTORY_H

@@ -22,6 +22,9 @@
 #include <wy3dSketchEllipse.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> SketchEllipseSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -67,4 +70,6 @@ std::list<wyap::SnapObjectSPtr> SketchEllipseSnapObjectCreator::createSnapObject
             sketchPlane.value(wy::Vector2(center.x() + xRot, center.y() + yRot))));
     }
     return snapPoints;
+}
+
 }

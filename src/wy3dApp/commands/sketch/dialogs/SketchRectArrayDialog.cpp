@@ -24,6 +24,9 @@
 #include <QPushButton>
 #include <QMessageBox>
 #include <QRegExpValidator>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchRectArrayDialog::SketchRectArrayDialog(unsigned int cols, unsigned int rows, QWidget* parent)
     : QDialog(parent)
@@ -112,4 +115,6 @@ void SketchRectArrayDialog::onOkBtnClicked()
 void SketchRectArrayDialog::onCancelBtnClicked()
 {
     this->reject();
+}
+
 }

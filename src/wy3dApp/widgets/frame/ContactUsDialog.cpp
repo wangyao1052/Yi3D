@@ -27,6 +27,9 @@
 #include <QPixmap>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -85,4 +88,6 @@ ContactUsDialog::ContactUsDialog(QWidget *parent)
 
 ContactUsDialog::~ContactUsDialog()
 {
+}
+
 }

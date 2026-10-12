@@ -20,6 +20,9 @@
 #define WY3DAPP_COMMAND_NAMES_H
 
 #include <string>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class CommandNames
 {
@@ -223,5 +226,7 @@ public:
     static inline const std::string SketchTestIntersection = "SketchTestIntersection";
     static inline const std::string SketchTestBoundingBox = "SketchTestBoundingBox";
 };
+
+}
 
 #endif // WY3DAPP_COMMAND_NAMES_H

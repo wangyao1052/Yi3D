@@ -38,6 +38,9 @@
 #include "utils/MathUtils.h"
 #include "utils/MessageBoxUtil.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -405,4 +408,6 @@ void SketchTextCommand::simulateMouseMoveFromPopup()
     this->onMouseMove({static_cast<float>(_hoverPopupState.lastMouseX),
                        static_cast<float>(_hoverPopupState.lastMouseY),
                        _hoverPopupState.lastMouseMoveTime});
+}
+
 }

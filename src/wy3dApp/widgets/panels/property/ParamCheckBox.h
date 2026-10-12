@@ -22,6 +22,9 @@
 #include <QCheckBox>
 #include <wydbElement.h>
 #include <wydbParameter.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class PropertyEditorWidget;
 
@@ -59,5 +62,7 @@ protected:
     // 是否都是相同值
     bool _isAllTheSameValue;
 };
+
+}
 
 #endif // WY3DAPP_PARAM_CHECK_BOX_H

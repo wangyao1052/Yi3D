@@ -25,6 +25,9 @@
 #include <wy3dVector3.h>
 #include <wy3dCone.h>
 #include "commands/modeling/solid/primitives/MakePrimitiveGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeCone;
 class SketchCircleTransient;
@@ -33,7 +36,7 @@ class GuiCmdHoverInputPopup2;
 
 class MakeConeGuiCmd : public MakePrimitiveGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(MakeConeGuiCmd, MakeConeGuiCmd, MakePrimitiveGuiCmd);
+    WYRX_DECLARE_MEMBERS(MakeConeGuiCmd, wy3dApp::MakeConeGuiCmd, MakePrimitiveGuiCmd);
 public:
     MakeConeGuiCmd();
     virtual ~MakeConeGuiCmd();
@@ -120,5 +123,7 @@ private:
     wy::Vector3 _rotation;
     wy::Vector3 _oppositeRot;
 };
+
+}
 
 #endif // WY3DAPP_MAKE_CONE_GUI_CMD_H

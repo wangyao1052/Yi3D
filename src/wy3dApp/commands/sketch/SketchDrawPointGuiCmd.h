@@ -27,12 +27,15 @@
 #include <wy3dVector2.h>
 #include <wydbElementId.h>
 #include <wy3dSketchPoint.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopup2;
 
 class SketchDrawPointGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawPointGuiCmd, SketchDrawPointGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawPointGuiCmd, wy3dApp::SketchDrawPointGuiCmd, OsgGuiCommand)
 public:
     SketchDrawPointGuiCmd();
 
@@ -117,5 +120,7 @@ public:
 private:
     wy3d::SketchPoint* _pSketchPoint;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_POINT_GUI_CMD_H

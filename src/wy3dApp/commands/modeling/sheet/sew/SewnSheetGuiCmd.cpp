@@ -34,6 +34,9 @@
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/CommonSelFilters.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 默认缝合容差（与 SewnSheet 构造默认一致）
 constexpr double kDefaultSewTolerance = 1e-6;
@@ -394,4 +397,6 @@ bool SewnSheetGuiCmd::newSewnSheet()
 ABORT_TRANS:
     pTransMgr->abortTransaction();
     return false;
+}
+
 }

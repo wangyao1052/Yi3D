@@ -24,6 +24,9 @@
 #include "snap/SnapConsts.h"
 #include "scene/Colors.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 LineTransient::LineTransient(
     osg::ref_ptr<osg::LineStipple> lineStipple,
@@ -173,4 +176,6 @@ void CenterPointTransient::update(const wy3d::Plane& plane, const wy::Vector2& p
     assert(_pat);
     _pat->setPosition(MathUtils::toVec3(plane.value(position)));
     _pat->setAttitude(MathUtils::computeQuat(plane));
+}
+
 }

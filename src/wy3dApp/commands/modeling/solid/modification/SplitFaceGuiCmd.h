@@ -24,6 +24,9 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // Divides faces of a solid along the curves of a sketch: pick the faces, then pick the sketch
 // whose curves run across them, and the curves become edges of the body with the faces split
@@ -88,5 +91,7 @@ private:
     // 高亮
     SelectionSetHighlightorSPtr _pSelSetHighlightor_Faces;
 };
+
+}
 
 #endif // WY3DAPP_SPLIT_FACE_GUI_CMD_H

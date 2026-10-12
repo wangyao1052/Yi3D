@@ -28,6 +28,9 @@
 
 #include <wyVector3.h>
 #include <wy3dPlane.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class TopoShapeUtil
 {
@@ -56,5 +59,7 @@ public:
         const TopoDS_Shape& shape,
         unsigned int index);
 };
+
+}
 
 #endif // WY3DAPP_TOPOSHAPE_UTIL_H

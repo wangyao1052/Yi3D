@@ -24,6 +24,9 @@
 #include <wy3dSweptSheet.h>
 #include "commands/transient/ValidSketchTransient.h"
 #include "select/SelectionSetHighlightor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSweptSheet;
 
@@ -116,5 +119,7 @@ public:
 private:
     wy3d::SweptSheet* _pSweptSheet;
 };
+
+}
 
 #endif // WY3DAPP_SWEPT_SHEET_GUI_CMD_H

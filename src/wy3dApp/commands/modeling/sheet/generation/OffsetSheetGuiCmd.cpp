@@ -55,6 +55,9 @@
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/featureTree/FeatureTreeWidget.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static constexpr double kDefaultOffset = 2.0;
 
@@ -1065,4 +1068,6 @@ void OffsetSheetGuiCmd::onDialogCanceled()
     _pMakeOffsetSheet = nullptr;
     _pMakeSolidSheet = nullptr;
     this->requestAbort(AbortCause::UserCancel);
+}
+
 }

@@ -87,7 +87,7 @@ SnapResultSPtr SnapSystemImpl::snapImpl(double x, double y, wyap::SnapContextSPt
     }
 
     // 优先捕捉常驻对象
-    BaseView* pBaseView = static_cast<BaseView*>(pView);
+    wy3dApp::BaseView* pBaseView = static_cast<wy3dApp::BaseView*>(pView);
     wyap::SnapResultSPtr pSnapResult = pBaseView->snapObject(x, y, _residentSnapObjects);
     if (pSnapResult)
     {

@@ -23,11 +23,14 @@
 
 #include <cstdint>
 #include <string>
+#include "wy3dAppDefs.h"
 
 #define YI3D_APP_VERSION_MAJOR 0
 #define YI3D_APP_VERSION_MINOR 20
 #define YI3D_APP_VERSION_PATCH 2
 #define YI3D_APP_VERSION_STRING "0.20.2"
+
+namespace wy3dApp {
 
 struct Version
 {
@@ -46,5 +49,7 @@ inline constexpr Version kAppVersion{
     YI3D_APP_VERSION_MAJOR,
     YI3D_APP_VERSION_MINOR,
     YI3D_APP_VERSION_PATCH};
+
+}
 
 #endif // WY3DAPP_VERSION_H

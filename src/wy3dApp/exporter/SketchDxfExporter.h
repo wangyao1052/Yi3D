@@ -20,6 +20,9 @@
 #define WY3DAPP_SKETCH_DXF_EXPORTER_H
 
 #include "SketchExporter.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // DXF sketch exporter backed by the embedded Python runtime and the ezdxf library
 class SketchDxfExporter : public SketchExporter
@@ -31,5 +34,7 @@ public:
 protected:
     virtual bool performImpl(const wy3d::Sketch* pSketch, const std::wstring& fileFullPath) override;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DXF_EXPORTER_H

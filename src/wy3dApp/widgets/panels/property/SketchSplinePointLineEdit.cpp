@@ -24,6 +24,9 @@
 #include <wy3dSketchSpline.h>
 
 #include "SketchSplinePointsEditor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchSplinePointLineEdit::SketchSplinePointLineEdit(Field field, wydb::ParameterValueUPtr&& pParamValue,
     SketchSplinePointsEditor* pPointsEditor, PropertyEditorWidget* parent)
@@ -118,4 +121,6 @@ void SketchSplinePointLineEdit::getCurrParamValueFromDb(
     const wy3d::SketchSpline::Tangent tangent = pSketchSpline->getTangentAt(index);
     pOutParamValue = wydb::ParameterValue::createDouble(Field::TangentAngle == _field
         ? wy3d::radiansToDegrees(tangent.angle) : tangent.magnitude);
+}
+
 }

@@ -18,6 +18,9 @@
 
 #include <wyVector2.h>
 #include "SketchCenterLineGripGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchCenterLineGripGizmo::SketchCenterLineGripGizmo(const wy3d::SketchCenterLine* pCenterLine, Type type)
     : SketchEntityGripGizmo(pCenterLine), _type(type)
@@ -102,4 +105,6 @@ SketchSnapContextSPtr SketchCenterLineGripGizmo::newDragContext() const
     default:
         return SketchEntityGripGizmo::newDragContext();
     }
+}
+
 }

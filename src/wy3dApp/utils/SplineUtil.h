@@ -24,6 +24,9 @@
 #include <wy3dSketchSpline.h>
 #include <Geom2d_BSplineCurve.hxx>
 #include <Geom_BSplineCurve.hxx>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SplineUtil
 {
@@ -58,5 +61,7 @@ public:
         const Handle(Geom2d_BSplineCurve)& pBSpline2d,
         const wy3d::Plane& plane);
 };
+
+}
 
 #endif // WY3DAPP_SPLINE_UTIL_H

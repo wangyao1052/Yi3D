@@ -20,10 +20,13 @@
 #define WY3DAPP_MODELING_MOVE_GUI_CMD_H
 
 #include "commands/edit/MoveGuiCmd.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ModelingMoveGuiCmd : public MoveGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(ModelingMoveGuiCmd, ModelingMoveGuiCmd, MoveGuiCmd)
+    WYRX_DECLARE_MEMBERS(ModelingMoveGuiCmd, wy3dApp::ModelingMoveGuiCmd, MoveGuiCmd)
 public:
     ModelingMoveGuiCmd();
     virtual ~ModelingMoveGuiCmd();
@@ -46,5 +49,7 @@ protected:
 private:
     wy::Vector3 snapInWorkPlane(double x, double y, const wy::Vector3& pos3d) const;
 };
+
+}
 
 #endif // WY3DAPP_MODELING_MOVE_GUI_CMD_H

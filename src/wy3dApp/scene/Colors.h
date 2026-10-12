@@ -21,6 +21,9 @@
 
 #include <osg/Vec3>
 #include <osg/Vec4>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Colors
 {
@@ -82,5 +85,7 @@ public:
     // 粉色
     static const osg::Vec4 kPink;
 };
+
+}
 
 #endif // WY3DAPP_COLORS_H

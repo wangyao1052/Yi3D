@@ -23,12 +23,15 @@
 #include <wy3dColor.h>
 
 #include <wy3dApp/OsgGuiCommand.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SetColorCmdPanel;
 
 class SetColorGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SetColorGuiCmd, wy3dApp::SolidColorGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SetColorGuiCmd, wy3dApp::SetColorGuiCmd, OsgGuiCommand)
 public:
     SetColorGuiCmd();
     virtual ~SetColorGuiCmd();
@@ -79,5 +82,6 @@ private:
     SelectPreview _hoverPreview;
 };
 
-#endif // WY3DAPP_SET_COLOR_GUI_CMD_H
+}
 
+#endif // WY3DAPP_SET_COLOR_GUI_CMD_H

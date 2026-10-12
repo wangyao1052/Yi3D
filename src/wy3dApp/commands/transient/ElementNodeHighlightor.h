@@ -21,6 +21,9 @@
 
 #include <memory>
 #include <wydbElementId.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ElementNodeHighlightor
 {
@@ -37,5 +40,7 @@ private:
     wydb::ElementId _id;
 };
 typedef std::shared_ptr<ElementNodeHighlightor> ElementNodeHighlightorSPtr;
+
+}
 
 #endif // WY3DAPP_ELEMENT_NODE_HIGHLIGHTOR_H

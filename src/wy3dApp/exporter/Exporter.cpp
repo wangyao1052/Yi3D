@@ -40,6 +40,9 @@
 #include <wyapDocument.h>
 #include <wy3dSolid.h>
 #include <wy3dSolid.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 ExporterManager& ExporterManager::instance()
 {
@@ -433,4 +436,6 @@ static bool writeStlBinary(
     }
 
     return true;
+}
+
 }

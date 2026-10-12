@@ -66,6 +66,9 @@
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool SketchElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
 {
@@ -749,4 +752,6 @@ osg::ref_ptr<osg::Geometry> SketchElementNode::generateCenterLineGeom_Preview(un
     edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
 
     return edgeGeom;
+}
+
 }

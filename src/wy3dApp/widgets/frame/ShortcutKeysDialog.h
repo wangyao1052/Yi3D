@@ -19,10 +19,13 @@
 #pragma once
 
 #include <QDialog>
+#include "wy3dAppDefs.h"
 
 class QButtonGroup;
 class QStackedWidget;
 class QToolButton;
+
+namespace wy3dApp {
 
 class ShortcutKeysDialog : public QDialog
 {
@@ -40,3 +43,5 @@ private:
 
     QStackedWidget* _pStackedWidget;
 };
+
+}

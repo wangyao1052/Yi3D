@@ -31,6 +31,9 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wy3dApp/SelectPreview.h>
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchProjectCurvePanel;
 class Sketch3DDirectionTransient;
@@ -47,7 +50,7 @@ class Sketch3DDirectionTransient;
 // kept, and the entities do not follow later changes of the sketch or the model.
 class SketchProjectCurve3DGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchProjectCurve3DGuiCmd, SketchProjectCurve3DGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchProjectCurve3DGuiCmd, wy3dApp::SketchProjectCurve3DGuiCmd, OsgGuiCommand)
 
 public:
     SketchProjectCurve3DGuiCmd();
@@ -148,5 +151,7 @@ private:
     std::vector<TopoDS_Edge> _previewEdges;
     GuiCmdTransientSPtr _pProjectionPreview;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_PROJECT_CURVE3D_GUI_CMD_H

@@ -35,10 +35,13 @@
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
 
 // ============================================================================
 // MakeSolidify
 // ============================================================================
+
+namespace wy3dApp {
 
 void MakeSolidify::collectElements(std::set<wydb::ElementId>& idSet) const
 {
@@ -214,4 +217,6 @@ void SolidifyGuiCmd::perform(wydb::ElementId sheetId)
             wyap::CmdExecution::AbortCause::ErrorTerminate);
         assert(wy::ErrorStatus::Ok == ret);
     }
+}
+
 }

@@ -56,15 +56,18 @@ namespace wyap
     class SceneManager;
 }
 
+class CmdActionMgr;
+class GuiCmdMenuActionMgr;
+
+namespace wy3dApp {
+
 class View;
 class BaseView;
 class Scene;
-
 class MainWindow;
 class DockPanelManager;
 class Config;
-class CmdActionMgr;
-class GuiCmdMenuActionMgr;
+
 class GizmoFactory;
 class AutoSave;
 
@@ -226,5 +229,7 @@ private:
 private:
     bool _idleRequested = false;
 };
+
+}
 
 #endif // WY3DAPP_APPLICATION_H

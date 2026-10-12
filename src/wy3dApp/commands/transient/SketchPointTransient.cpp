@@ -35,6 +35,9 @@
 #include "scene/SketchEntityLinearization.h"
 #include <wy3dApp/Application.h>
 #include "scene/RenderConst.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchPointTransient::SketchPointTransient(const wy3d::Plane& sketchPlane, const wy::Vector2& point,
     float pointSize, const osg::Vec4& color) : _sketchPlane(sketchPlane)
@@ -72,4 +75,6 @@ void SketchPointTransient::update(const wy::Vector2& point)
     (*_vertices)[0] = MathUtils::toVec3(_sketchPlane.value(point));
     _vertices->dirty();
     _geom->dirtyBound();
+}
+
 }

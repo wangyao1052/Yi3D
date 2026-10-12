@@ -25,12 +25,15 @@
 #include <wyapSelection.h>
 
 #include "commands/dialogs/FloatingCmdPanel.h"
+#include "wy3dAppDefs.h"
 
 class QRadioButton;
 class QLabel;
 class QGridLayout;
 class QTableWidget;
 class QTableWidgetItem;
+
+namespace wy3dApp {
 
 enum class MeasureMode
 {
@@ -120,5 +123,7 @@ private:
     unsigned int _rowCounter;
     int _hoverRow;
 };
+
+}
 
 #endif // WY3DAPP_MEASURE_CMD_PANEL_H

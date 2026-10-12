@@ -26,6 +26,9 @@
 #include <QRegExpValidator>
 #include <QMouseEvent>
 #include <QKeyEvent>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 PolygonSidesLineEdit::PolygonSidesLineEdit(QWidget* parent) : QLineEdit(parent)
 {
@@ -180,4 +183,6 @@ void SketchPolygonDialog::keyPressEvent(QKeyEvent* event)
 bool SketchPolygonDialog::isInscribedPolygon() const
 {
     return _inscribedRadio->isChecked();
+}
+
 }

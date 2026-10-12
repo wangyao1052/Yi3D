@@ -43,6 +43,9 @@
 #include "commands/transient/SketchBasicTransient.h"
 #include "utils/MathUtils.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -798,4 +801,6 @@ bool MakeTube::update(double height)
         pTransMgr->mergeTransaction();
     }
     return true;
+}
+
 }

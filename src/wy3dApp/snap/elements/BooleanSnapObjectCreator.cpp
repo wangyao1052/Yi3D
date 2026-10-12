@@ -22,6 +22,9 @@
 #include <wy3dBoolean.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> BooleanSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -36,4 +39,6 @@ std::list<wyap::SnapObjectSPtr> BooleanSnapObjectCreator::createSnapObjects(cons
     wydb::ElementId id = pBoolean->getId();
     TopoDS_Shape resultShape = pBoolean->getShape();
     return this->newSnapObjects(id, resultShape);
+}
+
 }

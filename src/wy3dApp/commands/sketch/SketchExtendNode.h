@@ -29,6 +29,9 @@
 #include <wy3dSketchCurve.h>
 #include <wy3dSketchSpline.h>
 #include <RTree/RTree.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchExtendGraph;
 
@@ -146,5 +149,7 @@ private:
     bool _isClosed;
 };
 typedef std::shared_ptr<SketchExtendNode> SketchExtendNodeSPtr;
+
+}
 
 #endif // WY3DAPP_SKETCH_EXTEND_NODE_H

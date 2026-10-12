@@ -41,7 +41,9 @@
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include "select/filters/SolidToCutSelFilter.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 RevolveGuiCmd::RevolveGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sketchId(wydb::ElementId::kNull), _axisCurveId(wydb::ElementId::kNull)
@@ -719,4 +721,6 @@ bool MakeRevolution::cutSolid(const wy3d::Solid* pConstSolidToCut, unsigned int&
     }
 
     return true;
+}
+
 }

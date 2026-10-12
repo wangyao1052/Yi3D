@@ -24,6 +24,9 @@
 #include <memory>
 #include <wy3dRevolution.h>
 #include "commands/transient/ValidSketchTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeRevolution;
 
@@ -127,5 +130,7 @@ private:
     bool _isCut;
     wy3d::Revolution* _pRevolution;
 };
+
+}
 
 #endif // WY3DAPP_REVOLUTION_GUI_CMD_H

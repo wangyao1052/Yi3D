@@ -46,8 +46,9 @@
 #include <wy3dApp/SketchEnvironment.h>
 #include "environments/sketch/SketchEnvironmentImpl.h"
 #include "utils/SketchUtil.h"
+#include "wy3dAppDefs.h"
 
-
+namespace wy3dApp {
 
 int EditSketchCommand::run()
 {
@@ -296,4 +297,6 @@ int CancelSketchCommand::run()
     }
 
     return 0;
+}
+
 }

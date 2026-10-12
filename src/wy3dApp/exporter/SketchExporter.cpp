@@ -22,6 +22,9 @@
 #include <Standard_Failure.hxx>
 #include <wyVector2.h>
 #include <wydbDatabase.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchExporterManager& SketchExporterManager::instance()
 {
@@ -56,3 +59,4 @@ bool SketchExporter::perform(const wy3d::Sketch* pSketch, const std::wstring& fi
     }
 }
 
+}

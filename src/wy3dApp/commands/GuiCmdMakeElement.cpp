@@ -22,6 +22,9 @@
 
 #include <wy3dApp/Application.h>
 #include <wy3dApp/GuiCommand.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 GuiCmdMakeElement::GuiCmdMakeElement(GuiCommand* pGuiCmd)
     : _pGuiCmd(pGuiCmd), _pTopTrans(nullptr), _isFinished(false)
@@ -72,4 +75,6 @@ wydb::Transaction* GuiCmdMakeElement::startTransaction(wydb::Database* pDb,
     wydb::TransactionOption option;
     option.chainUpdateScope = scope;
     return pDb->getTransactionManager()->startTransaction("", option);
+}
+
 }

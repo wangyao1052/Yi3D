@@ -20,6 +20,9 @@
 #define WY3DAPP_SKETCH_DXF_IMPORTER_H
 
 #include "SketchImporter.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // DXF sketch importer backed by the embedded Python runtime and the ezdxf library
 class SketchDxfImporter : public SketchImporter
@@ -31,5 +34,7 @@ public:
 protected:
     virtual bool performImpl(wydb::Database* pDb, const std::wstring& fileFullPath) override;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DXF_IMPORTER_H

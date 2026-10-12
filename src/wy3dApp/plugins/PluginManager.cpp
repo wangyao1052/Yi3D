@@ -40,7 +40,10 @@
 #include <Windows.h>
 #else
 #include <dlfcn.h>
+#include "wy3dAppDefs.h"
 #endif
+
+namespace wy3dApp {
 
 namespace fs = std::filesystem;
 
@@ -385,4 +388,6 @@ void PluginManager::onEnvironmentToBeSuspended(wyap::Environment* pEnvironment)
         }
         plugin.pPlugin->onEnvironmentToBeSuspended(pEnvironment);
     }
+}
+
 }

@@ -44,6 +44,9 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"
 #include "commands/transient/ValidSketchTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static constexpr double kHoverPopupDelaySeconds = 0.8;
 
@@ -620,4 +623,6 @@ void ExtrudedSheetGuiCmd::simulateMouseMoveFromPopup()
     this->onMouseMove({static_cast<float>(_hoverPopupState.lastMouseX),
                        static_cast<float>(_hoverPopupState.lastMouseY),
                        _hoverPopupState.lastMouseMoveTime});
+}
+
 }

@@ -20,8 +20,11 @@
 #define WY3DAPP_SKETCH_ARC_TANGENT_MODE_PANEL_H
 
 #include "FloatingCmdPanel.h"
+#include "wy3dAppDefs.h"
 
 class QRadioButton;
+
+namespace wy3dApp {
 
 // How the far end of the tangent arc is defined, i.e. what the second step asks for.
 enum class ArcTangentMode
@@ -50,5 +53,7 @@ private:
     QRadioButton* _pRbRadius;
     ArcTangentMode _mode;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ARC_TANGENT_MODE_PANEL_H

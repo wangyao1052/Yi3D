@@ -22,9 +22,11 @@
 #include <wy3dApp/SelectGuiCmd.h>
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT SketchSelectGuiCmd : public SelectGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchSelectGuiCmd, SketchSelectGuiCmd, SelectGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchSelectGuiCmd, wy3dApp::SketchSelectGuiCmd, SelectGuiCmd)
 public:
     SketchSelectGuiCmd();
     virtual ~SketchSelectGuiCmd();
@@ -42,5 +44,7 @@ protected:
     wydb::ElementId getSketchId() const override { return _sketchInfo.sketchId; }
     const wy3d::Plane& getSketchPlane() const override { return _sketchInfo.sketchPlane; }
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_SELECT_GUI_CMD_H

@@ -29,11 +29,14 @@
 
 #include "snap3d/Sketch3DSnapContext.h"
 #include "snap3d/Sketch3DSnapResult.h"
+#include "wy3dAppDefs.h"
 
 namespace wydb
 {
 class Database;
 }
+
+namespace wy3dApp {
 
 // 3D草图捕捉体系(对应2D草图snap/SketchSnapSystem)
 // v1:画线上下文优先级:切点相切(终点吸附到从起点向工作平面上的圆所作切线的切点)>
@@ -97,5 +100,7 @@ private:
 private:
     Sketch3DSnapResultSPtr _pSnapResult;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH3D_SNAP_SYSTEM_H

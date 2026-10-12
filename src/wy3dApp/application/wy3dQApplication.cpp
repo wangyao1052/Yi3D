@@ -22,6 +22,9 @@
 #include <wy3dApp/Application.h>
 #include "PythonScriptExecutor.h"
 #include "widgets/panels/output/OutputWidget.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 wy3dQApplication::wy3dQApplication(int& argc, char** argv)
     : QApplication(argc, argv)
@@ -185,4 +188,6 @@ RunPythonScriptEvent::RunPythonScriptEvent(const std::string& scriptFileFullPath
 RunGuiCommandEvent::RunGuiCommandEvent(const std::string& cmdName)
     : QEvent(eventType()), _strCmdName(cmdName)
 {
+}
+
 }

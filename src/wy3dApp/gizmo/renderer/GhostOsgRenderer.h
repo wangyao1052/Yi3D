@@ -24,6 +24,9 @@
 #include <wydbElement.h>
 
 #include "OsgGizmoRenderer.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GhostOsgRenderer : public OsgGizmoRenderer
 {
@@ -40,5 +43,7 @@ public:
     virtual void onEndDrag(const wy::Vector3& endPos) override {}
     virtual void onCancelDrag() override {}
 };
+
+}
 
 #endif // WY3DAPP_GHOST_OSG_RENDERER_H

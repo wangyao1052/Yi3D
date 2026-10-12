@@ -47,7 +47,9 @@
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
 #include "snap/SnapObject.h"
 #include "snap/SketchSnapSystem.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 class LinearPatternGuiCmdPreSelFilter : public SelectPreFilterFunctor
 {
@@ -490,4 +492,6 @@ bool LinearPatternGuiCmd::createLinearPattern(
         pDb->getTransactionManager()->endTransaction();
         return true;
     }
+}
+
 }

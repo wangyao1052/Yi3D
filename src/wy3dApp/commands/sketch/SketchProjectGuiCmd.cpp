@@ -40,7 +40,9 @@
 #include <wy3dApp/GuiCommandUtil.h>
 #include "utils/SketchProjectUtil.h"
 #include "utils/TopoShapeUtil.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 SketchProjectGuiCmd::SketchProjectGuiCmd()
     : OsgGuiCommand()
@@ -218,4 +220,6 @@ bool SketchProjectGuiCmd::projectEdge(const wyap::Selection& sel)
     }
 
     return false;
+}
+
 }

@@ -29,6 +29,9 @@
 #include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
 #include <wy3dApp/IconUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -167,4 +170,6 @@ void GatewayEnvironmentUI::createToolBars(GatewayEnvironment* pEnv)
     _pToolBarFile = pEnv->addToolBar(
         QCoreApplication::translate("MainWindow", "File"),
         wy3dApp::ToolBarNames::File);
+}
+
 }

@@ -37,6 +37,9 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -814,4 +817,6 @@ bool MakeSketchRectangle3D::getCorners(wy::Vector3& pnt1, wy::Vector3& pnt2, wy:
     pnt3 = _cornerPnt[2];
     pnt4 = _cornerPnt[3];
     return true;
+}
+
 }

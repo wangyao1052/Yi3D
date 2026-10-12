@@ -31,8 +31,12 @@
 #include <wyapSelection.h>
 #include <wyapSelManager.h>
 #include <wyapDocManager.h>
+#include "wy3dAppDefs.h"
 
 class QSpinBox;
+
+namespace wy3dApp {
+
 class PropertyEditorWidget;
 
 class ParamLineEdit : public QLineEdit
@@ -109,5 +113,7 @@ protected:
     QString _lastText;
     wydb::ParameterValueUPtr _pLastParamValue;
 };
+
+}
 
 #endif // WY3DAPP_PARAM_LINE_EDIT_H

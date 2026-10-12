@@ -38,6 +38,9 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 起点悬停时的预览弧为近整圆(整圆使用SketchCircle3D)
 static const double kPreviewTotalAngle = wy3d::TWO_PI - wy3d::kMinValue;
@@ -785,4 +788,6 @@ double MakeSketchArc3D::getRadius() const
 double MakeSketchArc3D::getStartAngle() const
 {
     return _pSketchArc3D ? _pSketchArc3D->getStartAngle() : 0.0;
+}
+
 }

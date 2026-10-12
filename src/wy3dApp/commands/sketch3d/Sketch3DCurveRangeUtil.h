@@ -20,10 +20,13 @@
 #define WY3DAPP_SKETCH3D_CURVE_RANGE_UTIL_H
 
 #include <wy3dDefs.h>
+#include "wy3dAppDefs.h"
 
 NS_WY3D_BEG
 class SketchCurve3D;
 NS_WY3D_END
+
+namespace wy3dApp {
 
 // Leaves a 3D sketch curve covering a normalized parameter range and nothing else, extending it
 // where the range runs past its own ends.
@@ -39,5 +42,7 @@ public:
     // leave a degenerate curve behind, and a spline's range cannot leave its own domain at all.
     static bool apply(wy3d::SketchCurve3D* pCurve, double startParam, double endParam);
 };
+
+}
 
 #endif // WY3DAPP_SKETCH3D_CURVE_RANGE_UTIL_H

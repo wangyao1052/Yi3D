@@ -25,6 +25,9 @@
 #include <typeindex>
 
 #include <wydbParameter.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class PropertyEditorWidget;
 
@@ -60,5 +63,7 @@ private:
     std::map<std::type_index, const ParamEditorAdapter*> _anyMap;
     const ParamEditorAdapter* _fallback = nullptr;
 };
+
+}
 
 #endif // WY3DAPP_PARAM_EDITOR_ADAPTER_H

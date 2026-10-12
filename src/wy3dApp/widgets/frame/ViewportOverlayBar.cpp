@@ -28,6 +28,9 @@
 #include <QTimer>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -148,4 +151,6 @@ void ViewportOverlayBar::anchorToTopLeft()
     if (!pParent) return;
 
     this->move(pParent->mapToGlobal(QPoint(kMargin, kMargin)));
+}
+
 }

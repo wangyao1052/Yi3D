@@ -22,6 +22,9 @@
 #include <QDialog>
 #include <QComboBox>
 #include <wy3dPlane.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchPlaneDialog : public QDialog
 {
@@ -57,5 +60,7 @@ private:
     QComboBox* _systemPlaneCombo;
     wy3d::Plane _sketchPlane;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_PLANE_DIALOG_H

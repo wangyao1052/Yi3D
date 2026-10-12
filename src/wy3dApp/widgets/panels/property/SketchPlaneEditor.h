@@ -23,6 +23,9 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <wy3dPlane.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchPlaneEditor : public QWidget
 {
@@ -48,5 +51,7 @@ private:
     QLineEdit* _pXDirZ;
     QPushButton* _pApplyBtn;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_PLANE_EDITOR_H

@@ -39,6 +39,9 @@
 #include "snap/SnapObject.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -260,4 +263,6 @@ wy::Vector3 ModelingMoveGuiCmd::snapInWorkPlane(double x, double y, const wy::Ve
     {
         return pos3d;
     }
+}
+
 }

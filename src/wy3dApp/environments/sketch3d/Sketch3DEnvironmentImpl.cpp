@@ -28,6 +28,9 @@
 #include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
 #include "snap3d/Sketch3DSnapSystem.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl()
     : _op(Operation::New)
@@ -382,4 +385,6 @@ void Sketch3DEnvironmentImpl::updateUndoRedoActionStates()
 void Sketch3DEnvironmentImpl::updateFileActionStates()
 {
     // 3D草图环境不支持文件操作
+}
+
 }

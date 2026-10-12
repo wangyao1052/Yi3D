@@ -20,6 +20,9 @@
 
 #include <QString>
 #include <QLabel>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class StatusBarHelper
 {
@@ -46,3 +49,5 @@ public:
 private:
     QLabel* _pTipsLabel;
 };
+
+}

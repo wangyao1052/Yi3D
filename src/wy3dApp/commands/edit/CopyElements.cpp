@@ -28,7 +28,9 @@
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
 #include "utils/CopyPasteUtil.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 CopyElemens::CopyElemens(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 {
@@ -172,4 +174,6 @@ bool CopyElemens::perform(
     _pDb->getTransactionManager()->endTransaction();
 
     return true;
+}
+
 }

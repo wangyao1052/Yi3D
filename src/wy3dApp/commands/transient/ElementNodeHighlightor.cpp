@@ -21,6 +21,9 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/SolidElementNode.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 ElementNodeHighlightor::ElementNodeHighlightor(const wydb::ElementId& id)
     : _id(id)
@@ -47,4 +50,6 @@ void ElementNodeHighlightor::highlightImpl(const wydb::ElementId& id, bool flag)
     SolidElementNode* pSolidNode = dynamic_cast<SolidElementNode*>(pScene->getElementNode(id));
     if (!pSolidNode) return;
     pSolidNode->highlight(flag, false);
+}
+
 }

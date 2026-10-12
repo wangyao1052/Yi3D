@@ -39,6 +39,9 @@
 #include "commands/transient/Sketch3DCurveTransient.h"
 #include "commands/transient/Sketch3DTrimExtendTransient.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // What the two picks came to, by element: the algorithm's answer knows the geometry but not which
 // entities it belongs to, and the command is the only layer that does.
@@ -78,7 +81,7 @@ struct Fillet3DData
 // answer, and it is taken as it comes.
 class Sketch3DFilletGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(Sketch3DFilletGuiCmd, Sketch3DFilletGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(Sketch3DFilletGuiCmd, wy3dApp::Sketch3DFilletGuiCmd, OsgGuiCommand)
 public:
     Sketch3DFilletGuiCmd();
     virtual ~Sketch3DFilletGuiCmd();
@@ -130,5 +133,7 @@ private:
     Sketch3DCurveTransientSPtr _pFilletTransient;
     std::shared_ptr<Fillet3DData> _pFilletData;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH3D_FILLET_GUI_CMD_H

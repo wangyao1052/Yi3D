@@ -28,6 +28,9 @@
 #include <wydbDatabase.h>
 #include <wy3dSolid.h>
 #include <wy3dSheet.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Exporter;
 
@@ -102,5 +105,7 @@ class StlExporter : public Exporter
 protected:
     virtual bool performImpl(const TopoDS_Shape& shape, const std::wstring& fileFullPath) override;
 };
+
+}
 
 #endif // WY3DAPP_EXPORTER_H

@@ -20,11 +20,16 @@
 #define WY3DAPP_HELIX_SNAP_OBJECT_CREATOR_H
 
 #include "ElemSnapObjectCreator.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class HelixSnapObjectCreator : public ElemSnapObjectCreator
 {
 public:
     virtual std::list<wyap::SnapObjectSPtr> createSnapObjects(const wydb::Element* pElem) override;
 };
+
+}
 
 #endif // WY3DAPP_HELIX_SNAP_OBJECT_CREATOR_H

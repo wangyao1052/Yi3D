@@ -22,6 +22,9 @@
 #include <set>
 #include <QStandardItemModel>
 #include <wydbElementId.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class FeatureTreeModel : public QStandardItemModel
 {
@@ -70,5 +73,7 @@ public:
         this->setText(QString::number(_id.value()));
     }
 };
+
+}
 
 #endif // WY3DAPP_FEATURE_TREE_MODEL_H

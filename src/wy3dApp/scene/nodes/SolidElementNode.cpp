@@ -61,6 +61,9 @@
 #include "scene/SketchEntityLinearization.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool SolidElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
 {
@@ -1242,4 +1245,6 @@ osg::Vec4 SolidElementNode::getEdgeDefaultColor() const
         return Colors::kCutEdge;
     else
         return Colors::kSolidEdge;
+}
+
 }

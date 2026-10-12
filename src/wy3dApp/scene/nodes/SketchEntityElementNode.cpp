@@ -65,6 +65,9 @@
 #include "scene/SketchEntityLinearization.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // GL_LINES resets the stipple counter before every segment, while GL_LINE_STRIP keeps it running.
 // Drawing the tessellated curves as a strip is what makes their dashes continuous.
@@ -259,4 +262,6 @@ void SketchEntityElementNode::previewImpl(bool flag)
 
 void SketchEntityElementNode::setActiveImpl(bool flag)
 {
+}
+
 }

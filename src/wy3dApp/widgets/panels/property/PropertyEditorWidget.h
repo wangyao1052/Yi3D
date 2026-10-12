@@ -35,6 +35,9 @@
 #include <wyapGizmoManager.h>
 #include <wy3dColor.h>
 #include <wyapDocManager.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class PropertyEditorWidget : public QWidget,
     public wyap::SelManagerReactor,
@@ -135,5 +138,7 @@ private:
 
 
 };
+
+}
 
 #endif // WY3DAPP_PROPERTY_EDITOR_WIDGET_H

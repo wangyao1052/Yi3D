@@ -20,6 +20,9 @@
 
 #include <osgGA/TrackballManipulator>
 #include <functional>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 enum class NavCursorMode
 {
@@ -73,3 +76,5 @@ private:
 		}
 	} _navCursorData;
 };
+
+}

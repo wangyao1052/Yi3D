@@ -20,12 +20,15 @@
 #define WY3DAPP_SKETCH3D_SELECT_GUI_CMD_H
 
 #include <wy3dApp/SelectGuiCmd.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SelectHandler;
 
 class Sketch3DSelectGuiCmd : public SelectGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(Sketch3DSelectGuiCmd, Sketch3DSelectGuiCmd, SelectGuiCmd)
+    WYRX_DECLARE_MEMBERS(Sketch3DSelectGuiCmd, wy3dApp::Sketch3DSelectGuiCmd, SelectGuiCmd)
 public:
     Sketch3DSelectGuiCmd();
     virtual ~Sketch3DSelectGuiCmd();
@@ -68,5 +71,7 @@ private:
     float _leftDownY;
     bool _isOverCurvedFace;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH3D_SELECT_GUI_CMD_H

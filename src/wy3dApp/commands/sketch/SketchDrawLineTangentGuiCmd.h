@@ -29,6 +29,9 @@
 #include <wy3dSketchLine.h>
 #include "snap/SketchSnapContext.h"
 #include "commands/transient/BasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 struct TangentLineIdPair
 {
@@ -71,7 +74,7 @@ struct TangentLine
 
 class SketchDrawLineTangentGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawLineTangentGuiCmd, SketchDrawLineTangentGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawLineTangentGuiCmd, wy3dApp::SketchDrawLineTangentGuiCmd, OsgGuiCommand)
 public:
     SketchDrawLineTangentGuiCmd();
 
@@ -121,5 +124,7 @@ private:
 private:
     std::map<TangentLineIdPair, std::vector<TangentLine>> _cachedTangentLines;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_LINE_TANGENT_GUI_CMD_H

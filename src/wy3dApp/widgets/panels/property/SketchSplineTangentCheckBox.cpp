@@ -24,6 +24,9 @@
 #include <wy3dSketchSpline.h>
 
 #include "SketchSplinePointsEditor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchSplineTangentCheckBox::SketchSplineTangentCheckBox(wydb::ParameterValueUPtr&& pParamValue,
     SketchSplinePointsEditor* pPointsEditor, PropertyEditorWidget* parent)
@@ -79,4 +82,6 @@ void SketchSplineTangentCheckBox::refresh()
 
     const QSignalBlocker blocker(this);
     this->setChecked(value);
+}
+
 }

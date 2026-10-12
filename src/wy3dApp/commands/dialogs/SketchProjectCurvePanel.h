@@ -20,9 +20,12 @@
 #define WY3DAPP_SKETCH_PROJECT_CURVE_PANEL_H
 
 #include "FloatingCmdPanel.h"
+#include "wy3dAppDefs.h"
 
 class QCheckBox;
 class QLabel;
+
+namespace wy3dApp {
 
 // SolidWorks' IProjectionCurveFeatureData carries exactly two flags, Reverse and Bidirectional,
 // and this panel is both of them: there is no direction to pick, because the projection runs along
@@ -76,5 +79,7 @@ private:
     QLabel* _pStatus;
     bool _isDirectionAvailable;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_PROJECT_CURVE_PANEL_H

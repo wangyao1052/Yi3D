@@ -22,6 +22,9 @@
 #include <TopoDS_Edge.hxx>
 #include <wy3dSketchEntity.h>
 #include <wy3dPlane.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchProjectUtil
 {
@@ -51,5 +54,7 @@ public:
         const wy3d::Plane& plane,
         wy3d::SketchEntity*& pOutEntity);
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_PROJECT_UTIL_H

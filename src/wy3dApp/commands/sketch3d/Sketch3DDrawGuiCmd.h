@@ -25,6 +25,9 @@
 #include "commands/GuiCommandMenu.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include <memory>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Sketch3DPlaneLabel;
 class Sketch3DSnapSystem;
@@ -69,7 +72,7 @@ private:
 
 class Sketch3DDrawGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(Sketch3DDrawGuiCmd, Sketch3DDrawGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(Sketch3DDrawGuiCmd, wy3dApp::Sketch3DDrawGuiCmd, OsgGuiCommand)
 public:
     Sketch3DDrawGuiCmd();
     virtual ~Sketch3DDrawGuiCmd();
@@ -113,5 +116,7 @@ protected:
 private slots:
     void onViewNormalToWorkingPlane();
 };
+
+}
 
 #endif // WY3DAPP_SKETCH3D_DRAW_GUI_CMD_H

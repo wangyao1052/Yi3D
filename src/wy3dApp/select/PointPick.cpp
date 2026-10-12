@@ -26,6 +26,9 @@
 #include "scene/nodes/SketchElementNode.h"
 #include "scene/nodes/Sketch3DElementNode.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 template<typename T>
 bool _traverseIntersections(
@@ -569,4 +572,6 @@ wyap::Selection PointPick::pick(
         selRet = pointPick_LineSegmentIntersector(pDb, pView, x, y, option, DrawMode::Face);
     }
     return selRet;
+}
+
 }

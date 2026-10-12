@@ -32,6 +32,9 @@
 #include <wy3dPlanarSheet.h>
 #include <wy3dSketch.h>
 #include "commands/transient/ValidSketchTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakePlanarSheet : public GuiCmdMakeElement
 {
@@ -125,5 +128,7 @@ protected:
     std::shared_ptr<MakePlanarSheet> _pMakePlanarSheet;
     std::shared_ptr<MakeNonParametricSheet> _pMakeNonParametricSheet;
 };
+
+}
 
 #endif // WY3DAPP_PLANAR_SHEET_GUI_CMD_H

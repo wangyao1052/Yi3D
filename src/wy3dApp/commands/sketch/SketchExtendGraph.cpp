@@ -36,8 +36,11 @@
 
 #include <wy3dApp/Application.h>
 #include "SketchTrimExtendUtil.h"
+#include "wy3dAppDefs.h"
 
 #define MAKE_ID_PAIR(id1st, id2st) std::pair<wydb::ElementId, wydb::ElementId>(id1st, id2st)
+
+namespace wy3dApp {
 
 SketchExtendGraph::SketchExtendGraph(const wy3d::Sketch* pSketch, double tol) : _pSketch(pSketch), _tol(tol), _isValid(false)
 {
@@ -928,4 +931,6 @@ SketchExtendSegment SketchExtendGraph::pick(const wydb::ElementId& id, const wy:
     }
 
     return iter->second->pick(this, position);
+}
+
 }

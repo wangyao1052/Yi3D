@@ -23,6 +23,9 @@
 #include <wy3dErrorCode.h>
 #include <wy3dApp/Application.h>
 #include "translation/ErrorCodeTranslation.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 void MessageBoxUtil::showError(unsigned int code)
 {
@@ -115,4 +118,6 @@ void MessageBoxUtil::showWarning_PleaseInputNumber()
     QMessageBox::warning(nullptr,
         QCoreApplication::translate("MessageBox", "Warning"),
         QCoreApplication::translate("MessageBox", "Please input number."));
+}
+
 }

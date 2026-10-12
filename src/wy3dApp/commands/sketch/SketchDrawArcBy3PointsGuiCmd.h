@@ -28,13 +28,16 @@
 #include <wydbElementId.h>
 #include <wy3dSketchArc.h>
 #include "commands/transient/BasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchArcBy3Points;
 class GuiCmdHoverInputPopup2;
 
 class SketchDrawArcBy3PointsGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawArcBy3PointsGuiCmd, SketchDrawArcBy3PointsGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawArcBy3PointsGuiCmd, wy3dApp::SketchDrawArcBy3PointsGuiCmd, OsgGuiCommand)
 public:
     SketchDrawArcBy3PointsGuiCmd();
     virtual ~SketchDrawArcBy3PointsGuiCmd();
@@ -133,5 +136,7 @@ public:
 private:
     wy3d::SketchArc* _pSketchArc;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_ARC_BY_3POINTS_GUI_CMD_H

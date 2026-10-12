@@ -20,6 +20,9 @@
 #define WY3DAPP_RENDER_CONST_H
 
 #include <string>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class RenderBinNumers
 {
@@ -57,5 +60,7 @@ static const inline int DASH_LINE_STIPPLE_FACTOR = 2;
 static const inline unsigned short DASH_LINE_STIPPLE_PATTERN = 0x03FF;
 
 #define PICK_MASK 0x0000FFFF
+
+}
 
 #endif // WY3DAPP_RENDER_CONST_H

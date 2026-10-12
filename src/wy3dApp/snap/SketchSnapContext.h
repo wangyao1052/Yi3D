@@ -23,6 +23,9 @@
 #include <memory>
 #include <wyVector2.h>
 #include <wydbElementId.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 草图捕捉上下文
 class SketchSnapContext
@@ -175,5 +178,7 @@ private:
     wy::Vector2 _startPnt;
 };
 typedef std::shared_ptr<SketchDrawArcContext> SketchDrawArcContextSPtr;
+
+}
 
 #endif // WY3DAPP_SKETCH_SNAP_CONTEXT_H

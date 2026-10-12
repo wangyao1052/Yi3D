@@ -20,6 +20,9 @@
 #define WY3DAPP_SKETCH_ELLIPSE_ARC_GHOST_OSG_RENDERER_H
 
 #include "GhostOsgRenderer.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 椭圆弧 Ghost 渲染器
 class SketchEllipseArcGhostOsgRenderer : public GhostOsgRenderer
@@ -34,5 +37,7 @@ public:
 private:
     osg::ref_ptr<osg::Geometry> generateGeometry(const wydb::Element* pElem);
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ELLIPSE_ARC_GHOST_OSG_RENDERER_H

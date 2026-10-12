@@ -26,6 +26,9 @@
 #include <wy3dExtrusion.h>
 #include <wy3dHelix.h>
 #include <wy3dImportedSolid.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static void createExtrusion_CylibnderXOY(wydb::Database* pDb, wydb::Transaction* pTrans)
 {
@@ -443,4 +446,6 @@ void Test::test(wydb::Database* pDb, wydb::Transaction* pTrans)
     //createExtrusion_Box_WithHole(pDb, pTrans);
     //createHelix(pDb, pTrans);
     //createImportedSolid(pDb, pTrans);
+}
+
 }

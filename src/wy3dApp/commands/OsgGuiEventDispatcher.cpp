@@ -31,6 +31,9 @@
 #include "gizmo/BaseGizmo.h"
 #include "gizmo/renderer/OsgGizmoRenderer.h"
 #include <wy3dApp/GuiCommand.h> // MouseEvent
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static BaseGizmo* getActiveOsgGizmo()
 {
@@ -218,4 +221,6 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
     }
 
     return false;
+}
+
 }

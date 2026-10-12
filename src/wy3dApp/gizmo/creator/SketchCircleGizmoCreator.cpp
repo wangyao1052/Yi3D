@@ -20,6 +20,9 @@
 #include <cassert>
 #include <wy3dSketchCircle.h>
 #include "gizmo/element/SketchCircleGripGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::GizmoSPtr> SketchCircleGizmoCreator::createGizmos(const wydb::Element* pElem) const
 {
@@ -39,4 +42,6 @@ std::list<wyap::GizmoSPtr> SketchCircleGizmoCreator::createGizmos(const wydb::El
     gizmos.emplace_back(std::make_shared<SketchCircleGripGizmo>(pSketchCircle, SketchCircleGripGizmo::Type::Quarter2));
     gizmos.emplace_back(std::make_shared<SketchCircleGripGizmo>(pSketchCircle, SketchCircleGripGizmo::Type::Quarter3));
     return gizmos;
+}
+
 }

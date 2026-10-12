@@ -37,6 +37,9 @@
 #include <wy3dApp/Application.h>
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 Sketch3DExtendGuiCmd::Sketch3DExtendGuiCmd() : OsgGuiCommand()
 {
@@ -438,4 +441,6 @@ ABORT_TRANS:
     assert(false);
     pDb->getTransactionManager()->abortTransaction();
     return false;
+}
+
 }

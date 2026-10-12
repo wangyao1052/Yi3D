@@ -24,6 +24,9 @@
 #include <osg/Vec3d>
 #include <osg/BoundingSphere>
 #include "snap/SnapSystemBase.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiEventDispatcher;
 
@@ -58,5 +61,7 @@ public:
     virtual wyap::SnapResultSPtr snapObject(double x, double y, const std::list<wyap::SnapObjectSPtr>& snapObjects) const = 0;
     virtual wyap::SnapResultSPtr snapObject(double x, double y, const std::set<wyap::SnapObjectSPtr>& snapObjects) const = 0;
 };
+
+}
 
 #endif // WY3DAPP_BASE_VIEW_H

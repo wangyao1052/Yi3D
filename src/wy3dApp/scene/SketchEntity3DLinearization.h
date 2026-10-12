@@ -22,6 +22,9 @@
 #include <vector>
 #include <wyVector3.h>
 #include <wy3dSketchEntity3D.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchEntity3DLinearization
 {
@@ -43,5 +46,7 @@ private:
     std::vector<wy::Vector3> _vertices;
     std::vector<unsigned int> _indices;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ENTITY3D_LINEARIZATION_H

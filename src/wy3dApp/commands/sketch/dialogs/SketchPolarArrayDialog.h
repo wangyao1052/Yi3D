@@ -22,6 +22,9 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QRadioButton>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchPolarArrayDialog : public QDialog
 {
@@ -79,5 +82,7 @@ private:
 
     Options _options;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_POLAR_ARRAY_DIALOG_H

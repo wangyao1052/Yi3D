@@ -56,7 +56,7 @@ void DemoPlugin::terminate()
 void DemoPlugin::onEnvironmentEntered(wyap::Environment* pEnvironment)
 {
     assert(pEnvironment);
-    SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pEnvironment);
+    wy3dApp::SketchEnvironment* pSketchEnv = dynamic_cast<wy3dApp::SketchEnvironment*>(pEnvironment);
     if (pSketchEnv)
     {
         this->enterSketchEnvironment(pSketchEnv);
@@ -66,7 +66,7 @@ void DemoPlugin::onEnvironmentEntered(wyap::Environment* pEnvironment)
 void DemoPlugin::onEnvironmentToBeExited(wyap::Environment* pEnvironment)
 {
     assert(pEnvironment);
-    SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pEnvironment);
+    wy3dApp::SketchEnvironment* pSketchEnv = dynamic_cast<wy3dApp::SketchEnvironment*>(pEnvironment);
     if (pSketchEnv)
     {
         this->exitSketchEnvironment(pSketchEnv);
@@ -76,7 +76,7 @@ void DemoPlugin::onEnvironmentToBeExited(wyap::Environment* pEnvironment)
 void DemoPlugin::onEnvironmentToBeSuspended(wyap::Environment* pEnvironment)
 {
     assert(pEnvironment);
-    SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pEnvironment);
+    wy3dApp::SketchEnvironment* pSketchEnv = dynamic_cast<wy3dApp::SketchEnvironment*>(pEnvironment);
     if (pSketchEnv)
     {
         this->exitSketchEnvironment(pSketchEnv);
@@ -86,14 +86,14 @@ void DemoPlugin::onEnvironmentToBeSuspended(wyap::Environment* pEnvironment)
 void DemoPlugin::onEnvironmentResumed(wyap::Environment* pEnvironment)
 {
     assert(pEnvironment);
-    SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pEnvironment);
+    wy3dApp::SketchEnvironment* pSketchEnv = dynamic_cast<wy3dApp::SketchEnvironment*>(pEnvironment);
     if (pSketchEnv)
     {
         this->enterSketchEnvironment(pSketchEnv);
     }
 }
 
-void DemoPlugin::enterSketchEnvironment(SketchEnvironment* pSketchEnvironment)
+void DemoPlugin::enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvironment)
 {
     assert(pSketchEnvironment);
 
@@ -120,7 +120,7 @@ void DemoPlugin::enterSketchEnvironment(SketchEnvironment* pSketchEnvironment)
         //demo::log(LogLevel::Warning, "demo: addCommand failed");
     }
 
-    EnvironmentBase* pEnvBase = dynamic_cast<EnvironmentBase*>(pSketchEnvironment);
+    wy3dApp::EnvironmentBase* pEnvBase = dynamic_cast<wy3dApp::EnvironmentBase*>(pSketchEnvironment);
     assert(pEnvBase);
 
     const QString title = QCoreApplication::translate("DemoPlugin", "Demo");
@@ -129,7 +129,7 @@ void DemoPlugin::enterSketchEnvironment(SketchEnvironment* pSketchEnvironment)
     // One shared group for all demo command actions: it is what makes them checkable,
     // and the environment base keeps the running command's action pressed through it.
     QActionGroup* pActionGroup = pEnvBase->newActionGroup();
-    CommandAction* pAction = pEnvBase->newCommandAction(
+    wy3dApp::CommandAction* pAction = pEnvBase->newCommandAction(
         demo::kHelloCommand,
         QCoreApplication::translate("DemoPlugin", "Hello from Demo"),
         QIcon(":/plugin/com.yi3d.demo/demo_hello.svg"),
@@ -137,7 +137,7 @@ void DemoPlugin::enterSketchEnvironment(SketchEnvironment* pSketchEnvironment)
     if (pToolBar && pAction) pToolBar->addAction(pAction);
     if (pMenu && pAction) pMenu->addAction(pAction);
 
-    CommandAction* pParametersAction = pEnvBase->newCommandAction(
+    wy3dApp::CommandAction* pParametersAction = pEnvBase->newCommandAction(
         demo::kParametersCommand,
         QCoreApplication::translate("DemoPlugin", "List Element Parameters"),
         QIcon(":/plugin/com.yi3d.demo/demo_parameters.svg"),
@@ -146,7 +146,7 @@ void DemoPlugin::enterSketchEnvironment(SketchEnvironment* pSketchEnvironment)
     if (pMenu && pParametersAction) pMenu->addAction(pParametersAction);
 }
 
-void DemoPlugin::exitSketchEnvironment(SketchEnvironment* pSketchEnvironment)
+void DemoPlugin::exitSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvironment)
 {
     assert(pSketchEnvironment);
 

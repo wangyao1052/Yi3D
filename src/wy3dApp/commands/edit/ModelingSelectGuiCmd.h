@@ -20,6 +20,9 @@
 #define WY3DAPP_MODELING_SELECT_GUI_CMD_H
 
 #include <wy3dApp/SelectGuiCmd.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ModelingSelectGuiCmdMenu : public SelectGuiCmdMenu
 {
@@ -32,7 +35,7 @@ protected:
 
 class ModelingSelectGuiCmd : public SelectGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(ModelingSelectGuiCmd, ModelingSelectGuiCmd, SelectGuiCmd)
+    WYRX_DECLARE_MEMBERS(ModelingSelectGuiCmd, wy3dApp::ModelingSelectGuiCmd, SelectGuiCmd)
 public:
     ModelingSelectGuiCmd();
     virtual ~ModelingSelectGuiCmd();
@@ -48,5 +51,7 @@ protected:
     virtual wy::Vector3 computePastePosition(double x, double y,
         const std::set<wydb::ElementId>& excludeIds) override;
 };
+
+}
 
 #endif // WY3DAPP_MODELING_SELECT_GUI_CMD_H

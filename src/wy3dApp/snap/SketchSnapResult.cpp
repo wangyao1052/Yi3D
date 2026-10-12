@@ -23,6 +23,9 @@
 #include "scene/RenderConst.h"
 #include "commands/transient/SketchPointTransient.h"
 #include "SnapConsts.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchSnapResult::SketchSnapResult(
     const wy3d::Plane& sketchPlane,
@@ -409,4 +412,6 @@ void SketchSnapResult::update()
         break;
         }
     }
+}
+
 }

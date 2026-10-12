@@ -21,6 +21,9 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class FilletRadiusLineEdit : public QLineEdit
 {
@@ -63,5 +66,7 @@ private:
     FilletRadiusLineEdit* _radiusEdit;
     double _radius;
 };
+
+}
 
 #endif // WY3DAPP_FILLET_DIALOG_H

@@ -21,6 +21,9 @@
 
 #include <QString>
 #include <wyErrors.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MessageBoxUtil
 {
@@ -44,5 +47,7 @@ public:
     // 警告:请输入数值
     static void showWarning_PleaseInputNumber();
 };
+
+}
 
 #endif // WY3DAPP_MESSAGE_BOX_UTIL_H

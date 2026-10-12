@@ -20,6 +20,9 @@
 
 #include <QCoreApplication>
 #include <QString>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchDrawCenterRectangle3DGuiCmd::SketchDrawCenterRectangle3DGuiCmd() : SketchDrawRectangle3DGuiCmd()
 {
@@ -42,4 +45,6 @@ QString SketchDrawCenterRectangle3DGuiCmd::getEndTip() const
     return QCoreApplication::translate("SketchDrawCenterRectangle3DGuiCmd",
         "Specify the rectangle corner point or input length & width. "
         "Press Space to switch the drawing plane.");
+}
+
 }

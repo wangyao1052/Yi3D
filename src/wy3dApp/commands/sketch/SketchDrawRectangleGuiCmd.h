@@ -27,13 +27,16 @@
 #include <wy3dVector2.h>
 #include <wydbElementId.h>
 #include <wy3dSketchLine.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchRectangle;
 class GuiCmdHoverInputPopup2;
 
 class SketchDrawRectangleGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawRectangleGuiCmd, SketchDrawRectangleGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawRectangleGuiCmd, wy3dApp::SketchDrawRectangleGuiCmd, OsgGuiCommand)
 public:
     SketchDrawRectangleGuiCmd();
     virtual ~SketchDrawRectangleGuiCmd();
@@ -162,5 +165,7 @@ private:
     wy3d::SketchLine* _pSketchLine3rd;
     wy3d::SketchLine* _pSketchLine4th;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_RECTANGLE_GUI_CMD_H

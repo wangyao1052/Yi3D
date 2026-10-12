@@ -22,6 +22,9 @@
 #include <string>
 #include <list>
 #include <wydbElement.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class CopyPasteUtil
 {
@@ -57,5 +60,7 @@ public:
 
     static std::string generateCopyPasteLabel();
 };
+
+}
 
 #endif // WY3DAPP_COPY_PASTE_UTIL_H

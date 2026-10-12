@@ -27,6 +27,9 @@
 #include <wy3dApp/ElementNode.h>
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 MakeText::MakeText(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 {
@@ -175,4 +178,6 @@ bool MakeText::performTranslate(const wy::Vector2& pos)
     _pDb->getTransactionManager()->endTransaction();
 
     return true;
+}
+
 }

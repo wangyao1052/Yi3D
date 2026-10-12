@@ -24,6 +24,9 @@
 #include <wyrxClassInfo.h>
 #include <wydbDatabase.h>
 #include <wyapSelection.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 enum class SelectFilterStatus
 {
@@ -64,5 +67,7 @@ public:
         SelectAction selectAction) const = 0;
 };
 typedef std::shared_ptr<SelectFilterFunctor> SelectFilterFunctorSPtr;
+
+}
 
 #endif // WY3DAPP_SELECT_FILTER_FUNCTOR_H

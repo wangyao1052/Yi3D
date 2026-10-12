@@ -27,7 +27,9 @@
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "environments/sketch/SketchEnvironmentImpl.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 SketchRelocateCsysGuiCmd::SketchRelocateCsysGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _origin(), _angle(0.0)
@@ -298,4 +300,6 @@ bool SketchRelocateCsysGuiCmd::relocateSketchCsys(const wy3d::Plane& plane, cons
     }
 
     return true;
+}
+
 }

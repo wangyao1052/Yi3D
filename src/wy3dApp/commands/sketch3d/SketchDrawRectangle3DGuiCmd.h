@@ -30,6 +30,9 @@
 #include <wy3dPlane.h>
 #include <wydbElementId.h>
 #include <wy3dSketchLine3D.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopup2;
 class GuiCmdHoverInputPopup3;
@@ -91,7 +94,7 @@ private:
 
 class SketchDrawRectangle3DGuiCmd : public Sketch3DDrawGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawRectangle3DGuiCmd, SketchDrawRectangle3DGuiCmd, Sketch3DDrawGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawRectangle3DGuiCmd, wy3dApp::SketchDrawRectangle3DGuiCmd, Sketch3DDrawGuiCmd)
 public:
     SketchDrawRectangle3DGuiCmd();
     virtual ~SketchDrawRectangle3DGuiCmd();
@@ -185,5 +188,7 @@ private:
     LineTransientSPtr _pDiagonal1st;
     LineTransientSPtr _pDiagonal2nd;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_RECTANGLE3D_GUI_CMD_H

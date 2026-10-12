@@ -25,6 +25,9 @@
 #include <wydbTransaction.h>
 
 #include "GizmoOperation.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchEntityGripGizmo;
 
@@ -46,5 +49,7 @@ public:
 private:
     SketchEntityGripGizmo* _pGripGizmo;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_ENTITY_DRAG_OPERATION_H

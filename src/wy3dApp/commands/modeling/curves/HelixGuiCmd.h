@@ -24,6 +24,9 @@
 #include <memory>
 #include <wy3dHelix.h>
 #include "commands/transient/ValidSketchTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class HelixGuiCmd : public OsgGuiCommand
 {
@@ -84,5 +87,7 @@ protected:
     };
     std::map<wydb::ElementId, SketchValidInfo> _sketchId2ValidInfo;
 };
+
+}
 
 #endif // WY3DAPP_HELIX_GUI_CMD_H

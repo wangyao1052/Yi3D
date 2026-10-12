@@ -52,6 +52,9 @@
 #include <osgDB/ReadFile>
 
 #include <vector>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 OsgViewWidget::OsgViewWidget(QWidget *parent) : ViewWidget(parent), _pOsgGLWidget(nullptr), _pGuiEventDispatcher(nullptr), _navCursorActive(false)
 {
@@ -218,4 +221,6 @@ void OsgViewWidget::setNavigationCursor(NavCursorMode mode)
 
 	CursorType cursorType = (NavCursorMode::Rotate == mode) ? CursorType::Rotate : CursorType::Pan;
 	_pOsgGLWidget->setCursor(CursorCenter::instance().getCursor(cursorType));
+}
+
 }

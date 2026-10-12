@@ -19,6 +19,9 @@
 #pragma once
 
 #include <QDialog>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ContactUsDialog : public QDialog
 {
@@ -28,3 +31,5 @@ public:
     ContactUsDialog(QWidget *parent = Q_NULLPTR);
     ~ContactUsDialog();
 };
+
+}

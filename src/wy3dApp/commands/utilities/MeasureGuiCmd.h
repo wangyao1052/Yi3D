@@ -34,8 +34,11 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/transient/BasicTransient.h"
 #include "commands/utilities/MeasureCmdPanel.h"
+#include "wy3dAppDefs.h"
 
 class QMenu;
+
+namespace wy3dApp {
 
 // 只读长度浮层:文本变化时自适应尺寸,可见期间跟随光标
 class MeasureLengthLabel : public QLineEdit
@@ -58,7 +61,7 @@ private:
 
 class MeasureGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(MeasureGuiCmd, MeasureGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(MeasureGuiCmd, wy3dApp::MeasureGuiCmd, OsgGuiCommand)
 public:
     MeasureGuiCmd();
 
@@ -149,5 +152,7 @@ protected:
 private slots:
     void onClearMeasureResults();
 };
+
+}
 
 #endif // WY3DAPP_MEASURE_GUI_CMD_H

@@ -20,6 +20,9 @@
 
 #include <string>
 #include <QDialog>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class AboutDialog : public QDialog
 {
@@ -38,3 +41,5 @@ private:
         const QString& license,
         const QString& url);
 };
+
+}

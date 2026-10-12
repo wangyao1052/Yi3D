@@ -23,6 +23,9 @@
 #include <QHBoxLayout>
 #include <QComboBox>
 #include <QPushButton>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchPlaneDialog::SketchPlaneDialog(QWidget* parent) : QDialog(parent)
 {
@@ -78,4 +81,6 @@ void SketchPlaneDialog::onOkBtnClicked()
 void SketchPlaneDialog::onCancelBtnClicked()
 {
     this->reject();
+}
+
 }

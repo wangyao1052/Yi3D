@@ -30,7 +30,4 @@
     #define WY3DAPP_EXPORT __attribute__((visibility("default")))
 #endif
 
-#define NS_WY3DAPP_BEG namespace wy3dApp {
-#define NS_WY3DAPP_END }
-
 #endif // WY3DAPP_DEFS_H

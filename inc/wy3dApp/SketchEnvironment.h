@@ -27,6 +27,8 @@
 #include "environments/ICommandActionStateHost.h"
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class SketchSnapSystem;
 
 class WY3DAPP_EXPORT SketchEnvironment
@@ -50,5 +52,7 @@ protected:
     SketchEnvironment() = default;
     ~SketchEnvironment();
 };
+
+}
 
 #endif // WY3DAP_SKETCH_ENVIRONMENT_H

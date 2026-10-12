@@ -22,6 +22,9 @@
 #include <QDialog>
 #include <QLineEdit>
 #include <QRadioButton>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class PolygonSidesLineEdit : public QLineEdit
 {
@@ -72,5 +75,7 @@ private:
     unsigned int _minSides;
     unsigned int _maxSides;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_POLYGON_DIALOG_H

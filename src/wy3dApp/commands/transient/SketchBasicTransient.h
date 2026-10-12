@@ -27,6 +27,9 @@
 #include <wy3dPlane.h>
 
 #include <wy3dApp/GuiCommand.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class CircleTransient : public GuiCmdTransient
 {
@@ -127,5 +130,7 @@ private:
     osg::ref_ptr<osg::AutoTransform> _csys;
 };
 typedef std::shared_ptr<SketchCsysTransient> SketchCsysTransientSPtr;
+
+}
 
 #endif // WY3DAPP_SKETCH_BASIC_TRANSIENT_H

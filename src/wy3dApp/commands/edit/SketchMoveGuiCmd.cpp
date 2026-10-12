@@ -32,6 +32,9 @@
 #include <wy3dApp/CommonSelFilters.h>
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -166,4 +169,6 @@ void SketchMoveGuiCmd::handlePopupEnterKey()
 bool SketchMoveGuiCmd::executeMove()
 {
     return _pMoveElements->perform(_sels, _moveVec);
+}
+
 }

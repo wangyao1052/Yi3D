@@ -26,5 +26,5 @@ int main(int argc, char *argv[])
     // core dump
     initializeCrashDump(QDir::currentPath());
 
-    return Application::instance().runApplication(argc, argv);
+    return wy3dApp::Application::instance().runApplication(argc, argv);
 }

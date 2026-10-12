@@ -26,6 +26,9 @@
 #include "scene/RenderConst.h"
 #include "select/PointPick.h"
 #include "select/BoxPick.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 OsgSelectHandler::OsgSelectHandler() : SelectHandler(), _pOsgView(nullptr)
 {
@@ -152,4 +155,6 @@ void OsgSelectHandler::clearBoxRect()
     BoxSelectRectangle* pSelRect = pScene->getBoxSelectRectNode();
     if (!pSelRect) return;
     pSelRect->hide();
+}
+
 }

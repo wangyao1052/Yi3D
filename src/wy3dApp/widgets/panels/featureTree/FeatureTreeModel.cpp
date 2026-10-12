@@ -18,5 +18,10 @@
 
 #include "FeatureTreeModel.h"
 #include "FeatureTreeWidget.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 FeatureTreeModel::FeatureTreeModel(QObject* parent) : QStandardItemModel(parent) {}
+
+}

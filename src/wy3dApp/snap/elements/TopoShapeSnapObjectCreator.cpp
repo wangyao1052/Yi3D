@@ -23,6 +23,9 @@
 #include <wy3dSheet.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> TopoShapeSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -44,4 +47,6 @@ std::list<wyap::SnapObjectSPtr> TopoShapeSnapObjectCreator::createSnapObjects(co
     }
 
     return this->newSnapObjects(id, resultShape);
+}
+
 }

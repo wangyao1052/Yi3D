@@ -39,7 +39,9 @@
 #include "snap/SnapObject.h"
 #include "gizmo/OsgGizmoNode.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -867,4 +869,6 @@ bool MakeSketchSpline::update(const std::vector<wy::Vector2>& points, const wy::
     _pnts.insert(_pnts.cend(), points.cbegin(), points.cend());
     _pnts.emplace_back(nextPnt);
     return this->update(_pnts);
+}
+
 }

@@ -21,6 +21,9 @@
 #include "gizmo/BaseGizmo.h"
 #include "gizmo/element/SketchEntityGripGizmo.h"
 #include "OsgUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchGripOsgRenderer::SketchGripOsgRenderer(BaseGizmo* pGizmo)
     : OsgGizmoRenderer(pGizmo)
@@ -103,4 +106,6 @@ void SketchGripOsgRenderer::refresh()
     auto* pGizmo = static_cast<SketchEntityGripGizmo*>(_pGizmo);
     wy::Vector3 pos = pGizmo->_sketchPlane.value(pGizmo->getGripPosition());
     this->setPosition(pos);
+}
+
 }

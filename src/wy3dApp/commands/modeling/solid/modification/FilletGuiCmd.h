@@ -27,6 +27,9 @@
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 #include "commands/GuiCommandMenu.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class FilletGuiCmd : public OsgGuiCommand
 {
@@ -102,5 +105,7 @@ private:
 
     friend class FilletGuiCmdMenu;
 };
+
+}
 
 #endif // WY3DAPP_FILLET_GUI_CMD_H

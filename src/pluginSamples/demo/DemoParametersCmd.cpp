@@ -107,7 +107,7 @@ std::vector<const wydb::ParameterDefinition*> collectParamDefinitions(
 } // namespace
 
 DemoParametersCmd::DemoParametersCmd()
-    : OsgGuiCommand()
+    : wy3dApp::OsgGuiCommand()
     , _pointPickOption()
 {
     _options.pointSelect = false;
@@ -123,20 +123,20 @@ wyap::CmdExecution::StartResult DemoParametersCmd::onStart()
     wyap::CmdExecution::StartResult ret = __baseClass::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
-    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
-    if (!dynamic_cast<SketchEnvironment*>(pEnv))
+    wyap::Environment* pEnv = wy3dApp::Application::instance().getEnvManager()->getActiveEnvironment();
+    if (!dynamic_cast<wy3dApp::SketchEnvironment*>(pEnv))
     {
         return wyap::CmdExecution::StartResult::Rejected;
     }
 
-    _pointPickOption.pickMask = static_cast<unsigned int>(ElementNodeType::SketchEntity);
+    _pointPickOption.pickMask = static_cast<unsigned int>(wy3dApp::ElementNodeType::SketchEntity);
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
+    _pointPickOption.pSelFilter = std::make_shared<wy3dApp::SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
 
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DemoParametersCmd",
+    wy3dApp::Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DemoParametersCmd",
         "Click a sketch element to list its parameters."));
 
-    Application::instance().setCursor(CursorType::SelectElements);
+    wy3dApp::Application::instance().setCursor(wy3dApp::CursorType::SelectElements);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -146,19 +146,19 @@ void DemoParametersCmd::cleanup()
     _hoverPreview.clear();
 }
 
-void DemoParametersCmd::onMouseMove(const MouseEvent& event)
+void DemoParametersCmd::onMouseMove(const wy3dApp::MouseEvent& event)
 {
     wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
     _hoverPreview.update(sel);
 }
 
-void DemoParametersCmd::onLeftMouseUp(const MouseEvent& event)
+void DemoParametersCmd::onLeftMouseUp(const wy3dApp::MouseEvent& event)
 {
     if (_hoverPreview.isNull()) return;
     wydb::ElementId id = _hoverPreview.getSelection().getElementId();
     if (id.isNull()) return;
 
-    QTimer::singleShot(0, &Application::instance(), [this, id]()
+    QTimer::singleShot(0, &wy3dApp::Application::instance(), [this, id]()
     {
         this->showParameters(id);
         this->requestEnd();
@@ -167,7 +167,7 @@ void DemoParametersCmd::onLeftMouseUp(const MouseEvent& event)
 
 void DemoParametersCmd::showParameters(const wydb::ElementId& elementId)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = wy3dApp::Application::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -203,11 +203,11 @@ void DemoParametersCmd::showParameters(const wydb::ElementId& elementId)
             continue;
         }
 
-        const QString displayName = ParamNamesTranslation::instance().getParamDisplayName(className, paramName);
+        const QString displayName = wy3dApp::ParamNamesTranslation::instance().getParamDisplayName(className, paramName);
         lines << QStringLiteral("%1: %2").arg(displayName, paramValueToText(*pParamValue));
     }
 
-    QMessageBox::information(Application::instance().getMainWindow(),
+    QMessageBox::information(wy3dApp::Application::instance().getMainWindow(),
         QCoreApplication::translate("DemoParametersCmd", "Sketch Element Parameters"),
         lines.join(QStringLiteral("\n")));
 }

@@ -27,6 +27,9 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <wy3dImpl.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 DoubleValueLineEdit::DoubleValueLineEdit(QWidget* parent) : QLineEdit(parent)
 {
@@ -222,4 +225,6 @@ void DoubleValueInputDialog::keyPressEvent(QKeyEvent* event)
     }
 
     QWidget::keyPressEvent(event);
+}
+
 }

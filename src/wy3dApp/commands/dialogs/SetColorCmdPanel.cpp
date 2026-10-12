@@ -26,6 +26,9 @@
 #include <QPushButton>
 #include <QVariant>
 #include <QVBoxLayout>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SetColorCmdPanel::SetColorCmdPanel(QWidget* parent)
     : FloatingCmdPanel(parent)
@@ -168,4 +171,6 @@ void SetColorCmdPanel::onPickColor()
     QColor color = QColorDialog::getColor(_color, this, tr("Select Color"));
     if (!color.isValid()) return;
     this->setColor(color);
+}
+
 }

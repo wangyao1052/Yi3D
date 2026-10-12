@@ -26,6 +26,9 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/transient/ValidSketchTransient.h"
 #include "select/SelectionSetHighlightor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeLoft;
 
@@ -139,5 +142,7 @@ private:
     bool _isCut;
     wy3d::Loft* _pLoft;
 };
+
+}
 
 #endif // WY3DAPP_LOFT_GUI_CMD_H

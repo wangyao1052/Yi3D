@@ -37,6 +37,9 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 起点角度预览时的近整圈(整椭圆使用SketchEllipse3D)
 static const double kPreviewSweepAngle = wy3d::TWO_PI - wy3d::kMinValue;
@@ -949,4 +952,6 @@ bool MakeSketchEllipseArc3D::updatePlane(const wy::Vector3& normal, const wy::Ve
     // 半轴与起止角取实体现值,避免命令侧缓存过期导致切平面无效
     return this->update(normal, xDir, _pSketchEllipseArc3D->getMajorRadius(), _pSketchEllipseArc3D->getRadiusRatio(),
         _pSketchEllipseArc3D->getStartAngle(), _pSketchEllipseArc3D->getEndAngle());
+}
+
 }

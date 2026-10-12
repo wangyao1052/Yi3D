@@ -27,6 +27,9 @@
 #include <wyVector3.h>
 #include <wydbElementId.h>
 #include <wy3dSketchCircle3D.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class Sketch3DSnapContext;
 
@@ -36,7 +39,7 @@ class GuiCmdHoverInputPopup3;
 
 class SketchDrawCircle3DGuiCmd : public Sketch3DDrawGuiCmd
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawCircle3DGuiCmd, SketchDrawCircle3DGuiCmd, Sketch3DDrawGuiCmd)
+    WYRX_DECLARE_MEMBERS(SketchDrawCircle3DGuiCmd, wy3dApp::SketchDrawCircle3DGuiCmd, Sketch3DDrawGuiCmd)
 public:
     SketchDrawCircle3DGuiCmd();
     virtual ~SketchDrawCircle3DGuiCmd();
@@ -162,5 +165,7 @@ public:
 private:
     wy3d::SketchCircle3D* _pSketchCircle3D;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_CIRCLE3D_GUI_CMD_H

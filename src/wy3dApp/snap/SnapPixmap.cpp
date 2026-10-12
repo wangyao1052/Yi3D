@@ -18,6 +18,9 @@
 
 #include "SnapPixmap.h"
 #include <QPainter>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SnapPixmap& SnapPixmap::instance()
 {
@@ -110,4 +113,6 @@ SnapPixmap::SnapPixmap()
 
 SnapPixmap::~SnapPixmap()
 {
+}
+
 }

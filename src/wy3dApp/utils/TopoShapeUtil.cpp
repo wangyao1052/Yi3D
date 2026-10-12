@@ -28,6 +28,9 @@
 #include <wyVector3.h>
 #include <wy3dImpl.h>
 #include "MathUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool TopoShapeUtil::getFacePlane(const TopoDS_Face& face, wy3d::Plane& plane)
 {
@@ -154,4 +157,6 @@ std::pair<bool, TopoDS_Edge> TopoShapeUtil::getEdge(
     {
         return  std::pair<bool, TopoDS_Edge>(true, TopoDS::Edge(edgeMap(index + 1)));
     }
+}
+
 }

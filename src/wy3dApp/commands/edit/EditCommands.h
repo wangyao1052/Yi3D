@@ -20,33 +20,38 @@
 #define WY3DAPP_EDIT_COMMANDS_H
 
 #include <wyapCmdExecution.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ShowCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(ShowCommand, ShowCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(ShowCommand, wy3dApp::ShowCommand, wyap::ImmediateCmdExecution)
 public:
     virtual int run() override;
 };
 
 class HideCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(HideCommand, HideCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(HideCommand, wy3dApp::HideCommand, wyap::ImmediateCmdExecution)
 public:
     virtual int run() override;
 };
 
 class CopyClipCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(CopyClipCommand, CopyClipCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(CopyClipCommand, wy3dApp::CopyClipCommand, wyap::ImmediateCmdExecution)
 public:
     virtual int run() override;
 };
 
 class PasteClipCommand : public wyap::ImmediateCmdExecution
 {
-    WYRX_DECLARE_MEMBERS(PasteClipCommand, PasteClipCommand, wyap::ImmediateCmdExecution)
+    WYRX_DECLARE_MEMBERS(PasteClipCommand, wy3dApp::PasteClipCommand, wyap::ImmediateCmdExecution)
 public:
     virtual int run() override;
 };
+
+}
 
 #endif // WY3DAPP_EDIT_COMMANDS_H

@@ -67,6 +67,7 @@
 #include "commands/sketch/SketchRelocateCsysGuiCmd.h"
 #include "commands/sketch/SketchProjectGuiCmd.h"
 #include "commands/utilities/FindElementByIdCommand.h"
+#include "wy3dAppDefs.h"
 
 #define WY3DAPP_SKETCH_ENV_COMMAND_LIST(X) \
     X(CommandNames::Select, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, SketchSelectGuiCmd::classInfo()) \
@@ -129,6 +130,8 @@
     X(CommandNames::ShadedDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, ShadedDisplayCommand::classInfo()) \
     X(CommandNames::WireframeDisplay, WYAP_CMD_TRANSPARENT | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, WireframeDisplayCommand::classInfo())
 
+namespace wy3dApp {
+
 namespace
 {
 struct CommandEntry
@@ -184,4 +187,6 @@ void SketchEnvironmentImpl::removeCommands()
         error = pCmdStack->removeCommand(entry.commandName);
         assert(wy::ErrorStatus::Ok == error);
     }
+}
+
 }

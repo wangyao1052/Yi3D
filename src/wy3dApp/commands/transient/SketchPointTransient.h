@@ -26,6 +26,9 @@
 #include <wy3dPlane.h>
 
 #include <wy3dApp/GuiCmdTransient.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchPointTransient : public GuiCmdTransient
 {
@@ -40,5 +43,7 @@ private:
     osg::ref_ptr<osg::Geometry> _geom;
     osg::ref_ptr<osg::Vec3Array> _vertices;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_POINT_TRANSIENT_H

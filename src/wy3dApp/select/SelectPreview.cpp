@@ -25,6 +25,9 @@
 #include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
 #include "scene/nodes/Sketch3DElementNode.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SelectPreview::SelectPreview()
     : _selection(wydb::ElementId::kNull)
@@ -126,4 +129,6 @@ void SelectPreview::showSelection(const wyap::Selection& selection, bool value)
     }
     break;
     }
+}
+
 }

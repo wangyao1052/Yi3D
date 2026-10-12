@@ -18,6 +18,9 @@
 
 #include <wy3dApp/CommandAction.h>
 #include <wy3dApp/Application.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 CommandAction::CommandAction(
     const std::string& commandName,
@@ -56,4 +59,6 @@ void CommandAction::onTriggered()
         assert(pCmd->isTransparent());
         pCmdMgr->executeCommand(_commandName);
     }
+}
+
 }

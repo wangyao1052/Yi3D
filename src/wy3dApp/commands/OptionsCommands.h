@@ -20,7 +20,12 @@
 #define WY3DAPP_OPTIONS_COMMANDS_H
 
 #include "commands/SimpleCommand.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 DEFINE_SIMPLE_CMD(OptionsCommand)
+
+}
 
 #endif // WY3DAPP_OPTIONS_COMMANDS_H

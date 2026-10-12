@@ -17,7 +17,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <wy3dApp/GatewayEnvironment.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 GatewayEnvironment::~GatewayEnvironment()
 {
+}
+
 }

@@ -21,6 +21,9 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dApp/Application.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool TransactionUtil::hasActiveTransaction()
 {
@@ -40,4 +43,6 @@ wydb::Transaction* TransactionUtil::startSolitaryTransaction(wydb::Database* pDb
     wydb::TransactionOption option;
     option.chainUpdateScope = wydb::ChainUpdateScope::Local;
     return pDb->getTransactionManager()->startTransaction("", option);
+}
+
 }

@@ -28,6 +28,9 @@
 #include <QThread>
 
 #include "wy3dQApplication.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace {
 // IPC frame format (big-endian):
@@ -418,3 +421,4 @@ QString IpcServer::makeError(const QString& error) {
     return QStringLiteral("ERROR|%1").arg(sanitizeForLine(error));
 }
 
+}

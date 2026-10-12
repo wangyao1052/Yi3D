@@ -22,8 +22,11 @@
 #include <wyVector3.h>
 #include "SnapSystemBase.h"
 #include "SnapObject.h"
+#include "wy3dAppDefs.h"
 
 #define REAL_SNAP_RESULT(pSnapObject) static_cast<SnapResult*>(pSnapObject)
+
+namespace wy3dApp {
 
 class SnapResult : public wyap::SnapResult
 {
@@ -68,5 +71,7 @@ protected:
 private:
     wyap::SnapObjectSPtr _pSnapObject;
 };
+
+}
 
 #endif // WY3DAPP_SNAP_RESULT_H

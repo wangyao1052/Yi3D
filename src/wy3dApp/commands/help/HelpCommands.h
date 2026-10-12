@@ -20,10 +20,15 @@
 #define WY3DAPP_HELP_COMMANDS_H
 
 #include "commands/SimpleCommand.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 DEFINE_SIMPLE_CMD(AboutCommand)
 DEFINE_SIMPLE_CMD(ContactUsCommand)
 DEFINE_SIMPLE_CMD(HelpDocumentationCommand)
 DEFINE_SIMPLE_CMD(ShortcutKeysCommand)
+
+}
 
 #endif // WY3DAPP_HELP_COMMANDS_H

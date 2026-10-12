@@ -23,6 +23,9 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // Deletes faces from a sheet: pick the faces and the sheet is left with an opening where they
 // were. Only sheets can be picked - a sheet that loses a face is still a sheet, while a solid
@@ -75,5 +78,7 @@ private:
     // 高亮
     SelectionSetHighlightorSPtr _pSelSetHighlightor_Faces;
 };
+
+}
 
 #endif // WY3DAPP_DELETE_FACE_GUI_CMD_H

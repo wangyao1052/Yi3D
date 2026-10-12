@@ -35,7 +35,9 @@
 #include "environments/sketch/SketchEnvironmentImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/Scene.h>
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 NewSketchGuiCmd::NewSketchGuiCmd()
     : OsgGuiCommand(), _step(Step::Undefined), _plane()
@@ -276,4 +278,6 @@ void NewSketchGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 bool NewSketchGuiCmd::perform(const wyap::Selection& sel)
 {
     return GuiCommandUtil::getWorkingPlane(sel, _plane);
+}
+
 }

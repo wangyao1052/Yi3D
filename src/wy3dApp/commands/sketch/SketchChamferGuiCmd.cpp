@@ -36,7 +36,9 @@
 #include <wy3dApp/CommonSelFilters.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "commands/dialogs/DoubleValueInputDialog.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 double SketchChamferGuiCmd::_D1 = 10.0;  // 倒角距离1
 double SketchChamferGuiCmd::_D2 = 10.0;  // 倒角距离2
@@ -528,4 +530,6 @@ bool SketchChamferGuiCmd::chamferLine(wydb::Database* pDb, const wy::Vector2& st
 ABORT_TRANS:
     pDb->getTransactionManager()->abortTransaction();
     return false;
+}
+
 }

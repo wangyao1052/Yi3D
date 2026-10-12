@@ -28,6 +28,9 @@
 #include <wy3dPlane.h>
 
 #include <wy3dApp/GuiCommand.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchRectArrayElements : public GuiCmdMakeElement
 {
@@ -46,5 +49,7 @@ private:
     wy3d::Plane _sketchPlane;
     wydb::ElementId _sketchId;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_RECT_ARRAY_ELEMENTS_H

@@ -57,6 +57,9 @@
 #include <osg/CullFace>
 
 #include "scene/SketchEntityLinearization.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 osg::Matrix ElementNode::createMatrix(const wy::Vector3& pos, const wy::Vector3& rot)
 {
@@ -438,4 +441,6 @@ bool ElementNode::pickByCrossBox(osg::Polytope& polytope) const
     //}
     
     return false;
+}
+
 }

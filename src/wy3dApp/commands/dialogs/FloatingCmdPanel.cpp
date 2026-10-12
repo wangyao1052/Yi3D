@@ -27,6 +27,9 @@
 #include <QShowEvent>
 #include <QTimer>
 #include <QVBoxLayout>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 FloatingCmdPanel::FloatingCmdPanel(QWidget* parent)
     : QWidget(parent)
@@ -294,4 +297,6 @@ void FloatingCmdPanel::onCancelClicked()
 {
     hide();
     emit canceled();
+}
+
 }

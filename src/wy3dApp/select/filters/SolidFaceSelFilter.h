@@ -40,6 +40,9 @@
 #include <wy3dSelectionType.h>
 #include "select/SelectFilterFunctor.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 template<typename T>
 class FaceSelFilterFunctor : public SelectFilterFunctor
@@ -102,5 +105,7 @@ public:
 private:
     std::set<wydb::ElementId> _excludeIds;
 };
+
+}
 
 #endif // WY3DAPP_SOLID_FACE_SEL_FILTER_H

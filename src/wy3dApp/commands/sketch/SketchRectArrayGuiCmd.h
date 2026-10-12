@@ -33,13 +33,17 @@
 
 #include "commands/GuiCommandMenu.h"
 
+#include "commands/sketch/SketchRectArrayElements.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
+
 class LineTransient;
 class GuiCmdHoverInputPopup1;
-#include "commands/sketch/SketchRectArrayElements.h"
 
 class SketchRectArrayGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchRectArrayGuiCmd, SketchRectArrayGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchRectArrayGuiCmd, wy3dApp::SketchRectArrayGuiCmd, OsgGuiCommand)
 public:
     SketchRectArrayGuiCmd();
     virtual ~SketchRectArrayGuiCmd();
@@ -143,5 +147,7 @@ private:
 
     friend class SketchRectArrayGuiCmdMenu;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_RECT_ARRAY_GUI_CMD_H

@@ -20,6 +20,9 @@
 #define WY3DAPP_SNAP_PIXMAP_H
 
 #include <QPixmap>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SnapPixmap
 {
@@ -77,5 +80,7 @@ private:
     // 中心点
     QPixmap _center;
 };
+
+}
 
 #endif // WY3DAPP_SNAP_TIP_WIDGET_H

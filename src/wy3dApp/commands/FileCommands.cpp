@@ -62,7 +62,9 @@
 #include "commands/CommandNames.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 FileCmdsUtil::UiAskRet FileCmdsUtil::uiAskWhetherSaveDocument(wyap::Document* pDoc)
 {
@@ -913,3 +915,4 @@ int ExportSketchCommand::run()
     return 0;
 }
 
+}

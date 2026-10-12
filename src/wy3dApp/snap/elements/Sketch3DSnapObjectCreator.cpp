@@ -28,6 +28,9 @@
 #include <wy3dSketchEllipseArc3D.h>
 #include <wy3dSketchSpline3D.h>
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -120,4 +123,6 @@ std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(con
     }
 
     return snapPoints;
+}
+
 }

@@ -18,9 +18,15 @@
 
 #pragma once
 
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
+
 namespace DockPanelIds
 {
     inline constexpr const char* FeatureTree = "FeatureTree";
     inline constexpr const char* Property = "Property";
     inline constexpr const char* Output = "Output";
+}
+
 }

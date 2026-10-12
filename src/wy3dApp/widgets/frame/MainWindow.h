@@ -31,12 +31,17 @@
 #include <vector>
 #include <wydbDatabase.h>
 #include <wyapDocManager.h>
+#include "wy3dAppDefs.h"
+
+class GuiCmdActionMgr;
+class MainWindowUI;
+
+namespace wy3dApp {
 
 class Document;
 class DockPanelManager;
 class OutputWidget;
-class GuiCmdActionMgr;
-class MainWindowUI;
+
 class ViewWidgetContainer;
 
 class MainWindow :
@@ -88,3 +93,4 @@ public:
     friend class MainWindowUI;
 };
 
+}

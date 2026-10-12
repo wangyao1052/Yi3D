@@ -40,7 +40,9 @@
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include "select/filters/SolidToCutSelFilter.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 SweepGuiCmd::SweepGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _pathId(wydb::ElementId::kNull), _profileId(wydb::ElementId::kNull)
@@ -979,4 +981,6 @@ bool MakeSweep::cutSolid(const wy3d::Solid* pConstSolidToCut, unsigned int& erro
     }
 
     return true;
+}
+
 }

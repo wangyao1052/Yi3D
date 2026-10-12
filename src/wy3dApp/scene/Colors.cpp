@@ -17,9 +17,12 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "scene/Colors.h"
+#include "wy3dAppDefs.h"
 
 #define BrightGreen  osg::Vec4(0.0f, 0.93f, 0.0f, 1.0f) // 亮绿色
 #define BrightOrange osg::Vec4(0.9f, 0.39f, 0.1f, 1.0f) // 亮橙色(CREO)
+
+namespace wy3dApp {
 
 // solid
 const osg::Vec4 Colors::kSolidFace(0.55f, 0.60f, 0.65f, 1.0f);           // 金属色(CREO)
@@ -83,3 +86,5 @@ const osg::Vec4 Colors::kDirectionArrow(0.0f, 0.498f, 0.698f, 1.0f); // #007FB2
 
 // pink
 const osg::Vec4 Colors::kPink(1.0f, 0.5f, 0.75f, 1.0f);  // 粉红色(SolidWorks)
+
+}

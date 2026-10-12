@@ -21,6 +21,9 @@
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wy3dSketchSpline.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool SplineUtil::segment(const wy3d::SketchSpline* pSketchSpline, double startParam, double endParam,
     unsigned int& degree,
@@ -398,4 +401,6 @@ Handle(Geom_BSplineCurve) SplineUtil::convertToBSplineCurve3D(
         assert(false);
         return nullptr;
     }
+}
+
 }

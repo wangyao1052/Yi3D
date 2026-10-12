@@ -43,6 +43,9 @@
 #include "select/filters/SolidToCutSelFilter.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static bool parseDoubleText(const QString& text, double& value)
 {
@@ -975,4 +978,6 @@ bool MakeExtrusion::cutSolid(const wy3d::Solid* pConstSolidToCut, unsigned int& 
     }
 
     return true;
+}
+
 }

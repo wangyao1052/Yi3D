@@ -47,6 +47,9 @@
 #include "PropertyEditorWidget.h"
 #include <wy3dApp/Scene.h>
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 void ParamLineEdit::setWidgetFontSize(QWidget* pWidget, int pointSize)
 {
@@ -539,4 +542,6 @@ bool ParamLineEdit::parserExpression(const QString& qstr, int& outValue)
     }
     outValue = static_cast<int>(value);
     return true;
+}
+
 }

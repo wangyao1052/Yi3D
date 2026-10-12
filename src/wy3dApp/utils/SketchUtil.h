@@ -24,6 +24,9 @@
 #include <wydbDatabase.h>
 #include <wy3dSketch.h>
 #include <wy3dSketch3D.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchUtil
 {
@@ -101,5 +104,7 @@ private:
 
     static bool isValidPath(const wy3d::Sketch& sketch, QString& error);
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_UTIL_H

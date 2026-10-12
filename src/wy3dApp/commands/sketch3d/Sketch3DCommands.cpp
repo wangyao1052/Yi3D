@@ -34,6 +34,9 @@
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 int NewSketch3DCommand::run()
 {
@@ -224,4 +227,6 @@ int CancelSketch3DCommand::run()
     }
 
     return 0;
+}
+
 }

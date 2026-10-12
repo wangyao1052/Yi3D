@@ -28,6 +28,9 @@
 #include <wy3dSketch.h>
 #include "commands/transient/ValidSketchTransient.h"
 #include <wy3dApp/SelectPreview.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeExtrusion;
 class GuiCmdHoverInputPopup2_2ndTabLabel;
@@ -188,5 +191,7 @@ private:
     wy::Vector3 _workPlnNormal;
     wy3d::ExtrusionDirection _direction;
 };
+
+}
 
 #endif // WY3DAPP_EXTRUSION_GUI_CMD_H

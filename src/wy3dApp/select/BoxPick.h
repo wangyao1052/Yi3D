@@ -25,6 +25,9 @@
 #include <wy3dSelectionType.h>
 #include "scene/RenderConst.h"
 #include "select/SelectFilterFunctor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // 框选配置项
 struct BoxPickOption
@@ -55,5 +58,7 @@ public:
         double xMin, double yMin, double xMax, double yMax,
         const BoxPickOption& option);
 };
+
+}
 
 #endif // WY3DAPP_BOX_PICK_H

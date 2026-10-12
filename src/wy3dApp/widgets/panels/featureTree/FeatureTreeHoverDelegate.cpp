@@ -18,6 +18,9 @@
 
 #include "FeatureTreeHoverDelegate.h"
 #include <cassert>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 FeatureTreeHoverDelegate::FeatureTreeHoverDelegate(QTreeView* treeView, QObject* parent)
     : QStyledItemDelegate(parent), _treeView(treeView)
@@ -83,4 +86,6 @@ void FeatureTreeHoverDelegate::paint(QPainter* painter,
             painter->restore();
         }
     }
+}
+
 }

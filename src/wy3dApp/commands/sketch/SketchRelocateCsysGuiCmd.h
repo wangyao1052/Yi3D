@@ -22,10 +22,13 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wyVector2.h>
 #include "commands/transient/SketchBasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchRelocateCsysGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchRelocateCsysGuiCmd, SketchRelocateCsysGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchRelocateCsysGuiCmd, wy3dApp::SketchRelocateCsysGuiCmd, OsgGuiCommand)
 public:
     SketchRelocateCsysGuiCmd();
     virtual ~SketchRelocateCsysGuiCmd();
@@ -57,5 +60,7 @@ private:
     SketchSnapContextSPtr _pSnapContext;
     SketchCsysTransientSPtr _pCsysTransient;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_RELOCATE_CSYS_CMD_H

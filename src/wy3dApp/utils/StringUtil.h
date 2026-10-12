@@ -21,11 +21,16 @@
 
 #include <string>
 #include <vector>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class StringUtil
 {
 public:
     static std::vector<std::string> split(const std::string& str, char delimiter);
 };
+
+}
 
 #endif // WY3DAPP_STRING_UTIL_H

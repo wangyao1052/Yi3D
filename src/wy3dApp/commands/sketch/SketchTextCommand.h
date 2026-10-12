@@ -26,7 +26,10 @@
 #include <osg/PositionAttitudeTransform>
 #include <wyVector2.h>
 #include <wy3dMakeSketchText.h>
+#include "commands/sketch/MakeText.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 class MakeText;
 class GuiCmdHoverInputPopup2;
@@ -39,7 +42,7 @@ struct SketchTextHistory
 
 class SketchTextCommand : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchTextCommand, SketchTextCommand, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchTextCommand, wy3dApp::SketchTextCommand, OsgGuiCommand)
 public:
     SketchTextCommand();
     virtual ~SketchTextCommand();
@@ -109,6 +112,6 @@ private:
     static std::shared_ptr<SketchTextHistory> _pHistory;
 };
 
-#include "commands/sketch/MakeText.h"
+}
 
 #endif // WY3DAPP_SKETCH_TEXT_COMMAND_H

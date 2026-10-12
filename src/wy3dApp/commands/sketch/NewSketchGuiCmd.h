@@ -23,10 +23,13 @@
 #include <wy3dPlane.h>
 
 #include <wy3dApp/OsgGuiCommand.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class NewSketchGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(NewSketchGuiCmd, NewSketchGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(NewSketchGuiCmd, wy3dApp::NewSketchGuiCmd, OsgGuiCommand)
 public:
     NewSketchGuiCmd();
     ~NewSketchGuiCmd();
@@ -62,5 +65,7 @@ private:
     // 预览
     SelectPreview _preview;
 };
+
+}
 
 #endif // WY3DAPP_NEW_SKETCH_GUI_CMD_H

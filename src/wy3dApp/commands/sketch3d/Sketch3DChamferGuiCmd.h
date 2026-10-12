@@ -34,6 +34,9 @@
 #include "commands/transient/BasicTransient.h"
 #include "commands/transient/Sketch3DTrimExtendTransient.h"
 #include <wy3dApp/GuiCommandUtil.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // What the two picks came to, by element: the algorithm's answer knows the geometry but not which
 // entities it belongs to, and the command is the only layer that does.
@@ -67,7 +70,7 @@ struct Chamfer3DData
 // corner where their supports meet, which a curve with no single direction cannot offer.
 class Sketch3DChamferGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(Sketch3DChamferGuiCmd, Sketch3DChamferGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(Sketch3DChamferGuiCmd, wy3dApp::Sketch3DChamferGuiCmd, OsgGuiCommand)
 public:
     Sketch3DChamferGuiCmd();
     virtual ~Sketch3DChamferGuiCmd();
@@ -120,5 +123,7 @@ private:
     LineTransientSPtr _pChamferTransient;
     std::shared_ptr<Chamfer3DData> _pChamferData;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH3D_CHAMFER_GUI_CMD_H

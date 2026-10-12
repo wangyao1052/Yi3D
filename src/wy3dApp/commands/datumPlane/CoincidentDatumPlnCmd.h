@@ -24,10 +24,13 @@
 #include <wy3dDatumPlane.h>
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/datumPlane/MakeDatumPlane.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class CoincidentDatumPlnCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(CoincidentDatumPlnCmd, CoincidentDatumPlnCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(CoincidentDatumPlnCmd, wy3dApp::CoincidentDatumPlnCmd, OsgGuiCommand)
 public:
     CoincidentDatumPlnCmd();
     ~CoincidentDatumPlnCmd();
@@ -60,5 +63,7 @@ private:
     // 创建基准面
     std::shared_ptr<MakeDatumPlane> _pMakeDatumPlane;
 };
+
+}
 
 #endif // WY3DAPP_COINCIDENT_DATUM_PLN_CMD_H

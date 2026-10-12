@@ -29,6 +29,9 @@
 #include <QKeyEvent>
 #include <wy3dImpl.h>
 #include "utils/MessageBoxUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 HelixDialog::HelixDialog(double pitch, double turns, double startAngle,
     bool isClockWise, QWidget* parent)
@@ -188,4 +191,6 @@ void HelixDialog::keyPressEvent(QKeyEvent* event)
     }
 
     QWidget::keyPressEvent(event);
+}
+
 }

@@ -23,8 +23,11 @@
 
 #include <QColor>
 #include <QVector>
+#include "wy3dAppDefs.h"
 
 class QPushButton;
+
+namespace wy3dApp {
 
 class SetColorCmdPanel : public FloatingCmdPanel
 {
@@ -52,5 +55,7 @@ private:
     QVector<QPushButton*> _presetColorButtons;
     QColor _color;
 };
+
+}
 
 #endif // WY3DAPP_SET_COLOR_CMD_PANEL_H

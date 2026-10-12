@@ -33,8 +33,11 @@
 #include <wy3dApp/Application.h>
 #include "SketchExtendGraph.h"
 #include "SketchTrimExtendUtil.h"
+#include "wy3dAppDefs.h"
 
 #define TOL 1e-7
+
+namespace wy3dApp {
 
 static const wy::Vector2 kAxisX(1.0, 0.0);
 
@@ -518,4 +521,6 @@ bool SketchExtendNode::isOnOtherCurve(const wydb::Database& db, SketchExtendGrap
     {
         return pOtherNode->isOnCurve(db, knot.getPosition());
     }
+}
+
 }

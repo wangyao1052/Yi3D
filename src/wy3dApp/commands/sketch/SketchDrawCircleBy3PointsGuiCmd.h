@@ -28,13 +28,16 @@
 #include <wydbElementId.h>
 #include <wy3dSketchCircle.h>
 #include "commands/transient/BasicTransient.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class MakeSketchCircleBy3Points;
 class GuiCmdHoverInputPopup2;
 
 class SketchDrawCircleBy3PointsGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(SketchDrawCircleBy3PointsGuiCmd, SketchDrawCircleBy3PointsGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(SketchDrawCircleBy3PointsGuiCmd, wy3dApp::SketchDrawCircleBy3PointsGuiCmd, OsgGuiCommand)
 public:
     SketchDrawCircleBy3PointsGuiCmd();
     ~SketchDrawCircleBy3PointsGuiCmd();
@@ -138,5 +141,7 @@ public:
 private:
     wy3d::SketchCircle* _pSketchCircle;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_DRAW_CIRCLE_BY3POINTS_GUI_CMD_H

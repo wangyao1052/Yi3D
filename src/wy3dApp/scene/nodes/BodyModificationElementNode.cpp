@@ -32,6 +32,9 @@
 #include "scene/nodes/SheetElementNode.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 namespace
 {
@@ -474,4 +477,6 @@ bool BodyModificationElementNode::computeWhetherActive(const wydb::Element* pCur
     }
     return pOwnerElem->getParent().isNull();
     */
+}
+
 }

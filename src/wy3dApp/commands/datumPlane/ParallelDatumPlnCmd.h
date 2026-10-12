@@ -25,12 +25,15 @@
 #include <wy3dDatumPlane.h>
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/datumPlane/MakeDatumPlane.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class GuiCmdHoverInputPopup1;
 
 class ParallelDatumPlnCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_MEMBERS(ParallelDatumPlnCmd, ParallelDatumPlnCmd, OsgGuiCommand)
+    WYRX_DECLARE_MEMBERS(ParallelDatumPlnCmd, wy3dApp::ParallelDatumPlnCmd, OsgGuiCommand)
 public:
     ParallelDatumPlnCmd();
     ~ParallelDatumPlnCmd();
@@ -104,5 +107,7 @@ private:
     std::unique_ptr<GuiCmdHoverInputPopup1> _pDistancePopup;
     HoverPopupState _hoverPopupState;
 };
+
+}
 
 #endif // WY3DAPP_PARALLEL_DATUM_PLN_CMD_H

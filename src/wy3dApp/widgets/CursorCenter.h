@@ -20,6 +20,9 @@
 #define WY3DAPP_CURSOR_CENTER_H
 
 #include <QCursor>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 enum class CursorType;
 
@@ -45,5 +48,7 @@ private:
     // 旋转
     QCursor _cursorRotate;
 };
+
+}
 
 #endif // WY3DAPP_CURSOR_CENTER_H

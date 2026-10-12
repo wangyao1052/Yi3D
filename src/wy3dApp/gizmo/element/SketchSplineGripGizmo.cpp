@@ -22,6 +22,9 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dApp/Application.h>
 #include "gizmo/renderer/SketchSplineCtrolPointsPathOsgRenderer.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SplineCtrolPointsPathGhostGizmo::SplineCtrolPointsPathGhostGizmo(const wy3d::SketchSpline* pSpline)
     : GhostGizmo(pSpline)
@@ -94,4 +97,6 @@ bool SketchSplineGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vect
 SketchSnapContextSPtr SketchSplineGripGizmo::newDragContext() const
 {
     return std::make_shared<SketchLocateContext>(_id);
+}
+
 }

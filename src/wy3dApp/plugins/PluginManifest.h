@@ -20,6 +20,9 @@
 #define WY3DAPP_PLUGIN_MANIFEST_H
 
 #include <string>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 struct PluginManifest
 {
@@ -38,5 +41,7 @@ public:
 
     static bool loadFromFile(const std::string& u8FilePath, PluginManifest& out, std::string& error);
 };
+
+}
 
 #endif // WY3DAPP_PLUGIN_MANIFEST_H

@@ -20,7 +20,9 @@
 #define WY3DAPP_DOCUMENT_H
 
 #include <wyapDocument.h>
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 class Document : public wyap::Document
 {
@@ -56,5 +58,7 @@ private:
     // 数据库修改计数:每次 onDatabaseChanged 通知 +1
     unsigned long long _changeCount;
 };
+
+}
 
 #endif // WY3DAPP_DOCUMENT_H

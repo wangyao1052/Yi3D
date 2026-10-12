@@ -22,6 +22,9 @@
 #include <memory>
 
 #include <wy3dApp/ModelingEnvironment.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class ModelingEnvironmentUI;
 
@@ -59,5 +62,7 @@ private:
 private:
     std::unique_ptr<ModelingEnvironmentUI> _pUI;
 };
+
+}
 
 #endif // WY3DAPP_MODELING_ENVIRONMENT_IMPL_H

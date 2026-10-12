@@ -17,6 +17,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "ViewWidget.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 ViewWidget::ViewWidget(QWidget *parent) : QWidget(parent)
 {
@@ -29,4 +32,6 @@ ViewWidget::~ViewWidget()
 void ViewWidget::setCursor(const QCursor& cursor)
 {
     this->setCursor(cursor);
+}
+
 }

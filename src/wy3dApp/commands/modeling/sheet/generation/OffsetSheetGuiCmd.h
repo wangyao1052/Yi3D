@@ -28,9 +28,13 @@
 #include "commands/GuiCmdMakeElement.h"
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3d { class OffsetSheet; }
+
+namespace wy3dApp {
 
 class OffsetSheetCmdPanel;
-namespace wy3d { class OffsetSheet; }
 
 class OffsetSheetGuiCmd : public OsgGuiCommand
 {
@@ -120,5 +124,7 @@ protected:
     OffsetSheetCmdPanel* _pCmdPanel;
     double _offset;
 };
+
+}
 
 #endif // WY3DAPP_OFFSET_SHEET_GUI_CMD_H

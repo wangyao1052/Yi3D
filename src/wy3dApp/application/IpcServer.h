@@ -25,8 +25,11 @@
 #include <QString>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include "wy3dAppDefs.h"
 
 class QJsonObject;
+
+namespace wy3dApp {
 
 class IpcServer : public QObject {
     Q_OBJECT
@@ -84,3 +87,5 @@ private:
     QPointer<QObject> m_eventReceiver;
     bool m_waitingResult = false;
 };
+
+}

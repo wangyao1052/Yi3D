@@ -40,6 +40,9 @@
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include "translation/ErrorCodeTranslation.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 RevolvedSheetGuiCmd::RevolvedSheetGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sketchId(wydb::ElementId::kNull), _axisCurveId(wydb::ElementId::kNull)
@@ -392,4 +395,6 @@ ABORT_TRANS:
     _pDb->getTransactionManager()->abortTransaction();
     _pRevolvedSheet = nullptr;
     return false;
+}
+
 }

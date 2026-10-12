@@ -17,6 +17,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "StringUtil.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::vector<std::string> StringUtil::split(const std::string& str, char delimiter)
 {
@@ -35,4 +38,6 @@ std::vector<std::string> StringUtil::split(const std::string& str, char delimite
     if (!token.empty()) tokens.emplace_back(std::move(token));
 
     return tokens;
+}
+
 }

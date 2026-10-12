@@ -36,8 +36,11 @@
 #include <wy3dApp/Application.h>
 #include "SketchTrimGraph.h"
 #include "SketchTrimExtendUtil.h"
+#include "wy3dAppDefs.h"
 
 #define TOL 1e-7
+
+namespace wy3dApp {
 
 static const wy::Vector2 kAxisX(1.0, 0.0);
 
@@ -547,4 +550,6 @@ bool SketchTrimNode::isValidKnotPosition(wydb::Database* pDb, const wy::Vector2&
     }
 
     return false;
+}
+
 }

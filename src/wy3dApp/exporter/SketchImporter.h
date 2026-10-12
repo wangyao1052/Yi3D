@@ -27,6 +27,9 @@
 
 #include <wydbDatabase.h>
 #include <wy3dImpl.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class SketchImporter;
 
@@ -67,5 +70,7 @@ protected:
     // 具体执行函数,需要子类继承
     virtual bool performImpl(wydb::Database* pDb, const std::wstring& fileFullPath) = 0;
 };
+
+}
 
 #endif // WY3DAPP_SKETCH_IMPORTER_H

@@ -21,6 +21,9 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 GuiCmdTransient::GuiCmdTransient()
 {
@@ -48,4 +51,6 @@ GuiCmdTransient::~GuiCmdTransient()
     {
         pActiveScene->removeTransient(_root.get());
     }
+}
+
 }

@@ -31,6 +31,9 @@
 #include <wy3dSketchCurve3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchSpline3D.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 bool Sketch3DCurveRangeUtil::apply(wy3d::SketchCurve3D* pCurve, double startParam, double endParam)
 {
@@ -122,4 +125,6 @@ bool Sketch3DCurveRangeUtil::apply(wy3d::SketchCurve3D* pCurve, double startPara
 
     assert(false);
     return false;
+}
+
 }

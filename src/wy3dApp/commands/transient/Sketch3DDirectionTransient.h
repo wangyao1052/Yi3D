@@ -24,6 +24,9 @@
 #include <wyVector3.h>
 
 #include <wy3dApp/GuiCmdTransient.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 // An arrow rooted at a point and pointing along a direction. It is drawn at a size that does not
 // change with the model or with the zoom, the way the gizmo arrows are: the question it answers -
@@ -42,5 +45,7 @@ public:
 };
 
 typedef std::shared_ptr<Sketch3DDirectionTransient> Sketch3DDirectionTransientSPtr;
+
+}
 
 #endif // WY3DAPP_SKETCH3D_DIRECTION_TRANSIENT_H

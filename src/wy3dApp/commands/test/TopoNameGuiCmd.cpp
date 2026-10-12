@@ -46,7 +46,9 @@
 #include "utils/TopoShapeUtil.h"
 #include "commands/dialogs/ChamferDialog.h"
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
+#include "wy3dAppDefs.h"
 
+namespace wy3dApp {
 
 // 前置过滤器: 确保只能选择单一主体的面或边
 class TopoNameGuiCmdPreSelFilter : public SelectPreFilterFunctor
@@ -384,4 +386,6 @@ void TopoNameGuiCmdMenu::onFindFacesByTopoName()
     std::string faceTopoName = text.trimmed().toStdString();
     if (faceTopoName.empty()) return;
     addSelection(TopAbs_ShapeEnum::TopAbs_FACE, faceTopoName);
+}
+
 }

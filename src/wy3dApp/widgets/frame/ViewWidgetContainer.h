@@ -23,14 +23,18 @@
 
 #include <wyapDocManager.h>
 #include <wyapDocument.h>
+#include "wy3dAppDefs.h"
 
 namespace osgViewer
 {
 class View;
 }
 
-class ViewWidget;
 class QTabWidget;
+
+namespace wy3dApp {
+
+class ViewWidget;
 
 class ViewWidgetContainer :
     public QWidget,
@@ -92,3 +96,5 @@ private:
     std::map<ViewWidget*, wyap::Document*> _page2Doc;
     std::map<wyap::Document*, ViewWidget*> _doc2Page;
 };
+
+}

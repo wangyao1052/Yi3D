@@ -23,6 +23,9 @@
 #include <wy3dSketchSpline3D.h>
 
 #include "SketchSpline3DPointsEditor.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchSpline3DPointLineEdit::SketchSpline3DPointLineEdit(Field field, wydb::ParameterValueUPtr&& pParamValue,
     SketchSpline3DPointsEditor* pPointsEditor, PropertyEditorWidget* parent)
@@ -93,4 +96,6 @@ void SketchSpline3DPointLineEdit::getCurrParamValueFromDb(
     if (Field::X == _field) pOutParamValue = wydb::ParameterValue::createDouble(point.x());
     else if (Field::Y == _field) pOutParamValue = wydb::ParameterValue::createDouble(point.y());
     else pOutParamValue = wydb::ParameterValue::createDouble(point.z());
+}
+
 }

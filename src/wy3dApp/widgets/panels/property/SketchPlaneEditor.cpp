@@ -28,6 +28,9 @@
 #include <wyVector3.h>
 #include <wy3dVector3.h>
 #include <wy3dMath.h>
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 SketchPlaneEditor::SketchPlaneEditor(const wy3d::Plane& plane, bool isTheSameValue, QWidget* parent)
     : QWidget(parent)
@@ -206,4 +209,6 @@ wy3d::Plane SketchPlaneEditor::getPlane(bool& ok) const
 
     ok = true;
     return plane;
+}
+
 }

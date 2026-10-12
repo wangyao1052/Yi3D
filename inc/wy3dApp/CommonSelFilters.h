@@ -22,6 +22,8 @@
 #include "select/SelectFilterFunctor.h"
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class CommonPreSelFilterForPointPick : public SelectPreFilterFunctor
 {
 public:
@@ -92,5 +94,7 @@ public:
 private:
     std::vector<wyrx::ClassInfo*> _classInfos;
 };
+
+}
 
 #endif // WY3DAPP_COMMON_SEL_FILTERS_H

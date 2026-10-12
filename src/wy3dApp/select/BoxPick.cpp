@@ -27,6 +27,9 @@
 #include "scene/nodes/SketchElementNode.h"
 #include "scene/nodes/Sketch3DElementNode.h"
 #include "OsgSelectUtils.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 struct TraverseItem
 {
@@ -530,4 +533,6 @@ wyap::SelectionSet BoxPick::pick(
     }
 
     return ss;
+}
+
 }

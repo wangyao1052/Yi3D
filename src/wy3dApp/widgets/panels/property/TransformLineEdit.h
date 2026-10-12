@@ -20,6 +20,9 @@
 #define WY3DAPP_TRANSFORM_LINE_EDIT_H
 
 #include "ParamLineEdit.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 class PropertyEditorWidget;
 
@@ -58,5 +61,7 @@ private:
 private:
     TransformUnit _unit;
 };
+
+}
 
 #endif // WY3DAPP_TRANSFORM_LINE_EDIT_H

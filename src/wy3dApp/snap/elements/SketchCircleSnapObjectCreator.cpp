@@ -22,6 +22,9 @@
 #include <wy3dSketchCircle.h>
 #include "utils/MathUtils.h"
 #include "snap/SnapObject.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::SnapObjectSPtr> SketchCircleSnapObjectCreator::createSnapObjects(const wydb::Element* pElem)
 {
@@ -50,4 +53,6 @@ std::list<wyap::SnapObjectSPtr> SketchCircleSnapObjectCreator::createSnapObjects
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(center + wy::Vector2(-radius, 0.0))));
     snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(center + wy::Vector2(0.0, -radius))));
     return snapPoints;
+}
+
 }

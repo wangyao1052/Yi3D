@@ -20,6 +20,9 @@
 #include <cassert>
 #include <wy3dSketchEllipse.h>
 #include "gizmo/element/SketchEllipseGripGizmo.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 std::list<wyap::GizmoSPtr> SketchEllipseGizmoCreator::createGizmos(const wydb::Element* pElem) const
 {
@@ -39,4 +42,6 @@ std::list<wyap::GizmoSPtr> SketchEllipseGizmoCreator::createGizmos(const wydb::E
     gizmos.emplace_back(std::make_shared<SketchEllipseGripGizmo>(pSketchEllipse, SketchEllipseGripGizmo::Type::Quarter2));
     gizmos.emplace_back(std::make_shared<SketchEllipseGripGizmo>(pSketchEllipse, SketchEllipseGripGizmo::Type::Quarter3));
     return gizmos;
+}
+
 }

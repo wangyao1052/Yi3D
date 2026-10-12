@@ -51,6 +51,9 @@
 #include <osg/PolygonOffset>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "wy3dAppDefs.h"
+
+namespace wy3dApp {
 
 static osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc)
 {
@@ -1122,4 +1125,6 @@ osg::Vec4 SheetElementNode::getFaceDefaultColor() const
 osg::Vec4 SheetElementNode::getEdgeDefaultColor() const
 {
     return Colors::kSheetEdge;
+}
+
 }

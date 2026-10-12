@@ -32,6 +32,8 @@
 #include <wy3dApp/CommandAction.h>
 #include "wy3dAppDefs.h"
 
+namespace wy3dApp {
+
 class WY3DAPP_EXPORT EnvironmentBase : public QObject
 {
     Q_OBJECT
@@ -151,5 +153,7 @@ private:
     // Guard to prevent duplicate posting of command-terminated tasks to the event loop.
     bool _isCmdTerminatedOnEventLoopPosted;
 };
+
+}
 
 #endif // WY3DAPP_ENVIRONMENT_BASE_H
