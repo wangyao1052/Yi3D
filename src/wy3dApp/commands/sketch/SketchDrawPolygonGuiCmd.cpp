@@ -639,4 +639,4 @@ void MakePolygonUtil::CircumscribedPolygon(unsigned int numSides,
     }
 }
 
-}
+} // namespace wy3dApp

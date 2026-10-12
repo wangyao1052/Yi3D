@@ -80,6 +80,6 @@ private:
     bool _isDirectionAvailable;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_PROJECT_CURVE_PANEL_H

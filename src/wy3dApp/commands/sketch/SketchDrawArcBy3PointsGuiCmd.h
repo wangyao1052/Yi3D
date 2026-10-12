@@ -137,6 +137,6 @@ private:
     wy3d::SketchArc* _pSketchArc;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_ARC_BY_3POINTS_GUI_CMD_H

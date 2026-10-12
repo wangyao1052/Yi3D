@@ -192,4 +192,4 @@ bool ParamCheckBox::modifyElement(wydb::Element* pElem, const wydb::ParameterVal
         return false;
 }
 
-}
+} // namespace wy3dApp

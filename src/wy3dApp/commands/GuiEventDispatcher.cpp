@@ -34,4 +34,4 @@ SelectHandler* GuiEventDispatcher::getSelectHandler() const
     return _pSelectHandler.get();
 }
 
-}
+} // namespace wy3dApp

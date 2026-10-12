@@ -662,4 +662,4 @@ bool MakeTorus::update(double minorRadius)
     return ret;
 }
 
-}
+} // namespace wy3dApp

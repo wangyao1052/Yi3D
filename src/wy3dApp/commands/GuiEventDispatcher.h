@@ -40,6 +40,6 @@ protected:
     std::shared_ptr<SelectHandler> _pSelectHandler;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GUI_EVENT_DISPATCHER_H

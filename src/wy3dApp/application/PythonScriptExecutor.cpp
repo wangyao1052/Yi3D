@@ -264,4 +264,4 @@ void PythonScriptExecutor::abortActiveTransaction()
     }
 }
 
-}
+} // namespace wy3dApp

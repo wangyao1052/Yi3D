@@ -29,6 +29,6 @@ DEFINE_SIMPLE_CMD(EditSketch3DCommand)
 DEFINE_SIMPLE_CMD(EndSketch3DCommand)
 DEFINE_SIMPLE_CMD(CancelSketch3DCommand)
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_COMMANDS_H

@@ -1340,4 +1340,4 @@ void ModelingEnvironmentUI::teardown(ModelingEnvironment* pEnv)
     pEnv->destroyUI();
 }
 
-}
+} // namespace wy3dApp

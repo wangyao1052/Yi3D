@@ -102,6 +102,6 @@ private:
     Options _options;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_DOUBLE_VALUE_INPUT_DIALOG_H

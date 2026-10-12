@@ -34,4 +34,4 @@ QIcon IconUtil::get(const QString& path)
     return iter.value();
 }
 
-}
+} // namespace wy3dApp

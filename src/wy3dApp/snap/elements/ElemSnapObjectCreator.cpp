@@ -148,4 +148,4 @@ bool ElemSnapObjectCreator::getSketchPlane(const wy3d::SketchEntity* pSketchEnti
     return true;
 }
 
-}
+} // namespace wy3dApp

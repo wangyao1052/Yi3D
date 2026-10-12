@@ -2022,4 +2022,4 @@ void SketchSnapSystem::onDatabaseChanged(
     }
 }
 
-}
+} // namespace wy3dApp

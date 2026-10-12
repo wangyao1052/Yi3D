@@ -1049,4 +1049,4 @@ bool FilledSheetGuiCmd::collectPickedEdges(std::vector<TopoDS_Edge>& edges) cons
     return !edges.empty();
 }
 
-}
+} // namespace wy3dApp

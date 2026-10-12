@@ -126,6 +126,6 @@ private:
     HoverPopupState _hoverPopupState;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MOVE_GUI_CMD_H

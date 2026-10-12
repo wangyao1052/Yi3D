@@ -434,6 +434,6 @@ private:
     static gp_Vec kAxisZ;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MATH_UTILS_H

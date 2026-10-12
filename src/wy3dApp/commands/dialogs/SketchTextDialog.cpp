@@ -337,4 +337,4 @@ bool SketchTextDialog::getFontFilePathAndFaceIndex(const QFont& font,
     return false;
 }
 
-}
+} // namespace wy3dApp

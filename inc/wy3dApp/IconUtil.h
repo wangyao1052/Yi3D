@@ -32,6 +32,6 @@ public:
     static QIcon get(const QString& path);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_ICON_UTIL_H

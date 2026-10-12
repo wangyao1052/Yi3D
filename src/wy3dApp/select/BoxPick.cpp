@@ -535,4 +535,4 @@ wyap::SelectionSet BoxPick::pick(
     return ss;
 }
 
-}
+} // namespace wy3dApp

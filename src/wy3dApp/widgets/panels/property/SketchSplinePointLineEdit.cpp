@@ -123,4 +123,4 @@ void SketchSplinePointLineEdit::getCurrParamValueFromDb(
         ? wy3d::radiansToDegrees(tangent.angle) : tangent.magnitude);
 }
 
-}
+} // namespace wy3dApp

@@ -588,4 +588,4 @@ bool MakeSketchLine3D::update(const wy::Vector3& endPnt)
     return true;
 }
 
-}
+} // namespace wy3dApp

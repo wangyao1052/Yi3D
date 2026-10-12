@@ -158,6 +158,6 @@ protected:
     virtual bool finishStep(Step step) override;
 };
 
-}
+} // namespace wy3dApp
 
 #endif 

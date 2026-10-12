@@ -107,4 +107,4 @@ SketchSnapContextSPtr SketchCenterLineGripGizmo::newDragContext() const
     }
 }
 
-}
+} // namespace wy3dApp

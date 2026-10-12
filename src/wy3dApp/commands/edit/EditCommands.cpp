@@ -127,4 +127,4 @@ int PasteClipCommand::run()
     return 0;
 }
 
-}
+} // namespace wy3dApp

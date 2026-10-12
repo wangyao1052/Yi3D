@@ -56,6 +56,6 @@ private:
     wy::Vector2 _startMPnt;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_CENTER_LINE_GRIP_GIZMO_H

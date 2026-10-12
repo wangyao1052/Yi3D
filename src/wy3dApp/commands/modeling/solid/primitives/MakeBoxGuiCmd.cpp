@@ -794,4 +794,4 @@ void RectTransient::update(const wy3d::Plane& workPln,
     _geom->dirtyBound();
 }
 
-}
+} // namespace wy3dApp

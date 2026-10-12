@@ -55,6 +55,6 @@ private:
     Type _type;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_CIRCLE_GRIP_GIZMO_H

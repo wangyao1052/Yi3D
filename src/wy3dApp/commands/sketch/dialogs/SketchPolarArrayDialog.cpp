@@ -158,4 +158,4 @@ void SketchPolarArrayDialog::onCancelBtnClicked()
     this->reject();
 }
 
-}
+} // namespace wy3dApp

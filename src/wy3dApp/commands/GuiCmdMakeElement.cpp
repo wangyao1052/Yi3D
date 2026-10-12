@@ -77,4 +77,4 @@ wydb::Transaction* GuiCmdMakeElement::startTransaction(wydb::Database* pDb,
     return pDb->getTransactionManager()->startTransaction("", option);
 }
 
-}
+} // namespace wy3dApp

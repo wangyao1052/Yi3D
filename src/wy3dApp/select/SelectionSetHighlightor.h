@@ -56,6 +56,6 @@ private:
 };
 typedef std::shared_ptr<SelectionSetHighlightor> SelectionSetHighlightorSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SELECTION_SET_HIGHLIGHTOR_H

@@ -258,4 +258,4 @@ Sketch3DTrimExtendTransient::~Sketch3DTrimExtendTransient()
 {
 }
 
-}
+} // namespace wy3dApp

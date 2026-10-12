@@ -166,6 +166,6 @@ private:
     wy3d::SketchLine* _pSketchLine4th;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_RECTANGLE_GUI_CMD_H

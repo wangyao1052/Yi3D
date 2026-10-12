@@ -128,4 +128,4 @@ osg::ref_ptr<osg::Geometry> SketchSplineCtrolPointsPathOsgRenderer::generateGeom
     return geometry;
 }
 
-}
+} // namespace wy3dApp

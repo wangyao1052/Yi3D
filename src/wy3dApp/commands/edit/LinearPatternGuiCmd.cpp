@@ -494,4 +494,4 @@ bool LinearPatternGuiCmd::createLinearPattern(
     }
 }
 
-}
+} // namespace wy3dApp

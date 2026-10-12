@@ -1973,4 +1973,4 @@ void Scene::hideSketchCSYS()
     _pSketchCsys->setNodeMask(0); // 隐藏
 }
 
-}
+} // namespace wy3dApp

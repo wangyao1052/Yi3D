@@ -159,4 +159,4 @@ std::pair<bool, TopoDS_Edge> TopoShapeUtil::getEdge(
     }
 }
 
-}
+} // namespace wy3dApp

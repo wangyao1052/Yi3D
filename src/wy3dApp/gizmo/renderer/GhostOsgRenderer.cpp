@@ -30,4 +30,4 @@ GhostOsgRenderer::GhostOsgRenderer(BaseGizmo* pGizmo)
     _osgNode->setNodeMask(~PICK_GIZMO_MASK);
 }
 
-}
+} // namespace wy3dApp

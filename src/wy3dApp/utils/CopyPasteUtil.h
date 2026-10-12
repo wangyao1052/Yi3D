@@ -61,6 +61,6 @@ public:
     static std::string generateCopyPasteLabel();
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_COPY_PASTE_UTIL_H

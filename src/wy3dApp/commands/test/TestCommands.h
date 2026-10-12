@@ -33,6 +33,6 @@ DEFINE_SIMPLE_CMD(OsgNewCowCommand)
 DEFINE_SIMPLE_CMD(SketchTestIntersectionCommand)
 DEFINE_SIMPLE_CMD(SketchTestBoundingBoxCommand)
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_TEST_COMMANDS_H

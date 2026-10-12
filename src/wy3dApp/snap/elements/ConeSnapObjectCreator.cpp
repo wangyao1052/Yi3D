@@ -51,4 +51,4 @@ std::list<wyap::SnapObjectSPtr> ConeSnapObjectCreator::createSnapObjects(const w
     return snapPoints;
 }
 
-}
+} // namespace wy3dApp

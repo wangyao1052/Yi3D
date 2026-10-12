@@ -33,6 +33,6 @@ public:
     static QString translate(const std::string& englishLabel);
 };
 
-}
+} // namespace wy3dApp
 
 #endif

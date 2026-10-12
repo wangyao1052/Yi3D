@@ -657,4 +657,4 @@ void ExtendSegmentTransient::initGeom(osg::ref_ptr<osg::Vec3Array> vertices, con
     _root->addChild(geom.get());
 }
 
-}
+} // namespace wy3dApp

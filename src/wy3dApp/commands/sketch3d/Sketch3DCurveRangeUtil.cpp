@@ -127,4 +127,4 @@ bool Sketch3DCurveRangeUtil::apply(wy3d::SketchCurve3D* pCurve, double startPara
     return false;
 }
 
-}
+} // namespace wy3dApp

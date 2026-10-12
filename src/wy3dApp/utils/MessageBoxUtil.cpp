@@ -120,4 +120,4 @@ void MessageBoxUtil::showWarning_PleaseInputNumber()
         QCoreApplication::translate("MessageBox", "Please input number."));
 }
 
-}
+} // namespace wy3dApp

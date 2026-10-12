@@ -67,6 +67,6 @@ private:
     double _radius;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_FILLET_DIALOG_H

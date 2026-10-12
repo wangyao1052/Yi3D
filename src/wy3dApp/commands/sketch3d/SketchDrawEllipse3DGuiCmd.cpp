@@ -762,4 +762,4 @@ bool MakeSketchEllipse3D::updatePlane(const wy::Vector3& normal, const wy::Vecto
     return this->update(normal, xDir, _pSketchEllipse3D->getMajorRadius(), _pSketchEllipse3D->getRadiusRatio());
 }
 
-}
+} // namespace wy3dApp

@@ -149,6 +149,6 @@ private:
     std::vector<SnapTipWidget*> _tips;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SNAP_TIP_WIDGET_H

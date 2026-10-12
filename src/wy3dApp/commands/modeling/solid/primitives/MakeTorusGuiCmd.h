@@ -128,6 +128,6 @@ private:
     double _majorRadius;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MAKE_TORUS_GUI_CMD_H

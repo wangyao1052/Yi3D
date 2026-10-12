@@ -83,6 +83,6 @@ private:
     wy::Vector3 _axisDirection;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_CIRCULAR_PATTERN_GUI_CMD_H

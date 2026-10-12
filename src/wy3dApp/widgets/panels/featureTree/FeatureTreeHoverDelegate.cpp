@@ -88,4 +88,4 @@ void FeatureTreeHoverDelegate::paint(QPainter* painter,
     }
 }
 
-}
+} // namespace wy3dApp

@@ -423,4 +423,4 @@ void DatumPlaneElementNode::setActiveImpl(bool flag)
 {
 }
 
-}
+} // namespace wy3dApp

@@ -302,4 +302,4 @@ bool SketchRelocateCsysGuiCmd::relocateSketchCsys(const wy3d::Plane& plane, cons
     return true;
 }
 
-}
+} // namespace wy3dApp

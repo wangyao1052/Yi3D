@@ -150,6 +150,6 @@ private:
 };
 typedef std::shared_ptr<SketchExtendNode> SketchExtendNodeSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_EXTEND_NODE_H

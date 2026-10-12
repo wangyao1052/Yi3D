@@ -819,4 +819,4 @@ bool MakeSketchRectangle3D::getCorners(wy::Vector3& pnt1, wy::Vector3& pnt2, wy:
     return true;
 }
 
-}
+} // namespace wy3dApp

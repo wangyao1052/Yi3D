@@ -380,6 +380,6 @@ public:
 };
 typedef std::shared_ptr<CenterPointSnapObject> CenterPointSnapObjectSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SNAP_OBJECT_H

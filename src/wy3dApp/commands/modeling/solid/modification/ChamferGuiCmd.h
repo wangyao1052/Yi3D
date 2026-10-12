@@ -111,6 +111,6 @@ private:
     friend class ChamferGuiCmdMenu;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_CHAMFER_GUI_CMD_H

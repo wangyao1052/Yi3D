@@ -592,4 +592,4 @@ void CopyGuiCmd::onContextMenuAction_ClearSelection()
     }
 }
 
-}
+} // namespace wy3dApp

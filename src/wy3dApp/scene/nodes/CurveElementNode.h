@@ -87,6 +87,6 @@ private:
     osg::ref_ptr<osg::UIntArray> _lineIndices;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_CURVE_ELEMENT_NODE_H

@@ -124,4 +124,4 @@ void Sketch3DEdgesTransient::addLineGeometry(const std::vector<wy::Vector3>& poi
     _root->addChild(geom.get());
 }
 
-}
+} // namespace wy3dApp

@@ -227,6 +227,6 @@ public:
     static inline const std::string SketchTestBoundingBox = "SketchTestBoundingBox";
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_COMMAND_NAMES_H

@@ -88,4 +88,4 @@ private:
     bool m_waitingResult = false;
 };
 
-}
+} // namespace wy3dApp

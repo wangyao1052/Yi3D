@@ -77,6 +77,6 @@ private:
     osg::ref_ptr<osg::PositionAttitudeTransform> _ghostPat;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SOLID_MOVE_OSG_RENDERER_H

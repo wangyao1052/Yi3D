@@ -495,4 +495,4 @@ bool SplitFaceGuiCmd::createSplitFace(
     return true;
 }
 
-}
+} // namespace wy3dApp

@@ -102,6 +102,6 @@ private:
     std::string _strCmdName;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_QAPPLICATION_H

@@ -101,6 +101,6 @@ private:
     Sketch3DSnapResultSPtr _pSnapResult;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_SNAP_SYSTEM_H

@@ -414,4 +414,4 @@ void SketchSnapResult::update()
     }
 }
 
-}
+} // namespace wy3dApp

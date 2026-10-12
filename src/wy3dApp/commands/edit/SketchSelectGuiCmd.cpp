@@ -106,4 +106,4 @@ wy::Vector3 SketchSelectGuiCmd::computePastePosition(double x, double y,
     return wy::Vector3(pos2d.x(), pos2d.y(), 0.0);
 }
 
-}
+} // namespace wy3dApp

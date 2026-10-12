@@ -160,4 +160,4 @@ bool Sketch3DSnapResult::isLooseEqual(const Sketch3DSnapResult& other) const
     return true;
 }
 
-}
+} // namespace wy3dApp

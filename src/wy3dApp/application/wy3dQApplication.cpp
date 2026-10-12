@@ -190,4 +190,4 @@ RunGuiCommandEvent::RunGuiCommandEvent(const std::string& cmdName)
 {
 }
 
-}
+} // namespace wy3dApp

@@ -153,6 +153,6 @@ private slots:
     void onClearMeasureResults();
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MEASURE_GUI_CMD_H

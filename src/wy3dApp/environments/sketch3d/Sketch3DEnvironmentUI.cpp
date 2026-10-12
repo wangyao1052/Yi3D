@@ -783,4 +783,4 @@ void Sketch3DEnvironmentUI::teardown(Sketch3DEnvironment* pEnv)
     pEnv->destroyUI();
 }
 
-}
+} // namespace wy3dApp

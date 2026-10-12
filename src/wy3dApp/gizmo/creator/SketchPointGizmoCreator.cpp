@@ -40,4 +40,4 @@ std::list<wyap::GizmoSPtr> SketchPointGizmoCreator::createGizmos(const wydb::Ele
     return gizmos;
 }
 
-}
+} // namespace wy3dApp

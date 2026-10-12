@@ -42,4 +42,4 @@ std::list<wyap::GizmoSPtr> SketchLineGizmoCreator::createGizmos(const wydb::Elem
     return gizmos;
 }
 
-}
+} // namespace wy3dApp

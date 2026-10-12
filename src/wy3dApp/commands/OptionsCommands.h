@@ -26,6 +26,6 @@ namespace wy3dApp {
 
 DEFINE_SIMPLE_CMD(OptionsCommand)
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_OPTIONS_COMMANDS_H

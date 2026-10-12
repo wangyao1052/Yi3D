@@ -36,6 +36,6 @@ public:
         const PointPickOption& option);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_POINT_PICK_H

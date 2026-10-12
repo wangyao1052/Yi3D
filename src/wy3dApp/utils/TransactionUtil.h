@@ -33,6 +33,6 @@ public:
     static wydb::Transaction* startSolitaryTransaction(wydb::Database* pDb);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_TRANSACTION_UTIL_H

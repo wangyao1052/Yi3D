@@ -57,4 +57,4 @@ std::list<wyap::SnapObjectSPtr> TubeSnapObjectCreator::createSnapObjects(const w
     return snapPoints;
 }
 
-}
+} // namespace wy3dApp

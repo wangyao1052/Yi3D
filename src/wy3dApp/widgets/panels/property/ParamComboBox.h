@@ -70,6 +70,6 @@ protected:
     bool _updating;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_PARAM_COMBO_BOX_H

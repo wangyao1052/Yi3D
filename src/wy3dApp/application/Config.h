@@ -92,6 +92,6 @@ private:
     static const std::string kConfigFileName;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_CONFIG_H

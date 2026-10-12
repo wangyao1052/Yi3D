@@ -124,6 +124,6 @@ private:
     int _hoverRow;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MEASURE_CMD_PANEL_H

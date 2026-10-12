@@ -58,6 +58,6 @@ private:
     wy::Vector2 _startMPnt;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_ARC_GRIP_GIZMO_H

@@ -52,6 +52,6 @@ private:
     QPushButton* _pApplyBtn;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_PLANE_EDITOR_H

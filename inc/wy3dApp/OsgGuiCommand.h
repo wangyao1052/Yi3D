@@ -98,6 +98,6 @@ protected:
     osg::observer_ptr<osgViewer::View> _pOsgView;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_OSG_GUI_COMMAND_H

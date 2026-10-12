@@ -87,6 +87,6 @@ private:
     void addSelection(TopAbs_ShapeEnum shapeType, const std::string& topoName);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_TOPONAME_GUI_CMD_H

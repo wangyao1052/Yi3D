@@ -98,6 +98,6 @@ private:
     wyap::Selection _pendingPlaneSelection;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAP_SKETCH3D_ENVIRONMENT_IMPL_H

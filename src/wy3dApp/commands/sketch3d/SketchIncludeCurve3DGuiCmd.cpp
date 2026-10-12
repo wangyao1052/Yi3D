@@ -332,4 +332,4 @@ void SketchIncludeCurve3DGuiCmd::reportFailure(wy3d::Sketch3DEdgeUtil::Result re
         message);
 }
 
-}
+} // namespace wy3dApp

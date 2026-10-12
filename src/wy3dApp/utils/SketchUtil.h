@@ -105,6 +105,6 @@ private:
     static bool isValidPath(const wy3d::Sketch& sketch, QString& error);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_UTIL_H

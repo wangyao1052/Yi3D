@@ -53,6 +53,6 @@ inline wyap::SelectionSet getValidSSFromCurrentSelSet_MoveRotateGuiCmd()
     return filterSS;
 }
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MOVE_ROTATE_GUI_CMD_UTIL_H

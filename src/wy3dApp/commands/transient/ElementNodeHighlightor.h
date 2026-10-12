@@ -41,6 +41,6 @@ private:
 };
 typedef std::shared_ptr<ElementNodeHighlightor> ElementNodeHighlightorSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_ELEMENT_NODE_HIGHLIGHTOR_H

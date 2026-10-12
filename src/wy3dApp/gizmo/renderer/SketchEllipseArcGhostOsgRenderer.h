@@ -38,6 +38,6 @@ private:
     osg::ref_ptr<osg::Geometry> generateGeometry(const wydb::Element* pElem);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_ELLIPSE_ARC_GHOST_OSG_RENDERER_H

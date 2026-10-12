@@ -117,4 +117,4 @@ const QString& OutputWidget::text() const
 	return _textBrowser->toPlainText();
 }
 
-}
+} // namespace wy3dApp

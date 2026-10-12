@@ -34,6 +34,6 @@ enum class CursorType
     Pan = 6,
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_CURSOR_TYPE_H

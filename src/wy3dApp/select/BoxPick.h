@@ -59,6 +59,6 @@ public:
         const BoxPickOption& option);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_BOX_PICK_H

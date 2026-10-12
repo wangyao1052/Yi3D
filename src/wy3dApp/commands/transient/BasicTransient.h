@@ -81,6 +81,6 @@ private:
 };
 typedef std::shared_ptr<CenterPointTransient> CenterPointTransientSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_BASIC_TRANSIENT_H

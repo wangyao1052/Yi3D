@@ -165,6 +165,6 @@ private:
     wydb::ElementId _sketchId;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_POLYGON_GUI_CMD_H

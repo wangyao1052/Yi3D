@@ -84,4 +84,4 @@ void SketchSplineTangentCheckBox::refresh()
     this->setChecked(value);
 }
 
-}
+} // namespace wy3dApp

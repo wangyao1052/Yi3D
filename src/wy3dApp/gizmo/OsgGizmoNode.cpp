@@ -51,4 +51,4 @@ OsgGizmoNode::~OsgGizmoNode()
 {
 }
 
-}
+} // namespace wy3dApp

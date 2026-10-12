@@ -153,4 +153,4 @@ void ViewportOverlayBar::anchorToTopLeft()
     this->move(pParent->mapToGlobal(QPoint(kMargin, kMargin)));
 }
 
-}
+} // namespace wy3dApp

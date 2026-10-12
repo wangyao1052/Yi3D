@@ -59,4 +59,4 @@ bool SketchDxfImporter::performImpl(wydb::Database* pDb, const std::wstring& fil
     return true;
 }
 
-}
+} // namespace wy3dApp

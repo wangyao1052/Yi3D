@@ -80,6 +80,6 @@ public:
     static Sketch3DEnvironment* getActiveSketch3DEnvironment();
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GUI_COMMAND_UTIL_H

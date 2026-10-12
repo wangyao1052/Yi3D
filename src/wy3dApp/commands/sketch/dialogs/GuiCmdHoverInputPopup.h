@@ -198,6 +198,6 @@ private:
     std::function<void()> _directionToggleHandler;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GUI_CMD_HOVER_INPUT_POPUP_H

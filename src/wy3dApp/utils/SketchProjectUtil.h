@@ -55,6 +55,6 @@ public:
         wy3d::SketchEntity*& pOutEntity);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_PROJECT_UTIL_H

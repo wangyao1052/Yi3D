@@ -47,4 +47,4 @@ ColorLabel::ColorLabel(const wy3d::Color& color, bool isTheSameValue, QWidget* p
            .arg(static_cast<int>(color.blue)));
 }
 
-}
+} // namespace wy3dApp

@@ -448,4 +448,4 @@ wy3d::Plane TangentDatumPlnCmd::computeRotationPlane(double angle) const
     return wy3d::Plane(origin, normal, xDir);
 }
 
-}
+} // namespace wy3dApp

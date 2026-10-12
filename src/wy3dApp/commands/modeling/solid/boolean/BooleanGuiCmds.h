@@ -121,6 +121,6 @@ public:
     ~IntersectGuiCmd() {}
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_BOOLEAN_GUI_CMDS_H

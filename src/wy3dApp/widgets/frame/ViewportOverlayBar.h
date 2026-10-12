@@ -54,6 +54,6 @@ private:
     QHBoxLayout* _pLayout;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_VIEWPORT_OVERLAY_BAR_H

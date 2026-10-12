@@ -76,4 +76,4 @@ std::list<wyap::SnapObjectSPtr> HelixSnapObjectCreator::createSnapObjects(const 
     }
 }
 
-}
+} // namespace wy3dApp

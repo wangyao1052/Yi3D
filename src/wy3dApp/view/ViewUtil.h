@@ -55,6 +55,6 @@ public:
     static void perspective(osgViewer::View* pView);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY_VIEW_UTIL_H

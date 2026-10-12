@@ -167,6 +167,6 @@ protected:
     HoverPopupState _hoverPopupState;
 };
 
-}
+} // namespace wy3dApp
 
 #endif 

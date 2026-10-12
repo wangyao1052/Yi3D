@@ -114,6 +114,6 @@ public:
     }
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_PLANE_SEL_FILTER_H

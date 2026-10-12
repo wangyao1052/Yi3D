@@ -83,6 +83,6 @@ private:
     Options _options;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_POLAR_ARRAY_DIALOG_H

@@ -167,4 +167,4 @@ void GatewayEnvironmentImpl::updateFileActionStates()
     pOpenFileAction->setEnabled(enabled);
 }
 
-}
+} // namespace wy3dApp

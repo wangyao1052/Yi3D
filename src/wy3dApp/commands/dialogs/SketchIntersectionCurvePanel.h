@@ -46,6 +46,6 @@ private:
     QRadioButton* _pRbInterpolate;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_INTERSECTION_CURVE_PANEL_H

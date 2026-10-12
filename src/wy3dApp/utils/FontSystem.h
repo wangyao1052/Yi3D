@@ -52,6 +52,6 @@ private:
     std::map<std::wstring, std::pair<size_t, FT_Long>> _fontName2Index;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_FONT_SYSTEM_H

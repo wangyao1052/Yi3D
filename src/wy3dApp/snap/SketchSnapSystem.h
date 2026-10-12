@@ -614,6 +614,6 @@ private:
 
 typedef std::shared_ptr<SketchSnapSystem> SketchSnapSystemSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SNAP_SYSTEM_H

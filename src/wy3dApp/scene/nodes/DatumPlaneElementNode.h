@@ -105,6 +105,6 @@ private:
     wy::Vector2 _max;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_DATUM_PLANE_ELEMENT_NODE_H

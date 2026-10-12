@@ -41,4 +41,4 @@ std::list<wyap::SnapObjectSPtr> BooleanSnapObjectCreator::createSnapObjects(cons
     return this->newSnapObjects(id, resultShape);
 }
 
-}
+} // namespace wy3dApp

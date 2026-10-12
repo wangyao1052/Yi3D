@@ -59,6 +59,6 @@ private:
     std::map<wydb::ElementId, SketchTrimNodeSPtr> _id2Node;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_TRIM_GRAPH_H

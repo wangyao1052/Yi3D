@@ -120,6 +120,6 @@ private:
     wy3d::SweptSheet* _pSweptSheet;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SWEPT_SHEET_GUI_CMD_H

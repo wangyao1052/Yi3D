@@ -142,6 +142,6 @@ private:
     wy3d::SketchCircle* _pSketchCircle;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_CIRCLE_BY3POINTS_GUI_CMD_H

@@ -112,4 +112,4 @@ bool SketchArcGripGizmo::updateArcByThreePoints(
     return true;
 }
 
-}
+} // namespace wy3dApp

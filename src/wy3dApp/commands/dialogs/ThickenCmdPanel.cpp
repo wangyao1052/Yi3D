@@ -133,4 +133,4 @@ void ThickenCmdPanel::onDirectionComboChanged(int index)
     emit directionChanged(index);
 }
 
-}
+} // namespace wy3dApp

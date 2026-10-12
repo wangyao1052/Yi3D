@@ -532,4 +532,4 @@ bool MakeSketchCenterLine::update(const wy::Vector2& endPnt)
     return true;
 }
 
-}
+} // namespace wy3dApp

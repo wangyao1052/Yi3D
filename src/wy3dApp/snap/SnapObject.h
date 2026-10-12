@@ -141,6 +141,6 @@ public:
     virtual Type getType() const override { return Type::Center; }
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SNAP_OBJECT_H

@@ -39,6 +39,6 @@ protected:
     virtual void updateFileActionStates() = 0;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_COMMAND_ACTION_STATE_HOST_H

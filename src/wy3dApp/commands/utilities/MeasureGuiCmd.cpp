@@ -829,4 +829,4 @@ void MeasureLengthLabel::timerEvent(QTimerEvent* event)
     }
 }
 
-}
+} // namespace wy3dApp

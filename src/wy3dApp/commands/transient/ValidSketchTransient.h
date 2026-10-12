@@ -52,6 +52,6 @@ private:
     wydb::ElementId _sketchId;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_VALID_SKETCH_TRANSIENT_H

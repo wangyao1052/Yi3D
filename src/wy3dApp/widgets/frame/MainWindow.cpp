@@ -346,4 +346,4 @@ void MainWindow::onDocumentActivated(wyap::Document* pActivatedDoc)
     this->setWindowTitle(QString::fromStdString(fileName));
 }
 
-}
+} // namespace wy3dApp

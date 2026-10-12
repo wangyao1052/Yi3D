@@ -153,6 +153,6 @@ protected:
     HoverPopupState _hoverPopupState;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_EXTRUDED_SHEET_GUI_CMD_H

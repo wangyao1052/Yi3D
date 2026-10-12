@@ -237,4 +237,4 @@ void DockPanelManager::createDockPanel(DockPanelEntry& entry)
     entry.widget = pWidget;
 }
 
-}
+} // namespace wy3dApp

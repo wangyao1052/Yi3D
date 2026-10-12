@@ -55,4 +55,4 @@ InvalidSketchToolTip::~InvalidSketchToolTip()
     QToolTip::hideText();
 }
 
-}
+} // namespace wy3dApp

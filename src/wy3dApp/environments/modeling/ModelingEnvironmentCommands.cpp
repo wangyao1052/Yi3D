@@ -239,4 +239,4 @@ void ModelingEnvironmentImpl::removeCommands()
     }
 }
 
-}
+} // namespace wy3dApp

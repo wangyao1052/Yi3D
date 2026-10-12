@@ -51,6 +51,6 @@ private:
     SketchSplinePointsEditor* _pPointsEditor;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SPLINE_TANGENT_CHECK_BOX_H

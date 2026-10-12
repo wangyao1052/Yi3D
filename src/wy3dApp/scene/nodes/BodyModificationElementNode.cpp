@@ -479,4 +479,4 @@ bool BodyModificationElementNode::computeWhetherActive(const wydb::Element* pCur
     */
 }
 
-}
+} // namespace wy3dApp

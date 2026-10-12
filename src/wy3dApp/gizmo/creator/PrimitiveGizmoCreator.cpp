@@ -76,4 +76,4 @@ std::list<wyap::GizmoSPtr> PrimitiveGizmoCreator::createGizmos(const wydb::Eleme
     return gizmos;
 }
 
-}
+} // namespace wy3dApp

@@ -50,4 +50,4 @@ std::list<wyap::SnapObjectSPtr> TorusSnapObjectCreator::createSnapObjects(const 
     return snapPoints;
 }
 
-}
+} // namespace wy3dApp

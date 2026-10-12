@@ -108,6 +108,6 @@ private:
     HoverPopupState _hoverPopupState;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_PARALLEL_DATUM_PLN_CMD_H

@@ -943,4 +943,4 @@ void TrimSegmentTransient::initGeom(osg::ref_ptr<osg::Vec3Array> vertices, const
     _root->addChild(geom.get());
 }
 
-}
+} // namespace wy3dApp

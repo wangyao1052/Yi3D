@@ -102,6 +102,6 @@ private:
     wy3d::RevolvedSheet* _pRevolvedSheet;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_REVOLVED_SHEET_GUI_CMD_H

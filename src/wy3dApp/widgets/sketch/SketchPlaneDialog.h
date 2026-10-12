@@ -61,6 +61,6 @@ private:
     wy3d::Plane _sketchPlane;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_PLANE_DIALOG_H

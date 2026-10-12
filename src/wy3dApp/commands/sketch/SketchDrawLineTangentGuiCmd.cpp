@@ -597,4 +597,4 @@ bool SketchDrawLineTangentGuiCmd::findMatchedTangentLine(
     return true;
 }
 
-}
+} // namespace wy3dApp

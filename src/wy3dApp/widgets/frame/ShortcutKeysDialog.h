@@ -44,4 +44,4 @@ private:
     QStackedWidget* _pStackedWidget;
 };
 
-}
+} // namespace wy3dApp

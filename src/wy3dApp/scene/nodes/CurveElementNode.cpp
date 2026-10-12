@@ -257,4 +257,4 @@ bool CurveElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
     return pCurElem->getParent().isNull();
 }
 
-}
+} // namespace wy3dApp

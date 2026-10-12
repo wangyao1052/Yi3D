@@ -152,4 +152,4 @@ osg::ref_ptr<osg::Geometry> SketchEllipseArcGhostOsgRenderer::generateGeometry(c
     return geometry;
 }
 
-}
+} // namespace wy3dApp

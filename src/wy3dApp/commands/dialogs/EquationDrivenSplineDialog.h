@@ -72,6 +72,6 @@ private:
     std::vector<wy::Vector2> _points;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_EQUATION_DRIVEN_SPLINE_DIALOG_H

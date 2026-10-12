@@ -299,4 +299,4 @@ void FloatingCmdPanel::onCancelClicked()
     emit canceled();
 }
 
-}
+} // namespace wy3dApp

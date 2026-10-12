@@ -94,6 +94,6 @@ private:
     std::map<wyap::Document*, AutosaveInfo> _autoSaveInfoMap;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_AUTO_SAVE_H

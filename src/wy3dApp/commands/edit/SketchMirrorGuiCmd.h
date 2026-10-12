@@ -128,6 +128,6 @@ private:
     friend class MirrorGuiCmdMenu;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_MIRROR_GUI_CMD_H

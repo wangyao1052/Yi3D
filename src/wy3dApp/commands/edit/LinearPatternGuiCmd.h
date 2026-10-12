@@ -78,6 +78,6 @@ private:
     SelectPreview _workPlnPreview;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_LINEAR_PATTERN_GUI_CMD_H

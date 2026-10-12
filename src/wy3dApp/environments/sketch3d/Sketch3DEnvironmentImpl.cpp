@@ -387,4 +387,4 @@ void Sketch3DEnvironmentImpl::updateFileActionStates()
     // 3D草图环境不支持文件操作
 }
 
-}
+} // namespace wy3dApp

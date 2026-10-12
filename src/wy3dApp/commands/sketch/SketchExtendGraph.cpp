@@ -933,4 +933,4 @@ SketchExtendSegment SketchExtendGraph::pick(const wydb::ElementId& id, const wy:
     return iter->second->pick(this, position);
 }
 
-}
+} // namespace wy3dApp

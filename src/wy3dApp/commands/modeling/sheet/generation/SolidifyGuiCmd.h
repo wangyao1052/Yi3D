@@ -72,6 +72,6 @@ protected:
     SelectPreview _sheetPreview;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SOLIDIFY_GUI_CMD_H

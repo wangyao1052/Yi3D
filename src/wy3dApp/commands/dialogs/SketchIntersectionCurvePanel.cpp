@@ -103,4 +103,4 @@ bool SketchIntersectionCurvePanel::isFit() const
     return _pRbFit->isChecked();
 }
 
-}
+} // namespace wy3dApp

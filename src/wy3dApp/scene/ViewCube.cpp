@@ -1080,4 +1080,4 @@ void ViewCube::buildLabels()
     _pCubeXform->addChild(pLabelGroup.get());
 }
 
-}
+} // namespace wy3dApp

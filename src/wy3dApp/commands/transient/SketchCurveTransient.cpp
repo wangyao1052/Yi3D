@@ -277,4 +277,4 @@ void SketchDotLineTransient::update(const wy::Vector2& startPnt, const wy::Vecto
     _geom->dirtyBound();
 }
 
-}
+} // namespace wy3dApp

@@ -48,6 +48,6 @@ private:
     wydb::ElementId _sketchId;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_EQUATION_DRIVEN_SPLINE_COMMAND_H

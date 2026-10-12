@@ -93,4 +93,4 @@ public:
     friend class MainWindowUI;
 };
 
-}
+} // namespace wy3dApp

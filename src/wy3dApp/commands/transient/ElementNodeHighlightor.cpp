@@ -52,4 +52,4 @@ void ElementNodeHighlightor::highlightImpl(const wydb::ElementId& id, bool flag)
     pSolidNode->highlight(flag, false);
 }
 
-}
+} // namespace wy3dApp

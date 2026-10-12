@@ -172,4 +172,4 @@ void GatewayEnvironmentUI::createToolBars(GatewayEnvironment* pEnv)
         wy3dApp::ToolBarNames::File);
 }
 
-}
+} // namespace wy3dApp

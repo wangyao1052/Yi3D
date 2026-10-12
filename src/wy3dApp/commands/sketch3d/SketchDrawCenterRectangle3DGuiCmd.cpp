@@ -47,4 +47,4 @@ QString SketchDrawCenterRectangle3DGuiCmd::getEndTip() const
         "Press Space to switch the drawing plane.");
 }
 
-}
+} // namespace wy3dApp

@@ -64,4 +64,4 @@ void GizmoOperation::abortTopTransaction()
     }
 }
 
-}
+} // namespace wy3dApp

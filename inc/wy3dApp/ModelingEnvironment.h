@@ -37,6 +37,6 @@ protected:
     ~ModelingEnvironment();
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MODELING_ENVIRONMENT_H

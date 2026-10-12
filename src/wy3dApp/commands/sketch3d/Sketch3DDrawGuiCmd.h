@@ -117,6 +117,6 @@ private slots:
     void onViewNormalToWorkingPlane();
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_DRAW_GUI_CMD_H

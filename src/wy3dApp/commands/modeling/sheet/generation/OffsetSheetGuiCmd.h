@@ -125,6 +125,6 @@ protected:
     double _offset;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_OFFSET_SHEET_GUI_CMD_H

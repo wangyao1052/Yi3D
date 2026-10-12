@@ -386,4 +386,4 @@ bool DeleteFaceGuiCmd::createDeleteFace(const wyap::SelectionSet& faceSels, unsi
     return true;
 }
 
-}
+} // namespace wy3dApp

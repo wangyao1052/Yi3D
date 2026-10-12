@@ -182,4 +182,4 @@ void AboutDialog::addThirdPartyLibraryInfo(
     layout->addWidget(line);
 }
 
-}
+} // namespace wy3dApp

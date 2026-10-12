@@ -79,6 +79,6 @@ class StepImporter : public Importer
 //{
 //};
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_IMPORTER_H

@@ -106,6 +106,6 @@ private:
     std::set<wydb::ElementId> _excludeIds;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SOLID_FACE_SEL_FILTER_H

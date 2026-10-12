@@ -43,6 +43,6 @@ enum class SelectMode
     Incremental = 1,
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SELECT_MODE_H

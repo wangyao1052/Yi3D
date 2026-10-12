@@ -239,4 +239,4 @@ void CheckTopoNameGuiCmdMenu::onCheckAll()
     }
 }
 
-}
+} // namespace wy3dApp

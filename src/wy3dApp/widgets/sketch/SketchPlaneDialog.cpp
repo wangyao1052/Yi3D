@@ -83,4 +83,4 @@ void SketchPlaneDialog::onCancelBtnClicked()
     this->reject();
 }
 
-}
+} // namespace wy3dApp

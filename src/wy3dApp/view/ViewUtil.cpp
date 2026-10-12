@@ -290,4 +290,4 @@ bool ViewUtil::getLookDir(osgViewer::View* pView, osg::Vec3d& lookDir)
     return true;
 }
 
-}
+} // namespace wy3dApp

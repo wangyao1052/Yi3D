@@ -49,6 +49,6 @@ protected:
     BaseGizmo* _pGizmo;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GIZMO_RENDERER_H

@@ -49,6 +49,6 @@ private:
     QCursor _cursorRotate;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_CURSOR_CENTER_H

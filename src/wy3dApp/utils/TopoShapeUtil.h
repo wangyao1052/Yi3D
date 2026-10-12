@@ -60,6 +60,6 @@ public:
         unsigned int index);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_TOPOSHAPE_UTIL_H

@@ -82,6 +82,6 @@ private:
     osg::ref_ptr<osg::UIntArray> _lineIndices;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_ENTITY_ELEMENT_NODE_H

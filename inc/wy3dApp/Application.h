@@ -230,6 +230,6 @@ private:
     bool _idleRequested = false;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_APPLICATION_H

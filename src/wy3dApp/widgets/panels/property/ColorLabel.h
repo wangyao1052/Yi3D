@@ -33,6 +33,6 @@ public:
     explicit ColorLabel(const wy3d::Color& color, bool isTheSameValue, QWidget* parent = nullptr);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_COLOR_LABEL_H

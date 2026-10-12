@@ -171,4 +171,4 @@ bool SketchMoveGuiCmd::executeMove()
     return _pMoveElements->perform(_sels, _moveVec);
 }
 
-}
+} // namespace wy3dApp

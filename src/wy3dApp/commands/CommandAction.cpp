@@ -61,4 +61,4 @@ void CommandAction::onTriggered()
     }
 }
 
-}
+} // namespace wy3dApp

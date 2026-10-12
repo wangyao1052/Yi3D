@@ -170,4 +170,4 @@ bool SketchProjectCurvePanel::isDirectionAvailable() const
     return _isDirectionAvailable;
 }
 
-}
+} // namespace wy3dApp

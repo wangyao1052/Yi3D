@@ -143,6 +143,6 @@ private:
     wy3d::Loft* _pLoft;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_LOFT_GUI_CMD_H

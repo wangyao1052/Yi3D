@@ -754,4 +754,4 @@ osg::ref_ptr<osg::Geometry> SketchElementNode::generateCenterLineGeom_Preview(un
     return edgeGeom;
 }
 
-}
+} // namespace wy3dApp

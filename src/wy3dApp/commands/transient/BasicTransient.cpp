@@ -178,4 +178,4 @@ void CenterPointTransient::update(const wy3d::Plane& plane, const wy::Vector2& p
     _pat->setAttitude(MathUtils::computeQuat(plane));
 }
 
-}
+} // namespace wy3dApp

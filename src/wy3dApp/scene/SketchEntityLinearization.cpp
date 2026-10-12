@@ -399,4 +399,4 @@ SketchEntityLinearization::SketchEntityLinearization(Handle(Geom2d_BSplineCurve)
     bsplineLinearization(pBSpline, _vertices, _indices, startParam, endParam);
 }
 
-}
+} // namespace wy3dApp

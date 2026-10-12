@@ -871,4 +871,4 @@ bool MakeSketchSpline::update(const std::vector<wy::Vector2>& points, const wy::
     return this->update(_pnts);
 }
 
-}
+} // namespace wy3dApp

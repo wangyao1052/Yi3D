@@ -50,6 +50,6 @@ inline constexpr Version kAppVersion{
     YI3D_APP_VERSION_MINOR,
     YI3D_APP_VERSION_PATCH};
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_VERSION_H

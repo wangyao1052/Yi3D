@@ -1070,4 +1070,4 @@ void OffsetSheetGuiCmd::onDialogCanceled()
     this->requestAbort(AbortCause::UserCancel);
 }
 
-}
+} // namespace wy3dApp

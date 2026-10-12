@@ -574,4 +574,4 @@ wyap::Selection PointPick::pick(
     return selRet;
 }
 
-}
+} // namespace wy3dApp

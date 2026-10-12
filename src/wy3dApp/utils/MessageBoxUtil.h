@@ -48,6 +48,6 @@ public:
     static void showWarning_PleaseInputNumber();
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MESSAGE_BOX_UTIL_H

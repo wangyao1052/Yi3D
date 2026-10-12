@@ -464,4 +464,4 @@ void EnvironmentBase::syncDisplayModeAction()
     if (pAction) pAction->trigger();
 }
 
-}
+} // namespace wy3dApp

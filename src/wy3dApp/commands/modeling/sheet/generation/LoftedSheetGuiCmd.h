@@ -119,6 +119,6 @@ private:
     wy3d::LoftedSheet* _pLoftedSheet;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_LOFTED_SHEET_GUI_CMD_H

@@ -93,4 +93,4 @@ private:
     std::set<std::string> _builtinPanelIds;
 };
 
-}
+} // namespace wy3dApp

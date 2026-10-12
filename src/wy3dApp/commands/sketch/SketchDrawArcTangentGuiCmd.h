@@ -168,6 +168,6 @@ private:
     HoverPopupState _hoverPopupState;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_ARC_TANGENT_GUI_CMD_H

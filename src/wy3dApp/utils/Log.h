@@ -53,6 +53,6 @@ private:
     OutputWidget* _pOutputWidget = nullptr;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_LOG_H

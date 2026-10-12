@@ -1127,4 +1127,4 @@ osg::Vec4 SheetElementNode::getEdgeDefaultColor() const
     return Colors::kSheetEdge;
 }
 
-}
+} // namespace wy3dApp

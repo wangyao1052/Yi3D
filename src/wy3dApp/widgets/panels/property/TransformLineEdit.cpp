@@ -200,4 +200,4 @@ void TransformLineEdit::getCurrParamValueFromDb(bool& isAllTheSameValue, wydb::P
     }
 }
 
-}
+} // namespace wy3dApp

@@ -52,6 +52,6 @@ public:
     virtual int run() override;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_EDIT_COMMANDS_H

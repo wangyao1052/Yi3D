@@ -224,4 +224,4 @@ void SketchSnapTipMouseFollow::updatePositions()
     }
 }
 
-}
+} // namespace wy3dApp

@@ -97,4 +97,4 @@ private:
     std::map<wyap::Document*, ViewWidget*> _doc2Page;
 };
 
-}
+} // namespace wy3dApp

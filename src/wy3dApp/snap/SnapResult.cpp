@@ -35,4 +35,4 @@ osg::ref_ptr<osg::Node> SnapResultPoint::generateOsgNode() const
     }
 }
 
-}
+} // namespace wy3dApp

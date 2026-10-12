@@ -46,4 +46,4 @@ PerpendicularSnapObject::PerpendicularSnapObject(
     _angle = computePerpendicularAngle(startPnt, endPnt);
 }
 
-}
+} // namespace wy3dApp

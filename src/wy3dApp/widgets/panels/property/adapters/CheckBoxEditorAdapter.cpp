@@ -58,4 +58,4 @@ static struct {
     } reg;
 } _regCheckBoxEditor;
 
-}
+} // namespace wy3dApp

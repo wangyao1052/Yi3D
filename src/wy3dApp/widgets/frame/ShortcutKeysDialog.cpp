@@ -225,4 +225,4 @@ void ShortcutKeysDialog::addShortcut(QWidget* parent, const QString& key, const 
     static_cast<QVBoxLayout*>(parent->layout())->addLayout(pRow);
 }
 
-}
+} // namespace wy3dApp

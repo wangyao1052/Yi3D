@@ -30,6 +30,6 @@ public:
     virtual std::list<wyap::SnapObjectSPtr> createSnapObjects(const wydb::Element* pElem) override;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_BOX_SNAP_OBJECT_CREATOR_H

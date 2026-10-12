@@ -42,4 +42,4 @@ private:
         const QString& url);
 };
 
-}
+} // namespace wy3dApp

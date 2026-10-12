@@ -144,6 +144,6 @@ private:
     std::vector<CurveInfo> _curveInfos;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_ELEMENT_NODE_H

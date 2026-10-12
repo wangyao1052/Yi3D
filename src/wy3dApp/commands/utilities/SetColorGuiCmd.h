@@ -82,6 +82,6 @@ private:
     SelectPreview _hoverPreview;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SET_COLOR_GUI_CMD_H

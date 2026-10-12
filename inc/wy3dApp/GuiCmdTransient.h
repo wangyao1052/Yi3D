@@ -44,6 +44,6 @@ protected:
 };
 typedef std::shared_ptr<GuiCmdTransient> GuiCmdTransientSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GUI_CMD_TRANSIENT_H

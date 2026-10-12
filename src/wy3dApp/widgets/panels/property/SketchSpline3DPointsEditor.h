@@ -100,6 +100,6 @@ private:
     bool _isExpanded;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SPLINE3D_POINTS_EDITOR_H

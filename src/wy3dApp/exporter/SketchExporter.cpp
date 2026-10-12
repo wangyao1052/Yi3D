@@ -59,4 +59,4 @@ bool SketchExporter::perform(const wy3d::Sketch* pSketch, const std::wstring& fi
     }
 }
 
-}
+} // namespace wy3dApp

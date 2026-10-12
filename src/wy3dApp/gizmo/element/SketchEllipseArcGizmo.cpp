@@ -219,4 +219,4 @@ void SketchEllipseArcGripGizmo::onEndDrag(wydb::Database* pDb, bool commit)
     return;
 }
 
-}
+} // namespace wy3dApp

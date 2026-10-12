@@ -272,4 +272,4 @@ bool GuiCommandUtil::initSketch3DInfo(GuiCmdSketch3DInfo& info)
     }
 }
 
-}
+} // namespace wy3dApp

@@ -55,6 +55,6 @@ private:
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MAKE_TEXT_H

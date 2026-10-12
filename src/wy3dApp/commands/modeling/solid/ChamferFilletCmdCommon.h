@@ -321,6 +321,6 @@ public:
     }
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_CHAMFER_FILLET_CMD_COMMON_H

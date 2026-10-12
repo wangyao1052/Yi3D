@@ -131,4 +131,4 @@ void SelectPreview::showSelection(const wyap::Selection& selection, bool value)
     }
 }
 
-}
+} // namespace wy3dApp

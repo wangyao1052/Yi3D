@@ -52,6 +52,6 @@ protected:
         const std::set<wydb::ElementId>& excludeIds) override;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MODELING_SELECT_GUI_CMD_H

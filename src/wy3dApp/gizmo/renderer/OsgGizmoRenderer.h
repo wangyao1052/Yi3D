@@ -52,6 +52,6 @@ protected:
     osg::ref_ptr<OsgGizmoNode> _osgNode;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_OSG_GIZMO_RENDERER_H

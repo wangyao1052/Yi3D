@@ -48,4 +48,4 @@ std::list<wyap::SnapObjectSPtr> SphereSnapObjectCreator::createSnapObjects(const
     return snapObjs;
 }
 
-}
+} // namespace wy3dApp

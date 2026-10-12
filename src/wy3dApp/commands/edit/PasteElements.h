@@ -87,6 +87,6 @@ private:
     std::list<wydb::ElementId> _hiddenElemIds;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_PASTE_ELEMENTS_H

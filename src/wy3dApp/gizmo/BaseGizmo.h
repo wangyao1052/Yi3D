@@ -68,6 +68,6 @@ protected:
 
 #define PICK_GIZMO_MASK 0x0000FFFF
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_BASE_GIZMO_H

@@ -95,6 +95,6 @@ private:
     std::vector<wyrx::ClassInfo*> _classInfos;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_COMMON_SEL_FILTERS_H

@@ -853,4 +853,4 @@ bool MakeSketchEllipseArc::update(double sweepAngle)
     return true;
 }
 
-}
+} // namespace wy3dApp

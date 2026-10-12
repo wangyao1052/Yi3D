@@ -84,6 +84,6 @@ private:
     GuiEventDispatcher* _pGuiEventDispatcher;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_VIEW_H

@@ -178,6 +178,6 @@ protected:
     virtual SketchSnapSystem* getSketchSnapSys() const { return nullptr; }
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_ROTATE_GUI_CMD_H

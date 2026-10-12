@@ -38,6 +38,6 @@ public:
 	virtual QRect getRenderAreaGlobalRect() const = 0;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_VIEW_WIDGET_H

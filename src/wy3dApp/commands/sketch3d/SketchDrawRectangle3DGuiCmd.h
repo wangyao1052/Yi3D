@@ -189,6 +189,6 @@ private:
     LineTransientSPtr _pDiagonal2nd;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_RECTANGLE3D_GUI_CMD_H

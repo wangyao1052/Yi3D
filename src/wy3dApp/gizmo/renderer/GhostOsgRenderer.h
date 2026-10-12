@@ -44,6 +44,6 @@ public:
     virtual void onCancelDrag() override {}
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GHOST_OSG_RENDERER_H

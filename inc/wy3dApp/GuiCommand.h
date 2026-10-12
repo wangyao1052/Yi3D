@@ -214,6 +214,6 @@ protected:
     friend class FeatureTreeWidget;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GUI_CMDS_H

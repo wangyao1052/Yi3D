@@ -89,6 +89,6 @@ private:
     wy3d::DatumPlane* _pDatumPlane;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MAKE_DATUM_PLANE_H

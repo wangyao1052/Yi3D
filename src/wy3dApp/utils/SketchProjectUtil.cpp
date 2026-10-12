@@ -484,4 +484,4 @@ SketchProjectUtil::ProjectResult SketchProjectUtil::projectEdge(
     }
 }
 
-}
+} // namespace wy3dApp

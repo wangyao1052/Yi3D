@@ -115,6 +115,6 @@ private:
     FT_Long _fontFaceIndex;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_TEXT_DIALOG_H

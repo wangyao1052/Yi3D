@@ -544,4 +544,4 @@ bool ParamLineEdit::parserExpression(const QString& qstr, int& outValue)
     return true;
 }
 
-}
+} // namespace wy3dApp

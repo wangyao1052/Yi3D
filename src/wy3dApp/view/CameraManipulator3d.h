@@ -77,4 +77,4 @@ private:
 	} _navCursorData;
 };
 
-}
+} // namespace wy3dApp

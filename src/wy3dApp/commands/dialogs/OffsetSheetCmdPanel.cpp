@@ -119,4 +119,4 @@ void OffsetSheetCmdPanel::onOffsetEditChanged()
     emit offsetChanged(value);
 }
 
-}
+} // namespace wy3dApp

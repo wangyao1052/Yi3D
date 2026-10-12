@@ -86,6 +86,6 @@ public:
     static const osg::Vec4 kPink;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_COLORS_H

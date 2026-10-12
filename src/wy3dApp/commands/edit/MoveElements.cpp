@@ -203,4 +203,4 @@ bool MoveElemens::perform(const wyap::SelectionSet& ss, const wy::Vector3& moveV
     return true;
 }
 
-}
+} // namespace wy3dApp

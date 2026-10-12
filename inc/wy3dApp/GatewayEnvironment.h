@@ -37,6 +37,6 @@ protected:
     ~GatewayEnvironment();
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GATEWAY_ENVIRONMENT_H

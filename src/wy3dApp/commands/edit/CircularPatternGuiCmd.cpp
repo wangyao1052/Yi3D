@@ -501,4 +501,4 @@ bool CircularPatternGuiCmd::createCircularPattern(
     }
 }
 
-}
+} // namespace wy3dApp

@@ -48,4 +48,4 @@ public:
     osg::Vec2d pnt2_;
 };
 
-}
+} // namespace wy3dApp

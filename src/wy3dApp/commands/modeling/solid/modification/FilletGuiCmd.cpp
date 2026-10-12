@@ -504,4 +504,4 @@ bool FilletGuiCmd::createFillet(unsigned int& errorCode)
         wy3d::ErrorCode::FILLET_CreateFilletError>(_sels, _radius, errorCode);
 }
 
-}
+} // namespace wy3dApp

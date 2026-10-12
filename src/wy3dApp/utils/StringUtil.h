@@ -31,6 +31,6 @@ public:
     static std::vector<std::string> split(const std::string& str, char delimiter);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_STRING_UTIL_H

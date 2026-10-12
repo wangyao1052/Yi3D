@@ -75,6 +75,6 @@ private:
     wy3d::NonParametricSheet* _pNonParametricSheet;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MAKE_NON_PARAMETRIC_SHEET_H

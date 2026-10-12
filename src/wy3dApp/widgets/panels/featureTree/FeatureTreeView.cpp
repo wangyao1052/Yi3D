@@ -67,4 +67,4 @@ void FeatureTreeView::keyPressEvent(QKeyEvent* event)
     return QTreeView::keyPressEvent(event);
 }
 
-}
+} // namespace wy3dApp

@@ -90,6 +90,6 @@ private:
     osg::ref_ptr<osg::Vec3Array> _vertices;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_CURVE_TRANSIENT_H

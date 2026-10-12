@@ -56,6 +56,6 @@ private:
     QColor _color;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SET_COLOR_CMD_PANEL_H

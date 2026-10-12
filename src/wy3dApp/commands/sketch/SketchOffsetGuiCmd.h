@@ -218,6 +218,6 @@ private:
     wy3d::SketchArc* _pSketchArc;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_OFFSET_GUI_CMD_H

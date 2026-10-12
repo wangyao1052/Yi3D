@@ -254,4 +254,4 @@ QString ErrorCodeTranslation::getErrorCodeDescription(std::uint32_t code) const
     }
 }
 
-}
+} // namespace wy3dApp

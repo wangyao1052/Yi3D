@@ -116,6 +116,6 @@ protected:
     SelectMode _selMode;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SELECT_HANDLER_H

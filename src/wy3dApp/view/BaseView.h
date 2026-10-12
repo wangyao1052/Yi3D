@@ -62,6 +62,6 @@ public:
     virtual wyap::SnapResultSPtr snapObject(double x, double y, const std::set<wyap::SnapObjectSPtr>& snapObjects) const = 0;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_BASE_VIEW_H

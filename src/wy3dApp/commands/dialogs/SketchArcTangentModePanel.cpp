@@ -75,4 +75,4 @@ void SketchArcTangentModePanel::setMode(ArcTangentMode mode)
     _pRbRadius->setChecked(ArcTangentMode::Radius == mode);
 }
 
-}
+} // namespace wy3dApp

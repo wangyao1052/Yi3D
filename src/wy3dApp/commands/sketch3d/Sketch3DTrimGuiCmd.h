@@ -99,6 +99,6 @@ private:
     PointPickOption _pointPickOption;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_TRIM_GUI_CMD_H

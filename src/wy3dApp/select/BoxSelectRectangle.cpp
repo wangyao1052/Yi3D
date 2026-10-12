@@ -118,4 +118,4 @@ void BoxSelectRectangle::update(const osg::Vec2d& pnt1, const osg::Vec2d& pnt2)
     geom_->dirtyBound();
 }
 
-}
+} // namespace wy3dApp

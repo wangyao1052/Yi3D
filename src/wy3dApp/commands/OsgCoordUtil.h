@@ -122,6 +122,6 @@ namespace OsgCoordUtil {
 
 } // namespace OsgCoordUtil
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_OSG_COORD_UTIL_H

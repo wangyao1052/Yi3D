@@ -57,6 +57,6 @@ private:
 	QTextBrowser* _textBrowser;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_OUTPUT_WIDGET_H

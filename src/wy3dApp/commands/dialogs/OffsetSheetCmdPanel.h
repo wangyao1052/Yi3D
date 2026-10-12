@@ -48,6 +48,6 @@ private:
     bool _isSmallValueAllowed;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_OFFSET_SHEET_CMD_PANEL_H

@@ -63,4 +63,4 @@ osg::ref_ptr<osg::Node> SnapPoint::generateOsgNode() const
     return geode;
 }
 
-}
+} // namespace wy3dApp

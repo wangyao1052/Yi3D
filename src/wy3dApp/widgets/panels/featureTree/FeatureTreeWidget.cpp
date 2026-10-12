@@ -1681,4 +1681,4 @@ void FeatureTreeWidget::onTreeViewClicked(const QModelIndex& index)
     pGuiCommand->onFeatureTreeItemClicked(id);
 }
 
-}
+} // namespace wy3dApp

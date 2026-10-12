@@ -625,4 +625,4 @@ void ExtrudedSheetGuiCmd::simulateMouseMoveFromPopup()
                        _hoverPopupState.lastMouseMoveTime});
 }
 
-}
+} // namespace wy3dApp

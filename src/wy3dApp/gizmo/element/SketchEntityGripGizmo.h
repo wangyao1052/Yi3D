@@ -72,6 +72,6 @@ protected:
     friend class SketchGripOsgRenderer;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_ENTITY_GRIP_GIZMO_H

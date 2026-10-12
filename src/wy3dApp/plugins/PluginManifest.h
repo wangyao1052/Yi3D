@@ -42,6 +42,6 @@ public:
     static bool loadFromFile(const std::string& u8FilePath, PluginManifest& out, std::string& error);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_PLUGIN_MANIFEST_H

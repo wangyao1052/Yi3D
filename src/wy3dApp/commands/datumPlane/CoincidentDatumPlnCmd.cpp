@@ -179,4 +179,4 @@ void CoincidentDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
     return;
 }
 
-}
+} // namespace wy3dApp

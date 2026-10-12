@@ -951,4 +951,4 @@ void RotateGuiCmd::onContextMenuAction_ClearSelection()
     }
 }
 
-}
+} // namespace wy3dApp

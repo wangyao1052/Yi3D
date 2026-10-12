@@ -72,4 +72,4 @@ std::list<wyap::SnapObjectSPtr> SketchEllipseSnapObjectCreator::createSnapObject
     return snapPoints;
 }
 
-}
+} // namespace wy3dApp

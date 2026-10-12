@@ -223,4 +223,4 @@ void OsgViewWidget::setNavigationCursor(NavCursorMode mode)
 	_pOsgGLWidget->setCursor(CursorCenter::instance().getCursor(cursorType));
 }
 
-}
+} // namespace wy3dApp

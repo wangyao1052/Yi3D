@@ -185,4 +185,4 @@ bool SketchPolygonDialog::isInscribedPolygon() const
     return _inscribedRadio->isChecked();
 }
 
-}
+} // namespace wy3dApp

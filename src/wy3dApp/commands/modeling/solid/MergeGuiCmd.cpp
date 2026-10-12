@@ -485,4 +485,4 @@ bool MergeGuiCmd::merge(unsigned int errorCode)
     return true;
 }
 
-}
+} // namespace wy3dApp

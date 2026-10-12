@@ -649,4 +649,4 @@ double SketchScaleGuiCmd::computeScaleRatio(double len, double baseLen) const
     }
 }
 
-}
+} // namespace wy3dApp

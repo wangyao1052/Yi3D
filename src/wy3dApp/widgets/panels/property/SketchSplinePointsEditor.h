@@ -111,6 +111,6 @@ private:
     bool _isTangentRowsVisible;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SPLINE_POINTS_EDITOR_H

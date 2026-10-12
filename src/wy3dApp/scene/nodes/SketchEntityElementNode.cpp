@@ -264,4 +264,4 @@ void SketchEntityElementNode::setActiveImpl(bool flag)
 {
 }
 
-}
+} // namespace wy3dApp

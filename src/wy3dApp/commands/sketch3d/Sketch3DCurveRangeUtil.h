@@ -43,6 +43,6 @@ public:
     static bool apply(wy3d::SketchCurve3D* pCurve, double startParam, double endParam);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_CURVE_RANGE_UTIL_H

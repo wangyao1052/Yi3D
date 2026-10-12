@@ -668,4 +668,4 @@ bool MakeSketchArc::update(double totalAngle)
     return true;
 }
 
-}
+} // namespace wy3dApp

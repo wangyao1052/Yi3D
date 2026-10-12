@@ -125,6 +125,6 @@ private:
     std::map<TangentLineIdPair, std::vector<TangentLine>> _cachedTangentLines;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_LINE_TANGENT_GUI_CMD_H

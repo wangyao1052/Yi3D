@@ -72,4 +72,4 @@ void _enumLabelTrDummy()
     QCoreApplication::translate("EnumLabelTranslator", "Distance-Angle");
 }
 
-}
+} // namespace wy3dApp

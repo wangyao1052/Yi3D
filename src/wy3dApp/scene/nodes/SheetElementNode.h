@@ -178,6 +178,6 @@ private:
     osg::Matrix _matrix;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SHEET_ELEMENT_NODE_H

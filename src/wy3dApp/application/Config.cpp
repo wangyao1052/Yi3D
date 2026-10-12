@@ -276,4 +276,4 @@ bool Config::readDouble(const QSettings& settings, const QString& key, double& o
     }
 }
 
-}
+} // namespace wy3dApp

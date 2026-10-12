@@ -48,4 +48,4 @@ std::list<wyap::GizmoSPtr> SketchSplineGizmoCreator::createGizmos(const wydb::El
     return gizmos;
 }
 
-}
+} // namespace wy3dApp

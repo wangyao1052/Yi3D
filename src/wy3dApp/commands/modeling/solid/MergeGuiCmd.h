@@ -82,6 +82,6 @@ private:
     friend class MergeGuiCmdMenu;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MERGE_GUI_CMD_H

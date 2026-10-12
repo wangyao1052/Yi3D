@@ -681,4 +681,4 @@ void SketchProjectCurve3DGuiCmd::destroyPanel()
     _pPanel = nullptr;
 }
 
-}
+} // namespace wy3dApp

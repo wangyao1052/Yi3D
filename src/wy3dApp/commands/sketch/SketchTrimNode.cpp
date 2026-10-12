@@ -552,4 +552,4 @@ bool SketchTrimNode::isValidKnotPosition(wydb::Database* pDb, const wy::Vector2&
     return false;
 }
 
-}
+} // namespace wy3dApp

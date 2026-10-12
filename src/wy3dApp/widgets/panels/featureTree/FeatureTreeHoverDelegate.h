@@ -42,6 +42,6 @@ private:
     QPersistentModelIndex _hoveredIndex;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_FEATURE_TREE_HOVER_DELEGATE_H

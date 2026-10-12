@@ -49,6 +49,6 @@ private:
     double _lastValidThickness;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_THICKEN_CMD_PANEL_H

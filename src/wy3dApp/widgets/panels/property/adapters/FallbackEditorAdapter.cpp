@@ -57,4 +57,4 @@ static struct {
     } reg;
 } _regFallbackEditor;
 
-}
+} // namespace wy3dApp

@@ -124,6 +124,6 @@ private:
     wy::Vector3 _oppositeRot;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MAKE_CONE_GUI_CMD_H

@@ -41,6 +41,6 @@ public:
     static const osg::Vec4 SKETCH_ENTITY_COLOR;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_OSG_GIZMO_NODE_H

@@ -631,4 +631,4 @@ bool MathUtils::tangentLinesOfArcArc(
     return !tangentLines.empty();
 }
 
-}
+} // namespace wy3dApp

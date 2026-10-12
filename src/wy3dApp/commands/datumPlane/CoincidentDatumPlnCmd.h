@@ -64,6 +64,6 @@ private:
     std::shared_ptr<MakeDatumPlane> _pMakeDatumPlane;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_COINCIDENT_DATUM_PLN_CMD_H

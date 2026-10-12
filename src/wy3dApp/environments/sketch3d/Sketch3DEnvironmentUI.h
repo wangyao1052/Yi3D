@@ -45,6 +45,6 @@ private:
     QPointer<ViewportOverlayBar> _pOverlayBar;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_ENVIRONMENT_UI_H

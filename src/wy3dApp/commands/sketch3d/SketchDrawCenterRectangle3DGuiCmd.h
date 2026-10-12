@@ -37,6 +37,6 @@ protected:
     virtual QString getEndTip() const override;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_CENTER_RECTANGLE3D_GUI_CMD_H

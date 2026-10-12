@@ -33,6 +33,6 @@ DEFINE_SIMPLE_CMD(RedoCommand)
 //    static void refreshUndoRedoActionState();
 //};
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_UNDO_REDO_COMMANDS_H

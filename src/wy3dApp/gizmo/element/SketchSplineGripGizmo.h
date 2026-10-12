@@ -52,6 +52,6 @@ private:
     unsigned int _index;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SPLINE_GRIP_GIZMO_H

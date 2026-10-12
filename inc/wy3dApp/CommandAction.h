@@ -45,6 +45,6 @@ private:
     std::string _commandName;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_COMMAND_ACTION_H

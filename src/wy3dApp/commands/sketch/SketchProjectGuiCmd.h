@@ -58,6 +58,6 @@ private:
     SelectPreview _preview;  // 悬停高亮预览
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_PROJECT_GUI_CMD_H

@@ -147,6 +147,6 @@ private:
     wy3d::SketchEllipse* _pSketchEllipse;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_ELLIPSE_GUI_CMD_H

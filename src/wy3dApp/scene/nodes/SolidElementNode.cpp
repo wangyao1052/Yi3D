@@ -1247,4 +1247,4 @@ osg::Vec4 SolidElementNode::getEdgeDefaultColor() const
         return Colors::kSolidEdge;
 }
 
-}
+} // namespace wy3dApp

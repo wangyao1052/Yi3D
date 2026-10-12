@@ -34,4 +34,4 @@ void ViewWidget::setCursor(const QCursor& cursor)
     this->setCursor(cursor);
 }
 
-}
+} // namespace wy3dApp

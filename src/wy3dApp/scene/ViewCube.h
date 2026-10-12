@@ -95,4 +95,4 @@ private:
     bool _isPressed = false;
 };
 
-}
+} // namespace wy3dApp

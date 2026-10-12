@@ -145,4 +145,4 @@ void FilletDialog::keyPressEvent(QKeyEvent* event)
     QWidget::keyPressEvent(event);
 }
 
-}
+} // namespace wy3dApp

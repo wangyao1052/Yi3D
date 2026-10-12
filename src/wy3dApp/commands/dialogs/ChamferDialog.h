@@ -111,6 +111,6 @@ private:
     bool _isFlipped;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_CHAMFER_DIALOG_H

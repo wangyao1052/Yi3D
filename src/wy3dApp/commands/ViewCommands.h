@@ -43,6 +43,6 @@ DEFINE_SIMPLE_CMD(ShadedWithEdgesDisplayCommand)
 DEFINE_SIMPLE_CMD(ShadedDisplayCommand)
 DEFINE_SIMPLE_CMD(WireframeDisplayCommand)
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_VIEW_COMMANDS_H

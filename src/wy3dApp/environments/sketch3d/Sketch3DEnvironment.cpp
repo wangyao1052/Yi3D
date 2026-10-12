@@ -25,4 +25,4 @@ Sketch3DEnvironment::~Sketch3DEnvironment()
 {
 }
 
-}
+} // namespace wy3dApp

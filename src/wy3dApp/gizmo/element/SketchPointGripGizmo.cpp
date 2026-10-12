@@ -75,4 +75,4 @@ SketchSnapContextSPtr SketchPointGripGizmo::newDragContext() const
     return std::make_shared<SketchLocateContext>(_id);
 }
 
-}
+} // namespace wy3dApp

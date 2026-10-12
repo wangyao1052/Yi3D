@@ -50,6 +50,6 @@ private:
     void abortActiveTransaction();
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_PYTHON_SCRIPT_EXECUTOR_H

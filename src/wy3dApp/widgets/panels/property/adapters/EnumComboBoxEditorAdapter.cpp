@@ -62,4 +62,4 @@ static struct {
     } reg;
 } _regEnumComboBoxEditor;
 
-}
+} // namespace wy3dApp

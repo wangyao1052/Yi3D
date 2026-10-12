@@ -40,6 +40,6 @@ protected:
     virtual void cleanupEnvSpecific() override;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MODELING_ROTATE_GUI_CMD_H

@@ -516,4 +516,4 @@ bool ChamferGuiCmd::createChamfer(unsigned int& errorCode)
         _sels, _chamferType, _distance1, _distance2, _angle, _isFlipped, errorCode);
 }
 
-}
+} // namespace wy3dApp

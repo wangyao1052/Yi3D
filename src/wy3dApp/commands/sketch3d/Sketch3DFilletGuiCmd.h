@@ -134,6 +134,6 @@ private:
     std::shared_ptr<Fillet3DData> _pFilletData;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_FILLET_GUI_CMD_H

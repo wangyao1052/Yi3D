@@ -72,6 +72,6 @@ private:
     bool _isOverCurvedFace;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_SELECT_GUI_CMD_H

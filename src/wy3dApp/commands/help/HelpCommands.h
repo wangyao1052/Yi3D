@@ -29,6 +29,6 @@ DEFINE_SIMPLE_CMD(ContactUsCommand)
 DEFINE_SIMPLE_CMD(HelpDocumentationCommand)
 DEFINE_SIMPLE_CMD(ShortcutKeysCommand)
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_HELP_COMMANDS_H

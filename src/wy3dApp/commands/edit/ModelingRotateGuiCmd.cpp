@@ -126,4 +126,4 @@ void ModelingRotateGuiCmd::configureSelectElementOptions(GuiCmdSelectOptions& op
         std::vector<wyrx::ClassInfo*>{wy3d::Solid::classInfo(), wy3d::Sheet::classInfo()});
 }
 
-}
+} // namespace wy3dApp

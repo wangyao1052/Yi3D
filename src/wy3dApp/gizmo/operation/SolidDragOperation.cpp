@@ -170,4 +170,4 @@ bool SolidDragOperation::perform()
     }
 }
 
-}
+} // namespace wy3dApp

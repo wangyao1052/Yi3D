@@ -29,4 +29,4 @@ GhostGizmo::GhostGizmo(const wydb::Element* pElem)
     assert(pElem);
 }
 
-}
+} // namespace wy3dApp

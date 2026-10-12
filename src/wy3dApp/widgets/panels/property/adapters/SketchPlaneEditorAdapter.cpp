@@ -103,4 +103,4 @@ static struct {
     } reg;
 } _regSketchPlaneEditor;
 
-}
+} // namespace wy3dApp

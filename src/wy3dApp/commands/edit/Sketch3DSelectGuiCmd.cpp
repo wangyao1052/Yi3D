@@ -338,4 +338,4 @@ void Sketch3DSelectGuiCmd::onKeyDown(const KeyEvent& event)
     __baseClass::onKeyDown(event);
 }
 
-}
+} // namespace wy3dApp

@@ -250,4 +250,4 @@ void SketchSpline3DPointsEditor::onIndexChanged()
     this->refresh();
 }
 
-}
+} // namespace wy3dApp

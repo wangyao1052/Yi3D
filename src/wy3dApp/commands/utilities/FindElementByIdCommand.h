@@ -26,6 +26,6 @@ namespace wy3dApp {
 
 DEFINE_SIMPLE_CMD(FindElementByIdCommand)
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_FIND_ELEMENT_BY_ID_COMMAND_H

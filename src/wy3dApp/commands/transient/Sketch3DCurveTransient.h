@@ -56,6 +56,6 @@ private:
 
 typedef std::shared_ptr<Sketch3DCurveTransient> Sketch3DCurveTransientSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_CURVE_TRANSIENT_H

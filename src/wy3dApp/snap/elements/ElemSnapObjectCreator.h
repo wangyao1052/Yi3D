@@ -77,6 +77,6 @@ public:
     }
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_ELEM_SNAP_OBJECT_CREATOR_H

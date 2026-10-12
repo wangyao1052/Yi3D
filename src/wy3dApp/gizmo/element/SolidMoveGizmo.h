@@ -84,6 +84,6 @@ public:
     explicit SolidMoveZGizmo(const wy3d::Primitive* pPrimitive);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SOLID_MOVE_GIZMO_H

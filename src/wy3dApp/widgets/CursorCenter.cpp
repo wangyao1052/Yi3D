@@ -117,4 +117,4 @@ QCursor CursorCenter::getCursor(CursorType cursorType) const
     return QCursor(Qt::ArrowCursor);
 }
 
-}
+} // namespace wy3dApp

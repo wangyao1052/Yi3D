@@ -54,6 +54,6 @@ private:
     ArcTangentMode _mode;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_ARC_TANGENT_MODE_PANEL_H

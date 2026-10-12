@@ -60,6 +60,6 @@ protected:
     bool _isFinished;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GUI_CMD_MAKE_ELEMENT_H

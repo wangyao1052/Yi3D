@@ -443,4 +443,4 @@ bool AutoSave::autosaveDocument(wyap::Document* pDoc)
     return true;
 }
 
-}
+} // namespace wy3dApp

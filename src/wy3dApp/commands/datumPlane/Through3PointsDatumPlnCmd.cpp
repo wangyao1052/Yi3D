@@ -286,4 +286,4 @@ bool Through3PointsDatumPlnCmd::setPoint(const wy::Vector3& pnt, QString& error)
     return false;
 }
 
-}
+} // namespace wy3dApp

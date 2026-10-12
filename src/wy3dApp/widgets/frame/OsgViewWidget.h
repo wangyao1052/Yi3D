@@ -78,6 +78,6 @@ private:
 	QCursor _cursorBeforeNav;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_OSG_VIEW_WIDGET_H

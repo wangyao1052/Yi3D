@@ -696,4 +696,4 @@ void PlanarSheetGuiCmd::updateEdgeSelectionFeedback()
         "Keep selecting edges to close the loop."));
 }
 
-}
+} // namespace wy3dApp

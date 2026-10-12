@@ -45,4 +45,4 @@ std::list<wyap::SnapObjectSPtr> SketchSpline3DSnapObjectCreator::createSnapObjec
     return snapPoints;
 }
 
-}
+} // namespace wy3dApp

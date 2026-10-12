@@ -143,6 +143,6 @@ private:
     wy3d::SketchCenterLine* _pSketchLine;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_CENTER_LINE_GUI_CMD_H

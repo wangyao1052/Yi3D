@@ -35,6 +35,6 @@ protected:
     virtual bool performImpl(const wy3d::Sketch* pSketch, const std::wstring& fileFullPath) override;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DXF_EXPORTER_H

@@ -41,6 +41,6 @@ private:
 
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_FEATURE_TREE_VIEW_H

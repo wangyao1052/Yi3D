@@ -148,6 +148,6 @@ private:
     friend class SketchRectArrayGuiCmdMenu;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_RECT_ARRAY_GUI_CMD_H

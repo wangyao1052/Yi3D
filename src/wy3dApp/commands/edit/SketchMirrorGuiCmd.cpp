@@ -594,4 +594,4 @@ void SketchMirrorGuiCmd::onContextMenuAction_ClearSelection()
     }
 }
 
-}
+} // namespace wy3dApp

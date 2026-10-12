@@ -410,4 +410,4 @@ void SketchTextCommand::simulateMouseMoveFromPopup()
                        _hoverPopupState.lastMouseMoveTime});
 }
 
-}
+} // namespace wy3dApp

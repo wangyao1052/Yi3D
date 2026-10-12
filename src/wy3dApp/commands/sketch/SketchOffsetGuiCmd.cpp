@@ -872,4 +872,4 @@ void OffsetSketchArc::collectElements(std::set<wydb::ElementId>& idSet) const
     if (_pSketchArc) idSet.insert(_pSketchArc->getId());
 }
 
-}
+} // namespace wy3dApp

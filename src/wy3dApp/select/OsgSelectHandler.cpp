@@ -157,4 +157,4 @@ void OsgSelectHandler::clearBoxRect()
     pSelRect->hide();
 }
 
-}
+} // namespace wy3dApp

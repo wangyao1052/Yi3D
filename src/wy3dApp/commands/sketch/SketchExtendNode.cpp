@@ -523,4 +523,4 @@ bool SketchExtendNode::isOnOtherCurve(const wydb::Database& db, SketchExtendGrap
     }
 }
 
-}
+} // namespace wy3dApp

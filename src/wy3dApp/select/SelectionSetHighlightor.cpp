@@ -172,4 +172,4 @@ void SelectionSetHighlightor::showSelection(const wyap::Selection& sel, bool val
     }
 }
 
-}
+} // namespace wy3dApp

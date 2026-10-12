@@ -40,4 +40,4 @@ std::vector<std::string> StringUtil::split(const std::string& str, char delimite
     return tokens;
 }
 
-}
+} // namespace wy3dApp

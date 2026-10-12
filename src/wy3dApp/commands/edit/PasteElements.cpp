@@ -400,4 +400,4 @@ void PasteElements::freeCopyElements()
     _newlyCreatedIds.clear();
 }
 
-}
+} // namespace wy3dApp

@@ -53,4 +53,4 @@ GuiCmdTransient::~GuiCmdTransient()
     }
 }
 
-}
+} // namespace wy3dApp

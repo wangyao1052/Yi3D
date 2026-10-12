@@ -954,4 +954,4 @@ bool MakeSketchEllipseArc3D::updatePlane(const wy::Vector3& normal, const wy::Ve
         _pSketchEllipseArc3D->getStartAngle(), _pSketchEllipseArc3D->getEndAngle());
 }
 
-}
+} // namespace wy3dApp

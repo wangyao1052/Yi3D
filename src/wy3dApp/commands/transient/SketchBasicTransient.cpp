@@ -446,4 +446,4 @@ void SketchCsysTransient::update(const wy3d::Plane& plane)
     _csys->setRotation(quat);
 }
 
-}
+} // namespace wy3dApp

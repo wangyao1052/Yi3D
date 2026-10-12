@@ -65,4 +65,4 @@ static struct {
     } reg;
 } _regColorLabel;
 
-}
+} // namespace wy3dApp

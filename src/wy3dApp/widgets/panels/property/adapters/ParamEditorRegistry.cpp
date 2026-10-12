@@ -66,4 +66,4 @@ const ParamEditorAdapter* ParamEditorRegistry::find(
     return _fallback;
 }
 
-}
+} // namespace wy3dApp

@@ -131,6 +131,6 @@ private:
 };
 typedef std::shared_ptr<SketchCsysTransient> SketchCsysTransientSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_BASIC_TRANSIENT_H

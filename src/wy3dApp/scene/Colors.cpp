@@ -87,4 +87,4 @@ const osg::Vec4 Colors::kDirectionArrow(0.0f, 0.498f, 0.698f, 1.0f); // #007FB2
 // pink
 const osg::Vec4 Colors::kPink(1.0f, 0.5f, 0.75f, 1.0f);  // 粉红色(SolidWorks)
 
-}
+} // namespace wy3dApp

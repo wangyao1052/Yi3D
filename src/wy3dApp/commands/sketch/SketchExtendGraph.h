@@ -59,6 +59,6 @@ private:
     std::map<wydb::ElementId, SketchExtendNodeSPtr> _id2Node;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_EXTEND_GRAPH_H

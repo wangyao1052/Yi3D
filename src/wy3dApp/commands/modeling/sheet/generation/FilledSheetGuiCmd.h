@@ -152,6 +152,6 @@ protected:
     std::shared_ptr<MakeNonParametricSheet> _pMakeNonParametricSheet;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_FILLED_SHEET_GUI_CMD_H

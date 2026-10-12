@@ -438,4 +438,4 @@ static bool writeStlBinary(
     return true;
 }
 
-}
+} // namespace wy3dApp

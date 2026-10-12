@@ -29,4 +29,4 @@ namespace DockPanelIds
     inline constexpr const char* Output = "Output";
 }
 
-}
+} // namespace wy3dApp

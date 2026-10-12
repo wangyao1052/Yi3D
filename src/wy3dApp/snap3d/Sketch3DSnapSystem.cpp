@@ -532,4 +532,4 @@ double Sketch3DSnapSystem::computePixelScale(
     return 2.0 / (pxX + pxY);
 }
 
-}
+} // namespace wy3dApp

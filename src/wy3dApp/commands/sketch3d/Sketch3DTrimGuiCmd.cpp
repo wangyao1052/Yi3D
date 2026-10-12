@@ -631,4 +631,4 @@ bool Sketch3DTrimGuiCmd::trimSpline(wydb::Transaction* pTrans, wy3d::Sketch3D* p
     }
 }
 
-}
+} // namespace wy3dApp

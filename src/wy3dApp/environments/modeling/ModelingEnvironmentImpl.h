@@ -63,6 +63,6 @@ private:
     std::unique_ptr<ModelingEnvironmentUI> _pUI;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MODELING_ENVIRONMENT_IMPL_H

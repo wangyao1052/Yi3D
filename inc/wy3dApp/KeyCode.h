@@ -191,6 +191,6 @@ enum KeyMod
     Super = osgGA::GUIEventAdapter::MODKEY_SUPER
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_KEY_CODE_H

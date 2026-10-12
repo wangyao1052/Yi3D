@@ -239,6 +239,6 @@ private:
     osg::Matrix _matrix;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SOLID_ELEMENT_NODE_H

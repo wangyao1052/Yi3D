@@ -182,4 +182,4 @@ void ModelingEnvironmentImpl::updateFileActionStates()
     }
 }
 
-}
+} // namespace wy3dApp

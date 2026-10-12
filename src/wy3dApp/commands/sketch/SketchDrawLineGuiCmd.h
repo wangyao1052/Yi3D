@@ -147,6 +147,6 @@ private:
     wy3d::SketchLine* _pSketchLine;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_LINE_GUI_CMD_H

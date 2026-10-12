@@ -222,4 +222,4 @@ bool SketchProjectGuiCmd::projectEdge(const wyap::Selection& sel)
     return false;
 }
 
-}
+} // namespace wy3dApp

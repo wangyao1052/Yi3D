@@ -46,6 +46,6 @@ private:
     bool handleGizmoEvent(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_COMMAND_EVENT_DISPATCHER_H

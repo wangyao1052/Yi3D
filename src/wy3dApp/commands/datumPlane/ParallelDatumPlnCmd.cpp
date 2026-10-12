@@ -420,4 +420,4 @@ void ParallelDatumPlnCmd::simulateMouseMoveFromPopup()
                        _hoverPopupState.lastMouseMoveTime});
 }
 
-}
+} // namespace wy3dApp

@@ -35,6 +35,6 @@ public:
     void teardown(ModelingEnvironment* pEnv);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MODELING_ENVIRONMENT_UI_H

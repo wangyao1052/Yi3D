@@ -223,4 +223,4 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
     return false;
 }
 
-}
+} // namespace wy3dApp

@@ -106,4 +106,4 @@ SelectFilterStatus MultiClassSelFilter::operator()(
     return SelectFilterStatus::Continue;
 }
 
-}
+} // namespace wy3dApp

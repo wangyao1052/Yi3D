@@ -41,6 +41,6 @@ namespace ToolBarNames
     inline constexpr const char* Test = "test";
 }
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_TOOL_BAR_NAMES_H

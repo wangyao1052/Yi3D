@@ -421,4 +421,4 @@ QString IpcServer::makeError(const QString& error) {
     return QStringLiteral("ERROR|%1").arg(sanitizeForLine(error));
 }
 
-}
+} // namespace wy3dApp

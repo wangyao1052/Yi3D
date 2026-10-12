@@ -328,4 +328,4 @@ void ThickenGuiCmd::onDialogCanceled()
     this->requestAbort(AbortCause::UserCancel);
 }
 
-}
+} // namespace wy3dApp

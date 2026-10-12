@@ -63,6 +63,6 @@ protected:
     bool _isAllTheSameValue;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_PARAM_CHECK_BOX_H

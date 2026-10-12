@@ -229,4 +229,4 @@ int CancelSketch3DCommand::run()
     return 0;
 }
 
-}
+} // namespace wy3dApp

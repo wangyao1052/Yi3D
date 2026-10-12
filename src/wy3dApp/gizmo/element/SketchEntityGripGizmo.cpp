@@ -191,4 +191,4 @@ const wy3d::SketchEntity* SketchEntityGripGizmo::getSketchEntity() const
     return wy3d::SketchEntity::cast(pElem);
 }
 
-}
+} // namespace wy3dApp

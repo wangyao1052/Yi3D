@@ -144,6 +144,6 @@ private:
     wy3d::Sweep* _pSweep;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SWEEP_GUI_CMD_H

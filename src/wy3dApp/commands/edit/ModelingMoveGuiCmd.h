@@ -50,6 +50,6 @@ private:
     wy::Vector3 snapInWorkPlane(double x, double y, const wy::Vector3& pos3d) const;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MODELING_MOVE_GUI_CMD_H

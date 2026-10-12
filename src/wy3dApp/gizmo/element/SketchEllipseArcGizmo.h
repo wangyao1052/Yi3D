@@ -67,6 +67,6 @@ private:
     double _startMinorRadius;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_ELLIPSE_ARC_GIZMO_H

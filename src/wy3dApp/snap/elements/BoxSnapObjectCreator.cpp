@@ -54,4 +54,4 @@ std::list<wyap::SnapObjectSPtr> BoxSnapObjectCreator::createSnapObjects(const wy
     return snapPoints;
 }
 
-}
+} // namespace wy3dApp

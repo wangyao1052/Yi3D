@@ -45,6 +45,6 @@ protected:
     const wy3d::Plane& getSketchPlane() const override { return _sketchInfo.sketchPlane; }
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SELECT_GUI_CMD_H

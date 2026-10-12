@@ -72,6 +72,6 @@ protected:
     std::shared_ptr<MakeDatumPlane> _pMakeDatumPlane;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_THROUGH_3_POINTS_DATUM_PLN_CMD_H

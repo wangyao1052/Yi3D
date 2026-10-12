@@ -68,6 +68,6 @@ public:
 };
 typedef std::shared_ptr<SelectFilterFunctor> SelectFilterFunctorSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SELECT_FILTER_FUNCTOR_H

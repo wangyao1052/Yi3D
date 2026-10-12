@@ -62,6 +62,6 @@ private:
     TransformUnit _unit;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_TRANSFORM_LINE_EDIT_H

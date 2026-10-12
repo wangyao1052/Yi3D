@@ -28,6 +28,6 @@ class LocateContext : public wyap::SnapContext
 {
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SNAP_CONTEXT_H

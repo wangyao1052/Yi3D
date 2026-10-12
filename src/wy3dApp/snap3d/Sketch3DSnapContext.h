@@ -73,6 +73,6 @@ private:
     wy::Vector3 _centerPnt;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_SNAP_CONTEXT_H

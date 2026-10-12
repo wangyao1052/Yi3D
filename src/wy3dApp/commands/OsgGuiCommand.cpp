@@ -280,4 +280,4 @@ bool OsgGuiCommand::computeRotationAngle(double x, double y,
     return OsgCoordUtil::computeRotationAngle(getOsgView(), x, y, workPln, basis, excludeIds, rotationAngle);
 }
 
-}
+} // namespace wy3dApp

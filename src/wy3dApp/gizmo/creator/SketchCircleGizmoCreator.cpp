@@ -44,4 +44,4 @@ std::list<wyap::GizmoSPtr> SketchCircleGizmoCreator::createGizmos(const wydb::El
     return gizmos;
 }
 
-}
+} // namespace wy3dApp

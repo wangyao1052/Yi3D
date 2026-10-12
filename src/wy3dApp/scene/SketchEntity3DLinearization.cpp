@@ -276,4 +276,4 @@ SketchEntity3DLinearization::SketchEntity3DLinearization(const wy::Vector3& cent
     circleLinearization(center, normal, xDir, radius, _vertices, _indices);
 }
 
-}
+} // namespace wy3dApp

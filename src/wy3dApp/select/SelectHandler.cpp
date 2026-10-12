@@ -239,4 +239,4 @@ void SelectHandler::updateSelectionSet_Incremental(const wyap::SelectionSet& ss,
     }
 }
 
-}
+} // namespace wy3dApp

@@ -497,4 +497,4 @@ bool CameraManipulator3d::handleMouseWheelImpl_Ortho(const osgGA::GUIEventAdapte
 	return true;
 }
 
-}
+} // namespace wy3dApp

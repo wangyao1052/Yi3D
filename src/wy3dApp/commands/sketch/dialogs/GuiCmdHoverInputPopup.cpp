@@ -1038,4 +1038,4 @@ void GuiCmdHoverInputPopup2_2ndTabLabel::applyPresetWidths()
     _pDirectionEdit->setMaximumWidth(valueWidth);
 }
 
-}
+} // namespace wy3dApp

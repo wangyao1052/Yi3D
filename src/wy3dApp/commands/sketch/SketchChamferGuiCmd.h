@@ -138,6 +138,6 @@ private:
     std::shared_ptr<ChamferData> _pChamferData;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_CHAMFER_GUI_CMD_H

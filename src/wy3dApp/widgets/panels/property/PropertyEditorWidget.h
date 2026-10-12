@@ -139,6 +139,6 @@ private:
 
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_PROPERTY_EDITOR_WIDGET_H

@@ -43,6 +43,6 @@ private:
     std::map<std::string, std::unique_ptr<ElemSnapObjectCreator>> _className2SnapObjCreator;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SNAP_OBJECT_FACTORY_H

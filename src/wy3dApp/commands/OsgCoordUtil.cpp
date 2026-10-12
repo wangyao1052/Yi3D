@@ -479,4 +479,4 @@ osg::Vec2d OsgCoordUtil::projectWorldToWindow(
     return osg::Vec2d(win.x(), win.y());
 }
 
-}
+} // namespace wy3dApp

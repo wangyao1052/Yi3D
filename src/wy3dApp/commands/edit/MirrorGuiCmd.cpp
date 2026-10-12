@@ -445,4 +445,4 @@ bool MirrorGuiCmd::createMirrorOnSheet(
     return true;
 }
 
-}
+} // namespace wy3dApp

@@ -265,4 +265,4 @@ wy::Vector3 ModelingMoveGuiCmd::snapInWorkPlane(double x, double y, const wy::Ve
     }
 }
 
-}
+} // namespace wy3dApp

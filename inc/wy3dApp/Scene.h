@@ -326,6 +326,6 @@ private:
     std::shared_ptr<SketchEnvInfo> _pSketchEnvInfo;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SCENE_H

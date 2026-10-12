@@ -25,4 +25,4 @@ ModelingEnvironment::~ModelingEnvironment()
 {
 }
 
-}
+} // namespace wy3dApp

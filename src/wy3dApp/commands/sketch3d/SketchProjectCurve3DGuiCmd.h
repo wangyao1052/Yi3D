@@ -152,6 +152,6 @@ private:
     GuiCmdTransientSPtr _pProjectionPreview;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_PROJECT_CURVE3D_GUI_CMD_H

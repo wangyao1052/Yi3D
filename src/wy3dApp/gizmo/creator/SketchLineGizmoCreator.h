@@ -30,6 +30,6 @@ public:
     virtual std::list<wyap::GizmoSPtr> createGizmos(const wydb::Element* pElem) const override;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_LINE_GIZMO_CREATOR_H

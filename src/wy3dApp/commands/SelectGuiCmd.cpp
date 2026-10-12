@@ -607,4 +607,4 @@ GuiCmdMenu* SelectGuiCmd::initContextMenu()
     return new SelectGuiCmdMenu(this);
 }
 
-}
+} // namespace wy3dApp

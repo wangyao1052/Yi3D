@@ -59,4 +59,4 @@ bool SketchImporter::perform(wydb::Database* pDb, const std::wstring& fileFullPa
     }
 }
 
-}
+} // namespace wy3dApp

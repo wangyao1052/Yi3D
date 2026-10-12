@@ -443,4 +443,4 @@ bool ElementNode::pickByCrossBox(osg::Polytope& polytope) const
     return false;
 }
 
-}
+} // namespace wy3dApp

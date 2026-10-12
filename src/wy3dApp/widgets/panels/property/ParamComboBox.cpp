@@ -235,4 +235,4 @@ bool ParamComboBox::modifyElement(wydb::Element* pElem, const wydb::ParameterVal
     return wy::ErrorStatus::Ok == error;
 }
 
-}
+} // namespace wy3dApp

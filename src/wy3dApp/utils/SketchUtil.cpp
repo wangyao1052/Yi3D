@@ -401,4 +401,4 @@ bool SketchUtil::isValidPath(const wy3d::Sketch& sketch, QString& error)
     return false;
 }
 
-}
+} // namespace wy3dApp

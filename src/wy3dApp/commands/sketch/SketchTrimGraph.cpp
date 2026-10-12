@@ -216,4 +216,4 @@ SketchTrimSegment SketchTrimGraph::pick(const wydb::ElementId& id, const wy::Vec
     return iter->second->pick(this, position);
 }
 
-}
+} // namespace wy3dApp

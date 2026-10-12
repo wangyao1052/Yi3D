@@ -227,4 +227,4 @@ void DoubleValueInputDialog::keyPressEvent(QKeyEvent* event)
     QWidget::keyPressEvent(event);
 }
 
-}
+} // namespace wy3dApp

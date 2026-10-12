@@ -76,6 +76,6 @@ private:
     std::map<std::pair<wydb::ElementId, std::string>, wydb::ElementId> _includedCurves;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_INCLUDE_CURVE3D_GUI_CMD_H

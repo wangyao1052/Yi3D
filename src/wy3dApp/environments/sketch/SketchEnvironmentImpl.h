@@ -88,6 +88,6 @@ private:
     std::unique_ptr<SketchEnvironmentUI> _pUI;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_ENVIRONMENT_IMPL_H

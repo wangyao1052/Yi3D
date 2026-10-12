@@ -179,6 +179,6 @@ private:
 };
 typedef std::shared_ptr<SketchDrawArcContext> SketchDrawArcContextSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SNAP_CONTEXT_H

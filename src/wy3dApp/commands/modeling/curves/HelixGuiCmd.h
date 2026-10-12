@@ -88,6 +88,6 @@ protected:
     std::map<wydb::ElementId, SketchValidInfo> _sketchId2ValidInfo;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_HELIX_GUI_CMD_H

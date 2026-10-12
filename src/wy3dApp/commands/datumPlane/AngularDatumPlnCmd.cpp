@@ -952,4 +952,4 @@ bool ThroughAxisDatumPlnCmd::finishStep(Step step)
     }
 }
 
-}
+} // namespace wy3dApp

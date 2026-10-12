@@ -45,4 +45,4 @@ void Document::onDatabaseChanged(
     }
 }
 
-}
+} // namespace wy3dApp

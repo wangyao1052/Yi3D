@@ -38,6 +38,6 @@ namespace MenuBarNames
     inline constexpr const char* Help = "Help";
 }
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MENU_BAR_NAMES_H

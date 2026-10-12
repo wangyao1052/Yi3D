@@ -494,4 +494,4 @@ QString ParamNamesTranslation::getParamDisplayName(const std::string& className,
     }
 }
 
-}
+} // namespace wy3dApp

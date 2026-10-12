@@ -76,6 +76,6 @@ private:
     unsigned int _maxSides;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_POLYGON_DIALOG_H

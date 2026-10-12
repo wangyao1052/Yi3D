@@ -54,6 +54,6 @@ private:
     std::vector<unsigned int> _indices;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_ENTITY_LINEARIZATION_H

@@ -145,4 +145,4 @@ std::list<wyap::SnapObjectSPtr> SketchSnapObjectCreator::createSnapObjects(const
     return snapPoints;
 }
 
-}
+} // namespace wy3dApp

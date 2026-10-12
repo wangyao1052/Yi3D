@@ -64,6 +64,6 @@ private:
     const ParamEditorAdapter* _fallback = nullptr;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_PARAM_EDITOR_ADAPTER_H

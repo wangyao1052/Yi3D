@@ -61,6 +61,6 @@ private:
     unsigned int _rows;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_RECT_ARRAY_DIALOG_H

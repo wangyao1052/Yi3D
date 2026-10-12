@@ -50,4 +50,4 @@ private:
     QLabel* _pTipsLabel;
 };
 
-}
+} // namespace wy3dApp

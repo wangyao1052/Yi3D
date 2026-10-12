@@ -280,4 +280,4 @@ bool NewSketchGuiCmd::perform(const wyap::Selection& sel)
     return GuiCommandUtil::getWorkingPlane(sel, _plane);
 }
 
-}
+} // namespace wy3dApp

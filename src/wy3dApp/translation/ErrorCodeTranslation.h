@@ -49,6 +49,6 @@ private:
     ~ErrorCodeTranslation();
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3D_APP_ERROR_CODE_TRANSLATION_H

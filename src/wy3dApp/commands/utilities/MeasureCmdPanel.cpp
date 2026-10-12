@@ -431,4 +431,4 @@ QString MeasureCmdPanel::modeName() const
     return QString();
 }
 
-}
+} // namespace wy3dApp

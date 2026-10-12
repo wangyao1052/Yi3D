@@ -269,4 +269,4 @@ void SolidMoveOsgRenderer::onCancelDrag()
     _ghostPat = nullptr;
 }
 
-}
+} // namespace wy3dApp

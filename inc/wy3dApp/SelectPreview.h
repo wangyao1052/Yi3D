@@ -54,6 +54,6 @@ private:
     wyap::Selection _selection;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SELECT_PREVIEW_H

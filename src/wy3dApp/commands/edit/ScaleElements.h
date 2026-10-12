@@ -47,6 +47,6 @@ private:
     osg::ref_ptr<osg::MatrixTransform> _pMatrixTransform;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SCALE_ELEMENTS_H

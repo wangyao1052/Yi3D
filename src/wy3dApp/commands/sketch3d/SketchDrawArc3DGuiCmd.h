@@ -155,6 +155,6 @@ private:
     wy3d::SketchArc3D* _pSketchArc3D;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_ARC3D_GUI_CMD_H

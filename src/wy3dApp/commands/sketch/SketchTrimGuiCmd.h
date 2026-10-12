@@ -131,6 +131,6 @@ private:
     osg::ref_ptr<osg::LineStipple> _lineStipple;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_TRIM_GUI_CMD_H

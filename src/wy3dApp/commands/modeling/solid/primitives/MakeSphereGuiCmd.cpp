@@ -575,4 +575,4 @@ void RadiusTransient::update(const wy::Vector3& pnt1, const wy::Vector3& pnt2)
     _geom->dirtyBound();
 }
 
-}
+} // namespace wy3dApp

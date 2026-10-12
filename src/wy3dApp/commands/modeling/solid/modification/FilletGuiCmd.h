@@ -106,6 +106,6 @@ private:
     friend class FilletGuiCmdMenu;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_FILLET_GUI_CMD_H

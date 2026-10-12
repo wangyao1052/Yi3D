@@ -126,6 +126,6 @@ private:
     std::shared_ptr<MakeSketchRectangle> _pMakeSketchRectangle;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_CENTER_RECTANGLE_GUI_CMD_H

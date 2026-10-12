@@ -406,4 +406,4 @@ bool ShellGuiCmd::createShell(const wyap::SelectionSet& sels, double thickness, 
     return true;
 }
 
-}
+} // namespace wy3dApp

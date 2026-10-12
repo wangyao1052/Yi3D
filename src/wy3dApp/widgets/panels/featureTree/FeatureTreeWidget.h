@@ -299,4 +299,4 @@ private:
     };
 };
 
-}
+} // namespace wy3dApp

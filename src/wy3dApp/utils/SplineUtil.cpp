@@ -403,4 +403,4 @@ Handle(Geom_BSplineCurve) SplineUtil::convertToBSplineCurve3D(
     }
 }
 
-}
+} // namespace wy3dApp

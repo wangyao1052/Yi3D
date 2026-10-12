@@ -51,6 +51,6 @@ struct WY3DAPP_EXPORT PointPickOption
     {}
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_POINT_PICK_OPTION_H

@@ -87,6 +87,6 @@ protected:
     int _direction;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_THICKEN_GUI_CMD_H

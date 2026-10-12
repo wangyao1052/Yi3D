@@ -754,4 +754,4 @@ bool MakeLoft::cutSolid(const wy3d::Solid* pConstSolidToCut, unsigned int& error
     return true;
 }
 
-}
+} // namespace wy3dApp

@@ -192,6 +192,6 @@ private:
     wy3d::ExtrusionDirection _direction;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_EXTRUSION_GUI_CMD_H

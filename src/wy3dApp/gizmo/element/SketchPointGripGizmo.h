@@ -45,6 +45,6 @@ private:
     wy::Vector2 _position;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_POINT_GRIP_GIZMO_H

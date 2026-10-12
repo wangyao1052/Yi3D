@@ -31,6 +31,6 @@ public:
     static void test(wydb::Database* pDb, wydb::Transaction* pTrans);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_TEST_H

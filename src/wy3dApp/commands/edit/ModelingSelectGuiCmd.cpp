@@ -225,4 +225,4 @@ bool ModelingSelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
     return baseRet || addShowAction || addHideAction;
 }
 
-}
+} // namespace wy3dApp

@@ -58,6 +58,6 @@ constexpr ElementNodeType operator~(ElementNodeType flags) noexcept
     return static_cast<ElementNodeType>(~static_cast<Underlying>(flags));
 }
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_ELEMENT_NODE_TYPE_H

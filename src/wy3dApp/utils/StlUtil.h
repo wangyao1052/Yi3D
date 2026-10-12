@@ -52,6 +52,6 @@ public:
     }
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_STL_UTIL_H

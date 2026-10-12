@@ -59,6 +59,6 @@ private:
     unsigned long long _changeCount;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_DOCUMENT_H

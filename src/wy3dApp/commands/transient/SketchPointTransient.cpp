@@ -77,4 +77,4 @@ void SketchPointTransient::update(const wy::Vector2& point)
     _geom->dirtyBound();
 }
 
-}
+} // namespace wy3dApp

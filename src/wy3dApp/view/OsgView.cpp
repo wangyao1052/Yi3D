@@ -262,4 +262,4 @@ void OsgView::onDatabaseChanged(
     }
 }
 
-}
+} // namespace wy3dApp

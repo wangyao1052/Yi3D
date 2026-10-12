@@ -45,4 +45,4 @@ wydb::Transaction* TransactionUtil::startSolitaryTransaction(wydb::Database* pDb
     return pDb->getTransactionManager()->startTransaction("", option);
 }
 
-}
+} // namespace wy3dApp

@@ -108,6 +108,6 @@ private:
 };
 typedef std::shared_ptr<SketchSnapResult> SketchSnapResultSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SNAP_RESULT_H

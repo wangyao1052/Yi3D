@@ -114,6 +114,6 @@ protected:
     wydb::ParameterValueUPtr _pLastParamValue;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_PARAM_LINE_EDIT_H

@@ -448,4 +448,4 @@ void Test::test(wydb::Database* pDb, wydb::Transaction* pTrans)
     //createImportedSolid(pDb, pTrans);
 }
 
-}
+} // namespace wy3dApp

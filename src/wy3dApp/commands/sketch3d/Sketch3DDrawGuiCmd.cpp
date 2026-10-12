@@ -485,4 +485,4 @@ void Sketch3DDrawGuiCmdMenu::onViewNormalToWorkingPlane()
     pView->viewToWorkingPlane(pCmd->getWorkingPlane());
 }
 
-}
+} // namespace wy3dApp

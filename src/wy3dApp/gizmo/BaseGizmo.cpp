@@ -43,4 +43,4 @@ void BaseGizmo::onDeactivate()
     }
 }
 
-}
+} // namespace wy3dApp

@@ -25,4 +25,4 @@ GatewayEnvironment::~GatewayEnvironment()
 {
 }
 
-}
+} // namespace wy3dApp

@@ -115,4 +115,4 @@ SnapPixmap::~SnapPixmap()
 {
 }
 
-}
+} // namespace wy3dApp

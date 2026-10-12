@@ -60,6 +60,6 @@ private:
     osg::observer_ptr<osgViewer::View> _pOsgView;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_OSG_SELECT_HANDLER_H

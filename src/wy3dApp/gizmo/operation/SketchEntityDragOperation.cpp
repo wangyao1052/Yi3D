@@ -88,4 +88,4 @@ void SketchEntityDragOperation::onCancelDrag()
     this->abortTopTransaction();
 }
 
-}
+} // namespace wy3dApp

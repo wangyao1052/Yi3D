@@ -498,4 +498,4 @@ QString ViewWidgetContainer::buildTabTitle(wyap::Document* pDoc) const
     return title;
 }
 
-}
+} // namespace wy3dApp

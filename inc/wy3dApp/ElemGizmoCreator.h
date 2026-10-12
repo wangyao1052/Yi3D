@@ -47,6 +47,6 @@ public:
     }
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_ELEM_GIZMO_CREATOR_H

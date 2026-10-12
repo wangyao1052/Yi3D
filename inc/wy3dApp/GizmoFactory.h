@@ -44,6 +44,6 @@ private:
     std::map<std::string, std::unique_ptr<ElemGizmoCreator>> _name2Creator;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GIZMO_FACTORY_H

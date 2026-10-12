@@ -723,4 +723,4 @@ bool MakeRevolution::cutSolid(const wy3d::Solid* pConstSolidToCut, unsigned int&
     return true;
 }
 
-}
+} // namespace wy3dApp

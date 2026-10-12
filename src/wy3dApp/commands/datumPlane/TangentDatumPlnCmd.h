@@ -119,6 +119,6 @@ protected:
     HoverPopupState _hoverPopupState;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_TANGENT_DATUM_PLN_CMD_H

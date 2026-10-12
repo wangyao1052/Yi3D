@@ -39,6 +39,6 @@ public:
     static std::pair<bool, double> bodySurfaceArea(const TopoDS_Shape& shape);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MEASURE_UTIL_H

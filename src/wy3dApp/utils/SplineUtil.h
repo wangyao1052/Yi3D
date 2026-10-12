@@ -62,6 +62,6 @@ public:
         const wy3d::Plane& plane);
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SPLINE_UTIL_H

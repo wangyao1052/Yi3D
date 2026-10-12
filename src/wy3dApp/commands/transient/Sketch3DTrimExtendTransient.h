@@ -50,6 +50,6 @@ private:
 
 typedef std::shared_ptr<Sketch3DTrimExtendTransient> Sketch3DTrimExtendTransientSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_TRIM_EXTEND_TRANSIENT_H

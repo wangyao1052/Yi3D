@@ -50,6 +50,6 @@ private:
     SketchEntityGripGizmo* _pGripGizmo;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_ENTITY_DRAG_OPERATION_H

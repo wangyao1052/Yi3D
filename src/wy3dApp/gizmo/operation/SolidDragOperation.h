@@ -54,6 +54,6 @@ private:
     wy::Vector3 _dragEndPnt;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SOLID_DRAG_OPERATION_H

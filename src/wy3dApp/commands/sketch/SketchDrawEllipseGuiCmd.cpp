@@ -628,4 +628,4 @@ bool MakeSketchEllipse::update(double otherRadius, bool autoAdjustMajorMirorAxis
     return true;
 }
 
-}
+} // namespace wy3dApp

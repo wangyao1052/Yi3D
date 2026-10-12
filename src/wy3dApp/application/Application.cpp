@@ -544,4 +544,4 @@ bool Application::wyapTerminate()
 #endif
 }
 
-}
+} // namespace wy3dApp

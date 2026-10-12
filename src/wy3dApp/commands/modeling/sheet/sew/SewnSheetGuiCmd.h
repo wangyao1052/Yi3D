@@ -81,6 +81,6 @@ private:
     std::set<wydb::ElementId> _sourceIds;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SEWN_SHEET_GUI_CMD_H

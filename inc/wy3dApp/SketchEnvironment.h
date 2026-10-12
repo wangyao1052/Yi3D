@@ -53,6 +53,6 @@ protected:
     ~SketchEnvironment();
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAP_SKETCH_ENVIRONMENT_H

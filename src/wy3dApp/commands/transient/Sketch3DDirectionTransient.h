@@ -46,6 +46,6 @@ public:
 
 typedef std::shared_ptr<Sketch3DDirectionTransient> Sketch3DDirectionTransientSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_DIRECTION_TRANSIENT_H

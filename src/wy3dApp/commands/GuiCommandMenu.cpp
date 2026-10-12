@@ -299,4 +299,4 @@ bool GuiCmdQMenu::eventFilter(QObject* obj, QEvent* event)
     return QMenu::eventFilter(obj, event);
 }
 
-}
+} // namespace wy3dApp

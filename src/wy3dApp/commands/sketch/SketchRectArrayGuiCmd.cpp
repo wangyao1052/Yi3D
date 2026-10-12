@@ -863,4 +863,4 @@ void SketchRectArrayGuiCmd::computeDefaultColRowSpacing(
     }
 }
 
-}
+} // namespace wy3dApp

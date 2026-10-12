@@ -700,4 +700,4 @@ void MoveGuiCmd::onContextMenuAction_ClearSelection()
     }
 }
 
-}
+} // namespace wy3dApp

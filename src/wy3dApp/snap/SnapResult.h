@@ -72,6 +72,6 @@ private:
     wyap::SnapObjectSPtr _pSnapObject;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SNAP_RESULT_H

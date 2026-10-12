@@ -502,4 +502,4 @@ void SketchDrawCenterRectangleGuiCmd::updateDiagonalTransients(const wy::Vector2
     _pDiagonal2nd->update(_sketchInfo.sketchPlane, pnt2, pnt4);
 }
 
-}
+} // namespace wy3dApp

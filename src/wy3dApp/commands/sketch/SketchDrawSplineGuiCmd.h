@@ -221,6 +221,6 @@ private:
     std::vector<wy::Vector2> _pnts;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_SPLINE_GUI_CMD_H

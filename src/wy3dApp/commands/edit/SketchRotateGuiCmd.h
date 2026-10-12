@@ -42,6 +42,6 @@ protected:
     SketchSnapSystem* getSketchSnapSys() const override { return _sketchInfo.pSketchSnapSys; }
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_ROTATE_GUI_CMD_H

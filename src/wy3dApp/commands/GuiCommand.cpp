@@ -189,4 +189,4 @@ void GuiCommand::configSelect(GuiCmdSelectOptions options)
     pSelHandler->setSelectMode(options.selectMode);
 }
 
-}
+} // namespace wy3dApp

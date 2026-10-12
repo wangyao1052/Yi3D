@@ -522,4 +522,4 @@ bool MakeSketchCircle::update(double radius)
     return true;
 }
 
-}
+} // namespace wy3dApp

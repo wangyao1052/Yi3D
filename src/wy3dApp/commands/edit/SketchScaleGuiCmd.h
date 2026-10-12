@@ -131,6 +131,6 @@ private:
     HoverPopupState _hoverPopupState;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SCALE_GUI_CMD_H

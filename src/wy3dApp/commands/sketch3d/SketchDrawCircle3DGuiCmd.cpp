@@ -646,4 +646,4 @@ bool MakeSketchCircle3D::updatePlane(const wy::Vector3& normal, const wy::Vector
     return true;
 }
 
-}
+} // namespace wy3dApp

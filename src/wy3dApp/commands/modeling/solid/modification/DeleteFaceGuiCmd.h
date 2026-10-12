@@ -79,6 +79,6 @@ private:
     SelectionSetHighlightorSPtr _pSelSetHighlightor_Faces;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_DELETE_FACE_GUI_CMD_H

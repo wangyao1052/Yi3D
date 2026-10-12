@@ -58,6 +58,6 @@ private:
     osg::ref_ptr<osg::AutoTransform> _at;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_GRIP_OSG_RENDERER_H

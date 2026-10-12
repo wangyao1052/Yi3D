@@ -46,6 +46,6 @@ private:
     ~ParamNamesTranslation();
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3D_APP_PARAM_NAMES_TRANSLATION_H

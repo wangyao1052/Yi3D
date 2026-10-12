@@ -83,6 +83,6 @@ private:
     SelectionSetHighlightorSPtr _pSelSetHighlightor_NeutralFace;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_DRAFT_GUI_CMD_H

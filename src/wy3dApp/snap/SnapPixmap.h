@@ -81,6 +81,6 @@ private:
     QPixmap _center;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SNAP_TIP_WIDGET_H

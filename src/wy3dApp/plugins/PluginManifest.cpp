@@ -138,4 +138,4 @@ bool PluginManifestParser::loadFromFile(const std::string& u8FilePath, PluginMan
     return parse(buffer.str(), out, error);
 }
 
-}
+} // namespace wy3dApp

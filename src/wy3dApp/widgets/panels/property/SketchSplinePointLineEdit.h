@@ -57,6 +57,6 @@ private:
     SketchSplinePointsEditor* _pPointsEditor;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SPLINE_POINT_LINE_EDIT_H

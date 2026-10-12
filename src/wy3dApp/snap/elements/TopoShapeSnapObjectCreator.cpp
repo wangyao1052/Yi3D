@@ -49,4 +49,4 @@ std::list<wyap::SnapObjectSPtr> TopoShapeSnapObjectCreator::createSnapObjects(co
     return this->newSnapObjects(id, resultShape);
 }
 
-}
+} // namespace wy3dApp

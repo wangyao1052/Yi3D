@@ -58,6 +58,6 @@ private:
 	QSpinBox* _pAutoSaveIntervalSpin;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_OPTIONS_DIALOG_H

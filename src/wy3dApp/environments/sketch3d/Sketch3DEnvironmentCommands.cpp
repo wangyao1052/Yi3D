@@ -145,4 +145,4 @@ void Sketch3DEnvironmentImpl::removeCommands()
     }
 }
 
-}
+} // namespace wy3dApp

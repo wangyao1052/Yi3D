@@ -27,6 +27,6 @@ namespace wy3dApp {
 DEFINE_SIMPLE_CMD(OrthoCameraCommand)
 DEFINE_SIMPLE_CMD(PerspectiveCameraCommand)
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_CAMERA_COMMANDS_H

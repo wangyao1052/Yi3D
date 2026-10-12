@@ -88,6 +88,6 @@ private:
     wy3d::Sketch3DIntersectionUtil::Source _firstSource;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_INTERSECTION_CURVE3D_GUI_CMD_H

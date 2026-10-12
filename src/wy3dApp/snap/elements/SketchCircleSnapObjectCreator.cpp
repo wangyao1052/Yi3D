@@ -55,4 +55,4 @@ std::list<wyap::SnapObjectSPtr> SketchCircleSnapObjectCreator::createSnapObjects
     return snapPoints;
 }
 
-}
+} // namespace wy3dApp

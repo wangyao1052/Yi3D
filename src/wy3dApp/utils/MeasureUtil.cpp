@@ -87,4 +87,4 @@ std::pair<bool, double> MeasureUtil::bodySurfaceArea(const TopoDS_Shape& shape)
     return { true, sProps.Mass() };
 }
 
-}
+} // namespace wy3dApp

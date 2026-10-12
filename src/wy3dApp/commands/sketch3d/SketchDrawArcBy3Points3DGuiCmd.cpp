@@ -598,4 +598,4 @@ bool MakeSketchArcBy3Points3D::update(const wy::Vector3& pnt1, const wy::Vector3
     return true;
 }
 
-}
+} // namespace wy3dApp

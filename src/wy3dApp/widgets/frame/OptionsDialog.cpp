@@ -188,4 +188,4 @@ void OptionsDialog::accept()
 	QDialog::accept();
 }
 
-}
+} // namespace wy3dApp

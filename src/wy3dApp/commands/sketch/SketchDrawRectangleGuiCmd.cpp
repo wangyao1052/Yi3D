@@ -678,4 +678,4 @@ void MakeSketchRectangle::computeRectEndPoints(
     }
 }
 
-}
+} // namespace wy3dApp

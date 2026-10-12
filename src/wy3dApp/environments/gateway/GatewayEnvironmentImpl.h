@@ -75,6 +75,6 @@ private:
     std::unique_ptr<GatewayEnvironmentUI> _pUI;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GATEWAY_ENVIRONMENT_IMPL_H

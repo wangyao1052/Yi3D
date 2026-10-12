@@ -180,4 +180,4 @@ bool MakeText::performTranslate(const wy::Vector2& pos)
     return true;
 }
 
-}
+} // namespace wy3dApp

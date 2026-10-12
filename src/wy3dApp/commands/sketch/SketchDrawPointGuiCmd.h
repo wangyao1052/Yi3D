@@ -121,6 +121,6 @@ private:
     wy3d::SketchPoint* _pSketchPoint;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_POINT_GUI_CMD_H

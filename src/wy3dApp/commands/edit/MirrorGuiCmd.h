@@ -89,6 +89,6 @@ private:
     SelectPreview _mirrorPlanePreview;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_MIRROR_GUI_CMD_H

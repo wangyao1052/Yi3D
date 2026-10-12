@@ -82,6 +82,6 @@ private:
     double _spacing2nd;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_LINEAR_PATTERN_DIALOG_H

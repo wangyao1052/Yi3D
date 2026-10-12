@@ -165,6 +165,6 @@ private:
     wy3d::SketchEllipseArc* _pSketchEllipseArc;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DRAW_ELLIPSE_ARC_GUI_CMD_H

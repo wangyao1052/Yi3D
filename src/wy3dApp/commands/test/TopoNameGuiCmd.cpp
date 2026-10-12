@@ -388,4 +388,4 @@ void TopoNameGuiCmdMenu::onFindFacesByTopoName()
     addSelection(TopAbs_ShapeEnum::TopAbs_FACE, faceTopoName);
 }
 
-}
+} // namespace wy3dApp

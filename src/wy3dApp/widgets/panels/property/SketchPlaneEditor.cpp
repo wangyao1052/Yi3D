@@ -211,4 +211,4 @@ wy3d::Plane SketchPlaneEditor::getPlane(bool& ok) const
     return plane;
 }
 
-}
+} // namespace wy3dApp

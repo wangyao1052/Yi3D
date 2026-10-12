@@ -983,4 +983,4 @@ bool MakeSweep::cutSolid(const wy3d::Solid* pConstSolidToCut, unsigned int& erro
     return true;
 }
 
-}
+} // namespace wy3dApp

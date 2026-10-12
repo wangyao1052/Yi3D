@@ -41,4 +41,4 @@ void OsgGizmoRenderer::detachFromScene(Scene* pScene)
     pScene->getGizmosGroup()->removeChild(_osgNode);
 }
 
-}
+} // namespace wy3dApp

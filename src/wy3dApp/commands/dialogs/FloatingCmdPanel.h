@@ -89,6 +89,6 @@ private:
     QPoint _dragOffset;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_FLOATING_CMD_PANEL_H

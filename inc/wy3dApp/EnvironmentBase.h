@@ -154,6 +154,6 @@ private:
     bool _isCmdTerminatedOnEventLoopPosted;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_ENVIRONMENT_BASE_H

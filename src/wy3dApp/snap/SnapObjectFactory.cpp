@@ -187,4 +187,4 @@ std::list<wyap::SnapObjectSPtr> SnapObjectFactory::createSnapObjects(const wydb:
     return iter->second->createSnapObjects(pElem);
 }
 
-}
+} // namespace wy3dApp

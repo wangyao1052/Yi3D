@@ -83,6 +83,6 @@ private:
     bool _isClockWise;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_HELIX_DIALOG_H

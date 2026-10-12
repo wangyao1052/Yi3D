@@ -198,4 +198,4 @@ void LinearPatternDialog::onCancelBtnClicked()
     this->reject();
 }
 
-}
+} // namespace wy3dApp

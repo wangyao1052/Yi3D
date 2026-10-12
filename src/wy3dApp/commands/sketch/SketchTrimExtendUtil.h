@@ -233,6 +233,6 @@ public:
     }
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_TRIM_EXTEND_UTIL_H

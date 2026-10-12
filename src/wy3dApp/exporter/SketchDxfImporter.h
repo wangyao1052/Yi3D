@@ -35,6 +35,6 @@ protected:
     virtual bool performImpl(wydb::Database* pDb, const std::wstring& fileFullPath) override;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_DXF_IMPORTER_H

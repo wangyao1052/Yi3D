@@ -154,6 +154,6 @@ private:
 };
 typedef std::shared_ptr<SketchTrimNode> SketchTrimNodeSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_TRIM_NODE_H

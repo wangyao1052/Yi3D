@@ -108,4 +108,4 @@ void SketchGripOsgRenderer::refresh()
     this->setPosition(pos);
 }
 
-}
+} // namespace wy3dApp

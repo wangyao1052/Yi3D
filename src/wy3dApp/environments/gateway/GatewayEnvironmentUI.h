@@ -48,6 +48,6 @@ private:
     QToolBar* _pToolBarFile;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GATEWAY_ENVIRONMENT_UI_H

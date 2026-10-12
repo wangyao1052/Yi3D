@@ -747,4 +747,4 @@ void PropertyEditorWidget::onGizmoToBeDeactivated(wyap::GizmoSPtr pGizmo)
     }
 }
 
-}
+} // namespace wy3dApp

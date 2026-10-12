@@ -38,6 +38,6 @@ public:
     virtual ~GhostGizmo() {}
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_GHOST_GIZMO_H

@@ -117,4 +117,4 @@ void Log::write(Level level, const std::string& u8Message)
     }
 }
 
-}
+} // namespace wy3dApp

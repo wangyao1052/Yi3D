@@ -173,4 +173,4 @@ void SetColorCmdPanel::onPickColor()
     this->setColor(color);
 }
 
-}
+} // namespace wy3dApp

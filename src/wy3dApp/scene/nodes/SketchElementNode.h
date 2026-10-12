@@ -174,6 +174,6 @@ private:
     std::vector<CurveInfo> _centerLineInfos;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_ELEMENT_NODE_H

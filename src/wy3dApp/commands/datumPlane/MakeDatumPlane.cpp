@@ -837,4 +837,4 @@ bool MakeDatumPlane::computeThrough3PointsPlane(
     return true;
 }
 
-}
+} // namespace wy3dApp

@@ -50,6 +50,6 @@ private:
 
 typedef std::shared_ptr<Sketch3DEdgesTransient> Sketch3DEdgesTransientSPtr;
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH3D_EDGES_TRANSIENT_H

@@ -24,4 +24,4 @@ namespace wy3dApp {
 
 FeatureTreeModel::FeatureTreeModel(QObject* parent) : QStandardItemModel(parent) {}
 
-}
+} // namespace wy3dApp

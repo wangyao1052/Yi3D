@@ -322,4 +322,4 @@ bool EquationDrivenSplineDialog::evalute()
     }
 }
 
-}
+} // namespace wy3dApp

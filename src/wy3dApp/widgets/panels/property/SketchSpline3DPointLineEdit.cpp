@@ -98,4 +98,4 @@ void SketchSpline3DPointLineEdit::getCurrParamValueFromDb(
     else pOutParamValue = wydb::ParameterValue::createDouble(point.z());
 }
 
-}
+} // namespace wy3dApp

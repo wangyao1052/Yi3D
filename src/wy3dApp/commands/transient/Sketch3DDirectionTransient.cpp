@@ -135,4 +135,4 @@ Sketch3DDirectionTransient::~Sketch3DDirectionTransient()
 {
 }
 
-}
+} // namespace wy3dApp

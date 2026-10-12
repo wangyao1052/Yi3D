@@ -790,4 +790,4 @@ double MakeSketchArc3D::getStartAngle() const
     return _pSketchArc3D ? _pSketchArc3D->getStartAngle() : 0.0;
 }
 
-}
+} // namespace wy3dApp

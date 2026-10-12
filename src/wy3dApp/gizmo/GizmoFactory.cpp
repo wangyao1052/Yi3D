@@ -138,4 +138,4 @@ std::list<wyap::GizmoSPtr> GizmoFactory::createGizmos(const wydb::Element* pElem
     return iter->second->createGizmos(pElem);
 }
 
-}
+} // namespace wy3dApp

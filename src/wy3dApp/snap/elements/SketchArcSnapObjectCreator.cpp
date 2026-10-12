@@ -56,4 +56,4 @@ std::list<wyap::SnapObjectSPtr> SketchArcSnapObjectCreator::createSnapObjects(co
     return snapPoints;
 }
 
-}
+} // namespace wy3dApp

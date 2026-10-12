@@ -1014,4 +1014,4 @@ bool NormalToEdgeDatumPlnCmd::computePlane(Handle(Geom_Curve) geomCurve, double 
     }
 }
 
-}
+} // namespace wy3dApp

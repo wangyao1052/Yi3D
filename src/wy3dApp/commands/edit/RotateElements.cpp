@@ -341,4 +341,4 @@ void RotateTransient::updateRotateLine(const wy::Vector3& pnt1, const wy::Vector
     _geomRotateLine->dirtyBound();
 }
 
-}
+} // namespace wy3dApp

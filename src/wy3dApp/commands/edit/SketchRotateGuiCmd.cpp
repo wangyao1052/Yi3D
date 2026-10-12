@@ -62,4 +62,4 @@ void SketchRotateGuiCmd::configureSelectElementOptions(GuiCmdSelectOptions& opti
     options.filter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
 }
 
-}
+} // namespace wy3dApp

@@ -112,6 +112,6 @@ private:
     static std::shared_ptr<SketchTextHistory> _pHistory;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_TEXT_COMMAND_H

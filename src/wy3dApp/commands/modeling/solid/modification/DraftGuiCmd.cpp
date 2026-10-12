@@ -521,4 +521,4 @@ bool DraftGuiCmd::createDraft(
     return true;
 }
 
-}
+} // namespace wy3dApp

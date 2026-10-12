@@ -47,4 +47,4 @@ std::list<wyap::GizmoSPtr> SketchEllipseArcGizmoCreator::createGizmos(const wydb
     return gizmos;
 }
 
-}
+} // namespace wy3dApp

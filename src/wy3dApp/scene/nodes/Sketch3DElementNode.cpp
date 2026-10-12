@@ -441,4 +441,4 @@ unsigned int Sketch3DElementNode::getCurveIndexById(unsigned int id) const
     return static_cast<unsigned int>(-1);
 }
 
-}
+} // namespace wy3dApp

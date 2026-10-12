@@ -390,4 +390,4 @@ void PluginManager::onEnvironmentToBeSuspended(wyap::Environment* pEnvironment)
     }
 }
 
-}
+} // namespace wy3dApp

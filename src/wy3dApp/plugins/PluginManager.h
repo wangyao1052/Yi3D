@@ -82,6 +82,6 @@ private:
     Log _log;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_PLUGIN_MANAGER_H

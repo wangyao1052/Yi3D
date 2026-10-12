@@ -60,4 +60,4 @@ bool SketchDxfExporter::performImpl(const wy3d::Sketch* pSketch, const std::wstr
     return true;
 }
 
-}
+} // namespace wy3dApp

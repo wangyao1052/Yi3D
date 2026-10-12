@@ -383,4 +383,4 @@ void SketchEnvironmentImpl::updateFileActionStates()
     // 无文件动作需要更新,文件操作动作也不存在于此环境。
 }
 
-}
+} // namespace wy3dApp

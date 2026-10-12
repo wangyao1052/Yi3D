@@ -219,4 +219,4 @@ void SolidifyGuiCmd::perform(wydb::ElementId sheetId)
     }
 }
 
-}
+} // namespace wy3dApp

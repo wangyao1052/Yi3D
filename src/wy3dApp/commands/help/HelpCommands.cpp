@@ -73,4 +73,4 @@ int ShortcutKeysCommand::run()
     return 0;
 }
 
-}
+} // namespace wy3dApp

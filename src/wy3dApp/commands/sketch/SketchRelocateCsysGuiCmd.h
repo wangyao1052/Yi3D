@@ -61,6 +61,6 @@ private:
     SketchCsysTransientSPtr _pCsysTransient;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_RELOCATE_CSYS_CMD_H

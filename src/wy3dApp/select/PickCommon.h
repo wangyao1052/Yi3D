@@ -92,6 +92,6 @@ inline DrawMode PickCommon::getDrawableMode(osg::Drawable* drawable)
     return getDrawableModeOfGeometry(geometry);
 }
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_PICK_COMMON_H

@@ -326,4 +326,4 @@ bool SetColorGuiCmd::applyColorToSolid(const wydb::ElementId& solidId)
     return true;
 }
 
-}
+} // namespace wy3dApp

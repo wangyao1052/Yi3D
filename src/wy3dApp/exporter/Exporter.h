@@ -106,6 +106,6 @@ protected:
     virtual bool performImpl(const TopoDS_Shape& shape, const std::wstring& fileFullPath) override;
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_EXPORTER_H

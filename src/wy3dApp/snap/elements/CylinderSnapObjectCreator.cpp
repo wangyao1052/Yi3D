@@ -56,4 +56,4 @@ std::list<wyap::SnapObjectSPtr> CylinderSnapObjectCreator::createSnapObjects(con
     return snapPoints;
 }
 
-}
+} // namespace wy3dApp

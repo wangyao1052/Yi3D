@@ -288,4 +288,4 @@ std::string CopyPasteUtil::generateCopyPasteLabel()
     }
 }
 
-}
+} // namespace wy3dApp

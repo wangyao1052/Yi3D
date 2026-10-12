@@ -243,4 +243,4 @@ SolidMoveZGizmo::SolidMoveZGizmo(const wy3d::Primitive* pPrimitive)
 {
 }
 
-}
+} // namespace wy3dApp

@@ -39,6 +39,6 @@ public:
     static inline const osg::Vec4 PointColorOnSketchCurve = osg::Vec4(1.0f, 1.0f, 1.0f, 1.0f); // 白色
 };
 
-}
+} // namespace wy3dApp
 
 #endif // WY3DAPP_SNAP_CONSTS_H

@@ -99,4 +99,4 @@ void GatewayEnvironmentImpl::removeCommands()
     }
 }
 
-}
+} // namespace wy3dApp

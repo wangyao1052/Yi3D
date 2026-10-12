@@ -133,4 +133,4 @@ void Sketch3DCurveTransient::initGeom(const std::vector<wy::Vector3>& points, bo
     _root->addChild(geom.get());
 }
 
-}
+} // namespace wy3dApp
