@@ -118,7 +118,7 @@ void ModelingRotateGuiCmd::gotoNextStepAfterSelectElements()
     this->gotoStep(Step::SelectWorkingPlane);
 }
 
-void ModelingRotateGuiCmd::configureSelectElementOptions(GuiCmdSelectOptions& options)
+void ModelingRotateGuiCmd::configureSelectElementOptions(SelectOptions& options)
 {
     options.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::Sheet);
     options.preFilter = std::make_shared<RotateGuiCmdPreFilter_Modeling>();

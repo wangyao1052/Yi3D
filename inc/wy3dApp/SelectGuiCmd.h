@@ -113,7 +113,7 @@ protected:
     // === 子类覆写的虚方法 ===
 
     // 配置选择(enableSelect)时的 pickMask & filter
-    virtual void configureSelectOptions(GuiCmdSelectOptions& options) {}
+    virtual void configureSelectOptions(SelectOptions& options) {}
 
     // 启动时环境特定操作
     virtual void onStart_EnvSpecific() {}

@@ -242,7 +242,7 @@ void SewnSheetGuiCmd::gotoStep(Step step)
         Application::instance().getSelManager()->endChange();
 
         // 支持点选+框选
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = true;
         selOptions.boxSelect = true;
         selOptions.pickMask = static_cast<unsigned int>(ElementNodeType::Sheet);

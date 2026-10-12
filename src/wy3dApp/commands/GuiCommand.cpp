@@ -94,7 +94,7 @@ wyap::CmdExecution::StartResult GuiCommand::onStart()
 
 void GuiCommand::onEnd()
 {
-    GuiCmdSelectOptions options;
+    SelectOptions options;
     this->configSelect(options);
 
     Scene* pActiveScene = Application::instance().getActiveScene();
@@ -112,7 +112,7 @@ void GuiCommand::onEnd()
 
 void GuiCommand::onAbort(wyap::CmdExecution::AbortCause cause)
 {
-    GuiCmdSelectOptions options;
+    SelectOptions options;
     this->configSelect(options);
 
     Scene* pActiveScene = Application::instance().getActiveScene();
@@ -166,7 +166,7 @@ void GuiCommand::onKeyDown(const KeyEvent& event)
     }
 }
 
-void GuiCommand::configSelect(GuiCmdSelectOptions options)
+void GuiCommand::configSelect(SelectOptions options)
 {
     BaseView* pView = Application::instance().getActiveView();
     if (!pView) return;

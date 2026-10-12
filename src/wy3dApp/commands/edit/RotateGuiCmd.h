@@ -166,7 +166,7 @@ protected:
     virtual void gotoNextStepAfterSelectElements() {}
 
     // 配置选择元素步骤的 pickMask & filter
-    virtual void configureSelectElementOptions(GuiCmdSelectOptions& options) {}
+    virtual void configureSelectElementOptions(SelectOptions& options) {}
 
     // 环境特定启动
     virtual void onStart_EnvSpecific() {}

@@ -120,7 +120,7 @@ void ModelingMoveGuiCmd::gotoNextStepAfterSelectElements()
     this->gotoStep(Step::SelectWorkingPlane);
 }
 
-void ModelingMoveGuiCmd::configureSelectElementOptions(GuiCmdSelectOptions& options)
+void ModelingMoveGuiCmd::configureSelectElementOptions(SelectOptions& options)
 {
     options.pickMask = static_cast<unsigned int>(ElementNodeType::Solid | ElementNodeType::Sheet);
     options.preFilter = std::make_shared<MoveGuiCmdPreFilter_Modeling>();

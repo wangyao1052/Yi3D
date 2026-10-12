@@ -50,7 +50,7 @@ protected:
     void screenToWindow(double screenX, double screenY,
                         double& windowX, double& windowY) const override;
 
-    void configSelect(GuiCmdSelectOptions options);
+    void configSelect(SelectOptions options);
 
     // 点选
     wyap::Selection pointPick(double x, double y,

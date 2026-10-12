@@ -341,7 +341,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
             "Select elements to perform rectangular array; press Enter or Spacebar to confirm; press Esc to cancel."));
         Application::instance().setCursor(CursorType::SelectElements);
 
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = true;
         selOptions.boxSelect = true;
         selOptions.selectionType = wy3d::SelectionType::Element;
@@ -360,7 +360,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
 
     case Step::Step2_SpecifyRowsCols:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -390,7 +390,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
 
     case Step::Step3_SpecifyColumnSpacing_StartPnt:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -405,7 +405,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
 
     case Step::Step4_SpecifyColumnSpacing_EndPnt:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -420,7 +420,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
 
     case Step::Step5_SpecifyRowSpacing_StartPnt:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -435,7 +435,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
 
     case Step::Step6_SpecifyRowSpacing_EndPnt:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -450,7 +450,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
 
     default:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);

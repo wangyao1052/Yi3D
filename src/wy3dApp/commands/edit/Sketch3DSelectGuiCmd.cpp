@@ -120,7 +120,7 @@ wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
     return ret;
 }
 
-void Sketch3DSelectGuiCmd::configureSelectOptions(GuiCmdSelectOptions& options)
+void Sketch3DSelectGuiCmd::configureSelectOptions(SelectOptions& options)
 {
     options.pickMask = static_cast<unsigned int>(ElementNodeType::Sketch3DEntity);
     options.filter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity3D::classInfo());

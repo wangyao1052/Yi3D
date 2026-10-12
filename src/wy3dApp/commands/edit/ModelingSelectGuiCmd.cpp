@@ -92,7 +92,7 @@ GuiCmdMenu* ModelingSelectGuiCmd::initContextMenu()
     return new ModelingSelectGuiCmdMenu(this);
 }
 
-void ModelingSelectGuiCmd::configureSelectOptions(GuiCmdSelectOptions& options)
+void ModelingSelectGuiCmd::configureSelectOptions(SelectOptions& options)
 {
     options.pickMask = static_cast<unsigned int>(
         ElementNodeType::Solid |

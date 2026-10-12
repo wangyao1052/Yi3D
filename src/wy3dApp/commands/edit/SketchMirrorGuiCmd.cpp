@@ -252,7 +252,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
     case Step::Step1_SelectElements:
     {
         // 选择配置项:草图环境草绘图元
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = true;
         selOptions.boxSelect = true;
         selOptions.selectionType = wy3d::SelectionType::Element;
@@ -274,7 +274,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
     case Step::Step2_SpecifyStartPnt:
     {
         // 选择配置项:禁用选择
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -296,7 +296,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
 
     case Step::Step3_SpecifyEndPnt:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         selOptions.selectionType = wy3d::SelectionType::Element;
@@ -312,7 +312,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
 
     default:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         selOptions.selectionType = wy3d::SelectionType::Element;

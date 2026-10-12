@@ -248,7 +248,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
     case Step::Step1_SelectElements:
     {
         // 选择配置项
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = true;
         selOptions.boxSelect = true;
         selOptions.selectionType = wy3d::SelectionType::Element;
@@ -270,7 +270,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
     case Step::Step2_SpecifyBasePnt:
     {
         // 选择配置项:禁用选择
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -294,7 +294,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
     case Step::Step3_SpecifyScaleRatio:
     {
         // 选择配置项:禁用选择
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -314,7 +314,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
     default:
     {
         // 选择配置项:禁用选择
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);

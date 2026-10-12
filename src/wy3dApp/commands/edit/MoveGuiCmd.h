@@ -148,7 +148,7 @@ protected:
     virtual void gotoNextStepAfterSelectElements() {}
 
     // 配置选择元素步骤的 pickMask & filter
-    virtual void configureSelectElementOptions(GuiCmdSelectOptions& options) {}
+    virtual void configureSelectElementOptions(SelectOptions& options) {}
 
     // 鼠标移动:指定起点
     virtual void onMouseMove_SpecifyStartPnt(double x, double y) {}

@@ -56,7 +56,7 @@ void SketchRotateGuiCmd::gotoNextStepAfterSelectElements()
     this->gotoStep(Step::SpecifyBasePnt);
 }
 
-void SketchRotateGuiCmd::configureSelectElementOptions(GuiCmdSelectOptions& options)
+void SketchRotateGuiCmd::configureSelectElementOptions(SelectOptions& options)
 {
     options.pickMask = static_cast<unsigned int>(ElementNodeType::SketchEntity);
     options.filter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity::classInfo());

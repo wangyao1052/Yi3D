@@ -33,7 +33,7 @@ public:
 
 protected:
     virtual void gotoNextStepAfterSelectElements() override;
-    virtual void configureSelectElementOptions(GuiCmdSelectOptions& options) override;
+    virtual void configureSelectElementOptions(SelectOptions& options) override;
     virtual void onMouseMove_SpecifyStartPnt(double x, double y) override;
     virtual void onMouseMove_SpecifyEndPnt(double x, double y) override;
     virtual void onLeftMouseDown_SpecifyStartPnt(double x, double y) override;

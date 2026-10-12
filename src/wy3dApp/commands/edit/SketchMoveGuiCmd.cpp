@@ -65,7 +65,7 @@ void SketchMoveGuiCmd::gotoNextStepAfterSelectElements()
     this->gotoStep(Step::SpecifyStartPnt);
 }
 
-void SketchMoveGuiCmd::configureSelectElementOptions(GuiCmdSelectOptions& options)
+void SketchMoveGuiCmd::configureSelectElementOptions(SelectOptions& options)
 {
     options.pickMask = static_cast<unsigned int>(ElementNodeType::SketchEntity);
     options.preFilter = nullptr;

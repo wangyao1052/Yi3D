@@ -38,7 +38,7 @@ protected:
     virtual const wy3d::Plane& getActivePlane() const override;
     virtual SketchSnapSystem* getActiveSnapSystem() const override;
     virtual void gotoNextStepAfterSelectElements() override;
-    virtual void configureSelectElementOptions(GuiCmdSelectOptions& options) override;
+    virtual void configureSelectElementOptions(SelectOptions& options) override;
     SketchSnapSystem* getSketchSnapSys() const override { return _sketchInfo.pSketchSnapSys; }
 };
 

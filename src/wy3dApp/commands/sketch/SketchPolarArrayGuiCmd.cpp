@@ -212,7 +212,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
     {
     case Step::Step1_SelectElements:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = true;
         selOptions.boxSelect = true;
         selOptions.selectionType = wy3d::SelectionType::Element;
@@ -235,7 +235,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
 
     case Step::Step2_SpecifyCenter:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -250,7 +250,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
 
     case Step::Step3_SpecifyItems:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -295,7 +295,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
 
     default:
     {
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);

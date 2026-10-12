@@ -340,7 +340,7 @@ void RotateGuiCmd::gotoStep(Step step)
     case Step::SelectElements:
     {
         // 选择配置项:<1>建模环境实体 <2>草图环境草绘图元
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = true;
         selOptions.boxSelect = true;
         selOptions.selectionType = wy3d::SelectionType::Element;
@@ -361,7 +361,7 @@ void RotateGuiCmd::gotoStep(Step step)
     case Step::SelectWorkingPlane:
     {
         // 选择配置项:禁用选择
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -378,7 +378,7 @@ void RotateGuiCmd::gotoStep(Step step)
     case Step::SpecifyBasePnt:
     {
         // 选择配置项:禁用选择
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -403,7 +403,7 @@ void RotateGuiCmd::gotoStep(Step step)
     case Step::SpecifyBaseLineEndPnt:
     {
         // 选择配置项:禁用选择
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -423,7 +423,7 @@ void RotateGuiCmd::gotoStep(Step step)
     case Step::SpecifyRotateAngle:
     {
         // 选择配置项:禁用选择
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);
@@ -452,7 +452,7 @@ void RotateGuiCmd::gotoStep(Step step)
     {
         assert(false);
 
-        GuiCmdSelectOptions selOptions;
+        SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
         this->configSelect(selOptions);

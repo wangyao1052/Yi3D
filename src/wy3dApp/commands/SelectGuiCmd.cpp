@@ -119,7 +119,7 @@ SelectGuiCmd::~SelectGuiCmd()
 void SelectGuiCmd::enableSelect()
 {
     // 选择配置项
-    GuiCmdSelectOptions selOptions;
+    SelectOptions selOptions;
     selOptions.pointSelect = true;
     selOptions.boxSelect = true;
     selOptions.selectionType = wy3d::SelectionType::Element;
@@ -131,7 +131,7 @@ void SelectGuiCmd::enableSelect()
 
 void SelectGuiCmd::disableSelect()
 {
-    GuiCmdSelectOptions selOptions;
+    SelectOptions selOptions;
     selOptions.pointSelect = false;
     selOptions.boxSelect = false;
     this->configSelect(selOptions);

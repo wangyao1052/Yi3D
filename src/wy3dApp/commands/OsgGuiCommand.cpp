@@ -186,7 +186,7 @@ void OsgGuiCommand::screenToWindow(double screenX, double screenY,
     windowY = traits->y + traits->height - screenY;
 }
 
-void OsgGuiCommand::configSelect(GuiCmdSelectOptions options)
+void OsgGuiCommand::configSelect(SelectOptions options)
 {
     BaseView* pView = Application::instance().getActiveView();
     if (!pView) return;

@@ -64,31 +64,6 @@ class SketchSnapSystem;
 class GuiCmdMenu;
 class GuiEventDispatcher;
 
-// 命令选择选项
-struct GuiCmdSelectOptions
-{
-    // 点选
-    bool pointSelect;
-    // 框选
-    bool boxSelect;
-    // 拾取掩码
-    unsigned int pickMask;
-    // 选择类型
-    wy3d::SelectionType selectionType;
-    // 前置选择过滤函数
-    SelectPreFilterFunctorSPtr preFilter;
-    // 选择过滤函数
-    SelectFilterFunctorSPtr filter;
-    // 预览
-    bool preview;
-    // 选择模式:全量还是增量
-    SelectMode selectMode;
-
-    GuiCmdSelectOptions() : pointSelect(false), boxSelect(false), pickMask(PICK_MASK),
-        selectionType(wy3d::SelectionType::Element), preview(true), selectMode(SelectMode::Full)
-    {}
-};
-
 // Mouse event
 struct MouseEvent
 {
@@ -113,6 +88,31 @@ class WY3DAPP_EXPORT GuiCommand : public wyap::InteractiveCmdExecution
 {
     WYRX_DECLARE_ABSTRACT_MEMBERS(GuiCommand, wy3dApp::GuiCommand, wyap::InteractiveCmdExecution)
 protected:
+    // 命令选择选项
+    struct SelectOptions
+    {
+        // 点选
+        bool pointSelect;
+        // 框选
+        bool boxSelect;
+        // 拾取掩码
+        unsigned int pickMask;
+        // 选择类型
+        wy3d::SelectionType selectionType;
+        // 前置选择过滤函数
+        SelectPreFilterFunctorSPtr preFilter;
+        // 选择过滤函数
+        SelectFilterFunctorSPtr filter;
+        // 预览
+        bool preview;
+        // 选择模式:全量还是增量
+        SelectMode selectMode;
+
+        SelectOptions() : pointSelect(false), boxSelect(false), pickMask(PICK_MASK),
+            selectionType(wy3d::SelectionType::Element), preview(true), selectMode(SelectMode::Full)
+        {}
+    };
+
     GuiCommand();
     virtual ~GuiCommand();
 
@@ -162,7 +162,7 @@ protected:
         double& windowX, double& windowY) const = 0;
 
 protected:
-    void configSelect(GuiCmdSelectOptions options);
+    void configSelect(SelectOptions options);
 
     virtual wyap::Selection pointPick(
         double x, double y,
@@ -206,7 +206,7 @@ protected:
 
 protected:
     // 命令选项
-    GuiCmdSelectOptions _options;
+    SelectOptions _options;
     // 捕捉排除项
     std::set<wydb::ElementId> _snapExcludeIds;
     // 上下文菜单
