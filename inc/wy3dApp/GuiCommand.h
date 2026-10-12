@@ -98,11 +98,13 @@ struct MouseEvent
     double time;
 };
 
-// 键盘事件
+// Keyboard event.
 struct KeyEvent
 {
+    // Key code; see KeyCode.
     int key;
-    int modKeyMask;
+    // Modifier key state; see KeyModifier.
+    int modifiers;
     // Seconds since the program started.
     double time;
 };

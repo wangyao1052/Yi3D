@@ -180,7 +180,7 @@ enum KeyCode
     CtrlZ = 26,
 };
 
-enum KeyMod
+enum KeyModifier
 {
     None  = 0,
     Ctrl  = osgGA::GUIEventAdapter::MODKEY_CTRL,
