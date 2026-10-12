@@ -27,7 +27,7 @@
 #include <wy3dMath.h>
 #include <wy3dSketchCircle3D.h>
 
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -96,7 +96,7 @@ void Sketch3DCurveTransient::initGeom(const std::vector<wy::Vector3>& points, bo
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
     geom->setUseDisplayList(false);
     geom->setUseVertexBufferObjects(true);
-    geom->setNodeMask(~PICK_MASK); // 不可拾取
+    geom->setNodeMask(~ElementNodeType::All); // 不可拾取
 
     // 顶点数组
     osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();

@@ -411,12 +411,12 @@ bool CameraManipulator3d::handleMouseWheelImpl_Ortho(const osgGA::GUIEventAdapte
         osgUtil::Intersector::WINDOW, ea.getX(), ea.getY());
     intersector->setIntersectionLimit(osgUtil::Intersector::IntersectionLimit::LIMIT_ONE_PER_DRAWABLE); // 优化性能
     osgUtil::IntersectionVisitor iv(intersector.get());
-    iv.setTraversalMask(PICK_MASK);
+    iv.setTraversalMask(ElementNodeType::All);
     _camera->accept(iv);
     if (intersector->getIntersections().empty())
     {
         osgUtil::IntersectionVisitor iv(intersector.get());
-        iv.setTraversalMask(~PICK_MASK);
+        iv.setTraversalMask(~ElementNodeType::All);
         _camera->accept(iv);
     }
     const osgUtil::LineSegmentIntersector::Intersections& intersections = intersector->getIntersections();

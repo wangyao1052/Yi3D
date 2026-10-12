@@ -23,7 +23,7 @@
 #include <wydbDatabase.h>
 #include <wyapSelection.h>
 #include <wy3dSelectionType.h>
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include "select/SelectFilterFunctor.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -42,7 +42,7 @@ struct BoxPickOption
     SelectFilterFunctorSPtr pSelFilter;
 
     BoxPickOption() :
-        allowedElemTypes(PICK_MASK),
+        allowedElemTypes(ElementNodeType::All),
         selType(wy3d::SelectionType::Element),
         pSelPreFilter(nullptr),
         pSelFilter(nullptr)

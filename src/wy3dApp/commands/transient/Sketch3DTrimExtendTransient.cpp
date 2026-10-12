@@ -34,7 +34,7 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchSpline3D.h>
 
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -225,7 +225,7 @@ Sketch3DTrimExtendTransient::Sketch3DTrimExtendTransient(const wy3d::SketchCurve
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
     geom->setUseDisplayList(false);
     geom->setUseVertexBufferObjects(true);
-    geom->setNodeMask(~PICK_MASK); // the preview must never be picked
+    geom->setNodeMask(~ElementNodeType::All); // the preview must never be picked
 
     osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
     vertices->reserve(points.size());

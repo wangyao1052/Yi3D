@@ -59,8 +59,6 @@ static const inline unsigned short DOT_LINE_STIPPLE_PATTERN = 0xAAAA;
 static const inline int DASH_LINE_STIPPLE_FACTOR = 2;
 static const inline unsigned short DASH_LINE_STIPPLE_PATTERN = 0x03FF;
 
-#define PICK_MASK 0x0000FFFF
-
 } // namespace wy3dApp
 
 #endif // WY3DAPP_RENDER_CONST_H

@@ -630,7 +630,7 @@ void ExtendSegmentTransient::initGeom(osg::ref_ptr<osg::Vec3Array> vertices, con
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
     // added by wangyao 2025.05.24 {
     // 不可Pick
-    geom->setNodeMask(~PICK_MASK);
+    geom->setNodeMask(~ElementNodeType::All);
     // }
     geom->setUseDisplayList(false);
     geom->setUseVertexBufferObjects(true);

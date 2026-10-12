@@ -64,6 +64,7 @@
 #include "environments/sketch/SketchEnvironmentImpl.h"
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
+#include "scene/nodes/ElementNodeType.h"
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -121,7 +122,7 @@ Scene::Scene(wyap::Document* pDoc) : wyap::Scene(pDoc)
 #endif
     if (_pWCS)
     {
-        _pWCS->setNodeMask(~PICK_MASK); // 不可拾取
+        _pWCS->setNodeMask(~ElementNodeType::All); // 不可拾取
         _pRoot->addChild(_pWCS);
     }
 
@@ -181,7 +182,7 @@ osg::ref_ptr<osg::Group> Scene::newWCS()
         osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
         geom->setUseDisplayList(false);
         geom->setUseVertexBufferObjects(true);
-        geom->setNodeMask(~PICK_MASK);
+        geom->setNodeMask(~ElementNodeType::All);
         wcs->addChild(geom.get());
         // vertex array
         osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
@@ -1923,7 +1924,7 @@ void Scene::showWCS()
 {
     if (_pWCS)
     {
-        _pWCS->setNodeMask(~PICK_MASK);
+        _pWCS->setNodeMask(~ElementNodeType::All);
     }
 }
 
@@ -1961,7 +1962,7 @@ void Scene::showSketchCSYS(const wy3d::Plane& sketchPlane)
     _pSketchCsys->setRotation(quat);
 
     // 显示
-    _pSketchCsys->setNodeMask(~PICK_MASK); // 显示且不能被Pick
+    _pSketchCsys->setNodeMask(~ElementNodeType::All); // 显示且不能被Pick
 }
 
 void Scene::hideSketchCSYS()

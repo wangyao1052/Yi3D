@@ -40,6 +40,7 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "gizmo/OsgGizmoNode.h"
 #include "scene/Colors.h"
+#include "scene/RenderConst.h"
 #include "snap/SnapConsts.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"

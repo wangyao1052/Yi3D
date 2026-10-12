@@ -31,7 +31,7 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -80,7 +80,7 @@ bool MoveElemens::init(const wyap::SelectionSet& ss)
         osg::Group* pElemOsgRoot = pElemNode->getOsgNode();
         if (!pElemOsgRoot) continue;
         osg::ref_ptr<osg::Group> copy = new osg::Group(*pElemOsgRoot); // 浅拷贝
-        copy->setNodeMask(~PICK_MASK); // added by wangyao 2025.08.30 不可PICK
+        copy->setNodeMask(~ElementNodeType::All); // added by wangyao 2025.08.30 不可PICK
         _pat->addChild(copy);
     }
 

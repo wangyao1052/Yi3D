@@ -23,7 +23,7 @@
 #include <osgUtil/PolytopeIntersector>
 #include "OsgSelectUtils.h"
 #include <wy3dApp/Scene.h>
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include "select/PointPick.h"
 #include "select/BoxPick.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -126,7 +126,7 @@ wyap::SelectionSet OsgSelectHandler::boxPick_window(
     // 窗口框选
     Scene* pScene = Application::instance().getActiveScene();
     std::list<wydb::ElementId> pickedIdsList;
-    pickedIdsList = pScene->pickByNormalBox(polytope, _allowedElemTypes == 0 ? PICK_MASK : _allowedElemTypes);
+    pickedIdsList = pScene->pickByNormalBox(polytope, _allowedElemTypes == 0 ? ElementNodeType::All : _allowedElemTypes);
 
     wyap::SelectionSet ss;
     for (const wydb::ElementId& id : pickedIdsList)

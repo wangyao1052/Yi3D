@@ -27,7 +27,7 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include "utils/MathUtils.h"
 #include "scene/Colors.h"
 #include "common/osg/OsgUtils.h"
@@ -79,7 +79,7 @@ bool ScaleElements::init(const wyap::SelectionSet& ss)
         if (!pElemOsgRoot) continue;
         osg::ref_ptr<osg::Group> copy = new osg::Group(*pElemOsgRoot, osg::CopyOp::DEEP_COPY_ALL); // 使用深拷贝
         OsgUtils::setNodeColor(copy.get(), Colors::kPink); // 缩放的形体使用不同的颜色
-        copy->setNodeMask(~PICK_MASK);
+        copy->setNodeMask(~ElementNodeType::All);
         _pMatrixTransform->addChild(copy);
     }
 

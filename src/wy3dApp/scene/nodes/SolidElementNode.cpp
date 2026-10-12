@@ -59,6 +59,7 @@
 #include <osg/CullFace>
 
 #include "scene/SketchEntityLinearization.h"
+#include "scene/nodes/ElementNodeType.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -340,7 +341,7 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Highlight()
 
     // 创建几何
     osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~PICK_MASK); // 不可拾取
+    edgeGeom->setNodeMask(~ElementNodeType::All); // 不可拾取
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
     edgeGeom->setVertexArray(_vertices);
@@ -394,7 +395,7 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Preview(unsigned 
 
     // 创建几何
     osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~PICK_MASK); // 不可拾取
+    edgeGeom->setNodeMask(~ElementNodeType::All); // 不可拾取
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
     edgeGeom->setVertexArray(_vertices);

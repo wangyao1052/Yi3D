@@ -41,7 +41,7 @@
 #include <wy3dApp/KeyCode.h>
 #include "widgets/CursorType.h"
 #include "snap/SketchSnapContext.h"
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 
 #include "select/SelectMode.h"
 #include <wy3dApp/PointPickOption.h>
@@ -108,7 +108,7 @@ protected:
         // 选择模式:全量还是增量
         SelectMode selectMode;
 
-        SelectOptions() : pointSelect(false), boxSelect(false), allowedElemTypes(PICK_MASK),
+        SelectOptions() : pointSelect(false), boxSelect(false), allowedElemTypes(ElementNodeType::All),
             selectionType(wy3d::SelectionType::Element), preview(true), selectMode(SelectMode::Full)
         {}
     };

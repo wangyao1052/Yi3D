@@ -17,7 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "ViewCube.h"
-#include "RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 
 #include "view/CameraManipulator3d.h"
 #include "view/ViewUtil.h"
@@ -462,7 +462,7 @@ ViewCube::ViewCube(osgViewer::View* pView)
     // Transparent to element picking. PointPick's intersection callback returns false -- not
     // continue -- on geometry without an ElementId, so one hit fails the whole pick, and
     // element picking traverses the entire tree from the main camera, overlay included.
-    setNodeMask(~static_cast<unsigned int>(PICK_MASK));
+    setNodeMask(~ElementNodeType::All);
 
     osg::StateSet* pStateSet = getOrCreateStateSet();
     // Explicitly off: the overlay shares the main scene's GL state, and lighting that is on

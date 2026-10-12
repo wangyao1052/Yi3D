@@ -63,6 +63,7 @@
 #include <osg/LineWidth>
 
 #include "scene/SketchEntityLinearization.h"
+#include "scene/nodes/ElementNodeType.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include "utils/MathUtils.h"
@@ -231,7 +232,7 @@ void DatumPlaneElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::
     if (!_triangleIndices->empty())
     {
         _planeGeom = new osg::Geometry();
-        _planeGeom->setNodeMask(~PICK_MASK); // 不可Pick
+        _planeGeom->setNodeMask(~ElementNodeType::All); // 不可Pick
         _planeGeom->setUseDisplayList(false);
         _planeGeom->setUseVertexBufferObjects(true);
         _planeGeom->setDataVariance(osg::Object::DYNAMIC);

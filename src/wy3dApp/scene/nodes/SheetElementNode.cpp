@@ -49,6 +49,7 @@
 #include <osg/BlendFunc>
 #include <osg/LightModel>
 #include <osg/PolygonOffset>
+#include "scene/nodes/ElementNodeType.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -315,7 +316,7 @@ osg::ref_ptr<osg::Geometry> SheetElementNode::generateEdgeGeom_Highlight()
     }
 
     osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~PICK_MASK);
+    edgeGeom->setNodeMask(~ElementNodeType::All);
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
     edgeGeom->setVertexArray(_vertices);
@@ -364,7 +365,7 @@ osg::ref_ptr<osg::Geometry> SheetElementNode::generateEdgeGeom_Preview(unsigned 
     }
 
     osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~PICK_MASK);
+    edgeGeom->setNodeMask(~ElementNodeType::All);
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
     edgeGeom->setVertexArray(_vertices);

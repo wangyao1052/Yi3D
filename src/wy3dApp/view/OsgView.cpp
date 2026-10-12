@@ -26,7 +26,7 @@
 #include "snap/SnapResult.h"
 #include "snap/SnapConsts.h"
 #include "CameraManipulator3d.h"
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/Application.h>
 #include "ViewUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -98,7 +98,7 @@ std::list<wydb::ElementId> OsgView::snapElements(double x, double y) const
     }
 
     // 交叉框选
-    snappedElemsIds = pScene->pickByCrossBox(polytope, PICK_MASK);
+    snappedElemsIds = pScene->pickByCrossBox(polytope, ElementNodeType::All);
     return snappedElemsIds;
 }
 

@@ -29,7 +29,7 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include "utils/CopyPasteUtil.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -310,7 +310,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
         osg::Group* pElemOsgRoot = pElemNode->getOsgNode();
         if (!pElemOsgRoot) continue;
         osg::ref_ptr<osg::Group> copy = new osg::Group(*pElemOsgRoot);
-        copy->setNodeMask(~PICK_MASK); // added by wangyao 2025.04.28 不可PICK
+        copy->setNodeMask(~ElementNodeType::All); // added by wangyao 2025.04.28 不可PICK
         _pat->addChild(copy); // 浅拷贝
 
         // 暂时隐藏元素节点

@@ -36,6 +36,7 @@
 #include "utils/MathUtils.h"
 #include "scene/SketchEntityLinearization.h"
 #include <wy3dApp/Application.h>
+#include "scene/nodes/ElementNodeType.h"
 #include "scene/RenderConst.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -200,7 +201,7 @@ void SketchCurveTransient::initGeom(osg::ref_ptr<osg::Vec3Array> vertices, const
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
     geom->setUseDisplayList(false);
     geom->setUseVertexBufferObjects(true);
-    geom->setNodeMask(~PICK_MASK); // 不可拾取
+    geom->setNodeMask(~ElementNodeType::All); // 不可拾取
     // 顶点数组
     geom->setVertexArray(vertices);
     // 法向数组

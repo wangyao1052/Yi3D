@@ -39,6 +39,7 @@
 #include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/Scene.h>
+#include "scene/nodes/ElementNodeType.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -523,7 +524,7 @@ bool MakeSphere::update(double radius)
 RadiusTransient::RadiusTransient()
 {
     _geom = new osg::Geometry();
-    _geom->setNodeMask(~PICK_MASK);
+    _geom->setNodeMask(~ElementNodeType::All);
     _geom->setDataVariance(osg::Object::DYNAMIC);
     _geom->setUseDisplayList(false);
     _geom->setUseVertexBufferObjects(true);
@@ -559,7 +560,7 @@ RadiusTransient::~RadiusTransient()
 
 //void RadiusTransient::show()
 //{
-//    _geom->setNodeMask(~PICK_MASK);
+//    _geom->setNodeMask(~ElementNodeType::All);
 //}
 //
 //void RadiusTransient::hide()

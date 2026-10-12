@@ -33,9 +33,8 @@
 #include <wy3dApp/Application.h>
 #include <wy3dPrimitive.h>
 #include <wy3dApp/Scene.h>
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/ElementNode.h>
-#include "scene/RenderConst.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 #define RADIUS 2.0
@@ -70,7 +69,7 @@ SolidMoveOsgRenderer::SolidMoveOsgRenderer(BaseGizmo* pGizmo, const osg::Vec4& c
 {
     this->generateGeometry(color, axisRot);
     _previewGroup = new osg::Group();
-    _previewGroup->setNodeMask(~PICK_MASK);
+    _previewGroup->setNodeMask(~ElementNodeType::All);
     this->refresh();
 }
 

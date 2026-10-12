@@ -23,7 +23,7 @@
 #include <wy3dSelectionType.h>
 
 #include "select/SelectFilterFunctor.h"
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -44,7 +44,7 @@ struct WY3DAPP_EXPORT PointPickOption
 
     PointPickOption() :
         pickHalfSize(6.0f),
-        allowedElemTypes(PICK_MASK),
+        allowedElemTypes(ElementNodeType::All),
         selType(wy3d::SelectionType::Element),
         pSelPreFilter(nullptr),
         pSelFilter(nullptr)

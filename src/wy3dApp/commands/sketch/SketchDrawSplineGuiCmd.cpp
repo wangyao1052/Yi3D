@@ -35,6 +35,7 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap/SketchSnapSystem.h"
 #include "scene/Colors.h"
+#include "scene/RenderConst.h"
 #include "snap/SnapConsts.h"
 #include "snap/SnapObject.h"
 #include "gizmo/OsgGizmoNode.h"

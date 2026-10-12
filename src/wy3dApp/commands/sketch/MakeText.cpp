@@ -25,7 +25,7 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -135,7 +135,7 @@ void MakeText::initCopyNodes()
             continue;
         }
         osg::ref_ptr<osg::Group> copy = new osg::Group(*pElemOsgRoot); // 浅拷贝
-        copy->setNodeMask(~PICK_MASK); // 不可PICK
+        copy->setNodeMask(~ElementNodeType::All); // 不可PICK
         _pat->addChild(copy);
 
         // 暂时隐藏元素节点

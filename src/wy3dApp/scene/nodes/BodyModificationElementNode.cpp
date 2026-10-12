@@ -30,6 +30,7 @@
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
+#include "scene/nodes/ElementNodeType.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -374,7 +375,7 @@ void BodyModificationElementNode::previewImpl(bool flag)
 
         if (flag) // 预览时关闭深度测试使边线始终可见
         {
-            _edgeNode->setNodeMask(~PICK_MASK);
+            _edgeNode->setNodeMask(~ElementNodeType::All);
             _edgeNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
             _edgeNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Preview, "RenderBin");
         }
@@ -455,7 +456,7 @@ void BodyModificationElementNode::updateColorAndTransparent()
         }
 
         if (this->isHighlighted()) // 显示
-            _edgeNode->setNodeMask(~PICK_MASK);
+            _edgeNode->setNodeMask(~ElementNodeType::All);
         else // 隐藏
             _edgeNode->setNodeMask(0);
     }

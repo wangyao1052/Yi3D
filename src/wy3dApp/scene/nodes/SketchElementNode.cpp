@@ -63,6 +63,7 @@
 #include <osg/Point>
 
 #include "scene/SketchEntityLinearization.h"
+#include "scene/nodes/ElementNodeType.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include "utils/MathUtils.h"
@@ -554,7 +555,7 @@ osg::ref_ptr<osg::Geometry> SketchElementNode::generateCurveGeom_Highlight()
 
     // 创建几何
     osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~PICK_MASK); // 不可拾取
+    edgeGeom->setNodeMask(~ElementNodeType::All); // 不可拾取
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
     edgeGeom->setVertexArray(_vertices);
@@ -608,7 +609,7 @@ osg::ref_ptr<osg::Geometry> SketchElementNode::generateCurveGeom_Preview(unsigne
 
     // 创建几何
     osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~PICK_MASK); // 不可拾取
+    edgeGeom->setNodeMask(~ElementNodeType::All); // 不可拾取
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
     edgeGeom->setVertexArray(_vertices);
@@ -738,7 +739,7 @@ osg::ref_ptr<osg::Geometry> SketchElementNode::generateCenterLineGeom_Preview(un
     }
 
     osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~PICK_MASK);
+    edgeGeom->setNodeMask(~ElementNodeType::All);
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
     edgeGeom->setVertexArray(_vertices);

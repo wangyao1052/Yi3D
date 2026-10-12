@@ -29,7 +29,7 @@
 #include <wy3dMath.h>
 
 #include "scene/Colors.h"
-#include "scene/RenderConst.h"
+#include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -71,7 +71,7 @@ Sketch3DDirectionTransient::Sketch3DDirectionTransient(const wy::Vector3& origin
     pScaler->setPosition(osg::Vec3d(origin.x(), origin.y(), origin.z()));
     // Nothing here is pickable: PointPick would otherwise find the arrow instead of the face
     // under it.
-    pScaler->setNodeMask(~PICK_MASK);
+    pScaler->setNodeMask(~ElementNodeType::All);
 
     // The preview root switches lighting off, which suits the lines every other preview is drawn
     // with but leaves these solids as flat silhouettes. Lighting is turned back on here, for the
