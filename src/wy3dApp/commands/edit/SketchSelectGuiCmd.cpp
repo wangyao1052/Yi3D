@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <wy3dApp/SketchSelectGuiCmd.h>
+#include "SketchSelectGuiCmd.h"
 
 #include <wy3dSketch.h>
 #include <wy3dSketchEntity.h>
