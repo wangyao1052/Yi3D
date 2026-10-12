@@ -28,7 +28,7 @@
 #include <wy3dExtrudedSheet.h>
 #include <wy3dSketch.h>
 #include "commands/transient/ValidSketchTransient.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

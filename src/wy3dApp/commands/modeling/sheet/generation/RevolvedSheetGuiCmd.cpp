@@ -40,7 +40,7 @@
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include "translation/ErrorCodeTranslation.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

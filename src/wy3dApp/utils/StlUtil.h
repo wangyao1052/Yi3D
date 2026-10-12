@@ -23,7 +23,7 @@
 #include <map>
 #include <set>
 #include <string>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH3D_CURVE_RANGE_UTIL_H
 
 #include <wy3dDefs.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 NS_WY3D_BEG
 class SketchCurve3D;

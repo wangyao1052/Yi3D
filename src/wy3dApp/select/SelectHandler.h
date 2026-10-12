@@ -24,7 +24,7 @@
 #include "SelectFilterFunctor.h"
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectMode.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

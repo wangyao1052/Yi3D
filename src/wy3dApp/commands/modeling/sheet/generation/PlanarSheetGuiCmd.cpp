@@ -51,7 +51,7 @@
 #include <wy3dApp/CommonSelFilters.h>
 #include "commands/transient/ValidSketchTransient.h"
 #include "wy3d/topo/TopoShapeUtil.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

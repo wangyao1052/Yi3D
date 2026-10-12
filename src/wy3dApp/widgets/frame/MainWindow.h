@@ -31,7 +31,7 @@
 #include <vector>
 #include <wydbDatabase.h>
 #include <wyapDocManager.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 class GuiCmdActionMgr;
 class MainWindowUI;

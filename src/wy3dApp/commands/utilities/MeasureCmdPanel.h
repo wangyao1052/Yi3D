@@ -25,7 +25,7 @@
 #include <wyapSelection.h>
 
 #include "commands/dialogs/FloatingCmdPanel.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 class QRadioButton;
 class QLabel;

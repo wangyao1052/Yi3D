@@ -36,7 +36,7 @@
 #include "scene/RenderConst.h"
 #include <wy3dApp/ElementNode.h>
 #include "scene/RenderConst.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #define RADIUS 2.0
 #define LEN1 50.0

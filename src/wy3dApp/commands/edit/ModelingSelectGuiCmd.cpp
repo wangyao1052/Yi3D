@@ -33,7 +33,7 @@
 #include "widgets/panels/featureTree/FeatureTreeWidget.h"
 #include <wy3dApp/CommandAction.h>
 #include "commands/CommandNames.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

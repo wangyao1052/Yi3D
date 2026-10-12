@@ -31,7 +31,7 @@
 #include <wyapSelection.h>
 #include <wyapSelManager.h>
 #include <wyapDocManager.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 class QSpinBox;
 

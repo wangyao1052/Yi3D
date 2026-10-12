@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH_DRAW_CENTER_RECTANGLE3D_GUI_CMD_H
 
 #include "commands/sketch3d/SketchDrawRectangle3DGuiCmd.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

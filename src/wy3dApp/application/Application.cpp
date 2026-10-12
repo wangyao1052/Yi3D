@@ -83,7 +83,7 @@
 #include "widgets/frame/OsgViewWidget.h"
 #include "application/Document.h"
 #include "environments/gateway/GatewayEnvironmentImpl.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #define WY3DAPP_VIEW(pView) dynamic_cast<BaseView*>(pView)
 #define WY3DAPP_SCENE(pScene) dynamic_cast<Scene*>(pScene)

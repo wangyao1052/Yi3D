@@ -21,7 +21,7 @@
 #include "gizmo/BaseGizmo.h"
 #include "gizmo/element/SketchEntityGripGizmo.h"
 #include "OsgUtils.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

@@ -21,7 +21,7 @@
 #include "select/SketchPlaneSelFilter.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

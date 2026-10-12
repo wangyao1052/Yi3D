@@ -28,7 +28,7 @@
 #include <wy3dApp/Application.h>
 #include "commands/CommandNames.h"
 #include <wy3dApp/Scene.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

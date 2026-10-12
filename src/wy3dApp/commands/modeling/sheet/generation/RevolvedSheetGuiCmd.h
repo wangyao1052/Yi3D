@@ -24,7 +24,7 @@
 #include <memory>
 #include <wy3dRevolvedSheet.h>
 #include "commands/transient/ValidSketchTransient.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

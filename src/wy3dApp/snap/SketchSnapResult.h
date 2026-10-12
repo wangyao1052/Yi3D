@@ -30,7 +30,7 @@
 #include "SketchSnapObject.h"
 #include "SnapTipWidget.h"
 #include "commands/transient/SketchCurveTransient.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

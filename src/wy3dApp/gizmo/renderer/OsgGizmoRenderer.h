@@ -26,7 +26,7 @@
 
 #include "GizmoRenderer.h"
 #include "gizmo/OsgGizmoNode.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

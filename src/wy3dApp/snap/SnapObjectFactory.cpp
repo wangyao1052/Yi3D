@@ -89,7 +89,7 @@
 #include <wy3dFilledSheet.h>
 #include <wy3dSewnSheet.h>
 #include <wy3dNonParametricSheet.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 #define REGISTER_CREATOR(CLASS, SNAP_OBJ_CREATOR) \
     { \
         static_assert(std::is_base_of_v<ElemSnapObjectCreator, SNAP_OBJ_CREATOR>, \

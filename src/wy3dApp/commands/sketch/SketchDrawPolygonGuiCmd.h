@@ -29,7 +29,7 @@
 #include <wy3dSketchLine.h>
 #include "commands/transient/SketchBasicTransient.h"
 #include "commands/transient/BasicTransient.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

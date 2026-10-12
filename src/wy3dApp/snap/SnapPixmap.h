@@ -20,7 +20,7 @@
 #define WY3DAPP_SNAP_PIXMAP_H
 
 #include <QPixmap>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

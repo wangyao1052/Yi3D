@@ -23,7 +23,7 @@
 #include <wydbTransaction.h>
 #include <wyapCmdExecution.h>
 #include <wyapDocument.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

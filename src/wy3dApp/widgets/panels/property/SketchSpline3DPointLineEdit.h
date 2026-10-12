@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH_SPLINE3D_POINT_LINE_EDIT_H
 
 #include "ParamLineEdit.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

@@ -35,7 +35,7 @@
 #include "gizmo/renderer/SolidMoveOsgRenderer.h"
 #include "gizmo/renderer/OsgGizmoRenderer.h"
 #include "utils/MathUtils.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #define RADIUS 2.0
 #define LEN1 50.0

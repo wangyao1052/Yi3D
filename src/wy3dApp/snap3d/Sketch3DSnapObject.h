@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH3D_SNAP_OBJECT_H
 
 #include <wydbElementId.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

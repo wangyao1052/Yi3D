@@ -36,7 +36,7 @@
 
 #include <wy3dApp/Application.h>
 #include "SketchTrimExtendUtil.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #define MAKE_ID_PAIR(id1st, id2st) std::pair<wydb::ElementId, wydb::ElementId>(id1st, id2st)
 

@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH_SPLINE_TANGENT_CHECK_BOX_H
 
 #include "ParamCheckBox.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

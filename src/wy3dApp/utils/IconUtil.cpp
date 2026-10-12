@@ -19,7 +19,7 @@
 #include <wy3dApp/IconUtil.h>
 
 #include <QHash>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

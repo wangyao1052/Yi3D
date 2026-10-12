@@ -18,7 +18,7 @@
 
 #include "OptionsCommands.h"
 #include "widgets/frame/OptionsDialog.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

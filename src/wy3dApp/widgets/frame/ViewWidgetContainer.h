@@ -23,7 +23,7 @@
 
 #include <wyapDocManager.h>
 #include <wyapDocument.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace osgViewer
 {

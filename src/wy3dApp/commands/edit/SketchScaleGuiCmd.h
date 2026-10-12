@@ -26,7 +26,7 @@
 #include <wyapSelection.h>
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/edit/ScaleElements.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

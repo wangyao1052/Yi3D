@@ -26,7 +26,7 @@
 #include <wyapGizmoManager.h>
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/GuiCommandMenu.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #include "commands/edit/PasteElements.h"
 

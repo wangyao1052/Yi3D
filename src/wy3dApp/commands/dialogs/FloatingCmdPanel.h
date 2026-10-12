@@ -21,7 +21,7 @@
 
 #include <QPoint>
 #include <QWidget>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 class QFrame;
 class QHBoxLayout;

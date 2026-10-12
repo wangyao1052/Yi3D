@@ -52,7 +52,7 @@
 #include <QCoreApplication>
 #include <QCursor>
 #include <cmath>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

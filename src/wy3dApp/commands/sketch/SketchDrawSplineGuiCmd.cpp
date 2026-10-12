@@ -39,7 +39,7 @@
 #include "snap/SnapObject.h"
 #include "gizmo/OsgGizmoNode.h"
 #include "widgets/frame/MainWindow.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

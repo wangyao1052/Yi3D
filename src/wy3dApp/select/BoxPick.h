@@ -25,7 +25,7 @@
 #include <wy3dSelectionType.h>
 #include "scene/RenderConst.h"
 #include "select/SelectFilterFunctor.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

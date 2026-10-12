@@ -42,7 +42,7 @@
 #include <wy3dImpl.h>
 #include <wy3dMath.h>
 #include "MathUtils.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

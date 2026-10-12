@@ -20,7 +20,7 @@
 #include <cassert>
 #include <wy3dSketchArc.h>
 #include "gizmo/element/SketchArcGripGizmo.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

@@ -34,7 +34,7 @@
 #include "commands/GuiCommandMenu.h"
 
 #include "commands/sketch/SketchRectArrayElements.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

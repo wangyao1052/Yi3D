@@ -24,7 +24,7 @@
 #include <wy3dSketchSpline.h>
 
 #include "SketchSplinePointsEditor.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

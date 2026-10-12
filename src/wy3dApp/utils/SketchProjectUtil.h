@@ -22,7 +22,7 @@
 #include <TopoDS_Edge.hxx>
 #include <wy3dSketchEntity.h>
 #include <wy3dPlane.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

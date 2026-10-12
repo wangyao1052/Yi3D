@@ -22,7 +22,7 @@
 #include <vector>
 #include <wyVector3.h>
 #include <wy3dSketchEntity3D.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

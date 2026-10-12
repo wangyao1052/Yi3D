@@ -24,7 +24,7 @@
 #include <QComboBox>
 #include <QCheckBox>
 #include <wy3dChamfer.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 class QLabel;
 

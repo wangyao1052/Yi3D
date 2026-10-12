@@ -41,7 +41,7 @@
 #include <wy3dApp/CommonSelFilters.h>
 #include "select/filters/SolidToCutSelFilter.h"
 #include "commands/dialogs/HelixDialog.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

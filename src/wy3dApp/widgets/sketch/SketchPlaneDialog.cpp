@@ -23,7 +23,7 @@
 #include <QHBoxLayout>
 #include <QComboBox>
 #include <QPushButton>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

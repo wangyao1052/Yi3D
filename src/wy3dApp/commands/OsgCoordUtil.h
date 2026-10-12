@@ -31,7 +31,7 @@
 #include <wy3dPlane.h>
 #include <wydbElementId.h>
 #include "snap/SnapSystemBase.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wydb { class Database; }
 

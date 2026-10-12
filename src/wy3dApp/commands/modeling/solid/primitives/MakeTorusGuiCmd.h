@@ -26,7 +26,7 @@
 #include <wy3dTorus.h>
 #include "commands/modeling/solid/primitives/MakePrimitiveGuiCmd.h"
 #include "commands/modeling/solid/primitives/MakeSphereGuiCmd.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

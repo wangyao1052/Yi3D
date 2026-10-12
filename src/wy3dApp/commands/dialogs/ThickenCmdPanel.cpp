@@ -28,7 +28,7 @@
 
 #include <wy3dThicken.h>
 #include <wy3dImpl.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

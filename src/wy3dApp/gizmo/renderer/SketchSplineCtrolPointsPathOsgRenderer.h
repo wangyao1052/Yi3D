@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH_SPLINE_CTROL_POINTS_PATH_OSG_RENDERER_H
 
 #include "GhostOsgRenderer.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

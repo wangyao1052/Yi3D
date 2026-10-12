@@ -31,7 +31,7 @@
 #include "utils/MathUtils.h"
 #include "scene/Colors.h"
 #include "common/osg/OsgUtils.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

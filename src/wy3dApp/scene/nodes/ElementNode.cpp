@@ -57,7 +57,7 @@
 #include <osg/CullFace>
 
 #include "scene/SketchEntityLinearization.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

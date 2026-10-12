@@ -30,7 +30,7 @@
 #include FT_OUTLINE_H
 #include FT_SFNT_NAMES_H
 #include FT_TRUETYPE_IDS_H
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

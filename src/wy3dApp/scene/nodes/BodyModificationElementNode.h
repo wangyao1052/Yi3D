@@ -22,7 +22,7 @@
 #include <osg/Geometry>
 
 #include <wy3dApp/ElementNode.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

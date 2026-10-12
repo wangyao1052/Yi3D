@@ -25,7 +25,7 @@
 #include <TopoDS_Face.hxx>
 
 #include "TopoShapeUtil.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

@@ -22,7 +22,7 @@
 #include <QIcon>
 #include "CursorType.h"
 #include <wy3dApp/IconUtil.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

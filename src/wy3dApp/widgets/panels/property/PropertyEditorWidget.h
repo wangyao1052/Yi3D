@@ -35,7 +35,7 @@
 #include <wyapGizmoManager.h>
 #include <wy3dColor.h>
 #include <wyapDocManager.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

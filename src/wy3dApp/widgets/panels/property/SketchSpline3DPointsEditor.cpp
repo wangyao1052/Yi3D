@@ -34,7 +34,7 @@
 #include "ParamLineEdit.h"
 #include "PropertyEditorWidget.h"
 #include "SketchSpline3DPointLineEdit.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

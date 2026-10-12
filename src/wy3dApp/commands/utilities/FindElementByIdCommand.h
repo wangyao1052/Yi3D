@@ -20,7 +20,7 @@
 #define WY3DAPP_FIND_ELEMENT_BY_ID_COMMAND_H
 
 #include "commands/SimpleCommand.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

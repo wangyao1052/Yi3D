@@ -35,7 +35,7 @@
 #include "environments/sketch/SketchEnvironmentImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/Scene.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

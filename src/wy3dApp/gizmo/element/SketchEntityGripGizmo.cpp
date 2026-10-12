@@ -29,7 +29,7 @@
 #include "snap/SketchSnapSystem.h"
 #include "gizmo/renderer/SketchGripOsgRenderer.h"
 #include "gizmo/renderer/OsgGizmoRenderer.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

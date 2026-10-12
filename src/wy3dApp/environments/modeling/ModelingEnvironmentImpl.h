@@ -22,7 +22,7 @@
 #include <memory>
 
 #include <wy3dApp/ModelingEnvironment.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

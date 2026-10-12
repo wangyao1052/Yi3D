@@ -28,7 +28,7 @@
 #include "commands/GuiCmdMakeElement.h"
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3d { class OffsetSheet; }
 

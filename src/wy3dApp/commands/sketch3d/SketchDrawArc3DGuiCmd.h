@@ -27,7 +27,7 @@
 #include <wyVector3.h>
 #include <wydbElementId.h>
 #include <wy3dSketchArc3D.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

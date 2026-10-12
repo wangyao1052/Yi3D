@@ -29,7 +29,7 @@
 
 #include "snap3d/Sketch3DSnapContext.h"
 #include "snap3d/Sketch3DSnapResult.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wydb
 {

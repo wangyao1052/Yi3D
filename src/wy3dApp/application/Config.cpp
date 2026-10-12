@@ -22,7 +22,7 @@
 #include <QFileInfo>
 #include <QSettings>
 #include <QLocale>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

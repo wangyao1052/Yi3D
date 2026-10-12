@@ -23,7 +23,7 @@
 #include <osg/Polytope>
 #include <wyVector3.h>
 #include "SnapSystemBase.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

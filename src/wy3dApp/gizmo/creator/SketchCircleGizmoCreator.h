@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH_CIRCLE_GIZMO_CREATOR_H
 
 #include <wy3dApp/ElemGizmoCreator.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

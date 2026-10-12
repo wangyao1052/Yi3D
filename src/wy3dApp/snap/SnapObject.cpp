@@ -23,7 +23,7 @@
 #include <osg/Point>
 #include "SnapContext.h"
 #include "SnapConsts.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

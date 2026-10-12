@@ -23,7 +23,7 @@
 #include "scene/RenderConst.h"
 #include "commands/transient/SketchPointTransient.h"
 #include "SnapConsts.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

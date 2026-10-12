@@ -23,7 +23,7 @@
 
 #include <cstdint>
 #include <string>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #define YI3D_APP_VERSION_MAJOR 0
 #define YI3D_APP_VERSION_MINOR 20

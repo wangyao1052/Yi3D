@@ -30,7 +30,7 @@
 #include <wy3dSketchCircle.h>
 
 #include "commands/transient/BasicTransient.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

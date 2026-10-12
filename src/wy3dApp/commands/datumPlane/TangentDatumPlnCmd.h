@@ -29,7 +29,7 @@
 #include "commands/datumPlane/MakeDatumPlane.h"
 #include "commands/transient/BasicTransient.h"
 #include "commands/transient/SketchBasicTransient.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

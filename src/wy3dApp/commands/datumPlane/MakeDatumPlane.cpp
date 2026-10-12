@@ -62,7 +62,7 @@
 #include <wy3dApp/GuiCommandUtil.h>
 #include "utils/MathUtils.h"
 #include "utils/SplineUtil.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

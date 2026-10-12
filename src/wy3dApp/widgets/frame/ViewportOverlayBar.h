@@ -20,7 +20,7 @@
 #define WY3DAPP_VIEWPORT_OVERLAY_BAR_H
 
 #include <QWidget>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 class QAction;
 class QEvent;

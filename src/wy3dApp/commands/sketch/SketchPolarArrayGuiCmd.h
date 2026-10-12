@@ -29,7 +29,7 @@
 #include <wy3dVector3.h>
 #include <wyapSelection.h>
 #include "commands/GuiCommandMenu.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

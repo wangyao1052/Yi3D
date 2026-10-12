@@ -38,7 +38,7 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/transient/Sketch3DTrimExtendTransient.h"
 #include <wy3dApp/GuiCommandUtil.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

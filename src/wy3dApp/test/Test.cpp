@@ -26,7 +26,7 @@
 #include <wy3dExtrusion.h>
 #include <wy3dHelix.h>
 #include <wy3dImportedSolid.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

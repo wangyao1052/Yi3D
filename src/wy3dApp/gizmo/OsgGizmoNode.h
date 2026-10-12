@@ -20,7 +20,7 @@
 #define WY3DAPP_OSG_GIZMO_NODE_H
 
 #include <osg/PositionAttitudeTransform>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

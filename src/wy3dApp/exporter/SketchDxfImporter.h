@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH_DXF_IMPORTER_H
 
 #include "SketchImporter.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

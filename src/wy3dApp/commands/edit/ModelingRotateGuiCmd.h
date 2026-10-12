@@ -20,7 +20,7 @@
 #define WY3DAPP_MODELING_ROTATE_GUI_CMD_H
 
 #include "commands/edit/RotateGuiCmd.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

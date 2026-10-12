@@ -33,7 +33,7 @@
 #include <wy3dSketchProfile_Revolution.h>
 #include <wy3dSketchPath.h>
 #include "translation/ErrorCodeTranslation.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

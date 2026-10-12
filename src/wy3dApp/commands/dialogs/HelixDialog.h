@@ -23,7 +23,7 @@
 #include <QLineEdit>
 #include <QRadioButton>
 #include <QCheckBox>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

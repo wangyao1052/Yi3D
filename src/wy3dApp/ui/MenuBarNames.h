@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_MENU_BAR_NAMES_H
 #define WY3DAPP_MENU_BAR_NAMES_H
 
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH_ELLIPSE_ARC_GHOST_OSG_RENDERER_H
 
 #include "GhostOsgRenderer.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

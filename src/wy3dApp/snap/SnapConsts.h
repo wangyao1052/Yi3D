@@ -20,7 +20,7 @@
 #define WY3DAPP_SNAP_CONSTS_H
 
 #include <osg/Vec4>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

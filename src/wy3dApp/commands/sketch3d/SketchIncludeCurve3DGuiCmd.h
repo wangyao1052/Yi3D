@@ -27,7 +27,7 @@
 #include <utility>
 #include <wydbElementId.h>
 #include <utils/wy3dSketch3DEdgeUtil.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

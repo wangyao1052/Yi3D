@@ -22,7 +22,7 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wyVector2.h>
 #include "commands/transient/SketchBasicTransient.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

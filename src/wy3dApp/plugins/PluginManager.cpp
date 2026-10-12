@@ -40,7 +40,7 @@
 #include <Windows.h>
 #else
 #include <dlfcn.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 #endif
 
 namespace wy3dApp {

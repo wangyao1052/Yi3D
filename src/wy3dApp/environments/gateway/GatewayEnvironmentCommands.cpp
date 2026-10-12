@@ -29,7 +29,7 @@
 #include "commands/FileCommands.h"
 #include "commands/OptionsCommands.h"
 #include "commands/help/HelpCommands.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #define WY3DAPP_GATEWAY_ENV_COMMAND_LIST(X) \
     X(CommandNames::NewFile, WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY, NewFileCommand::classInfo()) \

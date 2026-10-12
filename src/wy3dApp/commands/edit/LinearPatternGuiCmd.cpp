@@ -47,7 +47,7 @@
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
 #include "snap/SnapObject.h"
 #include "snap/SketchSnapSystem.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

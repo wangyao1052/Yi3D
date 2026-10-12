@@ -27,7 +27,7 @@
 #include <QPixmap>
 #include <QPushButton>
 #include <QVBoxLayout>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

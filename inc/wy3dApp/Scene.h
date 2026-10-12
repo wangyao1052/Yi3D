@@ -43,7 +43,7 @@
 #include "select/BoxSelectRectangle.h"
 #include "scene/ViewCube.h"
 #include "RTree/RTree.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wyap
 {

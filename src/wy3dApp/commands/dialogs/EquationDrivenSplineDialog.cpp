@@ -27,7 +27,7 @@
 #include <wyVector2.h>
 #include <wy3dMath.h>
 #include "utils/MessageBoxUtil.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

@@ -33,7 +33,7 @@
 #include <wy3dApp/Application.h>
 #include "SketchExtendGraph.h"
 #include "SketchTrimExtendUtil.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #define TOL 1e-7
 

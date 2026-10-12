@@ -25,7 +25,7 @@
 #include <wyapSelection.h>
 #include <wy3dApp/Application.h>
 #include "utils/CopyPasteUtil.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

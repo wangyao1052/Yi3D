@@ -20,7 +20,7 @@
 #define WY3DAPP_OFFSET_SHEET_CMD_PANEL_H
 
 #include "FloatingCmdPanel.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 class QLineEdit;
 

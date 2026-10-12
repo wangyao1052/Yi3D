@@ -20,7 +20,7 @@
 #include <cassert>
 #include <wy3dSketchEllipse.h>
 #include "gizmo/element/SketchEllipseGripGizmo.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

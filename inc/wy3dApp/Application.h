@@ -38,7 +38,7 @@
 #include <wyapSceneManager.h>
 #include "snap/SnapSystemBase.h"
 #include "widgets/StatusBarHelper.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wydb
 {

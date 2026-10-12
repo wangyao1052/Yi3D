@@ -36,7 +36,7 @@
 #include <wy3dVector3.h>
 #include <geom/wy3dArc2.h>
 #include <wy3dPlane.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

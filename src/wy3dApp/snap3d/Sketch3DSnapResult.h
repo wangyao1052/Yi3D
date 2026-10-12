@@ -26,7 +26,7 @@
 
 #include "snap3d/Sketch3DSnapObject.h"
 #include "snap/SnapTipWidget.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

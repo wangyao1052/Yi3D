@@ -18,7 +18,7 @@
 
 #include "SnapPixmap.h"
 #include <QPainter>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

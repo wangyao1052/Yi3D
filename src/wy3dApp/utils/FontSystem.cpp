@@ -22,7 +22,7 @@
 #include <QDir>
 
 #include "wy3d/utils/FreeTypeUtil.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

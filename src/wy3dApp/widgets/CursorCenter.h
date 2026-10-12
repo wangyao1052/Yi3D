@@ -20,7 +20,7 @@
 #define WY3DAPP_CURSOR_CENTER_H
 
 #include <QCursor>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

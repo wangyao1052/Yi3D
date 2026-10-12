@@ -32,7 +32,7 @@
 #include <osgQOpenGL/osgQOpenGLWidget>
 #include <osgViewer/View>
 #include <osgViewer/Viewer>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 class CameraManipulator;
 class StateButton;

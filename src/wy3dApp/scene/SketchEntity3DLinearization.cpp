@@ -27,7 +27,7 @@
 #include <wy3dSketchSpline3D.h>
 #include <Geom_BSplineCurve.hxx>
 #include <gp_Pnt.hxx>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

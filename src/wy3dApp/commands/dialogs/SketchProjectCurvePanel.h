@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH_PROJECT_CURVE_PANEL_H
 
 #include "FloatingCmdPanel.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 class QCheckBox;
 class QLabel;

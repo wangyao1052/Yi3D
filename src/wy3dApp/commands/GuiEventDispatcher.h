@@ -20,7 +20,7 @@
 #define WY3DAPP_GUI_EVENT_DISPATCHER_H
 
 #include <memory>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

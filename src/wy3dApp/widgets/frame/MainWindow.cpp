@@ -77,7 +77,7 @@
 #include "commands/FileCommands.h"
 #include "commands/CommandNames.h"
 #include "ViewWidget.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #define TOOLBAR_ICON_SIZE 32
 #define QSTR(wstr) QString::fromStdWString(wstr)

@@ -22,7 +22,7 @@
 #include <wyVector3.h>
 #include "SnapSystemBase.h"
 #include "SnapObject.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #define REAL_SNAP_RESULT(pSnapObject) static_cast<SnapResult*>(pSnapObject)
 

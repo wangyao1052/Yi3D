@@ -29,7 +29,7 @@
 #include "scene/RenderConst.h"
 #include <wy3dApp/Application.h>
 #include "ViewUtil.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #define REAL_SCENE(pScene) dynamic_cast<Scene*>(pScene)
 

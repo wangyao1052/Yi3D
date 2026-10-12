@@ -26,7 +26,7 @@
 
 #include "operation/GizmoOperation.h"
 #include "renderer/GizmoRenderer.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

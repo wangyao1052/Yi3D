@@ -32,7 +32,7 @@
 #include "view/ViewUtil.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "utils/MathUtils.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

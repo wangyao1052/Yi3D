@@ -24,7 +24,7 @@
 #include "widgets/frame/ContactUsDialog.h"
 #include "widgets/frame/ShortcutKeysDialog.h"
 #include "utils/MessageBoxUtil.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

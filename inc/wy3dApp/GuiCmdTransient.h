@@ -26,7 +26,7 @@
 #include <wy3dVector2.h>
 #include <wy3dVector3.h>
 
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

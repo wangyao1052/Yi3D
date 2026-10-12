@@ -63,7 +63,7 @@
 #include "creator/SketchEllipseGizmoCreator.h"
 #include "creator/SketchEllipseArcGizmoCreator.h"
 #include "creator/SketchSplineGizmoCreator.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 #define REGISTER_CREATOR(CLASS, GIZMO_CREATOR) \
     { \

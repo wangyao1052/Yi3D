@@ -21,7 +21,7 @@
 #include <wy3dBoolean.h>
 #include <wy3dPrimitive.h>
 #include "gizmo/element/SolidMoveGizmo.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH3D_SELECT_GUI_CMD_H
 
 #include <wy3dApp/SelectGuiCmd.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

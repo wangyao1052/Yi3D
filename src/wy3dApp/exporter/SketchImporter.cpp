@@ -22,7 +22,7 @@
 #include <Standard_Failure.hxx>
 #include <wyVector2.h>
 #include <wydbDatabase.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

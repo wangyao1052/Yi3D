@@ -20,7 +20,7 @@
 #include <osg/Geometry>
 #include <osg/LineStipple>
 #include <osg/LineWidth>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

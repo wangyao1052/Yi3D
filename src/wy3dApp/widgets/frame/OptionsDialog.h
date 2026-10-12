@@ -20,7 +20,7 @@
 #define WY3DAPP_OPTIONS_DIALOG_H
 
 #include <QDialog>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 class QCheckBox;
 class QComboBox;

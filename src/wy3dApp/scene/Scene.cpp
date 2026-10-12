@@ -66,7 +66,7 @@
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 //#define WCS_SU_STYLE
 

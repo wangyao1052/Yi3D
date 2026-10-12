@@ -21,7 +21,7 @@
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wy3dSketchSpline.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

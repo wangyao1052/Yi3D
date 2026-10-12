@@ -25,7 +25,7 @@
 #include <wy3dBox.h>
 #include <wy3dApp/SelectPreview.h>
 #include "commands/GuiCommandMenu.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

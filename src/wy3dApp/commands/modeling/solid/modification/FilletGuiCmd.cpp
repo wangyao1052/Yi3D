@@ -41,7 +41,7 @@
 #include "utils/TopoShapeUtil.h"
 #include "commands/dialogs/FilletDialog.h"
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

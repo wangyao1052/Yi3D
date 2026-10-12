@@ -28,7 +28,7 @@
 #include <QStackedWidget>
 #include <QButtonGroup>
 #include <QToolButton>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

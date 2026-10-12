@@ -28,7 +28,7 @@
 #include "commands/GuiCommandMenu.h"
 #include "snap/SketchSnapSystem.h"
 #include "commands/edit/MoveElements.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

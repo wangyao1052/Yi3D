@@ -20,7 +20,7 @@
 #define WY3DAPP_SKETCH_MOVE_GUI_CMD_H
 
 #include "commands/edit/MoveGuiCmd.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

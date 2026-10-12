@@ -29,7 +29,7 @@
 #include <wy3dPlane.h>
 #include <wydbElementId.h>
 #include <wy3dSketchEllipseArc3D.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

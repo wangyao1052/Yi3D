@@ -22,7 +22,7 @@
 #include <string>
 #include <QAction>
 
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

@@ -21,7 +21,7 @@
 #include "gizmo/BaseGizmo.h"
 #include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

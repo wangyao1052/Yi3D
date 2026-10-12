@@ -26,7 +26,7 @@
 #include <wy3dMath.h>
 #include <utils/wy3dCurveIntersectionUtil.h>
 #include <wy3dImpl.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

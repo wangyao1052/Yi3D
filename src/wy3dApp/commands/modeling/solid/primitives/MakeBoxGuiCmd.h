@@ -26,7 +26,7 @@
 #include <wyapSelManager.h>
 #include <wy3dBox.h>
 #include "commands/modeling/solid/primitives/MakePrimitiveGuiCmd.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

@@ -54,7 +54,7 @@
 class GuiCmdOsgEventHandler;
 
 #include "commands/GuiCmdMakeElement.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

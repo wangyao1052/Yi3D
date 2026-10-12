@@ -51,7 +51,7 @@
 #include "select/filters/SolidFaceSelFilter.h"
 #include "commands/sketch/dialogs/SketchPolarArrayDialog.h"
 #include "scene/Colors.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

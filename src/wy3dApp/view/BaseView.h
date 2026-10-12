@@ -24,7 +24,7 @@
 #include <osg/Vec3d>
 #include <osg/BoundingSphere>
 #include "snap/SnapSystemBase.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

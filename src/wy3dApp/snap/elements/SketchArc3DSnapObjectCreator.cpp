@@ -20,7 +20,7 @@
 #include <cassert>
 #include <wy3dSketchArc3D.h>
 #include "snap/SnapObject.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

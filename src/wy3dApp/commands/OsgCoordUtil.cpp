@@ -39,7 +39,7 @@
 #include "snap3d/Sketch3DSnapResult.h"
 #include "snap3d/Sketch3DSnapSystem.h"
 #include "utils/MathUtils.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 // ── 文件级辅助函数 ──────────────────────────────────────────────
 

@@ -31,7 +31,7 @@
 #include <wy3dSolid.h>
 #include <wy3dSketch.h>
 #include "scene/nodes/ElementNodeType.h"
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

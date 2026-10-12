@@ -30,7 +30,7 @@
 #include <wy3dSketchCurve.h>
 #include <wy3dSketchSpline.h>
 #include <RTree/RTree.h>
-#include "wy3dAppDefs.h"
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
