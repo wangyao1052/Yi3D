@@ -38,8 +38,8 @@
 #include <wy3dPlane.h>
 #include <wy3dSelectionType.h>
 #include <wy3dApp/GuiCmdTransient.h>
+#include <wy3dApp/KeyCode.h>
 #include "widgets/CursorType.h"
-#include <osgGA/GUIEventAdapter>
 #include "snap/SketchSnapContext.h"
 #include "scene/RenderConst.h"
 
@@ -97,50 +97,6 @@ struct MouseEvent
     // Seconds since the program started.
     double time;
 };
-
-// 按键码
-namespace KeyCode {
-    constexpr int Enter     = osgGA::GUIEventAdapter::KEY_Return;
-    constexpr int KP_Enter  = osgGA::GUIEventAdapter::KEY_KP_Enter;
-    constexpr int Escape    = osgGA::GUIEventAdapter::KEY_Escape;
-    constexpr int Space     = osgGA::GUIEventAdapter::KEY_Space;
-    constexpr int Delete    = osgGA::GUIEventAdapter::KEY_Delete;
-    constexpr int Backspace = osgGA::GUIEventAdapter::KEY_BackSpace;
-    // Ctrl+字母: ASCII 控制码(1~26), 通用标准, 非 OSG 专用
-    constexpr int CtrlA = 1;
-    constexpr int CtrlB = 2;
-    constexpr int CtrlC = 3;
-    constexpr int CtrlD = 4;
-    constexpr int CtrlE = 5;
-    constexpr int CtrlF = 6;
-    constexpr int CtrlG = 7;
-    constexpr int CtrlH = 8;
-    constexpr int CtrlI = 9;
-    constexpr int CtrlJ = 10;
-    constexpr int CtrlK = 11;
-    constexpr int CtrlL = 12;
-    constexpr int CtrlM = 13;
-    constexpr int CtrlN = 14;
-    constexpr int CtrlO = 15;
-    constexpr int CtrlP = 16;
-    constexpr int CtrlQ = 17;
-    constexpr int CtrlR = 18;
-    constexpr int CtrlS = 19;
-    constexpr int CtrlT = 20;
-    constexpr int CtrlU = 21;
-    constexpr int CtrlV = 22;
-    constexpr int CtrlW = 23;
-    constexpr int CtrlX = 24;
-    constexpr int CtrlY = 25;
-    constexpr int CtrlZ = 26;
-}
-
-// 修饰键掩码
-namespace KeyMod {
-    constexpr int Shift = osgGA::GUIEventAdapter::MODKEY_SHIFT;
-    constexpr int Ctrl  = osgGA::GUIEventAdapter::MODKEY_CTRL;
-    constexpr int Alt   = osgGA::GUIEventAdapter::MODKEY_ALT;
-}
 
 // 键盘事件
 struct KeyEvent
