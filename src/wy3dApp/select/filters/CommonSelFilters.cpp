@@ -25,7 +25,7 @@
 
 namespace wy3dApp {
 
-SelectFilterStatus CommonPreSelFilterForPointPick::operator()(
+SelectFilterStatus CommonSelPreFilter::operator()(
     const wydb::Database* pDb,
     const wydb::ElementId& id,
     SelectAction selectAction) const
@@ -64,7 +64,7 @@ SelectFilterStatus CommonPreSelFilterForPointPick::operator()(
     return SelectFilterStatus::Continue;
 }
 
-SelectFilterStatus SingleClassSelFilter::operator()(
+SelectFilterStatus SingleClassSelPostFilter::operator()(
     const wydb::Database* pDb,
     const wyap::Selection& sel,
     SelectAction selectAction) const
@@ -82,7 +82,7 @@ SelectFilterStatus SingleClassSelFilter::operator()(
     else return SelectFilterStatus::Continue;
 }
 
-SelectFilterStatus MultiClassSelFilter::operator()(
+SelectFilterStatus MultiClassSelPostFilter::operator()(
     const wydb::Database* pDb,
     const wyap::Selection& sel,
     SelectAction selectAction) const

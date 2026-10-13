@@ -24,10 +24,10 @@
 
 namespace wy3dApp {
 
-class CommonPreSelFilterForPointPick : public SelectPreFilterFunctor
+class CommonSelPreFilter : public SelectPreFilterFunctor
 {
 public:
-    explicit CommonPreSelFilterForPointPick(
+    explicit CommonSelPreFilter(
         wyrx::ClassInfo* classInfo,
         wydb::ElementId excludeId = wydb::ElementId::kNull)
         : _excludeId(excludeId)
@@ -35,7 +35,7 @@ public:
         _classInfos.emplace_back(classInfo);
     }
 
-    CommonPreSelFilterForPointPick(
+    CommonSelPreFilter(
         wyrx::ClassInfo* classInfo1st,
         wyrx::ClassInfo* classInfo2nd,
         wydb::ElementId excludeId = wydb::ElementId::kNull)
@@ -45,14 +45,13 @@ public:
         _classInfos.emplace_back(classInfo2nd);
     }
 
-    explicit CommonPreSelFilterForPointPick(
+    explicit CommonSelPreFilter(
         const std::vector<wyrx::ClassInfo*>& classInfos,
         wydb::ElementId excludeId = wydb::ElementId::kNull)
         : _classInfos(classInfos), _excludeId(excludeId)
     {
     }
 
-    // 执行函数
     virtual SelectFilterStatus operator()(
         const wydb::Database* pDb,
         const wydb::ElementId& id,
@@ -63,13 +62,12 @@ private:
     wydb::ElementId _excludeId;
 };
 
-class WY3DAPP_EXPORT SingleClassSelFilter : public SelectPostFilterFunctor
+class WY3DAPP_EXPORT SingleClassSelPostFilter : public SelectPostFilterFunctor
 {
 public:
-    explicit SingleClassSelFilter(wyrx::ClassInfo* classInfo)
+    explicit SingleClassSelPostFilter(wyrx::ClassInfo* classInfo)
         : _classInfo(classInfo) {}
 
-    // 执行函数
     virtual SelectFilterStatus operator()(
         const wydb::Database* pDb,
         const wyap::Selection& sel,
@@ -79,13 +77,12 @@ private:
     wyrx::ClassInfo* _classInfo;
 };
 
-class MultiClassSelFilter : public SelectPostFilterFunctor
+class MultiClassSelPostFilter : public SelectPostFilterFunctor
 {
 public:
-    explicit MultiClassSelFilter(const std::vector<wyrx::ClassInfo*>& classInfos)
+    explicit MultiClassSelPostFilter(const std::vector<wyrx::ClassInfo*>& classInfos)
         : _classInfos(classInfos) {}
 
-    // 执行函数
     virtual SelectFilterStatus operator()(
         const wydb::Database* pDb,
         const wyap::Selection& sel,

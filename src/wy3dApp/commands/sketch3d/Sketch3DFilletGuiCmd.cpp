@@ -160,7 +160,7 @@ void Sketch3DFilletGuiCmd::gotoStep(Step step)
             "Select the first sketch entity."));
         Application::instance().setCursor(CursorType::SelectElements);
 
-        _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
+        _pointPickOption.pSelPreFilter = std::make_shared<CommonSelPreFilter>(
             wy3d::SketchEntity3D::classInfo(), wydb::ElementId::kNull);
     }
     break;
@@ -171,7 +171,7 @@ void Sketch3DFilletGuiCmd::gotoStep(Step step)
             "Select the second sketch entity."));
         Application::instance().setCursor(CursorType::SelectElements);
 
-        _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
+        _pointPickOption.pSelPreFilter = std::make_shared<CommonSelPreFilter>(
             wy3d::SketchEntity3D::classInfo(), _id1st);
     }
     break;

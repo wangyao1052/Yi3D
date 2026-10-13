@@ -123,7 +123,7 @@ wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
 void Sketch3DSelectGuiCmd::configureSelectOptions(SelectOptions& options)
 {
     options.allowedElemTypes = ElementNodeType::Sketch3DEntity;
-    options.postFilter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity3D::classInfo());
+    options.postFilter = std::make_shared<SingleClassSelPostFilter>(wy3d::SketchEntity3D::classInfo());
 }
 
 void Sketch3DSelectGuiCmd::onStart_EnvSpecific()

@@ -121,7 +121,7 @@ wyap::CmdExecution::StartResult Sketch3DExtendGuiCmd::onStart()
 
     _pointPickOption.allowedElemTypes = ElementNodeType::Sketch3DEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
+    _pointPickOption.pSelPreFilter = std::make_shared<CommonSelPreFilter>(
         wy3d::SketchEntity3D::classInfo());
 
     return wyap::CmdExecution::StartResult::Succeeded;

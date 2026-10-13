@@ -72,7 +72,7 @@ wyap::CmdExecution::StartResult RevolveGuiCmd::onStart()
     // 初始化:点选选项
     _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pSelPostFilter = std::make_shared<SingleClassSelFilter>(wy3d::Sketch::classInfo());
+    _pointPickOption.pSelPostFilter = std::make_shared<SingleClassSelPostFilter>(wy3d::Sketch::classInfo());
 
     // 初始化:步骤
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
@@ -368,7 +368,7 @@ void RevolveCutGuiCmd::gotoStep(Step step)
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = std::make_shared<SolidToCutSelectPreFilter>();
-        _pointPickOption.pSelPostFilter = std::make_shared<SingleClassSelFilter>(wy3d::Solid::classInfo());
+        _pointPickOption.pSelPostFilter = std::make_shared<SingleClassSelPostFilter>(wy3d::Solid::classInfo());
     }
     else
     {

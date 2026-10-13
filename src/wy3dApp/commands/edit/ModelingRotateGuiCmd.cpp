@@ -122,7 +122,7 @@ void ModelingRotateGuiCmd::configureSelectElementOptions(SelectOptions& options)
 {
     options.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
     options.preFilter = std::make_shared<RotateGuiCmdPreFilter_Modeling>();
-    options.postFilter = std::make_shared<MultiClassSelFilter>(
+    options.postFilter = std::make_shared<MultiClassSelPostFilter>(
         std::vector<wyrx::ClassInfo*>{wy3d::Solid::classInfo(), wy3d::Sheet::classInfo()});
 }
 

@@ -102,9 +102,9 @@ wyap::CmdExecution::StartResult SolidifyGuiCmd::onStart()
 
     _pointPickOption.allowedElemTypes = ElementNodeType::Sheet;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
+    _pointPickOption.pSelPreFilter = std::make_shared<CommonSelPreFilter>(
         wy3d::Sheet::classInfo());
-    _pointPickOption.pSelPostFilter = std::make_shared<SingleClassSelFilter>(
+    _pointPickOption.pSelPostFilter = std::make_shared<SingleClassSelPostFilter>(
         wy3d::Sheet::classInfo());
 
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();

@@ -59,7 +59,7 @@ void SketchRotateGuiCmd::gotoNextStepAfterSelectElements()
 void SketchRotateGuiCmd::configureSelectElementOptions(SelectOptions& options)
 {
     options.allowedElemTypes = ElementNodeType::SketchEntity;
-    options.postFilter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
+    options.postFilter = std::make_shared<SingleClassSelPostFilter>(wy3d::SketchEntity::classInfo());
 }
 
 } // namespace wy3dApp

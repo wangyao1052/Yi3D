@@ -219,9 +219,9 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch |
             ElementNodeType::Sketch3D;
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.pSelPostFilter = std::make_shared<MultiClassSelFilter>(
+        _pointPickOption.pSelPostFilter = std::make_shared<MultiClassSelPostFilter>(
             std::vector<wyrx::ClassInfo*>{ wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo() });
-        _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
+        _pointPickOption.pSelPreFilter = std::make_shared<CommonSelPreFilter>(
             wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo());
 
         // 提示信息
