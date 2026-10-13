@@ -502,8 +502,7 @@ void MeasureGuiCmd::applyPickOptionForMode()
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         // 仅实体有体积,过滤掉其他元素类
-        _pointPickOption.pSelPreFilter = std::make_shared<CommonSelPreFilter>(
-            wy3d::Solid::classInfo());
+        _pointPickOption.pSelPreFilter = CommonSelPreFilter::create<wy3d::Solid>();
     }
     break;
 

@@ -79,8 +79,7 @@ wyap::CmdExecution::StartResult SketchOffsetGuiCmd::onStart()
     // 初始化
     _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pSelPreFilter = std::make_shared<CommonSelPreFilter>(
-        wy3d::SketchEntity::classInfo(), wydb::ElementId::kNull);
+    _pointPickOption.pSelPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity>();
     this->gotoStep(Step::SelectElement);
 
     return wyap::CmdExecution::StartResult::Succeeded;

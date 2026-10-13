@@ -221,8 +221,7 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPostFilter = std::make_shared<MultiClassSelPostFilter>(
             std::vector<wyrx::ClassInfo*>{ wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo() });
-        _pointPickOption.pSelPreFilter = std::make_shared<CommonSelPreFilter>(
-            wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo());
+        _pointPickOption.pSelPreFilter = CommonSelPreFilter::create<wy3d::Sketch, wy3d::Sketch3D>();
 
         // 提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SplitFaceGuiCmd",

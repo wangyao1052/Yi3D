@@ -3518,7 +3518,7 @@
         <translation type="unfinished">选择第一条直线草图图元。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="167"/>
+        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="166"/>
         <source>Select the second straight sketch entity.</source>
         <translation type="unfinished">选择第二条直线草图图元。</translation>
     </message>
@@ -3564,7 +3564,7 @@
         <translation type="unfinished">选择第一个草图图元。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DFilletGuiCmd.cpp" line="170"/>
+        <location filename="../../commands/sketch3d/Sketch3DFilletGuiCmd.cpp" line="169"/>
         <source>Select the second sketch entity.</source>
         <translation type="unfinished">选择第二个草图图元。</translation>
     </message>
@@ -3622,7 +3622,7 @@
         <translation type="obsolete">距离1，距离2</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="153"/>
+        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="152"/>
         <source>Select the second sketch line.</source>
         <translation type="unfinished">选择第二条草图线。</translation>
     </message>
@@ -4373,7 +4373,7 @@
         <translation type="obsolete">圆角半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="159"/>
+        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="158"/>
         <source>Select the second sketch curve.</source>
         <translation type="unfinished">选择第二条草图曲线。</translation>
     </message>
@@ -4529,17 +4529,17 @@
 <context>
     <name>SketchOffset</name>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="201"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="200"/>
         <source>Select the sketch curve to offset.</source>
         <translation type="unfinished">选择要偏移的草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="338"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="337"/>
         <source>Offset Distance</source>
         <translation type="unfinished">偏移距离</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="214"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="213"/>
         <source>Specify through point or input offset distance.</source>
         <translation type="unfinished">指定通过点或输入偏移距离。</translation>
     </message>
@@ -4851,7 +4851,7 @@
 <context>
     <name>SolidifyGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/SolidifyGuiCmd.cpp" line="129"/>
+        <location filename="../../commands/modeling/sheet/generation/SolidifyGuiCmd.cpp" line="128"/>
         <source>Select a closed sheet to solidify.</source>
         <translation>选择闭合曲面进行实体化。</translation>
     </message>
@@ -4897,7 +4897,7 @@
         <translation type="unfinished">选择路径草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="360"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="358"/>
         <source>Select the profile sketch.</source>
         <translation type="unfinished">选择轮廓草图。</translation>
     </message>
@@ -4905,7 +4905,7 @@
 <context>
     <name>SweepGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="395"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="392"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
     </message>
@@ -4918,7 +4918,7 @@
         <translation type="unfinished">选择路径草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="246"/>
+        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="244"/>
         <source>Select the profile sketch.</source>
         <translation type="unfinished">选择轮廓草图。</translation>
     </message>
@@ -4926,12 +4926,12 @@
 <context>
     <name>ThickenGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="153"/>
+        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="152"/>
         <source>Select a sheet to thicken.</source>
         <translation>选择要加厚的曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="260"/>
+        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="259"/>
         <source>Specify thickness and direction, then OK to apply.</source>
         <translation>指定厚度和方向，确认后应用。</translation>
     </message>
@@ -6399,7 +6399,7 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::MeasureGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="698"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="697"/>
         <source>Clear Measure Results</source>
         <translation type="unfinished">清空测量结果</translation>
     </message>

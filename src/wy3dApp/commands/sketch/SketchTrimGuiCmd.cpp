@@ -165,8 +165,7 @@ wyap::CmdExecution::StartResult SketchTrimGuiCmd::onStart()
     // 点选选项
     _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pSelPreFilter = std::make_shared<CommonSelPreFilter>(
-        wy3d::SketchEntity::classInfo());
+    _pointPickOption.pSelPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity>();
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }

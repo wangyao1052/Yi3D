@@ -149,8 +149,7 @@ void SketchFilletGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 前置选择过滤器
-        _pointPickOption.pSelPreFilter = std::make_shared<CommonSelPreFilter>(
-            wy3d::SketchEntity::classInfo(), wydb::ElementId::kNull);
+        _pointPickOption.pSelPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity>();
     }
     break;
 
@@ -162,8 +161,7 @@ void SketchFilletGuiCmd::gotoStep(Step step)
         // 前置选择过滤器
         wydb::ElementId excludeId = wydb::ElementId::kNull;
         if (_pCurveTransient1st) excludeId = _pCurveTransient1st->getId();
-        _pointPickOption.pSelPreFilter = std::make_shared<CommonSelPreFilter>(
-            wy3d::SketchEntity::classInfo(), excludeId);
+        _pointPickOption.pSelPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity>(excludeId);
     }
     break;
 
