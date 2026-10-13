@@ -362,7 +362,9 @@ void SweepGuiCmd::gotoStep(Step step)
 
         // 点选选项:轮廓只能是2D草图
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
-        _pointPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::Sketch>(_pathId);
+        auto pPreFilter = CommonSelPreFilter::create<wy3d::Sketch>();
+        pPreFilter->setExcludeIds({ _pathId });
+        _pointPickOption.pPreFilter = pPreFilter;
     }
     break;
 

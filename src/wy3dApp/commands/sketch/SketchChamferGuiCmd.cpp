@@ -155,7 +155,9 @@ void SketchChamferGuiCmd::gotoStep(Step step)
         // 前置选择过滤器
         wydb::ElementId excludeId = wydb::ElementId::kNull;
         if (_pCurveTransient1st) excludeId = _pCurveTransient1st->getId();
-        _pointPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity>(excludeId);
+        auto pPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity>();
+        pPreFilter->setExcludeIds({ excludeId });
+        _pointPickOption.pPreFilter = pPreFilter;
     }
     break;
 

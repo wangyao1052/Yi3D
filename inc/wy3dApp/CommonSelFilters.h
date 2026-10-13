@@ -19,6 +19,9 @@
 #ifndef WY3DAPP_COMMON_SEL_FILTERS_H
 #define WY3DAPP_COMMON_SEL_FILTERS_H
 
+#include <vector>
+#include <set>
+
 #include "select/SelectFilterFunctors.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -67,22 +70,37 @@ private:
     std::vector<wyrx::ClassInfo*> _classInfos;
 };
 
-class CommonSelPreFilter : public SelectPreFilterFunctor
+class WY3DAPP_EXPORT CommonSelPreFilter : public SelectPreFilterFunctor
 {
 public:
     explicit CommonSelPreFilter(
         const std::vector<wyrx::ClassInfo*>& classInfos,
-        wydb::ElementId excludeId = wydb::ElementId::kNull)
-        : _classInfos(classInfos), _excludeId(excludeId)
+        const std::set<wydb::ElementId>& excludeIds)
+        : _classInfos(classInfos), _excludeIds(excludeIds)
     {
     }
 
     template <typename... Classes>
-    static std::shared_ptr<CommonSelPreFilter> create(
-        wydb::ElementId excludeId = wydb::ElementId::kNull)
+    static std::shared_ptr<CommonSelPreFilter> create()
     {
         return std::make_shared<CommonSelPreFilter>(
-            std::vector<wyrx::ClassInfo*>{ Classes::classInfo()... }, excludeId);
+            std::vector<wyrx::ClassInfo*>{ Classes::classInfo()... },
+            std::set<wydb::ElementId>());
+    }
+
+    const std::set<wydb::ElementId>& getExcludeIds() const
+    {
+        return _excludeIds;
+    }
+
+    void setExcludeIds(const std::set<wydb::ElementId>& excludeIds)
+    {
+        _excludeIds = excludeIds;
+    }
+
+    void setExcludeIds(std::set<wydb::ElementId>&& excludeIds)
+    {
+        _excludeIds = std::move(excludeIds);
     }
 
     virtual SelectFilterStatus operator()(
@@ -92,7 +110,7 @@ public:
 
 private:
     std::vector<wyrx::ClassInfo*> _classInfos;
-    wydb::ElementId _excludeId;
+    std::set<wydb::ElementId> _excludeIds;
 };
 
 } // namespace wy3dApp

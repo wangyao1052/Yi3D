@@ -167,7 +167,9 @@ void Sketch3DChamferGuiCmd::gotoStep(Step step)
             "Select the second straight sketch entity."));
         Application::instance().setCursor(CursorType::SelectElements);
 
-        _pointPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity3D>(_id1st);
+        auto pPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity3D>();
+        pPreFilter->setExcludeIds({ _id1st });
+        _pointPickOption.pPreFilter = pPreFilter;
     }
     break;
 

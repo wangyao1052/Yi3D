@@ -41,7 +41,7 @@ SelectFilterStatus CommonSelPreFilter::operator()(
     // 如果是排除的元素
     // 参照Creo会继续遍历;比如在新建草图需要选择实体面或基准面时;
     // 当鼠标在圆柱面上,会选中圆柱面之后的实体面或基准面.
-    if (id == _excludeId)
+    if (_excludeIds.find(id) != _excludeIds.cend())
     {
         return SelectFilterStatus::Continue;
     }

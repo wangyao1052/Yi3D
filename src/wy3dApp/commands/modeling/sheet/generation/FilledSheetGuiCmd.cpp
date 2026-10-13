@@ -503,8 +503,9 @@ void FilledSheetGuiCmd::gotoStep(Step step)
         _constraintSketchPickOption.allowedElemTypes = ElementNodeType::Sketch |
             ElementNodeType::Sketch3D;
         _constraintSketchPickOption.selType = wy3d::SelectionType::Element;
-        _constraintSketchPickOption.pPreFilter = CommonSelPreFilter::create<
-            wy3d::Sketch, wy3d::Sketch3D>(_sketchId);
+        auto pPreFilter = CommonSelPreFilter::create<wy3d::Sketch, wy3d::Sketch3D>();
+        pPreFilter->setExcludeIds({ _sketchId });
+        _constraintSketchPickOption.pPreFilter = pPreFilter;
         _constraintSketchPickOption.pPostFilter = MultiClassSelPostFilter::create<
             wy3d::Sketch, wy3d::Sketch3D>();
 
