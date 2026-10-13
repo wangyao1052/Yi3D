@@ -244,7 +244,7 @@ void MergeGuiCmd::gotoStep(Step step)
 
         // 点选:选择过滤器
         assert(_hostId.isNull());
-        _pointPickOption.pSelPostFilter = std::make_shared<MergeHostSelFilter>();
+        _pointPickOption.pPostFilter = std::make_shared<MergeHostSelFilter>();
     }
     break;
 
@@ -268,7 +268,7 @@ void MergeGuiCmd::gotoStep(Step step)
 
         // 点选:选择过滤器
         assert(!_hostId.isNull());
-        _pointPickOption.pSelPostFilter = std::make_shared<MergeMembersSelFilter>(_hostId);
+        _pointPickOption.pPostFilter = std::make_shared<MergeMembersSelFilter>(_hostId);
     }
     break;
 

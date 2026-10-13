@@ -37,15 +37,15 @@ struct BoxPickOption
     // 选择类型
     wy3d::SelectionType selType;
     // 排除的元素ID(前置过滤)
-    SelectPreFilterFunctorSPtr pSelPreFilter;
+    SelectPreFilterFunctorSPtr pPreFilter;
     // 自定义函数过滤器(后置过滤)
-    SelectPostFilterFunctorSPtr pSelPostFilter;
+    SelectPostFilterFunctorSPtr pPostFilter;
 
     BoxPickOption() :
         allowedElemTypes(ElementNodeType::All),
         selType(wy3d::SelectionType::Element),
-        pSelPreFilter(nullptr),
-        pSelPostFilter(nullptr)
+        pPreFilter(nullptr),
+        pPostFilter(nullptr)
     {}
 };
 

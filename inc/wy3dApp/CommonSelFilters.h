@@ -30,6 +30,12 @@ public:
     explicit SingleClassSelPostFilter(wyrx::ClassInfo* classInfo)
         : _classInfo(classInfo) {}
 
+    template <typename Class>
+    static std::shared_ptr<SingleClassSelPostFilter> create()
+    {
+        return std::make_shared<SingleClassSelPostFilter>(Class::classInfo());
+    }
+
     virtual SelectFilterStatus operator()(
         const wydb::Database* pDb,
         const wyap::Selection& sel,
@@ -44,6 +50,13 @@ class WY3DAPP_EXPORT MultiClassSelPostFilter : public SelectPostFilterFunctor
 public:
     explicit MultiClassSelPostFilter(const std::vector<wyrx::ClassInfo*>& classInfos)
         : _classInfos(classInfos) {}
+
+    template <typename... Classes>
+    static std::shared_ptr<MultiClassSelPostFilter> create()
+    {
+        return std::make_shared<MultiClassSelPostFilter>(
+            std::vector<wyrx::ClassInfo*>{ Classes::classInfo()... });
+    }
 
     virtual SelectFilterStatus operator()(
         const wydb::Database* pDb,

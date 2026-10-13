@@ -267,7 +267,7 @@ void ShellGuiCmd::onLeftMouseUp(const MouseEvent& event)
             }
 
             // 过滤器
-            _pointPickOption.pSelPreFilter = std::make_shared<ShellGuiCmdPreSelFilter>(
+            _pointPickOption.pPreFilter = std::make_shared<ShellGuiCmdPreSelFilter>(
                 _pSelSetHighlightor->getSelectionSet());
 
             _preview.clear();

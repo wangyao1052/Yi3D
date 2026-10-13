@@ -109,7 +109,7 @@ wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
         ElementNodeType::Sheet |
         ElementNodeType::DatumPlane;
     _planePickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
-    _planePickOption.pSelPostFilter = std::make_shared<WorkPlaneSourceSelFilter>();
+    _planePickOption.pPostFilter = std::make_shared<WorkPlaneSourceSelFilter>();
 
     _planePreview.clear();
     _pCustomWorkPlaneHighlight = nullptr;
@@ -123,7 +123,7 @@ wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
 void Sketch3DSelectGuiCmd::configureSelectOptions(SelectOptions& options)
 {
     options.allowedElemTypes = ElementNodeType::Sketch3DEntity;
-    options.postFilter = std::make_shared<SingleClassSelPostFilter>(wy3d::SketchEntity3D::classInfo());
+    options.postFilter = SingleClassSelPostFilter::create<wy3d::SketchEntity3D>();
 }
 
 void Sketch3DSelectGuiCmd::onStart_EnvSpecific()

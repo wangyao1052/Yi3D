@@ -337,7 +337,7 @@ void SweepGuiCmd::gotoStep(Step step)
 
         // 点选选项:路径可以是2D草图、3D草图或模型曲线
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch | ElementNodeType::Sketch3D | ElementNodeType::Curve;
-        _pointPickOption.pSelPreFilter = CommonSelPreFilter::create<
+        _pointPickOption.pPreFilter = CommonSelPreFilter::create<
             wy3d::Sketch, wy3d::Sketch3D, wy3d::Curve>();
     }
     break;
@@ -362,7 +362,7 @@ void SweepGuiCmd::gotoStep(Step step)
 
         // 点选选项:轮廓只能是2D草图
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
-        _pointPickOption.pSelPreFilter = CommonSelPreFilter::create<wy3d::Sketch>(_pathId);
+        _pointPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::Sketch>(_pathId);
     }
     break;
 
@@ -398,8 +398,8 @@ void SweepCutGuiCmd::gotoStep(Step step)
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.pSelPreFilter = std::make_shared<SolidToCutSelectPreFilter>();
-        _pointPickOption.pSelPostFilter = std::make_shared<SingleClassSelPostFilter>(wy3d::Solid::classInfo());
+        _pointPickOption.pPreFilter = std::make_shared<SolidToCutSelectPreFilter>();
+        _pointPickOption.pPostFilter = SingleClassSelPostFilter::create<wy3d::Solid>();
     }
     else
     {

@@ -52,7 +52,7 @@ std::list<TraverseItem> _traverseIntersections(
     assert(pDb);
     std::list<TraverseItem> items;
 
-    if (option.pSelPreFilter)
+    if (option.pPreFilter)
     {
         wydb::ElementId id = wydb::ElementId::kNull;
         for (auto iter = intersections.cbegin(); iter != intersections.cend(); ++iter)
@@ -81,7 +81,7 @@ std::list<TraverseItem> _traverseIntersections(
                 id = wydb::ElementId(idValue);
             }
 
-            switch ((*option.pSelPreFilter)(pDb, id, SelectAction::Crossing))
+            switch ((*option.pPreFilter)(pDb, id, SelectAction::Crossing))
             {
             case SelectFilterStatus::Ok:
             {
@@ -153,7 +153,7 @@ std::list<TraverseItem> _traverseIntersections_OneBreak(
     assert(pDb);
     std::list<TraverseItem> items;
 
-    if (option.pSelPreFilter)
+    if (option.pPreFilter)
     {
         wydb::ElementId id = wydb::ElementId::kNull;
         for (auto iter = intersections.cbegin(); iter != intersections.cend(); ++iter)
@@ -182,7 +182,7 @@ std::list<TraverseItem> _traverseIntersections_OneBreak(
                 id = wydb::ElementId(idValue);
             }
 
-            switch ((*option.pSelPreFilter)(pDb, id, SelectAction::Crossing))
+            switch ((*option.pPreFilter)(pDb, id, SelectAction::Crossing))
             {
             case SelectFilterStatus::Ok:
             {
@@ -498,12 +498,12 @@ wyap::SelectionSet BoxPick::pick(
     }
 
     // 用户自定义过滤
-    if (option.pSelPostFilter)
+    if (option.pPostFilter)
     {
         wyap::SelectionSet ssFiltered;
         for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
         {
-            switch ((*option.pSelPostFilter)(pDb, iter.current(), SelectAction::Crossing))
+            switch ((*option.pPostFilter)(pDb, iter.current(), SelectAction::Crossing))
             {
             case SelectFilterStatus::Ok:
             {

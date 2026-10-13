@@ -94,7 +94,7 @@ SketchRectArrayGuiCmd::SketchRectArrayGuiCmd()
     _options.boxSelect = true;
     _options.selectionType = wy3d::SelectionType::Element;
     _options.allowedElemTypes = ElementNodeType::SketchEntity;
-    _options.postFilter = std::make_shared<SingleClassSelPostFilter>(wy3d::SketchEntity::classInfo());
+    _options.postFilter = SingleClassSelPostFilter::create<wy3d::SketchEntity>();
     _options.preview = true;
 }
 
@@ -346,7 +346,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = true;
         selOptions.selectionType = wy3d::SelectionType::Element;
         selOptions.allowedElemTypes = ElementNodeType::SketchEntity;
-        selOptions.postFilter = std::make_shared<SingleClassSelPostFilter>(wy3d::SketchEntity::classInfo());
+        selOptions.postFilter = SingleClassSelPostFilter::create<wy3d::SketchEntity>();
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;
         this->configSelect(selOptions);

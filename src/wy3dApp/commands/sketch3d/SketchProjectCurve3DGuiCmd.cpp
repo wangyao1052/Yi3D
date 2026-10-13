@@ -245,7 +245,7 @@ void SketchProjectCurve3DGuiCmd::setPickForStep(Step step)
         // mask as well - a 3D sketch has no plane, so there is no direction to project along.
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
         _pointPickOption.selType = wy3d::SelectionType::SketchCurve;
-        _pointPickOption.pSelPostFilter = nullptr;
+        _pointPickOption.pPostFilter = nullptr;
         return;
     }
 
@@ -255,7 +255,7 @@ void SketchProjectCurve3DGuiCmd::setPickForStep(Step step)
         ElementNodeType::Sheet |
         ElementNodeType::DatumPlane;
     _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
-    _pointPickOption.pSelPostFilter = std::make_shared<ProjectTargetSelFilter>();
+    _pointPickOption.pPostFilter = std::make_shared<ProjectTargetSelFilter>();
 }
 
 bool SketchProjectCurve3DGuiCmd::takeSourceSketch(const wyap::Selection& sel)

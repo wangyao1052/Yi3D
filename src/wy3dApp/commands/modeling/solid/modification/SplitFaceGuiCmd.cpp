@@ -116,8 +116,8 @@ void SplitFaceGuiCmd::cleanup()
     _sketchId = wydb::ElementId::kNull;
 
     _preview.clear();
-    _pointPickOption.pSelPreFilter = nullptr;
-    _pointPickOption.pSelPostFilter = nullptr;
+    _pointPickOption.pPreFilter = nullptr;
+    _pointPickOption.pPostFilter = nullptr;
     if (_pSelSetHighlightor_Faces) _pSelSetHighlightor_Faces->clearSelections();
     _pSelSetHighlightor_Faces = nullptr;
 }
@@ -192,8 +192,8 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         // 拾取配置: 实体或片体的面
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Face;
-        _pointPickOption.pSelPostFilter = nullptr;
-        _pointPickOption.pSelPreFilter = std::make_shared<SplitFacePreSelFilter>(
+        _pointPickOption.pPostFilter = nullptr;
+        _pointPickOption.pPreFilter = std::make_shared<SplitFacePreSelFilter>(
             _pSelSetHighlightor_Faces ? _pSelSetHighlightor_Faces->getSelectionSet() : wyap::SelectionSet());
 
         // 提示信息
@@ -219,9 +219,9 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch |
             ElementNodeType::Sketch3D;
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.pSelPostFilter = std::make_shared<MultiClassSelPostFilter>(
-            std::vector<wyrx::ClassInfo*>{ wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo() });
-        _pointPickOption.pSelPreFilter = CommonSelPreFilter::create<wy3d::Sketch, wy3d::Sketch3D>();
+        _pointPickOption.pPostFilter = MultiClassSelPostFilter::create<
+            wy3d::Sketch, wy3d::Sketch3D>();
+        _pointPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::Sketch, wy3d::Sketch3D>();
 
         // 提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SplitFaceGuiCmd",
@@ -286,7 +286,7 @@ void SplitFaceGuiCmd::onLeftMouseUp(const MouseEvent& event)
                 _pSelSetHighlightor_Faces->addSelection(sel);
             }
             _faceSels = _pSelSetHighlightor_Faces->getSelectionSet();
-            _pointPickOption.pSelPreFilter = std::make_shared<SplitFacePreSelFilter>(_faceSels);
+            _pointPickOption.pPreFilter = std::make_shared<SplitFacePreSelFilter>(_faceSels);
             _preview.clear();
             return;
         }
@@ -386,7 +386,7 @@ void SplitFaceGuiCmd::onContextMenuAction_ClearSelection()
     {
         if (_pSelSetHighlightor_Faces) _pSelSetHighlightor_Faces->clearSelections();
         _faceSels.clear();
-        _pointPickOption.pSelPreFilter = std::make_shared<SplitFacePreSelFilter>(_faceSels);
+        _pointPickOption.pPreFilter = std::make_shared<SplitFacePreSelFilter>(_faceSels);
     }
 }
 

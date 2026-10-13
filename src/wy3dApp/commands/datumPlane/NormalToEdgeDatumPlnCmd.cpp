@@ -423,7 +423,7 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
             ElementNodeType::Sketch3D | ElementNodeType::Curve;
         _pointPickOption.selType = wy3d::SelectionType::Edge | wy3d::SelectionType::SketchCurve |
             wy3d::SelectionType::SketchCurve3D | wy3d::SelectionType::Element;
-        _pointPickOption.pSelPostFilter = std::make_shared<NormalToEdgeDatumPlnCmdSelFilter>();
+        _pointPickOption.pPostFilter = std::make_shared<NormalToEdgeDatumPlnCmdSelFilter>();
     }
     break;
 

@@ -226,7 +226,7 @@ void DraftGuiCmd::gotoStep(Step step)
 
         // 中性面选择过滤器:不能选择拔模面
         assert(_pSelSetHighlightor);
-        _pointPickOption.pSelPostFilter = std::make_shared<DraftGuiCmdNeutralFaceSelFilter>(
+        _pointPickOption.pPostFilter = std::make_shared<DraftGuiCmdNeutralFaceSelFilter>(
             _pSelSetHighlightor ? _pSelSetHighlightor->getSelectionSet() : wyap::SelectionSet());
     }
     break;
@@ -344,7 +344,7 @@ void DraftGuiCmd::onLeftMouseUp(const MouseEvent& event)
             {
                 _pSelSetHighlightor->addSelection(sel);
             }
-            _pointPickOption.pSelPreFilter = std::make_shared<DraftGuiCmdPreSelFilter>(
+            _pointPickOption.pPreFilter = std::make_shared<DraftGuiCmdPreSelFilter>(
                 _pSelSetHighlightor->getSelectionSet());
             _preview.clear();
             return;

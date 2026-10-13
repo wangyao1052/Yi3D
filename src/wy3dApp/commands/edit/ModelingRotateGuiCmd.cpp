@@ -76,7 +76,7 @@ void ModelingRotateGuiCmd::onStart_EnvSpecific()
     // 选择工作平面点选选项:基准面
     _pickWorkPlnOption.allowedElemTypes = ElementNodeType::DatumPlane;
     _pickWorkPlnOption.selType = wy3d::SelectionType::Element;
-    _pickWorkPlnOption.pSelPostFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
+    _pickWorkPlnOption.pPostFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
 }
 
 void ModelingRotateGuiCmd::cleanupEnvSpecific()
@@ -122,8 +122,7 @@ void ModelingRotateGuiCmd::configureSelectElementOptions(SelectOptions& options)
 {
     options.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
     options.preFilter = std::make_shared<RotateGuiCmdPreFilter_Modeling>();
-    options.postFilter = std::make_shared<MultiClassSelPostFilter>(
-        std::vector<wyrx::ClassInfo*>{wy3d::Solid::classInfo(), wy3d::Sheet::classInfo()});
+    options.postFilter = MultiClassSelPostFilter::create<wy3d::Solid, wy3d::Sheet>();
 }
 
 } // namespace wy3dApp

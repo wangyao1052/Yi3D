@@ -132,7 +132,7 @@ wyap::CmdExecution::StartResult SketchExtendGuiCmd::onStart()
     // 点选控制项
     _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pSelPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity>();
+    _pointPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity>();
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }

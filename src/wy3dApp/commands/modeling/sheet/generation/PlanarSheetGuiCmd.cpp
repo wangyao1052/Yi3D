@@ -180,7 +180,7 @@ wyap::CmdExecution::StartResult PlanarSheetGuiCmd::onStart()
 
     _sketchPickOption.allowedElemTypes = ElementNodeType::Sketch;
     _sketchPickOption.selType = wy3d::SelectionType::Element;
-    _sketchPickOption.pSelPostFilter = std::make_shared<SingleClassSelPostFilter>(wy3d::Sketch::classInfo());
+    _sketchPickOption.pPostFilter = SingleClassSelPostFilter::create<wy3d::Sketch>();
 
     _edgePickOption.allowedElemTypes = ElementNodeType::Solid |
         ElementNodeType::Sheet;
@@ -243,7 +243,7 @@ void PlanarSheetGuiCmd::cleanup()
     _pInvalidSketchTooltip = nullptr;
     _edgePreview.clear();
     if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
-    _edgePickOption.pSelPreFilter = nullptr;
+    _edgePickOption.pPreFilter = nullptr;
     _pMakePlanarSheet = nullptr;
     _pMakeNonParametricSheet = nullptr;
 }
@@ -478,7 +478,7 @@ void PlanarSheetGuiCmd::onEscapeKey()
     {
         _pSelSetHighlightor->clearSelections();
         _edgePreview.clear();
-        _edgePickOption.pSelPreFilter = nullptr;
+        _edgePickOption.pPreFilter = nullptr;
         this->gotoStep(Step::SelectSketch);
     }
     else
@@ -535,7 +535,7 @@ void PlanarSheetGuiCmd::onContextMenuAction_ClearSelection()
         if (_pSelSetHighlightor)
         {
             _pSelSetHighlightor->clearSelections();
-            _edgePickOption.pSelPreFilter = nullptr;
+            _edgePickOption.pPreFilter = nullptr;
             Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
                 "Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         }
