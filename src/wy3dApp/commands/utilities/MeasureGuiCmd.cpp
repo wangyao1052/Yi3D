@@ -477,7 +477,7 @@ void MeasureGuiCmd::cycleMode()
 void MeasureGuiCmd::applyPickOptionForMode()
 {
     _pointPickOption.pSelPreFilter = nullptr;
-    _pointPickOption.pSelFilter = nullptr;
+    _pointPickOption.pSelPostFilter = nullptr;
 
     switch (_mode)
     {

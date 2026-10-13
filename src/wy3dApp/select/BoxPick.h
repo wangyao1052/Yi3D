@@ -24,7 +24,7 @@
 #include <wyapSelection.h>
 #include <wy3dSelectionType.h>
 #include "scene/nodes/ElementNodeType.h"
-#include "select/SelectFilterFunctor.h"
+#include "select/SelectFilterFunctors.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -39,13 +39,13 @@ struct BoxPickOption
     // 排除的元素ID(前置过滤)
     SelectPreFilterFunctorSPtr pSelPreFilter;
     // 自定义函数过滤器(后置过滤)
-    SelectFilterFunctorSPtr pSelFilter;
+    SelectPostFilterFunctorSPtr pSelPostFilter;
 
     BoxPickOption() :
         allowedElemTypes(ElementNodeType::All),
         selType(wy3d::SelectionType::Element),
         pSelPreFilter(nullptr),
-        pSelFilter(nullptr)
+        pSelPostFilter(nullptr)
     {}
 };
 

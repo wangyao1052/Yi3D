@@ -45,7 +45,7 @@
 
 #include "select/SelectMode.h"
 #include <wy3dApp/PointPickOption.h>
-#include "select/SelectFilterFunctor.h"
+#include "select/SelectFilterFunctors.h"
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
 
@@ -88,31 +88,6 @@ class WY3DAPP_EXPORT GuiCommand : public wyap::InteractiveCmdExecution
 {
     WYRX_DECLARE_ABSTRACT_MEMBERS(GuiCommand, wy3dApp::GuiCommand, wyap::InteractiveCmdExecution)
 protected:
-    // 命令选择选项
-    struct SelectOptions
-    {
-        // 点选
-        bool pointSelect;
-        // 框选
-        bool boxSelect;
-        // 允许选择的元素类型(ElementNodeType 位集)
-        unsigned int allowedElemTypes;
-        // 选择类型
-        wy3d::SelectionType selectionType;
-        // 前置选择过滤函数
-        SelectPreFilterFunctorSPtr preFilter;
-        // 选择过滤函数
-        SelectFilterFunctorSPtr filter;
-        // 预览
-        bool preview;
-        // 选择模式:全量还是增量
-        SelectMode selectMode;
-
-        SelectOptions() : pointSelect(false), boxSelect(false), allowedElemTypes(ElementNodeType::All),
-            selectionType(wy3d::SelectionType::Element), preview(true), selectMode(SelectMode::Full)
-        {}
-    };
-
     GuiCommand();
     virtual ~GuiCommand();
 
@@ -162,6 +137,30 @@ protected:
         double& windowX, double& windowY) const = 0;
 
 protected:
+    // Command selection options.
+    struct SelectOptions
+    {
+        // Whether point selection is enabled.
+        bool pointSelect;
+        // Whether box selection is enabled.
+        bool boxSelect;
+        // Allowed element types (ElementNodeType bit set).
+        unsigned int allowedElemTypes;
+        // Selection type.
+        wy3d::SelectionType selectionType;
+        // Pre-filter functor.
+        SelectPreFilterFunctorSPtr preFilter;
+        // Post-filter functor.
+        SelectPostFilterFunctorSPtr postFilter;
+        // Whether hover preview is enabled (point selection only).
+        bool preview;
+        // Selection mode: full or incremental.
+        SelectMode selectMode;
+
+        SelectOptions() : pointSelect(false), boxSelect(false), allowedElemTypes(ElementNodeType::All),
+            selectionType(wy3d::SelectionType::Element), preview(true), selectMode(SelectMode::Full)
+        {}
+    };
     void configSelect(SelectOptions options);
 
     virtual wyap::Selection pointPick(

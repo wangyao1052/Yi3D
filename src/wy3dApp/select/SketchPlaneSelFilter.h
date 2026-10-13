@@ -39,12 +39,12 @@
 #include <wy3dSheet.h>
 #include <wy3dDatumPlane.h>
 
-#include "SelectFilterFunctor.h"
+#include "SelectFilterFunctors.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-class SketchPlaneSelFilterFunctor : public SelectFilterFunctor
+class SketchPlaneSelFilterFunctor : public SelectPostFilterFunctor
 {
 public:
     inline virtual SelectFilterStatus operator()(

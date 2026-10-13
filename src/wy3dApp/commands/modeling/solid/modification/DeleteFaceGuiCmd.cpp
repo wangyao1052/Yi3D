@@ -174,7 +174,7 @@ void DeleteFaceGuiCmd::gotoStep(Step step)
         // 拾取配置: 只能是片体的面
         _pointPickOption.allowedElemTypes = ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Face;
-        _pointPickOption.pSelFilter = nullptr;
+        _pointPickOption.pSelPostFilter = nullptr;
         _pointPickOption.pSelPreFilter = std::make_shared<DeleteFacePreSelFilter>(
             _pSelSetHighlightor_Faces ? _pSelSetHighlightor_Faces->getSelectionSet() : wyap::SelectionSet());
 

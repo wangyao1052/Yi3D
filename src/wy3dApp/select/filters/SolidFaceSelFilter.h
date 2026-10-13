@@ -38,14 +38,14 @@
 #include <wy3dSolid.h>
 #include <wy3dSheet.h>
 #include <wy3dSelectionType.h>
-#include "select/SelectFilterFunctor.h"
+#include "select/SelectFilterFunctors.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 template<typename T>
-class FaceSelFilterFunctor : public SelectFilterFunctor
+class FaceSelFilterFunctor : public SelectPostFilterFunctor
 {
 public:
     inline virtual SelectFilterStatus operator()(

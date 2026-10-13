@@ -73,7 +73,7 @@ bool parseSubPathIndex(const std::string& subPath, unsigned int& index)
 // those: a rejected selection returns null, which lets the ray fall through to the face pass.
 // It also carries the second step rule - once a datum plane is held, planes are out, since
 // two planes meet in an unbounded line that cannot become a sketch entity.
-class IntersectionSourceSelFilter : public SelectFilterFunctor
+class IntersectionSourceSelFilter : public SelectPostFilterFunctor
 {
 public:
     explicit IntersectionSourceSelFilter(bool allowPlane) : _allowPlane(allowPlane) {}
@@ -286,7 +286,7 @@ void SketchIntersectionCurve3DGuiCmd::holdFirst(const wyap::Selection& sel, cons
 
 void SketchIntersectionCurve3DGuiCmd::setAllowPlane(bool allow)
 {
-    _pointPickOption.pSelFilter = std::make_shared<IntersectionSourceSelFilter>(allow);
+    _pointPickOption.pSelPostFilter = std::make_shared<IntersectionSourceSelFilter>(allow);
 }
 
 void SketchIntersectionCurve3DGuiCmd::applyPair(const wyap::Selection& second, const Source& source)

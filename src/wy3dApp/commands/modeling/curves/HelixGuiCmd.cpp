@@ -72,7 +72,7 @@ wyap::CmdExecution::StartResult HelixGuiCmd::onStart()
     // 初始化:点选选项
     _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(wy3d::Sketch::classInfo());
+    _pointPickOption.pSelPostFilter = std::make_shared<SingleClassSelFilter>(wy3d::Sketch::classInfo());
     
     // 初始化:步骤
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();

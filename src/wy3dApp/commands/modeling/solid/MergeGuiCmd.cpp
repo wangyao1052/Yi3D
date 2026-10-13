@@ -31,7 +31,7 @@ namespace wy3dApp {
 
 // 主体选择过滤器
 // 只能选择wy3d::Solid并且owner为空;
-class MergeHostSelFilter : public SelectFilterFunctor
+class MergeHostSelFilter : public SelectPostFilterFunctor
 {
 public:
     inline virtual SelectFilterStatus operator()(
@@ -52,7 +52,7 @@ public:
 
 // 成员选择过滤器
 // <1>不可以是主体<2>只能选择wy3d::Solid并且owner为空;
-class MergeMembersSelFilter : public SelectFilterFunctor
+class MergeMembersSelFilter : public SelectPostFilterFunctor
 {
 public:
     MergeMembersSelFilter(const wydb::ElementId& hostId) : _hostId(hostId) {}
@@ -244,7 +244,7 @@ void MergeGuiCmd::gotoStep(Step step)
 
         // 点选:选择过滤器
         assert(_hostId.isNull());
-        _pointPickOption.pSelFilter = std::make_shared<MergeHostSelFilter>();
+        _pointPickOption.pSelPostFilter = std::make_shared<MergeHostSelFilter>();
     }
     break;
 
@@ -268,7 +268,7 @@ void MergeGuiCmd::gotoStep(Step step)
 
         // 点选:选择过滤器
         assert(!_hostId.isNull());
-        _pointPickOption.pSelFilter = std::make_shared<MergeMembersSelFilter>(_hostId);
+        _pointPickOption.pSelPostFilter = std::make_shared<MergeMembersSelFilter>(_hostId);
     }
     break;
 

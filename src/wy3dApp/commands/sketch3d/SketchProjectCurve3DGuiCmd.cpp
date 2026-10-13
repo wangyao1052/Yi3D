@@ -76,7 +76,7 @@ bool parseSubPathIndex(const std::string& subPath, unsigned int& index)
 // a face, which is bounded and trims the projection to itself, and a datum plane, which stands for
 // an unbounded plane. A datum plane is only pickable along its own border, which is what makes a
 // click on one land here rather than on a body behind it.
-class ProjectTargetSelFilter : public SelectFilterFunctor
+class ProjectTargetSelFilter : public SelectPostFilterFunctor
 {
 public:
     virtual SelectFilterStatus operator()(
@@ -245,7 +245,7 @@ void SketchProjectCurve3DGuiCmd::setPickForStep(Step step)
         // mask as well - a 3D sketch has no plane, so there is no direction to project along.
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
         _pointPickOption.selType = wy3d::SelectionType::SketchCurve;
-        _pointPickOption.pSelFilter = nullptr;
+        _pointPickOption.pSelPostFilter = nullptr;
         return;
     }
 
@@ -255,7 +255,7 @@ void SketchProjectCurve3DGuiCmd::setPickForStep(Step step)
         ElementNodeType::Sheet |
         ElementNodeType::DatumPlane;
     _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
-    _pointPickOption.pSelFilter = std::make_shared<ProjectTargetSelFilter>();
+    _pointPickOption.pSelPostFilter = std::make_shared<ProjectTargetSelFilter>();
 }
 
 bool SketchProjectCurve3DGuiCmd::takeSourceSketch(const wyap::Selection& sel)

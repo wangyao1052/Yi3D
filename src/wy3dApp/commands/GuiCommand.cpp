@@ -40,7 +40,7 @@
 #include "commands/GuiEventDispatcher.h"
 #include "select/SelectHandler.h"
 #include "view/BaseView.h"
-#include "select/SelectFilterFunctor.h"
+#include "select/SelectFilterFunctors.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -184,7 +184,7 @@ void GuiCommand::configSelect(SelectOptions options)
     pSelHandler->setAllowedElemTypes(options.allowedElemTypes);
     pSelHandler->setSelectionType(options.selectionType);
     pSelHandler->setPreFilterFunctor(options.preFilter);
-    pSelHandler->setFilterFunctor(options.filter);
+    pSelHandler->setPostFilterFunctor(options.postFilter);
     pSelHandler->enablePreview(options.preview);
     pSelHandler->setSelectMode(options.selectMode);
 }

@@ -257,7 +257,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = true;
         selOptions.selectionType = wy3d::SelectionType::Element;
         selOptions.allowedElemTypes = ElementNodeType::SketchEntity;
-        selOptions.filter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
+        selOptions.postFilter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;
         this->configSelect(selOptions);

@@ -23,7 +23,7 @@
 #include <wy3dSolid.h>
 #include <wy3dExtrusion.h>
 #include <wy3dRevolution.h>
-#include "select/SelectFilterFunctor.h"
+#include "select/SelectFilterFunctors.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {

@@ -36,7 +36,7 @@
 #include "snap/SketchSnapSystem.h"
 #include "select/PointPick.h"
 #include "select/SelectHandler.h"
-#include "select/SelectFilterFunctor.h"
+#include "select/SelectFilterFunctors.h"
 #include "view/BaseView.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -204,7 +204,7 @@ void OsgGuiCommand::configSelect(SelectOptions options)
     pSelHandler->setAllowedElemTypes(options.allowedElemTypes);
     pSelHandler->setSelectionType(options.selectionType);
     pSelHandler->setPreFilterFunctor(options.preFilter);
-    pSelHandler->setFilterFunctor(options.filter);
+    pSelHandler->setPostFilterFunctor(options.postFilter);
     pSelHandler->enablePreview(options.preview);
     pSelHandler->setSelectMode(options.selectMode);
 }

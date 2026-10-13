@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_COMMON_SEL_FILTERS_H
 #define WY3DAPP_COMMON_SEL_FILTERS_H
 
-#include "select/SelectFilterFunctor.h"
+#include "select/SelectFilterFunctors.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -63,7 +63,7 @@ private:
     wydb::ElementId _excludeId;
 };
 
-class WY3DAPP_EXPORT SingleClassSelFilter : public SelectFilterFunctor
+class WY3DAPP_EXPORT SingleClassSelFilter : public SelectPostFilterFunctor
 {
 public:
     explicit SingleClassSelFilter(wyrx::ClassInfo* classInfo)
@@ -79,7 +79,7 @@ private:
     wyrx::ClassInfo* _classInfo;
 };
 
-class MultiClassSelFilter : public SelectFilterFunctor
+class MultiClassSelFilter : public SelectPostFilterFunctor
 {
 public:
     explicit MultiClassSelFilter(const std::vector<wyrx::ClassInfo*>& classInfos)

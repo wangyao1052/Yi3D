@@ -79,7 +79,7 @@ private:
 };
 
 // 中性面选择过滤器:不能选择拔模面
-class DraftGuiCmdNeutralFaceSelFilter : public SelectFilterFunctor
+class DraftGuiCmdNeutralFaceSelFilter : public SelectPostFilterFunctor
 {
 public:
     DraftGuiCmdNeutralFaceSelFilter(const wyap::SelectionSet& ss) : _ss(ss) {}
@@ -226,7 +226,7 @@ void DraftGuiCmd::gotoStep(Step step)
 
         // 中性面选择过滤器:不能选择拔模面
         assert(_pSelSetHighlightor);
-        _pointPickOption.pSelFilter = std::make_shared<DraftGuiCmdNeutralFaceSelFilter>(
+        _pointPickOption.pSelPostFilter = std::make_shared<DraftGuiCmdNeutralFaceSelFilter>(
             _pSelSetHighlightor ? _pSelSetHighlightor->getSelectionSet() : wyap::SelectionSet());
     }
     break;

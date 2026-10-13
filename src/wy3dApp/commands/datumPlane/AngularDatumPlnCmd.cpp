@@ -53,7 +53,7 @@ static bool parseDoubleText(const QString& text, double& value)
 constexpr double kHoverPopupDelaySeconds = 0.45;
 
 
-class AngularDatumPlnCmdRotationAxisSelFilter : public SelectFilterFunctor
+class AngularDatumPlnCmdRotationAxisSelFilter : public SelectPostFilterFunctor
 {
 public:
     AngularDatumPlnCmdRotationAxisSelFilter(const wy3d::Plane& plane) : _plane(plane) {}
@@ -430,7 +430,7 @@ void AngularDatumPlnCmd::gotoStep(Step step)
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::DatumPlane;
         _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
-        _pointPickOption.pSelFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
+        _pointPickOption.pSelPostFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
     }
     break;
 
@@ -459,7 +459,7 @@ void AngularDatumPlnCmd::gotoStep(Step step)
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::DatumPlane;
         _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Edge |
             wy3d::SelectionType::Element;
-        _pointPickOption.pSelFilter = std::make_shared<AngularDatumPlnCmdRotationAxisSelFilter>(_plane);
+        _pointPickOption.pSelPostFilter = std::make_shared<AngularDatumPlnCmdRotationAxisSelFilter>(_plane);
     }
     break;
 

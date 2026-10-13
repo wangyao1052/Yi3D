@@ -30,7 +30,7 @@ SelectHandler::SelectHandler() :
     _mouseDownX(0), _mouseDownY(0), _mouseUpX(0), _mouseUpY(0), _isMouseDown(false),
     _supportsPointSelect(true), _supportsBoxSelect(true),
     _allowedElemTypes(0x0000FFFF), _selType(wy3d::SelectionType::Element),
-    _pPreSelFilter(nullptr), _pSelFilter(nullptr),
+    _pPreSelFilter(nullptr), _pPostSelFilter(nullptr),
     _supportPreview(false), _selMode(SelectMode::Full)
 {
 }
@@ -50,7 +50,7 @@ void SelectHandler::reset()
     _allowedElemTypes = 0x0000FFFF;
     _selType = wy3d::SelectionType::Element;
     _pPreSelFilter = nullptr;
-    _pSelFilter = nullptr;
+    _pPostSelFilter = nullptr;
 
     _supportPreview = false;
     _preview.clear();
@@ -143,7 +143,7 @@ void SelectHandler::boxSelect(bool isCross, bool isCtrlDown)
     }
 
     // 用户自定义过滤
-    if (_pSelFilter && !ss.isEmpty())
+    if (_pPostSelFilter && !ss.isEmpty())
     {
         const wydb::Database* pDb = Application::instance().getActiveDatabase();
         assert(pDb);
@@ -151,7 +151,7 @@ void SelectHandler::boxSelect(bool isCross, bool isCtrlDown)
         for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
         {
             wyap::Selection sel = iter.current();
-            switch ((*_pSelFilter)(pDb, sel, SelectAction::Window))
+            switch ((*_pPostSelFilter)(pDb, sel, SelectAction::Window))
             {
             case SelectFilterStatus::Ok:
                 ssFiltered.add(sel);

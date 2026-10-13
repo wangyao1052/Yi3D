@@ -32,7 +32,7 @@ namespace wy3dApp {
 
 // 目标体选择过滤器
 // 只能选择wy3d::Solid并且owner为空;
-class BooleanTargetSelFilter : public SelectFilterFunctor
+class BooleanTargetSelFilter : public SelectPostFilterFunctor
 {
 public:
     inline virtual SelectFilterStatus operator()(
@@ -53,7 +53,7 @@ public:
 
 // 参与体选择过滤器
 // <1>不可以是目标体<2>只能选择wy3d::Solid并且owner为空;
-class BooleanToolsSelFilter : public SelectFilterFunctor
+class BooleanToolsSelFilter : public SelectPostFilterFunctor
 {
 public:
     BooleanToolsSelFilter(const wydb::ElementId& targetId) : _targetId(targetId) {}
@@ -299,7 +299,7 @@ void BooleanGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         selOptions.allowedElemTypes = ElementNodeType::Solid;
         selOptions.selectionType = wy3d::SelectionType::Element;
-        selOptions.filter = std::make_shared<BooleanTargetSelFilter>();
+        selOptions.postFilter = std::make_shared<BooleanTargetSelFilter>();
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Full;
         this->configSelect(selOptions);
@@ -321,7 +321,7 @@ void BooleanGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = true;
         selOptions.allowedElemTypes = ElementNodeType::Solid;
         selOptions.selectionType = wy3d::SelectionType::Element;
-        selOptions.filter = std::make_shared<BooleanToolsSelFilter>(_targetId);
+        selOptions.postFilter = std::make_shared<BooleanToolsSelFilter>(_targetId);
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;
         this->configSelect(selOptions);

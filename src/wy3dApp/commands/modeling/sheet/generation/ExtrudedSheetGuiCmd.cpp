@@ -189,7 +189,7 @@ wyap::CmdExecution::StartResult ExtrudedSheetGuiCmd::onStart()
 
     _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(wy3d::Sketch::classInfo());
+    _pointPickOption.pSelPostFilter = std::make_shared<SingleClassSelFilter>(wy3d::Sketch::classInfo());
 
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
     wydb::ElementId sketchId(wydb::ElementId::kNull);

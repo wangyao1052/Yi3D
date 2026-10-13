@@ -426,13 +426,13 @@ wyap::Selection _newSelection(
 
 inline wyap::Selection _userFilter(
     const wydb::Database* pDb,
-    SelectFilterFunctorSPtr pSelFilter,
+    SelectPostFilterFunctorSPtr pSelPostFilter,
     const wyap::Selection& sel)
 {
     assert(pDb);
-    if (!pSelFilter) return sel;
+    if (!pSelPostFilter) return sel;
 
-    switch ((*pSelFilter)(pDb, sel, SelectAction::Point))
+    switch ((*pSelPostFilter)(pDb, sel, SelectAction::Point))
     {
     case SelectFilterStatus::Ok:
         return sel;
@@ -487,7 +487,7 @@ wyap::Selection pointPick_PolytopeIntersector(
     sel.setPickPosition(MathUtils::toVector3(pIntersection->localIntersectionPoint));
 
     // 用户自定义过滤
-    return _userFilter(pDb, option.pSelFilter, sel);
+    return _userFilter(pDb, option.pSelPostFilter, sel);
 }
 
 // 线段求交器
@@ -530,7 +530,7 @@ wyap::Selection pointPick_LineSegmentIntersector(
     sel.setPickPosition(MathUtils::toVector3(pIntersection->localIntersectionPoint));
 
     // 用户自定义过滤
-    return _userFilter(pDb, option.pSelFilter, sel);
+    return _userFilter(pDb, option.pSelPostFilter, sel);
 }
 
 wyap::Selection PointPick::pick(

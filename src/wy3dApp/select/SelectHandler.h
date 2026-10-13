@@ -21,7 +21,7 @@
 
 #include <wyapSelection.h>
 #include <wy3dSelectionType.h>
-#include "SelectFilterFunctor.h"
+#include "SelectFilterFunctors.h"
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectMode.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -51,8 +51,8 @@ public:
     void setSelectionType(wy3d::SelectionType t) { _selType = t; }
     wy3d::SelectionType getSelectionType() const { return _selType; }
 
-    void setPreFilterFunctor(SelectPreFilterFunctorSPtr p) { _pPreSelFilter = p; }
-    void setFilterFunctor(SelectFilterFunctorSPtr p)       { _pSelFilter = p; }
+    void setPreFilterFunctor(SelectPreFilterFunctorSPtr p)   { _pPreSelFilter = p; }
+    void setPostFilterFunctor(SelectPostFilterFunctorSPtr p) { _pPostSelFilter = p; }
 
     void enablePreview(bool flag)       { _supportPreview = flag; }
     bool isSupportPreview() const       { return _supportPreview; }
@@ -110,7 +110,7 @@ protected:
     unsigned int _allowedElemTypes;
     wy3d::SelectionType _selType;
     SelectPreFilterFunctorSPtr _pPreSelFilter;
-    SelectFilterFunctorSPtr _pSelFilter;
+    SelectPostFilterFunctorSPtr _pPostSelFilter;
     bool _supportPreview;
     SelectPreview _preview;
     SelectMode _selMode;

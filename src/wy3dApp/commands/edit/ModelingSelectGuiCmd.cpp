@@ -37,7 +37,7 @@
 
 namespace wy3dApp {
 
-class SelectGuiCmdSelFilter_Modeling : public SelectFilterFunctor
+class SelectGuiCmdSelFilter_Modeling : public SelectPostFilterFunctor
 {
 public:
     virtual SelectFilterStatus operator()(
@@ -100,7 +100,7 @@ void ModelingSelectGuiCmd::configureSelectOptions(SelectOptions& options)
         ElementNodeType::DatumPlane |
         ElementNodeType::Curve |
         ElementNodeType::Sketch3D;
-    options.filter = std::make_shared<SelectGuiCmdSelFilter_Modeling>();
+    options.postFilter = std::make_shared<SelectGuiCmdSelFilter_Modeling>();
 }
 
 void ModelingSelectGuiCmd::onStart_EnvSpecific()

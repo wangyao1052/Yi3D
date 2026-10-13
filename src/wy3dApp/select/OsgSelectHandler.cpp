@@ -87,7 +87,7 @@ wyap::Selection OsgSelectHandler::pointPick(float x, float y)
     option.allowedElemTypes = _allowedElemTypes;
     option.selType = _selType;
     option.pSelPreFilter = _pPreSelFilter;
-    option.pSelFilter = _pSelFilter;
+    option.pSelPostFilter = _pPostSelFilter;
     return PointPick::pick(Application::instance().getActiveDatabase(),
                            _pOsgView.get(), x, y, option);
 }
@@ -100,7 +100,7 @@ wyap::SelectionSet OsgSelectHandler::boxPick_cross(
     option.allowedElemTypes = _allowedElemTypes;
     option.selType = _selType;
     option.pSelPreFilter = _pPreSelFilter;
-    option.pSelFilter = _pSelFilter;
+    option.pSelPostFilter = _pPostSelFilter;
     return BoxPick::pick(Application::instance().getActiveDatabase(),
                          _pOsgView.get(), xMin, yMin, xMax, yMax, option);
 }

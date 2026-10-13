@@ -66,7 +66,7 @@ static bool parseDoubleText(const QString& text, double& value)
 constexpr double kHoverPopupDelaySeconds = 0.45;
 
 
-class NormalToEdgeDatumPlnCmdSelFilter : public SelectFilterFunctor
+class NormalToEdgeDatumPlnCmdSelFilter : public SelectPostFilterFunctor
 {
 public:
     inline virtual SelectFilterStatus operator()(
@@ -423,7 +423,7 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
             ElementNodeType::Sketch3D | ElementNodeType::Curve;
         _pointPickOption.selType = wy3d::SelectionType::Edge | wy3d::SelectionType::SketchCurve |
             wy3d::SelectionType::SketchCurve3D | wy3d::SelectionType::Element;
-        _pointPickOption.pSelFilter = std::make_shared<NormalToEdgeDatumPlnCmdSelFilter>();
+        _pointPickOption.pSelPostFilter = std::make_shared<NormalToEdgeDatumPlnCmdSelFilter>();
     }
     break;
 

@@ -22,7 +22,7 @@
 #include <memory>
 #include <wy3dSelectionType.h>
 
-#include "select/SelectFilterFunctor.h"
+#include "select/SelectFilterFunctors.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -40,14 +40,14 @@ struct WY3DAPP_EXPORT PointPickOption
     // 排除的元素ID(前置过滤)
     SelectPreFilterFunctorSPtr pSelPreFilter;
     // 自定义函数过滤器(后置过滤)
-    SelectFilterFunctorSPtr pSelFilter;
+    SelectPostFilterFunctorSPtr pSelPostFilter;
 
     PointPickOption() :
         pickHalfSize(6.0f),
         allowedElemTypes(ElementNodeType::All),
         selType(wy3d::SelectionType::Element),
         pSelPreFilter(nullptr),
-        pSelFilter(nullptr)
+        pSelPostFilter(nullptr)
     {}
 };
 

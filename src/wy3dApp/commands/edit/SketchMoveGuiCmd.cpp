@@ -69,7 +69,7 @@ void SketchMoveGuiCmd::configureSelectElementOptions(SelectOptions& options)
 {
     options.allowedElemTypes = ElementNodeType::SketchEntity;
     options.preFilter = nullptr;
-    options.filter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
+    options.postFilter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity::classInfo());
 }
 
 void SketchMoveGuiCmd::onMouseMove_SpecifyStartPnt(double x, double y)

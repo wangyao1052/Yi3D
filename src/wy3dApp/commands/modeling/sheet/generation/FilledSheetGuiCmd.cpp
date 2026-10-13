@@ -270,7 +270,7 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
     _sketchPickOption.selType = wy3d::SelectionType::Element;
     _sketchPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
         wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo());
-    _sketchPickOption.pSelFilter = std::make_shared<MultiClassSelFilter>(
+    _sketchPickOption.pSelPostFilter = std::make_shared<MultiClassSelFilter>(
         std::vector<wyrx::ClassInfo*>{ wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo() });
 
     _edgePickOption.allowedElemTypes = ElementNodeType::Solid |
@@ -508,7 +508,7 @@ void FilledSheetGuiCmd::gotoStep(Step step)
         _constraintSketchPickOption.selType = wy3d::SelectionType::Element;
         _constraintSketchPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
             wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo(), _sketchId);
-        _constraintSketchPickOption.pSelFilter = std::make_shared<MultiClassSelFilter>(
+        _constraintSketchPickOption.pSelPostFilter = std::make_shared<MultiClassSelFilter>(
             std::vector<wyrx::ClassInfo*>{ wy3d::Sketch::classInfo(), wy3d::Sketch3D::classInfo() });
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",

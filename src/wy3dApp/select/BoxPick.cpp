@@ -498,12 +498,12 @@ wyap::SelectionSet BoxPick::pick(
     }
 
     // 用户自定义过滤
-    if (option.pSelFilter)
+    if (option.pSelPostFilter)
     {
         wyap::SelectionSet ssFiltered;
         for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
         {
-            switch ((*option.pSelFilter)(pDb, iter.current(), SelectAction::Crossing))
+            switch ((*option.pSelPostFilter)(pDb, iter.current(), SelectAction::Crossing))
             {
             case SelectFilterStatus::Ok:
             {

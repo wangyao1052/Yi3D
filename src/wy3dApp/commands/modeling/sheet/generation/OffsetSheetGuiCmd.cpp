@@ -558,7 +558,7 @@ void OffsetSheetGuiCmd::cleanup()
     _pMakeSolidSheet = nullptr;
     _preview.clear();
     _pointPickOption.pSelPreFilter = nullptr;
-    _pointPickOption.pSelFilter = nullptr;
+    _pointPickOption.pSelPostFilter = nullptr;
     if (_pSelSetHighlightor_Faces) _pSelSetHighlightor_Faces->clearSelections();
     _pSelSetHighlightor_Faces = nullptr;
     _pSelSetHighlightor_TargetFaces = nullptr;
@@ -613,7 +613,7 @@ void OffsetSheetGuiCmd::updatePickOption()
         _pointPickOption.selType = wy3d::SelectionType::Element;
         _pointPickOption.pSelPreFilter = std::make_shared<CommonPreSelFilterForPointPick>(
             wy3d::Sheet::classInfo());
-        _pointPickOption.pSelFilter = std::make_shared<SingleClassSelFilter>(
+        _pointPickOption.pSelPostFilter = std::make_shared<SingleClassSelFilter>(
             wy3d::Sheet::classInfo());
     }
     else
@@ -629,7 +629,7 @@ void OffsetSheetGuiCmd::updatePickOption()
         _pointPickOption.allowedElemTypes = allowedElemTypes;
         _pointPickOption.selType = wy3d::SelectionType::Face;
         _pointPickOption.pSelPreFilter = std::make_shared<OffsetSheetPreSelFilter>(_hostKind, _hostId);
-        _pointPickOption.pSelFilter = nullptr;
+        _pointPickOption.pSelPostFilter = nullptr;
     }
     _preview.clear();
 }

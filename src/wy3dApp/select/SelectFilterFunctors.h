@@ -16,8 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SELECT_FILTER_FUNCTOR_H
-#define WY3DAPP_SELECT_FILTER_FUNCTOR_H
+#ifndef WY3DAPP_SELECT_FILTER_FUNCTORS_H
+#define WY3DAPP_SELECT_FILTER_FUNCTORS_H
 
 #include <vector>
 #include <memory>
@@ -55,10 +55,10 @@ public:
 };
 typedef std::shared_ptr<SelectPreFilterFunctor> SelectPreFilterFunctorSPtr;
 
-class SelectFilterFunctor
+class SelectPostFilterFunctor
 {
 public:
-    virtual ~SelectFilterFunctor() = default;
+    virtual ~SelectPostFilterFunctor() = default;
 
     // 执行函数
     virtual SelectFilterStatus operator()(
@@ -66,8 +66,8 @@ public:
         const wyap::Selection& sel,
         SelectAction selectAction) const = 0;
 };
-typedef std::shared_ptr<SelectFilterFunctor> SelectFilterFunctorSPtr;
+typedef std::shared_ptr<SelectPostFilterFunctor> SelectPostFilterFunctorSPtr;
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_SELECT_FILTER_FUNCTOR_H
+#endif // WY3DAPP_SELECT_FILTER_FUNCTORS_H

@@ -241,9 +241,9 @@ void CircularPatternGuiCmd::gotoStep(Step step)
         // 点选选项:实体圆柱面
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Face;
-        auto pSelFilter = std::make_shared<FaceSelFilterFunctor<Geom_CylindricalSurface>>();
-        pSelFilter->addExcludeId(_sourceId);
-        _pointPickOption.pSelFilter = pSelFilter;
+        auto pSelPostFilter = std::make_shared<FaceSelFilterFunctor<Geom_CylindricalSurface>>();
+        pSelPostFilter->addExcludeId(_sourceId);
+        _pointPickOption.pSelPostFilter = pSelPostFilter;
 
         // 预览
         _cylindricalSurfacePreview.clear();

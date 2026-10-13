@@ -4,12 +4,12 @@
 <context>
     <name>BooleanGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/boolean/BooleanGuiCmds.cpp" line="307"/>
+        <location filename="../../commands/modeling/solid/boolean/BooleanGuiCmds.cpp" line="308"/>
         <source>Select the target solid.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/boolean/BooleanGuiCmds.cpp" line="329"/>
+        <location filename="../../commands/modeling/solid/boolean/BooleanGuiCmds.cpp" line="330"/>
         <source>Select one or more tool solids; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -106,31 +106,31 @@
     <name>DatumPlnCmd</name>
     <message>
         <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="244"/>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="827"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="825"/>
         <source>Select solid edge or solid face or datum plane to determine the rotation axis.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="420"/>
-        <location filename="../../commands/datumPlane/CoincidentDatumPlnCmd.cpp" line="116"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="166"/>
+        <location filename="../../commands/datumPlane/CoincidentDatumPlnCmd.cpp" line="115"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="165"/>
         <source>Select a planar face or datum plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="477"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="475"/>
         <source>Specify the rotation angle.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="712"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="763"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="710"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="762"/>
         <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="355"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="895"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="893"/>
         <source>Select solid edge or solid face or datum plane to determine the X axis.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -140,16 +140,16 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="440"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="187"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="439"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="186"/>
         <source>Specify through point or directly input the distance value.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="617"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="759"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="766"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="334"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="616"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="758"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="765"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="333"/>
         <source>Distance</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1517,13 +1517,13 @@
         <translation>Edit 3D Sketch</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="210"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="209"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1565"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="218"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="217"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1574"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
@@ -1701,17 +1701,17 @@
 <context>
     <name>MakeSphereGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="175"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="176"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">Specify the center point; you can directly input the coordinate values.</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="187"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="188"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">Specify the radius; you can directly input the value.</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="332"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="333"/>
         <source>Radius</source>
         <translation type="unfinished">Radius</translation>
     </message>
@@ -2850,12 +2850,12 @@
 <context>
     <name>SketchDrawSpline3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawSpline3DGuiCmd.cpp" line="210"/>
+        <location filename="../../commands/sketch3d/SketchDrawSpline3DGuiCmd.cpp" line="211"/>
         <source>Specify the start point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">Specify the start point; you can directly input the coordinate values. Press Space to switch the drawing plane.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawSpline3DGuiCmd.cpp" line="218"/>
+        <location filename="../../commands/sketch3d/SketchDrawSpline3DGuiCmd.cpp" line="219"/>
         <source>Specify the next point; you can directly input the coordinate values. Press Space to switch the drawing plane. Esc or double-click finishes the spline.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2863,12 +2863,12 @@
 <context>
     <name>SketchDrawSplineGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="279"/>
+        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="280"/>
         <source>Specify the start point; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="303"/>
+        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="304"/>
         <source>Specify the next point; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3300,7 +3300,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="361"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="360"/>
         <source>Select the profile sketch.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3308,7 +3308,7 @@
 <context>
     <name>SweepGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="396"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="395"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3321,7 +3321,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="247"/>
+        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="246"/>
         <source>Select the profile sketch.</source>
         <translation type="unfinished"></translation>
     </message>

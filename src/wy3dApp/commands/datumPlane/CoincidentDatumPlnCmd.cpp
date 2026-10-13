@@ -45,7 +45,7 @@ wyap::CmdExecution::StartResult CoincidentDatumPlnCmd::onStart()
     // 初始化
     _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet | ElementNodeType::DatumPlane;
     _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
-    _pointPickOption.pSelFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
+    _pointPickOption.pSelPostFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
     this->gotoStep(Step::SelectDatumPlaneOrFace);
 
     return wyap::CmdExecution::StartResult::Succeeded;

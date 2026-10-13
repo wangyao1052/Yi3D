@@ -62,7 +62,7 @@
 
 namespace wy3dApp {
 
-class SelectGuiCmdSelFilter_Modeling : public SelectFilterFunctor
+class SelectGuiCmdSelFilter_Modeling : public SelectPostFilterFunctor
 {
 public:
     // 执行函数

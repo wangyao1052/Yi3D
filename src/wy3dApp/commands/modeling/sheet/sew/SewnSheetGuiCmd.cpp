@@ -42,7 +42,7 @@ namespace wy3dApp {
 constexpr double kDefaultSewTolerance = 1e-6;
 
 // 源片体选择过滤器: 只能是 wy3d::Sheet 且无主（未被其它特征占用）
-class SewnSheetSourceSelFilter : public SelectFilterFunctor
+class SewnSheetSourceSelFilter : public SelectPostFilterFunctor
 {
 public:
     inline virtual SelectFilterStatus operator()(
@@ -247,7 +247,7 @@ void SewnSheetGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = true;
         selOptions.allowedElemTypes = ElementNodeType::Sheet;
         selOptions.selectionType = wy3d::SelectionType::Element;
-        selOptions.filter = std::make_shared<SewnSheetSourceSelFilter>();
+        selOptions.postFilter = std::make_shared<SewnSheetSourceSelFilter>();
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;
         this->configSelect(selOptions);

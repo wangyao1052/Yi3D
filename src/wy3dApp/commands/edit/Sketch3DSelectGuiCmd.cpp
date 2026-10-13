@@ -50,7 +50,7 @@ namespace
 // body selections are turned down here and the ray falls through to the face pass.
 // Curved faces are deliberately let through: the command turns them down with a tip, which a
 // filter cannot do.
-class WorkPlaneSourceSelFilter : public SelectFilterFunctor
+class WorkPlaneSourceSelFilter : public SelectPostFilterFunctor
 {
 public:
     virtual SelectFilterStatus operator()(
@@ -109,7 +109,7 @@ wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
         ElementNodeType::Sheet |
         ElementNodeType::DatumPlane;
     _planePickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
-    _planePickOption.pSelFilter = std::make_shared<WorkPlaneSourceSelFilter>();
+    _planePickOption.pSelPostFilter = std::make_shared<WorkPlaneSourceSelFilter>();
 
     _planePreview.clear();
     _pCustomWorkPlaneHighlight = nullptr;
@@ -123,7 +123,7 @@ wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
 void Sketch3DSelectGuiCmd::configureSelectOptions(SelectOptions& options)
 {
     options.allowedElemTypes = ElementNodeType::Sketch3DEntity;
-    options.filter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity3D::classInfo());
+    options.postFilter = std::make_shared<SingleClassSelFilter>(wy3d::SketchEntity3D::classInfo());
 }
 
 void Sketch3DSelectGuiCmd::onStart_EnvSpecific()
