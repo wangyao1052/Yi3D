@@ -148,6 +148,7 @@ void SelectHandler::boxSelect(bool isCross, bool isCtrlDown)
         const wydb::Database* pDb = Application::instance().getActiveDatabase();
         assert(pDb);
         wyap::SelectionSet ssFiltered;
+        bool skipRemaining(false);
         for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
         {
             wyap::Selection sel = iter.current();
@@ -157,9 +158,16 @@ void SelectHandler::boxSelect(bool isCross, bool isCtrlDown)
                 ssFiltered.add(sel);
                 break;
             case SelectFilterStatus::Continue:
+                break;
+            case SelectFilterStatus::Break:
+                skipRemaining = true;
+                break;
             default:
+                assert(false);
                 break;
             }
+
+            if (skipRemaining) break;
         }
         ss.swap(ssFiltered);
     }

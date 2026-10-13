@@ -78,8 +78,34 @@ SelectFilterStatus SingleClassSelPostFilter::operator()(
         assert(false);
         return SelectFilterStatus::Continue;
     }
-    if (pElem->isKindOf(_classInfo)) return SelectFilterStatus::Ok;
-    else return SelectFilterStatus::Continue;
+    if (pElem->isKindOf(_classInfo))
+    {
+        switch (selectAction)
+        {
+        case SelectAction::Point:
+            return SelectFilterStatus::Ok;
+        case SelectAction::Window:
+        case SelectAction::Crossing:
+            return SelectFilterStatus::Ok;
+        default:
+            assert(false);
+            return SelectFilterStatus::Continue;
+        }
+    }
+    else
+    {
+        switch (selectAction)
+        {
+        case SelectAction::Point:
+            return SelectFilterStatus::Break;
+        case SelectAction::Window:
+        case SelectAction::Crossing:
+            return SelectFilterStatus::Continue;
+        default:
+            assert(false);
+            return SelectFilterStatus::Continue;
+        }
+    }
 }
 
 SelectFilterStatus MultiClassSelPostFilter::operator()(
@@ -98,12 +124,33 @@ SelectFilterStatus MultiClassSelPostFilter::operator()(
     }
     for (wyrx::ClassInfo* pClassInfo : _classInfos)
     {
-        if (pClassInfo && pElem->isKindOf(pClassInfo))
+        if (pElem->isKindOf(pClassInfo))
         {
-            return SelectFilterStatus::Ok;
+            switch (selectAction)
+            {
+            case SelectAction::Point:
+                return SelectFilterStatus::Ok;
+            case SelectAction::Window:
+            case SelectAction::Crossing:
+                return SelectFilterStatus::Ok;
+            default:
+                assert(false);
+                return SelectFilterStatus::Continue;
+            }
         }
     }
-    return SelectFilterStatus::Continue;
+
+    switch (selectAction)
+    {
+    case SelectAction::Point:
+        return SelectFilterStatus::Break;
+    case SelectAction::Window:
+    case SelectAction::Crossing:
+        return SelectFilterStatus::Continue;
+    default:
+        assert(false);
+        return SelectFilterStatus::Continue;
+    }
 }
 
 } // namespace wy3dApp
