@@ -49,7 +49,7 @@ protected:
     virtual wyap::CmdExecution::StartResult onStart() override;
     virtual void onEnd() override;
     virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual void onEscapeKey() override;
     virtual void onMouseMove(const MouseEvent& event) override;
     virtual void onLeftMouseDown(const MouseEvent& event) override;

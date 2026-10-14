@@ -141,7 +141,7 @@ wyap::CmdExecution::StartResult DemoParametersCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void DemoParametersCmd::cleanup()
+void DemoParametersCmd::cleanUp()
 {
     _hoverPreview.clear();
 }

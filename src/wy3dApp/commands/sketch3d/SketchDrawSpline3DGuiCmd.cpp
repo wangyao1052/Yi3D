@@ -79,7 +79,7 @@ wyap::CmdExecution::StartResult SketchDrawSpline3DGuiCmd::onStart()
     return ret;
 }
 
-void SketchDrawSpline3DGuiCmd::cleanup()
+void SketchDrawSpline3DGuiCmd::cleanUp()
 {
     _step = 0;
     _startPoint.set(0.0, 0.0, 0.0);
@@ -96,7 +96,7 @@ void SketchDrawSpline3DGuiCmd::cleanup()
 
 void SketchDrawSpline3DGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(static_cast<unsigned int>(Step::SpecifyStartPnt));
 }
 

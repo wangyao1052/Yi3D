@@ -95,7 +95,7 @@ wyap::CmdExecution::StartResult SketchDrawArcGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void SketchDrawArcGuiCmd::cleanup()
+void SketchDrawArcGuiCmd::cleanUp()
 {
     this->hidePopup();
 
@@ -117,7 +117,7 @@ void SketchDrawArcGuiCmd::cleanup()
 
 void SketchDrawArcGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SpecifyCenterPnt);
 }
 

@@ -50,7 +50,7 @@ protected:
         SelectProfile = 2,
         SpecifySolidToCut = 3,
     };
-    virtual void cleanup();
+    virtual void cleanUp();
     virtual bool finishStep(Step step);
     virtual void gotoStep(Step step);
 
@@ -108,7 +108,7 @@ class SweepCutGuiCmd : public SweepGuiCmd
 {
     WYRX_DECLARE_MEMBERS(SweepCutGuiCmd, wy3dApp::SweepCutGuiCmd, SweepGuiCmd)
 public:
-    virtual void cleanup();
+    virtual void cleanUp();
     virtual bool finishStep(Step step) override;
     virtual void gotoStep(Step step) override;
 

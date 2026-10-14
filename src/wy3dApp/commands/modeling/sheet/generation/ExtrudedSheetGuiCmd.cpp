@@ -229,10 +229,10 @@ void ExtrudedSheetGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 void ExtrudedSheetGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
 }
 
-void ExtrudedSheetGuiCmd::cleanup()
+void ExtrudedSheetGuiCmd::cleanUp()
 {
     this->hidePopup();
     _step = Step::Undefined;

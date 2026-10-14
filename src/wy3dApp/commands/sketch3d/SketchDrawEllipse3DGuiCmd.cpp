@@ -71,7 +71,7 @@ wyap::CmdExecution::StartResult SketchDrawEllipse3DGuiCmd::onStart()
     return ret;
 }
 
-void SketchDrawEllipse3DGuiCmd::cleanup()
+void SketchDrawEllipse3DGuiCmd::cleanUp()
 {
     _step = 0;
     _centerPnt.set(0.0, 0.0, 0.0);
@@ -96,7 +96,7 @@ void SketchDrawEllipse3DGuiCmd::onEscapeKey()
     else if (_step == static_cast<unsigned int>(Step::SpecifyAxisEndPoint) ||
         _step == static_cast<unsigned int>(Step::SpecifyOtherRadius))
     {
-        this->cleanup();
+        this->cleanUp();
         this->gotoStep(static_cast<unsigned int>(Step::SpecifyCenterPnt));
         this->simulateMouseMoveFromPopup();
     }

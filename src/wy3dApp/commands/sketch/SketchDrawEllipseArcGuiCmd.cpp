@@ -113,11 +113,11 @@ void SketchDrawEllipseArcGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 void SketchDrawEllipseArcGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SpecifyCenterPnt);
 }
 
-void SketchDrawEllipseArcGuiCmd::cleanup()
+void SketchDrawEllipseArcGuiCmd::cleanUp()
 {
     this->hidePopup();
 

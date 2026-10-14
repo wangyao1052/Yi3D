@@ -50,7 +50,7 @@ protected:
         SelectAxisCurve = 2,
         SpecifySolidToCut = 3,
     };
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual void reset();
     virtual bool finishStep(Step step);
     virtual void gotoStep(Step step);

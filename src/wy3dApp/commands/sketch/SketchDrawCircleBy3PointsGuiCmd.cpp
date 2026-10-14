@@ -79,7 +79,7 @@ wyap::CmdExecution::StartResult SketchDrawCircleBy3PointsGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void SketchDrawCircleBy3PointsGuiCmd::cleanup()
+void SketchDrawCircleBy3PointsGuiCmd::cleanUp()
 {
     this->hidePopup();
 
@@ -101,7 +101,7 @@ void SketchDrawCircleBy3PointsGuiCmd::cleanup()
 
 void SketchDrawCircleBy3PointsGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SpecifyPoint1st);
 }
 

@@ -75,12 +75,12 @@ MakeTorusGuiCmd::~MakeTorusGuiCmd()
 void MakeTorusGuiCmd::reset()
 {
     __baseClass::reset();
-    this->cleanup();
+    this->cleanUp();
 }
 
-void MakeTorusGuiCmd::cleanup()
+void MakeTorusGuiCmd::cleanUp()
 {
-    __baseClass::cleanup();
+    __baseClass::cleanUp();
     this->hidePopup();
 
     _uv1.set(0.0, 0.0);

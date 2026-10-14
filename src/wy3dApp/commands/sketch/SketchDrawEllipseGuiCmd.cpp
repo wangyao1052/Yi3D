@@ -88,11 +88,11 @@ wyap::CmdExecution::StartResult SketchDrawEllipseGuiCmd::onStart()
 
 void SketchDrawEllipseGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SpecifyCenterPnt);
 }
 
-void SketchDrawEllipseGuiCmd::cleanup()
+void SketchDrawEllipseGuiCmd::cleanUp()
 {
     this->hidePopup();
 

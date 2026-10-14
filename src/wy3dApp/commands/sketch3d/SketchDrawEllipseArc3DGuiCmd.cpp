@@ -75,7 +75,7 @@ wyap::CmdExecution::StartResult SketchDrawEllipseArc3DGuiCmd::onStart()
     return ret;
 }
 
-void SketchDrawEllipseArc3DGuiCmd::cleanup()
+void SketchDrawEllipseArc3DGuiCmd::cleanUp()
 {
     _step = 0;
     _centerPnt.set(0.0, 0.0, 0.0);
@@ -101,7 +101,7 @@ void SketchDrawEllipseArc3DGuiCmd::onEscapeKey()
     }
     else if (_step != 0)
     {
-        this->cleanup();
+        this->cleanUp();
         this->gotoStep(static_cast<unsigned int>(Step::SpecifyCenterPnt));
         this->simulateMouseMoveFromPopup();
     }

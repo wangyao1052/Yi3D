@@ -107,7 +107,7 @@ wyap::CmdExecution::StartResult DeleteFaceGuiCmd::onStart()
 }
 
 // 基类在 onEnd()/onAbort() 中调用: 命令结束(含 Esc 中止)时清干净高亮与预览
-void DeleteFaceGuiCmd::cleanup()
+void DeleteFaceGuiCmd::cleanUp()
 {
     _step = Step::Undefined;
     _faceSels.clear();
@@ -140,7 +140,7 @@ bool DeleteFaceGuiCmd::finishStep(Step step)
         }
 
         // 重置数据
-        this->cleanup();
+        this->cleanUp();
 
         // 结束命令
         this->requestEnd();

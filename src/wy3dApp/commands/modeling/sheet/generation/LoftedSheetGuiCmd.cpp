@@ -97,7 +97,7 @@ wyap::CmdExecution::StartResult LoftedSheetGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void LoftedSheetGuiCmd::cleanup()
+void LoftedSheetGuiCmd::cleanUp()
 {
     _step = Step::Undefined;
     _profileIds.clear();

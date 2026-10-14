@@ -83,7 +83,7 @@ wyap::CmdExecution::StartResult SketchDrawCircleGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void SketchDrawCircleGuiCmd::cleanup()
+void SketchDrawCircleGuiCmd::cleanUp()
 {
     this->hidePopup();
 
@@ -98,7 +98,7 @@ void SketchDrawCircleGuiCmd::cleanup()
 
 void SketchDrawCircleGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SpecifyCenterPnt);
 }
 

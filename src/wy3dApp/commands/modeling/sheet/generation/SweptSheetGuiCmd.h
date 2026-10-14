@@ -49,7 +49,7 @@ protected:
         SelectPath = 1,
         SelectProfile = 2,
     };
-    virtual void cleanup();
+    virtual void cleanUp();
     virtual bool finishStep(Step step);
     virtual void gotoStep(Step step);
 

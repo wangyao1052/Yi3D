@@ -74,7 +74,7 @@ protected:
         SelectSketch = 1,
         SelectEdges = 2,
     };
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual void reset();
     virtual bool finishStep(Step step);
     virtual void gotoStep(Step step);

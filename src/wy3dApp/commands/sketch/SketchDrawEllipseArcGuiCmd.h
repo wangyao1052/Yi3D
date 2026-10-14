@@ -60,7 +60,7 @@ protected:
         SpecifyStartAngle = 4,
         SpecifyEndAngle = 5,
     };
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual void reset();
     virtual void onEscapeKey() override;
     bool finishStep(Step step);

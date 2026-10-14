@@ -338,7 +338,7 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void FilledSheetGuiCmd::cleanup()
+void FilledSheetGuiCmd::cleanUp()
 {
     this->releaseConstraintSketches();
     _step = Step::Undefined;
@@ -568,7 +568,7 @@ void FilledSheetGuiCmd::activateConstraintSketches()
 // The active state belongs to the model, so it is given back rather than cleared: a sketch that
 // the finished feature still owns goes back to inactive, one that came out of the set is a
 // top-level sketch again. The ids are kept on the side because the feature is long gone by the
-// time cleanup runs
+// time cleanUp runs
 void FilledSheetGuiCmd::releaseConstraintSketches()
 {
     Scene* pScene = Application::instance().getActiveScene();

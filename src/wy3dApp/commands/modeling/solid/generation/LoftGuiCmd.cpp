@@ -101,7 +101,7 @@ wyap::CmdExecution::StartResult LoftGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void LoftGuiCmd::cleanup()
+void LoftGuiCmd::cleanUp()
 {
     _step = Step::Undefined;
     _profileIds.clear();
@@ -115,9 +115,9 @@ void LoftGuiCmd::cleanup()
     _pMakeLoft = nullptr;
 }
 
-void LoftCutGuiCmd::cleanup()
+void LoftCutGuiCmd::cleanUp()
 {
-    LoftGuiCmd::cleanup();
+    LoftGuiCmd::cleanUp();
     _solidToCutPreview.clear();
 }
 

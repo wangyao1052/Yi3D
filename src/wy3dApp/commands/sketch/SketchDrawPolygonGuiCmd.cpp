@@ -97,7 +97,7 @@ wyap::CmdExecution::StartResult SketchDrawPolygonGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void SketchDrawPolygonGuiCmd::cleanup()
+void SketchDrawPolygonGuiCmd::cleanUp()
 {
     this->hidePopup();
 
@@ -115,7 +115,7 @@ void SketchDrawPolygonGuiCmd::cleanup()
 
 void SketchDrawPolygonGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SpecifyCenterPnt);
 }
 

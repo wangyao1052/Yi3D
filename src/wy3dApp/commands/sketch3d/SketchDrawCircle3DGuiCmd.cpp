@@ -72,7 +72,7 @@ wyap::CmdExecution::StartResult SketchDrawCircle3DGuiCmd::onStart()
     return ret;
 }
 
-void SketchDrawCircle3DGuiCmd::cleanup()
+void SketchDrawCircle3DGuiCmd::cleanUp()
 {
     _step = 0;
     _centerPnt.set(0.0, 0.0, 0.0);
@@ -94,7 +94,7 @@ void SketchDrawCircle3DGuiCmd::onEscapeKey()
     }
     else if (_step == static_cast<unsigned int>(Step::SpecifyRadius))
     {
-        this->cleanup();
+        this->cleanUp();
         this->gotoStep(static_cast<unsigned int>(Step::SpecifyCenterPnt));
         this->simulateMouseMoveFromPopup();
     }

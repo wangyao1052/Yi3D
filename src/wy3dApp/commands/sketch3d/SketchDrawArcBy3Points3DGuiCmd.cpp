@@ -72,7 +72,7 @@ wyap::CmdExecution::StartResult SketchDrawArcBy3Points3DGuiCmd::onStart()
     return ret;
 }
 
-void SketchDrawArcBy3Points3DGuiCmd::cleanup()
+void SketchDrawArcBy3Points3DGuiCmd::cleanUp()
 {
     _step = 0;
     _pnt1st.set(0.0, 0.0, 0.0);
@@ -95,7 +95,7 @@ void SketchDrawArcBy3Points3DGuiCmd::onEscapeKey()
     else if (_step == static_cast<unsigned int>(Step::SpecifyPoint2nd) ||
         _step == static_cast<unsigned int>(Step::SpecifyPoint3rd))
     {
-        this->cleanup();
+        this->cleanUp();
         this->gotoStep(static_cast<unsigned int>(Step::SpecifyPoint1st));
         this->simulateMouseMoveFromPopup();
     }

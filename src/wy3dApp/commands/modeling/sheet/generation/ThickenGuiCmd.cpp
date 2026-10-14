@@ -155,7 +155,7 @@ wyap::CmdExecution::StartResult ThickenGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void ThickenGuiCmd::cleanup()
+void ThickenGuiCmd::cleanUp()
 {
     _sheetId = wydb::ElementId::kNull;
     _thickness = kDefaultThickness;

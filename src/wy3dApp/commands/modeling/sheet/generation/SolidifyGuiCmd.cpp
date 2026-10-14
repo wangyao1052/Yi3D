@@ -131,7 +131,7 @@ wyap::CmdExecution::StartResult SolidifyGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void SolidifyGuiCmd::cleanup()
+void SolidifyGuiCmd::cleanUp()
 {
     _sheetPreview.clear();
     _pMakeSolidify = nullptr;

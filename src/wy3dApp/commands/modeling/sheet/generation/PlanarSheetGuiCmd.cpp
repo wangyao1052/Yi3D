@@ -232,10 +232,10 @@ wyap::CmdExecution::StartResult PlanarSheetGuiCmd::onStart()
 
 void PlanarSheetGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
 }
 
-void PlanarSheetGuiCmd::cleanup()
+void PlanarSheetGuiCmd::cleanUp()
 {
     _step = Step::Undefined;
     _sketchId = wydb::ElementId::kNull;

@@ -82,12 +82,12 @@ MakeBoxGuiCmd::~MakeBoxGuiCmd()
 void MakeBoxGuiCmd::reset()
 {
     __baseClass::reset();   // 先清基类状态
-    this->cleanup();        // 再清本类状态
+    this->cleanUp();        // 再清本类状态
 }
 
-void MakeBoxGuiCmd::cleanup()
+void MakeBoxGuiCmd::cleanUp()
 {
-    __baseClass::cleanup(); // 防御式调用
+    __baseClass::cleanUp(); // 防御式调用
 
     this->hidePopup();
 

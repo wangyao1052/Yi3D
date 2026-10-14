@@ -49,7 +49,7 @@ protected:
         Undefined = 0,
         SpecifyPosition = 1,
     };
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual void reset();
     virtual void onEscapeKey() override;
     bool finishStep(Step step);

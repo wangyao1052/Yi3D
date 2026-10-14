@@ -57,7 +57,7 @@ protected:
         SpecifyStartPoint = 2,
         SpecifyEndPoint = 3
     };
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual void reset();
     virtual void onEscapeKey() override;
     bool finishStep(Step step);

@@ -37,7 +37,7 @@ public:
 
 protected:
     wyap::CmdExecution::StartResult onStart() override;
-    void cleanup() override;
+    void cleanUp() override;
     void onMouseMove(const wy3dApp::MouseEvent& event) override;
     void onLeftMouseUp(const wy3dApp::MouseEvent& event) override;
 

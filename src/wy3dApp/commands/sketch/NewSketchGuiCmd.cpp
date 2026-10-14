@@ -144,7 +144,7 @@ void NewSketchGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     Application::instance().getSelManager()->endChange();
 }
 
-void NewSketchGuiCmd::cleanup()
+void NewSketchGuiCmd::cleanUp()
 {
     _preview.clear();
 }

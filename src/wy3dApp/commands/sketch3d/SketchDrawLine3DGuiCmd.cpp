@@ -73,7 +73,7 @@ wyap::CmdExecution::StartResult SketchDrawLine3DGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void SketchDrawLine3DGuiCmd::cleanup()
+void SketchDrawLine3DGuiCmd::cleanUp()
 {
     _step = 0;
     _startPnt.set(0.0, 0.0, 0.0);
@@ -95,7 +95,7 @@ void SketchDrawLine3DGuiCmd::onEscapeKey()
     }
     else if (_step == static_cast<unsigned int>(Step::SpecifyEndPnt))
     {
-        this->cleanup();
+        this->cleanUp();
         this->gotoStep(static_cast<unsigned int>(Step::SpecifyStartPnt));
         this->simulateMouseMoveFromPopup();
     }

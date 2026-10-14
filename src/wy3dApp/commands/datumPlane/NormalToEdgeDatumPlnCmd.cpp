@@ -271,7 +271,7 @@ wyap::CmdExecution::StartResult NormalToEdgeDatumPlnCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void NormalToEdgeDatumPlnCmd::cleanup()
+void NormalToEdgeDatumPlnCmd::cleanUp()
 {
     this->hidePopup();
     _step = Step::Undefined;
@@ -286,7 +286,7 @@ void NormalToEdgeDatumPlnCmd::cleanup()
 
 void NormalToEdgeDatumPlnCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
 }
 void NormalToEdgeDatumPlnCmd::onEnd()
 {

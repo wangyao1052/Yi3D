@@ -43,7 +43,7 @@ protected:
     virtual void onEnd() override;
     virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
 
-    virtual void cleanup() override { this->reset(); }
+    virtual void cleanUp() override { this->reset(); }
 
 protected:
     enum class Step

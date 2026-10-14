@@ -80,7 +80,7 @@ protected:
     };
 
     virtual wyap::CmdExecution::StartResult onStart() override;
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual void onEscapeKey() override;
     bool finishStep(unsigned int step);
     void gotoStep(unsigned int step);

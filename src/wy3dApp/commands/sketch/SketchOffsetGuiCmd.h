@@ -59,7 +59,7 @@ protected:
         SpecifyOffset = 2,
     };
     virtual void reset();
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     bool finishStep(Step step);
     void gotoStep(Step step);
 

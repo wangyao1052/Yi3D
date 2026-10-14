@@ -107,7 +107,7 @@ void GuiCommand::onEnd()
     Application::instance().getGizmoManager()->clearGizmos();
     Application::instance().getGizmoManager()->endChange();
 
-    this->cleanup();
+    this->cleanUp();
 }
 
 void GuiCommand::onAbort(wyap::CmdExecution::AbortCause cause)
@@ -125,7 +125,7 @@ void GuiCommand::onAbort(wyap::CmdExecution::AbortCause cause)
     Application::instance().getGizmoManager()->clearGizmos();
     Application::instance().getGizmoManager()->endChange();
 
-    this->cleanup();
+    this->cleanUp();
 }
 
 GuiCmdMenu* GuiCommand::initContextMenu()

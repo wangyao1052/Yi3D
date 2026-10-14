@@ -42,7 +42,7 @@ protected:
     virtual wyap::CmdExecution::StartResult onStart() override;
 
 protected:
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
 
     enum class Step
     {

@@ -76,7 +76,7 @@ wyap::CmdExecution::StartResult SketchDrawArcBy3PointsGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void SketchDrawArcBy3PointsGuiCmd::cleanup()
+void SketchDrawArcBy3PointsGuiCmd::cleanUp()
 {
     this->hidePopup();
 
@@ -97,7 +97,7 @@ void SketchDrawArcBy3PointsGuiCmd::cleanup()
 
 void SketchDrawArcBy3PointsGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SpecifyPoint1st);
 }
 

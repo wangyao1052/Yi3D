@@ -121,7 +121,7 @@ void SweptSheetGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 }
 
-void SweptSheetGuiCmd::cleanup()
+void SweptSheetGuiCmd::cleanUp()
 {
     _pMakeSweptSheet = nullptr;
 
@@ -184,7 +184,7 @@ bool SweptSheetGuiCmd::finishStep(Step step)
         _pMakeSweptSheet = nullptr;
 
         // 重置数据
-        this->cleanup();
+        this->cleanUp();
 
         // exit
         this->requestEnd();

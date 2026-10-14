@@ -484,34 +484,34 @@
 <context>
     <name>FilledSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="472"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="469"/>
         <source>Select the boundary of the filled surface: a 2D or 3D sketch, or edges of a solid or sheet.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="488"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="826"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="485"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="824"/>
         <source>Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="514"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="512"/>
         <source>Select constraint curves (optional); press Enter or Spacebar to complete.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="860"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="872"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="881"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="895"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="858"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="870"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="879"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="893"/>
         <source>Sketch not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="864"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="869"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="887"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="892"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="862"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="867"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="885"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="890"/>
         <source>Sketch is already in use</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2137,7 +2137,7 @@
 <context>
     <name>SetColorGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/SetColorGuiCmd.cpp" line="90"/>
+        <location filename="../../commands/utilities/SetColorGuiCmd.cpp" line="89"/>
         <source>Click solid elements to apply the selected color.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3274,7 +3274,7 @@
 <context>
     <name>SolidifyGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/SolidifyGuiCmd.cpp" line="128"/>
+        <location filename="../../commands/modeling/sheet/generation/SolidifyGuiCmd.cpp" line="127"/>
         <source>Select a closed sheet to solidify.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3287,7 +3287,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="228"/>
+        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="227"/>
         <source>Select the 2D or 3D sketch to split the face with.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3308,7 +3308,7 @@
 <context>
     <name>SweepGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="392"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="394"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3329,12 +3329,12 @@
 <context>
     <name>ThickenGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="152"/>
+        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="151"/>
         <source>Select a sheet to thicken.</source>
         <translation>Select a sheet to thicken.</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="259"/>
+        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="258"/>
         <source>Specify thickness and direction, then OK to apply.</source>
         <translation>Specify thickness and direction, then OK to apply.</translation>
     </message>

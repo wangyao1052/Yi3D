@@ -68,7 +68,7 @@ wyap::CmdExecution::StartResult TangentDatumPlnCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void TangentDatumPlnCmd::cleanup()
+void TangentDatumPlnCmd::cleanUp()
 {
     this->hidePopup();
     _step = Step::Undefined;
@@ -85,7 +85,7 @@ void TangentDatumPlnCmd::cleanup()
 
 void TangentDatumPlnCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
 }
 
 bool TangentDatumPlnCmd::finishStep(Step step)

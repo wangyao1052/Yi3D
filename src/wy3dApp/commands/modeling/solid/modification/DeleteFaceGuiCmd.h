@@ -46,7 +46,7 @@ protected:
         Undefined = 0,
         SelectFaces = 1,
     };
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     bool finishStep(Step step);
     void gotoStep(Step step);
 

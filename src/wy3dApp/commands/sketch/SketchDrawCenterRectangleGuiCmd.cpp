@@ -81,7 +81,7 @@ wyap::CmdExecution::StartResult SketchDrawCenterRectangleGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void SketchDrawCenterRectangleGuiCmd::cleanup()
+void SketchDrawCenterRectangleGuiCmd::cleanUp()
 {
     this->hidePopup();
 
@@ -99,7 +99,7 @@ void SketchDrawCenterRectangleGuiCmd::cleanup()
 
 void SketchDrawCenterRectangleGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SpecifyStartPnt);
 }
 

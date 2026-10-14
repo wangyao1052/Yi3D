@@ -46,7 +46,7 @@ protected:
     virtual void initStep2ndTip();
     virtual void onEnd() override;
     virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual void reset();
 
 protected:

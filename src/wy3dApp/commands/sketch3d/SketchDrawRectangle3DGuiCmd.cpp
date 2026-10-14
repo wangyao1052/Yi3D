@@ -72,7 +72,7 @@ wyap::CmdExecution::StartResult SketchDrawRectangle3DGuiCmd::onStart()
     return ret;
 }
 
-void SketchDrawRectangle3DGuiCmd::cleanup()
+void SketchDrawRectangle3DGuiCmd::cleanUp()
 {
     _step = 0;
     _startPnt.set(0.0, 0.0, 0.0);
@@ -94,7 +94,7 @@ void SketchDrawRectangle3DGuiCmd::onEscapeKey()
     }
     else if (_step == static_cast<unsigned int>(Step::SpecifyEndPnt))
     {
-        this->cleanup();
+        this->cleanUp();
         this->gotoStep(static_cast<unsigned int>(Step::SpecifyStartPnt));
         this->simulateMouseMoveFromPopup();
     }

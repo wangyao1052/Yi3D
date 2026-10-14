@@ -48,7 +48,7 @@ protected:
         SelectDatumPlaneOrFace = 1,
         SpecifyDistance = 2,
     };
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual void reset();
     bool finishStep(Step step);
     void gotoStep(Step step);

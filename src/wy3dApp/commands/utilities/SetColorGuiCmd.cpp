@@ -106,7 +106,7 @@ void SetColorGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     this->destroyPanel();
 }
 
-void SetColorGuiCmd::cleanup()
+void SetColorGuiCmd::cleanUp()
 {
     _lastHoverElementId = wydb::ElementId::kNull;
     _hoverPreview.clear();

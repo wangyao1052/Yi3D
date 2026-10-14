@@ -59,7 +59,7 @@ protected:
     };
 
     virtual wyap::CmdExecution::StartResult onStart() override;
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
 
     virtual void onMouseMove(const MouseEvent& event) override;
     virtual void onLeftMouseUp(const MouseEvent& event) override;

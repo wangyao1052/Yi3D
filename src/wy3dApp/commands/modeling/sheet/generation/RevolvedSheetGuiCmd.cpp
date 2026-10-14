@@ -101,7 +101,7 @@ void RevolvedSheetGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     GuiCommand::onAbort(cause);
 }
 
-void RevolvedSheetGuiCmd::cleanup()
+void RevolvedSheetGuiCmd::cleanUp()
 {
     _pMakeRevolvedSheet = nullptr;
 
@@ -115,7 +115,7 @@ void RevolvedSheetGuiCmd::cleanup()
 
 void RevolvedSheetGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
 }
 
 bool RevolvedSheetGuiCmd::finishStep(Step step)

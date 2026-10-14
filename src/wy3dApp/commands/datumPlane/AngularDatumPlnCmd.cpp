@@ -255,7 +255,7 @@ void AngularDatumPlnCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 }
 
-void AngularDatumPlnCmd::cleanup()
+void AngularDatumPlnCmd::cleanUp()
 {
     // 退出或重置时统一隐藏浮窗并清理悬停状态
     this->hidePopup();
@@ -280,7 +280,7 @@ void AngularDatumPlnCmd::cleanup()
 
 void AngularDatumPlnCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
 }
 
 bool AngularDatumPlnCmd::finishStep(Step step)

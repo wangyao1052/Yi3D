@@ -82,7 +82,7 @@ protected:
         SelectEdges = 2,
         SelectConstraintCurves = 3,
     };
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual bool finishStep(Step step);
     virtual void gotoStep(Step step);
 

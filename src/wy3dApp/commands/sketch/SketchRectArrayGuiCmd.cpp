@@ -125,7 +125,7 @@ wyap::CmdExecution::StartResult SketchRectArrayGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void SketchRectArrayGuiCmd::cleanup()
+void SketchRectArrayGuiCmd::cleanUp()
 {
     this->hidePopup();
 
@@ -145,7 +145,7 @@ void SketchRectArrayGuiCmd::cleanup()
 
 void SketchRectArrayGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::Step1_SelectElements);
 }
 

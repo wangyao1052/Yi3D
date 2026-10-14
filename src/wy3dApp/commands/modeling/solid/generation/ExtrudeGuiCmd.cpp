@@ -140,10 +140,10 @@ void ExtrudeGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 void ExtrudeGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
 }
 
-void ExtrudeGuiCmd::cleanup()
+void ExtrudeGuiCmd::cleanUp()
 {
     this->hidePopup();
 

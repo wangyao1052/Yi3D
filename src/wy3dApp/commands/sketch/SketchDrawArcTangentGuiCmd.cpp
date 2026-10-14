@@ -299,7 +299,7 @@ void SketchDrawArcTangentGuiCmd::onModeChanged(ArcTangentMode mode)
     this->simulateMouseMoveFromPopup();
 }
 
-void SketchDrawArcTangentGuiCmd::cleanup()
+void SketchDrawArcTangentGuiCmd::cleanUp()
 {
     this->hidePopup();
 
@@ -319,7 +319,7 @@ void SketchDrawArcTangentGuiCmd::cleanup()
 
 void SketchDrawArcTangentGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SpecifyStartPoint);
 }
 

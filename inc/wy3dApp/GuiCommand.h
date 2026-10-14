@@ -95,19 +95,15 @@ protected:
     virtual void onEnd() override;
     virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
 
-    // 清理数据
-    virtual void cleanup() {}
-    // Esc键响应
-    virtual void onEscapeKey() { this->requestAbort(AbortCause::UserCancel); }
-    // Enter键响应
-    virtual void onEnterKey() {}
-    // Space键响应
-    virtual void onSpaceKey() {}
-    // 帧事件
+    // Clean up temporary command resources,
+    // called on command termination (onEnd / onAbort).
+    virtual void cleanUp() {}
+
+    // Frame update event
     // time: seconds since the program started.
     virtual void onFrame(double time) {}
 
-    // 鼠标响应
+    // Mouse event handlers
     virtual void onLeftMouseDown(const MouseEvent& event) {}
     virtual void onLeftMouseUp(const MouseEvent& event) {}
     virtual void onMiddleMouseDown(const MouseEvent& event) {}
@@ -117,8 +113,12 @@ protected:
     virtual void onMouseMove(const MouseEvent& event) {}
     virtual void onLeftMouseDoubleClicked(const MouseEvent& event) {}
     virtual void onRightMouseDoubleClicked(const MouseEvent& event) {}
-    // 键盘响应
+
+    // Keyboard event handlers
     virtual void onKeyDown(const KeyEvent& event);
+    virtual void onEscapeKey() { this->requestAbort(AbortCause::UserCancel); }
+    virtual void onEnterKey() {}
+    virtual void onSpaceKey() {}
     virtual void onKeyUp(const KeyEvent& event) {}
 
     // 上下文菜单
@@ -127,7 +127,8 @@ protected:
     virtual void onContextMenuAction_CompleteSelection() {}
     virtual bool isContextMenuActionVisible_ClearSelection() const { return false; }
     virtual void onContextMenuAction_ClearSelection() {}
-    // 单击特征树上的元素
+
+    // Triggered when an item in the feature tree is clicked.
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) { return; }
 
     // Converts desktop screen coordinates (top-left origin, QCursor::pos) to window

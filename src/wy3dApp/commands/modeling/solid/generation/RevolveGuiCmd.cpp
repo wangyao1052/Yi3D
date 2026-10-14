@@ -108,7 +108,7 @@ void RevolveGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 }
 
-void RevolveGuiCmd::cleanup()
+void RevolveGuiCmd::cleanUp()
 {
     _pMakeRevolution = nullptr;
 
@@ -122,12 +122,12 @@ void RevolveGuiCmd::cleanup()
 
 void RevolveGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
 }
 
 void RevolveCutGuiCmd::reset()
 {
-    RevolveGuiCmd::cleanup();
+    RevolveGuiCmd::cleanUp();
     _solidToCutPreview.clear();
 }
 

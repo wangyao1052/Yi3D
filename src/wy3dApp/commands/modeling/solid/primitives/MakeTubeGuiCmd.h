@@ -47,7 +47,7 @@ protected:
 
 protected:
     virtual void reset();
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual bool finishStep(unsigned int step) override;
     virtual void gotoStepImpl(unsigned int step) override;
 

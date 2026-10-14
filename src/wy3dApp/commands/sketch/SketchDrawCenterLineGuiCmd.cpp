@@ -84,11 +84,11 @@ wyap::CmdExecution::StartResult SketchDrawCenterLineGuiCmd::onStart()
 
 void SketchDrawCenterLineGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SpecifyStartPnt);
 }
 
-void SketchDrawCenterLineGuiCmd::cleanup()
+void SketchDrawCenterLineGuiCmd::cleanUp()
 {
     this->hidePopup();
 

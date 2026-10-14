@@ -87,11 +87,11 @@ wyap::CmdExecution::StartResult SketchOffsetGuiCmd::onStart()
 
 void SketchOffsetGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SelectElement);
 }
 
-void SketchOffsetGuiCmd::cleanup()
+void SketchOffsetGuiCmd::cleanUp()
 {
     this->hidePopup();
 

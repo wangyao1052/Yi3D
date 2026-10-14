@@ -42,7 +42,7 @@ protected:
     virtual void onEnd() override;
     virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
 
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
 
 protected:
     enum class Step

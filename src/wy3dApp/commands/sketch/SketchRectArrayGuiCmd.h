@@ -66,7 +66,7 @@ protected:
         Step6_SpecifyRowSpacing_EndPnt = 6
     };
 
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual void reset();
     virtual void onEscapeKey() override;
     bool finishStep(Step step);

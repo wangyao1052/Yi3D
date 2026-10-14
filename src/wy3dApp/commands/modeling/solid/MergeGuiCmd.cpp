@@ -153,7 +153,7 @@ wyap::CmdExecution::StartResult MergeGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void MergeGuiCmd::cleanup()
+void MergeGuiCmd::cleanUp()
 {
     _step = Step::Undefined;
     _hostId = wydb::ElementId::kNull;

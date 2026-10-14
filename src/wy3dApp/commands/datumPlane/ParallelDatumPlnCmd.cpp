@@ -55,10 +55,10 @@ ParallelDatumPlnCmd::~ParallelDatumPlnCmd()
 
 void ParallelDatumPlnCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
 }
 
-void ParallelDatumPlnCmd::cleanup()
+void ParallelDatumPlnCmd::cleanUp()
 {
     this->hidePopup();
 

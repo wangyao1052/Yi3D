@@ -75,12 +75,12 @@ MakeCylinderGuiCmd::~MakeCylinderGuiCmd()
 void MakeCylinderGuiCmd::reset()
 {
     __baseClass::reset();   // 先清基类状态
-    this->cleanup();        // 再清本类状态
+    this->cleanUp();        // 再清本类状态
 }
 
-void MakeCylinderGuiCmd::cleanup()
+void MakeCylinderGuiCmd::cleanUp()
 {
-    __baseClass::cleanup(); // 防御式调用
+    __baseClass::cleanUp(); // 防御式调用
     this->hidePopup();
 
     _uv1.set(0.0, 0.0);

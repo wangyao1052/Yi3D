@@ -78,7 +78,7 @@ wyap::CmdExecution::StartResult SketchDrawSplineGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void SketchDrawSplineGuiCmd::cleanup()
+void SketchDrawSplineGuiCmd::cleanUp()
 {
     this->hidePopup();
 
@@ -111,7 +111,7 @@ void SketchDrawSplineGuiCmd::cleanup()
 
 void SketchDrawSplineGuiCmd::reset()
 {
-    this->cleanup();
+    this->cleanUp();
     this->gotoStep(Step::SpecifyStartPnt);
 }
 

@@ -544,7 +544,7 @@ wyap::CmdExecution::StartResult OffsetSheetGuiCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
-void OffsetSheetGuiCmd::cleanup()
+void OffsetSheetGuiCmd::cleanUp()
 {
     _step = Step::Undefined;
     _hostKind = HostKind::Undefined;

@@ -1365,7 +1365,7 @@
         <translation type="vanished">选择二维或三维草图，或选择实体或曲面的边创建填充曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="472"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="469"/>
         <source>Select the boundary of the filled surface: a 2D or 3D sketch, or edges of a solid or sheet.</source>
         <translation>选择填充曲面的边界：二维或三维草图，或实体或曲面的边。</translation>
     </message>
@@ -1378,23 +1378,23 @@
         <translation type="vanished">选择约束曲线（可选）；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="514"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="512"/>
         <source>Select constraint curves (optional); press Enter or Spacebar to complete.</source>
         <translation>选择约束曲线（可选）；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="860"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="872"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="881"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="895"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="858"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="870"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="879"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="893"/>
         <source>Sketch not found</source>
         <translation>草图不存在</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="864"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="869"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="887"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="892"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="862"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="867"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="885"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="890"/>
         <source>Sketch is already in use</source>
         <translation>草图已被其他特征使用</translation>
     </message>
@@ -1403,8 +1403,8 @@
         <translation type="vanished">选择边围成闭合环，闭合后自动创建填充曲面；按 Esc 清除已选边。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="488"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="826"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="485"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="824"/>
         <source>Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation type="unfinished">选择边线围合成一个或多个环；按 Enter 键或空格键将完成操作；按 Esc 键将清除已选边。</translation>
     </message>
@@ -3447,7 +3447,7 @@
 <context>
     <name>SetColorGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/SetColorGuiCmd.cpp" line="90"/>
+        <location filename="../../commands/utilities/SetColorGuiCmd.cpp" line="89"/>
         <source>Click solid elements to apply the selected color.</source>
         <translation type="unfinished">单击实体应用当前颜色。</translation>
     </message>
@@ -4851,7 +4851,7 @@
 <context>
     <name>SolidifyGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/SolidifyGuiCmd.cpp" line="128"/>
+        <location filename="../../commands/modeling/sheet/generation/SolidifyGuiCmd.cpp" line="127"/>
         <source>Select a closed sheet to solidify.</source>
         <translation>选择闭合曲面进行实体化。</translation>
     </message>
@@ -4864,7 +4864,7 @@
         <translation type="unfinished">选择要分割的面；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="228"/>
+        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="227"/>
         <source>Select the 2D or 3D sketch to split the face with.</source>
         <translation>选择用于分割的二维或三维草图。</translation>
     </message>
@@ -4905,7 +4905,7 @@
 <context>
     <name>SweepGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="392"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="394"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
     </message>
@@ -4926,12 +4926,12 @@
 <context>
     <name>ThickenGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="152"/>
+        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="151"/>
         <source>Select a sheet to thicken.</source>
         <translation>选择要加厚的曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="259"/>
+        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="258"/>
         <source>Specify thickness and direction, then OK to apply.</source>
         <translation>指定厚度和方向，确认后应用。</translation>
     </message>

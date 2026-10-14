@@ -51,7 +51,7 @@ protected:
         SelectFaces = 1,
         SelectSketch = 2,
     };
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     bool finishStep(Step step);
     void gotoStep(Step step);
 

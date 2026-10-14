@@ -42,7 +42,7 @@ protected:
     virtual wyap::CmdExecution::StartResult onStart() override;
 
 protected:
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
 
     enum class Step
     {
@@ -108,7 +108,7 @@ class LoftCutGuiCmd : public LoftGuiCmd
 {
     WYRX_DECLARE_MEMBERS(LoftCutGuiCmd, wy3dApp::LoftCutGuiCmd, LoftGuiCmd)
 public:
-    virtual void cleanup() override;
+    virtual void cleanUp() override;
     virtual bool finishStep(Step step) override;
     virtual void gotoStep(Step step) override;
 
