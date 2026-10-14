@@ -47,7 +47,7 @@ protected:
     virtual void onMouseMove(const MouseEvent& event) override;
 
     // 上下文菜单
-    virtual GuiCmdMenu* initContextMenu() override;
+    virtual GuiCmdMenu* createContextMenu() override;
     virtual bool isContextMenuActionVisible_CompleteSelection() const override;
     virtual void onContextMenuAction_CompleteSelection() override;
     virtual bool isContextMenuActionVisible_ClearSelection() const override;

@@ -46,18 +46,12 @@
 
 namespace wy3dApp {
 
-GuiCommand::GuiCommand() : wyap::InteractiveCmdExecution(), _pContextMenu(nullptr)
+GuiCommand::GuiCommand() : wyap::InteractiveCmdExecution()
 {
 }
 
 GuiCommand::~GuiCommand()
 {
-    // 销毁上下文菜单
-    if (_pContextMenu)
-    {
-        delete _pContextMenu;
-        _pContextMenu = nullptr;
-    }
 }
 
 wyap::CmdExecution::StartResult GuiCommand::onStart()
@@ -128,14 +122,14 @@ void GuiCommand::onAbort(wyap::CmdExecution::AbortCause cause)
     this->cleanUp();
 }
 
-GuiCmdMenu* GuiCommand::initContextMenu()
+GuiCmdMenu* GuiCommand::createContextMenu()
 {
     return new GuiCmdMenu(this);
 }
 
 void GuiCommand::onRightMouseUp(const MouseEvent& event)
 {
-    GuiCmdMenu* pContextMenu = this->initContextMenu();
+    GuiCmdMenu* pContextMenu = this->createContextMenu();
     if (pContextMenu)
     {
         pContextMenu->exec(QCursor::pos());

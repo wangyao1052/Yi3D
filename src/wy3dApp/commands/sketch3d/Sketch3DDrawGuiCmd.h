@@ -95,7 +95,7 @@ protected:
 
     void moveWorkPlaneOriginTo(const wy::Vector3& pnt);
 
-    virtual GuiCmdMenu* initContextMenu() override;
+    virtual GuiCmdMenu* createContextMenu() override;
 
 protected:
     GuiCmdSketch3DInfo _sketch3DInfo;

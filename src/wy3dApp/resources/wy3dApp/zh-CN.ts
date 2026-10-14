@@ -6095,14 +6095,19 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::GuiCmdMenu</name>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="93"/>
+        <location filename="../../commands/GuiCommandMenu.cpp" line="108"/>
         <source>Complete Selection</source>
         <translation type="unfinished">完成选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="102"/>
+        <location filename="../../commands/GuiCommandMenu.cpp" line="117"/>
         <source>Clear Selection</source>
         <translation type="unfinished">清除选择</translation>
+    </message>
+    <message>
+        <location filename="../../commands/GuiCommandMenu.cpp" line="191"/>
+        <source>World Coordinate System</source>
+        <translation>世界坐标系</translation>
     </message>
     <message>
         <source>Orient to Sketch</source>
@@ -6117,14 +6122,13 @@ Do you want to save it to the original file now?
         <translation type="obsolete">取消草绘</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="165"/>
+        <location filename="../../commands/GuiCommandMenu.cpp" line="180"/>
         <source>Property Widget</source>
         <translation type="unfinished">属性窗口</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="179"/>
         <source>World CSYS</source>
-        <translation type="unfinished">世界坐标系</translation>
+        <translation type="obsolete">世界坐标系</translation>
     </message>
 </context>
 <context>

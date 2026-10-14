@@ -92,8 +92,6 @@ private:
     SketchSnapContextSPtr _pSnapContext;
 
     std::shared_ptr<SketchPolarArrayElements> _pPolarArray;
-    
-    friend class SketchPolarArrayGuiCmdMenu;
 };
 
 class SketchPolarArrayElements : public GuiCmdMakeElement

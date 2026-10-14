@@ -78,8 +78,6 @@ private:
     SelectPreview _preview;
     // 高亮
     SelectionSetHighlightorSPtr _pSelSetHighlightor;
-
-    friend class MergeGuiCmdMenu;
 };
 
 } // namespace wy3dApp

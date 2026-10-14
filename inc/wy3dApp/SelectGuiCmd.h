@@ -57,7 +57,7 @@ public:
     virtual ~SelectGuiCmd();
 
     // Context menu
-    virtual GuiCmdMenu* initContextMenu() override;
+    virtual GuiCmdMenu* createContextMenu() override;
 
     // 选择集变更
     virtual void onSelectionChanged(

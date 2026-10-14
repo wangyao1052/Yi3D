@@ -53,6 +53,21 @@ CommandAction* findActiveEnvironmentCommandAction(const std::string& commandName
 
     return pAction;
 }
+
+// The popup window the context menu lives in. It swallows the outside click
+// that closes the menu so that click does not reach the viewport.
+class GuiCmdQMenu : public QMenu
+{
+public:
+    explicit GuiCmdQMenu(QWidget* parent = nullptr);
+
+private:
+    void installEventFilter();
+    void removeEventFilter();
+
+protected:
+    virtual bool eventFilter(QObject* obj, QEvent* event) override;
+};
 }
 
 GuiCmdMenu::GuiCmdMenu(GuiCommand* pCmd)
@@ -164,27 +179,18 @@ void GuiCmdMenu::init(QMenu* menu)
     // 属性窗口
     QAction* pActionPropertyWidget = new QAction(tr("Property Widget"), menu);
     pActionPropertyWidget->setCheckable(true);
-    if (Application::instance().getDockPanelManager()->isPanelVisible(DockPanelIds::Property))
-    {
-        pActionPropertyWidget->setChecked(true);
-    }
-    else
-    {
-        pActionPropertyWidget->setChecked(false);
-    }
+    pActionPropertyWidget->setChecked(
+        Application::instance().getDockPanelManager()->isPanelVisible(DockPanelIds::Property));
     menu->addAction(pActionPropertyWidget);
     this->connect(pActionPropertyWidget, &QAction::toggled, this, &GuiCmdMenu::onPropertyWidgetToggled);
 
-    // 世界坐标系
-    QAction* pActionWCS = new QAction(tr("World CSYS"), menu);
-    pActionWCS->setCheckable(true);
+    // 世界坐标系（没有活动场景时该项不显示）
     Scene* pScene = Application::instance().getActiveScene();
-    if (pActionWCS && pScene)
+    if (pScene)
     {
-        if (pScene->isWCSVisible())
-            pActionWCS->setChecked(true);
-        else
-            pActionWCS->setChecked(false);
+        QAction* pActionWCS = new QAction(tr("World Coordinate System"), menu);
+        pActionWCS->setCheckable(true);
+        pActionWCS->setChecked(pScene->isWCSVisible());
         menu->addAction(pActionWCS);
         this->connect(pActionWCS, &QAction::toggled, this, &GuiCmdMenu::onWCSToggled);
     }
@@ -254,6 +260,9 @@ void GuiCmdMenu::onWCSToggled(bool checked)
     }
 }
 
+namespace
+{
+
 GuiCmdQMenu::GuiCmdQMenu(QWidget* parent)
     : QMenu(parent)
 {
@@ -298,5 +307,7 @@ bool GuiCmdQMenu::eventFilter(QObject* obj, QEvent* event)
 
     return QMenu::eventFilter(obj, event);
 }
+
+} // namespace
 
 } // namespace wy3dApp

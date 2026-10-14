@@ -227,7 +227,7 @@ void TopoNameGuiCmd::onMouseMove(const MouseEvent& event)
     return;
 }
 
-GuiCmdMenu* TopoNameGuiCmd::initContextMenu()
+GuiCmdMenu* TopoNameGuiCmd::createContextMenu()
 {
     return new TopoNameGuiCmdMenu(this);
 }

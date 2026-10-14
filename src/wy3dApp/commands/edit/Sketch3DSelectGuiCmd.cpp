@@ -89,7 +89,7 @@ Sketch3DSelectGuiCmd::~Sketch3DSelectGuiCmd()
 {
 }
 
-GuiCmdMenu* Sketch3DSelectGuiCmd::initContextMenu()
+GuiCmdMenu* Sketch3DSelectGuiCmd::createContextMenu()
 {
     return new GuiCmdMenu(this);
 }

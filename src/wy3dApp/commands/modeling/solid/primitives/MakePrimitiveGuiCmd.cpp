@@ -330,7 +330,7 @@ void MakePrimitiveGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
 }
 
-GuiCmdMenu* MakePrimitiveGuiCmd::initContextMenu()
+GuiCmdMenu* MakePrimitiveGuiCmd::createContextMenu()
 {
     return new MakePrimitiveGuiCmdMenu(this);
 }

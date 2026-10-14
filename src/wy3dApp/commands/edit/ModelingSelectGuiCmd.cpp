@@ -87,7 +87,7 @@ ModelingSelectGuiCmd::~ModelingSelectGuiCmd()
 {
 }
 
-GuiCmdMenu* ModelingSelectGuiCmd::initContextMenu()
+GuiCmdMenu* ModelingSelectGuiCmd::createContextMenu()
 {
     return new ModelingSelectGuiCmdMenu(this);
 }

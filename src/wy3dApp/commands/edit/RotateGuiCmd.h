@@ -151,8 +151,6 @@ protected:
     std::unique_ptr<GuiCmdHoverInputPopup1> _pAnglePopup;
     HoverPopupState _hoverPopupState;
 
-    friend class RotateGuiCmdMenu;
-
 protected:
     // === 子类必须覆写的纯虚方法 ===
 

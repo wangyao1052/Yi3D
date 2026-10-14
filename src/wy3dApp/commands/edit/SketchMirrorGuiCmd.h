@@ -124,8 +124,6 @@ private:
     std::unique_ptr<GuiCmdHoverInputPopup2> _pXYPopup;
     std::unique_ptr<GuiCmdHoverInputPopup2> _pLengthAnglePopup;
     HoverPopupState _hoverPopupState;
-
-    friend class MirrorGuiCmdMenu;
 };
 
 } // namespace wy3dApp

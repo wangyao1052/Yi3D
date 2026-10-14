@@ -80,8 +80,6 @@ private:
     SelectPreview _preview;
     // 高亮
     SelectionSetHighlightorSPtr _pSelSetHighlightor;
-
-    friend class ShellGuiCmdMenu;
 };
 
 } // namespace wy3dApp

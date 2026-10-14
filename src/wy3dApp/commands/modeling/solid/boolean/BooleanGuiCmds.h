@@ -93,8 +93,6 @@ private:
     std::set<wydb::ElementId> _toolIds;
     // 目标体临时显示对象
     SelectionSetHighlightor _targetHighlightor;
-
-    friend class BooleanGuiCmdMenu;
 };
 
 class UnionGuiCmd : public BooleanGuiCmd

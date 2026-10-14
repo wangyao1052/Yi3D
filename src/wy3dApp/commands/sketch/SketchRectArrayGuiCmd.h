@@ -144,8 +144,6 @@ private:
     std::unique_ptr<GuiCmdHoverInputPopup1> _pColSpacingPopup;
     std::unique_ptr<GuiCmdHoverInputPopup1> _pRowSpacingPopup;
     HoverPopupState _hoverPopupState;
-
-    friend class SketchRectArrayGuiCmdMenu;
 };
 
 } // namespace wy3dApp

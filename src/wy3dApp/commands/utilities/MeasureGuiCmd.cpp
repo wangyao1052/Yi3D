@@ -683,7 +683,7 @@ void MeasureGuiCmd::clearResults()
     if (_pCmdPanel) _pCmdPanel->clearResults();
 }
 
-GuiCmdMenu* MeasureGuiCmd::initContextMenu()
+GuiCmdMenu* MeasureGuiCmd::createContextMenu()
 {
     return new MeasureGuiCmdMenu(this);
 }

@@ -49,7 +49,7 @@ protected:
     virtual void onMouseMove(const MouseEvent& event) override;
 
     // 上下文菜单
-    virtual GuiCmdMenu* initContextMenu() override;
+    virtual GuiCmdMenu* createContextMenu() override;
 
 private:
     void checkTopoName(const wyap::Selection& sel);

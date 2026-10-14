@@ -102,8 +102,6 @@ private:
     TopTools_IndexedMapOfShape _hostFaces;
     TopTools_IndexedMapOfShape _hostEdges;
     TopTools_IndexedDataMapOfShapeListOfShape _hostEdgeFaces;
-
-    friend class FilletGuiCmdMenu;
 };
 
 } // namespace wy3dApp

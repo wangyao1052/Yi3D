@@ -72,20 +72,6 @@ protected:
     GuiCommand* _pCmd;
 };
 
-class GuiCmdQMenu : public QMenu
-{
-    Q_OBJECT
-public:
-    explicit GuiCmdQMenu(QWidget* parent = nullptr);
-
-private slots:
-    void installEventFilter();
-    void removeEventFilter();
-
-protected:
-    virtual bool eventFilter(QObject* obj, QEvent* event) override;
-};
-
 } // namespace wy3dApp
 
 #endif // WY3DAPP_GUI_CMD_MENU_H

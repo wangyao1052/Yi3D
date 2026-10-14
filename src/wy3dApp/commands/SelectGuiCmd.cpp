@@ -602,7 +602,7 @@ void SelectGuiCmdMenu::onPaste()
     pCmd->beginPaste(wx, wy);
 }
 
-GuiCmdMenu* SelectGuiCmd::initContextMenu()
+GuiCmdMenu* SelectGuiCmd::createContextMenu()
 {
     return new SelectGuiCmdMenu(this);
 }

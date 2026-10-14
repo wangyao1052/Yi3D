@@ -25,7 +25,6 @@
 #include <wyapSelManager.h>
 #include <wyapSelection.h>
 #include <wy3dApp/OsgGuiCommand.h>
-#include "commands/GuiCommandMenu.h"
 #include "snap/SketchSnapSystem.h"
 #include "commands/edit/MoveElements.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -138,8 +137,6 @@ protected:
     std::unique_ptr<GuiCmdHoverInputPopup2> _pLengthAnglePopup;
     std::unique_ptr<GuiCmdHoverInputPopup3> _pXYZPopup;
     HoverPopupState _hoverPopupState;
-
-    friend class MoveGuiCmdMenu;
 
 protected:
     // === 子类必须覆写的纯虚方法 ===

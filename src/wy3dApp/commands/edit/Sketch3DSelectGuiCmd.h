@@ -34,7 +34,7 @@ public:
     virtual ~Sketch3DSelectGuiCmd();
 
     // Context menu
-    virtual GuiCmdMenu* initContextMenu() override;
+    virtual GuiCmdMenu* createContextMenu() override;
 
 protected:
     GuiCmdSketch3DInfo _sketch3DInfo;

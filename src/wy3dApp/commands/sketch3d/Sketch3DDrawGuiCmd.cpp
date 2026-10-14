@@ -444,7 +444,7 @@ void Sketch3DDrawGuiCmd::moveWorkPlaneOriginTo(const wy::Vector3& pnt)
     _pWorkPlane->moveTo(pnt);
 }
 
-GuiCmdMenu* Sketch3DDrawGuiCmd::initContextMenu()
+GuiCmdMenu* Sketch3DDrawGuiCmd::createContextMenu()
 {
     return new Sketch3DDrawGuiCmdMenu(this);
 }

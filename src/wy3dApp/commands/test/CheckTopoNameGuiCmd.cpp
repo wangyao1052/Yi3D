@@ -180,7 +180,7 @@ void CheckTopoNameGuiCmd::onMouseMove(const MouseEvent& event)
     return;
 }
 
-GuiCmdMenu* CheckTopoNameGuiCmd::initContextMenu()
+GuiCmdMenu* CheckTopoNameGuiCmd::createContextMenu()
 {
     return new CheckTopoNameGuiCmdMenu(this);
 }

@@ -122,7 +122,7 @@ protected:
     virtual void onKeyUp(const KeyEvent& event) {}
 
     // 上下文菜单
-    virtual GuiCmdMenu* initContextMenu();
+    virtual GuiCmdMenu* createContextMenu();
     virtual bool isContextMenuActionVisible_CompleteSelection() const { return false; }
     virtual void onContextMenuAction_CompleteSelection() {}
     virtual bool isContextMenuActionVisible_ClearSelection() const { return false; }
@@ -209,8 +209,6 @@ protected:
     SelectOptions _options;
     // 捕捉排除项
     std::set<wydb::ElementId> _snapExcludeIds;
-    // 上下文菜单
-    GuiCmdMenu* _pContextMenu;
 
     friend class GuiCmdMenu;
     friend class FeatureTreeWidget;

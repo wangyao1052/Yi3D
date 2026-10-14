@@ -4427,23 +4427,23 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::GuiCmdMenu</name>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="93"/>
+        <location filename="../../commands/GuiCommandMenu.cpp" line="108"/>
         <source>Complete Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="102"/>
+        <location filename="../../commands/GuiCommandMenu.cpp" line="117"/>
         <source>Clear Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="165"/>
+        <location filename="../../commands/GuiCommandMenu.cpp" line="180"/>
         <source>Property Widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="179"/>
-        <source>World CSYS</source>
+        <location filename="../../commands/GuiCommandMenu.cpp" line="191"/>
+        <source>World Coordinate System</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -65,7 +65,7 @@ protected:
     virtual void onLeftMouseDown(const MouseEvent& event) override;
 
     // 上下文菜单
-    virtual GuiCmdMenu* initContextMenu() override;
+    virtual GuiCmdMenu* createContextMenu() override;
 
     // 单击特征树上的元素
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) override;

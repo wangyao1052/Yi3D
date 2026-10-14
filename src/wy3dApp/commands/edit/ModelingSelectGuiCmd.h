@@ -41,7 +41,7 @@ public:
     virtual ~ModelingSelectGuiCmd();
 
     // Context menu
-    virtual GuiCmdMenu* initContextMenu() override;
+    virtual GuiCmdMenu* createContextMenu() override;
 
 protected:
     virtual void configureSelectOptions(SelectOptions& options) override;
