@@ -401,19 +401,15 @@ void DraftGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-bool DraftGuiCmd::isContextMenuActionVisible_CompleteSelection() const
+void DraftGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    return Step::SelectDraftFaces == _step;
+    menu.setCompleteSelectionVisible(Step::SelectDraftFaces == _step);
+    menu.setClearSelectionVisible(Step::SelectDraftFaces == _step);
 }
 
 void DraftGuiCmd::onContextMenuAction_CompleteSelection()
 {
     this->onEnterKey();
-}
-
-bool DraftGuiCmd::isContextMenuActionVisible_ClearSelection() const
-{
-    return Step::SelectDraftFaces == _step;
 }
 
 void DraftGuiCmd::onContextMenuAction_ClearSelection()

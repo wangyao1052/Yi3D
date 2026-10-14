@@ -19,6 +19,11 @@
 #include <wy3dApp/GuiCommand.h>
 #include <cassert>
 
+#include <QCoreApplication>
+#include <QCursor>
+#include <QMenu>
+#include <QMouseEvent>
+
 #include <wy3dApp/Application.h>
 #include <wyVector2.h>
 #include <wyVector3.h>
@@ -34,9 +39,8 @@
 #include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
 #include "snap/SnapContext.h"
-#include <wy3dApp/SketchEnvironment.h>
+#include <wy3dApp/EnvironmentBase.h>
 #include "snap/SnapTipWidget.h"
-#include "commands/GuiCommandMenu.h"
 #include "commands/GuiEventDispatcher.h"
 #include "select/SelectHandler.h"
 #include "view/BaseView.h"
@@ -45,6 +49,40 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
+
+namespace
+{
+void onPropertyWidgetToggled(bool checked)
+{
+    if (checked)
+    {
+        Application::instance().getDockPanelManager()->showPanel(DockPanelIds::Property);
+    }
+    else
+    {
+        Application::instance().getDockPanelManager()->hidePanel(DockPanelIds::Property);
+    }
+}
+
+void onWCSToggled(bool checked)
+{
+    Scene* pScene = Application::instance().getActiveScene();
+    if (!pScene)
+    {
+        assert(false);
+        return;
+    }
+
+    if (checked)
+    {
+        pScene->showWCS();
+    }
+    else
+    {
+        pScene->hideWCS();
+    }
+}
+} // namespace
 
 GuiCommand::GuiCommand() : wyap::InteractiveCmdExecution()
 {
@@ -122,23 +160,73 @@ void GuiCommand::onAbort(wyap::CmdExecution::AbortCause cause)
     this->cleanUp();
 }
 
-GuiCmdMenu* GuiCommand::createContextMenu()
+void GuiCommand::buildContextMenu(ContextMenu& menu)
 {
-    return new GuiCmdMenu(this);
+    // Custom menu actions
+    this->onBuildContextMenu(menu);
+    if (!menu.actions().isEmpty())
+    {
+        menu.addSeparator();
+    }
+
+    // Complete Selection / Clear Selection
+    bool added(false);
+    if (menu.isCompleteSelectionVisible())
+    {
+        QAction* pActionCompleteSelection = new QAction(
+            QCoreApplication::translate("GuiCommand", "Complete Selection"), &menu);
+        menu.addAction(pActionCompleteSelection);
+        QObject::connect(pActionCompleteSelection, &QAction::triggered, pActionCompleteSelection,
+            [this]() { this->onContextMenuAction_CompleteSelection(); });
+        added = true;
+    }
+    if (menu.isClearSelectionVisible())
+    {
+        QAction* pActionClearSelection = new QAction(
+            QCoreApplication::translate("GuiCommand", "Clear Selection"), &menu);
+        menu.addAction(pActionClearSelection);
+        QObject::connect(pActionClearSelection, &QAction::triggered, pActionClearSelection,
+            [this]() { this->onContextMenuAction_ClearSelection(); });
+        added = true;
+    }
+    if (added) menu.addSeparator();
+
+    // Environment actions
+    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    if (EnvironmentBase* pEnvBase = dynamic_cast<EnvironmentBase*>(pEnv))
+    {
+        if (pEnvBase->addContextMenuActions(&menu)) menu.addSeparator();
+    }
+
+    // Property panel
+    QAction* pActionPropertyWidget = new QAction(
+        QCoreApplication::translate("GuiCommand", "Property"), &menu);
+    pActionPropertyWidget->setCheckable(true);
+    pActionPropertyWidget->setChecked(
+        Application::instance().getDockPanelManager()->isPanelVisible(DockPanelIds::Property));
+    menu.addAction(pActionPropertyWidget);
+    QObject::connect(pActionPropertyWidget, &QAction::toggled, pActionPropertyWidget,
+        onPropertyWidgetToggled);
+
+    // World coordinate system (hidden when there is no active scene)
+    Scene* pScene = Application::instance().getActiveScene();
+    if (pScene)
+    {
+        QAction* pActionWCS = new QAction(
+            QCoreApplication::translate("GuiCommand", "World Coordinate System"), &menu);
+        pActionWCS->setCheckable(true);
+        pActionWCS->setChecked(pScene->isWCSVisible());
+        menu.addAction(pActionWCS);
+        QObject::connect(pActionWCS, &QAction::toggled, pActionWCS, onWCSToggled);
+    }
 }
 
 void GuiCommand::onRightMouseUp(const MouseEvent& event)
 {
-    GuiCmdMenu* pContextMenu = this->createContextMenu();
-    if (pContextMenu)
-    {
-        pContextMenu->exec(QCursor::pos());
-        delete pContextMenu;
-    }
-    else
-    {
-        assert(false);
-    }
+    ContextMenu menu;
+    this->buildContextMenu(menu);
+    menu.move(QCursor::pos());
+    menu.exec();
 }
 
 void GuiCommand::onKeyDown(const KeyEvent& event)
@@ -181,6 +269,69 @@ void GuiCommand::configSelect(SelectOptions options)
     pSelHandler->setPostFilterFunctor(options.postFilter);
     pSelHandler->enablePreview(options.preview);
     pSelHandler->setSelectMode(options.selectMode);
+}
+
+ContextMenu::ContextMenu()
+    : QMenu()
+{
+    this->connect(this, &QMenu::aboutToShow, this,
+        [this]()
+        {
+            if (QCoreApplication* app = QCoreApplication::instance())
+            {
+                app->installEventFilter(this);
+            }
+        });
+    this->connect(this, &QMenu::aboutToHide, this,
+        [this]()
+        {
+            if (QCoreApplication* app = QCoreApplication::instance())
+            {
+                app->removeEventFilter(this);
+            }
+        });
+}
+
+void ContextMenu::setCompleteSelectionVisible(bool visible)
+{
+    _isCompleteSelectionVisible = visible;
+}
+
+void ContextMenu::setClearSelectionVisible(bool visible)
+{
+    _isClearSelectionVisible = visible;
+}
+
+bool ContextMenu::isCompleteSelectionVisible() const
+{
+    return _isCompleteSelectionVisible;
+}
+
+bool ContextMenu::isClearSelectionVisible() const
+{
+    return _isClearSelectionVisible;
+}
+
+bool ContextMenu::eventFilter(QObject* obj, QEvent* event)
+{
+    Q_UNUSED(obj);
+
+    if (event->type() == QEvent::MouseButtonPress)
+    {
+        QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(event);
+        assert(mouseEvent);
+        if (mouseEvent->button() == Qt::LeftButton)
+        {
+            QPoint globalPos = mouseEvent->globalPos();
+            if (!this->geometry().contains(globalPos) && this->isVisible())
+            {
+                this->hide();
+                return true;
+            }
+        }
+    }
+
+    return QMenu::eventFilter(obj, event);
 }
 
 } // namespace wy3dApp

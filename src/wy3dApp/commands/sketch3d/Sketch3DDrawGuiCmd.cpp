@@ -444,45 +444,23 @@ void Sketch3DDrawGuiCmd::moveWorkPlaneOriginTo(const wy::Vector3& pnt)
     _pWorkPlane->moveTo(pnt);
 }
 
-GuiCmdMenu* Sketch3DDrawGuiCmd::createContextMenu()
+void Sketch3DDrawGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    return new Sketch3DDrawGuiCmdMenu(this);
+    QAction* pActionNormalToWorkPln = menu.addAction(
+        QCoreApplication::translate("Sketch3DDrawGuiCmd", "View Normal To Working Plane"),
+        [this]() { this->onViewNormalToWorkingPlane(); });
+    pActionNormalToWorkPln->setIcon(IconUtil::get(":/images/View_Normal.svg"));
 }
 
-bool Sketch3DDrawGuiCmdMenu::initCustomHeaderActions(QMenu* menu)
+void Sketch3DDrawGuiCmd::onViewNormalToWorkingPlane()
 {
-    assert(menu);
-    assert(_pCmd);
-    Sketch3DDrawGuiCmd* pCmd = dynamic_cast<Sketch3DDrawGuiCmd*>(_pCmd);
-    if (!pCmd)
-    {
-        assert(false);
-        return false;
-    }
-
-     QAction* pActionNormalToWorkPln = new QAction(tr("View Normal To Working Plane"), menu);
-     pActionNormalToWorkPln->setIcon(IconUtil::get(":/images/View_Normal.svg"));
-     menu->addAction(pActionNormalToWorkPln);
-     this->connect(pActionNormalToWorkPln, &QAction::triggered, this, &Sketch3DDrawGuiCmdMenu::onViewNormalToWorkingPlane);
-     return true;
-}
-
-void Sketch3DDrawGuiCmdMenu::onViewNormalToWorkingPlane()
-{
-    assert(_pCmd);
-    Sketch3DDrawGuiCmd* pCmd = dynamic_cast<Sketch3DDrawGuiCmd*>(_pCmd);
-    if (!pCmd)
-    {
-        assert(false);
-        return;
-    }
     BaseView* pView = Application::instance().getActiveView();
     if (!pView)
     {
         assert(false);
         return;
     }
-    pView->viewToWorkingPlane(pCmd->getWorkingPlane());
+    pView->viewToWorkingPlane(this->getWorkingPlane());
 }
 
 } // namespace wy3dApp

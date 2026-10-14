@@ -22,7 +22,6 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wy3dPlane.h>
 #include "snap/SnapObject.h"
-#include "commands/GuiCommandMenu.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include <memory>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -95,26 +94,16 @@ protected:
 
     void moveWorkPlaneOriginTo(const wy::Vector3& pnt);
 
-    virtual GuiCmdMenu* createContextMenu() override;
+    // Context menu
+    virtual void onBuildContextMenu(ContextMenu& menu) override;
+
+private:
+    void onViewNormalToWorkingPlane();
 
 protected:
     GuiCmdSketch3DInfo _sketch3DInfo;
     std::unique_ptr<Sketch3DWorkingPlane> _pWorkPlane;
     SelectionSetHighlightorSPtr _pCustomWorkPlaneHighlight;
-};
-
-class Sketch3DDrawGuiCmdMenu : public GuiCmdMenu
-{
-    Q_OBJECT
-public:
-    explicit Sketch3DDrawGuiCmdMenu(Sketch3DDrawGuiCmd* pCmd) : GuiCmdMenu(pCmd) {}
-
-protected:
-    // 初始化客制化菜单项
-    virtual bool initCustomHeaderActions(QMenu* menu) override;
-
-private slots:
-    void onViewNormalToWorkingPlane();
 };
 
 } // namespace wy3dApp

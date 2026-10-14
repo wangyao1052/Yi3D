@@ -700,10 +700,10 @@ void OffsetSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
     }
 }
 
-bool OffsetSheetGuiCmd::isContextMenuActionVisible_ClearSelection() const
+void OffsetSheetGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    return Step::SetParameters == _step &&
-        static_cast<int>(wy3d::OffsetSheet::Target::SelectedFaces) == _targetMode;
+    menu.setClearSelectionVisible(Step::SetParameters == _step &&
+        static_cast<int>(wy3d::OffsetSheet::Target::SelectedFaces) == _targetMode);
 }
 
 void OffsetSheetGuiCmd::onContextMenuAction_ClearSelection()

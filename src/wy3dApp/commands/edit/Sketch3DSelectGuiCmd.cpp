@@ -89,11 +89,6 @@ Sketch3DSelectGuiCmd::~Sketch3DSelectGuiCmd()
 {
 }
 
-GuiCmdMenu* Sketch3DSelectGuiCmd::createContextMenu()
-{
-    return new GuiCmdMenu(this);
-}
-
 wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
 {
     wyap::CmdExecution::StartResult ret = __baseClass::onStart();

@@ -751,14 +751,13 @@ void FilledSheetGuiCmd::onEscapeKey()
     }
 }
 
-bool FilledSheetGuiCmd::isContextMenuActionVisible_CompleteSelection() const
+void FilledSheetGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    // Constraint sketches are optional, so finishing is always allowed here; the edge path has nothing
-    // to finish while nothing is picked
-    if (Step::SelectConstraintCurves == _step) return true;
-    // Hiding it while nothing is picked keeps the entry from doing nothing at all
-    return Step::SelectEdges == _step && _pSelSetHighlightor
-        && !_pSelSetHighlightor->getSelectionSet().isEmpty();
+    menu.setCompleteSelectionVisible(Step::SelectConstraintCurves == _step
+        || (Step::SelectEdges == _step && _pSelSetHighlightor
+            && !_pSelSetHighlightor->getSelectionSet().isEmpty()));
+    menu.setClearSelectionVisible(Step::SelectConstraintCurves == _step
+        ? this->hasConstraintSketch() : Step::SelectEdges == _step);
 }
 
 void FilledSheetGuiCmd::onContextMenuAction_CompleteSelection()
@@ -791,12 +790,6 @@ void FilledSheetGuiCmd::onEnterKey()
 void FilledSheetGuiCmd::onSpaceKey()
 {
     this->onEnterKey();
-}
-
-bool FilledSheetGuiCmd::isContextMenuActionVisible_ClearSelection() const
-{
-    if (Step::SelectConstraintCurves == _step) return this->hasConstraintSketch();
-    return Step::SelectEdges == _step;
 }
 
 void FilledSheetGuiCmd::onContextMenuAction_ClearSelection()

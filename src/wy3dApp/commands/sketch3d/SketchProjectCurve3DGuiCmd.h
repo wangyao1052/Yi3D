@@ -67,9 +67,8 @@ protected:
 
     virtual void onEnterKey() override;
     virtual void onSpaceKey() override;
-    virtual bool isContextMenuActionVisible_CompleteSelection() const override;
+    virtual void onBuildContextMenu(ContextMenu& menu) override;
     virtual void onContextMenuAction_CompleteSelection() override;
-    virtual bool isContextMenuActionVisible_ClearSelection() const override;
     virtual void onContextMenuAction_ClearSelection() override;
 
 private:

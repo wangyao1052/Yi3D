@@ -23,6 +23,7 @@
 #include <QCoreApplication>
 #include <QToolTip>
 #include <QInputDialog>
+#include <QMenu>
 #include <TopExp.hxx>
 
 #include <wydbDatabase.h>
@@ -227,24 +228,16 @@ void TopoNameGuiCmd::onMouseMove(const MouseEvent& event)
     return;
 }
 
-GuiCmdMenu* TopoNameGuiCmd::createContextMenu()
+void TopoNameGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    return new TopoNameGuiCmdMenu(this);
-}
-
-bool TopoNameGuiCmd::isContextMenuActionVisible_CompleteSelection() const
-{
-    return false;
+    menu.addAction("Find Edges", [this]() { this->onFindEdgesByTopoName(); });
+    menu.addAction("Find Faces", [this]() { this->onFindFacesByTopoName(); });
+    menu.setClearSelectionVisible(true);
 }
 
 void TopoNameGuiCmd::onContextMenuAction_CompleteSelection()
 {
     return;
-}
-
-bool TopoNameGuiCmd::isContextMenuActionVisible_ClearSelection() const
-{
-    return true;
 }
 
 void TopoNameGuiCmd::onContextMenuAction_ClearSelection()
@@ -256,31 +249,8 @@ void TopoNameGuiCmd::onContextMenuAction_ClearSelection()
     }
 }
 
-bool TopoNameGuiCmdMenu::initCustomHeaderActions(QMenu* menu)
+void TopoNameGuiCmd::addSelection(TopAbs_ShapeEnum shapeType, const std::string& topoName)
 {
-    // 查找边
-    QAction* pActionFindEdgeByTopoName = new QAction("Find Edges", menu);
-    menu->addAction(pActionFindEdgeByTopoName);
-    this->connect(pActionFindEdgeByTopoName, &QAction::triggered, this, &TopoNameGuiCmdMenu::onFindEdgesByTopoName);
-
-    // 查找面
-    QAction* pActionFindFacesByTopoName = new QAction("Find Faces", menu);
-    menu->addAction(pActionFindFacesByTopoName);
-    this->connect(pActionFindFacesByTopoName, &QAction::triggered, this, &TopoNameGuiCmdMenu::onFindFacesByTopoName);
-
-    return true;
-}
-
-void TopoNameGuiCmdMenu::addSelection(TopAbs_ShapeEnum shapeType, const std::string& topoName)
-{
-    assert(_pCmd);
-    TopoNameGuiCmd* pCmd = dynamic_cast<TopoNameGuiCmd*>(_pCmd);
-    if (!pCmd)
-    {
-        assert(false);
-        return;
-    }
-
     wy3d::SelectionType selectionType(wy3d::SelectionType::Element);
     if (TopAbs_ShapeEnum::TopAbs_EDGE == shapeType)
     {
@@ -318,7 +288,7 @@ void TopoNameGuiCmdMenu::addSelection(TopAbs_ShapeEnum shapeType, const std::str
             if (topoName == pTopoNaming->getTopoName(subShape))
             {
                 wyap::Selection sel(selType, pElem->getId(), std::to_string(i - 1));
-                pCmd->_pSelSetHighlightor->addSelection(sel);
+                _pSelSetHighlightor->addSelection(sel);
             }
         }
     };
@@ -332,18 +302,11 @@ void TopoNameGuiCmdMenu::addSelection(TopAbs_ShapeEnum shapeType, const std::str
     }
 }
 
-void TopoNameGuiCmdMenu::onFindEdgesByTopoName()
+void TopoNameGuiCmd::onFindEdgesByTopoName()
 {
-    assert(_pCmd);
-    TopoNameGuiCmd* pCmd = dynamic_cast<TopoNameGuiCmd*>(_pCmd);
-    if (!pCmd)
+    if (_pSelSetHighlightor)
     {
-        assert(false);
-        return;
-    }
-    if (pCmd->_pSelSetHighlightor)
-    {
-        pCmd->_pSelSetHighlightor->clearSelections();
+        _pSelSetHighlightor->clearSelections();
     }
 
     QInputDialog dialog;
@@ -360,18 +323,11 @@ void TopoNameGuiCmdMenu::onFindEdgesByTopoName()
     addSelection(TopAbs_ShapeEnum::TopAbs_EDGE, edgeTopoName);
 }
 
-void TopoNameGuiCmdMenu::onFindFacesByTopoName()
+void TopoNameGuiCmd::onFindFacesByTopoName()
 {
-    assert(_pCmd);
-    TopoNameGuiCmd* pCmd = dynamic_cast<TopoNameGuiCmd*>(_pCmd);
-    if (!pCmd)
+    if (_pSelSetHighlightor)
     {
-        assert(false);
-        return;
-    }
-    if (pCmd->_pSelSetHighlightor)
-    {
-        pCmd->_pSelSetHighlightor->clearSelections();
+        _pSelSetHighlightor->clearSelections();
     }
 
     QInputDialog dialog;

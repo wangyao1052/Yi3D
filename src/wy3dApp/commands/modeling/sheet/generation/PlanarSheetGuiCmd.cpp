@@ -487,11 +487,11 @@ void PlanarSheetGuiCmd::onEscapeKey()
     }
 }
 
-bool PlanarSheetGuiCmd::isContextMenuActionVisible_CompleteSelection() const
+void PlanarSheetGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    // Hiding it while nothing is picked keeps the entry from doing nothing at all
-    return Step::SelectEdges == _step && _pSelSetHighlightor
-        && !_pSelSetHighlightor->getSelectionSet().isEmpty();
+    menu.setCompleteSelectionVisible(Step::SelectEdges == _step && _pSelSetHighlightor
+        && !_pSelSetHighlightor->getSelectionSet().isEmpty());
+    menu.setClearSelectionVisible(Step::SelectEdges == _step);
 }
 
 void PlanarSheetGuiCmd::onContextMenuAction_CompleteSelection()
@@ -521,11 +521,6 @@ void PlanarSheetGuiCmd::onEnterKey()
 void PlanarSheetGuiCmd::onSpaceKey()
 {
     this->onEnterKey();
-}
-
-bool PlanarSheetGuiCmd::isContextMenuActionVisible_ClearSelection() const
-{
-    return Step::SelectEdges == _step;
 }
 
 void PlanarSheetGuiCmd::onContextMenuAction_ClearSelection()

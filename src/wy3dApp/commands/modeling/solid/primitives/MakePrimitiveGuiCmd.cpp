@@ -48,6 +48,8 @@
 #include "view/ViewUtil.h"
 #include "view/OsgView.h"
 #include "commands/CommandNames.h"
+#include <QCoreApplication>
+#include <QMenu>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -330,11 +332,6 @@ void MakePrimitiveGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
 }
 
-GuiCmdMenu* MakePrimitiveGuiCmd::createContextMenu()
-{
-    return new MakePrimitiveGuiCmdMenu(this);
-}
-
 void MakePrimitiveGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 {
     if (1 != _step) return;
@@ -348,47 +345,26 @@ void MakePrimitiveGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     this->finishStep(_step);
 }
 
-bool MakePrimitiveGuiCmdMenu::initCustomHeaderActions(QMenu* menu)
+void MakePrimitiveGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    assert(menu);
-    assert(_pCmd);
-    MakePrimitiveGuiCmd* pCmd = dynamic_cast<MakePrimitiveGuiCmd*>(_pCmd);
-    if (!pCmd)
+    if (_step > 1)
     {
-        assert(false);
-        return false;
-    }
-
-    if (pCmd->getStep() > 1)
-    {
-        // 正视于工作平面
-        QAction* pActionNormalToWorkPln = new QAction(tr("View Normal To Working Plane"), menu);
+        QAction* pActionNormalToWorkPln = menu.addAction(
+            QCoreApplication::translate("MakePrimitiveGuiCmd", "View Normal To Working Plane"),
+            [this]() { this->onViewNormalToWorkingPlane(); });
         pActionNormalToWorkPln->setIcon(IconUtil::get(":/images/View_Normal.svg"));
-        menu->addAction(pActionNormalToWorkPln);
-        this->connect(pActionNormalToWorkPln, &QAction::triggered, this, &MakePrimitiveGuiCmdMenu::onViewNormalToWorkingPlane);
-        return true;
     }
-
-    return false;
 }
 
-void MakePrimitiveGuiCmdMenu::onViewNormalToWorkingPlane()
+void MakePrimitiveGuiCmd::onViewNormalToWorkingPlane()
 {
-    assert(_pCmd);
-    MakePrimitiveGuiCmd* pCmd = dynamic_cast<MakePrimitiveGuiCmd*>(_pCmd);
-    if (!pCmd)
-    {
-        assert(false);
-        return;
-    }
-
     BaseView* pView = Application::instance().getActiveView();
     if (!pView)
     {
         assert(false);
         return;
     }
-    pView->viewToWorkingPlane(pCmd->getWorkingPlane());
+    pView->viewToWorkingPlane(this->getWorkingPlane());
 }
 
 } // namespace wy3dApp

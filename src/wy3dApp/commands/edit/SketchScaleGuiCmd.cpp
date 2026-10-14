@@ -432,19 +432,15 @@ void SketchScaleGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-bool SketchScaleGuiCmd::isContextMenuActionVisible_CompleteSelection() const
+void SketchScaleGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    return Step::Step1_SelectElements == _step;
+    menu.setCompleteSelectionVisible(Step::Step1_SelectElements == _step);
+    menu.setClearSelectionVisible(Step::Step1_SelectElements == _step);
 }
 
 void SketchScaleGuiCmd::onContextMenuAction_CompleteSelection()
 {
     this->onEnterKey();
-}
-
-bool SketchScaleGuiCmd::isContextMenuActionVisible_ClearSelection() const
-{
-    return Step::Step1_SelectElements == _step;
 }
 
 void SketchScaleGuiCmd::onContextMenuAction_ClearSelection()

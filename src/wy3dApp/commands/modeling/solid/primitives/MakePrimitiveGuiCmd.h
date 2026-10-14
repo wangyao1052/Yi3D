@@ -24,7 +24,6 @@
 #include <wyapSelManager.h>
 #include <wy3dBox.h>
 #include <wy3dApp/SelectPreview.h>
-#include "commands/GuiCommandMenu.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -64,11 +63,14 @@ protected:
     virtual void onMouseMove(const MouseEvent& event) override;
     virtual void onLeftMouseDown(const MouseEvent& event) override;
 
-    // 上下文菜单
-    virtual GuiCmdMenu* createContextMenu() override;
-
     // 单击特征树上的元素
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) override;
+
+    // Context menu
+    virtual void onBuildContextMenu(ContextMenu& menu) override;
+
+private:
+    void onViewNormalToWorkingPlane();
 
 protected:
     // 步骤
@@ -83,20 +85,6 @@ protected:
     SelectPreview _workPlnPreview;
     // 工作平面原点捕捉对象
     wyap::SnapObjectSPtr _pWorkPlnOriginSnapObject;
-};
-
-class MakePrimitiveGuiCmdMenu : public GuiCmdMenu
-{
-    Q_OBJECT
-public:
-    explicit MakePrimitiveGuiCmdMenu(MakePrimitiveGuiCmd* pCmd) : GuiCmdMenu(pCmd) {}
-
-protected:
-    // 初始化客制化菜单项
-    virtual bool initCustomHeaderActions(QMenu* menu) override;
-
-private slots:
-    void onViewNormalToWorkingPlane();
 };
 
 } // namespace wy3dApp

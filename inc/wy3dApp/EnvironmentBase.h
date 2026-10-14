@@ -84,6 +84,10 @@ public:
         return (_cmdName2Action.cend() != iter) ? iter->second : nullptr;
     }
 
+    // Add environment-specific items to a command context menu.
+    // Returns true if any actions were added.
+    virtual bool addContextMenuActions(QMenu* menu) { return false; }
+
     // New menu popup tool button.
     QToolButton* newMenuPopupToolButton(
         QToolBar* pToolBar,

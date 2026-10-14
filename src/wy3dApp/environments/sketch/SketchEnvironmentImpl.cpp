@@ -97,6 +97,34 @@ SketchSnapSystem* SketchEnvironmentImpl::getSnapSystem() const
     return _pSketchSnapSys.get();
 }
 
+bool SketchEnvironmentImpl::addContextMenuActions(QMenu* menu)
+{
+    assert(menu);
+    if (!menu) return false;
+
+    bool added(false);
+
+    if (CommandAction* pActionOrientToSketch = this->findCommandAction(CommandNames::OrientToSketch))
+    {
+        menu->addAction(pActionOrientToSketch);
+        added = true;
+    }
+
+    if (CommandAction* pActionEndSketch = this->findCommandAction(CommandNames::EndSketch))
+    {
+        menu->addAction(pActionEndSketch);
+        added = true;
+    }
+
+    if (CommandAction* pActionCancelSketch = this->findCommandAction(CommandNames::CancelSketch))
+    {
+        menu->addAction(pActionCancelSketch);
+        added = true;
+    }
+
+    return added;
+}
+
 void SketchEnvironmentImpl::onCommandStartFailed(
     wyap::Command* pCmd,
     wyap::CmdExecution::StartResult startResult)

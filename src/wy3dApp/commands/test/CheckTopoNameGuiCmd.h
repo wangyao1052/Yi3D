@@ -26,7 +26,6 @@
 
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wy3dApp/SelectPreview.h>
-#include "commands/GuiCommandMenu.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -48,8 +47,8 @@ protected:
 
     virtual void onMouseMove(const MouseEvent& event) override;
 
-    // 上下文菜单
-    virtual GuiCmdMenu* createContextMenu() override;
+    // Context menu
+    virtual void onBuildContextMenu(ContextMenu& menu) override;
 
 private:
     void checkTopoName(const wyap::Selection& sel);
@@ -61,22 +60,6 @@ private:
     SelectPreview _preview;
     //
     std::map<wydb::ElementId, std::vector<std::string>> _id2CheckInfo;
-
-    friend class CheckTopoNameGuiCmdMenu;
-};
-
-class CheckTopoNameGuiCmdMenu : public GuiCmdMenu
-{
-    Q_OBJECT
-public:
-    explicit CheckTopoNameGuiCmdMenu(CheckTopoNameGuiCmd* pCmd) : GuiCmdMenu(pCmd) {}
-
-protected:
-    // 初始化客制化菜单项
-    virtual bool initCustomHeaderActions(QMenu* menu) override;
-
-private:
-    void onCheckAll();
 };
 
 } // namespace wy3dApp

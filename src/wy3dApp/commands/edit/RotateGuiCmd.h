@@ -27,7 +27,6 @@
 #include <wyapSelManager.h>
 #include <wyapSelection.h>
 #include <wy3dApp/OsgGuiCommand.h>
-#include "commands/GuiCommandMenu.h"
 #include "snap/SketchSnapSystem.h"
 #include "commands/edit/RotateElements.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -76,9 +75,8 @@ protected:
     virtual void onSpaceKey() override;
 
     // 上下文菜单
-    virtual bool isContextMenuActionVisible_CompleteSelection() const override;
+    virtual void onBuildContextMenu(ContextMenu& menu) override;
     virtual void onContextMenuAction_CompleteSelection() override;
-    virtual bool isContextMenuActionVisible_ClearSelection() const override;
     virtual void onContextMenuAction_ClearSelection() override;
 
     void initializePopups();

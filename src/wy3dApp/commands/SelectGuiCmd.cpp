@@ -56,6 +56,9 @@
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include "commands/CommandNames.h"
+#include <QCoreApplication>
+#include <QMenu>
+#include <wy3dApp/CommandAction.h>
 
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -539,37 +542,23 @@ bool SelectGuiCmd::tryAddElementPositionGizmo(const wyap::SelectionSet& sels)
     return true;
 }
 
-// ============================================================================
-// SelectGuiCmdMenu
-// ============================================================================
-
-SelectGuiCmdMenu::SelectGuiCmdMenu(GuiCommand* pCmd)
-    : GuiCmdMenu(pCmd)
+void SelectGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-}
-
-bool SelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
-{
-    assert(menu);
-
-    bool added = false;
-
     // Copy: only visible when elements are selected.
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
     if (!ss.isEmpty())
     {
-        CommandAction* pActionFitSelection = new CommandAction(CommandNames::FitSelection, menu);
+        CommandAction* pActionFitSelection = new CommandAction(CommandNames::FitSelection, &menu);
         pActionFitSelection->setText(QCoreApplication::translate("MainWindow", "Fit Selection"));
         pActionFitSelection->setIcon(IconUtil::get(":/images/View_FitSelection.svg"));
-        menu->addAction(pActionFitSelection);
+        menu.addAction(pActionFitSelection);
 
         QAction* pActionCopy = new QAction(
             IconUtil::get(":/images/Edit_Copy.svg"),
-            QCoreApplication::translate("MainWindow", "Copy"), menu);
-        menu->addAction(pActionCopy);
-        connect(pActionCopy, &QAction::triggered, this, &SelectGuiCmdMenu::onCopy);
-
-        added = true;
+            QCoreApplication::translate("MainWindow", "Copy"), &menu);
+        menu.addAction(pActionCopy);
+        QObject::connect(pActionCopy, &QAction::triggered, pActionCopy,
+            [this]() { this->copy(); });
     }
 
     // Paste: only visible when clipboard has content.
@@ -577,34 +566,17 @@ bool SelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
     {
         QAction* pActionPaste = new QAction(
             IconUtil::get(":/images/Edit_PasteClip.svg"),
-            QCoreApplication::translate("MainWindow", "Paste"), menu);
-        menu->addAction(pActionPaste);
-        connect(pActionPaste, &QAction::triggered, this, &SelectGuiCmdMenu::onPaste);
-        added = true;
+            QCoreApplication::translate("MainWindow", "Paste"), &menu);
+        menu.addAction(pActionPaste);
+        QObject::connect(pActionPaste, &QAction::triggered, pActionPaste,
+            [this]()
+            {
+                QPoint screenPos = QCursor::pos();
+                double wx, wy;
+                this->screenToWindow(screenPos.x(), screenPos.y(), wx, wy);
+                this->beginPaste(wx, wy);
+            });
     }
-
-    return added;
-}
-
-void SelectGuiCmdMenu::onCopy()
-{
-    SelectGuiCmd* pCmd = dynamic_cast<SelectGuiCmd*>(_pCmd);
-    if (pCmd) pCmd->copy();
-}
-
-void SelectGuiCmdMenu::onPaste()
-{
-    SelectGuiCmd* pCmd = dynamic_cast<SelectGuiCmd*>(_pCmd);
-    if (!pCmd) return;
-    QPoint screenPos = QCursor::pos();
-    double wx, wy;
-    pCmd->screenToWindow(screenPos.x(), screenPos.y(), wx, wy);
-    pCmd->beginPaste(wx, wy);
-}
-
-GuiCmdMenu* SelectGuiCmd::createContextMenu()
-{
-    return new SelectGuiCmdMenu(this);
 }
 
 } // namespace wy3dApp

@@ -31,7 +31,6 @@
 #include <wy3dVector2.h>
 #include <wy3dVector3.h>
 
-#include "commands/GuiCommandMenu.h"
 
 #include "commands/sketch/SketchRectArrayElements.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -82,9 +81,8 @@ protected:
     virtual void onSpaceKey() override;
 
     // 上下文菜单
-    virtual bool isContextMenuActionVisible_CompleteSelection() const override;
+    virtual void onBuildContextMenu(ContextMenu& menu) override;
     virtual void onContextMenuAction_CompleteSelection() override;
-    virtual bool isContextMenuActionVisible_ClearSelection() const override;
     virtual void onContextMenuAction_ClearSelection() override;
 
 private:

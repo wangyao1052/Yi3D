@@ -33,7 +33,6 @@
 #include <wyapDocManager.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
-class GuiCmdActionMgr;
 class MainWindowUI;
 
 namespace wy3dApp {

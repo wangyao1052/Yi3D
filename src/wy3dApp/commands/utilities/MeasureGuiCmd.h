@@ -30,13 +30,10 @@
 #include <wyVector3.h>
 #include <wy3dVector3.h>
 #include <wy3dPlane.h>
-#include "commands/GuiCommandMenu.h"
 #include <wy3dApp/OsgGuiCommand.h>
 #include "commands/transient/BasicTransient.h"
 #include "commands/utilities/MeasureCmdPanel.h"
 #include <wy3dApp/wy3dAppDefs.h>
-
-class QMenu;
 
 namespace wy3dApp {
 
@@ -89,8 +86,8 @@ protected:
     virtual void onMouseMove(const MouseEvent& event) override;
     virtual void onLeftMouseDown(const MouseEvent& event) override;
 
-    // 上下文菜单
-    virtual GuiCmdMenu* createContextMenu() override;
+    // Context menu
+    virtual void onBuildContextMenu(ContextMenu& menu) override;
 
     // 测量模式
     void setMode(MeasureMode mode);
@@ -137,20 +134,6 @@ private:
     // 行悬停时临时移出测量集的项(离行恢复;边/体的高亮守卫会挡预览)
     wyap::Selection _tempUnhighlightedSel;
     MeasureCmdPanel* _pCmdPanel;
-};
-
-class MeasureGuiCmdMenu : public GuiCmdMenu
-{
-    Q_OBJECT
-public:
-    explicit MeasureGuiCmdMenu(MeasureGuiCmd* pCmd) : GuiCmdMenu(pCmd) {}
-
-protected:
-    // 初始化客制化菜单项(清空测量结果)
-    virtual bool initCustomHeaderActions(QMenu* menu) override;
-
-private slots:
-    void onClearMeasureResults();
 };
 
 } // namespace wy3dApp

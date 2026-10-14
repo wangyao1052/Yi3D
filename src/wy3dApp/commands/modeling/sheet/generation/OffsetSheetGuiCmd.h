@@ -65,7 +65,7 @@ protected:
     virtual void onLeftMouseUp(const MouseEvent& event) override;
 
     // 上下文菜单
-    virtual bool isContextMenuActionVisible_ClearSelection() const override;
+    virtual void onBuildContextMenu(ContextMenu& menu) override;
     virtual void onContextMenuAction_ClearSelection() override;
 
 private:

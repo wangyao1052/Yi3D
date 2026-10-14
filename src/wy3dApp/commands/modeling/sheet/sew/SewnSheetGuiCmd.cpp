@@ -307,9 +307,10 @@ void SewnSheetGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-bool SewnSheetGuiCmd::isContextMenuActionVisible_CompleteSelection() const
+void SewnSheetGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    return Step::SelectSources == _step;
+    menu.setCompleteSelectionVisible(Step::SelectSources == _step);
+    menu.setClearSelectionVisible(Step::SelectSources == _step);
 }
 
 void SewnSheetGuiCmd::onContextMenuAction_CompleteSelection()
@@ -321,11 +322,6 @@ void SewnSheetGuiCmd::onContextMenuAction_CompleteSelection()
             this->finishStep(_step);
         }
     }
-}
-
-bool SewnSheetGuiCmd::isContextMenuActionVisible_ClearSelection() const
-{
-    return Step::SelectSources == _step;
 }
 
 void SewnSheetGuiCmd::onContextMenuAction_ClearSelection()

@@ -472,19 +472,15 @@ void FilletGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-bool FilletGuiCmd::isContextMenuActionVisible_CompleteSelection() const
+void FilletGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    return Step::SelectEdges == _step;
+    menu.setCompleteSelectionVisible(Step::SelectEdges == _step);
+    menu.setClearSelectionVisible(Step::SelectEdges == _step);
 }
 
 void FilletGuiCmd::onContextMenuAction_CompleteSelection()
 {
     this->onEnterKey();
-}
-
-bool FilletGuiCmd::isContextMenuActionVisible_ClearSelection() const
-{
-    return Step::SelectEdges == _step;
 }
 
 void FilletGuiCmd::onContextMenuAction_ClearSelection()

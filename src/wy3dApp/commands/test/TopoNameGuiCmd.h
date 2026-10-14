@@ -24,7 +24,6 @@
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
-#include "commands/GuiCommandMenu.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -46,15 +45,17 @@ protected:
 
     virtual void onMouseMove(const MouseEvent& event) override;
 
-    // 上下文菜单
-    virtual GuiCmdMenu* createContextMenu() override;
-    virtual bool isContextMenuActionVisible_CompleteSelection() const override;
+    // Context menu
+    virtual void onBuildContextMenu(ContextMenu& menu) override;
     virtual void onContextMenuAction_CompleteSelection() override;
-    virtual bool isContextMenuActionVisible_ClearSelection() const override;
     virtual void onContextMenuAction_ClearSelection() override;
 
 private:
     void showTopoName(const wyap::Selection& sel);
+
+    void addSelection(TopAbs_ShapeEnum shapeType, const std::string& topoName);
+    void onFindEdgesByTopoName();
+    void onFindFacesByTopoName();
 
 private:
     // 点选选项
@@ -64,27 +65,6 @@ private:
     SelectPreview _preview;
     // 高亮
     SelectionSetHighlightorSPtr _pSelSetHighlightor;
-
-    friend class TopoNameGuiCmdMenu;
-};
-
-class TopoNameGuiCmdMenu : public GuiCmdMenu
-{
-    Q_OBJECT
-public:
-    explicit TopoNameGuiCmdMenu(TopoNameGuiCmd* pCmd) : GuiCmdMenu(pCmd) {}
-
-protected:
-    // 初始化客制化菜单项
-    virtual bool initCustomHeaderActions(QMenu* menu) override;
-
-    // 通过拓扑名称查找边
-    void onFindEdgesByTopoName();
-    // 通过拓扑名称查找面
-    void onFindFacesByTopoName();
-
-private:
-    void addSelection(TopAbs_ShapeEnum shapeType, const std::string& topoName);
 };
 
 } // namespace wy3dApp

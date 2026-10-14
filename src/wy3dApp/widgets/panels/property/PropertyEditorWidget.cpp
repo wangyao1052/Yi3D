@@ -74,7 +74,7 @@ namespace wy3dApp {
 PropertyEditorWidget::PropertyEditorWidget(QWidget* parent)
     : QWidget(parent), _pMainLayout(nullptr), _pParamsGridLayout(nullptr), _isModifyingElems(false), _isReadOnly(false)
 {
-    this->setWindowTitle("Property");
+    this->setWindowTitle(tr("Property"));
     this->setMinimumWidth(180);
     this->resize(200, 400);
 

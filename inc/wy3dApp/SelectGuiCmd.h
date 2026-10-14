@@ -25,7 +25,6 @@
 #include <wyapSelManager.h>
 #include <wyapGizmoManager.h>
 #include <wy3dApp/OsgGuiCommand.h>
-#include "commands/GuiCommandMenu.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 #include "commands/edit/PasteElements.h"
@@ -34,30 +33,13 @@ namespace wy3dApp {
 
 class ElementNode;
 
-class SelectGuiCmdMenu : public GuiCmdMenu
-{
-public:
-    explicit SelectGuiCmdMenu(GuiCommand* pCmd);
-
-protected:
-    virtual bool initCustomMiddleActions(QMenu* menu) override;
-
-private:
-    void onCopy();
-    void onPaste();
-};
-
 class WY3DAPP_EXPORT SelectGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor
 {
     WYRX_DECLARE_MEMBERS(SelectGuiCmd, wy3dApp::SelectGuiCmd, OsgGuiCommand)
 
-    friend class SelectGuiCmdMenu;
 public:
     SelectGuiCmd();
     virtual ~SelectGuiCmd();
-
-    // Context menu
-    virtual GuiCmdMenu* createContextMenu() override;
 
     // 选择集变更
     virtual void onSelectionChanged(
@@ -135,6 +117,9 @@ protected:
 
     // 更新状态栏提示
     virtual void updateSelectTipAndLabel();
+
+    // Context menu
+    virtual void onBuildContextMenu(ContextMenu& menu) override;
 };
 
 } // namespace wy3dApp

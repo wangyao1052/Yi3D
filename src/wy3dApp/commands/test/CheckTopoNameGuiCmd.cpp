@@ -25,6 +25,7 @@
 #include <QToolTip>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QMenu>
 
 #include <TopExp.hxx>
 
@@ -52,6 +53,51 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
+
+namespace
+{
+// Report invalid topology names of all top-level solids and sheets.
+void checkAll()
+{
+    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    if (!pDb) return;
+    std::vector<wydb::ElementId> invalidIds;
+    for (auto iter = pDb->createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        wydb::ElementId id = iter.current();
+        const wydb::Element* pElem = pDb->getElement(id);
+        const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
+        const wy3d::Sheet* pSheet = pSolid ? nullptr : wy3d::Sheet::cast(pElem);
+        if (!pSolid && !pSheet) continue;
+        const wy3d::TopoNaming* pTopoNaming = pSolid
+            ? pSolid->getTopoNaming() : pSheet->getTopoNaming();
+        if (!pTopoNaming) return;
+        TopoDS_Shape shape = pSolid ? pSolid->getShape() : pSheet->getShape();
+
+        std::vector<std::string> checkInfo;
+        bool isValid = pTopoNaming->check(shape, checkInfo);
+        if (!isValid)
+        {
+            invalidIds.emplace_back(id);
+        }
+    }
+
+    if (invalidIds.empty())
+    {
+        QMessageBox::information(nullptr, "Yi3D", "All is valid.");
+    }
+    else
+    {
+        std::stringstream ss;
+        ss << "Invalid solids: ";
+        for (const wydb::ElementId& id : invalidIds)
+        {
+            ss << id.value() << ";";
+        }
+        QMessageBox::warning(nullptr, "Yi3D", ss.str().c_str());
+    }
+}
+} // namespace
 
 // 前置过滤器: 确保只能选择单一主体的面或边
 class CheckTopoNameGuiCmdPreSelFilter : public SelectPreFilterFunctor
@@ -180,63 +226,9 @@ void CheckTopoNameGuiCmd::onMouseMove(const MouseEvent& event)
     return;
 }
 
-GuiCmdMenu* CheckTopoNameGuiCmd::createContextMenu()
+void CheckTopoNameGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    return new CheckTopoNameGuiCmdMenu(this);
-}
-
-bool CheckTopoNameGuiCmdMenu::initCustomHeaderActions(QMenu* menu)
-{
-    assert(menu);
-
-    // Check All
-    QAction* pActionCheckAll = new QAction("Check All", menu);
-    menu->addAction(pActionCheckAll);
-    this->connect(pActionCheckAll, &QAction::triggered, this, &CheckTopoNameGuiCmdMenu::onCheckAll);
-
-    return true;
-}
-
-void CheckTopoNameGuiCmdMenu::onCheckAll()
-{
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
-    if (!pDb) return;
-    std::vector<wydb::ElementId> invalidIds;
-    for (auto iter = pDb->createIterator(); !iter.isDone(); iter.moveNext())
-    {
-        wydb::ElementId id = iter.current();
-        const wydb::Element* pElem = pDb->getElement(id);
-        const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
-        const wy3d::Sheet* pSheet = pSolid ? nullptr : wy3d::Sheet::cast(pElem);
-        if (!pSolid && !pSheet) continue;
-        const wy3d::TopoNaming* pTopoNaming = pSolid
-            ? pSolid->getTopoNaming() : pSheet->getTopoNaming();
-        if (!pTopoNaming) return;
-        TopoDS_Shape shape = pSolid ? pSolid->getShape() : pSheet->getShape();
-
-        std::vector<std::string> checkInfo;
-        bool isValid = pTopoNaming->check(shape, checkInfo);
-        if (!isValid)
-        {
-            invalidIds.emplace_back(id);
-        }
-    }
-
-    // 所有设计体(顶层实体)的拓扑命名都是有效的
-    if (invalidIds.empty())
-    {
-        QMessageBox::information(nullptr, "Yi3D", "All is valid.");
-    }
-    else
-    {
-        std::stringstream ss;
-        ss << "Invalid solids: ";
-        for (const wydb::ElementId& id : invalidIds)
-        {
-            ss << id.value() << ";";
-        }
-        QMessageBox::warning(nullptr, "Yi3D", ss.str().c_str());
-    }
+    menu.addAction("Check All", &checkAll);
 }
 
 } // namespace wy3dApp

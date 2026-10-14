@@ -1383,18 +1383,18 @@
         <translation>选择约束曲线（可选）；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="858"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="870"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="879"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="893"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="851"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="863"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="872"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="886"/>
         <source>Sketch not found</source>
         <translation>草图不存在</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="862"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="867"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="885"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="890"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="855"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="860"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="878"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="883"/>
         <source>Sketch is already in use</source>
         <translation>草图已被其他特征使用</translation>
     </message>
@@ -1404,7 +1404,7 @@
     </message>
     <message>
         <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="485"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="824"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="817"/>
         <source>Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation type="unfinished">选择边线围合成一个或多个环；按 Enter 键或空格键将完成操作；按 Esc 键将清除已选边。</translation>
     </message>
@@ -1500,6 +1500,29 @@
     <message>
         <source>World CSYS</source>
         <translation type="obsolete">世界坐标系</translation>
+    </message>
+</context>
+<context>
+    <name>GuiCommand</name>
+    <message>
+        <location filename="../../commands/GuiCommand.cpp" line="177"/>
+        <source>Complete Selection</source>
+        <translation>完成选择</translation>
+    </message>
+    <message>
+        <location filename="../../commands/GuiCommand.cpp" line="186"/>
+        <source>Clear Selection</source>
+        <translation>清除选择</translation>
+    </message>
+    <message>
+        <location filename="../../commands/GuiCommand.cpp" line="203"/>
+        <source>Property</source>
+        <translation>属性</translation>
+    </message>
+    <message>
+        <location filename="../../commands/GuiCommand.cpp" line="216"/>
+        <source>World Coordinate System</source>
+        <translation>世界坐标系</translation>
     </message>
 </context>
 <context>
@@ -2016,26 +2039,26 @@
         <translation>编辑3D草图</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="209"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="199"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1565"/>
         <source>Show</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="217"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="207"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1574"/>
         <source>Hide</source>
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="568"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="558"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="226"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1583"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="562"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="552"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="649"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="555"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="400"/>
@@ -2043,7 +2066,7 @@
         <translation>缩放到选择</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="580"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="569"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1626"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
@@ -2846,9 +2869,14 @@
 <context>
     <name>MakePrimitiveGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="287"/>
+        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="289"/>
         <source>Select datum plane or solid surface as working plane.</source>
         <translation type="unfinished">选择工作平面：基准面或实体面。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="353"/>
+        <source>View Normal To Working Plane</source>
+        <translation>正视于工作平面</translation>
     </message>
 </context>
 <context>
@@ -2950,14 +2978,19 @@
 <context>
     <name>MeasureGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="244"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="246"/>
         <source>Specify the start point.</source>
         <translation type="unfinished">指定起点。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="267"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="269"/>
         <source>Specify the end point.</source>
         <translation type="unfinished">指定终点。</translation>
+    </message>
+    <message>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="690"/>
+        <source>Clear Measure Results</source>
+        <translation>清空测量结果</translation>
     </message>
     <message>
         <source>Distance</source>
@@ -3249,22 +3282,22 @@
     </message>
     <message>
         <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="355"/>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="539"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="534"/>
         <source>Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation>选择边线围合成一个或多个平面环；按 Enter 键或空格键将完成操作；按 Esc 键将清除已选边。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="660"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="655"/>
         <source>Select edges to enclose a planar face.</source>
         <translation>选择边线围合成无参平面曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="671"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="666"/>
         <source>Closed loops found; press Enter or Spacebar to confirm, or keep selecting edges to add more loops.</source>
         <translation>已找到闭合环；按 Enter 键或空格键将完成操作，或继续选择边线以添加更多环。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="695"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="690"/>
         <source>Keep selecting edges to close the loop.</source>
         <translation>继续选择边线以闭合环。</translation>
     </message>
@@ -3422,7 +3455,7 @@
         <translation type="unfinished">指定缩放比例。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="477"/>
+        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="473"/>
         <source>Scale</source>
         <translation type="unfinished">比例</translation>
     </message>
@@ -3430,12 +3463,12 @@
 <context>
     <name>SelectGuiCmd</name>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="428"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="431"/>
         <source>Select elements. Pick individual items or use window selection.</source>
         <translation type="unfinished">选择元素；点选单个项目或使用窗口选择。</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="475"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="478"/>
         <source>Specify the insertion point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定插入点；可输入具体坐标值。</translation>
     </message>
@@ -3537,6 +3570,11 @@
         <source>Select datum plane or solid surface as working plane.</source>
         <translation type="vanished">选择基准面或实体面作为工作平面。</translation>
     </message>
+    <message>
+        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="450"/>
+        <source>View Normal To Working Plane</source>
+        <translation>正视于工作平面</translation>
+    </message>
 </context>
 <context>
     <name>Sketch3DExtendGuiCmd</name>
@@ -3572,17 +3610,17 @@
 <context>
     <name>Sketch3DSelectGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="245"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="240"/>
         <source>Only planar faces can be used as the sketch plane.</source>
         <translation type="unfinished">只有平面型面可以作为草图平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="266"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="261"/>
         <source>Sketch plane set. It will be used by the next drawing command.</source>
         <translation type="unfinished">已设置草图平面，将用于下一条绘制命令。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="326"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="321"/>
         <source>Select elements. Pick a planar face or a datum plane to set the sketch plane.</source>
         <translation type="unfinished">选择元素；拾取平面型面或基准面可设置草图平面。</translation>
     </message>
@@ -4629,7 +4667,7 @@
         <translation type="unfinished">该草图没有可投影的曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="562"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="558"/>
         <source>Select the sketch to project.</source>
         <translation type="unfinished">选择要投影的草图。</translation>
     </message>
@@ -4646,7 +4684,7 @@
         <translation type="obsolete">投影失败：草图未到达所选面，可尝试反向或双向。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="573"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="569"/>
         <source>Projection curve computed. Press Enter or Spacebar to confirm.</source>
         <translation type="unfinished">已计算出投影曲线，按 Enter 或空格键确认。</translation>
     </message>
@@ -4655,37 +4693,37 @@
         <translation type="obsolete">没有投影曲线：草图未到达所选面，可尝试「反向」或「双向」。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="571"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="567"/>
         <source>Select the face or datum plane to project onto.</source>
         <translation type="unfinished">选择投影的目标面或基准面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="581"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="577"/>
         <source>Press Tab to flip the direction.</source>
         <translation type="unfinished">按 Tab 键可切换投影方向。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="597"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="593"/>
         <source>No projection curve. The sketch does not reach the picked face or plane; try Reverse or Bidirectional.</source>
         <translation type="unfinished">没有投影曲线：草图未到达所选的面或基准面，可尝试「反向」或「双向」。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="601"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="597"/>
         <source>Projection failed: the projection algorithm did not complete.</source>
         <translation type="unfinished">投影失败：投影算法未完成。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="605"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="601"/>
         <source>Projection failed: the resulting curve is more complex than the sketch can hold.</source>
         <translation type="unfinished">投影失败：结果曲线过于复杂，草图无法容纳。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="609"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="605"/>
         <source>Projection failed: the sketch and the picked face or datum plane cannot be used together.</source>
         <translation type="unfinished">投影失败：该草图与所选的面或基准面无法配合使用。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="627"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="623"/>
         <source>Projection failed: the resulting curve is degenerate. The sketch may be tangent to the face or datum plane.</source>
         <translation type="unfinished">投影失败：结果曲线退化，草图可能与所选的面或基准面相切。</translation>
     </message>
@@ -4694,7 +4732,7 @@
         <translation type="obsolete">投影失败：该草图与面无法配合使用。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="613"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="609"/>
         <source>Projection failed: the geometry is invalid.</source>
         <translation type="unfinished">投影失败：几何无效。</translation>
     </message>
@@ -4703,22 +4741,22 @@
         <translation type="obsolete">投影失败：结果曲线退化，草图可能与面相切。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="631"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="627"/>
         <source>Projection failed: the resulting curve is unbounded.</source>
         <translation type="unfinished">投影失败：结果曲线无限长。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="636"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="632"/>
         <source>Projection failed: the resulting curve cannot be created in the sketch.</source>
         <translation type="unfinished">投影失败：结果曲线无法在草图中创建。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="640"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="636"/>
         <source>Projection failed: the resulting curve geometry is invalid.</source>
         <translation type="unfinished">投影失败：结果曲线几何无效。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="646"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="642"/>
         <source>Project Curve</source>
         <translation type="unfinished">投影曲线</translation>
     </message>
@@ -4740,7 +4778,7 @@
         <translation type="unfinished">指定列间隙起点 或 直接输入列间隙值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="679"/>
+        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="675"/>
         <source>Column Spacing</source>
         <translation type="unfinished">列间隙</translation>
     </message>
@@ -4755,7 +4793,7 @@
         <translation type="unfinished">指定行间隙起点 或 直接输入行间隙值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="689"/>
+        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="685"/>
         <source>Row Spacing</source>
         <translation type="unfinished">行间隙</translation>
     </message>
@@ -6095,19 +6133,16 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::GuiCmdMenu</name>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="108"/>
         <source>Complete Selection</source>
-        <translation type="unfinished">完成选择</translation>
+        <translation type="obsolete">完成选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="117"/>
         <source>Clear Selection</source>
-        <translation type="unfinished">清除选择</translation>
+        <translation type="obsolete">清除选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="191"/>
         <source>World Coordinate System</source>
-        <translation>世界坐标系</translation>
+        <translation type="vanished">世界坐标系</translation>
     </message>
     <message>
         <source>Orient to Sketch</source>
@@ -6122,9 +6157,8 @@ Do you want to save it to the original file now?
         <translation type="obsolete">取消草绘</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommandMenu.cpp" line="180"/>
         <source>Property Widget</source>
-        <translation type="unfinished">属性窗口</translation>
+        <translation type="obsolete">属性窗口</translation>
     </message>
     <message>
         <source>World CSYS</source>
@@ -6299,9 +6333,8 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::MakePrimitiveGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="365"/>
         <source>View Normal To Working Plane</source>
-        <translation type="unfinished">正视于工作平面</translation>
+        <translation type="obsolete">正视于工作平面</translation>
     </message>
 </context>
 <context>
@@ -6385,17 +6418,17 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::MeasureGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="465"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="467"/>
         <source>Select an edge.</source>
         <translation type="unfinished">选择边。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="466"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="468"/>
         <source>Select a face.</source>
         <translation type="unfinished">选择面。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="467"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="469"/>
         <source>Select a body.</source>
         <translation type="unfinished">选择体。</translation>
     </message>
@@ -6403,9 +6436,8 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::MeasureGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="697"/>
         <source>Clear Measure Results</source>
-        <translation type="unfinished">清空测量结果</translation>
+        <translation type="obsolete">清空测量结果</translation>
     </message>
 </context>
 <context>
@@ -7695,6 +7727,11 @@ Do you want to save it to the original file now?
         <translation type="obsolete">颜色</translation>
     </message>
     <message>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="77"/>
+        <source>Property</source>
+        <translation>属性</translation>
+    </message>
+    <message>
         <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="471"/>
         <source>Position </source>
         <translation type="unfinished">位置 </translation>
@@ -7997,9 +8034,8 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::Sketch3DDrawGuiCmdMenu</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="463"/>
         <source>View Normal To Working Plane</source>
-        <translation type="unfinished">正视于工作平面</translation>
+        <translation type="obsolete">正视于工作平面</translation>
     </message>
 </context>
 <context>

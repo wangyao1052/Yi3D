@@ -24,24 +24,12 @@
 
 namespace wy3dApp {
 
-class ModelingSelectGuiCmdMenu : public SelectGuiCmdMenu
-{
-public:
-    explicit ModelingSelectGuiCmdMenu(GuiCommand* pCmd);
-
-protected:
-    virtual bool initCustomMiddleActions(QMenu* menu) override;
-};
-
 class ModelingSelectGuiCmd : public SelectGuiCmd
 {
     WYRX_DECLARE_MEMBERS(ModelingSelectGuiCmd, wy3dApp::ModelingSelectGuiCmd, SelectGuiCmd)
 public:
     ModelingSelectGuiCmd();
     virtual ~ModelingSelectGuiCmd();
-
-    // Context menu
-    virtual GuiCmdMenu* createContextMenu() override;
 
 protected:
     virtual void configureSelectOptions(SelectOptions& options) override;
@@ -50,6 +38,9 @@ protected:
     virtual bool tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos) override;
     virtual wy::Vector3 computePastePosition(double x, double y,
         const std::set<wydb::ElementId>& excludeIds) override;
+
+    // Context menu
+    virtual void onBuildContextMenu(ContextMenu& menu) override;
 };
 
 } // namespace wy3dApp

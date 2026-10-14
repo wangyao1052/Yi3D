@@ -483,19 +483,15 @@ void SketchProjectCurve3DGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-bool SketchProjectCurve3DGuiCmd::isContextMenuActionVisible_CompleteSelection() const
+void SketchProjectCurve3DGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    return Step::SelectTarget == _step && _hasTarget && !_previewEdges.empty();
+    menu.setCompleteSelectionVisible(Step::SelectTarget == _step && _hasTarget && !_previewEdges.empty());
+    menu.setClearSelectionVisible(Step::SelectTarget == _step && _hasTarget);
 }
 
 void SketchProjectCurve3DGuiCmd::onContextMenuAction_CompleteSelection()
 {
     this->onEnterKey();
-}
-
-bool SketchProjectCurve3DGuiCmd::isContextMenuActionVisible_ClearSelection() const
-{
-    return Step::SelectTarget == _step && _hasTarget;
 }
 
 void SketchProjectCurve3DGuiCmd::onContextMenuAction_ClearSelection()

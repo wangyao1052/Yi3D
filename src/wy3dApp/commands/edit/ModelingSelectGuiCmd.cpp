@@ -32,6 +32,7 @@
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/featureTree/FeatureTreeWidget.h"
 #include <wy3dApp/CommandAction.h>
+#include <QMenu>
 #include "commands/CommandNames.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -85,11 +86,6 @@ ModelingSelectGuiCmd::ModelingSelectGuiCmd() : SelectGuiCmd()
 
 ModelingSelectGuiCmd::~ModelingSelectGuiCmd()
 {
-}
-
-GuiCmdMenu* ModelingSelectGuiCmd::createContextMenu()
-{
-    return new ModelingSelectGuiCmdMenu(this);
 }
 
 void ModelingSelectGuiCmd::configureSelectOptions(SelectOptions& options)
@@ -169,19 +165,13 @@ wy::Vector3 ModelingSelectGuiCmd::computePastePosition(double x, double y,
     return ret.second ? ret.second->getPosition() : ret.first;
 }
 
-ModelingSelectGuiCmdMenu::ModelingSelectGuiCmdMenu(GuiCommand* pCmd)
-    : SelectGuiCmdMenu(pCmd)
-{}
-
-bool ModelingSelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
+void ModelingSelectGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    assert(menu);
-
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
-        return false;
+        return;
     }
 
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
@@ -205,23 +195,21 @@ bool ModelingSelectGuiCmdMenu::initCustomMiddleActions(QMenu* menu)
 
     if (addShowAction)
     {
-        CommandAction* pActionShow = new CommandAction(CommandNames::Show, menu);
+        CommandAction* pActionShow = new CommandAction(CommandNames::Show, &menu);
         pActionShow->setText(QCoreApplication::translate("MainWindow", "Show"));
         pActionShow->setIcon(IconUtil::get(":/images/Edit_Show.svg"));
-        menu->addAction(pActionShow);
+        menu.addAction(pActionShow);
     }
 
     if (addHideAction)
     {
-        CommandAction* pActionHide = new CommandAction(CommandNames::Hide, menu);
+        CommandAction* pActionHide = new CommandAction(CommandNames::Hide, &menu);
         pActionHide->setText(QCoreApplication::translate("MainWindow", "Hide"));
         pActionHide->setIcon(IconUtil::get(":/images/Edit_Hide.svg"));
-        menu->addAction(pActionHide);
+        menu.addAction(pActionHide);
     }
 
-    bool baseRet = SelectGuiCmdMenu::initCustomMiddleActions(menu);
-
-    return baseRet || addShowAction || addHideAction;
+    SelectGuiCmd::onBuildContextMenu(menu);
 }
 
 } // namespace wy3dApp

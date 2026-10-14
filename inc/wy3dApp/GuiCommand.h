@@ -25,6 +25,7 @@
 #include <QString>
 #include <QCoreApplication>
 #include <QLabel>
+#include <QMenu>
 
 #include <wyVector2.h>
 #include <wyVector3.h>
@@ -61,7 +62,6 @@ namespace wy3dApp {
 class GuiCmdMakeElement;
 class GuiCommand;
 class SketchSnapSystem;
-class GuiCmdMenu;
 class GuiEventDispatcher;
 
 // Mouse event
@@ -82,6 +82,30 @@ struct KeyEvent
     int modifiers;
     // Seconds since the program started.
     double time;
+};
+
+// The context menu of a GuiCommand.
+// Swallows the outside click that closes the menu so that click does not reach the viewport.
+class WY3DAPP_EXPORT ContextMenu : public QMenu
+{
+public:
+    ContextMenu();
+
+    // Complete / Clear Selection item visibility (hidden by default).
+    void setCompleteSelectionVisible(bool visible);
+    void setClearSelectionVisible(bool visible);
+
+protected:
+    virtual bool eventFilter(QObject* obj, QEvent* event) override;
+
+private:
+    friend class GuiCommand;
+
+    bool isCompleteSelectionVisible() const;
+    bool isClearSelectionVisible() const;
+
+    bool _isCompleteSelectionVisible = false;
+    bool _isClearSelectionVisible = false;
 };
 
 class WY3DAPP_EXPORT GuiCommand : public wyap::InteractiveCmdExecution
@@ -121,11 +145,12 @@ protected:
     virtual void onSpaceKey() {}
     virtual void onKeyUp(const KeyEvent& event) {}
 
-    // 上下文菜单
-    virtual GuiCmdMenu* createContextMenu();
-    virtual bool isContextMenuActionVisible_CompleteSelection() const { return false; }
+    // Context menu
+    // Builds the command's context menu; called before the standard items are
+    // appended, so custom items added here stay at the top:
+    // [custom items] / Complete Selection / Clear Selection / environment / Property / WCS.
+    virtual void onBuildContextMenu(ContextMenu& menu) {}
     virtual void onContextMenuAction_CompleteSelection() {}
-    virtual bool isContextMenuActionVisible_ClearSelection() const { return false; }
     virtual void onContextMenuAction_ClearSelection() {}
 
     // Triggered when an item in the feature tree is clicked.
@@ -210,7 +235,10 @@ protected:
     // 捕捉排除项
     std::set<wydb::ElementId> _snapExcludeIds;
 
-    friend class GuiCmdMenu;
+private:
+    // Assembles the popup: custom items from onBuildContextMenu + standard items.
+    void buildContextMenu(ContextMenu& menu);
+
     friend class FeatureTreeWidget;
 };
 

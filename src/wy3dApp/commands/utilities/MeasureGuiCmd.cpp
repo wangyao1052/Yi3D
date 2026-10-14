@@ -20,6 +20,8 @@
 
 #include <QAction>
 #include <QCursor>
+#include <QCoreApplication>
+#include <QMenu>
 #include <QOpenGLWidget>
 
 #include <Standard_Failure.hxx>
@@ -683,27 +685,10 @@ void MeasureGuiCmd::clearResults()
     if (_pCmdPanel) _pCmdPanel->clearResults();
 }
 
-GuiCmdMenu* MeasureGuiCmd::createContextMenu()
+void MeasureGuiCmd::onBuildContextMenu(ContextMenu& menu)
 {
-    return new MeasureGuiCmdMenu(this);
-}
-
-bool MeasureGuiCmdMenu::initCustomHeaderActions(QMenu* menu)
-{
-    assert(menu);
-    assert(_pCmd);
-
-    // 清空测量结果
-    QAction* pActionClearResults = new QAction(tr("Clear Measure Results"), menu);
-    menu->addAction(pActionClearResults);
-    this->connect(pActionClearResults, &QAction::triggered, this, &MeasureGuiCmdMenu::onClearMeasureResults);
-    return true;
-}
-
-void MeasureGuiCmdMenu::onClearMeasureResults()
-{
-    MeasureGuiCmd* pCmd = dynamic_cast<MeasureGuiCmd*>(_pCmd);
-    if (pCmd) pCmd->clearResults();
+    menu.addAction(QCoreApplication::translate("MeasureGuiCmd", "Clear Measure Results"),
+        [this]() { this->clearResults(); });
 }
 
 bool MeasureGuiCmd::createCmdPanel()

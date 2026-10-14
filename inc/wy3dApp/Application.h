@@ -56,9 +56,6 @@ namespace wyap
     class SceneManager;
 }
 
-class CmdActionMgr;
-class GuiCmdMenuActionMgr;
-
 namespace wy3dApp {
 
 class View;
