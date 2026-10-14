@@ -444,7 +444,7 @@ void Sketch3DDrawGuiCmd::moveWorkPlaneOriginTo(const wy::Vector3& pnt)
     _pWorkPlane->moveTo(pnt);
 }
 
-void Sketch3DDrawGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void Sketch3DDrawGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     QAction* pActionNormalToWorkPln = menu.addAction(
         QCoreApplication::translate("Sketch3DDrawGuiCmd", "View Normal To Working Plane"),

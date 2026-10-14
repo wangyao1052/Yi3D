@@ -645,18 +645,18 @@ void SketchRectArrayGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void SketchRectArrayGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void SketchRectArrayGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::Step1_SelectElements == _step);
     menu.setClearSelectionVisible(Step::Step1_SelectElements == _step);
 }
 
-void SketchRectArrayGuiCmd::onContextMenuAction_CompleteSelection()
+void SketchRectArrayGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void SketchRectArrayGuiCmd::onContextMenuAction_ClearSelection()
+void SketchRectArrayGuiCmd::onClearSelection()
 {
     if (Step::Step1_SelectElements == _step)
     {

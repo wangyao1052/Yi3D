@@ -926,18 +926,18 @@ void RotateGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void RotateGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void RotateGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectElements == _step);
     menu.setClearSelectionVisible(Step::SelectElements == _step);
 }
 
-void RotateGuiCmd::onContextMenuAction_CompleteSelection()
+void RotateGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void RotateGuiCmd::onContextMenuAction_ClearSelection()
+void RotateGuiCmd::onClearSelection()
 {
     if (Step::SelectElements == _step)
     {

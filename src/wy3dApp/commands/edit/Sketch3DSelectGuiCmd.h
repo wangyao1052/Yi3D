@@ -34,7 +34,7 @@ public:
     virtual ~Sketch3DSelectGuiCmd();
 
     // Context menu — the 3D sketch environment does not support copy/paste.
-    virtual void onBuildContextMenu(ContextMenu& menu) override {}
+    virtual void configureContextMenu(ContextMenu& menu) override {}
 
 protected:
     GuiCmdSketch3DInfo _sketch3DInfo;

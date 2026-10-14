@@ -97,28 +97,25 @@ SketchSnapSystem* SketchEnvironmentImpl::getSnapSystem() const
     return _pSketchSnapSys.get();
 }
 
-bool SketchEnvironmentImpl::addContextMenuActions(QMenu* menu)
+bool SketchEnvironmentImpl::addContextMenuActions(ContextMenu& menu)
 {
-    assert(menu);
-    if (!menu) return false;
-
     bool added(false);
 
     if (CommandAction* pActionOrientToSketch = this->findCommandAction(CommandNames::OrientToSketch))
     {
-        menu->addAction(pActionOrientToSketch);
+        menu.addAction(pActionOrientToSketch);
         added = true;
     }
 
     if (CommandAction* pActionEndSketch = this->findCommandAction(CommandNames::EndSketch))
     {
-        menu->addAction(pActionEndSketch);
+        menu.addAction(pActionEndSketch);
         added = true;
     }
 
     if (CommandAction* pActionCancelSketch = this->findCommandAction(CommandNames::CancelSketch))
     {
-        menu->addAction(pActionCancelSketch);
+        menu.addAction(pActionCancelSketch);
         added = true;
     }
 

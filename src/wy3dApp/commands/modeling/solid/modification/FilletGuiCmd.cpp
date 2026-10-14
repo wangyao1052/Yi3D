@@ -472,18 +472,18 @@ void FilletGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void FilletGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void FilletGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectEdges == _step);
     menu.setClearSelectionVisible(Step::SelectEdges == _step);
 }
 
-void FilletGuiCmd::onContextMenuAction_CompleteSelection()
+void FilletGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void FilletGuiCmd::onContextMenuAction_ClearSelection()
+void FilletGuiCmd::onClearSelection()
 {
     if (Step::SelectEdges == _step)
     {

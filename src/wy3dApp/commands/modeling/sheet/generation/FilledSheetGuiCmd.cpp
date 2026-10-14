@@ -751,7 +751,7 @@ void FilledSheetGuiCmd::onEscapeKey()
     }
 }
 
-void FilledSheetGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void FilledSheetGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectConstraintCurves == _step
         || (Step::SelectEdges == _step && _pSelSetHighlightor
@@ -760,7 +760,7 @@ void FilledSheetGuiCmd::onBuildContextMenu(ContextMenu& menu)
         ? this->hasConstraintSketch() : Step::SelectEdges == _step);
 }
 
-void FilledSheetGuiCmd::onContextMenuAction_CompleteSelection()
+void FilledSheetGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
@@ -792,7 +792,7 @@ void FilledSheetGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void FilledSheetGuiCmd::onContextMenuAction_ClearSelection()
+void FilledSheetGuiCmd::onClearSelection()
 {
     if (Step::SelectConstraintCurves == _step)
     {

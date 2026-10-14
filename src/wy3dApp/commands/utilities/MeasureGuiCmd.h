@@ -87,7 +87,7 @@ protected:
     virtual void onLeftMouseDown(const MouseEvent& event) override;
 
     // Context menu
-    virtual void onBuildContextMenu(ContextMenu& menu) override;
+    virtual void configureContextMenu(ContextMenu& menu) override;
 
     // 测量模式
     void setMode(MeasureMode mode);

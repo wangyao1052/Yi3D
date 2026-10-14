@@ -410,13 +410,13 @@ void BooleanGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void BooleanGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void BooleanGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SpecifyTools == _step);
     menu.setClearSelectionVisible(Step::SpecifyTools == _step);
 }
 
-void BooleanGuiCmd::onContextMenuAction_CompleteSelection()
+void BooleanGuiCmd::onCompleteSelection()
 {
     if (BooleanGuiCmd::Step::SpecifyTools == _step)
     {
@@ -427,7 +427,7 @@ void BooleanGuiCmd::onContextMenuAction_CompleteSelection()
     }
 }
 
-void BooleanGuiCmd::onContextMenuAction_ClearSelection()
+void BooleanGuiCmd::onClearSelection()
 {
     if (BooleanGuiCmd::Step::SpecifyTools == _step)
     {

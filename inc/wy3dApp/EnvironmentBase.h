@@ -30,6 +30,7 @@
 #include <wyapCmdStack.h>
 
 #include <wy3dApp/CommandAction.h>
+#include <wy3dApp/ContextMenu.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -86,7 +87,7 @@ public:
 
     // Add environment-specific items to a command context menu.
     // Returns true if any actions were added.
-    virtual bool addContextMenuActions(QMenu* menu) { return false; }
+    virtual bool addContextMenuActions(ContextMenu& menu) { return false; }
 
     // New menu popup tool button.
     QToolButton* newMenuPopupToolButton(

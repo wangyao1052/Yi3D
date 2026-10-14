@@ -46,7 +46,7 @@ public:
     virtual wydb::ElementId getSketchId() const override;
     virtual const wy3d::Plane& getSketchPlane() const override;
     virtual SketchSnapSystem* getSnapSystem() const override;
-    virtual bool addContextMenuActions(QMenu* menu) override;
+    virtual bool addContextMenuActions(ContextMenu& menu) override;
 
     wydb::Transaction* getSketchTransaction() const;
     void setSketchPlane(const wy3d::Plane& sketchPlane);

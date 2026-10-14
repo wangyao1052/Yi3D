@@ -25,7 +25,6 @@
 #include <QString>
 #include <QCoreApplication>
 #include <QLabel>
-#include <QMenu>
 
 #include <wyVector2.h>
 #include <wyVector3.h>
@@ -38,6 +37,7 @@
 #include "snap/SnapSystemBase.h"
 #include <wy3dPlane.h>
 #include <wy3dSelectionType.h>
+#include <wy3dApp/ContextMenu.h>
 #include <wy3dApp/GuiCmdTransient.h>
 #include <wy3dApp/KeyCode.h>
 #include "widgets/CursorType.h"
@@ -84,30 +84,6 @@ struct KeyEvent
     double time;
 };
 
-// The context menu of a GuiCommand.
-// Swallows the outside click that closes the menu so that click does not reach the viewport.
-class WY3DAPP_EXPORT ContextMenu : public QMenu
-{
-public:
-    ContextMenu();
-
-    // Complete / Clear Selection item visibility (hidden by default).
-    void setCompleteSelectionVisible(bool visible);
-    void setClearSelectionVisible(bool visible);
-
-protected:
-    virtual bool eventFilter(QObject* obj, QEvent* event) override;
-
-private:
-    friend class GuiCommand;
-
-    bool isCompleteSelectionVisible() const;
-    bool isClearSelectionVisible() const;
-
-    bool _isCompleteSelectionVisible = false;
-    bool _isClearSelectionVisible = false;
-};
-
 class WY3DAPP_EXPORT GuiCommand : public wyap::InteractiveCmdExecution
 {
     WYRX_DECLARE_ABSTRACT_MEMBERS(GuiCommand, wy3dApp::GuiCommand, wyap::InteractiveCmdExecution)
@@ -146,12 +122,12 @@ protected:
     virtual void onKeyUp(const KeyEvent& event) {}
 
     // Context menu
-    // Builds the command's context menu; called before the standard items are
+    // Configures the command's context menu; called before the standard items are
     // appended, so custom items added here stay at the top:
     // [custom items] / Complete Selection / Clear Selection / environment / Property / WCS.
-    virtual void onBuildContextMenu(ContextMenu& menu) {}
-    virtual void onContextMenuAction_CompleteSelection() {}
-    virtual void onContextMenuAction_ClearSelection() {}
+    virtual void configureContextMenu(ContextMenu& menu) {}
+    virtual void onCompleteSelection() {}
+    virtual void onClearSelection() {}
 
     // Triggered when an item in the feature tree is clicked.
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) { return; }
@@ -236,9 +212,6 @@ protected:
     std::set<wydb::ElementId> _snapExcludeIds;
 
 private:
-    // Assembles the popup: custom items from onBuildContextMenu + standard items.
-    void buildContextMenu(ContextMenu& menu);
-
     friend class FeatureTreeWidget;
 };
 

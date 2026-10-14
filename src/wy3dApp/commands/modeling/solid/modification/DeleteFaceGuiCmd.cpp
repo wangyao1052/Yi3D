@@ -285,18 +285,18 @@ void DeleteFaceGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void DeleteFaceGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void DeleteFaceGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectFaces == _step);
     menu.setClearSelectionVisible(Step::SelectFaces == _step);
 }
 
-void DeleteFaceGuiCmd::onContextMenuAction_CompleteSelection()
+void DeleteFaceGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void DeleteFaceGuiCmd::onContextMenuAction_ClearSelection()
+void DeleteFaceGuiCmd::onClearSelection()
 {
     if (Step::SelectFaces == _step)
     {

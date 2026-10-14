@@ -345,7 +345,7 @@ void MakePrimitiveGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     this->finishStep(_step);
 }
 
-void MakePrimitiveGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void MakePrimitiveGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     if (_step > 1)
     {

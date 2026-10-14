@@ -675,18 +675,18 @@ void MoveGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void MoveGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void MoveGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectElements == _step);
     menu.setClearSelectionVisible(Step::SelectElements == _step);
 }
 
-void MoveGuiCmd::onContextMenuAction_CompleteSelection()
+void MoveGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void MoveGuiCmd::onContextMenuAction_ClearSelection()
+void MoveGuiCmd::onClearSelection()
 {
     if (Step::SelectElements == _step)
     {

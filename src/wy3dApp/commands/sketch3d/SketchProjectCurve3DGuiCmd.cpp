@@ -483,18 +483,18 @@ void SketchProjectCurve3DGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void SketchProjectCurve3DGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void SketchProjectCurve3DGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectTarget == _step && _hasTarget && !_previewEdges.empty());
     menu.setClearSelectionVisible(Step::SelectTarget == _step && _hasTarget);
 }
 
-void SketchProjectCurve3DGuiCmd::onContextMenuAction_CompleteSelection()
+void SketchProjectCurve3DGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void SketchProjectCurve3DGuiCmd::onContextMenuAction_ClearSelection()
+void SketchProjectCurve3DGuiCmd::onClearSelection()
 {
     // The discoverable half of "click the target again to take it back".
     if (!_hasTarget) return;

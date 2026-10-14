@@ -400,18 +400,18 @@ void MergeGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void MergeGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void MergeGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectMembers == _step);
     menu.setClearSelectionVisible(Step::SelectMembers == _step);
 }
 
-void MergeGuiCmd::onContextMenuAction_CompleteSelection()
+void MergeGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void MergeGuiCmd::onContextMenuAction_ClearSelection()
+void MergeGuiCmd::onClearSelection()
 {
     if (Step::SelectMembers == _step && _pSelSetHighlightor)
     {

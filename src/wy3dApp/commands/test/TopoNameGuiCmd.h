@@ -46,9 +46,9 @@ protected:
     virtual void onMouseMove(const MouseEvent& event) override;
 
     // Context menu
-    virtual void onBuildContextMenu(ContextMenu& menu) override;
-    virtual void onContextMenuAction_CompleteSelection() override;
-    virtual void onContextMenuAction_ClearSelection() override;
+    virtual void configureContextMenu(ContextMenu& menu) override;
+    virtual void onCompleteSelection() override;
+    virtual void onClearSelection() override;
 
 private:
     void showTopoName(const wyap::Selection& sel);

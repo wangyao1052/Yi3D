@@ -485,18 +485,18 @@ void LoftGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void LoftGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void LoftGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectProfiles == _step);
     menu.setClearSelectionVisible(Step::SelectProfiles == _step);
 }
 
-void LoftGuiCmd::onContextMenuAction_CompleteSelection()
+void LoftGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void LoftGuiCmd::onContextMenuAction_ClearSelection()
+void LoftGuiCmd::onClearSelection()
 {
     if (Step::SelectProfiles == _step)
     {

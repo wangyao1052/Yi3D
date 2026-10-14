@@ -93,9 +93,9 @@ protected:
     virtual void onEscapeKey() override;
     virtual void onEnterKey() override;
     virtual void onSpaceKey() override;
-    virtual void onBuildContextMenu(ContextMenu& menu) override;
-    virtual void onContextMenuAction_CompleteSelection() override;
-    virtual void onContextMenuAction_ClearSelection() override;
+    virtual void configureContextMenu(ContextMenu& menu) override;
+    virtual void onCompleteSelection() override;
+    virtual void onClearSelection() override;
 
 private:
     bool collectPickedSketches(const wyap::SelectionSet& ss, std::vector<wydb::ElementId>& ids) const;

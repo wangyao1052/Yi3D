@@ -89,22 +89,19 @@ Sketch3DSnapSystem* Sketch3DEnvironmentImpl::getSnapSystem() const
     return _pSnapSys.get();
 }
 
-bool Sketch3DEnvironmentImpl::addContextMenuActions(QMenu* menu)
+bool Sketch3DEnvironmentImpl::addContextMenuActions(ContextMenu& menu)
 {
-    assert(menu);
-    if (!menu) return false;
-
     bool added(false);
 
     if (CommandAction* pActionEndSketch3D = this->findCommandAction(CommandNames::EndSketch3D))
     {
-        menu->addAction(pActionEndSketch3D);
+        menu.addAction(pActionEndSketch3D);
         added = true;
     }
 
     if (CommandAction* pActionCancelSketch3D = this->findCommandAction(CommandNames::CancelSketch3D))
     {
-        menu->addAction(pActionCancelSketch3D);
+        menu.addAction(pActionCancelSketch3D);
         added = true;
     }
 

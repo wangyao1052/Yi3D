@@ -567,18 +567,18 @@ void CopyGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void CopyGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void CopyGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::Step1_SelectElements == _step);
     menu.setClearSelectionVisible(Step::Step1_SelectElements == _step);
 }
 
-void CopyGuiCmd::onContextMenuAction_CompleteSelection()
+void CopyGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void CopyGuiCmd::onContextMenuAction_ClearSelection()
+void CopyGuiCmd::onClearSelection()
 {
     if (Step::Step1_SelectElements == _step)
     {

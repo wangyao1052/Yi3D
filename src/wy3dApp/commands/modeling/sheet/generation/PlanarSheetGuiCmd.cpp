@@ -487,14 +487,14 @@ void PlanarSheetGuiCmd::onEscapeKey()
     }
 }
 
-void PlanarSheetGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void PlanarSheetGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectEdges == _step && _pSelSetHighlightor
         && !_pSelSetHighlightor->getSelectionSet().isEmpty());
     menu.setClearSelectionVisible(Step::SelectEdges == _step);
 }
 
-void PlanarSheetGuiCmd::onContextMenuAction_CompleteSelection()
+void PlanarSheetGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
@@ -523,7 +523,7 @@ void PlanarSheetGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void PlanarSheetGuiCmd::onContextMenuAction_ClearSelection()
+void PlanarSheetGuiCmd::onClearSelection()
 {
     if (Step::SelectEdges == _step)
     {

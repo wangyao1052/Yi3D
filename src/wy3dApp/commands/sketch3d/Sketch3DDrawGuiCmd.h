@@ -95,7 +95,7 @@ protected:
     void moveWorkPlaneOriginTo(const wy::Vector3& pnt);
 
     // Context menu
-    virtual void onBuildContextMenu(ContextMenu& menu) override;
+    virtual void configureContextMenu(ContextMenu& menu) override;
 
 private:
     void onViewNormalToWorkingPlane();

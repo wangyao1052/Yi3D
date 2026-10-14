@@ -294,18 +294,18 @@ void ShellGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void ShellGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void ShellGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectFaces == _step);
     menu.setClearSelectionVisible(Step::SelectFaces == _step);
 }
 
-void ShellGuiCmd::onContextMenuAction_CompleteSelection()
+void ShellGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void ShellGuiCmd::onContextMenuAction_ClearSelection()
+void ShellGuiCmd::onClearSelection()
 {
     if (Step::SelectFaces == _step)
     {

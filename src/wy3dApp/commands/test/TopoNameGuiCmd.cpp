@@ -228,19 +228,19 @@ void TopoNameGuiCmd::onMouseMove(const MouseEvent& event)
     return;
 }
 
-void TopoNameGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void TopoNameGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.addAction("Find Edges", [this]() { this->onFindEdgesByTopoName(); });
     menu.addAction("Find Faces", [this]() { this->onFindFacesByTopoName(); });
     menu.setClearSelectionVisible(true);
 }
 
-void TopoNameGuiCmd::onContextMenuAction_CompleteSelection()
+void TopoNameGuiCmd::onCompleteSelection()
 {
     return;
 }
 
-void TopoNameGuiCmd::onContextMenuAction_ClearSelection()
+void TopoNameGuiCmd::onClearSelection()
 {
     // 选择边
     if (_pSelSetHighlightor)

@@ -119,7 +119,7 @@ protected:
     virtual void updateSelectTipAndLabel();
 
     // Context menu
-    virtual void onBuildContextMenu(ContextMenu& menu) override;
+    virtual void configureContextMenu(ContextMenu& menu) override;
 };
 
 } // namespace wy3dApp

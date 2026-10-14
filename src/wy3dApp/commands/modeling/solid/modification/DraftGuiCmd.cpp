@@ -401,18 +401,18 @@ void DraftGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void DraftGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void DraftGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectDraftFaces == _step);
     menu.setClearSelectionVisible(Step::SelectDraftFaces == _step);
 }
 
-void DraftGuiCmd::onContextMenuAction_CompleteSelection()
+void DraftGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void DraftGuiCmd::onContextMenuAction_ClearSelection()
+void DraftGuiCmd::onClearSelection()
 {
     if (Step::SelectDraftFaces == _step)
     {

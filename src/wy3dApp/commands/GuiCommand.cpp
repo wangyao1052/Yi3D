@@ -21,8 +21,6 @@
 
 #include <QCoreApplication>
 #include <QCursor>
-#include <QMenu>
-#include <QMouseEvent>
 
 #include <wy3dApp/Application.h>
 #include <wyVector2.h>
@@ -160,11 +158,12 @@ void GuiCommand::onAbort(wyap::CmdExecution::AbortCause cause)
     this->cleanUp();
 }
 
-void GuiCommand::buildContextMenu(ContextMenu& menu)
+void GuiCommand::onRightMouseUp(const MouseEvent& event)
 {
-    // Custom menu actions
-    this->onBuildContextMenu(menu);
-    if (!menu.actions().isEmpty())
+    ContextMenu menu;
+
+    this->configureContextMenu(menu);
+    if (!menu.actions().isEmpty() && !menu.actions().last()->isSeparator())
     {
         menu.addSeparator();
     }
@@ -177,7 +176,7 @@ void GuiCommand::buildContextMenu(ContextMenu& menu)
             QCoreApplication::translate("GuiCommand", "Complete Selection"), &menu);
         menu.addAction(pActionCompleteSelection);
         QObject::connect(pActionCompleteSelection, &QAction::triggered, pActionCompleteSelection,
-            [this]() { this->onContextMenuAction_CompleteSelection(); });
+            [this]() { this->onCompleteSelection(); });
         added = true;
     }
     if (menu.isClearSelectionVisible())
@@ -186,7 +185,7 @@ void GuiCommand::buildContextMenu(ContextMenu& menu)
             QCoreApplication::translate("GuiCommand", "Clear Selection"), &menu);
         menu.addAction(pActionClearSelection);
         QObject::connect(pActionClearSelection, &QAction::triggered, pActionClearSelection,
-            [this]() { this->onContextMenuAction_ClearSelection(); });
+            [this]() { this->onClearSelection(); });
         added = true;
     }
     if (added) menu.addSeparator();
@@ -195,7 +194,7 @@ void GuiCommand::buildContextMenu(ContextMenu& menu)
     wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
     if (EnvironmentBase* pEnvBase = dynamic_cast<EnvironmentBase*>(pEnv))
     {
-        if (pEnvBase->addContextMenuActions(&menu)) menu.addSeparator();
+        if (pEnvBase->addContextMenuActions(menu)) menu.addSeparator();
     }
 
     // Property panel
@@ -219,12 +218,7 @@ void GuiCommand::buildContextMenu(ContextMenu& menu)
         menu.addAction(pActionWCS);
         QObject::connect(pActionWCS, &QAction::toggled, pActionWCS, onWCSToggled);
     }
-}
 
-void GuiCommand::onRightMouseUp(const MouseEvent& event)
-{
-    ContextMenu menu;
-    this->buildContextMenu(menu);
     menu.move(QCursor::pos());
     menu.exec();
 }
@@ -269,69 +263,6 @@ void GuiCommand::configSelect(SelectOptions options)
     pSelHandler->setPostFilterFunctor(options.postFilter);
     pSelHandler->enablePreview(options.preview);
     pSelHandler->setSelectMode(options.selectMode);
-}
-
-ContextMenu::ContextMenu()
-    : QMenu()
-{
-    this->connect(this, &QMenu::aboutToShow, this,
-        [this]()
-        {
-            if (QCoreApplication* app = QCoreApplication::instance())
-            {
-                app->installEventFilter(this);
-            }
-        });
-    this->connect(this, &QMenu::aboutToHide, this,
-        [this]()
-        {
-            if (QCoreApplication* app = QCoreApplication::instance())
-            {
-                app->removeEventFilter(this);
-            }
-        });
-}
-
-void ContextMenu::setCompleteSelectionVisible(bool visible)
-{
-    _isCompleteSelectionVisible = visible;
-}
-
-void ContextMenu::setClearSelectionVisible(bool visible)
-{
-    _isClearSelectionVisible = visible;
-}
-
-bool ContextMenu::isCompleteSelectionVisible() const
-{
-    return _isCompleteSelectionVisible;
-}
-
-bool ContextMenu::isClearSelectionVisible() const
-{
-    return _isClearSelectionVisible;
-}
-
-bool ContextMenu::eventFilter(QObject* obj, QEvent* event)
-{
-    Q_UNUSED(obj);
-
-    if (event->type() == QEvent::MouseButtonPress)
-    {
-        QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(event);
-        assert(mouseEvent);
-        if (mouseEvent->button() == Qt::LeftButton)
-        {
-            QPoint globalPos = mouseEvent->globalPos();
-            if (!this->geometry().contains(globalPos) && this->isVisible())
-            {
-                this->hide();
-                return true;
-            }
-        }
-    }
-
-    return QMenu::eventFilter(obj, event);
 }
 
 } // namespace wy3dApp

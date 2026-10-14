@@ -365,18 +365,18 @@ void SplitFaceGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void SplitFaceGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void SplitFaceGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectFaces == _step);
     menu.setClearSelectionVisible(Step::SelectFaces == _step);
 }
 
-void SplitFaceGuiCmd::onContextMenuAction_CompleteSelection()
+void SplitFaceGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void SplitFaceGuiCmd::onContextMenuAction_ClearSelection()
+void SplitFaceGuiCmd::onClearSelection()
 {
     if (Step::SelectFaces == _step)
     {

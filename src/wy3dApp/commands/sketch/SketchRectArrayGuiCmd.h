@@ -81,9 +81,9 @@ protected:
     virtual void onSpaceKey() override;
 
     // 上下文菜单
-    virtual void onBuildContextMenu(ContextMenu& menu) override;
-    virtual void onContextMenuAction_CompleteSelection() override;
-    virtual void onContextMenuAction_ClearSelection() override;
+    virtual void configureContextMenu(ContextMenu& menu) override;
+    virtual void onCompleteSelection() override;
+    virtual void onClearSelection() override;
 
 private:
     void computeDefaultColRowSpacing(const std::set<wydb::ElementId>& ids, double& colSpacing, double& rowSpacing) const;

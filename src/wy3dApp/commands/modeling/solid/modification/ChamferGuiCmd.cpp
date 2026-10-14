@@ -483,18 +483,18 @@ void ChamferGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void ChamferGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void ChamferGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectEdges == _step);
     menu.setClearSelectionVisible(Step::SelectEdges == _step);
 }
 
-void ChamferGuiCmd::onContextMenuAction_CompleteSelection()
+void ChamferGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void ChamferGuiCmd::onContextMenuAction_ClearSelection()
+void ChamferGuiCmd::onClearSelection()
 {
     // 选择边
     if (Step::SelectEdges == _step)

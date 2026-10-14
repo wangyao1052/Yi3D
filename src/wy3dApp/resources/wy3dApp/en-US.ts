@@ -575,22 +575,22 @@
 <context>
     <name>GuiCommand</name>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="177"/>
+        <location filename="../../commands/GuiCommand.cpp" line="176"/>
         <source>Complete Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="186"/>
+        <location filename="../../commands/GuiCommand.cpp" line="185"/>
         <source>Clear Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="203"/>
+        <location filename="../../commands/GuiCommand.cpp" line="202"/>
         <source>Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="216"/>
+        <location filename="../../commands/GuiCommand.cpp" line="215"/>
         <source>World Coordinate System</source>
         <translation type="unfinished"></translation>
     </message>

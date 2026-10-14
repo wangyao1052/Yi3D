@@ -379,18 +379,18 @@ void SketchPolarArrayGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void SketchPolarArrayGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void SketchPolarArrayGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::Step1_SelectElements == _step);
     menu.setClearSelectionVisible(Step::Step1_SelectElements == _step);
 }
 
-void SketchPolarArrayGuiCmd::onContextMenuAction_CompleteSelection()
+void SketchPolarArrayGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void SketchPolarArrayGuiCmd::onContextMenuAction_ClearSelection()
+void SketchPolarArrayGuiCmd::onClearSelection()
 {
     if (Step::Step1_SelectElements == _step)
     {

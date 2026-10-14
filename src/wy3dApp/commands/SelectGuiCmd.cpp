@@ -542,7 +542,7 @@ bool SelectGuiCmd::tryAddElementPositionGizmo(const wyap::SelectionSet& sels)
     return true;
 }
 
-void SelectGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void SelectGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     // Copy: only visible when elements are selected.
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();

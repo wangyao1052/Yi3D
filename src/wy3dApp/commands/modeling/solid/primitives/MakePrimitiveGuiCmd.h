@@ -67,7 +67,7 @@ protected:
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) override;
 
     // Context menu
-    virtual void onBuildContextMenu(ContextMenu& menu) override;
+    virtual void configureContextMenu(ContextMenu& menu) override;
 
 private:
     void onViewNormalToWorkingPlane();

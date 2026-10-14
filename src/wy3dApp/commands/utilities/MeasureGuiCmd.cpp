@@ -685,7 +685,7 @@ void MeasureGuiCmd::clearResults()
     if (_pCmdPanel) _pCmdPanel->clearResults();
 }
 
-void MeasureGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void MeasureGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.addAction(QCoreApplication::translate("MeasureGuiCmd", "Clear Measure Results"),
         [this]() { this->clearResults(); });

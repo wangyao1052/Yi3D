@@ -165,7 +165,7 @@ wy::Vector3 ModelingSelectGuiCmd::computePastePosition(double x, double y,
     return ret.second ? ret.second->getPosition() : ret.first;
 }
 
-void ModelingSelectGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void ModelingSelectGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb)
@@ -209,7 +209,7 @@ void ModelingSelectGuiCmd::onBuildContextMenu(ContextMenu& menu)
         menu.addAction(pActionHide);
     }
 
-    SelectGuiCmd::onBuildContextMenu(menu);
+    SelectGuiCmd::configureContextMenu(menu);
 }
 
 } // namespace wy3dApp

@@ -309,18 +309,18 @@ void LoftedSheetGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void LoftedSheetGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void LoftedSheetGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectProfiles == _step);
     menu.setClearSelectionVisible(Step::SelectProfiles == _step);
 }
 
-void LoftedSheetGuiCmd::onContextMenuAction_CompleteSelection()
+void LoftedSheetGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void LoftedSheetGuiCmd::onContextMenuAction_ClearSelection()
+void LoftedSheetGuiCmd::onClearSelection()
 {
     if (Step::SelectProfiles == _step)
     {

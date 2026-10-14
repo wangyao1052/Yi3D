@@ -40,7 +40,7 @@ protected:
         const std::set<wydb::ElementId>& excludeIds) override;
 
     // Context menu
-    virtual void onBuildContextMenu(ContextMenu& menu) override;
+    virtual void configureContextMenu(ContextMenu& menu) override;
 };
 
 } // namespace wy3dApp

@@ -65,8 +65,8 @@ protected:
     virtual void onLeftMouseUp(const MouseEvent& event) override;
 
     // 上下文菜单
-    virtual void onBuildContextMenu(ContextMenu& menu) override;
-    virtual void onContextMenuAction_ClearSelection() override;
+    virtual void configureContextMenu(ContextMenu& menu) override;
+    virtual void onClearSelection() override;
 
 private:
     class MakeOffsetSheet;

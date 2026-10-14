@@ -307,13 +307,13 @@ void SewnSheetGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void SewnSheetGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void SewnSheetGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::SelectSources == _step);
     menu.setClearSelectionVisible(Step::SelectSources == _step);
 }
 
-void SewnSheetGuiCmd::onContextMenuAction_CompleteSelection()
+void SewnSheetGuiCmd::onCompleteSelection()
 {
     if (Step::SelectSources == _step)
     {
@@ -324,7 +324,7 @@ void SewnSheetGuiCmd::onContextMenuAction_CompleteSelection()
     }
 }
 
-void SewnSheetGuiCmd::onContextMenuAction_ClearSelection()
+void SewnSheetGuiCmd::onClearSelection()
 {
     if (Step::SelectSources == _step)
     {

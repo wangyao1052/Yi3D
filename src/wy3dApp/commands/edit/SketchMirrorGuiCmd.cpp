@@ -569,18 +569,18 @@ void SketchMirrorGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void SketchMirrorGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void SketchMirrorGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.setCompleteSelectionVisible(Step::Step1_SelectElements == _step);
     menu.setClearSelectionVisible(Step::Step1_SelectElements == _step);
 }
 
-void SketchMirrorGuiCmd::onContextMenuAction_CompleteSelection()
+void SketchMirrorGuiCmd::onCompleteSelection()
 {
     this->onEnterKey();
 }
 
-void SketchMirrorGuiCmd::onContextMenuAction_ClearSelection()
+void SketchMirrorGuiCmd::onClearSelection()
 {
     if (Step::Step1_SelectElements == _step)
     {

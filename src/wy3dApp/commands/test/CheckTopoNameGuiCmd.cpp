@@ -226,7 +226,7 @@ void CheckTopoNameGuiCmd::onMouseMove(const MouseEvent& event)
     return;
 }
 
-void CheckTopoNameGuiCmd::onBuildContextMenu(ContextMenu& menu)
+void CheckTopoNameGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     menu.addAction("Check All", &checkAll);
 }

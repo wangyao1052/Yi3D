@@ -1505,22 +1505,22 @@
 <context>
     <name>GuiCommand</name>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="177"/>
+        <location filename="../../commands/GuiCommand.cpp" line="176"/>
         <source>Complete Selection</source>
         <translation>完成选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="186"/>
+        <location filename="../../commands/GuiCommand.cpp" line="185"/>
         <source>Clear Selection</source>
         <translation>清除选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="203"/>
+        <location filename="../../commands/GuiCommand.cpp" line="202"/>
         <source>Property</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="216"/>
+        <location filename="../../commands/GuiCommand.cpp" line="215"/>
         <source>World Coordinate System</source>
         <translation>世界坐标系</translation>
     </message>
