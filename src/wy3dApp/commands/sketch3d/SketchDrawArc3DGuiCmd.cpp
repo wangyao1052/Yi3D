@@ -585,7 +585,7 @@ void SketchDrawArc3DGuiCmd::simulateMouseMoveFromPopup()
 
 std::pair<wy::Vector3, bool> SketchDrawArc3DGuiCmd::computePoint3d(double x, double y)
 {
-    auto ret = this->computePosition3d(x, y, this->getWorkingPlane(), this->getSnapExcludeIds(), true);
+    auto ret = this->computePoint(x, y, this->getWorkingPlane(), {this->getSnapExcludeIds()});
     if (ret.second)
     {
         return std::make_pair(ret.second->getPosition(), true);

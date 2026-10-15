@@ -304,7 +304,7 @@ void ParallelDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
             }
 
             // 计算点击点坐标(因为由wyap::Selection::getPickPosition()获取的坐标不准确)
-            wy::Vector3 pickPos = this->computePosition3d(event.x, event.y, _plane, {}, false).first; // false --- no snap
+            wy::Vector3 pickPos = this->computePoint(event.x, event.y, _plane, {{}, false}).first; // false --- no snap
             _pickUV = _plane.uv(pickPos);
 
             // finish step

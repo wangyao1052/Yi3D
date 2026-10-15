@@ -311,7 +311,7 @@ void MakeTubeGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPnt1: // 确定底面中心
     {
-        wy::Vector3 pnt = this->computePosition3d(event.x, event.y, _workPln, _excludeIds).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
         wy::Vector2 uv = _workPln.uv(pnt);
         _hoverPopupState.point = uv;
         return;
@@ -320,7 +320,7 @@ void MakeTubeGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPnt2: // 确定外径
     {
-        wy::Vector3 pnt = this->computePosition3d(event.x, event.y, _workPln, _excludeIds).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
         wy::Vector2 uv = _workPln.uv(pnt);
         double radius = (uv - _uv1).length();
         _hoverPopupState.outerRadius = radius;
@@ -333,7 +333,7 @@ void MakeTubeGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPnt3: // 确定内径
     {
-        wy::Vector3 pnt = this->computePosition3d(event.x, event.y, _workPln, _excludeIds).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
         wy::Vector2 uv = _workPln.uv(pnt);
         double radius = (uv - _uv1).length();
         double outerRadius = (_uv2 - _uv1).length();
@@ -399,7 +399,7 @@ void MakeTubeGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPnt1: // 确定底面中心
     {
-        wy::Vector3 pnt = this->computePosition3d(event.x, event.y, _workPln, _excludeIds).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
         _uv1 = _workPln.uv(pnt);
         if (this->finishStep(_step))
         {
@@ -411,7 +411,7 @@ void MakeTubeGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPnt2: // 确定外径
     {
-        wy::Vector3 pnt = this->computePosition3d(event.x, event.y, _workPln, _excludeIds).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
         _uv2 = _workPln.uv(pnt);
         if (this->finishStep(_step))
         {
@@ -423,7 +423,7 @@ void MakeTubeGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPnt3: // 确定内径
     {
-        wy::Vector3 pnt = this->computePosition3d(event.x, event.y, _workPln, _excludeIds).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
         _uv3 = _workPln.uv(pnt);
         double outerRadius = (_uv2 - _uv1).length();
         double innerRadius = (_uv3 - _uv1).length();

@@ -162,7 +162,7 @@ bool ModelingSelectGuiCmd::tryAddPositionGizmo_Impl(const wyap::SelectionSet& se
 wy::Vector3 ModelingSelectGuiCmd::computePastePosition(double x, double y,
     const std::set<wydb::ElementId>& excludeIds)
 {
-    auto ret = this->computePosition3d(x, y, getSketchPlane(), excludeIds);
+    auto ret = this->computePoint(x, y, getSketchPlane(), {excludeIds});
     return ret.second ? ret.second->getPosition() : ret.first;
 }
 

@@ -204,13 +204,12 @@ wyap::Selection OsgGuiCommand::pointPick(
 
 // ── 坐标计算（转发到 OsgCoordUtil）────────────────────────
 
-std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgGuiCommand::computePosition3d(
+std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgGuiCommand::computePoint(
     double x, double y,
     const wy3d::Plane& sketchPlane,
-    const std::set<wydb::ElementId>& excludeIds,
-    bool snap)
+    const SnapOptions& options)
 {
-    return OsgCoordUtil::computePosition3d(getOsgView(), x, y, sketchPlane, excludeIds, snap);
+    return OsgCoordUtil::computePoint(getOsgView(), x, y, sketchPlane, options.excludeIds, options.snap);
 }
 
 wy::Vector2 OsgGuiCommand::computePosition2d(

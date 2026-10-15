@@ -129,7 +129,7 @@ void ModelingMoveGuiCmd::configureSelectElementOptions(SelectOptions& options)
 
 void ModelingMoveGuiCmd::onMouseMove_SpecifyStartPnt(double x, double y)
 {
-    auto ret = this->computePosition3d(x, y, _workPln, {});
+    auto ret = this->computePoint(x, y, _workPln);
     wy::Vector3 pnt3d;
     if (ret.second)
     {
@@ -144,7 +144,7 @@ void ModelingMoveGuiCmd::onMouseMove_SpecifyStartPnt(double x, double y)
 
 void ModelingMoveGuiCmd::onMouseMove_SpecifyEndPnt(double x, double y)
 {
-    auto ret = this->computePosition3d(x, y, _workPln, {});
+    auto ret = this->computePoint(x, y, _workPln);
     wy::Vector3 endPnt;
     if (ret.second)
     {
@@ -164,7 +164,7 @@ void ModelingMoveGuiCmd::onMouseMove_SpecifyEndPnt(double x, double y)
 
 void ModelingMoveGuiCmd::onLeftMouseDown_SpecifyStartPnt(double x, double y)
 {
-    auto ret = this->computePosition3d(x, y, _workPln, {});
+    auto ret = this->computePoint(x, y, _workPln);
     if (ret.second) // 捕捉对象
     {
         _startPnt = ret.second->getPosition();
@@ -177,7 +177,7 @@ void ModelingMoveGuiCmd::onLeftMouseDown_SpecifyStartPnt(double x, double y)
 
 void ModelingMoveGuiCmd::onLeftMouseDown_SpecifyEndPnt(double x, double y)
 {
-    auto ret = this->computePosition3d(x, y, _workPln, {});
+    auto ret = this->computePoint(x, y, _workPln);
     if (ret.second) // 捕捉对象
     {
         _moveVec = ret.second->getPosition() - _startPnt;

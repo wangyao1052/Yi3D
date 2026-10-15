@@ -55,11 +55,10 @@ protected:
         const PointPickOptions& option) override;
 
     // 坐标计算
-    std::pair<wy::Vector3, wyap::SnapResultSPtr> computePosition3d(
+    std::pair<wy::Vector3, wyap::SnapResultSPtr> computePoint(
         double x, double y,
         const wy3d::Plane& sketchPlane,
-        const std::set<wydb::ElementId>& excludeIds,
-        bool snap = true) override;
+        const SnapOptions& options = {}) override;
 
     wy::Vector2 computePosition2d(
         double x, double y,

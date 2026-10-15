@@ -159,7 +159,7 @@ static bool computeClosestPoints(const osg::LineSegment& l1, const osg::LineSegm
 
 // ── 公共函数 ──────────────────────────────────────────────────
 
-std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgCoordUtil::computePosition3d(
+std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgCoordUtil::computePoint(
     osgViewer::View* pView,
     double x, double y,
     const wy3d::Plane& sketchPlane,
@@ -219,7 +219,7 @@ std::pair<wy::Vector3, bool> OsgCoordUtil::computePosition3dForSketch3D(
     const wydb::ElementId& sketch3dId)
 {
     assert(pView);
-    std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePosition3d(
+    std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePoint(
         pView, x, y, workPlane, excludeIds, true);
     if (ret.second)
     {
@@ -256,7 +256,7 @@ wy::Vector2 OsgCoordUtil::computePosition2d(
     assert(pSnapContext);
     assert(pSketchSnapSys);
 
-    std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePosition3d(pView, x, y, sketchPlane, excludeIds, snap3d);
+    std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePoint(pView, x, y, sketchPlane, excludeIds, snap3d);
     if (ret.second)
     {
         wy::Vector2 retPos = sketchPlane.uv(ret.first.x(), ret.first.y(), ret.first.z());
@@ -283,7 +283,7 @@ wy::Vector2 OsgCoordUtil::computePosition2dWithoutSnap(
     const wy3d::Plane& sketchPlane)
 {
     static std::set<wydb::ElementId> nullExcludeIds;
-    std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePosition3d(pView, x, y, sketchPlane, nullExcludeIds, false);
+    std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePoint(pView, x, y, sketchPlane, nullExcludeIds, false);
     assert(!ret.second);
     return sketchPlane.uv(ret.first.x(), ret.first.y(), ret.first.z());
 }

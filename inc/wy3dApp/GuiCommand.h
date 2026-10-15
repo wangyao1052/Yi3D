@@ -194,11 +194,19 @@ protected:
         double x, double y,
         const PointPickOptions& option) = 0;
 
-    virtual std::pair<wy::Vector3, wyap::SnapResultSPtr> computePosition3d(
+    // Command snap options.
+    struct SnapOptions
+    {
+        // Elements to exclude from snapping.
+        std::set<wydb::ElementId> excludeIds;
+        // Whether to apply object snapping.
+        bool snap = true;
+    };
+
+    virtual std::pair<wy::Vector3, wyap::SnapResultSPtr> computePoint(
         double x, double y,
         const wy3d::Plane& sketchPlane,
-        const std::set<wydb::ElementId>& excludeIds,
-        bool snap = true) = 0;
+        const SnapOptions& options = {}) = 0;
 
     virtual wy::Vector2 computePosition2d(
         double x, double y,

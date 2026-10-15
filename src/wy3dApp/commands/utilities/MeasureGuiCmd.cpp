@@ -322,7 +322,7 @@ void MeasureGuiCmd::onMouseMove(const MouseEvent& event)
         }
         else
         {
-            auto ret = this->computePosition3d(event.x, event.y, _workPln, {});
+            auto ret = this->computePoint(event.x, event.y, _workPln);
             wy::Vector3 pnt3d = ret.first;
             if (ret.second)
             {
@@ -343,7 +343,7 @@ void MeasureGuiCmd::onMouseMove(const MouseEvent& event)
         }
         else
         {
-            auto ret = this->computePosition3d(event.x, event.y, wy3d::Plane(), {});
+            auto ret = this->computePoint(event.x, event.y, wy3d::Plane());
             wy::Vector3 endPnt = ret.first;
             if (ret.second)
             {
@@ -385,7 +385,7 @@ void MeasureGuiCmd::onLeftMouseDown(const MouseEvent& event)
         }
         else
         {
-            auto ret = this->computePosition3d(event.x, event.y, wy3d::Plane(), {});
+            auto ret = this->computePoint(event.x, event.y, wy3d::Plane());
             _startPnt = ret.first;
             if (ret.second)
             {
@@ -405,7 +405,7 @@ void MeasureGuiCmd::onLeftMouseDown(const MouseEvent& event)
         }
         else
         {
-            auto ret = this->computePosition3d(event.x, event.y, wy3d::Plane(), {});
+            auto ret = this->computePoint(event.x, event.y, wy3d::Plane());
             _endPnt = ret.first;
             if (ret.second)
             {

@@ -53,7 +53,7 @@ class Sketch3DSnapResult;
 namespace OsgCoordUtil {
 
     // 计算3D位置
-    std::pair<wy::Vector3, wyap::SnapResultSPtr> computePosition3d(
+    std::pair<wy::Vector3, wyap::SnapResultSPtr> computePoint(
         osgViewer::View* pView,
         double x, double y,
         const wy3d::Plane& sketchPlane,
