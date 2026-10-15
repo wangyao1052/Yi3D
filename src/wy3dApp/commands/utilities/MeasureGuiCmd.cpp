@@ -318,11 +318,11 @@ void MeasureGuiCmd::onMouseMove(const MouseEvent& event)
     {
         if (_sketchInfo.pSketchSnapSys)
         {
-            wy::Vector2 pnt2d = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSketchSnapContext, _sketchInfo.pSketchSnapSys);
+            wy::Vector2 pnt2d = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSketchSnapContext, _sketchInfo.pSketchSnapSys);
         }
         else
         {
-            auto ret = this->computePosition3d(event.x, event.y, _workPln, _snapExcludeIds);
+            auto ret = this->computePosition3d(event.x, event.y, _workPln, {});
             wy::Vector3 pnt3d = ret.first;
             if (ret.second)
             {
@@ -337,13 +337,13 @@ void MeasureGuiCmd::onMouseMove(const MouseEvent& event)
     {
         if (_sketchInfo.pSketchSnapSys)
         {
-            wy::Vector2 endPnt2d = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSketchSnapContext, _sketchInfo.pSketchSnapSys);
+            wy::Vector2 endPnt2d = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSketchSnapContext, _sketchInfo.pSketchSnapSys);
             if (_pLineTransient) _pLineTransient->update(_sketchInfo.sketchPlane, _startPnt2d, endPnt2d);
             _pLengthLabel->setLength((endPnt2d - _startPnt2d).length());
         }
         else
         {
-            auto ret = this->computePosition3d(event.x, event.y, wy3d::Plane(), _snapExcludeIds);
+            auto ret = this->computePosition3d(event.x, event.y, wy3d::Plane(), {});
             wy::Vector3 endPnt = ret.first;
             if (ret.second)
             {
@@ -381,11 +381,11 @@ void MeasureGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
         if (_sketchInfo.pSketchSnapSys)
         {
-            _startPnt2d = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSketchSnapContext, _sketchInfo.pSketchSnapSys);
+            _startPnt2d = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSketchSnapContext, _sketchInfo.pSketchSnapSys);
         }
         else
         {
-            auto ret = this->computePosition3d(event.x, event.y, wy3d::Plane(), _snapExcludeIds);
+            auto ret = this->computePosition3d(event.x, event.y, wy3d::Plane(), {});
             _startPnt = ret.first;
             if (ret.second)
             {
@@ -401,11 +401,11 @@ void MeasureGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
         if (_sketchInfo.pSketchSnapSys)
         {
-            _endPnt2d = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSketchSnapContext, _sketchInfo.pSketchSnapSys);
+            _endPnt2d = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSketchSnapContext, _sketchInfo.pSketchSnapSys);
         }
         else
         {
-            auto ret = this->computePosition3d(event.x, event.y, wy3d::Plane(), _snapExcludeIds);
+            auto ret = this->computePosition3d(event.x, event.y, wy3d::Plane(), {});
             _endPnt = ret.first;
             if (ret.second)
             {

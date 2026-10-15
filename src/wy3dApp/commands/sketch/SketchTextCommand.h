@@ -23,8 +23,10 @@
 #include <cfloat>
 #include <map>
 #include <memory>
+#include <set>
 #include <osg/PositionAttitudeTransform>
 #include <wyVector2.h>
+#include <wydbElementId.h>
 #include <wy3dMakeSketchText.h>
 #include "commands/sketch/MakeText.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -104,6 +106,8 @@ private:
     wy3d::MakeSketchText::Data _data;
     wy::Vector2 _position;
     SketchSnapContextSPtr _pSnapContext;
+    // 捕捉排除项
+    std::set<wydb::ElementId> _snapExcludeIds;
     std::unique_ptr<GuiCmdHoverInputPopup2> _pXYPopup;
     HoverPopupState _hoverPopupState;
     std::shared_ptr<MakeText> _pMakeText;

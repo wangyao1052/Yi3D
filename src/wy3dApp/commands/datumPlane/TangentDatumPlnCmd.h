@@ -21,7 +21,9 @@
 
 #include <cfloat>
 #include <memory>
+#include <set>
 
+#include <wydbElementId.h>
 #include <wyapSelection.h>
 #include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
@@ -114,6 +116,8 @@ protected:
     SketchArcTransientSPtr _pRotationArcTransient;
     // 创建基准面
     std::shared_ptr<MakeDatumPlane> _pMakeDatumPlane;
+    // 捕捉排除项
+    std::set<wydb::ElementId> _snapExcludeIds;
     // 悬停浮窗
     std::unique_ptr<GuiCmdHoverInputPopup1> _pAnglePopup;
     HoverPopupState _hoverPopupState;

@@ -119,8 +119,7 @@ protected:
             selectionType(wy3d::SelectionType::Element), preview(true), selectMode(SelectMode::Full)
         {}
     };
-    // Fills the command's selection options; called at command start and whenever
-    // selection is re-enabled (the caller may have pre-filled some fields).
+    // Fills the command's selection options; called at command start.
     virtual void initializeSelectOptions(SelectOptions& selectOptions)
     {
         selectOptions.pointSelect = false;
@@ -162,10 +161,6 @@ protected:
     // Triggered when an item in the feature tree is clicked.
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) { return; }
 
-    
-    void applySelectOptions(SelectOptions options);
-    SelectOptions getSelectOptions();
-
     // Configures the command's context menu; called before the standard items are
     // appended, so custom items added here stay at the top.
     virtual void configureContextMenu(ContextMenu& menu) {}
@@ -173,6 +168,11 @@ protected:
     virtual void onCompleteSelectionMenuItem() {}
     // The Clear Selection menu item's handler.
     virtual void onClearSelectionMenuItem() {}
+
+    // Applies the options to the selection handler.
+    void applySelectOptions(SelectOptions options);
+    // Reads the options back from the selection handler.
+    SelectOptions getSelectOptions();
 
     // Converts desktop screen coordinates (top-left origin, QCursor::pos) to window
     // coordinates (bottom-left origin, device pixels), the same system as MouseEvent.
@@ -219,10 +219,6 @@ protected:
         const wy::Vector2& basis,
         const std::set<wydb::ElementId>& excludeIds,
         double& rotationAngle) = 0;
-
-protected:
-    // 捕捉排除项
-    std::set<wydb::ElementId> _snapExcludeIds;
 
 private:
     friend class FeatureTreeWidget;

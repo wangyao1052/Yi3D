@@ -22,7 +22,9 @@
 #include <cfloat>
 #include <Geom_Curve.hxx>
 #include <memory>
+#include <set>
 #include <wyVector3.h>
+#include <wydbElementId.h>
 #include <wyapSelection.h>
 #include <wy3dPlane.h>
 #include <wy3dDatumPlane.h>
@@ -162,6 +164,8 @@ protected:
     PointTransientSPtr _pEdgeStartPntTransient;
     // 创建基准面
     std::shared_ptr<MakeDatumPlane> _pMakeDatumPlane;
+    // 捕捉排除项
+    std::set<wydb::ElementId> _snapExcludeIds;
 
     std::unique_ptr<GuiCmdHoverInputPopup1> _pDistancePopup;
     HoverPopupState _hoverPopupState;
