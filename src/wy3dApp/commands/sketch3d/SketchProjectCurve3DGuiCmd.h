@@ -126,7 +126,7 @@ private:
 
 private:
     GuiCmdSketch3DInfo _sketch3DInfo;
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
     SelectPreview _preview;                 // 悬停高亮预览
     SelectionSetHighlightorSPtr _pSourceHighlight; // 已选中的源草图保持高亮
     SelectionSetHighlightorSPtr _pTargetHighlight; // 已选中的投影目标保持高亮

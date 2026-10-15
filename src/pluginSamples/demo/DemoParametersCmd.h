@@ -22,7 +22,6 @@
 #include <wydbElementId.h>
 
 #include <wyapCmdExecution.h>
-#include <wy3dApp/PointPickOption.h>
 
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wy3dApp/SelectPreview.h>
@@ -45,7 +44,7 @@ private:
     void showParameters(const wydb::ElementId& elementId);
 
 private:
-    wy3dApp::PointPickOption _pointPickOption;
+    wy3dApp::GuiCommand::PointPickOptions _pointPickOption;
     wy3dApp::SelectPreview _hoverPreview;
 };
 

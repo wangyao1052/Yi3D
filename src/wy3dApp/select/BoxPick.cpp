@@ -46,7 +46,7 @@ struct TraverseItem
 std::list<TraverseItem> _traverseIntersections(
     const wydb::Database* pDb,
     const osgUtil::PolytopeIntersector::Intersections& intersections,
-    const BoxPickOption& option,
+    const BoxPick::Options& option,
     DrawMode allowedDrawMode = DrawMode::All)
 {
     assert(pDb);
@@ -147,7 +147,7 @@ std::list<TraverseItem> _traverseIntersections(
 std::list<TraverseItem> _traverseIntersections_OneBreak(
     const wydb::Database* pDb,
     const osgUtil::PolytopeIntersector::Intersections& intersections,
-    const BoxPickOption& option,
+    const BoxPick::Options& option,
     DrawMode allowedDrawMode = DrawMode::All)
 {
     assert(pDb);
@@ -258,7 +258,7 @@ wyap::SelectionSet BoxPick::pick(
     const wydb::Database* pDb,
     osgViewer::View* pView,
     double xMin, double yMin, double xMax, double yMax,
-    const BoxPickOption& option)
+    const BoxPick::Options& option)
 {
     assert(pDb);
     assert(pView);

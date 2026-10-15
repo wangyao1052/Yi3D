@@ -36,7 +36,7 @@ bool _traverseIntersections(
     const typename T::Intersections& intersections,
     wydb::ElementId& pickedElemId,
     const typename T::Intersection*& pIntersection,
-    const PointPickOption& option,
+    const PointPick::Options& option,
     DrawMode allowedDrawMode = DrawMode::All)
 {
     if (option.pPreFilter)
@@ -451,7 +451,7 @@ wyap::Selection pointPick_PolytopeIntersector(
     const wydb::Database* pDb,
     osgViewer::View* pView,
     float x, float y,
-    const PointPickOption& option,
+    const PointPick::Options& option,
     DrawMode allowedDrawMode)
 {
     assert(pDb);
@@ -496,7 +496,7 @@ wyap::Selection pointPick_LineSegmentIntersector(
     const wydb::Database* pDb,
     osgViewer::View* pView, 
     float x, float y,
-    const PointPickOption& option,
+    const PointPick::Options& option,
     DrawMode allowedDrawMode)
 {
     assert(pDb);
@@ -537,7 +537,7 @@ wyap::Selection PointPick::pick(
     const wydb::Database* pDb,
     osgViewer::View* pView,
     float x, float y,
-    const PointPickOption& option)
+    const PointPick::Options& option)
 {
     assert(pDb);
     assert(pView);

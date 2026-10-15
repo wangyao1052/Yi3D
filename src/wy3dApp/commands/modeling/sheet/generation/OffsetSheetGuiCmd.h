@@ -110,7 +110,7 @@ protected:
     wyap::SelectionSet _faceSels;
 
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
     std::shared_ptr<MakeOffsetSheet> _pMakeOffsetSheet;
     std::shared_ptr<MakeSolidFaceOffsetSheet> _pMakeSolidSheet;
     // 预览

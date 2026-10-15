@@ -67,7 +67,7 @@ private:
     void perform(wydb::ElementId sheetId);
 
 protected:
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
     std::shared_ptr<MakeSolidify> _pMakeSolidify;
     SelectPreview _sheetPreview;
 };

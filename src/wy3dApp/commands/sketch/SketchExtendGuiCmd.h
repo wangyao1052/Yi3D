@@ -81,7 +81,7 @@ private:
     std::shared_ptr<ExtendSegmentTransient> _pTransient;
 
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 };
 
 class ExtendSegmentTransient : public GuiCmdTransient

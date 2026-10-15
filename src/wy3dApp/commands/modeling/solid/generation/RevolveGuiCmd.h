@@ -70,7 +70,7 @@ protected:
     wydb::ElementId _axisCurveId;
 
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     // 预览&提示
     std::shared_ptr<ValidSketchTransient> _pValidSketch;

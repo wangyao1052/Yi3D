@@ -120,9 +120,9 @@ protected:
     Step _step;
     wydb::ElementId _sketchId;
 
-    PointPickOption _sketchPickOption;
-    PointPickOption _edgePickOption;
-    PointPickOption _constraintSketchPickOption;
+    PointPickOptions _sketchPickOption;
+    PointPickOptions _edgePickOption;
+    PointPickOptions _constraintSketchPickOption;
 
     std::shared_ptr<ValidSketchTransient> _pValidSketchPreview;
     std::shared_ptr<InvalidSketchToolTip> _pInvalidSketchTooltip;

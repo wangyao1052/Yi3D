@@ -69,7 +69,7 @@ protected:
     wydb::ElementId _sketchId;
     wydb::ElementId _axisCurveId;
 
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     std::shared_ptr<ValidSketchTransient> _pValidSketch;
     std::shared_ptr<InvalidSketchToolTip> _pInvalidSketchTooltip;

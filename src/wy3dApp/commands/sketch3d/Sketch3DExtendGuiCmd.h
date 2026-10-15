@@ -79,7 +79,7 @@ private:
     wydb::ElementId _pickedId;
     wy3d::Sketch3DExtendSegment _pickedSegment;
 
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 };
 
 } // namespace wy3dApp

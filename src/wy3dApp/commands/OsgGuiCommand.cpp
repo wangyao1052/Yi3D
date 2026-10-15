@@ -187,14 +187,19 @@ void OsgGuiCommand::screenToWindow(double screenX, double screenY,
 
 wyap::Selection OsgGuiCommand::pointPick(
     double x, double y,
-    const PointPickOption& option)
+    const PointPickOptions& option)
 {
     static wyap::Selection nullSel = wyap::Selection(wydb::ElementId::kNull);
     const wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return nullSel;
     osgViewer::View* pView = _pOsgView.get();
     if (!pView) return nullSel;
-    return PointPick::pick(pDb, pView, x, y, option);
+    PointPick::Options pickOptions;
+    pickOptions.allowedElemTypes = option.allowedElemTypes;
+    pickOptions.selType = option.selType;
+    pickOptions.pPreFilter = option.pPreFilter;
+    pickOptions.pPostFilter = option.pPostFilter;
+    return PointPick::pick(pDb, pView, x, y, pickOptions);
 }
 
 // ── 坐标计算（转发到 OsgCoordUtil）────────────────────────

@@ -115,7 +115,7 @@ protected:
     wy3d::ExtrusionDirection _direction;
 
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     // 预览&提示
     std::shared_ptr<ValidSketchTransient> _pValidSketchPreview;

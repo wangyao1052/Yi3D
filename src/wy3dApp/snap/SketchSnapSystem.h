@@ -609,7 +609,7 @@ private:
     std::set<wydb::ElementId> _ids;
 
     // 点选选项
-    PointPickOption _pickOption;
+    PointPick::Options _pickOption;
 };
 
 typedef std::shared_ptr<SketchSnapSystem> SketchSnapSystemSPtr;

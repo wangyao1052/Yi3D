@@ -45,7 +45,6 @@
 #include "scene/nodes/ElementNodeType.h"
 
 #include "select/SelectMode.h"
-#include <wy3dApp/PointPickOption.h>
 #include "select/SelectFilterFunctors.h"
 #include <wy3dApp/SelectPreview.h>
 #include "select/SelectionSetHighlightor.h"
@@ -176,9 +175,24 @@ protected:
         double screenX, double screenY,
         double& windowX, double& windowY) const = 0;
 
+    // Command point-pick options.
+    struct PointPickOptions
+    {
+        // Allowed element types (ElementNodeType bit set).
+        unsigned int allowedElemTypes = ElementNodeType::All;
+        // Selection type.
+        wy3d::SelectionType selType = wy3d::SelectionType::Element;
+        // Pre-filter functor.
+        SelectPreFilterFunctorSPtr pPreFilter = nullptr;
+        // Post-filter functor.
+        SelectPostFilterFunctorSPtr pPostFilter = nullptr;
+    };
+
+    // Picks an element at window coordinates (x, y), the same system as MouseEvent.
+    // Returns a Selection with a null element id if nothing matches option.
     virtual wyap::Selection pointPick(
         double x, double y,
-        const PointPickOption& option) = 0;
+        const PointPickOptions& option) = 0;
 
     virtual std::pair<wy::Vector3, wyap::SnapResultSPtr> computePosition3d(
         double x, double y,

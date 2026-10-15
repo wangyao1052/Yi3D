@@ -107,7 +107,7 @@ private:
     static double _D1;
     static double _D2;
 
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     // first curve
     wydb::ElementId _id1st;

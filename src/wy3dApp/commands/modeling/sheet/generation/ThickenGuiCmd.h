@@ -78,7 +78,7 @@ private:
 
 protected:
     wydb::ElementId _sheetId;
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     std::shared_ptr<MakeThicken> _pMakeThicken;
     SelectPreview _sheetPreview;

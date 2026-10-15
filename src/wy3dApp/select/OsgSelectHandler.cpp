@@ -83,7 +83,7 @@ bool OsgSelectHandler::handle(const osgGA::GUIEventAdapter& ea,
 
 wyap::Selection OsgSelectHandler::pointPick(float x, float y)
 {
-    static PointPickOption option;
+    static PointPick::Options option;
     option.allowedElemTypes = _allowedElemTypes;
     option.selType = _selType;
     option.pPreFilter = _pPreSelFilter;
@@ -96,7 +96,7 @@ wyap::SelectionSet OsgSelectHandler::boxPick_cross(
     float xMin, float yMin,
     float xMax, float yMax)
 {
-    static BoxPickOption option;
+    static BoxPick::Options option;
     option.allowedElemTypes = _allowedElemTypes;
     option.selType = _selType;
     option.pPreFilter = _pPreSelFilter;

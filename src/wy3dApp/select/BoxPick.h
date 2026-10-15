@@ -29,34 +29,34 @@
 
 namespace wy3dApp {
 
-// 框选配置项
-struct BoxPickOption
-{
-    // 允许选择的元素类型(ElementNodeType 位集)
-    unsigned int allowedElemTypes;
-    // 选择类型
-    wy3d::SelectionType selType;
-    // 排除的元素ID(前置过滤)
-    SelectPreFilterFunctorSPtr pPreFilter;
-    // 自定义函数过滤器(后置过滤)
-    SelectPostFilterFunctorSPtr pPostFilter;
-
-    BoxPickOption() :
-        allowedElemTypes(ElementNodeType::All),
-        selType(wy3d::SelectionType::Element),
-        pPreFilter(nullptr),
-        pPostFilter(nullptr)
-    {}
-};
-
 class BoxPick
 {
 public:
+    // 框选配置项
+    struct Options
+    {
+        // 允许选择的元素类型(ElementNodeType 位集)
+        unsigned int allowedElemTypes;
+        // 选择类型
+        wy3d::SelectionType selType;
+        // 排除的元素ID(前置过滤)
+        SelectPreFilterFunctorSPtr pPreFilter;
+        // 自定义函数过滤器(后置过滤)
+        SelectPostFilterFunctorSPtr pPostFilter;
+
+        Options() :
+            allowedElemTypes(ElementNodeType::All),
+            selType(wy3d::SelectionType::Element),
+            pPreFilter(nullptr),
+            pPostFilter(nullptr)
+        {}
+    };
+
     static wyap::SelectionSet pick(
         const wydb::Database* pDb,
         osgViewer::View* pView,
         double xMin, double yMin, double xMax, double yMax,
-        const BoxPickOption& option);
+        const Options& option);
 };
 
 } // namespace wy3dApp

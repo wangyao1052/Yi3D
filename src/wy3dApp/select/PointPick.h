@@ -21,7 +21,9 @@
 
 #include <osgViewer/View>
 #include <wyapSelection.h>
-#include <wy3dApp/PointPickOption.h>
+#include <wy3dSelectionType.h>
+#include "scene/nodes/ElementNodeType.h"
+#include "select/SelectFilterFunctors.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -29,11 +31,34 @@ namespace wy3dApp {
 class PointPick
 {
 public:
+    // 点选配置项
+    struct Options
+    {
+        // 拾取框大小(边长的一半)
+        double pickHalfSize;
+        // 允许选择的元素类型(ElementNodeType 位集)
+        unsigned int allowedElemTypes;
+        // 选择类型
+        wy3d::SelectionType selType;
+        // 排除的元素ID(前置过滤)
+        SelectPreFilterFunctorSPtr pPreFilter;
+        // 自定义函数过滤器(后置过滤)
+        SelectPostFilterFunctorSPtr pPostFilter;
+
+        Options() :
+            pickHalfSize(6.0f),
+            allowedElemTypes(ElementNodeType::All),
+            selType(wy3d::SelectionType::Element),
+            pPreFilter(nullptr),
+            pPostFilter(nullptr)
+        {}
+    };
+
     static wyap::Selection pick(
         const wydb::Database* pDb,
         osgViewer::View* pView,
         float x, float y,
-        const PointPickOption& option);
+        const Options& option);
 };
 
 } // namespace wy3dApp

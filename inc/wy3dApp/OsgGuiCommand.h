@@ -52,7 +52,7 @@ protected:
 
     // 点选
     wyap::Selection pointPick(double x, double y,
-        const PointPickOption& option) override;
+        const PointPickOptions& option) override;
 
     // 坐标计算
     std::pair<wy::Vector3, wyap::SnapResultSPtr> computePosition3d(

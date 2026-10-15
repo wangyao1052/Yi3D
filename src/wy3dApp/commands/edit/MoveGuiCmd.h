@@ -117,7 +117,7 @@ private:
 protected:
     Step _step;
     wyap::SelectionSet _sels;
-    PointPickOption _pickWorkPlnOption;
+    PointPickOptions _pickWorkPlnOption;
     wy3d::Plane _workPln;
     wy::Vector2 _startPnt2d;
     wy::Vector3 _startPnt;

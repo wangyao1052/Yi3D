@@ -134,7 +134,7 @@ protected:
     double _depth;
     wy3d::ExtrusionDirection _direction;
 
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     std::shared_ptr<ValidSketchTransient> _pValidSketchPreview;
     std::shared_ptr<InvalidSketchToolTip> _pInvalidSketchTooltip;

@@ -55,7 +55,7 @@ private:
 
 private:
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
     // 预览
     SelectPreview _preview;
     //

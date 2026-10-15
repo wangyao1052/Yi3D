@@ -77,7 +77,7 @@ private:
     QColor _targetColor;
     SetColorCmdPanel* _pPanel;
 
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
     wydb::ElementId _lastHoverElementId;
     SelectPreview _hoverPreview;
 };

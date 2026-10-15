@@ -125,7 +125,7 @@ private:
 
     // 测量状态
     MeasureMode _mode;
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
     SelectPreview _preview;
     SelectPreview _rowPreview;
     SelectionSetHighlightorSPtr _pRowFacePreviewHighlightor;

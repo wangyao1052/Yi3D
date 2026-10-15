@@ -76,7 +76,7 @@ protected:
     // 步骤
     unsigned int _step;
     // 点选选项
-    PointPickOption _pickOption;
+    PointPickOptions _pickOption;
     // 捕捉排除元素
     std::set<wydb::ElementId> _excludeIds;
     // 工作平面

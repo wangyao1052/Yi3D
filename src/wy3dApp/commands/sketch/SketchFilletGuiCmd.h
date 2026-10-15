@@ -208,7 +208,7 @@ private:
     Step _step; // 步骤
     static double _R;  // 圆角半径
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
     // 第一条曲线
     wy::Vector2 _pickPos1st;
     std::shared_ptr<SketchCurveTransient> _pCurveTransient1st;

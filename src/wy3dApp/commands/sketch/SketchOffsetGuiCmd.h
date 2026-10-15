@@ -107,7 +107,7 @@ private:
     double _offset;
 
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     SketchSnapContextSPtr _pSnapContext;
     std::shared_ptr<SketchCurveTransient> _pCurve;

@@ -117,7 +117,7 @@ private:
     // Radius, remembered across runs the way the 2D command remembers it.
     static double _R;
 
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     // first curve
     wydb::ElementId _id1st;

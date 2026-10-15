@@ -109,7 +109,7 @@ private:
     std::map<wydb::ElementId, wydb::ElementId> _id2Parent;
 
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 };
 
 class TrimSegmentTransient : public GuiCmdTransient

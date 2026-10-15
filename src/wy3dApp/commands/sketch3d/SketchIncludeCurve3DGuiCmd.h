@@ -69,7 +69,7 @@ private:
 
 private:
     GuiCmdSketch3DInfo _sketch3DInfo;
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
     SelectPreview _preview;  // 悬停高亮预览
     // Included curves of this command run: element id + sub path -> entity id. A curve is
     // included only once, unless its entity has been undone in between.

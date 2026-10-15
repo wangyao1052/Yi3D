@@ -54,7 +54,7 @@ private:
 
 private:
     GuiCmdSketchInfo _sketchInfo;
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
     SelectPreview _preview;  // 悬停高亮预览
 };
 

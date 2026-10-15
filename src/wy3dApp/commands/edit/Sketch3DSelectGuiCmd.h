@@ -62,7 +62,7 @@ private:
 
 private:
     // Pick of the faces and datum planes that may become the work plane
-    PointPickOption _planePickOption;
+    PointPickOptions _planePickOption;
     // Hover preview of the face under the pointer
     SelectPreview _planePreview;
     // Highlight of the face picked as the work plane, held until the drawing command takes over

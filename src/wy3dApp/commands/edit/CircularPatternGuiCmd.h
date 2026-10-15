@@ -68,7 +68,7 @@ private:
     wyap::Selection _cylindricalSurfaceSel;
 
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     // 阵列源对象预览
     SelectPreview _sourcePreview;

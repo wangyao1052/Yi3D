@@ -96,7 +96,7 @@ private:
     // when an undo brings it back.
     std::map<wydb::ElementId, wydb::ElementId> _id2Parent;
 
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 };
 
 } // namespace wy3dApp

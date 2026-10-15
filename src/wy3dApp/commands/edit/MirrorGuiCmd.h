@@ -80,7 +80,7 @@ private:
     wy3d::Plane _mirrorPlane;
 
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     // 源对象预览
     SelectPreview _sourcePreview;

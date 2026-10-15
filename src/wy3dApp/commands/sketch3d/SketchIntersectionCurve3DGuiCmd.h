@@ -76,7 +76,7 @@ private:
 
 private:
     GuiCmdSketch3DInfo _sketch3DInfo;
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
     SelectPreview _preview;                 // 悬停高亮预览
     SelectionSetHighlightorSPtr _pHeldHighlight; // 已持有的第一项保持高亮
     SketchIntersectionCurvePanel* _pPanel;       // interpolation / fit switch, owned

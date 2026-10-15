@@ -81,7 +81,7 @@ protected:
     std::vector<wydb::ElementId> _profileIds;
 
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     // 预览&提示
     SelectPreview _profilePreview;

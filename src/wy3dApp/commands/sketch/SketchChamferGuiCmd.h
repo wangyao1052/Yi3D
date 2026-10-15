@@ -125,7 +125,7 @@ private:
     static double _D2; // 倒角距离2
 
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
 
     // 第一条曲线
     wy::Vector2 _pickPos1st;

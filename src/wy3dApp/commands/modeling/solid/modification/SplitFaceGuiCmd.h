@@ -84,7 +84,7 @@ private:
     wydb::ElementId _sketchId;
 
     // 点选选项
-    PointPickOption _pointPickOption;
+    PointPickOptions _pointPickOption;
     // 预览
     SelectPreview _preview;
     // 高亮
