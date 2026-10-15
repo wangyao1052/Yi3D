@@ -48,8 +48,6 @@ namespace wy3dApp {
 HelixGuiCmd::HelixGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sketchId(wydb::ElementId::kNull)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 HelixGuiCmd::~HelixGuiCmd()

@@ -53,8 +53,6 @@ double SketchFilletGuiCmd::_R = 10.0;  // 圆角半径
 SketchFilletGuiCmd::SketchFilletGuiCmd() 
     : OsgGuiCommand(), _step(Step::First), _pickPos1st(), _pickPos2nd()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchFilletGuiCmd::~SketchFilletGuiCmd()

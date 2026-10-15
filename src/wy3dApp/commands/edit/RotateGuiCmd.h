@@ -74,6 +74,8 @@ protected:
     // Space键响应
     virtual void onSpaceKey() override;
 
+    virtual void initializeSelectOptions(SelectOptions& selectOptions) override;
+
     // 上下文菜单
     virtual void configureContextMenu(ContextMenu& menu) override;
     virtual void onCompleteSelectionMenuItem() override;

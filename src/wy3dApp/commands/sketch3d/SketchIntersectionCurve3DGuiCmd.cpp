@@ -113,8 +113,6 @@ private:
 SketchIntersectionCurve3DGuiCmd::SketchIntersectionCurve3DGuiCmd()
     : OsgGuiCommand(), _pPanel(nullptr), _hasFirst(false), _firstSelection(wydb::ElementId::kNull)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchIntersectionCurve3DGuiCmd::~SketchIntersectionCurve3DGuiCmd()

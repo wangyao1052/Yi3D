@@ -185,29 +185,6 @@ void OsgGuiCommand::screenToWindow(double screenX, double screenY,
     windowY = traits->y + traits->height - screenY;
 }
 
-void OsgGuiCommand::configSelect(SelectOptions options)
-{
-    BaseView* pView = Application::instance().getActiveView();
-    if (!pView) return;
-    GuiEventDispatcher* pGuiEventDispatcher = pView->getGuiEventDispatcher();
-    if (!pGuiEventDispatcher) return;
-    SelectHandler* pSelHandler = pGuiEventDispatcher->getSelectHandler();
-    if (!pSelHandler)
-    {
-        assert(false);
-        return;
-    }
-    pSelHandler->reset();
-    pSelHandler->enablePointSelect(options.pointSelect);
-    pSelHandler->enableBoxSelect(options.boxSelect);
-    pSelHandler->setAllowedElemTypes(options.allowedElemTypes);
-    pSelHandler->setSelectionType(options.selectionType);
-    pSelHandler->setPreFilterFunctor(options.preFilter);
-    pSelHandler->setPostFilterFunctor(options.postFilter);
-    pSelHandler->enablePreview(options.preview);
-    pSelHandler->setSelectMode(options.selectMode);
-}
-
 wyap::Selection OsgGuiCommand::pointPick(
     double x, double y,
     const PointPickOption& option)

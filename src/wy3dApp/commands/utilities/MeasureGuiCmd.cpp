@@ -69,8 +69,6 @@ MeasureGuiCmd::MeasureGuiCmd() : OsgGuiCommand(), _step(Step::Undefined),
     _pLengthLabel = std::make_unique<MeasureLengthLabel>(Application::instance().getMainWindow());
     assert(_pLengthLabel);
 
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 wyap::CmdExecution::StartResult MeasureGuiCmd::onStart()

@@ -106,7 +106,9 @@ wyap::CmdExecution::StartResult GuiCommand::onStart()
         DockPanelIds::Property)->setReadOnly(true);
 
     // 命令配置:选择
-    this->configSelect(_options);
+    SelectOptions selectOptions;
+    this->initializeSelectOptions(selectOptions);
+    this->applySelectOptions(selectOptions);
     // 重置状态栏
     Application::instance().getStatusBar()->reset();
     // 重置捕捉系统
@@ -125,7 +127,7 @@ wyap::CmdExecution::StartResult GuiCommand::onStart()
 void GuiCommand::onEnd()
 {
     SelectOptions options;
-    this->configSelect(options);
+    this->applySelectOptions(options);
 
     Scene* pActiveScene = Application::instance().getActiveScene();
     if (pActiveScene)
@@ -143,7 +145,7 @@ void GuiCommand::onEnd()
 void GuiCommand::onAbort(wyap::CmdExecution::AbortCause cause)
 {
     SelectOptions options;
-    this->configSelect(options);
+    this->applySelectOptions(options);
 
     Scene* pActiveScene = Application::instance().getActiveScene();
     if (pActiveScene)
@@ -242,7 +244,7 @@ void GuiCommand::onKeyDown(const KeyEvent& event)
     }
 }
 
-void GuiCommand::configSelect(SelectOptions options)
+void GuiCommand::applySelectOptions(SelectOptions options)
 {
     BaseView* pView = Application::instance().getActiveView();
     if (!pView) return;
@@ -263,6 +265,31 @@ void GuiCommand::configSelect(SelectOptions options)
     pSelHandler->setPostFilterFunctor(options.postFilter);
     pSelHandler->enablePreview(options.preview);
     pSelHandler->setSelectMode(options.selectMode);
+}
+
+GuiCommand::SelectOptions GuiCommand::getSelectOptions()
+{
+    BaseView* pView = Application::instance().getActiveView();
+    if (!pView) return SelectOptions();
+    GuiEventDispatcher* pGuiEventDispatcher = pView->getGuiEventDispatcher();
+    if (!pGuiEventDispatcher) return SelectOptions();
+    SelectHandler* pSelHandler = pGuiEventDispatcher->getSelectHandler();
+    if (!pSelHandler)
+    {
+        assert(false);
+        return SelectOptions();
+    }
+
+    SelectOptions options;
+    options.pointSelect = pSelHandler->isSupportsPointSelect();
+    options.boxSelect = pSelHandler->isSupportsBoxSelect();
+    options.allowedElemTypes = pSelHandler->getAllowedElemTypes();
+    options.selectionType = pSelHandler->getSelectionType();
+    options.preFilter = pSelHandler->getPreFilterFunctor();
+    options.postFilter = pSelHandler->getPostFilterFunctor();
+    options.preview = pSelHandler->isSupportPreview();
+    options.selectMode = pSelHandler->getSelectMode();
+    return options;
 }
 
 } // namespace wy3dApp

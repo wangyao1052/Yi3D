@@ -34,8 +34,6 @@ namespace wy3dApp {
 SketchRelocateCsysGuiCmd::SketchRelocateCsysGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _origin(), _angle(0.0)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchRelocateCsysGuiCmd::~SketchRelocateCsysGuiCmd()

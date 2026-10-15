@@ -87,8 +87,6 @@ ChamferGuiCmd::ChamferGuiCmd() : OsgGuiCommand(),
     _chamferType(wy3d::ChamferType::EqualDistance), _isFlipped(false),
     _hostId(wydb::ElementId::kNull), _hostIsSheet(false)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 ChamferGuiCmd::~ChamferGuiCmd()

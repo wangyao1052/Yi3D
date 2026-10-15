@@ -39,8 +39,6 @@ namespace wy3dApp {
 
 Sketch3DTrimGuiCmd::Sketch3DTrimGuiCmd() : OsgGuiCommand()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 Sketch3DTrimGuiCmd::~Sketch3DTrimGuiCmd()

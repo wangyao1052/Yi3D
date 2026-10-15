@@ -47,8 +47,6 @@ namespace wy3dApp {
 RevolvedSheetGuiCmd::RevolvedSheetGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sketchId(wydb::ElementId::kNull), _axisCurveId(wydb::ElementId::kNull)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 RevolvedSheetGuiCmd::~RevolvedSheetGuiCmd()

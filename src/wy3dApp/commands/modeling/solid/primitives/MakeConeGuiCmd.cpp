@@ -64,8 +64,6 @@ MakeConeGuiCmd::MakeConeGuiCmd() : MakePrimitiveGuiCmd(),
     _pHeightPopup(nullptr),
     _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 MakeConeGuiCmd::~MakeConeGuiCmd()

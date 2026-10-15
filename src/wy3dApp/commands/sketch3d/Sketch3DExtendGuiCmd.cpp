@@ -43,8 +43,6 @@ namespace wy3dApp {
 
 Sketch3DExtendGuiCmd::Sketch3DExtendGuiCmd() : OsgGuiCommand()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 Sketch3DExtendGuiCmd::~Sketch3DExtendGuiCmd()

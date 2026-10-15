@@ -109,35 +109,27 @@ public:
 
 SelectGuiCmd::SelectGuiCmd() : OsgGuiCommand()
 {
-    _options.pointSelect = true;
-    _options.boxSelect = true;
-    _options.selectionType = wy3d::SelectionType::Element;
-    _options.preview = true;
+}
+
+void SelectGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
+{
+    selectOptions.pointSelect = true;
+    selectOptions.boxSelect = true;
+    selectOptions.selectionType = wy3d::SelectionType::Element;
+    selectOptions.preview = true;
+    selectOptions.selectMode = SelectMode::Full;
 }
 
 SelectGuiCmd::~SelectGuiCmd()
 {
 }
 
-void SelectGuiCmd::enableSelect()
-{
-    // 选择配置项
-    SelectOptions selOptions;
-    selOptions.pointSelect = true;
-    selOptions.boxSelect = true;
-    selOptions.selectionType = wy3d::SelectionType::Element;
-    configureSelectOptions(selOptions);
-    selOptions.preview = true;
-    selOptions.selectMode = SelectMode::Full;
-    this->configSelect(selOptions);
-}
-
 void SelectGuiCmd::disableSelect()
 {
-    SelectOptions selOptions;
+    SelectOptions selOptions = _selectOptions;
     selOptions.pointSelect = false;
     selOptions.boxSelect = false;
-    this->configSelect(selOptions);
+    this->applySelectOptions(selOptions);
 }
 
 wyap::CmdExecution::StartResult SelectGuiCmd::onStart()
@@ -172,8 +164,8 @@ wyap::CmdExecution::StartResult SelectGuiCmd::onStart()
     // 更新提示
     this->updateSelectTipAndLabel();
 
-    // 允许选择(点选+框选)
-    this->enableSelect();
+    // 留档选择配置,供粘贴结束后恢复
+    _selectOptions = this->getSelectOptions();
 
     // 局部刷新捕捉系统
     // 在新增了重定位草图坐标系命令后,需要在选择命令的开始局部刷新捕捉系统;
@@ -501,7 +493,7 @@ void SelectGuiCmd::endPaste(const wy::Vector3& pos)
     this->updateSelectTipAndLabel();
 
     // 启用选择
-    this->enableSelect();
+    this->applySelectOptions(_selectOptions);
 }
 
 void SelectGuiCmd::cancelPaste()
@@ -515,7 +507,7 @@ void SelectGuiCmd::cancelPaste()
     this->updateSelectTipAndLabel();
 
     // 启用选择
-    this->enableSelect();
+    this->applySelectOptions(_selectOptions);
 }
 
 bool SelectGuiCmd::tryAddElementPositionGizmo(const wyap::SelectionSet& sels)

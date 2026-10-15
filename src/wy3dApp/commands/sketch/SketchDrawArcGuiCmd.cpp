@@ -65,8 +65,6 @@ SketchDrawArcGuiCmd::SketchDrawArcGuiCmd()
     _step(Step::Undefined), _centerPnt(), _startPnt(), _radius(0.0), _startAngle(0.0), _totalAngle(0.0),
     _pXYPopup(nullptr), _pRadiusAnglePopup(nullptr), _pSweepAnglePopup(nullptr), _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchDrawArcGuiCmd::~SketchDrawArcGuiCmd()

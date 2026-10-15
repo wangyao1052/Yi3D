@@ -49,8 +49,6 @@ static bool parseDoubleText(const QString& text, double& value)
 SketchDrawPointGuiCmd::SketchDrawPointGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _position(), _pXYPopup(nullptr), _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 wyap::CmdExecution::StartResult SketchDrawPointGuiCmd::onStart()

@@ -61,8 +61,6 @@ static bool parseSubPathIndex(const std::string& subPath, unsigned int& index)
 SketchIncludeCurve3DGuiCmd::SketchIncludeCurve3DGuiCmd()
     : OsgGuiCommand()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchIncludeCurve3DGuiCmd::~SketchIncludeCurve3DGuiCmd()

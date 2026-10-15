@@ -47,9 +47,6 @@ constexpr double kHoverPopupDelaySeconds = 0.45;
 TangentDatumPlnCmd::TangentDatumPlnCmd()
     : OsgGuiCommand(), _step(Step::Undefined), _rotationPlane(), _radius(0.0), _angle(0.0)
 {
-    // 禁止点选和框选
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 TangentDatumPlnCmd::~TangentDatumPlnCmd()

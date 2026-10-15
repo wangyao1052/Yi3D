@@ -79,8 +79,12 @@ SketchScaleGuiCmd::SketchScaleGuiCmd()
     , _pScalePopup(nullptr)
     , _hoverPopupState()
 {
-    _options.pointSelect = true;
-    _options.boxSelect = true;
+}
+
+void SketchScaleGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
+{
+    selectOptions.pointSelect = true;
+    selectOptions.boxSelect = true;
 }
 
 SketchScaleGuiCmd::~SketchScaleGuiCmd()
@@ -256,7 +260,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
         selOptions.postFilter = SingleClassSelPostFilter::create<wy3d::SketchEntity>();
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 禁用文本输入
         // 提示信息
@@ -273,7 +277,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 允许文本输入
         // 提示信息
@@ -297,7 +301,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 允许文本输入
         // 提示信息
@@ -317,7 +321,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 禁用文本输入
         Application::instance().getStatusBar()->setTips("");

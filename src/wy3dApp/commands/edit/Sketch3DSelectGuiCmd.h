@@ -41,7 +41,7 @@ protected:
     virtual wyap::CmdExecution::StartResult onStart() override;
     virtual void onEnd() override;
     virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
-    virtual void configureSelectOptions(SelectOptions& options) override;
+    virtual void initializeSelectOptions(SelectOptions& selectOptions) override;
     virtual void onStart_EnvSpecific() override;
     virtual void selectAll_Impl(wyap::SelectionSet& ss) override;
     virtual bool tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos) override;

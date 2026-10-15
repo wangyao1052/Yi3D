@@ -216,9 +216,6 @@ private:
 AngularDatumPlnCmd::AngularDatumPlnCmd()
     : OsgGuiCommand(), _step(Step::Undefined), _plane(), _rotateAnglePlane(), _angle(0.0)
 {
-    // 禁止点选和框选
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 AngularDatumPlnCmd::~AngularDatumPlnCmd()

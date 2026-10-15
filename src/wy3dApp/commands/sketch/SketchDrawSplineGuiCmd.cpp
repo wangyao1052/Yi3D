@@ -55,8 +55,6 @@ SketchDrawSplineGuiCmd::SketchDrawSplineGuiCmd() : OsgGuiCommand(),
     _mode(wy3d::SplineMode::Undefined), _step(Step::Undefined), _startPoint(), _nextPoint(),
     _pXYPopup(nullptr), _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
     _fitPoints.reserve(20);
 }
 

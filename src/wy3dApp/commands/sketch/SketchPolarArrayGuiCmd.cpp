@@ -70,8 +70,12 @@ bool SketchPolarArrayGuiCmd::isValidTotalAngleAndCount(double totalAngle, unsign
 SketchPolarArrayGuiCmd::SketchPolarArrayGuiCmd()
     : OsgGuiCommand(), _step(Step::Undefined), _center(), _totalAngle(wy3d::TWO_PI), _count(6), _isCCW(true)
 {
-    _options.pointSelect = true;
-    _options.boxSelect = true;
+}
+
+void SketchPolarArrayGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
+{
+    selectOptions.pointSelect = true;
+    selectOptions.boxSelect = true;
 }
 
 SketchPolarArrayGuiCmd::~SketchPolarArrayGuiCmd()
@@ -220,7 +224,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
         selOptions.postFilter = SingleClassSelPostFilter::create<wy3d::SketchEntity>();
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchPolarArray",
             "Select elements to perform polar array; press Enter or Spacebar to confirm; press Esc to cancel."));
@@ -238,7 +242,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchPolarArray",
             "Specify the center point of polar array; you can directly input the coordinate values."));
@@ -253,7 +257,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
 
         SketchPolarArrayDialog::Options options;
@@ -298,7 +302,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         Application::instance().getStatusBar()->setTips("");
         assert(false);

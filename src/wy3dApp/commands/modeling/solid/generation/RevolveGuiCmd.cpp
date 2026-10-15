@@ -48,8 +48,6 @@ namespace wy3dApp {
 RevolveGuiCmd::RevolveGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sketchId(wydb::ElementId::kNull), _axisCurveId(wydb::ElementId::kNull)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 RevolveGuiCmd::~RevolveGuiCmd()

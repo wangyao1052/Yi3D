@@ -57,8 +57,6 @@ SketchDrawLineGuiCmd::SketchDrawLineGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _startPnt(), _endPnt(),
     _pXYPopup(nullptr), _pLengthAnglePopup(nullptr), _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchDrawLineGuiCmd::~SketchDrawLineGuiCmd()

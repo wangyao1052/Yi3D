@@ -53,8 +53,6 @@ SketchDrawPolygonGuiCmd::SketchDrawPolygonGuiCmd() : OsgGuiCommand(),
     _polygonType(DrawPolygonType::InscribedPolygon), _numSides(5), _step(Step::Undefined), _centerPnt(), _startVec(),
     _pCenterPopup(nullptr), _pRadiusPopup(nullptr), _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchDrawPolygonGuiCmd::~SketchDrawPolygonGuiCmd()

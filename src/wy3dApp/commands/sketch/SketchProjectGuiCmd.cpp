@@ -47,8 +47,6 @@ namespace wy3dApp {
 SketchProjectGuiCmd::SketchProjectGuiCmd()
     : OsgGuiCommand()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchProjectGuiCmd::~SketchProjectGuiCmd()

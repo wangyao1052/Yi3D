@@ -80,8 +80,6 @@ public:
 LinearPatternGuiCmd::LinearPatternGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sourceId(wydb::ElementId::kNull)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 LinearPatternGuiCmd::~LinearPatternGuiCmd()

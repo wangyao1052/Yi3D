@@ -60,8 +60,6 @@ SketchTextCommand::SketchTextCommand() : OsgGuiCommand(),
     _pMakeText(nullptr),
     _isRevising(false)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchTextCommand::~SketchTextCommand()

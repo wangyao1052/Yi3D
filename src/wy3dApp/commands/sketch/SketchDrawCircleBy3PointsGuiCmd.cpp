@@ -54,8 +54,6 @@ SketchDrawCircleBy3PointsGuiCmd::SketchDrawCircleBy3PointsGuiCmd() : OsgGuiComma
     _step(Step::Undefined), _pnt1st(), _pnt2nd(), _pnt3rd(), _sketchCircleId(wydb::ElementId::kNull),
     _pXYPopup(nullptr), _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchDrawCircleBy3PointsGuiCmd::~SketchDrawCircleBy3PointsGuiCmd()

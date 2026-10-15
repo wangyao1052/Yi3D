@@ -28,9 +28,6 @@ namespace wy3dApp {
 CoincidentDatumPlnCmd::CoincidentDatumPlnCmd()
     : OsgGuiCommand(), _step(Step::Undefined), _plane()
 {
-    // 禁止点选和框选
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 CoincidentDatumPlnCmd::~CoincidentDatumPlnCmd()

@@ -106,8 +106,6 @@ private:
 DraftGuiCmd::DraftGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _angle(wy3d::degreesToRadians(1.0))
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 wyap::CmdExecution::StartResult DraftGuiCmd::onStart()

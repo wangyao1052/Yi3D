@@ -250,9 +250,6 @@ private:
 NormalToEdgeDatumPlnCmd::NormalToEdgeDatumPlnCmd()
     : OsgGuiCommand(), _step(Step::Undefined), _curveInfo(), _plane()
 {
-    // 禁止点选和框选
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 NormalToEdgeDatumPlnCmd::~NormalToEdgeDatumPlnCmd()

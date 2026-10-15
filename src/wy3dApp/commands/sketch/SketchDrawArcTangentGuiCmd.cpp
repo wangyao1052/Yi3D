@@ -177,8 +177,6 @@ SketchDrawArcTangentGuiCmd::SketchDrawArcTangentGuiCmd()
     _pModePanel(nullptr), _pXYPopup(nullptr), _pRadiusPopup(nullptr), _pSweepPopup(nullptr),
     _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchDrawArcTangentGuiCmd::~SketchDrawArcTangentGuiCmd()

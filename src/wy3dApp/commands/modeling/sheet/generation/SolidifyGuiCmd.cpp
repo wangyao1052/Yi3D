@@ -89,8 +89,6 @@ bool MakeSolidify::init(const wydb::ElementId& sheetId, unsigned int& errorCode)
 
 SolidifyGuiCmd::SolidifyGuiCmd() : OsgGuiCommand()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SolidifyGuiCmd::~SolidifyGuiCmd() {}

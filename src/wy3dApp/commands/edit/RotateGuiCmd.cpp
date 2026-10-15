@@ -81,8 +81,12 @@ RotateGuiCmd::RotateGuiCmd()
     _pAnglePopup(nullptr),
     _hoverPopupState()
 {
-    _options.pointSelect = true;
-    _options.boxSelect = true;
+}
+
+void RotateGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
+{
+    selectOptions.pointSelect = true;
+    selectOptions.boxSelect = true;
 }
 
 RotateGuiCmd::~RotateGuiCmd()
@@ -347,7 +351,7 @@ void RotateGuiCmd::gotoStep(Step step)
         configureSelectElementOptions(selOptions);
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 禁用文本输入
         // 提示信息
@@ -364,7 +368,7 @@ void RotateGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 禁用文本输入
         // 提示信息
@@ -381,7 +385,7 @@ void RotateGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 允许文本输入
         // 提示信息
@@ -406,7 +410,7 @@ void RotateGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 允许文本输入
         // 提示信息
@@ -426,7 +430,7 @@ void RotateGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 允许文本输入
         // 提示信息
@@ -455,7 +459,7 @@ void RotateGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         Application::instance().getStatusBar()->setTips("");
         Application::instance().setCursor(CursorType::Select);

@@ -90,12 +90,16 @@ SketchRectArrayGuiCmd::SketchRectArrayGuiCmd()
     _pRowSpacingPopup(),
     _hoverPopupState()
 {
-    _options.pointSelect = true;
-    _options.boxSelect = true;
-    _options.selectionType = wy3d::SelectionType::Element;
-    _options.allowedElemTypes = ElementNodeType::SketchEntity;
-    _options.postFilter = SingleClassSelPostFilter::create<wy3d::SketchEntity>();
-    _options.preview = true;
+}
+
+void SketchRectArrayGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
+{
+    selectOptions.pointSelect = true;
+    selectOptions.boxSelect = true;
+    selectOptions.selectionType = wy3d::SelectionType::Element;
+    selectOptions.allowedElemTypes = ElementNodeType::SketchEntity;
+    selectOptions.postFilter = SingleClassSelPostFilter::create<wy3d::SketchEntity>();
+    selectOptions.preview = true;
 }
 
 SketchRectArrayGuiCmd::~SketchRectArrayGuiCmd()
@@ -349,7 +353,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.postFilter = SingleClassSelPostFilter::create<wy3d::SketchEntity>();
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         if (_sketchInfo.pSketchSnapSys)
         {
@@ -363,7 +367,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         SketchRectArrayDialog dialog(4, 3);
         if (QDialog::Accepted != dialog.exec())
@@ -393,7 +397,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
             "Specify the start point of column spacing or input the column spacing."));
@@ -408,7 +412,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
             "Specify the end point of column spacing or input the column spacing."));
@@ -423,7 +427,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
             "Specify the start point of row spacing or input the row spacing."));
@@ -438,7 +442,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
             "Specify the end point of row spacing or input the row spacing."));
@@ -453,7 +457,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         Application::instance().getStatusBar()->setTips("");
         assert(false);

@@ -45,8 +45,6 @@ double SketchChamferGuiCmd::_D2 = 10.0;  // 倒角距离2
 
 SketchChamferGuiCmd::SketchChamferGuiCmd() : OsgGuiCommand(), _step(Step::Undefined), _pickPos1st(), _pickPos2nd()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchChamferGuiCmd::~SketchChamferGuiCmd()

@@ -79,16 +79,17 @@ private:
 
 BooleanGuiCmd::BooleanGuiCmd() : OsgGuiCommand(), _boolType(wy3d::BooleanType::Undefined), _targetId(), _step(Step::Undefined)
 {
-    _options.pointSelect = true;
-    _options.boxSelect = false;
-    _options.preview = true;
 }
 
 BooleanGuiCmd::BooleanGuiCmd(wy3d::BooleanType boolType) : OsgGuiCommand(), _boolType(boolType), _targetId(), _step(Step::Undefined)
 {
-    _options.pointSelect = true;
-    _options.boxSelect = false;
-    _options.preview = true;
+}
+
+void BooleanGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
+{
+    selectOptions.pointSelect = true;
+    selectOptions.boxSelect = false;
+    selectOptions.preview = true;
 }
 
 BooleanGuiCmd::~BooleanGuiCmd()
@@ -302,7 +303,7 @@ void BooleanGuiCmd::gotoStep(Step step)
         selOptions.postFilter = std::make_shared<BooleanTargetSelFilter>();
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Full;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 输入控件
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("BooleanGuiCmd",
@@ -324,7 +325,7 @@ void BooleanGuiCmd::gotoStep(Step step)
         selOptions.postFilter = std::make_shared<BooleanToolsSelFilter>(_targetId);
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 输入控件
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("BooleanGuiCmd",

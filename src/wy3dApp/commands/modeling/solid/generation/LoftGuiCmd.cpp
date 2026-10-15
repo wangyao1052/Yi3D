@@ -44,8 +44,6 @@ namespace wy3dApp {
 LoftGuiCmd::LoftGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 wyap::CmdExecution::StartResult LoftGuiCmd::onStart()

@@ -54,8 +54,6 @@ namespace wy3dApp {
 
 SketchTrimGuiCmd::SketchTrimGuiCmd() : OsgGuiCommand()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchTrimGuiCmd::~SketchTrimGuiCmd()

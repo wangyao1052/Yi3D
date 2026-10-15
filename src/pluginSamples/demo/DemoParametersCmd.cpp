@@ -110,8 +110,6 @@ DemoParametersCmd::DemoParametersCmd()
     : wy3dApp::OsgGuiCommand()
     , _pointPickOption()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 DemoParametersCmd::~DemoParametersCmd()

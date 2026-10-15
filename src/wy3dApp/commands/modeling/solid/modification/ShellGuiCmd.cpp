@@ -80,8 +80,6 @@ private:
 ShellGuiCmd::ShellGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _thickness(1.0)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 ShellGuiCmd::~ShellGuiCmd()

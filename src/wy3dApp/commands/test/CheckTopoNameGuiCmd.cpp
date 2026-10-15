@@ -122,8 +122,6 @@ public:
 
 CheckTopoNameGuiCmd::CheckTopoNameGuiCmd() : OsgGuiCommand()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 CheckTopoNameGuiCmd::~CheckTopoNameGuiCmd()

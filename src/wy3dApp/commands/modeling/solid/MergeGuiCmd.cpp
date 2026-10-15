@@ -78,8 +78,6 @@ private:
 
 MergeGuiCmd::MergeGuiCmd() : OsgGuiCommand(), _step(Step::Undefined), _hostId(wydb::ElementId::kNull)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 MergeGuiCmd::~MergeGuiCmd()

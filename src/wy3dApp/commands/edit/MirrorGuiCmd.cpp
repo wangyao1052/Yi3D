@@ -56,8 +56,6 @@ public:
 
 MirrorGuiCmd::MirrorGuiCmd() : OsgGuiCommand(), _step(Step::Undefined), _sourceId(wydb::ElementId::kNull), _mirrorPlane()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 wyap::CmdExecution::StartResult MirrorGuiCmd::onStart()

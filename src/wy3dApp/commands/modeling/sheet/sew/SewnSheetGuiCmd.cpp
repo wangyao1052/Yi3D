@@ -64,9 +64,13 @@ public:
 SewnSheetGuiCmd::SewnSheetGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined)
 {
-    _options.pointSelect = true;
-    _options.boxSelect = false;
-    _options.preview = true;
+}
+
+void SewnSheetGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
+{
+    selectOptions.pointSelect = true;
+    selectOptions.boxSelect = false;
+    selectOptions.preview = true;
 }
 
 SewnSheetGuiCmd::~SewnSheetGuiCmd()
@@ -250,7 +254,7 @@ void SewnSheetGuiCmd::gotoStep(Step step)
         selOptions.postFilter = std::make_shared<SewnSheetSourceSelFilter>();
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 提示信息
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SewnSheetGuiCmd",

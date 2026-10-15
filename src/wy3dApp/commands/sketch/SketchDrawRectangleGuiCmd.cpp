@@ -51,8 +51,6 @@ SketchDrawRectangleGuiCmd::SketchDrawRectangleGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _startPnt(), _endPnt(),
     _pXYPopup(nullptr), _pLengthWidthPopup(nullptr), _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchDrawRectangleGuiCmd::~SketchDrawRectangleGuiCmd()

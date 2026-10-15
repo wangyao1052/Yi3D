@@ -52,7 +52,9 @@ public:
     wy3d::SelectionType getSelectionType() const { return _selType; }
 
     void setPreFilterFunctor(SelectPreFilterFunctorSPtr p)   { _pPreSelFilter = p; }
+    SelectPreFilterFunctorSPtr getPreFilterFunctor() const   { return _pPreSelFilter; }
     void setPostFilterFunctor(SelectPostFilterFunctorSPtr p) { _pPostSelFilter = p; }
+    SelectPostFilterFunctorSPtr getPostFilterFunctor() const { return _pPostSelFilter; }
 
     void enablePreview(bool flag)       { _supportPreview = flag; }
     bool isSupportPreview() const       { return _supportPreview; }

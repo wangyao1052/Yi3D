@@ -65,8 +65,6 @@ MakeTubeGuiCmd::MakeTubeGuiCmd() : MakePrimitiveGuiCmd(),
     _pHeightPopup(nullptr),
     _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 MakeTubeGuiCmd::~MakeTubeGuiCmd()

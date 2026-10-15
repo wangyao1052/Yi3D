@@ -484,8 +484,6 @@ OffsetSheetGuiCmd::OffsetSheetGuiCmd() : OsgGuiCommand(),
     _pCmdPanel(nullptr),
     _offset(kDefaultOffset)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 OffsetSheetGuiCmd::~OffsetSheetGuiCmd() {}

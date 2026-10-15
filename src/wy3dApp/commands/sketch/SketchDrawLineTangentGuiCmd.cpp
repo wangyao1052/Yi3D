@@ -245,8 +245,6 @@ private:
 SketchDrawLineTangentGuiCmd::SketchDrawLineTangentGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _startElementId(wydb::ElementId::kNull), _startPickPos(), _endElementId(wydb::ElementId::kNull), _endPickPos()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 wyap::CmdExecution::StartResult SketchDrawLineTangentGuiCmd::onStart()

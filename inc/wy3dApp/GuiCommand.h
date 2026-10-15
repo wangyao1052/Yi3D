@@ -95,6 +95,44 @@ protected:
     virtual void onEnd() override;
     virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
 
+    // Command selection options.
+    struct SelectOptions
+    {
+        // Whether point selection is enabled.
+        bool pointSelect;
+        // Whether box selection is enabled.
+        bool boxSelect;
+        // Allowed element types (ElementNodeType bit set).
+        unsigned int allowedElemTypes;
+        // Selection type.
+        wy3d::SelectionType selectionType;
+        // Pre-filter functor.
+        SelectPreFilterFunctorSPtr preFilter;
+        // Post-filter functor.
+        SelectPostFilterFunctorSPtr postFilter;
+        // Whether hover preview is enabled (point selection only).
+        bool preview;
+        // Selection mode: full or incremental.
+        SelectMode selectMode;
+
+        SelectOptions() : pointSelect(false), boxSelect(false), allowedElemTypes(ElementNodeType::All),
+            selectionType(wy3d::SelectionType::Element), preview(true), selectMode(SelectMode::Full)
+        {}
+    };
+    // Fills the command's selection options; called at command start and whenever
+    // selection is re-enabled (the caller may have pre-filled some fields).
+    virtual void initializeSelectOptions(SelectOptions& selectOptions)
+    {
+        selectOptions.pointSelect = false;
+        selectOptions.boxSelect = false;
+        selectOptions.allowedElemTypes = ElementNodeType::All;
+        selectOptions.selectionType = wy3d::SelectionType::Element;
+        selectOptions.preFilter = nullptr;
+        selectOptions.postFilter = nullptr;
+        selectOptions.preview = true;
+        selectOptions.selectMode = SelectMode::Full;
+    }
+
     // Clean up temporary command resources,
     // called on command termination (onEnd / onAbort).
     virtual void cleanUp() {}
@@ -124,6 +162,10 @@ protected:
     // Triggered when an item in the feature tree is clicked.
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) { return; }
 
+    
+    void applySelectOptions(SelectOptions options);
+    SelectOptions getSelectOptions();
+
     // Configures the command's context menu; called before the standard items are
     // appended, so custom items added here stay at the top.
     virtual void configureContextMenu(ContextMenu& menu) {}
@@ -137,33 +179,6 @@ protected:
     virtual void screenToWindow(
         double screenX, double screenY,
         double& windowX, double& windowY) const = 0;
-
-protected:
-    // Command selection options.
-    struct SelectOptions
-    {
-        // Whether point selection is enabled.
-        bool pointSelect;
-        // Whether box selection is enabled.
-        bool boxSelect;
-        // Allowed element types (ElementNodeType bit set).
-        unsigned int allowedElemTypes;
-        // Selection type.
-        wy3d::SelectionType selectionType;
-        // Pre-filter functor.
-        SelectPreFilterFunctorSPtr preFilter;
-        // Post-filter functor.
-        SelectPostFilterFunctorSPtr postFilter;
-        // Whether hover preview is enabled (point selection only).
-        bool preview;
-        // Selection mode: full or incremental.
-        SelectMode selectMode;
-
-        SelectOptions() : pointSelect(false), boxSelect(false), allowedElemTypes(ElementNodeType::All),
-            selectionType(wy3d::SelectionType::Element), preview(true), selectMode(SelectMode::Full)
-        {}
-    };
-    void configSelect(SelectOptions options);
 
     virtual wyap::Selection pointPick(
         double x, double y,
@@ -206,8 +221,6 @@ protected:
         double& rotationAngle) = 0;
 
 protected:
-    // 命令选项
-    SelectOptions _options;
     // 捕捉排除项
     std::set<wydb::ElementId> _snapExcludeIds;
 

@@ -90,8 +90,6 @@ private:
 
 DeleteFaceGuiCmd::DeleteFaceGuiCmd() : OsgGuiCommand(), _step(Step::Undefined)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 wyap::CmdExecution::StartResult DeleteFaceGuiCmd::onStart()

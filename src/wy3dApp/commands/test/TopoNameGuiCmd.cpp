@@ -88,8 +88,6 @@ private:
 
 TopoNameGuiCmd::TopoNameGuiCmd() : OsgGuiCommand()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 TopoNameGuiCmd::~TopoNameGuiCmd()

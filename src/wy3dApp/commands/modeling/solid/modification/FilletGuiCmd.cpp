@@ -84,8 +84,6 @@ FilletGuiCmd::FilletGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _radius(5.0),
     _hostId(wydb::ElementId::kNull), _hostIsSheet(false)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 FilletGuiCmd::~FilletGuiCmd()

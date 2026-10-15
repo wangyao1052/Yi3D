@@ -42,8 +42,6 @@ namespace wy3dApp {
 NewSketchGuiCmd::NewSketchGuiCmd()
     : OsgGuiCommand(), _step(Step::Undefined), _plane()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 NewSketchGuiCmd::~NewSketchGuiCmd()

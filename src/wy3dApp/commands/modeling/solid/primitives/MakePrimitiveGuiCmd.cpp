@@ -109,9 +109,6 @@ bool _getWorkingPlane(const wyap::Selection& sel, wy3d::Plane& workPln)
 MakePrimitiveGuiCmd::MakePrimitiveGuiCmd() : OsgGuiCommand(),
     _step(0), _pickOption(), _workPln()
 {
-    // 禁止点选和框选
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 MakePrimitiveGuiCmd::~MakePrimitiveGuiCmd()

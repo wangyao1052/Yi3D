@@ -58,8 +58,6 @@ SketchDrawCircleGuiCmd::SketchDrawCircleGuiCmd()
     , _pRadiusPopup(nullptr)
     , _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchDrawCircleGuiCmd::~SketchDrawCircleGuiCmd()

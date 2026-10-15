@@ -85,8 +85,6 @@ CircularPatternGuiCmd::CircularPatternGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sourceId(wydb::ElementId::kNull), _cylindricalSurfaceSel(wyap::Selection(wydb::ElementId::kNull)),
     _centerPoint(wy::Vector3::kZero), _axisDirection(wy::Vector3::kZAxis)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 CircularPatternGuiCmd::~CircularPatternGuiCmd()

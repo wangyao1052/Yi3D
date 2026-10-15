@@ -163,8 +163,6 @@ ABORT_TRANS:
 PlanarSheetGuiCmd::PlanarSheetGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sketchId(wydb::ElementId::kNull)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 
     _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>();
 }

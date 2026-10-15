@@ -45,8 +45,6 @@ SetColorGuiCmd::SetColorGuiCmd()
     , _lastHoverElementId(wydb::ElementId::kNull)
     , _pointPickOption()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SetColorGuiCmd::~SetColorGuiCmd()

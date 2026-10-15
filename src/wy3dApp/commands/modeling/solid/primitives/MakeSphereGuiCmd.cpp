@@ -61,8 +61,6 @@ MakeSphereGuiCmd::MakeSphereGuiCmd() : MakePrimitiveGuiCmd(),
     _pRadiusPopup(nullptr),
     _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 MakeSphereGuiCmd::~MakeSphereGuiCmd()

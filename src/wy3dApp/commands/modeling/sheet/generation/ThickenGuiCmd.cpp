@@ -116,8 +116,6 @@ ThickenGuiCmd::ThickenGuiCmd() : OsgGuiCommand(),
     _sheetId(wydb::ElementId::kNull), _pCmdPanel(nullptr),
     _thickness(kDefaultThickness), _direction(0)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 ThickenGuiCmd::~ThickenGuiCmd() {}

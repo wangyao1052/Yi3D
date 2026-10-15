@@ -55,8 +55,6 @@ SketchDrawEllipseArcGuiCmd::SketchDrawEllipseArcGuiCmd()
     _step(Step::Undefined), _centerPnt(), _majorAxis(), _otherRadius(0.0), _startAngle(0.0), _sweepAngle(0.0),
     _pXYPopup(nullptr), _pLengthAnglePopup(nullptr), _pRadiusPopup(nullptr), _pAnglePopup(nullptr), _pSweepAnglePopup(nullptr), _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchDrawEllipseArcGuiCmd::~SketchDrawEllipseArcGuiCmd()

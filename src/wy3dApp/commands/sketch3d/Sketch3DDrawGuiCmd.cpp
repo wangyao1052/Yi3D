@@ -322,8 +322,6 @@ Sketch3DDrawGuiCmd::Sketch3DDrawGuiCmd()
     , _sketch3DInfo()
     , _pWorkPlane(nullptr)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 Sketch3DDrawGuiCmd::~Sketch3DDrawGuiCmd()

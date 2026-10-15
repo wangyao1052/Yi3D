@@ -92,8 +92,6 @@ private:
 
 SplitFaceGuiCmd::SplitFaceGuiCmd() : OsgGuiCommand(), _step(Step::Undefined)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 wyap::CmdExecution::StartResult SplitFaceGuiCmd::onStart()

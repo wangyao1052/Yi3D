@@ -55,8 +55,6 @@ SketchOffsetGuiCmd::SketchOffsetGuiCmd()
       _pOffsetPopup(nullptr),
       _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchOffsetGuiCmd::~SketchOffsetGuiCmd()

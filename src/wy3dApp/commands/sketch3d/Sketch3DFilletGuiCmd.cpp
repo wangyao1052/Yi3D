@@ -61,8 +61,6 @@ Sketch3DFilletGuiCmd::Sketch3DFilletGuiCmd()
     : OsgGuiCommand(), _step(Step::First), _id1st(wydb::ElementId::kNull), _pickPos1st(),
     _id2nd(wydb::ElementId::kNull), _pickPos2nd()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 Sketch3DFilletGuiCmd::~Sketch3DFilletGuiCmd()

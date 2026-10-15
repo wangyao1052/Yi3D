@@ -86,8 +86,12 @@ MoveGuiCmd::MoveGuiCmd()
       _pXYZPopup(nullptr),
       _hoverPopupState()
 {
-    _options.pointSelect = true;
-    _options.boxSelect = true;
+}
+
+void MoveGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
+{
+    selectOptions.pointSelect = true;
+    selectOptions.boxSelect = true;
 }
 
 MoveGuiCmd::~MoveGuiCmd()
@@ -321,7 +325,7 @@ void MoveGuiCmd::gotoStep(Step step)
         configureSelectElementOptions(selOptions);
         selOptions.preview = true;
         selOptions.selectMode = SelectMode::Incremental;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 禁用文本输入
         // 提示信息
@@ -339,7 +343,7 @@ void MoveGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 禁用文本输入
         // 提示信息
@@ -363,7 +367,7 @@ void MoveGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 允许文本输入
         // 提示信息
@@ -388,7 +392,7 @@ void MoveGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         // 允许文本输入
         // 提示信息
@@ -409,7 +413,7 @@ void MoveGuiCmd::gotoStep(Step step)
         SelectOptions selOptions;
         selOptions.pointSelect = false;
         selOptions.boxSelect = false;
-        this->configSelect(selOptions);
+        this->applySelectOptions(selOptions);
 
         Application::instance().getStatusBar()->setTips("");
         Application::instance().setCursor(CursorType::Select);

@@ -32,9 +32,6 @@ namespace wy3dApp {
 Through3PointsDatumPlnCmd::Through3PointsDatumPlnCmd()
     : OsgGuiCommand(), _step(Step::Undefined), _plane(), _pnt1st(), _pnt2nd(), _pnt3rd()
 {
-    // 禁止点选和框选
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 Through3PointsDatumPlnCmd::~Through3PointsDatumPlnCmd()

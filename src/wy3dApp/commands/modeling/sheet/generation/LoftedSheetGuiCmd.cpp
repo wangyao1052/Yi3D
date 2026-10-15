@@ -40,8 +40,6 @@ namespace wy3dApp {
 LoftedSheetGuiCmd::LoftedSheetGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 wyap::CmdExecution::StartResult LoftedSheetGuiCmd::onStart()

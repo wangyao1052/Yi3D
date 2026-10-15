@@ -47,8 +47,6 @@ namespace wy3dApp {
 SweepGuiCmd::SweepGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _pathId(wydb::ElementId::kNull), _profileId(wydb::ElementId::kNull)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SweepGuiCmd::~SweepGuiCmd()

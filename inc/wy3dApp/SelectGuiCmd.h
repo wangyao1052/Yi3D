@@ -78,8 +78,6 @@ private:
     // 添加移动Gizmo
     bool tryAddElementPositionGizmo(const wyap::SelectionSet& sels);
 
-    // 启用选择
-    void enableSelect();
     // 禁用选择
     void disableSelect();
 
@@ -94,8 +92,7 @@ protected:
     PasteOpSPtr _pPasteOp;
     // === 子类覆写的虚方法 ===
 
-    // 配置选择(enableSelect)时的 allowedElemTypes & postFilter
-    virtual void configureSelectOptions(SelectOptions& options) {}
+    virtual void initializeSelectOptions(SelectOptions& selectOptions) override;
 
     // 启动时环境特定操作
     virtual void onStart_EnvSpecific() {}
@@ -120,6 +117,8 @@ protected:
 
     // Context menu
     virtual void configureContextMenu(ContextMenu& menu) override;
+
+    SelectOptions _selectOptions;
 };
 
 } // namespace wy3dApp

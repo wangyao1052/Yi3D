@@ -134,8 +134,6 @@ SketchProjectCurve3DGuiCmd::SketchProjectCurve3DGuiCmd()
     , _step(Step::SelectSketch)
     , _hasTarget(false)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 SketchProjectCurve3DGuiCmd::~SketchProjectCurve3DGuiCmd()

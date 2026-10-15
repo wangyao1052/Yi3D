@@ -115,10 +115,11 @@ wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
     return ret;
 }
 
-void Sketch3DSelectGuiCmd::configureSelectOptions(SelectOptions& options)
+void Sketch3DSelectGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
 {
-    options.allowedElemTypes = ElementNodeType::Sketch3DEntity;
-    options.postFilter = SingleClassSelPostFilter::create<wy3d::SketchEntity3D>();
+    SelectGuiCmd::initializeSelectOptions(selectOptions);
+    selectOptions.allowedElemTypes = ElementNodeType::Sketch3DEntity;
+    selectOptions.postFilter = SingleClassSelPostFilter::create<wy3d::SketchEntity3D>();
 }
 
 void Sketch3DSelectGuiCmd::onStart_EnvSpecific()

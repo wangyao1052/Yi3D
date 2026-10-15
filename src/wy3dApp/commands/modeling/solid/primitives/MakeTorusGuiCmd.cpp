@@ -64,8 +64,6 @@ MakeTorusGuiCmd::MakeTorusGuiCmd() : MakePrimitiveGuiCmd(),
     _pMinorRadiusPopup(nullptr),
     _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 MakeTorusGuiCmd::~MakeTorusGuiCmd()

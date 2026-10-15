@@ -64,8 +64,6 @@ MakeCylinderGuiCmd::MakeCylinderGuiCmd() : MakePrimitiveGuiCmd(),
     _pHeightPopup(nullptr),
     _hoverPopupState()
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 }
 
 MakeCylinderGuiCmd::~MakeCylinderGuiCmd()

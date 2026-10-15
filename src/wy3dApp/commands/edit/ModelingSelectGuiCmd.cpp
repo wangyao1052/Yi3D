@@ -88,15 +88,16 @@ ModelingSelectGuiCmd::~ModelingSelectGuiCmd()
 {
 }
 
-void ModelingSelectGuiCmd::configureSelectOptions(SelectOptions& options)
+void ModelingSelectGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
 {
-    options.allowedElemTypes = ElementNodeType::Solid |
+    SelectGuiCmd::initializeSelectOptions(selectOptions);
+    selectOptions.allowedElemTypes = ElementNodeType::Solid |
         ElementNodeType::Sheet |
         ElementNodeType::Sketch |
         ElementNodeType::DatumPlane |
         ElementNodeType::Curve |
         ElementNodeType::Sketch3D;
-    options.postFilter = std::make_shared<SelectGuiCmdSelFilter_Modeling>();
+    selectOptions.postFilter = std::make_shared<SelectGuiCmdSelFilter_Modeling>();
 }
 
 void ModelingSelectGuiCmd::onStart_EnvSpecific()

@@ -250,8 +250,6 @@ bool MakeFilledSheet::clearConstraintSketches(unsigned int& errorCode)
 FilledSheetGuiCmd::FilledSheetGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sketchId(wydb::ElementId::kNull)
 {
-    _options.pointSelect = false;
-    _options.boxSelect = false;
 
     _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>();
 }
