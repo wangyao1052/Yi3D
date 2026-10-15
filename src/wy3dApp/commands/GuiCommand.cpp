@@ -176,7 +176,7 @@ void GuiCommand::onRightMouseUp(const MouseEvent& event)
             QCoreApplication::translate("GuiCommand", "Complete Selection"), &menu);
         menu.addAction(pActionCompleteSelection);
         QObject::connect(pActionCompleteSelection, &QAction::triggered, pActionCompleteSelection,
-            [this]() { this->onCompleteSelection(); });
+            [this]() { this->onCompleteSelectionMenuItem(); });
         added = true;
     }
     if (menu.isClearSelectionVisible())
@@ -185,7 +185,7 @@ void GuiCommand::onRightMouseUp(const MouseEvent& event)
             QCoreApplication::translate("GuiCommand", "Clear Selection"), &menu);
         menu.addAction(pActionClearSelection);
         QObject::connect(pActionClearSelection, &QAction::triggered, pActionClearSelection,
-            [this]() { this->onClearSelection(); });
+            [this]() { this->onClearSelectionMenuItem(); });
         added = true;
     }
     if (added) menu.addSeparator();

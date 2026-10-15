@@ -313,7 +313,7 @@ void SewnSheetGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectSources == _step);
 }
 
-void SewnSheetGuiCmd::onCompleteSelection()
+void SewnSheetGuiCmd::onCompleteSelectionMenuItem()
 {
     if (Step::SelectSources == _step)
     {
@@ -324,7 +324,7 @@ void SewnSheetGuiCmd::onCompleteSelection()
     }
 }
 
-void SewnSheetGuiCmd::onClearSelection()
+void SewnSheetGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectSources == _step)
     {

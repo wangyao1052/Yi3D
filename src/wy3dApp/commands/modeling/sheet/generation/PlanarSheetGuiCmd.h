@@ -88,8 +88,8 @@ protected:
     virtual void onEnterKey() override;
     virtual void onSpaceKey() override;
     virtual void configureContextMenu(ContextMenu& menu) override;
-    virtual void onCompleteSelection() override;
-    virtual void onClearSelection() override;
+    virtual void onCompleteSelectionMenuItem() override;
+    virtual void onClearSelectionMenuItem() override;
 
 private:
     bool isValidSketchSelectionSet(const wyap::SelectionSet& ss, wydb::ElementId& sketchId);

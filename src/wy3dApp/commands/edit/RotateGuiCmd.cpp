@@ -932,12 +932,12 @@ void RotateGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectElements == _step);
 }
 
-void RotateGuiCmd::onCompleteSelection()
+void RotateGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void RotateGuiCmd::onClearSelection()
+void RotateGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectElements == _step)
     {

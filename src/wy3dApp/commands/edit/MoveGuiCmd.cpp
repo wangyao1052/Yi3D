@@ -681,12 +681,12 @@ void MoveGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectElements == _step);
 }
 
-void MoveGuiCmd::onCompleteSelection()
+void MoveGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void MoveGuiCmd::onClearSelection()
+void MoveGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectElements == _step)
     {

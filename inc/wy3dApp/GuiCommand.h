@@ -121,16 +121,16 @@ protected:
     virtual void onSpaceKey() {}
     virtual void onKeyUp(const KeyEvent& event) {}
 
-    // Context menu
-    // Configures the command's context menu; called before the standard items are
-    // appended, so custom items added here stay at the top:
-    // [custom items] / Complete Selection / Clear Selection / environment / Property / WCS.
-    virtual void configureContextMenu(ContextMenu& menu) {}
-    virtual void onCompleteSelection() {}
-    virtual void onClearSelection() {}
-
     // Triggered when an item in the feature tree is clicked.
     virtual void onFeatureTreeItemClicked(const wydb::ElementId& id) { return; }
+
+    // Configures the command's context menu; called before the standard items are
+    // appended, so custom items added here stay at the top.
+    virtual void configureContextMenu(ContextMenu& menu) {}
+    // The Complete Selection menu item's handler.
+    virtual void onCompleteSelectionMenuItem() {}
+    // The Clear Selection menu item's handler.
+    virtual void onClearSelectionMenuItem() {}
 
     // Converts desktop screen coordinates (top-left origin, QCursor::pos) to window
     // coordinates (bottom-left origin, device pixels), the same system as MouseEvent.

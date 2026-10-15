@@ -406,12 +406,12 @@ void MergeGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectMembers == _step);
 }
 
-void MergeGuiCmd::onCompleteSelection()
+void MergeGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void MergeGuiCmd::onClearSelection()
+void MergeGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectMembers == _step && _pSelSetHighlightor)
     {

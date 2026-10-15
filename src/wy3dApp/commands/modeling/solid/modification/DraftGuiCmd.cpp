@@ -407,12 +407,12 @@ void DraftGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectDraftFaces == _step);
 }
 
-void DraftGuiCmd::onCompleteSelection()
+void DraftGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void DraftGuiCmd::onClearSelection()
+void DraftGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectDraftFaces == _step)
     {

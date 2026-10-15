@@ -71,8 +71,8 @@ protected:
 
     // 上下文菜单
     virtual void configureContextMenu(ContextMenu& menu) override;
-    virtual void onCompleteSelection() override;
-    virtual void onClearSelection() override;
+    virtual void onCompleteSelectionMenuItem() override;
+    virtual void onClearSelectionMenuItem() override;
 
 private:
     wy::Vector3 snapInWorkPlane(

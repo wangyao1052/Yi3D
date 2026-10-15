@@ -438,12 +438,12 @@ void SketchScaleGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::Step1_SelectElements == _step);
 }
 
-void SketchScaleGuiCmd::onCompleteSelection()
+void SketchScaleGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void SketchScaleGuiCmd::onClearSelection()
+void SketchScaleGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::Step1_SelectElements == _step)
     {

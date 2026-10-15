@@ -575,12 +575,12 @@ void SketchMirrorGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::Step1_SelectElements == _step);
 }
 
-void SketchMirrorGuiCmd::onCompleteSelection()
+void SketchMirrorGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void SketchMirrorGuiCmd::onClearSelection()
+void SketchMirrorGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::Step1_SelectElements == _step)
     {

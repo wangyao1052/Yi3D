@@ -489,12 +489,12 @@ void ChamferGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectEdges == _step);
 }
 
-void ChamferGuiCmd::onCompleteSelection()
+void ChamferGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void ChamferGuiCmd::onClearSelection()
+void ChamferGuiCmd::onClearSelectionMenuItem()
 {
     // 选择边
     if (Step::SelectEdges == _step)

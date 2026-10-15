@@ -416,7 +416,7 @@ void BooleanGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SpecifyTools == _step);
 }
 
-void BooleanGuiCmd::onCompleteSelection()
+void BooleanGuiCmd::onCompleteSelectionMenuItem()
 {
     if (BooleanGuiCmd::Step::SpecifyTools == _step)
     {
@@ -427,7 +427,7 @@ void BooleanGuiCmd::onCompleteSelection()
     }
 }
 
-void BooleanGuiCmd::onClearSelection()
+void BooleanGuiCmd::onClearSelectionMenuItem()
 {
     if (BooleanGuiCmd::Step::SpecifyTools == _step)
     {

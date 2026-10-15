@@ -573,12 +573,12 @@ void CopyGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::Step1_SelectElements == _step);
 }
 
-void CopyGuiCmd::onCompleteSelection()
+void CopyGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void CopyGuiCmd::onClearSelection()
+void CopyGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::Step1_SelectElements == _step)
     {

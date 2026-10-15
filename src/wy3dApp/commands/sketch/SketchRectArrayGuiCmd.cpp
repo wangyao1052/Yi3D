@@ -651,12 +651,12 @@ void SketchRectArrayGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::Step1_SelectElements == _step);
 }
 
-void SketchRectArrayGuiCmd::onCompleteSelection()
+void SketchRectArrayGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void SketchRectArrayGuiCmd::onClearSelection()
+void SketchRectArrayGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::Step1_SelectElements == _step)
     {

@@ -494,7 +494,7 @@ void PlanarSheetGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectEdges == _step);
 }
 
-void PlanarSheetGuiCmd::onCompleteSelection()
+void PlanarSheetGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
@@ -523,7 +523,7 @@ void PlanarSheetGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void PlanarSheetGuiCmd::onClearSelection()
+void PlanarSheetGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectEdges == _step)
     {

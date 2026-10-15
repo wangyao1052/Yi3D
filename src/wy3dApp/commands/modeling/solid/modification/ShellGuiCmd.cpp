@@ -300,12 +300,12 @@ void ShellGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectFaces == _step);
 }
 
-void ShellGuiCmd::onCompleteSelection()
+void ShellGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void ShellGuiCmd::onClearSelection()
+void ShellGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectFaces == _step)
     {

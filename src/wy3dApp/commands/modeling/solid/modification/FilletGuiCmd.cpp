@@ -478,12 +478,12 @@ void FilletGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectEdges == _step);
 }
 
-void FilletGuiCmd::onCompleteSelection()
+void FilletGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void FilletGuiCmd::onClearSelection()
+void FilletGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectEdges == _step)
     {

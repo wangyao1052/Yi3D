@@ -706,7 +706,7 @@ void OffsetSheetGuiCmd::configureContextMenu(ContextMenu& menu)
         static_cast<int>(wy3d::OffsetSheet::Target::SelectedFaces) == _targetMode);
 }
 
-void OffsetSheetGuiCmd::onClearSelection()
+void OffsetSheetGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SetParameters != _step) return;
     if (static_cast<int>(wy3d::OffsetSheet::Target::SelectedFaces) != _targetMode) return;

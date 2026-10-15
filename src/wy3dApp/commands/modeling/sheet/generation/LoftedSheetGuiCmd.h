@@ -63,8 +63,8 @@ protected:
 
     // 上下文菜单
     virtual void configureContextMenu(ContextMenu& menu) override;
-    virtual void onCompleteSelection() override;
-    virtual void onClearSelection() override;
+    virtual void onCompleteSelectionMenuItem() override;
+    virtual void onClearSelectionMenuItem() override;
 
 protected:
     // 获取选择的轮廓草图

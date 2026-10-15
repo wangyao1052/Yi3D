@@ -66,7 +66,7 @@ protected:
 
     // 上下文菜单
     virtual void configureContextMenu(ContextMenu& menu) override;
-    virtual void onClearSelection() override;
+    virtual void onClearSelectionMenuItem() override;
 
 private:
     class MakeOffsetSheet;

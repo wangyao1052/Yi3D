@@ -291,12 +291,12 @@ void DeleteFaceGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectFaces == _step);
 }
 
-void DeleteFaceGuiCmd::onCompleteSelection()
+void DeleteFaceGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void DeleteFaceGuiCmd::onClearSelection()
+void DeleteFaceGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectFaces == _step)
     {

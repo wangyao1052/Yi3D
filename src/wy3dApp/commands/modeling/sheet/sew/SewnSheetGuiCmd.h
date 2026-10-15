@@ -66,8 +66,8 @@ protected:
 
     // 上下文菜单
     virtual void configureContextMenu(ContextMenu& menu) override;
-    virtual void onCompleteSelection() override;
-    virtual void onClearSelection() override;
+    virtual void onCompleteSelectionMenuItem() override;
+    virtual void onClearSelectionMenuItem() override;
 
 private:
     // 新增缝合片体特征（默认容差）

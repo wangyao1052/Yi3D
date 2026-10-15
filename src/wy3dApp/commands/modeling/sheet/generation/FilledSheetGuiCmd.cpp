@@ -760,7 +760,7 @@ void FilledSheetGuiCmd::configureContextMenu(ContextMenu& menu)
         ? this->hasConstraintSketch() : Step::SelectEdges == _step);
 }
 
-void FilledSheetGuiCmd::onCompleteSelection()
+void FilledSheetGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
@@ -792,7 +792,7 @@ void FilledSheetGuiCmd::onSpaceKey()
     this->onEnterKey();
 }
 
-void FilledSheetGuiCmd::onClearSelection()
+void FilledSheetGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectConstraintCurves == _step)
     {

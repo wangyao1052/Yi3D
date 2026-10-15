@@ -315,12 +315,12 @@ void LoftedSheetGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectProfiles == _step);
 }
 
-void LoftedSheetGuiCmd::onCompleteSelection()
+void LoftedSheetGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void LoftedSheetGuiCmd::onClearSelection()
+void LoftedSheetGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectProfiles == _step)
     {

@@ -489,12 +489,12 @@ void SketchProjectCurve3DGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectTarget == _step && _hasTarget);
 }
 
-void SketchProjectCurve3DGuiCmd::onCompleteSelection()
+void SketchProjectCurve3DGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void SketchProjectCurve3DGuiCmd::onClearSelection()
+void SketchProjectCurve3DGuiCmd::onClearSelectionMenuItem()
 {
     // The discoverable half of "click the target again to take it back".
     if (!_hasTarget) return;

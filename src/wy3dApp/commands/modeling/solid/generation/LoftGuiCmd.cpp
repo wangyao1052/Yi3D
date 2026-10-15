@@ -491,12 +491,12 @@ void LoftGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectProfiles == _step);
 }
 
-void LoftGuiCmd::onCompleteSelection()
+void LoftGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void LoftGuiCmd::onClearSelection()
+void LoftGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectProfiles == _step)
     {

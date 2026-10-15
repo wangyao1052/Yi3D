@@ -385,12 +385,12 @@ void SketchPolarArrayGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::Step1_SelectElements == _step);
 }
 
-void SketchPolarArrayGuiCmd::onCompleteSelection()
+void SketchPolarArrayGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void SketchPolarArrayGuiCmd::onClearSelection()
+void SketchPolarArrayGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::Step1_SelectElements == _step)
     {

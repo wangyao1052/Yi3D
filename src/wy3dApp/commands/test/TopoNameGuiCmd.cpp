@@ -235,12 +235,12 @@ void TopoNameGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(true);
 }
 
-void TopoNameGuiCmd::onCompleteSelection()
+void TopoNameGuiCmd::onCompleteSelectionMenuItem()
 {
     return;
 }
 
-void TopoNameGuiCmd::onClearSelection()
+void TopoNameGuiCmd::onClearSelectionMenuItem()
 {
     // 选择边
     if (_pSelSetHighlightor)

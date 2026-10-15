@@ -371,12 +371,12 @@ void SplitFaceGuiCmd::configureContextMenu(ContextMenu& menu)
     menu.setClearSelectionVisible(Step::SelectFaces == _step);
 }
 
-void SplitFaceGuiCmd::onCompleteSelection()
+void SplitFaceGuiCmd::onCompleteSelectionMenuItem()
 {
     this->onEnterKey();
 }
 
-void SplitFaceGuiCmd::onClearSelection()
+void SplitFaceGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectFaces == _step)
     {
