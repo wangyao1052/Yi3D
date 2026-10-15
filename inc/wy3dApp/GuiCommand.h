@@ -99,37 +99,33 @@ protected:
     struct SelectOptions
     {
         // Whether point selection is enabled.
-        bool pointSelect;
+        bool pointSelect = false;
         // Whether box selection is enabled.
-        bool boxSelect;
-        // Allowed element types (ElementNodeType bit set).
-        unsigned int allowedElemTypes;
-        // Selection type.
-        wy3d::SelectionType selectionType;
-        // Pre-filter functor.
-        SelectPreFilterFunctorSPtr preFilter;
-        // Post-filter functor.
-        SelectPostFilterFunctorSPtr postFilter;
+        bool boxSelect = false;
         // Whether hover preview is enabled (point selection only).
-        bool preview;
-        // Selection mode: full or incremental.
-        SelectMode selectMode;
-
-        SelectOptions() : pointSelect(false), boxSelect(false), allowedElemTypes(ElementNodeType::All),
-            selectionType(wy3d::SelectionType::Element), preview(true), selectMode(SelectMode::Full)
-        {}
+        bool preview = true;
+        // Allowed element types (ElementNodeType bit set).
+        unsigned int allowedElemTypes = ElementNodeType::All;
+        // Selection type.
+        wy3d::SelectionType selectionType = wy3d::SelectionType::Element;
+        // Pre-filter functor.
+        SelectPreFilterFunctorSPtr preFilter = nullptr;
+        // Post-filter functor.
+        SelectPostFilterFunctorSPtr postFilter = nullptr;
+        // Selection mode: replace or add.
+        SelectMode selectMode = SelectMode::Replace;
     };
     // Fills the command's selection options; called at command start.
     virtual void initializeSelectOptions(SelectOptions& selectOptions)
     {
         selectOptions.pointSelect = false;
         selectOptions.boxSelect = false;
+        selectOptions.preview = true;
         selectOptions.allowedElemTypes = ElementNodeType::All;
         selectOptions.selectionType = wy3d::SelectionType::Element;
         selectOptions.preFilter = nullptr;
         selectOptions.postFilter = nullptr;
-        selectOptions.preview = true;
-        selectOptions.selectMode = SelectMode::Full;
+        selectOptions.selectMode = SelectMode::Replace;
     }
 
     // Clean up temporary command resources,

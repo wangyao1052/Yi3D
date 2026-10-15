@@ -31,7 +31,7 @@ SelectHandler::SelectHandler() :
     _supportsPointSelect(true), _supportsBoxSelect(true),
     _allowedElemTypes(0x0000FFFF), _selType(wy3d::SelectionType::Element),
     _pPreSelFilter(nullptr), _pPostSelFilter(nullptr),
-    _supportPreview(false), _selMode(SelectMode::Full)
+    _supportPreview(false), _selMode(SelectMode::Replace)
 {
 }
 
@@ -182,21 +182,21 @@ void SelectHandler::updateSelectionSet(const wyap::SelectionSet& ss, bool isCtrl
     Application::instance().getSelManager()->beginChange();
     switch (_selMode)
     {
-    case SelectMode::Full:
-        this->updateSelectionSet_Full(ss, isCtrlDown);
+    case SelectMode::Replace:
+        this->updateSelectionSet_Replace(ss, isCtrlDown);
         break;
-    case SelectMode::Incremental:
-        this->updateSelectionSet_Incremental(ss, isCtrlDown);
+    case SelectMode::Add:
+        this->updateSelectionSet_Add(ss, isCtrlDown);
         break;
     default:
-        this->updateSelectionSet_Full(ss, isCtrlDown);
+        this->updateSelectionSet_Replace(ss, isCtrlDown);
         assert(false);
         break;
     }
     Application::instance().getSelManager()->endChange();
 }
 
-void SelectHandler::updateSelectionSet_Full(const wyap::SelectionSet& ss, bool isCtrlDown)
+void SelectHandler::updateSelectionSet_Replace(const wyap::SelectionSet& ss, bool isCtrlDown)
 {
     wyap::SelManager* pSelMgr = Application::instance().getSelManager();
     assert(pSelMgr);
@@ -211,7 +211,7 @@ void SelectHandler::updateSelectionSet_Full(const wyap::SelectionSet& ss, bool i
                 pSelMgr->addSelection(iter.current());
         }
     }
-    else // 全量覆盖
+    else // 替换覆盖
     {
         if (ss.isEmpty())
             pSelMgr->clearSelections();
@@ -220,7 +220,7 @@ void SelectHandler::updateSelectionSet_Full(const wyap::SelectionSet& ss, bool i
     }
 }
 
-void SelectHandler::updateSelectionSet_Incremental(const wyap::SelectionSet& ss, bool isCtrlDown)
+void SelectHandler::updateSelectionSet_Add(const wyap::SelectionSet& ss, bool isCtrlDown)
 {
     wyap::SelManager* pSelMgr = Application::instance().getSelManager();
     assert(pSelMgr);
@@ -235,7 +235,7 @@ void SelectHandler::updateSelectionSet_Incremental(const wyap::SelectionSet& ss,
                 pSelMgr->addSelection(iter.current());
         }
     }
-    else // 增量添加
+    else // 添加
     {
         for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
         {

@@ -302,7 +302,7 @@ void BooleanGuiCmd::gotoStep(Step step)
         selOptions.selectionType = wy3d::SelectionType::Element;
         selOptions.postFilter = std::make_shared<BooleanTargetSelFilter>();
         selOptions.preview = true;
-        selOptions.selectMode = SelectMode::Full;
+        selOptions.selectMode = SelectMode::Replace;
         this->applySelectOptions(selOptions);
 
         // 输入控件
@@ -324,7 +324,7 @@ void BooleanGuiCmd::gotoStep(Step step)
         selOptions.selectionType = wy3d::SelectionType::Element;
         selOptions.postFilter = std::make_shared<BooleanToolsSelFilter>(_targetId);
         selOptions.preview = true;
-        selOptions.selectMode = SelectMode::Incremental;
+        selOptions.selectMode = SelectMode::Add;
         this->applySelectOptions(selOptions);
 
         // 输入控件

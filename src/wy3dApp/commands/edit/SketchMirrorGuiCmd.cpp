@@ -263,7 +263,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
         selOptions.allowedElemTypes = ElementNodeType::SketchEntity;
         selOptions.postFilter = SingleClassSelPostFilter::create<wy3d::SketchEntity>();
         selOptions.preview = true;
-        selOptions.selectMode = SelectMode::Incremental;
+        selOptions.selectMode = SelectMode::Add;
         this->applySelectOptions(selOptions);
 
         // 禁用文本输入

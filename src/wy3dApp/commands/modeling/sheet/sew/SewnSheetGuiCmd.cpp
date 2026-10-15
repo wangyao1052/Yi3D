@@ -253,7 +253,7 @@ void SewnSheetGuiCmd::gotoStep(Step step)
         selOptions.selectionType = wy3d::SelectionType::Element;
         selOptions.postFilter = std::make_shared<SewnSheetSourceSelFilter>();
         selOptions.preview = true;
-        selOptions.selectMode = SelectMode::Incremental;
+        selOptions.selectMode = SelectMode::Add;
         this->applySelectOptions(selOptions);
 
         // 提示信息

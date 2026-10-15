@@ -23,24 +23,25 @@
 
 namespace wy3dApp {
 
-// 选择模式
-// 参考借鉴了SolidWorks&Creo的选择行为
+/// Selection mode
+/// Reference: selection behavior of SolidWorks & Creo
 enum class SelectMode
 {
-    // 全量式
-    // 1.Ctrl键没有按下
-    // 点选和框选都是全量更新选择集(直接覆盖);
-    // 2.Ctrl键有按下
-    // 点选和框选都是反转状态;
-    // 全量式主要在选择命令中使用
-    Full = 0,
-    // 增量式
-    // 1.Ctrl键没有按下
-    // 点选和框选都是增量更新选择集(直接在现有选择集基础上添加);
-    // 2.Ctrl键有按下
-    // 点选和框选都是反转状态;
-    // 增量式主要在移动镜像等具体需要选择元素的命令中使用
-    Incremental = 1,
+    /// Replace mode
+    /// 1. Ctrl key not pressed:
+    ///    Point‑select and box‑select replace the current selection set (overwrite).
+    /// 2. Ctrl key pressed:
+    ///    Point‑select and box‑select toggle element selection state.
+    /// Primarily used in generic selection commands.
+    Replace = 0,
+
+    /// Add mode
+    /// 1. Ctrl key not pressed:
+    ///    Point‑select and box‑select add elements to the existing selection set.
+    /// 2. Ctrl key pressed:
+    ///    Point‑select and box‑select toggle element selection state.
+    /// Primarily used in commands requiring element selection, such as move and mirror.
+    Add = 1,
 };
 
 } // namespace wy3dApp

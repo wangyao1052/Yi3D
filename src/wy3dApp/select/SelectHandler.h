@@ -97,8 +97,8 @@ private:
 
     // 更新选择集
     void updateSelectionSet(const wyap::SelectionSet& ss, bool isCtrlDown);
-    void updateSelectionSet_Full(const wyap::SelectionSet& ss, bool isCtrlDown);
-    void updateSelectionSet_Incremental(const wyap::SelectionSet& ss, bool isCtrlDown);
+    void updateSelectionSet_Replace(const wyap::SelectionSet& ss, bool isCtrlDown);
+    void updateSelectionSet_Add(const wyap::SelectionSet& ss, bool isCtrlDown);
 
 protected:
     // 鼠标坐标

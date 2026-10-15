@@ -117,7 +117,7 @@ void SelectGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
     selectOptions.boxSelect = true;
     selectOptions.selectionType = wy3d::SelectionType::Element;
     selectOptions.preview = true;
-    selectOptions.selectMode = SelectMode::Full;
+    selectOptions.selectMode = SelectMode::Replace;
 }
 
 SelectGuiCmd::~SelectGuiCmd()

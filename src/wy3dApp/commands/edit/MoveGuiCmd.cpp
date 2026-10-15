@@ -324,7 +324,7 @@ void MoveGuiCmd::gotoStep(Step step)
         selOptions.selectionType = wy3d::SelectionType::Element;
         configureSelectElementOptions(selOptions);
         selOptions.preview = true;
-        selOptions.selectMode = SelectMode::Incremental;
+        selOptions.selectMode = SelectMode::Add;
         this->applySelectOptions(selOptions);
 
         // 禁用文本输入
