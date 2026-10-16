@@ -34,7 +34,7 @@
 #include <wyVector2.h>
 #include <wydbDatabase.h>
 #include "SnapSystemBase.h"
-#include "Snap2dSystem.h"
+#include "Snap2dSystemImpl.h"
 #include "utils/StlUtil.h"
 #include <wyapDocManager.h>
 #include <wy3dSketch.h>
@@ -48,7 +48,7 @@
 
 namespace wy3dApp {
 
-class SketchSnapSystem : public Snap2dSystem
+class SketchSnapSystem : public Snap2dSystemImpl
 {
 public:
     explicit SketchSnapSystem(const wy3d::Sketch* pSketch);

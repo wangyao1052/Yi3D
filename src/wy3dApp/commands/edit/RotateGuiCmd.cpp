@@ -54,6 +54,7 @@
 #include <wy3dApp/GuiCommandUtil.h>
 #include "snap/SnapObject.h"
 #include "snap/SketchSnapSystem.h"
+#include "snap/Snap2dSystemImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"
 #include "commands/edit/MoveRotateGuiCmdUtil.h"
@@ -233,7 +234,7 @@ bool RotateGuiCmd::finishStep(Step step)
         }
 
         // 工作平面捕捉系统
-        _pWorkPlnSnapSystem = std::make_shared<Snap2dSystem>(_workPln);
+        _pWorkPlnSnapSystem = std::make_shared<Snap2dSystemImpl>(_workPln);
 
         // 下一步
         this->gotoStep(Step::SpecifyBasePnt);

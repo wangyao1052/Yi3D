@@ -29,7 +29,7 @@
 #include <wy3dApp/Application.h>
 #include "snap/SnapContext.h"
 #include "commands/GuiCmdMakeElement.h"
-#include "snap/Snap2dSystem.h"
+#include <wy3dApp/Snap2dSystem.h>
 #include "snap/SketchSnapContext.h"
 #include "snap/SnapResult.h"
 #include "snap/SnapObject.h"

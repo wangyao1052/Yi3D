@@ -27,7 +27,7 @@
 #include <wyapSelManager.h>
 #include <wyapSelection.h>
 #include <wy3dApp/OsgGuiCommand.h>
-#include "snap/Snap2dSystem.h"
+#include <wy3dApp/Snap2dSystem.h>
 #include "commands/edit/RotateElements.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

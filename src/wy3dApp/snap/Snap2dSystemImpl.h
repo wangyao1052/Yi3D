@@ -16,8 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SNAP2D_SYSTEM_H
-#define WY3DAPP_SNAP2D_SYSTEM_H
+#ifndef WY3DAPP_SNAP2D_SYSTEM_IMPL_H
+#define WY3DAPP_SNAP2D_SYSTEM_IMPL_H
 
 #include <cassert>
 #include <cfloat>
@@ -35,36 +35,34 @@
 #include "SketchSnapObject.h"
 #include "utils/StlUtil.h"
 #include <wy3dApp/GuiCmdTransient.h>
+#include <wy3dApp/Snap2dSystem.h>
 
 namespace wy3dApp {
 
-class Snap2dResult;
-typedef std::shared_ptr<Snap2dResult> Snap2dResultSPtr;
-
-class Snap2dSystem : public wydb::DatabaseReactor
+class Snap2dSystemImpl : public Snap2dSystem, public wydb::DatabaseReactor
 {
 public:
-    explicit Snap2dSystem(const wy3d::Plane& workPlane);
-    virtual ~Snap2dSystem();
-    Snap2dSystem(const Snap2dSystem&) = delete;
-    Snap2dSystem& operator=(const Snap2dSystem&) = delete;
-    Snap2dSystem(Snap2dSystem&&) = delete;
-    Snap2dSystem& operator=(Snap2dSystem&&) = delete;
+    explicit Snap2dSystemImpl(const wy3d::Plane& workPlane);
+    virtual ~Snap2dSystemImpl();
+    Snap2dSystemImpl(const Snap2dSystemImpl&) = delete;
+    Snap2dSystemImpl& operator=(const Snap2dSystemImpl&) = delete;
+    Snap2dSystemImpl(Snap2dSystemImpl&&) = delete;
+    Snap2dSystemImpl& operator=(Snap2dSystemImpl&&) = delete;
 
     // 局部更新
-    bool partiallyUpdate(const wydb::Database* pDb);
+    bool partiallyUpdate(const wydb::Database* pDb) override;
 
     // 捕捉
     Snap2dResultSPtr snap(
         double x, double y, osgViewer::View* pView,
-        const wy::Vector2& pos, SketchSnapContextSPtr pContext);
+        const wy::Vector2& pos, SketchSnapContextSPtr pContext) override;
 
     // 获取捕捉结果
-    Snap2dResultSPtr getSnapResult() const { return _pSnapResult; }
+    Snap2dResultSPtr getSnapResult() const override { return _pSnapResult; }
     // 设置捕捉结果
-    void setSnapResult(Snap2dResultSPtr pSnapResult);
+    void setSnapResult(Snap2dResultSPtr pSnapResult) override;
     // 清空捕捉结果
-    void clearSnapResult() { _pSnapResult = nullptr; }
+    void clearSnapResult() override { _pSnapResult = nullptr; }
 
     // 数据库变更响应
     virtual void onDatabaseChanged(
@@ -555,8 +553,6 @@ private:
     std::set<wydb::ElementId> _modifiedIds;
 };
 
-typedef std::shared_ptr<Snap2dSystem> Snap2dSystemSPtr;
-
 } // namespace wy3dApp
 
-#endif // WY3DAPP_SNAP2D_SYSTEM_H
+#endif // WY3DAPP_SNAP2D_SYSTEM_IMPL_H

@@ -2082,38 +2082,38 @@
 <context>
     <name>RotateGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="358"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="359"/>
         <source>Select elements to rotate; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="375"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="376"/>
         <source>Select datum plane as working plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="392"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="393"/>
         <source>Specify the baseline start point; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="417"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="418"/>
         <source>Specify the baseline end point; you can directly input length and angle values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="702"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="703"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="703"/>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="713"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="714"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="437"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="438"/>
         <source>Specify the rotation angle; you can directly input the value.</source>
         <translation type="unfinished"></translation>
     </message>

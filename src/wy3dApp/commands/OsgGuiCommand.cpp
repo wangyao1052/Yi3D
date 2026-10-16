@@ -32,7 +32,7 @@
 #include <wy3dApp/Application.h>
 #include "commands/GuiEventDispatcher.h"
 #include "commands/OsgCoordUtil.h"
-#include "snap/Snap2dSystem.h"
+#include <wy3dApp/Snap2dSystem.h>
 #include "select/PointPick.h"
 #include "select/SelectHandler.h"
 #include "select/SelectFilterFunctors.h"

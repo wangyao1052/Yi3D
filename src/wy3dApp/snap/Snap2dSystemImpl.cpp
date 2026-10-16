@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "Snap2dSystem.h"
+#include "Snap2dSystemImpl.h"
 #include "Snap2dResult.h"
 
 #include <cassert>
@@ -49,7 +49,20 @@ typedef AlignYSnapObjectSPtr AlignYSPtr;
 #define MKSPTR_Equal  std::make_shared<EqualSnapObject>
 #define MOVE std::move
 
-Snap2dSystem::Snap2dSystem(const wy3d::Plane& workPlane)
+Snap2dSystem::Snap2dSystem()
+{
+}
+
+Snap2dSystem::~Snap2dSystem()
+{
+}
+
+Snap2dSystemSPtr Snap2dSystem::create(const wy3d::Plane& workPlane)
+{
+    return std::make_shared<Snap2dSystemImpl>(workPlane);
+}
+
+Snap2dSystemImpl::Snap2dSystemImpl(const wy3d::Plane& workPlane)
     : _sketchPlane(workPlane), _angleSpansCnt(30), _angleSpan(1.0)
 {
     // 构造平行垂直捕捉数据
@@ -68,18 +81,18 @@ Snap2dSystem::Snap2dSystem(const wy3d::Plane& workPlane)
 
 }
 
-Snap2dSystem::~Snap2dSystem()
+Snap2dSystemImpl::~Snap2dSystemImpl()
 {
 }
 
-wydb::ElementId Snap2dSystem::pickElement(
+wydb::ElementId Snap2dSystemImpl::pickElement(
     const wydb::Database* pDb, osgViewer::View* pView,
     double x, double y, const SketchSnapContext* pContext)
 {
     return wydb::ElementId::kNull;
 }
 
-Snap2dResultSPtr Snap2dSystem::pickedDispatch(
+Snap2dResultSPtr Snap2dSystemImpl::pickedDispatch(
     const SketchSnapContext* pContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
@@ -88,22 +101,22 @@ Snap2dResultSPtr Snap2dSystem::pickedDispatch(
     return nullptr;
 }
 
-bool Snap2dSystem::refreshPlane(const wydb::Database* pDb)
+bool Snap2dSystemImpl::refreshPlane(const wydb::Database* pDb)
 {
     return false;
 }
 
-void Snap2dSystem::rebuildAll()
+void Snap2dSystemImpl::rebuildAll()
 {
     this->reset();
     this->initDefaultSnapObjects();
 }
 
-void Snap2dSystem::appendSnapObjects(const wydb::Database* pDb, const wydb::ElementId& id)
+void Snap2dSystemImpl::appendSnapObjects(const wydb::Database* pDb, const wydb::ElementId& id)
 {
 }
 
-void Snap2dSystem::constructParlAndPerpsData()
+void Snap2dSystemImpl::constructParlAndPerpsData()
 {
     // 平行垂直捕捉
     // _angleSpansCnt = 30 <==> 角度跨距为 180 / 30 = 6 degree
@@ -122,7 +135,7 @@ void Snap2dSystem::constructParlAndPerpsData()
     assert(_parlAndPerps.back().max == wy3d::PI);
 }
 
-void Snap2dSystem::initDefaultSnapObjects()
+void Snap2dSystemImpl::initDefaultSnapObjects()
 {
     // 水平和竖直
     _defaultAngleSnapObjects.reserve(5);
@@ -135,7 +148,7 @@ void Snap2dSystem::initDefaultSnapObjects()
     this->appendAlignSnapObject<AlignYSPtr>(_alignYMap, MKSPTR_AlignY(NULL_ID, origin));
 }
 
-void Snap2dSystem::reset()
+void Snap2dSystemImpl::reset()
 {
     _pSnapContext = nullptr;
     _pSnapResult = nullptr;
@@ -159,7 +172,7 @@ void Snap2dSystem::reset()
     _ids.clear();
 }
 
-bool Snap2dSystem::partiallyUpdate(const wydb::Database* pDb)
+bool Snap2dSystemImpl::partiallyUpdate(const wydb::Database* pDb)
 {
     assert(pDb);
     if (!pDb)
@@ -274,7 +287,7 @@ bool Snap2dSystem::partiallyUpdate(const wydb::Database* pDb)
     return true;
 }
 
-void Snap2dSystem::appendAngleSnapObject(
+void Snap2dSystemImpl::appendAngleSnapObject(
     AngleSnapObjectSPtr&& pAngleSnapObj,
     std::vector<SnapRange<AngleSnapObjectSPtr>>& angleRegions)
 {
@@ -297,7 +310,7 @@ void Snap2dSystem::appendAngleSnapObject(
     angleRegions[idx].objects.emplace_back(std::move(pAngleSnapObj));
 }
 
-void Snap2dSystem::appendEqualSnapObject(EqualSnapObjectSPtr&& pSnapObj)
+void Snap2dSystemImpl::appendEqualSnapObject(EqualSnapObjectSPtr&& pSnapObj)
 {
     assert(pSnapObj);
     double value = pSnapObj->getValue();
@@ -317,7 +330,7 @@ void Snap2dSystem::appendEqualSnapObject(EqualSnapObjectSPtr&& pSnapObj)
     _equalMap[DoubleMinMax(min, max)].objects.emplace_back(std::move(pSnapObj));
 }
 
-Snap2dResultSPtr Snap2dSystem::snap(
+Snap2dResultSPtr Snap2dSystemImpl::snap(
     double x, double y, osgViewer::View* pView,
     const wy::Vector2& pos, SketchSnapContextSPtr pContext)
 {
@@ -327,7 +340,7 @@ Snap2dResultSPtr Snap2dSystem::snap(
     return pSnapResult;
 }
 
-void Snap2dSystem::setSnapResult(Snap2dResultSPtr pSnapResult)
+void Snap2dSystemImpl::setSnapResult(Snap2dResultSPtr pSnapResult)
 {
     if (pSnapResult)
     {
@@ -360,7 +373,7 @@ void Snap2dSystem::setSnapResult(Snap2dResultSPtr pSnapResult)
     }
 }
 
-std::map<wydb::ElementId, GuiCmdTransientSPtr> Snap2dSystem::createHighlightTransients(
+std::map<wydb::ElementId, GuiCmdTransientSPtr> Snap2dSystemImpl::createHighlightTransients(
     const Snap2dResult& result,
     const std::map<wydb::ElementId, GuiCmdTransientSPtr>& prevCache) const
 {
@@ -398,7 +411,7 @@ std::map<wydb::ElementId, GuiCmdTransientSPtr> Snap2dSystem::createHighlightTran
     return rets;
 }
 
-Snap2dResultSPtr Snap2dSystem::snapImpl(
+Snap2dResultSPtr Snap2dSystemImpl::snapImpl(
     double x, double y, osgViewer::View* pView,
     const wy::Vector2& pos, std::shared_ptr<SketchSnapContext> pContext)
 {
@@ -484,7 +497,7 @@ Snap2dResultSPtr Snap2dSystem::snapImpl(
     return nullptr;
 }
 
-std::shared_ptr<AngleSnapObject> Snap2dSystem::snapAngleSnapObject(
+std::shared_ptr<AngleSnapObject> Snap2dSystemImpl::snapAngleSnapObject(
     const std::vector<AngleSnapObjectSPtr>& angleSnapObjs,
     double angle, double tol, const SketchSnapContext* pContext)
 {
@@ -506,7 +519,7 @@ std::shared_ptr<AngleSnapObject> Snap2dSystem::snapAngleSnapObject(
     return nullptr;
 }
 
-std::shared_ptr<AngleSnapObject> Snap2dSystem::snapAngleSnapObject(
+std::shared_ptr<AngleSnapObject> Snap2dSystemImpl::snapAngleSnapObject(
     const std::vector<SnapRange<AngleSnapObjectSPtr>>& angleRegions,
     double angle, double tol,
     const SketchSnapContext* pContext)
@@ -583,7 +596,7 @@ std::shared_ptr<AngleSnapObject> Snap2dSystem::snapAngleSnapObject(
     return pSnapResult;
 }
 
-EqualSnapObjectSPtr Snap2dSystem::snapEqualInMap(
+EqualSnapObjectSPtr Snap2dSystemImpl::snapEqualInMap(
     const std::map<DoubleMinMax, SnapRange<EqualSnapObjectSPtr>>& map,
     double value, double tol, double scScreen2Sketch, short flags, double value2,
     const SketchSnapContext* pContext)
@@ -767,7 +780,7 @@ EqualSnapObjectSPtr Snap2dSystem::snapEqualInMap(
 }
 
 // 定位点
-Snap2dResultSPtr Snap2dSystem::snapImplNoPicked(
+Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     const SketchLocateContext* pLocateContext, const wydb::Database* pDb,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)
@@ -802,7 +815,7 @@ Snap2dResultSPtr Snap2dSystem::snapImplNoPicked(
 }
 
 // 绘制直线
-Snap2dResultSPtr Snap2dSystem::snapImplNoPicked(
+Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     const SketchDrawLineContext* pDrawLineContext, const wydb::Database* pDb,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)
@@ -1045,7 +1058,7 @@ Snap2dResultSPtr Snap2dSystem::snapImplNoPicked(
 }
 
 // 绘制圆
-Snap2dResultSPtr Snap2dSystem::snapImplNoPicked(
+Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     const SketchDrawCircleContext* pDrawCircleContext, const wydb::Database* pDb,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)
@@ -1157,7 +1170,7 @@ Snap2dResultSPtr Snap2dSystem::snapImplNoPicked(
 }
 
 // 绘制圆弧
-Snap2dResultSPtr Snap2dSystem::snapImplNoPicked(
+Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     const SketchDrawArcContext* pDrawArcContext, const wydb::Database* pDb,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)
@@ -1252,7 +1265,7 @@ Snap2dResultSPtr Snap2dSystem::snapImplNoPicked(
     return nullptr;
 }
 
-void Snap2dSystem::onDatabaseChanged(
+void Snap2dSystemImpl::onDatabaseChanged(
     const wydb::Database* pDatabase,
     const wydb::Transaction* pTransaction,
     const wydb::DatabaseChangeInfo& changeInfo)

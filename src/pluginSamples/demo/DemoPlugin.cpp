@@ -37,6 +37,7 @@
 #include <wy3dApp/EnvironmentBase.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
+#include <wy3dApp/Snap2dSystem.h>
 
 DemoPlugin::DemoPlugin() = default;
 
@@ -44,6 +45,11 @@ DemoPlugin::~DemoPlugin() = default;
 
 bool DemoPlugin::initialize()
 {
+    // Snap2dSystem export smoke: create, use the interface, release across the DLL boundary.
+    wy3dApp::Snap2dSystemSPtr pSnap2dSys = wy3dApp::Snap2dSystem::create(wy3d::Plane());
+    pSnap2dSys->clearSnapResult();
+    pSnap2dSys.reset();
+
     //demo::log(LogLevel::Info, "demo plugin initialized");
     return true;
 }

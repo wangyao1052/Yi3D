@@ -129,7 +129,7 @@ static const wy3d::Plane& sketchPlaneOf(const wy3d::Sketch* pSketch)
 }
 
 SketchSnapSystem::SketchSnapSystem(const wy3d::Sketch* pSketch)
-    : Snap2dSystem(sketchPlaneOf(pSketch)), _sketchId(wydb::ElementId::kNull)
+    : Snap2dSystemImpl(sketchPlaneOf(pSketch)), _sketchId(wydb::ElementId::kNull)
 {
     _sketchId = pSketch->getId();
 
@@ -202,7 +202,7 @@ bool SketchSnapSystem::refreshPlane(const wydb::Database* pDb)
 
 void SketchSnapSystem::rebuildAll()
 {
-    Snap2dSystem::rebuildAll();      // reset + initDefaultSnapObjects（基类事务）
+    Snap2dSystemImpl::rebuildAll();  // reset + initDefaultSnapObjects（基类事务）
     this->init(this->getSketch());   // 草图元素（子类事务）
 }
 
