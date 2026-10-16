@@ -101,7 +101,7 @@ static bool solveTangentArc(const wy::Vector2& startPnt, const wy::Vector2& tang
 // Gets the endpoint of the snapped sketch curve and the outward tangent at that endpoint.
 // Only EndPoint snaps that resolve to a curve of the current sketch and coincide with one of
 // its end points are accepted; circle/ellipse quadrant snaps and 3D snaps are rejected.
-static bool getEndpointTangentFromSnap(const SketchSnapResult* pSnapResult, const wydb::Database* pDb,
+static bool getEndpointTangentFromSnap(const Snap2dResult* pSnapResult, const wydb::Database* pDb,
     const wydb::ElementId& sketchId, wy::Vector2& endpoint, wy::Vector2& outwardDir)
 {
     if (!pSnapResult || !pDb)
@@ -109,7 +109,7 @@ static bool getEndpointTangentFromSnap(const SketchSnapResult* pSnapResult, cons
         return false;
     }
 
-    for (const SketchSnapResultItem& snapRetItem : pSnapResult->getItems())
+    for (const Snap2dResultItem& snapRetItem : pSnapResult->getItems())
     {
         const SketchSnapObject* pSnapObject = snapRetItem.pSnapObject.get();
         if (!pSnapObject || SketchSnapType::EndPoint != pSnapObject->getType())
@@ -880,7 +880,7 @@ bool SketchDrawArcTangentGuiCmd::getEndpointSnap(wy::Vector2& startPnt, wy::Vect
         return false;
     }
 
-    SketchSnapResultSPtr pSnapResult = _sketchInfo.pSketchSnapSys->getSnapResult();
+    Snap2dResultSPtr pSnapResult = _sketchInfo.pSketchSnapSys->getSnapResult();
     const wydb::Database* pDb = Application::instance().getActiveDatabase();
     return getEndpointTangentFromSnap(pSnapResult.get(), pDb, _sketchInfo.sketchId, startPnt, tangent);
 }

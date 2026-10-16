@@ -30,7 +30,7 @@
 
 namespace wy3dApp {
 
-class SketchSnapTipMouseFollow;
+class SnapTipMouseFollow;
 class GuiCmdTransient;
 using GuiCmdTransientSPtr = std::shared_ptr<GuiCmdTransient>;
 
@@ -68,7 +68,7 @@ public:
 private:
     std::vector<Item> _items;
     wy::Vector3 _position;
-    std::shared_ptr<SketchSnapTipMouseFollow> _pMouseFollow;
+    std::shared_ptr<SnapTipMouseFollow> _pMouseFollow;
 };
 
 using Sketch3DSnapResultSPtr = std::shared_ptr<Sketch3DSnapResult>;

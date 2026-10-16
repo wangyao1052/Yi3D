@@ -129,17 +129,17 @@ SnapTipWidgetMgr::~SnapTipWidgetMgr()
 {
 }
 
-SketchSnapTipMouseFollow::SketchSnapTipMouseFollow()
+SnapTipMouseFollow::SnapTipMouseFollow()
     : _timerId(0)
 {
 }
 
-SketchSnapTipMouseFollow::~SketchSnapTipMouseFollow()
+SnapTipMouseFollow::~SnapTipMouseFollow()
 {
     this->stop();
 }
 
-void SketchSnapTipMouseFollow::stop()
+void SnapTipMouseFollow::stop()
 {
     if (_timerId != 0)
     {
@@ -154,7 +154,7 @@ void SketchSnapTipMouseFollow::stop()
     }
 }
 
-void SketchSnapTipMouseFollow::addTipWidget(SnapTipWidget* pTipWidget)
+void SnapTipMouseFollow::addTipWidget(SnapTipWidget* pTipWidget)
 {
     if (!pTipWidget) return;
     for (SnapTipWidget* pTip : _tips)
@@ -164,7 +164,7 @@ void SketchSnapTipMouseFollow::addTipWidget(SnapTipWidget* pTipWidget)
     _tips.emplace_back(pTipWidget);
 }
 
-void SketchSnapTipMouseFollow::start()
+void SnapTipMouseFollow::start()
 {
     if (_tips.empty()) return;
 
@@ -184,7 +184,7 @@ void SketchSnapTipMouseFollow::start()
     }
 }
 
-void SketchSnapTipMouseFollow::timerEvent(QTimerEvent* event)
+void SnapTipMouseFollow::timerEvent(QTimerEvent* event)
 {
     if (!event || event->timerId() != _timerId)
     {
@@ -195,7 +195,7 @@ void SketchSnapTipMouseFollow::timerEvent(QTimerEvent* event)
     this->updatePositions();
 }
 
-void SketchSnapTipMouseFollow::updatePositions()
+void SnapTipMouseFollow::updatePositions()
 {
     static const QPoint delta(12, 12);
     static const QPoint spacing(SnapPixmap::WIDTH + 5, 0);

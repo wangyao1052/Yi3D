@@ -16,11 +16,12 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SKETCH_SNAP_RESULT_H
-#define WY3DAPP_SKETCH_SNAP_RESULT_H
+#ifndef WY3DAPP_SNAP2D_RESULT_H
+#define WY3DAPP_SNAP2D_RESULT_H
 
 #include <vector>
 #include <list>
+#include <map>
 #include <memory>
 #include <QString>
 #include <wyVector2.h>
@@ -29,37 +30,37 @@
 #include "SketchSnapContext.h"
 #include "SketchSnapObject.h"
 #include "SnapTipWidget.h"
-#include "commands/transient/SketchCurveTransient.h"
+#include <wy3dApp/GuiCmdTransient.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-struct SketchSnapResultItem
+struct Snap2dResultItem
 {
     SketchSnapObjectSPtr pSnapObject;
     std::list<GuiCmdTransientSPtr> transients;
     SnapTipWidget* pSnapTipWidget;
-    explicit SketchSnapResultItem(SketchSnapObjectSPtr pArgSnapObj)
+    explicit Snap2dResultItem(SketchSnapObjectSPtr pArgSnapObj)
         : pSnapObject(pArgSnapObj), pSnapTipWidget(nullptr) {}
 };
 
-class SketchSnapResult
+class Snap2dResult
 {
 public:
-    SketchSnapResult(
+    Snap2dResult(
         const wy3d::Plane& sketchPlane,
         const wy::Vector2& position,
         SketchSnapContextSPtr pContext,
         SketchSnapObjectSPtr pSnapObject,
         bool drawPoint = true);
-    SketchSnapResult(
+    Snap2dResult(
         const wy3d::Plane& sketchPlane,
         const wy::Vector2& position,
         SketchSnapContextSPtr pContext,
         SketchSnapObjectSPtr pSnapObject,
         SketchSnapObjectSPtr pOtherSnapObject,
         bool drawPoint = true);
-    ~SketchSnapResult();
+    ~Snap2dResult();
 
     // 获取位置坐标
     wy::Vector2 getPosition() const
@@ -79,21 +80,24 @@ public:
     }
 
     // 获取捕捉到的项
-    const std::vector<SketchSnapResultItem>& getItems() const
+    const std::vector<Snap2dResultItem>& getItems() const
     {
         return _items;
     }
 
     // 显示
-    void show(const std::map<wydb::ElementId, SketchCurveTransientSPtr>* pCache = nullptr);
+    void show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlights);
     // 更新
     void update();
 
     // 是否弱等效(不比较具体的结果位置坐标,主要比较捕捉到的对象)
-    bool isLooseEqual(const SketchSnapResult& rhs) const;
-    
-    // 获取所有的草图曲线临时渲染对象
-    std::map<wydb::ElementId, SketchCurveTransientSPtr> getSketchCurveTransients() const;
+    bool isLooseEqual(const Snap2dResult& rhs) const;
+
+    // Element highlight transients used by the last show() (key = element id)
+    const std::map<wydb::ElementId, GuiCmdTransientSPtr>& getHighlightTransients() const
+    {
+        return _highlightTransients;
+    }
 
 private:
     wy3d::Plane _sketchPlane;
@@ -101,13 +105,14 @@ private:
     SketchSnapContextSPtr _pContext;
     // Whether the sketch layer draws the point marker for this result
     bool _isPointToDraw;
-    std::vector<SketchSnapResultItem> _items;
+    std::vector<Snap2dResultItem> _items;
+    std::map<wydb::ElementId, GuiCmdTransientSPtr> _highlightTransients;
 
     // 跟随鼠标移动
-    std::shared_ptr<SketchSnapTipMouseFollow> _pSnapTipMouseFollow;
+    std::shared_ptr<SnapTipMouseFollow> _pSnapTipMouseFollow;
 };
-typedef std::shared_ptr<SketchSnapResult> SketchSnapResultSPtr;
+typedef std::shared_ptr<Snap2dResult> Snap2dResultSPtr;
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_SKETCH_SNAP_RESULT_H
+#endif // WY3DAPP_SNAP2D_RESULT_H

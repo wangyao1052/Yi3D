@@ -55,7 +55,7 @@ void Sketch3DSnapResult::show()
 
     wydb::Database* pDb = Application::instance().getActiveDatabase();
 
-    _pMouseFollow = std::make_shared<SketchSnapTipMouseFollow>();
+    _pMouseFollow = std::make_shared<SnapTipMouseFollow>();
     std::set<wydb::ElementId> highlightedIds; // 同一参考图元只高亮一次(角度+相等可同参考)
     for (Item& item : _items)
     {

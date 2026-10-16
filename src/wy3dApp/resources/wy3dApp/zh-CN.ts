@@ -3152,17 +3152,17 @@
 <context>
     <name>MoveGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="332"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="333"/>
         <source>Select elements to move; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要移动的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="350"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="351"/>
         <source>Select datum plane as working plane.</source>
         <translation type="unfinished">选择基准面作为工作平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="374"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="375"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定基准点；可输入具体坐标值。</translation>
     </message>
@@ -3171,7 +3171,7 @@
         <translation type="obsolete">基准点</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="399"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="400"/>
         <source>Specify the move vector; you can directly input the values.</source>
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
     </message>
@@ -3184,12 +3184,12 @@
         <translation type="obsolete">移动向量</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="559"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="560"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="560"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="561"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>

@@ -216,7 +216,7 @@ wydb::ElementId SketchSnapSystem::pickElement(
     return sel.getElementId();
 }
 
-SketchSnapResultSPtr SketchSnapSystem::pickedDispatch(
+Snap2dResultSPtr SketchSnapSystem::pickedDispatch(
     const SketchSnapContext* pContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
@@ -410,6 +410,17 @@ static inline bool projectPointOnLineseg(
     }
 }
 
+GuiCmdTransientSPtr SketchSnapSystem::createHighlightTransient(
+    const wydb::Database* pDb, const wydb::ElementId& id) const
+{
+    assert(pDb);
+    if (const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(id)))
+    {
+        return std::make_shared<SketchCurveTransient>(pSketchCurve);
+    }
+    return nullptr;
+}
+
 // 计算点到圆上的投影点
 static inline bool projectPointOnCircle(
     const wy::Vector2& point,
@@ -475,7 +486,7 @@ static inline bool projectPointOnArc(
 }
 
 // 定位点+捕捉到对象
-SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
+Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
     const SketchLocateContext* pLocateContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
@@ -498,7 +509,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         {
             PointOnCurveSnapObjectSPtr pPointOnCurve = std::make_shared<PointOnCurveSnapObject>(
                 pickedId, SketchSnapObject::LINE);
-            return std::make_shared<SketchSnapResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurve);
+            return std::make_shared<Snap2dResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurve);
         }
     }
     // 捕捉到圆
@@ -510,7 +521,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         {
             PointOnCurveSnapObjectSPtr pPointOnCurve = std::make_shared<PointOnCurveSnapObject>(
                 pickedId, SketchSnapObject::CIRCLE);
-            return std::make_shared<SketchSnapResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurve);
+            return std::make_shared<Snap2dResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurve);
         }
     }
     else if (const wy3d::SketchArc* pArc = wy3d::SketchArc::cast(pPickedElem))
@@ -521,7 +532,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         {
             PointOnCurveSnapObjectSPtr pPointOnCurve = std::make_shared<PointOnCurveSnapObject>(
                 pickedId, SketchSnapObject::ARC);
-            return std::make_shared<SketchSnapResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurve);
+            return std::make_shared<Snap2dResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurve);
         }
     }
     else
@@ -533,7 +544,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
 }
 
 // 绘制直线+捕捉到对象
-SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
+Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
     const SketchDrawLineContext* pDrawLineContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId, const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)
@@ -572,7 +583,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         PointSnapObjectSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, scaleScreenX, scaleScreenY);
         if (pPointSnapRet)
         {
-            return std::make_shared<SketchSnapResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
+            return std::make_shared<Snap2dResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
         }
 
         // 捕捉点在直线段上
@@ -581,7 +592,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         {
             PointOnCurveSnapObjectSPtr pPointOnCurveSnapObject = std::make_shared<PointOnCurveSnapObject>(
                 pLine->getId(), SketchSnapObject::LINE);
-            return std::make_shared<SketchSnapResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurveSnapObject);
+            return std::make_shared<Snap2dResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurveSnapObject);
         }
     }
     // 捕捉到圆
@@ -615,7 +626,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         PointSnapObjectSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, scaleScreenX, scaleScreenY);
         if (pPointSnapRet)
         {
-            return std::make_shared<SketchSnapResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
+            return std::make_shared<Snap2dResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
         }
 
         // 捕捉点在圆上
@@ -624,7 +635,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         {
             PointOnCurveSnapObjectSPtr pPointOnCurve = std::make_shared<PointOnCurveSnapObject>(
                 pickedId, SketchSnapObject::CIRCLE);
-            return std::make_shared<SketchSnapResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurve);
+            return std::make_shared<Snap2dResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurve);
         }
     }
     // 捕捉到圆弧
@@ -664,7 +675,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         PointSnapObjectSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, scaleScreenX, scaleScreenY);
         if (pPointSnapRet)
         {
-            return std::make_shared<SketchSnapResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
+            return std::make_shared<Snap2dResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
         }
 
         // 捕捉点在圆弧上
@@ -673,7 +684,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         {
             PointOnCurveSnapObjectSPtr pPointOnCurve = std::make_shared<PointOnCurveSnapObject>(
                 pickedId, SketchSnapObject::ARC);
-            return std::make_shared<SketchSnapResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurve);
+            return std::make_shared<Snap2dResult>(_sketchPlane, projPnt, _pSnapContext, pPointOnCurve);
         }
     }
     else
@@ -685,7 +696,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
 }
 
 // 绘制圆+捕捉到对象
-SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
+Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
     const SketchDrawCircleContext* pDrawCircleContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
@@ -725,7 +736,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         PointSnapObjectSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 100, scaleScreenX, scaleScreenY);
         if (pPointSnapRet)
         {
-            return std::make_shared<SketchSnapResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
+            return std::make_shared<Snap2dResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
         }
         else
         {
@@ -753,7 +764,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         PointSnapObjectSPtr pPointSnapRet = this->snapPointSnapObject_Nearest(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 100, scaleScreenX, scaleScreenY);
         if (pPointSnapRet)
         {
-            return std::make_shared<SketchSnapResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
+            return std::make_shared<Snap2dResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
         }
         else
         {
@@ -765,7 +776,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
 }
 
 // 绘制圆弧+捕捉到对象
-SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
+Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
     const SketchDrawArcContext* pDrawArcContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
@@ -810,7 +821,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         PointSnapObjectSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, scaleScreenX, scaleScreenY);
         if (pPointSnapRet)
         {
-            return std::make_shared<SketchSnapResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
+            return std::make_shared<Snap2dResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
         }
 
         return nullptr;
@@ -825,7 +836,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
 }
 
 // 曲线端点
-SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
+Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
     const SketchCurveEndPointContext* pCurveEndPointContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
@@ -854,7 +865,7 @@ SketchSnapResultSPtr SketchSnapSystem::snapImplPicked(
         pointSnapObjs, pos, 10, scaleScreenX, scaleScreenY);
     if (pSnapObj)
     {
-        return std::make_shared<SketchSnapResult>(_sketchPlane, pSnapObj->getValue(), _pSnapContext, pSnapObj);
+        return std::make_shared<Snap2dResult>(_sketchPlane, pSnapObj->getValue(), _pSnapContext, pSnapObj);
     }
 
     return nullptr;

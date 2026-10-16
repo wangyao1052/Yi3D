@@ -128,11 +128,11 @@ private:
     SnapTipWidget_UsePixmap* _center;
 };
 
-class SketchSnapTipMouseFollow : public QObject
+class SnapTipMouseFollow : public QObject
 {
 public:
-    SketchSnapTipMouseFollow();
-    ~SketchSnapTipMouseFollow();
+    SnapTipMouseFollow();
+    ~SnapTipMouseFollow();
 
     void addTipWidget(SnapTipWidget* pTipWidget);
     void start();

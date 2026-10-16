@@ -16,18 +16,19 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SketchSnapResult.h"
+#include "Snap2dResult.h"
 #include <wyVector2.h>
 #include <wy3dPlane.h>
 #include <wy3dApp/Application.h>
 #include "scene/RenderConst.h"
 #include "commands/transient/SketchPointTransient.h"
+#include "commands/transient/SketchCurveTransient.h"
 #include "SnapConsts.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-SketchSnapResult::SketchSnapResult(
+Snap2dResult::Snap2dResult(
     const wy3d::Plane& sketchPlane,
     const wy::Vector2& position,
     SketchSnapContextSPtr pContext,
@@ -40,10 +41,10 @@ SketchSnapResult::SketchSnapResult(
     assert(pSnapObject);
 
     _items.reserve(3);
-    _items.emplace_back(std::move(SketchSnapResultItem(pSnapObject)));
+    _items.emplace_back(std::move(Snap2dResultItem(pSnapObject)));
 }
 
-SketchSnapResult::SketchSnapResult(
+Snap2dResult::Snap2dResult(
     const wy3d::Plane& sketchPlane,
     const wy::Vector2& position,
     SketchSnapContextSPtr pContext,
@@ -57,15 +58,15 @@ SketchSnapResult::SketchSnapResult(
     assert(pOtherSnapObject);
 
     _items.reserve(3);
-    _items.emplace_back(std::move(SketchSnapResultItem(pSnapObject)));
-    _items.emplace_back(std::move(SketchSnapResultItem(pOtherSnapObject)));
+    _items.emplace_back(std::move(Snap2dResultItem(pSnapObject)));
+    _items.emplace_back(std::move(Snap2dResultItem(pOtherSnapObject)));
 }
 
-SketchSnapResult::~SketchSnapResult()
+Snap2dResult::~Snap2dResult()
 {
 }
 
-bool SketchSnapResult::isLooseEqual(const SketchSnapResult& rhs) const
+bool Snap2dResult::isLooseEqual(const Snap2dResult& rhs) const
 {
     // 上下文是否相等
     if (_pContext.get() != rhs._pContext.get())
@@ -108,45 +109,11 @@ bool SketchSnapResult::isLooseEqual(const SketchSnapResult& rhs) const
     return true;
 }
 
-std::map<wydb::ElementId, SketchCurveTransientSPtr> SketchSnapResult::getSketchCurveTransients() const
+void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlights)
 {
-    std::map<wydb::ElementId, SketchCurveTransientSPtr> rets;
-    for (const SketchSnapResultItem& item : _items)
-    {
-        const SketchSnapObject* pSnapObj = item.pSnapObject.get();
-        if (!pSnapObj)
-        {
-            assert(false);
-            continue;
-        }
+    _highlightTransients = std::move(highlights);
 
-        wydb::ElementId id = pSnapObj->getId();
-        if (id.isNull()) continue; // id可以为空比如:水平or竖直or坐标系原点
-
-        for (GuiCmdTransientSPtr pTransient : item.transients)
-        {
-            if (!pTransient)
-            {
-                assert(false);
-                continue;
-            }
-
-            // 如果是草图曲线临时绘制对象
-            if (SketchCurveTransientSPtr pSketchCurve = std::dynamic_pointer_cast<SketchCurveTransient>(pTransient))
-            {
-                rets[id] = pSketchCurve;
-            }
-        }
-    }
-    return rets;
-}
-
-void SketchSnapResult::show(const std::map<wydb::ElementId, SketchCurveTransientSPtr>* pCache)
-{
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
-    if (!pDb) return;
-
-    for (SketchSnapResultItem& item : _items)
+    for (Snap2dResultItem& item : _items)
     {
         const SketchSnapObject* pSnapObject = item.pSnapObject.get();
         if (!pSnapObject)
@@ -154,30 +121,13 @@ void SketchSnapResult::show(const std::map<wydb::ElementId, SketchCurveTransient
             assert(false);
             continue;
         }
-        wydb::ElementId id = pSnapObject->getId();
-        if (pCache)
+        auto iter = _highlightTransients.find(pSnapObject->getId());
+        if (iter != _highlightTransients.cend())
         {
-            auto iter = pCache->find(id);
-            if (iter != pCache->cend())
-            {
-                assert(iter->second);
-                item.transients.push_back(iter->second);
-            }
-            else if (const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(id)))
-            {
-                item.transients.emplace_back(std::move(
-                    std::make_shared<SketchCurveTransient>(pSketchCurve)));
-            }
+            assert(iter->second);
+            item.transients.push_back(iter->second);
         }
-        else
-        {
-            if (const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(id)))
-            {
-                item.transients.emplace_back(std::move(
-                    std::make_shared<SketchCurveTransient>(pSketchCurve)));
-            }
-        }
-        
+
         switch (pSnapObject->getType())
         {
         // 水平
@@ -333,8 +283,8 @@ void SketchSnapResult::show(const std::map<wydb::ElementId, SketchCurveTransient
     }
 
     // 跟随鼠标提示
-    _pSnapTipMouseFollow = std::make_shared<SketchSnapTipMouseFollow>();
-    for (const SketchSnapResultItem& item : _items)
+    _pSnapTipMouseFollow = std::make_shared<SnapTipMouseFollow>();
+    for (const Snap2dResultItem& item : _items)
     {
         if (item.pSnapTipWidget)
             _pSnapTipMouseFollow->addTipWidget(item.pSnapTipWidget);
@@ -342,12 +292,12 @@ void SketchSnapResult::show(const std::map<wydb::ElementId, SketchCurveTransient
     _pSnapTipMouseFollow->start();
 }
 
-void SketchSnapResult::update()
+void Snap2dResult::update()
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return;
 
-    for (SketchSnapResultItem& item : _items)
+    for (Snap2dResultItem& item : _items)
     {
         SketchSnapObject* pSnapObject = item.pSnapObject.get();
         if (!pSnapObject) continue;

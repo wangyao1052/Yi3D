@@ -469,7 +469,7 @@ void SketchDrawLineGuiCmd::simulateMouseMoveFromPopup()
 std::shared_ptr<SketchDrawLineContext::SnapStartTangent> SketchDrawLineGuiCmd::computeSnapStartTangent() const
 {
     if (!_sketchInfo.pSketchSnapSys) return nullptr;
-    SketchSnapResultSPtr pSnapResult = _sketchInfo.pSketchSnapSys->getSnapResult();
+    Snap2dResultSPtr pSnapResult = _sketchInfo.pSketchSnapSys->getSnapResult();
     if (!pSnapResult) return nullptr;
 
     const wydb::Database* pDb = Application::instance().getActiveDatabase();
@@ -477,8 +477,8 @@ std::shared_ptr<SketchDrawLineContext::SnapStartTangent> SketchDrawLineGuiCmd::c
 
     wydb::ElementId startElementId(wydb::ElementId::kNull);
     wy::Vector2 startTangentDir(1.0, 0.0);
-    const std::vector<SketchSnapResultItem>& snapRetItems = pSnapResult->getItems();
-    for (const SketchSnapResultItem& snapRetItem : snapRetItems)
+    const std::vector<Snap2dResultItem>& snapRetItems = pSnapResult->getItems();
+    for (const Snap2dResultItem& snapRetItem : snapRetItems)
     {
         if (!snapRetItem.pSnapObject)
         {

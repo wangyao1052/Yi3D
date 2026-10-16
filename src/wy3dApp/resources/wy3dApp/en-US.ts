@@ -1939,32 +1939,32 @@
 <context>
     <name>MoveGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="332"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="333"/>
         <source>Select elements to move; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="350"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="351"/>
         <source>Select datum plane as working plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="374"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="375"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="399"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="400"/>
         <source>Specify the move vector; you can directly input the values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="559"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="560"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="560"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="561"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>

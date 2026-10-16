@@ -42,7 +42,7 @@
 #include "commands/transient/SketchCurveTransient.h"
 #include "SketchSnapContext.h"
 #include "SketchSnapObject.h"
-#include "SketchSnapResult.h"
+#include "Snap2dResult.h"
 #include "select/PointPick.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -66,7 +66,7 @@ protected:
     virtual wydb::ElementId pickElement(
         const wydb::Database* pDb, osgViewer::View* pView,
         double x, double y, const SketchSnapContext* pContext) override;
-    virtual SketchSnapResultSPtr pickedDispatch(
+    virtual Snap2dResultSPtr pickedDispatch(
         const SketchSnapContext* pContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
@@ -74,38 +74,40 @@ protected:
     virtual bool refreshPlane(const wydb::Database* pDb) override;
     virtual void rebuildAll() override;
     virtual void appendSnapObjects(const wydb::Database* pDb, const wydb::ElementId& id) override;
+    virtual GuiCmdTransientSPtr createHighlightTransient(
+        const wydb::Database* pDb, const wydb::ElementId& id) const override;
 
 private:
     // 定位点+捕捉到对象
-    SketchSnapResultSPtr snapImplPicked(
+    Snap2dResultSPtr snapImplPicked(
         const SketchLocateContext* pLocateContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
 
     // 绘制直线+捕捉到对象
-    SketchSnapResultSPtr snapImplPicked(
+    Snap2dResultSPtr snapImplPicked(
         const SketchDrawLineContext* pDrawLineContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
 
     // 绘制圆+捕捉到对象
-    SketchSnapResultSPtr snapImplPicked(
+    Snap2dResultSPtr snapImplPicked(
         const SketchDrawCircleContext* pDrawCircleContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
 
     // 绘制圆弧+捕捉到对象
-    SketchSnapResultSPtr snapImplPicked(
+    Snap2dResultSPtr snapImplPicked(
         const SketchDrawArcContext* pDrawCircleContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
 
     // 曲线端点+捕捉到对象
-    SketchSnapResultSPtr snapImplPicked(
+    Snap2dResultSPtr snapImplPicked(
         const SketchCurveEndPointContext* pCurveEndPointContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,

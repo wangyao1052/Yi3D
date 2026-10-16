@@ -34,11 +34,12 @@
 #include "SketchSnapContext.h"
 #include "SketchSnapObject.h"
 #include "utils/StlUtil.h"
+#include <wy3dApp/GuiCmdTransient.h>
 
 namespace wy3dApp {
 
-class SketchSnapResult;
-typedef std::shared_ptr<SketchSnapResult> SketchSnapResultSPtr;
+class Snap2dResult;
+typedef std::shared_ptr<Snap2dResult> Snap2dResultSPtr;
 
 class Snap2dSystem : public wydb::DatabaseReactor
 {
@@ -54,14 +55,14 @@ public:
     bool partiallyUpdate(const wydb::Database* pDb);
 
     // 捕捉
-    SketchSnapResultSPtr snap(
+    Snap2dResultSPtr snap(
         double x, double y, osgViewer::View* pView,
         const wy::Vector2& pos, SketchSnapContextSPtr pContext);
 
     // 获取捕捉结果
-    SketchSnapResultSPtr getSnapResult() const { return _pSnapResult; }
+    Snap2dResultSPtr getSnapResult() const { return _pSnapResult; }
     // 设置捕捉结果
-    void setSnapResult(SketchSnapResultSPtr pSnapResult);
+    void setSnapResult(Snap2dResultSPtr pSnapResult);
     // 清空捕捉结果
     void clearSnapResult() { _pSnapResult = nullptr; }
 
@@ -121,7 +122,7 @@ protected:
         const wydb::Database* pDb, osgViewer::View* pView,
         double x, double y, const SketchSnapContext* pContext);
     // 拾取命中后的捕捉(默认落空)
-    virtual SketchSnapResultSPtr pickedDispatch(
+    virtual Snap2dResultSPtr pickedDispatch(
         const SketchSnapContext* pContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
@@ -132,6 +133,12 @@ protected:
     virtual void rebuildAll();
     // 添加捕捉对象(默认无)
     virtual void appendSnapObjects(const wydb::Database* pDb, const wydb::ElementId& id);
+    // Element highlight transient (none by default: plane users have no element highlight)
+    virtual GuiCmdTransientSPtr createHighlightTransient(
+        const wydb::Database* pDb, const wydb::ElementId& id) const
+    {
+        return nullptr;
+    }
 
     // 构造平行&垂直数据
     void constructParlAndPerpsData();
@@ -213,33 +220,38 @@ protected:
 
 private:
     // 捕捉具体实现
-    SketchSnapResultSPtr snapImpl(
+    Snap2dResultSPtr snapImpl(
         double x, double y, osgViewer::View* pView,
         const wy::Vector2& pos, std::shared_ptr<SketchSnapContext> pContext);
 
     // 定位点
-    SketchSnapResultSPtr snapImplNoPicked(
+    Snap2dResultSPtr snapImplNoPicked(
         const SketchLocateContext* pLocateContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
 
     // 绘制直线
-    SketchSnapResultSPtr snapImplNoPicked(
+    Snap2dResultSPtr snapImplNoPicked(
         const SketchDrawLineContext* pDrawLineContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
 
     // 绘制圆
-    SketchSnapResultSPtr snapImplNoPicked(
+    Snap2dResultSPtr snapImplNoPicked(
         const SketchDrawCircleContext* pDrawCircleContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
 
     // 绘制圆弧
-    SketchSnapResultSPtr snapImplNoPicked(
+    Snap2dResultSPtr snapImplNoPicked(
         const SketchDrawArcContext* pDrawArcContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
+
+    // Resolve element highlight transients: reuse prevCache hits, create the rest via createHighlightTransient
+    std::map<wydb::ElementId, GuiCmdTransientSPtr> createHighlightTransients(
+        const Snap2dResult& result,
+        const std::map<wydb::ElementId, GuiCmdTransientSPtr>& prevCache) const;
 
     // 捕捉角度
     AngleSnapObjectSPtr snapAngleSnapObject(
@@ -526,7 +538,7 @@ protected:
 
 private:
     // 捕捉结果
-    SketchSnapResultSPtr _pSnapResult;
+    Snap2dResultSPtr _pSnapResult;
     // 水平和竖直
     std::vector<AngleSnapObjectSPtr> _defaultAngleSnapObjects;
     // 平行和垂直
