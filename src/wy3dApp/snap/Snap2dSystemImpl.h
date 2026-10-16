@@ -27,6 +27,8 @@
 #include <map>
 #include <set>
 #include <memory>
+#include <typeinfo>
+#include <typeindex>
 #include <osgViewer/View>
 #include <wyVector2.h>
 #include <wydbDatabase.h>
@@ -38,6 +40,38 @@
 #include <wy3dApp/Snap2dSystem.h>
 
 namespace wy3dApp {
+
+// Internal snap rule protocol (rich): returns the full snap result. Built-in rules
+// are thin adapters delegating to the snap implementations below; external rules
+// are wrapped into this protocol by an adapter.
+class Snap2dRuleHandler
+{
+public:
+    virtual ~Snap2dRuleHandler() = default;
+
+    // Snap after an element was picked; null when nothing snapped.
+    virtual Snap2dResultSPtr snapPicked(
+        const Snap2dContext* pContext,
+        const wydb::Database* pDb,
+        const wydb::ElementId& pickedId,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY,
+        const std::set<wydb::ElementId>& excludeIds)
+    {
+        return nullptr;
+    }
+
+    // Snap with no picked element; null when nothing snapped.
+    virtual Snap2dResultSPtr snapNoPicked(
+        const Snap2dContext* pContext,
+        const wydb::Database* pDb,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY,
+        const std::set<wydb::ElementId>& excludeIds)
+    {
+        return nullptr;
+    }
+};
 
 class Snap2dSystemImpl : public Snap2dSystem, public wydb::DatabaseReactor
 {
@@ -120,12 +154,6 @@ protected:
     virtual wydb::ElementId pickElement(
         const wydb::Database* pDb, osgViewer::View* pView,
         double x, double y, const std::set<wydb::ElementId>& excludeIds);
-    // 拾取命中后的捕捉(默认落空)
-    virtual Snap2dResultSPtr pickedDispatch(
-        const Snap2dContext* pContext, const wydb::Database* pDb,
-        const wydb::ElementId& pickedId,
-        const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
     // 刷新平面(默认不刷新)
     virtual bool refreshPlane(const wydb::Database* pDb);
     // 重建捕捉对象(默认重置并恢复默认对象)
@@ -138,6 +166,34 @@ protected:
     {
         return nullptr;
     }
+
+    // Picked-side snap implementations (nullptr by default: only sketch systems
+    // snap picked elements)
+    virtual Snap2dResultSPtr snapImplPicked(
+        const Locate2dContext* pContext, const wydb::Database* pDb,
+        const wydb::ElementId& pickedId,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY);
+    virtual Snap2dResultSPtr snapImplPicked(
+        const SketchDrawLineContext* pContext, const wydb::Database* pDb,
+        const wydb::ElementId& pickedId,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY);
+    virtual Snap2dResultSPtr snapImplPicked(
+        const DrawCircle2dContext* pContext, const wydb::Database* pDb,
+        const wydb::ElementId& pickedId,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY);
+    virtual Snap2dResultSPtr snapImplPicked(
+        const DrawArc2dContext* pContext, const wydb::Database* pDb,
+        const wydb::ElementId& pickedId,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY);
+    virtual Snap2dResultSPtr snapImplPicked(
+        const SketchCurveEndPointContext* pContext, const wydb::Database* pDb,
+        const wydb::ElementId& pickedId,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY);
 
     // 构造平行&垂直数据
     void constructParlAndPerpsData();
@@ -218,6 +274,9 @@ protected:
     }
 
 private:
+    // Built-in rule (defined in the .cpp; both faces delegate to this class).
+    template <typename TContext> class Rule;
+
     // 捕捉具体实现
     Snap2dResultSPtr snapImpl(
         double x, double y, osgViewer::View* pView,
@@ -245,6 +304,12 @@ private:
     // 绘制圆弧
     Snap2dResultSPtr snapImplNoPicked(
         const DrawArc2dContext* pDrawArcContext, const wydb::Database* pDb,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
+
+    // 曲线端点(未拾取:无对齐捕捉)
+    Snap2dResultSPtr snapImplNoPicked(
+        const SketchCurveEndPointContext* pCurveEndPointContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
 
@@ -495,6 +560,8 @@ protected:
     std::set<wydb::ElementId> _ids;
 
 private:
+    // Snap rule table: one rule per context type, both faces
+    std::map<std::type_index, std::shared_ptr<Snap2dRuleHandler>> _rules;
     // 捕捉结果
     Snap2dResultSPtr _pSnapResult;
     // 水平和竖直

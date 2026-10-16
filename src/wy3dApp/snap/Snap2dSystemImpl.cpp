@@ -62,6 +62,44 @@ Snap2dSystemSPtr Snap2dSystem::create(const wy3d::Plane& workPlane)
     return std::make_shared<Snap2dSystemImpl>(workPlane);
 }
 
+// Built-in rule: both faces delegate to the snap implementations for the rule's
+// own context type. The static_cast in the bodies is safe because the rule table
+// keys by the exact context typeid.
+template <typename TContext>
+class Snap2dSystemImpl::Rule : public Snap2dRuleHandler
+{
+public:
+    explicit Rule(Snap2dSystemImpl& sys) : _sys(sys) {}
+
+    Snap2dResultSPtr snapPicked(
+        const Snap2dContext* pContext,
+        const wydb::Database* pDb,
+        const wydb::ElementId& pickedId,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY,
+        const std::set<wydb::ElementId>&) override
+    {
+        return _sys.snapImplPicked(
+            static_cast<const TContext*>(pContext),
+            pDb, pickedId, pos, scaleScreenX, scaleScreenY);
+    }
+
+    Snap2dResultSPtr snapNoPicked(
+        const Snap2dContext* pContext,
+        const wydb::Database* pDb,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY,
+        const std::set<wydb::ElementId>& excludeIds) override
+    {
+        return _sys.snapImplNoPicked(
+            static_cast<const TContext*>(pContext),
+            pDb, pos, scaleScreenX, scaleScreenY, excludeIds);
+    }
+
+private:
+    Snap2dSystemImpl& _sys;
+};
+
 Snap2dSystemImpl::Snap2dSystemImpl(const wy3d::Plane& workPlane)
     : _sketchPlane(workPlane), _angleSpansCnt(30), _angleSpan(1.0)
 {
@@ -70,6 +108,15 @@ Snap2dSystemImpl::Snap2dSystemImpl(const wy3d::Plane& workPlane)
 
     // 初始化默认捕捉对象
     this->initDefaultSnapObjects();
+
+    // Register the built-in rules: one rule per context type, both faces. The
+    // picked face lands on the virtual hooks (null for plane systems, overridden
+    // by the sketch system).
+    _rules[std::type_index(typeid(Locate2dContext))] = std::make_shared<Rule<Locate2dContext>>(*this);
+    _rules[std::type_index(typeid(SketchDrawLineContext))] = std::make_shared<Rule<SketchDrawLineContext>>(*this);
+    _rules[std::type_index(typeid(DrawCircle2dContext))] = std::make_shared<Rule<DrawCircle2dContext>>(*this);
+    _rules[std::type_index(typeid(DrawArc2dContext))] = std::make_shared<Rule<DrawArc2dContext>>(*this);
+    _rules[std::type_index(typeid(SketchCurveEndPointContext))] = std::make_shared<Rule<SketchCurveEndPointContext>>(*this);
 
     // 平行
     /*
@@ -92,11 +139,55 @@ wydb::ElementId Snap2dSystemImpl::pickElement(
     return wydb::ElementId::kNull;
 }
 
-Snap2dResultSPtr Snap2dSystemImpl::pickedDispatch(
-    const Snap2dContext* pContext, const wydb::Database* pDb,
+Snap2dResultSPtr Snap2dSystemImpl::snapImplPicked(
+    const Locate2dContext* pContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)
+{
+    return nullptr;
+}
+
+Snap2dResultSPtr Snap2dSystemImpl::snapImplPicked(
+    const SketchDrawLineContext* pContext, const wydb::Database* pDb,
+    const wydb::ElementId& pickedId,
+    const wy::Vector2& pos,
+    double scaleScreenX, double scaleScreenY)
+{
+    return nullptr;
+}
+
+Snap2dResultSPtr Snap2dSystemImpl::snapImplPicked(
+    const DrawCircle2dContext* pContext, const wydb::Database* pDb,
+    const wydb::ElementId& pickedId,
+    const wy::Vector2& pos,
+    double scaleScreenX, double scaleScreenY)
+{
+    return nullptr;
+}
+
+Snap2dResultSPtr Snap2dSystemImpl::snapImplPicked(
+    const DrawArc2dContext* pContext, const wydb::Database* pDb,
+    const wydb::ElementId& pickedId,
+    const wy::Vector2& pos,
+    double scaleScreenX, double scaleScreenY)
+{
+    return nullptr;
+}
+
+Snap2dResultSPtr Snap2dSystemImpl::snapImplPicked(
+    const SketchCurveEndPointContext* pContext, const wydb::Database* pDb,
+    const wydb::ElementId& pickedId,
+    const wy::Vector2& pos,
+    double scaleScreenX, double scaleScreenY)
+{
+    return nullptr;
+}
+
+Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
+    const SketchCurveEndPointContext* pContext, const wydb::Database* pDb,
+    const wy::Vector2& pos,
+    double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds)
 {
     return nullptr;
 }
@@ -459,41 +550,27 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImpl(
     // 点选
     wydb::ElementId pickedId = this->pickElement(pDb, pView, x, y, excludeIds);
 
-    // 拾取到元素
-    if (!pickedId.isNull())
+    // Rule table dispatch, equivalent to the former two dynamic_cast chains: on an
+    // exact context-type match, the picked face runs first (sketch-side rules),
+    // then the no-picked face (base rules); the first non-null result wins.
+    if (pContext)
     {
-        Snap2dResultSPtr pSnapRet = this->pickedDispatch(
-            pContext.get(), pDb, pickedId, pos, xPerPixel, yPerPixel);
-        if (pSnapRet) return pSnapRet;
-    }
+        auto iter = _rules.find(std::type_index(typeid(*pContext)));
+        if (iter != _rules.cend())
+        {
+            // Picked face
+            if (!pickedId.isNull())
+            {
+                Snap2dResultSPtr pSnapRet = iter->second->snapPicked(
+                    pContext.get(), pDb, pickedId, pos, xPerPixel, yPerPixel, excludeIds);
+                if (pSnapRet) return pSnapRet;
+            }
 
-    // 定位点
-    if (const Locate2dContext* pLocateContext = dynamic_cast<const Locate2dContext*>(pContext.get()))
-    {
-        Snap2dResultSPtr pSnapRet = this->snapImplNoPicked(
-            pLocateContext, pDb, pos, xPerPixel, yPerPixel, excludeIds);
-        if (pSnapRet) return pSnapRet;
-    }
-    // 绘制直线
-    else if (const SketchDrawLineContext* pDrawLineContext = dynamic_cast<const SketchDrawLineContext*>(pContext.get()))
-    {
-        Snap2dResultSPtr pSnapRet = this->snapImplNoPicked(
-            pDrawLineContext, pDb, pos, xPerPixel, yPerPixel, excludeIds);
-        if (pSnapRet) return pSnapRet;
-    }
-    // 绘制圆
-    else if (const DrawCircle2dContext* pDrawCircleContext = dynamic_cast<const DrawCircle2dContext*>(pContext.get()))
-    {
-        Snap2dResultSPtr pSnapRet = this->snapImplNoPicked(
-            pDrawCircleContext, pDb, pos, xPerPixel, yPerPixel, excludeIds);
-        if (pSnapRet) return pSnapRet;
-    }
-    // 绘制圆弧
-    else if (const DrawArc2dContext* pDrawArcContext = dynamic_cast<const DrawArc2dContext*>(pContext.get()))
-    {
-        Snap2dResultSPtr pSnapRet = this->snapImplNoPicked(
-            pDrawArcContext, pDb, pos, xPerPixel, yPerPixel, excludeIds);
-        if (pSnapRet) return pSnapRet;
+            // No-picked face
+            Snap2dResultSPtr pSnapRet = iter->second->snapNoPicked(
+                pContext.get(), pDb, pos, xPerPixel, yPerPixel, excludeIds);
+            if (pSnapRet) return pSnapRet;
+        }
     }
 
     return nullptr;

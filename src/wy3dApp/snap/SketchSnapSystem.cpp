@@ -216,38 +216,6 @@ wydb::ElementId SketchSnapSystem::pickElement(
     return sel.getElementId();
 }
 
-Snap2dResultSPtr SketchSnapSystem::pickedDispatch(
-    const Snap2dContext* pContext, const wydb::Database* pDb,
-    const wydb::ElementId& pickedId,
-    const wy::Vector2& pos,
-    double scaleScreenX, double scaleScreenY)
-{
-    if (const Locate2dContext* pLocateContext = dynamic_cast<const Locate2dContext*>(pContext))
-    {
-        return this->snapImplPicked(pLocateContext, pDb, pickedId, pos, scaleScreenX, scaleScreenY);
-    }
-    else if (const SketchDrawLineContext* pDrawLineContext = dynamic_cast<const SketchDrawLineContext*>(pContext))
-    {
-        return this->snapImplPicked(pDrawLineContext, pDb, pickedId, pos, scaleScreenX, scaleScreenY);
-    }
-    else if (const DrawCircle2dContext* pDrawCircleContext = dynamic_cast<const DrawCircle2dContext*>(pContext))
-    {
-        return this->snapImplPicked(pDrawCircleContext, pDb, pickedId, pos, scaleScreenX, scaleScreenY);
-    }
-    else if (const DrawArc2dContext* pDrawArcContext = dynamic_cast<const DrawArc2dContext*>(pContext))
-    {
-        return this->snapImplPicked(pDrawArcContext, pDb, pickedId, pos, scaleScreenX, scaleScreenY);
-    }
-    // Curve end point. Deliberately no counterpart in the no-picked section below:
-    // this context snaps only to the eligible curve end points, align snaps never appear.
-    else if (const SketchCurveEndPointContext* pCurveEndPointContext = dynamic_cast<const SketchCurveEndPointContext*>(pContext))
-    {
-        return this->snapImplPicked(pCurveEndPointContext, pDb, pickedId, pos, scaleScreenX, scaleScreenY);
-    }
-
-    return nullptr;
-}
-
 void SketchSnapSystem::appendSnapObjects(const wydb::Database* pDb, const wydb::ElementId& id)
 {
     assert(pDb);

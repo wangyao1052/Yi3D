@@ -66,11 +66,6 @@ protected:
     virtual wydb::ElementId pickElement(
         const wydb::Database* pDb, osgViewer::View* pView,
         double x, double y, const std::set<wydb::ElementId>& excludeIds) override;
-    virtual Snap2dResultSPtr pickedDispatch(
-        const Snap2dContext* pContext, const wydb::Database* pDb,
-        const wydb::ElementId& pickedId,
-        const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY) override;
     virtual bool refreshPlane(const wydb::Database* pDb) override;
     virtual void rebuildAll() override;
     virtual void appendSnapObjects(const wydb::Database* pDb, const wydb::ElementId& id) override;
@@ -83,35 +78,35 @@ private:
         const Locate2dContext* pLocateContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double scaleScreenX, double scaleScreenY) override;
 
     // 绘制直线+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
         const SketchDrawLineContext* pDrawLineContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double scaleScreenX, double scaleScreenY) override;
 
     // 绘制圆+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
         const DrawCircle2dContext* pDrawCircleContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double scaleScreenX, double scaleScreenY) override;
 
     // 绘制圆弧+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
-        const DrawArc2dContext* pDrawCircleContext, const wydb::Database* pDb,
+        const DrawArc2dContext* pDrawArcContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double scaleScreenX, double scaleScreenY) override;
 
     // 曲线端点+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
         const SketchCurveEndPointContext* pCurveEndPointContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double scaleScreenX, double scaleScreenY) override;
 
     // 捕捉点
     PointSnapObjectSPtr snapPointSnapObject_Nearest(
