@@ -29,11 +29,11 @@
 #include <wy3dApp/Application.h>
 #include "snap/SnapContext.h"
 #include "commands/GuiCmdMakeElement.h"
-#include "snap/SketchSnapSystem.h"
+#include "snap/Snap2dSystem.h"
 #include "snap/SketchSnapContext.h"
 #include "snap/SnapResult.h"
 #include "snap/SnapObject.h"
-#include "snap/SketchSnapSystem.h"
+#include "snap/SketchSnapResult.h"
 #include "snap3d/Sketch3DSnapObject.h"
 #include "snap3d/Sketch3DSnapContext.h"
 #include "snap3d/Sketch3DSnapResult.h"
@@ -250,20 +250,20 @@ wy::Vector2 OsgCoordUtil::computePosition2d(
     const wy3d::Plane& sketchPlane,
     const std::set<wydb::ElementId>& excludeIds,
     std::shared_ptr<SketchSnapContext> pSnapContext,
-    SketchSnapSystem* pSketchSnapSys,
+    Snap2dSystem* pSnap2dSys,
     bool snap3d)
 {
     assert(pSnapContext);
-    assert(pSketchSnapSys);
+    assert(pSnap2dSys);
 
     std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePoint(pView, x, y, sketchPlane, excludeIds, snap3d);
     if (ret.second)
     {
         wy::Vector2 retPos = sketchPlane.uv(ret.first.x(), ret.first.y(), ret.first.z());
-        if (pSketchSnapSys)
+        if (pSnap2dSys)
         {
             SketchSnapResultSPtr pSketchSnapRet = convertSnapResult(sketchPlane, pSnapContext, retPos, ret.second);
-            pSketchSnapSys->setSnapResult(pSketchSnapRet);
+            pSnap2dSys->setSnapResult(pSketchSnapRet);
         }
         return retPos;
     }
@@ -271,8 +271,8 @@ wy::Vector2 OsgCoordUtil::computePosition2d(
     {
         wy::Vector2 pos = sketchPlane.uv(ret.first.x(), ret.first.y(), ret.first.z());
         SketchSnapResultSPtr pSketchSnapRet(nullptr);
-        if (pSketchSnapSys)
-            pSketchSnapRet = pSketchSnapSys->snap(x, y, pView, pos, pSnapContext);
+        if (pSnap2dSys)
+            pSketchSnapRet = pSnap2dSys->snap(x, y, pView, pos, pSnapContext);
         return pSketchSnapRet ? pSketchSnapRet->getPosition() : pos;
     }
 }

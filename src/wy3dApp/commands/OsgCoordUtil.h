@@ -38,7 +38,7 @@ namespace wydb { class Database; }
 namespace wy3dApp {
 
 class GuiCmdMakeElement;
-class SketchSnapSystem;
+class Snap2dSystem;
 class SketchSnapContext;
 class SketchSnapResult;
 class SnapResultPoint;
@@ -76,7 +76,7 @@ namespace OsgCoordUtil {
         const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
         std::shared_ptr<SketchSnapContext> pSnapContext = nullptr,
-        SketchSnapSystem* pSketchSnapSys = nullptr,
+        Snap2dSystem* pSnap2dSys = nullptr,
         bool snap3d = true);
 
     // 计算2D位置(无捕捉)

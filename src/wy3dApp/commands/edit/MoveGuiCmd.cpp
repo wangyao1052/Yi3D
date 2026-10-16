@@ -45,6 +45,7 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/BasicTransient.h"
 #include "snap/SketchSnapSystem.h"
+#include "snap/Snap2dSystem.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include "select/SketchPlaneSelFilter.h"
 #include <wy3dApp/GuiCommandUtil.h>
@@ -216,7 +217,7 @@ bool MoveGuiCmd::finishStep(Step step)
         }
 
         // 工作平面捕捉系统
-        _pWorkPlnSnapSystem = std::make_shared<SketchSnapSystem>(_workPln);
+        _pWorkPlnSnapSystem = std::make_shared<Snap2dSystem>(_workPln);
 
         // 下一步
         this->gotoStep(Step::SpecifyStartPnt);

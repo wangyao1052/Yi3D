@@ -108,7 +108,7 @@ const wy3d::Plane& ModelingRotateGuiCmd::getActivePlane() const
     return _workPln;
 }
 
-SketchSnapSystem* ModelingRotateGuiCmd::getActiveSnapSystem() const
+Snap2dSystem* ModelingRotateGuiCmd::getActiveSnapSystem() const
 {
     return _pWorkPlnSnapSystem.get();
 }

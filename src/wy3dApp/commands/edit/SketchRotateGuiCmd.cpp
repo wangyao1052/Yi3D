@@ -21,6 +21,7 @@
 #include <wy3dSketchEntity.h>
 
 #include "scene/nodes/ElementNodeType.h"
+#include "snap/SketchSnapSystem.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -46,7 +47,7 @@ const wy3d::Plane& SketchRotateGuiCmd::getActivePlane() const
     return _sketchInfo.sketchPlane;
 }
 
-SketchSnapSystem* SketchRotateGuiCmd::getActiveSnapSystem() const
+Snap2dSystem* SketchRotateGuiCmd::getActiveSnapSystem() const
 {
     return _sketchInfo.pSketchSnapSys;
 }

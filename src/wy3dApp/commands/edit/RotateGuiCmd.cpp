@@ -233,7 +233,7 @@ bool RotateGuiCmd::finishStep(Step step)
         }
 
         // 工作平面捕捉系统
-        _pWorkPlnSnapSystem = std::make_shared<SketchSnapSystem>(_workPln);
+        _pWorkPlnSnapSystem = std::make_shared<Snap2dSystem>(_workPln);
 
         // 下一步
         this->gotoStep(Step::SpecifyBasePnt);
@@ -503,7 +503,7 @@ void RotateGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SpecifyBasePnt:
     {
         const wy3d::Plane& plane = getActivePlane();
-        SketchSnapSystem* pSnapSystem = getActiveSnapSystem();
+        Snap2dSystem* pSnapSystem = getActiveSnapSystem();
         assert(pSnapSystem);
         wy::Vector2 pnt2d = this->computePosition2d(event.x, event.y, plane, {}, _pSnapContext, pSnapSystem);
         _hoverPopupState.point = pnt2d;
@@ -514,7 +514,7 @@ void RotateGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SpecifyBaseLineEndPnt:
     {
         const wy3d::Plane& plane = getActivePlane();
-        SketchSnapSystem* pSnapSystem = getActiveSnapSystem();
+        Snap2dSystem* pSnapSystem = getActiveSnapSystem();
         assert(pSnapSystem);
         wy::Vector2 pnt2d = this->computePosition2d(event.x, event.y, plane, {}, _pSnapContext, pSnapSystem);
         wy::Vector2 vec = pnt2d - _basePnt2;
@@ -533,7 +533,7 @@ void RotateGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SpecifyRotateAngle:
     {
         const wy3d::Plane& plane = getActivePlane();
-        SketchSnapSystem* pSnapSystem = getActiveSnapSystem();
+        Snap2dSystem* pSnapSystem = getActiveSnapSystem();
         assert(pSnapSystem);
         wy::Vector2 endPnt2 = this->computePosition2d(event.x, event.y, plane, {}, _pSnapContext, pSnapSystem);
         if ((endPnt2 - _basePnt2).length() < 1e-5)
@@ -618,7 +618,7 @@ void RotateGuiCmd::onLeftMouseDown(const MouseEvent& event)
     case Step::SpecifyBasePnt:
     {
         const wy3d::Plane& plane = getActivePlane();
-        SketchSnapSystem* pSnapSystem = getActiveSnapSystem();
+        Snap2dSystem* pSnapSystem = getActiveSnapSystem();
         assert(pSnapSystem);
         _basePnt2 = this->computePosition2d(event.x, event.y, plane, {}, _pSnapContext, pSnapSystem);
         _basePnt = plane.value(_basePnt2);
@@ -633,7 +633,7 @@ void RotateGuiCmd::onLeftMouseDown(const MouseEvent& event)
     case Step::SpecifyBaseLineEndPnt:
     {
         const wy3d::Plane& plane = getActivePlane();
-        SketchSnapSystem* pSnapSystem = getActiveSnapSystem();
+        Snap2dSystem* pSnapSystem = getActiveSnapSystem();
         assert(pSnapSystem);
         wy::Vector2 endPnt2 = this->computePosition2d(event.x, event.y, plane, {}, _pSnapContext, pSnapSystem);
         if ((endPnt2 - _basePnt2).length() < 1e-5)
@@ -652,7 +652,7 @@ void RotateGuiCmd::onLeftMouseDown(const MouseEvent& event)
     case Step::SpecifyRotateAngle:
     {
         const wy3d::Plane& plane = getActivePlane();
-        SketchSnapSystem* pSnapSystem = getActiveSnapSystem();
+        Snap2dSystem* pSnapSystem = getActiveSnapSystem();
         assert(pSnapSystem);
         wy::Vector2 pnt2 = this->computePosition2d(event.x, event.y, plane, {}, _pSnapContext, pSnapSystem);
         if ((pnt2 - _basePnt2).length() < 1e-5)

@@ -33,7 +33,7 @@ public:
 
 protected:
     virtual const wy3d::Plane& getActivePlane() const override;
-    virtual SketchSnapSystem* getActiveSnapSystem() const override;
+    virtual Snap2dSystem* getActiveSnapSystem() const override;
     virtual void gotoNextStepAfterSelectElements() override;
     virtual void configureSelectElementOptions(SelectOptions& options) override;
     virtual void onStart_EnvSpecific() override;

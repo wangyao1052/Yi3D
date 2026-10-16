@@ -65,7 +65,7 @@ protected:
         const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
         std::shared_ptr<SketchSnapContext> pSnapContext = nullptr,
-        SketchSnapSystem* pSketchSnapSys = nullptr,
+        Snap2dSystem* pSnap2dSys = nullptr,
         bool snap3d = true) override;
 
     wy::Vector2 computePosition2dWithoutSnap(

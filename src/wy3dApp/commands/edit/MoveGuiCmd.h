@@ -25,7 +25,7 @@
 #include <wyapSelManager.h>
 #include <wyapSelection.h>
 #include <wy3dApp/OsgGuiCommand.h>
-#include "snap/SketchSnapSystem.h"
+#include "snap/Snap2dSystem.h"
 #include "commands/edit/MoveElements.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -130,7 +130,7 @@ protected:
     // 工作平面原点捕捉对象
     wyap::SnapObjectSPtr _pWorkPlnOriginSnapObject;
     // 工作平面捕捉系统
-    SketchSnapSystemSPtr _pWorkPlnSnapSystem;
+    Snap2dSystemSPtr _pWorkPlnSnapSystem;
     
     std::shared_ptr<MoveElemens> _pMoveElements;
     std::shared_ptr<LineTransient> _pLineTransient;

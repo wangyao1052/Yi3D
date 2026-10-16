@@ -32,7 +32,7 @@
 #include <wy3dApp/Application.h>
 #include "commands/GuiEventDispatcher.h"
 #include "commands/OsgCoordUtil.h"
-#include "snap/SketchSnapSystem.h"
+#include "snap/Snap2dSystem.h"
 #include "select/PointPick.h"
 #include "select/SelectHandler.h"
 #include "select/SelectFilterFunctors.h"
@@ -217,10 +217,10 @@ wy::Vector2 OsgGuiCommand::computePosition2d(
     const wy3d::Plane& sketchPlane,
     const std::set<wydb::ElementId>& excludeIds,
     std::shared_ptr<SketchSnapContext> pSnapContext,
-    SketchSnapSystem* pSketchSnapSys,
+    Snap2dSystem* pSnap2dSys,
     bool snap3d)
 {
-    return OsgCoordUtil::computePosition2d(getOsgView(), x, y, sketchPlane, excludeIds, pSnapContext, pSketchSnapSys, snap3d);
+    return OsgCoordUtil::computePosition2d(getOsgView(), x, y, sketchPlane, excludeIds, pSnapContext, pSnap2dSys, snap3d);
 }
 
 wy::Vector2 OsgGuiCommand::computePosition2dWithoutSnap(

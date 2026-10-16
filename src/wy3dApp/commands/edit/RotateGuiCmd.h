@@ -27,7 +27,7 @@
 #include <wyapSelManager.h>
 #include <wyapSelection.h>
 #include <wy3dApp/OsgGuiCommand.h>
-#include "snap/SketchSnapSystem.h"
+#include "snap/Snap2dSystem.h"
 #include "commands/edit/RotateElements.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -142,7 +142,7 @@ protected:
     // 工作平面原点捕捉对象
     wyap::SnapObjectSPtr _pWorkPlnOriginSnapObject;
     // 工作平面捕捉系统
-    SketchSnapSystemSPtr _pWorkPlnSnapSystem;
+    Snap2dSystemSPtr _pWorkPlnSnapSystem;
 
     std::shared_ptr<RotateElements> _pRotateElements;
     std::shared_ptr<RotateTransient> _pRotateTransient;
@@ -158,7 +158,7 @@ protected:
     virtual const wy3d::Plane& getActivePlane() const = 0;
 
     // 获取当前捕捉系统
-    virtual SketchSnapSystem* getActiveSnapSystem() const { return nullptr; }
+    virtual Snap2dSystem* getActiveSnapSystem() const { return nullptr; }
 
     // 选择元素步骤完成后跳转的下一步
     virtual void gotoNextStepAfterSelectElements() {}
