@@ -27,7 +27,7 @@
 #include <wy3dVector2.h>
 #include <wydbElementId.h>
 #include <wy3dSketchLine.h>
-#include "snap/SketchSnapContext.h"
+#include <wy3dApp/Snap2dContext.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -115,7 +115,7 @@ private:
     wy::Vector2 _startPnt;
     std::shared_ptr<SketchDrawLineContext::SnapStartTangent> _pSnapStartTangent;
     wy::Vector2 _endPnt;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
     // 悬停浮窗
     std::unique_ptr<GuiCmdHoverInputPopup2> _pXYPopup;
     std::unique_ptr<GuiCmdHoverInputPopup2> _pLengthAnglePopup;

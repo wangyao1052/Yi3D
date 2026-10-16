@@ -57,7 +57,7 @@ private:
     Step _step;
     wy::Vector2 _origin;
     double _angle;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
     SketchCsysTransientSPtr _pCsysTransient;
 };
 

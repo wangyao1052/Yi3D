@@ -31,7 +31,7 @@ namespace wy3dApp {
 Snap2dResult::Snap2dResult(
     const wy3d::Plane& sketchPlane,
     const wy::Vector2& position,
-    SketchSnapContextSPtr pContext,
+    Snap2dContextSPtr pContext,
     SketchSnapObjectSPtr pSnapObject,
     bool drawPoint)
     : _sketchPlane(sketchPlane), _position(position), _pContext(pContext),
@@ -47,7 +47,7 @@ Snap2dResult::Snap2dResult(
 Snap2dResult::Snap2dResult(
     const wy3d::Plane& sketchPlane,
     const wy::Vector2& position,
-    SketchSnapContextSPtr pContext,
+    Snap2dContextSPtr pContext,
     SketchSnapObjectSPtr pSnapObject, SketchSnapObjectSPtr pOtherSnapObject,
     bool drawPoint)
     : _sketchPlane(sketchPlane), _position(position), _pContext(pContext),

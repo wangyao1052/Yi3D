@@ -31,10 +31,10 @@ namespace osgViewer { class View; }
 namespace wy3dApp {
 
 class Snap2dResult;
-class SketchSnapContext;
+class Snap2dContext;
 class Snap2dSystem;
 typedef std::shared_ptr<Snap2dResult> Snap2dResultSPtr;
-typedef std::shared_ptr<SketchSnapContext> SketchSnapContextSPtr;
+typedef std::shared_ptr<Snap2dContext> Snap2dContextSPtr;
 typedef std::shared_ptr<Snap2dSystem> Snap2dSystemSPtr;
 
 // 2D snap system: plane-based snapping for interactive commands.
@@ -51,7 +51,7 @@ public:
     virtual Snap2dResultSPtr snap(
         double x, double y, osgViewer::View* pView,
         const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
-        SketchSnapContextSPtr pContext) = 0;
+        Snap2dContextSPtr pContext) = 0;
 
     // Get the snap result.
     virtual Snap2dResultSPtr getSnapResult() const = 0;

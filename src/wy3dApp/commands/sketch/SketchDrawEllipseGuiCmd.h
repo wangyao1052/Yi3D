@@ -113,7 +113,7 @@ private:
     wy::Vector2 _centerPnt;
     wy::Vector2 _majorAxis;
     double _otherRadius;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     // 创建SketchEllipse
     std::shared_ptr<MakeSketchEllipse> _pMakeSketchEllipse;

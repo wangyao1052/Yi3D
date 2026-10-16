@@ -31,7 +31,7 @@
 #include <wyVector2.h>
 #include <wydbDatabase.h>
 #include <wy3dPlane.h>
-#include "SketchSnapContext.h"
+#include <wy3dApp/Snap2dContext.h>
 #include "SketchSnapObject.h"
 #include "utils/StlUtil.h"
 #include <wy3dApp/GuiCmdTransient.h>
@@ -56,7 +56,7 @@ public:
     Snap2dResultSPtr snap(
         double x, double y, osgViewer::View* pView,
         const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
-        SketchSnapContextSPtr pContext) override;
+        Snap2dContextSPtr pContext) override;
 
     // 获取捕捉结果
     Snap2dResultSPtr getSnapResult() const override { return _pSnapResult; }
@@ -122,7 +122,7 @@ protected:
         double x, double y, const std::set<wydb::ElementId>& excludeIds);
     // 拾取命中后的捕捉(默认落空)
     virtual Snap2dResultSPtr pickedDispatch(
-        const SketchSnapContext* pContext, const wydb::Database* pDb,
+        const Snap2dContext* pContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
@@ -222,11 +222,11 @@ private:
     Snap2dResultSPtr snapImpl(
         double x, double y, osgViewer::View* pView,
         const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
-        std::shared_ptr<SketchSnapContext> pContext);
+        std::shared_ptr<Snap2dContext> pContext);
 
     // 定位点
     Snap2dResultSPtr snapImplNoPicked(
-        const SketchLocateContext* pLocateContext, const wydb::Database* pDb,
+        const Locate2dContext* pLocateContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
 
@@ -238,13 +238,13 @@ private:
 
     // 绘制圆
     Snap2dResultSPtr snapImplNoPicked(
-        const SketchDrawCircleContext* pDrawCircleContext, const wydb::Database* pDb,
+        const DrawCircle2dContext* pDrawCircleContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
 
     // 绘制圆弧
     Snap2dResultSPtr snapImplNoPicked(
-        const SketchDrawArcContext* pDrawArcContext, const wydb::Database* pDb,
+        const DrawArc2dContext* pDrawArcContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
 
@@ -460,7 +460,7 @@ protected:
     // 草图平面
     wy3d::Plane _sketchPlane;
     // 捕捉上下文
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
     // 平行和垂直
     std::vector<SnapRange<AngleSnapObjectSPtr>> _parlAndPerps;
     // 对齐X

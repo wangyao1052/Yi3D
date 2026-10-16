@@ -210,7 +210,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchLocateContext>();
+        _pSnapContext = std::make_shared<Locate2dContext>();
     }
     break;
 
@@ -230,7 +230,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
 
         // TODO
         // 捕捉这一块的工作量太大了,暂时不处理绘制椭圆这一块的逻辑,使用空的草图绘制上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>();
+        _pSnapContext = std::make_shared<Locate2dContext>();
     }
     break;
 

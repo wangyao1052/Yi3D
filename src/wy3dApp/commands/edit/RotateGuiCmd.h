@@ -135,7 +135,7 @@ protected:
         double lastRadian; // 上一次弧度
         RotateInteractionData() : isCCW(true), lastRadian(0.0) {}
     } _rid;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     // 工作平面预览
     SelectPreview _workPlnPreview;

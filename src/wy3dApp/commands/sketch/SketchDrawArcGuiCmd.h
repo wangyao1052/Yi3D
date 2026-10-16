@@ -121,7 +121,7 @@ private:
     double _radius;
     double _startAngle;
     double _totalAngle;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     // 圆
     std::shared_ptr<SketchCircleTransient> _pCircleTransient;

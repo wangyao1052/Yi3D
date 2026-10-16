@@ -115,7 +115,7 @@ private:
     wy::Vector2 _startPnt2d;
     wy::Vector3 _endPnt;
     wy::Vector2 _endPnt2d;
-    SketchSnapContextSPtr _pSketchSnapContext;
+    Snap2dContextSPtr _pSnap2dContext;
     std::shared_ptr<LineTransient> _pLineTransient;
     // 点到点持久测量线(与结果行一一对应)及行悬停预览中的线
     QList<LineTransientSPtr> _pMeasureLines;

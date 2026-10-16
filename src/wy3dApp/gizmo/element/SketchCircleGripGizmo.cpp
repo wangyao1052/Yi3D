@@ -87,20 +87,20 @@ bool SketchCircleGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vect
     return false;
 }
 
-SketchSnapContextSPtr SketchCircleGripGizmo::newDragContext() const
+Snap2dContextSPtr SketchCircleGripGizmo::newDragContext() const
 {
     switch (_type)
     {
     case Type::Center:
-        return std::make_shared<SketchLocateContext>();
+        return std::make_shared<Locate2dContext>();
     case Type::Quarter0:
     case Type::Quarter1:
     case Type::Quarter2:
     case Type::Quarter3:
     {
         const wy3d::SketchCircle* pCircle = wy3d::SketchCircle::cast(this->getSketchEntity());
-        if (pCircle) return std::make_shared<SketchDrawCircleContext>(pCircle->getCenter());
-        else return std::make_shared<SketchLocateContext>();
+        if (pCircle) return std::make_shared<DrawCircle2dContext>(pCircle->getCenter());
+        else return std::make_shared<Locate2dContext>();
     }
     default:
         return SketchEntityGripGizmo::newDragContext();

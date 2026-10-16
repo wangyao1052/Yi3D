@@ -30,7 +30,7 @@
 #include "snap/SnapContext.h"
 #include "commands/GuiCmdMakeElement.h"
 #include <wy3dApp/Snap2dSystem.h>
-#include "snap/SketchSnapContext.h"
+#include <wy3dApp/Snap2dContext.h>
 #include "snap/SnapResult.h"
 #include "snap/SnapObject.h"
 #include "snap/Snap2dResult.h"
@@ -47,7 +47,7 @@ namespace wy3dApp {
 
 static Snap2dResultSPtr convertSnapResult(
     const wy3d::Plane& sketchPlane,
-    std::shared_ptr<SketchSnapContext> pSnapContext,
+    std::shared_ptr<Snap2dContext> pSnapContext,
     const wy::Vector2& retPos,
     const wyap::SnapResultSPtr& pSnapRet3d)
 {
@@ -249,7 +249,7 @@ wy::Vector2 OsgCoordUtil::computePosition2d(
     double x, double y,
     const wy3d::Plane& sketchPlane,
     const std::set<wydb::ElementId>& excludeIds,
-    std::shared_ptr<SketchSnapContext> pSnapContext,
+    std::shared_ptr<Snap2dContext> pSnapContext,
     Snap2dSystem* pSnap2dSys,
     bool snap3d)
 {

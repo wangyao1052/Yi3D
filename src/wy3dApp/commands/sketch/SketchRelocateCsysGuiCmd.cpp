@@ -130,7 +130,7 @@ void SketchRelocateCsysGuiCmd::gotoStep(Step step)
             "Specify the origin point."));
 
         // 捕捉上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>();
+        _pSnapContext = std::make_shared<Locate2dContext>();
     }
     break;
 

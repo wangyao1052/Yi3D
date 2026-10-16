@@ -123,7 +123,7 @@ protected:
     wy::Vector3 _startPnt;
     wy::Vector2 _moveVec2d;
     wy::Vector3 _moveVec;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     // 工作面预览
     SelectPreview _workPlnPreview;

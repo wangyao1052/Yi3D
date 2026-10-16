@@ -248,7 +248,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
             "Specify the center point of polar array; you can directly input the coordinate values."));
         Application::instance().setCursor(CursorType::Locate);
 
-        _pSnapContext = std::make_shared<SketchLocateContext>();
+        _pSnapContext = std::make_shared<Locate2dContext>();
     }
     break;
 

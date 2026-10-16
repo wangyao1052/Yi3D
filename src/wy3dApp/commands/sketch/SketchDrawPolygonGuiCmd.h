@@ -116,7 +116,7 @@ private:
     Step _step;
     wy::Vector2 _centerPnt;
     wy::Vector2 _startVec;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     SketchCircleTransientSPtr _pCircleTransient;
     CenterPointTransientSPtr _pCenterPointTransient;

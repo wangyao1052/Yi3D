@@ -16,8 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SKETCH_SNAP_CONTEXT_H
-#define WY3DAPP_SKETCH_SNAP_CONTEXT_H
+#ifndef WY3DAPP_SNAP2D_CONTEXT_H
+#define WY3DAPP_SNAP2D_CONTEXT_H
 
 #include <memory>
 #include <wyVector2.h>
@@ -26,25 +26,23 @@
 
 namespace wy3dApp {
 
-// 草图捕捉上下文
-class SketchSnapContext
+class WY3DAPP_EXPORT Snap2dContext
 {
-public:
-    SketchSnapContext() {}
-    virtual ~SketchSnapContext() {}
+protected:
+    Snap2dContext() = default;
+    virtual ~Snap2dContext() = default;
 };
-typedef std::shared_ptr<SketchSnapContext> SketchSnapContextSPtr;
+typedef std::shared_ptr<Snap2dContext> Snap2dContextSPtr;
 
-// 定位点
-class SketchLocateContext : public SketchSnapContext
+class WY3DAPP_EXPORT Locate2dContext : public Snap2dContext
 {
 public:
-    SketchLocateContext() {}
+    Locate2dContext() {}
 };
-typedef std::shared_ptr<SketchLocateContext> SketchLocateContextSPtr;
+typedef std::shared_ptr<Locate2dContext> Locate2dContextSPtr;
 
 // End point of an existing curve: only the start/end points of eligible curves snap
-class SketchCurveEndPointContext : public SketchSnapContext
+class WY3DAPP_EXPORT SketchCurveEndPointContext : public Snap2dContext
 {
 public:
     SketchCurveEndPointContext() {}
@@ -52,7 +50,7 @@ public:
 typedef std::shared_ptr<SketchCurveEndPointContext> SketchCurveEndPointContextSPtr;
 
 // 绘制线
-class SketchDrawLineContext : public SketchSnapContext
+class WY3DAPP_EXPORT SketchDrawLineContext : public Snap2dContext
 {
 public:
     explicit SketchDrawLineContext(const wy::Vector2& startPoint)
@@ -91,14 +89,12 @@ private:
 };
 typedef std::shared_ptr<SketchDrawLineContext> SketchDrawLineContextSPtr;
 
-// 绘制圆
-class SketchDrawCircleContext : public SketchSnapContext
+class WY3DAPP_EXPORT DrawCircle2dContext : public Snap2dContext
 {
 public:
-    explicit SketchDrawCircleContext(const wy::Vector2& center)
+    explicit DrawCircle2dContext(const wy::Vector2& center)
         : _center(center), _isForDrawArc(false) {}
 
-    // 圆心
     wy::Vector2 getCenter() const
     {
         return _center;
@@ -116,27 +112,23 @@ private:
     wy::Vector2 _center;
     bool _isForDrawArc;
 };
-typedef std::shared_ptr<SketchDrawCircleContext> SketchDrawCircleContextSPtr;
+typedef std::shared_ptr<DrawCircle2dContext> DrawCircle2dContextSPtr;
 
-// 绘制圆弧
-class SketchDrawArcContext : public SketchSnapContext
+class WY3DAPP_EXPORT DrawArc2dContext : public Snap2dContext
 {
 public:
-    SketchDrawArcContext(
+    DrawArc2dContext(
         const wy::Vector2& center, double radius, const wy::Vector2& startPnt)
         : _center(center), _radius(radius), _startPnt(startPnt) {}
 
-    // 圆心
     wy::Vector2 getCenter() const
     {
         return _center;
     }
-    // 半径
     double getRadius() const
     {
         return _radius;
     }
-    // 起始点
     wy::Vector2 getStartPoint() const
     {
         return _startPnt;
@@ -147,8 +139,8 @@ private:
     double _radius;
     wy::Vector2 _startPnt;
 };
-typedef std::shared_ptr<SketchDrawArcContext> SketchDrawArcContextSPtr;
+typedef std::shared_ptr<DrawArc2dContext> DrawArc2dContextSPtr;
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_SKETCH_SNAP_CONTEXT_H
+#endif // WY3DAPP_SNAP2D_CONTEXT_H

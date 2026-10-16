@@ -117,7 +117,7 @@ private:
     wy::Vector3 _startPnt;
     wy::Vector2 _moveVec2d;
     wy::Vector3 _moveVec;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     std::shared_ptr<CopyElemens> _pCopyElements;
     std::shared_ptr<LineTransient> _pLineTransient;

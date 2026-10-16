@@ -113,7 +113,7 @@ private:
     Step _step;
     wy::Vector2 _startPnt;
     wy::Vector2 _endPnt;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     // 悬停浮窗
     std::unique_ptr<GuiCmdHoverInputPopup2> _pXYPopup;

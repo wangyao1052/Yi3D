@@ -433,7 +433,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
             "Specify the end point of the arc; you can directly input the coordinate values."));
         Application::instance().setCursor(CursorType::Locate);
 
-        _pSnapContext = std::make_shared<SketchLocateContext>();
+        _pSnapContext = std::make_shared<Locate2dContext>();
 
         _pArcTransient = std::make_shared<SketchArcTransient>(
             _sketchInfo.sketchPlane, Colors::kSketchEntity, 2.0f);
@@ -446,7 +446,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
             "Specify the radius; you can directly input the value."));
         Application::instance().setCursor(CursorType::Locate);
 
-        _pSnapContext = std::make_shared<SketchLocateContext>();
+        _pSnapContext = std::make_shared<Locate2dContext>();
 
         _pArcTransient = std::make_shared<SketchArcTransient>(
             _sketchInfo.sketchPlane, Colors::kSketchEntity, 2.0f);
@@ -459,7 +459,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
             "Specify the total angle; you can directly input the value."));
         Application::instance().setCursor(CursorType::Locate);
 
-        _pSnapContext = std::make_shared<SketchDrawArcContext>(_center, _radius, _startPnt);
+        _pSnapContext = std::make_shared<DrawArc2dContext>(_center, _radius, _startPnt);
 
         _pArcTransient = std::make_shared<SketchArcTransient>(
             _sketchInfo.sketchPlane, Colors::kSketchEntity, 2.0f);

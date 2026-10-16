@@ -185,7 +185,7 @@ void SketchDrawRectangleGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchLocateContext>();
+        _pSnapContext = std::make_shared<Locate2dContext>();
     }
     break;
 
@@ -194,7 +194,7 @@ void SketchDrawRectangleGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawRectangle",
             "Specify the other corner point or input length & width."));
 
-        _pSnapContext = std::make_shared<SketchLocateContext>();
+        _pSnapContext = std::make_shared<Locate2dContext>();
     }
     break;
 

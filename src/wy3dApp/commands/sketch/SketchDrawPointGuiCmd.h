@@ -100,7 +100,7 @@ private:
     // 位置
     wy::Vector2 _position;
     // 草图捕捉上下文
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
     // 悬停浮窗
     std::unique_ptr<GuiCmdHoverInputPopup2> _pXYPopup;
     HoverPopupState _hoverPopupState;

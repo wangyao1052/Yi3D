@@ -41,7 +41,7 @@
 #include <wy3dApp/GuiCmdTransient.h>
 #include <wy3dApp/KeyCode.h>
 #include "widgets/CursorType.h"
-#include "snap/SketchSnapContext.h"
+#include <wy3dApp/Snap2dContext.h>
 #include "scene/nodes/ElementNodeType.h"
 
 #include "select/SelectMode.h"
@@ -212,7 +212,7 @@ protected:
         double x, double y,
         const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
-        std::shared_ptr<SketchSnapContext> pSnapContext = nullptr,
+        std::shared_ptr<Snap2dContext> pSnapContext = nullptr,
         Snap2dSystem* pSnap2dSys = nullptr,
         bool snap3d = true) = 0;
 

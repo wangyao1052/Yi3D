@@ -123,7 +123,7 @@ private:
     wy::Vector2 _basePnt;
     double _scale;
 
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
     
     std::shared_ptr<ScaleElements> _pScaleElements;
     std::shared_ptr<LineTransient> _pLineTransient;

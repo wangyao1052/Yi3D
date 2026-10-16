@@ -284,7 +284,7 @@ void CopyGuiCmd::gotoStep(Step step)
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>();
+        _pSnapContext = std::make_shared<Locate2dContext>();
     }
     break;
 

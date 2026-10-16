@@ -39,7 +39,7 @@ namespace wy3dApp {
 
 class GuiCmdMakeElement;
 class Snap2dSystem;
-class SketchSnapContext;
+class Snap2dContext;
 class Snap2dResult;
 class SnapResultPoint;
 class EndPointSnapObject;
@@ -75,7 +75,7 @@ namespace OsgCoordUtil {
         double x, double y,
         const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
-        std::shared_ptr<SketchSnapContext> pSnapContext = nullptr,
+        std::shared_ptr<Snap2dContext> pSnapContext = nullptr,
         Snap2dSystem* pSnap2dSys = nullptr,
         bool snap3d = true);
 

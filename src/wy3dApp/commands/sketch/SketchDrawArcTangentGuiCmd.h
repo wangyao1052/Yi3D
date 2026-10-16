@@ -29,7 +29,7 @@
 #include "commands/transient/BasicTransient.h"
 #include "commands/transient/SketchBasicTransient.h"
 #include "commands/dialogs/SketchArcTangentModePanel.h"
-#include "snap/SketchSnapContext.h"
+#include <wy3dApp/Snap2dContext.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -146,7 +146,7 @@ private:
     // Current end point: the cursor point (PassPoint mode) or, on the frozen circle, the point the
     // arc is committed to (Radius mode).
     wy::Vector2 _endPnt;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     // Radius mode: the circle the committed radius and the frozen bend side define.
     wy::Vector2 _center;

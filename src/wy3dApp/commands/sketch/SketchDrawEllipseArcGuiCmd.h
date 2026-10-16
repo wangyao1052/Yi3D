@@ -123,7 +123,7 @@ private:
     double _otherRadius;
     double _startAngle;
     double _sweepAngle;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     // 创建SketchEllipseArc
     std::shared_ptr<MakeSketchEllipseArc> _pMakeSketchEllipseArc;

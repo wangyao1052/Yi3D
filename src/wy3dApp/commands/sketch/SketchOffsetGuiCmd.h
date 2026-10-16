@@ -109,7 +109,7 @@ private:
     // 点选选项
     PointPickOptions _pointPickOption;
 
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
     std::shared_ptr<SketchCurveTransient> _pCurve;
     std::shared_ptr<OffsetSketchCurve> _pOffsetCurve;
     std::unique_ptr<GuiCmdHoverInputPopup1> _pOffsetPopup;

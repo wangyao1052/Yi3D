@@ -130,7 +130,7 @@ protected:
     // 插值点
     std::vector<wy::Vector2> _fitPoints;
     // 草图捕捉上下文
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
     // 捕捉排除项
     std::set<wydb::ElementId> _snapExcludeIds;
     // 插值点或控制点

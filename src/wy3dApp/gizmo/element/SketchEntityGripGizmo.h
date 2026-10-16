@@ -27,7 +27,7 @@
 
 #include "gizmo/BaseGizmo.h"
 #include "gizmo/operation/SketchEntityDragOperation.h"
-#include "snap/SketchSnapContext.h"
+#include <wy3dApp/Snap2dContext.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -57,16 +57,16 @@ protected:
 
     // added by wangyao 2025.04.10 {
     // 拖拽上下文
-    virtual SketchSnapContextSPtr newDragContext() const
+    virtual Snap2dContextSPtr newDragContext() const
     {
-        return std::make_shared<SketchLocateContext>();
+        return std::make_shared<Locate2dContext>();
     }
     // }
 
 protected:
     wydb::ElementId _sketchId;
     wy3d::Plane _sketchPlane;
-    SketchSnapContextSPtr _pDragContext;
+    Snap2dContextSPtr _pDragContext;
 
     friend class SketchEntityDragOperation;
     friend class SketchGripOsgRenderer;

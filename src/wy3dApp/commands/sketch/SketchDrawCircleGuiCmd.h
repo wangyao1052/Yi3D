@@ -110,7 +110,7 @@ private:
     Step _step;
     wy::Vector2 _centerPnt;
     double _radius;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     CenterPointTransientSPtr _pCenterPointTransient;
     std::shared_ptr<MakeSketchCircle> _pMakeSketchCircle;

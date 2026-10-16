@@ -110,7 +110,7 @@ private:
     // 创建的圆弧ID
     wydb::ElementId _sketchArcId;
     // 草图捕捉上下文
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
     // 捕捉排除项
     std::set<wydb::ElementId> _snapExcludeIds;
     // 圆心标记

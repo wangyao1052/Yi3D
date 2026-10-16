@@ -136,7 +136,7 @@ private:
     double _colSpacing;
     wy::Vector2 _rowSpacingStartPnt;
     double _rowSpacing;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     std::shared_ptr<SketchRectArrayElements> _pRectArray;
     std::shared_ptr<LineTransient> _pLineTransient;

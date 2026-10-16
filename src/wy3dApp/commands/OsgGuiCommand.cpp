@@ -216,7 +216,7 @@ wy::Vector2 OsgGuiCommand::computePosition2d(
     double x, double y,
     const wy3d::Plane& sketchPlane,
     const std::set<wydb::ElementId>& excludeIds,
-    std::shared_ptr<SketchSnapContext> pSnapContext,
+    std::shared_ptr<Snap2dContext> pSnapContext,
     Snap2dSystem* pSnap2dSys,
     bool snap3d)
 {

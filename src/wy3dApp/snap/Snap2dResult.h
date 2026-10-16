@@ -27,7 +27,7 @@
 #include <wyVector2.h>
 #include <wy3dVector2.h>
 #include <wy3dPlane.h>
-#include "SketchSnapContext.h"
+#include <wy3dApp/Snap2dContext.h>
 #include "SketchSnapObject.h"
 #include "SnapTipWidget.h"
 #include <wy3dApp/GuiCmdTransient.h>
@@ -50,13 +50,13 @@ public:
     Snap2dResult(
         const wy3d::Plane& sketchPlane,
         const wy::Vector2& position,
-        SketchSnapContextSPtr pContext,
+        Snap2dContextSPtr pContext,
         SketchSnapObjectSPtr pSnapObject,
         bool drawPoint = true);
     Snap2dResult(
         const wy3d::Plane& sketchPlane,
         const wy::Vector2& position,
-        SketchSnapContextSPtr pContext,
+        Snap2dContextSPtr pContext,
         SketchSnapObjectSPtr pSnapObject,
         SketchSnapObjectSPtr pOtherSnapObject,
         bool drawPoint = true);
@@ -96,7 +96,7 @@ public:
 private:
     wy3d::Plane _sketchPlane;
     wy::Vector2 _position;
-    SketchSnapContextSPtr _pContext;
+    Snap2dContextSPtr _pContext;
     // Whether the sketch layer draws the point marker for this result
     bool _isPointToDraw;
     std::vector<Snap2dResultItem> _items;

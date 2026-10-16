@@ -84,7 +84,7 @@ private:
 protected:
     struct PasteOp
     {
-        SketchSnapContextSPtr pSnapContext;
+        Snap2dContextSPtr pSnapContext;
         std::shared_ptr<PasteElements> pPasteElements;
         std::set<wydb::ElementId> excludeIds;
     };

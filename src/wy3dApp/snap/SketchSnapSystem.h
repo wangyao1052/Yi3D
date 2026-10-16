@@ -40,7 +40,7 @@
 #include <wy3dSketch.h>
 
 #include "commands/transient/SketchCurveTransient.h"
-#include "SketchSnapContext.h"
+#include <wy3dApp/Snap2dContext.h>
 #include "SketchSnapObject.h"
 #include "Snap2dResult.h"
 #include "select/PointPick.h"
@@ -67,7 +67,7 @@ protected:
         const wydb::Database* pDb, osgViewer::View* pView,
         double x, double y, const std::set<wydb::ElementId>& excludeIds) override;
     virtual Snap2dResultSPtr pickedDispatch(
-        const SketchSnapContext* pContext, const wydb::Database* pDb,
+        const Snap2dContext* pContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY) override;
@@ -80,7 +80,7 @@ protected:
 private:
     // 定位点+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
-        const SketchLocateContext* pLocateContext, const wydb::Database* pDb,
+        const Locate2dContext* pLocateContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
@@ -94,14 +94,14 @@ private:
 
     // 绘制圆+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
-        const SketchDrawCircleContext* pDrawCircleContext, const wydb::Database* pDb,
+        const DrawCircle2dContext* pDrawCircleContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
 
     // 绘制圆弧+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
-        const SketchDrawArcContext* pDrawCircleContext, const wydb::Database* pDb,
+        const DrawArc2dContext* pDrawCircleContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);

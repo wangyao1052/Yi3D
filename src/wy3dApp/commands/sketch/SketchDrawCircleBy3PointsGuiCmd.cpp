@@ -246,7 +246,7 @@ void SketchDrawCircleBy3PointsGuiCmd::gotoStep(Step step)
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>();
+        _pSnapContext = std::make_shared<Locate2dContext>();
     }
     break;
 
@@ -268,7 +268,7 @@ void SketchDrawCircleBy3PointsGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
             "Specify the third point on circle; you can directly input the coordinate values."));
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>();
+        _pSnapContext = std::make_shared<Locate2dContext>();
     }
     break;
 

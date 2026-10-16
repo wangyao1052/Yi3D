@@ -92,7 +92,7 @@ bool SketchLineGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector
     return false;
 }
 
-SketchSnapContextSPtr SketchLineGripGizmo::newDragContext() const
+Snap2dContextSPtr SketchLineGripGizmo::newDragContext() const
 {
     switch (_type)
     {
@@ -101,7 +101,7 @@ SketchSnapContextSPtr SketchLineGripGizmo::newDragContext() const
     case Type::EndPoint:
         return std::make_shared<SketchDrawLineContext>(_startSPnt);
     case Type::MiddlePoint:
-        return std::make_shared<SketchLocateContext>();
+        return std::make_shared<Locate2dContext>();
     default:
         return SketchEntityGripGizmo::newDragContext();
     }

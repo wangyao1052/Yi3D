@@ -39,7 +39,7 @@ protected:
     // 更新
     virtual bool onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
     // 拖拽上下文
-    virtual SketchSnapContextSPtr newDragContext() const override;
+    virtual Snap2dContextSPtr newDragContext() const override;
 
 private:
     wy::Vector2 _position;

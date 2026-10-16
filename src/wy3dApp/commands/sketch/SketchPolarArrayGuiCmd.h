@@ -89,7 +89,7 @@ private:
     double _totalAngle;
     unsigned int _count;
     bool _isCCW;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
 
     std::shared_ptr<SketchPolarArrayElements> _pPolarArray;
 };

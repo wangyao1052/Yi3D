@@ -28,7 +28,7 @@
 #include <wyVector3.h>
 #include <wy3dPlane.h>
 #include <wy3dApp/GuiCommand.h>
-#include "snap/SketchSnapContext.h"
+#include <wy3dApp/Snap2dContext.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -64,7 +64,7 @@ protected:
         double x, double y,
         const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
-        std::shared_ptr<SketchSnapContext> pSnapContext = nullptr,
+        std::shared_ptr<Snap2dContext> pSnapContext = nullptr,
         Snap2dSystem* pSnap2dSys = nullptr,
         bool snap3d = true) override;
 

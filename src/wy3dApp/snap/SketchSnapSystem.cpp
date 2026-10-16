@@ -217,12 +217,12 @@ wydb::ElementId SketchSnapSystem::pickElement(
 }
 
 Snap2dResultSPtr SketchSnapSystem::pickedDispatch(
-    const SketchSnapContext* pContext, const wydb::Database* pDb,
+    const Snap2dContext* pContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)
 {
-    if (const SketchLocateContext* pLocateContext = dynamic_cast<const SketchLocateContext*>(pContext))
+    if (const Locate2dContext* pLocateContext = dynamic_cast<const Locate2dContext*>(pContext))
     {
         return this->snapImplPicked(pLocateContext, pDb, pickedId, pos, scaleScreenX, scaleScreenY);
     }
@@ -230,11 +230,11 @@ Snap2dResultSPtr SketchSnapSystem::pickedDispatch(
     {
         return this->snapImplPicked(pDrawLineContext, pDb, pickedId, pos, scaleScreenX, scaleScreenY);
     }
-    else if (const SketchDrawCircleContext* pDrawCircleContext = dynamic_cast<const SketchDrawCircleContext*>(pContext))
+    else if (const DrawCircle2dContext* pDrawCircleContext = dynamic_cast<const DrawCircle2dContext*>(pContext))
     {
         return this->snapImplPicked(pDrawCircleContext, pDb, pickedId, pos, scaleScreenX, scaleScreenY);
     }
-    else if (const SketchDrawArcContext* pDrawArcContext = dynamic_cast<const SketchDrawArcContext*>(pContext))
+    else if (const DrawArc2dContext* pDrawArcContext = dynamic_cast<const DrawArc2dContext*>(pContext))
     {
         return this->snapImplPicked(pDrawArcContext, pDb, pickedId, pos, scaleScreenX, scaleScreenY);
     }
@@ -487,7 +487,7 @@ static inline bool projectPointOnArc(
 
 // 定位点+捕捉到对象
 Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
-    const SketchLocateContext* pLocateContext, const wydb::Database* pDb,
+    const Locate2dContext* pLocateContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)
@@ -697,7 +697,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
 
 // 绘制圆+捕捉到对象
 Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
-    const SketchDrawCircleContext* pDrawCircleContext, const wydb::Database* pDb,
+    const DrawCircle2dContext* pDrawCircleContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)
@@ -777,7 +777,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
 
 // 绘制圆弧+捕捉到对象
 Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
-    const SketchDrawArcContext* pDrawArcContext, const wydb::Database* pDb,
+    const DrawArc2dContext* pDrawArcContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)

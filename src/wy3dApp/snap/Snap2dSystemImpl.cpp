@@ -93,7 +93,7 @@ wydb::ElementId Snap2dSystemImpl::pickElement(
 }
 
 Snap2dResultSPtr Snap2dSystemImpl::pickedDispatch(
-    const SketchSnapContext* pContext, const wydb::Database* pDb,
+    const Snap2dContext* pContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)
@@ -333,7 +333,7 @@ void Snap2dSystemImpl::appendEqualSnapObject(EqualSnapObjectSPtr&& pSnapObj)
 Snap2dResultSPtr Snap2dSystemImpl::snap(
     double x, double y, osgViewer::View* pView,
     const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
-    SketchSnapContextSPtr pContext)
+    Snap2dContextSPtr pContext)
 {
     assert(pContext);
     Snap2dResultSPtr pSnapResult = this->snapImpl(x, y, pView, pos, excludeIds, pContext);
@@ -415,7 +415,7 @@ std::map<wydb::ElementId, GuiCmdTransientSPtr> Snap2dSystemImpl::createHighlight
 Snap2dResultSPtr Snap2dSystemImpl::snapImpl(
     double x, double y, osgViewer::View* pView,
     const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
-    std::shared_ptr<SketchSnapContext> pContext)
+    std::shared_ptr<Snap2dContext> pContext)
 {
     if (_pSnapContext != pContext)
     {
@@ -468,7 +468,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImpl(
     }
 
     // 定位点
-    if (const SketchLocateContext* pLocateContext = dynamic_cast<const SketchLocateContext*>(pContext.get()))
+    if (const Locate2dContext* pLocateContext = dynamic_cast<const Locate2dContext*>(pContext.get()))
     {
         Snap2dResultSPtr pSnapRet = this->snapImplNoPicked(
             pLocateContext, pDb, pos, xPerPixel, yPerPixel, excludeIds);
@@ -482,14 +482,14 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImpl(
         if (pSnapRet) return pSnapRet;
     }
     // 绘制圆
-    else if (const SketchDrawCircleContext* pDrawCircleContext = dynamic_cast<const SketchDrawCircleContext*>(pContext.get()))
+    else if (const DrawCircle2dContext* pDrawCircleContext = dynamic_cast<const DrawCircle2dContext*>(pContext.get()))
     {
         Snap2dResultSPtr pSnapRet = this->snapImplNoPicked(
             pDrawCircleContext, pDb, pos, xPerPixel, yPerPixel, excludeIds);
         if (pSnapRet) return pSnapRet;
     }
     // 绘制圆弧
-    else if (const SketchDrawArcContext* pDrawArcContext = dynamic_cast<const SketchDrawArcContext*>(pContext.get()))
+    else if (const DrawArc2dContext* pDrawArcContext = dynamic_cast<const DrawArc2dContext*>(pContext.get()))
     {
         Snap2dResultSPtr pSnapRet = this->snapImplNoPicked(
             pDrawArcContext, pDb, pos, xPerPixel, yPerPixel, excludeIds);
@@ -749,7 +749,7 @@ EqualSnapObjectSPtr Snap2dSystemImpl::snapEqualInMap(
 
 // 定位点
 Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
-    const SketchLocateContext* pLocateContext, const wydb::Database* pDb,
+    const Locate2dContext* pLocateContext, const wydb::Database* pDb,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds)
 {
@@ -1024,7 +1024,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
 
 // 绘制圆
 Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
-    const SketchDrawCircleContext* pDrawCircleContext, const wydb::Database* pDb,
+    const DrawCircle2dContext* pDrawCircleContext, const wydb::Database* pDb,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds)
 {
@@ -1136,7 +1136,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
 
 // 绘制圆弧
 Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
-    const SketchDrawArcContext* pDrawArcContext, const wydb::Database* pDb,
+    const DrawArc2dContext* pDrawArcContext, const wydb::Database* pDb,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds)
 {

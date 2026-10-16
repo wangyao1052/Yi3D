@@ -117,7 +117,7 @@ private:
     wyap::SelectionSet _sels;
     wy::Vector2 _axisStartPnt;
     wy::Vector2 _axisEndPnt;
-    SketchSnapContextSPtr _pSnapContext;
+    Snap2dContextSPtr _pSnapContext;
     
     std::shared_ptr<MirrorElemens> _pMirrorElements;
     std::shared_ptr<LineTransient> _pLineTransient;
