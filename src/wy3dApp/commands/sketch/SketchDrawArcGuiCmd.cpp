@@ -246,7 +246,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -255,8 +255,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the start point; you can directly input the values."));
 
-        SketchDrawCircleContextSPtr pDrawCircleContext = std::make_shared<SketchDrawCircleContext>(
-            wydb::ElementId::kNull, _centerPnt);
+        SketchDrawCircleContextSPtr pDrawCircleContext = std::make_shared<SketchDrawCircleContext>(_centerPnt);
         pDrawCircleContext->setIsForDrawArc(true);
         _pSnapContext = pDrawCircleContext;
     }
@@ -267,8 +266,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the total angle; you can directly input the value."));
 
-        _pSnapContext = std::make_shared<SketchDrawArcContext>(
-            _pMakeSketchArc ? _pMakeSketchArc->getId() : wydb::ElementId::kNull, _centerPnt, _radius, _startPnt);
+        _pSnapContext = std::make_shared<SketchDrawArcContext>(_centerPnt, _radius, _startPnt);
     }
     break;
 

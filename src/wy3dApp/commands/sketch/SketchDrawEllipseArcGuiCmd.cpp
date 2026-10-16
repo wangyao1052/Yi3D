@@ -296,7 +296,7 @@ void SketchDrawEllipseArcGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -305,7 +305,7 @@ void SketchDrawEllipseArcGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc",
             "Specify the axis vector; you can directly input the values."));
 
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(wydb::ElementId::kNull, _centerPnt);
+        _pSnapContext = std::make_shared<SketchDrawLineContext>(_centerPnt);
     }
     break;
 
@@ -314,7 +314,7 @@ void SketchDrawEllipseArcGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc",
             "Specify the other radius; you can directly input the value."));
 
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 

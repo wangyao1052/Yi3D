@@ -186,7 +186,7 @@ void SketchDrawCenterLineGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -195,8 +195,7 @@ void SketchDrawCenterLineGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine",
             "Specify the end point; you can directly input the values."));
 
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(
-            _pMakeSketchLine ? _pMakeSketchLine->getId() : wydb::ElementId::kNull, _startPnt);
+        _pSnapContext = std::make_shared<SketchDrawLineContext>(_startPnt);
     }
     break;
 

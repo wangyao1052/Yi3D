@@ -203,7 +203,7 @@ void SketchDrawLineGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -212,8 +212,7 @@ void SketchDrawLineGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine",
             "Specify the end point; you can directly input the values."));
 
-        SketchDrawLineContextSPtr pDrawLineContext = std::make_shared<SketchDrawLineContext>(
-            _pMakeSketchLine ? _pMakeSketchLine->getId() : wydb::ElementId::kNull, _startPnt);
+        SketchDrawLineContextSPtr pDrawLineContext = std::make_shared<SketchDrawLineContext>(_startPnt);
         pDrawLineContext->setSnapStartTangent(_pSnapStartTangent);
         _pSnapContext = pDrawLineContext;
     }

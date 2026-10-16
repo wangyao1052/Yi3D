@@ -73,12 +73,6 @@ public:
         _position = position;
     }
 
-    // 获取上下文
-    SketchSnapContext* getContext() const
-    {
-        return _pContext.get();
-    }
-
     // 获取捕捉到的项
     const std::vector<Snap2dResultItem>& getItems() const
     {

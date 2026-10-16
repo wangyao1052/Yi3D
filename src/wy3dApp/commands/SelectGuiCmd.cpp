@@ -436,7 +436,7 @@ bool SelectGuiCmd::beginPaste(double x, double y)
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return false;
     _pPasteOp = std::make_shared<PasteOp>();
-    _pPasteOp->pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+    _pPasteOp->pSnapContext = std::make_shared<SketchLocateContext>();
     _pPasteOp->pPasteElements = std::make_shared<PasteElements>(pDb, this, getSketchId(), getSketchPlane());
     wy::Vector3 pos = computePastePosition(x, y, {});
     PasteElements::InitRet initRet = _pPasteOp->pPasteElements->init(pos);

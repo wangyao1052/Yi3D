@@ -219,7 +219,7 @@ void SketchDrawPolygonGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -228,11 +228,9 @@ void SketchDrawPolygonGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPolygon",
             "Specify the radius of the circumscribed circle; you can directly input the value."));
 
-        SketchDrawCircleContextSPtr pDrawCircleCtx = std::make_shared
-            <SketchDrawCircleContext>(wydb::ElementId::kNull, _centerPnt);
+        SketchDrawCircleContextSPtr pDrawCircleCtx = std::make_shared<SketchDrawCircleContext>(_centerPnt);
         pDrawCircleCtx->setIsForDrawArc(true);
         _pSnapContext = pDrawCircleCtx;
-        _pSnapContext->setExcludedIds(std::move(this->getSnapExcludeIds()));
     }
     break;
 

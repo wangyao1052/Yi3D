@@ -92,15 +92,15 @@ SketchSnapContextSPtr SketchCircleGripGizmo::newDragContext() const
     switch (_type)
     {
     case Type::Center:
-        return std::make_shared<SketchLocateContext>(_id);
+        return std::make_shared<SketchLocateContext>();
     case Type::Quarter0:
     case Type::Quarter1:
     case Type::Quarter2:
     case Type::Quarter3:
     {
         const wy3d::SketchCircle* pCircle = wy3d::SketchCircle::cast(this->getSketchEntity());
-        if (pCircle) return std::make_shared<SketchDrawCircleContext>(_id, pCircle->getCenter());
-        else return std::make_shared<SketchLocateContext>(_id);
+        if (pCircle) return std::make_shared<SketchDrawCircleContext>(pCircle->getCenter());
+        else return std::make_shared<SketchLocateContext>();
     }
     default:
         return SketchEntityGripGizmo::newDragContext();

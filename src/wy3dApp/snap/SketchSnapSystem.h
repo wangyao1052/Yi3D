@@ -65,7 +65,7 @@ protected:
 
     virtual wydb::ElementId pickElement(
         const wydb::Database* pDb, osgViewer::View* pView,
-        double x, double y, const SketchSnapContext* pContext) override;
+        double x, double y, const std::set<wydb::ElementId>& excludeIds) override;
     virtual Snap2dResultSPtr pickedDispatch(
         const SketchSnapContext* pContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,

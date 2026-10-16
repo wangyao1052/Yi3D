@@ -239,7 +239,7 @@ void SketchDrawArcBy3PointsGuiCmd::gotoStep(Step step)
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -250,7 +250,7 @@ void SketchDrawArcBy3PointsGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the second end point on arc; you can directly input the coordinate values."));
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(_sketchArcId, _pnt1st);
+        _pSnapContext = std::make_shared<SketchDrawLineContext>(_pnt1st);
     }
     break;
 
@@ -261,7 +261,7 @@ void SketchDrawArcBy3PointsGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the third point on arc; you can directly input the coordinate values."));
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>(_sketchArcId);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 

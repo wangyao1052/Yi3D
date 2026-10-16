@@ -208,10 +208,10 @@ void SketchSnapSystem::rebuildAll()
 
 wydb::ElementId SketchSnapSystem::pickElement(
     const wydb::Database* pDb, osgViewer::View* pView,
-    double x, double y, const SketchSnapContext* pContext)
+    double x, double y, const std::set<wydb::ElementId>& excludeIds)
 {
     SketchSnapPreSelFilter* pPreSelFilter = dynamic_cast<SketchSnapPreSelFilter*>(_pickOption.pPreFilter.get());
-    if (pPreSelFilter) pPreSelFilter->setExcludeIds(pContext ? &(pContext->getExcludedIds()) : nullptr);
+    if (pPreSelFilter) pPreSelFilter->setExcludeIds(&excludeIds);
     wyap::Selection sel = PointPick::pick(pDb, pView, x, y, _pickOption);
     return sel.getElementId();
 }

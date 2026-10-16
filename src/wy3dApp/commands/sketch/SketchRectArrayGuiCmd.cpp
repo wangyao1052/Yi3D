@@ -403,7 +403,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
             "Specify the start point of column spacing or input the column spacing."));
         Application::instance().setCursor(CursorType::Locate);
 
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -418,7 +418,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
             "Specify the end point of column spacing or input the column spacing."));
         Application::instance().setCursor(CursorType::Locate);
 
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -433,7 +433,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
             "Specify the start point of row spacing or input the row spacing."));
         Application::instance().setCursor(CursorType::Locate);
 
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -448,7 +448,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
             "Specify the end point of row spacing or input the row spacing."));
         Application::instance().setCursor(CursorType::Locate);
 
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 

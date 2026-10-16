@@ -294,7 +294,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -310,7 +310,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
             "Specify the end point; you can directly input the values."));
         Application::instance().setCursor(CursorType::Locate);
 
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(wydb::ElementId::kNull, _axisStartPnt);
+        _pSnapContext = std::make_shared<SketchDrawLineContext>(_axisStartPnt);
     }
     break;
 

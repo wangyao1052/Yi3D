@@ -225,7 +225,7 @@ void SketchTextCommand::gotoStep(Step step)
         Application::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 

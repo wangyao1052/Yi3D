@@ -97,11 +97,11 @@ SketchSnapContextSPtr SketchLineGripGizmo::newDragContext() const
     switch (_type)
     {
     case Type::StartPoint:
-        return std::make_shared<SketchDrawLineContext>(_id, _startEPnt);
+        return std::make_shared<SketchDrawLineContext>(_startEPnt);
     case Type::EndPoint:
-        return std::make_shared<SketchDrawLineContext>(_id, _startSPnt);
+        return std::make_shared<SketchDrawLineContext>(_startSPnt);
     case Type::MiddlePoint:
-        return std::make_shared<SketchLocateContext>(_id);
+        return std::make_shared<SketchLocateContext>();
     default:
         return SketchEntityGripGizmo::newDragContext();
     }

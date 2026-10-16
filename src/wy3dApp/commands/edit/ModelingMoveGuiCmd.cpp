@@ -248,7 +248,7 @@ wy::Vector3 ModelingMoveGuiCmd::snapInWorkPlane(double x, double y, const wy::Ve
 {
     if (_pWorkPlnSnapSystem)
     {
-        Snap2dResultSPtr pSketchSnapRet = _pWorkPlnSnapSystem->snap(x, y, _pOsgView.get(), _workPln.uv(pos3d), _pSnapContext);
+        Snap2dResultSPtr pSketchSnapRet = _pWorkPlnSnapSystem->snap(x, y, _pOsgView.get(), _workPln.uv(pos3d), {}, _pSnapContext);
         if (pSketchSnapRet)
         {
             return _workPln.value(pSketchSnapRet->getPosition());

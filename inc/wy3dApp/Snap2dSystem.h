@@ -20,6 +20,7 @@
 #define WY3DAPP_SNAP2D_SYSTEM_H
 
 #include <memory>
+#include <set>
 #include <wyVector2.h>
 #include <wydbDatabase.h>
 #include <wy3dPlane.h>
@@ -49,7 +50,8 @@ public:
     // Snap a position; returns null when nothing is snapped.
     virtual Snap2dResultSPtr snap(
         double x, double y, osgViewer::View* pView,
-        const wy::Vector2& pos, SketchSnapContextSPtr pContext) = 0;
+        const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
+        SketchSnapContextSPtr pContext) = 0;
 
     // Get the snap result.
     virtual Snap2dResultSPtr getSnapResult() const = 0;

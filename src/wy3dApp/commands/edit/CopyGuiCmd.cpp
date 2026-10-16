@@ -284,7 +284,7 @@ void CopyGuiCmd::gotoStep(Step step)
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -304,7 +304,7 @@ void CopyGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉上下文:绘制线
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(wydb::ElementId::kNull, _startPnt2d);
+        _pSnapContext = std::make_shared<SketchDrawLineContext>(_startPnt2d);
     }
     break;
 

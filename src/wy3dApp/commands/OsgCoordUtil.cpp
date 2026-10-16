@@ -272,7 +272,7 @@ wy::Vector2 OsgCoordUtil::computePosition2d(
         wy::Vector2 pos = sketchPlane.uv(ret.first.x(), ret.first.y(), ret.first.z());
         Snap2dResultSPtr pSketchSnapRet(nullptr);
         if (pSnap2dSys)
-            pSketchSnapRet = pSnap2dSys->snap(x, y, pView, pos, pSnapContext);
+            pSketchSnapRet = pSnap2dSys->snap(x, y, pView, pos, excludeIds, pSnapContext);
         return pSketchSnapRet ? pSketchSnapRet->getPosition() : pos;
     }
 }

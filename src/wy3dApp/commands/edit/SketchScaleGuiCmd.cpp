@@ -291,7 +291,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -311,7 +311,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉系统
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(wydb::ElementId::kNull, _basePnt);
+        _pSnapContext = std::make_shared<SketchDrawLineContext>(_basePnt);
     }
     break;
 

@@ -251,7 +251,7 @@ void MeasureGuiCmd::gotoStep(Step step)
             {
                 _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
             }
-            _pSketchSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+            _pSketchSnapContext = std::make_shared<SketchLocateContext>();
         }
     }
     break;
@@ -270,8 +270,7 @@ void MeasureGuiCmd::gotoStep(Step step)
         // 草图捕捉系统
         if (_sketchInfo.pSketchSnapSys)
         {
-            SketchDrawLineContextSPtr pDrawLineContext = std::make_shared<SketchDrawLineContext>(
-                wydb::ElementId::kNull, _startPnt2d);
+            SketchDrawLineContextSPtr pDrawLineContext = std::make_shared<SketchDrawLineContext>(_startPnt2d);
             _pSketchSnapContext = pDrawLineContext;
         }
     }

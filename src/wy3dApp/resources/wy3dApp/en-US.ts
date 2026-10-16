@@ -1823,7 +1823,7 @@
         <translation type="unfinished">Specify the end point.</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="688"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="687"/>
         <source>Clear Measure Results</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2360,22 +2360,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="267"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="266"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="421"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="419"/>
         <source>Radius</source>
         <translation type="unfinished">Radius</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="422"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="420"/>
         <source>StartAngle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="432"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="430"/>
         <source>SweepAngle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2492,12 +2492,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="319"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="320"/>
         <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2528,7 +2528,7 @@
         <translation type="unfinished">Specify the radius; you can directly input the value.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="316"/>
+        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="315"/>
         <source>Radius</source>
         <translation type="unfinished">Radius</translation>
     </message>
@@ -2753,14 +2753,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="299"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="319"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="301"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="320"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>
@@ -2834,7 +2834,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="345"/>
+        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="343"/>
         <source>Radius</source>
         <translation type="unfinished">Radius</translation>
     </message>
@@ -2852,12 +2852,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="300"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="299"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="301"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="300"/>
         <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3074,7 +3074,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="335"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="334"/>
         <source>Offset Distance</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4695,17 +4695,17 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::MeasureGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="465"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="464"/>
         <source>Select an edge.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="466"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="465"/>
         <source>Select a face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="467"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="466"/>
         <source>Select a body.</source>
         <translation type="unfinished"></translation>
     </message>

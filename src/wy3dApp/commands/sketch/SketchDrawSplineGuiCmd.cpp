@@ -284,7 +284,7 @@ void SketchDrawSplineGuiCmd::gotoStep(Step step)
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
 
         // 草图捕捉排除对象
         _snapExcludeIds.clear();
@@ -303,8 +303,7 @@ void SketchDrawSplineGuiCmd::gotoStep(Step step)
             "Specify the next point; you can directly input the coordinate values."));
 
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>(
-            _pMakeSketchSpline ? _pMakeSketchSpline->getId() : wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
 
         // 草图捕捉排除对象
         _snapExcludeIds.clear();

@@ -19,7 +19,6 @@
 #ifndef WY3DAPP_SKETCH_SNAP_CONTEXT_H
 #define WY3DAPP_SKETCH_SNAP_CONTEXT_H
 
-#include <set>
 #include <memory>
 #include <wyVector2.h>
 #include <wydbElementId.h>
@@ -31,45 +30,16 @@ namespace wy3dApp {
 class SketchSnapContext
 {
 public:
-    explicit SketchSnapContext(const wydb::ElementId& id) : _id(id)
-    {
-        if (!id.isNull())
-        {
-            _excludedIds.insert(id);
-        }
-    }
+    SketchSnapContext() {}
     virtual ~SketchSnapContext() {}
-
-    // 获取ID
-    wydb::ElementId getId() const { return _id; }
-
-    // 获取不捕捉的元素IDS
-    const std::set<wydb::ElementId>& getExcludedIds() const { return _excludedIds; }
-    // 设置不捕捉的元素IDS
-    void setExcludedIds(const std::set<wydb::ElementId>& excludedIds) { _excludedIds = excludedIds; }
-    void setExcludedIds(std::set<wydb::ElementId>&& excludedIds) { _excludedIds = std::move(excludedIds); }
-
-protected:
-    // 当前正在绘制的元素ID
-    wydb::ElementId _id;
-    // 捕捉排除项
-    std::set<wydb::ElementId> _excludedIds;
 };
 typedef std::shared_ptr<SketchSnapContext> SketchSnapContextSPtr;
-
-// 空的捕捉上下文
-class SketchEmptyContext : public SketchSnapContext
-{
-public:
-    explicit SketchEmptyContext(const wydb::ElementId& id) : SketchSnapContext(id) {}
-};
-typedef std::shared_ptr<SketchEmptyContext> SketchEmptyContextSPtr;
 
 // 定位点
 class SketchLocateContext : public SketchSnapContext
 {
 public:
-    explicit SketchLocateContext(const wydb::ElementId& id) : SketchSnapContext(id) {}
+    SketchLocateContext() {}
 };
 typedef std::shared_ptr<SketchLocateContext> SketchLocateContextSPtr;
 
@@ -77,7 +47,7 @@ typedef std::shared_ptr<SketchLocateContext> SketchLocateContextSPtr;
 class SketchCurveEndPointContext : public SketchSnapContext
 {
 public:
-    explicit SketchCurveEndPointContext(const wydb::ElementId& id) : SketchSnapContext(id) {}
+    SketchCurveEndPointContext() {}
 };
 typedef std::shared_ptr<SketchCurveEndPointContext> SketchCurveEndPointContextSPtr;
 
@@ -85,8 +55,8 @@ typedef std::shared_ptr<SketchCurveEndPointContext> SketchCurveEndPointContextSP
 class SketchDrawLineContext : public SketchSnapContext
 {
 public:
-    explicit SketchDrawLineContext(const wydb::ElementId& id, const wy::Vector2& startPoint)
-        : SketchSnapContext(id), _startPoint(startPoint) {}
+    explicit SketchDrawLineContext(const wy::Vector2& startPoint)
+        : _startPoint(startPoint) {}
 
     // 起始点
     wy::Vector2 getStartPoint() const
@@ -125,8 +95,8 @@ typedef std::shared_ptr<SketchDrawLineContext> SketchDrawLineContextSPtr;
 class SketchDrawCircleContext : public SketchSnapContext
 {
 public:
-    SketchDrawCircleContext(const wydb::ElementId& id, const wy::Vector2& center)
-        : SketchSnapContext(id), _center(center), _isForDrawArc(false) {}
+    explicit SketchDrawCircleContext(const wy::Vector2& center)
+        : _center(center), _isForDrawArc(false) {}
 
     // 圆心
     wy::Vector2 getCenter() const
@@ -152,9 +122,9 @@ typedef std::shared_ptr<SketchDrawCircleContext> SketchDrawCircleContextSPtr;
 class SketchDrawArcContext : public SketchSnapContext
 {
 public:
-    SketchDrawArcContext(const wydb::ElementId& id,
+    SketchDrawArcContext(
         const wy::Vector2& center, double radius, const wy::Vector2& startPnt)
-        : SketchSnapContext(id), _center(center), _radius(radius), _startPnt(startPnt) {}
+        : _center(center), _radius(radius), _startPnt(startPnt) {}
 
     // 圆心
     wy::Vector2 getCenter() const

@@ -72,7 +72,7 @@ bool SketchPointGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vecto
 
 SketchSnapContextSPtr SketchPointGripGizmo::newDragContext() const
 {
-    return std::make_shared<SketchLocateContext>(_id);
+    return std::make_shared<SketchLocateContext>();
 }
 
 } // namespace wy3dApp

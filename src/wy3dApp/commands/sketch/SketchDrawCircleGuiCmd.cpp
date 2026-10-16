@@ -200,7 +200,7 @@ void SketchDrawCircleGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -209,8 +209,7 @@ void SketchDrawCircleGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
             "Specify the radius; you can directly input the value."));
 
-        _pSnapContext = std::make_shared<SketchDrawCircleContext>(
-            _pMakeSketchCircle ? _pMakeSketchCircle->getId() : wydb::ElementId::kNull, _centerPnt);
+        _pSnapContext = std::make_shared<SketchDrawCircleContext>(_centerPnt);
     }
     break;
 

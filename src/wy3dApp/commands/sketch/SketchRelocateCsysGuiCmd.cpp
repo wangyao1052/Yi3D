@@ -130,7 +130,7 @@ void SketchRelocateCsysGuiCmd::gotoStep(Step step)
             "Specify the origin point."));
 
         // 捕捉上下文
-        _pSnapContext = std::make_shared<SketchLocateContext>(wydb::ElementId::kNull);
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
@@ -147,7 +147,7 @@ void SketchRelocateCsysGuiCmd::gotoStep(Step step)
             "Specify the X axis."));
 
         // 捕捉上下文
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(wydb::ElementId::kNull, _origin);
+        _pSnapContext = std::make_shared<SketchDrawLineContext>(_origin);
     }
     break;
 

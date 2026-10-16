@@ -55,7 +55,8 @@ public:
     // 捕捉
     Snap2dResultSPtr snap(
         double x, double y, osgViewer::View* pView,
-        const wy::Vector2& pos, SketchSnapContextSPtr pContext) override;
+        const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
+        SketchSnapContextSPtr pContext) override;
 
     // 获取捕捉结果
     Snap2dResultSPtr getSnapResult() const override { return _pSnapResult; }
@@ -118,7 +119,7 @@ protected:
     // 拾取元素(默认不拾取)
     virtual wydb::ElementId pickElement(
         const wydb::Database* pDb, osgViewer::View* pView,
-        double x, double y, const SketchSnapContext* pContext);
+        double x, double y, const std::set<wydb::ElementId>& excludeIds);
     // 拾取命中后的捕捉(默认落空)
     virtual Snap2dResultSPtr pickedDispatch(
         const SketchSnapContext* pContext, const wydb::Database* pDb,
@@ -220,31 +221,32 @@ private:
     // 捕捉具体实现
     Snap2dResultSPtr snapImpl(
         double x, double y, osgViewer::View* pView,
-        const wy::Vector2& pos, std::shared_ptr<SketchSnapContext> pContext);
+        const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
+        std::shared_ptr<SketchSnapContext> pContext);
 
     // 定位点
     Snap2dResultSPtr snapImplNoPicked(
         const SketchLocateContext* pLocateContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
 
     // 绘制直线
     Snap2dResultSPtr snapImplNoPicked(
         const SketchDrawLineContext* pDrawLineContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
 
     // 绘制圆
     Snap2dResultSPtr snapImplNoPicked(
         const SketchDrawCircleContext* pDrawCircleContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
 
     // 绘制圆弧
     Snap2dResultSPtr snapImplNoPicked(
         const SketchDrawArcContext* pDrawArcContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
 
     // Resolve element highlight transients: reuse prevCache hits, create the rest via createHighlightTransient
     std::map<wydb::ElementId, GuiCmdTransientSPtr> createHighlightTransients(
@@ -254,49 +256,31 @@ private:
     // 捕捉角度
     AngleSnapObjectSPtr snapAngleSnapObject(
         const std::vector<AngleSnapObjectSPtr>& angleSnapObjs,
-        double angle, double angleTol, const SketchSnapContext* pContext);
+        double angle, double angleTol);
     AngleSnapObjectSPtr snapAngleSnapObject(
         const std::vector<SnapRange<AngleSnapObjectSPtr>>& angleRegions,
-        double angle, double angleTol, const SketchSnapContext* pContext);
+        double angle, double angleTol, const std::set<wydb::ElementId>& excludeIds);
 
     // 捕捉对齐:动态
     template <typename T, template <typename...> class Container = std::vector>
     T snapSingleValueInContainer(
         const Container<T>& container,
         double value,
-        double tol, double scScreen2Sketch,
-        const SketchSnapContext* pContext)
+        double tol, double scScreen2Sketch, const std::set<wydb::ElementId>& excludeIds)
     {
         assert(tol > 0.0);
         assert(scScreen2Sketch > 0.0);
-        assert(pContext);
 
         tol = std::fabs(tol * scScreen2Sketch); // transform from pixel to sketch
 
-        if (pContext && !pContext->getId().isNull())
+        for (const T& pSnapObj : container)
         {
-            const wydb::ElementId idToExclude = pContext->getId();
-            for (const T& pSnapObj : container)
+            assert(pSnapObj);
+            if (excludeIds.find(pSnapObj->getId()) != excludeIds.cend()) continue;
+            if (_erasedIds.find(pSnapObj->getId()) != _erasedIds.cend()) continue;
+            if (std::fabs(pSnapObj->getValue() - value) <= tol)
             {
-                assert(pSnapObj);
-                if (_erasedIds.find(pSnapObj->getId()) != _erasedIds.cend()) continue;
-                if (idToExclude == pSnapObj->getId()) continue; // 在草图元素拖动Gizmo时不能捕捉自身的对齐点
-                if (std::fabs(pSnapObj->getValue() - value) <= tol)
-                {
-                    return pSnapObj;
-                }
-            }
-        }
-        else
-        {
-            for (const T& pSnapObj : container)
-            {
-                assert(pSnapObj);
-                if (_erasedIds.find(pSnapObj->getId()) != _erasedIds.cend()) continue;
-                if (std::fabs(pSnapObj->getValue() - value) <= tol)
-                {
-                    return pSnapObj;
-                }
+                return pSnapObj;
             }
         }
 
@@ -308,18 +292,10 @@ private:
     T snapSingleValueInRangeMap(
         const std::map<DoubleMinMax, SnapRange<T>>& map,
         double value,
-        double tol, double scScreen2Sketch,
-        const SketchSnapContext* pContext)
+        double tol, double scScreen2Sketch, const std::set<wydb::ElementId>& excludeIds)
     {
         assert(tol > 0.0);
         assert(scScreen2Sketch > 0.0);
-        assert(pContext);
-
-        wydb::ElementId excludeId = wydb::ElementId::kNull;
-        if (pContext)
-        {
-            excludeId = pContext->getId();
-        }
 
         // 获取值的范围
         double min = std::floor(value);
@@ -335,32 +311,17 @@ private:
         assert(tol >= 0.0);
 
         // 捕捉具体实现lambda
-        auto snapInList = [value, tol, excludeId, this]
+        auto snapInList = [value, tol, this, &excludeIds]
             (const std::list<T>& objects) -> T
         {
-            if (excludeId.isNull())
+            for (const T& pSnapObj : objects)
             {
-                for (const T& pSnapObj : objects)
+                assert(pSnapObj);
+                if (excludeIds.find(pSnapObj->getId()) != excludeIds.cend()) continue;
+                if (this->_erasedIds.find(pSnapObj->getId()) != this->_erasedIds.cend()) continue;
+                if (std::fabs(pSnapObj->getValue() - value) <= tol)
                 {
-                    assert(pSnapObj);
-                    if (this->_erasedIds.find(pSnapObj->getId()) != this->_erasedIds.cend()) continue;
-                    if (std::fabs(pSnapObj->getValue() - value) <= tol)
-                    {
-                        return pSnapObj;
-                    }
-                }
-            }
-            else
-            {
-                for (const T& pSnapObj : objects)
-                {
-                    assert(pSnapObj);
-                    if (pSnapObj->getId() == excludeId) continue;
-                    if (this->_erasedIds.find(pSnapObj->getId()) != this->_erasedIds.cend()) continue;
-                    if (std::fabs(pSnapObj->getValue() - value) <= tol)
-                    {
-                        return pSnapObj;
-                    }
+                    return pSnapObj;
                 }
             }
 
@@ -493,8 +454,7 @@ private:
     // 捕捉相等
     EqualSnapObjectSPtr snapEqualInMap(
         const std::map<DoubleMinMax, SnapRange<EqualSnapObjectSPtr>>& map,
-        double value, double tol, double scaleScreen, short flags, double value2,
-        const SketchSnapContext* pContext);
+        double value, double tol, double scaleScreen, short flags, double value2, const std::set<wydb::ElementId>& excludeIds);
 
 protected:
     // 草图平面

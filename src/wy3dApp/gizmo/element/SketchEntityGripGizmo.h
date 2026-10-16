@@ -59,7 +59,7 @@ protected:
     // 拖拽上下文
     virtual SketchSnapContextSPtr newDragContext() const
     {
-        return std::make_shared<SketchLocateContext>(_id);
+        return std::make_shared<SketchLocateContext>();
     }
     // }
 

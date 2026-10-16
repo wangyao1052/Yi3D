@@ -211,8 +211,7 @@ void SketchOffsetGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchOffset", "Specify through point or input offset distance."));
         Application::instance().setCursor(CursorType::Locate);
 
-        _pSnapContext = std::make_shared<SketchLocateContext>(_id);
-        _pSnapContext->setExcludedIds(std::move(this->getSnapExcludeIds()));
+        _pSnapContext = std::make_shared<SketchLocateContext>();
     }
     break;
 
