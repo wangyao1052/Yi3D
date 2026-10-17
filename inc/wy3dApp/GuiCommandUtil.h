@@ -31,6 +31,7 @@
 namespace wy3dApp {
 
 class SketchSnapSystem;
+class Snap2dSystem;
 class SketchEnvironment;
 class Sketch3DEnvironment;
 
@@ -39,8 +40,10 @@ struct GuiCmdSketchInfo
     wy3d::Plane sketchPlane;
     wydb::ElementId sketchId;
     SketchSnapSystem* pSketchSnapSys;
+    Snap2dSystem* pSnap2dSys;
 
-    GuiCmdSketchInfo() : sketchPlane(), sketchId(wydb::ElementId::kNull), pSketchSnapSys(nullptr) {}
+    GuiCmdSketchInfo()
+        : sketchPlane(), sketchId(wydb::ElementId::kNull), pSketchSnapSys(nullptr), pSnap2dSys(nullptr) {}
 };
 
 struct GuiCmdSketch3DInfo

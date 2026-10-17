@@ -35,6 +35,7 @@ enum class Sketch3DSnapType
     EndPoint      = 6,
     MiddlePoint   = 7,
     CenterPoint   = 8,
+    Origin        = 9,
 };
 
 class Sketch3DSnapObject

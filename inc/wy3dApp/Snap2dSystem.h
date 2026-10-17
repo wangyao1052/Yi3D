@@ -21,9 +21,11 @@
 
 #include <memory>
 #include <set>
+#include <wyErrors.h>
 #include <wyVector2.h>
 #include <wydbDatabase.h>
 #include <wy3dPlane.h>
+#include <wy3dApp/Snap2dRule.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace osgViewer { class View; }
@@ -59,6 +61,10 @@ public:
     virtual void setSnapResult(Snap2dResultSPtr pSnapResult) = 0;
     // Clear the snap result.
     virtual void clearSnapResult() = 0;
+
+    // Register an external rule; one rule per exact context type.
+    // Returns DuplicateKey when the context type already has a rule.
+    virtual wy::ErrorStatus addRule(Snap2dRuleSPtr pRule) = 0;
 
 protected:
     Snap2dSystem();

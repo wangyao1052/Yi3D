@@ -104,6 +104,9 @@ void Sketch3DSnapResult::show()
         case Sketch3DSnapType::CenterPoint:
             pTipWidget = SnapTipWidgetMgr::instance().getCenter();
             break;
+        case Sketch3DSnapType::Origin:
+            pTipWidget = SnapTipWidgetMgr::instance().getOrigin();
+            break;
         default:
             assert(false);
             break;

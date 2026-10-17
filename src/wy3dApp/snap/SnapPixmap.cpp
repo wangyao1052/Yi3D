@@ -109,6 +109,18 @@ SnapPixmap::SnapPixmap()
         painter.drawEllipse(QPoint(8, 8), 1, 1);
         _center = pixmap;
     }
+    // 原点
+    {
+        PREPARE_PIXMAP;
+        QPen circlePen = pen;
+        circlePen.setWidthF(1.5);
+        painter.setPen(circlePen);
+        painter.drawEllipse(QPoint(8, 8), 5, 5);
+        painter.setPen(pen);
+        painter.drawLine(8, 0, 8, 16);
+        painter.drawLine(0, 8, 16, 8);
+        _origin = pixmap;
+    }
 }
 
 SnapPixmap::~SnapPixmap()

@@ -28,6 +28,7 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
+#include "snap/SketchSnapSystem.h"
 #include "utils/TopoShapeUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -242,6 +243,7 @@ GuiCmdSketchInfo GuiCommandUtil::initSketchInfo()
         info.sketchPlane = pSketchEnv->getSketchPlane();
         info.sketchId = pSketchEnv->getSketchId();
         info.pSketchSnapSys = pSketchEnv->getSnapSystem();
+        info.pSnap2dSys = pSketchEnv->getSnapSystem();
     }
     return info;
 }

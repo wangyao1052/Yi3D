@@ -72,6 +72,7 @@ public:
         Middle = 2,
         Center = 3,
         Origin = 4,
+        Anchor = 5,
     };
 
 public:
@@ -109,6 +110,16 @@ public:
         : SnapPoint(wydb::ElementId::kNull, position) {}
 
     virtual Type getType() const override { return Type::Origin; }
+};
+
+// 坐标锚点(非元素、无 id 的临时捕捉点)
+class SnapAnchorPoint : public SnapPoint
+{
+public:
+    explicit SnapAnchorPoint(const wy::Vector3& position)
+        : SnapPoint(wydb::ElementId::kNull, position) {}
+
+    virtual Type getType() const override { return Type::Anchor; }
 };
 
 // 端点

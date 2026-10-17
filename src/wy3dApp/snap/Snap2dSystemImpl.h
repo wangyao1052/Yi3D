@@ -99,6 +99,9 @@ public:
     // 清空捕捉结果
     void clearSnapResult() override { _pSnapResult = nullptr; }
 
+    // 注册外部规则
+    wy::ErrorStatus addRule(Snap2dRuleSPtr pRule) override;
+
     // 数据库变更响应
     virtual void onDatabaseChanged(
         const wydb::Database* pDatabase,
@@ -276,6 +279,9 @@ protected:
 private:
     // Built-in rule (defined in the .cpp; both faces delegate to this class).
     template <typename TContext> class Rule;
+
+    // Adapter wrapping an external rule into the internal protocol.
+    class ExternalRuleAdapter;
 
     // 捕捉具体实现
     Snap2dResultSPtr snapImpl(

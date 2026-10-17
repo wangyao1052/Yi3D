@@ -60,6 +60,11 @@ public:
         SketchSnapObjectSPtr pSnapObject,
         SketchSnapObjectSPtr pOtherSnapObject,
         bool drawPoint = true);
+    // A hit with nothing for the sketch layer to display.
+    Snap2dResult(
+        const wy3d::Plane& sketchPlane,
+        const wy::Vector2& position,
+        Snap2dContextSPtr pContext);
     ~Snap2dResult();
 
     // 获取位置坐标

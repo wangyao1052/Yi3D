@@ -57,17 +57,20 @@ static Snap2dResultSPtr convertSnapResult(
     const SnapResultPoint* pSnapRetPoint = dynamic_cast<const SnapResultPoint*>(pSnapRet3d.get());
     if (!pSnapRetPoint) return nullptr;
     wyap::SnapObjectSPtr pSnapObj = pSnapRetPoint->getSnapObject();
-    if (!pSnapObj || pSnapObj->getId().isNull()) return nullptr;
+    if (!pSnapObj) return nullptr;
     SnapPoint* pSnapPoint = dynamic_cast<SnapPoint*>(pSnapObj.get());
     if (!pSnapPoint)
     {
         assert(false);
         return nullptr;
     }
-
     SketchSnapObjectSPtr pSketchSnapObj(nullptr);
     switch (pSnapPoint->getType())
     {
+    case SnapPoint::Type::Origin:
+        pSketchSnapObj = std::make_shared<OriginSnapObject>();
+        break;
+
     case SnapPoint::Type::End:
         pSketchSnapObj = std::make_shared<EndPointSnapObject>(pSnapObj->getId(), retPos);
         break;
@@ -86,10 +89,10 @@ static Snap2dResultSPtr convertSnapResult(
         return std::make_shared<Snap2dResult>(
             sketchPlane, retPos, pSnapContext, pSketchSnapObj, false); // drawPoint = false
     }
-    else
-    {
-        return nullptr;
-    }
+
+    // A hit always yields a result; kinds without a sketch-layer marker
+    // (anchors) yield a display-less one.
+    return std::make_shared<Snap2dResult>(sketchPlane, retPos, pSnapContext);
 }
 
 // 全局体系点捕捉结果→3D草图捕捉结果(与上方convertSnapResult同构)
@@ -101,7 +104,7 @@ static std::shared_ptr<Sketch3DSnapResult> convertSnapResult3D(
     const SnapResultPoint* pSnapRetPoint = dynamic_cast<const SnapResultPoint*>(pSnapRet3d.get());
     if (!pSnapRetPoint) return nullptr;
     wyap::SnapObjectSPtr pSnapObj = pSnapRetPoint->getSnapObject();
-    if (!pSnapObj || pSnapObj->getId().isNull()) return nullptr; // 坐标原点(id空)在此挡掉
+    if (!pSnapObj) return nullptr;
     SnapPoint* pSnapPoint = dynamic_cast<SnapPoint*>(pSnapObj.get());
     if (!pSnapPoint)
     {
@@ -121,8 +124,13 @@ static std::shared_ptr<Sketch3DSnapResult> convertSnapResult3D(
     case SnapPoint::Type::Center:
         snapType = Sketch3DSnapType::CenterPoint;
         break;
+    case SnapPoint::Type::Origin:
+        snapType = Sketch3DSnapType::Origin;
+        break;
     default:
-        return nullptr;
+        // A hit always yields a result; kinds without a marker
+        // (anchors) yield a display-less one.
+        return std::make_shared<Sketch3DSnapResult>(pSnapRetPoint->getPosition());
     }
 
     std::shared_ptr<Sketch3DSnapResult> pResult = std::make_shared<Sketch3DSnapResult>(pSnapRetPoint->getPosition());

@@ -34,6 +34,7 @@
 
 #include "DemoHelloCmd.h"
 #include "DemoParametersCmd.h"
+#include "DemoSnapRuleCmd.h"
 #include <wy3dApp/EnvironmentBase.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
@@ -126,6 +127,15 @@ void DemoPlugin::enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvir
         //demo::log(LogLevel::Warning, "demo: addCommand failed");
     }
 
+    error = pCmdStack->addCommand(
+        demo::kSnapRuleCommand,
+        WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY,
+        DemoSnapRuleCmd::classInfo());
+    if (wy::ErrorStatus::Ok != error)
+    {
+        //demo::log(LogLevel::Warning, "demo: addCommand failed");
+    }
+
     wy3dApp::EnvironmentBase* pEnvBase = dynamic_cast<wy3dApp::EnvironmentBase*>(pSketchEnvironment);
     assert(pEnvBase);
 
@@ -150,6 +160,14 @@ void DemoPlugin::enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvir
         pActionGroup);
     if (pToolBar && pParametersAction) pToolBar->addAction(pParametersAction);
     if (pMenu && pParametersAction) pMenu->addAction(pParametersAction);
+
+    wy3dApp::CommandAction* pSnapRuleAction = pEnvBase->newCommandAction(
+        demo::kSnapRuleCommand,
+        QCoreApplication::translate("DemoPlugin", "Snap Rule Self Test"),
+        QIcon(":/plugin/com.yi3d.demo/demo_snaprule.svg"),
+        pActionGroup);
+    if (pToolBar && pSnapRuleAction) pToolBar->addAction(pSnapRuleAction);
+    if (pMenu && pSnapRuleAction) pMenu->addAction(pSnapRuleAction);
 }
 
 void DemoPlugin::exitSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvironment)
@@ -168,6 +186,12 @@ void DemoPlugin::exitSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnviro
     }
 
     error = pCmdStack->removeCommand(demo::kParametersCommand);
+    if (wy::ErrorStatus::Ok != error && wy::ErrorStatus::KeyNotFound != error)
+    {
+        //demo::log(LogLevel::Warning, "demo: removeCommand failed");
+    }
+
+    error = pCmdStack->removeCommand(demo::kSnapRuleCommand);
     if (wy::ErrorStatus::Ok != error && wy::ErrorStatus::KeyNotFound != error)
     {
         //demo::log(LogLevel::Warning, "demo: removeCommand failed");

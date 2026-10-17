@@ -29,6 +29,7 @@ namespace demo {
 
 inline constexpr const char* kHelloCommand = "com.yi3d.demo.hello";
 inline constexpr const char* kParametersCommand = "com.yi3d.demo.parameters";
+inline constexpr const char* kSnapRuleCommand = "com.yi3d.demo.snaprule";
 
 } // namespace demo
 

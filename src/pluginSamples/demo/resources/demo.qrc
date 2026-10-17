@@ -2,5 +2,6 @@
     <qresource prefix="/plugin/com.yi3d.demo">
         <file>demo_hello.svg</file>
         <file>demo_parameters.svg</file>
+        <file>demo_snaprule.svg</file>
     </qresource>
 </RCC>

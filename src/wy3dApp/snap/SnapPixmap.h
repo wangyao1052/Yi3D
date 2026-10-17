@@ -53,6 +53,8 @@ public:
     const QPixmap& getMiddle() const { return _middle; }
     // 中心点
     const QPixmap& getCenter() const { return _center; }
+    // 原点
+    const QPixmap& getOrigin() const { return _origin; }
 
 private:
     SnapPixmap();
@@ -79,6 +81,8 @@ private:
     QPixmap _middle;
     // 中心点
     QPixmap _center;
+    // 原点
+    QPixmap _origin;
 };
 
 } // namespace wy3dApp

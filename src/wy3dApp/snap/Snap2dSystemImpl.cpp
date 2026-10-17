@@ -57,6 +57,14 @@ Snap2dSystem::~Snap2dSystem()
 {
 }
 
+Snap2dRule::Snap2dRule()
+{
+}
+
+Snap2dRule::~Snap2dRule()
+{
+}
+
 Snap2dSystemSPtr Snap2dSystem::create(const wy3d::Plane& workPlane)
 {
     return std::make_shared<Snap2dSystemImpl>(workPlane);
@@ -100,6 +108,65 @@ private:
     Snap2dSystemImpl& _sys;
 };
 
+// Adapter wrapping an external rule into the internal protocol: a hit becomes a
+// Snap2dResult over the system's plane and current context.
+class Snap2dSystemImpl::ExternalRuleAdapter : public Snap2dRuleHandler
+{
+public:
+    ExternalRuleAdapter(Snap2dSystemImpl& sys, Snap2dRuleSPtr pRule)
+        : _sys(sys), _pRule(pRule)
+    {
+        assert(_pRule);
+    }
+
+    Snap2dResultSPtr snapPicked(
+        const Snap2dContext* pContext,
+        const wydb::Database* pDb,
+        const wydb::ElementId& pickedId,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY,
+        const std::set<wydb::ElementId>& excludeIds) override
+    {
+        Snap2dRuleHit hit;
+        if (!_pRule->snapPicked(pContext, pDb, pickedId, pos,
+            scaleScreenX, scaleScreenY, excludeIds, hit))
+        {
+            return nullptr;
+        }
+
+        return this->makeResult(hit);
+    }
+
+    Snap2dResultSPtr snapNoPicked(
+        const Snap2dContext* pContext,
+        const wydb::Database* pDb,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY,
+        const std::set<wydb::ElementId>& excludeIds) override
+    {
+        Snap2dRuleHit hit;
+        if (!_pRule->snapNoPicked(pContext, pDb, pos,
+            scaleScreenX, scaleScreenY, excludeIds, hit))
+        {
+            return nullptr;
+        }
+
+        return this->makeResult(hit);
+    }
+
+private:
+    Snap2dResultSPtr makeResult(const Snap2dRuleHit& hit) const
+    {
+        return std::make_shared<Snap2dResult>(
+            _sys._sketchPlane, hit.point, _sys._pSnapContext,
+            std::make_shared<RuleHitSnapObject>(hit.highlightId, hit.snapType));
+    }
+
+private:
+    Snap2dSystemImpl& _sys;
+    Snap2dRuleSPtr _pRule;
+};
+
 Snap2dSystemImpl::Snap2dSystemImpl(const wy3d::Plane& workPlane)
     : _sketchPlane(workPlane), _angleSpansCnt(30), _angleSpan(1.0)
 {
@@ -130,6 +197,18 @@ Snap2dSystemImpl::Snap2dSystemImpl(const wy3d::Plane& workPlane)
 
 Snap2dSystemImpl::~Snap2dSystemImpl()
 {
+}
+
+wy::ErrorStatus Snap2dSystemImpl::addRule(Snap2dRuleSPtr pRule)
+{
+    if (!pRule) return wy::ErrorStatus::InvalidInput;
+
+    const std::type_index key = std::type_index(pRule->getContextType());
+    if (_rules.cend() != _rules.find(key)) return wy::ErrorStatus::DuplicateKey;
+
+    _rules[key] = std::make_shared<ExternalRuleAdapter>(*this, pRule);
+
+    return wy::ErrorStatus::Ok;
 }
 
 wydb::ElementId Snap2dSystemImpl::pickElement(

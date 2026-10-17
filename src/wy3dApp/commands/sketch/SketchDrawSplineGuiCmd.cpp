@@ -374,7 +374,7 @@ void SketchDrawSplineGuiCmd::tryAddStartPntAsResidentSnapObject()
     wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
     pSnapSys->beginChange();
     {
-        _pStartPointSnapObject = std::make_shared<SnapCoordinatePoint>(point);
+        _pStartPointSnapObject = std::make_shared<SnapAnchorPoint>(point);
         pSnapSys->addResidentSnapObject(_pStartPointSnapObject);
     }
     pSnapSys->endChange();

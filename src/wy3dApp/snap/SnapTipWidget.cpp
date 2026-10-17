@@ -98,7 +98,8 @@ SnapTipWidgetMgr::SnapTipWidgetMgr() :
     _intersection(nullptr),
     _end(nullptr),
     _middle(nullptr),
-    _center(nullptr)
+    _center(nullptr),
+    _origin(nullptr)
 {
     QWidget* pMainWindow = Application::instance().getMainWindow();
     assert(pMainWindow);
@@ -123,6 +124,8 @@ SnapTipWidgetMgr::SnapTipWidgetMgr() :
     _middle->hide();
     _center = new SnapTipWidget_UsePixmap(SnapPixmap::instance().getCenter(), pMainWindow);
     _center->hide();
+    _origin = new SnapTipWidget_UsePixmap(SnapPixmap::instance().getOrigin(), pMainWindow);
+    _origin->hide();
 }
 
 SnapTipWidgetMgr::~SnapTipWidgetMgr()

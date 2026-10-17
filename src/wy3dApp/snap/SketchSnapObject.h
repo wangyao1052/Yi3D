@@ -25,45 +25,10 @@
 #include <wydbElementId.h>
 #include <wydbElement.h>
 #include <wy3dSketchCurve.h>
+#include <wy3dApp/SketchSnapType.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
-
-// 草图捕捉类型
-enum class SketchSnapType
-{
-    Undefined = 0,
-    // 水平
-    Horizontal,
-    // 竖直
-    Vertical,
-    // 平行
-    Parallel,
-    // 垂直
-    Perpendicular,
-    // X 对齐
-    AlignX,
-    // Y 对齐
-    AlignY,
-    // 相等
-    Equal,
-    // 点在线上
-    PointOnCurve,
-    // 垂足
-    PerpendicularPoint,
-    // 切点
-    TangetPoint,
-    // 交点
-    IntersectionPoint,
-    // 关键点
-    KeyPoint,
-    // 外部:端点
-    EndPoint,
-    // 外部:中点
-    MiddlePoint,
-    // 外部:中心点
-    CenterPoint,
-};
 
 // 草图捕捉对象
 class SketchSnapObject
@@ -379,6 +344,32 @@ public:
     virtual SketchSnapType getType() const override { return SketchSnapType::CenterPoint; }
 };
 typedef std::shared_ptr<CenterPointSnapObject> CenterPointSnapObjectSPtr;
+
+// 默认捕捉系统中的:原点
+class OriginSnapObject : public SketchSnapObject
+{
+public:
+    OriginSnapObject() : SketchSnapObject(wydb::ElementId::kNull) {}
+
+    // 类型
+    virtual SketchSnapType getType() const override { return SketchSnapType::Origin; }
+};
+typedef std::shared_ptr<OriginSnapObject> OriginSnapObjectSPtr;
+
+// 外部规则命中(id ===> 可选的高亮元素)
+class RuleHitSnapObject : public SketchSnapObject
+{
+public:
+    RuleHitSnapObject(const wydb::ElementId& id, SketchSnapType snapType)
+        : SketchSnapObject(id), _snapType(snapType) {}
+
+    // 类型
+    virtual SketchSnapType getType() const override { return _snapType; }
+
+private:
+    SketchSnapType _snapType;
+};
+typedef std::shared_ptr<RuleHitSnapObject> RuleHitSnapObjectSPtr;
 
 } // namespace wy3dApp
 

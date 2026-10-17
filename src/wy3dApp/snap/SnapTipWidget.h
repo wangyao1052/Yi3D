@@ -100,6 +100,8 @@ public:
     SnapTipWidget_UsePixmap* getMiddle() const { return _middle; }
     // 中心点
     SnapTipWidget_UsePixmap* getCenter() const { return _center; }
+    // 原点
+    SnapTipWidget_UsePixmap* getOrigin() const { return _origin; }
 
 private:
     SnapTipWidgetMgr();
@@ -126,6 +128,8 @@ private:
     SnapTipWidget_UsePixmap* _middle;
     // 中心点
     SnapTipWidget_UsePixmap* _center;
+    // 原点
+    SnapTipWidget_UsePixmap* _origin;
 };
 
 class SnapTipMouseFollow : public QObject
