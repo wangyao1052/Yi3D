@@ -150,38 +150,38 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         {
             switch (pSnapObject->getType())
             {
-            case SketchSnapType::Horizontal:
+            case Snap2dType::Horizontal:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getHorizontal();
                 break;
-            case SketchSnapType::Vertical:
+            case Snap2dType::Vertical:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getVertical();
                 break;
-            case SketchSnapType::Parallel:
+            case Snap2dType::Parallel:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getParallel();
                 break;
-            case SketchSnapType::Perpendicular:
-            case SketchSnapType::PerpendicularPoint:
+            case Snap2dType::Perpendicular:
+            case Snap2dType::PerpendicularPoint:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getPerpendicular();
                 break;
-            case SketchSnapType::Equal:
+            case Snap2dType::Equal:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getEqual();
                 break;
-            case SketchSnapType::TangetPoint:
+            case Snap2dType::TangentPoint:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getTangent();
                 break;
-            case SketchSnapType::IntersectionPoint:
+            case Snap2dType::IntersectionPoint:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getIntersection();
                 break;
-            case SketchSnapType::EndPoint:
+            case Snap2dType::EndPoint:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getEnd();
                 break;
-            case SketchSnapType::MiddlePoint:
+            case Snap2dType::MiddlePoint:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getMiddle();
                 break;
-            case SketchSnapType::CenterPoint:
+            case Snap2dType::CenterPoint:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getCenter();
                 break;
-            case SketchSnapType::Origin:
+            case Snap2dType::Origin:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getOrigin();
                 break;
             default:
@@ -194,14 +194,14 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
             osg::Vec4 pointColor = SnapConsts::PointColorOnSketchCurve;
             switch (pSnapObject->getType())
             {
-            case SketchSnapType::PerpendicularPoint:
-            case SketchSnapType::TangetPoint:
-            case SketchSnapType::IntersectionPoint:
-            case SketchSnapType::KeyPoint:
-            case SketchSnapType::EndPoint:
-            case SketchSnapType::MiddlePoint:
-            case SketchSnapType::CenterPoint:
-            case SketchSnapType::Origin:
+            case Snap2dType::PerpendicularPoint:
+            case Snap2dType::TangentPoint:
+            case Snap2dType::IntersectionPoint:
+            case Snap2dType::KeyPoint:
+            case Snap2dType::EndPoint:
+            case Snap2dType::MiddlePoint:
+            case Snap2dType::CenterPoint:
+            case Snap2dType::Origin:
                 pointSize = SnapConsts::PointSize;
                 pointColor = SnapConsts::PointColor;
                 break;
@@ -220,35 +220,35 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         switch (pSnapObject->getType())
         {
         // 水平
-        case SketchSnapType::Horizontal:
+        case Snap2dType::Horizontal:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getHorizontal();
         }
         break;
 
         // 竖直
-        case SketchSnapType::Vertical:
+        case Snap2dType::Vertical:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getVertical();
         }
         break;
 
         // 平行
-        case SketchSnapType::Parallel:
+        case Snap2dType::Parallel:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getParallel();
         }
         break;
 
         // 垂直
-        case SketchSnapType::Perpendicular:
+        case Snap2dType::Perpendicular:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getPerpendicular();
         }
         break;
 
         // 对齐X
-        case SketchSnapType::AlignX:
+        case Snap2dType::AlignX:
         {
             // 点划线
             const AlignXSnapObject* pAlignX = dynamic_cast<const AlignXSnapObject*>(pSnapObject);
@@ -264,7 +264,7 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         break;
 
         // 对齐Y
-        case SketchSnapType::AlignY:
+        case Snap2dType::AlignY:
         {
             // 点划线
             const AlignYSnapObject* pAlignY = dynamic_cast<const AlignYSnapObject*>(pSnapObject);
@@ -280,14 +280,14 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         break;
 
         // 相等
-        case SketchSnapType::Equal:
+        case Snap2dType::Equal:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getEqual();
         }
         break;
 
         // 点在线上
-        case SketchSnapType::PointOnCurve:
+        case Snap2dType::PointOnCurve:
         {
             const PointOnCurveSnapObject* pPointOnCurve = dynamic_cast<const PointOnCurveSnapObject*>(pSnapObject);
             assert(pPointOnCurve);
@@ -300,7 +300,7 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         break;
 
         // 垂足
-        case SketchSnapType::PerpendicularPoint:
+        case Snap2dType::PerpendicularPoint:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getPerpendicular();
             if (_isPointToDraw)
@@ -312,7 +312,7 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         break;
 
         // 切点
-        case SketchSnapType::TangetPoint:
+        case Snap2dType::TangentPoint:
         {
             wy::Vector2 pos = _position;
             const TangentPointSnapObject* pTangentPointSnapObj = dynamic_cast<const TangentPointSnapObject*>(pSnapObject);
@@ -330,7 +330,7 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         break;
 
         // 交点
-        case SketchSnapType::IntersectionPoint:
+        case Snap2dType::IntersectionPoint:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getIntersection();
             if (_isPointToDraw)
@@ -342,7 +342,7 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         break;
 
         // 关键点
-        case SketchSnapType::KeyPoint:
+        case Snap2dType::KeyPoint:
         {
             // 点
             if (_isPointToDraw)
@@ -359,7 +359,7 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         break;
 
         // 端点(默认捕捉系统)
-        case SketchSnapType::EndPoint:
+        case Snap2dType::EndPoint:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getEnd();
             if (_isPointToDraw)
@@ -371,21 +371,21 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         break;
 
         // 中点(默认捕捉系统)
-        case SketchSnapType::MiddlePoint:
+        case Snap2dType::MiddlePoint:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getMiddle();
         }
         break;
 
         // 中心点(默认捕捉系统)
-        case SketchSnapType::CenterPoint:
+        case Snap2dType::CenterPoint:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getCenter();
         }
         break;
 
         // 原点(默认捕捉系统)
-        case SketchSnapType::Origin:
+        case Snap2dType::Origin:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getOrigin();
         }
@@ -435,7 +435,7 @@ void Snap2dResult::update()
         switch (pSnapObject->getType())
         {
         // 对齐X
-        case SketchSnapType::AlignX:
+        case Snap2dType::AlignX:
         {
             const AlignXSnapObject* pAlignX = dynamic_cast<const AlignXSnapObject*>(pSnapObject);
             assert(pAlignX);
@@ -454,7 +454,7 @@ void Snap2dResult::update()
         break;
 
         // Y 对齐
-        case SketchSnapType::AlignY:
+        case Snap2dType::AlignY:
         {
             const AlignYSnapObject* pAlignY = dynamic_cast<const AlignYSnapObject*>(pSnapObject);
             assert(pAlignY);
@@ -473,7 +473,7 @@ void Snap2dResult::update()
         break;
 
         // 点在线上
-        case SketchSnapType::PointOnCurve:
+        case Snap2dType::PointOnCurve:
         {
             const PointOnCurveSnapObject* pPointOnCurve = dynamic_cast<const PointOnCurveSnapObject*>(pSnapObject);
             assert(pPointOnCurve);

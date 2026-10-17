@@ -24,7 +24,7 @@
 #include <typeinfo>
 #include <wyVector2.h>
 #include <wydbDatabase.h>
-#include <wy3dApp/SketchSnapType.h>
+#include <wy3dApp/Snap2dType.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -38,7 +38,7 @@ struct Snap2dRuleHit
 {
     wy::Vector2 point;
     wydb::ElementId highlightId;
-    SketchSnapType snapType = SketchSnapType::Undefined;
+    Snap2dType snapType = Snap2dType::Undefined;
 };
 
 class Snap2dRule;

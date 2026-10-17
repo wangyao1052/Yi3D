@@ -42,12 +42,12 @@ std::vector<DemoSnapCandidate> collectSnapCandidates(
         const wydb::Element* pElem = pDb->getElement(id);
         if (const wy3d::SketchCircle* pCircle = wy3d::SketchCircle::cast(pElem))
         {
-            candidates.push_back({ pCircle->getCenter(), id, wy3dApp::SketchSnapType::CenterPoint });
+            candidates.push_back({ pCircle->getCenter(), id, wy3dApp::Snap2dType::CenterPoint });
         }
         else if (const wy3d::SketchLine* pLine = wy3d::SketchLine::cast(pElem))
         {
-            candidates.push_back({ pLine->getStartPoint(), id, wy3dApp::SketchSnapType::EndPoint });
-            candidates.push_back({ pLine->getEndPoint(), id, wy3dApp::SketchSnapType::EndPoint });
+            candidates.push_back({ pLine->getStartPoint(), id, wy3dApp::Snap2dType::EndPoint });
+            candidates.push_back({ pLine->getEndPoint(), id, wy3dApp::Snap2dType::EndPoint });
         }
     }
 
@@ -71,12 +71,12 @@ void DemoSnapRule::resetRecording()
     _lastScaleScreenX = 0.0;
     _lastScaleScreenY = 0.0;
     _lastHitPoint = wy::Vector2();
-    _lastKind = wy3dApp::SketchSnapType::Undefined;
+    _lastKind = wy3dApp::Snap2dType::Undefined;
     _lastHighlightId = wydb::ElementId::kNull;
 }
 
 bool DemoSnapRule::recordHit(const wy::Vector2& point, const wydb::ElementId& highlightId,
-    wy3dApp::SketchSnapType snapType, wy3dApp::Snap2dRuleHit& hit)
+    wy3dApp::Snap2dType snapType, wy3dApp::Snap2dRuleHit& hit)
 {
     hit.point = point;
     hit.highlightId = highlightId;
@@ -112,7 +112,7 @@ bool DemoSnapRule::snapNoPicked(
     if (std::fabs(pos.x()) <= tolX && std::fabs(pos.y()) <= tolY)
     {
         return this->recordHit(wy::Vector2::kZero, wydb::ElementId::kNull,
-            wy3dApp::SketchSnapType::Origin, hit);
+            wy3dApp::Snap2dType::Origin, hit);
     }
 
     // Closest circle center or line end point
@@ -142,12 +142,12 @@ bool DemoSnapRule::snapNoPicked(
     if (std::fabs(pos.y()) <= tolY)
     {
         return this->recordHit(wy::Vector2(pos.x(), 0.0), wydb::ElementId::kNull,
-            wy3dApp::SketchSnapType::AlignY, hit);
+            wy3dApp::Snap2dType::AlignY, hit);
     }
     if (std::fabs(pos.x()) <= tolX)
     {
         return this->recordHit(wy::Vector2(0.0, pos.y()), wydb::ElementId::kNull,
-            wy3dApp::SketchSnapType::AlignX, hit);
+            wy3dApp::Snap2dType::AlignX, hit);
     }
 
     return false;

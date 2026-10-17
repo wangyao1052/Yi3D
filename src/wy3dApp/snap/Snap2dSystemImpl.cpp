@@ -1031,9 +1031,9 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
             // added by wangyao 2025.04.10 {
             // 水平和竖直时直接设置dir为(0,1)or(1,0)而不是通过角度计算是为了避免误差
             wy::Vector2 dir;
-            if (pAngleSnapObj->getType() == SketchSnapType::Horizontal)
+            if (pAngleSnapObj->getType() == Snap2dType::Horizontal)
                 dir.set(1.0, 0.0);
-            else if (pAngleSnapObj->getType() == SketchSnapType::Vertical)
+            else if (pAngleSnapObj->getType() == Snap2dType::Vertical)
                 dir.set(0.0, 1.0);
             else
                 dir.set(std::cos(angle), std::sin(angle));
@@ -1063,7 +1063,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
         const SketchSnapObjectSPtr& pAngleSnapObj = pSnappedAngleObject->pSnapObject;
 
         // 水平
-        if (pAngleSnapObj->getType() == SketchSnapType::Horizontal || std::fabs(angle) <= wy3d::EPS)
+        if (pAngleSnapObj->getType() == Snap2dType::Horizontal || std::fabs(angle) <= wy3d::EPS)
         {
             // 相等
             if (EqualSnapObjectSPtr pEqualSnapObj = this->snapEqualInMap(_equalMap, drawLength, 10,
@@ -1081,7 +1081,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
             }
         }
         // 竖直
-        else if (pAngleSnapObj->getType() == SketchSnapType::Vertical || std::fabs(angle - wy3d::PI_2) <= wy3d::EPS)
+        else if (pAngleSnapObj->getType() == Snap2dType::Vertical || std::fabs(angle - wy3d::PI_2) <= wy3d::EPS)
         {
             // 相等
             if (EqualSnapObjectSPtr pEqualSnapObj = this->snapEqualInMap(_equalMap, drawLength, 10,

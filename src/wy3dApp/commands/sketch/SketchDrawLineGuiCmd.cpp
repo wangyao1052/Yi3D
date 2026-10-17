@@ -485,9 +485,9 @@ std::shared_ptr<SketchDrawLineContext::SnapStartTangent> SketchDrawLineGuiCmd::c
             continue;
         }
     
-        if (snapRetItem.pSnapObject->getType() != SketchSnapType::EndPoint &&
-            snapRetItem.pSnapObject->getType() != SketchSnapType::PointOnCurve &&
-            snapRetItem.pSnapObject->getType() != SketchSnapType::MiddlePoint)
+        if (snapRetItem.pSnapObject->getType() != Snap2dType::EndPoint &&
+            snapRetItem.pSnapObject->getType() != Snap2dType::PointOnCurve &&
+            snapRetItem.pSnapObject->getType() != Snap2dType::MiddlePoint)
         {
             continue;
         }

@@ -25,7 +25,7 @@
 #include <wydbElementId.h>
 #include <wydbElement.h>
 #include <wy3dSketchCurve.h>
-#include <wy3dApp/SketchSnapType.h>
+#include <wy3dApp/Snap2dType.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -82,7 +82,7 @@ public:
     virtual ~SketchSnapObject() {}
 
     // 类型
-    virtual SketchSnapType getType() const = 0;
+    virtual Snap2dType getType() const = 0;
 
     // 元素ID
     wydb::ElementId getId() const { return _id; }
@@ -117,7 +117,7 @@ public:
     HorizontalSnapObject() : AngleSnapObject(wydb::ElementId::kNull, 0.0) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::Horizontal; }
+    virtual Snap2dType getType() const override { return Snap2dType::Horizontal; }
 };
 typedef std::shared_ptr<HorizontalSnapObject> HorizontalSnapObjectSPtr;
 
@@ -128,7 +128,7 @@ public:
     VerticalSnapObject() : AngleSnapObject(wydb::ElementId::kNull, wy3d::PI_2) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::Vertical; }
+    virtual Snap2dType getType() const override { return Snap2dType::Vertical; }
 };
 typedef std::shared_ptr<VerticalSnapObject> VerticalSnapObjectSPtr;
 
@@ -139,7 +139,7 @@ public:
     ParallelSnapObject(const wydb::ElementId& id, const wy::Vector2& startPnt, const wy::Vector2& endPnt);
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::Parallel; }
+    virtual Snap2dType getType() const override { return Snap2dType::Parallel; }
 };
 typedef std::shared_ptr<ParallelSnapObject> ParallelSnapObjectSPtr;
 
@@ -150,7 +150,7 @@ public:
     PerpendicularSnapObject(const wydb::ElementId& id, const wy::Vector2& startPnt, const wy::Vector2& endPnt);
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::Perpendicular; }
+    virtual Snap2dType getType() const override { return Snap2dType::Perpendicular; }
 };
 typedef std::shared_ptr<PerpendicularSnapObject> PerpendicularSnapObjectSPtr;
 
@@ -163,7 +163,7 @@ public:
         : SketchSnapObject(id, extra), _pnt(pnt) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::AlignX; }
+    virtual Snap2dType getType() const override { return Snap2dType::AlignX; }
 
     // 值
     double getValue() const { return _pnt.x(); }
@@ -184,7 +184,7 @@ public:
         : SketchSnapObject(id, extra), _pnt(pnt) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::AlignY; }
+    virtual Snap2dType getType() const override { return Snap2dType::AlignY; }
 
     // 值
     double getValue() const { return _pnt.y(); }
@@ -206,7 +206,7 @@ public:
         : SketchSnapObject(id, extra), _value(value), _value2(value2) {}
 
     // 类型 
-    virtual SketchSnapType getType() const override { return SketchSnapType::Equal; }
+    virtual Snap2dType getType() const override { return Snap2dType::Equal; }
 
     // 获取值
     double getValue() const { return _value; }
@@ -227,7 +227,7 @@ public:
         : SketchSnapObject(id, extra) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::PointOnCurve; }
+    virtual Snap2dType getType() const override { return Snap2dType::PointOnCurve; }
 };
 typedef std::shared_ptr<PointOnCurveSnapObject> PointOnCurveSnapObjectSPtr;
 
@@ -256,7 +256,7 @@ public:
         : PointSnapObject(id, point, extra) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::PerpendicularPoint; }
+    virtual Snap2dType getType() const override { return Snap2dType::PerpendicularPoint; }
 };
 typedef std::shared_ptr<PerpendicularPointSnapObject> PerpendicularPointSnapObjectSPtr;
 
@@ -269,7 +269,7 @@ public:
         : PointSnapObject(id, point, extra) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::TangetPoint; }
+    virtual Snap2dType getType() const override { return Snap2dType::TangentPoint; }
 };
 typedef std::shared_ptr<TangentPointSnapObject> TangentPointSnapObjectSPtr;
 
@@ -282,7 +282,7 @@ public:
         : PointSnapObject(id, point, extra) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::IntersectionPoint; }
+    virtual Snap2dType getType() const override { return Snap2dType::IntersectionPoint; }
 };
 typedef std::shared_ptr<IntersectionPointSnapObject> IntersectionPointSnapObjectSPtr;
 
@@ -299,7 +299,7 @@ public:
         : PointSnapObject(id, point, extra), _refPoint(refPoint) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::KeyPoint; }
+    virtual Snap2dType getType() const override { return Snap2dType::KeyPoint; }
     // 参照点
     wy::Vector2 getRefPoint() const { return _refPoint; }
 
@@ -317,7 +317,7 @@ public:
         : PointSnapObject(id, point, extra) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::EndPoint; }
+    virtual Snap2dType getType() const override { return Snap2dType::EndPoint; }
 };
 typedef std::shared_ptr<EndPointSnapObject> EndPointSnapObjectSPtr;
 
@@ -329,7 +329,7 @@ public:
         : PointSnapObject(id, point, 0) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::MiddlePoint; }
+    virtual Snap2dType getType() const override { return Snap2dType::MiddlePoint; }
 };
 typedef std::shared_ptr<MiddlePointSnapObject> MiddlePointSnapObjectSPtr;
 
@@ -341,7 +341,7 @@ public:
         : PointSnapObject(id, point, 0) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::CenterPoint; }
+    virtual Snap2dType getType() const override { return Snap2dType::CenterPoint; }
 };
 typedef std::shared_ptr<CenterPointSnapObject> CenterPointSnapObjectSPtr;
 
@@ -352,7 +352,7 @@ public:
     OriginSnapObject() : SketchSnapObject(wydb::ElementId::kNull) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return SketchSnapType::Origin; }
+    virtual Snap2dType getType() const override { return Snap2dType::Origin; }
 };
 typedef std::shared_ptr<OriginSnapObject> OriginSnapObjectSPtr;
 
@@ -360,14 +360,14 @@ typedef std::shared_ptr<OriginSnapObject> OriginSnapObjectSPtr;
 class RuleHitSnapObject : public SketchSnapObject
 {
 public:
-    RuleHitSnapObject(const wydb::ElementId& id, SketchSnapType snapType)
+    RuleHitSnapObject(const wydb::ElementId& id, Snap2dType snapType)
         : SketchSnapObject(id), _snapType(snapType) {}
 
     // 类型
-    virtual SketchSnapType getType() const override { return _snapType; }
+    virtual Snap2dType getType() const override { return _snapType; }
 
 private:
-    SketchSnapType _snapType;
+    Snap2dType _snapType;
 };
 typedef std::shared_ptr<RuleHitSnapObject> RuleHitSnapObjectSPtr;
 

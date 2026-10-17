@@ -59,7 +59,7 @@ bool hasCandidateNear(const std::vector<DemoSnapCandidate>& candidates,
 }
 
 const DemoSnapCandidate* firstCandidate(const std::vector<DemoSnapCandidate>& candidates,
-    wy3dApp::SketchSnapType snapType)
+    wy3dApp::Snap2dType snapType)
 {
     for (const DemoSnapCandidate& candidate : candidates)
     {
@@ -152,7 +152,7 @@ bool DemoSnapRuleCmd::runSelfTest(double x, double y)
 
     // Origin
     const bool isOriginHit = (nullptr != snapAt(wy::Vector2::kZero))
-        && (wy3dApp::SketchSnapType::Origin == pRule->getLastKind())
+        && (wy3dApp::Snap2dType::Origin == pRule->getLastKind())
         && isSamePoint(wy::Vector2::kZero, pRule->getLastHitPoint());
 
     // Points on the X axis (AlignY) and on the Y axis (AlignX)
@@ -163,30 +163,30 @@ bool DemoSnapRuleCmd::runSelfTest(double x, double y)
     while (hasCandidateNear(candidates, wy::Vector2(axisOffsetX, 0.0), tolX, tolY))
         axisOffsetX += kAxisOffsetPixels * pRule->getLastScaleScreenX();
     const bool isAxisXHit = (nullptr != snapAt(wy::Vector2(axisOffsetX, 0.0)))
-        && (wy3dApp::SketchSnapType::AlignY == pRule->getLastKind())
+        && (wy3dApp::Snap2dType::AlignY == pRule->getLastKind())
         && isSamePoint(wy::Vector2(axisOffsetX, 0.0), pRule->getLastHitPoint());
 
     double axisOffsetY = kAxisOffsetPixels * pRule->getLastScaleScreenY();
     while (hasCandidateNear(candidates, wy::Vector2(0.0, axisOffsetY), tolX, tolY))
         axisOffsetY += kAxisOffsetPixels * pRule->getLastScaleScreenY();
     const bool isAxisYHit = (nullptr != snapAt(wy::Vector2(0.0, axisOffsetY)))
-        && (wy3dApp::SketchSnapType::AlignX == pRule->getLastKind())
+        && (wy3dApp::Snap2dType::AlignX == pRule->getLastKind())
         && isSamePoint(wy::Vector2(0.0, axisOffsetY), pRule->getLastHitPoint());
 
     // Circle center and line end point, when the sketch has them
-    const DemoSnapCandidate* pCenter = firstCandidate(candidates, wy3dApp::SketchSnapType::CenterPoint);
+    const DemoSnapCandidate* pCenter = firstCandidate(candidates, wy3dApp::Snap2dType::CenterPoint);
     const bool isCenterSkipped = (nullptr == pCenter);
     const bool isCenterHit = !isCenterSkipped
         && (nullptr != snapAt(pCenter->point))
-        && (wy3dApp::SketchSnapType::CenterPoint == pRule->getLastKind())
+        && (wy3dApp::Snap2dType::CenterPoint == pRule->getLastKind())
         && isSamePoint(pCenter->point, pRule->getLastHitPoint())
         && (pCenter->id == pRule->getLastHighlightId());
 
-    const DemoSnapCandidate* pEnd = firstCandidate(candidates, wy3dApp::SketchSnapType::EndPoint);
+    const DemoSnapCandidate* pEnd = firstCandidate(candidates, wy3dApp::Snap2dType::EndPoint);
     const bool isEndSkipped = (nullptr == pEnd);
     const bool isEndHit = !isEndSkipped
         && (nullptr != snapAt(pEnd->point))
-        && (wy3dApp::SketchSnapType::EndPoint == pRule->getLastKind())
+        && (wy3dApp::Snap2dType::EndPoint == pRule->getLastKind())
         && isSamePoint(pEnd->point, pRule->getLastHitPoint())
         && (pEnd->id == pRule->getLastHighlightId());
 

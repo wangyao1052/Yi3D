@@ -26,7 +26,7 @@
 
 #include <wyVector2.h>
 #include <wydbElementId.h>
-#include <wy3dApp/SketchSnapType.h>
+#include <wy3dApp/Snap2dType.h>
 #include <wy3dApp/Snap2dContext.h>
 #include <wy3dApp/Snap2dRule.h>
 
@@ -35,7 +35,7 @@ struct DemoSnapCandidate
 {
     wy::Vector2 point;
     wydb::ElementId id;
-    wy3dApp::SketchSnapType snapType;
+    wy3dApp::Snap2dType snapType;
 };
 
 // Scan the sketch's curves for demo snap candidates. Also used by the self test
@@ -84,21 +84,21 @@ public:
     double getLastScaleScreenX() const { return _lastScaleScreenX; }
     double getLastScaleScreenY() const { return _lastScaleScreenY; }
     const wy::Vector2& getLastHitPoint() const { return _lastHitPoint; }
-    wy3dApp::SketchSnapType getLastKind() const { return _lastKind; }
+    wy3dApp::Snap2dType getLastKind() const { return _lastKind; }
     const wydb::ElementId& getLastHighlightId() const { return _lastHighlightId; }
 
 private:
     DemoSnapRule() = default;
 
     bool recordHit(const wy::Vector2& point, const wydb::ElementId& highlightId,
-        wy3dApp::SketchSnapType snapType, wy3dApp::Snap2dRuleHit& hit);
+        wy3dApp::Snap2dType snapType, wy3dApp::Snap2dRuleHit& hit);
 
 private:
     int _callCount = 0;
     double _lastScaleScreenX = 0.0;
     double _lastScaleScreenY = 0.0;
     wy::Vector2 _lastHitPoint;
-    wy3dApp::SketchSnapType _lastKind = wy3dApp::SketchSnapType::Undefined;
+    wy3dApp::Snap2dType _lastKind = wy3dApp::Snap2dType::Undefined;
     wydb::ElementId _lastHighlightId;
 };
 

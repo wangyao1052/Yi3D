@@ -112,7 +112,7 @@ static bool getEndpointTangentFromSnap(const Snap2dResult* pSnapResult, const wy
     for (const Snap2dResultItem& snapRetItem : pSnapResult->getItems())
     {
         const SketchSnapObject* pSnapObject = snapRetItem.pSnapObject.get();
-        if (!pSnapObject || SketchSnapType::EndPoint != pSnapObject->getType())
+        if (!pSnapObject || Snap2dType::EndPoint != pSnapObject->getType())
         {
             continue;
         }

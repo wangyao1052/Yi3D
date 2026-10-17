@@ -16,49 +16,49 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SKETCH_SNAP_TYPE_H
-#define WY3DAPP_SKETCH_SNAP_TYPE_H
+#ifndef WY3DAPP_SNAP2D_TYPE_H
+#define WY3DAPP_SNAP2D_TYPE_H
 
 namespace wy3dApp {
 
-// 草图捕捉类型
-enum class SketchSnapType
+// 2D snap type
+enum class Snap2dType
 {
     Undefined = 0,
-    // 水平
+    // Horizontal
     Horizontal,
-    // 竖直
+    // Vertical
     Vertical,
-    // 平行
+    // Parallel
     Parallel,
-    // 垂直
+    // Perpendicular
     Perpendicular,
-    // X 对齐
-    AlignX,
-    // Y 对齐
-    AlignY,
-    // 相等
+    // Equal
     Equal,
-    // 点在线上
+    // X alignment
+    AlignX,
+    // Y alignment
+    AlignY,
+    // Point on curve
     PointOnCurve,
-    // 垂足
-    PerpendicularPoint,
-    // 切点
-    TangetPoint,
-    // 交点
-    IntersectionPoint,
-    // 关键点
-    KeyPoint,
-    // 外部:端点
-    EndPoint,
-    // 外部:中点
-    MiddlePoint,
-    // 外部:中心点
-    CenterPoint,
-    // 坐标原点
+    // Coordinate origin
     Origin,
+    // External: end point
+    EndPoint,
+    // External: middle point
+    MiddlePoint,
+    // External: center point
+    CenterPoint,
+    // Perpendicular foot
+    PerpendicularPoint,
+    // Tangent point
+    TangentPoint,
+    // Intersection point
+    IntersectionPoint,
+    // Key point
+    KeyPoint,
 };
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_SKETCH_SNAP_TYPE_H
+#endif // WY3DAPP_SNAP2D_TYPE_H
