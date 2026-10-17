@@ -94,10 +94,10 @@ std::list<wyap::SnapObjectSPtr> SketchSnapObjectCreator::createSnapObjects(const
             const wy::Vector2& center = pSketchCircle->getCenter();
             double radius = pSketchCircle->getRadius();
             snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, sketchPlane.value(center)));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(center + wy::Vector2(radius, 0.0))));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(center + wy::Vector2(0.0, radius))));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(center + wy::Vector2(-radius, 0.0))));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(center + wy::Vector2(0.0, -radius))));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(center + wy::Vector2(radius, 0.0))));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(center + wy::Vector2(0.0, radius))));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(center + wy::Vector2(-radius, 0.0))));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(center + wy::Vector2(0.0, -radius))));
         }
         else if (const wy3d::SketchArc* pSketchArc = wy3d::SketchArc::cast(pSketchCurve))
         {
@@ -109,10 +109,10 @@ std::list<wyap::SnapObjectSPtr> SketchSnapObjectCreator::createSnapObjects(const
         {            // 椭圆心
             snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, sketchPlane.value(pSketchEllipse->getCenter())));
             // 椭圆的四个端点
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(pSketchEllipse->getPointAt(0.0))));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(pSketchEllipse->getPointAt(0.25))));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(pSketchEllipse->getPointAt(0.5))));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(pSketchEllipse->getPointAt(0.75))));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(pSketchEllipse->getPointAt(0.0))));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(pSketchEllipse->getPointAt(0.25))));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(pSketchEllipse->getPointAt(0.5))));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(pSketchEllipse->getPointAt(0.75))));
         }
         else if (const wy3d::SketchEllipseArc* pSketchEllipseArc = wy3d::SketchEllipseArc::cast(pSketchCurve))
         {

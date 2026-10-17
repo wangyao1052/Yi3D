@@ -66,7 +66,7 @@ std::list<wyap::SnapObjectSPtr> SketchEllipseSnapObjectCreator::createSnapObject
     {
         double xRot = endPnt.x() * cosAngle - endPnt.y() * sinAngle;
         double yRot = endPnt.x() * sinAngle + endPnt.y() * cosAngle;
-        snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id,
+        snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id,
             sketchPlane.value(wy::Vector2(center.x() + xRot, center.y() + yRot))));
     }
     return snapPoints;

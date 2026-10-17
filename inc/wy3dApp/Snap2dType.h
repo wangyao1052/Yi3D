@@ -57,6 +57,8 @@ enum class Snap2dType
     IntersectionPoint,
     // Key point
     KeyPoint,
+    // Quadrant point
+    QuadrantPoint,
 };
 
 } // namespace wy3dApp

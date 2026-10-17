@@ -321,6 +321,18 @@ public:
 };
 typedef std::shared_ptr<EndPointSnapObject> EndPointSnapObjectSPtr;
 
+// 默认捕捉系统中的:象限点
+class QuadrantPointSnapObject : public PointSnapObject
+{
+public:
+    QuadrantPointSnapObject(const wydb::ElementId& id, const wy::Vector2& point)
+        : PointSnapObject(id, point, 0) {}
+
+    // 类型
+    virtual Snap2dType getType() const override { return Snap2dType::QuadrantPoint; }
+};
+typedef std::shared_ptr<QuadrantPointSnapObject> QuadrantPointSnapObjectSPtr;
+
 // 默认捕捉系统中的:中点
 class MiddlePointSnapObject : public PointSnapObject
 {

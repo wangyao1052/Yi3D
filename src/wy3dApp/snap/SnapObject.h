@@ -73,6 +73,7 @@ public:
         Center = 3,
         Origin = 4,
         Anchor = 5,
+        Quadrant = 6,
     };
 
 public:
@@ -130,6 +131,16 @@ public:
         : SnapPoint(id, position) {}
 
     virtual Type getType() const override { return Type::End; }
+};
+
+// 象限点
+class SnapQuadrantPoint : public SnapPoint
+{
+public:
+    SnapQuadrantPoint(const wydb::ElementId& id, const wy::Vector3& position)
+        : SnapPoint(id, position) {}
+
+    virtual Type getType() const override { return Type::Quadrant; }
 };
 
 // 中点

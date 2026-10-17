@@ -53,6 +53,8 @@ public:
     const QPixmap& getMiddle() const { return _middle; }
     // 中心点
     const QPixmap& getCenter() const { return _center; }
+    // 象限
+    const QPixmap& getQuadrant() const { return _quadrant; }
     // 原点
     const QPixmap& getOrigin() const { return _origin; }
 
@@ -81,6 +83,8 @@ private:
     QPixmap _middle;
     // 中心点
     QPixmap _center;
+    // 象限
+    QPixmap _quadrant;
     // 原点
     QPixmap _origin;
 };

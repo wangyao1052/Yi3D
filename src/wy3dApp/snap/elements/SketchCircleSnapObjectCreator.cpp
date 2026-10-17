@@ -48,10 +48,10 @@ std::list<wyap::SnapObjectSPtr> SketchCircleSnapObjectCreator::createSnapObjects
     const wy::Vector2& center = pSketchCircle->getCenter();
     double radius = pSketchCircle->getRadius();
     snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, sketchPlane.value(center)));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(center + wy::Vector2(radius, 0.0))));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(center + wy::Vector2(0.0, radius))));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(center + wy::Vector2(-radius, 0.0))));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(center + wy::Vector2(0.0, -radius))));
+    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(center + wy::Vector2(radius, 0.0))));
+    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(center + wy::Vector2(0.0, radius))));
+    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(center + wy::Vector2(-radius, 0.0))));
+    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id, sketchPlane.value(center + wy::Vector2(0.0, -radius))));
     return snapPoints;
 }
 

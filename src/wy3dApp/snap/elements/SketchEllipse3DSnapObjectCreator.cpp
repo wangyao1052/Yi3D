@@ -43,10 +43,10 @@ std::list<wyap::SnapObjectSPtr> SketchEllipse3DSnapObjectCreator::createSnapObje
 
     std::list<wyap::SnapObjectSPtr> snapPoints;
     snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(pEllipse->getId(), center));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center + xDir * majorRadius));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center + yDir * minorRadius));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center - xDir * majorRadius));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center - yDir * minorRadius));
+    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pEllipse->getId(), center + xDir * majorRadius));
+    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pEllipse->getId(), center + yDir * minorRadius));
+    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pEllipse->getId(), center - xDir * majorRadius));
+    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pEllipse->getId(), center - yDir * minorRadius));
     return snapPoints;
 }
 

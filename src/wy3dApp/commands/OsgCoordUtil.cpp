@@ -82,6 +82,10 @@ static Snap2dResultSPtr convertSnapResult(
     case SnapPoint::Type::Center:
         pSketchSnapObj = std::make_shared<CenterPointSnapObject>(pSnapObj->getId(), retPos);
         break;
+
+    case SnapPoint::Type::Quadrant:
+        pSketchSnapObj = std::make_shared<QuadrantPointSnapObject>(pSnapObj->getId(), retPos);
+        break;
     }
 
     if (pSketchSnapObj)
@@ -126,6 +130,9 @@ static std::shared_ptr<Sketch3DSnapResult> convertSnapResult3D(
         break;
     case SnapPoint::Type::Origin:
         snapType = Sketch3DSnapType::Origin;
+        break;
+    case SnapPoint::Type::Quadrant:
+        snapType = Sketch3DSnapType::QuadrantPoint;
         break;
     default:
         // A hit always yields a result; kinds without a marker

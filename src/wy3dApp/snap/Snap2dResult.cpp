@@ -181,6 +181,9 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
             case Snap2dType::CenterPoint:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getCenter();
                 break;
+            case Snap2dType::QuadrantPoint:
+                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getQuadrant();
+                break;
             case Snap2dType::Origin:
                 item.pSnapTipWidget = SnapTipWidgetMgr::instance().getOrigin();
                 break;
@@ -201,6 +204,7 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
             case Snap2dType::EndPoint:
             case Snap2dType::MiddlePoint:
             case Snap2dType::CenterPoint:
+            case Snap2dType::QuadrantPoint:
             case Snap2dType::Origin:
                 pointSize = SnapConsts::PointSize;
                 pointColor = SnapConsts::PointColor;
@@ -381,6 +385,13 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         case Snap2dType::CenterPoint:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getCenter();
+        }
+        break;
+
+        // 象限点(默认捕捉系统)
+        case Snap2dType::QuadrantPoint:
+        {
+            item.pSnapTipWidget = SnapTipWidgetMgr::instance().getQuadrant();
         }
         break;
 

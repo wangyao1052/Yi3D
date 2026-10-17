@@ -76,10 +76,10 @@ std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(con
             const wy::Vector3 yDir = pCircle->getNormal().cross(xDir);
             const double radius = pCircle->getRadius();
             snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(pCircle->getId(), center));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pCircle->getId(), center + xDir * radius));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pCircle->getId(), center + yDir * radius));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pCircle->getId(), center - xDir * radius));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pCircle->getId(), center - yDir * radius));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pCircle->getId(), center + xDir * radius));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pCircle->getId(), center + yDir * radius));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pCircle->getId(), center - xDir * radius));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pCircle->getId(), center - yDir * radius));
         }
         else if (const wy3d::SketchArc3D* pArc = wy3d::SketchArc3D::cast(pEntity))
         {
@@ -96,10 +96,10 @@ std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(con
             const double majorRadius = pEllipse->getMajorRadius();
             const double minorRadius = pEllipse->getMinorRadius();
             snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(pEllipse->getId(), center));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center + xDir * majorRadius));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center + yDir * minorRadius));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center - xDir * majorRadius));
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipse->getId(), center - yDir * minorRadius));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pEllipse->getId(), center + xDir * majorRadius));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pEllipse->getId(), center + yDir * minorRadius));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pEllipse->getId(), center - xDir * majorRadius));
+            snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pEllipse->getId(), center - yDir * minorRadius));
         }
         else if (const wy3d::SketchEllipseArc3D* pEllipseArc = wy3d::SketchEllipseArc3D::cast(pEntity))
         {
