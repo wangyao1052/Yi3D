@@ -81,6 +81,8 @@ bool DemoSnapRule::recordHit(const wy::Vector2& point, const wydb::ElementId& hi
     hit.point = point;
     hit.highlightId = highlightId;
     hit.snapType = snapType;
+    // The demo's alignment probes reference the origin.
+    hit.refPoint = wy::Vector2::kZero;
 
     _lastHitPoint = point;
     _lastHighlightId = highlightId;

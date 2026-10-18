@@ -157,9 +157,14 @@ public:
 private:
     Snap2dResultSPtr makeResult(const Snap2dRuleHit& hit) const
     {
+        Snap2dResultInfo info;
+        info.type = hit.snapType;
+        info.highlightId = hit.highlightId;
+        info.point = hit.point;
+        info.refPoint = hit.refPoint;
+
         return std::make_shared<Snap2dResult>(
-            _sys._sketchPlane, hit.point, _sys._pSnapContext,
-            std::make_shared<RuleHitSnapObject>(hit.highlightId, hit.snapType));
+            _sys._sketchPlane, hit.point, _sys._pSnapContext, info);
     }
 
 private:
@@ -554,13 +559,7 @@ std::map<wydb::ElementId, GuiCmdTransientSPtr> Snap2dSystemImpl::createHighlight
 
     for (const Snap2dResultItem& item : result.getItems())
     {
-        if (!item.pSnapObject)
-        {
-            assert(false);
-            continue;
-        }
-
-        const wydb::ElementId& id = item.pSnapObject->getId();
+        const wydb::ElementId& id = item.info.highlightId;
         if (id.isNull() || rets.cend() != rets.find(id))
         {
             continue;

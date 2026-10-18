@@ -111,19 +111,19 @@ static bool getEndpointTangentFromSnap(const Snap2dResult* pSnapResult, const wy
 
     for (const Snap2dResultItem& snapRetItem : pSnapResult->getItems())
     {
-        const SketchSnapObject* pSnapObject = snapRetItem.pSnapObject.get();
-        if (!pSnapObject || Snap2dType::EndPoint != pSnapObject->getType())
+        const Snap2dResultInfo& info = snapRetItem.info;
+        if (Snap2dType::EndPoint != info.type)
         {
             continue;
         }
 
-        const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(pSnapObject->getId()));
+        const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(info.highlightId));
         if (!pSketchCurve || pSketchCurve->isClosed() || pSketchCurve->getParent() != sketchId)
         {
             continue;
         }
 
-        const wy::Vector2 snapPos = static_cast<const PointSnapObject*>(pSnapObject)->getValue();
+        const wy::Vector2 snapPos = info.point;
         const wy::Vector2 curveStartPnt = pSketchCurve->getStartPoint();
         const wy::Vector2 curveEndPnt = pSketchCurve->getEndPoint();
 

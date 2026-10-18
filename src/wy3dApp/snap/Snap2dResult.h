@@ -35,13 +35,23 @@
 
 namespace wy3dApp {
 
+// Payload of one snap result item: a snapshot taken when the result is built.
+struct Snap2dResultInfo
+{
+    Snap2dType type = Snap2dType::Undefined;
+    wydb::ElementId highlightId;  // element to highlight
+    wy::Vector2 point;            // point carried by the snap object (tangent point, curve end, ...)
+    wy::Vector2 refPoint;         // guide-line reference (align / key point)
+    short extra = 0;              // extra info used by isLooseEqual
+};
+
 struct Snap2dResultItem
 {
-    SketchSnapObjectSPtr pSnapObject;
+    Snap2dResultInfo info;
     std::list<GuiCmdTransientSPtr> transients;
     SnapTipWidget* pSnapTipWidget;
-    explicit Snap2dResultItem(SketchSnapObjectSPtr pArgSnapObj)
-        : pSnapObject(pArgSnapObj), pSnapTipWidget(nullptr) {}
+    explicit Snap2dResultItem(const Snap2dResultInfo& argInfo)
+        : info(argInfo), pSnapTipWidget(nullptr) {}
 };
 
 class Snap2dResult
@@ -59,6 +69,13 @@ public:
         Snap2dContextSPtr pContext,
         SketchSnapObjectSPtr pSnapObject,
         SketchSnapObjectSPtr pOtherSnapObject,
+        bool drawPoint = true);
+    // Result built from a value payload (external rule hits).
+    Snap2dResult(
+        const wy3d::Plane& sketchPlane,
+        const wy::Vector2& position,
+        Snap2dContextSPtr pContext,
+        const Snap2dResultInfo& snapInfo,
         bool drawPoint = true);
     // A hit with nothing for the sketch layer to display.
     Snap2dResult(

@@ -28,6 +28,29 @@
 
 namespace wy3dApp {
 
+namespace {
+
+Snap2dResultInfo makeResultInfo(const SketchSnapObject& snapObject)
+{
+    Snap2dResultInfo info;
+    info.type = snapObject.getType();
+    info.highlightId = snapObject.getId();
+    info.extra = snapObject.getExtra();
+
+    if (const PointSnapObject* pPointSnapObject = dynamic_cast<const PointSnapObject*>(&snapObject))
+        info.point = pPointSnapObject->getValue();
+    if (const AlignXSnapObject* pAlignXSnapObject = dynamic_cast<const AlignXSnapObject*>(&snapObject))
+        info.refPoint = pAlignXSnapObject->getPosition();
+    else if (const AlignYSnapObject* pAlignYSnapObject = dynamic_cast<const AlignYSnapObject*>(&snapObject))
+        info.refPoint = pAlignYSnapObject->getPosition();
+    else if (const KeyPointSnapObject* pKeyPointSnapObject = dynamic_cast<const KeyPointSnapObject*>(&snapObject))
+        info.refPoint = pKeyPointSnapObject->getRefPoint();
+
+    return info;
+}
+
+} // namespace
+
 Snap2dResult::Snap2dResult(
     const wy3d::Plane& sketchPlane,
     const wy::Vector2& position,
@@ -41,7 +64,7 @@ Snap2dResult::Snap2dResult(
     assert(pSnapObject);
 
     _items.reserve(3);
-    _items.emplace_back(std::move(Snap2dResultItem(pSnapObject)));
+    _items.emplace_back(Snap2dResultItem(makeResultInfo(*pSnapObject)));
 }
 
 Snap2dResult::Snap2dResult(
@@ -58,8 +81,23 @@ Snap2dResult::Snap2dResult(
     assert(pOtherSnapObject);
 
     _items.reserve(3);
-    _items.emplace_back(std::move(Snap2dResultItem(pSnapObject)));
-    _items.emplace_back(std::move(Snap2dResultItem(pOtherSnapObject)));
+    _items.emplace_back(Snap2dResultItem(makeResultInfo(*pSnapObject)));
+    _items.emplace_back(Snap2dResultItem(makeResultInfo(*pOtherSnapObject)));
+}
+
+Snap2dResult::Snap2dResult(
+    const wy3d::Plane& sketchPlane,
+    const wy::Vector2& position,
+    Snap2dContextSPtr pContext,
+    const Snap2dResultInfo& snapInfo,
+    bool drawPoint)
+    : _sketchPlane(sketchPlane), _position(position), _pContext(pContext),
+      _isPointToDraw(drawPoint)
+{
+    assert(pContext);
+
+    _items.reserve(3);
+    _items.emplace_back(Snap2dResultItem(snapInfo));
 }
 
 Snap2dResult::Snap2dResult(
@@ -100,23 +138,21 @@ bool Snap2dResult::isLooseEqual(const Snap2dResult& rhs) const
     size_t num = _items.size();
     for (size_t i = 0; i < num; ++i)
     {
-        const SketchSnapObjectSPtr& pSnapObj = _items[i].pSnapObject;
-        assert(pSnapObj);
-        const SketchSnapObjectSPtr& pSnapObjRhs = rhs._items[i].pSnapObject;
-        assert(pSnapObjRhs);
+        const Snap2dResultInfo& info = _items[i].info;
+        const Snap2dResultInfo& infoRhs = rhs._items[i].info;
 
         // id
-        if (pSnapObj->getId() != pSnapObjRhs->getId())
+        if (info.highlightId != infoRhs.highlightId)
         {
             return false;
         }
         // 类型
-        if (pSnapObj->getType() != pSnapObjRhs->getType())
+        if (info.type != infoRhs.type)
         {
             return false;
         }
         // 额外信息
-        if (pSnapObj->getExtra() != pSnapObjRhs->getExtra())
+        if (info.extra != infoRhs.extra)
         {
             return false;
         }
@@ -131,97 +167,15 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
 
     for (Snap2dResultItem& item : _items)
     {
-        const SketchSnapObject* pSnapObject = item.pSnapObject.get();
-        if (!pSnapObject)
-        {
-            assert(false);
-            continue;
-        }
-        auto iter = _highlightTransients.find(pSnapObject->getId());
+        const Snap2dResultInfo& info = item.info;
+        auto iter = _highlightTransients.find(info.highlightId);
         if (iter != _highlightTransients.cend())
         {
             assert(iter->second);
             item.transients.push_back(iter->second);
         }
 
-        // External rule hits carry no auxiliary geometry: the kind only selects
-        // the tip icon and the point marker follows _isPointToDraw.
-        if (dynamic_cast<const RuleHitSnapObject*>(pSnapObject))
-        {
-            switch (pSnapObject->getType())
-            {
-            case Snap2dType::Horizontal:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getHorizontal();
-                break;
-            case Snap2dType::Vertical:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getVertical();
-                break;
-            case Snap2dType::Parallel:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getParallel();
-                break;
-            case Snap2dType::Perpendicular:
-            case Snap2dType::PerpendicularPoint:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getPerpendicular();
-                break;
-            case Snap2dType::Equal:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getEqual();
-                break;
-            case Snap2dType::TangentPoint:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getTangent();
-                break;
-            case Snap2dType::IntersectionPoint:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getIntersection();
-                break;
-            case Snap2dType::EndPoint:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getEnd();
-                break;
-            case Snap2dType::MiddlePoint:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getMiddle();
-                break;
-            case Snap2dType::CenterPoint:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getCenter();
-                break;
-            case Snap2dType::QuadrantPoint:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getQuadrant();
-                break;
-            case Snap2dType::Origin:
-                item.pSnapTipWidget = SnapTipWidgetMgr::instance().getOrigin();
-                break;
-            default:
-                // Undefined/AlignX/AlignY/PointOnCurve/KeyPoint: point only.
-                break;
-            }
-
-            // Point-like kinds use the default point style, the rest the on-curve style.
-            float pointSize = SnapConsts::PointSizeOnSketchCurve;
-            osg::Vec4 pointColor = SnapConsts::PointColorOnSketchCurve;
-            switch (pSnapObject->getType())
-            {
-            case Snap2dType::PerpendicularPoint:
-            case Snap2dType::TangentPoint:
-            case Snap2dType::IntersectionPoint:
-            case Snap2dType::KeyPoint:
-            case Snap2dType::EndPoint:
-            case Snap2dType::MiddlePoint:
-            case Snap2dType::CenterPoint:
-            case Snap2dType::QuadrantPoint:
-            case Snap2dType::Origin:
-                pointSize = SnapConsts::PointSize;
-                pointColor = SnapConsts::PointColor;
-                break;
-            default:
-                break;
-            }
-
-            if (_isPointToDraw)
-            {
-                item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, _position,
-                    pointSize, pointColor));
-            }
-            continue;
-        }
-
-        switch (pSnapObject->getType())
+        switch (info.type)
         {
         // 水平
         case Snap2dType::Horizontal:
@@ -251,30 +205,13 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         }
         break;
 
-        // 对齐X
+        // 对齐X / 对齐Y
         case Snap2dType::AlignX:
-        {
-            // 点划线
-            const AlignXSnapObject* pAlignX = dynamic_cast<const AlignXSnapObject*>(pSnapObject);
-            assert(pAlignX);
-            item.transients.push_back(std::make_shared<SketchDotLineTransient>(
-                _sketchPlane, pAlignX->getPosition(), _position));
-            if (_isPointToDraw)
-            {
-                item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, _position,
-                    SnapConsts::PointSizeOnSketchCurve, SnapConsts::PointColorOnSketchCurve));
-            }
-        }
-        break;
-
-        // 对齐Y
         case Snap2dType::AlignY:
         {
             // 点划线
-            const AlignYSnapObject* pAlignY = dynamic_cast<const AlignYSnapObject*>(pSnapObject);
-            assert(pAlignY);
             item.transients.push_back(std::make_shared<SketchDotLineTransient>(
-                _sketchPlane, pAlignY->getPosition(), _position));
+                _sketchPlane, info.refPoint, _position));
             if (_isPointToDraw)
             {
                 item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, _position,
@@ -293,8 +230,6 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         // 点在线上
         case Snap2dType::PointOnCurve:
         {
-            const PointOnCurveSnapObject* pPointOnCurve = dynamic_cast<const PointOnCurveSnapObject*>(pSnapObject);
-            assert(pPointOnCurve);
             if (_isPointToDraw)
             {
                 item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, _position,
@@ -318,16 +253,10 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         // 切点
         case Snap2dType::TangentPoint:
         {
-            wy::Vector2 pos = _position;
-            const TangentPointSnapObject* pTangentPointSnapObj = dynamic_cast<const TangentPointSnapObject*>(pSnapObject);
-            if (pTangentPointSnapObj)
-            {
-                pos = pTangentPointSnapObj->getValue();
-            }
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getTangent();
             if (_isPointToDraw)
             {
-                item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, pos,
+                item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, _position,
                     SnapConsts::PointSize, SnapConsts::PointColor));
             }
         }
@@ -355,10 +284,8 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
                     SnapConsts::PointSize, SnapConsts::PointColor));
             }
             // 点划线
-            const KeyPointSnapObject* pKeyPoint = dynamic_cast<const KeyPointSnapObject*>(pSnapObject);
-            assert(pKeyPoint);
             item.transients.push_back(std::make_shared<SketchDotLineTransient>(
-                _sketchPlane, pKeyPoint->getRefPoint(), _position));
+                _sketchPlane, info.refPoint, _position));
         }
         break;
 
@@ -378,6 +305,11 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         case Snap2dType::MiddlePoint:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getMiddle();
+            if (_isPointToDraw)
+            {
+                item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, _position,
+                    SnapConsts::PointSize, SnapConsts::PointColor));
+            }
         }
         break;
 
@@ -385,6 +317,11 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         case Snap2dType::CenterPoint:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getCenter();
+            if (_isPointToDraw)
+            {
+                item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, _position,
+                    SnapConsts::PointSize, SnapConsts::PointColor));
+            }
         }
         break;
 
@@ -392,6 +329,11 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         case Snap2dType::QuadrantPoint:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getQuadrant();
+            if (_isPointToDraw)
+            {
+                item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, _position,
+                    SnapConsts::PointSize, SnapConsts::PointColor));
+            }
         }
         break;
 
@@ -399,12 +341,21 @@ void Snap2dResult::show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlight
         case Snap2dType::Origin:
         {
             item.pSnapTipWidget = SnapTipWidgetMgr::instance().getOrigin();
+            if (_isPointToDraw)
+            {
+                item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, _position,
+                    SnapConsts::PointSize, SnapConsts::PointColor));
+            }
         }
         break;
 
         default:
         {
-            assert(false);
+            if (_isPointToDraw)
+            {
+                item.transients.push_back(std::make_shared<SketchPointTransient>(_sketchPlane, _position,
+                    SnapConsts::PointSizeOnSketchCurve, SnapConsts::PointColorOnSketchCurve));
+            }
         }
         break;
         }
@@ -427,72 +378,29 @@ void Snap2dResult::update()
 
     for (Snap2dResultItem& item : _items)
     {
-        SketchSnapObject* pSnapObject = item.pSnapObject.get();
-        if (!pSnapObject) continue;
+        const Snap2dResultInfo& info = item.info;
 
-        // External rule hits only move their point marker.
-        if (dynamic_cast<const RuleHitSnapObject*>(pSnapObject))
+        // Point markers always follow the snap position.
+        for (GuiCmdTransientSPtr& pTransient : item.transients)
         {
-            for (GuiCmdTransientSPtr& pTransient : item.transients)
+            if (SketchPointTransient* pPointTransient = dynamic_cast<SketchPointTransient*>(pTransient.get()))
             {
-                if (SketchPointTransient* pPointTransient = dynamic_cast<SketchPointTransient*>(pTransient.get()))
-                {
-                    pPointTransient->update(_position);
-                }
+                pPointTransient->update(_position);
             }
-            continue;
         }
 
-        switch (pSnapObject->getType())
+        switch (info.type)
         {
-        // 对齐X
+        // 对齐X / 对齐Y / 关键点
         case Snap2dType::AlignX:
-        {
-            const AlignXSnapObject* pAlignX = dynamic_cast<const AlignXSnapObject*>(pSnapObject);
-            assert(pAlignX);
-            for (GuiCmdTransientSPtr& pTransient : item.transients)
-            {
-                if (SketchDotLineTransient* pDotLineTransient = dynamic_cast<SketchDotLineTransient*>(pTransient.get()))
-                {
-                    pDotLineTransient->update(pAlignX->getPosition(), _position);
-                }
-                else if (SketchPointTransient* pPointTransient = dynamic_cast<SketchPointTransient*>(pTransient.get()))
-                {
-                    pPointTransient->update(_position);
-                }
-            }
-        }
-        break;
-
-        // Y 对齐
         case Snap2dType::AlignY:
+        case Snap2dType::KeyPoint:
         {
-            const AlignYSnapObject* pAlignY = dynamic_cast<const AlignYSnapObject*>(pSnapObject);
-            assert(pAlignY);
             for (GuiCmdTransientSPtr& pTransient : item.transients)
             {
                 if (SketchDotLineTransient* pDotLineTransient = dynamic_cast<SketchDotLineTransient*>(pTransient.get()))
                 {
-                    pDotLineTransient->update(pAlignY->getPosition(), _position);
-                }
-                else if (SketchPointTransient* pPointTransient = dynamic_cast<SketchPointTransient*>(pTransient.get()))
-                {
-                    pPointTransient->update(_position);
-                }
-            }
-        }
-        break;
-
-        // 点在线上
-        case Snap2dType::PointOnCurve:
-        {
-            const PointOnCurveSnapObject* pPointOnCurve = dynamic_cast<const PointOnCurveSnapObject*>(pSnapObject);
-            assert(pPointOnCurve);
-            for (GuiCmdTransientSPtr& pTransient : item.transients)
-            {
-                if (SketchPointTransient* pPointTransient = dynamic_cast<SketchPointTransient*>(pTransient.get()))
-                {
-                    pPointTransient->update(_position);
+                    pDotLineTransient->update(info.refPoint, _position);
                 }
             }
         }

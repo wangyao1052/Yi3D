@@ -368,21 +368,6 @@ public:
 };
 typedef std::shared_ptr<OriginSnapObject> OriginSnapObjectSPtr;
 
-// 外部规则命中(id ===> 可选的高亮元素)
-class RuleHitSnapObject : public SketchSnapObject
-{
-public:
-    RuleHitSnapObject(const wydb::ElementId& id, Snap2dType snapType)
-        : SketchSnapObject(id), _snapType(snapType) {}
-
-    // 类型
-    virtual Snap2dType getType() const override { return _snapType; }
-
-private:
-    Snap2dType _snapType;
-};
-typedef std::shared_ptr<RuleHitSnapObject> RuleHitSnapObjectSPtr;
-
 } // namespace wy3dApp
 
 #endif // WY3DAPP_SKETCH_SNAP_OBJECT_H
