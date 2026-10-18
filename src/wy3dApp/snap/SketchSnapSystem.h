@@ -41,7 +41,7 @@
 
 #include "commands/transient/SketchCurveTransient.h"
 #include <wy3dApp/Snap2dContext.h>
-#include "SketchSnapObject.h"
+#include "Snap2dObject.h"
 #include "Snap2dResult.h"
 #include "select/PointPick.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -108,8 +108,8 @@ private:
         double scaleScreenX, double scaleScreenY) override;
 
     // 捕捉点
-    PointSnapObjectSPtr snapPointSnapObject_Nearest(
-        const std::list<PointSnapObjectSPtr>& snapObjs,
+    Snap2dPointSPtr snapPointSnapObject_Nearest(
+        const std::list<Snap2dPointSPtr>& snapObjs,
         const wy::Vector2& pos, double tol,
         double scaleScreenX, double scaleScreenY)
     {
@@ -120,8 +120,8 @@ private:
         double tolX = std::fabs(tol * scaleScreenX); // transform tol from pixel to sketch
         double tolY = std::fabs(tol * scaleScreenY); // transform tol from pixel to sketch
         double minDist(DBL_MAX), disX(0.0), disY(0.0);
-        PointSnapObjectSPtr pRet(nullptr);
-        for (const PointSnapObjectSPtr& pSnapObj : snapObjs)
+        Snap2dPointSPtr pRet(nullptr);
+        for (const Snap2dPointSPtr& pSnapObj : snapObjs)
         {
             assert(pSnapObj);
             wy::Vector2 value = pSnapObj->getValue();

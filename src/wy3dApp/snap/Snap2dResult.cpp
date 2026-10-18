@@ -26,10 +26,10 @@ namespace wy3dApp {
 
 namespace {
 
-Snap2dResultItem makeResultItem(const SketchSnapObject& snapObject)
+Snap2dResultItem makeResultItem(const Snap2dObject& snapObject)
 {
     wy::Vector2 point;
-    if (const PointSnapObject* pPointSnapObject = dynamic_cast<const PointSnapObject*>(&snapObject))
+    if (const Snap2dPoint* pPointSnapObject = dynamic_cast<const Snap2dPoint*>(&snapObject))
         point = pPointSnapObject->getValue();
     return Snap2dResultItem(snapObject.getType(), snapObject.getId(), point, snapObject.getRefPoint());
 }
@@ -39,7 +39,7 @@ Snap2dResultItem makeResultItem(const SketchSnapObject& snapObject)
 Snap2dResult::Snap2dResult(
     const wy3d::Plane& sketchPlane,
     const wy::Vector2& position,
-    SketchSnapObjectSPtr pSnapObject)
+    Snap2dObjectSPtr pSnapObject)
     : _sketchPlane(sketchPlane), _position(position)
 {
     assert(pSnapObject);
@@ -51,7 +51,7 @@ Snap2dResult::Snap2dResult(
 Snap2dResult::Snap2dResult(
     const wy3d::Plane& sketchPlane,
     const wy::Vector2& position,
-    SketchSnapObjectSPtr pSnapObject, SketchSnapObjectSPtr pOtherSnapObject)
+    Snap2dObjectSPtr pSnapObject, Snap2dObjectSPtr pOtherSnapObject)
     : _sketchPlane(sketchPlane), _position(position)
 {
     assert(pSnapObject);

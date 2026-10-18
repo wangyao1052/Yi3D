@@ -25,43 +25,24 @@ namespace wy3dApp {
 enum class Snap2dType
 {
     Undefined = 0,
-    // Horizontal
     Horizontal,
-    // Vertical
     Vertical,
-    // Parallel
     Parallel,
-    // Perpendicular
     Perpendicular,
-    // Equal length
     EqualLength,
-    // Equal radius
     EqualRadius,
-    // X alignment
     AlignX,
-    // Y alignment
     AlignY,
-    // Nearest point on curve
     Nearest,
-    // Coordinate origin
+    GenericPoint,
     Origin,
-    // External: end point
     EndPoint,
-    // External: middle point
     MiddlePoint,
-    // External: center point
     CenterPoint,
-    // Perpendicular foot
-    PerpendicularPoint,
-    // Tangent point
+    QuadrantPoint,
     TangentPoint,
-    // Intersection point
+    PerpendicularPoint,
     IntersectionPoint,
-    // 17 was KeyPoint (removed); keep the gap for plugin compatibility
-    // Quadrant point
-    QuadrantPoint = 18,
-    // Generic point (spline first point)
-    GenericPoint = 19,
 };
 
 } // namespace wy3dApp

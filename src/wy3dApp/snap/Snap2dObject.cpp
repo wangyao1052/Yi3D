@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SketchSnapObject.h"
+#include "Snap2dObject.h"
 #include <cassert>
 #include <wyVector2.h>
 #include <wy3dSketchLine.h>
@@ -28,20 +28,20 @@
 
 namespace wy3dApp {
 
-ParallelSnapObject::ParallelSnapObject(
+Snap2dParallel::Snap2dParallel(
     const wydb::ElementId& id,
     const wy::Vector2& startPnt,
     const wy::Vector2& endPnt)
-    : AngleSnapObject(id)
+    : Snap2dAngle(id)
 {
     _angle = computeParallelAngle(startPnt, endPnt);
 }
 
-PerpendicularSnapObject::PerpendicularSnapObject(
+Snap2dPerpendicular::Snap2dPerpendicular(
     const wydb::ElementId& id,
     const wy::Vector2& startPnt,
     const wy::Vector2& endPnt)
-    : AngleSnapObject(id)
+    : Snap2dAngle(id)
 {
     _angle = computePerpendicularAngle(startPnt, endPnt);
 }

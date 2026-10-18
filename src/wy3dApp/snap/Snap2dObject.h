@@ -16,8 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SKETCH_SNAP_OBJECT_H
-#define WY3DAPP_SKETCH_SNAP_OBJECT_H
+#ifndef WY3DAPP_SNAP2D_OBJECT_H
+#define WY3DAPP_SNAP2D_OBJECT_H
 
 #include <memory>
 #include <wyVector2.h>
@@ -31,7 +31,7 @@
 namespace wy3dApp {
 
 // 草图捕捉对象
-class SketchSnapObject
+class Snap2dObject
 {
 public:
     // 计算平行角度[0, PI)
@@ -54,8 +54,8 @@ public:
     }
 
 public:
-    explicit SketchSnapObject(const wydb::ElementId& id) : _id(id) {}
-    virtual ~SketchSnapObject() {}
+    explicit Snap2dObject(const wydb::ElementId& id) : _id(id) {}
+    virtual ~Snap2dObject() {}
 
     // 类型
     virtual Snap2dType getType() const = 0;
@@ -69,14 +69,14 @@ public:
 private:
     wydb::ElementId _id; // id
 };
-typedef std::shared_ptr<SketchSnapObject> SketchSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dObject> Snap2dObjectSPtr;
 
 // 角度捕捉对象
-class AngleSnapObject : public SketchSnapObject
+class Snap2dAngle : public Snap2dObject
 {
 public:
-    explicit AngleSnapObject(const wydb::ElementId& id, double angle = 0.0)
-        : SketchSnapObject(id), _angle(angle) {}
+    explicit Snap2dAngle(const wydb::ElementId& id, double angle = 0.0)
+        : Snap2dObject(id), _angle(angle) {}
 
     // 获取角度
     double getValue() const { return _angle; }
@@ -84,58 +84,58 @@ public:
 protected:
     double _angle;
 };
-typedef std::shared_ptr<AngleSnapObject> AngleSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dAngle> Snap2dAngleSPtr;
 
 // 水平捕捉对象
-class HorizontalSnapObject : public AngleSnapObject
+class Snap2dHorizontal : public Snap2dAngle
 {
 public:
-    HorizontalSnapObject() : AngleSnapObject(wydb::ElementId::kNull, 0.0) {}
+    Snap2dHorizontal() : Snap2dAngle(wydb::ElementId::kNull, 0.0) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::Horizontal; }
 };
-typedef std::shared_ptr<HorizontalSnapObject> HorizontalSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dHorizontal> Snap2dHorizontalSPtr;
 
 // 竖直捕捉对象
-class VerticalSnapObject : public AngleSnapObject
+class Snap2dVertical : public Snap2dAngle
 {
 public:
-    VerticalSnapObject() : AngleSnapObject(wydb::ElementId::kNull, wy3d::PI_2) {}
+    Snap2dVertical() : Snap2dAngle(wydb::ElementId::kNull, wy3d::PI_2) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::Vertical; }
 };
-typedef std::shared_ptr<VerticalSnapObject> VerticalSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dVertical> Snap2dVerticalSPtr;
 
 // 平行捕捉对象
-class ParallelSnapObject : public AngleSnapObject
+class Snap2dParallel : public Snap2dAngle
 {
 public:
-    ParallelSnapObject(const wydb::ElementId& id, const wy::Vector2& startPnt, const wy::Vector2& endPnt);
+    Snap2dParallel(const wydb::ElementId& id, const wy::Vector2& startPnt, const wy::Vector2& endPnt);
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::Parallel; }
 };
-typedef std::shared_ptr<ParallelSnapObject> ParallelSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dParallel> Snap2dParallelSPtr;
 
 // 垂直捕捉对象
-class PerpendicularSnapObject : public AngleSnapObject
+class Snap2dPerpendicular : public Snap2dAngle
 {
 public:
-    PerpendicularSnapObject(const wydb::ElementId& id, const wy::Vector2& startPnt, const wy::Vector2& endPnt);
+    Snap2dPerpendicular(const wydb::ElementId& id, const wy::Vector2& startPnt, const wy::Vector2& endPnt);
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::Perpendicular; }
 };
-typedef std::shared_ptr<PerpendicularSnapObject> PerpendicularSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dPerpendicular> Snap2dPerpendicularSPtr;
 
 // 对齐X捕捉对象
-class AlignXSnapObject : public SketchSnapObject
+class Snap2dAlignX : public Snap2dObject
 {
 public:
-    explicit AlignXSnapObject(const wydb::ElementId& id, const wy::Vector2& pnt)
-        : SketchSnapObject(id), _pnt(pnt) {}
+    explicit Snap2dAlignX(const wydb::ElementId& id, const wy::Vector2& pnt)
+        : Snap2dObject(id), _pnt(pnt) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::AlignX; }
@@ -148,14 +148,14 @@ public:
 private:
     wy::Vector2 _pnt;
 };
-typedef std::shared_ptr<AlignXSnapObject> AlignXSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dAlignX> Snap2dAlignXSPtr;
 
 // 对齐Y捕捉对象
-class AlignYSnapObject : public SketchSnapObject
+class Snap2dAlignY : public Snap2dObject
 {
 public:
-    explicit AlignYSnapObject(const wydb::ElementId& id, const wy::Vector2& pnt)
-        : SketchSnapObject(id), _pnt(pnt) {}
+    explicit Snap2dAlignY(const wydb::ElementId& id, const wy::Vector2& pnt)
+        : Snap2dObject(id), _pnt(pnt) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::AlignY; }
@@ -168,14 +168,14 @@ public:
 private:
     wy::Vector2 _pnt;
 };
-typedef std::shared_ptr<AlignYSnapObject> AlignYSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dAlignY> Snap2dAlignYSPtr;
 
 // 相等捕捉:长度
-class EqualLengthSnapObject : public SketchSnapObject
+class Snap2dEqualLength : public Snap2dObject
 {
 public:
-    EqualLengthSnapObject(const wydb::ElementId& id, double length, double lineAngle)
-        : SketchSnapObject(id), _length(length), _lineAngle(lineAngle) {}
+    Snap2dEqualLength(const wydb::ElementId& id, double length, double lineAngle)
+        : Snap2dObject(id), _length(length), _lineAngle(lineAngle) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::EqualLength; }
@@ -189,14 +189,14 @@ private:
     double _length;
     double _lineAngle;
 };
-typedef std::shared_ptr<EqualLengthSnapObject> EqualLengthSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dEqualLength> Snap2dEqualLengthSPtr;
 
 // 相等捕捉:半径
-class EqualRadiusSnapObject : public SketchSnapObject
+class Snap2dEqualRadius : public Snap2dObject
 {
 public:
-    explicit EqualRadiusSnapObject(const wydb::ElementId& id, double radius)
-        : SketchSnapObject(id), _radius(radius) {}
+    explicit Snap2dEqualRadius(const wydb::ElementId& id, double radius)
+        : Snap2dObject(id), _radius(radius) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::EqualRadius; }
@@ -207,26 +207,26 @@ public:
 private:
     double _radius;
 };
-typedef std::shared_ptr<EqualRadiusSnapObject> EqualRadiusSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dEqualRadius> Snap2dEqualRadiusSPtr;
 
 // 最近点
-class NearestSnapObject : public SketchSnapObject
+class Snap2dNearest : public Snap2dObject
 {
 public:
-    explicit NearestSnapObject(const wydb::ElementId& id)
-        : SketchSnapObject(id) {}
+    explicit Snap2dNearest(const wydb::ElementId& id)
+        : Snap2dObject(id) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::Nearest; }
 };
-typedef std::shared_ptr<NearestSnapObject> NearestSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dNearest> Snap2dNearestSPtr;
 
 // 点捕捉对象
-class PointSnapObject : public SketchSnapObject
+class Snap2dPoint : public Snap2dObject
 {
 public:
-    PointSnapObject(const wydb::ElementId& id, const wy::Vector2& point)
-        : SketchSnapObject(id), _point(point) {}
+    Snap2dPoint(const wydb::ElementId& id, const wy::Vector2& point)
+        : Snap2dObject(id), _point(point) {}
 
     // 获取值
     wy::Vector2 getValue() const { return _point; }
@@ -234,54 +234,54 @@ public:
 private:
     wy::Vector2 _point;
 };
-typedef std::shared_ptr<PointSnapObject> PointSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dPoint> Snap2dPointSPtr;
 
 // 垂足捕捉对象
-class PerpendicularPointSnapObject : public PointSnapObject
+class Snap2dPerpendicularPoint : public Snap2dPoint
 {
 public:
-    PerpendicularPointSnapObject(const wydb::ElementId& id, const wy::Vector2& point)
-        : PointSnapObject(id, point) {}
+    Snap2dPerpendicularPoint(const wydb::ElementId& id, const wy::Vector2& point)
+        : Snap2dPoint(id, point) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::PerpendicularPoint; }
 };
-typedef std::shared_ptr<PerpendicularPointSnapObject> PerpendicularPointSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dPerpendicularPoint> Snap2dPerpendicularPointSPtr;
 
 // 切点捕捉对象
-class TangentPointSnapObject : public PointSnapObject
+class Snap2dTangentPoint : public Snap2dPoint
 {
 public:
-    TangentPointSnapObject(const wydb::ElementId& id, const wy::Vector2& point)
-        : PointSnapObject(id, point) {}
+    Snap2dTangentPoint(const wydb::ElementId& id, const wy::Vector2& point)
+        : Snap2dPoint(id, point) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::TangentPoint; }
 };
-typedef std::shared_ptr<TangentPointSnapObject> TangentPointSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dTangentPoint> Snap2dTangentPointSPtr;
 
 // 交点捕捉对象
-class IntersectionPointSnapObject : public PointSnapObject
+class Snap2dIntersectionPoint : public Snap2dPoint
 {
 public:
-    IntersectionPointSnapObject(const wydb::ElementId& id, const wy::Vector2& point)
-        : PointSnapObject(id, point) {}
+    Snap2dIntersectionPoint(const wydb::ElementId& id, const wy::Vector2& point)
+        : Snap2dPoint(id, point) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::IntersectionPoint; }
 };
-typedef std::shared_ptr<IntersectionPointSnapObject> IntersectionPointSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dIntersectionPoint> Snap2dIntersectionPointSPtr;
 
 // 对齐点捕捉对象(两坐标精确吸附,类型为 AlignX/AlignY)
-class AlignPointSnapObject : public PointSnapObject
+class Snap2dAlignPoint : public Snap2dPoint
 {
 public:
-    AlignPointSnapObject(
+    Snap2dAlignPoint(
         const wydb::ElementId& id,
         const wy::Vector2& point,
         const wy::Vector2& refPoint,
         Snap2dType type)
-        : PointSnapObject(id, point), _refPoint(refPoint), _type(type) {}
+        : Snap2dPoint(id, point), _refPoint(refPoint), _type(type) {}
 
     // 类型
     virtual Snap2dType getType() const override { return _type; }
@@ -292,79 +292,79 @@ private:
     wy::Vector2 _refPoint;
     Snap2dType _type;
 };
-typedef std::shared_ptr<AlignPointSnapObject> AlignPointSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dAlignPoint> Snap2dAlignPointSPtr;
 
 // 默认捕捉系统中的:端点
-class EndPointSnapObject : public PointSnapObject
+class Snap2dEndPoint : public Snap2dPoint
 {
 public:
-    EndPointSnapObject(const wydb::ElementId& id, const wy::Vector2& point)
-        : PointSnapObject(id, point) {}
+    Snap2dEndPoint(const wydb::ElementId& id, const wy::Vector2& point)
+        : Snap2dPoint(id, point) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::EndPoint; }
 };
-typedef std::shared_ptr<EndPointSnapObject> EndPointSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dEndPoint> Snap2dEndPointSPtr;
 
 // 默认捕捉系统中的:象限点
-class QuadrantPointSnapObject : public PointSnapObject
+class Snap2dQuadrantPoint : public Snap2dPoint
 {
 public:
-    QuadrantPointSnapObject(const wydb::ElementId& id, const wy::Vector2& point)
-        : PointSnapObject(id, point) {}
+    Snap2dQuadrantPoint(const wydb::ElementId& id, const wy::Vector2& point)
+        : Snap2dPoint(id, point) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::QuadrantPoint; }
 };
-typedef std::shared_ptr<QuadrantPointSnapObject> QuadrantPointSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dQuadrantPoint> Snap2dQuadrantPointSPtr;
 
 // 默认捕捉系统中的:中点
-class MiddlePointSnapObject : public PointSnapObject
+class Snap2dMiddlePoint : public Snap2dPoint
 {
 public:
-    MiddlePointSnapObject(const wydb::ElementId& id, const wy::Vector2& point)
-        : PointSnapObject(id, point) {}
+    Snap2dMiddlePoint(const wydb::ElementId& id, const wy::Vector2& point)
+        : Snap2dPoint(id, point) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::MiddlePoint; }
 };
-typedef std::shared_ptr<MiddlePointSnapObject> MiddlePointSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dMiddlePoint> Snap2dMiddlePointSPtr;
 
 // 默认捕捉系统中的:中心点
-class CenterPointSnapObject : public PointSnapObject
+class Snap2dCenterPoint : public Snap2dPoint
 {
 public:
-    CenterPointSnapObject(const wydb::ElementId& id, const wy::Vector2& point)
-        : PointSnapObject(id, point) {}
+    Snap2dCenterPoint(const wydb::ElementId& id, const wy::Vector2& point)
+        : Snap2dPoint(id, point) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::CenterPoint; }
 };
-typedef std::shared_ptr<CenterPointSnapObject> CenterPointSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dCenterPoint> Snap2dCenterPointSPtr;
 
 // 默认捕捉系统中的:原点
-class OriginSnapObject : public SketchSnapObject
+class Snap2dOrigin : public Snap2dObject
 {
 public:
-    OriginSnapObject() : SketchSnapObject(wydb::ElementId::kNull) {}
+    Snap2dOrigin() : Snap2dObject(wydb::ElementId::kNull) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::Origin; }
 };
-typedef std::shared_ptr<OriginSnapObject> OriginSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dOrigin> Snap2dOriginSPtr;
 
 // 一般点(样条首点)
-class GenericPointSnapObject : public PointSnapObject
+class Snap2dGenericPoint : public Snap2dPoint
 {
 public:
-    explicit GenericPointSnapObject(const wy::Vector2& point)
-        : PointSnapObject(wydb::ElementId::kNull, point) {}
+    explicit Snap2dGenericPoint(const wy::Vector2& point)
+        : Snap2dPoint(wydb::ElementId::kNull, point) {}
 
     // 类型
     virtual Snap2dType getType() const override { return Snap2dType::GenericPoint; }
 };
-typedef std::shared_ptr<GenericPointSnapObject> GenericPointSnapObjectSPtr;
+typedef std::shared_ptr<Snap2dGenericPoint> Snap2dGenericPointSPtr;
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_SKETCH_SNAP_OBJECT_H
+#endif // WY3DAPP_SNAP2D_OBJECT_H

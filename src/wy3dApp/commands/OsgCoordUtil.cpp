@@ -62,31 +62,31 @@ static Snap2dResultSPtr convertSnapResult(
         assert(false);
         return nullptr;
     }
-    SketchSnapObjectSPtr pSketchSnapObj(nullptr);
+    Snap2dObjectSPtr pSketchSnapObj(nullptr);
     switch (pSnapPoint->getType())
     {
     case SnapPoint::Type::Origin:
-        pSketchSnapObj = std::make_shared<OriginSnapObject>();
+        pSketchSnapObj = std::make_shared<Snap2dOrigin>();
         break;
 
     case SnapPoint::Type::End:
-        pSketchSnapObj = std::make_shared<EndPointSnapObject>(pSnapObj->getId(), retPos);
+        pSketchSnapObj = std::make_shared<Snap2dEndPoint>(pSnapObj->getId(), retPos);
         break;
 
     case SnapPoint::Type::Middle:
-        pSketchSnapObj = std::make_shared<MiddlePointSnapObject>(pSnapObj->getId(), retPos);
+        pSketchSnapObj = std::make_shared<Snap2dMiddlePoint>(pSnapObj->getId(), retPos);
         break;
 
     case SnapPoint::Type::Center:
-        pSketchSnapObj = std::make_shared<CenterPointSnapObject>(pSnapObj->getId(), retPos);
+        pSketchSnapObj = std::make_shared<Snap2dCenterPoint>(pSnapObj->getId(), retPos);
         break;
 
     case SnapPoint::Type::Quadrant:
-        pSketchSnapObj = std::make_shared<QuadrantPointSnapObject>(pSnapObj->getId(), retPos);
+        pSketchSnapObj = std::make_shared<Snap2dQuadrantPoint>(pSnapObj->getId(), retPos);
         break;
 
     case SnapPoint::Type::Point:
-        pSketchSnapObj = std::make_shared<GenericPointSnapObject>(retPos);
+        pSketchSnapObj = std::make_shared<Snap2dGenericPoint>(retPos);
         break;
     }
 

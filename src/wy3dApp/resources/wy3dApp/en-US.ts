@@ -1716,12 +1716,12 @@
 <context>
     <name>MakePrimitiveGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="286"/>
+        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="287"/>
         <source>Select datum plane or solid surface as working plane.</source>
         <translation type="unfinished">Select datum plane or solid surface as working plane.</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="350"/>
+        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="351"/>
         <source>View Normal To Working Plane</source>
         <translation type="unfinished">View Normal To Working Plane</translation>
     </message>
@@ -1939,32 +1939,32 @@
 <context>
     <name>MoveGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="333"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="334"/>
         <source>Select elements to move; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="351"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="352"/>
         <source>Select datum plane as working plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="375"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="376"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="400"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="401"/>
         <source>Specify the move vector; you can directly input the values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="560"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="561"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="561"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="562"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>
@@ -2082,38 +2082,38 @@
 <context>
     <name>RotateGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="359"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="360"/>
         <source>Select elements to rotate; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="376"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="377"/>
         <source>Select datum plane as working plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="393"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="394"/>
         <source>Specify the baseline start point; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="418"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="419"/>
         <source>Specify the baseline end point; you can directly input length and angle values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="703"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="714"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="705"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="715"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="438"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="439"/>
         <source>Specify the rotation angle; you can directly input the value.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2249,7 +2249,7 @@
         <translation type="vanished">Select datum plane or solid surface as working plane.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="448"/>
+        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="449"/>
         <source>View Normal To Working Plane</source>
         <translation type="unfinished">View Normal To Working Plane</translation>
     </message>

@@ -34,7 +34,7 @@
 #include <wydbDatabase.h>
 #include <wy3dPlane.h>
 #include <wy3dApp/Snap2dContext.h>
-#include "SketchSnapObject.h"
+#include "Snap2dObject.h"
 #include "utils/StlUtil.h"
 #include <wy3dApp/GuiCmdTransient.h>
 #include <wy3dApp/Snap2dSystem.h>
@@ -210,8 +210,8 @@ protected:
 
     // 添加角度捕捉对象
     void appendAngleSnapObject(
-        AngleSnapObjectSPtr&& pAngleSnapObj,
-        std::vector<SnapRange<AngleSnapObjectSPtr>>& angleRegions);
+        Snap2dAngleSPtr&& pAngleSnapObj,
+        std::vector<SnapRange<Snap2dAngleSPtr>>& angleRegions);
 
     // 添加XY捕捉对象
     template<typename T>
@@ -232,9 +232,9 @@ protected:
     }
 
     // 添加相等捕捉对象(长度)
-    void appendEqualSnapObject(EqualLengthSnapObjectSPtr&& pSnapObj);
+    void appendEqualSnapObject(Snap2dEqualLengthSPtr&& pSnapObj);
     // 添加相等捕捉对象(半径)
-    void appendEqualSnapObject(EqualRadiusSnapObjectSPtr&& pSnapObj);
+    void appendEqualSnapObject(Snap2dEqualRadiusSPtr&& pSnapObj);
 
     // 移除失效的捕捉对象
     template <typename T>
@@ -255,8 +255,8 @@ protected:
     }
 
     // 捕捉点
-    PointSnapObjectSPtr snapPointSnapObject(
-        const std::list<PointSnapObjectSPtr>& snapObjs,
+    Snap2dPointSPtr snapPointSnapObject(
+        const std::list<Snap2dPointSPtr>& snapObjs,
         const wy::Vector2& pos, double tol,
         double scaleScreenX, double scaleScreenY)
     {
@@ -266,7 +266,7 @@ protected:
 
         double tolX = std::fabs(tol * scaleScreenX); // transform tol from pixel to sketch
         double tolY = std::fabs(tol * scaleScreenY); // transform tol from pixel to sketch
-        for (const PointSnapObjectSPtr& pSnapObj : snapObjs)
+        for (const Snap2dPointSPtr& pSnapObj : snapObjs)
         {
             assert(pSnapObj);
             wy::Vector2 value = pSnapObj->getValue();
@@ -323,11 +323,11 @@ private:
         double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
 
     // 捕捉角度
-    AngleSnapObjectSPtr snapAngleSnapObject(
-        const std::vector<AngleSnapObjectSPtr>& angleSnapObjs,
+    Snap2dAngleSPtr snapAngleSnapObject(
+        const std::vector<Snap2dAngleSPtr>& angleSnapObjs,
         double angle, double angleTol);
-    AngleSnapObjectSPtr snapAngleSnapObject(
-        const std::vector<SnapRange<AngleSnapObjectSPtr>>& angleRegions,
+    Snap2dAngleSPtr snapAngleSnapObject(
+        const std::vector<SnapRange<Snap2dAngleSPtr>>& angleRegions,
         double angle, double angleTol, const std::set<wydb::ElementId>& excludeIds);
 
     // 捕捉对齐:动态
@@ -525,11 +525,11 @@ private:
     void appendEqualSnapObjectImpl(std::map<DoubleMinMax, SnapRange<T>>& map, double value, T&& pSnapObj);
 
     // 捕捉相等(长度)
-    EqualLengthSnapObjectSPtr snapEqualLengthInMap(
+    Snap2dEqualLengthSPtr snapEqualLengthInMap(
         double length, double tol, double scaleScreen, double angle,
         const std::set<wydb::ElementId>& excludeIds);
     // 捕捉相等(半径)
-    EqualRadiusSnapObjectSPtr snapEqualRadiusInMap(
+    Snap2dEqualRadiusSPtr snapEqualRadiusInMap(
         double radius, double tol, double scaleScreen,
         const std::set<wydb::ElementId>& excludeIds);
     // 捕捉相等(公共实现)
@@ -546,20 +546,20 @@ protected:
     // 捕捉上下文
     Snap2dContextSPtr _pSnapContext;
     // 平行和垂直
-    std::vector<SnapRange<AngleSnapObjectSPtr>> _parlAndPerps;
+    std::vector<SnapRange<Snap2dAngleSPtr>> _parlAndPerps;
     // 对齐X
-    std::map<DoubleMinMax, SnapRange<AlignXSnapObjectSPtr>> _alignXMap;
+    std::map<DoubleMinMax, SnapRange<Snap2dAlignXSPtr>> _alignXMap;
     // 对齐Y
-    std::map<DoubleMinMax, SnapRange<AlignYSnapObjectSPtr>> _alignYMap;
+    std::map<DoubleMinMax, SnapRange<Snap2dAlignYSPtr>> _alignYMap;
     // 动态捕捉对象集合
     // 和绘制的上下文相关,当上下文变更时需要清空
     struct DynSnapObjs
     {
         // 切点和垂足
-        std::map<wydb::ElementId, std::list<PointSnapObjectSPtr>> id2PointSnapObjects;
+        std::map<wydb::ElementId, std::list<Snap2dPointSPtr>> id2PointSnapObjects;
         // 动态对齐
-        std::vector<AlignXSnapObjectSPtr> alignXs;
-        std::vector<AlignYSnapObjectSPtr> alignYs;
+        std::vector<Snap2dAlignXSPtr> alignXs;
+        std::vector<Snap2dAlignYSPtr> alignYs;
 
         DynSnapObjs()
         {
@@ -586,14 +586,14 @@ private:
     // 当前结果的显示状态(跨结果复用高亮)
     std::unique_ptr<Snap2dResultDisplay> _pResultDisplay;
     // 水平和竖直
-    std::vector<AngleSnapObjectSPtr> _defaultAngleSnapObjects;
+    std::vector<Snap2dAngleSPtr> _defaultAngleSnapObjects;
     // 平行和垂直
     size_t _angleSpansCnt;
     double _angleSpan;
     // 相等(长度)
-    std::map<DoubleMinMax, SnapRange<EqualLengthSnapObjectSPtr>> _equalLengthMap;
+    std::map<DoubleMinMax, SnapRange<Snap2dEqualLengthSPtr>> _equalLengthMap;
     // 相等(半径)
-    std::map<DoubleMinMax, SnapRange<EqualRadiusSnapObjectSPtr>> _equalRadiusMap;
+    std::map<DoubleMinMax, SnapRange<Snap2dEqualRadiusSPtr>> _equalRadiusMap;
 
     // 数据库更新信息(用于局部更新捕捉数据)
     std::set<wydb::ElementId> _addedIds;    // 实际新增的元素

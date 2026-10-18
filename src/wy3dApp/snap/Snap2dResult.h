@@ -24,7 +24,7 @@
 #include <wyVector2.h>
 #include <wy3dVector2.h>
 #include <wy3dPlane.h>
-#include "SketchSnapObject.h"
+#include "Snap2dObject.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -49,12 +49,12 @@ public:
     Snap2dResult(
         const wy3d::Plane& sketchPlane,
         const wy::Vector2& position,
-        SketchSnapObjectSPtr pSnapObject);
+        Snap2dObjectSPtr pSnapObject);
     Snap2dResult(
         const wy3d::Plane& sketchPlane,
         const wy::Vector2& position,
-        SketchSnapObjectSPtr pSnapObject,
-        SketchSnapObjectSPtr pOtherSnapObject);
+        Snap2dObjectSPtr pSnapObject,
+        Snap2dObjectSPtr pOtherSnapObject);
     // Result built from one item (external rule hits).
     Snap2dResult(
         const wy3d::Plane& sketchPlane,
