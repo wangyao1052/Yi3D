@@ -53,7 +53,7 @@ static LineTransientSPtr createRadiusLineTransient(const wy3d::Plane& sketchPlan
     const wy::Vector2& startPnt, const wy::Vector2& endPnt)
 {
     LineTransientSPtr pRadiusLineTransient = std::make_shared<LineTransient>(
-        new osg::LineStipple(DASH_LINE_STIPPLE_FACTOR, DASH_LINE_STIPPLE_PATTERN));
+        new osg::LineStipple(DOT_LINE_STIPPLE_FACTOR, DOT_LINE_STIPPLE_PATTERN));
     pRadiusLineTransient->setColor(osg::Vec4(1.0f, 0.392f, 0.039f, 1.0f));
     pRadiusLineTransient->update(sketchPlane, startPnt, endPnt);
     pRadiusLineTransient->show();
