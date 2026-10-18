@@ -201,7 +201,8 @@ bool MoveGuiCmd::finishStep(Step step)
         assert(pSnapSys);
         pSnapSys->beginChange();
         {
-            _pWorkPlnOriginSnapObject = std::make_shared<SnapCoordinatePoint>(_workPln.getOrigin());
+            _pWorkPlnOriginSnapObject = std::make_shared<SnapPoint>(
+                wydb::ElementId::kNull, _workPln.getOrigin(), SnapPoint::Type::Origin);
             pSnapSys->addResidentSnapObject(_pWorkPlnOriginSnapObject);
         }
         pSnapSys->endChange();

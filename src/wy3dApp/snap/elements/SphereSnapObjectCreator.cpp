@@ -43,7 +43,7 @@ std::list<wyap::SnapObjectSPtr> SphereSnapObjectCreator::createSnapObjects(const
     // 加上球心
     osg::Matrix matrix = MathUtils::createMatrix(pSphere->getPosition(), pSphere->getRotation());
     double radius = pSphere->getRadius();
-    snapObjs.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, 0.0, 0.0, 0.0, matrix));
+    snapObjs.emplace_back(this->newSnapPoint(SnapPoint::Type::Center, id, 0.0, 0.0, 0.0, matrix));
 
     return snapObjs;
 }

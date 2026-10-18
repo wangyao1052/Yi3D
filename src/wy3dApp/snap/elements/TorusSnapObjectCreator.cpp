@@ -40,12 +40,12 @@ std::list<wyap::SnapObjectSPtr> TorusSnapObjectCreator::createSnapObjects(const 
     osg::Matrix matrix = MathUtils::createMatrix(pTorus->getPosition(), pTorus->getRotation());
     double majorRadius = pTorus->getMajorRadius();
     // 中心点
-    snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, 0.0, 0.0, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Center, id, 0.0, 0.0, 0.0, matrix));
     // 端点
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, majorRadius, 0.0, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, majorRadius, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, -majorRadius, 0.0, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, -majorRadius, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, majorRadius, 0.0, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, majorRadius, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, -majorRadius, 0.0, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, -majorRadius, 0.0, matrix));
 
     return snapPoints;
 }

@@ -47,7 +47,7 @@ std::list<wyap::SnapObjectSPtr> ElemSnapObjectCreator::newSnapObjects(const wydb
             const TopoDS_Shape& shape = indexMapOfVertex.FindKey(i);
             TopoDS_Vertex vertex = TopoDS::Vertex(shape);
             gp_Pnt pnt = BRep_Tool::Pnt(vertex);
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, pnt.X(), pnt.Y(), pnt.Z()));
+            snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, pnt.X(), pnt.Y(), pnt.Z()));
         }
 
         TopTools_IndexedMapOfShape indexMapOfEdge;
@@ -67,7 +67,7 @@ std::list<wyap::SnapObjectSPtr> ElemSnapObjectCreator::newSnapObjects(const wydb
                 // >=180度
                 if (paramRange >= wy3d::PI - wy3d::EPS)
                 {
-                    snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, center.X(), center.Y(), center.Z()));
+                    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Center, id, center.X(), center.Y(), center.Z()));
                 }
 
                 // 完整圆
@@ -79,25 +79,25 @@ std::list<wyap::SnapObjectSPtr> ElemSnapObjectCreator::newSnapObjects(const wydb
                     const gp_Vec& yDir = localAxes.YDirection();
 
                     // 1. X轴正方向
-                    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id,
+                    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id,
                         center.X() + radius * xDir.X(),
                         center.Y() + radius * xDir.Y(),
                         center.Z() + radius * xDir.Z()));
 
                     // 2. Y轴正方向
-                    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id,
+                    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id,
                         center.X() + radius * yDir.X(),
                         center.Y() + radius * yDir.Y(),
                         center.Z() + radius * yDir.Z()));
 
                     // 3. X轴负方向
-                    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id,
+                    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id,
                         center.X() - radius * xDir.X(),
                         center.Y() - radius * xDir.Y(),
                         center.Z() - radius * xDir.Z()));
 
                     // 4. Y轴负方向
-                    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id,
+                    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id,
                         center.X() - radius * yDir.X(),
                         center.Y() - radius * yDir.Y(),
                         center.Z() - radius * yDir.Z()));

@@ -73,8 +73,8 @@ public:
     virtual void reset() override;
 
     // 捕捉
-    virtual SnapResultSPtr snap(double x, double y, wyap::SnapContextSPtr pContext) override;
-    virtual wyap::SnapResultSPtr snap(double x, double y, wyap::SnapContextSPtr pContext, const std::set<wydb::ElementId>& idsToExclude) override;
+    virtual SnapResultSPtr snap(double x, double y, wyap::SnapContextSPtr pContext, bool isResultPublished = true) override;
+    virtual wyap::SnapResultSPtr snap(double x, double y, wyap::SnapContextSPtr pContext, const std::set<wydb::ElementId>& idsToExclude, bool isResultPublished = true) override;
     // 清空捕捉结果
     virtual void clearSnapResult() override;
 

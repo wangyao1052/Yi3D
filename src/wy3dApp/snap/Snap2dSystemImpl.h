@@ -41,6 +41,8 @@
 
 namespace wy3dApp {
 
+class Snap2dResultDisplay;
+
 // Internal snap rule protocol (rich): returns the full snap result. Built-in rules
 // are thin adapters delegating to the snap implementations below; external rules
 // are wrapped into this protocol by an adapter.
@@ -97,7 +99,7 @@ public:
     // 设置捕捉结果
     void setSnapResult(Snap2dResultSPtr pSnapResult) override;
     // 清空捕捉结果
-    void clearSnapResult() override { _pSnapResult = nullptr; }
+    void clearSnapResult() override { this->setSnapResult(nullptr); }
 
     // 注册外部规则
     wy::ErrorStatus addRule(Snap2dRuleSPtr pRule) override;
@@ -164,8 +166,7 @@ protected:
     // 添加捕捉对象(默认无)
     virtual void appendSnapObjects(const wydb::Database* pDb, const wydb::ElementId& id);
     // Element highlight transient (none by default: plane users have no element highlight)
-    virtual GuiCmdTransientSPtr createHighlightTransient(
-        const wydb::Database* pDb, const wydb::ElementId& id) const
+    virtual GuiCmdTransientSPtr createHighlightTransient(const wydb::ElementId& id) const
     {
         return nullptr;
     }
@@ -230,8 +231,10 @@ protected:
         map[DoubleMinMax(min, max)].objects.push_back(std::move(pSnapObj));
     }
 
-    // 添加相等捕捉对象
-    void appendEqualSnapObject(EqualSnapObjectSPtr&& pSnapObj);
+    // 添加相等捕捉对象(长度)
+    void appendEqualSnapObject(EqualLengthSnapObjectSPtr&& pSnapObj);
+    // 添加相等捕捉对象(半径)
+    void appendEqualSnapObject(EqualRadiusSnapObjectSPtr&& pSnapObj);
 
     // 移除失效的捕捉对象
     template <typename T>
@@ -318,11 +321,6 @@ private:
         const SketchCurveEndPointContext* pCurveEndPointContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
-
-    // Resolve element highlight transients: reuse prevCache hits, create the rest via createHighlightTransient
-    std::map<wydb::ElementId, GuiCmdTransientSPtr> createHighlightTransients(
-        const Snap2dResult& result,
-        const std::map<wydb::ElementId, GuiCmdTransientSPtr>& prevCache) const;
 
     // 捕捉角度
     AngleSnapObjectSPtr snapAngleSnapObject(
@@ -522,10 +520,25 @@ private:
         return pRet;
     }
 
-    // 捕捉相等
-    EqualSnapObjectSPtr snapEqualInMap(
-        const std::map<DoubleMinMax, SnapRange<EqualSnapObjectSPtr>>& map,
-        double value, double tol, double scaleScreen, short flags, double value2, const std::set<wydb::ElementId>& excludeIds);
+    // 添加相等捕捉对象(分桶)
+    template<typename T>
+    void appendEqualSnapObjectImpl(std::map<DoubleMinMax, SnapRange<T>>& map, double value, T&& pSnapObj);
+
+    // 捕捉相等(长度)
+    EqualLengthSnapObjectSPtr snapEqualLengthInMap(
+        double length, double tol, double scaleScreen, double angle,
+        const std::set<wydb::ElementId>& excludeIds);
+    // 捕捉相等(半径)
+    EqualRadiusSnapObjectSPtr snapEqualRadiusInMap(
+        double radius, double tol, double scaleScreen,
+        const std::set<wydb::ElementId>& excludeIds);
+    // 捕捉相等(公共实现)
+    template<typename T, typename GetValue, typename Accept>
+    T snapEqualInMapImpl(
+        const std::map<DoubleMinMax, SnapRange<T>>& map,
+        double value, double tol, double scaleScreen,
+        GetValue getValue, const Accept& accept,
+        const std::set<wydb::ElementId>& excludeIds);
 
 protected:
     // 草图平面
@@ -570,13 +583,17 @@ private:
     std::map<std::type_index, std::shared_ptr<Snap2dRuleHandler>> _rules;
     // 捕捉结果
     Snap2dResultSPtr _pSnapResult;
+    // 当前结果的显示状态(跨结果复用高亮)
+    std::unique_ptr<Snap2dResultDisplay> _pResultDisplay;
     // 水平和竖直
     std::vector<AngleSnapObjectSPtr> _defaultAngleSnapObjects;
     // 平行和垂直
     size_t _angleSpansCnt;
     double _angleSpan;
-    // 相等
-    std::map<DoubleMinMax, SnapRange<EqualSnapObjectSPtr>> _equalMap;
+    // 相等(长度)
+    std::map<DoubleMinMax, SnapRange<EqualLengthSnapObjectSPtr>> _equalLengthMap;
+    // 相等(半径)
+    std::map<DoubleMinMax, SnapRange<EqualRadiusSnapObjectSPtr>> _equalRadiusMap;
 
     // 数据库更新信息(用于局部更新捕捉数据)
     std::set<wydb::ElementId> _addedIds;    // 实际新增的元素

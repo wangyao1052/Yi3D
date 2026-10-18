@@ -284,7 +284,8 @@ void SketchDrawSpline3DGuiCmd::updateStartPointSnapObject()
         return;
     }
 
-    _pStartPointSnapObject = std::make_shared<SnapAnchorPoint>(_points.front());
+    _pStartPointSnapObject = std::make_shared<SnapPoint>(
+        wydb::ElementId::kNull, _points.front(), SnapPoint::Type::Point);
     pSnapSys->beginChange();
     pSnapSys->addResidentSnapObject(_pStartPointSnapObject);
     pSnapSys->endChange();

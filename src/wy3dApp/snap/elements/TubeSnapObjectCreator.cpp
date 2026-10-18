@@ -42,17 +42,17 @@ std::list<wyap::SnapObjectSPtr> TubeSnapObjectCreator::createSnapObjects(const w
     double innerRadius = pTube->getInnerRadius();
     double height = pTube->getHeight();
     // 中心点
-    snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, 0.0, 0.0, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, 0.0, 0.0, height, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Center, id, 0.0, 0.0, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Center, id, 0.0, 0.0, height, matrix));
     // 端点
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, outerRadius, 0.0, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, outerRadius, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, -outerRadius, 0.0, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, -outerRadius, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, outerRadius, 0.0, height, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, outerRadius, height, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, -outerRadius, 0.0, height, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, -outerRadius, height, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, outerRadius, 0.0, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, outerRadius, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, -outerRadius, 0.0, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, -outerRadius, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, outerRadius, 0.0, height, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, outerRadius, height, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, -outerRadius, 0.0, height, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, -outerRadius, height, matrix));
 
     return snapPoints;
 }

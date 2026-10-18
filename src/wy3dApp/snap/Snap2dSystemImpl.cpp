@@ -18,6 +18,7 @@
 
 #include "Snap2dSystemImpl.h"
 #include "Snap2dResult.h"
+#include "Snap2dResultDisplay.h"
 
 #include <cassert>
 #include <cmath>
@@ -25,7 +26,6 @@
 #include <wyVector2.h>
 #include <wy3dImpl.h>
 #include <wy3dMath.h>
-#include <utils/wy3dCurveIntersectionUtil.h>
 
 #include <wy3dApp/Application.h>
 #include "utils/MathUtils.h"
@@ -46,7 +46,6 @@ typedef AlignYSnapObjectSPtr AlignYSPtr;
 #define MKSPTR_AlignY std::make_shared<AlignYSnapObject>
 #define MKSPTR_Parl   std::make_shared<ParallelSnapObject>
 #define MKSPTR_Perp   std::make_shared<PerpendicularSnapObject>
-#define MKSPTR_Equal  std::make_shared<EqualSnapObject>
 #define MOVE std::move
 
 Snap2dSystem::Snap2dSystem()
@@ -157,14 +156,10 @@ public:
 private:
     Snap2dResultSPtr makeResult(const Snap2dRuleHit& hit) const
     {
-        Snap2dResultInfo info;
-        info.type = hit.snapType;
-        info.highlightId = hit.highlightId;
-        info.point = hit.point;
-        info.refPoint = hit.refPoint;
+        Snap2dResultItem item(hit.snapType, hit.highlightId, hit.point, hit.refPoint);
 
         return std::make_shared<Snap2dResult>(
-            _sys._sketchPlane, hit.point, _sys._pSnapContext, info);
+            _sys._sketchPlane, hit.point, item);
     }
 
 private:
@@ -173,7 +168,10 @@ private:
 };
 
 Snap2dSystemImpl::Snap2dSystemImpl(const wy3d::Plane& workPlane)
-    : _sketchPlane(workPlane), _angleSpansCnt(30), _angleSpan(1.0)
+    : _sketchPlane(workPlane),
+      _pResultDisplay(std::make_unique<Snap2dResultDisplay>(
+          [this](const wydb::ElementId& id) { return this->createHighlightTransient(id); })),
+      _angleSpansCnt(30), _angleSpan(1.0)
 {
     // 构造平行垂直捕捉数据
     this->constructParlAndPerpsData();
@@ -338,7 +336,8 @@ void Snap2dSystemImpl::reset()
     // }
     _alignXMap.clear();
     _alignYMap.clear();
-    _equalMap.clear();
+    _equalLengthMap.clear();
+    _equalRadiusMap.clear();
     _dynSnapObjs.clear();
 
     _addedIds.clear();
@@ -442,8 +441,13 @@ bool Snap2dSystemImpl::partiallyUpdate(const wydb::Database* pDb)
         {
             eraseDirtySnapObjects(kvp.second, dirtyIds);
         }
-        // 相等
-        for (auto& kvp : _equalMap)
+        // 相等(长度)
+        for (auto& kvp : _equalLengthMap)
+        {
+            eraseDirtySnapObjects(kvp.second, dirtyIds);
+        }
+        // 相等(半径)
+        for (auto& kvp : _equalRadiusMap)
         {
             eraseDirtySnapObjects(kvp.second, dirtyIds);
         }
@@ -485,10 +489,10 @@ void Snap2dSystemImpl::appendAngleSnapObject(
     angleRegions[idx].objects.emplace_back(std::move(pAngleSnapObj));
 }
 
-void Snap2dSystemImpl::appendEqualSnapObject(EqualSnapObjectSPtr&& pSnapObj)
+template<typename T>
+void Snap2dSystemImpl::appendEqualSnapObjectImpl(
+    std::map<DoubleMinMax, SnapRange<T>>& map, double value, T&& pSnapObj)
 {
-    assert(pSnapObj);
-    double value = pSnapObj->getValue();
     assert(value > 0.0);
     // 向下取整
     // <1>floor(3.2)=3.0; <2>floor(-3.2)=-4.0; <3> floor(3.0)=3.0
@@ -502,7 +506,19 @@ void Snap2dSystemImpl::appendEqualSnapObject(EqualSnapObjectSPtr&& pSnapObj)
         assert(min == max);
         max = value + 1;
     }
-    _equalMap[DoubleMinMax(min, max)].objects.emplace_back(std::move(pSnapObj));
+    map[DoubleMinMax(min, max)].objects.emplace_back(std::move(pSnapObj));
+}
+
+void Snap2dSystemImpl::appendEqualSnapObject(EqualLengthSnapObjectSPtr&& pSnapObj)
+{
+    assert(pSnapObj);
+    this->appendEqualSnapObjectImpl(_equalLengthMap, pSnapObj->getLength(), std::move(pSnapObj));
+}
+
+void Snap2dSystemImpl::appendEqualSnapObject(EqualRadiusSnapObjectSPtr&& pSnapObj)
+{
+    assert(pSnapObj);
+    this->appendEqualSnapObjectImpl(_equalRadiusMap, pSnapObj->getRadius(), std::move(pSnapObj));
 }
 
 Snap2dResultSPtr Snap2dSystemImpl::snap(
@@ -518,67 +534,8 @@ Snap2dResultSPtr Snap2dSystemImpl::snap(
 
 void Snap2dSystemImpl::setSnapResult(Snap2dResultSPtr pSnapResult)
 {
-    if (pSnapResult)
-    {
-        if (_pSnapResult)
-        {
-            if (pSnapResult->isLooseEqual(*_pSnapResult))
-            {
-                _pSnapResult->setPosition(pSnapResult->getPosition());
-                _pSnapResult->update();
-            }
-            else
-            {
-                std::map<wydb::ElementId, GuiCmdTransientSPtr> highlights =
-                    this->createHighlightTransients(*pSnapResult, _pSnapResult->getHighlightTransients());
-                _pSnapResult = pSnapResult;
-                _pSnapResult->show(std::move(highlights));
-            }
-        }
-        else
-        {
-            std::map<wydb::ElementId, GuiCmdTransientSPtr> highlights =
-                this->createHighlightTransients(*pSnapResult, {});
-            _pSnapResult = pSnapResult;
-            _pSnapResult->show(std::move(highlights));
-        }
-    }
-    else
-    {
-        _pSnapResult = nullptr;
-    }
-}
-
-std::map<wydb::ElementId, GuiCmdTransientSPtr> Snap2dSystemImpl::createHighlightTransients(
-    const Snap2dResult& result,
-    const std::map<wydb::ElementId, GuiCmdTransientSPtr>& prevCache) const
-{
-    std::map<wydb::ElementId, GuiCmdTransientSPtr> rets;
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
-    if (!pDb) return rets;
-
-    for (const Snap2dResultItem& item : result.getItems())
-    {
-        const wydb::ElementId& id = item.info.highlightId;
-        if (id.isNull() || rets.cend() != rets.find(id))
-        {
-            continue;
-        }
-
-        auto iter = prevCache.find(id);
-        if (iter != prevCache.cend())
-        {
-            assert(iter->second);
-            rets[id] = iter->second;
-            continue;
-        }
-
-        if (GuiCmdTransientSPtr pTransient = this->createHighlightTransient(pDb, id))
-        {
-            rets[id] = std::move(pTransient);
-        }
-    }
-    return rets;
+    _pSnapResult = std::move(pSnapResult);
+    _pResultDisplay->apply(_pSnapResult.get());
 }
 
 Snap2dResultSPtr Snap2dSystemImpl::snapImpl(
@@ -728,9 +685,12 @@ std::shared_ptr<AngleSnapObject> Snap2dSystemImpl::snapAngleSnapObject(
     return pSnapResult;
 }
 
-EqualSnapObjectSPtr Snap2dSystemImpl::snapEqualInMap(
-    const std::map<DoubleMinMax, SnapRange<EqualSnapObjectSPtr>>& map,
-    double value, double tol, double scScreen2Sketch, short flags, double value2, const std::set<wydb::ElementId>& excludeIds)
+template<typename T, typename GetValue, typename Accept>
+T Snap2dSystemImpl::snapEqualInMapImpl(
+    const std::map<DoubleMinMax, SnapRange<T>>& map,
+    double value, double tol, double scScreen2Sketch,
+    GetValue getValue, const Accept& accept,
+    const std::set<wydb::ElementId>& excludeIds)
 {
     assert(value > 0.0);
     assert(tol > 0.0);
@@ -750,27 +710,16 @@ EqualSnapObjectSPtr Snap2dSystemImpl::snapEqualInMap(
     assert(tol >= 0.0);
 
     // 捕捉具体实现lambda
-    auto snapInList = [value, tol, flags, value2, this, &excludeIds]
-        (const std::list<EqualSnapObjectSPtr>& objects) -> EqualSnapObjectSPtr
+    auto snapInList = [value, tol, getValue, accept, this, &excludeIds]
+        (const std::list<T>& objects) -> T
     {
-        for (const EqualSnapObjectSPtr& pSnapObj : objects)
+        for (const T& pSnapObj : objects)
         {
             assert(pSnapObj);
             if (excludeIds.find(pSnapObj->getId()) != excludeIds.cend()) continue;
             if (this->_erasedIds.find(pSnapObj->getId()) != this->_erasedIds.cend()) continue;
-            if (!(flags & pSnapObj->getExtra())) continue;
-            // added by wangyao 2025.04.11 {
-            // 对于直线段的相等捕捉还需要判断是否是平行或垂直
-            if (value2 != DBL_MAX)
-            {
-                double delta = std::fabs(value2 - pSnapObj->getValue2());
-                if (!(delta <= wy3d::EPS || std::fabs(delta - wy3d::PI_2) <= wy3d::EPS))
-                {
-                    continue;
-                }
-            }
-            // }
-            if (std::fabs(pSnapObj->getValue() - value) <= tol)
+            if (!accept(*pSnapObj)) continue;
+            if (std::fabs(getValue(*pSnapObj) - value) <= tol)
             {
                 return pSnapObj;
             }
@@ -798,12 +747,12 @@ EqualSnapObjectSPtr Snap2dSystemImpl::snapEqualInMap(
     }
 
     // 中间捕捉结果
-    EqualSnapObjectSPtr pSnapMiddle = (iterMiddle != map.cend()) ?
+    T pSnapMiddle = (iterMiddle != map.cend()) ?
         snapInList(iterMiddle->second.objects) : nullptr;
     if (num == 0) return pSnapMiddle;
 
     // 左边捕捉结果
-    EqualSnapObjectSPtr pSnapLeft(nullptr);
+    T pSnapLeft(nullptr);
     if (pSnapMiddle)
     {
         assert(iterMiddle != map.cend());
@@ -838,7 +787,7 @@ EqualSnapObjectSPtr Snap2dSystemImpl::snapEqualInMap(
     }
 
     // 右边捕捉结果
-    EqualSnapObjectSPtr pSnapRight(nullptr);
+    T pSnapRight(nullptr);
     if (pSnapMiddle)
     {
         assert(iterMiddle != map.cend());
@@ -870,10 +819,10 @@ EqualSnapObjectSPtr Snap2dSystemImpl::snapEqualInMap(
     
     // 比较结果取最小值
     double deltaMin(DBL_MAX);
-    EqualSnapObjectSPtr pRet(nullptr);
+    T pRet(nullptr);
     if (pSnapMiddle)
     {
-        double dis = std::fabs(pSnapMiddle->getValue() - value);
+        double dis = std::fabs(getValue(*pSnapMiddle) - value);
         if (dis < deltaMin)
         {
             deltaMin = dis;
@@ -882,7 +831,7 @@ EqualSnapObjectSPtr Snap2dSystemImpl::snapEqualInMap(
     }
     if (pSnapLeft)
     {
-        double dis = std::fabs(pSnapLeft->getValue() - value);
+        double dis = std::fabs(getValue(*pSnapLeft) - value);
         if (dis < deltaMin)
         {
             deltaMin = dis;
@@ -891,7 +840,7 @@ EqualSnapObjectSPtr Snap2dSystemImpl::snapEqualInMap(
     }
     if (pSnapRight)
     {
-        double dis = std::fabs(pSnapRight->getValue() - value);
+        double dis = std::fabs(getValue(*pSnapRight) - value);
         if (dis < deltaMin)
         {
             deltaMin = dis;
@@ -900,6 +849,31 @@ EqualSnapObjectSPtr Snap2dSystemImpl::snapEqualInMap(
     }
 
     return pRet;
+}
+
+EqualLengthSnapObjectSPtr Snap2dSystemImpl::snapEqualLengthInMap(
+    double length, double tol, double scaleScreen, double angle,
+    const std::set<wydb::ElementId>& excludeIds)
+{
+    return this->snapEqualInMapImpl(_equalLengthMap, length, tol, scaleScreen,
+        [](const EqualLengthSnapObject& snapObj) { return snapObj.getLength(); },
+        [angle](const EqualLengthSnapObject& snapObj)
+        {
+            // 对于直线段的相等捕捉还需要判断是否是平行或垂直
+            double delta = std::fabs(angle - snapObj.getLineAngle());
+            return delta <= wy3d::EPS || std::fabs(delta - wy3d::PI_2) <= wy3d::EPS;
+        },
+        excludeIds);
+}
+
+EqualRadiusSnapObjectSPtr Snap2dSystemImpl::snapEqualRadiusInMap(
+    double radius, double tol, double scaleScreen,
+    const std::set<wydb::ElementId>& excludeIds)
+{
+    return this->snapEqualInMapImpl(_equalRadiusMap, radius, tol, scaleScreen,
+        [](const EqualRadiusSnapObject& snapObj) { return snapObj.getRadius(); },
+        [](const EqualRadiusSnapObject&) { return true; },
+        excludeIds);
 }
 
 // 定位点
@@ -921,17 +895,17 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     if (pAlignXSnapObj && pAlignYSnapObj)
     {
         return std::make_shared<Snap2dResult>(_sketchPlane,
-            wy::Vector2(pAlignXSnapObj->getValue(), pAlignYSnapObj->getValue()), _pSnapContext, pAlignXSnapObj, pAlignYSnapObj);
+            wy::Vector2(pAlignXSnapObj->getValue(), pAlignYSnapObj->getValue()), pAlignXSnapObj, pAlignYSnapObj);
     }
     else if (pAlignXSnapObj)
     {
         return std::make_shared<Snap2dResult>(_sketchPlane,
-            wy::Vector2(pAlignXSnapObj->getValue(), pos.y()), _pSnapContext, pAlignXSnapObj);
+            wy::Vector2(pAlignXSnapObj->getValue(), pos.y()), pAlignXSnapObj);
     }
     else if (pAlignYSnapObj)
     {
         return std::make_shared<Snap2dResult>(_sketchPlane,
-            wy::Vector2(pos.x(), pAlignYSnapObj->getValue()), _pSnapContext, pAlignYSnapObj);
+            wy::Vector2(pos.x(), pAlignYSnapObj->getValue()), pAlignYSnapObj);
     }
 
     return nullptr;
@@ -1005,7 +979,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
 
             // 切线
             TangentPointSnapObjectSPtr pTangentSnapObj = std::make_shared<TangentPointSnapObject>(
-                startElemId, drawStartPnt, SketchSnapObject::UNDEFINED);
+                startElemId, drawStartPnt);
             pSnappedAngleObject = std::make_shared<SnappedAngleObject>();
             pSnappedAngleObject->pSnapObject = pTangentSnapObj;
             pSnappedAngleObject->angle = startTangentAngle;
@@ -1065,47 +1039,47 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
         if (pAngleSnapObj->getType() == Snap2dType::Horizontal || std::fabs(angle) <= wy3d::EPS)
         {
             // 相等
-            if (EqualSnapObjectSPtr pEqualSnapObj = this->snapEqualInMap(_equalMap, drawLength, 10,
-                scaleScreenX > scaleScreenY ? scaleScreenX : scaleScreenY, SketchSnapObject::LINE, 0.0, excludeIds))
+            if (EqualLengthSnapObjectSPtr pEqualSnapObj = this->snapEqualLengthInMap(drawLength, 10,
+                scaleScreenX > scaleScreenY ? scaleScreenX : scaleScreenY, 0.0, excludeIds))
             {
-                retPos = drawStartPnt + pEqualSnapObj->getValue() * dir;
-                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAngleSnapObj, pEqualSnapObj);
+                retPos = drawStartPnt + pEqualSnapObj->getLength() * dir;
+                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAngleSnapObj, pEqualSnapObj);
             }
             // 对齐X
             else if (AlignXSnapObjectSPtr pAlignXSnapObj = this->snapSingleValueInRangeMap<AlignXSnapObjectSPtr>(
                 _alignXMap, pos.x(), 10, scaleScreenX, excludeIds))
             {
                 retPos.setX(pAlignXSnapObj->getValue());
-                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAngleSnapObj, pAlignXSnapObj);
+                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAngleSnapObj, pAlignXSnapObj);
             }
         }
         // 竖直
         else if (pAngleSnapObj->getType() == Snap2dType::Vertical || std::fabs(angle - wy3d::PI_2) <= wy3d::EPS)
         {
             // 相等
-            if (EqualSnapObjectSPtr pEqualSnapObj = this->snapEqualInMap(_equalMap, drawLength, 10,
-                scaleScreenX > scaleScreenY ? scaleScreenX : scaleScreenY, SketchSnapObject::LINE, 0.0, excludeIds))
+            if (EqualLengthSnapObjectSPtr pEqualSnapObj = this->snapEqualLengthInMap(drawLength, 10,
+                scaleScreenX > scaleScreenY ? scaleScreenX : scaleScreenY, 0.0, excludeIds))
             {
-                retPos = drawStartPnt + pEqualSnapObj->getValue() * dir;
-                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAngleSnapObj, pEqualSnapObj);
+                retPos = drawStartPnt + pEqualSnapObj->getLength() * dir;
+                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAngleSnapObj, pEqualSnapObj);
             }
             // 对齐Y
             else if (AlignYSnapObjectSPtr pAlignYSnapObj = this->snapSingleValueInRangeMap<AlignYSnapObjectSPtr>(
                 _alignYMap, pos.y(), 10, scaleScreenY, excludeIds))
             {
                 retPos.setY(pAlignYSnapObj->getValue());
-                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAngleSnapObj, pAlignYSnapObj);
+                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAngleSnapObj, pAlignYSnapObj);
             }
         }
         // 其它角度
         else
         {
             // 相等
-            if (EqualSnapObjectSPtr pEqualSnapObj = this->snapEqualInMap(_equalMap, drawLength, 10,
-                scaleScreenX > scaleScreenY ? scaleScreenX : scaleScreenY, SketchSnapObject::LINE, angle, excludeIds))
+            if (EqualLengthSnapObjectSPtr pEqualSnapObj = this->snapEqualLengthInMap(drawLength, 10,
+                scaleScreenX > scaleScreenY ? scaleScreenX : scaleScreenY, angle, excludeIds))
             {
-                retPos = drawStartPnt + pEqualSnapObj->getValue() * dir;
-                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAngleSnapObj, pEqualSnapObj);
+                retPos = drawStartPnt + pEqualSnapObj->getLength() * dir;
+                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAngleSnapObj, pEqualSnapObj);
             }
             // 对齐X
             else if (AlignXSnapObjectSPtr pAlignXSnapObj = this->snapSingleValueInRangeMap<AlignXSnapObjectSPtr>(
@@ -1118,7 +1092,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
                     double x = pAlignXSnapObj->getValue();
                     double y = (x - drawStartPnt.x()) * std::sin(angle) / std::cos(angle) + drawStartPnt.y();
                     retPos.set(x, y);
-                    return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAngleSnapObj, pAlignXSnapObj);
+                    return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAngleSnapObj, pAlignXSnapObj);
                 }
                 else
                 {
@@ -1136,7 +1110,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
                     double y = pAlignYSnapObj->getValue();
                     double x = (y - drawStartPnt.y()) * std::cos(angle) / std::sin(angle) + drawStartPnt.x();
                     retPos.set(x, y);
-                    return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAngleSnapObj, pAlignYSnapObj);
+                    return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAngleSnapObj, pAlignYSnapObj);
                 }
                 else
                 {
@@ -1145,7 +1119,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
             }
         }
 
-        return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAngleSnapObj);
+        return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAngleSnapObj);
     }
     // 没有捕捉到角度
     else
@@ -1160,17 +1134,17 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
         if (pAlignX && pAlignY)
         {
             return std::make_shared<Snap2dResult>(_sketchPlane,
-                wy::Vector2(pAlignX->getValue(), pAlignY->getValue()), _pSnapContext, pAlignX, pAlignY);
+                wy::Vector2(pAlignX->getValue(), pAlignY->getValue()), pAlignX, pAlignY);
         }
         else if (pAlignX)
         {
             return std::make_shared<Snap2dResult>(_sketchPlane,
-                wy::Vector2(pAlignX->getValue(), pos.y()), _pSnapContext, pAlignX);
+                wy::Vector2(pAlignX->getValue(), pos.y()), pAlignX);
         }
         else if (pAlignY)
         {
             return std::make_shared<Snap2dResult>(_sketchPlane,
-                wy::Vector2(pos.x(), pAlignY->getValue()), _pSnapContext, pAlignY);
+                wy::Vector2(pos.x(), pAlignY->getValue()), pAlignY);
         }
     }
 
@@ -1203,12 +1177,12 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
         wy::Vector2 foot;
         if (MathUtils::perpendicularFootOnLine(drawCenterPnt, wy::Vector2::kZero, wy::Vector2::kXAxis, foot))
         {
-            PointSnapObjectSPtr pSnapObj = std::make_shared<TangentPointSnapObject>(NULL_ID, foot, SketchSnapObject::X_AXIS_0);
+            PointSnapObjectSPtr pSnapObj = std::make_shared<TangentPointSnapObject>(NULL_ID, foot);
             _dynSnapObjs.id2PointSnapObjects[NULL_ID].emplace_back(std::move(pSnapObj));
         }
         if (MathUtils::perpendicularFootOnLine(drawCenterPnt, wy::Vector2::kZero, wy::Vector2::kYAxis, foot))
         {
-            PointSnapObjectSPtr pSnapObj = std::make_shared<TangentPointSnapObject>(NULL_ID, foot, SketchSnapObject::Y_AXIS_0);
+            PointSnapObjectSPtr pSnapObj = std::make_shared<TangentPointSnapObject>(NULL_ID, foot);
             _dynSnapObjs.id2PointSnapObjects[NULL_ID].emplace_back(std::move(pSnapObj));
         }
     }
@@ -1217,14 +1191,12 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     PointSnapObjectSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[wydb::ElementId::kNull], pos, 10, scaleScreenX, scaleScreenY);
     if (pPointSnapRet)
     {
-        return std::make_shared<Snap2dResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
+        return std::make_shared<Snap2dResult>(_sketchPlane, pPointSnapRet->getValue(), pPointSnapRet);
     }
 
     // 相等
-    EqualSnapObjectSPtr pEqualSnapObj = this->snapEqualInMap(_equalMap, drawRadius, 10,
-        scaleScreenX > scaleScreenY ? scaleScreenX : scaleScreenY,
-        SketchSnapObject::CIRCLE | SketchSnapObject::ARC,
-        DBL_MAX, excludeIds);
+    EqualRadiusSnapObjectSPtr pEqualSnapObj = this->snapEqualRadiusInMap(drawRadius, 10,
+        scaleScreenX > scaleScreenY ? scaleScreenX : scaleScreenY, excludeIds);
 
 
     if (pDrawCircleContext->isForDrawArc())
@@ -1246,15 +1218,15 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
             if (pEqualSnapObj) // 捕捉到相等
             {
                 double y = pos.y();
-                if (drawVec.dot(wy::Vector2::kYAxis) > 0.0) y = drawCenterPnt.y() + pEqualSnapObj->getValue();
-                else y = drawCenterPnt.y() - pEqualSnapObj->getValue();
+                if (drawVec.dot(wy::Vector2::kYAxis) > 0.0) y = drawCenterPnt.y() + pEqualSnapObj->getRadius();
+                else y = drawCenterPnt.y() - pEqualSnapObj->getRadius();
                 wy::Vector2 retPos(pAlignXSnapObj->getValue(), y);
-                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAlignXSnapObj, pEqualSnapObj);
+                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAlignXSnapObj, pEqualSnapObj);
             }
             else
             {
                 wy::Vector2 retPos(pAlignXSnapObj->getValue(), pos.y());
-                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAlignXSnapObj);
+                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAlignXSnapObj);
             }
         }
         
@@ -1265,15 +1237,15 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
             if (pEqualSnapObj) // 捕捉到相等
             {
                 double x = pos.x();
-                if (drawVec.dot(wy::Vector2::kXAxis) > 0.0) x = drawCenterPnt.x() + pEqualSnapObj->getValue();
-                else x = drawCenterPnt.x() - pEqualSnapObj->getValue();
+                if (drawVec.dot(wy::Vector2::kXAxis) > 0.0) x = drawCenterPnt.x() + pEqualSnapObj->getRadius();
+                else x = drawCenterPnt.x() - pEqualSnapObj->getRadius();
                 wy::Vector2 retPos(x, pAlignYSnapObj->getValue());
-                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAlignYSnapObj, pEqualSnapObj);
+                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAlignYSnapObj, pEqualSnapObj);
             }
             else
             {
                 wy::Vector2 retPos(pos.x(), pAlignYSnapObj->getValue());
-                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pAlignYSnapObj);
+                return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pAlignYSnapObj);
             }
         }
     }
@@ -1282,8 +1254,8 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     if (pEqualSnapObj)
     {
         drawVec.normalize();
-        wy::Vector2 retPos = drawCenterPnt + pEqualSnapObj->getValue() * drawVec;
-        return std::make_shared<Snap2dResult>(_sketchPlane, retPos, _pSnapContext, pEqualSnapObj);
+        wy::Vector2 retPos = drawCenterPnt + pEqualSnapObj->getRadius() * drawVec;
+        return std::make_shared<Snap2dResult>(_sketchPlane, retPos, pEqualSnapObj);
     }
 
     return nullptr;
@@ -1307,79 +1279,25 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     }
     wy::Vector2 startPnt = pDrawArcContext->getStartPoint();
 
-    // 计算关键点
+    // 计算与起点对齐的两个弧上点
     if (_dynSnapObjs.id2PointSnapObjects.find(NULL_ID) == _dynSnapObjs.id2PointSnapObjects.cend())
     {
         std::list<PointSnapObjectSPtr>& pointSnapObjs = _dynSnapObjs.id2PointSnapObjects[NULL_ID];
 
-        // 与X轴交点
-        {
-            wy::Vector2 intPnt1, intPnt2;
-            unsigned int numIntPnts = wy3d::intersectLineCircle(wy::Vector2::kZero, wy::Vector2::kXAxis,
-                center, radius, intPnt1, intPnt2);
-            if (1 == numIntPnts)
-            {
-                PointSnapObjectSPtr pSnapObj = std::make_shared<TangentPointSnapObject>(NULL_ID, intPnt1, SketchSnapObject::X_AXIS_0);
-                pointSnapObjs.emplace_back(std::move(pSnapObj));
-            }
-            else if (2 == numIntPnts)
-            {
-                PointSnapObjectSPtr pSnapObj1 = std::make_shared<IntersectionPointSnapObject>(NULL_ID, intPnt1, SketchSnapObject::X_AXIS_0);
-                pointSnapObjs.emplace_back(std::move(pSnapObj1));
-                PointSnapObjectSPtr pSnapObj2 = std::make_shared<IntersectionPointSnapObject>(NULL_ID, intPnt2, SketchSnapObject::X_AXIS_1);
-                pointSnapObjs.emplace_back(std::move(pSnapObj2));
-            }
-        }
-        // 与Y轴交点
-        {
-            wy::Vector2 intPnt1, intPnt2;
-            unsigned int numIntPnts = wy3d::intersectLineCircle(wy::Vector2::kZero, wy::Vector2::kYAxis,
-                center, radius, intPnt1, intPnt2);
-            if (1 == numIntPnts)
-            {
-                PointSnapObjectSPtr pSnapObj = std::make_shared<TangentPointSnapObject>(NULL_ID, intPnt1, SketchSnapObject::Y_AXIS_0);
-                pointSnapObjs.emplace_back(std::move(pSnapObj));
-            }
-            else if (2 == numIntPnts)
-            {
-                PointSnapObjectSPtr pSnapObj1 = std::make_shared<IntersectionPointSnapObject>(NULL_ID, intPnt1, SketchSnapObject::Y_AXIS_0);
-                pointSnapObjs.emplace_back(std::move(pSnapObj1));
-                PointSnapObjectSPtr pSnapObj2 = std::make_shared<IntersectionPointSnapObject>(NULL_ID, intPnt2, SketchSnapObject::Y_AXIS_1);
-                pointSnapObjs.emplace_back(std::move(pSnapObj2));
-            }
-        }
-
-        // 关键点:四个象限点
-        std::list<wy::Vector2> keyPnts {
-            wy::Vector2(center.x() + radius, center.y()),
-            wy::Vector2(center.x() - radius, center.y()),
-            wy::Vector2(center.x(), center.y() + radius),
-            wy::Vector2(center.x(), center.y() - radius)
-        };
-        short keyIndex(0);
-        for (const wy::Vector2& keyPnt : keyPnts)
-        {
-            if ((keyPnt - startPnt).length() <= wy3d::TOL) continue;
-            pointSnapObjs.emplace_back(MOVE(MKSPTR<KeyPointSnapObject>(NULL_ID, keyPnt, ++keyIndex, center)));
-        }
-        // 关键点:两个对称点
-        if (std::fabs(startPnt.y() - center.y()) > wy3d::TOL &&
-            std::fabs(startPnt.x() - center.x()) > wy3d::TOL) // 不在四个象限点上
-        {
-            pointSnapObjs.emplace_back(MOVE(MKSPTR<KeyPointSnapObject>(NULL_ID,
-                wy::Vector2(startPnt.x(), center.y() - (startPnt.y() - center.y())), ++keyIndex, startPnt)));
-            pointSnapObjs.emplace_back(MOVE(MKSPTR<KeyPointSnapObject>(NULL_ID,
-                wy::Vector2(center.x() - (startPnt.x() - center.x()), startPnt.y()), ++keyIndex, startPnt)));
-            pointSnapObjs.emplace_back(MOVE(MKSPTR<KeyPointSnapObject>(NULL_ID,
-                wy::Vector2(center.x() - (startPnt.x() - center.x()), center.y() - (startPnt.y() - center.y())),
-                ++keyIndex, startPnt)));
-        }
+        // 与起点x相同的点
+        wy::Vector2 alignXPnt(startPnt.x(), center.y() - (startPnt.y() - center.y()));
+        if ((alignXPnt - startPnt).length() > wy3d::TOL)
+            pointSnapObjs.emplace_back(MOVE(MKSPTR<AlignPointSnapObject>(NULL_ID, alignXPnt, startPnt, Snap2dType::AlignX)));
+        // 与起点y相同的点
+        wy::Vector2 alignYPnt(center.x() - (startPnt.x() - center.x()), startPnt.y());
+        if ((alignYPnt - startPnt).length() > wy3d::TOL)
+            pointSnapObjs.emplace_back(MOVE(MKSPTR<AlignPointSnapObject>(NULL_ID, alignYPnt, startPnt, Snap2dType::AlignY)));
     }
 
     // 捕捉交点
     if (PointSnapObjectSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[NULL_ID], pos, 10, scaleScreenX, scaleScreenY))
     {
-        return std::make_shared<Snap2dResult>(_sketchPlane, pPointSnapRet->getValue(), _pSnapContext, pPointSnapRet);
+        return std::make_shared<Snap2dResult>(_sketchPlane, pPointSnapRet->getValue(), pPointSnapRet);
     }
 
     return nullptr;

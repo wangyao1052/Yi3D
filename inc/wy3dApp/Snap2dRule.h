@@ -33,13 +33,13 @@ class Snap2dContext;
 
 // A rule's snap hit: the snapped plane position, the kind of snap (drives the
 // tip icon; Undefined draws a plain point), an optional element to highlight
-// (null id: no highlight), and the reference point of an alignment or key point.
+// (null id: no highlight), and the reference point of an alignment point.
 struct Snap2dRuleHit
 {
     wy::Vector2 point;
     wydb::ElementId highlightId;
     Snap2dType snapType = Snap2dType::Undefined;
-    // Required for AlignX/AlignY/KeyPoint (draws the guide line), ignored otherwise.
+    // Required for AlignX/AlignY (draws the guide line), ignored otherwise.
     wy::Vector2 refPoint;
 };
 

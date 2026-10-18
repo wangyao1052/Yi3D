@@ -20,38 +20,27 @@
 #define WY3DAPP_SNAP2D_RESULT_H
 
 #include <vector>
-#include <list>
-#include <map>
 #include <memory>
-#include <QString>
 #include <wyVector2.h>
 #include <wy3dVector2.h>
 #include <wy3dPlane.h>
-#include <wy3dApp/Snap2dContext.h>
 #include "SketchSnapObject.h"
-#include "SnapTipWidget.h"
-#include <wy3dApp/GuiCmdTransient.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-// Payload of one snap result item: a snapshot taken when the result is built.
-struct Snap2dResultInfo
+// One item of a snap result: a value snapshot of one snapped element.
+struct Snap2dResultItem
 {
     Snap2dType type = Snap2dType::Undefined;
     wydb::ElementId highlightId;  // element to highlight
     wy::Vector2 point;            // point carried by the snap object (tangent point, curve end, ...)
-    wy::Vector2 refPoint;         // guide-line reference (align / key point)
-    short extra = 0;              // extra info used by isLooseEqual
-};
+    wy::Vector2 refPoint;         // guide-line reference (alignment point)
 
-struct Snap2dResultItem
-{
-    Snap2dResultInfo info;
-    std::list<GuiCmdTransientSPtr> transients;
-    SnapTipWidget* pSnapTipWidget;
-    explicit Snap2dResultItem(const Snap2dResultInfo& argInfo)
-        : info(argInfo), pSnapTipWidget(nullptr) {}
+    explicit Snap2dResultItem(Snap2dType argType, const wydb::ElementId& argHighlightId,
+        const wy::Vector2& argPoint, const wy::Vector2& argRefPoint)
+        : type(argType), highlightId(argHighlightId), point(argPoint),
+          refPoint(argRefPoint) {}
 };
 
 class Snap2dResult
@@ -60,39 +49,26 @@ public:
     Snap2dResult(
         const wy3d::Plane& sketchPlane,
         const wy::Vector2& position,
-        Snap2dContextSPtr pContext,
-        SketchSnapObjectSPtr pSnapObject,
-        bool drawPoint = true);
+        SketchSnapObjectSPtr pSnapObject);
     Snap2dResult(
         const wy3d::Plane& sketchPlane,
         const wy::Vector2& position,
-        Snap2dContextSPtr pContext,
         SketchSnapObjectSPtr pSnapObject,
-        SketchSnapObjectSPtr pOtherSnapObject,
-        bool drawPoint = true);
-    // Result built from a value payload (external rule hits).
+        SketchSnapObjectSPtr pOtherSnapObject);
+    // Result built from one item (external rule hits).
     Snap2dResult(
         const wy3d::Plane& sketchPlane,
         const wy::Vector2& position,
-        Snap2dContextSPtr pContext,
-        const Snap2dResultInfo& snapInfo,
-        bool drawPoint = true);
+        const Snap2dResultItem& snapItem);
     // A hit with nothing for the sketch layer to display.
     Snap2dResult(
         const wy3d::Plane& sketchPlane,
-        const wy::Vector2& position,
-        Snap2dContextSPtr pContext);
-    ~Snap2dResult();
+        const wy::Vector2& position);
 
     // 获取位置坐标
     wy::Vector2 getPosition() const
     {
         return _position;
-    }
-    // 设置坐标位置
-    void setPosition(const wy::Vector2& position)
-    {
-        _position = position;
     }
 
     // 获取捕捉到的项
@@ -101,31 +77,16 @@ public:
         return _items;
     }
 
-    // 显示
-    void show(std::map<wydb::ElementId, GuiCmdTransientSPtr> highlights);
-    // 更新
-    void update();
-
-    // 是否弱等效(不比较具体的结果位置坐标,主要比较捕捉到的对象)
-    bool isLooseEqual(const Snap2dResult& rhs) const;
-
-    // Element highlight transients used by the last show() (key = element id)
-    const std::map<wydb::ElementId, GuiCmdTransientSPtr>& getHighlightTransients() const
+    // 获取草图平面(显示点/点划线时使用)
+    const wy3d::Plane& getSketchPlane() const
     {
-        return _highlightTransients;
+        return _sketchPlane;
     }
 
 private:
     wy3d::Plane _sketchPlane;
     wy::Vector2 _position;
-    Snap2dContextSPtr _pContext;
-    // Whether the sketch layer draws the point marker for this result
-    bool _isPointToDraw;
     std::vector<Snap2dResultItem> _items;
-    std::map<wydb::ElementId, GuiCmdTransientSPtr> _highlightTransients;
-
-    // 跟随鼠标移动
-    std::shared_ptr<SnapTipMouseFollow> _pSnapTipMouseFollow;
 };
 typedef std::shared_ptr<Snap2dResult> Snap2dResultSPtr;
 

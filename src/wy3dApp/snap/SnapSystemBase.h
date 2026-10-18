@@ -101,11 +101,12 @@ public:
     virtual void reset() = 0;
 
     // 捕捉
-    // x,y          --- 窗口坐标
-    // pContext     --- 捕捉上下文
-    // idsToExclude --- 排除掉的元素ID
-    virtual wyap::SnapResultSPtr snap(double x, double y, wyap::SnapContextSPtr pContext) = 0;
-    virtual wyap::SnapResultSPtr snap(double x, double y, wyap::SnapContextSPtr pContext, const std::set<wydb::ElementId>& idsToExclude) = 0;
+    // x,y               --- 窗口坐标
+    // pContext          --- 捕捉上下文
+    // idsToExclude      --- 排除掉的元素ID
+    // isResultPublished --- publish the result to the reactors (false: compute only)
+    virtual wyap::SnapResultSPtr snap(double x, double y, wyap::SnapContextSPtr pContext, bool isResultPublished = true) = 0;
+    virtual wyap::SnapResultSPtr snap(double x, double y, wyap::SnapContextSPtr pContext, const std::set<wydb::ElementId>& idsToExclude, bool isResultPublished = true) = 0;
 
     // 清空捕捉结果
     virtual void clearSnapResult() = 0;

@@ -40,13 +40,13 @@ std::list<wyap::SnapObjectSPtr> ConeSnapObjectCreator::createSnapObjects(const w
     osg::Matrix matrix = MathUtils::createMatrix(pCone->getPosition(), pCone->getRotation());
     double radius = pCone->getRadius();
     // 中心点
-    snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, 0.0, 0.0, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Center, id, 0.0, 0.0, 0.0, matrix));
     // 端点
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, 0.0, pCone->getHeight(), matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, radius, 0.0, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, radius, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, -radius, 0.0, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, -radius, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, 0.0, pCone->getHeight(), matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, radius, 0.0, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, radius, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, -radius, 0.0, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, -radius, 0.0, matrix));
 
     return snapPoints;
 }

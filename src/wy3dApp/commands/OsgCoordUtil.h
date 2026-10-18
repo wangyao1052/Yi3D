@@ -58,7 +58,8 @@ namespace OsgCoordUtil {
         double x, double y,
         const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
-        bool snap = true);
+        bool snap = true,
+        bool isResultPublished = true);
 
     std::pair<wy::Vector3, bool> computePosition3dForSketch3D(
         osgViewer::View* pView,

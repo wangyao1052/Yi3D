@@ -244,7 +244,8 @@ bool MakePrimitiveGuiCmd::finishStep(unsigned int step)
         wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
         pSnapSys->beginChange();
         {
-            _pWorkPlnOriginSnapObject = std::make_shared<SnapCoordinatePoint>(_workPln.getOrigin());
+            _pWorkPlnOriginSnapObject = std::make_shared<SnapPoint>(
+                wydb::ElementId::kNull, _workPln.getOrigin(), SnapPoint::Type::Origin);
             pSnapSys->addResidentSnapObject(_pWorkPlnOriginSnapObject);
         }
         pSnapSys->endChange();

@@ -44,8 +44,8 @@ std::list<wyap::SnapObjectSPtr> SketchCenterLineSnapObjectCreator::createSnapObj
     }
 
     wydb::ElementId id = pSketchCenterLine->getId();
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(pSketchCenterLine->getStartPoint())));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(pSketchCenterLine->getEndPoint())));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, sketchPlane.value(pSketchCenterLine->getStartPoint())));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, sketchPlane.value(pSketchCenterLine->getEndPoint())));
     return snapPoints;
 }
 

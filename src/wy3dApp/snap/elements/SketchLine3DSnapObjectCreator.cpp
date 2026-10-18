@@ -38,9 +38,9 @@ std::list<wyap::SnapObjectSPtr> SketchLine3DSnapObjectCreator::createSnapObjects
     wydb::ElementId id = pSketchLine3D->getId();
     const wy::Vector3 startPnt = pSketchLine3D->getStartPoint();
     const wy::Vector3 endPnt = pSketchLine3D->getEndPoint();
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, startPnt));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, endPnt));
-    snapPoints.emplace_back(this->newSnapPoint<SnapMiddlePoint>(id, (startPnt + endPnt) / 2));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, startPnt));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, endPnt));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Middle, id, (startPnt + endPnt) / 2));
     return snapPoints;
 }
 

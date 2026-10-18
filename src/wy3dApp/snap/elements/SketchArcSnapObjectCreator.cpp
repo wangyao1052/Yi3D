@@ -49,10 +49,10 @@ std::list<wyap::SnapObjectSPtr> SketchArcSnapObjectCreator::createSnapObjects(co
     }
 
     wydb::ElementId id = pSketchArc->getId();
-    snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, sketchPlane.value(pSketchArc->getCenter())));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(pSketchArc->getStartPoint())));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(pSketchArc->getEndPoint())));
-    snapPoints.emplace_back(this->newSnapPoint<SnapMiddlePoint>(id, sketchPlane.value(pSketchArc->getMiddlePoint())));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Center, id, sketchPlane.value(pSketchArc->getCenter())));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, sketchPlane.value(pSketchArc->getStartPoint())));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, sketchPlane.value(pSketchArc->getEndPoint())));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Middle, id, sketchPlane.value(pSketchArc->getMiddlePoint())));
     return snapPoints;
 }
 

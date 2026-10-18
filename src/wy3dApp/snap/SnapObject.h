@@ -72,15 +72,16 @@ public:
         Middle = 2,
         Center = 3,
         Origin = 4,
-        Anchor = 5,
+        Point = 5,
         Quadrant = 6,
     };
 
 public:
-    SnapPoint(const wydb::ElementId& id, const wy::Vector3& position)
-        : SnapObject(id), _position(position) {}
+    SnapPoint(const wydb::ElementId& id, const wy::Vector3& position, Type type)
+        : SnapObject(id), _position(position), _type(type) {}
 
-    virtual Type getType() const = 0;
+    // 类型
+    Type getType() const { return _type; }
 
     // 获取位置
     inline const wy::Vector3& getPosition() const
@@ -101,66 +102,7 @@ public:
 
 private:
     wy::Vector3 _position;
-};
-
-// 坐标点
-class SnapCoordinatePoint : public SnapPoint
-{
-public:
-    explicit SnapCoordinatePoint(const wy::Vector3& position)
-        : SnapPoint(wydb::ElementId::kNull, position) {}
-
-    virtual Type getType() const override { return Type::Origin; }
-};
-
-// 坐标锚点(非元素、无 id 的临时捕捉点)
-class SnapAnchorPoint : public SnapPoint
-{
-public:
-    explicit SnapAnchorPoint(const wy::Vector3& position)
-        : SnapPoint(wydb::ElementId::kNull, position) {}
-
-    virtual Type getType() const override { return Type::Anchor; }
-};
-
-// 端点
-class SnapEndPoint : public SnapPoint
-{
-public:
-    SnapEndPoint(const wydb::ElementId& id, const wy::Vector3& position)
-        : SnapPoint(id, position) {}
-
-    virtual Type getType() const override { return Type::End; }
-};
-
-// 象限点
-class SnapQuadrantPoint : public SnapPoint
-{
-public:
-    SnapQuadrantPoint(const wydb::ElementId& id, const wy::Vector3& position)
-        : SnapPoint(id, position) {}
-
-    virtual Type getType() const override { return Type::Quadrant; }
-};
-
-// 中点
-class SnapMiddlePoint : public SnapPoint
-{
-public:
-    SnapMiddlePoint(const wydb::ElementId& id, const wy::Vector3& position)
-        : SnapPoint(id, position) {}
-
-    virtual Type getType() const override { return Type::Middle; }
-};
-
-// 中心点
-class SnapCenterPoint : public SnapPoint
-{
-public:
-    SnapCenterPoint(const wydb::ElementId& id, const wy::Vector3& position)
-        : SnapPoint(id, position) {}
-
-    virtual Type getType() const override { return Type::Center; }
+    Type _type;
 };
 
 } // namespace wy3dApp

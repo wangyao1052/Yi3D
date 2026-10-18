@@ -47,7 +47,7 @@ std::list<wyap::SnapObjectSPtr> SketchEllipseSnapObjectCreator::createSnapObject
     wydb::ElementId id = pSketchEllipse->getId();
     // ��Բ��
     wy::Vector2 center = pSketchEllipse->getCenter();
-    snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, sketchPlane.value(center)));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Center, id, sketchPlane.value(center)));
     // ���㳤����X��ļн�
     wy::Vector2 majorAxis = pSketchEllipse->getMajorAxis();
     double angle = std::atan2(majorAxis.y(), majorAxis.x());
@@ -66,7 +66,7 @@ std::list<wyap::SnapObjectSPtr> SketchEllipseSnapObjectCreator::createSnapObject
     {
         double xRot = endPnt.x() * cosAngle - endPnt.y() * sinAngle;
         double yRot = endPnt.x() * sinAngle + endPnt.y() * cosAngle;
-        snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(id,
+        snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Quadrant, id,
             sketchPlane.value(wy::Vector2(center.x() + xRot, center.y() + yRot))));
     }
     return snapPoints;

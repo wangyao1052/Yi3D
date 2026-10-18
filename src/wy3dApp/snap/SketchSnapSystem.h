@@ -69,8 +69,7 @@ protected:
     virtual bool refreshPlane(const wydb::Database* pDb) override;
     virtual void rebuildAll() override;
     virtual void appendSnapObjects(const wydb::Database* pDb, const wydb::ElementId& id) override;
-    virtual GuiCmdTransientSPtr createHighlightTransient(
-        const wydb::Database* pDb, const wydb::ElementId& id) const override;
+    virtual GuiCmdTransientSPtr createHighlightTransient(const wydb::ElementId& id) const override;
 
 private:
     // 定位点+捕捉到对象

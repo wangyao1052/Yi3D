@@ -42,7 +42,7 @@ std::list<wyap::SnapObjectSPtr> SketchPointSnapObjectCreator::createSnapObjects(
         assert(false);
         return snapPoints;
     }
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pSketchPoint->getId(),
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, pSketchPoint->getId(),
         sketchPlane.value(pSketchPoint->getPosition())));
     return snapPoints;
 }

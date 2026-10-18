@@ -479,16 +479,15 @@ std::shared_ptr<SketchDrawLineContext::SnapStartTangent> SketchDrawLineGuiCmd::c
     const std::vector<Snap2dResultItem>& snapRetItems = pSnapResult->getItems();
     for (const Snap2dResultItem& snapRetItem : snapRetItems)
     {
-        const Snap2dResultInfo& info = snapRetItem.info;
-        if (info.type != Snap2dType::EndPoint &&
-            info.type != Snap2dType::QuadrantPoint &&
-            info.type != Snap2dType::PointOnCurve &&
-            info.type != Snap2dType::MiddlePoint)
+        if (Snap2dType::EndPoint != snapRetItem.type &&
+            Snap2dType::QuadrantPoint != snapRetItem.type &&
+            Snap2dType::Nearest != snapRetItem.type &&
+            Snap2dType::MiddlePoint != snapRetItem.type)
         {
             continue;
         }
 
-        wydb::ElementId id = info.highlightId;
+        wydb::ElementId id = snapRetItem.highlightId;
         const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(id));
         if (!pSketchCurve)
         {

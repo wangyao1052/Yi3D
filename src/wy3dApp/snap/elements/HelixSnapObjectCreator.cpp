@@ -64,7 +64,7 @@ std::list<wyap::SnapObjectSPtr> HelixSnapObjectCreator::createSnapObjects(const 
             const TopoDS_Shape& shape = indexMapOfVertex.FindKey(i);
             TopoDS_Vertex vertex = TopoDS::Vertex(shape);
             gp_Pnt pnt = BRep_Tool::Pnt(vertex);
-            snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pHelix->getId(), pnt.X(), pnt.Y(), pnt.Z()));
+            snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, pHelix->getId(), pnt.X(), pnt.Y(), pnt.Z()));
         }
 
         return snapPoints;

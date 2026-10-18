@@ -47,11 +47,9 @@ namespace wy3dApp {
 
 static Snap2dResultSPtr convertSnapResult(
     const wy3d::Plane& sketchPlane,
-    std::shared_ptr<Snap2dContext> pSnapContext,
     const wy::Vector2& retPos,
     const wyap::SnapResultSPtr& pSnapRet3d)
 {
-    assert(pSnapContext);
     assert(pSnapRet3d);
 
     const SnapResultPoint* pSnapRetPoint = dynamic_cast<const SnapResultPoint*>(pSnapRet3d.get());
@@ -86,17 +84,19 @@ static Snap2dResultSPtr convertSnapResult(
     case SnapPoint::Type::Quadrant:
         pSketchSnapObj = std::make_shared<QuadrantPointSnapObject>(pSnapObj->getId(), retPos);
         break;
+
+    case SnapPoint::Type::Point:
+        pSketchSnapObj = std::make_shared<GenericPointSnapObject>(retPos);
+        break;
     }
 
     if (pSketchSnapObj)
     {
-        return std::make_shared<Snap2dResult>(
-            sketchPlane, retPos, pSnapContext, pSketchSnapObj, false); // drawPoint = false
+        return std::make_shared<Snap2dResult>(sketchPlane, retPos, pSketchSnapObj);
     }
 
-    // A hit always yields a result; kinds without a sketch-layer marker
-    // (anchors) yield a display-less one.
-    return std::make_shared<Snap2dResult>(sketchPlane, retPos, pSnapContext);
+    // A hit always yields a result; unknown kinds yield a display-less one.
+    return std::make_shared<Snap2dResult>(sketchPlane, retPos);
 }
 
 // 全局体系点捕捉结果→3D草图捕捉结果(与上方convertSnapResult同构)
@@ -136,7 +136,7 @@ static std::shared_ptr<Sketch3DSnapResult> convertSnapResult3D(
         break;
     default:
         // A hit always yields a result; kinds without a marker
-        // (anchors) yield a display-less one.
+        // (plain points) yield a display-less one.
         return std::make_shared<Sketch3DSnapResult>(pSnapRetPoint->getPosition());
     }
 
@@ -179,12 +179,14 @@ std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgCoordUtil::computePoint(
     double x, double y,
     const wy3d::Plane& sketchPlane,
     const std::set<wydb::ElementId>& excludeIds,
-    bool snap)
+    bool snap,
+    bool isResultPublished)
 {
     if (snap)
     {
         wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
-        wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(x, y, pSnapContext, excludeIds);
+        wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(
+            x, y, pSnapContext, excludeIds, isResultPublished);
         if (pSnapResult)
         {
             wy::Vector3 retPnt = sketchPlane.value(sketchPlane.uv(pSnapResult->getPosition()));
@@ -271,13 +273,15 @@ wy::Vector2 OsgCoordUtil::computePosition2d(
     assert(pSnapContext);
     assert(pSnap2dSys);
 
-    std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePoint(pView, x, y, sketchPlane, excludeIds, snap3d);
+    // The 2D display layer owns the marker, so do not publish to the reactors.
+    std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePoint(
+        pView, x, y, sketchPlane, excludeIds, snap3d, false);
     if (ret.second)
     {
         wy::Vector2 retPos = sketchPlane.uv(ret.first.x(), ret.first.y(), ret.first.z());
         if (pSnap2dSys)
         {
-            Snap2dResultSPtr pSketchSnapRet = convertSnapResult(sketchPlane, pSnapContext, retPos, ret.second);
+            Snap2dResultSPtr pSketchSnapRet = convertSnapResult(sketchPlane, retPos, ret.second);
             pSnap2dSys->setSnapResult(pSketchSnapRet);
         }
         return retPos;

@@ -47,13 +47,13 @@ std::list<wyap::SnapObjectSPtr> SketchEllipseArcSnapObjectCreator::createSnapObj
     wydb::ElementId id = pSketchEllipseArc->getId();
     // 椭圆心
     wy::Vector2 center = pSketchEllipseArc->getCenter();
-    snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(id, sketchPlane.value(center)));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Center, id, sketchPlane.value(center)));
     // 起点
     wy::Vector2 startPoint = pSketchEllipseArc->getStartPoint();
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(startPoint)));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, sketchPlane.value(startPoint)));
     // 终点
     wy::Vector2 endPoint = pSketchEllipseArc->getEndPoint();
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, sketchPlane.value(endPoint)));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, sketchPlane.value(endPoint)));
 
     return snapPoints;
 }

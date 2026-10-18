@@ -3823,22 +3823,22 @@
 <context>
     <name>SketchDrawArcTangent</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="418"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="417"/>
         <source>Specify the start point on an endpoint of an existing curve; the arc is tangent to the curve.</source>
         <translation>在现有曲线的端点处指定圆弧起点；圆弧与该曲线相切。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="432"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="431"/>
         <source>Specify the end point of the arc; you can directly input the coordinate values.</source>
         <translation>指定圆弧终点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="445"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="444"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation>指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="458"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="457"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation>指定圆弧角度；可输入具体值。</translation>
     </message>
@@ -3847,12 +3847,12 @@
         <translation type="vanished">选择相切的直线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="660"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="659"/>
         <source>Radius</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="671"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="670"/>
         <source>SweepAngle</source>
         <translation>扫掠角度</translation>
     </message>

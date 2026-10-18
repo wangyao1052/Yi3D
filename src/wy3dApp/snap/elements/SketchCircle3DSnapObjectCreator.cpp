@@ -41,11 +41,11 @@ std::list<wyap::SnapObjectSPtr> SketchCircle3DSnapObjectCreator::createSnapObjec
     const wy::Vector3 yDir = pCircle->getNormal().cross(xDir);
     const double radius = pCircle->getRadius();
 
-    snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(pCircle->getId(), center));
-    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pCircle->getId(), center + xDir * radius));
-    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pCircle->getId(), center + yDir * radius));
-    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pCircle->getId(), center - xDir * radius));
-    snapPoints.emplace_back(this->newSnapPoint<SnapQuadrantPoint>(pCircle->getId(), center - yDir * radius));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Center, pCircle->getId(), center));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Quadrant, pCircle->getId(), center + xDir * radius));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Quadrant, pCircle->getId(), center + yDir * radius));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Quadrant, pCircle->getId(), center - xDir * radius));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Quadrant, pCircle->getId(), center - yDir * radius));
     return snapPoints;
 }
 

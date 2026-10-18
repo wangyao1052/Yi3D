@@ -24,6 +24,7 @@
 #include <osg/Matrix>
 #include <TopoDS_Shape.hxx>
 #include <wyVector3.h>
+#include "../SnapObject.h"
 #include "../SnapSystemBase.h"
 #include <wy3dSketchEntity.h>
 #include <wy3dPlane.h>
@@ -46,24 +47,24 @@ protected:
     bool getSketchPlane(const wy3d::SketchEntity* pSketchEntity, wy3d::Plane& outSketchPlane) const;
 
 protected:
-    template<typename T>
-    wyap::SnapObjectSPtr newSnapPoint(const wydb::ElementId& id, double x, double y, double z) const
+    wyap::SnapObjectSPtr newSnapPoint(SnapPoint::Type type, const wydb::ElementId& id,
+        double x, double y, double z) const
     {
-        return std::make_shared<T>(id, wy::Vector3(x, y, z));
+        return std::make_shared<SnapPoint>(id, wy::Vector3(x, y, z), type);
     }
 
-    template<typename T>
-    wyap::SnapObjectSPtr newSnapPoint(const wydb::ElementId& id, const wy::Vector3& pnt) const
+    wyap::SnapObjectSPtr newSnapPoint(SnapPoint::Type type, const wydb::ElementId& id,
+        const wy::Vector3& pnt) const
     {
-        return std::make_shared<T>(id, pnt);
+        return std::make_shared<SnapPoint>(id, pnt, type);
     }
 
-    template<typename T>
-    wyap::SnapObjectSPtr newSnapPoint(const wydb::ElementId& id, double x, double y, double z, const osg::Matrix& matrix) const
+    wyap::SnapObjectSPtr newSnapPoint(SnapPoint::Type type, const wydb::ElementId& id,
+        double x, double y, double z, const osg::Matrix& matrix) const
     {
         osg::Vec3d pnt(x, y, z);
         pnt = pnt * matrix;
-        return std::make_shared<T>(id, wy::Vector3(pnt.x(), pnt.y(), pnt.z()));
+        return std::make_shared<SnapPoint>(id, wy::Vector3(pnt.x(), pnt.y(), pnt.z()), type);
     }
 };
 

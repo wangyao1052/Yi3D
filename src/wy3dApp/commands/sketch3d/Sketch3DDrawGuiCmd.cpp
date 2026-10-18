@@ -285,7 +285,8 @@ void Sketch3DWorkingPlane::showImpl(const wy3d::Plane& plane)
             _pOriginSnapObject = nullptr;
         }
 
-        _pOriginSnapObject = std::make_shared<SnapCoordinatePoint>(plane.getOrigin());
+        _pOriginSnapObject = std::make_shared<SnapPoint>(
+            wydb::ElementId::kNull, plane.getOrigin(), SnapPoint::Type::Origin);
         pSnapSys->beginChange();
         pSnapSys->addResidentSnapObject(_pOriginSnapObject);
         pSnapSys->endChange();

@@ -42,14 +42,14 @@ std::list<wyap::SnapObjectSPtr> BoxSnapObjectCreator::createSnapObjects(const wy
     double width = pBox->getWidth();
     double height = pBox->getHeight();
     // 端点
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, 0.0, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, length, 0.0, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, length, width, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, width, 0.0, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, 0.0, height, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, length, 0.0, height, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, length, width, height, matrix));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(id, 0.0, width, height, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, 0.0, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, length, 0.0, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, length, width, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, width, 0.0, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, 0.0, height, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, length, 0.0, height, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, length, width, height, matrix));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, id, 0.0, width, height, matrix));
 
     return snapPoints;
 }

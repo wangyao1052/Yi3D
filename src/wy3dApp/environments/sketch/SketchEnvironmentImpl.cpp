@@ -159,6 +159,9 @@ void SketchEnvironmentImpl::onEnter()
     Application::instance().getSelManager()->clearSelections();
     Application::instance().getSelManager()->endChange();
 
+    // Drop the leftover modeling snap marker; the 2D layer draws its own.
+    Application::instance().getSnapSystem()->clearSnapResult();
+
     // 同步显示模式按钮状态
     this->syncDisplayModeAction();
 

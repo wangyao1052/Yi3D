@@ -36,9 +36,9 @@ std::list<wyap::SnapObjectSPtr> SketchEllipseArc3DSnapObjectCreator::createSnapO
 
     // 中心 + 起点 + 终点(与2D椭圆弧一致)
     std::list<wyap::SnapObjectSPtr> snapPoints;
-    snapPoints.emplace_back(this->newSnapPoint<SnapCenterPoint>(pEllipseArc->getId(), pEllipseArc->getCenter()));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipseArc->getId(), pEllipseArc->getStartPoint()));
-    snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pEllipseArc->getId(), pEllipseArc->getEndPoint()));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::Center, pEllipseArc->getId(), pEllipseArc->getCenter()));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, pEllipseArc->getId(), pEllipseArc->getStartPoint()));
+    snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, pEllipseArc->getId(), pEllipseArc->getEndPoint()));
     return snapPoints;
 }
 

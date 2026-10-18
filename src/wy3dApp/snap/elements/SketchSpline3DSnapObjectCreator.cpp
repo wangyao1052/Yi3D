@@ -39,8 +39,8 @@ std::list<wyap::SnapObjectSPtr> SketchSpline3DSnapObjectCreator::createSnapObjec
     const std::vector<wy::Vector3>& points = pSpline->getPoints();
     if (points.size() >= 2)
     {
-        snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pSpline->getId(), points.front()));
-        snapPoints.emplace_back(this->newSnapPoint<SnapEndPoint>(pSpline->getId(), points.back()));
+        snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, pSpline->getId(), points.front()));
+        snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, pSpline->getId(), points.back()));
     }
     return snapPoints;
 }

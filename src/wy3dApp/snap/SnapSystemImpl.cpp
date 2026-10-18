@@ -35,17 +35,17 @@ SnapSystemImpl::~SnapSystemImpl()
 {
 }
 
-wyap::SnapResultSPtr SnapSystemImpl::snap(double x, double y, wyap::SnapContextSPtr pContext)
+wyap::SnapResultSPtr SnapSystemImpl::snap(double x, double y, wyap::SnapContextSPtr pContext, bool isResultPublished)
 {
     wyap::SnapResultSPtr pSnapResult = this->snapImpl(x, y, pContext);
-    this->setSnapResult(pSnapResult);
+    if (isResultPublished) this->setSnapResult(pSnapResult);
     return pSnapResult;
 }
 
-wyap::SnapResultSPtr SnapSystemImpl::snap(double x, double y, wyap::SnapContextSPtr pContext, const std::set<wydb::ElementId>& idsToExclude)
+wyap::SnapResultSPtr SnapSystemImpl::snap(double x, double y, wyap::SnapContextSPtr pContext, const std::set<wydb::ElementId>& idsToExclude, bool isResultPublished)
 {
     wyap::SnapResultSPtr pSnapResult = this->snapImpl(x, y, pContext, &idsToExclude);
-    this->setSnapResult(pSnapResult);
+    if (isResultPublished) this->setSnapResult(pSnapResult);
     return pSnapResult;
 }
 

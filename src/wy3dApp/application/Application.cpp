@@ -175,7 +175,8 @@ bool Application::initialize()
     pSnapSys->beginChange();
     {
         // 坐标原点
-        wyap::SnapObjectSPtr pSnapObject = std::make_shared<SnapCoordinatePoint>(wy::Vector3(0.0, 0.0, 0.0));
+        wyap::SnapObjectSPtr pSnapObject = std::make_shared<SnapPoint>(
+            wydb::ElementId::kNull, wy::Vector3(0.0, 0.0, 0.0), SnapPoint::Type::Origin);
         pSnapSys->addResidentSnapObject(pSnapObject);
     }
     pSnapSys->endChange();
