@@ -60,9 +60,9 @@ std::shared_ptr<DemoSnapRule> DemoSnapRule::instance()
     return s_instance;
 }
 
-const std::type_info& DemoSnapRule::getContextType() const
+const wyrx::ClassInfo* DemoSnapRule::getContextClass() const
 {
-    return typeid(DemoSnapContext);
+    return DemoSnapContext::classInfo();
 }
 
 void DemoSnapRule::resetRecording()

@@ -61,9 +61,13 @@ public:
     // Clear the snap result.
     virtual void clearSnapResult() = 0;
 
-    // Register an external rule; one rule per exact context type.
-    // Returns DuplicateKey when the context type already has a rule.
+    // Register an external rule; one rule per exact context class.
+    // Returns DuplicateKey when the context class already has a rule.
     virtual wy::ErrorStatus addRule(Snap2dRuleSPtr pRule) = 0;
+
+    // Remove an external rule. Built-in rules cannot be removed.
+    // Returns KeyNotFound when no rule has the given context class.
+    virtual wy::ErrorStatus removeRule(const wyrx::ClassInfo* pContextClass) = 0;
 
 protected:
     Snap2dSystem();

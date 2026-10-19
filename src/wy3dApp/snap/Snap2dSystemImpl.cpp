@@ -70,8 +70,8 @@ Snap2dSystemSPtr Snap2dSystem::create(const wy3d::Plane& workPlane)
 }
 
 // Built-in rule: both faces delegate to the snap implementations for the rule's
-// own context type. The static_cast in the bodies is safe because the rule table
-// keys by the exact context typeid.
+// own context class. The static_cast in the bodies is safe because the rule table
+// keys by the exact context class.
 template <typename TContext>
 class Snap2dSystemImpl::Rule : public Snap2dRuleHandler
 {
@@ -179,13 +179,18 @@ Snap2dSystemImpl::Snap2dSystemImpl(const wy3d::Plane& workPlane)
     // 初始化默认捕捉对象
     this->initDefaultSnapObjects();
 
-    // Register the built-in rules: one rule per context type, both faces. The
+    // Register the built-in rules: one rule per context class, both faces. The
     // picked face lands on the virtual hooks (null for plane systems, overridden
     // by the sketch system).
-    _rules[std::type_index(typeid(Locate2dContext))] = std::make_shared<Rule<Locate2dContext>>(*this);
-    _rules[std::type_index(typeid(SketchDrawLineContext))] = std::make_shared<Rule<SketchDrawLineContext>>(*this);
-    _rules[std::type_index(typeid(DrawCircle2dContext))] = std::make_shared<Rule<DrawCircle2dContext>>(*this);
-    _rules[std::type_index(typeid(DrawArc2dContext))] = std::make_shared<Rule<DrawArc2dContext>>(*this);
+    _rules.emplace(Locate2dContext::classInfo()->className(),
+        std::make_shared<Rule<Locate2dContext>>(*this));
+    _rules.emplace(SketchDrawLineContext::classInfo()->className(),
+        std::make_shared<Rule<SketchDrawLineContext>>(*this));
+    _rules.emplace(DrawCircle2dContext::classInfo()->className(),
+        std::make_shared<Rule<DrawCircle2dContext>>(*this));
+    _rules.emplace(DrawArc2dContext::classInfo()->className(),
+        std::make_shared<Rule<DrawArc2dContext>>(*this));
+    assert(4 == _rules.size());
 
     // 平行
     /*
@@ -205,10 +210,33 @@ wy::ErrorStatus Snap2dSystemImpl::addRule(Snap2dRuleSPtr pRule)
 {
     if (!pRule) return wy::ErrorStatus::InvalidInput;
 
-    const std::type_index key = std::type_index(pRule->getContextType());
-    if (_rules.cend() != _rules.find(key)) return wy::ErrorStatus::DuplicateKey;
+    const wyrx::ClassInfo* pContextClass = pRule->getContextClass();
+    if (!pContextClass) return wy::ErrorStatus::InvalidInput;
 
-    _rules[key] = std::make_shared<ExternalRuleAdapter>(*this, pRule);
+    const std::string& contextClassName = pContextClass->className();
+    if (contextClassName.empty()) return wy::ErrorStatus::InvalidInput;
+
+    if (_rules.cend() != _rules.find(contextClassName)) return wy::ErrorStatus::DuplicateKey;
+
+    _rules.emplace(contextClassName, std::make_shared<ExternalRuleAdapter>(*this, pRule));
+
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus Snap2dSystemImpl::removeRule(const wyrx::ClassInfo* pContextClass)
+{
+    if (!pContextClass) return wy::ErrorStatus::InvalidInput;
+
+    auto iter = _rules.find(pContextClass->className());
+    if (_rules.cend() == iter) return wy::ErrorStatus::KeyNotFound;
+
+    // Built-in rules are owned by the system.
+    if (!dynamic_cast<ExternalRuleAdapter*>(iter->second.get()))
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+
+    _rules.erase(iter);
 
     return wy::ErrorStatus::Ok;
 }
@@ -568,11 +596,11 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImpl(
     wydb::ElementId pickedId = this->pickElement(pDb, pView, x, y, excludeIds);
 
     // Rule table dispatch, equivalent to the former two dynamic_cast chains: on an
-    // exact context-type match, the picked face runs first (sketch-side rules),
+    // exact context-class match, the picked face runs first (sketch-side rules),
     // then the no-picked face (base rules); the first non-null result wins.
     if (pContext)
     {
-        auto iter = _rules.find(std::type_index(typeid(*pContext)));
+        auto iter = _rules.find(pContext->getClassInfo()->className());
         if (iter != _rules.cend())
         {
             // Picked face

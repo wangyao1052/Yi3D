@@ -108,6 +108,26 @@ wyap::CmdExecution::StartResult DemoSnapRuleCmd::onStart()
     return wyap::CmdExecution::StartResult::Succeeded;
 }
 
+void DemoSnapRuleCmd::onEnd()
+{
+    if (_sketchInfo.pSnap2dSys)
+    {
+        _sketchInfo.pSnap2dSys->removeRule(DemoSnapContext::classInfo());
+    }
+
+    __baseClass::onEnd();
+}
+
+void DemoSnapRuleCmd::onAbort(wyap::CmdExecution::AbortCause cause)
+{
+    if (_sketchInfo.pSnap2dSys)
+    {
+        _sketchInfo.pSnap2dSys->removeRule(DemoSnapContext::classInfo());
+    }
+
+    __baseClass::onAbort(cause);
+}
+
 void DemoSnapRuleCmd::onMouseMove(const wy3dApp::MouseEvent& event)
 {
     // Return value unused: the call's purpose is the snap display side effect.

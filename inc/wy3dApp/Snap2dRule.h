@@ -21,10 +21,10 @@
 
 #include <memory>
 #include <set>
-#include <typeinfo>
 #include <vector>
 #include <wyVector2.h>
 #include <wydbDatabase.h>
+#include <wyrxClassInfo.h>
 #include <wy3dApp/Snap2dResult.h>
 #include <wy3dApp/Snap2dType.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -37,15 +37,15 @@ class Snap2dRule;
 typedef std::shared_ptr<Snap2dRule> Snap2dRuleSPtr;
 
 // External snap rule; register with Snap2dSystem::addRule (one rule per exact
-// context type). Both faces return true on a hit; a hit reports the snapped
+// context class). Both faces return true on a hit; a hit reports the snapped
 // position (retPosition) and what was hit (hits may be empty). The
 // screen-scale parameters are plane units per screen pixel at the cursor; use
 // them to convert a pixel tolerance into a plane tolerance.
 class WY3DAPP_EXPORT Snap2dRule
 {
 public:
-    // Context type this rule handles, for example typeid(MyContext).
-    virtual const std::type_info& getContextType() const = 0;
+    // Context class this rule handles, for example MyContext::classInfo().
+    virtual const wyrx::ClassInfo* getContextClass() const = 0;
 
     // Snap with no picked element.
     virtual bool snapNoPicked(

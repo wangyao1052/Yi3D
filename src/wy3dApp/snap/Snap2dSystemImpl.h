@@ -27,8 +27,7 @@
 #include <map>
 #include <set>
 #include <memory>
-#include <typeinfo>
-#include <typeindex>
+#include <string>
 #include <osgViewer/View>
 #include <wyVector2.h>
 #include <wydbDatabase.h>
@@ -103,6 +102,8 @@ public:
 
     // 注册外部规则
     wy::ErrorStatus addRule(Snap2dRuleSPtr pRule) override;
+    // 移除外部规则
+    wy::ErrorStatus removeRule(const wyrx::ClassInfo* pContextClass) override;
 
     // 数据库变更响应
     virtual void onDatabaseChanged(
@@ -568,8 +569,8 @@ protected:
     std::set<wydb::ElementId> _ids;
 
 private:
-    // Snap rule table: one rule per context type, both faces
-    std::map<std::type_index, std::shared_ptr<Snap2dRuleHandler>> _rules;
+    // Snap rule table: one rule per context class name (WYRX class), both faces
+    std::map<std::string, std::shared_ptr<Snap2dRuleHandler>> _rules;
     // 捕捉结果
     Snap2dResultSPtr _pSnapResult;
     // 当前结果的显示状态(跨结果复用高亮)

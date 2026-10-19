@@ -177,6 +177,7 @@ namespace {
 // curves of the given sketch snap.
 class SketchCurveEndPointContext : public Snap2dContext
 {
+    WYRX_DECLARE_ABSTRACT_MEMBERS(SketchCurveEndPointContext, wy3dApp::SketchCurveEndPointContext, Snap2dContext)
 public:
     explicit SketchCurveEndPointContext(const wydb::ElementId& sketchId)
         : _sketchId(sketchId) {}
@@ -193,9 +194,9 @@ private:
 class SketchCurveEndPointSnapRule final : public Snap2dRule
 {
 public:
-    const std::type_info& getContextType() const override
+    const wyrx::ClassInfo* getContextClass() const override
     {
-        return typeid(SketchCurveEndPointContext);
+        return SketchCurveEndPointContext::classInfo();
     }
 
     bool snapPicked(
@@ -291,8 +292,8 @@ wyap::CmdExecution::StartResult SketchDrawArcTangentGuiCmd::onStart()
     _sketchInfo = GuiCommandUtil::initSketchInfo();
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
-    // The rule is stateless, so DuplicateKey (command re-run in the same sketch
-    // session) is benign: the first registration stays in effect.
+    // The rule is stateless, so DuplicateKey from a previous run that did not
+    // clean up is benign: the existing registration stays in effect.
     if (_sketchInfo.pSketchSnapSys)
     {
         const wy::ErrorStatus error = _sketchInfo.pSketchSnapSys->addRule(
@@ -317,12 +318,22 @@ void SketchDrawArcTangentGuiCmd::onEnd()
 {
     this->destroyModePanel();
 
+    if (_sketchInfo.pSketchSnapSys)
+    {
+        _sketchInfo.pSketchSnapSys->removeRule(SketchCurveEndPointContext::classInfo());
+    }
+
     GuiCommand::onEnd();
 }
 
 void SketchDrawArcTangentGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
     this->destroyModePanel();
+
+    if (_sketchInfo.pSketchSnapSys)
+    {
+        _sketchInfo.pSketchSnapSys->removeRule(SketchCurveEndPointContext::classInfo());
+    }
 
     GuiCommand::onAbort(cause);
 }

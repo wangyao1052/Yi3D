@@ -21,7 +21,6 @@
 
 #include <memory>
 #include <set>
-#include <typeinfo>
 #include <vector>
 
 #include <wyVector2.h>
@@ -47,6 +46,7 @@ std::vector<DemoSnapCandidate> collectSnapCandidates(
 // Snap context carrying the sketch whose geometry the demo rule scans.
 class DemoSnapContext : public wy3dApp::Snap2dContext
 {
+    WYRX_DECLARE_ABSTRACT_MEMBERS(DemoSnapContext, com.yi3d.demo::DemoSnapContext, wy3dApp::Snap2dContext)
 public:
     explicit DemoSnapContext(const wydb::ElementId& sketchId) : _sketchId(sketchId) {}
 
@@ -69,7 +69,7 @@ public:
     // tolerated by the self test, so command re-runs must not lose the state.
     static std::shared_ptr<DemoSnapRule> instance();
 
-    virtual const std::type_info& getContextType() const override;
+    virtual const wyrx::ClassInfo* getContextClass() const override;
 
     virtual bool snapNoPicked(
         const wy3dApp::Snap2dContext* pContext,
