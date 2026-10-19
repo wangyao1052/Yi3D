@@ -33,7 +33,8 @@
 #include <wy3dApp/Snap2dContext.h>
 #include "snap/SnapResult.h"
 #include "snap/SnapObject.h"
-#include "snap/Snap2dResult.h"
+#include <wy3dApp/Snap2dResult.h>
+#include "snap/Snap2dResultFactory.h"
 #include "snap3d/Sketch3DSnapObject.h"
 #include "snap3d/Sketch3DSnapContext.h"
 #include "snap3d/Sketch3DSnapResult.h"
@@ -92,11 +93,11 @@ static Snap2dResultSPtr convertSnapResult(
 
     if (pSketchSnapObj)
     {
-        return std::make_shared<Snap2dResult>(sketchPlane, retPos, pSketchSnapObj);
+        return makeSnap2dResult(sketchPlane, retPos, pSketchSnapObj);
     }
 
     // A hit always yields a result; unknown kinds yield a display-less one.
-    return std::make_shared<Snap2dResult>(sketchPlane, retPos);
+    return makeSnap2dResult(sketchPlane, retPos);
 }
 
 // 全局体系点捕捉结果→3D草图捕捉结果(与上方convertSnapResult同构)

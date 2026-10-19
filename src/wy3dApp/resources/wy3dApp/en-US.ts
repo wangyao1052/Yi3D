@@ -2449,32 +2449,32 @@
 <context>
     <name>SketchDrawArcTangent</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="417"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="418"/>
         <source>Specify the start point on an endpoint of an existing curve; the arc is tangent to the curve.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="431"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="432"/>
         <source>Specify the end point of the arc; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="444"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="445"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">Specify the radius; you can directly input the value.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="457"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="458"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="659"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="660"/>
         <source>Radius</source>
         <translation type="unfinished">Radius</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="670"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="671"/>
         <source>SweepAngle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2742,25 +2742,25 @@
     <name>SketchDrawLine</name>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="182"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="199"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="200"/>
         <source>Specify the start point; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="195"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="212"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="213"/>
         <source>Specify the end point; you can directly input the values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="299"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="319"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="320"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="321"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>

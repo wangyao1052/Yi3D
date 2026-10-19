@@ -32,7 +32,7 @@ Snap2dParallel::Snap2dParallel(
     const wydb::ElementId& id,
     const wy::Vector2& startPnt,
     const wy::Vector2& endPnt)
-    : Snap2dAngle(id)
+    : Snap2dAngle(id, 0.0)
 {
     _angle = computeParallelAngle(startPnt, endPnt);
 }
@@ -41,7 +41,7 @@ Snap2dPerpendicular::Snap2dPerpendicular(
     const wydb::ElementId& id,
     const wy::Vector2& startPnt,
     const wy::Vector2& endPnt)
-    : Snap2dAngle(id)
+    : Snap2dAngle(id, 0.0)
 {
     _angle = computePerpendicularAngle(startPnt, endPnt);
 }

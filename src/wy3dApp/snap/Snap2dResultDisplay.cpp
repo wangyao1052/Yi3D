@@ -50,7 +50,7 @@ void Snap2dResultDisplay::apply(const Snap2dResult* pResult)
 
     this->refreshElementHighlights(*pResult);
 
-    const std::vector<Snap2dResultItem>& items = pResult->getItems();
+    const std::vector<Snap2dHit>& items = pResult->getHits();
     std::vector<ItemDisplay> newItemDisplays;
     const size_t numItems = items.size();
     newItemDisplays.reserve(numItems);
@@ -86,9 +86,9 @@ void Snap2dResultDisplay::apply(const Snap2dResult* pResult)
 }
 
 void Snap2dResultDisplay::buildItemDisplay(const Snap2dResult& result,
-    const Snap2dResultItem& item, ItemDisplay& display)
+    const Snap2dHit& item, ItemDisplay& display)
 {
-    const wy3d::Plane& sketchPlane = result.getSketchPlane();
+    const wy3d::Plane& sketchPlane = result.getWorkPlane();
     const wy::Vector2& position = result.getPosition();
 
     switch (item.type)
@@ -127,7 +127,7 @@ void Snap2dResultDisplay::buildItemDisplay(const Snap2dResult& result,
     {
         // 点划线
         display.transients.push_back(std::make_shared<SketchDotLineTransient>(
-            sketchPlane, item.refPoint, position));
+            sketchPlane, item.point, position));
         display.transients.push_back(std::make_shared<SketchPointTransient>(sketchPlane, position,
             SnapConsts::PointSizeOnSketchCurve, SnapConsts::PointColorOnSketchCurve));
     }
@@ -239,7 +239,7 @@ void Snap2dResultDisplay::buildItemDisplay(const Snap2dResult& result,
 }
 
 void Snap2dResultDisplay::updateItemDisplay(const Snap2dResult& result,
-    const Snap2dResultItem& item, ItemDisplay& display)
+    const Snap2dHit& item, ItemDisplay& display)
 {
     const wy::Vector2& position = result.getPosition();
 
@@ -262,7 +262,7 @@ void Snap2dResultDisplay::updateItemDisplay(const Snap2dResult& result,
         {
             if (SketchDotLineTransient* pDotLineTransient = dynamic_cast<SketchDotLineTransient*>(pTransient.get()))
             {
-                pDotLineTransient->update(item.refPoint, position);
+                pDotLineTransient->update(item.point, position);
             }
         }
     }
@@ -286,10 +286,10 @@ void Snap2dResultDisplay::clear()
 void Snap2dResultDisplay::refreshElementHighlights(const Snap2dResult& result)
 {
     std::map<wydb::ElementId, GuiCmdTransientSPtr> newElemHighlights;
-    const std::vector<Snap2dResultItem>& items = result.getItems();
-    for (const Snap2dResultItem& item : items)
+    const std::vector<Snap2dHit>& items = result.getHits();
+    for (const Snap2dHit& item : items)
     {
-        const wydb::ElementId& id = item.highlightId;
+        const wydb::ElementId& id = item.element;
         if (id.isNull() || newElemHighlights.find(id) != newElemHighlights.cend())
         {
             continue;

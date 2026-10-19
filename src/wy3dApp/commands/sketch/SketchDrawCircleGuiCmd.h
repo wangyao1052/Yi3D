@@ -113,6 +113,8 @@ private:
     Snap2dContextSPtr _pSnapContext;
 
     CenterPointTransientSPtr _pCenterPointTransient;
+    // 半径线
+    LineTransientSPtr _pRadiusLineTransient;
     std::shared_ptr<MakeSketchCircle> _pMakeSketchCircle;
 
     std::unique_ptr<GuiCmdHoverInputPopup2> _pXYPopup;

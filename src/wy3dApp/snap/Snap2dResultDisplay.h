@@ -25,7 +25,7 @@
 #include <memory>
 #include <vector>
 #include <wy3dApp/GuiCmdTransient.h>
-#include "Snap2dResult.h"
+#include <wy3dApp/Snap2dResult.h>
 #include "SnapTipWidget.h"
 
 namespace wy3dApp {
@@ -60,9 +60,9 @@ private:
         SnapTipWidget* pSnapTipWidget = nullptr;
     };
 
-    void buildItemDisplay(const Snap2dResult& result, const Snap2dResultItem& item,
+    void buildItemDisplay(const Snap2dResult& result, const Snap2dHit& item,
         ItemDisplay& display);
-    void updateItemDisplay(const Snap2dResult& result, const Snap2dResultItem& item,
+    void updateItemDisplay(const Snap2dResult& result, const Snap2dHit& item,
         ItemDisplay& display);
     void refreshElementHighlights(const Snap2dResult& result);
     void rebuildTipMouseFollow();
@@ -70,7 +70,7 @@ private:
     HighlightTransientCreator _createHighlight;
     // Element highlights only (deduped by id), reused across results.
     std::map<wydb::ElementId, GuiCmdTransientSPtr> _elementHighlights;
-    // Same order as Snap2dResult::getItems().
+    // Same order as Snap2dResult::getHits().
     std::vector<ItemDisplay> _itemDisplays;
     std::shared_ptr<SnapTipMouseFollow> _pSnapTipMouseFollow;
 };

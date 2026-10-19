@@ -32,6 +32,7 @@
 
 #include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
+#include "scene/RenderConst.h"
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -45,6 +46,17 @@ static bool parseDoubleText(const QString& text, double& value)
     return ok;
 }
 
+// 创建半径线瞬态（点划线）
+static LineTransientSPtr createRadiusLineTransient(const wy3d::Plane& sketchPlane,
+    const wy::Vector2& startPnt, const wy::Vector2& endPnt)
+{
+    LineTransientSPtr pRadiusLineTransient = std::make_shared<LineTransient>(
+        new osg::LineStipple(DOT_LINE_STIPPLE_FACTOR, DOT_LINE_STIPPLE_PATTERN));
+    pRadiusLineTransient->setColor(osg::Vec4(1.0f, 0.392f, 0.039f, 1.0f));
+    pRadiusLineTransient->update(sketchPlane, startPnt, endPnt);
+    pRadiusLineTransient->show();
+    return pRadiusLineTransient;
+}
 
 SketchDrawCircleGuiCmd::SketchDrawCircleGuiCmd()
     : OsgGuiCommand()
@@ -53,6 +65,7 @@ SketchDrawCircleGuiCmd::SketchDrawCircleGuiCmd()
     , _radius(0.0)
     , _pSnapContext(nullptr)
     , _pCenterPointTransient(nullptr)
+    , _pRadiusLineTransient(nullptr)
     , _pMakeSketchCircle(nullptr)
     , _pXYPopup(nullptr)
     , _pRadiusPopup(nullptr)
@@ -90,6 +103,7 @@ void SketchDrawCircleGuiCmd::cleanUp()
     _radius = 0.0;
     _pSnapContext = nullptr;
     _pCenterPointTransient = nullptr;
+    _pRadiusLineTransient = nullptr;
     _hoverPopupState.resetValue();
     _pMakeSketchCircle = nullptr;
 }
@@ -146,6 +160,10 @@ bool SketchDrawCircleGuiCmd::finishStep(Step step)
         _pCenterPointTransient->update(_sketchInfo.sketchPlane, _centerPnt);
         _pCenterPointTransient->show();
 
+        // 半径线
+        _pRadiusLineTransient = createRadiusLineTransient(
+            _sketchInfo.sketchPlane, _centerPnt, _centerPnt);
+
         // next step
         this->gotoStep(Step::SpecifyRadius);
         return true;
@@ -166,6 +184,9 @@ bool SketchDrawCircleGuiCmd::finishStep(Step step)
 
         // 中心点标记
         _pCenterPointTransient = nullptr;
+
+        // 半径线
+        _pRadiusLineTransient = nullptr;
 
         // next step
         this->gotoStep(Step::SpecifyCenterPnt);
@@ -254,6 +275,7 @@ void SketchDrawCircleGuiCmd::onMouseMove(const MouseEvent& event)
             {
                 _pMakeSketchCircle->update(radius);
             }
+            if (_pRadiusLineTransient) _pRadiusLineTransient->update(_sketchInfo.sketchPlane, _centerPnt, pnt);
         }
     }
 

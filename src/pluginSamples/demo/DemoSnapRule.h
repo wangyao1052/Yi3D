@@ -59,8 +59,9 @@ private:
 // Demo rule with five snap behaviors, in priority order: the sketch origin
 // (Origin), the closest circle center (CenterPoint) or line end
 // point (EndPoint), then points on the X axis (AlignY) and on the Y axis
-// (AlignX). Tolerances are 10 pixels converted with the screen scale the same
-// way the built-in rules do it.
+// (AlignX). The origin also reports both axis alignments as extra hits.
+// Tolerances are 10 pixels converted with the screen scale the same way the
+// built-in rules do it.
 class DemoSnapRule : public wy3dApp::Snap2dRule
 {
 public:
@@ -76,7 +77,8 @@ public:
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY,
         const std::set<wydb::ElementId>& excludeIds,
-        wy3dApp::Snap2dRuleHit& hit) override;
+        wy::Vector2& retPosition,
+        std::vector<wy3dApp::Snap2dHit>& hits) override;
 
     // Self-test readback.
     void resetRecording();
@@ -85,13 +87,16 @@ public:
     double getLastScaleScreenY() const { return _lastScaleScreenY; }
     const wy::Vector2& getLastHitPoint() const { return _lastHitPoint; }
     wy3dApp::Snap2dType getLastKind() const { return _lastKind; }
-    const wydb::ElementId& getLastHighlightId() const { return _lastHighlightId; }
+    const wydb::ElementId& getLastElementId() const { return _lastElementId; }
 
 private:
     DemoSnapRule() = default;
 
-    bool recordHit(const wy::Vector2& point, const wydb::ElementId& highlightId,
-        wy3dApp::Snap2dType snapType, wy3dApp::Snap2dRuleHit& hit);
+    bool recordHit(const wy::Vector2& snappedPosition, const wy::Vector2& hitPoint,
+        const wydb::ElementId& elementId, wy3dApp::Snap2dType snapType,
+        wy::Vector2& retPosition, std::vector<wy3dApp::Snap2dHit>& hits);
+    void appendHit(const wy::Vector2& point, const wydb::ElementId& elementId,
+        wy3dApp::Snap2dType snapType, std::vector<wy3dApp::Snap2dHit>& hits) const;
 
 private:
     int _callCount = 0;
@@ -99,7 +104,7 @@ private:
     double _lastScaleScreenY = 0.0;
     wy::Vector2 _lastHitPoint;
     wy3dApp::Snap2dType _lastKind = wy3dApp::Snap2dType::Undefined;
-    wydb::ElementId _lastHighlightId;
+    wydb::ElementId _lastElementId;
 };
 
 #endif // DEMO_SNAP_RULE_H

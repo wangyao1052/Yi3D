@@ -33,6 +33,7 @@
 #include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/SketchPolygonDialog.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
+#include "scene/RenderConst.h"
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -47,6 +48,18 @@ static bool parseDoubleText(const QString& text, double& value)
     bool ok(false);
     value = text.trimmed().toDouble(&ok);
     return ok;
+}
+
+// 创建半径线瞬态（点划线）
+static LineTransientSPtr createRadiusLineTransient(const wy3d::Plane& sketchPlane,
+    const wy::Vector2& startPnt, const wy::Vector2& endPnt)
+{
+    LineTransientSPtr pRadiusLineTransient = std::make_shared<LineTransient>(
+        new osg::LineStipple(DOT_LINE_STIPPLE_FACTOR, DOT_LINE_STIPPLE_PATTERN));
+    pRadiusLineTransient->setColor(osg::Vec4(1.0f, 0.392f, 0.039f, 1.0f));
+    pRadiusLineTransient->update(sketchPlane, startPnt, endPnt);
+    pRadiusLineTransient->show();
+    return pRadiusLineTransient;
 }
 
 SketchDrawPolygonGuiCmd::SketchDrawPolygonGuiCmd() : OsgGuiCommand(),
@@ -107,6 +120,7 @@ void SketchDrawPolygonGuiCmd::cleanUp()
 
     _pCircleTransient = nullptr;
     _pCenterPointTransient = nullptr;
+    _pRadiusLineTransient = nullptr;
 
     _pMakeSketchPolygon = nullptr;
 }
@@ -162,6 +176,10 @@ bool SketchDrawPolygonGuiCmd::finishStep(Step step)
         _pCenterPointTransient->update(_sketchInfo.sketchPlane, _centerPnt);
         _pCenterPointTransient->show();
 
+        // 半径线
+        _pRadiusLineTransient = createRadiusLineTransient(
+            _sketchInfo.sketchPlane, _centerPnt, _centerPnt);
+
         // next step
         this->gotoStep(Step::SpecifyRadius);
         return true;
@@ -182,6 +200,7 @@ bool SketchDrawPolygonGuiCmd::finishStep(Step step)
 
         _pCircleTransient = nullptr;
         _pCenterPointTransient = nullptr;
+        _pRadiusLineTransient = nullptr;
 
         _centerPnt.set(0.0, 0.0);
         _startVec.set(0.0, 0.0);
@@ -228,9 +247,7 @@ void SketchDrawPolygonGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPolygon",
             "Specify the radius of the circumscribed circle; you can directly input the value."));
 
-        DrawCircle2dContextSPtr pDrawCircleCtx = std::make_shared<DrawCircle2dContext>(_centerPnt);
-        pDrawCircleCtx->setIsForDrawArc(true);
-        _pSnapContext = pDrawCircleCtx;
+        _pSnapContext = std::make_shared<DrawCircle2dContext>(_centerPnt);
     }
     break;
 
@@ -279,6 +296,7 @@ void SketchDrawPolygonGuiCmd::onMouseMove(const MouseEvent& event)
             {
                 _pCircleTransient->update(_centerPnt, radius);
             }
+            if (_pRadiusLineTransient) _pRadiusLineTransient->update(_sketchInfo.sketchPlane, _centerPnt, pnt);
             _startVec = pnt - _centerPnt;
         }
     }

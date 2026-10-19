@@ -34,6 +34,9 @@
 #include <wy3dSketchCurve.h>
 
 #include <wy3dApp/Application.h>
+#include <wy3dApp/Snap2dResult.h>
+#include <wy3dApp/Snap2dRule.h>
+#include <wy3dApp/Snap2dSystem.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"
 #include "widgets/frame/ViewWidget.h"
@@ -109,20 +112,20 @@ static bool getEndpointTangentFromSnap(const Snap2dResult* pSnapResult, const wy
         return false;
     }
 
-    for (const Snap2dResultItem& snapRetItem : pSnapResult->getItems())
+    for (const Snap2dHit& snapRetItem : pSnapResult->getHits())
     {
         if (Snap2dType::EndPoint != snapRetItem.type)
         {
             continue;
         }
 
-        const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(snapRetItem.highlightId));
+        const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(snapRetItem.element));
         if (!pSketchCurve || pSketchCurve->isClosed() || pSketchCurve->getParent() != sketchId)
         {
             continue;
         }
 
-        const wy::Vector2 snapPos = snapRetItem.point;
+        const wy::Vector2 snapPos = pSnapResult->getPosition();
         const wy::Vector2 curveStartPnt = pSketchCurve->getStartPoint();
         const wy::Vector2 curveEndPnt = pSketchCurve->getEndPoint();
 
@@ -168,6 +171,101 @@ static bool getEndpointTangentFromSnap(const Snap2dResult* pSnapResult, const wy
     return false;
 }
 
+namespace {
+
+// End point of an existing curve: only the start/end points of eligible
+// curves of the given sketch snap.
+class SketchCurveEndPointContext : public Snap2dContext
+{
+public:
+    explicit SketchCurveEndPointContext(const wydb::ElementId& sketchId)
+        : _sketchId(sketchId) {}
+
+    const wydb::ElementId& getSketchId() const { return _sketchId; }
+
+private:
+    wydb::ElementId _sketchId;
+};
+
+// The tangent-arc start point snaps only to the end points of open curves of
+// the current sketch. This is command-local policy, so the command owns the
+// rule instead of the snap system.
+class SketchCurveEndPointSnapRule final : public Snap2dRule
+{
+public:
+    const std::type_info& getContextType() const override
+    {
+        return typeid(SketchCurveEndPointContext);
+    }
+
+    bool snapPicked(
+        const Snap2dContext* pContext,
+        const wydb::Database* pDb,
+        const wydb::ElementId& pickedId,
+        const wy::Vector2& pos,
+        double scaleScreenX, double scaleScreenY,
+        // Ignored: pickElement already applied the excluded ids.
+        const std::set<wydb::ElementId>&,
+        wy::Vector2& retPosition,
+        std::vector<Snap2dHit>& hits) override
+    {
+        const SketchCurveEndPointContext* pEndPointContext =
+            dynamic_cast<const SketchCurveEndPointContext*>(pContext);
+        if (!pEndPointContext || !pDb || pickedId.isNull())
+        {
+            return false;
+        }
+
+        assert(scaleScreenX > 0.0);
+        assert(scaleScreenY > 0.0);
+
+        // Only lines, centerlines, arcs, ellipse arcs and open splines of the
+        // context's sketch qualify.
+        const wy3d::SketchCurve* pCurve =
+            wy3d::SketchCurve::cast(pDb->getElement(pickedId));
+        if (!pCurve || pCurve->isClosed() ||
+            pCurve->getParent() != pEndPointContext->getSketchId())
+        {
+            return false;
+        }
+
+        // 10 screen pixels per axis, Manhattan-nearest of the two end points.
+        const double tolX = std::fabs(10.0 * scaleScreenX);
+        const double tolY = std::fabs(10.0 * scaleScreenY);
+        const wy::Vector2 endPoints[2] = {
+            pCurve->getStartPoint(), pCurve->getEndPoint() };
+        double minDistance = DBL_MAX;
+        wy::Vector2 snappedPoint;
+        bool isHit = false;
+        for (const wy::Vector2& endPoint : endPoints)
+        {
+            const double dx = std::fabs(endPoint.x() - pos.x());
+            const double dy = std::fabs(endPoint.y() - pos.y());
+            if (dx <= tolX && dy <= tolY && dx + dy < minDistance)
+            {
+                minDistance = dx + dy;
+                snappedPoint = endPoint;
+                isHit = true;
+            }
+        }
+        if (!isHit)
+        {
+            return false;
+        }
+
+        retPosition = snappedPoint;
+
+        Snap2dHit hit;
+        hit.type = Snap2dType::EndPoint;
+        hit.element = pickedId;
+        hit.point = snappedPoint;
+        hits.push_back(hit);
+        return true;
+    }
+};
+
+} // namespace
+
 SketchDrawArcTangentGuiCmd::SketchDrawArcTangentGuiCmd()
     : OsgGuiCommand(),
     _step(Step::Undefined), _mode(ArcTangentMode::PassPoint),
@@ -192,6 +290,19 @@ wyap::CmdExecution::StartResult SketchDrawArcTangentGuiCmd::onStart()
 
     _sketchInfo = GuiCommandUtil::initSketchInfo();
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
+
+    // The rule is stateless, so DuplicateKey (command re-run in the same sketch
+    // session) is benign: the first registration stays in effect.
+    if (_sketchInfo.pSketchSnapSys)
+    {
+        const wy::ErrorStatus error = _sketchInfo.pSketchSnapSys->addRule(
+            std::make_shared<SketchCurveEndPointSnapRule>());
+        if (wy::ErrorStatus::Ok != error && wy::ErrorStatus::DuplicateKey != error)
+        {
+            assert(false);
+            return wyap::CmdExecution::StartResult::Rejected;
+        }
+    }
 
     Application::instance().getSelManager()->beginChange();
     Application::instance().getSelManager()->clearSelections();
@@ -422,7 +533,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
         {
             _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
         }
-        _pSnapContext = std::make_shared<SketchCurveEndPointContext>();
+        _pSnapContext = std::make_shared<SketchCurveEndPointContext>(_sketchInfo.sketchId);
     }
     break;
 

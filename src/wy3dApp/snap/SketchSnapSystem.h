@@ -42,7 +42,7 @@
 #include "commands/transient/SketchCurveTransient.h"
 #include <wy3dApp/Snap2dContext.h>
 #include "Snap2dObject.h"
-#include "Snap2dResult.h"
+#include <wy3dApp/Snap2dResult.h>
 #include "select/PointPick.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -96,13 +96,6 @@ private:
     // 绘制圆弧+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
         const DrawArc2dContext* pDrawArcContext, const wydb::Database* pDb,
-        const wydb::ElementId& pickedId,
-        const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY) override;
-
-    // 曲线端点+捕捉到对象
-    Snap2dResultSPtr snapImplPicked(
-        const SketchCurveEndPointContext* pCurveEndPointContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY) override;

@@ -25,6 +25,7 @@
 #include <wyVector2.h>
 #include <wydbDatabase.h>
 #include <wy3dPlane.h>
+#include <wy3dApp/Snap2dResult.h>
 #include <wy3dApp/Snap2dRule.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -32,10 +33,8 @@ namespace osgViewer { class View; }
 
 namespace wy3dApp {
 
-class Snap2dResult;
 class Snap2dContext;
 class Snap2dSystem;
-typedef std::shared_ptr<Snap2dResult> Snap2dResultSPtr;
 typedef std::shared_ptr<Snap2dContext> Snap2dContextSPtr;
 typedef std::shared_ptr<Snap2dSystem> Snap2dSystemSPtr;
 

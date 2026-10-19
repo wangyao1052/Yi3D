@@ -40,7 +40,6 @@ namespace wy3dApp {
 class GuiCmdMakeElement;
 class Snap2dSystem;
 class Snap2dContext;
-class Snap2dResult;
 class SnapResultPoint;
 class Snap2dEndPoint;
 class Snap2dMiddlePoint;

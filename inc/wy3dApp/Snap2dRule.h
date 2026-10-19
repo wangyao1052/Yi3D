@@ -22,8 +22,10 @@
 #include <memory>
 #include <set>
 #include <typeinfo>
+#include <vector>
 #include <wyVector2.h>
 #include <wydbDatabase.h>
+#include <wy3dApp/Snap2dResult.h>
 #include <wy3dApp/Snap2dType.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -31,25 +33,14 @@ namespace wy3dApp {
 
 class Snap2dContext;
 
-// A rule's snap hit: the snapped plane position, the kind of snap (drives the
-// tip icon; Undefined draws a plain point), an optional element to highlight
-// (null id: no highlight), and the reference point of an alignment point.
-struct Snap2dRuleHit
-{
-    wy::Vector2 point;
-    wydb::ElementId highlightId;
-    Snap2dType snapType = Snap2dType::Undefined;
-    // Required for AlignX/AlignY (draws the guide line), ignored otherwise.
-    wy::Vector2 refPoint;
-};
-
 class Snap2dRule;
 typedef std::shared_ptr<Snap2dRule> Snap2dRuleSPtr;
 
 // External snap rule; register with Snap2dSystem::addRule (one rule per exact
-// context type). Both faces return true on a hit. The screen-scale parameters
-// are plane units per screen pixel at the cursor; use them to convert a pixel
-// tolerance into a plane tolerance.
+// context type). Both faces return true on a hit; a hit reports the snapped
+// position (retPosition) and what was hit (hits may be empty). The
+// screen-scale parameters are plane units per screen pixel at the cursor; use
+// them to convert a pixel tolerance into a plane tolerance.
 class WY3DAPP_EXPORT Snap2dRule
 {
 public:
@@ -63,7 +54,8 @@ public:
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY,
         const std::set<wydb::ElementId>& excludeIds,
-        Snap2dRuleHit& hit)
+        wy::Vector2& retPosition,
+        std::vector<Snap2dHit>& hits)
     {
         return false;
     }
@@ -76,7 +68,8 @@ public:
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY,
         const std::set<wydb::ElementId>& excludeIds,
-        Snap2dRuleHit& hit)
+        wy::Vector2& retPosition,
+        std::vector<Snap2dHit>& hits)
     {
         return false;
     }

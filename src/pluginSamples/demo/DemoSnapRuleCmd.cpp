@@ -150,8 +150,10 @@ bool DemoSnapRuleCmd::runSelfTest(double x, double y)
         return _sketchInfo.pSnap2dSys->snap(x, y, pView, pos, {}, _pContext);
     };
 
-    // Origin
-    const bool isOriginHit = (nullptr != snapAt(wy::Vector2::kZero))
+    // Origin (reports both axis alignments as extra hits)
+    const wy3dApp::Snap2dResultSPtr pOriginResult = snapAt(wy::Vector2::kZero);
+    const bool isOriginHit = (nullptr != pOriginResult)
+        && (3 == pOriginResult->getHits().size())
         && (wy3dApp::Snap2dType::Origin == pRule->getLastKind())
         && isSamePoint(wy::Vector2::kZero, pRule->getLastHitPoint());
 
@@ -180,7 +182,7 @@ bool DemoSnapRuleCmd::runSelfTest(double x, double y)
         && (nullptr != snapAt(pCenter->point))
         && (wy3dApp::Snap2dType::CenterPoint == pRule->getLastKind())
         && isSamePoint(pCenter->point, pRule->getLastHitPoint())
-        && (pCenter->id == pRule->getLastHighlightId());
+        && (pCenter->id == pRule->getLastElementId());
 
     const DemoSnapCandidate* pEnd = firstCandidate(candidates, wy3dApp::Snap2dType::EndPoint);
     const bool isEndSkipped = (nullptr == pEnd);
@@ -188,7 +190,7 @@ bool DemoSnapRuleCmd::runSelfTest(double x, double y)
         && (nullptr != snapAt(pEnd->point))
         && (wy3dApp::Snap2dType::EndPoint == pRule->getLastKind())
         && isSamePoint(pEnd->point, pRule->getLastHitPoint())
-        && (pEnd->id == pRule->getLastHighlightId());
+        && (pEnd->id == pRule->getLastElementId());
 
     // Far away: nothing snaps
     const bool isFarMiss = (nullptr == snapAt(kFarPos));
@@ -200,6 +202,7 @@ bool DemoSnapRuleCmd::runSelfTest(double x, double y)
 
     std::cout << "DEMO_SNAPRULE|" << (isPass ? "PASS" : "FAIL")
         << "|origin=" << (isOriginHit ? 1 : 0)
+        << "|originHits=" << (pOriginResult ? pOriginResult->getHits().size() : 0)
         << "|axisX=" << (isAxisXHit ? 1 : 0)
         << "|axisY=" << (isAxisYHit ? 1 : 0)
         << "|center=" << (isCenterSkipped ? "skip" : (isCenterHit ? "1" : "0"))

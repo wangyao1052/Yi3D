@@ -120,6 +120,8 @@ private:
 
     SketchCircleTransientSPtr _pCircleTransient;
     CenterPointTransientSPtr _pCenterPointTransient;
+    // 半径线
+    LineTransientSPtr _pRadiusLineTransient;
 
     // 悬浮弹窗
     std::unique_ptr<GuiCmdHoverInputPopup2> _pCenterPopup;

@@ -193,11 +193,6 @@ protected:
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
-    virtual Snap2dResultSPtr snapImplPicked(
-        const SketchCurveEndPointContext* pContext, const wydb::Database* pDb,
-        const wydb::ElementId& pickedId,
-        const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
 
     // 构造平行&垂直数据
     void constructParlAndPerpsData();
@@ -313,12 +308,6 @@ private:
     // 绘制圆弧
     Snap2dResultSPtr snapImplNoPicked(
         const DrawArc2dContext* pDrawArcContext, const wydb::Database* pDb,
-        const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
-
-    // 曲线端点(未拾取:无对齐捕捉)
-    Snap2dResultSPtr snapImplNoPicked(
-        const SketchCurveEndPointContext* pCurveEndPointContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
 

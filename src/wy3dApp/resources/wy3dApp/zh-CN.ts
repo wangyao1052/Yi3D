@@ -3823,22 +3823,22 @@
 <context>
     <name>SketchDrawArcTangent</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="417"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="418"/>
         <source>Specify the start point on an endpoint of an existing curve; the arc is tangent to the curve.</source>
         <translation>在现有曲线的端点处指定圆弧起点；圆弧与该曲线相切。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="431"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="432"/>
         <source>Specify the end point of the arc; you can directly input the coordinate values.</source>
         <translation>指定圆弧终点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="444"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="445"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation>指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="457"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="458"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation>指定圆弧角度；可输入具体值。</translation>
     </message>
@@ -3847,12 +3847,12 @@
         <translation type="vanished">选择相切的直线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="659"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="660"/>
         <source>Radius</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="670"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="671"/>
         <source>SweepAngle</source>
         <translation>扫掠角度</translation>
     </message>
@@ -4180,7 +4180,7 @@
     <name>SketchDrawLine</name>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="182"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="199"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="200"/>
         <source>Specify the start point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定起点；可输入具体坐标值。</translation>
     </message>
@@ -4198,7 +4198,7 @@
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="195"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="212"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="213"/>
         <source>Specify the end point; you can directly input the values.</source>
         <translation type="unfinished">指定终点；可输入具体值。</translation>
     </message>
@@ -4208,13 +4208,13 @@
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="299"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="319"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="320"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="321"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>

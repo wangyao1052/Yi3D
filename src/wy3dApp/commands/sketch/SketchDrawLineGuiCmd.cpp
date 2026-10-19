@@ -36,6 +36,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include <wy3dApp/Snap2dResult.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"
 #include "snap/SketchSnapSystem.h"
@@ -476,8 +477,8 @@ std::shared_ptr<SketchDrawLineContext::SnapStartTangent> SketchDrawLineGuiCmd::c
 
     wydb::ElementId startElementId(wydb::ElementId::kNull);
     wy::Vector2 startTangentDir(1.0, 0.0);
-    const std::vector<Snap2dResultItem>& snapRetItems = pSnapResult->getItems();
-    for (const Snap2dResultItem& snapRetItem : snapRetItems)
+    const std::vector<Snap2dHit>& snapRetItems = pSnapResult->getHits();
+    for (const Snap2dHit& snapRetItem : snapRetItems)
     {
         if (Snap2dType::EndPoint != snapRetItem.type &&
             Snap2dType::QuadrantPoint != snapRetItem.type &&
@@ -487,7 +488,7 @@ std::shared_ptr<SketchDrawLineContext::SnapStartTangent> SketchDrawLineGuiCmd::c
             continue;
         }
 
-        wydb::ElementId id = snapRetItem.highlightId;
+        wydb::ElementId id = snapRetItem.element;
         const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(id));
         if (!pSketchCurve)
         {

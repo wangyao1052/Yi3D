@@ -255,9 +255,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the start point; you can directly input the values."));
 
-        DrawCircle2dContextSPtr pDrawCircleContext = std::make_shared<DrawCircle2dContext>(_centerPnt);
-        pDrawCircleContext->setIsForDrawArc(true);
-        _pSnapContext = pDrawCircleContext;
+        _pSnapContext = std::make_shared<DrawCircle2dContext>(_centerPnt);
     }
     break;
 

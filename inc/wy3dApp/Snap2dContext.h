@@ -41,14 +41,6 @@ public:
 };
 typedef std::shared_ptr<Locate2dContext> Locate2dContextSPtr;
 
-// End point of an existing curve: only the start/end points of eligible curves snap
-class WY3DAPP_EXPORT SketchCurveEndPointContext : public Snap2dContext
-{
-public:
-    SketchCurveEndPointContext() {}
-};
-typedef std::shared_ptr<SketchCurveEndPointContext> SketchCurveEndPointContextSPtr;
-
 // 绘制线
 class WY3DAPP_EXPORT SketchDrawLineContext : public Snap2dContext
 {
@@ -93,24 +85,15 @@ class WY3DAPP_EXPORT DrawCircle2dContext : public Snap2dContext
 {
 public:
     explicit DrawCircle2dContext(const wy::Vector2& center)
-        : _center(center), _isForDrawArc(false) {}
+        : _center(center) {}
 
     wy::Vector2 getCenter() const
     {
         return _center;
     }
 
-    // 是否是为了绘制圆弧
-    bool isForDrawArc() const { return _isForDrawArc; }
-    // 设置:是否是为了绘制圆弧
-    void setIsForDrawArc(bool value)
-    {
-        _isForDrawArc = value;
-    }
-
 private:
     wy::Vector2 _center;
-    bool _isForDrawArc;
 };
 typedef std::shared_ptr<DrawCircle2dContext> DrawCircle2dContextSPtr;
 

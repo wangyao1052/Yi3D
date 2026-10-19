@@ -72,23 +72,31 @@ void DemoSnapRule::resetRecording()
     _lastScaleScreenY = 0.0;
     _lastHitPoint = wy::Vector2();
     _lastKind = wy3dApp::Snap2dType::Undefined;
-    _lastHighlightId = wydb::ElementId::kNull;
+    _lastElementId = wydb::ElementId::kNull;
 }
 
-bool DemoSnapRule::recordHit(const wy::Vector2& point, const wydb::ElementId& highlightId,
-    wy3dApp::Snap2dType snapType, wy3dApp::Snap2dRuleHit& hit)
+bool DemoSnapRule::recordHit(const wy::Vector2& snappedPosition, const wy::Vector2& hitPoint,
+    const wydb::ElementId& elementId, wy3dApp::Snap2dType snapType,
+    wy::Vector2& retPosition, std::vector<wy3dApp::Snap2dHit>& hits)
 {
-    hit.point = point;
-    hit.highlightId = highlightId;
-    hit.snapType = snapType;
-    // The demo's alignment probes reference the origin.
-    hit.refPoint = wy::Vector2::kZero;
+    this->appendHit(hitPoint, elementId, snapType, hits);
+    retPosition = snappedPosition;
 
-    _lastHitPoint = point;
-    _lastHighlightId = highlightId;
+    _lastHitPoint = snappedPosition;
+    _lastElementId = elementId;
     _lastKind = snapType;
 
     return true;
+}
+
+void DemoSnapRule::appendHit(const wy::Vector2& point, const wydb::ElementId& elementId,
+    wy3dApp::Snap2dType snapType, std::vector<wy3dApp::Snap2dHit>& hits) const
+{
+    wy3dApp::Snap2dHit hit;
+    hit.type = snapType;
+    hit.element = elementId;
+    hit.point = point;
+    hits.push_back(hit);
 }
 
 bool DemoSnapRule::snapNoPicked(
@@ -97,7 +105,8 @@ bool DemoSnapRule::snapNoPicked(
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY,
     const std::set<wydb::ElementId>& excludeIds,
-    wy3dApp::Snap2dRuleHit& hit)
+    wy::Vector2& retPosition,
+    std::vector<wy3dApp::Snap2dHit>& hits)
 {
     ++_callCount;
     _lastScaleScreenX = scaleScreenX;
@@ -110,11 +119,15 @@ bool DemoSnapRule::snapNoPicked(
     const double tolX = std::fabs(10.0 * scaleScreenX);
     const double tolY = std::fabs(10.0 * scaleScreenY);
 
-    // Origin: the X/Y axes crossing
+    // Origin: the X/Y axes crossing (also reports both axis alignments)
     if (std::fabs(pos.x()) <= tolX && std::fabs(pos.y()) <= tolY)
     {
-        return this->recordHit(wy::Vector2::kZero, wydb::ElementId::kNull,
-            wy3dApp::Snap2dType::Origin, hit);
+        const bool isRecorded = this->recordHit(wy::Vector2::kZero, wy::Vector2::kZero,
+            wydb::ElementId::kNull, wy3dApp::Snap2dType::Origin, retPosition, hits);
+        // The alignment probes reference the origin.
+        this->appendHit(wy::Vector2::kZero, wydb::ElementId::kNull, wy3dApp::Snap2dType::AlignY, hits);
+        this->appendHit(wy::Vector2::kZero, wydb::ElementId::kNull, wy3dApp::Snap2dType::AlignX, hits);
+        return isRecorded;
     }
 
     // Closest circle center or line end point
@@ -137,19 +150,20 @@ bool DemoSnapRule::snapNoPicked(
     }
     if (pClosest)
     {
-        return this->recordHit(pClosest->point, pClosest->id, pClosest->snapType, hit);
+        return this->recordHit(pClosest->point, pClosest->point, pClosest->id, pClosest->snapType,
+            retPosition, hits);
     }
 
     // Points on the X axis (Y locked) and on the Y axis (X locked)
     if (std::fabs(pos.y()) <= tolY)
     {
-        return this->recordHit(wy::Vector2(pos.x(), 0.0), wydb::ElementId::kNull,
-            wy3dApp::Snap2dType::AlignY, hit);
+        return this->recordHit(wy::Vector2(pos.x(), 0.0), wy::Vector2::kZero,
+            wydb::ElementId::kNull, wy3dApp::Snap2dType::AlignY, retPosition, hits);
     }
     if (std::fabs(pos.x()) <= tolX)
     {
-        return this->recordHit(wy::Vector2(0.0, pos.y()), wydb::ElementId::kNull,
-            wy3dApp::Snap2dType::AlignX, hit);
+        return this->recordHit(wy::Vector2(0.0, pos.y()), wy::Vector2::kZero,
+            wydb::ElementId::kNull, wy3dApp::Snap2dType::AlignX, retPosition, hits);
     }
 
     return false;
