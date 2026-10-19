@@ -43,25 +43,19 @@ public:
 };
 typedef std::shared_ptr<Locate2dContext> Locate2dContextSPtr;
 
-// 绘制线
-class WY3DAPP_EXPORT SketchDrawLineContext : public Snap2dContext
+class WY3DAPP_EXPORT DrawLine2dContext : public Snap2dContext
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(SketchDrawLineContext, wy3dApp::SketchDrawLineContext, Snap2dContext)
+    WYRX_DECLARE_ABSTRACT_MEMBERS(DrawLine2dContext, wy3dApp::DrawLine2dContext, Snap2dContext)
 public:
-    explicit SketchDrawLineContext(const wy::Vector2& startPoint)
+    explicit DrawLine2dContext(const wy::Vector2& startPoint)
         : _startPoint(startPoint) {}
 
-    // 起始点
-    wy::Vector2 getStartPoint() const
-    {
-        return _startPoint;
-    }
+    wy::Vector2 getStartPoint() const { return _startPoint; }
 
 private:
-    // 起始点
     wy::Vector2 _startPoint;
 };
-typedef std::shared_ptr<SketchDrawLineContext> SketchDrawLineContextSPtr;
+typedef std::shared_ptr<DrawLine2dContext> DrawLine2dContextSPtr;
 
 class WY3DAPP_EXPORT DrawCircle2dContext : public Snap2dContext
 {

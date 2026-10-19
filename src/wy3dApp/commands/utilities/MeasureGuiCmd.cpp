@@ -270,7 +270,7 @@ void MeasureGuiCmd::gotoStep(Step step)
         // 草图捕捉系统
         if (_sketchInfo.pSketchSnapSys)
         {
-            SketchDrawLineContextSPtr pDrawLineContext = std::make_shared<SketchDrawLineContext>(_startPnt2d);
+            DrawLine2dContextSPtr pDrawLineContext = std::make_shared<DrawLine2dContext>(_startPnt2d);
             _pSnap2dContext = pDrawLineContext;
         }
     }

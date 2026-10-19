@@ -404,7 +404,7 @@ void MoveGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉上下文:绘制线
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(_startPnt2d);
+        _pSnapContext = std::make_shared<DrawLine2dContext>(_startPnt2d);
     }
     break;
 

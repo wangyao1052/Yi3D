@@ -257,7 +257,7 @@ void SketchDrawCircleBy3PointsGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
             "Specify the second point on circle; you can directly input the coordinate values."));
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(_pnt1st);
+        _pSnapContext = std::make_shared<DrawLine2dContext>(_pnt1st);
     }
     break;
 

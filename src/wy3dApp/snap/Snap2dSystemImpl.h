@@ -180,7 +180,7 @@ protected:
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
     virtual Snap2dResultSPtr snapImplPicked(
-        const SketchDrawLineContext* pContext, const wydb::Database* pDb,
+        const DrawLine2dContext* pContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY);
@@ -296,7 +296,7 @@ private:
 
     // 绘制直线
     Snap2dResultSPtr snapImplNoPicked(
-        const SketchDrawLineContext* pDrawLineContext, const wydb::Database* pDb,
+        const DrawLine2dContext* pDrawLineContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
 

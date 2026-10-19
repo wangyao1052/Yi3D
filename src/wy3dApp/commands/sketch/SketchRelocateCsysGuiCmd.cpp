@@ -147,7 +147,7 @@ void SketchRelocateCsysGuiCmd::gotoStep(Step step)
             "Specify the X axis."));
 
         // 捕捉上下文
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(_origin);
+        _pSnapContext = std::make_shared<DrawLine2dContext>(_origin);
     }
     break;
 

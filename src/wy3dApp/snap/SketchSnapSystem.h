@@ -81,7 +81,7 @@ private:
 
     // 绘制直线+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
-        const SketchDrawLineContext* pDrawLineContext, const wydb::Database* pDb,
+        const DrawLine2dContext* pDrawLineContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
         double scaleScreenX, double scaleScreenY) override;

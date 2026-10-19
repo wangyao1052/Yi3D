@@ -213,7 +213,7 @@ void SketchDrawLineGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine",
             "Specify the end point; you can directly input the values."));
 
-        _pSnapContext = std::make_shared<SketchDrawLineTangentContext>(_startPnt, _startTangent);
+        _pSnapContext = std::make_shared<DrawLineTangent2dContext>(_startPnt, _startTangent);
     }
     break;
 

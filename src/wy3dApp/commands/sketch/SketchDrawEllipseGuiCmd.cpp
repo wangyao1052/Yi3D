@@ -219,7 +219,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse",
             "Specify the axis vector; you can directly input the values."));
 
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(_centerPnt);
+        _pSnapContext = std::make_shared<DrawLine2dContext>(_centerPnt);
     }
     break;
 

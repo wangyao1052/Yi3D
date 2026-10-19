@@ -250,7 +250,7 @@ void SketchDrawArcBy3PointsGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the second end point on arc; you can directly input the coordinate values."));
         // 草图捕捉上下文
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(_pnt1st);
+        _pSnapContext = std::make_shared<DrawLine2dContext>(_pnt1st);
     }
     break;
 

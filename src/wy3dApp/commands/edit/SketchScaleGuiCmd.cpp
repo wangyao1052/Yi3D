@@ -311,7 +311,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉系统
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(_basePnt);
+        _pSnapContext = std::make_shared<DrawLine2dContext>(_basePnt);
     }
     break;
 

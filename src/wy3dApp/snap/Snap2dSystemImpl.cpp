@@ -185,14 +185,14 @@ Snap2dSystemImpl::Snap2dSystemImpl(const wy3d::Plane& workPlane)
     // by the sketch system).
     _rules.emplace(Locate2dContext::classInfo()->className(),
         std::make_shared<Rule<Locate2dContext>>(*this));
-    _rules.emplace(SketchDrawLineContext::classInfo()->className(),
-        std::make_shared<Rule<SketchDrawLineContext>>(*this));
+    _rules.emplace(DrawLine2dContext::classInfo()->className(),
+        std::make_shared<Rule<DrawLine2dContext>>(*this));
     _rules.emplace(DrawCircle2dContext::classInfo()->className(),
         std::make_shared<Rule<DrawCircle2dContext>>(*this));
     _rules.emplace(DrawArc2dContext::classInfo()->className(),
         std::make_shared<Rule<DrawArc2dContext>>(*this));
-    _rules.emplace(SketchDrawLineTangentContext::classInfo()->className(),
-        std::make_shared<Rule<SketchDrawLineTangentContext>>(*this));
+    _rules.emplace(DrawLineTangent2dContext::classInfo()->className(),
+        std::make_shared<Rule<DrawLineTangent2dContext>>(*this));
     assert(5 == _rules.size());
 
     // 平行
@@ -261,7 +261,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplPicked(
 }
 
 Snap2dResultSPtr Snap2dSystemImpl::snapImplPicked(
-    const SketchDrawLineContext* pContext, const wydb::Database* pDb,
+    const DrawLine2dContext* pContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY)
@@ -926,7 +926,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
 
 // 绘制直线
 Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
-    const SketchDrawLineContext* pDrawLineContext, const wydb::Database* pDb,
+    const DrawLine2dContext* pDrawLineContext, const wydb::Database* pDb,
     const wy::Vector2& pos,
     double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds)
 {
@@ -969,8 +969,8 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     std::shared_ptr<SnappedAngleObject> pSnappedAngleObject(nullptr);
 
     // 捕捉起点切线
-    const SketchDrawLineTangentContext* pTangentContext =
-        dynamic_cast<const SketchDrawLineTangentContext*>(pDrawLineContext);
+    const DrawLineTangent2dContext* pTangentContext =
+        dynamic_cast<const DrawLineTangent2dContext*>(pDrawLineContext);
     const SnapStartTangent* pSnapStartTangent =
         pTangentContext ? &pTangentContext->getStartTangent() : nullptr;
     if (pSnapStartTangent && !pSnapStartTangent->id.isNull() && pSnapStartTangent->direction.length() > 0.5)

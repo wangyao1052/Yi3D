@@ -97,9 +97,9 @@ Snap2dContextSPtr SketchCenterLineGripGizmo::newDragContext() const
     switch (_type)
     {
     case Type::StartPoint:
-        return std::make_shared<SketchDrawLineContext>(_startEPnt);
+        return std::make_shared<DrawLine2dContext>(_startEPnt);
     case Type::EndPoint:
-        return std::make_shared<SketchDrawLineContext>(_startSPnt);
+        return std::make_shared<DrawLine2dContext>(_startSPnt);
     case Type::MiddlePoint:
         return std::make_shared<Locate2dContext>();
     default:

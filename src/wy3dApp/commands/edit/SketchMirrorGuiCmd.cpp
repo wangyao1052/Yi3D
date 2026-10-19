@@ -310,7 +310,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
             "Specify the end point; you can directly input the values."));
         Application::instance().setCursor(CursorType::Locate);
 
-        _pSnapContext = std::make_shared<SketchDrawLineContext>(_axisStartPnt);
+        _pSnapContext = std::make_shared<DrawLine2dContext>(_axisStartPnt);
     }
     break;
 

@@ -38,13 +38,13 @@ struct SnapStartTangent
 
 // Line-draw context whose start point snapped to a curve, so the second point
 // can snap tangent to that curve. Host-internal; not part of the SDK header.
-class SketchDrawLineTangentContext final : public SketchDrawLineContext
+class DrawLineTangent2dContext final : public DrawLine2dContext
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(SketchDrawLineTangentContext, wy3dApp::SketchDrawLineTangentContext, SketchDrawLineContext)
+    WYRX_DECLARE_ABSTRACT_MEMBERS(DrawLineTangent2dContext, wy3dApp::DrawLineTangent2dContext, DrawLine2dContext)
 public:
-    SketchDrawLineTangentContext(
+    DrawLineTangent2dContext(
         const wy::Vector2& startPoint, const SnapStartTangent& startTangent)
-        : SketchDrawLineContext(startPoint), _startTangent(startTangent) {}
+        : DrawLine2dContext(startPoint), _startTangent(startTangent) {}
 
     const SnapStartTangent& getStartTangent() const
     {
