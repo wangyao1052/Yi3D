@@ -98,7 +98,7 @@ void SketchDrawLineGuiCmd::cleanUp()
 
     _step = Step::Undefined;
     _startPnt.set(0.0, 0.0);
-    _pSnapStartTangent = nullptr;
+    _startTangent = SnapStartTangent();
     _endPnt.set(0.0, 0.0);
     _pSnapContext = nullptr;
     _hoverPopupState.resetValue();
@@ -168,7 +168,7 @@ bool SketchDrawLineGuiCmd::finishStep(Step step)
         // 绘制直线段支持连续绘制
         this->gotoStep(Step::SpecifyStartPnt);
         _startPnt = _endPnt;
-        _pSnapStartTangent = nullptr;
+        _startTangent = SnapStartTangent();
         bool result = this->finishStep(Step::SpecifyStartPnt);
         assert(result);
         // }
@@ -213,9 +213,7 @@ void SketchDrawLineGuiCmd::gotoStep(Step step)
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine",
             "Specify the end point; you can directly input the values."));
 
-        SketchDrawLineContextSPtr pDrawLineContext = std::make_shared<SketchDrawLineContext>(_startPnt);
-        pDrawLineContext->setSnapStartTangent(_pSnapStartTangent);
-        _pSnapContext = pDrawLineContext;
+        _pSnapContext = std::make_shared<SketchDrawLineTangentContext>(_startPnt, _startTangent);
     }
     break;
 
@@ -278,7 +276,7 @@ void SketchDrawLineGuiCmd::onLeftMouseDown(const MouseEvent& event)
     if (_step == Step::SpecifyStartPnt)
     {
         _startPnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
-        _pSnapStartTangent = this->computeSnapStartTangent();
+        _startTangent = this->computeSnapStartTangent();
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -426,7 +424,7 @@ void SketchDrawLineGuiCmd::onPopupEnterKey()
             return;
         }
         _startPnt.set(x, y);
-        _pSnapStartTangent = nullptr;
+        _startTangent = SnapStartTangent();
     }
     else if (_step == Step::SpecifyEndPnt)
     {
@@ -466,14 +464,14 @@ void SketchDrawLineGuiCmd::simulateMouseMoveFromPopup()
                        _hoverPopupState.lastMouseMoveTime});
 }
 
-std::shared_ptr<SketchDrawLineContext::SnapStartTangent> SketchDrawLineGuiCmd::computeSnapStartTangent() const
+SnapStartTangent SketchDrawLineGuiCmd::computeSnapStartTangent() const
 {
-    if (!_sketchInfo.pSketchSnapSys) return nullptr;
+    if (!_sketchInfo.pSketchSnapSys) return SnapStartTangent();
     Snap2dResultSPtr pSnapResult = _sketchInfo.pSketchSnapSys->getSnapResult();
-    if (!pSnapResult) return nullptr;
+    if (!pSnapResult) return SnapStartTangent();
 
     const wydb::Database* pDb = Application::instance().getActiveDatabase();
-    if (!pDb) return nullptr;
+    if (!pDb) return SnapStartTangent();
 
     wydb::ElementId startElementId(wydb::ElementId::kNull);
     wy::Vector2 startTangentDir(1.0, 0.0);
@@ -532,13 +530,9 @@ std::shared_ptr<SketchDrawLineContext::SnapStartTangent> SketchDrawLineGuiCmd::c
     }
 
     if (!startElementId.isNull() && startTangentDir.length() > 0.5)
-    {
-        return std::make_shared<SketchDrawLineContext::SnapStartTangent>(startElementId, startTangentDir);
-    }
-    else
-    {
-        return nullptr;
-    }
+        return SnapStartTangent(startElementId, startTangentDir);
+
+    return SnapStartTangent();
 }
 
 std::set<wydb::ElementId> SketchDrawLineGuiCmd::getSnapExcludeIds() const

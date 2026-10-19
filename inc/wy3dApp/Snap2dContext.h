@@ -21,7 +21,6 @@
 
 #include <memory>
 #include <wyVector2.h>
-#include <wydbElementId.h>
 #include <wyrxObject.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -58,30 +57,9 @@ public:
         return _startPoint;
     }
 
-    // 捕捉起点的切线
-    struct SnapStartTangent
-    {
-        wydb::ElementId id;
-        wy::Vector2 direction;
-        SnapStartTangent() : id(wydb::ElementId::kNull), direction(1.0, 0.0) {}
-        SnapStartTangent(const wydb::ElementId& argId, const wy::Vector2& argDir)
-            : id(argId), direction(argDir) {}
-    };
-    std::shared_ptr<SnapStartTangent> getSnapStartTangent() const
-    {
-        return _pSnapStartTangent;
-    }
-    void setSnapStartTangent(std::shared_ptr<SnapStartTangent> pSnapStartTangent)
-    {
-        _pSnapStartTangent = pSnapStartTangent;
-    }
-
 private:
     // 起始点
     wy::Vector2 _startPoint;
-
-    // 捕捉起点的切线
-    std::shared_ptr<SnapStartTangent> _pSnapStartTangent;
 };
 typedef std::shared_ptr<SketchDrawLineContext> SketchDrawLineContextSPtr;
 

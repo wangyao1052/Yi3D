@@ -17,6 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "Snap2dSystemImpl.h"
+#include "Snap2dContextInternal.h"
 #include "Snap2dResultFactory.h"
 #include "Snap2dResultDisplay.h"
 
@@ -190,7 +191,9 @@ Snap2dSystemImpl::Snap2dSystemImpl(const wy3d::Plane& workPlane)
         std::make_shared<Rule<DrawCircle2dContext>>(*this));
     _rules.emplace(DrawArc2dContext::classInfo()->className(),
         std::make_shared<Rule<DrawArc2dContext>>(*this));
-    assert(4 == _rules.size());
+    _rules.emplace(SketchDrawLineTangentContext::classInfo()->className(),
+        std::make_shared<Rule<SketchDrawLineTangentContext>>(*this));
+    assert(5 == _rules.size());
 
     // 平行
     /*
@@ -966,7 +969,10 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     std::shared_ptr<SnappedAngleObject> pSnappedAngleObject(nullptr);
 
     // 捕捉起点切线
-    std::shared_ptr<SketchDrawLineContext::SnapStartTangent> pSnapStartTangent = pDrawLineContext->getSnapStartTangent();
+    const SketchDrawLineTangentContext* pTangentContext =
+        dynamic_cast<const SketchDrawLineTangentContext*>(pDrawLineContext);
+    const SnapStartTangent* pSnapStartTangent =
+        pTangentContext ? &pTangentContext->getStartTangent() : nullptr;
     if (pSnapStartTangent && !pSnapStartTangent->id.isNull() && pSnapStartTangent->direction.length() > 0.5)
     {
         // id

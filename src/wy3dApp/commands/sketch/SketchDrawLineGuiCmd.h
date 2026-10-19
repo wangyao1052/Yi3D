@@ -29,6 +29,7 @@
 #include <wy3dSketchLine.h>
 #include <wy3dApp/Snap2dContext.h>
 #include <wy3dApp/wy3dAppDefs.h>
+#include "snap/Snap2dContextInternal.h"
 
 namespace wy3dApp {
 
@@ -76,7 +77,7 @@ private:
     void simulateMouseMoveFromPopup();
 
     // 计算捕捉起点切线
-    std::shared_ptr<SketchDrawLineContext::SnapStartTangent> computeSnapStartTangent() const;
+    SnapStartTangent computeSnapStartTangent() const;
 
 private:
     struct HoverPopupState
@@ -113,7 +114,7 @@ private:
 private:
     Step _step;
     wy::Vector2 _startPnt;
-    std::shared_ptr<SketchDrawLineContext::SnapStartTangent> _pSnapStartTangent;
+    SnapStartTangent _startTangent;
     wy::Vector2 _endPnt;
     Snap2dContextSPtr _pSnapContext;
     // 悬停浮窗
