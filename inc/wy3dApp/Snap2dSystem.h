@@ -57,8 +57,6 @@ public:
 
     // Get the snap result.
     virtual Snap2dResultSPtr getSnapResult() const = 0;
-    // Set the snap result.
-    virtual void setSnapResult(Snap2dResultSPtr pSnapResult) = 0;
     // Clear the snap result.
     virtual void clearSnapResult() = 0;
 

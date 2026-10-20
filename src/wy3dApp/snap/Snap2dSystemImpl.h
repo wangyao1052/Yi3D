@@ -96,7 +96,7 @@ public:
     // 获取捕捉结果
     Snap2dResultSPtr getSnapResult() const override { return _pSnapResult; }
     // 设置捕捉结果
-    void setSnapResult(Snap2dResultSPtr pSnapResult) override;
+    void setSnapResult(Snap2dResultSPtr pSnapResult);
     // 清空捕捉结果
     void clearSnapResult() override { this->setSnapResult(nullptr); }
 

@@ -35,6 +35,7 @@
 #include "snap/SnapObject.h"
 #include <wy3dApp/Snap2dResult.h>
 #include "snap/Snap2dResultFactory.h"
+#include "snap/Snap2dSystemImpl.h"
 #include "snap3d/Sketch3DSnapObject.h"
 #include "snap3d/Sketch3DSnapContext.h"
 #include "snap3d/Sketch3DSnapResult.h"
@@ -283,7 +284,9 @@ wy::Vector2 OsgCoordUtil::computePosition2d(
         if (pSnap2dSys)
         {
             Snap2dResultSPtr pSketchSnapRet = convertSnapResult(sketchPlane, retPos, ret.second);
-            pSnap2dSys->setSnapResult(pSketchSnapRet);
+            Snap2dSystemImpl* pSnap2dSystemImpl = dynamic_cast<Snap2dSystemImpl*>(pSnap2dSys);
+            assert(pSnap2dSystemImpl);
+            pSnap2dSystemImpl->setSnapResult(pSketchSnapRet);
         }
         return retPos;
     }
