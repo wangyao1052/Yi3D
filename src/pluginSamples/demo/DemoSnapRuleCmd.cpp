@@ -91,7 +91,8 @@ wyap::CmdExecution::StartResult DemoSnapRuleCmd::onStart()
         return wyap::CmdExecution::StartResult::Rejected;
     }
 
-    const wy::ErrorStatus error = _sketchInfo.pSnap2dSys->addRule(DemoSnapRule::instance());
+    const wy::ErrorStatus error = _sketchInfo.pSnap2dSys->addRule(
+        DemoSnapContext::classInfo(), DemoSnapRule::instance());
     if (wy::ErrorStatus::Ok != error && wy::ErrorStatus::DuplicateKey != error)
     {
         std::cout << "DEMO_SNAPRULE|FAIL|add-rule=" << static_cast<int>(error) << std::endl;

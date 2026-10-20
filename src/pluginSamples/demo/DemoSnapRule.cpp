@@ -60,11 +60,6 @@ std::shared_ptr<DemoSnapRule> DemoSnapRule::instance()
     return s_instance;
 }
 
-const wyrx::ClassInfo* DemoSnapRule::getContextClass() const
-{
-    return DemoSnapContext::classInfo();
-}
-
 void DemoSnapRule::resetRecording()
 {
     _callCount = 0;

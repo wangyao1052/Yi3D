@@ -69,8 +69,6 @@ public:
     // tolerated by the self test, so command re-runs must not lose the state.
     static std::shared_ptr<DemoSnapRule> instance();
 
-    virtual const wyrx::ClassInfo* getContextClass() const override;
-
     virtual bool snapNoPicked(
         const wy3dApp::Snap2dContext* pContext,
         const wydb::Database* pDb,

@@ -194,11 +194,6 @@ private:
 class SketchCurveEndPointSnapRule final : public Snap2dRule
 {
 public:
-    const wyrx::ClassInfo* getContextClass() const override
-    {
-        return SketchCurveEndPointContext::classInfo();
-    }
-
     bool snapPicked(
         const Snap2dContext* pContext,
         const wydb::Database* pDb,
@@ -297,6 +292,7 @@ wyap::CmdExecution::StartResult SketchDrawArcTangentGuiCmd::onStart()
     if (_sketchInfo.pSketchSnapSys)
     {
         const wy::ErrorStatus error = _sketchInfo.pSketchSnapSys->addRule(
+            SketchCurveEndPointContext::classInfo(),
             std::make_shared<SketchCurveEndPointSnapRule>());
         if (wy::ErrorStatus::Ok != error && wy::ErrorStatus::DuplicateKey != error)
         {

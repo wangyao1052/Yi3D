@@ -31,15 +31,19 @@ class WY3DAPP_EXPORT Snap2dContext : public wyrx::Object
     WYRX_DECLARE_ABSTRACT_MEMBERS(Snap2dContext, wy3dApp::Snap2dContext, wyrx::Object)
 protected:
     Snap2dContext() = default;
-    ~Snap2dContext() override = default;
+    virtual ~Snap2dContext() override = default;
+    Snap2dContext(const Snap2dContext&) = delete;
+    Snap2dContext& operator=(const Snap2dContext&) = delete;
+    Snap2dContext(Snap2dContext&&) = delete;
+    Snap2dContext& operator=(Snap2dContext&&) = delete;
 };
 typedef std::shared_ptr<Snap2dContext> Snap2dContextSPtr;
 
 class WY3DAPP_EXPORT Locate2dContext : public Snap2dContext
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(Locate2dContext, wy3dApp::Locate2dContext, Snap2dContext)
+    WYRX_DECLARE_MEMBERS(Locate2dContext, wy3dApp::Locate2dContext, Snap2dContext)
 public:
-    Locate2dContext() {}
+    Locate2dContext() = default;
 };
 typedef std::shared_ptr<Locate2dContext> Locate2dContextSPtr;
 
@@ -52,7 +56,7 @@ public:
 
     wy::Vector2 getStartPoint() const { return _startPoint; }
 
-private:
+protected:
     wy::Vector2 _startPoint;
 };
 typedef std::shared_ptr<DrawLine2dContext> DrawLine2dContextSPtr;
@@ -64,12 +68,9 @@ public:
     explicit DrawCircle2dContext(const wy::Vector2& center)
         : _center(center) {}
 
-    wy::Vector2 getCenter() const
-    {
-        return _center;
-    }
+    wy::Vector2 getCenter() const { return _center; }
 
-private:
+protected:
     wy::Vector2 _center;
 };
 typedef std::shared_ptr<DrawCircle2dContext> DrawCircle2dContextSPtr;
@@ -78,27 +79,17 @@ class WY3DAPP_EXPORT DrawArc2dContext : public Snap2dContext
 {
     WYRX_DECLARE_ABSTRACT_MEMBERS(DrawArc2dContext, wy3dApp::DrawArc2dContext, Snap2dContext)
 public:
-    DrawArc2dContext(
-        const wy::Vector2& center, double radius, const wy::Vector2& startPnt)
-        : _center(center), _radius(radius), _startPnt(startPnt) {}
+    DrawArc2dContext(const wy::Vector2& center, double radius, const wy::Vector2& startPoint)
+        : _center(center), _radius(radius), _startPoint(startPoint) {}
 
-    wy::Vector2 getCenter() const
-    {
-        return _center;
-    }
-    double getRadius() const
-    {
-        return _radius;
-    }
-    wy::Vector2 getStartPoint() const
-    {
-        return _startPnt;
-    }
+    wy::Vector2 getCenter() const { return _center; }
+    double getRadius() const { return _radius; }
+    wy::Vector2 getStartPoint() const { return _startPoint; }
 
-private:
+protected:
     wy::Vector2 _center;
     double _radius;
-    wy::Vector2 _startPnt;
+    wy::Vector2 _startPoint;
 };
 typedef std::shared_ptr<DrawArc2dContext> DrawArc2dContextSPtr;
 

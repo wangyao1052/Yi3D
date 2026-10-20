@@ -209,12 +209,10 @@ Snap2dSystemImpl::~Snap2dSystemImpl()
 {
 }
 
-wy::ErrorStatus Snap2dSystemImpl::addRule(Snap2dRuleSPtr pRule)
+wy::ErrorStatus Snap2dSystemImpl::addRule(
+    const wyrx::ClassInfo* pContextClass, Snap2dRuleSPtr pRule)
 {
-    if (!pRule) return wy::ErrorStatus::InvalidInput;
-
-    const wyrx::ClassInfo* pContextClass = pRule->getContextClass();
-    if (!pContextClass) return wy::ErrorStatus::InvalidInput;
+    if (!pRule || !pContextClass) return wy::ErrorStatus::InvalidInput;
 
     const std::string& contextClassName = pContextClass->className();
     if (contextClassName.empty()) return wy::ErrorStatus::InvalidInput;

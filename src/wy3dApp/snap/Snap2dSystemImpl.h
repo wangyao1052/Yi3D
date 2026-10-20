@@ -101,7 +101,8 @@ public:
     void clearSnapResult() override { this->setSnapResult(nullptr); }
 
     // 注册外部规则
-    wy::ErrorStatus addRule(Snap2dRuleSPtr pRule) override;
+    wy::ErrorStatus addRule(
+        const wyrx::ClassInfo* pContextClass, Snap2dRuleSPtr pRule) override;
     // 移除外部规则
     wy::ErrorStatus removeRule(const wyrx::ClassInfo* pContextClass) override;
 

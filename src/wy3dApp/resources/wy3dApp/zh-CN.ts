@@ -3694,17 +3694,17 @@
         <translation type="obsolete">半径 &amp; 角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="419"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="417"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="420"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="418"/>
         <source>StartAngle</source>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="430"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="428"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
     </message>
@@ -3717,7 +3717,7 @@
         <translation type="obsolete">起点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="266"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="264"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation type="unfinished">指定圆弧角度；可输入具体值。</translation>
     </message>
@@ -3823,22 +3823,22 @@
 <context>
     <name>SketchDrawArcTangent</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="418"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="539"/>
         <source>Specify the start point on an endpoint of an existing curve; the arc is tangent to the curve.</source>
         <translation>在现有曲线的端点处指定圆弧起点；圆弧与该曲线相切。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="432"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="553"/>
         <source>Specify the end point of the arc; you can directly input the coordinate values.</source>
         <translation>指定圆弧终点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="445"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="566"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation>指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="458"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="579"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation>指定圆弧角度；可输入具体值。</translation>
     </message>
@@ -3847,12 +3847,12 @@
         <translation type="vanished">选择相切的直线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="660"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="781"/>
         <source>Radius</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="671"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="792"/>
         <source>SweepAngle</source>
         <translation>扫掠角度</translation>
     </message>
@@ -3908,7 +3908,7 @@
 <context>
     <name>SketchDrawCircle</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="196"/>
+        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="217"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆心点；可输入具体坐标值。</translation>
     </message>
@@ -3917,12 +3917,12 @@
         <translation type="obsolete">圆心</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="209"/>
+        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="230"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="315"/>
+        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="337"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -4208,13 +4208,13 @@
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="299"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="318"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="319"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -4282,7 +4282,7 @@
 <context>
     <name>SketchDrawPolygon</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="215"/>
+        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="234"/>
         <source>Specify the center point of the regular polygon; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定正多边形的中心点；可输入具体坐标值。</translation>
     </message>
@@ -4291,12 +4291,12 @@
         <translation type="obsolete">圆心</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="228"/>
+        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="247"/>
         <source>Specify the radius of the circumscribed circle; you can directly input the value.</source>
         <translation type="unfinished">指定外接圆的半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="343"/>
+        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="361"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>

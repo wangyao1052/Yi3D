@@ -25,6 +25,7 @@
 #include <wyVector2.h>
 #include <wydbDatabase.h>
 #include <wy3dPlane.h>
+#include <wyrxClassInfo.h>
 #include <wy3dApp/Snap2dResult.h>
 #include <wy3dApp/Snap2dRule.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -61,9 +62,12 @@ public:
     // Clear the snap result.
     virtual void clearSnapResult() = 0;
 
-    // Register an external rule; one rule per exact context class.
+    // Register an external rule for the given context class; one rule per exact
+    // context class. The same rule instance may be registered for several
+    // context classes.
     // Returns DuplicateKey when the context class already has a rule.
-    virtual wy::ErrorStatus addRule(Snap2dRuleSPtr pRule) = 0;
+    virtual wy::ErrorStatus addRule(
+        const wyrx::ClassInfo* pContextClass, Snap2dRuleSPtr pRule) = 0;
 
     // Remove an external rule. Built-in rules cannot be removed.
     // Returns KeyNotFound when no rule has the given context class.
