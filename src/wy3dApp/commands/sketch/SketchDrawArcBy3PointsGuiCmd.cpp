@@ -294,7 +294,7 @@ void SketchDrawArcBy3PointsGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::SpecifyPoint1st:
     {
-        wy::Vector2 pnt1st = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pnt1st = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         _hoverPopupState.point = pnt1st;
         return;
     }
@@ -302,7 +302,7 @@ void SketchDrawArcBy3PointsGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPoint2nd:
     {
-        wy::Vector2 pnt2nd = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pnt2nd = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         _hoverPopupState.point = pnt2nd;
         {
             if (_pMakeSketchArc)
@@ -318,7 +318,7 @@ void SketchDrawArcBy3PointsGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPoint3rd:
     {
-        wy::Vector2 pnt3rd = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pnt3rd = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         _hoverPopupState.point = pnt3rd;
         {
             if (_pMakeSketchArc)
@@ -353,7 +353,7 @@ void SketchDrawArcBy3PointsGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyPoint1st:
     {
-        _pnt1st = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _pnt1st = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -364,7 +364,7 @@ void SketchDrawArcBy3PointsGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPoint2nd:
     {
-        _pnt2nd = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _pnt2nd = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -375,7 +375,7 @@ void SketchDrawArcBy3PointsGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPoint3rd:
     {
-        _pnt3rd = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _pnt3rd = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();

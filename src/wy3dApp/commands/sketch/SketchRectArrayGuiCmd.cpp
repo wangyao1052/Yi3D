@@ -496,13 +496,13 @@ void SketchRectArrayGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::Step3_SpecifyColumnSpacing_StartPnt:
     {
-        this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        this->computePosition2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
     }
     break;
 
     case Step::Step4_SpecifyColumnSpacing_EndPnt:
     {
-        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
         double rawColSpacing = pnt.x() - _colSpacingStartPnt.x();
         if (std::fabs(rawColSpacing) > wy3d::EPS)
         {
@@ -522,13 +522,13 @@ void SketchRectArrayGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::Step5_SpecifyRowSpacing_StartPnt:
     {
-        this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        this->computePosition2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
     }
     break;
 
     case Step::Step6_SpecifyRowSpacing_EndPnt:
     {
-        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
         double rawRowSpacing = pnt.y() - _rowSpacingStartPnt.y();
         if (std::fabs(rawRowSpacing) > wy3d::EPS)
         {
@@ -572,7 +572,7 @@ void SketchRectArrayGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::Step3_SpecifyColumnSpacing_StartPnt:
     {
-        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
         {
             _colSpacingStartPnt = pnt;
             this->finishStep(_step);
@@ -582,7 +582,7 @@ void SketchRectArrayGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::Step4_SpecifyColumnSpacing_EndPnt:
     {
-        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
         double rawColSpacing = pnt.x() - _colSpacingStartPnt.x();
         if (std::fabs(rawColSpacing) > wy3d::EPS)
         {
@@ -598,7 +598,7 @@ void SketchRectArrayGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::Step5_SpecifyRowSpacing_StartPnt:
     {
-        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
         {
             _rowSpacingStartPnt = pnt;
             this->finishStep(_step);
@@ -608,7 +608,7 @@ void SketchRectArrayGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::Step6_SpecifyRowSpacing_EndPnt:
     {
-        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pnt = this->computePosition2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
         double rawRowSpacing = pnt.y() - _rowSpacingStartPnt.y();
         if (std::fabs(rawRowSpacing) > wy3d::EPS)
         {

@@ -202,6 +202,16 @@ bool SketchSnapSystem::refreshPlane(const wydb::Database* pDb)
     return true;
 }
 
+void SketchSnapSystem::onDatabaseChanged(
+    const wydb::Database* pDatabase,
+    const wydb::Transaction* pTransaction,
+    const wydb::DatabaseChangeInfo& changeInfo)
+{
+    Snap2dSystemImpl::onDatabaseChanged(pDatabase, pTransaction, changeInfo);
+
+    if (changeInfo.modifiedIds.count(_sketchId)) this->refreshPlane(pDatabase);
+}
+
 void SketchSnapSystem::rebuildAll()
 {
     Snap2dSystemImpl::rebuildAll();  // reset + initDefaultSnapObjects（基类事务）

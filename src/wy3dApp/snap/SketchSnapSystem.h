@@ -57,6 +57,11 @@ public:
     SketchSnapSystem(SketchSnapSystem&&) = delete;
     SketchSnapSystem& operator=(SketchSnapSystem&&) = delete;
 
+    virtual void onDatabaseChanged(
+        const wydb::Database* pDatabase,
+        const wydb::Transaction* pTransaction,
+        const wydb::DatabaseChangeInfo& changeInfo) override;
+
 protected:
     // 初始化
     bool init(const wy3d::Sketch* pSketch);

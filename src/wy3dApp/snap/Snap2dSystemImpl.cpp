@@ -592,7 +592,7 @@ static Snap2dResultSPtr convertSnapResult(
 
 std::pair<Snap2dResultSPtr, wy::Vector2> Snap2dSystemImpl::snap(
     double x, double y, osgViewer::View* pView,
-    const wy3d::Plane& plane, const std::set<wydb::ElementId>& excludeIds,
+    const std::set<wydb::ElementId>& excludeIds,
     Snap2dContextSPtr pContext)
 {
     assert(pContext);
@@ -604,17 +604,17 @@ std::pair<Snap2dResultSPtr, wy::Vector2> Snap2dSystemImpl::snap(
             x, y, pSnapContext, excludeIds, false);
         if (pSnapResult)
         {
-            const wy::Vector2 snapPos = plane.uv(pSnapResult->getPosition());
-            const wy::Vector3 planePnt = plane.value(snapPos);
-            const wy::Vector2 retPos = plane.uv(planePnt);
-            Snap2dResultSPtr pSketchSnapRet = convertSnapResult(plane, retPos, pSnapResult);
+            const wy::Vector2 snapPos = _sketchPlane.uv(pSnapResult->getPosition());
+            const wy::Vector3 planePnt = _sketchPlane.value(snapPos);
+            const wy::Vector2 retPos = _sketchPlane.uv(planePnt);
+            Snap2dResultSPtr pSketchSnapRet = convertSnapResult(_sketchPlane, retPos, pSnapResult);
             this->setSnapResult(pSketchSnapRet);
             return std::make_pair(pSketchSnapRet, retPos);
         }
     }
 
     assert(pView);
-    const wy::Vector2 rawPos = plane.uv(MathUtils::projectToPlane(pView, x, y, plane));
+    const wy::Vector2 rawPos = _sketchPlane.uv(MathUtils::projectToPlane(pView, x, y, _sketchPlane));
     Snap2dResultSPtr pSnapResult = this->snapImpl(x, y, pView, rawPos, excludeIds, pContext);
     this->setSnapResult(pSnapResult);
     return std::make_pair(pSnapResult, rawPos);

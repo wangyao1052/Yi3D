@@ -225,12 +225,12 @@ void SketchDrawRectangleGuiCmd::onMouseMove(const MouseEvent& event)
 
     if (_step == Step::SpecifyStartPnt)
     {
-        wy::Vector2 startPnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 startPnt = this->computePosition2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
         _hoverPopupState.point = startPnt;
     }
     else if (_step == Step::SpecifyEndPnt)
     {
-        wy::Vector2 endPnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 endPnt = this->computePosition2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
         double length = std::fabs(endPnt.x() - _startPnt.x());
         double width = std::fabs(endPnt.y() - _startPnt.y());
         _hoverPopupState.point = endPnt;
@@ -257,7 +257,7 @@ void SketchDrawRectangleGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     if (_step == Step::SpecifyStartPnt)
     {
-        _startPnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _startPnt = this->computePosition2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -265,7 +265,7 @@ void SketchDrawRectangleGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::SpecifyEndPnt)
     {
-        _endPnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _endPnt = this->computePosition2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();

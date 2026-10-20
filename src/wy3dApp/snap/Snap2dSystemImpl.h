@@ -89,7 +89,7 @@ public:
     // 返回捕捉结果与原始平面点(全局命中时第二个值也可用)。
     std::pair<Snap2dResultSPtr, wy::Vector2> snap(
         double x, double y, osgViewer::View* pView,
-        const wy3d::Plane& plane, const std::set<wydb::ElementId>& excludeIds,
+        const std::set<wydb::ElementId>& excludeIds,
         Snap2dContextSPtr pContext);
 
     // 只走 2D 索引(调用方已自行跑过全局层)。

@@ -271,7 +271,7 @@ void SketchTextCommand::onMouseMove(const MouseEvent& event)
 
     if (Step::SpecifyPosition == _step)
     {
-        wy::Vector2 position = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 position = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         _hoverPopupState.point = position;
         if (_pMakeText)
         {
@@ -293,7 +293,7 @@ void SketchTextCommand::onLeftMouseDown(const MouseEvent& event)
 
     if (Step::SpecifyPosition == _step)
     {
-        _position = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _position = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();

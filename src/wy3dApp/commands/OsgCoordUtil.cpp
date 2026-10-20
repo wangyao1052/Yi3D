@@ -183,7 +183,6 @@ std::pair<wy::Vector3, bool> OsgCoordUtil::computePosition3dForSketch3D(
 wy::Vector2 OsgCoordUtil::computePosition2d(
     osgViewer::View* pView,
     double x, double y,
-    const wy3d::Plane& sketchPlane,
     const std::set<wydb::ElementId>& excludeIds,
     std::shared_ptr<Snap2dContext> pSnapContext,
     Snap2dSystem* pSnap2dSys)
@@ -193,13 +192,8 @@ wy::Vector2 OsgCoordUtil::computePosition2d(
 
     Snap2dSystemImpl* pSnap2dSystemImpl = dynamic_cast<Snap2dSystemImpl*>(pSnap2dSys);
     assert(pSnap2dSystemImpl);
-    if (!pSnap2dSystemImpl)
-    {
-        return sketchPlane.uv(MathUtils::projectToPlane(pView, x, y, sketchPlane));
-    }
-
     std::pair<Snap2dResultSPtr, wy::Vector2> ret = pSnap2dSystemImpl->snap(
-        x, y, pView, sketchPlane, excludeIds, pSnapContext);
+        x, y, pView, excludeIds, pSnapContext);
     return ret.first ? ret.first->getPosition() : ret.second;
 }
 

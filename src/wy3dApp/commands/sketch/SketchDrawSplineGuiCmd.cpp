@@ -396,7 +396,7 @@ void SketchDrawSplineGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::SpecifyStartPnt:
     {
-        wy::Vector2 startPnt = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 startPnt = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         _hoverPopupState.point = startPnt;
         return;
     }
@@ -404,7 +404,7 @@ void SketchDrawSplineGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyNextPnt:
     {
-        wy::Vector2 nextPoint = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 nextPoint = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         nextPoint = this->tryReviseNextPoint(_fitPoints, nextPoint); // 尝试修正nextPoint
         _hoverPopupState.point = nextPoint;
         if (this->isDisallowedDuplicatePoint(_fitPoints, nextPoint))
@@ -449,7 +449,7 @@ void SketchDrawSplineGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyStartPnt:
     {
-        _startPoint = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _startPoint = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -460,7 +460,7 @@ void SketchDrawSplineGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyNextPnt:
     {
-        _nextPoint = this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _nextPoint = this->computePosition2d(event.x, event.y, _snapExcludeIds, _pSnapContext, _sketchInfo.pSketchSnapSys);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
