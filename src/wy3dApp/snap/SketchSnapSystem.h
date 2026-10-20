@@ -77,41 +77,41 @@ private:
         const Locate2dContext* pLocateContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY) override;
+        double valuePerPixelX, double valuePerPixelY) override;
 
     // 绘制直线+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
         const DrawLine2dContext* pDrawLineContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY) override;
+        double valuePerPixelX, double valuePerPixelY) override;
 
     // 绘制圆+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
         const DrawCircle2dContext* pDrawCircleContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY) override;
+        double valuePerPixelX, double valuePerPixelY) override;
 
     // 绘制圆弧+捕捉到对象
     Snap2dResultSPtr snapImplPicked(
         const DrawArc2dContext* pDrawArcContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY) override;
+        double valuePerPixelX, double valuePerPixelY) override;
 
     // 捕捉点
     Snap2dPointSPtr snapPointSnapObject_Nearest(
         const std::list<Snap2dPointSPtr>& snapObjs,
         const wy::Vector2& pos, double tol,
-        double scaleScreenX, double scaleScreenY)
+        double valuePerPixelX, double valuePerPixelY)
     {
         assert(tol > 0.0);
-        assert(scaleScreenX > 0.0);
-        assert(scaleScreenY > 0.0);
+        assert(valuePerPixelX > 0.0);
+        assert(valuePerPixelY > 0.0);
 
-        double tolX = std::fabs(tol * scaleScreenX); // transform tol from pixel to sketch
-        double tolY = std::fabs(tol * scaleScreenY); // transform tol from pixel to sketch
+        double tolX = std::fabs(tol * valuePerPixelX); // transform tol from pixel to sketch
+        double tolY = std::fabs(tol * valuePerPixelY); // transform tol from pixel to sketch
         double minDist(DBL_MAX), disX(0.0), disY(0.0);
         Snap2dPointSPtr pRet(nullptr);
         for (const Snap2dPointSPtr& pSnapObj : snapObjs)

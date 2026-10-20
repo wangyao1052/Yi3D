@@ -199,7 +199,7 @@ public:
         const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY,
+        double valuePerPixelX, double valuePerPixelY,
         // Ignored: pickElement already applied the excluded ids.
         const std::set<wydb::ElementId>&,
         wy::Vector2& retPosition,
@@ -212,8 +212,8 @@ public:
             return false;
         }
 
-        assert(scaleScreenX > 0.0);
-        assert(scaleScreenY > 0.0);
+        assert(valuePerPixelX > 0.0);
+        assert(valuePerPixelY > 0.0);
 
         // Only lines, centerlines, arcs, ellipse arcs and open splines of the
         // context's sketch qualify.
@@ -226,8 +226,8 @@ public:
         }
 
         // 10 screen pixels per axis, Manhattan-nearest of the two end points.
-        const double tolX = std::fabs(10.0 * scaleScreenX);
-        const double tolY = std::fabs(10.0 * scaleScreenY);
+        const double tolX = std::fabs(10.0 * valuePerPixelX);
+        const double tolY = std::fabs(10.0 * valuePerPixelY);
         const wy::Vector2 endPoints[2] = {
             pCurve->getStartPoint(), pCurve->getEndPoint() };
         double minDistance = DBL_MAX;

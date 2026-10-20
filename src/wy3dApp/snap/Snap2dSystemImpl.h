@@ -56,7 +56,7 @@ public:
         const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY,
+        double valuePerPixelX, double valuePerPixelY,
         const std::set<wydb::ElementId>& excludeIds)
     {
         return nullptr;
@@ -67,7 +67,7 @@ public:
         const Snap2dContext* pContext,
         const wydb::Database* pDb,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY,
+        double valuePerPixelX, double valuePerPixelY,
         const std::set<wydb::ElementId>& excludeIds)
     {
         return nullptr;
@@ -179,22 +179,22 @@ protected:
         const Locate2dContext* pContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double valuePerPixelX, double valuePerPixelY);
     virtual Snap2dResultSPtr snapImplPicked(
         const DrawLine2dContext* pContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double valuePerPixelX, double valuePerPixelY);
     virtual Snap2dResultSPtr snapImplPicked(
         const DrawCircle2dContext* pContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double valuePerPixelX, double valuePerPixelY);
     virtual Snap2dResultSPtr snapImplPicked(
         const DrawArc2dContext* pContext, const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY);
+        double valuePerPixelX, double valuePerPixelY);
 
     // 构造平行&垂直数据
     void constructParlAndPerpsData();
@@ -255,14 +255,14 @@ protected:
     Snap2dPointSPtr snapPointSnapObject(
         const std::list<Snap2dPointSPtr>& snapObjs,
         const wy::Vector2& pos, double tol,
-        double scaleScreenX, double scaleScreenY)
+        double valuePerPixelX, double valuePerPixelY)
     {
         assert(tol > 0.0);
-        assert(scaleScreenX > 0.0);
-        assert(scaleScreenY > 0.0);
+        assert(valuePerPixelX > 0.0);
+        assert(valuePerPixelY > 0.0);
 
-        double tolX = std::fabs(tol * scaleScreenX); // transform tol from pixel to sketch
-        double tolY = std::fabs(tol * scaleScreenY); // transform tol from pixel to sketch
+        double tolX = std::fabs(tol * valuePerPixelX); // transform tol from pixel to sketch
+        double tolY = std::fabs(tol * valuePerPixelY); // transform tol from pixel to sketch
         for (const Snap2dPointSPtr& pSnapObj : snapObjs)
         {
             assert(pSnapObj);
@@ -293,25 +293,25 @@ private:
     Snap2dResultSPtr snapImplNoPicked(
         const Locate2dContext* pLocateContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
+        double valuePerPixelX, double valuePerPixelY, const std::set<wydb::ElementId>& excludeIds);
 
     // 绘制直线
     Snap2dResultSPtr snapImplNoPicked(
         const DrawLine2dContext* pDrawLineContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
+        double valuePerPixelX, double valuePerPixelY, const std::set<wydb::ElementId>& excludeIds);
 
     // 绘制圆
     Snap2dResultSPtr snapImplNoPicked(
         const DrawCircle2dContext* pDrawCircleContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
+        double valuePerPixelX, double valuePerPixelY, const std::set<wydb::ElementId>& excludeIds);
 
     // 绘制圆弧
     Snap2dResultSPtr snapImplNoPicked(
         const DrawArc2dContext* pDrawArcContext, const wydb::Database* pDb,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY, const std::set<wydb::ElementId>& excludeIds);
+        double valuePerPixelX, double valuePerPixelY, const std::set<wydb::ElementId>& excludeIds);
 
     // 捕捉角度
     Snap2dAngleSPtr snapAngleSnapObject(
@@ -326,12 +326,12 @@ private:
     T snapSingleValueInContainer(
         const Container<T>& container,
         double value,
-        double tol, double scScreen2Sketch, const std::set<wydb::ElementId>& excludeIds)
+        double tol, double valuePerPixel, const std::set<wydb::ElementId>& excludeIds)
     {
         assert(tol > 0.0);
-        assert(scScreen2Sketch > 0.0);
+        assert(valuePerPixel > 0.0);
 
-        tol = std::fabs(tol * scScreen2Sketch); // transform from pixel to sketch
+        tol = std::fabs(tol * valuePerPixel); // transform from pixel to sketch
 
         for (const T& pSnapObj : container)
         {
@@ -352,10 +352,10 @@ private:
     T snapSingleValueInRangeMap(
         const std::map<DoubleMinMax, SnapRange<T>>& map,
         double value,
-        double tol, double scScreen2Sketch, const std::set<wydb::ElementId>& excludeIds)
+        double tol, double valuePerPixel, const std::set<wydb::ElementId>& excludeIds)
     {
         assert(tol > 0.0);
-        assert(scScreen2Sketch > 0.0);
+        assert(valuePerPixel > 0.0);
 
         // 获取值的范围
         double min = std::floor(value);
@@ -367,7 +367,7 @@ private:
         }
 
         // 草图坐标系下的捕捉精度
-        tol = std::fabs(tol * scScreen2Sketch); // transform tol from pixel to sketch
+        tol = std::fabs(tol * valuePerPixel); // transform tol from pixel to sketch
         assert(tol >= 0.0);
 
         // 捕捉具体实现lambda
@@ -517,17 +517,17 @@ private:
 
     // 捕捉相等(长度)
     Snap2dEqualLengthSPtr snapEqualLengthInMap(
-        double length, double tol, double scaleScreen, double angle,
+        double length, double tol, double valuePerPixel, double angle,
         const std::set<wydb::ElementId>& excludeIds);
     // 捕捉相等(半径)
     Snap2dEqualRadiusSPtr snapEqualRadiusInMap(
-        double radius, double tol, double scaleScreen,
+        double radius, double tol, double valuePerPixel,
         const std::set<wydb::ElementId>& excludeIds);
     // 捕捉相等(公共实现)
     template<typename T, typename GetValue, typename Accept>
     T snapEqualInMapImpl(
         const std::map<DoubleMinMax, SnapRange<T>>& map,
-        double value, double tol, double scaleScreen,
+        double value, double tol, double valuePerPixel,
         GetValue getValue, const Accept& accept,
         const std::set<wydb::ElementId>& excludeIds);
 

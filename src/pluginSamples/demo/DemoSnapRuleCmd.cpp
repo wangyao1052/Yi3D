@@ -179,19 +179,19 @@ bool DemoSnapRuleCmd::runSelfTest(double x, double y)
         && isSamePoint(wy::Vector2::kZero, pRule->getLastHitPoint());
 
     // Points on the X axis (AlignY) and on the Y axis (AlignX)
-    const double tolX = std::fabs(10.0 * pRule->getLastScaleScreenX());
-    const double tolY = std::fabs(10.0 * pRule->getLastScaleScreenY());
+    const double tolX = std::fabs(10.0 * pRule->getLastValuePerPixelX());
+    const double tolY = std::fabs(10.0 * pRule->getLastValuePerPixelY());
 
-    double axisOffsetX = kAxisOffsetPixels * pRule->getLastScaleScreenX();
+    double axisOffsetX = kAxisOffsetPixels * pRule->getLastValuePerPixelX();
     while (hasCandidateNear(candidates, wy::Vector2(axisOffsetX, 0.0), tolX, tolY))
-        axisOffsetX += kAxisOffsetPixels * pRule->getLastScaleScreenX();
+        axisOffsetX += kAxisOffsetPixels * pRule->getLastValuePerPixelX();
     const bool isAxisXHit = (nullptr != snapAt(wy::Vector2(axisOffsetX, 0.0)))
         && (wy3dApp::Snap2dType::AlignY == pRule->getLastKind())
         && isSamePoint(wy::Vector2(axisOffsetX, 0.0), pRule->getLastHitPoint());
 
-    double axisOffsetY = kAxisOffsetPixels * pRule->getLastScaleScreenY();
+    double axisOffsetY = kAxisOffsetPixels * pRule->getLastValuePerPixelY();
     while (hasCandidateNear(candidates, wy::Vector2(0.0, axisOffsetY), tolX, tolY))
-        axisOffsetY += kAxisOffsetPixels * pRule->getLastScaleScreenY();
+        axisOffsetY += kAxisOffsetPixels * pRule->getLastValuePerPixelY();
     const bool isAxisYHit = (nullptr != snapAt(wy::Vector2(0.0, axisOffsetY)))
         && (wy3dApp::Snap2dType::AlignX == pRule->getLastKind())
         && isSamePoint(wy::Vector2(0.0, axisOffsetY), pRule->getLastHitPoint());
@@ -230,7 +230,7 @@ bool DemoSnapRuleCmd::runSelfTest(double x, double y)
         << "|end=" << (isEndSkipped ? "skip" : (isEndHit ? "1" : "0"))
         << "|far=" << (isFarMiss ? 0 : 1)
         << "|calls=" << pRule->getCallCount()
-        << "|scaleY=" << pRule->getLastScaleScreenY()
+        << "|valuePerPixelY=" << pRule->getLastValuePerPixelY()
         << std::endl;
 
     return isPass;

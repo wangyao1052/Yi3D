@@ -461,7 +461,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
     const Locate2dContext* pLocateContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
-    double scaleScreenX, double scaleScreenY)
+    double valuePerPixelX, double valuePerPixelY)
 {
     assert(pLocateContext);
     assert(_pSnapContext);
@@ -518,7 +518,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
 Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
     const DrawLine2dContext* pDrawLineContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId, const wy::Vector2& pos,
-    double scaleScreenX, double scaleScreenY)
+    double valuePerPixelX, double valuePerPixelY)
 {
     assert(pDrawLineContext);
     assert(_pSnapContext);
@@ -551,7 +551,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
         }
 
         // 捕捉垂足
-        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, scaleScreenX, scaleScreenY);
+        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, valuePerPixelX, valuePerPixelY);
         if (pPointSnapRet)
         {
             return makeSnap2dResult(_sketchPlane, pPointSnapRet->getValue(), pPointSnapRet);
@@ -594,7 +594,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
         }
 
         // 捕捉切点垂足
-        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, scaleScreenX, scaleScreenY);
+        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, valuePerPixelX, valuePerPixelY);
         if (pPointSnapRet)
         {
             return makeSnap2dResult(_sketchPlane, pPointSnapRet->getValue(), pPointSnapRet);
@@ -639,7 +639,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
         }
 
         // 捕捉切点垂足
-        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, scaleScreenX, scaleScreenY);
+        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, valuePerPixelX, valuePerPixelY);
         if (pPointSnapRet)
         {
             return makeSnap2dResult(_sketchPlane, pPointSnapRet->getValue(), pPointSnapRet);
@@ -667,7 +667,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
     const DrawCircle2dContext* pDrawCircleContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
-    double scaleScreenX, double scaleScreenY)
+    double valuePerPixelX, double valuePerPixelY)
 {
     assert(pDrawCircleContext);
     assert(_pSnapContext);
@@ -700,7 +700,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
         }
 
         // 捕捉切点
-        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 100, scaleScreenX, scaleScreenY);
+        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 100, valuePerPixelX, valuePerPixelY);
         if (pPointSnapRet)
         {
             return makeSnap2dResult(_sketchPlane, pPointSnapRet->getValue(), pPointSnapRet);
@@ -728,7 +728,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
         }
 
         // 捕捉切点
-        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject_Nearest(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 100, scaleScreenX, scaleScreenY);
+        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject_Nearest(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 100, valuePerPixelX, valuePerPixelY);
         if (pPointSnapRet)
         {
             return makeSnap2dResult(_sketchPlane, pPointSnapRet->getValue(), pPointSnapRet);
@@ -747,7 +747,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
     const DrawArc2dContext* pDrawArcContext, const wydb::Database* pDb,
     const wydb::ElementId& pickedId,
     const wy::Vector2& pos,
-    double scaleScreenX, double scaleScreenY)
+    double valuePerPixelX, double valuePerPixelY)
 {
     assert(pDrawArcContext);
     assert(_pSnapContext);
@@ -785,7 +785,7 @@ Snap2dResultSPtr SketchSnapSystem::snapImplPicked(
         }
 
         // 捕捉垂足
-        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, scaleScreenX, scaleScreenY);
+        Snap2dPointSPtr pPointSnapRet = this->snapPointSnapObject(_dynSnapObjs.id2PointSnapObjects[pickedId], pos, 10, valuePerPixelX, valuePerPixelY);
         if (pPointSnapRet)
         {
             return makeSnap2dResult(_sketchPlane, pPointSnapRet->getValue(), pPointSnapRet);

@@ -91,7 +91,7 @@ private:
         const std::set<wydb::ElementId>& excludeIds,
         const wydb::ElementId& sketch3dId);
 
-    // 像素比例:屏幕1像素对应的世界单位数(与2D草图scaleScreen同语义,退化视图返回0)
+    // 像素比例:屏幕1像素对应的世界单位数(与2D草图valuePerPixel同语义,退化视图返回0)
     double computePixelScale(
         osgViewer::View* pView,
         const wy3d::Plane& workPlane,

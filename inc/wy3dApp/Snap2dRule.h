@@ -39,8 +39,8 @@ typedef std::shared_ptr<Snap2dRule> Snap2dRuleSPtr;
 // with the context class it serves (one rule per exact context class). One rule
 // instance may be registered for several context classes. Both faces return
 // true on a hit; a hit reports the snapped position (retPosition) and what was
-// hit (hits may be empty). The screen-scale parameters are plane units per
-// screen pixel at the cursor; use them to convert a pixel tolerance into a
+// hit (hits may be empty). valuePerPixelX/Y are the plane coordinate values
+// per screen pixel at the cursor; multiply a pixel tolerance by them to get a
 // plane tolerance.
 class WY3DAPP_EXPORT Snap2dRule
 {
@@ -50,7 +50,7 @@ public:
         const Snap2dContext* pContext,
         const wydb::Database* pDb,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY,
+        double valuePerPixelX, double valuePerPixelY,
         const std::set<wydb::ElementId>& excludeIds,
         wy::Vector2& retPosition,
         std::vector<Snap2dHit>& hits)
@@ -64,7 +64,7 @@ public:
         const wydb::Database* pDb,
         const wydb::ElementId& pickedId,
         const wy::Vector2& pos,
-        double scaleScreenX, double scaleScreenY,
+        double valuePerPixelX, double valuePerPixelY,
         const std::set<wydb::ElementId>& excludeIds,
         wy::Vector2& retPosition,
         std::vector<Snap2dHit>& hits)

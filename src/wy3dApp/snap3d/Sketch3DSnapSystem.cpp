@@ -511,7 +511,7 @@ double Sketch3DSnapSystem::computePixelScale(
     const wy3d::Plane& workPlane,
     const wy::Vector3& originPnt) const
 {
-    // 返回"每像素对应的世界单位数"(与2D草图scaleScreen同语义):
+    // 返回"每像素对应的世界单位数"(与2D草图valuePerPixel同语义):
     // 平面X/Y轴单位长度投影到屏幕的像素数,像素数越多说明每像素代表的单位越少
     wy::Vector3 xDir = workPlane.getXDir();
     xDir.normalize();

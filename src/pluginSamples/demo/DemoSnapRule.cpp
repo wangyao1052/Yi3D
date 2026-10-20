@@ -63,8 +63,8 @@ std::shared_ptr<DemoSnapRule> DemoSnapRule::instance()
 void DemoSnapRule::resetRecording()
 {
     _callCount = 0;
-    _lastScaleScreenX = 0.0;
-    _lastScaleScreenY = 0.0;
+    _lastValuePerPixelX = 0.0;
+    _lastValuePerPixelY = 0.0;
     _lastHitPoint = wy::Vector2();
     _lastKind = wy3dApp::Snap2dType::Undefined;
     _lastElementId = wydb::ElementId::kNull;
@@ -98,21 +98,21 @@ bool DemoSnapRule::snapNoPicked(
     const wy3dApp::Snap2dContext* pContext,
     const wydb::Database* pDb,
     const wy::Vector2& pos,
-    double scaleScreenX, double scaleScreenY,
+    double valuePerPixelX, double valuePerPixelY,
     const std::set<wydb::ElementId>& excludeIds,
     wy::Vector2& retPosition,
     std::vector<wy3dApp::Snap2dHit>& hits)
 {
     ++_callCount;
-    _lastScaleScreenX = scaleScreenX;
-    _lastScaleScreenY = scaleScreenY;
+    _lastValuePerPixelX = valuePerPixelX;
+    _lastValuePerPixelY = valuePerPixelY;
 
     const DemoSnapContext* pDemoContext = dynamic_cast<const DemoSnapContext*>(pContext);
     if (!pDemoContext || !pDb) return false;
 
     // 10-pixel tolerances converted to plane units
-    const double tolX = std::fabs(10.0 * scaleScreenX);
-    const double tolY = std::fabs(10.0 * scaleScreenY);
+    const double tolX = std::fabs(10.0 * valuePerPixelX);
+    const double tolY = std::fabs(10.0 * valuePerPixelY);
 
     // Origin: the X/Y axes crossing (also reports both axis alignments)
     if (std::fabs(pos.x()) <= tolX && std::fabs(pos.y()) <= tolY)
