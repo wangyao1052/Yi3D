@@ -43,6 +43,7 @@
 #include "widgets/frame/ViewWidgetContainer.h"
 #include "scene/Colors.h"
 #include "snap/SketchSnapSystem.h"
+#include "snap/Snap2dSystemImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -319,6 +320,9 @@ void SketchDrawArcTangentGuiCmd::onEnd()
         _sketchInfo.pSketchSnapSys->removeRule(SketchCurveEndPointContext::classInfo());
     }
 
+    if (Snap2dSystemImpl* pSnap2dSys = dynamic_cast<Snap2dSystemImpl*>(_sketchInfo.pSnap2dSys))
+        pSnap2dSys->setSnap3dEnabled(true);
+
     GuiCommand::onEnd();
 }
 
@@ -330,6 +334,9 @@ void SketchDrawArcTangentGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     {
         _sketchInfo.pSketchSnapSys->removeRule(SketchCurveEndPointContext::classInfo());
     }
+
+    if (Snap2dSystemImpl* pSnap2dSys = dynamic_cast<Snap2dSystemImpl*>(_sketchInfo.pSnap2dSys))
+        pSnap2dSys->setSnap3dEnabled(true);
 
     GuiCommand::onAbort(cause);
 }
@@ -522,6 +529,11 @@ SketchDrawArcTangentGuiCmd::Step SketchDrawArcTangentGuiCmd::entryStepForMode() 
 void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
 {
     _step = step;
+
+    // Step policy: the start point only snaps to end points of current-sketch curves.
+    if (Snap2dSystemImpl* pSnap2dSys = dynamic_cast<Snap2dSystemImpl*>(_sketchInfo.pSnap2dSys))
+        pSnap2dSys->setSnap3dEnabled(Step::SpecifyStartPoint != step);
+
     this->hidePopup();
     _hoverPopupState.resetValue();
 
@@ -619,7 +631,7 @@ void SketchDrawArcTangentGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SpecifyStartPoint:
     {
         this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane,
-            this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys, false); // snap3d = false
+            this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
     }
     break;
 
@@ -683,7 +695,7 @@ void SketchDrawArcTangentGuiCmd::onLeftMouseDown(const MouseEvent& event)
     case Step::SpecifyStartPoint:
     {
         this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane,
-            this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys, false); // snap3d = false
+            this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
 
         wy::Vector2 startPnt, tangent;
         if (!this->getEndpointSnap(startPnt, tangent))

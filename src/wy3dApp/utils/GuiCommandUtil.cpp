@@ -29,6 +29,7 @@
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include "snap/SketchSnapSystem.h"
+#include "snap/Snap2dSystemImpl.h"
 #include "utils/TopoShapeUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -244,6 +245,9 @@ GuiCmdSketchInfo GuiCommandUtil::initSketchInfo()
         info.sketchId = pSketchEnv->getSketchId();
         info.pSketchSnapSys = pSketchEnv->getSnapSystem();
         info.pSnap2dSys = pSketchEnv->getSnapSystem();
+        // Every command starts with the global snap layer on; steps opt out explicitly.
+        if (Snap2dSystemImpl* pSnap2dSys = dynamic_cast<Snap2dSystemImpl*>(info.pSnap2dSys))
+            pSnap2dSys->setSnap3dEnabled(true);
     }
     return info;
 }

@@ -40,10 +40,6 @@ namespace wy3dApp {
 class GuiCmdMakeElement;
 class Snap2dSystem;
 class Snap2dContext;
-class SnapResultPoint;
-class Snap2dEndPoint;
-class Snap2dMiddlePoint;
-class Snap2dCenterPoint;
 class Sketch3DSnapContext;
 class Sketch3DSnapSystem;
 class Sketch3DSnapResult;
@@ -76,8 +72,7 @@ namespace OsgCoordUtil {
         const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
         std::shared_ptr<Snap2dContext> pSnapContext = nullptr,
-        Snap2dSystem* pSnap2dSys = nullptr,
-        bool snap3d = true);
+        Snap2dSystem* pSnap2dSys = nullptr);
 
     // 计算2D位置(无捕捉)
     wy::Vector2 computePosition2dWithoutSnap(

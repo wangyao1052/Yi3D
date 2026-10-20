@@ -20,6 +20,9 @@
 #include "Snap2dContextInternal.h"
 #include "Snap2dResultFactory.h"
 #include "Snap2dResultDisplay.h"
+#include "SnapContext.h"
+#include "SnapObject.h"
+#include "SnapResult.h"
 
 #include <cassert>
 #include <cmath>
@@ -533,7 +536,91 @@ void Snap2dSystemImpl::appendEqualSnapObject(Snap2dEqualRadiusSPtr&& pSnapObj)
     this->appendEqualSnapObjectImpl(_equalRadiusMap, pSnapObj->getRadius(), std::move(pSnapObj));
 }
 
-Snap2dResultSPtr Snap2dSystemImpl::snap(
+static Snap2dResultSPtr convertSnapResult(
+    const wy3d::Plane& sketchPlane,
+    const wy::Vector2& retPos,
+    const wyap::SnapResultSPtr& pSnapRet3d)
+{
+    assert(pSnapRet3d);
+
+    const SnapResultPoint* pSnapRetPoint = dynamic_cast<const SnapResultPoint*>(pSnapRet3d.get());
+    if (!pSnapRetPoint) return nullptr;
+    wyap::SnapObjectSPtr pSnapObj = pSnapRetPoint->getSnapObject();
+    if (!pSnapObj) return nullptr;
+    SnapPoint* pSnapPoint = dynamic_cast<SnapPoint*>(pSnapObj.get());
+    if (!pSnapPoint)
+    {
+        assert(false);
+        return nullptr;
+    }
+    Snap2dObjectSPtr pSketchSnapObj(nullptr);
+    switch (pSnapPoint->getType())
+    {
+    case SnapPoint::Type::Origin:
+        pSketchSnapObj = std::make_shared<Snap2dOrigin>();
+        break;
+
+    case SnapPoint::Type::End:
+        pSketchSnapObj = std::make_shared<Snap2dEndPoint>(pSnapObj->getId(), retPos);
+        break;
+
+    case SnapPoint::Type::Middle:
+        pSketchSnapObj = std::make_shared<Snap2dMiddlePoint>(pSnapObj->getId(), retPos);
+        break;
+
+    case SnapPoint::Type::Center:
+        pSketchSnapObj = std::make_shared<Snap2dCenterPoint>(pSnapObj->getId(), retPos);
+        break;
+
+    case SnapPoint::Type::Quadrant:
+        pSketchSnapObj = std::make_shared<Snap2dQuadrantPoint>(pSnapObj->getId(), retPos);
+        break;
+
+    case SnapPoint::Type::Point:
+        pSketchSnapObj = std::make_shared<Snap2dGenericPoint>(retPos);
+        break;
+    }
+
+    if (pSketchSnapObj)
+    {
+        return makeSnap2dResult(sketchPlane, retPos, pSketchSnapObj);
+    }
+
+    // A hit always yields a result; unknown kinds yield a display-less one.
+    return makeSnap2dResult(sketchPlane, retPos);
+}
+
+std::pair<Snap2dResultSPtr, wy::Vector2> Snap2dSystemImpl::snap(
+    double x, double y, osgViewer::View* pView,
+    const wy3d::Plane& plane, const std::set<wydb::ElementId>& excludeIds,
+    Snap2dContextSPtr pContext)
+{
+    assert(pContext);
+
+    if (_isSnap3dEnabled)
+    {
+        wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
+        wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(
+            x, y, pSnapContext, excludeIds, false);
+        if (pSnapResult)
+        {
+            const wy::Vector2 snapPos = plane.uv(pSnapResult->getPosition());
+            const wy::Vector3 planePnt = plane.value(snapPos);
+            const wy::Vector2 retPos = plane.uv(planePnt);
+            Snap2dResultSPtr pSketchSnapRet = convertSnapResult(plane, retPos, pSnapResult);
+            this->setSnapResult(pSketchSnapRet);
+            return std::make_pair(pSketchSnapRet, retPos);
+        }
+    }
+
+    assert(pView);
+    const wy::Vector2 rawPos = plane.uv(MathUtils::projectToPlane(pView, x, y, plane));
+    Snap2dResultSPtr pSnapResult = this->snapImpl(x, y, pView, rawPos, excludeIds, pContext);
+    this->setSnapResult(pSnapResult);
+    return std::make_pair(pSnapResult, rawPos);
+}
+
+Snap2dResultSPtr Snap2dSystemImpl::snapIndexOnly(
     double x, double y, osgViewer::View* pView,
     const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
     Snap2dContextSPtr pContext)

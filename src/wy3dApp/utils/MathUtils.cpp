@@ -18,6 +18,8 @@
 
 #include "MathUtils.h"
 #include <algorithm>
+#include <osg/Camera>
+#include <osgViewer/View>
 #include <gp_Quaternion.hxx>
 #include <gp_Ax3.hxx>
 #include <gp_Trsf.hxx>
@@ -629,6 +631,42 @@ bool MathUtils::tangentLinesOfArcArc(
     }
 
     return !tangentLines.empty();
+}
+
+wy::Vector3 MathUtils::projectToPlane(
+    osgViewer::View* pView, double x, double y, const wy3d::Plane& plane)
+{
+    assert(pView);
+
+    osg::Camera* pCamera = pView->getCamera();
+    assert(pCamera);
+    osg::Matrix VPW = pCamera->getViewMatrix() * pCamera->getProjectionMatrix() *
+        pCamera->getViewport()->computeWindowMatrix();
+    osg::Matrix inverseVPW = osg::Matrix::inverse(VPW);
+    osg::Vec3d world = osg::Vec3d(x, y, 0.0) * inverseVPW;
+
+    osg::Vec3d eye, center, up;
+    pCamera->getViewMatrixAsLookAt(eye, center, up);
+    osg::Vec3d projectDir(0.0, 0.0, -1.0);
+    double left, right, bottom, top, zNear, zFar;
+    if (pCamera->getProjectionMatrixAsOrtho(left, right, bottom, top, zNear, zFar))
+    {
+        projectDir = center - eye;
+        projectDir.normalize();
+    }
+    else
+    {
+        projectDir = world - eye;
+        projectDir.normalize();
+    }
+
+    wy::Vector3 worldPos(world.x(), world.y(), world.z());
+    wy::Vector3 projDir(projectDir.x(), projectDir.y(), projectDir.z());
+    wy::Vector3 planeNormal = plane.getNormal();
+    double D = (-plane.getOrigin()).dot(planeNormal);
+    double t = -planeNormal.dot(worldPos) - D;
+    t /= planeNormal.dot(projDir);
+    return worldPos + projDir * t;
 }
 
 } // namespace wy3dApp

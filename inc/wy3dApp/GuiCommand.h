@@ -213,8 +213,7 @@ protected:
         const wy3d::Plane& sketchPlane,
         const std::set<wydb::ElementId>& excludeIds,
         std::shared_ptr<Snap2dContext> pSnapContext = nullptr,
-        Snap2dSystem* pSnap2dSys = nullptr,
-        bool snap3d = true) = 0;
+        Snap2dSystem* pSnap2dSys = nullptr) = 0;
 
     virtual wy::Vector2 computePosition2dWithoutSnap(
         double x, double y,

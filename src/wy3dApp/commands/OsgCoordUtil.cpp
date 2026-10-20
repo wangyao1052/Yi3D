@@ -34,7 +34,6 @@
 #include "snap/SnapResult.h"
 #include "snap/SnapObject.h"
 #include <wy3dApp/Snap2dResult.h>
-#include "snap/Snap2dResultFactory.h"
 #include "snap/Snap2dSystemImpl.h"
 #include "snap3d/Sketch3DSnapObject.h"
 #include "snap3d/Sketch3DSnapContext.h"
@@ -47,61 +46,7 @@
 
 namespace wy3dApp {
 
-static Snap2dResultSPtr convertSnapResult(
-    const wy3d::Plane& sketchPlane,
-    const wy::Vector2& retPos,
-    const wyap::SnapResultSPtr& pSnapRet3d)
-{
-    assert(pSnapRet3d);
-
-    const SnapResultPoint* pSnapRetPoint = dynamic_cast<const SnapResultPoint*>(pSnapRet3d.get());
-    if (!pSnapRetPoint) return nullptr;
-    wyap::SnapObjectSPtr pSnapObj = pSnapRetPoint->getSnapObject();
-    if (!pSnapObj) return nullptr;
-    SnapPoint* pSnapPoint = dynamic_cast<SnapPoint*>(pSnapObj.get());
-    if (!pSnapPoint)
-    {
-        assert(false);
-        return nullptr;
-    }
-    Snap2dObjectSPtr pSketchSnapObj(nullptr);
-    switch (pSnapPoint->getType())
-    {
-    case SnapPoint::Type::Origin:
-        pSketchSnapObj = std::make_shared<Snap2dOrigin>();
-        break;
-
-    case SnapPoint::Type::End:
-        pSketchSnapObj = std::make_shared<Snap2dEndPoint>(pSnapObj->getId(), retPos);
-        break;
-
-    case SnapPoint::Type::Middle:
-        pSketchSnapObj = std::make_shared<Snap2dMiddlePoint>(pSnapObj->getId(), retPos);
-        break;
-
-    case SnapPoint::Type::Center:
-        pSketchSnapObj = std::make_shared<Snap2dCenterPoint>(pSnapObj->getId(), retPos);
-        break;
-
-    case SnapPoint::Type::Quadrant:
-        pSketchSnapObj = std::make_shared<Snap2dQuadrantPoint>(pSnapObj->getId(), retPos);
-        break;
-
-    case SnapPoint::Type::Point:
-        pSketchSnapObj = std::make_shared<Snap2dGenericPoint>(retPos);
-        break;
-    }
-
-    if (pSketchSnapObj)
-    {
-        return makeSnap2dResult(sketchPlane, retPos, pSketchSnapObj);
-    }
-
-    // A hit always yields a result; unknown kinds yield a display-less one.
-    return makeSnap2dResult(sketchPlane, retPos);
-}
-
-// 全局体系点捕捉结果→3D草图捕捉结果(与上方convertSnapResult同构)
+// 全局体系点捕捉结果→3D草图捕捉结果
 static std::shared_ptr<Sketch3DSnapResult> convertSnapResult3D(
     const wyap::SnapResultSPtr& pSnapRet3d)
 {
@@ -196,36 +141,8 @@ std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgCoordUtil::computePoint(
         }
     }
 
-    assert(pView);
-
-    osg::Camera* camera = pView->getCamera();
-    osg::Matrix VPW = camera->getViewMatrix() * camera->getProjectionMatrix() *
-        camera->getViewport()->computeWindowMatrix();
-    osg::Matrix inverseVPW = osg::Matrix::inverse(VPW);
-    osg::Vec3d world = osg::Vec3d(x, y, 0.0) * inverseVPW;
-
-    osg::Vec3d eye, center, up;
-    camera->getViewMatrixAsLookAt(eye, center, up);
-    osg::Vec3d projectDir(0.0, 0.0, -1.0);
-    double left, right, bottom, top, zNear, zFar;
-    if (camera->getProjectionMatrixAsOrtho(left, right, bottom, top, zNear, zFar))
-    {
-        projectDir = center - eye;
-        projectDir.normalize();
-    }
-    else
-    {
-        projectDir = world - eye;
-        projectDir.normalize();
-    }
-
-    wy::Vector3 worldPos(world.x(), world.y(), world.z());
-    wy::Vector3 projDir(projectDir.x(), projectDir.y(), projectDir.z());
-    wy::Vector3 sketchPlaneNormal = sketchPlane.getNormal();
-    double D = (-sketchPlane.getOrigin()).dot(sketchPlaneNormal);
-    double t = -sketchPlaneNormal.dot(worldPos) - D;
-    t /= sketchPlaneNormal.dot(projDir);
-    return std::pair<wy::Vector3, wyap::SnapResultSPtr>(worldPos + projDir * t, nullptr);
+    return std::pair<wy::Vector3, wyap::SnapResultSPtr>(
+        MathUtils::projectToPlane(pView, x, y, sketchPlane), nullptr);
 }
 
 std::pair<wy::Vector3, bool> OsgCoordUtil::computePosition3dForSketch3D(
@@ -269,35 +186,21 @@ wy::Vector2 OsgCoordUtil::computePosition2d(
     const wy3d::Plane& sketchPlane,
     const std::set<wydb::ElementId>& excludeIds,
     std::shared_ptr<Snap2dContext> pSnapContext,
-    Snap2dSystem* pSnap2dSys,
-    bool snap3d)
+    Snap2dSystem* pSnap2dSys)
 {
     assert(pSnapContext);
     assert(pSnap2dSys);
 
-    // The 2D display layer owns the marker, so do not publish to the reactors.
-    std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePoint(
-        pView, x, y, sketchPlane, excludeIds, snap3d, false);
-    if (ret.second)
+    Snap2dSystemImpl* pSnap2dSystemImpl = dynamic_cast<Snap2dSystemImpl*>(pSnap2dSys);
+    assert(pSnap2dSystemImpl);
+    if (!pSnap2dSystemImpl)
     {
-        wy::Vector2 retPos = sketchPlane.uv(ret.first.x(), ret.first.y(), ret.first.z());
-        if (pSnap2dSys)
-        {
-            Snap2dResultSPtr pSketchSnapRet = convertSnapResult(sketchPlane, retPos, ret.second);
-            Snap2dSystemImpl* pSnap2dSystemImpl = dynamic_cast<Snap2dSystemImpl*>(pSnap2dSys);
-            assert(pSnap2dSystemImpl);
-            pSnap2dSystemImpl->setSnapResult(pSketchSnapRet);
-        }
-        return retPos;
+        return sketchPlane.uv(MathUtils::projectToPlane(pView, x, y, sketchPlane));
     }
-    else
-    {
-        wy::Vector2 pos = sketchPlane.uv(ret.first.x(), ret.first.y(), ret.first.z());
-        Snap2dResultSPtr pSketchSnapRet(nullptr);
-        if (Snap2dSystemImpl* pSnap2dSystemImpl = dynamic_cast<Snap2dSystemImpl*>(pSnap2dSys))
-            pSketchSnapRet = pSnap2dSystemImpl->snap(x, y, pView, pos, excludeIds, pSnapContext);
-        return pSketchSnapRet ? pSketchSnapRet->getPosition() : pos;
-    }
+
+    std::pair<Snap2dResultSPtr, wy::Vector2> ret = pSnap2dSystemImpl->snap(
+        x, y, pView, sketchPlane, excludeIds, pSnapContext);
+    return ret.first ? ret.first->getPosition() : ret.second;
 }
 
 wy::Vector2 OsgCoordUtil::computePosition2dWithoutSnap(

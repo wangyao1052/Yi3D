@@ -38,6 +38,8 @@
 #include <wy3dPlane.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
+namespace osgViewer { class View; }
+
 namespace wy3dApp {
 
 class MathUtils
@@ -118,6 +120,10 @@ public:
     {
         return wy::Vector2(vec.x(), vec.y());
     }
+
+    // Screen point → intersection of the camera ray with the plane.
+    static wy::Vector3 projectToPlane(
+        osgViewer::View* pView, double x, double y, const wy3d::Plane& plane);
 
     // 数据转换
     static inline gp_Pnt toPnt(const wy::Vector3& pnt)

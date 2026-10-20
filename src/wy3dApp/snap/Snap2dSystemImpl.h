@@ -28,6 +28,7 @@
 #include <set>
 #include <memory>
 #include <string>
+#include <utility>
 #include <osgViewer/View>
 #include <wyVector2.h>
 #include <wydbDatabase.h>
@@ -84,11 +85,22 @@ public:
     Snap2dSystemImpl(Snap2dSystemImpl&&) = delete;
     Snap2dSystemImpl& operator=(Snap2dSystemImpl&&) = delete;
 
-    // 捕捉
-    Snap2dResultSPtr snap(
+    // 捕捉：全局几何点优先，未命中才投影并走 2D 索引。
+    // 返回捕捉结果与原始平面点(全局命中时第二个值也可用)。
+    std::pair<Snap2dResultSPtr, wy::Vector2> snap(
+        double x, double y, osgViewer::View* pView,
+        const wy3d::Plane& plane, const std::set<wydb::ElementId>& excludeIds,
+        Snap2dContextSPtr pContext);
+
+    // 只走 2D 索引(调用方已自行跑过全局层)。
+    Snap2dResultSPtr snapIndexOnly(
         double x, double y, osgViewer::View* pView,
         const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
         Snap2dContextSPtr pContext);
+
+    // 是否启用全局几何点捕捉。
+    void setSnap3dEnabled(bool isEnabled) { _isSnap3dEnabled = isEnabled; }
+    bool isSnap3dEnabled() const { return _isSnap3dEnabled; }
 
     // 获取捕捉结果
     Snap2dResultSPtr getSnapResult() const override { return _pSnapResult; }
@@ -574,6 +586,8 @@ private:
     std::map<std::string, std::shared_ptr<Snap2dRuleHandler>> _rules;
     // 捕捉结果
     Snap2dResultSPtr _pSnapResult;
+    // 是否启用全局几何点捕捉(步骤策略，由命令按步骤设置)
+    bool _isSnap3dEnabled = true;
     // 当前结果的显示状态(跨结果复用高亮)
     std::unique_ptr<Snap2dResultDisplay> _pResultDisplay;
     // 水平和竖直
