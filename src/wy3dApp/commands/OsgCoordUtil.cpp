@@ -294,8 +294,8 @@ wy::Vector2 OsgCoordUtil::computePosition2d(
     {
         wy::Vector2 pos = sketchPlane.uv(ret.first.x(), ret.first.y(), ret.first.z());
         Snap2dResultSPtr pSketchSnapRet(nullptr);
-        if (pSnap2dSys)
-            pSketchSnapRet = pSnap2dSys->snap(x, y, pView, pos, excludeIds, pSnapContext);
+        if (Snap2dSystemImpl* pSnap2dSystemImpl = dynamic_cast<Snap2dSystemImpl*>(pSnap2dSys))
+            pSketchSnapRet = pSnap2dSystemImpl->snap(x, y, pView, pos, excludeIds, pSnapContext);
         return pSketchSnapRet ? pSketchSnapRet->getPosition() : pos;
     }
 }

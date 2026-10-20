@@ -91,7 +91,7 @@ public:
     Snap2dResultSPtr snap(
         double x, double y, osgViewer::View* pView,
         const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
-        Snap2dContextSPtr pContext) override;
+        Snap2dContextSPtr pContext);
 
     // 获取捕捉结果
     Snap2dResultSPtr getSnapResult() const override { return _pSnapResult; }

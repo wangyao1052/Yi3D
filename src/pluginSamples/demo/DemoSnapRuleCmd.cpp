@@ -19,57 +19,15 @@
 #include "DemoSnapRuleCmd.h"
 
 #include <cassert>
-#include <cmath>
-#include <iostream>
-#include <vector>
+#include <memory>
 
 #include <QCoreApplication>
 
-#include <wyVector2.h>
 #include <wy3dApp/Application.h>
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/Snap2dSystem.h>
 
 #include "DemoSnapRule.h"
-
-namespace {
-
-const wy::Vector2 kFarPos(503.0, 503.0);
-// The axis probe sits this many pixels from the origin, clear of point candidates.
-const double kAxisOffsetPixels = 50.0;
-
-bool isSamePoint(const wy::Vector2& lhs, const wy::Vector2& rhs)
-{
-    return lhs.x() == rhs.x() && lhs.y() == rhs.y();
-}
-
-bool hasCandidateNear(const std::vector<DemoSnapCandidate>& candidates,
-    const wy::Vector2& point, double tolX, double tolY)
-{
-    for (const DemoSnapCandidate& candidate : candidates)
-    {
-        if (std::fabs(candidate.point.x() - point.x()) <= tolX
-            && std::fabs(candidate.point.y() - point.y()) <= tolY)
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-const DemoSnapCandidate* firstCandidate(const std::vector<DemoSnapCandidate>& candidates,
-    wy3dApp::Snap2dType snapType)
-{
-    for (const DemoSnapCandidate& candidate : candidates)
-    {
-        if (snapType == candidate.snapType) return &candidate;
-    }
-
-    return nullptr;
-}
-
-} // namespace
 
 DemoSnapRuleCmd::DemoSnapRuleCmd()
     : wy3dApp::OsgGuiCommand()
@@ -95,7 +53,6 @@ wyap::CmdExecution::StartResult DemoSnapRuleCmd::onStart()
         DemoSnapContext::classInfo(), DemoSnapRule::instance());
     if (wy::ErrorStatus::Ok != error && wy::ErrorStatus::DuplicateKey != error)
     {
-        std::cout << "DEMO_SNAPRULE|FAIL|add-rule=" << static_cast<int>(error) << std::endl;
         return wyap::CmdExecution::StartResult::Rejected;
     }
 
@@ -104,7 +61,7 @@ wyap::CmdExecution::StartResult DemoSnapRuleCmd::onStart()
     _pContext = std::make_shared<DemoSnapContext>(_sketchInfo.sketchId);
 
     wy3dApp::Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DemoSnapRuleCmd",
-        "Demo snap rule: hover near the origin, the X/Y axes, circle centers or line end points; click to run the self test."));
+        "Demo snap rule: hover near the origin, the X/Y axes, circle centers or line end points."));
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -133,105 +90,4 @@ void DemoSnapRuleCmd::onMouseMove(const wy3dApp::MouseEvent& event)
 {
     // Return value unused: the call's purpose is the snap display side effect.
     this->computePosition2d(event.x, event.y, _sketchInfo.sketchPlane, {}, _pContext, _sketchInfo.pSnap2dSys, false);
-}
-
-void DemoSnapRuleCmd::onLeftMouseUp(const wy3dApp::MouseEvent& event)
-{
-    if (_tested) return;
-    _tested = true;
-
-    // Stay active after the test: the status tip keeps showing the result and
-    // hovering keeps demonstrating the rule. Ending here would immediately
-    // restore the selection command's tip.
-    const bool isPass = this->runSelfTest(event.x, event.y);
-
-    if (isPass)
-        wy3dApp::Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DemoSnapRuleCmd", "Snap rule self test: PASS"));
-    else
-        wy3dApp::Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DemoSnapRuleCmd", "Snap rule self test: FAIL"));
-}
-
-bool DemoSnapRuleCmd::runSelfTest(double x, double y)
-{
-    osgViewer::View* pView = this->getOsgView();
-    if (!pView || !_sketchInfo.pSnap2dSys)
-    {
-        std::cout << "DEMO_SNAPRULE|FAIL|no-view-or-snap2d-system" << std::endl;
-        return false;
-    }
-
-    DemoSnapRule* pRule = DemoSnapRule::instance().get();
-    pRule->resetRecording();
-
-    const std::vector<DemoSnapCandidate> candidates = collectSnapCandidates(
-        wy3dApp::Application::instance().getActiveDatabase(), _sketchInfo.sketchId);
-
-    const auto snapAt = [this, x, y, pView](const wy::Vector2& pos)
-    {
-        return _sketchInfo.pSnap2dSys->snap(x, y, pView, pos, {}, _pContext);
-    };
-
-    // Origin (reports both axis alignments as extra hits)
-    const wy3dApp::Snap2dResultSPtr pOriginResult = snapAt(wy::Vector2::kZero);
-    const bool isOriginHit = (nullptr != pOriginResult)
-        && (3 == pOriginResult->getHits().size())
-        && (wy3dApp::Snap2dType::Origin == pRule->getLastKind())
-        && isSamePoint(wy::Vector2::kZero, pRule->getLastHitPoint());
-
-    // Points on the X axis (AlignY) and on the Y axis (AlignX)
-    const double tolX = std::fabs(10.0 * pRule->getLastValuePerPixelX());
-    const double tolY = std::fabs(10.0 * pRule->getLastValuePerPixelY());
-
-    double axisOffsetX = kAxisOffsetPixels * pRule->getLastValuePerPixelX();
-    while (hasCandidateNear(candidates, wy::Vector2(axisOffsetX, 0.0), tolX, tolY))
-        axisOffsetX += kAxisOffsetPixels * pRule->getLastValuePerPixelX();
-    const bool isAxisXHit = (nullptr != snapAt(wy::Vector2(axisOffsetX, 0.0)))
-        && (wy3dApp::Snap2dType::AlignY == pRule->getLastKind())
-        && isSamePoint(wy::Vector2(axisOffsetX, 0.0), pRule->getLastHitPoint());
-
-    double axisOffsetY = kAxisOffsetPixels * pRule->getLastValuePerPixelY();
-    while (hasCandidateNear(candidates, wy::Vector2(0.0, axisOffsetY), tolX, tolY))
-        axisOffsetY += kAxisOffsetPixels * pRule->getLastValuePerPixelY();
-    const bool isAxisYHit = (nullptr != snapAt(wy::Vector2(0.0, axisOffsetY)))
-        && (wy3dApp::Snap2dType::AlignX == pRule->getLastKind())
-        && isSamePoint(wy::Vector2(0.0, axisOffsetY), pRule->getLastHitPoint());
-
-    // Circle center and line end point, when the sketch has them
-    const DemoSnapCandidate* pCenter = firstCandidate(candidates, wy3dApp::Snap2dType::CenterPoint);
-    const bool isCenterSkipped = (nullptr == pCenter);
-    const bool isCenterHit = !isCenterSkipped
-        && (nullptr != snapAt(pCenter->point))
-        && (wy3dApp::Snap2dType::CenterPoint == pRule->getLastKind())
-        && isSamePoint(pCenter->point, pRule->getLastHitPoint())
-        && (pCenter->id == pRule->getLastElementId());
-
-    const DemoSnapCandidate* pEnd = firstCandidate(candidates, wy3dApp::Snap2dType::EndPoint);
-    const bool isEndSkipped = (nullptr == pEnd);
-    const bool isEndHit = !isEndSkipped
-        && (nullptr != snapAt(pEnd->point))
-        && (wy3dApp::Snap2dType::EndPoint == pRule->getLastKind())
-        && isSamePoint(pEnd->point, pRule->getLastHitPoint())
-        && (pEnd->id == pRule->getLastElementId());
-
-    // Far away: nothing snaps
-    const bool isFarMiss = (nullptr == snapAt(kFarPos));
-
-    const bool isPass = isOriginHit && isAxisXHit && isAxisYHit
-        && (isCenterSkipped || isCenterHit)
-        && (isEndSkipped || isEndHit)
-        && isFarMiss;
-
-    std::cout << "DEMO_SNAPRULE|" << (isPass ? "PASS" : "FAIL")
-        << "|origin=" << (isOriginHit ? 1 : 0)
-        << "|originHits=" << (pOriginResult ? pOriginResult->getHits().size() : 0)
-        << "|axisX=" << (isAxisXHit ? 1 : 0)
-        << "|axisY=" << (isAxisYHit ? 1 : 0)
-        << "|center=" << (isCenterSkipped ? "skip" : (isCenterHit ? "1" : "0"))
-        << "|end=" << (isEndSkipped ? "skip" : (isEndHit ? "1" : "0"))
-        << "|far=" << (isFarMiss ? 0 : 1)
-        << "|calls=" << pRule->getCallCount()
-        << "|valuePerPixelY=" << pRule->getLastValuePerPixelY()
-        << std::endl;
-
-    return isPass;
 }

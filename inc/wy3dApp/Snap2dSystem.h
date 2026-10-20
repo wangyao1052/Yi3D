@@ -30,8 +30,6 @@
 #include <wy3dApp/Snap2dRule.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
-namespace osgViewer { class View; }
-
 namespace wy3dApp {
 
 class Snap2dContext;
@@ -48,12 +46,6 @@ public:
 
     // Partial update from database changes.
     virtual bool partiallyUpdate(const wydb::Database* pDb) = 0;
-
-    // Snap a position; returns null when nothing is snapped.
-    virtual Snap2dResultSPtr snap(
-        double x, double y, osgViewer::View* pView,
-        const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
-        Snap2dContextSPtr pContext) = 0;
 
     // Get the snap result.
     virtual Snap2dResultSPtr getSnapResult() const = 0;

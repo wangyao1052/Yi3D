@@ -65,8 +65,8 @@ private:
 class DemoSnapRule : public wy3dApp::Snap2dRule
 {
 public:
-    // The plugin keeps one rule instance; re-registering the same instance is
-    // tolerated by the self test, so command re-runs must not lose the state.
+    // The plugin keeps one rule instance; re-registering it on a command re-run
+    // is harmless.
     static std::shared_ptr<DemoSnapRule> instance();
 
     virtual bool snapNoPicked(
@@ -78,15 +78,6 @@ public:
         wy::Vector2& retPosition,
         std::vector<wy3dApp::Snap2dHit>& hits) override;
 
-    // Self-test readback.
-    void resetRecording();
-    int getCallCount() const { return _callCount; }
-    double getLastValuePerPixelX() const { return _lastValuePerPixelX; }
-    double getLastValuePerPixelY() const { return _lastValuePerPixelY; }
-    const wy::Vector2& getLastHitPoint() const { return _lastHitPoint; }
-    wy3dApp::Snap2dType getLastKind() const { return _lastKind; }
-    const wydb::ElementId& getLastElementId() const { return _lastElementId; }
-
 private:
     DemoSnapRule() = default;
 
@@ -95,14 +86,6 @@ private:
         wy::Vector2& retPosition, std::vector<wy3dApp::Snap2dHit>& hits);
     void appendHit(const wy::Vector2& point, const wydb::ElementId& elementId,
         wy3dApp::Snap2dType snapType, std::vector<wy3dApp::Snap2dHit>& hits) const;
-
-private:
-    int _callCount = 0;
-    double _lastValuePerPixelX = 0.0;
-    double _lastValuePerPixelY = 0.0;
-    wy::Vector2 _lastHitPoint;
-    wy3dApp::Snap2dType _lastKind = wy3dApp::Snap2dType::Undefined;
-    wydb::ElementId _lastElementId;
 };
 
 #endif // DEMO_SNAP_RULE_H

@@ -39,15 +39,10 @@ protected:
     void onEnd() override;
     void onAbort(wyap::CmdExecution::AbortCause cause) override;
     void onMouseMove(const wy3dApp::MouseEvent& event) override;
-    void onLeftMouseUp(const wy3dApp::MouseEvent& event) override;
-
-private:
-    bool runSelfTest(double x, double y);
 
 private:
     wy3dApp::GuiCmdSketchInfo _sketchInfo;
     wy3dApp::Snap2dContextSPtr _pContext;
-    bool _tested = false;
 };
 
 #endif // DEMO_SNAP_RULE_CMD_H

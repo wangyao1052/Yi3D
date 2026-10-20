@@ -60,26 +60,12 @@ std::shared_ptr<DemoSnapRule> DemoSnapRule::instance()
     return s_instance;
 }
 
-void DemoSnapRule::resetRecording()
-{
-    _callCount = 0;
-    _lastValuePerPixelX = 0.0;
-    _lastValuePerPixelY = 0.0;
-    _lastHitPoint = wy::Vector2();
-    _lastKind = wy3dApp::Snap2dType::Undefined;
-    _lastElementId = wydb::ElementId::kNull;
-}
-
 bool DemoSnapRule::recordHit(const wy::Vector2& snappedPosition, const wy::Vector2& hitPoint,
     const wydb::ElementId& elementId, wy3dApp::Snap2dType snapType,
     wy::Vector2& retPosition, std::vector<wy3dApp::Snap2dHit>& hits)
 {
     this->appendHit(hitPoint, elementId, snapType, hits);
     retPosition = snappedPosition;
-
-    _lastHitPoint = snappedPosition;
-    _lastElementId = elementId;
-    _lastKind = snapType;
 
     return true;
 }
@@ -103,10 +89,6 @@ bool DemoSnapRule::snapNoPicked(
     wy::Vector2& retPosition,
     std::vector<wy3dApp::Snap2dHit>& hits)
 {
-    ++_callCount;
-    _lastValuePerPixelX = valuePerPixelX;
-    _lastValuePerPixelY = valuePerPixelY;
-
     const DemoSnapContext* pDemoContext = dynamic_cast<const DemoSnapContext*>(pContext);
     if (!pDemoContext || !pDb) return false;
 

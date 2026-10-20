@@ -36,6 +36,7 @@
 #include "commands/edit/MoveRotateGuiCmdUtil.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include "snap/SketchSnapSystem.h"
+#include "snap/Snap2dSystemImpl.h"
 #include "snap/SnapObject.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
@@ -246,9 +247,9 @@ bool ModelingMoveGuiCmd::executeMove()
 
 wy::Vector3 ModelingMoveGuiCmd::snapInWorkPlane(double x, double y, const wy::Vector3& pos3d) const
 {
-    if (_pWorkPlnSnapSystem)
+    if (Snap2dSystemImpl* pSnapSystemImpl = dynamic_cast<Snap2dSystemImpl*>(_pWorkPlnSnapSystem.get()))
     {
-        Snap2dResultSPtr pSketchSnapRet = _pWorkPlnSnapSystem->snap(x, y, _pOsgView.get(), _workPln.uv(pos3d), {}, _pSnapContext);
+        Snap2dResultSPtr pSketchSnapRet = pSnapSystemImpl->snap(x, y, _pOsgView.get(), _workPln.uv(pos3d), {}, _pSnapContext);
         if (pSketchSnapRet)
         {
             return _workPln.value(pSketchSnapRet->getPosition());
