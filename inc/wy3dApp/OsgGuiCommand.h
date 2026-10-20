@@ -57,18 +57,19 @@ protected:
     // 坐标计算
     std::pair<wy::Vector3, wyap::SnapResultSPtr> computePoint(
         double x, double y,
-        const wy3d::Plane& sketchPlane,
+        const wy3d::Plane& workPlane,
         const SnapOptions& options = {}) override;
 
-    wy::Vector2 computePosition2d(
+    wy::Vector2 computePoint2d(
         double x, double y,
         const std::set<wydb::ElementId>& excludeIds,
         std::shared_ptr<Snap2dContext> pSnapContext = nullptr,
         Snap2dSystem* pSnap2dSys = nullptr) override;
 
-    wy::Vector2 computePosition2dWithoutSnap(
+    wy::Vector2 computePoint2d(
         double x, double y,
-        const wy3d::Plane& sketchPlane) override;
+        const wy3d::Plane& workPlane,
+        const SnapOptions& options = {}) override;
 
     bool computeHeight(double x, double y,
         const wy::Vector3& basePnt, double& height,

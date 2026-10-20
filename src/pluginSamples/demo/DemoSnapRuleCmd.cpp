@@ -89,5 +89,5 @@ void DemoSnapRuleCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 void DemoSnapRuleCmd::onMouseMove(const wy3dApp::MouseEvent& event)
 {
     // Return value unused: the call's purpose is the snap display side effect.
-    this->computePosition2d(event.x, event.y, {}, _pContext, _sketchInfo.pSnap2dSys);
+    this->computePoint2d(event.x, event.y, {}, _pContext, _sketchInfo.pSnap2dSys);
 }

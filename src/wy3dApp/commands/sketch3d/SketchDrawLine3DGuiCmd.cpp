@@ -498,7 +498,7 @@ void SketchDrawLine3DGuiCmd::simulateMouseMoveFromPopup()
 
 std::pair<wy::Vector3, bool> SketchDrawLine3DGuiCmd::computePoint3d(double x, double y)
 {
-    // 统一入口(与2D的computePosition2d同构):全局点捕捉优先,未命中走3D草图体系
+    // 统一入口(与2D的computePoint2d同构):全局点捕捉优先,未命中走3D草图体系
     return OsgCoordUtil::computePosition3dForSketch3D(this->getOsgView(), x, y,
         this->getWorkingPlane(), this->getSnapExcludeIds(), _pSnapContext.get(),
         this->getSketch3DSnapSystem(),

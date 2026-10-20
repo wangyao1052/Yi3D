@@ -205,18 +205,21 @@ protected:
 
     virtual std::pair<wy::Vector3, wyap::SnapResultSPtr> computePoint(
         double x, double y,
-        const wy3d::Plane& sketchPlane,
+        const wy3d::Plane& workPlane,
         const SnapOptions& options = {}) = 0;
 
-    virtual wy::Vector2 computePosition2d(
+    // 2D point on the given plane; the 2D counterpart of computePoint.
+    virtual wy::Vector2 computePoint2d(
+        double x, double y,
+        const wy3d::Plane& workPlane,
+        const SnapOptions& options = {}) = 0;
+
+    // 2D point in the sketch's snap system.
+    virtual wy::Vector2 computePoint2d(
         double x, double y,
         const std::set<wydb::ElementId>& excludeIds,
         std::shared_ptr<Snap2dContext> pSnapContext = nullptr,
         Snap2dSystem* pSnap2dSys = nullptr) = 0;
-
-    virtual wy::Vector2 computePosition2dWithoutSnap(
-        double x, double y,
-        const wy3d::Plane& sketchPlane) = 0;
 
     virtual bool computeHeight(double x, double y,
         const wy::Vector3& basePnt, double& height,

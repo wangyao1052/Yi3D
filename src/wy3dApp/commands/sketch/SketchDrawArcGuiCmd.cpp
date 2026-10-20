@@ -297,14 +297,14 @@ void SketchDrawArcGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::SpecifyCenterPnt:
     {
-        wy::Vector2 centerPnt = this->computePosition2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 centerPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
         _hoverPopupState.point = centerPnt;
     }
     break;
 
     case Step::SpecifyStartPoint:
     {
-        wy::Vector2 startPnt = this->computePosition2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 startPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
         wy::Vector2 vec = startPnt - _centerPnt;
         double radius = vec.length();
         double angle = wy3d::radiansToDegrees(wy::Vector2::rotationAngle(wy::Vector2::kXAxis, vec));
@@ -323,7 +323,7 @@ void SketchDrawArcGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyEndPoint:
     {
-        wy::Vector2 endPnt = this->computePosition2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 endPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
         double totalAngle = wy::Vector2::rotationAngle(_startPnt - _centerPnt, endPnt - _centerPnt);
         double totalAngleInDegree = wy3d::radiansToDegrees(totalAngle);
         _hoverPopupState.point = endPnt;
@@ -356,7 +356,7 @@ void SketchDrawArcGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyCenterPnt:
     {
-        _centerPnt = this->computePosition2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _centerPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -366,7 +366,7 @@ void SketchDrawArcGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyStartPoint:
     {
-        _startPnt = this->computePosition2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _startPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
         _radius = (_startPnt - _centerPnt).length();
         _startAngle = wy::Vector2::rotationAngle(wy::Vector2(1.0, 0.0), _startPnt - _centerPnt);
         if (this->finishStep(_step))
@@ -378,7 +378,7 @@ void SketchDrawArcGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyEndPoint:
     {
-        wy::Vector2 endPnt = this->computePosition2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 endPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
         _totalAngle = wy::Vector2::rotationAngle(_startPnt - _centerPnt, endPnt - _centerPnt);
         if (this->finishStep(_step))
         {

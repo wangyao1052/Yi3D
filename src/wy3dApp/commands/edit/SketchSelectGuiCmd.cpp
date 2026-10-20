@@ -102,7 +102,7 @@ bool SketchSelectGuiCmd::tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels
 wy::Vector3 SketchSelectGuiCmd::computePastePosition(double x, double y,
     const std::set<wydb::ElementId>& excludeIds)
 {
-    wy::Vector2 pos2d = this->computePosition2d(x, y, excludeIds,
+    wy::Vector2 pos2d = this->computePoint2d(x, y, excludeIds,
         _pPasteOp ? _pPasteOp->pSnapContext : nullptr, _sketchInfo.pSketchSnapSys);
     return wy::Vector3(pos2d.x(), pos2d.y(), 0.0);
 }

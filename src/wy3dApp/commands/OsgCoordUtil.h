@@ -51,7 +51,7 @@ namespace OsgCoordUtil {
     std::pair<wy::Vector3, wyap::SnapResultSPtr> computePoint(
         osgViewer::View* pView,
         double x, double y,
-        const wy3d::Plane& sketchPlane,
+        const wy3d::Plane& workPlane,
         const std::set<wydb::ElementId>& excludeIds,
         bool snap = true,
         bool isResultPublished = true);
@@ -66,18 +66,20 @@ namespace OsgCoordUtil {
         const wydb::ElementId& sketch3dId);
 
     // 计算2D位置
-    wy::Vector2 computePosition2d(
+    wy::Vector2 computePoint2d(
         osgViewer::View* pView,
         double x, double y,
         const std::set<wydb::ElementId>& excludeIds,
         std::shared_ptr<Snap2dContext> pSnapContext = nullptr,
         Snap2dSystem* pSnap2dSys = nullptr);
 
-    // 计算2D位置(无捕捉)
-    wy::Vector2 computePosition2dWithoutSnap(
+    // 2D point on the given plane.
+    wy::Vector2 computePoint2d(
         osgViewer::View* pView,
         double x, double y,
-        const wy3d::Plane& sketchPlane);
+        const wy3d::Plane& workPlane,
+        const std::set<wydb::ElementId>& excludeIds,
+        bool snap = true);
 
     // 计算高度
     bool computeHeight(

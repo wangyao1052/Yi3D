@@ -206,26 +206,28 @@ wyap::Selection OsgGuiCommand::pointPick(
 
 std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgGuiCommand::computePoint(
     double x, double y,
-    const wy3d::Plane& sketchPlane,
+    const wy3d::Plane& workPlane,
     const SnapOptions& options)
 {
-    return OsgCoordUtil::computePoint(getOsgView(), x, y, sketchPlane, options.excludeIds, options.snap);
+    return OsgCoordUtil::computePoint(getOsgView(), x, y, workPlane, options.excludeIds, options.snap);
 }
 
-wy::Vector2 OsgGuiCommand::computePosition2d(
+wy::Vector2 OsgGuiCommand::computePoint2d(
     double x, double y,
     const std::set<wydb::ElementId>& excludeIds,
     std::shared_ptr<Snap2dContext> pSnapContext,
     Snap2dSystem* pSnap2dSys)
 {
-    return OsgCoordUtil::computePosition2d(getOsgView(), x, y, excludeIds, pSnapContext, pSnap2dSys);
+    return OsgCoordUtil::computePoint2d(getOsgView(), x, y, excludeIds, pSnapContext, pSnap2dSys);
 }
 
-wy::Vector2 OsgGuiCommand::computePosition2dWithoutSnap(
+wy::Vector2 OsgGuiCommand::computePoint2d(
     double x, double y,
-    const wy3d::Plane& sketchPlane)
+    const wy3d::Plane& workPlane,
+    const SnapOptions& options)
 {
-    return OsgCoordUtil::computePosition2dWithoutSnap(getOsgView(), x, y, sketchPlane);
+    return OsgCoordUtil::computePoint2d(getOsgView(), x, y, workPlane,
+        options.excludeIds, options.snap);
 }
 
 bool OsgGuiCommand::computeHeight(double x, double y, const wy::Vector3& basePnt, double& height,
