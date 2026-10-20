@@ -106,7 +106,7 @@ void SketchEntityGripGizmo::onLeftMouseDown(const MouseEvent& event)
     SketchSnapSystem* pSketchSnapSys = getCurSketchSnapSystem();
     assert(pSketchSnapSys);
     if (pSketchSnapSys)
-        pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
+        pSketchSnapSys->clearSnapResult();
     // }
 }
 

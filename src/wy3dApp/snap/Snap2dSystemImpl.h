@@ -84,9 +84,6 @@ public:
     Snap2dSystemImpl(Snap2dSystemImpl&&) = delete;
     Snap2dSystemImpl& operator=(Snap2dSystemImpl&&) = delete;
 
-    // 局部更新
-    bool partiallyUpdate(const wydb::Database* pDb) override;
-
     // 捕捉
     Snap2dResultSPtr snap(
         double x, double y, osgViewer::View* pView,
@@ -282,6 +279,9 @@ private:
 
     // Adapter wrapping an external rule into the internal protocol.
     class ExternalRuleAdapter;
+
+    // Apply accumulated database changes.
+    bool partiallyUpdate(const wydb::Database* pDb);
 
     // 捕捉具体实现
     Snap2dResultSPtr snapImpl(
@@ -587,6 +587,7 @@ private:
     std::map<DoubleMinMax, SnapRange<Snap2dEqualRadiusSPtr>> _equalRadiusMap;
 
     // 数据库更新信息(用于局部更新捕捉数据)
+    bool _isPartiallyUpdatePending = false;
     std::set<wydb::ElementId> _addedIds;    // 实际新增的元素
     std::set<wydb::ElementId> _erasedIds;    // 实际删除的元素
     // 修改的元素

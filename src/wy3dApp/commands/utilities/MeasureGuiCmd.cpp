@@ -247,10 +247,7 @@ void MeasureGuiCmd::gotoStep(Step step)
         // 草图捕捉系统
         if (_sketchInfo.pSketchSnapSys)
         {
-            if (_sketchInfo.pSketchSnapSys)
-            {
-                _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
-            }
+            _sketchInfo.pSketchSnapSys->clearSnapResult();
             _pSnap2dContext = std::make_shared<Locate2dContext>();
         }
     }

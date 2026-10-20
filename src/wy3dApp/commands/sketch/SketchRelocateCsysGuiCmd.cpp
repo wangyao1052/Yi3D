@@ -48,12 +48,6 @@ wyap::CmdExecution::StartResult SketchRelocateCsysGuiCmd::onStart()
     _sketchInfo = GuiCommandUtil::initSketchInfo();
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
-    // 更新草图捕捉系统
-    if (_sketchInfo.pSketchSnapSys)
-    {
-        _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
-    }
-
     // 鼠标样式
     Application::instance().setCursor(CursorType::Locate);
 
@@ -294,7 +288,7 @@ bool SketchRelocateCsysGuiCmd::relocateSketchCsys(const wy3d::Plane& plane, cons
     // 更新草图捕捉系统
     if (_sketchInfo.pSketchSnapSys)
     {
-        _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
+        _sketchInfo.pSketchSnapSys->clearSnapResult();
     }
 
     return true;

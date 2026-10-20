@@ -243,7 +243,7 @@ void SketchDrawCircleBy3PointsGuiCmd::gotoStep(Step step)
         // 局部更新草图捕捉系统
         if (_sketchInfo.pSketchSnapSys)
         {
-            _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
+            _sketchInfo.pSketchSnapSys->clearSnapResult();
         }
         // 草图捕捉上下文
         _pSnapContext = std::make_shared<Locate2dContext>();

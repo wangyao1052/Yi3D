@@ -172,7 +172,7 @@ wyap::CmdExecution::StartResult SelectGuiCmd::onStart()
     // 因为选择命令中的复制粘贴会使用捕捉功能.
     if (getSketchSnapSys())
     {
-        getSketchSnapSys()->partiallyUpdate(Application::instance().getActiveDatabase());
+        getSketchSnapSys()->clearSnapResult();
     }
 
     return wyap::CmdExecution::StartResult::Succeeded;

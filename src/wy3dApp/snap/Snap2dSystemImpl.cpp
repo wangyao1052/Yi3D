@@ -370,6 +370,7 @@ bool Snap2dSystemImpl::partiallyUpdate(const wydb::Database* pDb)
     {
         return false;
     }
+    _isPartiallyUpdatePending = false;
 
     std::set<wydb::ElementId> dirtyIds;
 
@@ -554,14 +555,17 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImpl(
     const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
     std::shared_ptr<Snap2dContext> pContext)
 {
+    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    if (!pDb) { assert(false); return nullptr; }
+
+    // partiallyUpdate clears the snap context, so apply pending changes first.
+    if (_isPartiallyUpdatePending) this->partiallyUpdate(pDb);
+
     if (_pSnapContext != pContext)
     {
         _pSnapContext = pContext;
         _dynSnapObjs.clear();
     }
-
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
-    if (!pDb) { assert(false); return nullptr; }
 
     osg::Camera* camera = pView->getCamera();
     assert(camera);
@@ -1351,6 +1355,8 @@ void Snap2dSystemImpl::onDatabaseChanged(
             _erasedIds.insert(id);
         }
     }
+
+    _isPartiallyUpdatePending = true;
 }
 
 } // namespace wy3dApp

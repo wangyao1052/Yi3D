@@ -208,7 +208,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
 
         if (_sketchInfo.pSketchSnapSys)
         {
-            _sketchInfo.pSketchSnapSys->partiallyUpdate(Application::instance().getActiveDatabase());
+            _sketchInfo.pSketchSnapSys->clearSnapResult();
         }
         _pSnapContext = std::make_shared<Locate2dContext>();
     }

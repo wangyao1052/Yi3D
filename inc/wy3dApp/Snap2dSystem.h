@@ -44,9 +44,6 @@ public:
     // Create a snap system working on the given plane.
     static Snap2dSystemSPtr create(const wy3d::Plane& workPlane);
 
-    // Partial update from database changes.
-    virtual bool partiallyUpdate(const wydb::Database* pDb) = 0;
-
     // Get the snap result.
     virtual Snap2dResultSPtr getSnapResult() const = 0;
     // Clear the snap result.
