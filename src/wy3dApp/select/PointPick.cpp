@@ -462,6 +462,16 @@ wyap::Selection pointPick_PolytopeIntersector(
         osgUtil::Intersector::WINDOW,
         x - option.pickHalfSize, y - option.pickHalfSize,
         x + option.pickHalfSize, y + option.pickHalfSize);
+
+    unsigned int primitiveMask = osgUtil::PolytopeIntersector::ALL_PRIMITIVES;
+    switch (allowedDrawMode)
+    {
+    case DrawMode::Vertex: primitiveMask = osgUtil::PolytopeIntersector::POINT_PRIMITIVES; break;
+    case DrawMode::Edge:   primitiveMask = osgUtil::PolytopeIntersector::LINE_PRIMITIVES;  break;
+    default: break;
+    }
+    intersector->setPrimitiveMask(primitiveMask);
+
     osgUtil::IntersectionVisitor iv(intersector.get());
     iv.setTraversalMask(option.allowedElemTypes);
     pView->getCamera()->accept(iv);
