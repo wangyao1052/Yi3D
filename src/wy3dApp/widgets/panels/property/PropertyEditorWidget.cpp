@@ -38,7 +38,6 @@
 #include <wy3dSolid.h>
 #include <wy3dPrimitive.h>
 #include <wy3dBoolean.h>
-#include <wy3dParamNames.h>
 #include <wyapDocument.h>
 #include <wyapDocManager.h>
 #include <wyapSelection.h>

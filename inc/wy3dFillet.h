@@ -19,6 +19,9 @@ class WY3D_EXPORT Fillet : public wy3d::BodyModification
     WYDB_DECLARE_MEMBERS(Fillet, wy3d::Fillet, wy3d::BodyModification)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_RADIUS = "Radius";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Solid* pSolid,

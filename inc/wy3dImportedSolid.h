@@ -19,6 +19,9 @@ class WY3D_EXPORT ImportedSolid : public wy3d::Solid
     WYDB_DECLARE_MEMBERS(ImportedSolid, wy3d::ImportedSolid, wy3d::Solid)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_FILE_PATH = "FilePath";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, const std::wstring& filePath, ImportedSolid*& pOut);
     static wy::ErrorStatus isValidFilePath(const std::wstring& filePath);
 

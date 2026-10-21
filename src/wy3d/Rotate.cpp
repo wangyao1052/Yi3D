@@ -28,7 +28,6 @@
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
-#include <wy3dParamNames.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include "topo/MoveRotateTopoShapeComparer.h"
@@ -193,37 +192,37 @@ void Rotate::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::ROTATE_ANGLE;
+        def.name = Rotate::PARAM_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::ROTATE_AXIS_DIRECTION_X;
+        def.name = Rotate::PARAM_AXIS_DIRECTION_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::ROTATE_AXIS_DIRECTION_Y;
+        def.name = Rotate::PARAM_AXIS_DIRECTION_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::ROTATE_AXIS_DIRECTION_Z;
+        def.name = Rotate::PARAM_AXIS_DIRECTION_Z;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::ROTATE_CENTER_X;
+        def.name = Rotate::PARAM_CENTER_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::ROTATE_CENTER_Y;
+        def.name = Rotate::PARAM_CENTER_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::ROTATE_CENTER_Z;
+        def.name = Rotate::PARAM_CENTER_Z;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -231,31 +230,31 @@ wydb::ParameterValueUPtr Rotate::getParameterValue(const std::string& className,
 {
     if (className == Rotate::classInfo()->className())
     {
-        if (ParamNames::ROTATE_CENTER_X == paramName)
+        if (Rotate::PARAM_CENTER_X == paramName)
         {
             return wydb::ParameterValue::createDouble(_center.x());
         }
-        else if (ParamNames::ROTATE_CENTER_Y == paramName)
+        else if (Rotate::PARAM_CENTER_Y == paramName)
         {
             return wydb::ParameterValue::createDouble(_center.y());
         }
-        else if (ParamNames::ROTATE_CENTER_Z == paramName)
+        else if (Rotate::PARAM_CENTER_Z == paramName)
         {
             return wydb::ParameterValue::createDouble(_center.z());
         }
-        else if (ParamNames::ROTATE_AXIS_DIRECTION_X == paramName)
+        else if (Rotate::PARAM_AXIS_DIRECTION_X == paramName)
         {
             return wydb::ParameterValue::createDouble(_axisDir.x());
         }
-        else if (ParamNames::ROTATE_AXIS_DIRECTION_Y == paramName)
+        else if (Rotate::PARAM_AXIS_DIRECTION_Y == paramName)
         {
             return wydb::ParameterValue::createDouble(_axisDir.y());
         }
-        else if (ParamNames::ROTATE_AXIS_DIRECTION_Z == paramName)
+        else if (Rotate::PARAM_AXIS_DIRECTION_Z == paramName)
         {
             return wydb::ParameterValue::createDouble(_axisDir.z());
         }
-        else if (ParamNames::ROTATE_ANGLE == paramName)
+        else if (Rotate::PARAM_ANGLE == paramName)
         {
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_angle));
         }
@@ -277,31 +276,31 @@ wy::ErrorStatus Rotate::setParameterValue(const std::string& className, const st
         }
 
         double v = paramValue.asDouble();
-        if (ParamNames::ROTATE_CENTER_X == paramName)
+        if (Rotate::PARAM_CENTER_X == paramName)
         {
             return this->setCenterPoint(wy::Vector3(v, _center.y(), _center.z()));
         }
-        else if (ParamNames::ROTATE_CENTER_Y == paramName)
+        else if (Rotate::PARAM_CENTER_Y == paramName)
         {
             return this->setCenterPoint(wy::Vector3(_center.x(), v, _center.z()));
         }
-        else if (ParamNames::ROTATE_CENTER_Z == paramName)
+        else if (Rotate::PARAM_CENTER_Z == paramName)
         {
             return this->setCenterPoint(wy::Vector3(_center.x(), _center.y(), v));
         }
-        else if (ParamNames::ROTATE_AXIS_DIRECTION_X == paramName)
+        else if (Rotate::PARAM_AXIS_DIRECTION_X == paramName)
         {
             return this->setAxisDirection(wy::Vector3(v, _axisDir.y(), _axisDir.z()));
         }
-        else if (ParamNames::ROTATE_AXIS_DIRECTION_Y == paramName)
+        else if (Rotate::PARAM_AXIS_DIRECTION_Y == paramName)
         {
             return this->setAxisDirection(wy::Vector3(_axisDir.x(), v, _axisDir.z()));
         }
-        else if (ParamNames::ROTATE_AXIS_DIRECTION_Z == paramName)
+        else if (Rotate::PARAM_AXIS_DIRECTION_Z == paramName)
         {
             return this->setAxisDirection(wy::Vector3(_axisDir.x(), _axisDir.y(), v));
         }
-        else if (ParamNames::ROTATE_ANGLE == paramName)
+        else if (Rotate::PARAM_ANGLE == paramName)
         {
             return this->setAngle(wy3d::degreesToRadians(v));
         }

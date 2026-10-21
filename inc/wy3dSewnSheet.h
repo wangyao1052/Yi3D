@@ -29,6 +29,9 @@ class WY3D_EXPORT SewnSheet : public wy3d::Sheet
     WYDB_DECLARE_MEMBERS(SewnSheet, wy3d::SewnSheet, wy3d::Sheet)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_TOLERANCE = "Tolerance";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         const std::vector<wy3d::Sheet*>& sources,

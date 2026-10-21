@@ -20,6 +20,15 @@ class WY3D_EXPORT Rotate : public wy3d::BodyModification
     WYDB_DECLARE_MEMBERS(Rotate, wy3d::Rotate, wy3d::BodyModification)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_CENTER_X         = "CenterX";
+    static constexpr const char* PARAM_CENTER_Y         = "CenterY";
+    static constexpr const char* PARAM_CENTER_Z         = "CenterZ";
+    static constexpr const char* PARAM_AXIS_DIRECTION_X = "AxisDirectionX";
+    static constexpr const char* PARAM_AXIS_DIRECTION_Y = "AxisDirectionY";
+    static constexpr const char* PARAM_AXIS_DIRECTION_Z = "AxisDirectionZ";
+    static constexpr const char* PARAM_ANGLE            = "Angle";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Solid* pSolid,

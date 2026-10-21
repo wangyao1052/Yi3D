@@ -23,7 +23,6 @@
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dDatumPlane.h>
-#include <wy3dParamNames.h>
 #include "utils/Util.h"
 
 NS_WY3D_BEG
@@ -94,7 +93,7 @@ void DatumPlane::registerParameters(wydb::ParameterSchemaExtension* pParamSchema
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::DATUM_PLANE_PARAM_PLANE;
+        def.name = DatumPlane::PARAM_PLANE;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -102,7 +101,7 @@ wydb::ParameterValueUPtr DatumPlane::getParameterValue(const std::string& classN
 {
     if (className == DatumPlane::classInfo()->className())
     {
-        if (ParamNames::DATUM_PLANE_PARAM_PLANE == paramName)
+        if (DatumPlane::PARAM_PLANE == paramName)
             return wydb::ParameterValue::createAny(_plane);
     }
     return __baseClass::getParameterValue(className, paramName);
@@ -112,7 +111,7 @@ wy::ErrorStatus DatumPlane::setParameterValue(const std::string& className, cons
 {
     if (className == DatumPlane::classInfo()->className())
     {
-        if (ParamNames::DATUM_PLANE_PARAM_PLANE == paramName)
+        if (DatumPlane::PARAM_PLANE == paramName)
         {
             if (!paramValue.isAny()) return wy::ErrorStatus::InvalidInput;
             const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);

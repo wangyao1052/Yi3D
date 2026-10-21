@@ -18,7 +18,6 @@
 
 #include "headers.h"
 #include <wy3dChamfer.h>
-#include <wy3dParamNames.h>
 #include <wy3dParamEnumDef.h>
 #include <wy3dMath.h>
 #include <wy3dTopoNaming.h>
@@ -285,10 +284,10 @@ TEST(Chamfer, ParamRoundTrip)
              {static_cast<int>(ChamferType::DistanceDistance), "Distance-Distance"},
              {static_cast<int>(ChamferType::DistanceAngle), "Distance-Angle"}},
             static_cast<int>(ChamferType::DistanceDistance));
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::CHAMFER_TYPE,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Chamfer::PARAM_TYPE,
             *wydb::ParameterValue::createAny(enumDef)), wy::ErrorStatus::Ok);
         // 角度参数: 按度传入, 内部存弧度
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::CHAMFER_ANGLE,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Chamfer::PARAM_ANGLE,
             *wydb::ParameterValue::createDouble(30.0)), wy::ErrorStatus::Ok);
         pMgr->endTransaction();
     }
@@ -296,11 +295,11 @@ TEST(Chamfer, ParamRoundTrip)
     EXPECT_EQ(pChamfer->getAngle(), wy3d::degreesToRadians(30.0));
 
     // 读取参数值: 面板按度返回
-    wydb::ParameterValueUPtr pAngleVal = pChamfer->getParameterValue(className, wy3d::ParamNames::CHAMFER_ANGLE);
+    wydb::ParameterValueUPtr pAngleVal = pChamfer->getParameterValue(className, wy3d::Chamfer::PARAM_ANGLE);
     ASSERT_NE(pAngleVal, nullptr);
     EXPECT_DOUBLE_EQ(pAngleVal->asDouble(), 30.0);
 
-    wydb::ParameterValueUPtr pTypeVal = pChamfer->getParameterValue(className, wy3d::ParamNames::CHAMFER_TYPE);
+    wydb::ParameterValueUPtr pTypeVal = pChamfer->getParameterValue(className, wy3d::Chamfer::PARAM_TYPE);
     ASSERT_NE(pTypeVal, nullptr);
     ASSERT_TRUE(pTypeVal->isAny());
     const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(pTypeVal.get());

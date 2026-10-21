@@ -19,6 +19,10 @@ class WY3D_EXPORT Mirror : public wy3d::BodyModification
     WYDB_DECLARE_MEMBERS(Mirror, wy3d::Mirror, wy3d::BodyModification)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_PLANE  = "Plane";
+    static constexpr const char* PARAM_SOURCE = "Source";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Solid* pOwner,

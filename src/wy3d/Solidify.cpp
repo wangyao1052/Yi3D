@@ -35,7 +35,6 @@
 #include <wy3dSheet.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
-#include <wy3dParamNames.h>
 
 #include "utils/Util.h"
 
@@ -135,7 +134,7 @@ void Solidify::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::SOLIDIFY_PARAM_SOURCE;
+        def.name = Solidify::PARAM_SOURCE;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
@@ -147,7 +146,7 @@ wydb::ParameterValueUPtr Solidify::getParameterValue(
 {
     if (className == Solidify::classInfo()->className())
     {
-        if (ParamNames::SOLIDIFY_PARAM_SOURCE == paramName)
+        if (Solidify::PARAM_SOURCE == paramName)
         {
             return wydb::ParameterValue::createInteger(_sourceId.value());
         }
@@ -166,7 +165,7 @@ wy::ErrorStatus Solidify::setParameterValue(
 {
     if (className == Solidify::classInfo()->className())
     {
-        if (ParamNames::SOLIDIFY_PARAM_SOURCE == paramName)
+        if (Solidify::PARAM_SOURCE == paramName)
         {
             assert(false);
             return wy::ErrorStatus::ParameterReadonly;

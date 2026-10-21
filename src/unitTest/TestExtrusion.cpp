@@ -22,7 +22,6 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchLine.h>
 #include <wy3dPlane.h>
-#include <wy3dParamNames.h>
 #include <wy3dParamEnumDef.h>
 #include <wydbParameter.h>
 
@@ -276,19 +275,19 @@ TEST(Extrusion, ParamRoundTrip)
             {{static_cast<int>(ExtrusionDirection::OneSide), "One Side"},
              {static_cast<int>(ExtrusionDirection::Symmetric), "Symmetric"}},
             static_cast<int>(ExtrusionDirection::Symmetric));
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Extrusion::PARAM_DIRECTION,
             *wydb::ParameterValue::createAny(enumDef)), wy::ErrorStatus::Ok);
         // enum parameter via plain integer
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Extrusion::PARAM_DIRECTION,
             *wydb::ParameterValue::createInteger(0)), wy::ErrorStatus::Ok);
         // double input is rejected
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Extrusion::PARAM_DIRECTION,
             *wydb::ParameterValue::createDouble(1.0)), wy::ErrorStatus::InvalidInput);
         pMgr->endTransaction();
     }
     EXPECT_EQ(pExtrusion->getDirection(), ExtrusionDirection::OneSide);
 
-    wydb::ParameterValueUPtr pDirVal = pExtrusion->getParameterValue(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION);
+    wydb::ParameterValueUPtr pDirVal = pExtrusion->getParameterValue(className, wy3d::Extrusion::PARAM_DIRECTION);
     ASSERT_NE(pDirVal, nullptr);
     ASSERT_TRUE(pDirVal->isAny());
     const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(pDirVal.get());

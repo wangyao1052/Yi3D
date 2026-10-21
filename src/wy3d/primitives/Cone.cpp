@@ -21,7 +21,6 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dCone.h>
-#include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -112,12 +111,12 @@ void Cone::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CONE_PARAM_HEIGHT;
+        def.name = Cone::PARAM_HEIGHT;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CONE_PARAM_RADIUS;
+        def.name = Cone::PARAM_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -125,11 +124,11 @@ wydb::ParameterValueUPtr Cone::getParameterValue(const std::string& className, c
 {
     if (className == Cone::classInfo()->className())
     {
-        if (ParamNames::CONE_PARAM_RADIUS == n)
+        if (Cone::PARAM_RADIUS == n)
         {
             return wydb::ParameterValue::createDouble(_radius);
         }
-        else if (ParamNames::CONE_PARAM_HEIGHT == n)
+        else if (Cone::PARAM_HEIGHT == n)
         {
             return wydb::ParameterValue::createDouble(_height);
         }
@@ -151,11 +150,11 @@ wy::ErrorStatus Cone::setParameterValue(const std::string& className, const std:
         }
 
         double d = v.asDouble();
-        if (ParamNames::CONE_PARAM_RADIUS == n)
+        if (Cone::PARAM_RADIUS == n)
         {
             return this->setRadius(d);
         }
-        else if (ParamNames::CONE_PARAM_HEIGHT == n)
+        else if (Cone::PARAM_HEIGHT == n)
         {
             return this->setHeight(d);
         }

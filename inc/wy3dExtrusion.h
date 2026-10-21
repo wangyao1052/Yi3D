@@ -25,6 +25,11 @@ class WY3D_EXPORT Extrusion : public wy3d::Solid
     WYDB_DECLARE_MEMBERS(Extrusion, wy3d::Extrusion, wy3d::Solid)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_DEPTH        = "Depth";
+    static constexpr const char* PARAM_START_OFFSET = "StartOffset";
+    static constexpr const char* PARAM_DIRECTION    = "Direction";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Sketch* pSketch,

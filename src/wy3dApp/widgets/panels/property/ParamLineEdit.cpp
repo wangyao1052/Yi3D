@@ -32,7 +32,6 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dFeature.h>
-#include <wy3dSketchParamNames.h>
 #include <wyapDocument.h>
 #include <wyapDocManager.h>
 #include <wyapSelection.h>

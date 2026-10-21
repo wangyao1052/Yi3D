@@ -26,7 +26,6 @@
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchEllipseArc3D.h>
 #include <wy3dImpl.h>
-#include <wy3dSketch3DParamNames.h>
 #include "utils/Util.h"
 
 NS_WY3D_BEG
@@ -350,88 +349,88 @@ void SketchEllipseArc3D::registerParameters(wydb::ParameterSchemaExtension* pPar
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_X;
+        def.name = SketchEllipseArc3D::PARAM_CENTER_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Y;
+        def.name = SketchEllipseArc3D::PARAM_CENTER_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Z;
+        def.name = SketchEllipseArc3D::PARAM_CENTER_Z;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_X;
+        def.name = SketchEllipseArc3D::PARAM_NORMAL_X;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Y;
+        def.name = SketchEllipseArc3D::PARAM_NORMAL_Y;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Z;
+        def.name = SketchEllipseArc3D::PARAM_NORMAL_Z;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_X;
+        def.name = SketchEllipseArc3D::PARAM_XDIR_X;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_Y;
+        def.name = SketchEllipseArc3D::PARAM_XDIR_Y;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_Z;
+        def.name = SketchEllipseArc3D::PARAM_XDIR_Z;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_MAJOR_RADIUS;
+        def.name = SketchEllipseArc3D::PARAM_MAJOR_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_MINOR_RADIUS;
+        def.name = SketchEllipseArc3D::PARAM_MINOR_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_RADIUS_RATIO;
+        def.name = SketchEllipseArc3D::PARAM_RADIUS_RATIO;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_START_ANGLE;
+        def.name = SketchEllipseArc3D::PARAM_START_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_END_ANGLE;
+        def.name = SketchEllipseArc3D::PARAM_END_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE;
+        def.name = SketchEllipseArc3D::PARAM_TOTAL_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_LENGTH;
+        def.name = SketchEllipseArc3D::PARAM_LENGTH;
         def.isReadonly = true; // 弧长不可反解为扫角
         pParamSchema->addParameterDefinition(def);
     }
@@ -441,37 +440,37 @@ wydb::ParameterValueUPtr SketchEllipseArc3D::getParameterValue(const std::string
 {
     if (className == SketchEllipseArc3D::classInfo()->className())
     {
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_X == paramName)
+        if (SketchEllipseArc3D::PARAM_CENTER_X == paramName)
             return wydb::ParameterValue::createDouble(_centerPnt.x());
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Y == paramName)
+        if (SketchEllipseArc3D::PARAM_CENTER_Y == paramName)
             return wydb::ParameterValue::createDouble(_centerPnt.y());
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Z == paramName)
+        if (SketchEllipseArc3D::PARAM_CENTER_Z == paramName)
             return wydb::ParameterValue::createDouble(_centerPnt.z());
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_X == paramName)
+        if (SketchEllipseArc3D::PARAM_NORMAL_X == paramName)
             return wydb::ParameterValue::createDouble(_normal.x());
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Y == paramName)
+        if (SketchEllipseArc3D::PARAM_NORMAL_Y == paramName)
             return wydb::ParameterValue::createDouble(_normal.y());
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Z == paramName)
+        if (SketchEllipseArc3D::PARAM_NORMAL_Z == paramName)
             return wydb::ParameterValue::createDouble(_normal.z());
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_X == paramName)
+        if (SketchEllipseArc3D::PARAM_XDIR_X == paramName)
             return wydb::ParameterValue::createDouble(_xDir.x());
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_Y == paramName)
+        if (SketchEllipseArc3D::PARAM_XDIR_Y == paramName)
             return wydb::ParameterValue::createDouble(_xDir.y());
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_Z == paramName)
+        if (SketchEllipseArc3D::PARAM_XDIR_Z == paramName)
             return wydb::ParameterValue::createDouble(_xDir.z());
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_MAJOR_RADIUS == paramName)
+        if (SketchEllipseArc3D::PARAM_MAJOR_RADIUS == paramName)
             return wydb::ParameterValue::createDouble(_majorRadius);
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_MINOR_RADIUS == paramName)
+        if (SketchEllipseArc3D::PARAM_MINOR_RADIUS == paramName)
             return wydb::ParameterValue::createDouble(this->getMinorRadius());
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_RADIUS_RATIO == paramName)
+        if (SketchEllipseArc3D::PARAM_RADIUS_RATIO == paramName)
             return wydb::ParameterValue::createDouble(_radiusRatio);
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_START_ANGLE == paramName)
+        if (SketchEllipseArc3D::PARAM_START_ANGLE == paramName)
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_startAngle));
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_END_ANGLE == paramName)
+        if (SketchEllipseArc3D::PARAM_END_ANGLE == paramName)
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_endAngle));
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE == paramName)
+        if (SketchEllipseArc3D::PARAM_TOTAL_ANGLE == paramName)
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(this->getTotalAngle()));
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_LENGTH == paramName)
+        if (SketchEllipseArc3D::PARAM_LENGTH == paramName)
             return wydb::ParameterValue::createDouble(this->getLength());
         return nullptr;
     }
@@ -485,39 +484,39 @@ wy::ErrorStatus SketchEllipseArc3D::setParameterValue(const std::string& classNa
 {
     if (className == SketchEllipseArc3D::classInfo()->className())
     {
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_X == paramName)
+        if (SketchEllipseArc3D::PARAM_CENTER_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector3(paramValue.asDouble(), _centerPnt.y(), _centerPnt.z())); }
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Y == paramName)
+        if (SketchEllipseArc3D::PARAM_CENTER_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector3(_centerPnt.x(), paramValue.asDouble(), _centerPnt.z())); }
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Z == paramName)
+        if (SketchEllipseArc3D::PARAM_CENTER_Z == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector3(_centerPnt.x(), _centerPnt.y(), paramValue.asDouble())); }
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_X == paramName)
+        if (SketchEllipseArc3D::PARAM_NORMAL_X == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Y == paramName)
+        if (SketchEllipseArc3D::PARAM_NORMAL_Y == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_NORMAL_Z == paramName)
+        if (SketchEllipseArc3D::PARAM_NORMAL_Z == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_X == paramName)
+        if (SketchEllipseArc3D::PARAM_XDIR_X == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_Y == paramName)
+        if (SketchEllipseArc3D::PARAM_XDIR_Y == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_XDIR_Z == paramName)
+        if (SketchEllipseArc3D::PARAM_XDIR_Z == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_LENGTH == paramName)
+        if (SketchEllipseArc3D::PARAM_LENGTH == paramName)
             return wy::ErrorStatus::ParameterReadonly;
         if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
         double d = paramValue.asDouble();
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_MAJOR_RADIUS == paramName)
+        if (SketchEllipseArc3D::PARAM_MAJOR_RADIUS == paramName)
         {
             // 长半轴不得小于短半轴
             if (d < this->getMinorRadius()) return wy::ErrorStatus::InvalidInput;
             return this->setMajorRadius(d);
         }
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_MINOR_RADIUS == paramName) return this->setMinorRadius(d);
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_RADIUS_RATIO == paramName) return this->setRadiusRatio(d);
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_START_ANGLE == paramName) return this->setStartAngle(wy3d::degreesToRadians(d));
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_END_ANGLE == paramName) return this->setEndAngle(wy3d::degreesToRadians(d));
-        if (Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE == paramName)
+        if (SketchEllipseArc3D::PARAM_MINOR_RADIUS == paramName) return this->setMinorRadius(d);
+        if (SketchEllipseArc3D::PARAM_RADIUS_RATIO == paramName) return this->setRadiusRatio(d);
+        if (SketchEllipseArc3D::PARAM_START_ANGLE == paramName) return this->setStartAngle(wy3d::degreesToRadians(d));
+        if (SketchEllipseArc3D::PARAM_END_ANGLE == paramName) return this->setEndAngle(wy3d::degreesToRadians(d));
+        if (SketchEllipseArc3D::PARAM_TOTAL_ANGLE == paramName)
         { if (d <= 0.0) return wy::ErrorStatus::InvalidInput; d = wy3d::degreesToRadians(d); if (d >= wy3d::TWO_PI) return wy::ErrorStatus::InvalidInput; return this->setEndAngle(_startAngle + d); }
         return wy::ErrorStatus::ParameterNotFound;
     }

@@ -35,7 +35,6 @@
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dSweep.h>
-#include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include <wy3dSketch.h>
 #include <wy3dSketch3D.h>

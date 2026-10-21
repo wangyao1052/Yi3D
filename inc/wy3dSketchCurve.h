@@ -20,6 +20,9 @@ class WY3D_EXPORT SketchCurve : public wy3d::SketchEntity
     WYDB_DECLARE_ABSTRACT_MEMBERS(SketchCurve, wy3d::SketchCurve, wy3d::SketchEntity)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_IS_CONSTRUCTION = "IsConstruction";
+
     bool isConstruction() const { return _isConstruction; }
     wy::ErrorStatus setConstruction(bool value);
 

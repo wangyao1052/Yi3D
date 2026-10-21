@@ -25,8 +25,8 @@
 #include <wy3dBodyModification.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
-#include <wy3dParamNames.h>
 #include <wydbFieldRegistry.h>
+#include <wy3dSolid.h>
 
 NS_WY3D_BEG
 WYDB_IMPLEMENT_MEMBERS(Sheet)
@@ -178,7 +178,7 @@ void Sheet::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::SOLID_PARAM_COLOR;
+        def.name = Solid::PARAM_COLOR;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -187,7 +187,7 @@ wydb::ParameterValueUPtr Sheet::getParameterValue(const std::string& className, 
 {
     if (className == Sheet::classInfo()->className())
     {
-        if (ParamNames::SOLID_PARAM_COLOR == paramName)
+        if (Solid::PARAM_COLOR == paramName)
             return wydb::ParameterValue::createAny(_color);
         return nullptr;
     }
@@ -199,7 +199,7 @@ wy::ErrorStatus Sheet::setParameterValue(const std::string& className, const std
 {
     if (className == Sheet::classInfo()->className())
     {
-        if (ParamNames::SOLID_PARAM_COLOR == paramName)
+        if (Solid::PARAM_COLOR == paramName)
         {
             if (!paramValue.isAny()) return wy::ErrorStatus::InvalidInput;
             const wydb::AnyParameterValue* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);

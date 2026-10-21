@@ -21,6 +21,9 @@ class WY3D_EXPORT SketchEntity : public wydb::Element
     WYDB_DECLARE_ABSTRACT_MEMBERS(SketchEntity, wy3d::SketchEntity, wydb::Element)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_ID = "ID";
+
     virtual wydb::ElementId getParent() const override { return _ownerId; }
     wy::ErrorStatus setOwner(const wydb::ElementId& ownerId);
 

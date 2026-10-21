@@ -30,6 +30,15 @@ class WY3D_EXPORT SketchLine3D : public wy3d::SketchCurve3D
     WYDB_DECLARE_MEMBERS(SketchLine3D, wy3d::SketchLine3D, wy3d::SketchCurve3D)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_START_X = "StartPoint X";
+    static constexpr const char* PARAM_START_Y = "StartPoint Y";
+    static constexpr const char* PARAM_START_Z = "StartPoint Z";
+    static constexpr const char* PARAM_END_X   = "EndPoint X";
+    static constexpr const char* PARAM_END_Y   = "EndPoint Y";
+    static constexpr const char* PARAM_END_Z   = "EndPoint Z";
+    static constexpr const char* PARAM_LENGTH  = "Length";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, const wy::Vector3& startPnt, const wy::Vector3& endPnt, SketchLine3D*& pOutSketchLine3D);
 
     virtual wy::Vector3 getStartPoint() const override { return _startPnt; }

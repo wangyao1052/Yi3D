@@ -19,11 +19,11 @@
 #include "headers.h"
 
 #include <wy3dExtrudedSheet.h>
+#include <wy3dExtrusion.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchCircle.h>
 #include <wy3dSketchLine.h>
 #include <wy3dPlane.h>
-#include <wy3dParamNames.h>
 #include <wy3dParamEnumDef.h>
 #include <wydbParameter.h>
 
@@ -367,17 +367,17 @@ TEST(ExtrudedSheet, ParamRoundTrip)
             {{static_cast<int>(ExtrusionDirection::OneSide), "One Side"},
              {static_cast<int>(ExtrusionDirection::Symmetric), "Symmetric"}},
             static_cast<int>(ExtrusionDirection::Symmetric));
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Extrusion::PARAM_DIRECTION,
             *wydb::ParameterValue::createAny(enumDef)), wy::ErrorStatus::Ok);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Extrusion::PARAM_DIRECTION,
             *wydb::ParameterValue::createInteger(0)), wy::ErrorStatus::Ok);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Extrusion::PARAM_DIRECTION,
             *wydb::ParameterValue::createDouble(1.0)), wy::ErrorStatus::InvalidInput);
         pMgr->endTransaction();
     }
     EXPECT_EQ(pSheet->getDirection(), ExtrusionDirection::OneSide);
 
-    wydb::ParameterValueUPtr pDirVal = pSheet->getParameterValue(className, wy3d::ParamNames::EXTRUSION_PARAM_DIRECTION);
+    wydb::ParameterValueUPtr pDirVal = pSheet->getParameterValue(className, wy3d::Extrusion::PARAM_DIRECTION);
     ASSERT_NE(pDirVal, nullptr);
     ASSERT_TRUE(pDirVal->isAny());
     const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(pDirVal.get());

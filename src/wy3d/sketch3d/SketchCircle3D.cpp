@@ -25,7 +25,6 @@
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dImpl.h>
-#include <wy3dSketch3DParamNames.h>
 #include "utils/Util.h"
 
 NS_WY3D_BEG
@@ -221,73 +220,73 @@ void SketchCircle3D::registerParameters(wydb::ParameterSchemaExtension* pParamSc
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_X;
+        def.name = SketchCircle3D::PARAM_CENTER_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Y;
+        def.name = SketchCircle3D::PARAM_CENTER_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Z;
+        def.name = SketchCircle3D::PARAM_CENTER_Z;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_X;
+        def.name = SketchCircle3D::PARAM_NORMAL_X;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Y;
+        def.name = SketchCircle3D::PARAM_NORMAL_Y;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Z;
+        def.name = SketchCircle3D::PARAM_NORMAL_Z;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_X;
+        def.name = SketchCircle3D::PARAM_XDIR_X;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Y;
+        def.name = SketchCircle3D::PARAM_XDIR_Y;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Z;
+        def.name = SketchCircle3D::PARAM_XDIR_Z;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_RADIUS;
+        def.name = SketchCircle3D::PARAM_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_DIAMETER;
+        def.name = SketchCircle3D::PARAM_DIAMETER;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_PERIMETER;
+        def.name = SketchCircle3D::PARAM_PERIMETER;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_AREA;
+        def.name = SketchCircle3D::PARAM_AREA;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -295,31 +294,31 @@ wydb::ParameterValueUPtr SketchCircle3D::getParameterValue(const std::string& cl
 {
     if (className == SketchCircle3D::classInfo()->className())
     {
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_X == paramName)
+        if (SketchCircle3D::PARAM_CENTER_X == paramName)
             return wydb::ParameterValue::createDouble(_centerPnt.x());
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Y == paramName)
+        if (SketchCircle3D::PARAM_CENTER_Y == paramName)
             return wydb::ParameterValue::createDouble(_centerPnt.y());
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Z == paramName)
+        if (SketchCircle3D::PARAM_CENTER_Z == paramName)
             return wydb::ParameterValue::createDouble(_centerPnt.z());
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_X == paramName)
+        if (SketchCircle3D::PARAM_NORMAL_X == paramName)
             return wydb::ParameterValue::createDouble(_normal.x());
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Y == paramName)
+        if (SketchCircle3D::PARAM_NORMAL_Y == paramName)
             return wydb::ParameterValue::createDouble(_normal.y());
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Z == paramName)
+        if (SketchCircle3D::PARAM_NORMAL_Z == paramName)
             return wydb::ParameterValue::createDouble(_normal.z());
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_X == paramName)
+        if (SketchCircle3D::PARAM_XDIR_X == paramName)
             return wydb::ParameterValue::createDouble(_xDir.x());
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Y == paramName)
+        if (SketchCircle3D::PARAM_XDIR_Y == paramName)
             return wydb::ParameterValue::createDouble(_xDir.y());
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Z == paramName)
+        if (SketchCircle3D::PARAM_XDIR_Z == paramName)
             return wydb::ParameterValue::createDouble(_xDir.z());
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_RADIUS == paramName)
+        if (SketchCircle3D::PARAM_RADIUS == paramName)
             return wydb::ParameterValue::createDouble(_radius);
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_DIAMETER == paramName)
+        if (SketchCircle3D::PARAM_DIAMETER == paramName)
             return wydb::ParameterValue::createDouble(2 * _radius);
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_PERIMETER == paramName)
+        if (SketchCircle3D::PARAM_PERIMETER == paramName)
             return wydb::ParameterValue::createDouble(wy3d::TWO_PI * _radius);
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_AREA == paramName)
+        if (SketchCircle3D::PARAM_AREA == paramName)
             return wydb::ParameterValue::createDouble(wy3d::PI * _radius * _radius);
         return nullptr;
     }
@@ -333,30 +332,30 @@ wy::ErrorStatus SketchCircle3D::setParameterValue(const std::string& className, 
 {
     if (className == SketchCircle3D::classInfo()->className())
     {
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_X == paramName)
+        if (SketchCircle3D::PARAM_CENTER_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector3(paramValue.asDouble(), _centerPnt.y(), _centerPnt.z())); }
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Y == paramName)
+        if (SketchCircle3D::PARAM_CENTER_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector3(_centerPnt.x(), paramValue.asDouble(), _centerPnt.z())); }
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Z == paramName)
+        if (SketchCircle3D::PARAM_CENTER_Z == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector3(_centerPnt.x(), _centerPnt.y(), paramValue.asDouble())); }
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_X == paramName)
+        if (SketchCircle3D::PARAM_NORMAL_X == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Y == paramName)
+        if (SketchCircle3D::PARAM_NORMAL_Y == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Z == paramName)
+        if (SketchCircle3D::PARAM_NORMAL_Z == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_X == paramName)
+        if (SketchCircle3D::PARAM_XDIR_X == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Y == paramName)
+        if (SketchCircle3D::PARAM_XDIR_Y == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Z == paramName)
+        if (SketchCircle3D::PARAM_XDIR_Z == paramName)
             return wy::ErrorStatus::ParameterReadonly;
         if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
         double d = paramValue.asDouble();
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_RADIUS == paramName) return this->setRadius(d);
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_DIAMETER == paramName) return this->setRadius(d / 2);
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_PERIMETER == paramName) return this->setRadius(d / wy3d::TWO_PI);
-        if (Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_AREA == paramName)
+        if (SketchCircle3D::PARAM_RADIUS == paramName) return this->setRadius(d);
+        if (SketchCircle3D::PARAM_DIAMETER == paramName) return this->setRadius(d / 2);
+        if (SketchCircle3D::PARAM_PERIMETER == paramName) return this->setRadius(d / wy3d::TWO_PI);
+        if (SketchCircle3D::PARAM_AREA == paramName)
         { if (d <= 0.0) return wy::ErrorStatus::InvalidInput; return this->setRadius(std::sqrt(d / wy3d::PI)); }
         return wy::ErrorStatus::ParameterNotFound;
     }

@@ -26,7 +26,6 @@
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchArc.h>
 #include <wy3dImpl.h>
-#include <wy3dSketchParamNames.h>
 #include <utils/wy3dSketchCurveIntersectUtil.h>
 #include "utils/Util.h"
 
@@ -281,50 +280,50 @@ void SketchArc::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ARC_PARAM_CENTER_X;
+        def.name = SketchArc::PARAM_CENTER_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ARC_PARAM_CENTER_Y;
+        def.name = SketchArc::PARAM_CENTER_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ARC_PARAM_RADIUS;
+        def.name = SketchArc::PARAM_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ARC_PARAM_START_ANGLE;
+        def.name = SketchArc::PARAM_START_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ARC_PARAM_END_ANGLE;
+        def.name = SketchArc::PARAM_END_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ARC_PARAM_TOTAL_ANGLE;
+        def.name = SketchArc::PARAM_TOTAL_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ARC_PARAM_LENGTH;
+        def.name = SketchArc::PARAM_LENGTH;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr SketchArc::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == SketchArc::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_ARC_PARAM_CENTER_X == paramName) return wydb::ParameterValue::createDouble(_centerPnt.x());
-        if (SketchParamNames::SKETCH_ARC_PARAM_CENTER_Y == paramName) return wydb::ParameterValue::createDouble(_centerPnt.y());
-        if (SketchParamNames::SKETCH_ARC_PARAM_RADIUS == paramName) return wydb::ParameterValue::createDouble(_radius);
-        if (SketchParamNames::SKETCH_ARC_PARAM_START_ANGLE == paramName) return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_startAngle));
-        if (SketchParamNames::SKETCH_ARC_PARAM_END_ANGLE == paramName) return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_endAngle));
-        if (SketchParamNames::SKETCH_ARC_PARAM_TOTAL_ANGLE == paramName) return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(this->getTotalAngle()));
-        if (SketchParamNames::SKETCH_ARC_PARAM_LENGTH == paramName) return wydb::ParameterValue::createDouble(this->getTotalAngle() * _radius);
+        if (SketchArc::PARAM_CENTER_X == paramName) return wydb::ParameterValue::createDouble(_centerPnt.x());
+        if (SketchArc::PARAM_CENTER_Y == paramName) return wydb::ParameterValue::createDouble(_centerPnt.y());
+        if (SketchArc::PARAM_RADIUS == paramName) return wydb::ParameterValue::createDouble(_radius);
+        if (SketchArc::PARAM_START_ANGLE == paramName) return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_startAngle));
+        if (SketchArc::PARAM_END_ANGLE == paramName) return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_endAngle));
+        if (SketchArc::PARAM_TOTAL_ANGLE == paramName) return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(this->getTotalAngle()));
+        if (SketchArc::PARAM_LENGTH == paramName) return wydb::ParameterValue::createDouble(this->getTotalAngle() * _radius);
     }
     return __baseClass::getParameterValue(className, paramName);
 }
@@ -332,18 +331,18 @@ wydb::ParameterValueUPtr SketchArc::getParameterValue(const std::string& classNa
 wy::ErrorStatus SketchArc::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == SketchArc::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_ARC_PARAM_CENTER_X == paramName)
+        if (SketchArc::PARAM_CENTER_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector2(paramValue.asDouble(), _centerPnt.y())); }
-        if (SketchParamNames::SKETCH_ARC_PARAM_CENTER_Y == paramName)
+        if (SketchArc::PARAM_CENTER_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector2(_centerPnt.x(), paramValue.asDouble())); }
         if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
         double d = paramValue.asDouble();
-        if (SketchParamNames::SKETCH_ARC_PARAM_RADIUS == paramName) return this->setRadius(d);
-        if (SketchParamNames::SKETCH_ARC_PARAM_START_ANGLE == paramName) return this->setStartAngle(wy3d::degreesToRadians(d));
-        if (SketchParamNames::SKETCH_ARC_PARAM_END_ANGLE == paramName) return this->setEndAngle(wy3d::degreesToRadians(d));
-        if (SketchParamNames::SKETCH_ARC_PARAM_TOTAL_ANGLE == paramName)
+        if (SketchArc::PARAM_RADIUS == paramName) return this->setRadius(d);
+        if (SketchArc::PARAM_START_ANGLE == paramName) return this->setStartAngle(wy3d::degreesToRadians(d));
+        if (SketchArc::PARAM_END_ANGLE == paramName) return this->setEndAngle(wy3d::degreesToRadians(d));
+        if (SketchArc::PARAM_TOTAL_ANGLE == paramName)
         { if (d <= 0.0) return wy::ErrorStatus::InvalidInput; d = wy3d::degreesToRadians(d); if (d >= wy3d::TWO_PI) return wy::ErrorStatus::InvalidInput; return this->setEndAngle(_startAngle + d); }
-        if (SketchParamNames::SKETCH_ARC_PARAM_LENGTH == paramName)
+        if (SketchArc::PARAM_LENGTH == paramName)
         { if (d <= 0.0) return wy::ErrorStatus::InvalidInput; if (_radius <= wy3d::TOL) return wy::ErrorStatus::InvalidInput; double ta = d / _radius; if (ta >= wy3d::TWO_PI) return wy::ErrorStatus::InvalidInput; return this->setEndAngle(_startAngle + ta); }
     }
     return __baseClass::setParameterValue(className, paramName, paramValue);

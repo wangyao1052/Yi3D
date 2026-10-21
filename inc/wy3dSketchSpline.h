@@ -23,6 +23,9 @@ class WY3D_EXPORT SketchSpline : public wy3d::SketchCurve
     WYDB_DECLARE_MEMBERS(SketchSpline, wy3d::SketchSpline, wy3d::SketchCurve)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_ORDER = "Order";
+
     struct Tangent
     {
         double angle = 0.0;

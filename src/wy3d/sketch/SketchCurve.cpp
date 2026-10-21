@@ -20,7 +20,6 @@
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchCurve.h>
-#include <wy3dSketchParamNames.h>
 
 NS_WY3D_BEG
 WYDB_IMPLEMENT_MEMBERS(SketchCurve)
@@ -61,22 +60,22 @@ void SketchCurve::registerParameters(wydb::ParameterSchemaExtension* pParamSchem
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ENTITY_ID;
+        def.name = SketchEntity::PARAM_ID;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION;
+        def.name = SketchCurve::PARAM_IS_CONSTRUCTION;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr SketchCurve::getParameterValue(const std::string& className, const std::string& paramName) const
 {
-    if (SketchParamNames::SKETCH_ENTITY_ID == paramName)
+    if (SketchEntity::PARAM_ID == paramName)
         return wydb::ParameterValue::createElementId(getId());
     if (className == SketchCurve::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION == paramName)
+        if (SketchCurve::PARAM_IS_CONSTRUCTION == paramName)
             return wydb::ParameterValue::createBoolean(_isConstruction);
     }
     return __baseClass::getParameterValue(className, paramName);
@@ -84,10 +83,10 @@ wydb::ParameterValueUPtr SketchCurve::getParameterValue(const std::string& class
 
 wy::ErrorStatus SketchCurve::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
-    if (SketchParamNames::SKETCH_ENTITY_ID == paramName)
+    if (SketchEntity::PARAM_ID == paramName)
         return wy::ErrorStatus::ParameterReadonly;
     if (className == SketchCurve::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION == paramName)
+        if (SketchCurve::PARAM_IS_CONSTRUCTION == paramName)
         {
             if (!paramValue.isBoolean()) return wy::ErrorStatus::InvalidInput;
             return this->setConstruction(paramValue.asBoolean());

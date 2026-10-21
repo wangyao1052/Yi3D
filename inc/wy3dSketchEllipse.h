@@ -18,6 +18,16 @@ class WY3D_EXPORT SketchEllipse : public wy3d::SketchCurve
     WYDB_DECLARE_MEMBERS(SketchEllipse, wy3d::SketchEllipse, wy3d::SketchCurve)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_CENTER_X         = "CenterPoint X";
+    static constexpr const char* PARAM_CENTER_Y         = "CenterPoint Y";
+    static constexpr const char* PARAM_MAJOR_RADIUS     = "Major Radius";
+    static constexpr const char* PARAM_MINOR_RADIUS     = "Minor Radius";
+    static constexpr const char* PARAM_RADIUS_RATIO     = "Radius Ratio";
+    static constexpr const char* PARAM_MAJOR_AXIS_ANGLE = "Major Axis Angle";
+    static constexpr const char* PARAM_PERIMETER        = "Perimeter";
+    static constexpr const char* PARAM_AREA             = "Area";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, const wy::Vector2& center, const wy::Vector2& majorAxis, double radiusRatio, SketchEllipse*& pOut);
 
     virtual wy::Vector2 getStartPoint() const override { return getPointAt(0.0,false); }

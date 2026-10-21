@@ -33,6 +33,10 @@ class WY3D_EXPORT OffsetSheet : public wy3d::BodyModification
     WYDB_DECLARE_MEMBERS(OffsetSheet, wy3d::OffsetSheet, wy3d::BodyModification)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_TARGET = "Target";
+    static constexpr const char* PARAM_OFFSET = "Offset";
+
     enum class Target
     {
         WholeSheet    = 0,

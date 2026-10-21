@@ -41,6 +41,13 @@ class WY3D_EXPORT Shell : public wy3d::BodyModification
     WYDB_DECLARE_MEMBERS(Shell, wy3d::Shell, wy3d::BodyModification)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_THICKNESS    = "Thickness";
+    static constexpr const char* PARAM_DIRECTION    = "Direction";
+    static constexpr const char* PARAM_JOIN_TYPE    = "JoinType";
+    static constexpr const char* PARAM_OFFSET_MODE  = "OffsetMode";
+    static constexpr const char* PARAM_INTERSECTION = "Intersection";
+
     // 创建抽壳
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,

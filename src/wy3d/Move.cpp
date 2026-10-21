@@ -27,7 +27,6 @@
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
-#include <wy3dParamNames.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include "topo/MoveRotateTopoShapeComparer.h"
@@ -135,17 +134,17 @@ void Move::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::MOVE_VECTOR_X;
+        def.name = Move::PARAM_VECTOR_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::MOVE_VECTOR_Y;
+        def.name = Move::PARAM_VECTOR_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::MOVE_VECTOR_Z;
+        def.name = Move::PARAM_VECTOR_Z;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -153,15 +152,15 @@ wydb::ParameterValueUPtr Move::getParameterValue(const std::string& className, c
 {
     if (className == Move::classInfo()->className())
     {
-        if (ParamNames::MOVE_VECTOR_X == paramName)
+        if (Move::PARAM_VECTOR_X == paramName)
         {
             return wydb::ParameterValue::createDouble(_vector.x());
         }
-        else if (ParamNames::MOVE_VECTOR_Y == paramName)
+        else if (Move::PARAM_VECTOR_Y == paramName)
         {
             return wydb::ParameterValue::createDouble(_vector.y());
         }
-        else if (ParamNames::MOVE_VECTOR_Z == paramName)
+        else if (Move::PARAM_VECTOR_Z == paramName)
         {
             return wydb::ParameterValue::createDouble(_vector.z());
         }
@@ -173,17 +172,17 @@ wy::ErrorStatus Move::setParameterValue(const std::string& className, const std:
 {
     if (className == Move::classInfo()->className())
     {
-        if (ParamNames::MOVE_VECTOR_X == paramName)
+        if (Move::PARAM_VECTOR_X == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setVector(wy::Vector3(paramValue.asDouble(), _vector.y(), _vector.z()));
         }
-        else if (ParamNames::MOVE_VECTOR_Y == paramName)
+        else if (Move::PARAM_VECTOR_Y == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setVector(wy::Vector3(_vector.x(), paramValue.asDouble(), _vector.z()));
         }
-        else if (ParamNames::MOVE_VECTOR_Z == paramName)
+        else if (Move::PARAM_VECTOR_Z == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setVector(wy::Vector3(_vector.x(), _vector.y(), paramValue.asDouble()));

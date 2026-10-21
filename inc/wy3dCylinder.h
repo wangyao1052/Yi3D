@@ -17,6 +17,10 @@ class WY3D_EXPORT Cylinder : public wy3d::Primitive
     WYDB_DECLARE_MEMBERS(Cylinder, wy3d::Cylinder, wy3d::Primitive)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_RADIUS = "Radius";
+    static constexpr const char* PARAM_HEIGHT = "Height";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, double radius, double height, Cylinder*& pOut);
 
     double getRadius() const { return _radius; }

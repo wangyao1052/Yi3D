@@ -18,6 +18,15 @@ class WY3D_EXPORT SketchArc : public wy3d::SketchCurve
     WYDB_DECLARE_MEMBERS(SketchArc, wy3d::SketchArc, wy3d::SketchCurve)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_CENTER_X    = "CenterPoint X";
+    static constexpr const char* PARAM_CENTER_Y    = "CenterPoint Y";
+    static constexpr const char* PARAM_RADIUS      = "Radius";
+    static constexpr const char* PARAM_START_ANGLE = "StartAngle";
+    static constexpr const char* PARAM_END_ANGLE   = "EndAngle";
+    static constexpr const char* PARAM_TOTAL_ANGLE = "Total Angle";
+    static constexpr const char* PARAM_LENGTH      = "Length";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, const wy::Vector2& center, double radius, double startAngle, double endAngle, SketchArc*& pOut);
 
     virtual wy::Vector2 getStartPoint() const override;

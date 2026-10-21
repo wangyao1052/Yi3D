@@ -37,6 +37,11 @@ class WY3D_EXPORT Thicken : public wy3d::Solid
     WYDB_DECLARE_MEMBERS(Thicken, wy3d::Thicken, wy3d::Solid)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_THICKNESS = "Thickness";
+    static constexpr const char* PARAM_SOURCE    = "Source";
+    static constexpr const char* PARAM_DIRECTION = "Direction";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Sheet* pSheet,

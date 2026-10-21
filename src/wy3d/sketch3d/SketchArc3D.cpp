@@ -26,7 +26,6 @@
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchArc3D.h>
 #include <wy3dImpl.h>
-#include <wy3dSketch3DParamNames.h>
 #include "utils/Util.h"
 
 NS_WY3D_BEG
@@ -272,78 +271,78 @@ void SketchArc3D::registerParameters(wydb::ParameterSchemaExtension* pParamSchem
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_X;
+        def.name = SketchArc3D::PARAM_CENTER_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Y;
+        def.name = SketchArc3D::PARAM_CENTER_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Z;
+        def.name = SketchArc3D::PARAM_CENTER_Z;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_X;
+        def.name = SketchArc3D::PARAM_NORMAL_X;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Y;
+        def.name = SketchArc3D::PARAM_NORMAL_Y;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Z;
+        def.name = SketchArc3D::PARAM_NORMAL_Z;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_X;
+        def.name = SketchArc3D::PARAM_XDIR_X;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Y;
+        def.name = SketchArc3D::PARAM_XDIR_Y;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Z;
+        def.name = SketchArc3D::PARAM_XDIR_Z;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_RADIUS;
+        def.name = SketchArc3D::PARAM_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_START_ANGLE;
+        def.name = SketchArc3D::PARAM_START_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_END_ANGLE;
+        def.name = SketchArc3D::PARAM_END_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE;
+        def.name = SketchArc3D::PARAM_TOTAL_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_ARC3D_PARAM_LENGTH;
+        def.name = SketchArc3D::PARAM_LENGTH;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -352,33 +351,33 @@ wydb::ParameterValueUPtr SketchArc3D::getParameterValue(const std::string& class
 {
     if (className == SketchArc3D::classInfo()->className())
     {
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_X == paramName)
+        if (SketchArc3D::PARAM_CENTER_X == paramName)
             return wydb::ParameterValue::createDouble(_centerPnt.x());
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Y == paramName)
+        if (SketchArc3D::PARAM_CENTER_Y == paramName)
             return wydb::ParameterValue::createDouble(_centerPnt.y());
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Z == paramName)
+        if (SketchArc3D::PARAM_CENTER_Z == paramName)
             return wydb::ParameterValue::createDouble(_centerPnt.z());
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_X == paramName)
+        if (SketchArc3D::PARAM_NORMAL_X == paramName)
             return wydb::ParameterValue::createDouble(_normal.x());
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Y == paramName)
+        if (SketchArc3D::PARAM_NORMAL_Y == paramName)
             return wydb::ParameterValue::createDouble(_normal.y());
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Z == paramName)
+        if (SketchArc3D::PARAM_NORMAL_Z == paramName)
             return wydb::ParameterValue::createDouble(_normal.z());
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_X == paramName)
+        if (SketchArc3D::PARAM_XDIR_X == paramName)
             return wydb::ParameterValue::createDouble(_xDir.x());
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Y == paramName)
+        if (SketchArc3D::PARAM_XDIR_Y == paramName)
             return wydb::ParameterValue::createDouble(_xDir.y());
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Z == paramName)
+        if (SketchArc3D::PARAM_XDIR_Z == paramName)
             return wydb::ParameterValue::createDouble(_xDir.z());
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_RADIUS == paramName)
+        if (SketchArc3D::PARAM_RADIUS == paramName)
             return wydb::ParameterValue::createDouble(_radius);
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_START_ANGLE == paramName)
+        if (SketchArc3D::PARAM_START_ANGLE == paramName)
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_startAngle));
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_END_ANGLE == paramName)
+        if (SketchArc3D::PARAM_END_ANGLE == paramName)
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_endAngle));
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE == paramName)
+        if (SketchArc3D::PARAM_TOTAL_ANGLE == paramName)
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(this->getTotalAngle()));
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_LENGTH == paramName)
+        if (SketchArc3D::PARAM_LENGTH == paramName)
             return wydb::ParameterValue::createDouble(this->getLength());
         return nullptr;
     }
@@ -392,32 +391,32 @@ wy::ErrorStatus SketchArc3D::setParameterValue(const std::string& className, con
 {
     if (className == SketchArc3D::classInfo()->className())
     {
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_X == paramName)
+        if (SketchArc3D::PARAM_CENTER_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector3(paramValue.asDouble(), _centerPnt.y(), _centerPnt.z())); }
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Y == paramName)
+        if (SketchArc3D::PARAM_CENTER_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector3(_centerPnt.x(), paramValue.asDouble(), _centerPnt.z())); }
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Z == paramName)
+        if (SketchArc3D::PARAM_CENTER_Z == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector3(_centerPnt.x(), _centerPnt.y(), paramValue.asDouble())); }
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_X == paramName)
+        if (SketchArc3D::PARAM_NORMAL_X == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Y == paramName)
+        if (SketchArc3D::PARAM_NORMAL_Y == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Z == paramName)
+        if (SketchArc3D::PARAM_NORMAL_Z == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_X == paramName)
+        if (SketchArc3D::PARAM_XDIR_X == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Y == paramName)
+        if (SketchArc3D::PARAM_XDIR_Y == paramName)
             return wy::ErrorStatus::ParameterReadonly;
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Z == paramName)
+        if (SketchArc3D::PARAM_XDIR_Z == paramName)
             return wy::ErrorStatus::ParameterReadonly;
         if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
         double d = paramValue.asDouble();
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_RADIUS == paramName) return this->setRadius(d);
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_START_ANGLE == paramName) return this->setStartAngle(wy3d::degreesToRadians(d));
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_END_ANGLE == paramName) return this->setEndAngle(wy3d::degreesToRadians(d));
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE == paramName)
+        if (SketchArc3D::PARAM_RADIUS == paramName) return this->setRadius(d);
+        if (SketchArc3D::PARAM_START_ANGLE == paramName) return this->setStartAngle(wy3d::degreesToRadians(d));
+        if (SketchArc3D::PARAM_END_ANGLE == paramName) return this->setEndAngle(wy3d::degreesToRadians(d));
+        if (SketchArc3D::PARAM_TOTAL_ANGLE == paramName)
         { if (d <= 0.0) return wy::ErrorStatus::InvalidInput; d = wy3d::degreesToRadians(d); if (d >= wy3d::TWO_PI) return wy::ErrorStatus::InvalidInput; return this->setEndAngle(_startAngle + d); }
-        if (Sketch3DParamNames::SKETCH_ARC3D_PARAM_LENGTH == paramName)
+        if (SketchArc3D::PARAM_LENGTH == paramName)
         { if (d <= 0.0) return wy::ErrorStatus::InvalidInput; if (_radius <= wy3d::TOL) return wy::ErrorStatus::InvalidInput; double ta = d / _radius; if (ta >= wy3d::TWO_PI) return wy::ErrorStatus::InvalidInput; return this->setEndAngle(_startAngle + ta); }
         return wy::ErrorStatus::ParameterNotFound;
     }

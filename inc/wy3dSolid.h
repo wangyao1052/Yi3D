@@ -30,6 +30,9 @@ class WY3D_EXPORT Solid : public wy3d::Feature
     WYDB_DECLARE_ABSTRACT_MEMBERS(Solid, wy3d::Solid, wy3d::Feature)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_COLOR = "Color";
+
     // 获取主体
     virtual wydb::ElementId getParent() const override { return _ownerId; }
     // 设置主体

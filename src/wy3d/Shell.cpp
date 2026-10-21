@@ -30,7 +30,6 @@
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
-#include <wy3dParamNames.h>
 #include <wy3dParamEnumDef.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
@@ -203,36 +202,36 @@ void Shell::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::SHELL_DIRECTION;
+        def.name = Shell::PARAM_DIRECTION;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::SHELL_THICKNESS;
+        def.name = Shell::PARAM_THICKNESS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::SHELL_JOIN_TYPE;
+        def.name = Shell::PARAM_JOIN_TYPE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::SHELL_OFFSET_MODE;
+        def.name = Shell::PARAM_OFFSET_MODE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::SHELL_INTERSECTION;
+        def.name = Shell::PARAM_INTERSECTION;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr Shell::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == Shell::classInfo()->className()) {
-        if (ParamNames::SHELL_THICKNESS == paramName) return wydb::ParameterValue::createDouble(_thickness);
-        if (ParamNames::SHELL_DIRECTION == paramName) return wydb::ParameterValue::createBoolean(_direction == ShellDirection::Inward);
-        if (ParamNames::SHELL_JOIN_TYPE == paramName)
+        if (Shell::PARAM_THICKNESS == paramName) return wydb::ParameterValue::createDouble(_thickness);
+        if (Shell::PARAM_DIRECTION == paramName) return wydb::ParameterValue::createBoolean(_direction == ShellDirection::Inward);
+        if (Shell::PARAM_JOIN_TYPE == paramName)
         {
             return wydb::ParameterValue::createAny(
                 wy3d::ParamEnumDef(
@@ -240,7 +239,7 @@ wydb::ParameterValueUPtr Shell::getParameterValue(const std::string& className, 
                      {static_cast<int>(ShellJoinType::Intersection), "Intersection"}},
                     static_cast<int>(_joinType)));
         }
-        if (ParamNames::SHELL_OFFSET_MODE == paramName)
+        if (Shell::PARAM_OFFSET_MODE == paramName)
         {
             return wydb::ParameterValue::createAny(
                 wy3d::ParamEnumDef(
@@ -249,7 +248,7 @@ wydb::ParameterValueUPtr Shell::getParameterValue(const std::string& className, 
                      {static_cast<int>(ShellOffsetMode::RectoVerso), "RectoVerso"}},
                     static_cast<int>(_offsetMode)));
         }
-        if (ParamNames::SHELL_INTERSECTION == paramName) return wydb::ParameterValue::createBoolean(_intersection);
+        if (Shell::PARAM_INTERSECTION == paramName) return wydb::ParameterValue::createBoolean(_intersection);
         return nullptr;
     }
     return __baseClass::getParameterValue(className, paramName);
@@ -275,15 +274,15 @@ static int _extractEnumValue(const wydb::ParameterValue& paramValue)
 wy::ErrorStatus Shell::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == Shell::classInfo()->className()) {
-        if (ParamNames::SHELL_THICKNESS == paramName)
+        if (Shell::PARAM_THICKNESS == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setThickness(paramValue.asDouble()); }
-        if (ParamNames::SHELL_DIRECTION == paramName)
+        if (Shell::PARAM_DIRECTION == paramName)
         { if (!paramValue.isBoolean()) return wy::ErrorStatus::InvalidInput; return this->setDirection(paramValue.asBoolean() ? ShellDirection::Inward : ShellDirection::Outward); }
-        if (ParamNames::SHELL_JOIN_TYPE == paramName)
+        if (Shell::PARAM_JOIN_TYPE == paramName)
         { return this->setJoinType(static_cast<ShellJoinType>(_extractEnumValue(paramValue))); }
-        if (ParamNames::SHELL_OFFSET_MODE == paramName)
+        if (Shell::PARAM_OFFSET_MODE == paramName)
         { return this->setOffsetMode(static_cast<ShellOffsetMode>(_extractEnumValue(paramValue))); }
-        if (ParamNames::SHELL_INTERSECTION == paramName)
+        if (Shell::PARAM_INTERSECTION == paramName)
         { if (!paramValue.isBoolean()) return wy::ErrorStatus::InvalidInput; return this->setIntersection(paramValue.asBoolean()); }
         return wy::ErrorStatus::ParameterNotFound;
     }

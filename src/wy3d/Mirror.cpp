@@ -30,7 +30,6 @@
 #include <wydbTransaction.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
-#include <wy3dParamNames.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
@@ -291,12 +290,12 @@ void Mirror::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::MIRROR_PARAM_PLANE;
+        def.name = Mirror::PARAM_PLANE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::MIRROR_SOURCE;
+        def.name = Mirror::PARAM_SOURCE;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -305,11 +304,11 @@ wydb::ParameterValueUPtr Mirror::getParameterValue(const std::string& className,
 {
     if (className == Mirror::classInfo()->className())
     {
-        if (ParamNames::MIRROR_SOURCE == paramName)
+        if (Mirror::PARAM_SOURCE == paramName)
         {
             return wydb::ParameterValue::createElementId(_source);
         }
-        else if (ParamNames::MIRROR_PARAM_PLANE == paramName)
+        else if (Mirror::PARAM_PLANE == paramName)
         {
             return wydb::ParameterValue::createAny(_plane);
         }
@@ -328,12 +327,12 @@ wy::ErrorStatus Mirror::setParameterValue(const std::string& className, const st
 {
     if (className == Mirror::classInfo()->className())
     {
-        if (ParamNames::MIRROR_SOURCE == paramName)
+        if (Mirror::PARAM_SOURCE == paramName)
         {
             if (!paramValue.isElementId()) return wy::ErrorStatus::InvalidInput;
             return this->setSourceId(paramValue.asElementId());
         }
-        else if (ParamNames::MIRROR_PARAM_PLANE == paramName)
+        else if (Mirror::PARAM_PLANE == paramName)
         {
             if (!paramValue.isAny()) return wy::ErrorStatus::InvalidInput;
             const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);

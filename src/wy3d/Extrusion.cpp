@@ -34,7 +34,6 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dExtrusion.h>
-#include <wy3dParamNames.h>
 #include <wy3dParamEnumDef.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
@@ -295,17 +294,17 @@ void Extrusion::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::EXTRUSION_PARAM_DIRECTION;
+        def.name = Extrusion::PARAM_DIRECTION;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::EXTRUSION_PARAM_DEPTH;
+        def.name = Extrusion::PARAM_DEPTH;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::EXTRUSION_PARAM_START_OFFSET;
+        def.name = Extrusion::PARAM_START_OFFSET;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -313,15 +312,15 @@ wydb::ParameterValueUPtr Extrusion::getParameterValue(const std::string& classNa
 {
     if (className == Extrusion::classInfo()->className())
     {
-        if (ParamNames::EXTRUSION_PARAM_DEPTH == paramName)
+        if (Extrusion::PARAM_DEPTH == paramName)
         {
             return wydb::ParameterValue::createDouble(_depth);
         }
-        else if (ParamNames::EXTRUSION_PARAM_START_OFFSET == paramName)
+        else if (Extrusion::PARAM_START_OFFSET == paramName)
         {
             return wydb::ParameterValue::createDouble(_startOffset);
         }
-        else if (ParamNames::EXTRUSION_PARAM_DIRECTION == paramName)
+        else if (Extrusion::PARAM_DIRECTION == paramName)
         {
             return wydb::ParameterValue::createAny(
                 wy3d::ParamEnumDef(
@@ -357,17 +356,17 @@ wy::ErrorStatus Extrusion::setParameterValue(const std::string& className, const
 {
     if (className == Extrusion::classInfo()->className())
     {
-        if (ParamNames::EXTRUSION_PARAM_DEPTH == paramName)
+        if (Extrusion::PARAM_DEPTH == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setDepth(paramValue.asDouble());
         }
-        else if (ParamNames::EXTRUSION_PARAM_START_OFFSET == paramName)
+        else if (Extrusion::PARAM_START_OFFSET == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setStartOffset(paramValue.asDouble());
         }
-        else if (ParamNames::EXTRUSION_PARAM_DIRECTION == paramName)
+        else if (Extrusion::PARAM_DIRECTION == paramName)
         {
             int enumValue = _extractEnumValue(paramValue);
             if (enumValue < static_cast<int>(ExtrusionDirection::OneSide) ||

@@ -23,7 +23,6 @@
 #include <wydbTransaction.h>
 #include <wy3dCircularPattern.h>
 #include <wy3dSolid.h>
-#include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -165,70 +164,70 @@ void CircularPattern::registerParameters(wydb::ParameterSchemaExtension* pParamS
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CIRCULAR_PATTERN_AXIS_DIRECTION_X;
+        def.name = CircularPattern::PARAM_AXIS_DIRECTION_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CIRCULAR_PATTERN_AXIS_DIRECTION_Y;
+        def.name = CircularPattern::PARAM_AXIS_DIRECTION_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CIRCULAR_PATTERN_AXIS_DIRECTION_Z;
+        def.name = CircularPattern::PARAM_AXIS_DIRECTION_Z;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CIRCULAR_PATTERN_CENTER_POINT_X;
+        def.name = CircularPattern::PARAM_CENTER_POINT_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CIRCULAR_PATTERN_CENTER_POINT_Y;
+        def.name = CircularPattern::PARAM_CENTER_POINT_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CIRCULAR_PATTERN_CENTER_POINT_Z;
+        def.name = CircularPattern::PARAM_CENTER_POINT_Z;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CIRCULAR_PATTERN_INSTANCE_COUNT;
+        def.name = CircularPattern::PARAM_INSTANCE_COUNT;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CIRCULAR_PATTERN_IS_CLOCKWISE;
+        def.name = CircularPattern::PARAM_IS_CLOCKWISE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CIRCULAR_PATTERN_TOTAL_ANGLE;
+        def.name = CircularPattern::PARAM_TOTAL_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr CircularPattern::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == CircularPattern::classInfo()->className()) {
-        if (ParamNames::CIRCULAR_PATTERN_CENTER_POINT_X == paramName)
+        if (CircularPattern::PARAM_CENTER_POINT_X == paramName)
             return wydb::ParameterValue::createDouble(_centerPoint.x());
-        if (ParamNames::CIRCULAR_PATTERN_CENTER_POINT_Y == paramName)
+        if (CircularPattern::PARAM_CENTER_POINT_Y == paramName)
             return wydb::ParameterValue::createDouble(_centerPoint.y());
-        if (ParamNames::CIRCULAR_PATTERN_CENTER_POINT_Z == paramName)
+        if (CircularPattern::PARAM_CENTER_POINT_Z == paramName)
             return wydb::ParameterValue::createDouble(_centerPoint.z());
-        if (ParamNames::CIRCULAR_PATTERN_AXIS_DIRECTION_X == paramName)
+        if (CircularPattern::PARAM_AXIS_DIRECTION_X == paramName)
             return wydb::ParameterValue::createDouble(_axisDirection.x());
-        if (ParamNames::CIRCULAR_PATTERN_AXIS_DIRECTION_Y == paramName)
+        if (CircularPattern::PARAM_AXIS_DIRECTION_Y == paramName)
             return wydb::ParameterValue::createDouble(_axisDirection.y());
-        if (ParamNames::CIRCULAR_PATTERN_AXIS_DIRECTION_Z == paramName)
+        if (CircularPattern::PARAM_AXIS_DIRECTION_Z == paramName)
             return wydb::ParameterValue::createDouble(_axisDirection.z());
-        if (ParamNames::CIRCULAR_PATTERN_TOTAL_ANGLE == paramName)
+        if (CircularPattern::PARAM_TOTAL_ANGLE == paramName)
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_totalAngle));
-        if (ParamNames::CIRCULAR_PATTERN_INSTANCE_COUNT == paramName)
+        if (CircularPattern::PARAM_INSTANCE_COUNT == paramName)
             return wydb::ParameterValue::createInteger(_instanceCount);
-        if (ParamNames::CIRCULAR_PATTERN_IS_CLOCKWISE == paramName)
+        if (CircularPattern::PARAM_IS_CLOCKWISE == paramName)
             return wydb::ParameterValue::createBoolean(_isClockWise);
     }
     return __baseClass::getParameterValue(className, paramName);
@@ -237,23 +236,23 @@ wydb::ParameterValueUPtr CircularPattern::getParameterValue(const std::string& c
 wy::ErrorStatus CircularPattern::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == CircularPattern::classInfo()->className()) {
-        if (ParamNames::CIRCULAR_PATTERN_CENTER_POINT_X == paramName)
+        if (CircularPattern::PARAM_CENTER_POINT_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setCenterPoint(wy::Vector3(paramValue.asDouble(), _centerPoint.y(), _centerPoint.z())); }
-        if (ParamNames::CIRCULAR_PATTERN_CENTER_POINT_Y == paramName)
+        if (CircularPattern::PARAM_CENTER_POINT_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setCenterPoint(wy::Vector3(_centerPoint.x(), paramValue.asDouble(), _centerPoint.z())); }
-        if (ParamNames::CIRCULAR_PATTERN_CENTER_POINT_Z == paramName)
+        if (CircularPattern::PARAM_CENTER_POINT_Z == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setCenterPoint(wy::Vector3(_centerPoint.x(), _centerPoint.y(), paramValue.asDouble())); }
-        if (ParamNames::CIRCULAR_PATTERN_AXIS_DIRECTION_X == paramName)
+        if (CircularPattern::PARAM_AXIS_DIRECTION_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setAxisDirection(wy::Vector3(paramValue.asDouble(), _axisDirection.y(), _axisDirection.z())); }
-        if (ParamNames::CIRCULAR_PATTERN_AXIS_DIRECTION_Y == paramName)
+        if (CircularPattern::PARAM_AXIS_DIRECTION_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setAxisDirection(wy::Vector3(_axisDirection.x(), paramValue.asDouble(), _axisDirection.z())); }
-        if (ParamNames::CIRCULAR_PATTERN_AXIS_DIRECTION_Z == paramName)
+        if (CircularPattern::PARAM_AXIS_DIRECTION_Z == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setAxisDirection(wy::Vector3(_axisDirection.x(), _axisDirection.y(), paramValue.asDouble())); }
-        if (ParamNames::CIRCULAR_PATTERN_TOTAL_ANGLE == paramName)
+        if (CircularPattern::PARAM_TOTAL_ANGLE == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setTotalAngle(wy3d::degreesToRadians(paramValue.asDouble())); }
-        if (ParamNames::CIRCULAR_PATTERN_INSTANCE_COUNT == paramName)
+        if (CircularPattern::PARAM_INSTANCE_COUNT == paramName)
         { if (!paramValue.isInteger()) return wy::ErrorStatus::InvalidInput; int c = paramValue.asInteger(); if (c <= 0) return wy::ErrorStatus::InvalidInput; return setInstanceCount(c); }
-        if (ParamNames::CIRCULAR_PATTERN_IS_CLOCKWISE == paramName)
+        if (CircularPattern::PARAM_IS_CLOCKWISE == paramName)
         { if (!paramValue.isBoolean()) return wy::ErrorStatus::InvalidInput; return setClockWise(paramValue.asBoolean()); }
 
         return wy::ErrorStatus::ParameterNotFound;

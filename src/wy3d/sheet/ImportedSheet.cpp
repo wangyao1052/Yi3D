@@ -24,8 +24,8 @@
 #include <wydbTransaction.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dImportedSheet.h>
+#include <wy3dImportedSolid.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
-#include <wy3dParamNames.h>
 #include "topo/TopoNamingUtil.h"
 #include "utils/ImportFileUtil.h"
 #include "utils/StringUtil.h"
@@ -137,7 +137,7 @@ void ImportedSheet::registerParameters(wydb::ParameterSchemaExtension* pParamSch
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::IMPORTED_SOLID_PARAM_FILE_PATH;
+        def.name = ImportedSolid::PARAM_FILE_PATH;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -146,7 +146,7 @@ wydb::ParameterValueUPtr ImportedSheet::getParameterValue(const std::string& cla
 {
     if (className == ImportedSheet::classInfo()->className())
     {
-        if (ParamNames::IMPORTED_SOLID_PARAM_FILE_PATH == n)
+        if (ImportedSolid::PARAM_FILE_PATH == n)
             return wydb::ParameterValue::createString(StringUtil::wstringToUtf8(_filePath));
         return nullptr;
     }
@@ -157,7 +157,7 @@ wy::ErrorStatus ImportedSheet::setParameterValue(const std::string& className, c
 {
     if (className == ImportedSheet::classInfo()->className())
     {
-        if (ParamNames::IMPORTED_SOLID_PARAM_FILE_PATH == n)
+        if (ImportedSolid::PARAM_FILE_PATH == n)
         {
             if (!v.isString()) return wy::ErrorStatus::InvalidInput;
             return this->setFilePath(StringUtil::utf8ToWString(v.asString()));

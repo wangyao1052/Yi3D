@@ -27,7 +27,6 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dTube.h>
-#include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -148,17 +147,17 @@ void Tube::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::TUBE_PARAM_HEIGHT;
+        def.name = Tube::PARAM_HEIGHT;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::TUBE_PARAM_INNER_RADIUS;
+        def.name = Tube::PARAM_INNER_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::TUBE_PARAM_OUTER_RADIUS;
+        def.name = Tube::PARAM_OUTER_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -166,15 +165,15 @@ wydb::ParameterValueUPtr Tube::getParameterValue(const std::string& className, c
 {
     if (className == Tube::classInfo()->className())
     {
-        if (ParamNames::TUBE_PARAM_OUTER_RADIUS == n)
+        if (Tube::PARAM_OUTER_RADIUS == n)
         {
             return wydb::ParameterValue::createDouble(_outerRadius);
         }
-        else if (ParamNames::TUBE_PARAM_INNER_RADIUS == n)
+        else if (Tube::PARAM_INNER_RADIUS == n)
         {
             return wydb::ParameterValue::createDouble(_innerRadius);
         }
-        else if (ParamNames::TUBE_PARAM_HEIGHT == n)
+        else if (Tube::PARAM_HEIGHT == n)
         {
             return wydb::ParameterValue::createDouble(_height);
         }
@@ -196,15 +195,15 @@ wy::ErrorStatus Tube::setParameterValue(const std::string& className, const std:
         }
 
         double d = v.asDouble();
-        if (ParamNames::TUBE_PARAM_OUTER_RADIUS == n)
+        if (Tube::PARAM_OUTER_RADIUS == n)
         {
             return this->setOuterRadius(d);
         }
-        else if (ParamNames::TUBE_PARAM_INNER_RADIUS == n)
+        else if (Tube::PARAM_INNER_RADIUS == n)
         {
             return this->setInnerRadius(d);
         }
-        else if (ParamNames::TUBE_PARAM_HEIGHT == n)
+        else if (Tube::PARAM_HEIGHT == n)
         {
             return this->setHeight(d);
         }

@@ -25,7 +25,6 @@
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchEllipse.h>
 #include <wy3dImpl.h>
-#include <wy3dSketchParamNames.h>
 #include <utils/wy3dSketchCurveIntersectUtil.h>
 #include "utils/Util.h"
 
@@ -257,57 +256,57 @@ void SketchEllipse::registerParameters(wydb::ParameterSchemaExtension* pParamSch
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_CENTER_X;
+        def.name = SketchEllipse::PARAM_CENTER_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_CENTER_Y;
+        def.name = SketchEllipse::PARAM_CENTER_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_MAJOR_RADIUS;
+        def.name = SketchEllipse::PARAM_MAJOR_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_MINOR_RADIUS;
+        def.name = SketchEllipse::PARAM_MINOR_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_RADIUS_RATIO;
+        def.name = SketchEllipse::PARAM_RADIUS_RATIO;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_MAJOR_AXIS_ANGLE;
+        def.name = SketchEllipse::PARAM_MAJOR_AXIS_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_PERIMETER;
+        def.name = SketchEllipse::PARAM_PERIMETER;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ELLIPSE_PARAM_AREA;
+        def.name = SketchEllipse::PARAM_AREA;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr SketchEllipse::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == SketchEllipse::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_CENTER_X == paramName) return wydb::ParameterValue::createDouble(_center.x());
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_CENTER_Y == paramName) return wydb::ParameterValue::createDouble(_center.y());
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_MAJOR_RADIUS == paramName) return wydb::ParameterValue::createDouble(this->getMajorRadius());
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_MINOR_RADIUS == paramName) return wydb::ParameterValue::createDouble(this->getMinorRadius());
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_RADIUS_RATIO == paramName) return wydb::ParameterValue::createDouble(_radiusRatio);
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_MAJOR_AXIS_ANGLE == paramName)
+        if (SketchEllipse::PARAM_CENTER_X == paramName) return wydb::ParameterValue::createDouble(_center.x());
+        if (SketchEllipse::PARAM_CENTER_Y == paramName) return wydb::ParameterValue::createDouble(_center.y());
+        if (SketchEllipse::PARAM_MAJOR_RADIUS == paramName) return wydb::ParameterValue::createDouble(this->getMajorRadius());
+        if (SketchEllipse::PARAM_MINOR_RADIUS == paramName) return wydb::ParameterValue::createDouble(this->getMinorRadius());
+        if (SketchEllipse::PARAM_RADIUS_RATIO == paramName) return wydb::ParameterValue::createDouble(_radiusRatio);
+        if (SketchEllipse::PARAM_MAJOR_AXIS_ANGLE == paramName)
         { double angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, _majorAxis); return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(angle)); }
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_PERIMETER == paramName) return wydb::ParameterValue::createDouble(this->getLength());
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_AREA == paramName) return wydb::ParameterValue::createDouble(wy3d::PI * this->getMajorRadius() * this->getMinorRadius());
+        if (SketchEllipse::PARAM_PERIMETER == paramName) return wydb::ParameterValue::createDouble(this->getLength());
+        if (SketchEllipse::PARAM_AREA == paramName) return wydb::ParameterValue::createDouble(wy3d::PI * this->getMajorRadius() * this->getMinorRadius());
 
         return nullptr;
     }
@@ -317,19 +316,19 @@ wydb::ParameterValueUPtr SketchEllipse::getParameterValue(const std::string& cla
 wy::ErrorStatus SketchEllipse::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == SketchEllipse::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_CENTER_X == paramName)
+        if (SketchEllipse::PARAM_CENTER_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector2(paramValue.asDouble(), _center.y())); }
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_CENTER_Y == paramName)
+        if (SketchEllipse::PARAM_CENTER_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector2(_center.x(), paramValue.asDouble())); }
         if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
         double d = paramValue.asDouble();
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_MAJOR_RADIUS == paramName) return this->setMajorRadius(d);
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_MINOR_RADIUS == paramName) return this->setMinorRadius(d);
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_RADIUS_RATIO == paramName) { if (d > 1.0) return wy::ErrorStatus::InvalidInput; return this->setRadiusRatio(d); }
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_MAJOR_AXIS_ANGLE == paramName)
+        if (SketchEllipse::PARAM_MAJOR_RADIUS == paramName) return this->setMajorRadius(d);
+        if (SketchEllipse::PARAM_MINOR_RADIUS == paramName) return this->setMinorRadius(d);
+        if (SketchEllipse::PARAM_RADIUS_RATIO == paramName) { if (d > 1.0) return wy::ErrorStatus::InvalidInput; return this->setRadiusRatio(d); }
+        if (SketchEllipse::PARAM_MAJOR_AXIS_ANGLE == paramName)
         { double angle = wy3d::degreesToRadians(d); return this->setMajorAxis(this->getMajorRadius() * wy::Vector2(std::cos(angle), std::sin(angle))); }
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_PERIMETER == paramName) return wy::ErrorStatus::ParameterReadonly;
-        if (SketchParamNames::SKETCH_ELLIPSE_PARAM_AREA == paramName) return wy::ErrorStatus::ParameterReadonly;
+        if (SketchEllipse::PARAM_PERIMETER == paramName) return wy::ErrorStatus::ParameterReadonly;
+        if (SketchEllipse::PARAM_AREA == paramName) return wy::ErrorStatus::ParameterReadonly;
 
         return wy::ErrorStatus::ParameterNotFound;
     }

@@ -30,6 +30,9 @@ class WY3D_EXPORT SketchCurve3D : public wy3d::SketchEntity3D
     WYDB_DECLARE_ABSTRACT_MEMBERS(SketchCurve3D, wy3d::SketchCurve3D, wy3d::SketchEntity3D)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_ID = "ID";
+
     virtual wy::Vector3 getStartPoint() const { return wy::Vector3::kZero; }
     virtual wy::Vector3 getEndPoint() const { return wy::Vector3::kZero; }
 

@@ -25,7 +25,6 @@
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchCircle.h>
 #include <wy3dImpl.h>
-#include <wy3dSketchParamNames.h>
 #include <utils/wy3dSketchCurveIntersectUtil.h>
 #include "utils/Util.h"
 
@@ -184,49 +183,49 @@ void SketchCircle::registerParameters(wydb::ParameterSchemaExtension* pParamSche
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_CENTER_X;
+        def.name = SketchCircle::PARAM_CENTER_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_CENTER_Y;
+        def.name = SketchCircle::PARAM_CENTER_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_RADIUS;
+        def.name = SketchCircle::PARAM_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_DIAMETER;
+        def.name = SketchCircle::PARAM_DIAMETER;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_PERIMETER;
+        def.name = SketchCircle::PARAM_PERIMETER;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CIRCLE_PARAM_AREA;
+        def.name = SketchCircle::PARAM_AREA;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr SketchCircle::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == SketchCircle::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_CENTER_X == paramName)
+        if (SketchCircle::PARAM_CENTER_X == paramName)
             return wydb::ParameterValue::createDouble(_centerPnt.x());
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_CENTER_Y == paramName)
+        if (SketchCircle::PARAM_CENTER_Y == paramName)
             return wydb::ParameterValue::createDouble(_centerPnt.y());
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_RADIUS == paramName)
+        if (SketchCircle::PARAM_RADIUS == paramName)
             return wydb::ParameterValue::createDouble(_radius);
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_DIAMETER == paramName)
+        if (SketchCircle::PARAM_DIAMETER == paramName)
             return wydb::ParameterValue::createDouble(2 * _radius);
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_PERIMETER == paramName)
+        if (SketchCircle::PARAM_PERIMETER == paramName)
             return wydb::ParameterValue::createDouble(wy3d::TWO_PI * _radius);
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_AREA == paramName)
+        if (SketchCircle::PARAM_AREA == paramName)
             return wydb::ParameterValue::createDouble(wy3d::PI * _radius * _radius);
     }
     return __baseClass::getParameterValue(className, paramName);
@@ -235,16 +234,16 @@ wydb::ParameterValueUPtr SketchCircle::getParameterValue(const std::string& clas
 wy::ErrorStatus SketchCircle::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == SketchCircle::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_CENTER_X == paramName)
+        if (SketchCircle::PARAM_CENTER_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector2(paramValue.asDouble(), _centerPnt.y())); }
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_CENTER_Y == paramName)
+        if (SketchCircle::PARAM_CENTER_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setCenter(wy::Vector2(_centerPnt.x(), paramValue.asDouble())); }
         if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
         double d = paramValue.asDouble();
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_RADIUS == paramName) return this->setRadius(d);
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_DIAMETER == paramName) return this->setRadius(d / 2);
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_PERIMETER == paramName) return this->setRadius(d / wy3d::TWO_PI);
-        if (SketchParamNames::SKETCH_CIRCLE_PARAM_AREA == paramName)
+        if (SketchCircle::PARAM_RADIUS == paramName) return this->setRadius(d);
+        if (SketchCircle::PARAM_DIAMETER == paramName) return this->setRadius(d / 2);
+        if (SketchCircle::PARAM_PERIMETER == paramName) return this->setRadius(d / wy3d::TWO_PI);
+        if (SketchCircle::PARAM_AREA == paramName)
         { if (d <= 0.0) return wy::ErrorStatus::InvalidInput; return this->setRadius(std::sqrt(d / wy3d::PI)); }
     }
     return __baseClass::setParameterValue(className, paramName, paramValue);

@@ -29,7 +29,6 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dRevolution.h>
-#include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -272,17 +271,17 @@ void Revolution::registerParameters(wydb::ParameterSchemaExtension* pParamSchema
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::REVOLUTION_PARAM_AXIS;
+        def.name = Revolution::PARAM_AXIS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::REVOLUTION_PARAM_START_ANGLE;
+        def.name = Revolution::PARAM_START_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::REVOLUTION_PARAM_END_ANGLE;
+        def.name = Revolution::PARAM_END_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -290,15 +289,15 @@ wydb::ParameterValueUPtr Revolution::getParameterValue(const std::string& classN
 {
     if (className == Revolution::classInfo()->className())
     {
-        if (ParamNames::REVOLUTION_PARAM_AXIS == paramName)
+        if (Revolution::PARAM_AXIS == paramName)
         {
             return wydb::ParameterValue::createElementId(_axisId);
         }
-        else if (ParamNames::REVOLUTION_PARAM_START_ANGLE == paramName)
+        else if (Revolution::PARAM_START_ANGLE == paramName)
         {
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_startAngle));
         }
-        else if (ParamNames::REVOLUTION_PARAM_END_ANGLE == paramName)
+        else if (Revolution::PARAM_END_ANGLE == paramName)
         {
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_endAngle));
         }
@@ -314,7 +313,7 @@ wy::ErrorStatus Revolution::setParameterValue(const std::string& className, cons
 {
     if (className == Revolution::classInfo()->className())
     {
-        if (ParamNames::REVOLUTION_PARAM_AXIS == paramName)
+        if (Revolution::PARAM_AXIS == paramName)
         {
             if (!paramValue.isElementId()) return wy::ErrorStatus::InvalidInput;
             wydb::ElementId axisId = paramValue.asElementId();
@@ -323,12 +322,12 @@ wy::ErrorStatus Revolution::setParameterValue(const std::string& className, cons
             if (!pCurve) return wy::ErrorStatus::InvalidInput;
             return this->setAxis(pCurve);
         }
-        else if (ParamNames::REVOLUTION_PARAM_START_ANGLE == paramName)
+        else if (Revolution::PARAM_START_ANGLE == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setStartAngle(wy3d::degreesToRadians(paramValue.asDouble()));
         }
-        else if (ParamNames::REVOLUTION_PARAM_END_ANGLE == paramName)
+        else if (Revolution::PARAM_END_ANGLE == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setEndAngle(wy3d::degreesToRadians(paramValue.asDouble()));

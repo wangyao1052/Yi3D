@@ -17,6 +17,11 @@ class WY3D_EXPORT Tube : public wy3d::Primitive
     WYDB_DECLARE_MEMBERS(Tube, wy3d::Tube, wy3d::Primitive)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_OUTER_RADIUS = "OuterRadius";
+    static constexpr const char* PARAM_INNER_RADIUS = "InnerRadius";
+    static constexpr const char* PARAM_HEIGHT       = "Height";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, double outerRadius, double innerRadius, double height, Tube*& pOut);
     double getOuterRadius() const { return _outerRadius; }
     wy::ErrorStatus setOuterRadius(double radius);

@@ -26,7 +26,6 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dPattern.h>
-#include <wy3dParamNames.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include <wy3dSolid.h>
@@ -120,14 +119,14 @@ void Pattern::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::PATTERN_SOURCE;
+        def.name = Pattern::PARAM_SOURCE;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr Pattern::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == Pattern::classInfo()->className()) {
-        if (ParamNames::PATTERN_SOURCE == paramName) return wydb::ParameterValue::createInteger(_source.value());
+        if (Pattern::PARAM_SOURCE == paramName) return wydb::ParameterValue::createInteger(_source.value());
     }
     return __baseClass::getParameterValue(className, paramName);
 }
@@ -135,7 +134,7 @@ wydb::ParameterValueUPtr Pattern::getParameterValue(const std::string& className
 wy::ErrorStatus Pattern::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == Pattern::classInfo()->className()) {
-        if (ParamNames::PATTERN_SOURCE == paramName) { assert(false); return wy::ErrorStatus::ParameterReadonly; }
+        if (Pattern::PARAM_SOURCE == paramName) { assert(false); return wy::ErrorStatus::ParameterReadonly; }
         return wy::ErrorStatus::Ok;
     }
     return __baseClass::setParameterValue(className, paramName, paramValue);

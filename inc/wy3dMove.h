@@ -20,6 +20,11 @@ class WY3D_EXPORT Move : public wy3d::BodyModification
     WYDB_DECLARE_MEMBERS(Move, wy3d::Move, wy3d::BodyModification)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_VECTOR_X = "VectorX";
+    static constexpr const char* PARAM_VECTOR_Y = "VectorY";
+    static constexpr const char* PARAM_VECTOR_Z = "VectorZ";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Solid* pSolid,

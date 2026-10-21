@@ -30,7 +30,6 @@
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
-#include <wy3dParamNames.h>
 #include <wy3dParamEnumDef.h>
 #include <wy3dMath.h>
 #include <wy3dErrorCode.h>
@@ -383,27 +382,27 @@ void Chamfer::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CHAMFER_TYPE;
+        def.name = Chamfer::PARAM_TYPE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CHAMFER_DISTANCE1;
+        def.name = Chamfer::PARAM_DISTANCE1;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CHAMFER_DISTANCE2;
+        def.name = Chamfer::PARAM_DISTANCE2;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CHAMFER_ANGLE;
+        def.name = Chamfer::PARAM_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CHAMFER_IS_FLIPPED;
+        def.name = Chamfer::PARAM_IS_FLIPPED;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -412,19 +411,19 @@ wydb::ParameterValueUPtr Chamfer::getParameterValue(const std::string& className
 {
     if (className == Chamfer::classInfo()->className())
     {
-        if (ParamNames::CHAMFER_DISTANCE1 == paramName)
+        if (Chamfer::PARAM_DISTANCE1 == paramName)
         {
             return wydb::ParameterValue::createDouble(_distance1);
         }
-        if (ParamNames::CHAMFER_DISTANCE2 == paramName)
+        if (Chamfer::PARAM_DISTANCE2 == paramName)
         {
             return wydb::ParameterValue::createDouble(_distance2);
         }
-        if (ParamNames::CHAMFER_ANGLE == paramName)
+        if (Chamfer::PARAM_ANGLE == paramName)
         {
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_angle));
         }
-        if (ParamNames::CHAMFER_TYPE == paramName)
+        if (Chamfer::PARAM_TYPE == paramName)
         {
             return wydb::ParameterValue::createAny(
                 wy3d::ParamEnumDef(
@@ -433,7 +432,7 @@ wydb::ParameterValueUPtr Chamfer::getParameterValue(const std::string& className
                      {static_cast<int>(ChamferType::DistanceAngle), "Distance-Angle"}},
                     static_cast<int>(_chamferType)));
         }
-        if (ParamNames::CHAMFER_IS_FLIPPED == paramName)
+        if (Chamfer::PARAM_IS_FLIPPED == paramName)
         {
             return wydb::ParameterValue::createBoolean(_isFlipped);
         }
@@ -462,26 +461,26 @@ wy::ErrorStatus Chamfer::setParameterValue(const std::string& className, const s
 {
     if (className == Chamfer::classInfo()->className())
     {
-        if (ParamNames::CHAMFER_DISTANCE1 == paramName)
+        if (Chamfer::PARAM_DISTANCE1 == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setDistance1(paramValue.asDouble());
         }
-        if (ParamNames::CHAMFER_DISTANCE2 == paramName)
+        if (Chamfer::PARAM_DISTANCE2 == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setDistance2(paramValue.asDouble());
         }
-        if (ParamNames::CHAMFER_ANGLE == paramName)
+        if (Chamfer::PARAM_ANGLE == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setAngle(wy3d::degreesToRadians(paramValue.asDouble()));
         }
-        if (ParamNames::CHAMFER_TYPE == paramName)
+        if (Chamfer::PARAM_TYPE == paramName)
         {
             return this->setChamferType(static_cast<ChamferType>(_extractEnumValue(paramValue)));
         }
-        if (ParamNames::CHAMFER_IS_FLIPPED == paramName)
+        if (Chamfer::PARAM_IS_FLIPPED == paramName)
         {
             if (!paramValue.isBoolean()) return wy::ErrorStatus::InvalidInput;
             return this->setFlipped(paramValue.asBoolean());

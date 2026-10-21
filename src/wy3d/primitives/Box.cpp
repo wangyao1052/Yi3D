@@ -23,7 +23,6 @@
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dBox.h>
-#include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include "utils/Util.h"
 
@@ -135,17 +134,17 @@ void Box::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::BOX_PARAM_HEIGHT;
+        def.name = Box::PARAM_HEIGHT;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::BOX_PARAM_LENGTH;
+        def.name = Box::PARAM_LENGTH;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::BOX_PARAM_WIDTH;
+        def.name = Box::PARAM_WIDTH;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -153,15 +152,15 @@ wydb::ParameterValueUPtr Box::getParameterValue(const std::string& className, co
 {
     if (className == Box::classInfo()->className())
     {
-        if (ParamNames::BOX_PARAM_LENGTH == n)
+        if (Box::PARAM_LENGTH == n)
         {
             return wydb::ParameterValue::createDouble(_length);
         }
-        else if (ParamNames::BOX_PARAM_WIDTH == n)
+        else if (Box::PARAM_WIDTH == n)
         {
             return wydb::ParameterValue::createDouble(_width);
         }
-        else if (ParamNames::BOX_PARAM_HEIGHT == n)
+        else if (Box::PARAM_HEIGHT == n)
         {
             return wydb::ParameterValue::createDouble(_height);
         }
@@ -173,7 +172,7 @@ wy::ErrorStatus Box::setParameterValue(const std::string& className, const std::
 {
     if (className == Box::classInfo()->className())
     {
-        if (ParamNames::BOX_PARAM_LENGTH == n)
+        if (Box::PARAM_LENGTH == n)
         {
             if (!v.isDouble())
             {
@@ -181,7 +180,7 @@ wy::ErrorStatus Box::setParameterValue(const std::string& className, const std::
             }
             return this->setLength(v.asDouble());
         }
-        else if (ParamNames::BOX_PARAM_WIDTH == n)
+        else if (Box::PARAM_WIDTH == n)
         {
             if (!v.isDouble())
             {
@@ -189,7 +188,7 @@ wy::ErrorStatus Box::setParameterValue(const std::string& className, const std::
             }
             return this->setWidth(v.asDouble());
         }
-        else if (ParamNames::BOX_PARAM_HEIGHT == n)
+        else if (Box::PARAM_HEIGHT == n)
         {
             if (!v.isDouble())
             {

@@ -35,7 +35,6 @@
 #include <wy3dOffsetSheet.h>
 #include <wy3dSheet.h>
 #include <wy3dImpl.h>
-#include <wy3dParamNames.h>
 #include <wy3dParamEnumDef.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
@@ -215,13 +214,13 @@ void OffsetSheet::registerParameters(wydb::ParameterSchemaExtension* pParamSchem
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::OFFSETSHEET_PARAM_TARGET;
+        def.name = OffsetSheet::PARAM_TARGET;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::OFFSETSHEET_PARAM_OFFSET;
+        def.name = OffsetSheet::PARAM_OFFSET;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -232,7 +231,7 @@ wydb::ParameterValueUPtr OffsetSheet::getParameterValue(
 {
     if (className == OffsetSheet::classInfo()->className())
     {
-        if (ParamNames::OFFSETSHEET_PARAM_TARGET == paramName)
+        if (OffsetSheet::PARAM_TARGET == paramName)
         {
             return wydb::ParameterValue::createAny(
                 wy3d::ParamEnumDef(
@@ -240,7 +239,7 @@ wydb::ParameterValueUPtr OffsetSheet::getParameterValue(
                      {static_cast<int>(Target::SelectedFaces), "Selected Faces"}},
                     static_cast<int>(_target)));
         }
-        else if (ParamNames::OFFSETSHEET_PARAM_OFFSET == paramName)
+        else if (OffsetSheet::PARAM_OFFSET == paramName)
         {
             return wydb::ParameterValue::createDouble(_offset);
         }
@@ -259,11 +258,11 @@ wy::ErrorStatus OffsetSheet::setParameterValue(
 {
     if (className == OffsetSheet::classInfo()->className())
     {
-        if (ParamNames::OFFSETSHEET_PARAM_TARGET == paramName)
+        if (OffsetSheet::PARAM_TARGET == paramName)
         {
             return wy::ErrorStatus::ParameterReadonly;
         }
-        else if (ParamNames::OFFSETSHEET_PARAM_OFFSET == paramName)
+        else if (OffsetSheet::PARAM_OFFSET == paramName)
         {
             if (!paramValue.isDouble())
             {

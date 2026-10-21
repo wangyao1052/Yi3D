@@ -30,7 +30,6 @@
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dLoft.h>
-#include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchPoint.h>

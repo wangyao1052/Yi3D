@@ -17,6 +17,10 @@ class WY3D_EXPORT Torus : public wy3d::Primitive
     WYDB_DECLARE_MEMBERS(Torus, wy3d::Torus, wy3d::Primitive)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_MAJOR_RADIUS = "MajorRadius";
+    static constexpr const char* PARAM_MINOR_RADIUS = "MinorRadius";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, double majorRadius, double minorRadius, Torus*& pOut);
     double getMajorRadius() const { return _majorRadius; }
     wy::ErrorStatus setMajorRadius(double radius);

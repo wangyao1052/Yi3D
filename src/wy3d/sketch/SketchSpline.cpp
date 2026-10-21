@@ -37,7 +37,6 @@
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
-#include <wy3dSketchParamNames.h>
 #include <utils/wy3dSketchCurveIntersectUtil.h>
 #include "utils/FilerUtil.h"
 #include "utils/Util.h"
@@ -611,14 +610,14 @@ void SketchSpline::registerParameters(wydb::ParameterSchemaExtension* pParamSche
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_SPLINE_ORDER;
+        def.name = SketchSpline::PARAM_ORDER;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr SketchSpline::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == SketchSpline::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_SPLINE_ORDER == paramName) return wydb::ParameterValue::createInteger(_degree + 1);
+        if (SketchSpline::PARAM_ORDER == paramName) return wydb::ParameterValue::createInteger(_degree + 1);
     }
     return __baseClass::getParameterValue(className, paramName);
 }
@@ -626,7 +625,7 @@ wydb::ParameterValueUPtr SketchSpline::getParameterValue(const std::string& clas
 wy::ErrorStatus SketchSpline::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == SketchSpline::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_SPLINE_ORDER == paramName)
+        if (SketchSpline::PARAM_ORDER == paramName)
         { if (!paramValue.isInteger()) return wy::ErrorStatus::InvalidInput; return this->setDegree(paramValue.asInteger() - 1); }
     }
     return __baseClass::setParameterValue(className, paramName, paramValue);

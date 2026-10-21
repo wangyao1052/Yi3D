@@ -17,6 +17,9 @@ class WY3D_EXPORT Pattern : public wy3d::BodyModification
     WYDB_DECLARE_ABSTRACT_MEMBERS(Pattern, wy3d::Pattern, wy3d::BodyModification)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_SOURCE = "Source";
+
     wydb::ElementId getSource() const { return _source; }
     static bool isValidSource(const wy3d::Solid* pSolid);
 

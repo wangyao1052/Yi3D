@@ -25,7 +25,6 @@
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchPoint.h>
 #include <wy3dImpl.h>
-#include <wy3dSketchParamNames.h>
 #include "utils/Util.h"
 
 NS_WY3D_BEG
@@ -86,41 +85,41 @@ void SketchPoint::registerParameters(wydb::ParameterSchemaExtension* pParamSchem
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_ENTITY_ID;
+        def.name = SketchEntity::PARAM_ID;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_POINT_PARAM_POSITION_X;
+        def.name = SketchPoint::PARAM_POSITION_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_POINT_PARAM_POSITION_Y;
+        def.name = SketchPoint::PARAM_POSITION_Y;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr SketchPoint::getParameterValue(const std::string& className, const std::string& paramName) const
 {
-    if (SketchParamNames::SKETCH_ENTITY_ID == paramName)
+    if (SketchEntity::PARAM_ID == paramName)
         return wydb::ParameterValue::createElementId(getId());
     if (className == SketchPoint::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_POINT_PARAM_POSITION_X == paramName) return wydb::ParameterValue::createDouble(_position.x());
-        if (SketchParamNames::SKETCH_POINT_PARAM_POSITION_Y == paramName) return wydb::ParameterValue::createDouble(_position.y());
+        if (SketchPoint::PARAM_POSITION_X == paramName) return wydb::ParameterValue::createDouble(_position.x());
+        if (SketchPoint::PARAM_POSITION_Y == paramName) return wydb::ParameterValue::createDouble(_position.y());
     }
     return __baseClass::getParameterValue(className, paramName);
 }
 
 wy::ErrorStatus SketchPoint::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
-    if (SketchParamNames::SKETCH_ENTITY_ID == paramName)
+    if (SketchEntity::PARAM_ID == paramName)
         return wy::ErrorStatus::ParameterReadonly;
     if (className == SketchPoint::classInfo()->className()) {
         if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
         double d = paramValue.asDouble();
-        if (SketchParamNames::SKETCH_POINT_PARAM_POSITION_X == paramName) return this->setPosition(wy::Vector2(d, _position.y()));
-        if (SketchParamNames::SKETCH_POINT_PARAM_POSITION_Y == paramName) return this->setPosition(wy::Vector2(_position.x(), d));
+        if (SketchPoint::PARAM_POSITION_X == paramName) return this->setPosition(wy::Vector2(d, _position.y()));
+        if (SketchPoint::PARAM_POSITION_Y == paramName) return this->setPosition(wy::Vector2(_position.x(), d));
     }
     return __baseClass::setParameterValue(className, paramName, paramValue);
 }
