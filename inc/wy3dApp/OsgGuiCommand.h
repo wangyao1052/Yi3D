@@ -20,7 +20,6 @@
 #define WY3DAPP_OSG_GUI_COMMAND_H
 
 #include <osg/observer_ptr>
-#include <osg/Vec3d>
 #include <osgGA/GUIActionAdapter>
 #include <osgViewer/View>
 
@@ -75,9 +74,6 @@ protected:
 
     double computeHeight(double x, double y,
         const wy::Vector3& basePnt,
-        const GuiCmdMakeElement* pMakeElement = nullptr) override;
-    double computeHeight(double x, double y,
-        const osg::Vec3d& basePnt,
         const GuiCmdMakeElement* pMakeElement = nullptr) override;
     double computeHeight2(double x, double y,
         const wy3d::Plane& workPln,

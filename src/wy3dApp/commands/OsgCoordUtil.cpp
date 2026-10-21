@@ -217,15 +217,6 @@ double OsgCoordUtil::computeHeight(
     const wy::Vector3& basePnt,
     const GuiCmdMakeElement* pMakeElement)
 {
-    return OsgCoordUtil::computeHeight(pView, x, y, osg::Vec3d(basePnt.x(), basePnt.y(), basePnt.z()), pMakeElement);
-}
-
-double OsgCoordUtil::computeHeight(
-    osgViewer::View* pView,
-    double x, double y,
-    const osg::Vec3d& basePnt,
-    const GuiCmdMakeElement* pMakeElement)
-{
     if (!pView) return 0.0;
     osg::Camera* pCamera = pView->getCamera();
     if (!pCamera) return 0.0;
@@ -251,14 +242,15 @@ double OsgCoordUtil::computeHeight(
     {
         wokkPlnNormal = pMakeElement->getWorkingPlaneNormal();
     }
-    osg::ref_ptr<osg::LineSegment> workPlnBaseLineSeg = new osg::LineSegment(basePnt,
-        basePnt + osg::Vec3d(wokkPlnNormal.x(), wokkPlnNormal.y(), wokkPlnNormal.z()));
+    const osg::Vec3d osgBasePnt = MathUtils::toVec3d(basePnt);
+    osg::ref_ptr<osg::LineSegment> workPlnBaseLineSeg = new osg::LineSegment(osgBasePnt,
+        osgBasePnt + osg::Vec3d(wokkPlnNormal.x(), wokkPlnNormal.y(), wokkPlnNormal.z()));
 
     osg::Vec3d closestPtLine, closestPtProjWorkingLine;
     if (!computeClosestPoints(*mouseLineSeg, *workPlnBaseLineSeg, closestPtLine, closestPtProjWorkingLine))
         return 0.0;
 
-    return (closestPtProjWorkingLine - basePnt) * osg::Vec3d(wokkPlnNormal.x(), wokkPlnNormal.y(), wokkPlnNormal.z());
+    return (closestPtProjWorkingLine - osgBasePnt) * osg::Vec3d(wokkPlnNormal.x(), wokkPlnNormal.y(), wokkPlnNormal.z());
 }
 
 double OsgCoordUtil::computeHeight2(

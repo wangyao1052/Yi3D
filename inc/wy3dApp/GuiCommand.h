@@ -240,9 +240,6 @@ protected:
     virtual double computeHeight(double x, double y,
         const wy::Vector3& basePnt,
         const GuiCmdMakeElement* pMakeElement = nullptr) = 0;
-    virtual double computeHeight(double x, double y,
-        const osg::Vec3d& basePnt,
-        const GuiCmdMakeElement* pMakeElement = nullptr) = 0;
     virtual double computeHeight2(double x, double y,
         const wy3d::Plane& workPln,
         const wy::Vector2& basePnt,

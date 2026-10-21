@@ -237,12 +237,6 @@ double OsgGuiCommand::computeHeight(double x, double y, const wy::Vector3& baseP
     return OsgCoordUtil::computeHeight(getOsgView(), x, y, basePnt, pMakeElement);
 }
 
-double OsgGuiCommand::computeHeight(double x, double y, const osg::Vec3d& basePnt,
-    const GuiCmdMakeElement* pMakeElement)
-{
-    return OsgCoordUtil::computeHeight(getOsgView(), x, y, basePnt, pMakeElement);
-}
-
 double OsgGuiCommand::computeHeight2(double x, double y,
     const wy3d::Plane& workPln,
     const wy::Vector2& basePnt,

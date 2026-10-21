@@ -88,11 +88,6 @@ namespace OsgCoordUtil {
         double x, double y,
         const wy::Vector3& basePnt,
         const GuiCmdMakeElement* pMakeElement = nullptr);
-    double computeHeight(
-        osgViewer::View* pView,
-        double x, double y,
-        const osg::Vec3d& basePnt,
-        const GuiCmdMakeElement* pMakeElement);  // no default, this is the main impl
     double computeHeight2(
         osgViewer::View* pView,
         double x, double y,
