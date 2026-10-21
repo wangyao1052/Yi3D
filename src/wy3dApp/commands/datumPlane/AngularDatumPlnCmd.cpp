@@ -52,6 +52,8 @@ static bool parseDoubleText(const QString& text, double& value)
 
 constexpr double kHoverPopupDelaySeconds = 0.45;
 
+constexpr double kAngleQuantizationStep = wy3d::PI / 1800.0; // 0.1 degree
+
 
 class AngularDatumPlnCmdRotationAxisSelFilter : public SelectPostFilterFunctor
 {
@@ -535,8 +537,12 @@ void AngularDatumPlnCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyAngle:
     {
-        const wy::Vector2 uv = this->computePoint2d(event.x, event.y, _rotateAnglePlane, true, _snapExcludeIds).first;
-        const double angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, uv);
+        const auto pnt = this->computePoint2d(event.x, event.y, _rotateAnglePlane, true, _snapExcludeIds);
+        double angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, pnt.first);
+        if (!pnt.second) // Keep the 0.1-degree step for the free-drag angle.
+        {
+            angle = std::round(angle / kAngleQuantizationStep) * kAngleQuantizationStep;
+        }
 
         // 记录绝对值和方向，供悬停浮窗提交时使用
         _hoverPopupState.angleSign = angle < 0.0 ? -1 : 1;
@@ -563,8 +569,13 @@ void AngularDatumPlnCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyAngle:
     {
-        const wy::Vector2 uv = this->computePoint2d(event.x, event.y, _rotateAnglePlane, true, _snapExcludeIds).first;
-        _angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, uv);
+        const auto pnt = this->computePoint2d(event.x, event.y, _rotateAnglePlane, true, _snapExcludeIds);
+        double angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, pnt.first);
+        if (!pnt.second) // Keep the 0.1-degree step for the free-drag angle.
+        {
+            angle = std::round(angle / kAngleQuantizationStep) * kAngleQuantizationStep;
+        }
+        _angle = angle;
         this->finishStep(_step);
         return;
     }

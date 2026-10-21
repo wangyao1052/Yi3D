@@ -43,6 +43,8 @@ static bool parseDoubleText(const QString& text, double& value)
 
 constexpr double kHoverPopupDelaySeconds = 0.45;
 
+constexpr double kAngleQuantizationStep = wy3d::PI / 1800.0; // 0.1 degree
+
 
 TangentDatumPlnCmd::TangentDatumPlnCmd()
     : OsgGuiCommand(), _step(Step::Undefined), _rotationPlane(), _radius(0.0), _angle(0.0)
@@ -252,8 +254,12 @@ void TangentDatumPlnCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyRotateAngle:
     {
-        const wy::Vector2 uv = this->computePoint2d(event.x, event.y, _rotationPlane, true, _snapExcludeIds).first;
-        const double angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, uv);
+        const auto pnt = this->computePoint2d(event.x, event.y, _rotationPlane, true, _snapExcludeIds);
+        double angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, pnt.first);
+        if (!pnt.second) // Keep the 0.1-degree step for the free-drag angle.
+        {
+            angle = std::round(angle / kAngleQuantizationStep) * kAngleQuantizationStep;
+        }
 
         _hoverPopupState.angleSign = angle < 0.0 ? -1 : 1;
         _hoverPopupState.angle = std::fabs(angle);
@@ -285,8 +291,13 @@ void TangentDatumPlnCmd::onLeftMouseDown(const MouseEvent& event)
 
     if (Step::SpecifyRotateAngle == _step)
     {
-        const wy::Vector2 uv = this->computePoint2d(event.x, event.y, _rotationPlane, true, _snapExcludeIds).first;
-        _angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, uv);
+        const auto pnt = this->computePoint2d(event.x, event.y, _rotationPlane, true, _snapExcludeIds);
+        double angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, pnt.first);
+        if (!pnt.second) // Keep the 0.1-degree step for the free-drag angle.
+        {
+            angle = std::round(angle / kAngleQuantizationStep) * kAngleQuantizationStep;
+        }
+        _angle = angle;
         this->finishStep(_step);
         return;
     }
