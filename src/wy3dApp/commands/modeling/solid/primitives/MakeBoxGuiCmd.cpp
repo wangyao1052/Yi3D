@@ -257,7 +257,7 @@ void MakeBoxGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPnt1: // 确定起点
     {
-        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         wy::Vector2 uv = _workPln.uv(pnt);
         _hoverPopupState.point = uv;
         return;
@@ -266,7 +266,7 @@ void MakeBoxGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPnt2: // 确定长宽
     {
-        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         wy::Vector2 uv = _workPln.uv(pnt);
         double deltaLength = uv.x() - _uv1.x();
         double deltaWidth = uv.y() - _uv1.y();
@@ -331,7 +331,7 @@ void MakeBoxGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPnt1: // 确定起点
     {
-        wy::Vector3 pnt1 = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt1 = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         _uv1 = _workPln.uv(pnt1);
         if (this->finishStep(_step))
         {
@@ -343,7 +343,7 @@ void MakeBoxGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPnt2: // 确定长宽
     {
-        wy::Vector3 pnt2 = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt2 = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         _uv2 = _workPln.uv(pnt2);
         _hoverPopupState.lengthSign = (_uv2.x() - _uv1.x()) < 0.0 ? -1 : 1;
         _hoverPopupState.widthSign = (_uv2.y() - _uv1.y()) < 0.0 ? -1 : 1;

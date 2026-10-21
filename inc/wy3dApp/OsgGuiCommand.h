@@ -58,18 +58,20 @@ protected:
     std::pair<wy::Vector3, wyap::SnapResultSPtr> computePoint(
         double x, double y,
         const wy3d::Plane& workPlane,
-        const SnapOptions& options = {}) override;
+        bool snap = true,
+        const std::set<wydb::ElementId>& excludeIds = {}) override;
 
     wy::Vector2 computePoint2d(
         double x, double y,
-        const std::set<wydb::ElementId>& excludeIds,
-        std::shared_ptr<Snap2dContext> pSnapContext = nullptr,
-        Snap2dSystem* pSnap2dSys = nullptr) override;
+        Snap2dSystem* pSnap2dSys,
+        std::shared_ptr<Snap2dContext> pSnapContext,
+        const std::set<wydb::ElementId>& excludeIds = {}) override;
 
     wy::Vector2 computePoint2d(
         double x, double y,
         const wy3d::Plane& workPlane,
-        const SnapOptions& options = {}) override;
+        bool snap = true,
+        const std::set<wydb::ElementId>& excludeIds = {}) override;
 
     bool computeHeight(double x, double y,
         const wy::Vector3& basePnt, double& height,

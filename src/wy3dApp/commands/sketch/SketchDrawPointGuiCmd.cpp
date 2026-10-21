@@ -182,7 +182,7 @@ void SketchDrawPointGuiCmd::onMouseMove(const MouseEvent& event)
 
     if (_step == Step::SpecifyPosition)
     {
-        wy::Vector2 position = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 position = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         _hoverPopupState.point = position;
         return;
     }
@@ -200,7 +200,7 @@ void SketchDrawPointGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     if (_step == Step::SpecifyPosition)
     {
-        _position = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _position = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();

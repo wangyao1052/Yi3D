@@ -263,14 +263,14 @@ void SketchDrawEllipseGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::SpecifyCenterPnt:
     {
-        wy::Vector2 centerPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 centerPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         _hoverPopupState.point = centerPnt;
     }
     break;
 
     case Step::SpecifyAxisEndPoint:
     {
-        wy::Vector2 axisEndPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 axisEndPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         wy::Vector2 majorAxis = axisEndPnt - _centerPnt;
         _hoverPopupState.point = axisEndPnt;
         _hoverPopupState.majorAxisLength = majorAxis.length();
@@ -287,7 +287,7 @@ void SketchDrawEllipseGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyOtherRadius:
     {
-        wy::Vector2 axisEndPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 axisEndPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         double otherRadius = (axisEndPnt - _centerPnt).length();
         _hoverPopupState.point = axisEndPnt;
         _hoverPopupState.otherRadius = otherRadius;
@@ -322,7 +322,7 @@ void SketchDrawEllipseGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyCenterPnt:
     {
-        _centerPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _centerPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -332,7 +332,7 @@ void SketchDrawEllipseGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyAxisEndPoint:
     {
-        wy::Vector2 axisEndPoint = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 axisEndPoint = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         _majorAxis = axisEndPoint - _centerPnt;
         if (this->finishStep(_step))
         {
@@ -343,7 +343,7 @@ void SketchDrawEllipseGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyOtherRadius:
     {
-        wy::Vector2 axisEndPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 axisEndPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         _otherRadius = (axisEndPnt - _centerPnt).length();
         if (this->finishStep(_step))
         {

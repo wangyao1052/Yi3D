@@ -249,7 +249,7 @@ void MakeCylinderGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPnt1: // 确定圆心
     {
-        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         wy::Vector2 uv = _workPln.uv(pnt);
         _hoverPopupState.point = uv;
         return;
@@ -258,7 +258,7 @@ void MakeCylinderGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPnt2: // 确定半径
     {
-        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         wy::Vector2 uv = _workPln.uv(pnt);
         double radius = (uv - _uv1).length();
         _hoverPopupState.radius = radius;
@@ -319,7 +319,7 @@ void MakeCylinderGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPnt1: // 确定圆心
     {
-        wy::Vector3 pnt1 = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt1 = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         _uv1 = _workPln.uv(pnt1);
         if (this->finishStep(_step))
         {
@@ -331,7 +331,7 @@ void MakeCylinderGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPnt2: // 确定半径
     {
-        wy::Vector3 pnt2 = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt2 = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         _uv2 = _workPln.uv(pnt2);
         if (this->finishStep(_step))
         {

@@ -194,32 +194,25 @@ protected:
         double x, double y,
         const PointPickOptions& option) = 0;
 
-    // Command snap options.
-    struct SnapOptions
-    {
-        // Elements to exclude from snapping.
-        std::set<wydb::ElementId> excludeIds;
-        // Whether to apply object snapping.
-        bool snap = true;
-    };
-
     virtual std::pair<wy::Vector3, wyap::SnapResultSPtr> computePoint(
         double x, double y,
         const wy3d::Plane& workPlane,
-        const SnapOptions& options = {}) = 0;
+        bool snap = true,
+        const std::set<wydb::ElementId>& excludeIds = {}) = 0;
 
     // 2D point on the given plane; the 2D counterpart of computePoint.
     virtual wy::Vector2 computePoint2d(
         double x, double y,
         const wy3d::Plane& workPlane,
-        const SnapOptions& options = {}) = 0;
+        bool snap = true,
+        const std::set<wydb::ElementId>& excludeIds = {}) = 0;
 
     // 2D point in the sketch's snap system.
     virtual wy::Vector2 computePoint2d(
         double x, double y,
-        const std::set<wydb::ElementId>& excludeIds,
-        std::shared_ptr<Snap2dContext> pSnapContext = nullptr,
-        Snap2dSystem* pSnap2dSys = nullptr) = 0;
+        Snap2dSystem* pSnap2dSys,
+        std::shared_ptr<Snap2dContext> pSnapContext,
+        const std::set<wydb::ElementId>& excludeIds = {}) = 0;
 
     virtual bool computeHeight(double x, double y,
         const wy::Vector3& basePnt, double& height,

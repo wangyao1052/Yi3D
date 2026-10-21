@@ -631,13 +631,13 @@ void SketchDrawArcTangentGuiCmd::onMouseMove(const MouseEvent& event)
     case Step::SpecifyStartPoint:
     {
         this->computePoint2d(event.x, event.y,
-            this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+            _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
     }
     break;
 
     case Step::SpecifyEndPoint:
     {
-        _endPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         _hoverPopupState.point = _endPnt;
         this->updatePreview();
     }
@@ -645,7 +645,7 @@ void SketchDrawArcTangentGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyRadius:
     {
-        _endPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         _hoverPopupState.point = _endPnt;
 
         // The live radius the popup offers: the radius of the arc through the cursor
@@ -659,7 +659,7 @@ void SketchDrawArcTangentGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifySweepAngle:
     {
-        const wy::Vector2 cursorPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        const wy::Vector2 cursorPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         if ((cursorPnt - _center).length() < wy3d::kMinValue)
         {
             break; // too close to the center to read an angle from
@@ -695,7 +695,7 @@ void SketchDrawArcTangentGuiCmd::onLeftMouseDown(const MouseEvent& event)
     case Step::SpecifyStartPoint:
     {
         this->computePoint2d(event.x, event.y,
-            this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+            _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
 
         wy::Vector2 startPnt, tangent;
         if (!this->getEndpointSnap(startPnt, tangent))
@@ -714,7 +714,7 @@ void SketchDrawArcTangentGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyEndPoint:
     {
-        _endPnt = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         if (this->finishStep(Step::SpecifyEndPoint))
         {
             this->simulateMouseMoveFromPopup();

@@ -227,7 +227,7 @@ void MakeSphereGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPnt1: // 确定球心
     {
-        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         wy::Vector2 uv = _workPln.uv(pnt);
         _hoverPopupState.point = uv;
         return;
@@ -236,7 +236,7 @@ void MakeSphereGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPnt2: // 确定半径
     {
-        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         double radius = (_uv1 - _workPln.uv(pnt)).length();
         _hoverPopupState.radius = radius;
         {
@@ -278,7 +278,7 @@ void MakeSphereGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPnt1: // 确定球心
     {
-        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         _uv1 = _workPln.uv(pnt);
         if (this->finishStep(_step))
         {
@@ -290,7 +290,7 @@ void MakeSphereGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPnt2: // 确定半径
     {
-        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, {_excludeIds}).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _workPln, true, _excludeIds).first;
         _radius = (_uv1 - _workPln.uv(pnt)).length();
         if (this->finishStep(_step))
         {

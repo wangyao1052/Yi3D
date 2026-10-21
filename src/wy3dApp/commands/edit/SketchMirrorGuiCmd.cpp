@@ -351,12 +351,12 @@ void SketchMirrorGuiCmd::onMouseMove(const MouseEvent& event)
     }
     else if (_step == Step::Step2_SpecifyStartPnt)
     {
-        wy::Vector2 axisStartPnt = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 axisStartPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         _hoverPopupState.point = axisStartPnt;
     }
     else if (_step == Step::Step3_SpecifyEndPnt)
     {
-        wy::Vector2 axisEndPnt = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 axisEndPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         _hoverPopupState.point = axisEndPnt;
         auto lengthAngle = MathUtils::computeLengthAngle(_axisStartPnt, axisEndPnt);
         _hoverPopupState.length = lengthAngle.first;
@@ -389,7 +389,7 @@ void SketchMirrorGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::Step2_SpecifyStartPnt)
     {
-        _axisStartPnt = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _axisStartPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -397,7 +397,7 @@ void SketchMirrorGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::Step3_SpecifyEndPnt)
     {
-        _axisEndPnt = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _axisEndPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();

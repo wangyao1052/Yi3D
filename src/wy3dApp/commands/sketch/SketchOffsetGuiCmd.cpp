@@ -253,7 +253,7 @@ void SketchOffsetGuiCmd::onMouseMove(const MouseEvent& event)
     }
     else if (_step == Step::SpecifyOffset)
     {
-        wy::Vector2 pos = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pos = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         if (_pOffsetCurve)
         {
             double offset = _pOffsetCurve->computeOffset(pos);
@@ -295,7 +295,7 @@ void SketchOffsetGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyOffset:
     {
-        wy::Vector2 pos = this->computePoint2d(event.x, event.y, this->getSnapExcludeIds(), _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pos = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
         if (_pOffsetCurve)
         {
             _offset = _pOffsetCurve->computeOffset(pos);

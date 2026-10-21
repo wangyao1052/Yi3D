@@ -495,7 +495,7 @@ void NormalToEdgeDatumPlnCmd::onMouseMove(const MouseEvent& event)
             return;
         }
 
-        wy::Vector3 pnt = this->computePoint(event.x, event.y, _curveInfo.refPlane, {_snapExcludeIds}).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _curveInfo.refPlane, true, _snapExcludeIds).first;
         GeomAPI_ProjectPointOnCurve projector(MathUtils::toPnt(pnt), _curveInfo.geomCurve);
         if (projector.NbPoints() > 0)
         {
@@ -541,7 +541,7 @@ void NormalToEdgeDatumPlnCmd::onLeftMouseDown(const MouseEvent& event)
             return;
         }
 
-        wy::Vector3 pnt = this->computePoint(event.x, event.y, _curveInfo.refPlane, {_snapExcludeIds}).first;
+        wy::Vector3 pnt = this->computePoint(event.x, event.y, _curveInfo.refPlane, true, _snapExcludeIds).first;
         GeomAPI_ProjectPointOnCurve projector(MathUtils::toPnt(pnt), _curveInfo.geomCurve);
         if (projector.NbPoints() > 0)
         {

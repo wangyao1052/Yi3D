@@ -158,13 +158,13 @@ void SketchRelocateCsysGuiCmd::onMouseMove(const MouseEvent& event)
 {
     if (_step == Step::SpecifyOrigin)
     {
-        wy::Vector2 origin = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 origin = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         _pCsysTransient->update(origin, 0.0);
         return;
     }
     else if (_step == Step::SpecifyRotationAngle)
     {
-        wy::Vector2 pos = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 pos = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         double angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, pos - _origin);
         _pCsysTransient->update(_origin, angle);
         return;
@@ -180,13 +180,13 @@ void SketchRelocateCsysGuiCmd::onLeftMouseDown(const MouseEvent& event)
 {
     if (_step == Step::SpecifyOrigin)
     {
-        _origin = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _origin = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         this->finishStep(_step);
         return;
     }
     else if (_step == Step::SpecifyRotationAngle)
     {
-        wy::Vector2 position = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 position = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         _angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, position - _origin);
         this->finishStep(_step);
         return;

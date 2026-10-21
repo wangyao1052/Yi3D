@@ -353,13 +353,13 @@ void SketchScaleGuiCmd::onMouseMove(const MouseEvent& event)
     }
     else if (_step == Step::Step2_SpecifyBasePnt)
     {
-        wy::Vector2 basePnt = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 basePnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         _hoverPopupState.point = basePnt;
         return;
     }
     else if (_step == Step::Step3_SpecifyScaleRatio)
     {
-        wy::Vector2 refPnt = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 refPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         double len = (refPnt - _basePnt).length();
         double scale = this->computeScaleRatio(len, _baseLength);
         _hoverPopupState.scale = scale;
@@ -391,7 +391,7 @@ void SketchScaleGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::Step2_SpecifyBasePnt)
     {
-        _basePnt = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        _basePnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -400,7 +400,7 @@ void SketchScaleGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::Step3_SpecifyScaleRatio)
     {
-        wy::Vector2 refPnt = this->computePoint2d(event.x, event.y, {}, _pSnapContext, _sketchInfo.pSketchSnapSys);
+        wy::Vector2 refPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
         double len = (refPnt - _basePnt).length();
         _scale = this->computeScaleRatio(len, _baseLength);
         if (this->finishStep(_step))

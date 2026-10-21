@@ -573,7 +573,7 @@ void SketchDrawRectangle3DGuiCmd::simulateMouseMoveFromPopup()
 
 std::pair<wy::Vector3, bool> SketchDrawRectangle3DGuiCmd::computePoint3d(double x, double y)
 {
-    auto ret = this->computePoint(x, y, this->getWorkingPlane(), {this->getSnapExcludeIds()});
+    auto ret = this->computePoint(x, y, this->getWorkingPlane(), true, this->getSnapExcludeIds());
     if (ret.second)
     {
         return std::make_pair(ret.second->getPosition(), true);
