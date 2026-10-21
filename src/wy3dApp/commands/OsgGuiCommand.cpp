@@ -239,14 +239,6 @@ wy::Vector3 OsgGuiCommand::computePointOnAxis(double x, double y,
     return OsgCoordUtil::computePointOnAxis(getOsgView(), x, y, axisOrigin, axisDirection, excludeIds);
 }
 
-double OsgGuiCommand::computeHeight2(double x, double y,
-    const wy3d::Plane& workPln,
-    const wy::Vector2& basePnt,
-    const std::set<wydb::ElementId>& excludeIds)
-{
-    return OsgCoordUtil::computeHeight2(getOsgView(), x, y, workPln, basePnt, excludeIds);
-}
-
 bool OsgGuiCommand::computeRotationAngle(double x, double y,
     const wy3d::Plane& workPln,
     const wy::Vector2& basis,

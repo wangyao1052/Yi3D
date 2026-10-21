@@ -351,7 +351,9 @@ void MakeTubeGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPnt4: // 确定高度
     {
-        const double height = this->computeHeight2(event.x, event.y, _workPln, _uv3, _excludeIds); // height可以小于0
+        const wy::Vector3 basePnt = _workPln.value(_uv3);
+        const double height = (this->computePointOnAxis(event.x, event.y, basePnt,
+            _workPln.getNormal(), _excludeIds) - basePnt).dot(_workPln.getNormal()); // height可以小于0
         _hoverPopupState.heightSign = height < 0.0 ? -1 : 1;
         _hoverPopupState.height = std::fabs(height);
         {
@@ -434,7 +436,9 @@ void MakeTubeGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPnt4: // 确定高度
     {
-        const double height = this->computeHeight2(event.x, event.y, _workPln, _uv3, _excludeIds);
+        const wy::Vector3 basePnt = _workPln.value(_uv3);
+        const double height = (this->computePointOnAxis(event.x, event.y, basePnt,
+            _workPln.getNormal(), _excludeIds) - basePnt).dot(_workPln.getNormal());
         _hoverPopupState.heightSign = height < 0.0 ? -1 : 1;
         _height = height;
         if (this->finishStep(_step))

@@ -220,19 +220,21 @@ wy::Vector3 OsgCoordUtil::computePointOnAxis(
     if (!pView) return axisOrigin;
     osg::Camera* pCamera = pView->getCamera();
     if (!pCamera) return axisOrigin;
-    osg::Matrix MVPW = pCamera->getViewMatrix() * pCamera->getProjectionMatrix() * pCamera->getViewport()->computeWindowMatrix();
-    osg::Matrix inverseMVPW = MVPW.inverse(MVPW);
-    osg::Vec3d nearPnt = osg::Vec3d(x, y, 0.0) * inverseMVPW;
-    osg::Vec3d farPnt = osg::Vec3d(x, y, 1.0) * inverseMVPW;
 
     wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
     wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(x, y, pSnapContext, excludeIds);
     if (pSnapResult)
     {
         const wy::Vector3& pos = pSnapResult->getPosition();
-        farPnt.set(pos.x(), pos.y(), pos.z());
+        const double denom = axisDirection.dot(axisDirection);
+        if (denom <= 0.0) return axisOrigin;
+        return axisOrigin + axisDirection * ((pos - axisOrigin).dot(axisDirection) / denom);
     }
 
+    osg::Matrix MVPW = pCamera->getViewMatrix() * pCamera->getProjectionMatrix() * pCamera->getViewport()->computeWindowMatrix();
+    osg::Matrix inverseMVPW = MVPW.inverse(MVPW);
+    osg::Vec3d nearPnt = osg::Vec3d(x, y, 0.0) * inverseMVPW;
+    osg::Vec3d farPnt = osg::Vec3d(x, y, 1.0) * inverseMVPW;
     osg::ref_ptr<osg::LineSegment> mouseLineSeg = new osg::LineSegment(nearPnt, farPnt);
 
     const osg::Vec3d osgOrigin = MathUtils::toVec3d(axisOrigin);
@@ -244,43 +246,6 @@ wy::Vector3 OsgCoordUtil::computePointOnAxis(
         return axisOrigin;
 
     return MathUtils::toVector3(closestPtOnAxis);
-}
-
-double OsgCoordUtil::computeHeight2(
-    osgViewer::View* pView,
-    double x, double y,
-    const wy3d::Plane& workPln,
-    const wy::Vector2& baseUV,
-    const std::set<wydb::ElementId>& excludeIds)
-{
-    if (!pView) return 0.0;
-    osg::Camera* pCamera = pView->getCamera();
-    if (!pCamera) return 0.0;
-    osg::Matrix MVPW = pCamera->getViewMatrix() * pCamera->getProjectionMatrix() * pCamera->getViewport()->computeWindowMatrix();
-    osg::Matrix inverseMVPW = MVPW.inverse(MVPW);
-    osg::Vec3d nearPnt = osg::Vec3d(x, y, 0.0) * inverseMVPW;
-    osg::Vec3d farPnt = osg::Vec3d(x, y, 1.0) * inverseMVPW;
-
-    wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
-    wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(x, y, pSnapContext, excludeIds);
-    if (pSnapResult)
-    {
-        const wy::Vector3& pos = pSnapResult->getPosition();
-        return (pos - workPln.getOrigin()).dot(workPln.getNormal());
-    }
-
-    osg::ref_ptr<osg::LineSegment> mouseLineSeg = new osg::LineSegment(nearPnt, farPnt);
-
-    wy::Vector3 wokkPlnNormal = workPln.getNormal();
-    wy::Vector3 basePnt = workPln.value(baseUV);
-    osg::ref_ptr<osg::LineSegment> workPlnBaseLineSeg = new osg::LineSegment(MathUtils::toVec3d(basePnt),
-        MathUtils::toVec3d(basePnt) + osg::Vec3d(wokkPlnNormal.x(), wokkPlnNormal.y(), wokkPlnNormal.z()));
-
-    osg::Vec3d closestPtLine, closestPtProjWorkingLine;
-    if (!computeClosestPoints(*mouseLineSeg, *workPlnBaseLineSeg, closestPtLine, closestPtProjWorkingLine))
-        return 0.0;
-
-    return (MathUtils::toVector3(closestPtProjWorkingLine) - basePnt).dot(wokkPlnNormal);
 }
 
 bool OsgCoordUtil::computeRotationAngle(

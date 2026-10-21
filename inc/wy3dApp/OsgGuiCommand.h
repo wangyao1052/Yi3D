@@ -76,10 +76,6 @@ protected:
         const wy::Vector3& axisOrigin,
         const wy::Vector3& axisDirection,
         const std::set<wydb::ElementId>& excludeIds = {}) override;
-    double computeHeight2(double x, double y,
-        const wy3d::Plane& workPln,
-        const wy::Vector2& basePnt,
-        const std::set<wydb::ElementId>& excludeIds) override;
 
     bool computeRotationAngle(double x, double y,
         const wy3d::Plane& workPln,

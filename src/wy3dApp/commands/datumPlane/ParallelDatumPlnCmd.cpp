@@ -229,7 +229,9 @@ void ParallelDatumPlnCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyDistance:
     {
-        const double distance = this->computeHeight2(event.x, event.y, _plane, _pickUV, {});
+        const wy::Vector3 basePnt = _plane.value(_pickUV);
+        const double distance = (this->computePointOnAxis(event.x, event.y, basePnt,
+            _plane.getNormal(), {}) - basePnt).dot(_plane.getNormal());
         _hoverPopupState.distanceSign = distance < 0.0 ? -1 : 1;
         _hoverPopupState.distance = std::fabs(distance);
         {
@@ -254,7 +256,9 @@ void ParallelDatumPlnCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyDistance:
     {
-        _distance = this->computeHeight2(event.x, event.y, _plane, _pickUV, {});
+        const wy::Vector3 basePnt = _plane.value(_pickUV);
+        _distance = (this->computePointOnAxis(event.x, event.y, basePnt,
+            _plane.getNormal(), {}) - basePnt).dot(_plane.getNormal());
         this->finishStep(_step);
         return;
     }

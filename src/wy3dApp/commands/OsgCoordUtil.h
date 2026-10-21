@@ -89,14 +89,6 @@ namespace OsgCoordUtil {
         const wy::Vector3& axisDirection,
         const std::set<wydb::ElementId>& excludeIds = {});
 
-    // 计算高度
-    double computeHeight2(
-        osgViewer::View* pView,
-        double x, double y,
-        const wy3d::Plane& workPln,
-        const wy::Vector2& basePnt,
-        const std::set<wydb::ElementId>& excludeIds);
-
     // 计算旋转角度
     bool computeRotationAngle(
         osgViewer::View* pView,
