@@ -665,7 +665,14 @@ wy::Vector3 MathUtils::projectToPlane(
     wy::Vector3 planeNormal = plane.getNormal();
     double D = (-plane.getOrigin()).dot(planeNormal);
     double t = -planeNormal.dot(worldPos) - D;
-    t /= planeNormal.dot(projDir);
+    const double denom = planeNormal.dot(projDir);
+    if (std::fabs(denom) <= wy3d::EPS)
+    {
+        // View direction is parallel to the plane: no intersection exists.
+        // Drop the cursor ray's near-plane point onto the plane along the normal.
+        return plane.project(worldPos);
+    }
+    t /= denom;
     return worldPos + projDir * t;
 }
 
