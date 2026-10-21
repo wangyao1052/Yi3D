@@ -436,7 +436,8 @@ void ExtrudeGuiCmd::onMouseMove(const MouseEvent& event)
             _pMakeExtrusion->collectElements(excludeIds);
             planeNormal = _pMakeExtrusion->getWorkingPlaneNormal();
         }
-        const double height = this->computeHeight(event.x, event.y, _pickPos, planeNormal, excludeIds); // height可以小于0
+        const wy::Vector3 axisPnt = this->computePointOnAxis(event.x, event.y, _pickPos, planeNormal, excludeIds);
+        const double height = (axisPnt - _pickPos).dot(planeNormal); // height可以小于0
         if (wy3d::ExtrusionDirection::Symmetric == _direction)
         {
             // 对称拉伸下鼠标所在侧不决定方向;鼠标定位的是体的远端,
@@ -493,7 +494,8 @@ void ExtrudeGuiCmd::onLeftMouseDown(const MouseEvent& event)
             _pMakeExtrusion->collectElements(excludeIds);
             planeNormal = _pMakeExtrusion->getWorkingPlaneNormal();
         }
-        const double height = this->computeHeight(event.x, event.y, _pickPos, planeNormal, excludeIds); // height可以小于0
+        const wy::Vector3 axisPnt = this->computePointOnAxis(event.x, event.y, _pickPos, planeNormal, excludeIds);
+        const double height = (axisPnt - _pickPos).dot(planeNormal); // height可以小于0
         _depth = (wy3d::ExtrusionDirection::Symmetric == _direction) ? 2.0 * std::fabs(height) : height;
         if (this->finishStep(_step))
         {

@@ -233,13 +233,15 @@ protected:
         std::shared_ptr<Snap2dContext> pSnapContext,
         const std::set<wydb::ElementId>& snapExcludeIds = {}) = 0;
 
-    // Signed distance from basePnt along planeNormal to the point of that axis
-    // closest to the cursor ray; 0 when the view is unavailable or the ray is
-    // parallel to the plane.
-    virtual double computeHeight(double x, double y,
-        const wy::Vector3& basePnt,
-        const wy::Vector3& planeNormal,
+    // Point on the axis axisOrigin + t*axisDirection closest to the cursor ray
+    // (window coordinates, same as MouseEvent). Object snapping runs first; on a
+    // hit the ray's far end is replaced by the snap position. Returns axisOrigin
+    // when the view is unavailable or the ray is parallel to the axis.
+    virtual wy::Vector3 computePointOnAxis(double x, double y,
+        const wy::Vector3& axisOrigin,
+        const wy::Vector3& axisDirection,
         const std::set<wydb::ElementId>& excludeIds = {}) = 0;
+
     virtual double computeHeight2(double x, double y,
         const wy3d::Plane& workPln,
         const wy::Vector2& basePnt,

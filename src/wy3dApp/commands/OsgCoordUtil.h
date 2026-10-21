@@ -81,13 +81,15 @@ namespace OsgCoordUtil {
         const std::set<wydb::ElementId>& excludeIds,
         bool snap = true);
 
-    // 计算高度
-    double computeHeight(
+    // Cursor ray's closest point on the axis axisOrigin + t*axisDirection.
+    wy::Vector3 computePointOnAxis(
         osgViewer::View* pView,
         double x, double y,
-        const wy::Vector3& basePnt,
-        const wy::Vector3& planeNormal,
+        const wy::Vector3& axisOrigin,
+        const wy::Vector3& axisDirection,
         const std::set<wydb::ElementId>& excludeIds = {});
+
+    // 计算高度
     double computeHeight2(
         osgViewer::View* pView,
         double x, double y,

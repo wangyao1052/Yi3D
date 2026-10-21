@@ -210,16 +210,16 @@ std::pair<wy::Vector2, wyap::SnapResultSPtr> OsgCoordUtil::computePoint2d(
     return std::make_pair(workPlane.uv(ret.first), ret.second);
 }
 
-double OsgCoordUtil::computeHeight(
+wy::Vector3 OsgCoordUtil::computePointOnAxis(
     osgViewer::View* pView,
     double x, double y,
-    const wy::Vector3& basePnt,
-    const wy::Vector3& planeNormal,
+    const wy::Vector3& axisOrigin,
+    const wy::Vector3& axisDirection,
     const std::set<wydb::ElementId>& excludeIds)
 {
-    if (!pView) return 0.0;
+    if (!pView) return axisOrigin;
     osg::Camera* pCamera = pView->getCamera();
-    if (!pCamera) return 0.0;
+    if (!pCamera) return axisOrigin;
     osg::Matrix MVPW = pCamera->getViewMatrix() * pCamera->getProjectionMatrix() * pCamera->getViewport()->computeWindowMatrix();
     osg::Matrix inverseMVPW = MVPW.inverse(MVPW);
     osg::Vec3d nearPnt = osg::Vec3d(x, y, 0.0) * inverseMVPW;
@@ -235,15 +235,15 @@ double OsgCoordUtil::computeHeight(
 
     osg::ref_ptr<osg::LineSegment> mouseLineSeg = new osg::LineSegment(nearPnt, farPnt);
 
-    const osg::Vec3d osgBasePnt = MathUtils::toVec3d(basePnt);
-    const osg::Vec3d osgNormal = MathUtils::toVec3d(planeNormal);
-    osg::ref_ptr<osg::LineSegment> workPlnBaseLineSeg = new osg::LineSegment(osgBasePnt, osgBasePnt + osgNormal);
+    const osg::Vec3d osgOrigin = MathUtils::toVec3d(axisOrigin);
+    const osg::Vec3d osgDirection = MathUtils::toVec3d(axisDirection);
+    osg::ref_ptr<osg::LineSegment> axisLineSeg = new osg::LineSegment(osgOrigin, osgOrigin + osgDirection);
 
-    osg::Vec3d closestPtLine, closestPtProjWorkingLine;
-    if (!computeClosestPoints(*mouseLineSeg, *workPlnBaseLineSeg, closestPtLine, closestPtProjWorkingLine))
-        return 0.0;
+    osg::Vec3d closestPtLine, closestPtOnAxis;
+    if (!computeClosestPoints(*mouseLineSeg, *axisLineSeg, closestPtLine, closestPtOnAxis))
+        return axisOrigin;
 
-    return (closestPtProjWorkingLine - osgBasePnt) * osgNormal;
+    return MathUtils::toVector3(closestPtOnAxis);
 }
 
 double OsgCoordUtil::computeHeight2(

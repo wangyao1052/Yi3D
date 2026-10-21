@@ -72,9 +72,9 @@ protected:
         bool snap = true,
         const std::set<wydb::ElementId>& excludeIds = {}) override;
 
-    double computeHeight(double x, double y,
-        const wy::Vector3& basePnt,
-        const wy::Vector3& planeNormal,
+    wy::Vector3 computePointOnAxis(double x, double y,
+        const wy::Vector3& axisOrigin,
+        const wy::Vector3& axisDirection,
         const std::set<wydb::ElementId>& excludeIds = {}) override;
     double computeHeight2(double x, double y,
         const wy3d::Plane& workPln,
