@@ -172,7 +172,7 @@ void MirrorGuiCmd::gotoStep(Step step)
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.pPreFilter = std::make_shared<MirrorGuiCmdPreSelFilter>();
+        _pointPickOption.preFilter = std::make_shared<MirrorGuiCmdPreSelFilter>();
 
         // 预览
         _sourcePreview.clear();
@@ -197,7 +197,7 @@ void MirrorGuiCmd::gotoStep(Step step)
         assert(!_sourceId.isNull());
         _pointPickOption.allowedElemTypes = ElementNodeType::DatumPlane;
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.pPreFilter = nullptr;
+        _pointPickOption.preFilter = nullptr;
     }
     break;
 

@@ -147,7 +147,7 @@ void SketchFilletGuiCmd::gotoStep(Step step)
         Application::instance().setCursor(CursorType::SelectElements);
 
         // 前置选择过滤器
-        _pointPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity>();
+        _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::SketchEntity>();
     }
     break;
 
@@ -161,7 +161,7 @@ void SketchFilletGuiCmd::gotoStep(Step step)
         if (_pCurveTransient1st) excludeId = _pCurveTransient1st->getId();
         auto pPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity>();
         pPreFilter->setExcludeIds({ excludeId });
-        _pointPickOption.pPreFilter = pPreFilter;
+        _pointPickOption.preFilter = pPreFilter;
     }
     break;
 

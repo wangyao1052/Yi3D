@@ -283,7 +283,7 @@ void ChamferGuiCmd::onLeftMouseUp(const MouseEvent& event)
                 this->toggleSelections(sels);
 
                 // 过滤器
-                _pointPickOption.pPreFilter = std::make_shared<ChamferGuiCmdPreSelFilter>(
+                _pointPickOption.preFilter = std::make_shared<ChamferGuiCmdPreSelFilter>(
                     _pSelSetHighlightor->getSelectionSet());
             }
 

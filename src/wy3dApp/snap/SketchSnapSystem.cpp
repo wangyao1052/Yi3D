@@ -142,7 +142,7 @@ SketchSnapSystem::SketchSnapSystem(const wy3d::Sketch* pSketch)
     _pickOption.pickHalfSize = SnapConsts::PickSize;
     _pickOption.allowedElemTypes = ElementNodeType::SketchEntity;
     _pickOption.selType = wy3d::SelectionType::Element;
-    _pickOption.pPreFilter = std::make_shared<SketchSnapPreSelFilter>(wy3d::SketchCurve::classInfo(), nullptr);
+    _pickOption.preFilter = std::make_shared<SketchSnapPreSelFilter>(wy3d::SketchCurve::classInfo(), nullptr);
 }
 
 const wy3d::Sketch* SketchSnapSystem::getSketch() const
@@ -222,7 +222,7 @@ wydb::ElementId SketchSnapSystem::pickElement(
     const wydb::Database* pDb, osgViewer::View* pView,
     double x, double y, const std::set<wydb::ElementId>& excludeIds)
 {
-    SketchSnapPreSelFilter* pPreSelFilter = dynamic_cast<SketchSnapPreSelFilter*>(_pickOption.pPreFilter.get());
+    SketchSnapPreSelFilter* pPreSelFilter = dynamic_cast<SketchSnapPreSelFilter*>(_pickOption.preFilter.get());
     if (pPreSelFilter) pPreSelFilter->setExcludeIds(&excludeIds);
     wyap::Selection sel = PointPick::pick(pDb, pView, x, y, _pickOption);
     return sel.getElementId();

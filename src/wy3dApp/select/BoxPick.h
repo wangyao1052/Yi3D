@@ -40,15 +40,15 @@ public:
         // 选择类型
         wy3d::SelectionType selType;
         // 排除的元素ID(前置过滤)
-        SelectPreFilterFunctorSPtr pPreFilter;
+        SelectPreFilterFunctorSPtr preFilter;
         // 自定义函数过滤器(后置过滤)
-        SelectPostFilterFunctorSPtr pPostFilter;
+        SelectPostFilterFunctorSPtr postFilter;
 
         Options() :
             allowedElemTypes(ElementNodeType::All),
             selType(wy3d::SelectionType::Element),
-            pPreFilter(nullptr),
-            pPostFilter(nullptr)
+            preFilter(nullptr),
+            postFilter(nullptr)
         {}
     };
 

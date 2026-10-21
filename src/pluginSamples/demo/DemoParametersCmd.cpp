@@ -129,7 +129,7 @@ wyap::CmdExecution::StartResult DemoParametersCmd::onStart()
 
     _pointPickOption.allowedElemTypes = wy3dApp::ElementNodeType::SketchEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pPostFilter = wy3dApp::SingleClassSelPostFilter::create<wy3d::SketchEntity>();
+    _pointPickOption.postFilter = wy3dApp::SingleClassSelPostFilter::create<wy3d::SketchEntity>();
 
     wy3dApp::Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DemoParametersCmd",
         "Click a sketch element to list its parameters."));

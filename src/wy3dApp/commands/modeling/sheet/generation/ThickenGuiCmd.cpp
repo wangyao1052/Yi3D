@@ -127,8 +127,8 @@ wyap::CmdExecution::StartResult ThickenGuiCmd::onStart()
 
     _pointPickOption.allowedElemTypes = ElementNodeType::Sheet;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::Sheet>();
-    _pointPickOption.pPostFilter = SingleClassSelPostFilter::create<wy3d::Sheet>();
+    _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::Sheet>();
+    _pointPickOption.postFilter = SingleClassSelPostFilter::create<wy3d::Sheet>();
 
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
     wydb::ElementId sheetId(wydb::ElementId::kNull);

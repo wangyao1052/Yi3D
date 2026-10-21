@@ -182,9 +182,9 @@ protected:
         // Selection type.
         wy3d::SelectionType selType = wy3d::SelectionType::Element;
         // Pre-filter functor.
-        SelectPreFilterFunctorSPtr pPreFilter = nullptr;
+        SelectPreFilterFunctorSPtr preFilter = nullptr;
         // Post-filter functor.
-        SelectPostFilterFunctorSPtr pPostFilter = nullptr;
+        SelectPostFilterFunctorSPtr postFilter = nullptr;
     };
 
     // Picks an element at window coordinates (x, y), the same system as MouseEvent.

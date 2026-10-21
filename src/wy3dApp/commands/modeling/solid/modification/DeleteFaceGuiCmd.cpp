@@ -111,7 +111,7 @@ void DeleteFaceGuiCmd::cleanUp()
     _faceSels.clear();
 
     _preview.clear();
-    _pointPickOption.pPreFilter = nullptr;
+    _pointPickOption.preFilter = nullptr;
     if (_pSelSetHighlightor_Faces) _pSelSetHighlightor_Faces->clearSelections();
     _pSelSetHighlightor_Faces = nullptr;
 }
@@ -172,8 +172,8 @@ void DeleteFaceGuiCmd::gotoStep(Step step)
         // 拾取配置: 只能是片体的面
         _pointPickOption.allowedElemTypes = ElementNodeType::Sheet;
         _pointPickOption.selType = wy3d::SelectionType::Face;
-        _pointPickOption.pPostFilter = nullptr;
-        _pointPickOption.pPreFilter = std::make_shared<DeleteFacePreSelFilter>(
+        _pointPickOption.postFilter = nullptr;
+        _pointPickOption.preFilter = std::make_shared<DeleteFacePreSelFilter>(
             _pSelSetHighlightor_Faces ? _pSelSetHighlightor_Faces->getSelectionSet() : wyap::SelectionSet());
 
         // 提示信息
@@ -236,7 +236,7 @@ void DeleteFaceGuiCmd::onLeftMouseUp(const MouseEvent& event)
                 _pSelSetHighlightor_Faces->addSelection(sel);
             }
             _faceSels = _pSelSetHighlightor_Faces->getSelectionSet();
-            _pointPickOption.pPreFilter = std::make_shared<DeleteFacePreSelFilter>(_faceSels);
+            _pointPickOption.preFilter = std::make_shared<DeleteFacePreSelFilter>(_faceSels);
             _preview.clear();
             return;
         }
@@ -300,7 +300,7 @@ void DeleteFaceGuiCmd::onClearSelectionMenuItem()
     {
         if (_pSelSetHighlightor_Faces) _pSelSetHighlightor_Faces->clearSelections();
         _faceSels.clear();
-        _pointPickOption.pPreFilter = std::make_shared<DeleteFacePreSelFilter>(_faceSels);
+        _pointPickOption.preFilter = std::make_shared<DeleteFacePreSelFilter>(_faceSels);
     }
 }
 

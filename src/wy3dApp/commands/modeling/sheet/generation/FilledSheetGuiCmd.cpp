@@ -265,8 +265,8 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
 
     _sketchPickOption.allowedElemTypes = ElementNodeType::Sketch | ElementNodeType::Sketch3D;
     _sketchPickOption.selType = wy3d::SelectionType::Element;
-    _sketchPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::Sketch, wy3d::Sketch3D>();
-    _sketchPickOption.pPostFilter = MultiClassSelPostFilter::create<wy3d::Sketch, wy3d::Sketch3D>();
+    _sketchPickOption.preFilter = CommonSelPreFilter::create<wy3d::Sketch, wy3d::Sketch3D>();
+    _sketchPickOption.postFilter = MultiClassSelPostFilter::create<wy3d::Sketch, wy3d::Sketch3D>();
 
     _edgePickOption.allowedElemTypes = ElementNodeType::Solid |
         ElementNodeType::Sheet;
@@ -346,8 +346,8 @@ void FilledSheetGuiCmd::cleanUp()
     _edgePreview.clear();
     _constraintSketchPreview.clear();
     if (_pSelSetHighlightor) _pSelSetHighlightor->clearSelections();
-    _edgePickOption.pPreFilter = nullptr;
-    _constraintSketchPickOption.pPreFilter = nullptr;
+    _edgePickOption.preFilter = nullptr;
+    _constraintSketchPickOption.preFilter = nullptr;
     _preselectedConstraintSketchIds.clear();
     _constraintSketchId2ValidInfo.clear();
     _pMakeFilledSheet = nullptr;
@@ -503,8 +503,8 @@ void FilledSheetGuiCmd::gotoStep(Step step)
         _constraintSketchPickOption.selType = wy3d::SelectionType::Element;
         auto pPreFilter = CommonSelPreFilter::create<wy3d::Sketch, wy3d::Sketch3D>();
         pPreFilter->setExcludeIds({ _sketchId });
-        _constraintSketchPickOption.pPreFilter = pPreFilter;
-        _constraintSketchPickOption.pPostFilter = MultiClassSelPostFilter::create<
+        _constraintSketchPickOption.preFilter = pPreFilter;
+        _constraintSketchPickOption.postFilter = MultiClassSelPostFilter::create<
             wy3d::Sketch, wy3d::Sketch3D>();
 
         Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
@@ -740,7 +740,7 @@ void FilledSheetGuiCmd::onEscapeKey()
     {
         _pSelSetHighlightor->clearSelections();
         _edgePreview.clear();
-        _edgePickOption.pPreFilter = nullptr;
+        _edgePickOption.preFilter = nullptr;
         this->gotoStep(Step::SelectSketch);
     }
     else
@@ -811,7 +811,7 @@ void FilledSheetGuiCmd::onClearSelectionMenuItem()
         if (_pSelSetHighlightor)
         {
             _pSelSetHighlightor->clearSelections();
-            _edgePickOption.pPreFilter = nullptr;
+            _edgePickOption.preFilter = nullptr;
             Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
                 "Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         }

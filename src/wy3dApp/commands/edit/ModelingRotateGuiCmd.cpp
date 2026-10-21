@@ -76,7 +76,7 @@ void ModelingRotateGuiCmd::onStart_EnvSpecific()
     // 选择工作平面点选选项:基准面
     _pickWorkPlnOption.allowedElemTypes = ElementNodeType::DatumPlane;
     _pickWorkPlnOption.selType = wy3d::SelectionType::Element;
-    _pickWorkPlnOption.pPostFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
+    _pickWorkPlnOption.postFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
 }
 
 void ModelingRotateGuiCmd::cleanupEnvSpecific()

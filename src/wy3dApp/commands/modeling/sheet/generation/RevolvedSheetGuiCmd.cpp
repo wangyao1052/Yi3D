@@ -66,7 +66,7 @@ wyap::CmdExecution::StartResult RevolvedSheetGuiCmd::onStart()
 
     _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pPostFilter = SingleClassSelPostFilter::create<wy3d::Sketch>();
+    _pointPickOption.postFilter = SingleClassSelPostFilter::create<wy3d::Sketch>();
 
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
     wydb::ElementId sketchId(wydb::ElementId::kNull);
@@ -197,7 +197,7 @@ void RevolvedSheetGuiCmd::gotoStep(Step step)
 
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
         _pointPickOption.selType = wy3d::SelectionType::SketchCurve | wy3d::SelectionType::Element;
-        _pointPickOption.pPostFilter = nullptr;
+        _pointPickOption.postFilter = nullptr;
     }
     break;
 

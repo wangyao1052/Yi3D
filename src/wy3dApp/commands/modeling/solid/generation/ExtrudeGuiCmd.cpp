@@ -85,7 +85,7 @@ wyap::CmdExecution::StartResult ExtrudeGuiCmd::onStart()
     // 初始化:点选选项
     _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pPostFilter = SingleClassSelPostFilter::create<wy3d::Sketch>();
+    _pointPickOption.postFilter = SingleClassSelPostFilter::create<wy3d::Sketch>();
 
     // 初始化:步骤
     const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
@@ -384,8 +384,8 @@ void ExtrudeCutGuiCmd::gotoStep(Step step)
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.pPreFilter = std::make_shared<SolidToCutSelectPreFilter>();
-        _pointPickOption.pPostFilter = SingleClassSelPostFilter::create<wy3d::Solid>();
+        _pointPickOption.preFilter = std::make_shared<SolidToCutSelectPreFilter>();
+        _pointPickOption.postFilter = SingleClassSelPostFilter::create<wy3d::Solid>();
     }
     else
     {

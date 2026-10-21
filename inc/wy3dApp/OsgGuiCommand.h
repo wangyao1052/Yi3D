@@ -38,22 +38,17 @@ class WY3DAPP_EXPORT OsgGuiCommand : public GuiCommand
 public:
     OsgGuiCommand();
 
-    // 事件响应函数
     bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa);
 
 protected:
-    // 获取 OSG 视图
-    osgViewer::View* getOsgView() const;
+    osgViewer::View* getOsgView() const { return _pOsgView.get(); }
 
-    // Converts screen coordinates to window coordinates.
     void screenToWindow(double screenX, double screenY,
                         double& windowX, double& windowY) const override;
 
-    // 点选
     wyap::Selection pointPick(double x, double y,
         const PointPickOptions& option) override;
 
-    // 坐标计算
     std::pair<wy::Vector3, wyap::SnapResultSPtr> computePoint(
         double x, double y,
         const wy3d::Plane& workPlane,
@@ -78,7 +73,6 @@ protected:
         const std::set<wydb::ElementId>& excludeIds = {}) override;
 
 protected:
-    // 当前命令事件对应的视图(非拥有)
     osg::observer_ptr<osgViewer::View> _pOsgView;
 };
 

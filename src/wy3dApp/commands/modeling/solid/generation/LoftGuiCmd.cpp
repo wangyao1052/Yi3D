@@ -330,8 +330,8 @@ void LoftCutGuiCmd::gotoStep(Step step)
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.pPreFilter = std::make_shared<SolidToCutSelectPreFilter>();
-        _pointPickOption.pPostFilter = SingleClassSelPostFilter::create<wy3d::Solid>();
+        _pointPickOption.preFilter = std::make_shared<SolidToCutSelectPreFilter>();
+        _pointPickOption.postFilter = SingleClassSelPostFilter::create<wy3d::Solid>();
     }
     else
     {

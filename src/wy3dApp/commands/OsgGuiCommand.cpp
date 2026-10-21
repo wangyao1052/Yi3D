@@ -156,11 +156,6 @@ bool OsgGuiCommand::handle(
     return false;
 }
 
-osgViewer::View* OsgGuiCommand::getOsgView() const
-{
-    return _pOsgView.get();
-}
-
 void OsgGuiCommand::screenToWindow(double screenX, double screenY,
                                    double& windowX, double& windowY) const
 {
@@ -197,8 +192,8 @@ wyap::Selection OsgGuiCommand::pointPick(
     PointPick::Options pickOptions;
     pickOptions.allowedElemTypes = option.allowedElemTypes;
     pickOptions.selType = option.selType;
-    pickOptions.pPreFilter = option.pPreFilter;
-    pickOptions.pPostFilter = option.pPostFilter;
+    pickOptions.preFilter = option.preFilter;
+    pickOptions.postFilter = option.postFilter;
     return PointPick::pick(pDb, pView, x, y, pickOptions);
 }
 

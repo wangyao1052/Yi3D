@@ -158,7 +158,7 @@ void Sketch3DFilletGuiCmd::gotoStep(Step step)
             "Select the first sketch entity."));
         Application::instance().setCursor(CursorType::SelectElements);
 
-        _pointPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity3D>();
+        _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::SketchEntity3D>();
     }
     break;
 
@@ -170,7 +170,7 @@ void Sketch3DFilletGuiCmd::gotoStep(Step step)
 
         auto pPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity3D>();
         pPreFilter->setExcludeIds({ _id1st });
-        _pointPickOption.pPreFilter = pPreFilter;
+        _pointPickOption.preFilter = pPreFilter;
     }
     break;
 

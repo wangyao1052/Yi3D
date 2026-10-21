@@ -272,7 +272,7 @@ void FilletGuiCmd::onLeftMouseUp(const MouseEvent& event)
                 this->toggleSelections(sels);
 
                 // 过滤器
-                _pointPickOption.pPreFilter = std::make_shared<FilletGuiCmdPreSelFilter>(
+                _pointPickOption.preFilter = std::make_shared<FilletGuiCmdPreSelFilter>(
                     _pSelSetHighlightor->getSelectionSet());
             }
 

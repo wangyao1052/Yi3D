@@ -379,7 +379,7 @@ void SketchDrawLineTangentGuiCmd::gotoStep(Step step)
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.pPreFilter = std::make_shared<DrawLineTangentPreFilter>(wydb::ElementId::kNull, _cachedTangentLines);
+        _pointPickOption.preFilter = std::make_shared<DrawLineTangentPreFilter>(wydb::ElementId::kNull, _cachedTangentLines);
 
         // 选择集高亮器
         _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>();
@@ -399,7 +399,7 @@ void SketchDrawLineTangentGuiCmd::gotoStep(Step step)
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.pPreFilter = std::make_shared<DrawLineTangentPreFilter>(_startElementId, _cachedTangentLines);
+        _pointPickOption.preFilter = std::make_shared<DrawLineTangentPreFilter>(_startElementId, _cachedTangentLines);
     }
     break;
 

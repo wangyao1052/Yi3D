@@ -137,7 +137,7 @@ wyap::CmdExecution::StartResult CheckTopoNameGuiCmd::onStart()
     // 初始化
     _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pPreFilter = std::make_shared<CheckTopoNameGuiCmdPreSelFilter>();
+    _pointPickOption.preFilter = std::make_shared<CheckTopoNameGuiCmdPreSelFilter>();
 
     // 清空选择集
     Application::instance().getSelManager()->beginChange();

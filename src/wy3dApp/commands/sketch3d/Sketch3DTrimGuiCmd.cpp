@@ -144,7 +144,7 @@ wyap::CmdExecution::StartResult Sketch3DTrimGuiCmd::onStart()
 
     _pointPickOption.allowedElemTypes = ElementNodeType::Sketch3DEntity;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity3D>();
+    _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::SketchEntity3D>();
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }

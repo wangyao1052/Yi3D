@@ -39,7 +39,7 @@ bool _traverseIntersections(
     const PointPick::Options& option,
     DrawMode allowedDrawMode = DrawMode::All)
 {
-    if (option.pPreFilter)
+    if (option.preFilter)
     {
         wydb::ElementId id = wydb::ElementId::kNull;
         for (auto iter = intersections.cbegin(); iter != intersections.cend(); ++iter)
@@ -68,7 +68,7 @@ bool _traverseIntersections(
                 id = wydb::ElementId(idValue);
             }
 
-            switch ((*option.pPreFilter)(pDb, id, SelectAction::Point))
+            switch ((*option.preFilter)(pDb, id, SelectAction::Point))
             {
             case SelectFilterStatus::Ok:
             {
@@ -497,7 +497,7 @@ wyap::Selection pointPick_PolytopeIntersector(
     sel.setPickPosition(MathUtils::toVector3(pIntersection->localIntersectionPoint));
 
     // 用户自定义过滤
-    return _userFilter(pDb, option.pPostFilter, sel);
+    return _userFilter(pDb, option.postFilter, sel);
 }
 
 // 线段求交器
@@ -540,7 +540,7 @@ wyap::Selection pointPick_LineSegmentIntersector(
     sel.setPickPosition(MathUtils::toVector3(pIntersection->localIntersectionPoint));
 
     // 用户自定义过滤
-    return _userFilter(pDb, option.pPostFilter, sel);
+    return _userFilter(pDb, option.postFilter, sel);
 }
 
 wyap::Selection PointPick::pick(

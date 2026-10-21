@@ -284,7 +284,7 @@ void SketchIntersectionCurve3DGuiCmd::holdFirst(const wyap::Selection& sel, cons
 
 void SketchIntersectionCurve3DGuiCmd::setAllowPlane(bool allow)
 {
-    _pointPickOption.pPostFilter = std::make_shared<IntersectionSourceSelFilter>(allow);
+    _pointPickOption.postFilter = std::make_shared<IntersectionSourceSelFilter>(allow);
 }
 
 void SketchIntersectionCurve3DGuiCmd::applyPair(const wyap::Selection& second, const Source& source)

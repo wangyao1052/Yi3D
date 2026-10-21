@@ -472,8 +472,8 @@ void MeasureGuiCmd::cycleMode()
 
 void MeasureGuiCmd::applyPickOptionForMode()
 {
-    _pointPickOption.pPreFilter = nullptr;
-    _pointPickOption.pPostFilter = nullptr;
+    _pointPickOption.preFilter = nullptr;
+    _pointPickOption.postFilter = nullptr;
 
     switch (_mode)
     {
@@ -498,7 +498,7 @@ void MeasureGuiCmd::applyPickOptionForMode()
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
         _pointPickOption.selType = wy3d::SelectionType::Element;
         // 仅实体有体积,过滤掉其他元素类
-        _pointPickOption.pPreFilter = CommonSelPreFilter::create<wy3d::Solid>();
+        _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::Solid>();
     }
     break;
 

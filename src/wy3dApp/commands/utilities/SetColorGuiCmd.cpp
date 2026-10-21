@@ -71,7 +71,7 @@ wyap::CmdExecution::StartResult SetColorGuiCmd::onStart()
     // 点选选项
     _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
     _pointPickOption.selType = wy3d::SelectionType::Element;
-    _pointPickOption.pPostFilter = MultiClassSelPostFilter::create<wy3d::Solid, wy3d::Sheet>();
+    _pointPickOption.postFilter = MultiClassSelPostFilter::create<wy3d::Solid, wy3d::Sheet>();
 
     // 鼠标样式
     Application::instance().setCursor(CursorType::SelectElements);
