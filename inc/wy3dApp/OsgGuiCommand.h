@@ -73,17 +73,16 @@ protected:
         bool snap = true,
         const std::set<wydb::ElementId>& excludeIds = {}) override;
 
-    bool computeHeight(double x, double y,
-        const wy::Vector3& basePnt, double& height,
+    double computeHeight(double x, double y,
+        const wy::Vector3& basePnt,
         const GuiCmdMakeElement* pMakeElement = nullptr) override;
-    bool computeHeight(double x, double y,
-        const osg::Vec3d& basePnt, double& height,
+    double computeHeight(double x, double y,
+        const osg::Vec3d& basePnt,
         const GuiCmdMakeElement* pMakeElement = nullptr) override;
-    bool computeHeight2(double x, double y,
+    double computeHeight2(double x, double y,
         const wy3d::Plane& workPln,
         const wy::Vector2& basePnt,
-        const std::set<wydb::ElementId>& excludeIds,
-        double& height) override;
+        const std::set<wydb::ElementId>& excludeIds) override;
 
     bool computeRotationAngle(double x, double y,
         const wy3d::Plane& workPln,

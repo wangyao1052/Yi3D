@@ -270,18 +270,11 @@ void MakeConeGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPnt3: // 确定高度
     {
-        double height(0.0);
-        if (this->computeHeight2(event.x, event.y, _workPln, _uv2, _excludeIds, height)) // height可以小于0
+        const double height = this->computeHeight2(event.x, event.y, _workPln, _uv2, _excludeIds); // height可以小于0
+        _hoverPopupState.heightSign = height < 0.0 ? -1 : 1;
+        _hoverPopupState.height = std::fabs(height);
         {
-            _hoverPopupState.heightSign = height < 0.0 ? -1 : 1;
-            _hoverPopupState.height = std::fabs(height);
-            {
-                if (_pMakeCone) _pMakeCone->update(height);
-            }
-        }
-        else
-        {
-            assert(false);
+            if (_pMakeCone) _pMakeCone->update(height);
         }
         return;
     }
@@ -342,19 +335,12 @@ void MakeConeGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPnt3:
     {
-        double height(0.0);
-        if (this->computeHeight2(event.x, event.y, _workPln, _uv2, _excludeIds, height))
+        const double height = this->computeHeight2(event.x, event.y, _workPln, _uv2, _excludeIds);
+        _hoverPopupState.heightSign = height < 0.0 ? -1 : 1;
+        _height = height;
+        if (this->finishStep(_step))
         {
-            _hoverPopupState.heightSign = height < 0.0 ? -1 : 1;
-            _height = height;
-            if (this->finishStep(_step))
-            {
-                this->simulateMouseMoveFromPopup();
-            }
-        }
-        else
-        {
-            assert(false);
+            this->simulateMouseMoveFromPopup();
         }
         return;
     }

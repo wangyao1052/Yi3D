@@ -211,28 +211,24 @@ std::pair<wy::Vector2, wyap::SnapResultSPtr> OsgCoordUtil::computePoint2d(
     return std::make_pair(workPlane.uv(ret.first), ret.second);
 }
 
-bool OsgCoordUtil::computeHeight(
+double OsgCoordUtil::computeHeight(
     osgViewer::View* pView,
     double x, double y,
     const wy::Vector3& basePnt,
-    double& height,
     const GuiCmdMakeElement* pMakeElement)
 {
-    return OsgCoordUtil::computeHeight(pView, x, y, osg::Vec3d(basePnt.x(), basePnt.y(), basePnt.z()), height, pMakeElement);
+    return OsgCoordUtil::computeHeight(pView, x, y, osg::Vec3d(basePnt.x(), basePnt.y(), basePnt.z()), pMakeElement);
 }
 
-bool OsgCoordUtil::computeHeight(
+double OsgCoordUtil::computeHeight(
     osgViewer::View* pView,
     double x, double y,
     const osg::Vec3d& basePnt,
-    double& height,
     const GuiCmdMakeElement* pMakeElement)
 {
-    height = 0.0;
-
-    if (!pView) return false;
+    if (!pView) return 0.0;
     osg::Camera* pCamera = pView->getCamera();
-    if (!pCamera) return false;
+    if (!pCamera) return 0.0;
     osg::Matrix MVPW = pCamera->getViewMatrix() * pCamera->getProjectionMatrix() * pCamera->getViewport()->computeWindowMatrix();
     osg::Matrix inverseMVPW = MVPW.inverse(MVPW);
     osg::Vec3d nearPnt = osg::Vec3d(x, y, 0.0) * inverseMVPW;
@@ -260,28 +256,21 @@ bool OsgCoordUtil::computeHeight(
 
     osg::Vec3d closestPtLine, closestPtProjWorkingLine;
     if (!computeClosestPoints(*mouseLineSeg, *workPlnBaseLineSeg, closestPtLine, closestPtProjWorkingLine))
-    {
-        height = 0.0;
-        return true;
-    }
+        return 0.0;
 
-    height = (closestPtProjWorkingLine - basePnt) * osg::Vec3d(wokkPlnNormal.x(), wokkPlnNormal.y(), wokkPlnNormal.z());
-    return true;
+    return (closestPtProjWorkingLine - basePnt) * osg::Vec3d(wokkPlnNormal.x(), wokkPlnNormal.y(), wokkPlnNormal.z());
 }
 
-bool OsgCoordUtil::computeHeight2(
+double OsgCoordUtil::computeHeight2(
     osgViewer::View* pView,
     double x, double y,
     const wy3d::Plane& workPln,
     const wy::Vector2& baseUV,
-    const std::set<wydb::ElementId>& excludeIds,
-    double& height)
+    const std::set<wydb::ElementId>& excludeIds)
 {
-    height = 0.0;
-
-    if (!pView) return false;
+    if (!pView) return 0.0;
     osg::Camera* pCamera = pView->getCamera();
-    if (!pCamera) return false;
+    if (!pCamera) return 0.0;
     osg::Matrix MVPW = pCamera->getViewMatrix() * pCamera->getProjectionMatrix() * pCamera->getViewport()->computeWindowMatrix();
     osg::Matrix inverseMVPW = MVPW.inverse(MVPW);
     osg::Vec3d nearPnt = osg::Vec3d(x, y, 0.0) * inverseMVPW;
@@ -292,8 +281,7 @@ bool OsgCoordUtil::computeHeight2(
     if (pSnapResult)
     {
         const wy::Vector3& pos = pSnapResult->getPosition();
-        height = (pos - workPln.getOrigin()).dot(workPln.getNormal());
-        return true;
+        return (pos - workPln.getOrigin()).dot(workPln.getNormal());
     }
 
     osg::ref_ptr<osg::LineSegment> mouseLineSeg = new osg::LineSegment(nearPnt, farPnt);
@@ -305,13 +293,9 @@ bool OsgCoordUtil::computeHeight2(
 
     osg::Vec3d closestPtLine, closestPtProjWorkingLine;
     if (!computeClosestPoints(*mouseLineSeg, *workPlnBaseLineSeg, closestPtLine, closestPtProjWorkingLine))
-    {
-        height = 0.0;
-        return true;
-    }
+        return 0.0;
 
-    height = (MathUtils::toVector3(closestPtProjWorkingLine) - basePnt).dot(wokkPlnNormal);
-    return true;
+    return (MathUtils::toVector3(closestPtProjWorkingLine) - basePnt).dot(wokkPlnNormal);
 }
 
 bool OsgCoordUtil::computeRotationAngle(

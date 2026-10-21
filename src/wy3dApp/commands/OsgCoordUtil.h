@@ -83,25 +83,22 @@ namespace OsgCoordUtil {
         bool snap = true);
 
     // 计算高度
-    bool computeHeight(
+    double computeHeight(
         osgViewer::View* pView,
         double x, double y,
         const wy::Vector3& basePnt,
-        double& height,
         const GuiCmdMakeElement* pMakeElement = nullptr);
-    bool computeHeight(
+    double computeHeight(
         osgViewer::View* pView,
         double x, double y,
         const osg::Vec3d& basePnt,
-        double& height,
         const GuiCmdMakeElement* pMakeElement);  // no default, this is the main impl
-    bool computeHeight2(
+    double computeHeight2(
         osgViewer::View* pView,
         double x, double y,
         const wy3d::Plane& workPln,
         const wy::Vector2& basePnt,
-        const std::set<wydb::ElementId>& excludeIds,
-        double& height);
+        const std::set<wydb::ElementId>& excludeIds);
 
     // 计算旋转角度
     bool computeRotationAngle(

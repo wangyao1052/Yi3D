@@ -235,17 +235,18 @@ protected:
         std::shared_ptr<Snap2dContext> pSnapContext,
         const std::set<wydb::ElementId>& snapExcludeIds = {}) = 0;
 
-    virtual bool computeHeight(double x, double y,
-        const wy::Vector3& basePnt, double& height,
+    // Distance from basePnt to the plane along its normal; 0 when the view is
+    // unavailable or the picking ray is parallel to the plane.
+    virtual double computeHeight(double x, double y,
+        const wy::Vector3& basePnt,
         const GuiCmdMakeElement* pMakeElement = nullptr) = 0;
-    virtual bool computeHeight(double x, double y,
-        const osg::Vec3d& basePnt, double& height,
+    virtual double computeHeight(double x, double y,
+        const osg::Vec3d& basePnt,
         const GuiCmdMakeElement* pMakeElement = nullptr) = 0;
-    virtual bool computeHeight2(double x, double y,
+    virtual double computeHeight2(double x, double y,
         const wy3d::Plane& workPln,
         const wy::Vector2& basePnt,
-        const std::set<wydb::ElementId>& excludeIds,
-        double& height) = 0;
+        const std::set<wydb::ElementId>& excludeIds) = 0;
 
     virtual bool computeRotationAngle(double x, double y,
         const wy3d::Plane& workPln,

@@ -231,25 +231,24 @@ std::pair<wy::Vector2, wyap::SnapResultSPtr> OsgGuiCommand::computePoint2d(
     return OsgCoordUtil::computePoint2d(getOsgView(), x, y, workPlane, excludeIds, snap);
 }
 
-bool OsgGuiCommand::computeHeight(double x, double y, const wy::Vector3& basePnt, double& height,
+double OsgGuiCommand::computeHeight(double x, double y, const wy::Vector3& basePnt,
     const GuiCmdMakeElement* pMakeElement)
 {
-    return OsgCoordUtil::computeHeight(getOsgView(), x, y, basePnt, height, pMakeElement);
+    return OsgCoordUtil::computeHeight(getOsgView(), x, y, basePnt, pMakeElement);
 }
 
-bool OsgGuiCommand::computeHeight(double x, double y, const osg::Vec3d& basePnt, double& height,
+double OsgGuiCommand::computeHeight(double x, double y, const osg::Vec3d& basePnt,
     const GuiCmdMakeElement* pMakeElement)
 {
-    return OsgCoordUtil::computeHeight(getOsgView(), x, y, basePnt, height, pMakeElement);
+    return OsgCoordUtil::computeHeight(getOsgView(), x, y, basePnt, pMakeElement);
 }
 
-bool OsgGuiCommand::computeHeight2(double x, double y,
+double OsgGuiCommand::computeHeight2(double x, double y,
     const wy3d::Plane& workPln,
     const wy::Vector2& basePnt,
-    const std::set<wydb::ElementId>& excludeIds,
-    double& height)
+    const std::set<wydb::ElementId>& excludeIds)
 {
-    return OsgCoordUtil::computeHeight2(getOsgView(), x, y, workPln, basePnt, excludeIds, height);
+    return OsgCoordUtil::computeHeight2(getOsgView(), x, y, workPln, basePnt, excludeIds);
 }
 
 bool OsgGuiCommand::computeRotationAngle(double x, double y,

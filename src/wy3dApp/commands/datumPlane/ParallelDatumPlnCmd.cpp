@@ -229,21 +229,13 @@ void ParallelDatumPlnCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyDistance:
     {
-        double distance(0.0);
-        if (this->computeHeight2(event.x, event.y, _plane, _pickUV, {}, distance))
+        const double distance = this->computeHeight2(event.x, event.y, _plane, _pickUV, {});
+        _hoverPopupState.distanceSign = distance < 0.0 ? -1 : 1;
+        _hoverPopupState.distance = std::fabs(distance);
         {
-            _hoverPopupState.distanceSign = distance < 0.0 ? -1 : 1;
-            _hoverPopupState.distance = std::fabs(distance);
-            {
-                if (_pMakeDatumPlane) _pMakeDatumPlane->update(wy3d::Plane::offset(_plane, distance));
-            }
-            return;
+            if (_pMakeDatumPlane) _pMakeDatumPlane->update(wy3d::Plane::offset(_plane, distance));
         }
-        else
-        {
-            assert(false);
-            return;
-        }
+        return;
     }
     break;
     }
@@ -262,18 +254,9 @@ void ParallelDatumPlnCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyDistance:
     {
-        double distance(0.0);
-        if (this->computeHeight2(event.x, event.y, _plane, _pickUV, {}, distance))
-        {
-            _distance = distance;
-            this->finishStep(_step);
-            return;
-        }
-        else
-        {
-            assert(false);
-            return;
-        }
+        _distance = this->computeHeight2(event.x, event.y, _plane, _pickUV, {});
+        this->finishStep(_step);
+        return;
     }
     break;
     }

@@ -429,29 +429,22 @@ void ExtrudeGuiCmd::onMouseMove(const MouseEvent& event)
     }
     else if (_step == Step::SpecifyDepth) // 确定拉伸深度
     {
-        double height(0.0);
-        if (this->computeHeight(event.x, event.y, _pickPos, height, _pMakeExtrusion.get())) // height可以小于0
+        const double height = this->computeHeight(event.x, event.y, _pickPos, _pMakeExtrusion.get()); // height可以小于0
+        if (wy3d::ExtrusionDirection::Symmetric == _direction)
         {
-            if (wy3d::ExtrusionDirection::Symmetric == _direction)
-            {
-                // 对称拉伸下鼠标所在侧不决定方向;鼠标定位的是体的远端,
-                // 所以总深度 = 2 * 鼠标到草图面的距离
-                _hoverPopupState.depthSign = 1;
-                _hoverPopupState.depth = 2.0 * std::fabs(height);
-                if (_pMakeExtrusion) _pMakeExtrusion->update(_hoverPopupState.depth);
-            }
-            else
-            {
-                _hoverPopupState.depthSign = height < 0.0 ? -1 : 1;
-                _hoverPopupState.depth = std::fabs(height);
-                {
-                    if (_pMakeExtrusion) _pMakeExtrusion->update(height);
-                }
-            }
+            // 对称拉伸下鼠标所在侧不决定方向;鼠标定位的是体的远端,
+            // 所以总深度 = 2 * 鼠标到草图面的距离
+            _hoverPopupState.depthSign = 1;
+            _hoverPopupState.depth = 2.0 * std::fabs(height);
+            if (_pMakeExtrusion) _pMakeExtrusion->update(_hoverPopupState.depth);
         }
         else
         {
-            assert(false);
+            _hoverPopupState.depthSign = height < 0.0 ? -1 : 1;
+            _hoverPopupState.depth = std::fabs(height);
+            {
+                if (_pMakeExtrusion) _pMakeExtrusion->update(height);
+            }
         }
     }
 
@@ -486,18 +479,11 @@ void ExtrudeGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::SpecifyDepth)
     {
-        double height(0.0);
-        if (this->computeHeight(event.x, event.y, _pickPos, height, _pMakeExtrusion.get())) // height可以小于0
+        const double height = this->computeHeight(event.x, event.y, _pickPos, _pMakeExtrusion.get()); // height可以小于0
+        _depth = (wy3d::ExtrusionDirection::Symmetric == _direction) ? 2.0 * std::fabs(height) : height;
+        if (this->finishStep(_step))
         {
-            _depth = (wy3d::ExtrusionDirection::Symmetric == _direction) ? 2.0 * std::fabs(height) : height;
-            if (this->finishStep(_step))
-            {
-                this->simulateMouseMoveFromPopup();
-            }
-        }
-        else
-        {
-            assert(false);
+            this->simulateMouseMoveFromPopup();
         }
     }
 
