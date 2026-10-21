@@ -1818,12 +1818,12 @@
         <translation type="unfinished">Specify the start point.</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="267"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="264"/>
         <source>Specify the end point.</source>
         <translation type="unfinished">Specify the end point.</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="687"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="684"/>
         <source>Clear Measure Results</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2102,13 +2102,13 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="703"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="705"/>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="715"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="714"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>
@@ -2449,32 +2449,32 @@
 <context>
     <name>SketchDrawArcTangent</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="539"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="547"/>
         <source>Specify the start point on an endpoint of an existing curve; the arc is tangent to the curve.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="553"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="561"/>
         <source>Specify the end point of the arc; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="566"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="574"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">Specify the radius; you can directly input the value.</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="579"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="587"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="781"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="789"/>
         <source>Radius</source>
         <translation type="unfinished">Radius</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="792"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="800"/>
         <source>SweepAngle</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3074,12 +3074,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="334"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="333"/>
         <source>Offset Distance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="211"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="210"/>
         <source>Specify through point or input offset distance.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3268,12 +3268,12 @@
 <context>
     <name>SketchRelocateCsysGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="129"/>
+        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="123"/>
         <source>Specify the origin point.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="146"/>
+        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="140"/>
         <source>Specify the X axis.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4695,17 +4695,17 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::MeasureGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="464"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="461"/>
         <source>Select an edge.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="465"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="462"/>
         <source>Select a face.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="466"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="463"/>
         <source>Select a body.</source>
         <translation type="unfinished"></translation>
     </message>
