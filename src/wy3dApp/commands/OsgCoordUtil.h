@@ -38,7 +38,6 @@ namespace wydb { class Database; }
 
 namespace wy3dApp {
 
-class GuiCmdMakeElement;
 class Snap2dSystem;
 class Snap2dContext;
 class Sketch3DSnapContext;
@@ -87,7 +86,8 @@ namespace OsgCoordUtil {
         osgViewer::View* pView,
         double x, double y,
         const wy::Vector3& basePnt,
-        const GuiCmdMakeElement* pMakeElement = nullptr);
+        const wy::Vector3& planeNormal,
+        const std::set<wydb::ElementId>& excludeIds = {});
     double computeHeight2(
         osgViewer::View* pView,
         double x, double y,

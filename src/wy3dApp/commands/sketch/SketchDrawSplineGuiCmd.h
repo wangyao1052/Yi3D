@@ -20,6 +20,7 @@
 #define WY3DAPP_SKETCH_DRAW_SPLINE_GUI_CMD_H
 
 #include <wy3dApp/OsgGuiCommand.h>
+#include "commands/GuiCmdMakeElement.h"
 #include <cfloat>
 #include <list>
 #include <memory>

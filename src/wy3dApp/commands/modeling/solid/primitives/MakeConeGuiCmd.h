@@ -20,6 +20,7 @@
 #define WY3DAPP_MAKE_CONE_GUI_CMD_H
 
 #include <cfloat>
+#include "commands/GuiCmdMakeElement.h"
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wy3dVector3.h>

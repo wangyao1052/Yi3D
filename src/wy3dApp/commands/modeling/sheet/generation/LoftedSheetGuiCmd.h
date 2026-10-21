@@ -24,6 +24,7 @@
 #include <wy3dLoftedSheet.h>
 
 #include <wy3dApp/OsgGuiCommand.h>
+#include "commands/GuiCmdMakeElement.h"
 #include "commands/transient/ValidSketchTransient.h"
 #include "select/SelectionSetHighlightor.h"
 #include <wy3dApp/wy3dAppDefs.h>

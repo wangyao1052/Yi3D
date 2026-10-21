@@ -20,6 +20,7 @@
 #define WY3DAPP_SKETCH_DRAW_ARC_BY_3_POINTS3D_GUI_CMD_H
 
 #include "commands/sketch3d/Sketch3DDrawGuiCmd.h"
+#include "commands/GuiCmdMakeElement.h"
 #include <cfloat>
 #include <memory>
 #include <set>

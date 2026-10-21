@@ -74,7 +74,8 @@ protected:
 
     double computeHeight(double x, double y,
         const wy::Vector3& basePnt,
-        const GuiCmdMakeElement* pMakeElement = nullptr) override;
+        const wy::Vector3& planeNormal,
+        const std::set<wydb::ElementId>& excludeIds = {}) override;
     double computeHeight2(double x, double y,
         const wy3d::Plane& workPln,
         const wy::Vector2& basePnt,

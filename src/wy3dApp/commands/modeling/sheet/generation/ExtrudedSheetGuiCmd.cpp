@@ -372,7 +372,14 @@ void ExtrudedSheetGuiCmd::onMouseMove(const MouseEvent& event)
     }
     else if (_step == Step::SpecifyDepth)
     {
-        const double height = this->computeHeight(event.x, event.y, _pickPos, _pMakeExtrudedSheet.get());
+        std::set<wydb::ElementId> excludeIds;
+        wy::Vector3 planeNormal(0.0, 0.0, 1.0);
+        if (_pMakeExtrudedSheet)
+        {
+            _pMakeExtrudedSheet->collectElements(excludeIds);
+            planeNormal = _pMakeExtrudedSheet->getWorkingPlaneNormal();
+        }
+        const double height = this->computeHeight(event.x, event.y, _pickPos, planeNormal, excludeIds);
         if (wy3d::ExtrusionDirection::Symmetric == _direction)
         {
             // 对称拉伸下鼠标所在侧不决定方向;鼠标定位的是体的远端,
@@ -404,7 +411,14 @@ void ExtrudedSheetGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::SpecifyDepth)
     {
-        const double height = this->computeHeight(event.x, event.y, _pickPos, _pMakeExtrudedSheet.get());
+        std::set<wydb::ElementId> excludeIds;
+        wy::Vector3 planeNormal(0.0, 0.0, 1.0);
+        if (_pMakeExtrudedSheet)
+        {
+            _pMakeExtrudedSheet->collectElements(excludeIds);
+            planeNormal = _pMakeExtrudedSheet->getWorkingPlaneNormal();
+        }
+        const double height = this->computeHeight(event.x, event.y, _pickPos, planeNormal, excludeIds);
         _depth = (wy3d::ExtrusionDirection::Symmetric == _direction) ? 2.0 * std::fabs(height) : height;
         if (this->finishStep(_step))
         {

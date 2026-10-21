@@ -20,6 +20,7 @@
 #define WY3DAPP_REVOLUTION_GUI_CMD_H
 
 #include <wy3dApp/OsgGuiCommand.h>
+#include "commands/GuiCmdMakeElement.h"
 #include <map>
 #include <memory>
 #include <wy3dRevolution.h>

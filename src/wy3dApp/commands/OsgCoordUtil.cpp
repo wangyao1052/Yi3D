@@ -28,7 +28,6 @@
 
 #include <wy3dApp/Application.h>
 #include "snap/SnapContext.h"
-#include "commands/GuiCmdMakeElement.h"
 #include <wy3dApp/Snap2dSystem.h>
 #include <wy3dApp/Snap2dContext.h>
 #include "snap/SnapResult.h"
@@ -215,7 +214,8 @@ double OsgCoordUtil::computeHeight(
     osgViewer::View* pView,
     double x, double y,
     const wy::Vector3& basePnt,
-    const GuiCmdMakeElement* pMakeElement)
+    const wy::Vector3& planeNormal,
+    const std::set<wydb::ElementId>& excludeIds)
 {
     if (!pView) return 0.0;
     osg::Camera* pCamera = pView->getCamera();
@@ -226,8 +226,6 @@ double OsgCoordUtil::computeHeight(
     osg::Vec3d farPnt = osg::Vec3d(x, y, 1.0) * inverseMVPW;
 
     wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
-    std::set<wydb::ElementId> excludeIds;
-    if (pMakeElement) pMakeElement->collectElements(excludeIds);
     wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(x, y, pSnapContext, excludeIds);
     if (pSnapResult)
     {
@@ -237,20 +235,15 @@ double OsgCoordUtil::computeHeight(
 
     osg::ref_ptr<osg::LineSegment> mouseLineSeg = new osg::LineSegment(nearPnt, farPnt);
 
-    wy::Vector3 wokkPlnNormal(0.0, 0.0, 1.0);
-    if (pMakeElement)
-    {
-        wokkPlnNormal = pMakeElement->getWorkingPlaneNormal();
-    }
     const osg::Vec3d osgBasePnt = MathUtils::toVec3d(basePnt);
-    osg::ref_ptr<osg::LineSegment> workPlnBaseLineSeg = new osg::LineSegment(osgBasePnt,
-        osgBasePnt + osg::Vec3d(wokkPlnNormal.x(), wokkPlnNormal.y(), wokkPlnNormal.z()));
+    const osg::Vec3d osgNormal = MathUtils::toVec3d(planeNormal);
+    osg::ref_ptr<osg::LineSegment> workPlnBaseLineSeg = new osg::LineSegment(osgBasePnt, osgBasePnt + osgNormal);
 
     osg::Vec3d closestPtLine, closestPtProjWorkingLine;
     if (!computeClosestPoints(*mouseLineSeg, *workPlnBaseLineSeg, closestPtLine, closestPtProjWorkingLine))
         return 0.0;
 
-    return (closestPtProjWorkingLine - osgBasePnt) * osg::Vec3d(wokkPlnNormal.x(), wokkPlnNormal.y(), wokkPlnNormal.z());
+    return (closestPtProjWorkingLine - osgBasePnt) * osgNormal;
 }
 
 double OsgCoordUtil::computeHeight2(

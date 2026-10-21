@@ -21,6 +21,7 @@
 
 #include <cfloat>
 #include <wy3dApp/OsgGuiCommand.h>
+#include "commands/GuiCmdMakeElement.h"
 #include <map>
 #include <wyVector3.h>
 #include <wy3dVector3.h>

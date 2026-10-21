@@ -20,6 +20,7 @@
 #define WY3DAPP_SKETCH_DRAW_ELLIPSE_ARC3D_GUI_CMD_H
 
 #include "commands/sketch3d/Sketch3DDrawGuiCmd.h"
+#include "commands/GuiCmdMakeElement.h"
 #include "commands/transient/BasicTransient.h"
 #include <cfloat>
 #include <memory>

@@ -29,6 +29,7 @@
 #include <wyapSelection.h>
 
 #include <wy3dApp/GuiCommand.h>
+#include "commands/GuiCmdMakeElement.h"
 #include <wy3dApp/GuiCmdTransient.h>
 #include <wy3dApp/wy3dAppDefs.h>
 

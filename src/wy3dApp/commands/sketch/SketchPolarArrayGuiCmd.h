@@ -20,6 +20,7 @@
 #define WY3DAPP_SKETCH_POLAR_ARRAY_GUI_CMD_H
 
 #include <wy3dApp/OsgGuiCommand.h>
+#include "commands/GuiCmdMakeElement.h"
 #include <vector>
 #include <set>
 #include <memory>

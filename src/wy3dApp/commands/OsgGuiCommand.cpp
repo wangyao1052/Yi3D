@@ -231,10 +231,12 @@ std::pair<wy::Vector2, wyap::SnapResultSPtr> OsgGuiCommand::computePoint2d(
     return OsgCoordUtil::computePoint2d(getOsgView(), x, y, workPlane, excludeIds, snap);
 }
 
-double OsgGuiCommand::computeHeight(double x, double y, const wy::Vector3& basePnt,
-    const GuiCmdMakeElement* pMakeElement)
+double OsgGuiCommand::computeHeight(double x, double y,
+    const wy::Vector3& basePnt,
+    const wy::Vector3& planeNormal,
+    const std::set<wydb::ElementId>& excludeIds)
 {
-    return OsgCoordUtil::computeHeight(getOsgView(), x, y, basePnt, pMakeElement);
+    return OsgCoordUtil::computeHeight(getOsgView(), x, y, basePnt, planeNormal, excludeIds);
 }
 
 double OsgGuiCommand::computeHeight2(double x, double y,

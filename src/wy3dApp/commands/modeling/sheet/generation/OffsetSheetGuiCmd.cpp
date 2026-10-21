@@ -17,6 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "OffsetSheetGuiCmd.h"
+#include "commands/GuiCmdMakeElement.h"
 
 #include <algorithm>
 #include <cassert>

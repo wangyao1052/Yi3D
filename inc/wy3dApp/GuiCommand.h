@@ -54,12 +54,10 @@
 
 class GuiCmdOsgEventHandler;
 
-#include "commands/GuiCmdMakeElement.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-class GuiCmdMakeElement;
 class GuiCommand;
 class Snap2dSystem;
 class GuiEventDispatcher;
@@ -235,11 +233,13 @@ protected:
         std::shared_ptr<Snap2dContext> pSnapContext,
         const std::set<wydb::ElementId>& snapExcludeIds = {}) = 0;
 
-    // Distance from basePnt to the plane along its normal; 0 when the view is
-    // unavailable or the picking ray is parallel to the plane.
+    // Signed distance from basePnt along planeNormal to the point of that axis
+    // closest to the cursor ray; 0 when the view is unavailable or the ray is
+    // parallel to the plane.
     virtual double computeHeight(double x, double y,
         const wy::Vector3& basePnt,
-        const GuiCmdMakeElement* pMakeElement = nullptr) = 0;
+        const wy::Vector3& planeNormal,
+        const std::set<wydb::ElementId>& excludeIds = {}) = 0;
     virtual double computeHeight2(double x, double y,
         const wy3d::Plane& workPln,
         const wy::Vector2& basePnt,

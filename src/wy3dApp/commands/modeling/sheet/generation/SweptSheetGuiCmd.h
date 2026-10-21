@@ -20,6 +20,7 @@
 #define WY3DAPP_SWEPT_SHEET_GUI_CMD_H
 
 #include <wy3dApp/OsgGuiCommand.h>
+#include "commands/GuiCmdMakeElement.h"
 #include <map>
 #include <wy3dSweptSheet.h>
 #include "commands/transient/ValidSketchTransient.h"
