@@ -31,6 +31,7 @@
 #include <wy3dPlane.h>
 #include <wydbElementId.h>
 #include "snap/SnapSystemBase.h"
+#include <wy3dApp/Snap2dResult.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wydb { class Database; }
@@ -66,7 +67,7 @@ namespace OsgCoordUtil {
         const wydb::ElementId& sketch3dId);
 
     // 计算2D位置
-    wy::Vector2 computePoint2d(
+    std::pair<wy::Vector2, Snap2dResultSPtr> computePoint2d(
         osgViewer::View* pView,
         double x, double y,
         const std::set<wydb::ElementId>& excludeIds,
@@ -74,7 +75,7 @@ namespace OsgCoordUtil {
         Snap2dSystem* pSnap2dSys = nullptr);
 
     // 2D point on the given plane.
-    wy::Vector2 computePoint2d(
+    std::pair<wy::Vector2, wyap::SnapResultSPtr> computePoint2d(
         osgViewer::View* pView,
         double x, double y,
         const wy3d::Plane& workPlane,

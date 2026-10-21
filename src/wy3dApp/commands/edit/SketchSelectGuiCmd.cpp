@@ -103,7 +103,7 @@ wy::Vector3 SketchSelectGuiCmd::computePastePosition(double x, double y,
     const std::set<wydb::ElementId>& excludeIds)
 {
     wy::Vector2 pos2d = this->computePoint2d(x, y, _sketchInfo.pSketchSnapSys,
-        _pPasteOp ? _pPasteOp->pSnapContext : nullptr, excludeIds);
+        _pPasteOp ? _pPasteOp->pSnapContext : nullptr, excludeIds).first;
     return wy::Vector3(pos2d.x(), pos2d.y(), 0.0);
 }
 

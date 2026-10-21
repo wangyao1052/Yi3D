@@ -92,7 +92,8 @@ private:
     void simulateMouseMoveFromPopup();
 
     // Get the arc start point and the outward unit tangent of the reference curve at that point.
-    bool getEndpointSnap(wy::Vector2& startPnt, wy::Vector2& tangent) const;
+    bool getEndpointSnap(const Snap2dResultSPtr& pSnapResult,
+        wy::Vector2& startPnt, wy::Vector2& tangent) const;
     // Freeze the radius: the bend side is the one the cursor last hovered on.
     void commitRadius(double radius);
     // Sweep step: the end point on the frozen circle turned from the start point by sweepAngle in

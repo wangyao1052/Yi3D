@@ -345,12 +345,12 @@ void CopyGuiCmd::onMouseMove(const MouseEvent& event)
     }
     else if (_step == Step::Step2_SpecifyStartPnt)
     {
-        wy::Vector2 pnt2d = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
+        wy::Vector2 pnt2d = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext).first;
         _hoverPopupState.point.set(pnt2d.x(), pnt2d.y(), 0.0);
     }
     else if (_step == Step::Step3_SpecifyEndPnt)
     {
-        wy::Vector2 endPnt2d = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
+        wy::Vector2 endPnt2d = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext).first;
         wy::Vector2 moveVec2d = endPnt2d - _startPnt2d;
         _hoverPopupState.vector.set(moveVec2d.x(), moveVec2d.y(), 0.0);
         const double length = moveVec2d.length();
@@ -383,7 +383,7 @@ void CopyGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::Step2_SpecifyStartPnt)
     {
-        _startPnt2d = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
+        _startPnt2d = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext).first;
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -391,7 +391,7 @@ void CopyGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::Step3_SpecifyEndPnt)
     {
-        wy::Vector2 endPnt2d = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
+        wy::Vector2 endPnt2d = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext).first;
         _moveVec2d = endPnt2d - _startPnt2d;
         if (this->finishStep(_step))
         {

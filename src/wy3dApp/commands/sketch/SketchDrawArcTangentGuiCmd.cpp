@@ -637,7 +637,7 @@ void SketchDrawArcTangentGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyEndPoint:
     {
-        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         _hoverPopupState.point = _endPnt;
         this->updatePreview();
     }
@@ -645,7 +645,7 @@ void SketchDrawArcTangentGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyRadius:
     {
-        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         _hoverPopupState.point = _endPnt;
 
         // The live radius the popup offers: the radius of the arc through the cursor
@@ -659,7 +659,7 @@ void SketchDrawArcTangentGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifySweepAngle:
     {
-        const wy::Vector2 cursorPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        const wy::Vector2 cursorPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         if ((cursorPnt - _center).length() < wy3d::kMinValue)
         {
             break; // too close to the center to read an angle from
@@ -694,11 +694,11 @@ void SketchDrawArcTangentGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyStartPoint:
     {
-        this->computePoint2d(event.x, event.y,
+        std::pair<wy::Vector2, Snap2dResultSPtr> ret = this->computePoint2d(event.x, event.y,
             _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
 
         wy::Vector2 startPnt, tangent;
-        if (!this->getEndpointSnap(startPnt, tangent))
+        if (!this->getEndpointSnap(ret.second, startPnt, tangent))
         {
             return;
         }
@@ -714,7 +714,7 @@ void SketchDrawArcTangentGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyEndPoint:
     {
-        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         if (this->finishStep(Step::SpecifyEndPoint))
         {
             this->simulateMouseMoveFromPopup();
@@ -1002,14 +1002,9 @@ std::set<wydb::ElementId> SketchDrawArcTangentGuiCmd::getSnapExcludeIds() const
     return snapExcludeIds;
 }
 
-bool SketchDrawArcTangentGuiCmd::getEndpointSnap(wy::Vector2& startPnt, wy::Vector2& tangent) const
+bool SketchDrawArcTangentGuiCmd::getEndpointSnap(const Snap2dResultSPtr& pSnapResult,
+    wy::Vector2& startPnt, wy::Vector2& tangent) const
 {
-    if (!_sketchInfo.pSketchSnapSys)
-    {
-        return false;
-    }
-
-    Snap2dResultSPtr pSnapResult = _sketchInfo.pSketchSnapSys->getSnapResult();
     const wydb::Database* pDb = Application::instance().getActiveDatabase();
     return getEndpointTangentFromSnap(pSnapResult.get(), pDb, _sketchInfo.sketchId, startPnt, tangent);
 }

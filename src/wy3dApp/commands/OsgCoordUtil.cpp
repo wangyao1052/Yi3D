@@ -180,24 +180,26 @@ std::pair<wy::Vector3, bool> OsgCoordUtil::computePosition3dForSketch3D(
     }
 }
 
-wy::Vector2 OsgCoordUtil::computePoint2d(
+std::pair<wy::Vector2, Snap2dResultSPtr> OsgCoordUtil::computePoint2d(
     osgViewer::View* pView,
     double x, double y,
     const std::set<wydb::ElementId>& excludeIds,
     std::shared_ptr<Snap2dContext> pSnapContext,
     Snap2dSystem* pSnap2dSys)
 {
-    assert(pSnapContext);
-    assert(pSnap2dSys);
+    if (!pSnap2dSys || !pSnapContext)
+    {
+        return std::make_pair(wy::Vector2(0.0, 0.0), Snap2dResultSPtr());
+    }
 
     Snap2dSystemImpl* pSnap2dSystemImpl = dynamic_cast<Snap2dSystemImpl*>(pSnap2dSys);
     assert(pSnap2dSystemImpl);
     std::pair<Snap2dResultSPtr, wy::Vector2> ret = pSnap2dSystemImpl->snap(
         x, y, pView, excludeIds, pSnapContext);
-    return ret.first ? ret.first->getPosition() : ret.second;
+    return std::make_pair(ret.first ? ret.first->getPosition() : ret.second, ret.first);
 }
 
-wy::Vector2 OsgCoordUtil::computePoint2d(
+std::pair<wy::Vector2, wyap::SnapResultSPtr> OsgCoordUtil::computePoint2d(
     osgViewer::View* pView,
     double x, double y,
     const wy3d::Plane& workPlane,
@@ -206,7 +208,7 @@ wy::Vector2 OsgCoordUtil::computePoint2d(
 {
     std::pair<wy::Vector3, wyap::SnapResultSPtr> ret = OsgCoordUtil::computePoint(
         pView, x, y, workPlane, excludeIds, snap);
-    return workPlane.uv(ret.first);
+    return std::make_pair(workPlane.uv(ret.first), ret.second);
 }
 
 bool OsgCoordUtil::computeHeight(

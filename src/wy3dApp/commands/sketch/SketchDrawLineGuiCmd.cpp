@@ -244,12 +244,12 @@ void SketchDrawLineGuiCmd::onMouseMove(const MouseEvent& event)
 
     if (_step == Step::SpecifyStartPnt)
     {
-        wy::Vector2 startPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        wy::Vector2 startPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         _hoverPopupState.point = startPnt;
     }
     else if (_step == Step::SpecifyEndPnt)
     {
-        wy::Vector2 endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        wy::Vector2 endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         auto lengthAngle = MathUtils::computeLengthAngle(_startPnt, endPnt);
         _hoverPopupState.point = endPnt;
         _hoverPopupState.length = lengthAngle.first;
@@ -275,8 +275,10 @@ void SketchDrawLineGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     if (_step == Step::SpecifyStartPnt)
     {
-        _startPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
-        _startTangent = this->computeSnapStartTangent();
+        std::pair<wy::Vector2, Snap2dResultSPtr> ret = this->computePoint2d(
+            event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        _startPnt = ret.first;
+        _startTangent = this->computeSnapStartTangent(ret.second);
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -284,7 +286,7 @@ void SketchDrawLineGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::SpecifyEndPnt)
     {
-        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -464,10 +466,8 @@ void SketchDrawLineGuiCmd::simulateMouseMoveFromPopup()
                        _hoverPopupState.lastMouseMoveTime});
 }
 
-SnapStartTangent SketchDrawLineGuiCmd::computeSnapStartTangent() const
+SnapStartTangent SketchDrawLineGuiCmd::computeSnapStartTangent(const Snap2dResultSPtr& pSnapResult) const
 {
-    if (!_sketchInfo.pSketchSnapSys) return SnapStartTangent();
-    Snap2dResultSPtr pSnapResult = _sketchInfo.pSketchSnapSys->getSnapResult();
     if (!pSnapResult) return SnapStartTangent();
 
     const wydb::Database* pDb = Application::instance().getActiveDatabase();

@@ -433,7 +433,7 @@ void SketchDrawLineTangentGuiCmd::onMouseMove(const MouseEvent& event)
         {
             const wyap::Selection& sel = _preview.getSelection();
             wydb::ElementId endElementId = sel.getElementId();
-            wy::Vector2 endPickPos = this->computePoint2d(event.x, event.y, _sketchInfo.sketchPlane, false); // false --- no snap
+            wy::Vector2 endPickPos = this->computePoint2d(event.x, event.y, _sketchInfo.sketchPlane, false).first; // false --- no snap
 
             wy::Vector2 startPnt, endPnt;
             if (this->findMatchedTangentLine(_startElementId, _startPickPos, endElementId, endPickPos, startPnt, endPnt))
@@ -471,7 +471,7 @@ void SketchDrawLineTangentGuiCmd::onLeftMouseDown(const MouseEvent& event)
             const wyap::Selection& sel = _preview.getSelection();
             _pSelSetHighlightor->addSelection(sel);
             _startElementId = sel.getElementId();
-            _startPickPos = this->computePoint2d(event.x, event.y, _sketchInfo.sketchPlane, false); // false --- no snap
+            _startPickPos = this->computePoint2d(event.x, event.y, _sketchInfo.sketchPlane, false).first; // false --- no snap
             _preview.clear();
             this->finishStep(_step);
         }
@@ -487,7 +487,7 @@ void SketchDrawLineTangentGuiCmd::onLeftMouseDown(const MouseEvent& event)
             const wyap::Selection& sel = _preview.getSelection();
             _pSelSetHighlightor->addSelection(sel);
             _endElementId = sel.getElementId();
-            _endPickPos = this->computePoint2d(event.x, event.y, _sketchInfo.sketchPlane, false); // false --- no snap
+            _endPickPos = this->computePoint2d(event.x, event.y, _sketchInfo.sketchPlane, false).first; // false --- no snap
             _preview.clear();
             this->finishStep(_step);
         }

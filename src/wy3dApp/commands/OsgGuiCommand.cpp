@@ -213,16 +213,16 @@ std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgGuiCommand::computePoint(
     return OsgCoordUtil::computePoint(getOsgView(), x, y, workPlane, excludeIds, snap);
 }
 
-wy::Vector2 OsgGuiCommand::computePoint2d(
+std::pair<wy::Vector2, Snap2dResultSPtr> OsgGuiCommand::computePoint2d(
     double x, double y,
-    Snap2dSystem* pSnap2dSys,
+    Snap2dSystem* pSnap2dSystem,
     std::shared_ptr<Snap2dContext> pSnapContext,
-    const std::set<wydb::ElementId>& excludeIds)
+    const std::set<wydb::ElementId>& snapExcludeIds)
 {
-    return OsgCoordUtil::computePoint2d(getOsgView(), x, y, excludeIds, pSnapContext, pSnap2dSys);
+    return OsgCoordUtil::computePoint2d(getOsgView(), x, y, snapExcludeIds, pSnapContext, pSnap2dSystem);
 }
 
-wy::Vector2 OsgGuiCommand::computePoint2d(
+std::pair<wy::Vector2, wyap::SnapResultSPtr> OsgGuiCommand::computePoint2d(
     double x, double y,
     const wy3d::Plane& workPlane,
     bool snap,

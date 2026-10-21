@@ -42,6 +42,7 @@
 #include <wy3dApp/KeyCode.h>
 #include "widgets/CursorType.h"
 #include <wy3dApp/Snap2dContext.h>
+#include <wy3dApp/Snap2dResult.h>
 #include "scene/nodes/ElementNodeType.h"
 
 #include "select/SelectMode.h"
@@ -194,25 +195,45 @@ protected:
         double x, double y,
         const PointPickOptions& option) = 0;
 
+    // 3D point on the given plane for window coordinates (x, y), using the same
+    // coordinate system as MouseEvent.
+    //
+    // When snap is true, object snapping runs first; on a hit the returned point is
+    // the snap position projected onto workPlane. Otherwise the view ray is
+    // intersected with workPlane. excludeIds are skipped by the snap.
+    //
+    // Returns the point and the snap result, the latter being null when snap is
+    // false or nothing was snapped.
     virtual std::pair<wy::Vector3, wyap::SnapResultSPtr> computePoint(
         double x, double y,
         const wy3d::Plane& workPlane,
         bool snap = true,
-        const std::set<wydb::ElementId>& excludeIds = {}) = 0;
+        const std::set<wydb::ElementId>& snapExcludeIds = {}) = 0;
 
     // 2D point on the given plane; the 2D counterpart of computePoint.
-    virtual wy::Vector2 computePoint2d(
+    //
+    // Takes the same arguments and snapping behavior as computePoint; the point is
+    // expressed in the plane's UV coordinates (Plane::uv). Returns the point and the
+    // snap result, the latter being null when snap is false or nothing was snapped.
+    virtual std::pair<wy::Vector2, wyap::SnapResultSPtr> computePoint2d(
         double x, double y,
         const wy3d::Plane& workPlane,
         bool snap = true,
-        const std::set<wydb::ElementId>& excludeIds = {}) = 0;
+        const std::set<wydb::ElementId>& snapExcludeIds = {}) = 0;
 
-    // 2D point in the sketch's snap system.
-    virtual wy::Vector2 computePoint2d(
+    // 2D point in the snap system's plane for window coordinates (x, y), using the
+    // same coordinate system as MouseEvent.
+    //
+    // Snaps through pSnap2dSystem, passing pSnapContext to the registered snap rules;
+    // snapExcludeIds are skipped by the snap. When nothing snaps, the cursor position
+    // projected onto the plane is returned. Returns the point and the snap result, the
+    // latter being null when nothing was snapped. A null system or context yields
+    // (0, 0) and a null result.
+    virtual std::pair<wy::Vector2, Snap2dResultSPtr> computePoint2d(
         double x, double y,
-        Snap2dSystem* pSnap2dSys,
+        Snap2dSystem* pSnap2dSystem,
         std::shared_ptr<Snap2dContext> pSnapContext,
-        const std::set<wydb::ElementId>& excludeIds = {}) = 0;
+        const std::set<wydb::ElementId>& snapExcludeIds = {}) = 0;
 
     virtual bool computeHeight(double x, double y,
         const wy::Vector3& basePnt, double& height,

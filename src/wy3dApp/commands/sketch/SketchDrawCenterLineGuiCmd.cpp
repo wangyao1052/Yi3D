@@ -226,12 +226,12 @@ void SketchDrawCenterLineGuiCmd::onMouseMove(const MouseEvent& event)
 
     if (_step == Step::SpecifyStartPnt)
     {
-        wy::Vector2 startPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        wy::Vector2 startPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         _hoverPopupState.point = startPnt;
     }
     else if (_step == Step::SpecifyEndPnt)
     {
-        wy::Vector2 endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        wy::Vector2 endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         auto lengthAngle = MathUtils::computeLengthAngle(_startPnt, endPnt);
         _hoverPopupState.point = endPnt;
         _hoverPopupState.length = lengthAngle.first;
@@ -257,7 +257,7 @@ void SketchDrawCenterLineGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     if (_step == Step::SpecifyStartPnt)
     {
-        _startPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        _startPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -265,7 +265,7 @@ void SketchDrawCenterLineGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::SpecifyEndPnt)
     {
-        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        _endPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();

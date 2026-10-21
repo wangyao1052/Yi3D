@@ -278,12 +278,12 @@ void SketchDrawPolygonGuiCmd::onMouseMove(const MouseEvent& event)
 
     if (_step == Step::SpecifyCenterPnt)
     {
-        wy::Vector2 centerPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        wy::Vector2 centerPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         _hoverPopupState.point = centerPnt;
     }
     else if (_step == Step::SpecifyRadius)
     {
-        wy::Vector2 pnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        wy::Vector2 pnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         double radius = (pnt - _centerPnt).length();
         _hoverPopupState.point = pnt;
         _hoverPopupState.radius = radius;
@@ -318,7 +318,7 @@ void SketchDrawPolygonGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     if (_step == Step::SpecifyCenterPnt)
     {
-        _centerPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        _centerPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -326,7 +326,7 @@ void SketchDrawPolygonGuiCmd::onLeftMouseDown(const MouseEvent& event)
     }
     else if (_step == Step::SpecifyRadius)
     {
-        wy::Vector2 pnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds());
+        wy::Vector2 pnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, this->getSnapExcludeIds()).first;
         _startVec = pnt - _centerPnt;
         if (this->finishStep(_step))
         {

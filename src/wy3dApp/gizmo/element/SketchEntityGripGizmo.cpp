@@ -128,7 +128,7 @@ void SketchEntityGripGizmo::onLeftMouseDrag(const MouseEvent& event)
     }
     wy::Vector2 curPos = OsgCoordUtil::computePoint2d(
         static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView(),
-        event.x, event.y, { _id, _sketchId }, _pDragContext, pSketchSnapSys);
+        event.x, event.y, { _id, _sketchId }, _pDragContext, pSketchSnapSys).first;
     if (_pGizmoOp->onDragging(MathUtils::toVector3(curPos)))
     {
         if (_pRenderer) _pRenderer->onDragging(MathUtils::toVector3(curPos));
@@ -152,7 +152,7 @@ void SketchEntityGripGizmo::onLeftMouseUp(const MouseEvent& event)
         return;
     }
     wy::Vector2 curPos = OsgCoordUtil::computePoint2d(static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView(), event.x, event.y,
-        { _id, _sketchId }, _pDragContext, pSketchSnapSys);
+        { _id, _sketchId }, _pDragContext, pSketchSnapSys).first;
 
     _pGizmoOp->onEndDrag(MathUtils::toVector3(curPos));
     if (_pRenderer) _pRenderer->onEndDrag(MathUtils::toVector3(curPos));

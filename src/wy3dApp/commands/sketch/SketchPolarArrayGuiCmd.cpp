@@ -317,7 +317,7 @@ void SketchPolarArrayGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::Step2_SpecifyCenter:
     {
-        wy::Vector2 center = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
+        wy::Vector2 center = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext).first;
     }
     break;
 
@@ -338,7 +338,7 @@ void SketchPolarArrayGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::Step2_SpecifyCenter:
     {
-        wy::Vector2 center = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext);
+        wy::Vector2 center = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext).first;
         {
             _center = center;
         }

@@ -61,13 +61,13 @@ protected:
         bool snap = true,
         const std::set<wydb::ElementId>& excludeIds = {}) override;
 
-    wy::Vector2 computePoint2d(
+    std::pair<wy::Vector2, Snap2dResultSPtr> computePoint2d(
         double x, double y,
-        Snap2dSystem* pSnap2dSys,
+        Snap2dSystem* pSnap2dSystem,
         std::shared_ptr<Snap2dContext> pSnapContext,
-        const std::set<wydb::ElementId>& excludeIds = {}) override;
+        const std::set<wydb::ElementId>& snapExcludeIds = {}) override;
 
-    wy::Vector2 computePoint2d(
+    std::pair<wy::Vector2, wyap::SnapResultSPtr> computePoint2d(
         double x, double y,
         const wy3d::Plane& workPlane,
         bool snap = true,

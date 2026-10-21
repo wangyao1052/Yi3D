@@ -77,7 +77,7 @@ private:
     void simulateMouseMoveFromPopup();
 
     // 计算捕捉起点切线
-    SnapStartTangent computeSnapStartTangent() const;
+    SnapStartTangent computeSnapStartTangent(const Snap2dResultSPtr& pSnapResult) const;
 
 private:
     struct HoverPopupState

@@ -396,7 +396,7 @@ void SketchDrawSplineGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::SpecifyStartPnt:
     {
-        wy::Vector2 startPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds);
+        wy::Vector2 startPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds).first;
         _hoverPopupState.point = startPnt;
         return;
     }
@@ -404,7 +404,7 @@ void SketchDrawSplineGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyNextPnt:
     {
-        wy::Vector2 nextPoint = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds);
+        wy::Vector2 nextPoint = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds).first;
         nextPoint = this->tryReviseNextPoint(_fitPoints, nextPoint); // 尝试修正nextPoint
         _hoverPopupState.point = nextPoint;
         if (this->isDisallowedDuplicatePoint(_fitPoints, nextPoint))
@@ -449,7 +449,7 @@ void SketchDrawSplineGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyStartPnt:
     {
-        _startPoint = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds);
+        _startPoint = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds).first;
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -460,7 +460,7 @@ void SketchDrawSplineGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyNextPnt:
     {
-        _nextPoint = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds);
+        _nextPoint = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds).first;
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();

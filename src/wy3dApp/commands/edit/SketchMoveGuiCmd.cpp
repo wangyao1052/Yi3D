@@ -74,13 +74,13 @@ void SketchMoveGuiCmd::configureSelectElementOptions(SelectOptions& options)
 
 void SketchMoveGuiCmd::onMouseMove_SpecifyStartPnt(double x, double y)
 {
-    wy::Vector2 pnt2d = this->computePoint2d(x, y, _sketchInfo.pSketchSnapSys, _pSnapContext);
+    wy::Vector2 pnt2d = this->computePoint2d(x, y, _sketchInfo.pSketchSnapSys, _pSnapContext).first;
     _hoverPopupState.point.set(pnt2d.x(), pnt2d.y(), 0.0);
 }
 
 void SketchMoveGuiCmd::onMouseMove_SpecifyEndPnt(double x, double y)
 {
-    wy::Vector2 endPnt2d = this->computePoint2d(x, y, _sketchInfo.pSketchSnapSys, _pSnapContext);
+    wy::Vector2 endPnt2d = this->computePoint2d(x, y, _sketchInfo.pSketchSnapSys, _pSnapContext).first;
     wy::Vector2 moveVec2d = endPnt2d - _startPnt2d;
     _hoverPopupState.vector.set(moveVec2d.x(), moveVec2d.y(), 0.0);
     const double length = moveVec2d.length();
@@ -95,12 +95,12 @@ void SketchMoveGuiCmd::onMouseMove_SpecifyEndPnt(double x, double y)
 
 void SketchMoveGuiCmd::onLeftMouseDown_SpecifyStartPnt(double x, double y)
 {
-    _startPnt2d = this->computePoint2d(x, y, _sketchInfo.pSketchSnapSys, _pSnapContext);
+    _startPnt2d = this->computePoint2d(x, y, _sketchInfo.pSketchSnapSys, _pSnapContext).first;
 }
 
 void SketchMoveGuiCmd::onLeftMouseDown_SpecifyEndPnt(double x, double y)
 {
-    wy::Vector2 endPnt2d = this->computePoint2d(x, y, _sketchInfo.pSketchSnapSys, _pSnapContext);
+    wy::Vector2 endPnt2d = this->computePoint2d(x, y, _sketchInfo.pSketchSnapSys, _pSnapContext).first;
     _moveVec2d = endPnt2d - _startPnt2d;
 }
 

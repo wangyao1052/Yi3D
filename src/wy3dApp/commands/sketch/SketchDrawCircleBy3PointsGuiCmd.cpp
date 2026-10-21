@@ -301,7 +301,7 @@ void SketchDrawCircleBy3PointsGuiCmd::onMouseMove(const MouseEvent& event)
     {
     case Step::SpecifyPoint1st:
     {
-        wy::Vector2 pnt1st = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds);
+        wy::Vector2 pnt1st = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds).first;
         _hoverPopupState.point = pnt1st;
         return;
     }
@@ -309,7 +309,7 @@ void SketchDrawCircleBy3PointsGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPoint2nd:
     {
-        wy::Vector2 pnt2nd = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds);
+        wy::Vector2 pnt2nd = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds).first;
         _hoverPopupState.point = pnt2nd;
         {
             if (_pMakeSketchCircle)
@@ -323,7 +323,7 @@ void SketchDrawCircleBy3PointsGuiCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyPoint3rd:
     {
-        wy::Vector2 pnt3rd = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds);
+        wy::Vector2 pnt3rd = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds).first;
         _hoverPopupState.point = pnt3rd;
         {
             if (_pMakeSketchCircle)
@@ -356,7 +356,7 @@ void SketchDrawCircleBy3PointsGuiCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyPoint1st:
     {
-        _pnt1st = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds);
+        _pnt1st = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds).first;
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -367,7 +367,7 @@ void SketchDrawCircleBy3PointsGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPoint2nd:
     {
-        _pnt2nd = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds);
+        _pnt2nd = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds).first;
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
@@ -378,7 +378,7 @@ void SketchDrawCircleBy3PointsGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
     case Step::SpecifyPoint3rd:
     {
-        _pnt3rd = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds);
+        _pnt3rd = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext, _snapExcludeIds).first;
         if (this->finishStep(_step))
         {
             this->simulateMouseMoveFromPopup();
