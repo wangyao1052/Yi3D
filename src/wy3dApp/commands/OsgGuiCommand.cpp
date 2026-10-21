@@ -239,13 +239,4 @@ wy::Vector3 OsgGuiCommand::computePointOnAxis(double x, double y,
     return OsgCoordUtil::computePointOnAxis(getOsgView(), x, y, axisOrigin, axisDirection, excludeIds);
 }
 
-bool OsgGuiCommand::computeRotationAngle(double x, double y,
-    const wy3d::Plane& workPln,
-    const wy::Vector2& basis,
-    const std::set<wydb::ElementId>& excludeIds,
-    double& rotationAngle)
-{
-    return OsgCoordUtil::computeRotationAngle(getOsgView(), x, y, workPln, basis, excludeIds, rotationAngle);
-}
-
 } // namespace wy3dApp

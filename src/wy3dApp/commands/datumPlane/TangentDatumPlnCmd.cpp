@@ -252,28 +252,22 @@ void TangentDatumPlnCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyRotateAngle:
     {
-        double angle(0.0);
-        if (this->computeRotationAngle(event.x, event.y, _rotationPlane, wy::Vector2::kXAxis, _snapExcludeIds, angle))
+        const wy::Vector2 uv = this->computePoint2d(event.x, event.y, _rotationPlane, true, _snapExcludeIds).first;
+        const double angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, uv);
+
+        _hoverPopupState.angleSign = angle < 0.0 ? -1 : 1;
+        _hoverPopupState.angle = std::fabs(angle);
         {
-            _hoverPopupState.angleSign = angle < 0.0 ? -1 : 1;
-            _hoverPopupState.angle = std::fabs(angle);
+            if (_pMakeDatumPlane)
             {
-                if (_pMakeDatumPlane)
-                {
-                    _pMakeDatumPlane->update(this->computeRotationPlane(angle));
-                }
-                if (_pRotationArcTransient)
-                {
-                    _pRotationArcTransient->update(wy::Vector2::kZero, _radius, 0.0, angle);
-                }
+                _pMakeDatumPlane->update(this->computeRotationPlane(angle));
             }
-            return;
+            if (_pRotationArcTransient)
+            {
+                _pRotationArcTransient->update(wy::Vector2::kZero, _radius, 0.0, angle);
+            }
         }
-        else
-        {
-            assert(false);
-            return;
-        }
+        return;
     }
     break;
     }
@@ -291,18 +285,10 @@ void TangentDatumPlnCmd::onLeftMouseDown(const MouseEvent& event)
 
     if (Step::SpecifyRotateAngle == _step)
     {
-        double angle(0.0);
-        if (this->computeRotationAngle(event.x, event.y, _rotationPlane, wy::Vector2::kXAxis, _snapExcludeIds, angle))
-        {
-            _angle = angle;
-            this->finishStep(_step);
-            return;
-        }
-        else
-        {
-            assert(false);
-            return;
-        }
+        const wy::Vector2 uv = this->computePoint2d(event.x, event.y, _rotationPlane, true, _snapExcludeIds).first;
+        _angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, uv);
+        this->finishStep(_step);
+        return;
     }
 
     return;

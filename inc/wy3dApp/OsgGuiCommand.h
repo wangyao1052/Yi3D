@@ -77,12 +77,6 @@ protected:
         const wy::Vector3& axisDirection,
         const std::set<wydb::ElementId>& excludeIds = {}) override;
 
-    bool computeRotationAngle(double x, double y,
-        const wy3d::Plane& workPln,
-        const wy::Vector2& basis,
-        const std::set<wydb::ElementId>& excludeIds,
-        double& rotationAngle) override;
-
 protected:
     // 当前命令事件对应的视图(非拥有)
     osg::observer_ptr<osgViewer::View> _pOsgView;

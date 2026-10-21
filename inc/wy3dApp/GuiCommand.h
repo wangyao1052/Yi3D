@@ -242,12 +242,6 @@ protected:
         const wy::Vector3& axisDirection,
         const std::set<wydb::ElementId>& excludeIds = {}) = 0;
 
-    virtual bool computeRotationAngle(double x, double y,
-        const wy3d::Plane& workPln,
-        const wy::Vector2& basis,
-        const std::set<wydb::ElementId>& excludeIds,
-        double& rotationAngle) = 0;
-
 private:
     friend class FeatureTreeWidget;
 };

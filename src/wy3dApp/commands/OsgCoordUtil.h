@@ -89,15 +89,6 @@ namespace OsgCoordUtil {
         const wy::Vector3& axisDirection,
         const std::set<wydb::ElementId>& excludeIds = {});
 
-    // 计算旋转角度
-    bool computeRotationAngle(
-        osgViewer::View* pView,
-        double x, double y,
-        const wy3d::Plane& workPln,
-        const wy::Vector2& basis,
-        const std::set<wydb::ElementId>& excludeIds,
-        double& rotationAngle);
-
     // 世界坐标投影到窗口像素坐标
     osg::Vec2d projectWorldToWindow(
         osgViewer::View* pView,

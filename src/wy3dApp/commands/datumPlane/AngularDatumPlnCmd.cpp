@@ -535,22 +535,16 @@ void AngularDatumPlnCmd::onMouseMove(const MouseEvent& event)
 
     case Step::SpecifyAngle:
     {
-        double angle(0.0);
-        if (this->computeRotationAngle(event.x, event.y, _rotateAnglePlane, wy::Vector2::kXAxis, _snapExcludeIds, angle))
+        const wy::Vector2 uv = this->computePoint2d(event.x, event.y, _rotateAnglePlane, true, _snapExcludeIds).first;
+        const double angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, uv);
+
+        // 记录绝对值和方向，供悬停浮窗提交时使用
+        _hoverPopupState.angleSign = angle < 0.0 ? -1 : 1;
+        _hoverPopupState.angle = std::fabs(angle);
         {
-            // 记录绝对值和方向，供悬停浮窗提交时使用
-            _hoverPopupState.angleSign = angle < 0.0 ? -1 : 1;
-            _hoverPopupState.angle = std::fabs(angle);
-            {
-                if (_pMakeDatumPlane) _pMakeDatumPlane->update(this->rotatePlaneAroundXAxis(angle));
-            }
-            return;
+            if (_pMakeDatumPlane) _pMakeDatumPlane->update(this->rotatePlaneAroundXAxis(angle));
         }
-        else
-        {
-            assert(false);
-            return;
-        }
+        return;
     }
     break;
     }
@@ -569,18 +563,10 @@ void AngularDatumPlnCmd::onLeftMouseDown(const MouseEvent& event)
     {
     case Step::SpecifyAngle:
     {
-        double angle(0.0);
-        if (this->computeRotationAngle(event.x, event.y, _rotateAnglePlane, wy::Vector2::kXAxis, _snapExcludeIds, angle))
-        {
-            _angle = angle;
-            this->finishStep(_step);
-            return;
-        }
-        else
-        {
-            assert(false);
-            return;
-        }
+        const wy::Vector2 uv = this->computePoint2d(event.x, event.y, _rotateAnglePlane, true, _snapExcludeIds).first;
+        _angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, uv);
+        this->finishStep(_step);
+        return;
     }
     break;
     }
