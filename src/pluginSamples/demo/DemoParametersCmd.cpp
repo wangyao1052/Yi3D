@@ -37,7 +37,7 @@
 #include <wy3dApp/SketchEnvironment.h>
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
-#include <wy3dApp/ParamNamesTranslation.h>
+#include <wy3dApp/ParamDisplayNameRegistry.h>
 #include "widgets/frame/MainWindow.h"
 
 namespace {
@@ -201,7 +201,7 @@ void DemoParametersCmd::showParameters(const wydb::ElementId& elementId)
             continue;
         }
 
-        const QString displayName = wy3dApp::ParamNamesTranslation::instance().getParamDisplayName(className, paramName);
+        const QString displayName = wy3dApp::ParamDisplayNameRegistry::instance().lookup(className, paramName);
         lines << QStringLiteral("%1: %2").arg(displayName, paramValueToText(*pParamValue));
     }
 

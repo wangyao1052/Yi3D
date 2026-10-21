@@ -61,7 +61,7 @@
 #include "TransformLineEdit.h"
 #include "SketchSplinePointsEditor.h"
 #include "SketchSpline3DPointsEditor.h"
-#include <wy3dApp/ParamNamesTranslation.h>
+#include <wy3dApp/ParamDisplayNameRegistry.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/Scene.h>
@@ -335,7 +335,7 @@ void PropertyEditorWidget::showParameterValueList(const std::vector<const wydb::
         assert(info.paramValue);
 
         QLabel* pLabel = this->newLabel("", this);
-        QString qstrParamDispName = ParamNamesTranslation::instance().getParamDisplayName(info.paramDef->getClassName(), info.paramDef->getName());
+        QString qstrParamDispName = ParamDisplayNameRegistry::instance().lookup(info.paramDef->getClassName(), info.paramDef->getName());
         pLabel->setText(qstrParamDispName);
 
         QWidget* pEditControl = this->createEditorWidgetForParam(info);

@@ -4813,6 +4813,1136 @@ Do you want to save it to the original file now?
     </message>
 </context>
 <context>
+    <name>wy3dApp::ParamDisplayNameRegistry</name>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="105"/>
+        <source>Box Length</source>
+        <translation type="unfinished">Length</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="106"/>
+        <source>Box Width</source>
+        <translation type="unfinished">Width</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="107"/>
+        <source>Box Height</source>
+        <translation type="unfinished">Height</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="112"/>
+        <source>Cylinder Radius</source>
+        <translation type="unfinished">Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="113"/>
+        <source>Cylinder Height</source>
+        <translation type="unfinished">Height</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="118"/>
+        <source>Sphere Radius</source>
+        <translation type="unfinished">Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="123"/>
+        <source>Cone Radius</source>
+        <translation type="unfinished">Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="124"/>
+        <source>Cone Height</source>
+        <translation type="unfinished">Height</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="129"/>
+        <source>Torus Major Radius</source>
+        <translation type="unfinished">Major Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="130"/>
+        <source>Torus Minor Radius</source>
+        <translation type="unfinished">Minor Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="135"/>
+        <source>Tube Outer Radius</source>
+        <translation type="unfinished">Outer Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="136"/>
+        <source>Tube Inner Radius</source>
+        <translation type="unfinished">Inner Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="137"/>
+        <source>Tube Height</source>
+        <translation type="unfinished">Height</translation>
+    </message>
+    <message>
+        <source>Extrusion Depth</source>
+        <translation type="obsolete">Depth</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="143"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="157"/>
+        <source>Extrusion Start Offset</source>
+        <translation type="unfinished">Start Offset</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="150"/>
+        <source>Start Angle</source>
+        <comment>wy3d::Revolution</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="151"/>
+        <source>End Angle</source>
+        <comment>wy3d::Revolution</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="149"/>
+        <source>Axis</source>
+        <comment>wy3d::Revolution</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="142"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="156"/>
+        <source>Depth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="144"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="158"/>
+        <source>Direction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="163"/>
+        <source>Start Angle</source>
+        <comment>wy3d::RevolvedSheet</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="164"/>
+        <source>End Angle</source>
+        <comment>wy3d::RevolvedSheet</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="169"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="174"/>
+        <source>File Path</source>
+        <comment>wy3d::ImportedSolid</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="179"/>
+        <source>Distance 1</source>
+        <comment>wy3d::Chamfer</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="180"/>
+        <source>Distance 2</source>
+        <comment>wy3d::Chamfer</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="181"/>
+        <source>Angle</source>
+        <comment>wy3d::Chamfer</comment>
+        <translation type="unfinished">Angle</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="182"/>
+        <source>Chamfer Type</source>
+        <comment>wy3d::Chamfer</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="183"/>
+        <source>Flip Direction</source>
+        <comment>wy3d::Chamfer</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="188"/>
+        <source>Radius</source>
+        <comment>wy3d::Fillet</comment>
+        <translation type="unfinished">Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="193"/>
+        <source>Thickness</source>
+        <comment>wy3d::Shell</comment>
+        <translation type="unfinished">Thickness</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="194"/>
+        <source>Inward Offset</source>
+        <comment>wy3d::Shell</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="195"/>
+        <source>Join Type</source>
+        <comment>wy3d::Shell</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="196"/>
+        <source>Offset Mode</source>
+        <comment>wy3d::Shell</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="197"/>
+        <source>Intersection</source>
+        <comment>wy3d::Shell</comment>
+        <translation type="unfinished">Intersection</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="202"/>
+        <source>Angle</source>
+        <comment>wy3d::Draft</comment>
+        <translation type="unfinished">Angle</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="207"/>
+        <source>X</source>
+        <comment>wy3d::Move</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="208"/>
+        <source>Y</source>
+        <comment>wy3d::Move</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="209"/>
+        <source>Z</source>
+        <comment>wy3d::Move</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="214"/>
+        <source>CenterX</source>
+        <comment>wy3d::Rotate</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="215"/>
+        <source>CenterY</source>
+        <comment>wy3d::Rotate</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="216"/>
+        <source>CenterZ</source>
+        <comment>wy3d::Rotate</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="217"/>
+        <source>DirectionX</source>
+        <comment>wy3d::Rotate</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="218"/>
+        <source>DirectionY</source>
+        <comment>wy3d::Rotate</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="219"/>
+        <source>DirectionZ</source>
+        <comment>wy3d::Rotate</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="220"/>
+        <source>Angle</source>
+        <comment>wy3d::Rotate</comment>
+        <translation type="unfinished">Angle</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="225"/>
+        <source>Source</source>
+        <comment>wy3d::Pattern</comment>
+        <translation type="unfinished">Source</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="230"/>
+        <source>Direction1 X</source>
+        <comment>wy3d::LinearPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="231"/>
+        <source>Direction1 Y</source>
+        <comment>wy3d::LinearPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="232"/>
+        <source>Direction1 Z</source>
+        <comment>wy3d::LinearPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="233"/>
+        <source>Count1</source>
+        <comment>wy3d::LinearPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="234"/>
+        <source>Spacing1</source>
+        <comment>wy3d::LinearPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="236"/>
+        <source>Direction2 X</source>
+        <comment>wy3d::LinearPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="237"/>
+        <source>Direction2 Y</source>
+        <comment>wy3d::LinearPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="238"/>
+        <source>Direction2 Z</source>
+        <comment>wy3d::LinearPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="239"/>
+        <source>Count2</source>
+        <comment>wy3d::LinearPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="240"/>
+        <source>Spacing2</source>
+        <comment>wy3d::LinearPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="245"/>
+        <source>Center Point X</source>
+        <comment>wy3d::CircularPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="246"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::CircularPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="247"/>
+        <source>Center Point Z</source>
+        <comment>wy3d::CircularPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="248"/>
+        <source>Axis Direction X</source>
+        <comment>wy3d::CircularPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="249"/>
+        <source>Axis Direction Y</source>
+        <comment>wy3d::CircularPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="250"/>
+        <source>Axis Direction Z</source>
+        <comment>wy3d::CircularPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="251"/>
+        <source>TotalAngle</source>
+        <comment>wy3d::CircularPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="252"/>
+        <source>Instance Count</source>
+        <comment>wy3d::CircularPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="253"/>
+        <source>Is ClockWise</source>
+        <comment>wy3d::CircularPattern</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="258"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="266"/>
+        <source>ID</source>
+        <comment>wy3d::SketchEntity</comment>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="259"/>
+        <source>Position X</source>
+        <comment>wy3d::SketchPoint</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="260"/>
+        <source>Position Y</source>
+        <comment>wy3d::SketchPoint</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="267"/>
+        <source>Is Construction</source>
+        <comment>wy3d::SketchCurve</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="272"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="282"/>
+        <source>Start Point X</source>
+        <comment>wy3d::SketchLine</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="273"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="283"/>
+        <source>Start Point Y</source>
+        <comment>wy3d::SketchLine</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="274"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="284"/>
+        <source>End Point X</source>
+        <comment>wy3d::SketchLine</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="275"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="285"/>
+        <source>End Point Y</source>
+        <comment>wy3d::SketchLine</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="276"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="286"/>
+        <source>Length</source>
+        <comment>wy3d::SketchLine</comment>
+        <translation type="unfinished">Length</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="277"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="287"/>
+        <source>Angle</source>
+        <comment>wy3d::SketchLine</comment>
+        <translation type="unfinished">Angle</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="292"/>
+        <source>Center Point X</source>
+        <comment>wy3d::SketchCircle</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="293"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::SketchCircle</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="294"/>
+        <source>Radius</source>
+        <comment>wy3d::SketchCircle</comment>
+        <translation type="unfinished">Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="295"/>
+        <source>Diameter</source>
+        <comment>wy3d::SketchCircle</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="296"/>
+        <source>Perimeter</source>
+        <comment>wy3d::SketchCircle</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="297"/>
+        <source>Area</source>
+        <comment>wy3d::SketchCircle</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="302"/>
+        <source>Center Point X</source>
+        <comment>wy3d::SketchArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="303"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::SketchArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="304"/>
+        <source>Radius</source>
+        <comment>wy3d::SketchArc</comment>
+        <translation type="unfinished">Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="305"/>
+        <source>Start Angle</source>
+        <comment>wy3d::SketchArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="306"/>
+        <source>End Angle</source>
+        <comment>wy3d::SketchArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="307"/>
+        <source>Total Angle</source>
+        <comment>wy3d::SketchArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="308"/>
+        <source>Arc Length</source>
+        <comment>wy3d::SketchArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="313"/>
+        <source>Center Point X</source>
+        <comment>wy3d::SketchEllipse</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="314"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::SketchEllipse</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="315"/>
+        <source>Major Radius</source>
+        <comment>wy3d::SketchEllipse</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="316"/>
+        <source>Minor Radius</source>
+        <comment>wy3d::SketchEllipse</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="317"/>
+        <source>Radius Ratio</source>
+        <comment>wy3d::SketchEllipse</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="318"/>
+        <source>Major Axis Angle</source>
+        <comment>wy3d::SketchEllipse</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="319"/>
+        <source>Perimeter</source>
+        <comment>wy3d::SketchEllipse</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="320"/>
+        <source>Area</source>
+        <comment>wy3d::SketchEllipse</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="325"/>
+        <source>Center Point X</source>
+        <comment>wy3d::SketchEllipseArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="326"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::SketchEllipseArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="327"/>
+        <source>Major Radius</source>
+        <comment>wy3d::SketchEllipseArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="328"/>
+        <source>Minor Radius</source>
+        <comment>wy3d::SketchEllipseArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="329"/>
+        <source>Radius Ratio</source>
+        <comment>wy3d::SketchEllipseArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="330"/>
+        <source>Major Axis Angle</source>
+        <comment>wy3d::SketchEllipseArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="331"/>
+        <source>Start Angle</source>
+        <comment>wy3d::SketchEllipseArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="332"/>
+        <source>End Angle</source>
+        <comment>wy3d::SketchEllipseArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="333"/>
+        <source>Perimeter</source>
+        <comment>wy3d::SketchEllipseArc</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="338"/>
+        <source>Order</source>
+        <comment>wy3d::SketchSpline</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="343"/>
+        <source>ID</source>
+        <comment>wy3d::SketchCurve3D</comment>
+        <translation type="unfinished">ID</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="348"/>
+        <source>Start Point X</source>
+        <comment>wy3d::SketchLine3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="349"/>
+        <source>Start Point Y</source>
+        <comment>wy3d::SketchLine3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="350"/>
+        <source>Start Point Z</source>
+        <comment>wy3d::SketchLine3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="351"/>
+        <source>End Point X</source>
+        <comment>wy3d::SketchLine3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="352"/>
+        <source>End Point Y</source>
+        <comment>wy3d::SketchLine3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="353"/>
+        <source>End Point Z</source>
+        <comment>wy3d::SketchLine3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="354"/>
+        <source>Length</source>
+        <comment>wy3d::SketchLine3D</comment>
+        <translation type="unfinished">Length</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="359"/>
+        <source>Center Point X</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="360"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="361"/>
+        <source>Center Point Z</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="362"/>
+        <source>Normal X</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="363"/>
+        <source>Normal Y</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="364"/>
+        <source>Normal Z</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="365"/>
+        <source>Start Direction X</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="366"/>
+        <source>Start Direction Y</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="367"/>
+        <source>Start Direction Z</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="368"/>
+        <source>Radius</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished">Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="369"/>
+        <source>Diameter</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="370"/>
+        <source>Perimeter</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="371"/>
+        <source>Area</source>
+        <comment>wy3d::SketchCircle3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="376"/>
+        <source>Center Point X</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="377"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="378"/>
+        <source>Center Point Z</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="379"/>
+        <source>Normal X</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="380"/>
+        <source>Normal Y</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="381"/>
+        <source>Normal Z</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="382"/>
+        <source>Start Direction X</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="383"/>
+        <source>Start Direction Y</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="384"/>
+        <source>Start Direction Z</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="385"/>
+        <source>Radius</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished">Radius</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="386"/>
+        <source>Start Angle</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="387"/>
+        <source>End Angle</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="388"/>
+        <source>Total Angle</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="389"/>
+        <source>Arc Length</source>
+        <comment>wy3d::SketchArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="394"/>
+        <source>Center Point X</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="395"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="396"/>
+        <source>Center Point Z</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="397"/>
+        <source>Normal X</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="398"/>
+        <source>Normal Y</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="399"/>
+        <source>Normal Z</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="400"/>
+        <source>Major Axis X</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="401"/>
+        <source>Major Axis Y</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="402"/>
+        <source>Major Axis Z</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="403"/>
+        <source>Major Radius</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="404"/>
+        <source>Minor Radius</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="405"/>
+        <source>Radius Ratio</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="406"/>
+        <source>Perimeter</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="407"/>
+        <source>Area</source>
+        <comment>wy3d::SketchEllipse3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="412"/>
+        <source>Center Point X</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="413"/>
+        <source>Center Point Y</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="414"/>
+        <source>Center Point Z</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="415"/>
+        <source>Normal X</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="416"/>
+        <source>Normal Y</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="417"/>
+        <source>Normal Z</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="418"/>
+        <source>Major Axis X</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="419"/>
+        <source>Major Axis Y</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="420"/>
+        <source>Major Axis Z</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="421"/>
+        <source>Major Radius</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="422"/>
+        <source>Minor Radius</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="423"/>
+        <source>Radius Ratio</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="424"/>
+        <source>Start Angle</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="425"/>
+        <source>End Angle</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="426"/>
+        <source>Total Angle</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="427"/>
+        <source>Arc Length</source>
+        <comment>wy3d::SketchEllipseArc3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="432"/>
+        <source>Order</source>
+        <comment>wy3d::SketchSpline3D</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="437"/>
+        <source>Plane</source>
+        <comment>wy3d::DatumPlane</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="442"/>
+        <source>Source</source>
+        <comment>wy3d::Mirror</comment>
+        <translation type="unfinished">Source</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="443"/>
+        <source>Plane</source>
+        <comment>wy3d::Mirror</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="448"/>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="453"/>
+        <source>Color</source>
+        <comment>wy3d::Solid</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="458"/>
+        <source>Source</source>
+        <comment>wy3d::Thicken</comment>
+        <translation type="unfinished">Source</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="459"/>
+        <source>Thickness</source>
+        <comment>wy3d::Thicken</comment>
+        <translation>Thickness</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="460"/>
+        <source>Direction</source>
+        <comment>wy3d::Thicken</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="465"/>
+        <source>Source</source>
+        <comment>wy3d::Solidify</comment>
+        <translation type="unfinished">Source</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="470"/>
+        <source>Target</source>
+        <comment>wy3d::OffsetSheet</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Source</source>
+        <comment>wy3d::OffsetSheet</comment>
+        <translation type="vanished">Source</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="471"/>
+        <source>Offset</source>
+        <comment>wy3d::OffsetSheet</comment>
+        <translation>Offset</translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="476"/>
+        <source>Tolerance</source>
+        <comment>wy3d::SewnSheet</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="481"/>
+        <source>Pitch</source>
+        <comment>wy3d::Helix</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="482"/>
+        <source>Turns</source>
+        <comment>wy3d::Helix</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="483"/>
+        <source>Start Angle</source>
+        <comment>wy3d::Helix</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="484"/>
+        <source>ClockWise</source>
+        <comment>wy3d::Helix</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="485"/>
+        <source>Reversed</source>
+        <comment>wy3d::Helix</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>wy3dApp::ParamLineEdit</name>
     <message>
         <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="339"/>
@@ -4827,1136 +5957,6 @@ Do you want to save it to the original file now?
     <message>
         <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="345"/>
         <source>Failed to modify the parameter value!</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>wy3dApp::ParamNamesTranslation</name>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="89"/>
-        <source>Box Length</source>
-        <translation type="unfinished">Length</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="90"/>
-        <source>Box Width</source>
-        <translation type="unfinished">Width</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="91"/>
-        <source>Box Height</source>
-        <translation type="unfinished">Height</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="96"/>
-        <source>Cylinder Radius</source>
-        <translation type="unfinished">Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="97"/>
-        <source>Cylinder Height</source>
-        <translation type="unfinished">Height</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="102"/>
-        <source>Sphere Radius</source>
-        <translation type="unfinished">Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="107"/>
-        <source>Cone Radius</source>
-        <translation type="unfinished">Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="108"/>
-        <source>Cone Height</source>
-        <translation type="unfinished">Height</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="113"/>
-        <source>Torus Major Radius</source>
-        <translation type="unfinished">Major Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="114"/>
-        <source>Torus Minor Radius</source>
-        <translation type="unfinished">Minor Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="119"/>
-        <source>Tube Outer Radius</source>
-        <translation type="unfinished">Outer Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="120"/>
-        <source>Tube Inner Radius</source>
-        <translation type="unfinished">Inner Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="121"/>
-        <source>Tube Height</source>
-        <translation type="unfinished">Height</translation>
-    </message>
-    <message>
-        <source>Extrusion Depth</source>
-        <translation type="obsolete">Depth</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="127"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="141"/>
-        <source>Extrusion Start Offset</source>
-        <translation type="unfinished">Start Offset</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="134"/>
-        <source>Start Angle</source>
-        <comment>wy3d::Revolution</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="135"/>
-        <source>End Angle</source>
-        <comment>wy3d::Revolution</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="133"/>
-        <source>Axis</source>
-        <comment>wy3d::Revolution</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="126"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="140"/>
-        <source>Depth</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="128"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="142"/>
-        <source>Direction</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="147"/>
-        <source>Start Angle</source>
-        <comment>wy3d::RevolvedSheet</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="148"/>
-        <source>End Angle</source>
-        <comment>wy3d::RevolvedSheet</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="153"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="158"/>
-        <source>File Path</source>
-        <comment>wy3d::ImportedSolid</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="163"/>
-        <source>Distance 1</source>
-        <comment>wy3d::Chamfer</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="164"/>
-        <source>Distance 2</source>
-        <comment>wy3d::Chamfer</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="165"/>
-        <source>Angle</source>
-        <comment>wy3d::Chamfer</comment>
-        <translation type="unfinished">Angle</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="166"/>
-        <source>Chamfer Type</source>
-        <comment>wy3d::Chamfer</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="167"/>
-        <source>Flip Direction</source>
-        <comment>wy3d::Chamfer</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="172"/>
-        <source>Radius</source>
-        <comment>wy3d::Fillet</comment>
-        <translation type="unfinished">Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="177"/>
-        <source>Thickness</source>
-        <comment>wy3d::Shell</comment>
-        <translation type="unfinished">Thickness</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="178"/>
-        <source>Inward Offset</source>
-        <comment>wy3d::Shell</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="179"/>
-        <source>Join Type</source>
-        <comment>wy3d::Shell</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="180"/>
-        <source>Offset Mode</source>
-        <comment>wy3d::Shell</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="181"/>
-        <source>Intersection</source>
-        <comment>wy3d::Shell</comment>
-        <translation type="unfinished">Intersection</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="186"/>
-        <source>Angle</source>
-        <comment>wy3d::Draft</comment>
-        <translation type="unfinished">Angle</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="191"/>
-        <source>X</source>
-        <comment>wy3d::Move</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="192"/>
-        <source>Y</source>
-        <comment>wy3d::Move</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="193"/>
-        <source>Z</source>
-        <comment>wy3d::Move</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="198"/>
-        <source>CenterX</source>
-        <comment>wy3d::Rotate</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="199"/>
-        <source>CenterY</source>
-        <comment>wy3d::Rotate</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="200"/>
-        <source>CenterZ</source>
-        <comment>wy3d::Rotate</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="201"/>
-        <source>DirectionX</source>
-        <comment>wy3d::Rotate</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="202"/>
-        <source>DirectionY</source>
-        <comment>wy3d::Rotate</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="203"/>
-        <source>DirectionZ</source>
-        <comment>wy3d::Rotate</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="204"/>
-        <source>Angle</source>
-        <comment>wy3d::Rotate</comment>
-        <translation type="unfinished">Angle</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="209"/>
-        <source>Source</source>
-        <comment>wy3d::Pattern</comment>
-        <translation type="unfinished">Source</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="214"/>
-        <source>Direction1 X</source>
-        <comment>wy3d::LinearPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="215"/>
-        <source>Direction1 Y</source>
-        <comment>wy3d::LinearPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="216"/>
-        <source>Direction1 Z</source>
-        <comment>wy3d::LinearPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="217"/>
-        <source>Count1</source>
-        <comment>wy3d::LinearPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="218"/>
-        <source>Spacing1</source>
-        <comment>wy3d::LinearPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="220"/>
-        <source>Direction2 X</source>
-        <comment>wy3d::LinearPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="221"/>
-        <source>Direction2 Y</source>
-        <comment>wy3d::LinearPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="222"/>
-        <source>Direction2 Z</source>
-        <comment>wy3d::LinearPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="223"/>
-        <source>Count2</source>
-        <comment>wy3d::LinearPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="224"/>
-        <source>Spacing2</source>
-        <comment>wy3d::LinearPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="229"/>
-        <source>Center Point X</source>
-        <comment>wy3d::CircularPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="230"/>
-        <source>Center Point Y</source>
-        <comment>wy3d::CircularPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="231"/>
-        <source>Center Point Z</source>
-        <comment>wy3d::CircularPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="232"/>
-        <source>Axis Direction X</source>
-        <comment>wy3d::CircularPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="233"/>
-        <source>Axis Direction Y</source>
-        <comment>wy3d::CircularPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="234"/>
-        <source>Axis Direction Z</source>
-        <comment>wy3d::CircularPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="235"/>
-        <source>TotalAngle</source>
-        <comment>wy3d::CircularPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="236"/>
-        <source>Instance Count</source>
-        <comment>wy3d::CircularPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="237"/>
-        <source>Is ClockWise</source>
-        <comment>wy3d::CircularPattern</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="242"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="250"/>
-        <source>ID</source>
-        <comment>wy3d::SketchEntity</comment>
-        <translation>ID</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="243"/>
-        <source>Position X</source>
-        <comment>wy3d::SketchPoint</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="244"/>
-        <source>Position Y</source>
-        <comment>wy3d::SketchPoint</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="251"/>
-        <source>Is Construction</source>
-        <comment>wy3d::SketchCurve</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="256"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="266"/>
-        <source>Start Point X</source>
-        <comment>wy3d::SketchLine</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="257"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="267"/>
-        <source>Start Point Y</source>
-        <comment>wy3d::SketchLine</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="258"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="268"/>
-        <source>End Point X</source>
-        <comment>wy3d::SketchLine</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="259"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="269"/>
-        <source>End Point Y</source>
-        <comment>wy3d::SketchLine</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="260"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="270"/>
-        <source>Length</source>
-        <comment>wy3d::SketchLine</comment>
-        <translation type="unfinished">Length</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="261"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="271"/>
-        <source>Angle</source>
-        <comment>wy3d::SketchLine</comment>
-        <translation type="unfinished">Angle</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="276"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchCircle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="277"/>
-        <source>Center Point Y</source>
-        <comment>wy3d::SketchCircle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="278"/>
-        <source>Radius</source>
-        <comment>wy3d::SketchCircle</comment>
-        <translation type="unfinished">Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="279"/>
-        <source>Diameter</source>
-        <comment>wy3d::SketchCircle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="280"/>
-        <source>Perimeter</source>
-        <comment>wy3d::SketchCircle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="281"/>
-        <source>Area</source>
-        <comment>wy3d::SketchCircle</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="286"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="287"/>
-        <source>Center Point Y</source>
-        <comment>wy3d::SketchArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="288"/>
-        <source>Radius</source>
-        <comment>wy3d::SketchArc</comment>
-        <translation type="unfinished">Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="289"/>
-        <source>Start Angle</source>
-        <comment>wy3d::SketchArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="290"/>
-        <source>End Angle</source>
-        <comment>wy3d::SketchArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="291"/>
-        <source>Total Angle</source>
-        <comment>wy3d::SketchArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="292"/>
-        <source>Arc Length</source>
-        <comment>wy3d::SketchArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="297"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchEllipse</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="298"/>
-        <source>Center Point Y</source>
-        <comment>wy3d::SketchEllipse</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="299"/>
-        <source>Major Radius</source>
-        <comment>wy3d::SketchEllipse</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="300"/>
-        <source>Minor Radius</source>
-        <comment>wy3d::SketchEllipse</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="301"/>
-        <source>Radius Ratio</source>
-        <comment>wy3d::SketchEllipse</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="302"/>
-        <source>Major Axis Angle</source>
-        <comment>wy3d::SketchEllipse</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="303"/>
-        <source>Perimeter</source>
-        <comment>wy3d::SketchEllipse</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="304"/>
-        <source>Area</source>
-        <comment>wy3d::SketchEllipse</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="309"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchEllipseArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="310"/>
-        <source>Center Point Y</source>
-        <comment>wy3d::SketchEllipseArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="311"/>
-        <source>Major Radius</source>
-        <comment>wy3d::SketchEllipseArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="312"/>
-        <source>Minor Radius</source>
-        <comment>wy3d::SketchEllipseArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="313"/>
-        <source>Radius Ratio</source>
-        <comment>wy3d::SketchEllipseArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="314"/>
-        <source>Major Axis Angle</source>
-        <comment>wy3d::SketchEllipseArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="315"/>
-        <source>Start Angle</source>
-        <comment>wy3d::SketchEllipseArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="316"/>
-        <source>End Angle</source>
-        <comment>wy3d::SketchEllipseArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="317"/>
-        <source>Perimeter</source>
-        <comment>wy3d::SketchEllipseArc</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="322"/>
-        <source>Order</source>
-        <comment>wy3d::SketchSpline</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="327"/>
-        <source>ID</source>
-        <comment>wy3d::SketchCurve3D</comment>
-        <translation type="unfinished">ID</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="332"/>
-        <source>Start Point X</source>
-        <comment>wy3d::SketchLine3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="333"/>
-        <source>Start Point Y</source>
-        <comment>wy3d::SketchLine3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="334"/>
-        <source>Start Point Z</source>
-        <comment>wy3d::SketchLine3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="335"/>
-        <source>End Point X</source>
-        <comment>wy3d::SketchLine3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="336"/>
-        <source>End Point Y</source>
-        <comment>wy3d::SketchLine3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="337"/>
-        <source>End Point Z</source>
-        <comment>wy3d::SketchLine3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="338"/>
-        <source>Length</source>
-        <comment>wy3d::SketchLine3D</comment>
-        <translation type="unfinished">Length</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="343"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="344"/>
-        <source>Center Point Y</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="345"/>
-        <source>Center Point Z</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="346"/>
-        <source>Normal X</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="347"/>
-        <source>Normal Y</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="348"/>
-        <source>Normal Z</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="349"/>
-        <source>Start Direction X</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="350"/>
-        <source>Start Direction Y</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="351"/>
-        <source>Start Direction Z</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="352"/>
-        <source>Radius</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished">Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="353"/>
-        <source>Diameter</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="354"/>
-        <source>Perimeter</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="355"/>
-        <source>Area</source>
-        <comment>wy3d::SketchCircle3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="360"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="361"/>
-        <source>Center Point Y</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="362"/>
-        <source>Center Point Z</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="363"/>
-        <source>Normal X</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="364"/>
-        <source>Normal Y</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="365"/>
-        <source>Normal Z</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="366"/>
-        <source>Start Direction X</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="367"/>
-        <source>Start Direction Y</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="368"/>
-        <source>Start Direction Z</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="369"/>
-        <source>Radius</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished">Radius</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="370"/>
-        <source>Start Angle</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="371"/>
-        <source>End Angle</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="372"/>
-        <source>Total Angle</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="373"/>
-        <source>Arc Length</source>
-        <comment>wy3d::SketchArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="378"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="379"/>
-        <source>Center Point Y</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="380"/>
-        <source>Center Point Z</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="381"/>
-        <source>Normal X</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="382"/>
-        <source>Normal Y</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="383"/>
-        <source>Normal Z</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="384"/>
-        <source>Major Axis X</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="385"/>
-        <source>Major Axis Y</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="386"/>
-        <source>Major Axis Z</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="387"/>
-        <source>Major Radius</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="388"/>
-        <source>Minor Radius</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="389"/>
-        <source>Radius Ratio</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="390"/>
-        <source>Perimeter</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="391"/>
-        <source>Area</source>
-        <comment>wy3d::SketchEllipse3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="396"/>
-        <source>Center Point X</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="397"/>
-        <source>Center Point Y</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="398"/>
-        <source>Center Point Z</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="399"/>
-        <source>Normal X</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="400"/>
-        <source>Normal Y</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="401"/>
-        <source>Normal Z</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="402"/>
-        <source>Major Axis X</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="403"/>
-        <source>Major Axis Y</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="404"/>
-        <source>Major Axis Z</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="405"/>
-        <source>Major Radius</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="406"/>
-        <source>Minor Radius</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="407"/>
-        <source>Radius Ratio</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="408"/>
-        <source>Start Angle</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="409"/>
-        <source>End Angle</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="410"/>
-        <source>Total Angle</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="411"/>
-        <source>Arc Length</source>
-        <comment>wy3d::SketchEllipseArc3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="416"/>
-        <source>Order</source>
-        <comment>wy3d::SketchSpline3D</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="421"/>
-        <source>Plane</source>
-        <comment>wy3d::DatumPlane</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="426"/>
-        <source>Source</source>
-        <comment>wy3d::Mirror</comment>
-        <translation type="unfinished">Source</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="427"/>
-        <source>Plane</source>
-        <comment>wy3d::Mirror</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="432"/>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="437"/>
-        <source>Color</source>
-        <comment>wy3d::Solid</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="442"/>
-        <source>Source</source>
-        <comment>wy3d::Thicken</comment>
-        <translation type="unfinished">Source</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="443"/>
-        <source>Thickness</source>
-        <comment>wy3d::Thicken</comment>
-        <translation>Thickness</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="444"/>
-        <source>Direction</source>
-        <comment>wy3d::Thicken</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="449"/>
-        <source>Source</source>
-        <comment>wy3d::Solidify</comment>
-        <translation type="unfinished">Source</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="454"/>
-        <source>Target</source>
-        <comment>wy3d::OffsetSheet</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Source</source>
-        <comment>wy3d::OffsetSheet</comment>
-        <translation type="vanished">Source</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="455"/>
-        <source>Offset</source>
-        <comment>wy3d::OffsetSheet</comment>
-        <translation>Offset</translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="460"/>
-        <source>Tolerance</source>
-        <comment>wy3d::SewnSheet</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="465"/>
-        <source>Pitch</source>
-        <comment>wy3d::Helix</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="466"/>
-        <source>Turns</source>
-        <comment>wy3d::Helix</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="467"/>
-        <source>Start Angle</source>
-        <comment>wy3d::Helix</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="468"/>
-        <source>ClockWise</source>
-        <comment>wy3d::Helix</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../translation/ParamNamesTranslation.cpp" line="469"/>
-        <source>Reversed</source>
-        <comment>wy3d::Helix</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
