@@ -28,6 +28,7 @@
 #include <wy3dExtrusion.h>
 #include <wy3dRevolution.h>
 #include <wy3dImportedSolid.h>
+#include <wy3dImportedSheet.h>
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
 #include <wy3dSolid.h>
@@ -61,7 +62,9 @@
 
 #include <wy3dHelix.h>
 #include <wy3dThicken.h>
+#include <wy3dSolidify.h>
 #include <wy3dOffsetSheet.h>
+#include <wy3dSewnSheet.h>
 
 #include <wy3dDatumPlane.h>
 #include <wy3dMirror.h>
@@ -151,6 +154,11 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
         const std::string& className = wy3d::ImportedSolid::className();
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::IMPORTED_SOLID_PARAM_FILE_PATH)] = tr("File Path", "wy3d::ImportedSolid");
     }
+    // Imported Sheet
+    {
+        const std::string& className = wy3d::ImportedSheet::className();
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::IMPORTED_SOLID_PARAM_FILE_PATH)] = tr("File Path", "wy3d::ImportedSolid");
+    }
     // Chamfer
     {
         const std::string& className = wy3d::Chamfer::className();
@@ -205,8 +213,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // Linear Pattern
     {
         const std::string& className = wy3d::LinearPattern::className();
-        _paramName2DisplayName[globalName(className, wy3d::ParamNames::PATTERN_SOURCE)] = tr("Source", "wy3d::Pattern");
-
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::LINEAR_PATTERN_DIRECTION_1ST_X)] = tr("Direction1 X", "wy3d::LinearPattern");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::LINEAR_PATTERN_DIRECTION_1ST_Y)] = tr("Direction1 Y", "wy3d::LinearPattern");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::LINEAR_PATTERN_DIRECTION_1ST_Z)] = tr("Direction1 Z", "wy3d::LinearPattern");
@@ -222,8 +228,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // Circular Pattern
     {
         const std::string& className = wy3d::CircularPattern::className();
-        _paramName2DisplayName[globalName(className, wy3d::ParamNames::PATTERN_SOURCE)] = tr("Source", "wy3d::Pattern");
-
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::CIRCULAR_PATTERN_CENTER_POINT_X)] = tr("Center Point X", "wy3d::CircularPattern");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::CIRCULAR_PATTERN_CENTER_POINT_Y)] = tr("Center Point Y", "wy3d::CircularPattern");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::CIRCULAR_PATTERN_CENTER_POINT_Z)] = tr("Center Point Z", "wy3d::CircularPattern");
@@ -242,6 +246,7 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_POINT_PARAM_POSITION_Y)] = tr("Position Y", "wy3d::SketchPoint");
     }
     // Sketch Curve
+    // Keys are declaring classes, so inherited params are registered here once, not in subclasses.
     {
         const std::string& className = wy3d::SketchCurve::className();
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ENTITY_ID)] = tr("ID", "wy3d::SketchEntity");
@@ -250,8 +255,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // Sketch Line
     {
         const std::string& className = wy3d::SketchLine::className();
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ENTITY_ID)] = tr("ID", "wy3d::SketchEntity");
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION)] = tr("Is Construction", "wy3d::SketchCurve");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_LINE_PARAM_START_X)] = tr("Start Point X", "wy3d::SketchLine");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_LINE_PARAM_START_Y)] = tr("Start Point Y", "wy3d::SketchLine");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_LINE_PARAM_END_X)] = tr("End Point X", "wy3d::SketchLine");
@@ -262,8 +265,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // Sketch Center Line
     {
         const std::string& className = wy3d::SketchCenterLine::className();
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ENTITY_ID)] = tr("ID", "wy3d::SketchEntity");
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION)] = tr("Is Construction", "wy3d::SketchCurve");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CENTER_LINE_PARAM_START_X)] = tr("Start Point X", "wy3d::SketchLine");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CENTER_LINE_PARAM_START_Y)] = tr("Start Point Y", "wy3d::SketchLine");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CENTER_LINE_PARAM_END_X)] = tr("End Point X", "wy3d::SketchLine");
@@ -274,8 +275,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // Sketch Circle
     {
         const std::string& className = wy3d::SketchCircle::className();
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ENTITY_ID)] = tr("ID", "wy3d::SketchEntity");
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION)] = tr("Is Construction", "wy3d::SketchCurve");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CIRCLE_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchCircle");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CIRCLE_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchCircle");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CIRCLE_PARAM_RADIUS)] = tr("Radius", "wy3d::SketchCircle");
@@ -286,8 +285,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // Sketch Arc
     {
         const std::string& className = wy3d::SketchArc::className();
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ENTITY_ID)] = tr("ID", "wy3d::SketchEntity");
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION)] = tr("Is Construction", "wy3d::SketchCurve");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ARC_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchArc");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ARC_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchArc");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ARC_PARAM_RADIUS)] = tr("Radius", "wy3d::SketchArc");
@@ -299,8 +296,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // Sketch Ellipse
     {
         const std::string& className = wy3d::SketchEllipse::className();
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ENTITY_ID)] = tr("ID", "wy3d::SketchEntity");
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION)] = tr("Is Construction", "wy3d::SketchCurve");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ELLIPSE_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchEllipse");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ELLIPSE_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchEllipse");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ELLIPSE_PARAM_MAJOR_RADIUS)] = tr("Major Radius", "wy3d::SketchEllipse");
@@ -313,8 +308,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // Sketch Ellipse Arc
     {
         const std::string& className = wy3d::SketchEllipseArc::className();
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ENTITY_ID)] = tr("ID", "wy3d::SketchEntity");
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION)] = tr("Is Construction", "wy3d::SketchCurve");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ELLIPSE_ARC_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchEllipseArc");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ELLIPSE_ARC_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchEllipseArc");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ELLIPSE_ARC_PARAM_MAJOR_RADIUS)] = tr("Major Radius", "wy3d::SketchEllipseArc");
@@ -328,8 +321,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // Sketch Spline
     {
         const std::string& className = wy3d::SketchSpline::className();
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_ENTITY_ID)] = tr("ID", "wy3d::SketchEntity");
-        _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_CURVE_IS_CONSTRUCTION)] = tr("Is Construction", "wy3d::SketchCurve");
         _paramName2DisplayName[globalName(className, wy3d::SketchParamNames::SKETCH_SPLINE_ORDER)] = tr("Order", "wy3d::SketchSpline");
     }
     // SketchCurve3D
@@ -340,7 +331,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // SketchLine3D
     {
         const std::string& className = wy3d::SketchLine3D::className();
-        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_X)] = tr("Start Point X", "wy3d::SketchLine3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Y)] = tr("Start Point Y", "wy3d::SketchLine3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Z)] = tr("Start Point Z", "wy3d::SketchLine3D");
@@ -352,7 +342,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // SketchCircle3D
     {
         const std::string& className = wy3d::SketchCircle3D::className();
-        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchCircle3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchCircle3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Z)] = tr("Center Point Z", "wy3d::SketchCircle3D");
@@ -370,7 +359,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // SketchArc3D
     {
         const std::string& className = wy3d::SketchArc3D::className();
-        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchArc3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchArc3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Z)] = tr("Center Point Z", "wy3d::SketchArc3D");
@@ -389,7 +377,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // SketchEllipse3D
     {
         const std::string& className = wy3d::SketchEllipse3D::className();
-        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchEllipse3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchEllipse3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_CENTER_Z)] = tr("Center Point Z", "wy3d::SketchEllipse3D");
@@ -408,7 +395,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // SketchEllipseArc3D
     {
         const std::string& className = wy3d::SketchEllipseArc3D::className();
-        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_X)] = tr("Center Point X", "wy3d::SketchEllipseArc3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Y)] = tr("Center Point Y", "wy3d::SketchEllipseArc3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_CENTER_Z)] = tr("Center Point Z", "wy3d::SketchEllipseArc3D");
@@ -429,7 +415,6 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
     // SketchSpline3D
     {
         const std::string& className = wy3d::SketchSpline3D::className();
-        _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)] = tr("ID", "wy3d::SketchCurve3D");
         _paramName2DisplayName[globalName(className, wy3d::Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER)] = tr("Order", "wy3d::SketchSpline3D");
     }
     // DatumPlane
@@ -460,11 +445,21 @@ ParamNamesTranslation::ParamNamesTranslation(QObject* parent) : QObject(parent)
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::THICKEN_PARAM_THICKNESS)] = tr("Thickness", "wy3d::Thicken");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::THICKEN_PARAM_DIRECTION)] = tr("Direction", "wy3d::Thicken");
     }
+    // Solidify
+    {
+        const std::string& className = wy3d::Solidify::className();
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::SOLIDIFY_PARAM_SOURCE)] = tr("Source", "wy3d::Solidify");
+    }
     // OffsetSheet
     {
         const std::string& className = wy3d::OffsetSheet::className();
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::OFFSETSHEET_PARAM_TARGET)] = tr("Target", "wy3d::OffsetSheet");
         _paramName2DisplayName[globalName(className, wy3d::ParamNames::OFFSETSHEET_PARAM_OFFSET)] = tr("Offset", "wy3d::OffsetSheet");
+    }
+    // Sewn Sheet
+    {
+        const std::string& className = wy3d::SewnSheet::className();
+        _paramName2DisplayName[globalName(className, wy3d::ParamNames::SEWNSHEET_PARAM_TOLERANCE)] = tr("Tolerance", "wy3d::SewnSheet");
     }
     // helix
     {
