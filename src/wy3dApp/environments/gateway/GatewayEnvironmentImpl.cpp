@@ -36,6 +36,11 @@ GatewayEnvironmentImpl::~GatewayEnvironmentImpl()
 {
 }
 
+EnvironmentUI* GatewayEnvironmentImpl::getEnvironmentUI() const
+{
+    return _pUI.get();
+}
+
 void GatewayEnvironmentImpl::onDocumentDeactivated(wyap::Document* pDeactivatedDoc)
 {
     wyap::GatewayEnvironment::onDocumentDeactivated(pDeactivatedDoc);
@@ -82,24 +87,24 @@ void GatewayEnvironmentImpl::onCommandStartFailed(
     wyap::Command* pCmd,
     wyap::CmdExecution::StartResult startResult)
 {
-    EnvironmentBase::onCommandStartFailed(pCmd, startResult);
+    _pUI->onCommandStartFailed(pCmd, startResult);
 }
 
 void GatewayEnvironmentImpl::onCommandStarted(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandStarted(pCmd);
+    _pUI->onCommandStarted(pCmd);
 }
 
 void GatewayEnvironmentImpl::onCommandEnded(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandEnded(pCmd);
+    _pUI->onCommandEnded(pCmd);
 }
 
 void GatewayEnvironmentImpl::onCommandAborted(
     wyap::Command* pCmd,
     wyap::CmdExecution::AbortCause abortCause)
 {
-    EnvironmentBase::onCommandAborted(pCmd, abortCause);
+    _pUI->onCommandAborted(pCmd, abortCause);
 }
 
 void GatewayEnvironmentImpl::onEnter()
@@ -144,8 +149,8 @@ void GatewayEnvironmentImpl::updateCommandActionStates()
 
 void GatewayEnvironmentImpl::updateFileActionStates()
 {
-    QAction* pNewFileAction = this->findCommandAction(CommandNames::NewFile);
-    QAction* pOpenFileAction = this->findCommandAction(CommandNames::OpenFile);
+    QAction* pNewFileAction = _pUI->findCommandAction(CommandNames::NewFile);
+    QAction* pOpenFileAction = _pUI->findCommandAction(CommandNames::OpenFile);
     if (!pNewFileAction || !pOpenFileAction)
     {
         return;

@@ -38,7 +38,8 @@
 #include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
 #include "snap/SnapContext.h"
-#include <wy3dApp/EnvironmentBase.h>
+#include <wy3dApp/EnvironmentUI.h>
+#include "environments/IEnvironmentUIHost.h"
 #include "snap/SnapTipWidget.h"
 #include "commands/GuiEventDispatcher.h"
 #include "select/SelectHandler.h"
@@ -195,9 +196,10 @@ void GuiCommand::onRightMouseUp(const MouseEvent& event)
 
     // Environment actions
     wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
-    if (EnvironmentBase* pEnvBase = dynamic_cast<EnvironmentBase*>(pEnv))
+    if (IEnvironmentUIHost* pEnvUIHost = dynamic_cast<IEnvironmentUIHost*>(pEnv))
     {
-        if (pEnvBase->addContextMenuActions(menu)) menu.addSeparator();
+        EnvironmentUI* pEnvUI = pEnvUIHost->getEnvironmentUI();
+        if (pEnvUI && pEnvUI->addContextMenuActions(menu)) menu.addSeparator();
     }
 
     // Property panel

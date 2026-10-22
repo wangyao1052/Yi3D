@@ -21,13 +21,14 @@
 
 #include <QMenu>
 #include <QToolBar>
+#include <wy3dApp/EnvironmentUI.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 class GatewayEnvironment;
 
-class GatewayEnvironmentUI
+class GatewayEnvironmentUI : public EnvironmentUI
 {
 public:
     GatewayEnvironmentUI();
@@ -37,9 +38,12 @@ public:
     void teardown(GatewayEnvironment* pEnv);
 
 private:
+    // Do nothing.
+    virtual void processCommandTerminatedOnEventLoop() override {}
+
     void clear();
-    void createMenus(GatewayEnvironment* pEnv);
-    void createToolBars(GatewayEnvironment* pEnv);
+    void createMenus();
+    void createToolBars();
 
 private:
     QMenu* _pMenuFile;

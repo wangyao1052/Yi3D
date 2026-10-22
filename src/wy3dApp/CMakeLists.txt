@@ -28,7 +28,7 @@ target_compile_definitions(wy3dApp PRIVATE WY3DAPP_LIBRARY)
 # listed explicitly: it carries the Q_OBJECT moved down from Application.
 set(APP_MOC_HEADERS
     "${CMAKE_SOURCE_DIR}/src/wy3dApp/application/ApplicationImpl.h"
-    "${CMAKE_SOURCE_DIR}/inc/wy3dApp/EnvironmentBase.h"
+    "${CMAKE_SOURCE_DIR}/inc/wy3dApp/EnvironmentUI.h"
 )
 target_sources(wy3dApp PRIVATE ${APP_MOC_HEADERS})
 

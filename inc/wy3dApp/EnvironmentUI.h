@@ -16,8 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_ENVIRONMENT_BASE_H
-#define WY3DAPP_ENVIRONMENT_BASE_H
+#ifndef WY3DAPP_ENVIRONMENT_UI_H
+#define WY3DAPP_ENVIRONMENT_UI_H
 
 #include <QObject>
 #include <QAction>
@@ -35,12 +35,12 @@
 
 namespace wy3dApp {
 
-class WY3DAPP_EXPORT EnvironmentBase : public QObject
+class WY3DAPP_EXPORT EnvironmentUI : public QObject
 {
     Q_OBJECT
 public:
-    EnvironmentBase();
-    virtual ~EnvironmentBase();
+    EnvironmentUI();
+    virtual ~EnvironmentUI();
 
     // Add menu.
     QMenu* addMenu(const QString& title, const std::string& name);
@@ -96,7 +96,7 @@ public:
         QActionGroup* pActionGroup,
         const std::list<QAction*>& actions);
 
-    // Destroy all ui elements created and managed by this environment base instance.
+    // Destroy all ui elements created and managed by this environment UI instance.
     void destroyUI();
 
     // Save toolbar/dock positions to persisted state.
@@ -104,7 +104,7 @@ public:
     // Restore toolbar/dock positions from persisted state.
     void restoreUiState();
 
-protected:
+public:
     // command manager reactor
     void onCommandStartFailed(
         wyap::Command* pCmd,
@@ -120,8 +120,12 @@ protected:
     void onSuspend();
     void onResume();
 
-    // 同步显示模式按钮状态
+    // Sync the display mode action state.
     void syncDisplayModeAction();
+
+protected:
+    // Store the owning environment's name for UI state persistence.
+    void setEnvironment(const wyap::Environment* pEnv);
 
 private:
     // Schedules a one-shot call to handle command-terminated tasks
@@ -157,8 +161,10 @@ private:
     QTimer _cmdTerminatedOnEventLoopTimer;
     // Guard to prevent duplicate posting of command-terminated tasks to the event loop.
     bool _isCmdTerminatedOnEventLoopPosted;
+    // Name of the owning environment, used for UI state persistence.
+    std::string _envName;
 };
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_ENVIRONMENT_BASE_H
+#endif // WY3DAPP_ENVIRONMENT_UI_H

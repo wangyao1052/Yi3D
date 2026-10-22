@@ -564,22 +564,22 @@
 <context>
     <name>GuiCommand</name>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="179"/>
+        <location filename="../../commands/GuiCommand.cpp" line="180"/>
         <source>Complete Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="188"/>
+        <location filename="../../commands/GuiCommand.cpp" line="189"/>
         <source>Clear Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="205"/>
+        <location filename="../../commands/GuiCommand.cpp" line="207"/>
         <source>Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="218"/>
+        <location filename="../../commands/GuiCommand.cpp" line="220"/>
         <source>World Coordinate System</source>
         <translation type="unfinished"></translation>
     </message>
@@ -683,12 +683,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="160"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="164"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="164"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="168"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -714,8 +714,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="156"/>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="171"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="160"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="175"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>

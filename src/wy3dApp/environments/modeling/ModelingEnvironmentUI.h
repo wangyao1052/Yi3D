@@ -19,13 +19,14 @@
 #ifndef WY3DAPP_MODELING_ENVIRONMENT_UI_H
 #define WY3DAPP_MODELING_ENVIRONMENT_UI_H
 
+#include <wy3dApp/EnvironmentUI.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 class ModelingEnvironment;
 
-class ModelingEnvironmentUI
+class ModelingEnvironmentUI : public EnvironmentUI
 {
 public:
     ModelingEnvironmentUI();

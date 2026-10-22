@@ -23,8 +23,8 @@
 #include <wyapEnvironment.h>
 #include <wy3dSketch.h>
 
-#include <wy3dApp/EnvironmentBase.h>
 #include "environments/ICommandActionStateHost.h"
+#include "environments/IEnvironmentUIHost.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -33,8 +33,8 @@ class SketchSnapSystem;
 
 class WY3DAPP_EXPORT SketchEnvironment
     : public wyap::TaskEnvironment
-    , public EnvironmentBase
     , public ICommandActionStateHost
+    , public IEnvironmentUIHost
 {
 public:
     enum class Operation

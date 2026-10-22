@@ -42,34 +42,39 @@ ModelingEnvironmentImpl::~ModelingEnvironmentImpl()
 {
 }
 
+EnvironmentUI* ModelingEnvironmentImpl::getEnvironmentUI() const
+{
+    return _pUI.get();
+}
+
 void ModelingEnvironmentImpl::onCommandStartFailed(
     wyap::Command* pCmd,
     wyap::CmdExecution::StartResult startResult)
 {
-    EnvironmentBase::onCommandStartFailed(pCmd, startResult);
+    _pUI->onCommandStartFailed(pCmd, startResult);
 }
 
 void ModelingEnvironmentImpl::onCommandStarted(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandStarted(pCmd);
+    _pUI->onCommandStarted(pCmd);
 }
 
 void ModelingEnvironmentImpl::onCommandEnded(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandEnded(pCmd);
+    _pUI->onCommandEnded(pCmd);
 }
 
 void ModelingEnvironmentImpl::onCommandAborted(
     wyap::Command* pCmd,
     wyap::CmdExecution::AbortCause abortCause)
 {
-    EnvironmentBase::onCommandAborted(pCmd, abortCause);
+    _pUI->onCommandAborted(pCmd, abortCause);
 }
 
 void ModelingEnvironmentImpl::onEnter()
 {
     wyap::DocumentEnvironment::onEnter();
-    EnvironmentBase::onEnter();
+    _pUI->onEnter();
 
     this->registerCommands();
     _pUI->initialize(this);
@@ -79,7 +84,7 @@ void ModelingEnvironmentImpl::onEnter()
     this->updateCommandActionStates();
 
     // 同步显示模式按钮状态
-    this->syncDisplayModeAction();
+    _pUI->syncDisplayModeAction();
 }
 
 void ModelingEnvironmentImpl::onExit(ExitCode exitCode)
@@ -87,7 +92,7 @@ void ModelingEnvironmentImpl::onExit(ExitCode exitCode)
     _pUI->teardown(this);
     this->removeCommands();
 
-    EnvironmentBase::onExit(exitCode);
+    _pUI->onExit(exitCode);
     wyap::DocumentEnvironment::onExit(exitCode);
 }
 
@@ -96,14 +101,14 @@ void ModelingEnvironmentImpl::onSuspend()
     _pUI->teardown(this);
     this->removeCommands();
 
-    EnvironmentBase::onSuspend();
+    _pUI->onSuspend();
     wyap::DocumentEnvironment::onSuspend();
 }
 
 void ModelingEnvironmentImpl::onResume()
 {
     wyap::DocumentEnvironment::onResume();
-    EnvironmentBase::onResume();
+    _pUI->onResume();
 
     this->registerCommands();
     _pUI->initialize(this);
@@ -113,19 +118,19 @@ void ModelingEnvironmentImpl::onResume()
     this->updateCommandActionStates();
 
     // 同步显示模式按钮状态
-    this->syncDisplayModeAction();
+    _pUI->syncDisplayModeAction();
 }
 
 void ModelingEnvironmentImpl::onDocumentActivated(wyap::Document* pActivatedDoc)
 {
     wyap::DocumentEnvironment::onDocumentActivated(pActivatedDoc);
-    this->syncDisplayModeAction();
+    _pUI->syncDisplayModeAction();
 }
 
 void ModelingEnvironmentImpl::updateUndoRedoActionStates()
 {
-    QAction* pUndoAction = this->findCommandAction(CommandNames::Undo);
-    QAction* pRedoAction = this->findCommandAction(CommandNames::Redo);
+    QAction* pUndoAction = _pUI->findCommandAction(CommandNames::Undo);
+    QAction* pRedoAction = _pUI->findCommandAction(CommandNames::Redo);
     if (!pUndoAction || !pRedoAction)
     {
         assert(false);
@@ -173,7 +178,7 @@ void ModelingEnvironmentImpl::updateFileActionStates()
 
     for (const std::string& commandName : fileCommandNames)
     {
-        QAction* pAction = this->findCommandAction(commandName);
+        QAction* pAction = _pUI->findCommandAction(commandName);
         if (!pAction)
         {
             assert(false);

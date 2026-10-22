@@ -46,42 +46,42 @@ struct GatewayActions
     CommandAction* pActionAbout;
 };
 
-GatewayActions createActions(GatewayEnvironment* pEnv)
+GatewayActions createActions(EnvironmentUI* pUI)
 {
-    assert(pEnv);
+    assert(pUI);
 
     GatewayActions actions = {};
-    actions.pActionNewFile = pEnv->newCommandAction(
+    actions.pActionNewFile = pUI->newCommandAction(
         CommandNames::NewFile,
         QCoreApplication::translate("MainWindow", "New"),
         IconUtil::get(":/images/Document_New.svg"));
 
-    actions.pActionOpenFile = pEnv->newCommandAction(
+    actions.pActionOpenFile = pUI->newCommandAction(
         CommandNames::OpenFile,
         QCoreApplication::translate("MainWindow", "Open"),
         IconUtil::get(":/images/Document_Open.svg"));
 
-    actions.pActionOptions = pEnv->newCommandAction(
+    actions.pActionOptions = pUI->newCommandAction(
         CommandNames::Options,
         QCoreApplication::translate("MainWindow", "Options"),
         QIcon());
 
-    actions.pActionHelpDocumentation = pEnv->newCommandAction(
+    actions.pActionHelpDocumentation = pUI->newCommandAction(
         CommandNames::HelpDocumentation,
         QCoreApplication::translate("MainWindow", "Help Documentation"),
         QIcon());
 
-    actions.pActionShortcutKeys = pEnv->newCommandAction(
+    actions.pActionShortcutKeys = pUI->newCommandAction(
         CommandNames::ShortcutKeys,
         QCoreApplication::translate("MainWindow", "Shortcut Keys"),
         QIcon());
 
-    actions.pActionContactUs = pEnv->newCommandAction(
+    actions.pActionContactUs = pUI->newCommandAction(
         CommandNames::ContactUs,
         QCoreApplication::translate("MainWindow", "Contact Us"),
         QIcon());
 
-    actions.pActionAbout = pEnv->newCommandAction(
+    actions.pActionAbout = pUI->newCommandAction(
         CommandNames::About,
         QCoreApplication::translate("MainWindow", "About"),
         QIcon());
@@ -110,9 +110,11 @@ void GatewayEnvironmentUI::initialize(GatewayEnvironment* pEnv)
         return;
     }
 
-    const GatewayActions actions = createActions(pEnv);
-    this->createMenus(pEnv);
-    this->createToolBars(pEnv);
+    this->setEnvironment(pEnv);
+
+    const GatewayActions actions = createActions(this);
+    this->createMenus();
+    this->createToolBars();
     assert(_pMenuFile);
     assert(_pMenuTools);
     assert(_pMenuHelp);
@@ -127,7 +129,7 @@ void GatewayEnvironmentUI::initialize(GatewayEnvironment* pEnv)
     _pToolBarFile->addAction(actions.pActionNewFile);
     _pToolBarFile->addAction(actions.pActionOpenFile);
 
-    pEnv->restoreUiState();
+    this->restoreUiState();
 }
 
 void GatewayEnvironmentUI::teardown(GatewayEnvironment* pEnv)
@@ -138,7 +140,9 @@ void GatewayEnvironmentUI::teardown(GatewayEnvironment* pEnv)
         return;
     }
 
-    pEnv->destroyUI();
+    this->setEnvironment(pEnv);
+
+    this->destroyUI();
     this->clear();
 }
 
@@ -150,24 +154,24 @@ void GatewayEnvironmentUI::clear()
     _pToolBarFile = nullptr;
 }
 
-void GatewayEnvironmentUI::createMenus(GatewayEnvironment* pEnv)
+void GatewayEnvironmentUI::createMenus()
 {
-    _pMenuFile = pEnv->addMenu(
+    _pMenuFile = this->addMenu(
         QCoreApplication::translate("MainWindow", "File"),
         wy3dApp::MenuBarNames::File);
 
-    _pMenuTools = pEnv->addMenu(
+    _pMenuTools = this->addMenu(
         QCoreApplication::translate("MainWindow", "Tools"),
         wy3dApp::MenuBarNames::Tools);
 
-    _pMenuHelp = pEnv->addMenu(
+    _pMenuHelp = this->addMenu(
         QCoreApplication::translate("MainWindow", "Help"),
         wy3dApp::MenuBarNames::Help);
 }
 
-void GatewayEnvironmentUI::createToolBars(GatewayEnvironment* pEnv)
+void GatewayEnvironmentUI::createToolBars()
 {
-    _pToolBarFile = pEnv->addToolBar(
+    _pToolBarFile = this->addToolBar(
         QCoreApplication::translate("MainWindow", "File"),
         wy3dApp::ToolBarNames::File);
 }

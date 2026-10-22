@@ -98,59 +98,39 @@ SketchSnapSystem* SketchEnvironmentImpl::getSnapSystem() const
     return _pSketchSnapSys.get();
 }
 
-bool SketchEnvironmentImpl::addContextMenuActions(ContextMenu& menu)
+EnvironmentUI* SketchEnvironmentImpl::getEnvironmentUI() const
 {
-    bool added(false);
-
-    if (CommandAction* pActionOrientToSketch = this->findCommandAction(CommandNames::OrientToSketch))
-    {
-        menu.addAction(pActionOrientToSketch);
-        added = true;
-    }
-
-    if (CommandAction* pActionEndSketch = this->findCommandAction(CommandNames::EndSketch))
-    {
-        menu.addAction(pActionEndSketch);
-        added = true;
-    }
-
-    if (CommandAction* pActionCancelSketch = this->findCommandAction(CommandNames::CancelSketch))
-    {
-        menu.addAction(pActionCancelSketch);
-        added = true;
-    }
-
-    return added;
+    return _pUI.get();
 }
 
 void SketchEnvironmentImpl::onCommandStartFailed(
     wyap::Command* pCmd,
     wyap::CmdExecution::StartResult startResult)
 {
-    EnvironmentBase::onCommandStartFailed(pCmd, startResult);
+    _pUI->onCommandStartFailed(pCmd, startResult);
 }
 
 void SketchEnvironmentImpl::onCommandStarted(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandStarted(pCmd);
+    _pUI->onCommandStarted(pCmd);
 }
 
 void SketchEnvironmentImpl::onCommandEnded(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandEnded(pCmd);
+    _pUI->onCommandEnded(pCmd);
 }
 
 void SketchEnvironmentImpl::onCommandAborted(
     wyap::Command* pCmd,
     wyap::CmdExecution::AbortCause abortCause)
 {
-    EnvironmentBase::onCommandAborted(pCmd, abortCause);
+    _pUI->onCommandAborted(pCmd, abortCause);
 }
 
 void SketchEnvironmentImpl::onEnter()
 {
     wyap::TaskEnvironment::onEnter();
-    EnvironmentBase::onEnter();
+    _pUI->onEnter();
 
     this->registerCommands();
     _pUI->initialize(this);
@@ -164,7 +144,7 @@ void SketchEnvironmentImpl::onEnter()
     ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
     // 同步显示模式按钮状态
-    this->syncDisplayModeAction();
+    _pUI->syncDisplayModeAction();
 
     // 开启顶层事务组
     wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
@@ -274,7 +254,7 @@ void SketchEnvironmentImpl::onExit(ExitCode exitCode)
     _pUI->teardown(this);
     this->removeCommands();
 
-    EnvironmentBase::onExit(exitCode);
+    _pUI->onExit(exitCode);
     wyap::TaskEnvironment::onExit(exitCode);
 }
 
@@ -330,14 +310,14 @@ void SketchEnvironmentImpl::onSuspend()
     ApplicationImpl::instance().getSelManager()->clearSelections();
     ApplicationImpl::instance().getSelManager()->endChange();
 
-    EnvironmentBase::onSuspend();
+    _pUI->onSuspend();
     wyap::TaskEnvironment::onSuspend();
 }
 
 void SketchEnvironmentImpl::onResume()
 {
     wyap::TaskEnvironment::onResume();
-    EnvironmentBase::onResume();
+    _pUI->onResume();
 
     this->registerCommands();
     _pUI->initialize(this);
@@ -350,13 +330,13 @@ void SketchEnvironmentImpl::onResume()
     this->updateCommandActionStates();
 
     // 同步显示模式按钮状态
-    this->syncDisplayModeAction();
+    _pUI->syncDisplayModeAction();
 }
 
 void SketchEnvironmentImpl::updateUndoRedoActionStates()
 {
-    QAction* pUndoAction = this->findCommandAction(CommandNames::Undo);
-    QAction* pRedoAction = this->findCommandAction(CommandNames::Redo);
+    QAction* pUndoAction = _pUI->findCommandAction(CommandNames::Undo);
+    QAction* pRedoAction = _pUI->findCommandAction(CommandNames::Redo);
     if (!pUndoAction || !pRedoAction)
     {
         assert(false);
