@@ -35,6 +35,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "commands/transient/BasicTransient.h"
@@ -91,7 +92,7 @@ wyap::CmdExecution::StartResult SketchPolarArrayGuiCmd::onStart()
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
     // 初始化
-    if (Application::instance().getSelManager()->getSelections().isEmpty())
+    if (ApplicationImpl::instance().getSelManager()->getSelections().isEmpty())
     {
         this->gotoStep(Step::Step1_SelectElements);
     }
@@ -146,7 +147,7 @@ bool SketchPolarArrayGuiCmd::finishStep(Step step)
     {
     case Step::Step1_SelectElements:
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (ss.isEmpty()) return false;
         _ids.clear();
         for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
@@ -205,7 +206,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
     _step = step;
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
     // 清空草图捕捉结果
     if (_sketchInfo.pSketchSnapSys)
     {
@@ -226,9 +227,9 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
         selOptions.selectMode = SelectMode::Add;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchPolarArray",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchPolarArray",
             "Select elements to perform polar array; press Enter or Spacebar to confirm; press Esc to cancel."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         if (_sketchInfo.pSketchSnapSys)
         {
@@ -244,9 +245,9 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchPolarArray",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchPolarArray",
             "Specify the center point of polar array; you can directly input the coordinate values."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         _pSnapContext = std::make_shared<Locate2dContext>();
     }
@@ -304,7 +305,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -370,7 +371,7 @@ void SketchPolarArrayGuiCmd::onEnterKey()
 {
     if (Step::Step1_SelectElements == _step)
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (!ss.isEmpty())
         {
             this->finishStep(_step);
@@ -398,9 +399,9 @@ void SketchPolarArrayGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::Step1_SelectElements == _step)
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 }
 
@@ -410,7 +411,7 @@ SketchPolarArrayElements::SketchPolarArrayElements(GuiCommand* pGuiCmd, const wy
 
 SketchPolarArrayElements::~SketchPolarArrayElements()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         for (osg::ref_ptr<osg::MatrixTransform> item : _items)
@@ -442,7 +443,7 @@ bool SketchPolarArrayElements::init(const std::set<wydb::ElementId>& ids,
         itemAngle = totalAngle / (count - 1);
     if (!isCCW) itemAngle = -itemAngle;
 
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return false;
     size_t num = static_cast<size_t>(count) - 1;
     osg::ref_ptr<osg::MatrixTransform> matrixTransform = new osg::MatrixTransform();

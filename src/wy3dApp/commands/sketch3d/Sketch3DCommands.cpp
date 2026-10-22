@@ -31,6 +31,7 @@
 #include <wy3dSweptSheet.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"
@@ -41,7 +42,7 @@ namespace wy3dApp {
 int NewSketch3DCommand::run()
 {
     // 当前正在3D草图环境
-    wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurrentEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     Sketch3DEnvironment* pCurrSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pCurrentEnv);
     if (pCurrSketch3DEnv)
     {
@@ -50,7 +51,7 @@ int NewSketch3DCommand::run()
     }
 
     std::unique_ptr<Sketch3DEnvironmentImpl> sketch3DEnv = std::make_unique<Sketch3DEnvironmentImpl>();
-    wy::ErrorStatus error = Application::instance().getEnvManager()->enterEnvironment(
+    wy::ErrorStatus error = ApplicationImpl::instance().getEnvManager()->enterEnvironment(
         std::move(sketch3DEnv),
         wyap::ExecutionMode::Async);
     if (wy::ErrorStatus::Ok != error)
@@ -65,7 +66,7 @@ int NewSketch3DCommand::run()
 int EditSketch3DCommand::run()
 {
     // 当前正在3D草图环境
-    wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurrentEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     Sketch3DEnvironment* pCurrSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pCurrentEnv);
     if (pCurrSketch3DEnv)
     {
@@ -73,8 +74,8 @@ int EditSketch3DCommand::run()
         return -1;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (!pDb || ss.getCount() != 1)
     {
         assert(false);
@@ -89,7 +90,7 @@ int EditSketch3DCommand::run()
     }
 
     std::unique_ptr<Sketch3DEnvironmentImpl> sketch3DEnv = std::make_unique<Sketch3DEnvironmentImpl>(pSketch3D);
-    wy::ErrorStatus error = Application::instance().getEnvManager()->enterEnvironment(
+    wy::ErrorStatus error = ApplicationImpl::instance().getEnvManager()->enterEnvironment(
         std::move(sketch3DEnv),
         wyap::ExecutionMode::Async);
     if (wy::ErrorStatus::Ok != error)
@@ -105,7 +106,7 @@ int EditSketch3DCommand::run()
 // valid profile for its owner feature
 static bool canEndEditingSketch3D(const wydb::ElementId& sketch3dId)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -177,7 +178,7 @@ static bool canEndEditingSketch3D(const wydb::ElementId& sketch3dId)
 
 int EndSketch3DCommand::run()
 {
-    wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurrentEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     Sketch3DEnvironment* pSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pCurrentEnv);
     if (!pSketch3DEnv)
     {
@@ -196,7 +197,7 @@ int EndSketch3DCommand::run()
     }
 
     // 退出3D草图环境
-    if (wy::ErrorStatus::Ok != Application::instance().getEnvManager()->exitActiveEnvironment(
+    if (wy::ErrorStatus::Ok != ApplicationImpl::instance().getEnvManager()->exitActiveEnvironment(
         wyap::Environment::ExitCode::Ok,
         wyap::ExecutionMode::Async))
     {
@@ -209,7 +210,7 @@ int EndSketch3DCommand::run()
 
 int CancelSketch3DCommand::run()
 {
-    wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurrentEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     Sketch3DEnvironment* pSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pCurrentEnv);
     if (!pSketch3DEnv)
     {
@@ -218,7 +219,7 @@ int CancelSketch3DCommand::run()
     }
 
     // 退出3D草图环境
-    if (wy::ErrorStatus::Ok != Application::instance().getEnvManager()->exitActiveEnvironment(
+    if (wy::ErrorStatus::Ok != ApplicationImpl::instance().getEnvManager()->exitActiveEnvironment(
         wyap::Environment::ExitCode::Cancel,
         wyap::ExecutionMode::Async))
     {

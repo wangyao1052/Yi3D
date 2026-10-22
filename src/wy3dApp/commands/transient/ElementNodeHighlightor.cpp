@@ -19,6 +19,7 @@
 #include "ElementNodeHighlightor.h"
 #include <wyapSelection.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/SolidElementNode.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -35,7 +36,7 @@ ElementNodeHighlightor::~ElementNodeHighlightor()
 {
     if (!_id.isNull())
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (!ss.contains(wyap::Selection(_id)))
         {
             this->highlightImpl(_id, false);
@@ -45,7 +46,7 @@ ElementNodeHighlightor::~ElementNodeHighlightor()
 
 void ElementNodeHighlightor::highlightImpl(const wydb::ElementId& id, bool flag)
 {
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return;
     SolidElementNode* pSolidNode = dynamic_cast<SolidElementNode*>(pScene->getElementNode(id));
     if (!pSolidNode) return;

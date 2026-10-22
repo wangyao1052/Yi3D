@@ -31,6 +31,7 @@
 #include <wy3dSketchArc.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/SketchBasicTransient.h"
 #include "snap/SketchSnapSystem.h"
@@ -69,7 +70,7 @@ wyap::CmdExecution::StartResult SketchDrawArcBy3PointsGuiCmd::onStart()
     this->gotoStep(Step::SpecifyPoint1st);
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::Locate);
+    ApplicationImpl::instance().setCursor(CursorType::Locate);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -221,7 +222,7 @@ void SketchDrawArcBy3PointsGuiCmd::gotoStep(Step step)
     _hoverPopupState.resetValue();
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
     // 清空草图捕捉结果
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
@@ -231,7 +232,7 @@ void SketchDrawArcBy3PointsGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the first end point on arc; you can directly input the coordinate values."));
         // 局部更新草图捕捉系统
         if (_sketchInfo.pSketchSnapSys)
@@ -247,7 +248,7 @@ void SketchDrawArcBy3PointsGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the second end point on arc; you can directly input the coordinate values."));
         // 草图捕捉上下文
         _pSnapContext = std::make_shared<DrawLine2dContext>(_pnt1st);
@@ -258,7 +259,7 @@ void SketchDrawArcBy3PointsGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the third point on arc; you can directly input the coordinate values."));
         // 草图捕捉上下文
         _pSnapContext = std::make_shared<Locate2dContext>();
@@ -267,7 +268,7 @@ void SketchDrawArcBy3PointsGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -400,7 +401,7 @@ void SketchDrawArcBy3PointsGuiCmd::initializePopups()
     {
         return;
     }
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
         QStringLiteral("X"),
         QStringLiteral("Y"),
@@ -519,7 +520,7 @@ void SketchDrawArcBy3PointsGuiCmd::updateCenterPointTrasient()
         return;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     const wy3d::SketchArc* pArc = wy3d::SketchArc::cast(pDb->getElement(_sketchArcId));
     if (!pArc) return;

@@ -36,6 +36,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Snap2dResult.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"
@@ -73,15 +74,15 @@ wyap::CmdExecution::StartResult SketchDrawLineGuiCmd::onStart()
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 初始化
     this->gotoStep(Step::SpecifyStartPnt);
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::Locate);
+    ApplicationImpl::instance().setCursor(CursorType::Locate);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -130,7 +131,7 @@ bool SketchDrawLineGuiCmd::finishStep(Step step)
     {
     case Step::SpecifyStartPnt:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (pDb)
         {
             _pMakeSketchLine = std::make_shared<MakeSketchLine>(this);
@@ -197,7 +198,7 @@ void SketchDrawLineGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyStartPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine",
             "Specify the start point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -210,7 +211,7 @@ void SketchDrawLineGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyEndPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine",
             "Specify the end point; you can directly input the values."));
 
         _pSnapContext = std::make_shared<DrawLineTangent2dContext>(_startPnt, _startTangent);
@@ -219,7 +220,7 @@ void SketchDrawLineGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -302,7 +303,7 @@ void SketchDrawLineGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawLineGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
@@ -470,7 +471,7 @@ SnapStartTangent SketchDrawLineGuiCmd::computeSnapStartTangent(const Snap2dResul
 {
     if (!pSnapResult) return SnapStartTangent();
 
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return SnapStartTangent();
 
     wydb::ElementId startElementId(wydb::ElementId::kNull);

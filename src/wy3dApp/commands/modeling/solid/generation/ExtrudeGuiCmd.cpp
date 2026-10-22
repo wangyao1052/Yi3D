@@ -34,6 +34,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/SketchUtil.h"
@@ -72,7 +73,7 @@ ExtrudeGuiCmd::~ExtrudeGuiCmd()
 wyap::CmdExecution::StartResult ExtrudeGuiCmd::onStart()
 {
     // 是否有可用的草图
-    if (!SketchUtil::hasUnusedSketch(Application::instance().getActiveDatabase()))
+    if (!SketchUtil::hasUnusedSketch(ApplicationImpl::instance().getActiveDatabase()))
     {
         MessageBoxUtil::showInformation_NoAvailableSketches();
         return wyap::CmdExecution::StartResult::Rejected;
@@ -88,22 +89,22 @@ wyap::CmdExecution::StartResult ExtrudeGuiCmd::onStart()
     _pointPickOption.postFilter = SingleClassSelPostFilter::create<wy3d::Sketch>();
 
     // 初始化:步骤
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     wydb::ElementId sketchId(wydb::ElementId::kNull);
     if (this->isValidSketchSelectionSet(ss, sketchId) && !sketchId.isNull())
     {
         _sketchId = sketchId;
-        _pickPos = SketchUtil::getSketchOrigin(Application::instance().getActiveDatabase(), _sketchId);
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        _pickPos = SketchUtil::getSketchOrigin(ApplicationImpl::instance().getActiveDatabase(), _sketchId);
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSketch);
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectSketch);
     }
 
@@ -248,7 +249,7 @@ bool ExtrudeCutGuiCmd::finishStep(Step step)
         
         // 自动获取切除的实体
         if (const wy3d::Solid* pSolidToCut = GuiCommandUtil::autoGetSolidToCut(
-            Application::instance().getActiveDatabase()))
+            ApplicationImpl::instance().getActiveDatabase()))
         {
             unsigned int errorCode(0);
             if (_pMakeExtrusion->cutSolid(pSolidToCut, errorCode))
@@ -318,41 +319,41 @@ void ExtrudeGuiCmd::gotoStep(Step step)
     case Step::SelectSketch:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 更新提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudeGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudeGuiCmd",
             "Select the sketch to extrude."));
 
         // 设置鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
     case Step::SpecifyDepth:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 更新提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudeGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudeGuiCmd",
             "Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction (One Side / Symmetric)."));
 
         // 设置鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
     default:
     {
         // 清空提示
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         // 设置鼠标样式
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().setCursor(CursorType::Select);
 
         assert(false);
     }
@@ -370,16 +371,16 @@ void ExtrudeCutGuiCmd::gotoStep(Step step)
         _step = step;
 
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 更新提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudeGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudeGuiCmd",
             "Select the solid to cut."));
 
         // 设置鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
@@ -419,12 +420,12 @@ void ExtrudeGuiCmd::onMouseMove(const MouseEvent& event)
                 _pInvalidSketchTooltip = std::make_shared<InvalidSketchToolTip>(pickedSketchId,
                     _sketchId2ValidInfo[pickedSketchId].error);
             }
-            Application::instance().setCursor(CursorType::Forbid);
+            ApplicationImpl::instance().setCursor(CursorType::Forbid);
         }
         else
         {
             _pInvalidSketchTooltip = nullptr;
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
         }
     }
     else if (_step == Step::SpecifyDepth) // 确定拉伸深度
@@ -556,7 +557,7 @@ void ExtrudeGuiCmd::onFrame(double time)
 
 void ExtrudeGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pDepthPopup)
     {
         _pDepthPopup = std::make_unique<GuiCmdHoverInputPopup2_2ndTabLabel>(
@@ -688,7 +689,7 @@ void ExtrudeGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (Step::SelectSketch != _step) return;
     if (!_sketchId.isNull()) return;
 
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(id));
     if (!pSketch) return;
@@ -698,10 +699,10 @@ void ExtrudeGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (this->isValidSketch(id, error))
     {
         _sketchId = id;
-        _pickPos = SketchUtil::getSketchOrigin(Application::instance().getActiveDatabase(), _sketchId);
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        _pickPos = SketchUtil::getSketchOrigin(ApplicationImpl::instance().getActiveDatabase(), _sketchId);
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSketch);
     }
     else
@@ -737,7 +738,7 @@ bool ExtrudeGuiCmd::isValidSketchSelectionSet(const wyap::SelectionSet& ss, wydb
 
 bool ExtrudeGuiCmd::isValidSketch(const wydb::ElementId& sketchId, QString& error)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
     if (!pSketch) return false;
@@ -791,7 +792,7 @@ const wy3d::Solid* ExtrudeCutGuiCmd::getSolidToCut() const
 {
     if (_solidToCutPreview.isNull()) return nullptr;
     wydb::ElementId id = _solidToCutPreview.getSelection().getElementId();
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return nullptr;
     const wy3d::Solid* pSolidToCut = wy3d::Solid::cast(pDb->getElement(id));
     return pSolidToCut;

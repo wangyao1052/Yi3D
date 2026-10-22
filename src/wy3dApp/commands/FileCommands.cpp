@@ -43,6 +43,7 @@
 #include <wy3dDatabase.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "application/AutoSave.h"
 #include "widgets/frame/MainWindow.h"
 #include "test/Test.h"
@@ -81,7 +82,7 @@ FileCmdsUtil::UiAskRet FileCmdsUtil::uiAskWhetherSaveDocument(wyap::Document* pD
 
     const std::string& fileName = pDoc->getFileName();
     QString text = QCoreApplication::translate("FileCmds", "Do you want to save the changes to") + "\n" + QString::fromStdString(fileName) + "?";
-    int ret = QMessageBox::question(Application::instance().getMainWindow(), "Yi3D", text,
+    int ret = QMessageBox::question(ApplicationImpl::instance().getMainWindow(), "Yi3D", text,
         QCoreApplication::translate("FileCmds", "Yes"),
         QCoreApplication::translate("FileCmds", "No"),
         QCoreApplication::translate("FileCmds", "Cancel"),
@@ -149,7 +150,7 @@ bool FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserC
             }
         }
         QString fileFullPath = QFileDialog::getSaveFileName(
-            Application::instance().getMainWindow(),
+            ApplicationImpl::instance().getMainWindow(),
             QCoreApplication::translate("FileCmds", "Save file"),
             QString::fromStdString(u8FileName),
             filter,
@@ -194,10 +195,10 @@ bool FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserC
         u8FileName = fileFullPath.toStdString();
     }
 
-    wy::ErrorStatus error = Application::instance().getDocManager()->saveDocument(pDoc, u8FileName, {fileType});
+    wy::ErrorStatus error = ApplicationImpl::instance().getDocManager()->saveDocument(pDoc, u8FileName, {fileType});
     if (wy::ErrorStatus::Ok == error)
     {
-        Application::instance().getMainWindow()->setWindowTitle(QString::fromStdString(u8FileName));
+        ApplicationImpl::instance().getMainWindow()->setWindowTitle(QString::fromStdString(u8FileName));
         return true;
     }
     else
@@ -212,7 +213,7 @@ void FileCmdsUtil::fitViewToAll(wyap::Document* pDoc)
 {
     assert(pDoc);
 
-    wyap::View* pView = Application::instance().getViewManager()->getView(pDoc);
+    wyap::View* pView = ApplicationImpl::instance().getViewManager()->getView(pDoc);
     BaseView* pAppView = dynamic_cast<BaseView*>(pView);
     if (!pAppView)
     {
@@ -223,7 +224,7 @@ void FileCmdsUtil::fitViewToAll(wyap::Document* pDoc)
     pAppView->ortho();
     pAppView->lookAtISO();
 
-    wyap::Scene* pScene = Application::instance().getSceneManager()->getScene(pDoc);
+    wyap::Scene* pScene = ApplicationImpl::instance().getSceneManager()->getScene(pDoc);
     Scene* pAppScene = dynamic_cast<Scene*>(pScene);
     if (pAppScene)
     {
@@ -261,7 +262,7 @@ int NewFileCommand::run()
         .arg(++index)
         .arg(wy3d::Database::extension().c_str());
     std::string strFileFullPath = qstrFileName.toStdString();
-    wyap::Document* pDoc = Application::instance().getDocManager()->newDocument(strFileFullPath);
+    wyap::Document* pDoc = ApplicationImpl::instance().getDocManager()->newDocument(strFileFullPath);
     if (!pDoc)
     {
         assert(false);
@@ -309,9 +310,9 @@ int NewFileCommand::run()
     }
 
     //
- /*   wyap::View* pView = Application::instance().getViewManager()->getView(pDoc);
+ /*   wyap::View* pView = ApplicationImpl::instance().getViewManager()->getView(pDoc);
     View* pRealView = dynamic_cast<View*>(pView);
-    wyap::Scene* pScene = Application::instance().getSceneManager()->getScene(pDoc);
+    wyap::Scene* pScene = ApplicationImpl::instance().getSceneManager()->getScene(pDoc);
     Scene* pRealScene = dynamic_cast<Scene*>(pScene);
     if (pRealView && pRealScene)
     {
@@ -330,18 +331,18 @@ int NewFileCommand::run()
     }*/
 
     // 激活创建的文档
-    Application::instance().getDocManager()->activateDocument(
+    ApplicationImpl::instance().getDocManager()->activateDocument(
         pDoc, wyap::ExecutionMode::Async);
 
     //
-    wyap::View* pView = Application::instance().getViewManager()->getView(pDoc);
+    wyap::View* pView = ApplicationImpl::instance().getViewManager()->getView(pDoc);
     BaseView* pAppView = dynamic_cast<BaseView*>(pView);
     if (pAppView)
     {
         pAppView->ortho();
         pAppView->lookAtISO();
 
-        wyap::Scene* pScene = Application::instance().getSceneManager()->getScene(pDoc);
+        wyap::Scene* pScene = ApplicationImpl::instance().getSceneManager()->getScene(pDoc);
         Scene* pAppScene = dynamic_cast<Scene*>(pScene);
         if (pAppScene)
         {
@@ -349,22 +350,22 @@ int NewFileCommand::run()
         }
     }
     //// 刷新窗口标题
-    //Application::instance().getMainWindow()->setWindowTitle(QString::fromStdString(pDoc->getFileName()));
+    //ApplicationImpl::instance().getMainWindow()->setWindowTitle(QString::fromStdString(pDoc->getFileName()));
 
-    //Application::instance().getCmdManager()->postCommand(CommandNames::IsometricView);
-    //Application::instance().getCmdManager()->postCommand(CommandNames::FitView);
-    //Application::instance().getCmdManager()->postCommand(CommandNames::OrthoCamera);
-    //Application::instance().getCmdManager()->postCommand(CommandNames::MakeBox);
+    //ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::IsometricView);
+    //ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::FitView);
+    //ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::OrthoCamera);
+    //ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::MakeBox);
 
-    //Application::instance().getViewManager()->getView(pDoc);
+    //ApplicationImpl::instance().getViewManager()->getView(pDoc);
 
     /*
     // 调整视图
-    Application::instance().viewISO();
-    Application::instance().fitView();
+    ApplicationImpl::instance().viewISO();
+    ApplicationImpl::instance().fitView();
 
     // 正交视图
-    View* pActiveView = Application::instance().getActiveView();
+    View* pActiveView = ApplicationImpl::instance().getActiveView();
     if (pActiveView)
     {
         ViewUtil::ortho(pActiveView->getOsgView());
@@ -418,7 +419,7 @@ int OpenFileCommand::run()
     const QString binaryFilter = QCoreApplication::translate("FileCmds", "YI3D Binary files (*.%1)").arg(binaryExt);
     const QString filter = allFilter + ";;" + textFilter + ";;" + binaryFilter;
 
-    QString fileFullPath = QFileDialog::getOpenFileName(Application::instance().getMainWindow(),
+    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindow(),
         QCoreApplication::translate("FileCmds", "Open file"), "", filter,
         0, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
@@ -429,7 +430,7 @@ int OpenFileCommand::run()
 
     // 如果要打开的文件就是当前文件
     bool isOpenActiveFile(false);
-    wyap::Document* pActiveDoc = Application::instance().getDocManager()->getActiveDocument();
+    wyap::Document* pActiveDoc = ApplicationImpl::instance().getDocManager()->getActiveDocument();
     if (pActiveDoc)
     {
         if (!pActiveDoc->hasStatus(wyap::DocumentStatus::NewlyCreated) && pActiveDoc->getFileName() == u8FileFullPath)
@@ -448,7 +449,7 @@ int OpenFileCommand::run()
         // 您要返回到存储版本吗？
         QString text = QCoreApplication::translate("FileCmds", "Do you want to revert to the saved version?")
             + "\n" + QString::fromStdString(u8FileFullPath);
-        int ret = QMessageBox::question(Application::instance().getMainWindow(), "Yi3D", text,
+        int ret = QMessageBox::question(ApplicationImpl::instance().getMainWindow(), "Yi3D", text,
             QCoreApplication::translate("FileCmds", "Yes"),
             QCoreApplication::translate("FileCmds", "No"));
         if (0 == ret) // Yes
@@ -474,14 +475,14 @@ int OpenFileCommand::openFile(const std::string& u8FileFullPath)
     // Crash recovery check: if a .autosave exists next to the file, ask the
     // user to recover or discard. Returns true when the recovery flow already
     // handled the open, in which case opening the original is skipped.
-    if (Application::instance().getAutoSave()->checkRecoveryForOpen(u8FileFullPath))
+    if (ApplicationImpl::instance().getAutoSave()->checkRecoveryForOpen(u8FileFullPath))
     {
         return 0;
     }
 
     // Show busy cursor and status bar tip before the synchronous blocking load.
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    StatusBarHelper* pStatusBar = Application::instance().getStatusBar();
+    StatusBarHelper* pStatusBar = ApplicationImpl::instance().getStatusBar();
     pStatusBar->setTips(QCoreApplication::translate("FileCmds", "Opening %1...")
         .arg(QFileInfo(QString::fromStdString(u8FileFullPath)).fileName()));
     QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
@@ -493,7 +494,7 @@ int OpenFileCommand::openFile(const std::string& u8FileFullPath)
 
     // 打开文档
     wyap::Document* pDoc(nullptr);
-    wy::ErrorStatus error = Application::instance().getDocManager()->openDocument(
+    wy::ErrorStatus error = ApplicationImpl::instance().getDocManager()->openDocument(
         u8FileFullPath, readFileOption, pDoc);
     if (wy::ErrorStatus::Ok != error)
     {
@@ -511,7 +512,7 @@ int OpenFileCommand::openFile(const std::string& u8FileFullPath)
     }
 
     // 激活打开的文档
-    error = Application::instance().getDocManager()->activateDocument(
+    error = ApplicationImpl::instance().getDocManager()->activateDocument(
         pDoc, wyap::ExecutionMode::Async);
 
     // Fit the view: orthographic + isometric + zoom to the model.
@@ -525,7 +526,7 @@ int OpenFileCommand::openFile(const std::string& u8FileFullPath)
 
 int SaveFileCommand::run()
 {
-    wyap::Document* pActiveDoc = Application::instance().getActiveDocument();
+    wyap::Document* pActiveDoc = ApplicationImpl::instance().getActiveDocument();
     if (!pActiveDoc)
     {
         assert(false);
@@ -539,7 +540,7 @@ int SaveFileCommand::run()
 
 int SaveAsFileCommand::run()
 {
-    wyap::Document* pActiveDoc = Application::instance().getActiveDocument();
+    wyap::Document* pActiveDoc = ApplicationImpl::instance().getActiveDocument();
     if (!pActiveDoc)
     {
         assert(false);
@@ -554,7 +555,7 @@ int SaveAsFileCommand::run()
 int ExportFileCommand::run()
 {
     // 当前文档名
-    wyap::Document* pActiveDoc = Application::instance().getDocManager()->getActiveDocument();
+    wyap::Document* pActiveDoc = ApplicationImpl::instance().getDocManager()->getActiveDocument();
     if (!pActiveDoc) return -1;
     std::string u8ActiveDocFileName = pActiveDoc->getFileName();
 
@@ -579,7 +580,7 @@ int ExportFileCommand::run()
     // dialog
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName(
-        Application::instance().getMainWindow(),
+        ApplicationImpl::instance().getMainWindow(),
         QCoreApplication::translate("FileCmds", "Export file"),
         QString::fromStdString(u8ActiveDocFileName),
         filter, &selectedFilter, 0);
@@ -611,14 +612,14 @@ int ExportFileCommand::run()
 
 int ExportSelectedCommand::run()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
         return -1;
     }
 
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.isEmpty())
     {
         assert(false);
@@ -675,7 +676,7 @@ int ExportSelectedCommand::run()
     // dialog
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName(
-        Application::instance().getMainWindow(),
+        ApplicationImpl::instance().getMainWindow(),
         QCoreApplication::translate("FileCmds", "Export"),
         "", filter, &selectedFilter, 0);
     if (fileName.isEmpty()) return 0;
@@ -694,7 +695,7 @@ int ExportSelectedCommand::run()
 int ImportFileCommand::run()
 {
     // 当前数据库
-    wyap::Document* pActiveDoc = Application::instance().getDocManager()->getActiveDocument();
+    wyap::Document* pActiveDoc = ApplicationImpl::instance().getDocManager()->getActiveDocument();
     if (!pActiveDoc) return -1;
     wydb::Database* pDb = pActiveDoc->getDatabase();
     if (!pDb) return -1;
@@ -717,7 +718,7 @@ int ImportFileCommand::run()
 
     // 导入文件对话框
     QString selectedFilter;
-    QString fileFullPath = QFileDialog::getOpenFileName(Application::instance().getMainWindow(),
+    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindow(),
         QCoreApplication::translate("FileCmds", "Import file"), "", filter, &selectedFilter, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
     {
@@ -748,7 +749,7 @@ int ImportFileCommand::run()
 
 int RunScriptCommand::run()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -760,7 +761,7 @@ int RunScriptCommand::run()
     filterList << QCoreApplication::translate("RunScriptCommand", "Python Script (*.py)");
     QString filter = filterList.join(";;");
     QString selectedFilter;
-    QString fileFullPath = QFileDialog::getOpenFileName(Application::instance().getMainWindow(),
+    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindow(),
         QCoreApplication::translate("RunScriptCommand", "Run Python Script"), "", filter, &selectedFilter, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
     {
@@ -775,7 +776,7 @@ int RunScriptCommand::run()
 
 void RunScriptCommand::abortActiveTransaction()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
 
     // 如果有激活的事务则取消事务
@@ -788,14 +789,14 @@ void RunScriptCommand::abortActiveTransaction()
 int ImportSketchCommand::run()
 {
     // The sketch environment holds an uncommitted transaction
-    wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurrentEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     if (dynamic_cast<SketchEnvironment*>(pCurrentEnv))
     {
         MessageBoxUtil::showError(QCoreApplication::translate("FileCmds", "Cannot import a sketch while editing a sketch!"));
         return 0;
     }
 
-    wyap::Document* pActiveDoc = Application::instance().getDocManager()->getActiveDocument();
+    wyap::Document* pActiveDoc = ApplicationImpl::instance().getDocManager()->getActiveDocument();
     if (!pActiveDoc) return -1;
     wydb::Database* pDb = pActiveDoc->getDatabase();
     if (!pDb) return -1;
@@ -815,7 +816,7 @@ int ImportSketchCommand::run()
     QString filter = filterList.join(";;");
 
     QString selectedFilter;
-    QString fileFullPath = QFileDialog::getOpenFileName(Application::instance().getMainWindow(),
+    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindow(),
         QCoreApplication::translate("FileCmds", "Import sketch"), "", filter, &selectedFilter, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
     {
@@ -842,7 +843,7 @@ int ImportSketchCommand::run()
 
 int ExportSketchCommand::run()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -851,14 +852,14 @@ int ExportSketchCommand::run()
 
     // Active sketch inside the sketch environment, otherwise the single selected sketch
     const wy3d::Sketch* pSketch(nullptr);
-    wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurrentEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     if (SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pCurrentEnv))
     {
         pSketch = wy3d::Sketch::cast(pDb->getElement(pSketchEnv->getSketchId()));
     }
     else
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (ss.getCount() == 1)
         {
             wydb::ElementId id = ss.createIterator().current().getElementId();
@@ -872,7 +873,7 @@ int ExportSketchCommand::run()
     }
 
     // Default to the document name without suffix
-    wyap::Document* pActiveDoc = Application::instance().getDocManager()->getActiveDocument();
+    wyap::Document* pActiveDoc = ApplicationImpl::instance().getDocManager()->getActiveDocument();
     std::string u8DocFileName = pActiveDoc ? pActiveDoc->getFileName() : "";
     size_t lastDot = u8DocFileName.find_last_of('.');
     if (lastDot != std::string::npos && lastDot != 0)
@@ -891,7 +892,7 @@ int ExportSketchCommand::run()
 
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName(
-        Application::instance().getMainWindow(),
+        ApplicationImpl::instance().getMainWindow(),
         QCoreApplication::translate("FileCmds", "Export sketch"),
         QString::fromStdString(u8DocFileName),
         filter, &selectedFilter, 0);

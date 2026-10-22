@@ -30,6 +30,7 @@
 #include <wydbTransaction.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/GuiEventDispatcher.h"
 #include "commands/OsgCoordUtil.h"
 #include <wy3dApp/Snap2dSystem.h>
@@ -185,7 +186,7 @@ wyap::Selection OsgGuiCommand::pointPick(
     const PointPickOptions& option)
 {
     static wyap::Selection nullSel = wyap::Selection(wydb::ElementId::kNull);
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return nullSel;
     osgViewer::View* pView = _pOsgView.get();
     if (!pView) return nullSel;

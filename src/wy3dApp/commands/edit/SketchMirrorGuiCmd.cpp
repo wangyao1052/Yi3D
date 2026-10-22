@@ -35,6 +35,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "view/OsgView.h"
 #include "commands/OsgGuiEventDispatcher.h"
@@ -98,7 +99,7 @@ wyap::CmdExecution::StartResult SketchMirrorGuiCmd::onStart()
     // 初始化
     _pLineTransient = std::make_shared<LineTransient>();
     _pLineTransient->hide();
-    if (Application::instance().getSelManager()->getSelections().isEmpty())
+    if (ApplicationImpl::instance().getSelManager()->getSelections().isEmpty())
     {
         this->gotoStep(Step::Step1_SelectElements);
     }
@@ -144,7 +145,7 @@ void SketchMirrorGuiCmd::reset()
     if (_pLineTransient) _pLineTransient->hide();
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
     _step = Step::Undefined;
     _sels.clear();
@@ -162,7 +163,7 @@ bool SketchMirrorGuiCmd::finishStep(Step step)
     case Step::Step1_SelectElements:
     {
         // 选择集
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (ss.isEmpty())
         {
             assert(false);
@@ -219,7 +220,7 @@ bool SketchMirrorGuiCmd::finishStep(Step step)
         if (_pLineTransient) _pLineTransient->hide();
 
         // 清空捕捉结果
-        Application::instance().getSnapSystem()->clearSnapResult();
+        ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
         // 结束
         this->requestEnd();
@@ -244,7 +245,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
     _hoverPopupState.resetValue();
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
     // 清空草图捕捉结果
     if (_sketchInfo.pSketchSnapSys)
     {
@@ -268,10 +269,10 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Mirror",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Mirror",
             "Select elements to mirror; press Enter or Spacebar to confirm; press Esc to cancel."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
@@ -285,10 +286,10 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Mirror",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Mirror",
             "Specify the start point; you can directly input the coordinate values."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         if (_sketchInfo.pSketchSnapSys)
         {
@@ -306,9 +307,9 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
         selOptions.selectionType = wy3d::SelectionType::Element;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Mirror",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Mirror",
             "Specify the end point; you can directly input the values."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         _pSnapContext = std::make_shared<DrawLine2dContext>(_axisStartPnt);
     }
@@ -322,8 +323,8 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
         selOptions.selectionType = wy3d::SelectionType::Element;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -413,7 +414,7 @@ void SketchMirrorGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchMirrorGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
@@ -557,7 +558,7 @@ void SketchMirrorGuiCmd::onEnterKey()
 {
     if (Step::Step1_SelectElements == _step)
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (!ss.isEmpty())
         {
             if (this->finishStep(_step))
@@ -588,9 +589,9 @@ void SketchMirrorGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::Step1_SelectElements == _step)
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 }
 

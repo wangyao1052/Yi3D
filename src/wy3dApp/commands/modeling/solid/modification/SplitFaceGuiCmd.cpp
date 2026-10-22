@@ -29,6 +29,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/CommonSelFilters.h>
@@ -183,9 +184,9 @@ void SplitFaceGuiCmd::gotoStep(Step step)
     case Step::SelectFaces:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 拾取配置: 实体或片体的面
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
@@ -195,11 +196,11 @@ void SplitFaceGuiCmd::gotoStep(Step step)
             _pSelSetHighlightor_Faces ? _pSelSetHighlightor_Faces->getSelectionSet() : wyap::SelectionSet());
 
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SplitFaceGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SplitFaceGuiCmd",
             "Select the face to split. Press Enter or Spacebar to confirm."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 预览
         _preview.clear();
@@ -209,9 +210,9 @@ void SplitFaceGuiCmd::gotoStep(Step step)
     case Step::SelectSketch:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 拾取配置: 整张草图(点草图里的任意一条曲线选中的就是它所属的草图)
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch |
@@ -222,11 +223,11 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::Sketch, wy3d::Sketch3D>();
 
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SplitFaceGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SplitFaceGuiCmd",
             "Select the 2D or 3D sketch to split the face with."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 预览
         _preview.clear();
@@ -235,8 +236,8 @@ void SplitFaceGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -316,7 +317,7 @@ void SplitFaceGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
 bool SplitFaceGuiCmd::pickSketch(const wyap::Selection& sel)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wydb::Element* pElem = pDb->getElement(sel.getElementId());
     if (!wy3d::Sketch3D::cast(pElem) && !wy3d::Sketch::cast(pElem))
@@ -391,7 +392,7 @@ bool SplitFaceGuiCmd::createSplitFace(
 {
     errorCode = 0;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     if (faceSels.isEmpty()) return false;
     if (sketchId.isNull()) return false;

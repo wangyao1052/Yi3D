@@ -28,7 +28,7 @@
 #include <QFileInfo>
 #include <QTranslator>
 
-#include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "application/AutoSave.h"
 #include "commands/FileCommands.h"
 #include "plugins/PluginManager.h"
@@ -84,6 +84,7 @@
 #include "application/Document.h"
 #include "environments/gateway/GatewayEnvironmentImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/ParamDisplayNameRegistry.h>
 
 #define WY3DAPP_VIEW(pView) dynamic_cast<BaseView*>(pView)
 #define WY3DAPP_SCENE(pScene) dynamic_cast<Scene*>(pScene)
@@ -115,18 +116,27 @@ extern void wy3dappRegisterCommands();
 typedef bool (*wyapInitializeProcPtr)(wyap::Application*);
 typedef bool (*wyapTerminateProcPtr)(wyap::Application*);
 
-Application& Application::instance()
+Application::Application() = default;
+
+Application::~Application() = default;
+
+ApplicationImpl& ApplicationImpl::instance()
 {
-    static Application instance;
+    static ApplicationImpl instance;
     return instance;
 }
 
-Application::Application() :
+Application* getApplication()
+{
+    return &ApplicationImpl::instance();
+}
+
+ApplicationImpl::ApplicationImpl() :
     _pMainWindow(nullptr), _pDockPanelManager(nullptr),
     _pConfig(new Config())
 {}
 
-Application::~Application()
+ApplicationImpl::~ApplicationImpl()
 {
     if (_pConfig)
     {
@@ -135,7 +145,7 @@ Application::~Application()
     }
 }
 
-bool Application::initialize()
+bool ApplicationImpl::initialize()
 {
     // 配置项初始化
     assert(_pConfig);
@@ -187,7 +197,7 @@ bool Application::initialize()
     return true;
 }
 
-int Application::runApplication(int argc, char** argv)
+int ApplicationImpl::runApplication(int argc, char** argv)
 {
     wy3dQApplication app(argc, argv);
     this->initialize();
@@ -222,6 +232,8 @@ int Application::runApplication(int argc, char** argv)
             delete pTranslator;
         }
     }
+
+    ParamDisplayNameRegistry::instance();
 
     // 主窗口
     MainWindow mainWindow;
@@ -264,13 +276,13 @@ int Application::runApplication(int argc, char** argv)
     QObject::connect(&app, &QCoreApplication::aboutToQuit, []()
     {
         PluginManager::instance().terminate();
-        Application::instance().getAutoSave()->cleanupOnExit();
+        ApplicationImpl::instance().getAutoSave()->cleanupOnExit();
     });
 
     return app.exec();
 }
 
-void Application::onDocumentActivated(wyap::Document* pActivatedDoc)
+void ApplicationImpl::onDocumentActivated(wyap::Document* pActivatedDoc)
 {
     wyap::Application::onDocumentActivated(pActivatedDoc);
 
@@ -284,7 +296,7 @@ void Application::onDocumentActivated(wyap::Document* pActivatedDoc)
     }
 }
 
-void Application::onDocumentToBeDeactivated(wyap::Document* pDocToDeactivate)
+void ApplicationImpl::onDocumentToBeDeactivated(wyap::Document* pDocToDeactivate)
 {
     wyap::Application::onDocumentToBeDeactivated(pDocToDeactivate);
 
@@ -298,7 +310,7 @@ void Application::onDocumentToBeDeactivated(wyap::Document* pDocToDeactivate)
     }
 }
 
-void Application::onCommandEnded(wyap::Command* pCmd)
+void ApplicationImpl::onCommandEnded(wyap::Command* pCmd)
 {
     wyap::Application::onCommandEnded(pCmd);
     if (pCmd)
@@ -312,7 +324,7 @@ void Application::onCommandEnded(wyap::Command* pCmd)
     }
 }
 
-void Application::onCommandAborted(
+void ApplicationImpl::onCommandAborted(
     wyap::Command* pCmd,
     wyap::CmdExecution::AbortCause abortCause)
 {
@@ -320,33 +332,33 @@ void Application::onCommandAborted(
     _lastEndedCmdName = "";
 }
 
-QToolBar* Application::getToolBar(const std::string& toolBarName) const
+QToolBar* ApplicationImpl::getToolBar(const std::string& toolBarName) const
 {
     if (!_pMainWindow) return nullptr;
     return _pMainWindow->findChild<QToolBar*>(toolBarName.c_str());
 }
 
-void Application::setDockPanelManager(DockPanelManager* pDockPanelManager)
+void ApplicationImpl::setDockPanelManager(DockPanelManager* pDockPanelManager)
 {
     _pDockPanelManager = pDockPanelManager;
 }
 
-wydb::Database* Application::newDatabase()
+wydb::Database* ApplicationImpl::newDatabase()
 {
     return new wy3d::Database();
 }
 
-wyap::Document* Application::newDocument()
+wyap::Document* ApplicationImpl::newDocument()
 {
     return new Document();
 }
 
-wyap::Scene* Application::newScene(wyap::Document* pDoc)
+wyap::Scene* ApplicationImpl::newScene(wyap::Document* pDoc)
 {
     return new Scene(pDoc);
 }
 
-wyap::View* Application::newView(wyap::Document* pDoc)
+wyap::View* ApplicationImpl::newView(wyap::Document* pDoc)
 {
     assert(pDoc);
     MainWindow* pMainWindow = this->getMainWindow();
@@ -368,19 +380,19 @@ wyap::View* Application::newView(wyap::Document* pDoc)
     }
 }
 
-std::unique_ptr<wyap::GatewayEnvironment> Application::newDefaultGatewayEnvironment()
+std::unique_ptr<wyap::GatewayEnvironment> ApplicationImpl::newDefaultGatewayEnvironment()
 {
     GatewayEnvironment* pGatewayEnv = new GatewayEnvironmentImpl();
     return std::unique_ptr<wyap::GatewayEnvironment>(pGatewayEnv);
 }
 
-std::unique_ptr<wyap::DocumentEnvironment> Application::newDefaultDocumentEnvironment()
+std::unique_ptr<wyap::DocumentEnvironment> ApplicationImpl::newDefaultDocumentEnvironment()
 {
     ModelingEnvironment* pModelingEnv = new ModelingEnvironmentImpl();
     return std::unique_ptr<wyap::DocumentEnvironment>(pModelingEnv);
 }
 
-BaseView* Application::getActiveView() const
+BaseView* ApplicationImpl::getActiveView() const
 {
     wyap::Document* pActiveDoc = this->getActiveDocument();
     if (!pActiveDoc)
@@ -391,7 +403,7 @@ BaseView* Application::getActiveView() const
     return WY3DAPP_VIEW(pView);
 }
 
-Scene* Application::getActiveScene() const
+Scene* ApplicationImpl::getActiveScene() const
 {
     wyap::Document* pActiveDoc = this->getActiveDocument();
     if (!pActiveDoc)
@@ -402,24 +414,24 @@ Scene* Application::getActiveScene() const
     return WY3DAPP_SCENE(pScene);
 }
 
-void Application::fitView()
+void ApplicationImpl::fitView()
 {
     BaseView* pActiveView = this->getActiveView();
     if (!pActiveView) return;
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return;
     osg::BoundingSphere bsSphere = pScene->getFitViewBoundingSphere();
     pActiveView->viewAll(bsSphere);
 }
 
-void Application::viewISO()
+void ApplicationImpl::viewISO()
 {
     BaseView* pView = this->getActiveView();
     if (!pView) return;
     pView->lookAtISO();
 }
 
-void Application::setCursor(CursorType cursorType)
+void ApplicationImpl::setCursor(CursorType cursorType)
 {
     wyap::Document* pDoc = this->getActiveDocument();
     if (!pDoc)
@@ -441,7 +453,7 @@ void Application::setCursor(CursorType cursorType)
 }
 
 // 通过wyap初始化<1>文档管理器<2>选择集管理器<3>命令堆栈<4>命令管理器
-bool Application::wyapInitialize()
+bool ApplicationImpl::wyapInitialize()
 {
 #if defined(_WIN32)
     // wyap.dll
@@ -493,7 +505,7 @@ bool Application::wyapInitialize()
 #endif
 }
 
-bool Application::wyapTerminate()
+bool ApplicationImpl::wyapTerminate()
 {
 #if defined(_WIN32)
     // wyap.dll

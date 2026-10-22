@@ -30,6 +30,7 @@
 #include <QVBoxLayout>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "application/AutoSave.h"
 #include "application/Config.h"
 #include "widgets/frame/MainWindow.h"
@@ -69,7 +70,7 @@ void OptionsDialog::initUi()
 	pMainLayout->addWidget(pButtonBox);
 
 	// 从Config读取当前值
-	const Config* pConfig = Application::instance().getConfig();
+	const Config* pConfig = ApplicationImpl::instance().getConfig();
 	if (pConfig)
 	{
 		_pRotationSpeedSlider->setValue(pConfig->view.mouseRotationSpeed);
@@ -159,7 +160,7 @@ QWidget* OptionsDialog::createAutoSaveGroup()
 void OptionsDialog::accept()
 {
 	// Config成员为const,写入走其setter(内部const_cast)
-	Config* pConfig = const_cast<Config*>(Application::instance().getConfig());
+	Config* pConfig = const_cast<Config*>(ApplicationImpl::instance().getConfig());
 	if (pConfig)
 	{
 		// 写入配置并持久化到config.ini
@@ -170,7 +171,7 @@ void OptionsDialog::accept()
 		pConfig->saveConfig();
 
 		// 视图设置实时应用到所有已打开视图
-		MainWindow* pMainWindow = Application::instance().getMainWindow();
+		MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
 		ViewWidgetContainer* pContainer = pMainWindow ? pMainWindow->getViewWidgetContainer() : nullptr;
 		if (pContainer)
 		{
@@ -178,7 +179,7 @@ void OptionsDialog::accept()
 		}
 
 		// 自动保存间隔即时生效
-		AutoSave* pAutoSave = Application::instance().getAutoSave();
+		AutoSave* pAutoSave = ApplicationImpl::instance().getAutoSave();
 		if (pAutoSave)
 		{
 			pAutoSave->setIntervalMinutes(_pAutoSaveIntervalSpin->value());

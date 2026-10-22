@@ -30,6 +30,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/MessageBoxUtil.h"
@@ -83,19 +84,19 @@ wyap::CmdExecution::StartResult SewnSheetGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 监听选择集
-    Application::instance().getSelManager()->addReactor(this);
+    ApplicationImpl::instance().getSelManager()->addReactor(this);
 
     // USEPICKFIRST: 预选全是 Sheet → 直达公差步
     bool allSheets = true;
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (ss.isEmpty())
         {
             allSheets = false;
         }
         else
         {
-            wydb::Database* pDb = Application::instance().getActiveDatabase();
+            wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
             if (!pDb)
             {
                 allSheets = false;
@@ -129,16 +130,16 @@ wyap::CmdExecution::StartResult SewnSheetGuiCmd::onStart()
 
     if (allSheets && !_sourceIds.empty())
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSources);
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         _sourceIds.clear();
         this->gotoStep(Step::SelectSources);
     }
@@ -149,29 +150,29 @@ wyap::CmdExecution::StartResult SewnSheetGuiCmd::onStart()
 void SewnSheetGuiCmd::onEnd()
 {
     // 取消监听选择集
-    Application::instance().getSelManager()->removeReactor(this);
+    ApplicationImpl::instance().getSelManager()->removeReactor(this);
 
     // 基类
     __baseClass::onEnd();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 }
 
 void SewnSheetGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
     // 取消监听选择集
-    Application::instance().getSelManager()->removeReactor(this);
+    ApplicationImpl::instance().getSelManager()->removeReactor(this);
 
     // 基类
     __baseClass::onAbort(cause);
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 }
 
 void SewnSheetGuiCmd::onSelectionChanged(
@@ -241,9 +242,9 @@ void SewnSheetGuiCmd::gotoStep(Step step)
     case Step::SelectSources:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 支持点选+框选
         SelectOptions selOptions;
@@ -257,18 +258,18 @@ void SewnSheetGuiCmd::gotoStep(Step step)
         this->applySelectOptions(selOptions);
 
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SewnSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SewnSheetGuiCmd",
             "Select one or more sheets to sew; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -280,9 +281,9 @@ void SewnSheetGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (Step::SelectSources != _step) return;
     if (id.isNull()) return;
 
-    wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+    wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
     if (!pSelMgr) return;
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pDb->getElement(id));
     if (!pSheet) return;
@@ -332,9 +333,9 @@ void SewnSheetGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectSources == _step)
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 }
 
@@ -343,7 +344,7 @@ bool SewnSheetGuiCmd::newSewnSheet()
     if (_sourceIds.empty()) return false;
 
     // 开启事务
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
     assert(pTransMgr);

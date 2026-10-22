@@ -29,6 +29,7 @@
 #include <wy3dMove.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
@@ -87,15 +88,15 @@ ModelingMoveGuiCmd::~ModelingMoveGuiCmd()
 void ModelingMoveGuiCmd::onStart_EnvSpecific()
 {
     wyap::SelectionSet filterSS = getValidSSFromCurrentSelSet_MoveRotateGuiCmd();
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->setSelections(filterSS);
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->setSelections(filterSS);
+    ApplicationImpl::instance().getSelManager()->endChange();
 }
 
 void ModelingMoveGuiCmd::cleanupEnvSpecific()
 {
     // 隐藏工作平面坐标系
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->hideSketchCSYS();
     }
@@ -107,7 +108,7 @@ void ModelingMoveGuiCmd::cleanupEnvSpecific()
     // 移除工作平面原点捕捉对象
     if (_pWorkPlnOriginSnapObject)
     {
-        wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+        wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
         pSnapSys->beginChange();
         {
             pSnapSys->removeResidentSnapObject(_pWorkPlnOriginSnapObject);

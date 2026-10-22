@@ -26,6 +26,7 @@
 #include <wy3dSketch3D.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include "snap3d/Sketch3DSnapSystem.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -166,16 +167,16 @@ void Sketch3DEnvironmentImpl::onEnter()
     _pUI->initialize(this);
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
     // 同步显示模式按钮状态
     this->syncDisplayModeAction();
 
     // 开启顶层事务组
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -215,7 +216,7 @@ void Sketch3DEnvironmentImpl::onEnter()
     }
     _pTopTrans = pGroupTrans;
 
-    Application::instance().getCmdManager()->postCommand(CommandNames::Select);
+    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     // Update command action states.
     this->updateCommandActionStates();
@@ -250,12 +251,12 @@ wy3d::Sketch3D* Sketch3DEnvironmentImpl::newSketch3D(wydb::Database* pDb)
 void Sketch3DEnvironmentImpl::onExit(ExitCode exitCode)
 {
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     if (pDb)
     {
@@ -319,9 +320,9 @@ void Sketch3DEnvironmentImpl::onSuspend()
     this->removeCommands();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
     EnvironmentBase::onSuspend();
@@ -337,9 +338,9 @@ void Sketch3DEnvironmentImpl::onResume()
     _pUI->initialize(this);
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
     this->updateCommandActionStates();
@@ -358,7 +359,7 @@ void Sketch3DEnvironmentImpl::updateUndoRedoActionStates()
         return;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

@@ -22,6 +22,7 @@
 #include <osgUtil/LineSegmentIntersector>
 #include "select/OsgSelectHandler.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "OsgSelectUtils.h"
 #include <wyapGizmoManager.h>
@@ -37,7 +38,7 @@ namespace wy3dApp {
 
 static BaseGizmo* getActiveOsgGizmo()
 {
-    wyap::GizmoSPtr pActiveGizmo = Application::instance().getGizmoManager()->getActiveGizmo();
+    wyap::GizmoSPtr pActiveGizmo = ApplicationImpl::instance().getGizmoManager()->getActiveGizmo();
     return pActiveGizmo ? dynamic_cast<BaseGizmo*>(pActiveGizmo.get()) : nullptr;
 }
 
@@ -55,7 +56,7 @@ bool OsgGuiEventDispatcher::handle(
     // The ViewCube is a screen space overlay and comes before gizmo, selection and modal
     // commands. It has to come first: the PUSH branch of handleGizmoEvent unconditionally
     // picks and may activate a gizmo, so a click on a cube corner would be stolen by it.
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         if (ViewCube* pViewCube = pScene->getViewCubeNode())
         {
@@ -73,7 +74,7 @@ bool OsgGuiEventDispatcher::handle(
     }
 
     // 当前有激活的Gizmo则不走其它事件处理器
-    if (Application::instance().getGizmoManager()->getActiveGizmo())
+    if (ApplicationImpl::instance().getGizmoManager()->getActiveGizmo())
     {
         return true;
     }
@@ -89,7 +90,7 @@ bool OsgGuiEventDispatcher::handle(
     }
 
     // ── Modal Command ──
-    wyap::CmdManager* pCmdMgr = Application::instance().getCmdManager();
+    wyap::CmdManager* pCmdMgr = ApplicationImpl::instance().getCmdManager();
     if (pCmdMgr)
     {
         wyap::CmdExecution* pCmdExec = pCmdMgr->getCurrentModalCmdExecution();
@@ -109,7 +110,7 @@ bool OsgGuiEventDispatcher::handle(
 void OsgGuiEventDispatcher::onCursorLeftViewport()
 {
     // The hovered facet of the navigation cube, through the same lookup handle() uses
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         if (ViewCube* pViewCube = pScene->getViewCubeNode())
         {
@@ -127,7 +128,7 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
     const osgGA::GUIEventAdapter& ea,
     osgGA::GUIActionAdapter& aa)
 {
-    if (!Application::instance().getGizmoManager()->hasGizmos())
+    if (!ApplicationImpl::instance().getGizmoManager()->hasGizmos())
     {
         return false;
     }
@@ -149,8 +150,8 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
             osg::Polytope polytope;
             OsgSelectUtils::initPolytope(pCamera, xMin, yMin, xMax, yMax, polytope);
 
-            wyap::GizmoSPtr pickRet = Application::instance().getActiveScene()->pickGizmo(polytope);
-            wy::ErrorStatus gizmoRet = Application::instance().getGizmoManager()->setActiveGizmo(pickRet);
+            wyap::GizmoSPtr pickRet = ApplicationImpl::instance().getActiveScene()->pickGizmo(polytope);
+            wy::ErrorStatus gizmoRet = ApplicationImpl::instance().getGizmoManager()->setActiveGizmo(pickRet);
             assert(wy::ErrorStatus::Ok == gizmoRet);
 
             BaseGizmo* pGizmo = getActiveOsgGizmo();
@@ -191,11 +192,11 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
                 if (pRenderer) pRenderer->setOsgView(pView);
                 pGizmo->onLeftMouseUp({ea.getX(), ea.getY(), ea.getTime()});
 
-                Application::instance().getGizmoManager()->setActiveGizmo(nullptr);
-                Application::instance().getSnapSystem()->clearSnapResult();
+                ApplicationImpl::instance().getGizmoManager()->setActiveGizmo(nullptr);
+                ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
                 return true;
             }
-            assert(Application::instance().getGizmoManager()->getActiveGizmo() == nullptr);
+            assert(ApplicationImpl::instance().getGizmoManager()->getActiveGizmo() == nullptr);
         }
     }
     break;
@@ -212,7 +213,7 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
                 if (pRenderer) pRenderer->setOsgView(pView);
                 pGizmo->onEscapeKey();
 
-                Application::instance().getGizmoManager()->setActiveGizmo(nullptr);
+                ApplicationImpl::instance().getGizmoManager()->setActiveGizmo(nullptr);
                 return true;
             }
         }

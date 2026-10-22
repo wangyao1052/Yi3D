@@ -29,6 +29,7 @@
 
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/CommandAction.h>
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"
@@ -137,7 +138,7 @@ UiTargets createUiTargets(Sketch3DEnvironment* pEnv)
         QCoreApplication::translate("MainWindow", "View"),
         wy3dApp::ToolBarNames::Sketch3DView);
 
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     assert(pMainWindow);
     if (!pMainWindow)
     {
@@ -583,8 +584,8 @@ void buildSketch3DEnvironmentToolBarUi(
 // first document's viewport instead whenever more than one document is open.
 QWidget* findActiveViewWidget()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
-    wyap::Document* pActiveDoc = Application::instance().getActiveDocument();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    wyap::Document* pActiveDoc = ApplicationImpl::instance().getActiveDocument();
     if (!pMainWindow || !pActiveDoc) return nullptr;
 
     ViewWidgetContainer* pViewWidgetContainer = pMainWindow->getViewWidgetContainer();

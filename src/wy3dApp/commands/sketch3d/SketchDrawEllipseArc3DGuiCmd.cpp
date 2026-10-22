@@ -34,6 +34,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
@@ -158,7 +159,7 @@ bool SketchDrawEllipseArc3DGuiCmd::finishStep(unsigned int step)
     {
     case Step::SpecifyCenterPnt:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb)
         {
             assert(false);
@@ -211,7 +212,7 @@ bool SketchDrawEllipseArc3DGuiCmd::finishStep(unsigned int step)
         }
 
         // 建占位弧(起点角先给0),起点角度步再更新预览
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb || !_pMakeSketchEllipseArc3D)
         {
             assert(false);
@@ -285,7 +286,7 @@ void SketchDrawEllipseArc3DGuiCmd::gotoStep(unsigned int step)
     {
     case Step::SpecifyCenterPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc3DGuiCmd",
             "Specify the center point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -293,7 +294,7 @@ void SketchDrawEllipseArc3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyAxisEndPoint:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc3DGuiCmd",
             "Specify the axis vector; you can directly input the values. "
             "Press Space to switch the drawing plane."));
     }
@@ -301,7 +302,7 @@ void SketchDrawEllipseArc3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyOtherRadius:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc3DGuiCmd",
             "Specify the other radius; you can directly input the value. "
             "Press Space to switch the drawing plane."));
     }
@@ -309,7 +310,7 @@ void SketchDrawEllipseArc3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyStartAngle:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc3DGuiCmd",
             "Specify the start angle; you can directly input the value. "
             "Press Space to switch the drawing plane."));
     }
@@ -317,7 +318,7 @@ void SketchDrawEllipseArc3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyEndAngle:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc3DGuiCmd",
             "Specify the sweep angle; you can directly input the value. "
             "Press Space to switch the drawing plane."));
     }
@@ -325,7 +326,7 @@ void SketchDrawEllipseArc3DGuiCmd::gotoStep(unsigned int step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -552,7 +553,7 @@ void SketchDrawEllipseArc3DGuiCmd::destroyAxisTransient()
 
 void SketchDrawEllipseArc3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
     {
         assert(false);

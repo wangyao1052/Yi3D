@@ -32,6 +32,7 @@
 #include <wy3dSketchArc.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/SketchBasicTransient.h"
 #include "scene/RenderConst.h"
@@ -80,15 +81,15 @@ wyap::CmdExecution::StartResult SketchDrawArcGuiCmd::onStart()
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 初始化
     this->gotoStep(Step::SpecifyCenterPnt);
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::Locate);
+    ApplicationImpl::instance().setCursor(CursorType::Locate);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -162,7 +163,7 @@ bool SketchDrawArcGuiCmd::finishStep(Step step)
 
     case Step::SpecifyStartPoint:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (pDb)
         {
             _pMakeSketchArc = std::make_shared<MakeSketchArc>(this);
@@ -239,7 +240,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyCenterPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the center point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -252,7 +253,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyStartPoint:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the start point; you can directly input the values."));
 
         _pSnapContext = std::make_shared<DrawCircle2dContext>(_centerPnt);
@@ -261,7 +262,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyEndPoint:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
             "Specify the total angle; you can directly input the value."));
 
         _pSnapContext = std::make_shared<DrawArc2dContext>(_centerPnt, _radius, _startPnt);
@@ -270,7 +271,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -399,7 +400,7 @@ void SketchDrawArcGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawArcGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(

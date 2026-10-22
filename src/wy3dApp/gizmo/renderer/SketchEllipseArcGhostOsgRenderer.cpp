@@ -26,13 +26,14 @@
 #include "gizmo/BaseGizmo.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 void SketchEllipseArcGhostOsgRenderer::refresh()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     const wydb::Element* pElem = pDb->getElement(_pGizmo->getModifiedElement());
     if (!pElem) return;

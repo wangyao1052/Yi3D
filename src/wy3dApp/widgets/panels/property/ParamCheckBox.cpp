@@ -33,6 +33,7 @@
 #include <QGridLayout>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "PropertyEditorWidget.h"
@@ -105,7 +106,7 @@ void ParamCheckBox::onStateChanged(int state)
     }
 
     // 通过事务修改参数值
-    Application::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
         DockPanelIds::Property)->startModifyElements();
     {
         wydb::ParameterValueUPtr pParamValue = wydb::ParameterValue::createBoolean(Qt::Checked == state ? true : false);
@@ -120,14 +121,14 @@ void ParamCheckBox::onStateChanged(int state)
             if (this->isTristate()) this->setCheckState(Qt::PartiallyChecked);
         }
     }
-    Application::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
         DockPanelIds::Property)->endModifyElements();
 }
 
 bool ParamCheckBox::modifyElementsByTransaction(const wydb::ParameterValue& paramValue)
 {
     // 获取当前选择集
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.isEmpty())
     {
         assert(false);
@@ -135,7 +136,7 @@ bool ParamCheckBox::modifyElementsByTransaction(const wydb::ParameterValue& para
     }
 
     // 开启事务修改元素参数值
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

@@ -37,6 +37,7 @@
 #include <wy3dChamfer.h>
 #include <wy3dFillet.h>
 #include <wy3dApp/wy3dAppDefs.h>
+#include "application/ApplicationImpl.h"
 
 namespace wy3dApp {
 
@@ -48,7 +49,7 @@ public:
     {
         errorCode = 0;
 
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return false;
         if (sels.isEmpty()) return false;
 
@@ -163,7 +164,7 @@ public:
     {
         errorCode = 0;
 
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return false;
         if (sels.isEmpty()) return false;
 

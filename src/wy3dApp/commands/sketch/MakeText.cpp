@@ -23,6 +23,7 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dMakeSketchText.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "scene/nodes/ElementNodeType.h"
@@ -35,7 +36,7 @@ MakeText::MakeText(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 {
     // 添加临时显示节点
     _pat = new osg::PositionAttitudeTransform();
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         pActiveScene->addTransient(_pat);
@@ -44,7 +45,7 @@ MakeText::MakeText(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 
 MakeText::~MakeText()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene)
     {
         assert(false);
@@ -116,7 +117,7 @@ ABORT_TRANS:
 
 void MakeText::initCopyNodes()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return;
     if (!_pat) return;
 

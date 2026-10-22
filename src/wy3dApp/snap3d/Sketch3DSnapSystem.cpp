@@ -27,6 +27,7 @@
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 
 #include "commands/OsgCoordUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -78,7 +79,7 @@ Sketch3DSnapResultSPtr Sketch3DSnapSystem::snap(
     const std::set<wydb::ElementId>& excludeIds,
     const wydb::ElementId& sketch3dId)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     Sketch3DSnapResultSPtr pResult(nullptr);
     if (pDb && pContext && pView)

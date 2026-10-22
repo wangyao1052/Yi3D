@@ -31,6 +31,7 @@
 #include <wy3dSketchLine.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/SketchPolygonDialog.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "scene/RenderConst.h"
@@ -81,9 +82,9 @@ wyap::CmdExecution::StartResult SketchDrawPolygonGuiCmd::onStart()
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 交互:多边形边数
     SketchPolygonDialog dialog(5, MIN_SIDES, MAX_SIDES);
@@ -103,7 +104,7 @@ wyap::CmdExecution::StartResult SketchDrawPolygonGuiCmd::onStart()
     this->gotoStep(Step::SpecifyCenterPnt);
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::Locate);
+    ApplicationImpl::instance().setCursor(CursorType::Locate);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -152,7 +153,7 @@ bool SketchDrawPolygonGuiCmd::finishStep(Step step)
     {
     case Step::SpecifyCenterPnt:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (pDb)
         {
             _pMakeSketchPolygon = std::make_shared<MakeSketchPolygon>(this, _sketchInfo.sketchId);
@@ -231,7 +232,7 @@ void SketchDrawPolygonGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyCenterPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPolygon",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPolygon",
             "Specify the center point of the regular polygon; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -244,7 +245,7 @@ void SketchDrawPolygonGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyRadius:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPolygon",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPolygon",
             "Specify the radius of the circumscribed circle; you can directly input the value."));
 
         _pSnapContext = std::make_shared<DrawCircle2dContext>(_centerPnt);
@@ -253,7 +254,7 @@ void SketchDrawPolygonGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -343,7 +344,7 @@ void SketchDrawPolygonGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawPolygonGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pCenterPopup)
     {
         _pCenterPopup = std::make_unique<GuiCmdHoverInputPopup2>(

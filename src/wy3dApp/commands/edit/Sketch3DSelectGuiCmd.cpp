@@ -30,6 +30,7 @@
 #include <wy3dSolid.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/GuiEventDispatcher.h"
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
 #include "scene/nodes/ElementNodeType.h"
@@ -129,7 +130,7 @@ void Sketch3DSelectGuiCmd::onStart_EnvSpecific()
 
 void Sketch3DSelectGuiCmd::selectAll_Impl(wyap::SelectionSet& ss)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pDb->getElement(_sketch3DInfo.sketch3dId));
     if (pSketch3D)
@@ -157,7 +158,7 @@ bool Sketch3DSelectGuiCmd::isEntityUnderPointer(double x, double y)
 
 SelectHandler* Sketch3DSelectGuiCmd::getSelectHandler() const
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (!pView) return nullptr;
     GuiEventDispatcher* pGuiEventDispatcher = pView->getGuiEventDispatcher();
     return pGuiEventDispatcher ? pGuiEventDispatcher->getSelectHandler() : nullptr;
@@ -238,7 +239,7 @@ bool Sketch3DSelectGuiCmd::tryPickWorkPlane(double x, double y)
     wy3d::Plane plane;
     if (!GuiCommandUtil::getWorkingPlane(sel, plane))
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",
             "Only planar faces can be used as the sketch plane."));
         return true;
     }
@@ -259,7 +260,7 @@ bool Sketch3DSelectGuiCmd::tryPickWorkPlane(double x, double y)
     }
     _pCustomWorkPlaneHighlight->addSelection(sel);
 
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",
+    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",
         "Sketch plane set. It will be used by the next drawing command."));
 
     return true;
@@ -285,7 +286,7 @@ void Sketch3DSelectGuiCmd::setOverCurvedFace(bool value)
     }
 
     _isOverCurvedFace = value;
-    Application::instance().setCursor(value ? CursorType::Forbid : CursorType::Select);
+    ApplicationImpl::instance().setCursor(value ? CursorType::Forbid : CursorType::Select);
 }
 
 void Sketch3DSelectGuiCmd::onEscapeKey()
@@ -319,7 +320,7 @@ void Sketch3DSelectGuiCmd::updateSelectTipAndLabel()
 {
     if (!_pPasteOp)
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",
             "Select elements. Pick a planar face or a datum plane to set the sketch plane."));
     }
 }

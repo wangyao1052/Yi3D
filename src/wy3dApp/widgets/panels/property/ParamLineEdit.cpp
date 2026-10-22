@@ -41,6 +41,7 @@
 #include <QGridLayout>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "PropertyEditorWidget.h"
@@ -190,7 +191,7 @@ void ParamLineEdit::getCurrParamValueFromDb(bool& isAllTheSameValue, wydb::Param
     pOutParamValue = nullptr;
 
     // 获取当前选择集
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.isEmpty())
     {
         assert(false);
@@ -198,7 +199,7 @@ void ParamLineEdit::getCurrParamValueFromDb(bool& isAllTheSameValue, wydb::Param
     }
 
     // 获取当前数据库
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -321,7 +322,7 @@ void ParamLineEdit::onEditingFinished()
     }
 
     // 通过事务修改参数值
-    Application::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
         DockPanelIds::Property)->startModifyElements();
     wy::ErrorStatus error = this->modifyElementsByTransaction(*pCurParamValue);
     if (wy::ErrorStatus::Ok == error)
@@ -347,14 +348,14 @@ void ParamLineEdit::onEditingFinished()
         }
         this->setFocus();
     }
-    Application::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
         DockPanelIds::Property)->endModifyElements();
 
     // added by wangyao 2025.06.30 {
     // 成功修改参数后需要刷新所有参数编辑框的值,因为参数之间可以是相互关联的,比如圆的直径和半径.
     if (wy::ErrorStatus::Ok == error)
     {
-        Application::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
+        ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
             DockPanelIds::Property)->refresh();
     }
     // }
@@ -363,7 +364,7 @@ void ParamLineEdit::onEditingFinished()
 wy::ErrorStatus ParamLineEdit::modifyElementsByTransaction(const wydb::ParameterValue& paramValue)
 {
     // 获取当前选择集
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.isEmpty())
     {
         assert(false);
@@ -371,7 +372,7 @@ wy::ErrorStatus ParamLineEdit::modifyElementsByTransaction(const wydb::Parameter
     }
 
     // 开启事务修改元素参数值
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

@@ -26,6 +26,7 @@
 #include <wy3dSketchEntity.h>
 #include <wyapClipboard.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "scene/nodes/ElementNodeType.h"
@@ -40,7 +41,7 @@ SketchRectArrayElements::SketchRectArrayElements(GuiCommand* pGuiCmd, const wy3d
 
 SketchRectArrayElements::~SketchRectArrayElements()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         for (osg::ref_ptr<osg::PositionAttitudeTransform> pat : _pats)
@@ -63,7 +64,7 @@ bool SketchRectArrayElements::init(const std::set<wydb::ElementId>& ids, unsigne
     _cols = cols;
     _rows = rows;
 
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return false;
 
     size_t num = static_cast<size_t>(cols) * static_cast<size_t>(rows) - 1;

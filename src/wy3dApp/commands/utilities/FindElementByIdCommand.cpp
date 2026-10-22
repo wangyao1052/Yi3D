@@ -36,6 +36,7 @@
 #include <wyapSelection.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/ModelingEnvironment.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
@@ -47,7 +48,7 @@ namespace wy3dApp {
 
 int FindElementByIdCommand::run()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -67,7 +68,7 @@ int FindElementByIdCommand::run()
         wydb::ElementId id = wydb::ElementId::kNull;
     } envInfo;
 
-    wyap::Environment* pActiveEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pActiveEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     if (!pActiveEnv)
     {
         assert(false);
@@ -97,7 +98,7 @@ int FindElementByIdCommand::run()
         return -1;
     }
 
-    QInputDialog dialog(Application::instance().getMainWindow());
+    QInputDialog dialog(ApplicationImpl::instance().getMainWindow());
     dialog.setWindowTitle(QCoreApplication::translate("FindElementByIdCommand", "Find Element By ID"));
     dialog.setLabelText(QCoreApplication::translate("FindElementByIdCommand",
         "Element IDs (separated by ; , or space):"));
@@ -258,7 +259,7 @@ int FindElementByIdCommand::run()
         return 0;
     }
 
-    wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+    wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
     assert(pSelMgr);
     pSelMgr->beginChange();
     pSelMgr->setSelections(ss);
@@ -272,7 +273,7 @@ int FindElementByIdCommand::run()
             .arg(notFoundIds.size() + sketchEnvRejectedIds.size() + sketch3DEnvRejectedIds.size());
         MessageBoxUtil::showError(invalidMsgs.join("\n"));
     }
-    Application::instance().getStatusBar()->setTips(tips);
+    ApplicationImpl::instance().getStatusBar()->setTips(tips);
 
     return 0;
 }

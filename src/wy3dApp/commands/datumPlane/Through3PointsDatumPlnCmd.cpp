@@ -21,6 +21,7 @@
 #include <wyVector3.h>
 #include <wyapSelManager.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "snap/SnapContext.h"
 #include "scene/Colors.h"
 #include "snap/SnapConsts.h"
@@ -102,64 +103,64 @@ void Through3PointsDatumPlnCmd::gotoStep(Step step)
     _step = step;
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
     switch (step)
     {
     case Step::SpecifyPoint1st:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
             "Specify the first point."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
     case Step::SpecifyPoint2nd:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
             "Specify the second point."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
     case Step::SpecifyPoint3rd:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
             "Specify the third point."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -174,7 +175,7 @@ void Through3PointsDatumPlnCmd::onMouseMove(const MouseEvent& event)
     case Step::SpecifyPoint2nd:
     case Step::SpecifyPoint3rd:
     {
-        wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(event.x, event.y,
+        wyap::SnapResultSPtr pSnapResult = ApplicationImpl::instance().getSnapSystem()->snap(event.x, event.y,
             std::make_shared<LocateContext>(), {});
         return;
     }
@@ -198,7 +199,7 @@ void Through3PointsDatumPlnCmd::onLeftMouseDown(const MouseEvent& event)
     case Step::SpecifyPoint2nd:
     case Step::SpecifyPoint3rd:
     {
-        wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(event.x, event.y,
+        wyap::SnapResultSPtr pSnapResult = ApplicationImpl::instance().getSnapSystem()->snap(event.x, event.y,
             std::make_shared<LocateContext>(), {});
         if (pSnapResult)
         {

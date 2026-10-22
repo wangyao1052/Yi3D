@@ -35,6 +35,7 @@
 #include <wy3dDatumPlane.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/SolidElementNode.h"
@@ -99,10 +100,10 @@ wyap::CmdExecution::StartResult CircularPatternGuiCmd::onStart()
 
     // 过滤出阵列源对象
     wydb::ElementId sourceId = GuiCommandUtil::filterPatternSourceFrom(
-        Application::instance().getSelManager()->getSelections());
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->getSelections());
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 初始化
     if (sourceId.isNull())
@@ -142,10 +143,10 @@ bool CircularPatternGuiCmd::finishStep(Step step)
             assert(false);
             return false;
         }
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->addSelection(wyap::Selection(_sourceId));
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->addSelection(wyap::Selection(_sourceId));
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 下一步
         this->gotoStep(Step::SpecifyCylindricalSurface);
@@ -204,17 +205,17 @@ void CircularPatternGuiCmd::gotoStep(Step step)
     case Step::SelectSource:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("CircularPatternGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("CircularPatternGuiCmd",
             "Select the solid feature to pattern."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
         
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
@@ -230,11 +231,11 @@ void CircularPatternGuiCmd::gotoStep(Step step)
     {
         // 禁用文本输入
         // 提示
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("CircularPatternGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("CircularPatternGuiCmd",
             "Select a cylindrical face."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项:实体圆柱面
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
@@ -252,11 +253,11 @@ void CircularPatternGuiCmd::gotoStep(Step step)
     {
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("LinearPatternGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("LinearPatternGuiCmd",
             "Input pattern data."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().setCursor(CursorType::Select);
 
         // 圆周阵列对话框
         SketchPolarArrayDialog::Options options;
@@ -296,8 +297,8 @@ void CircularPatternGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -366,7 +367,7 @@ void CircularPatternGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 {
     if (Step::SelectSource == _step)
     {
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return;
         const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
         if (!pSolid) return;
@@ -391,7 +392,7 @@ bool CircularPatternGuiCmd::createCircularPattern(
         return false;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Solid* pSourceSolid = wy3d::Solid::cast(pDb->getElement(_sourceId));
     if (!pSourceSolid)

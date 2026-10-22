@@ -25,6 +25,7 @@
 #include <wyrxClassInfo.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include "commands/edit/Sketch3DSelectGuiCmd.h"
 #include "commands/ViewCommands.h"
@@ -111,7 +112,7 @@ static constexpr size_t kCommandEntryCount =
 
 void Sketch3DEnvironmentImpl::registerCommands()
 {
-    wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
+    wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
     if (!pCmdStack)
     {
         assert(false);
@@ -129,7 +130,7 @@ void Sketch3DEnvironmentImpl::registerCommands()
 
 void Sketch3DEnvironmentImpl::removeCommands()
 {
-    wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
+    wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
     if (!pCmdStack)
     {
         assert(false);

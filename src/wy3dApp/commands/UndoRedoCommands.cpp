@@ -24,6 +24,7 @@
 #include <wyapEnvironment.h>
 #include <wyapEnvManager.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "commands/CommandNames.h"
 #include <wy3dApp/Scene.h>
@@ -34,7 +35,7 @@ namespace wy3dApp {
 int UndoCommand::run()
 {
     // Get the active database.
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -49,13 +50,13 @@ int UndoCommand::run()
         assert(wy::ErrorStatus::Ok == error);
 
         // Clear selections.
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 
     // Update command action states.
-    wyap::EnvManager* pEnvMgr = Application::instance().getEnvManager();
+    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
     wyap::Environment* pActiveEnv = pEnvMgr->getActiveEnvironment();
     if (pActiveEnv)
     {
@@ -72,7 +73,7 @@ int UndoCommand::run()
 int RedoCommand::run()
 {
     // Get the active database.
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -86,13 +87,13 @@ int RedoCommand::run()
         pTransMgr->redo();
 
         // Clear selections.
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 
     // Update command action states.
-    wyap::EnvManager* pEnvMgr = Application::instance().getEnvManager();
+    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
     wyap::Environment* pActiveEnv = pEnvMgr->getActiveEnvironment();
     if (pActiveEnv)
     {

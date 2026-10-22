@@ -19,6 +19,7 @@
 #include "GatewayEnvironmentImpl.h"
 #include "GatewayEnvironmentUI.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include "environments/ICommandActionStateHost.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -129,7 +130,7 @@ void GatewayEnvironmentImpl::onResume()
 
 void GatewayEnvironmentImpl::updateCommandActionStates()
 {
-    wyap::EnvManager* pEnvMgr = Application::instance().getEnvManager();
+    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
     wyap::Environment* pActiveEnv = pEnvMgr->getActiveEnvironment();
     if (pActiveEnv)
     {
@@ -151,7 +152,7 @@ void GatewayEnvironmentImpl::updateFileActionStates()
     }
 
     bool enabled(true);
-    wyap::Document* pActiveDoc = Application::instance().getActiveDocument();
+    wyap::Document* pActiveDoc = ApplicationImpl::instance().getActiveDocument();
     if (pActiveDoc)
     {
         wydb::Database* pDb = pActiveDoc->getDatabase();

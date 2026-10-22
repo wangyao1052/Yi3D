@@ -23,6 +23,7 @@
 #include <wy3dSketchEntity.h>
 #include <wy3dSketchEntity.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "snap/SketchSnapSystem.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/SketchEnvironment.h>
@@ -49,7 +50,7 @@ wyap::CmdExecution::StartResult SketchRelocateCsysGuiCmd::onStart()
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::Locate);
+    ApplicationImpl::instance().setCursor(CursorType::Locate);
 
     // 坐标系
     _pCsysTransient = std::make_shared<SketchCsysTransient>(_sketchInfo.sketchPlane);
@@ -107,20 +108,20 @@ void SketchRelocateCsysGuiCmd::gotoStep(Step step)
     _step = step;
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
     switch (step)
     {
     case Step::SpecifyOrigin:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 允许输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRelocateCsysGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRelocateCsysGuiCmd",
             "Specify the origin point."));
 
         // 捕捉上下文
@@ -131,13 +132,13 @@ void SketchRelocateCsysGuiCmd::gotoStep(Step step)
     case Step::SpecifyRotationAngle:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 允许输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRelocateCsysGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRelocateCsysGuiCmd",
             "Specify the X axis."));
 
         // 捕捉上下文
@@ -147,7 +148,7 @@ void SketchRelocateCsysGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -200,7 +201,7 @@ void SketchRelocateCsysGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 bool SketchRelocateCsysGuiCmd::relocateSketchCsys(const wy3d::Plane& plane, const wy::Vector2& origin2d, double angle)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -265,13 +266,13 @@ bool SketchRelocateCsysGuiCmd::relocateSketchCsys(const wy3d::Plane& plane, cons
     pDb->getTransactionManager()->endTransaction();
     
     // 刷新草图坐标系的显示
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->showSketchCSYS(newPlane);
     }
 
     // 刷新草图环境中的草图平面
-    wyap::Environment* pCurEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     SketchEnvironmentImpl* pSketchEnv = dynamic_cast<SketchEnvironmentImpl*>(pCurEnv);
     if (pSketchEnv)
     {

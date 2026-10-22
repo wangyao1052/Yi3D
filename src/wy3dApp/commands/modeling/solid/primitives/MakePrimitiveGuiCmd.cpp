@@ -31,6 +31,7 @@
 #include <wy3dDatumPlane.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "utils/MathUtils.h"
 #include "utils/TopoShapeUtil.h"
@@ -56,7 +57,7 @@ namespace wy3dApp {
 
 bool _getWorkingPlane(const wyap::Selection& sel, wy3d::Plane& workPln)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -127,7 +128,7 @@ wyap::CmdExecution::StartResult MakePrimitiveGuiCmd::onStart()
     _pickOption.postFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
 
     // 初始化
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();   
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();   
     auto isValidSS = [](const wyap::SelectionSet& ss) -> bool
     {
         if (ss.getCount() != 1)
@@ -148,16 +149,16 @@ wyap::CmdExecution::StartResult MakePrimitiveGuiCmd::onStart()
     if (ss.getCount() == 1 && isValidSS(ss))
     {
         _workPlnPreview.update(ss.createIterator().current());
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->finishStep(Step::SpecifyWorkingPlane);
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->gotoStep(Step::SpecifyWorkingPlane);
     }
 
@@ -168,7 +169,7 @@ void MakePrimitiveGuiCmd::onEnd()
     GuiCommand::onEnd();
 
     // 隐藏工作平面坐标系
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->hideSketchCSYS();
     }
@@ -180,7 +181,7 @@ void MakePrimitiveGuiCmd::onEnd()
     // 移除工作平面原点捕捉对象
     if (_pWorkPlnOriginSnapObject)
     {
-        wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+        wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
         pSnapSys->beginChange();
         {
             pSnapSys->removeResidentSnapObject(_pWorkPlnOriginSnapObject);
@@ -194,7 +195,7 @@ void MakePrimitiveGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     GuiCommand::onAbort(cause);
 
     // 隐藏工作平面坐标系
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->hideSketchCSYS();
     }
@@ -206,7 +207,7 @@ void MakePrimitiveGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     // 移除工作平面原点捕捉对象
     if (_pWorkPlnOriginSnapObject)
     {
-        wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+        wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
         pSnapSys->beginChange();
         {
             pSnapSys->removeResidentSnapObject(_pWorkPlnOriginSnapObject);
@@ -241,7 +242,7 @@ bool MakePrimitiveGuiCmd::finishStep(unsigned int step)
         _workPlnPreview.clear();
 
         // 添加工作平面坐标原点为常驻捕捉对象
-        wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+        wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
         pSnapSys->beginChange();
         {
             _pWorkPlnOriginSnapObject = std::make_shared<SnapPoint>(
@@ -251,7 +252,7 @@ bool MakePrimitiveGuiCmd::finishStep(unsigned int step)
         pSnapSys->endChange();
 
         // 显示工作平面坐标系
-        if (Scene* pScene = Application::instance().getActiveScene())
+        if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
         {
             pScene->showSketchCSYS(_workPln);
         }
@@ -284,11 +285,11 @@ void MakePrimitiveGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 禁用文本输入
         // 提示
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MakePrimitiveGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakePrimitiveGuiCmd",
             "Select datum plane or solid surface as working plane."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     else
     {
@@ -335,7 +336,7 @@ void MakePrimitiveGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (1 != _step) return;
     if (!_workPlnPreview.isNull()) return;
 
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pDb->getElement(id));
     if (!pDatumPlane) return;
@@ -356,7 +357,7 @@ void MakePrimitiveGuiCmd::configureContextMenu(ContextMenu& menu)
 
 void MakePrimitiveGuiCmd::onViewNormalToWorkingPlane()
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (!pView)
     {
         assert(false);

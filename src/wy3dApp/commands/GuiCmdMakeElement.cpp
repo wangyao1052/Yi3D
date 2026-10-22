@@ -21,6 +21,7 @@
 #include <cassert>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/GuiCommand.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -29,7 +30,7 @@ namespace wy3dApp {
 GuiCmdMakeElement::GuiCmdMakeElement(GuiCommand* pGuiCmd)
     : _pGuiCmd(pGuiCmd), _pTopTrans(nullptr), _isFinished(false)
 {
-    _pDb = Application::instance().getActiveDatabase();
+    _pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(_pDb);
     if (_pDb)
     {

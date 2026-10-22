@@ -38,6 +38,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/Scene.h>
 #include "commands/transient/SketchBasicTransient.h"
@@ -181,11 +182,11 @@ void MakeCylinderGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeCylinderGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeCylinderGuiCmd",
             "Specify the bottom center point; you can directly input the coordinate values."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
@@ -193,11 +194,11 @@ void MakeCylinderGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeCylinderGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeCylinderGuiCmd",
             "Specify the radius; you can directly input the value."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
@@ -205,18 +206,18 @@ void MakeCylinderGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeCylinderGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeCylinderGuiCmd",
             "Specify the height; you can directly input the value."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
     default:
     {
         assert(false);
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -364,7 +365,7 @@ void MakeCylinderGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void MakeCylinderGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(

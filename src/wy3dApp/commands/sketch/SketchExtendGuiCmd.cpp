@@ -40,6 +40,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "utils/MathUtils.h"
 #include "utils/SplineUtil.h"
 #include "scene/SketchEntityLinearization.h"
@@ -102,9 +103,9 @@ wyap::CmdExecution::StartResult SketchExtendGuiCmd::onStart()
     _sketchInfo = GuiCommandUtil::initSketchInfo();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 初始化修剪图信息
     if (!this->initExtendGraph())
@@ -114,7 +115,7 @@ wyap::CmdExecution::StartResult SketchExtendGuiCmd::onStart()
     }
 
     // add database reactor
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -123,9 +124,9 @@ wyap::CmdExecution::StartResult SketchExtendGuiCmd::onStart()
     pDb->addReactor(this);
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     // 提示信息
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Extend", "Select sketch entities to extend."));
+    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Extend", "Select sketch entities to extend."));
 
     // 点选控制项
     _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;
@@ -139,7 +140,7 @@ void SketchExtendGuiCmd::onEnd()
     GuiCommand::onEnd();
 
     // remove database reactor
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     if (pDb)
     {
@@ -152,7 +153,7 @@ void SketchExtendGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     GuiCommand::onAbort(cause);
 
     // remove database reactor
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     if (pDb)
     {
@@ -162,7 +163,7 @@ void SketchExtendGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 bool SketchExtendGuiCmd::initExtendGraph()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -202,9 +203,9 @@ void SketchExtendGuiCmd::onMouseMove(const MouseEvent& event)
 
     // 设置鼠标样式
     if (!sel.getElementId().isNull() && !_pTransient)
-        Application::instance().setCursor(CursorType::Forbid);
+        ApplicationImpl::instance().setCursor(CursorType::Forbid);
     else
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
     return;
 }
@@ -243,7 +244,7 @@ void SketchExtendGuiCmd::pickExtendSegment(const wydb::ElementId& id, const wy::
         }
 
         // 延伸
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb)
         {
             assert(false);
@@ -293,7 +294,7 @@ void SketchExtendGuiCmd::onLeftMouseDown(const MouseEvent& event)
         }
     }
     _pTransient = nullptr;
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
     return;
 }
@@ -313,7 +314,7 @@ bool SketchExtendGuiCmd::extend(const wydb::ElementId curveId, const SketchExten
         return false;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

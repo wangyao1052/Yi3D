@@ -33,6 +33,7 @@
 #include <wy3dSketchCurve.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "view/OsgView.h"
 #include "OsgUtils.h"
@@ -43,7 +44,7 @@ namespace wy3dApp {
 
 int OsgNewBoxCommand::run()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return -1;
     osg::Group* pOsgTestRoot = pActiveScene->getOsgTestRoot();
     if (!pOsgTestRoot) return -1;
@@ -58,7 +59,7 @@ int OsgNewBoxCommand::run()
 
 int OpenGLNewBoxCommand::run()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return -1;
     osg::Group* pOsgTestRoot = pActiveScene->getOsgTestRoot();
     if (!pOsgTestRoot) return -1;
@@ -72,7 +73,7 @@ int OpenGLNewBoxCommand::run()
 
 int OsgNewCylinderCommand::run()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return -1;
     osg::Group* pOsgTestRoot = pActiveScene->getOsgTestRoot();
     if (!pOsgTestRoot) return -1;
@@ -87,7 +88,7 @@ int OsgNewCylinderCommand::run()
 
 int OsgNewSphereCommand::run()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return -1;
     osg::Group* pOsgTestRoot = pActiveScene->getOsgTestRoot();
     if (!pOsgTestRoot) return -1;
@@ -101,7 +102,7 @@ int OsgNewSphereCommand::run()
 
 int OsgNewCowCommand::run()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return -1;
     osg::Group* pOsgTestRoot = pActiveScene->getOsgTestRoot();
     if (!pOsgTestRoot) return -1;
@@ -115,16 +116,16 @@ int OsgNewCowCommand::run()
 
 int SketchTestIntersectionCommand::run()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     if (!pDb) return 0;
-    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pEnv);
     if (!pSketchEnv) return 0;
     const wy3d::Sketch* pConstSketch = wy3d::Sketch::cast(pDb->getElement(pSketchEnv->getSketchId()));
     if (!pConstSketch) return 0;
 
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.getCount() != 2) return 0;
     std::vector<const wy3d::SketchCurve*> curves;
     for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
@@ -164,10 +165,10 @@ int SketchTestIntersectionCommand::run()
 
 int SketchTestBoundingBoxCommand::run()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     if (!pDb) return 0;
-    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pEnv);
     if (!pSketchEnv) return 0;
     const wy3d::Sketch* pConstSketch = wy3d::Sketch::cast(pDb->getElement(pSketchEnv->getSketchId()));
@@ -175,7 +176,7 @@ int SketchTestBoundingBoxCommand::run()
 
     std::vector<const wy3d::SketchCurve*> curveElements;
     curveElements.reserve(100);
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.isEmpty())
     {
         for (auto iter = pConstSketch->createIterator(); !iter.isDone(); iter.moveNext())

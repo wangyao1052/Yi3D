@@ -29,6 +29,7 @@
 #include <wy3dSketch.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/UndoRedoCommands.h"
 #include "commands/sketch/SketchTrimExtendUtil.h"
 #include "utils/MathUtils.h"
@@ -62,12 +63,12 @@ wyap::CmdExecution::StartResult SketchChamferGuiCmd::onStart()
     _sketchInfo = GuiCommandUtil::initSketchInfo();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 基本信息
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -137,8 +138,8 @@ void SketchChamferGuiCmd::gotoStep(Step step)
     {
     case Step::First:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchChamfer", "Select the first sketch line."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchChamfer", "Select the first sketch line."));
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 前置选择过滤器
         _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::SketchEntity>();
@@ -147,8 +148,8 @@ void SketchChamferGuiCmd::gotoStep(Step step)
 
     case Step::Second:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchChamfer", "Select the second sketch line."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchChamfer", "Select the second sketch line."));
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 前置选择过滤器
         wydb::ElementId excludeId = wydb::ElementId::kNull;
@@ -161,7 +162,7 @@ void SketchChamferGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -182,9 +183,9 @@ void SketchChamferGuiCmd::onMouseMove(const MouseEvent& event)
     if (Step::First == _step)
     {
         if (!sel.getElementId().isNull() && !_pCurveTransient1st)
-            Application::instance().setCursor(CursorType::Forbid);
+            ApplicationImpl::instance().setCursor(CursorType::Forbid);
         else
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     // 第二步
     else if (Step::Second == _step)
@@ -199,9 +200,9 @@ void SketchChamferGuiCmd::onMouseMove(const MouseEvent& event)
         }
 
         if (!sel.getElementId().isNull() && !_pCurveTransient2nd)
-            Application::instance().setCursor(CursorType::Forbid);
+            ApplicationImpl::instance().setCursor(CursorType::Forbid);
         else
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
 
     return;
@@ -247,7 +248,7 @@ void SketchChamferGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 static const wy3d::SketchCurve* _getSketchCurve(const wydb::ElementId& id)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return nullptr;
     const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(id));
     return pSketchCurve;
@@ -349,7 +350,7 @@ std::shared_ptr<ChamferData> SketchChamferGuiCmd::chamferPreview(
     assert(id1st != id2nd);
     if (id1st == id2nd) return nullptr;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     if (!pDb) return nullptr;
 
@@ -424,7 +425,7 @@ bool SketchChamferGuiCmd::chamfer(const ChamferData* pChamferData)
     assert(pChamferData);
     if (!pChamferData) return false;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     wydb::Transaction* pTransGroup = pDb->getTransactionManager()->startTransactionGroup();

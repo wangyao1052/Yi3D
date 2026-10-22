@@ -20,6 +20,7 @@
 #include <QMessageBox>
 #include <QFile>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "PythonScriptExecutor.h"
 #include "widgets/panels/output/OutputWidget.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -39,7 +40,7 @@ bool wy3dQApplication::notify(QObject* receiver, QEvent* event)
     {
         if (ExecuteCommandEvent* pExecuteCmdEvt = dynamic_cast<ExecuteCommandEvent*>(event))
         {
-            Application::instance().getCmdManager()->executeCommand(pExecuteCmdEvt->getCommandName());
+            ApplicationImpl::instance().getCmdManager()->executeCommand(pExecuteCmdEvt->getCommandName());
         }
         else
         {
@@ -55,7 +56,7 @@ bool wy3dQApplication::notify(QObject* receiver, QEvent* event)
             const std::string& scriptFileFullPath = pRunPythonScriptEvent->getScriptFileFullPath();
 
             // Abort current modal command.
-            wyap::CmdManager* pCmdMgr = Application::instance().getCmdManager();
+            wyap::CmdManager* pCmdMgr = ApplicationImpl::instance().getCmdManager();
             wyap::Command* pCurModalCmd = pCmdMgr->getCurrentModalCommand();
             if (pCurModalCmd)
             {
@@ -133,8 +134,8 @@ bool wy3dQApplication::notify(QObject* receiver, QEvent* event)
         if (RunGuiCommandEvent* pRunGuiCmdEvt = dynamic_cast<RunGuiCommandEvent*>(event))
         {
             const std::string cmdName = pRunGuiCmdEvt->getCommandName();
-            wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
-            wyap::CmdManager* pCmdMgr = Application::instance().getCmdManager();
+            wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
+            wyap::CmdManager* pCmdMgr = ApplicationImpl::instance().getCmdManager();
 
             wyap::Command* pCmd = pCmdStack->getCommand(cmdName);
             if (!pCmd)

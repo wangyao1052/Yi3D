@@ -35,6 +35,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "utils/MathUtils.h"
 #include "widgets/frame/MainWindow.h"
@@ -112,7 +113,7 @@ bool SketchDrawArcBy3Points3DGuiCmd::finishStep(unsigned int step)
     {
     case Step::SpecifyPoint1st:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb)
         {
             assert(false);
@@ -190,7 +191,7 @@ void SketchDrawArcBy3Points3DGuiCmd::gotoStep(unsigned int step)
     {
     case Step::SpecifyPoint1st:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
             "Specify the first end point on arc; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -198,7 +199,7 @@ void SketchDrawArcBy3Points3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyPoint2nd:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
             "Specify the second end point on arc; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -206,7 +207,7 @@ void SketchDrawArcBy3Points3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyPoint3rd:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
             "Specify the third point on arc; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -214,7 +215,7 @@ void SketchDrawArcBy3Points3DGuiCmd::gotoStep(unsigned int step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -309,7 +310,7 @@ void SketchDrawArcBy3Points3DGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawArcBy3Points3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
     {
         assert(false);

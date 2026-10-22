@@ -34,6 +34,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
@@ -130,25 +131,25 @@ wyap::CmdExecution::StartResult ThickenGuiCmd::onStart()
     _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::Sheet>();
     _pointPickOption.postFilter = SingleClassSelPostFilter::create<wy3d::Sheet>();
 
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     wydb::ElementId sheetId(wydb::ElementId::kNull);
     if (this->isValidSheetSelectionSet(ss, sheetId) && !sheetId.isNull())
     {
         _sheetId = sheetId;
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->onSheetSelected();
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
-        Application::instance().getStatusBar()->setTips(
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getStatusBar()->setTips(
             QCoreApplication::translate("ThickenGuiCmd",
                 "Select a sheet to thicken."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -170,7 +171,7 @@ void ThickenGuiCmd::onMouseMove(const MouseEvent& event)
     wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
     _sheetPreview.update(sel);
     if (!_sheetPreview.isNull())
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 }
 
 void ThickenGuiCmd::onLeftMouseUp(const MouseEvent& event)
@@ -189,9 +190,9 @@ void ThickenGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (!_sheetId.isNull()) return;
     if (id.isNull() || !isValidSheet(id)) return;
     _sheetId = id;
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->onSheetSelected();
 }
 
@@ -211,7 +212,7 @@ bool ThickenGuiCmd::isValidSheetSelectionSet(
 
 bool ThickenGuiCmd::isValidSheet(const wydb::ElementId& sheetId)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pDb->getElement(sheetId));
     if (!pSheet || !pSheet->getParent().isNull()) return false;
@@ -224,10 +225,10 @@ void ThickenGuiCmd::onSheetSelected()
     {
         wyap::Selection sel(
             static_cast<unsigned int>(wy3d::SelectionType::Element), _sheetId);
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->addSelection(sel);
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->addSelection(sel);
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 
     // create element with default values
@@ -236,9 +237,9 @@ void ThickenGuiCmd::onSheetSelected()
     if (!_pMakeThicken->init(_sheetId, errorCode))
     {
         _pMakeThicken = nullptr;
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         if (0 != errorCode) MessageBoxUtil::showError(errorCode);
         this->requestAbort(AbortCause::ErrorTerminate);
         return;
@@ -252,16 +253,16 @@ void ThickenGuiCmd::onSheetSelected()
         return;
     }
 
-    Application::instance().getStatusBar()->setTips(
+    ApplicationImpl::instance().getStatusBar()->setTips(
         QCoreApplication::translate("ThickenGuiCmd",
             "Specify thickness and direction, then OK to apply."));
-    Application::instance().setCursor(CursorType::Select);
+    ApplicationImpl::instance().setCursor(CursorType::Select);
 }
 
 bool ThickenGuiCmd::createCmdPanel()
 {
     QOpenGLWidget* pParentWidget = nullptr;
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (pMainWindow)
         pParentWidget = pMainWindow->findChild<QOpenGLWidget*>();
     if (!pParentWidget) return false;
@@ -317,9 +318,9 @@ void ThickenGuiCmd::onDialogAccepted()
 
 void ThickenGuiCmd::onDialogCanceled()
 {
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     _pMakeThicken = nullptr;
     this->requestAbort(AbortCause::UserCancel);
 }

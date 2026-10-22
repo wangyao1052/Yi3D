@@ -37,6 +37,7 @@
 #include <wy3dSolid.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/TopoShapeUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -83,9 +84,9 @@ wyap::CmdExecution::StartResult SketchIncludeCurve3DGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // Model edges and 2D/3D sketch curves share the sub path form: the element id is the
     // solid, sheet or sketch, and the sub path is the curve inside it. The entities of the
@@ -101,10 +102,10 @@ wyap::CmdExecution::StartResult SketchIncludeCurve3DGuiCmd::onStart()
 
     _includedCurves.clear();
 
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchIncludeCurve3DGuiCmd",
+    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchIncludeCurve3DGuiCmd",
         "Click model edges or sketch curves to include them into the 3D sketch. Press Esc to exit."));
 
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -154,7 +155,7 @@ void SketchIncludeCurve3DGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
 wydb::Transaction* SketchIncludeCurve3DGuiCmd::beginInclude(const wyap::Selection& sel)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -167,7 +168,7 @@ wydb::Transaction* SketchIncludeCurve3DGuiCmd::beginInclude(const wyap::Selectio
     const auto iter = _includedCurves.find(key);
     if (_includedCurves.end() != iter && pDb->getElement(iter->second))
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchIncludeCurve3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchIncludeCurve3DGuiCmd",
             "The curve has already been included."));
         return nullptr;
     }
@@ -182,7 +183,7 @@ wydb::Transaction* SketchIncludeCurve3DGuiCmd::beginInclude(const wyap::Selectio
 bool SketchIncludeCurve3DGuiCmd::finishInclude(const wyap::Selection& sel, wydb::Transaction* pTrans,
     wy3d::Sketch3DEdgeUtil::Result result, wy3d::SketchEntity3D* pEntity)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb || !pTrans)
     {
         assert(false);
@@ -210,7 +211,7 @@ bool SketchIncludeCurve3DGuiCmd::finishInclude(const wyap::Selection& sel, wydb:
 
 bool SketchIncludeCurve3DGuiCmd::includeModelEdge(const wyap::Selection& sel)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     const wydb::Element* pElement = pDb->getElement(sel.getElementId());
@@ -247,7 +248,7 @@ bool SketchIncludeCurve3DGuiCmd::includeModelEdge(const wyap::Selection& sel)
 
 bool SketchIncludeCurve3DGuiCmd::includeSketchCurve(const wyap::Selection& sel)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sel.getElementId()));
@@ -271,7 +272,7 @@ bool SketchIncludeCurve3DGuiCmd::includeSketchCurve(const wyap::Selection& sel)
 
 bool SketchIncludeCurve3DGuiCmd::includeSketchEntity3D(const wyap::Selection& sel)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     // Another 3D sketch is picked through its element and a sub path, but accept both forms

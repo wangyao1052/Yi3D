@@ -27,6 +27,7 @@
 #include <wy3dSketch.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "snap/SketchSnapSystem.h"
 #include "select/SketchPlaneSelFilter.h"
 #include <wy3dApp/GuiCommandUtil.h>
@@ -59,23 +60,23 @@ wyap::CmdExecution::StartResult NewSketchGuiCmd::onStart()
     _pointPickOption.postFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
 
     // 初始化:步骤
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     auto extractDatumPlaneFromSelSet = [](const wyap::SelectionSet& ss) -> wydb::ElementId
     {
         if (ss.getCount() != 1) return wydb::ElementId::kNull;
         const wyap::Selection& sel = ss.createIterator().current();
         wydb::ElementId id = sel.getElementId();
 
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return wydb::ElementId::kNull;
         const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pDb->getElement(id));
         if (!pDatumPlane) return wydb::ElementId::kNull;
         return id;
     };
     wydb::ElementId id = extractDatumPlaneFromSelSet(ss);
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->gotoStep(Step::SelectDatumPlaneOrFace);
 
     if (!id.isNull())
@@ -87,9 +88,9 @@ wyap::CmdExecution::StartResult NewSketchGuiCmd::onStart()
         // executeCommand() has returned and the command is running. The command is looked up
         // again rather than captured: until this runs it may have been aborted, and the
         // pointer would then be dangling.
-        QTimer::singleShot(0, &Application::instance(), []()
+        QTimer::singleShot(0, &ApplicationImpl::instance(), []()
         {
-            wyap::CmdManager* pCmdMgr = Application::instance().getCmdManager();
+            wyap::CmdManager* pCmdMgr = ApplicationImpl::instance().getCmdManager();
             if (!pCmdMgr) return;
             NewSketchGuiCmd* pCmd = dynamic_cast<NewSketchGuiCmd*>(
                 pCmdMgr->getCurrentModalCmdExecution());
@@ -105,19 +106,19 @@ void NewSketchGuiCmd::onEnd()
     GuiCommand::onEnd();
 
     // 结束非批次渲染
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->endNoBatchRender();
     }
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 进入草图环境
     std::unique_ptr<SketchEnvironmentImpl> pSketchEnv = std::make_unique<SketchEnvironmentImpl>(_plane);
-    wy::ErrorStatus error = Application::instance().getEnvManager()->enterEnvironment(
+    wy::ErrorStatus error = ApplicationImpl::instance().getEnvManager()->enterEnvironment(
         std::move(pSketchEnv),
         wyap::ExecutionMode::Async);
     if (wy::ErrorStatus::Ok != error)
@@ -131,15 +132,15 @@ void NewSketchGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     GuiCommand::onAbort(cause);
 
     // 结束非批次渲染
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->endNoBatchRender();
     }
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 }
 
 void NewSketchGuiCmd::cleanUp()
@@ -193,24 +194,24 @@ void NewSketchGuiCmd::gotoStep(Step step)
     _step = step;
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
     switch (step)
     {
     case Step::SelectDatumPlaneOrFace:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("NewSketch",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("NewSketch",
             "Select datum plane or planar face."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 预览
         _preview.clear();
@@ -219,7 +220,7 @@ void NewSketchGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -264,7 +265,7 @@ void NewSketchGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (Step::SelectDatumPlaneOrFace != _step) return;
     if (!_preview.isNull()) return;
 
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pDb->getElement(id));
     if (!pDatumPlane) return;

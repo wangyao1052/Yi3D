@@ -34,6 +34,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
@@ -113,7 +114,7 @@ bool SketchDrawEllipse3DGuiCmd::finishStep(unsigned int step)
     {
     case Step::SpecifyCenterPnt:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb)
         {
             assert(false);
@@ -211,7 +212,7 @@ void SketchDrawEllipse3DGuiCmd::gotoStep(unsigned int step)
     {
     case Step::SpecifyCenterPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
             "Specify the center point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -219,7 +220,7 @@ void SketchDrawEllipse3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyAxisEndPoint:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
             "Specify the axis vector; you can directly input the values. "
             "Press Space to switch the drawing plane."));
     }
@@ -227,7 +228,7 @@ void SketchDrawEllipse3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyOtherRadius:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
             "Specify the other radius; you can directly input the value. "
             "Press Space to switch the drawing plane."));
     }
@@ -235,7 +236,7 @@ void SketchDrawEllipse3DGuiCmd::gotoStep(unsigned int step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -440,7 +441,7 @@ void SketchDrawEllipse3DGuiCmd::destroyAxisTransient()
 
 void SketchDrawEllipse3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
     {
         assert(false);

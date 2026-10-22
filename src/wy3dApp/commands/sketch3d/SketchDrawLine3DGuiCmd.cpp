@@ -34,6 +34,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/OsgCoordUtil.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap3d/Sketch3DSnapContext.h"
@@ -112,7 +113,7 @@ bool SketchDrawLine3DGuiCmd::finishStep(unsigned int step)
     {
     case Step::SpecifyStartPnt:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb)
         {
             assert(false);
@@ -184,7 +185,7 @@ void SketchDrawLine3DGuiCmd::gotoStep(unsigned int step)
     case Step::SpecifyStartPnt:
     {
         _pSnapContext = std::make_shared<Sketch3DLocateContext>();
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine3DGuiCmd",
             "Specify the start point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -192,7 +193,7 @@ void SketchDrawLine3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyEndPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine3DGuiCmd",
             "Specify the end point; you can directly input the length and angle. "
             "Press Space to switch the drawing plane."));
     }
@@ -200,7 +201,7 @@ void SketchDrawLine3DGuiCmd::gotoStep(unsigned int step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -285,7 +286,7 @@ void SketchDrawLine3DGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawLine3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
     {
         assert(false);

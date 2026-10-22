@@ -29,6 +29,7 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dMakeSketchText.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "snap/SketchSnapSystem.h"
@@ -146,10 +147,10 @@ void SketchTextCommand::gotoStep(Step step)
     {
         // 禁用输入
         // 清空提示信息
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().setCursor(CursorType::Select);
 
         // 如果在非修订状态说明文本内容不需要使用历史记录的
         if (_pHistory && !_isRevising)
@@ -218,11 +219,11 @@ void SketchTextCommand::gotoStep(Step step)
 
         // 允许输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchTextCommand",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchTextCommand",
             "Specify the start text position; you can directly input the coordinate values."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉上下文
         _pSnapContext = std::make_shared<Locate2dContext>();
@@ -231,7 +232,7 @@ void SketchTextCommand::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -312,7 +313,7 @@ void SketchTextCommand::initializePopups()
         return;
     }
 
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
         QStringLiteral("X"),
         QStringLiteral("Y"),

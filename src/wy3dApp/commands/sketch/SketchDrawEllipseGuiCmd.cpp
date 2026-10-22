@@ -34,6 +34,7 @@
 #include <wy3dSketchEllipse.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/BasicTransient.h"
 #include "snap/SketchSnapSystem.h"
@@ -69,9 +70,9 @@ wyap::CmdExecution::StartResult SketchDrawEllipseGuiCmd::onStart()
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 初始化
     _pLineTransient = std::make_shared<LineTransient>();
@@ -79,7 +80,7 @@ wyap::CmdExecution::StartResult SketchDrawEllipseGuiCmd::onStart()
     this->gotoStep(Step::SpecifyCenterPnt);
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::Locate);
+    ApplicationImpl::instance().setCursor(CursorType::Locate);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -141,7 +142,7 @@ bool SketchDrawEllipseGuiCmd::finishStep(Step step)
 
     case Step::SpecifyAxisEndPoint:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (pDb)
         {
             _pMakeSketchEllipse = std::make_shared<MakeSketchEllipse>(this);
@@ -203,7 +204,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyCenterPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse",
             "Specify the center point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -216,7 +217,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyAxisEndPoint:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse",
             "Specify the axis vector; you can directly input the values."));
 
         _pSnapContext = std::make_shared<DrawLine2dContext>(_centerPnt);
@@ -225,7 +226,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyOtherRadius:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse",
             "Specify the other radius; you can directly input the value."));
 
         // TODO
@@ -236,7 +237,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -364,7 +365,7 @@ void SketchDrawEllipseGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawEllipseGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(

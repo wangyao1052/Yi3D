@@ -19,6 +19,7 @@
 #include "MainWindow.h"
 #include "ViewWidgetContainer.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "application/AutoSave.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "OsgUtils.h"
@@ -106,23 +107,23 @@ MainWindow::MainWindow(QWidget* parent) :
     this->resize(1200, 800);
     QString title = tr("wy3dApp");
     this->setWindowTitle(title);
-    Application::instance().setTitle(title);
+    ApplicationImpl::instance().setTitle(title);
     ViewWidgetContainer* layoutWindow = new ViewWidgetContainer(this);
     this->setCentralWidget(layoutWindow);
     g_mainLayoutWindow = layoutWindow;
 
     // 设置程序单例类的主窗口
-    Application::instance().setMainWindow(this);
+    ApplicationImpl::instance().setMainWindow(this);
 
     // 初始化状态栏
     this->initStatusBar();
     // 初始化状态栏帮助类
-    Application::instance().getStatusBar()->init(_tipsLabel);
+    ApplicationImpl::instance().getStatusBar()->init(_tipsLabel);
     // 初始化停靠窗口
     this->initDockableWidgets();
 
     // 添加文档管理器反应器
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     assert(pDocMgr);
     wy::ErrorStatus error = pDocMgr->addReactor(this);
     assert(wy::ErrorStatus::Ok == error);
@@ -130,10 +131,10 @@ MainWindow::MainWindow(QWidget* parent) :
 
 MainWindow::~MainWindow()
 {
-    Application::instance().setDockPanelManager(nullptr);
+    ApplicationImpl::instance().setDockPanelManager(nullptr);
 
     // 移除文档管理器反应器
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     assert(pDocMgr);
     wy::ErrorStatus error = pDocMgr->removeReactor(this);
     assert(wy::ErrorStatus::Ok == error);
@@ -170,7 +171,7 @@ void MainWindow::initDockableWidgets()
 {
     _pDockPanelManager = new DockPanelManager(this);
     _pDockPanelManager->addBuiltinPanels();
-    Application::instance().setDockPanelManager(_pDockPanelManager);
+    ApplicationImpl::instance().setDockPanelManager(_pDockPanelManager);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -178,7 +179,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
     assert(event);
 
     // Require the user to exit the task environment before closing the application.
-    wyap::EnvManager* pEnvMgr = Application::instance().getEnvManager();
+    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
     wyap::Environment* pTopEnv = pEnvMgr->getTopEnvironment();
     if (pTopEnv && pTopEnv->getType() == wyap::Environment::Type::Task)
     {
@@ -199,7 +200,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
     }
 
     // Abort current modal command.
-    wy::ErrorStatus error = Application::instance().getCmdManager()->abortCurrentModalCommand(
+    wy::ErrorStatus error = ApplicationImpl::instance().getCmdManager()->abortCurrentModalCommand(
         wyap::CmdExecution::AbortCause::ForceTerminate);
     if (wy::ErrorStatus::Ok != error &&
         wy::ErrorStatus::NoCurrentModalCommand != error)
@@ -213,7 +214,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
     this->closeAllDocumentsForExit();
 
     // Clean up autosave files (normal exit)
-    Application::instance().getAutoSave()->cleanupOnExit();
+    ApplicationImpl::instance().getAutoSave()->cleanupOnExit();
 
     // Close application.
     event->accept();
@@ -222,7 +223,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 std::vector<wyap::Document*> MainWindow::getModifiedDocuments() const
 {
     std::vector<wyap::Document*> modifiedDocs;
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     const std::vector<wyap::Document*> documents = pDocMgr->getDocuments();
     for (wyap::Document* pDoc : documents)
     {
@@ -295,7 +296,7 @@ bool MainWindow::confirmReturnToSave(
 
 void MainWindow::closeAllDocumentsForExit()
 {
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     const std::vector<wyap::Document*> documents = pDocMgr->getDocuments();
     wyap::Document* pActiveDoc = pDocMgr->getActiveDocument();
     

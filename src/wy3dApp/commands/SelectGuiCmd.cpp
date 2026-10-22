@@ -26,6 +26,7 @@
 #include <wyapClipboard.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dFeature.h>
 #include <wy3dSolid.h>
@@ -137,9 +138,9 @@ wyap::CmdExecution::StartResult SelectGuiCmd::onStart()
     wyap::CmdExecution::StartResult ret = __baseClass::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
-    if (Application::instance().getLastEndedCommand() != CommandNames::FindElementById)
+    if (ApplicationImpl::instance().getLastEndedCommand() != CommandNames::FindElementById)
     {
-        wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+        wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
         assert(pSelMgr);
         pSelMgr->beginChange();
         pSelMgr->clearSelections();
@@ -149,14 +150,14 @@ wyap::CmdExecution::StartResult SelectGuiCmd::onStart()
     // 建模环境下的选择命令才支持特征树上的节点可选择
     onStart_EnvSpecific();
     // 选择命令支持属性框可编辑
-    Application::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
         DockPanelIds::Property)->setReadOnly(false);
 
     // 监听选择集
-    Application::instance().getSelManager()->addReactor(this);
+    ApplicationImpl::instance().getSelManager()->addReactor(this);
 
     // 添加Gizmo
-    bool addGizmoRet = this->tryAddElementPositionGizmo(Application::instance().getSelManager()->getSelections());
+    bool addGizmoRet = this->tryAddElementPositionGizmo(ApplicationImpl::instance().getSelManager()->getSelections());
 
     // 拷贝操作
     _pPasteOp = nullptr;
@@ -180,13 +181,13 @@ wyap::CmdExecution::StartResult SelectGuiCmd::onStart()
 void SelectGuiCmd::onEnd()
 {
     // 取消监听选择集
-    Application::instance().getSelManager()->removeReactor(this);
+    ApplicationImpl::instance().getSelManager()->removeReactor(this);
 
     // 特征树节点不可选
-    Application::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
         DockPanelIds::FeatureTree)->setSelectable(false);
     // 属性编辑框只读
-    Application::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
         DockPanelIds::Property)->setReadOnly(true);
 
     // 放弃当前粘贴的对象
@@ -198,13 +199,13 @@ void SelectGuiCmd::onEnd()
 void SelectGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
     // 取消监听选择集
-    Application::instance().getSelManager()->removeReactor(this);
+    ApplicationImpl::instance().getSelManager()->removeReactor(this);
 
     // 特征树节点不可选
-    Application::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
         DockPanelIds::FeatureTree)->setSelectable(false);
     // 属性编辑框只读
-    Application::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
         DockPanelIds::Property)->setReadOnly(true);
 
     // 放弃当前粘贴的对象
@@ -225,9 +226,9 @@ void SelectGuiCmd::reset()
     else
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 }
 
@@ -240,11 +241,11 @@ void SelectGuiCmd::onSpaceKey()
     if (_pPasteOp) return; // 在执行粘贴动作
 
     // Repeat the last non-select command
-    std::vector<std::string> recentCmds = Application::instance().getCmdManager()->getRecentCommands();
+    std::vector<std::string> recentCmds = ApplicationImpl::instance().getCmdManager()->getRecentCommands();
     if (!recentCmds.empty())
     {
-        Application::instance().getCmdManager()->postCommand(recentCmds.back());
-        Application::instance().getCmdManager()->abortCurrentModalCommand(
+        ApplicationImpl::instance().getCmdManager()->postCommand(recentCmds.back());
+        ApplicationImpl::instance().getCmdManager()->abortCurrentModalCommand(
             wyap::CmdExecution::AbortCause::UserCancel);
     }
 }
@@ -256,9 +257,9 @@ void SelectGuiCmd::onSelectionChanged(
     const wyap::SelectionSet& currSS)
 {
     // 清除Gizmo
-    Application::instance().getGizmoManager()->beginChange();
-    Application::instance().getGizmoManager()->clearGizmos();
-    Application::instance().getGizmoManager()->endChange();
+    ApplicationImpl::instance().getGizmoManager()->beginChange();
+    ApplicationImpl::instance().getGizmoManager()->clearGizmos();
+    ApplicationImpl::instance().getGizmoManager()->endChange();
 
     // 获取选择的特征
     bool addGizmoRet = this->tryAddElementPositionGizmo(currSS);
@@ -338,7 +339,7 @@ void SelectGuiCmd::onEscapeKey()
     }
     else
     {
-        wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+        wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
         assert(pSelMgr);
         pSelMgr->beginChange();
         pSelMgr->clearSelections();
@@ -348,15 +349,15 @@ void SelectGuiCmd::onEscapeKey()
 
 void SelectGuiCmd::selectAll()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
 
     wyap::SelectionSet ss;
     selectAll_Impl(ss);
 
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->setSelections(ss);
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->setSelections(ss);
+    ApplicationImpl::instance().getSelManager()->endChange();
 }
 
 void SelectGuiCmd::copy()
@@ -371,7 +372,7 @@ void SelectGuiCmd::copy()
 void SelectGuiCmd::erase()
 {
     std::set<wydb::ElementId> ids;
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
     {
         const wyap::Selection& sel = iter.current();
@@ -386,13 +387,13 @@ void SelectGuiCmd::erase()
     }
     if (ids.empty()) return;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
 
     // added by wangyao 2025.04.19 {
     // 删除前清空选择集应该是一个不错的选择,避免未考虑到的一些逻辑问题.
     // 清空选择集
-    Application::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
     // }
 
     wydb::TransactionOption option;
@@ -420,7 +421,7 @@ void SelectGuiCmd::updateSelectTipAndLabel()
 {
     if (!_pPasteOp)
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SelectGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SelectGuiCmd",
             "Select elements. Pick individual items or use window selection."));
     }
 }
@@ -433,7 +434,7 @@ bool SelectGuiCmd::beginPaste(double x, double y)
         return false;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     _pPasteOp = std::make_shared<PasteOp>();
     _pPasteOp->pSnapContext = std::make_shared<Locate2dContext>();
@@ -466,14 +467,14 @@ bool SelectGuiCmd::beginPaste(double x, double y)
         return false;
     }
 
-    Application::instance().getStatusBar()->reset();
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SelectGuiCmd",
+    ApplicationImpl::instance().getStatusBar()->reset();
+    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SelectGuiCmd",
         "Specify the insertion point; you can directly input the coordinate values."));
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 禁用选择
     this->disableSelect();
@@ -489,7 +490,7 @@ void SelectGuiCmd::endPaste(const wy::Vector3& pos)
         _pPasteOp = nullptr;
     }
 
-    Application::instance().getStatusBar()->reset();
+    ApplicationImpl::instance().getStatusBar()->reset();
     this->updateSelectTipAndLabel();
 
     // 启用选择
@@ -503,7 +504,7 @@ void SelectGuiCmd::cancelPaste()
         _pPasteOp = nullptr;
     }
 
-    Application::instance().getStatusBar()->reset();
+    ApplicationImpl::instance().getStatusBar()->reset();
     this->updateSelectTipAndLabel();
 
     // 启用选择
@@ -513,9 +514,9 @@ void SelectGuiCmd::cancelPaste()
 bool SelectGuiCmd::tryAddElementPositionGizmo(const wyap::SelectionSet& sels)
 {
     std::list<wyap::GizmoSPtr> gizmos;
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
-    GizmoFactory* pGizmoFactory = Application::instance().getGizmoFactory();
+    GizmoFactory* pGizmoFactory = ApplicationImpl::instance().getGizmoFactory();
     if (!pGizmoFactory) return false;
 
     if (!tryAddPositionGizmo_Impl(sels, gizmos))
@@ -523,13 +524,13 @@ bool SelectGuiCmd::tryAddElementPositionGizmo(const wyap::SelectionSet& sels)
         return false;
     }
 
-    Application::instance().getGizmoManager()->beginChange();
-    Application::instance().getGizmoManager()->clearGizmos();
+    ApplicationImpl::instance().getGizmoManager()->beginChange();
+    ApplicationImpl::instance().getGizmoManager()->clearGizmos();
     for (const wyap::GizmoSPtr& pGizmo : gizmos)
     {
-        Application::instance().getGizmoManager()->addGizmo(pGizmo);
+        ApplicationImpl::instance().getGizmoManager()->addGizmo(pGizmo);
     }
-    Application::instance().getGizmoManager()->endChange();
+    ApplicationImpl::instance().getGizmoManager()->endChange();
 
     return true;
 }
@@ -537,7 +538,7 @@ bool SelectGuiCmd::tryAddElementPositionGizmo(const wyap::SelectionSet& sels)
 void SelectGuiCmd::configureContextMenu(ContextMenu& menu)
 {
     // Copy: only visible when elements are selected.
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (!ss.isEmpty())
     {
         CommandAction* pActionFitSelection = new CommandAction(CommandNames::FitSelection, &menu);

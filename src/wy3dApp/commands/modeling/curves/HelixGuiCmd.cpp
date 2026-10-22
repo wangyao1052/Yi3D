@@ -33,6 +33,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "utils/SketchUtil.h"
@@ -57,7 +58,7 @@ HelixGuiCmd::~HelixGuiCmd()
 wyap::CmdExecution::StartResult HelixGuiCmd::onStart()
 {
     // 是否有可用的草图
-    if (!SketchUtil::hasUnusedSketch(Application::instance().getActiveDatabase()))
+    if (!SketchUtil::hasUnusedSketch(ApplicationImpl::instance().getActiveDatabase()))
     {
         MessageBoxUtil::showInformation_NoAvailableSketches();
         return wyap::CmdExecution::StartResult::Rejected;
@@ -73,7 +74,7 @@ wyap::CmdExecution::StartResult HelixGuiCmd::onStart()
     _pointPickOption.postFilter = SingleClassSelPostFilter::create<wy3d::Sketch>();
     
     // 初始化:步骤
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     wydb::ElementId sketchId(wydb::ElementId::kNull);
     if (this->isValidSketchSelectionSet(ss, sketchId) && !sketchId.isNull())
     {
@@ -82,9 +83,9 @@ wyap::CmdExecution::StartResult HelixGuiCmd::onStart()
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectSketch);
     }
 
@@ -136,17 +137,17 @@ void HelixGuiCmd::gotoStep(Step step)
     case Step::SelectSketch:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("HelixGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("HelixGuiCmd",
             "Select a sketch that contains a single circle."));
 
         // 设置鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
@@ -154,10 +155,10 @@ void HelixGuiCmd::gotoStep(Step step)
     {
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("HelixGuiCmd", "Input helix data."));
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("HelixGuiCmd", "Input helix data."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().setCursor(CursorType::Select);
 
         // 倒角对话框
         HelixDialog dialog(5.0, 5.0, 0.0, false);
@@ -192,8 +193,8 @@ void HelixGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
 
         assert(false);
     }
@@ -217,12 +218,12 @@ void HelixGuiCmd::onMouseMove(const MouseEvent& event)
                 _pInvalidSketchTooltip = std::make_shared<InvalidSketchToolTip>(pickedSketchId,
                     _sketchId2ValidInfo[pickedSketchId].error);
             }
-            Application::instance().setCursor(CursorType::Forbid);
+            ApplicationImpl::instance().setCursor(CursorType::Forbid);
         }
         else
         {
             _pInvalidSketchTooltip = nullptr;
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
         }
     }
 
@@ -248,7 +249,7 @@ void HelixGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (Step::SelectSketch != _step) return;
     if (!_sketchId.isNull()) return;
 
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(id));
     if (!pSketch) return;
@@ -257,9 +258,9 @@ void HelixGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (this->isValidSketch(id, error))
     {
         _sketchId = id;
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->addSelection(wyap::Selection(id));
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->addSelection(wyap::Selection(id));
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSketch);
     }
     else
@@ -295,7 +296,7 @@ bool HelixGuiCmd::isValidSketchSelectionSet(const wyap::SelectionSet& ss, wydb::
 
 bool HelixGuiCmd::isValidSketch(const wydb::ElementId& sketchId, QString& error)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
     if (!pSketch) return false;
@@ -354,7 +355,7 @@ bool HelixGuiCmd::createHelix(
 {
     errorCode = 0;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -406,7 +407,7 @@ bool HelixGuiCmd::createHelix(
     }
     // }
     // 刷新基准面的显示
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->updateDatumPlaneVisualSize(pDb);
     }

@@ -34,6 +34,7 @@
 #include <wy3dSketchEntity.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "snap/SketchSnapSystem.h"
 #include <wy3dApp/SelectPreview.h>
@@ -63,12 +64,12 @@ wyap::CmdExecution::StartResult SketchProjectGuiCmd::onStart()
         _sketchInfo.pSketchSnapSys->clearSnapResult();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 校验
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -86,11 +87,11 @@ wyap::CmdExecution::StartResult SketchProjectGuiCmd::onStart()
     _pointPickOption.selType = wy3d::SelectionType::Edge;
 
     // 提示信息
-    Application::instance().getStatusBar()->setTips(
+    ApplicationImpl::instance().getStatusBar()->setTips(
         QCoreApplication::translate("SketchProject", "Click on model edges to project them onto the sketch plane."));
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -137,7 +138,7 @@ bool SketchProjectGuiCmd::projectEdge(const wyap::Selection& sel)
 
     unsigned int edgeIndex = std::stoul(subPath);
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     // 获取宿主形体(实体或片体)的TopoDS_Shape

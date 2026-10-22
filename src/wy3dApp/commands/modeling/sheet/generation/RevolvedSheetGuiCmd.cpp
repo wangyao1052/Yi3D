@@ -33,6 +33,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "utils/SketchUtil.h"
@@ -55,7 +56,7 @@ RevolvedSheetGuiCmd::~RevolvedSheetGuiCmd()
 
 wyap::CmdExecution::StartResult RevolvedSheetGuiCmd::onStart()
 {
-    if (!SketchUtil::hasUnusedSketch(Application::instance().getActiveDatabase()))
+    if (!SketchUtil::hasUnusedSketch(ApplicationImpl::instance().getActiveDatabase()))
     {
         MessageBoxUtil::showInformation_NoAvailableSketches();
         return wyap::CmdExecution::StartResult::Rejected;
@@ -68,21 +69,21 @@ wyap::CmdExecution::StartResult RevolvedSheetGuiCmd::onStart()
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.postFilter = SingleClassSelPostFilter::create<wy3d::Sketch>();
 
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     wydb::ElementId sketchId(wydb::ElementId::kNull);
     if (this->isValidSketchSelectionSet(ss, sketchId) && !sketchId.isNull())
     {
         _sketchId = sketchId;
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSketch);
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectSketch);
     }
 
@@ -175,25 +176,25 @@ void RevolvedSheetGuiCmd::gotoStep(Step step)
     {
     case Step::SelectSketch:
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolvedSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolvedSheetGuiCmd",
             "Select the sketch to revolve."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
     case Step::SelectAxisCurve:
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolvedSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolvedSheetGuiCmd",
             "Select an axis line in the sketch."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
         _pointPickOption.selType = wy3d::SelectionType::SketchCurve | wy3d::SelectionType::Element;
@@ -203,8 +204,8 @@ void RevolvedSheetGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -230,12 +231,12 @@ void RevolvedSheetGuiCmd::onMouseMove(const MouseEvent& event)
                 _pInvalidSketchTooltip = std::make_shared<InvalidSketchToolTip>(pickedSketchId,
                     _sketchId2ValidInfo[pickedSketchId].error);
             }
-            Application::instance().setCursor(CursorType::Forbid);
+            ApplicationImpl::instance().setCursor(CursorType::Forbid);
         }
         else
         {
             _pInvalidSketchTooltip = nullptr;
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
         }
     }
     else if (_step == Step::SelectAxisCurve)
@@ -275,9 +276,9 @@ void RevolvedSheetGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (this->isValidSketch(id, error))
     {
         _sketchId = id;
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSketch);
     }
 }
@@ -302,7 +303,7 @@ bool RevolvedSheetGuiCmd::isValidSketchSelectionSet(const wyap::SelectionSet& ss
 
 bool RevolvedSheetGuiCmd::isValidSketch(const wydb::ElementId& sketchId, QString& error)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
     if (!pSketch) { error = "Sketch not found"; return false; }

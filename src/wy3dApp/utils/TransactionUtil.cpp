@@ -21,13 +21,14 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 bool TransactionUtil::hasActiveTransaction()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         return false;

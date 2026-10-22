@@ -25,6 +25,7 @@
 #include <wyrxClassInfo.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include "commands/FileCommands.h"
 #include "commands/OptionsCommands.h"
@@ -65,7 +66,7 @@ static constexpr size_t kCommandEntryCount =
 
 void GatewayEnvironmentImpl::registerCommands()
 {
-    wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
+    wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
     if (!pCmdStack)
     {
         assert(false);
@@ -83,7 +84,7 @@ void GatewayEnvironmentImpl::registerCommands()
 
 void GatewayEnvironmentImpl::removeCommands()
 {
-    wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
+    wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
     if (!pCmdStack)
     {
         assert(false);

@@ -30,6 +30,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/SketchUtil.h"
@@ -49,7 +50,7 @@ LoftGuiCmd::LoftGuiCmd() : OsgGuiCommand(),
 wyap::CmdExecution::StartResult LoftGuiCmd::onStart()
 {
     // 是否有可用的草图
-    if (!SketchUtil::hasUnusedSketch(Application::instance().getActiveDatabase()))
+    if (!SketchUtil::hasUnusedSketch(ApplicationImpl::instance().getActiveDatabase()))
     {
         MessageBoxUtil::showInformation_NoAvailableSketches();
         return wyap::CmdExecution::StartResult::Rejected;
@@ -64,23 +65,23 @@ wyap::CmdExecution::StartResult LoftGuiCmd::onStart()
     _pointPickOption.selType = wy3d::SelectionType::Element;
 
     // 初始化:步骤
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     std::vector<wydb::ElementId> profileIds;
     if (this->isValidSketchSelectionSet(ss, profileIds) && !profileIds.empty())
     {
         if (profileIds.size() == 1)
         {
-            Application::instance().getSelManager()->beginChange();
-            Application::instance().getSelManager()->clearSelections();
-            Application::instance().getSelManager()->endChange();
+            ApplicationImpl::instance().getSelManager()->beginChange();
+            ApplicationImpl::instance().getSelManager()->clearSelections();
+            ApplicationImpl::instance().getSelManager()->endChange();
             _profilesHighlightor.addSelection(wyap::Selection(profileIds.front()));
             this->gotoStep(Step::SelectProfiles);
         }
         else // 多个
         {
-            Application::instance().getSelManager()->beginChange();
-            Application::instance().getSelManager()->clearSelections();
-            Application::instance().getSelManager()->endChange();
+            ApplicationImpl::instance().getSelManager()->beginChange();
+            ApplicationImpl::instance().getSelManager()->clearSelections();
+            ApplicationImpl::instance().getSelManager()->endChange();
             for (const wydb::ElementId& profileId : profileIds)
             {
                 _profilesHighlightor.addSelection(wyap::Selection(profileId));
@@ -90,9 +91,9 @@ wyap::CmdExecution::StartResult LoftGuiCmd::onStart()
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectProfiles);
     }
 
@@ -198,7 +199,7 @@ bool LoftCutGuiCmd::finishStep(Step step)
         }
 
         // 自动切除实体
-        if (const wy3d::Solid* pSolidToCut = GuiCommandUtil::autoGetSolidToCut(Application::instance().getActiveDatabase()))
+        if (const wy3d::Solid* pSolidToCut = GuiCommandUtil::autoGetSolidToCut(ApplicationImpl::instance().getActiveDatabase()))
         {
             unsigned int errorCode(0);
             if (_pMakeLoft->cutSolid(pSolidToCut, errorCode))
@@ -277,17 +278,17 @@ void LoftGuiCmd::gotoStep(Step step)
     case Step::SelectProfiles:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("LoftGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("LoftGuiCmd",
             "Select at least two profiles. Press Enter or Spacebar to confirm. Press Esc to cancel."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选配置项
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
@@ -298,8 +299,8 @@ void LoftGuiCmd::gotoStep(Step step)
     default:
     {
         assert(false);
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
     }
     break;
     }
@@ -312,20 +313,20 @@ void LoftCutGuiCmd::gotoStep(Step step)
         _step = step;
 
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 清除高亮
         _profilesHighlightor.clearSelections();
 
         // 禁用文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("LoftGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("LoftGuiCmd",
             "Select the solid to cut."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
@@ -357,12 +358,12 @@ void LoftGuiCmd::onMouseMove(const MouseEvent& event)
                 _pInvalidSketchTooltip = std::make_shared<InvalidSketchToolTip>(pickedSketchId,
                     _sketchId2ValidInfo[pickedSketchId].error);
             }
-            Application::instance().setCursor(CursorType::Forbid);
+            ApplicationImpl::instance().setCursor(CursorType::Forbid);
         }
         else
         {
             _pInvalidSketchTooltip = nullptr;
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
         }
 
         return;
@@ -444,7 +445,7 @@ void LoftGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 {
     if (Step::SelectProfiles != _step) return;
 
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(id));
     if (!pSketch) return;
@@ -559,7 +560,7 @@ bool LoftGuiCmd::isValidSketchSelectionSet(const wyap::SelectionSet& ss, std::ve
 
 bool LoftGuiCmd::isValidProfile(const wydb::ElementId& profileId, QString& error)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(profileId));
     if (!pSketch) return false;
@@ -612,7 +613,7 @@ const wy3d::Solid* LoftCutGuiCmd::getSolidToCut() const
 {
     if (_solidToCutPreview.isNull()) return nullptr;
     wydb::ElementId id = _solidToCutPreview.getSelection().getElementId();
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return nullptr;
     const wy3d::Solid* pSolidToCut = wy3d::Solid::cast(pDb->getElement(id));
     return pSolidToCut;

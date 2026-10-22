@@ -60,7 +60,7 @@ wyap::CmdExecution::StartResult DemoSnapRuleCmd::onStart()
     // and only moves the point, instead of rebuilding the display each move.
     _pContext = std::make_shared<DemoSnapContext>(_sketchInfo.sketchId);
 
-    wy3dApp::Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DemoSnapRuleCmd",
+    wy3dApp::getApplication()->getStatusBar()->setTips(QCoreApplication::translate("DemoSnapRuleCmd",
         "Demo snap rule: hover near the origin, the X/Y axes, circle centers or line end points."));
 
     return wyap::CmdExecution::StartResult::Succeeded;

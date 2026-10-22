@@ -38,6 +38,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/Colors.h"
 #include "view/OsgView.h"
@@ -105,7 +106,7 @@ wyap::CmdExecution::StartResult SketchScaleGuiCmd::onStart()
     _pLineTransient = std::make_shared<LineTransient>();
     _pLineTransient->hide();
 
-    if (Application::instance().getSelManager()->getSelections().isEmpty())
+    if (ApplicationImpl::instance().getSelManager()->getSelections().isEmpty())
     {
         this->gotoStep(Step::Step1_SelectElements);
     }
@@ -150,7 +151,7 @@ bool SketchScaleGuiCmd::finishStep(Step step)
     case Step::Step1_SelectElements:
     {
         // 选择集
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (ss.isEmpty())
         {
             assert(false);
@@ -215,7 +216,7 @@ bool SketchScaleGuiCmd::finishStep(Step step)
         if (_pLineTransient) _pLineTransient->hide();
 
         // 清空捕捉结果
-        Application::instance().getSnapSystem()->clearSnapResult();
+        ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
         // 结束命令
         this->requestEnd();
@@ -240,7 +241,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
     _hoverPopupState.resetValue();
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
     // 清空草图捕捉结果
     if (_sketchInfo.pSketchSnapSys)
     {
@@ -264,10 +265,10 @@ void SketchScaleGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Scale",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Scale",
             "Select elements to scale; press Enter or Spacebar to confirm; press Esc to cancel."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
@@ -281,10 +282,10 @@ void SketchScaleGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Scale",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Scale",
             "Specify the base point; you can directly input the coordinate values."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉系统
         if (_sketchInfo.pSketchSnapSys)
@@ -305,10 +306,10 @@ void SketchScaleGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Scale",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Scale",
             "Specify the scale ratio."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉系统
         _pSnapContext = std::make_shared<DrawLine2dContext>(_basePnt);
@@ -324,8 +325,8 @@ void SketchScaleGuiCmd::gotoStep(Step step)
         this->applySelectOptions(selOptions);
 
         // 禁用文本输入
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -420,7 +421,7 @@ void SketchScaleGuiCmd::onEnterKey()
 {
     if (Step::Step1_SelectElements == _step)
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (!ss.isEmpty())
         {
             if (this->finishStep(_step))
@@ -451,15 +452,15 @@ void SketchScaleGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::Step1_SelectElements == _step)
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 }
 
 void SketchScaleGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
@@ -594,7 +595,7 @@ double SketchScaleGuiCmd::computeBaseLength(const wyap::SelectionSet& sels) cons
 {
     double baseLen = 1.0;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

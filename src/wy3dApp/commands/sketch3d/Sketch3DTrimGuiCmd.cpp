@@ -31,6 +31,7 @@
 #include <wy3dSketchEntity3D.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -109,11 +110,11 @@ wyap::CmdExecution::StartResult Sketch3DTrimGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -138,8 +139,8 @@ wyap::CmdExecution::StartResult Sketch3DTrimGuiCmd::onStart()
     _pickedSegment = wy3d::Sketch3DTrimSegment();
     pDb->addReactor(this);
 
-    Application::instance().setCursor(CursorType::SelectElements);
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DTrimGuiCmd",
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DTrimGuiCmd",
         "Select sketch entities to trim."));
 
     _pointPickOption.allowedElemTypes = ElementNodeType::Sketch3DEntity;
@@ -152,7 +153,7 @@ wyap::CmdExecution::StartResult Sketch3DTrimGuiCmd::onStart()
 void Sketch3DTrimGuiCmd::onEnd()
 {
     _pTransient = nullptr;
-    if (wydb::Database* pDb = Application::instance().getActiveDatabase())
+    if (wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase())
     {
         pDb->removeReactor(this);
     }
@@ -162,7 +163,7 @@ void Sketch3DTrimGuiCmd::onEnd()
 void Sketch3DTrimGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
     _pTransient = nullptr;
-    if (wydb::Database* pDb = Application::instance().getActiveDatabase())
+    if (wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase())
     {
         pDb->removeReactor(this);
     }
@@ -177,7 +178,7 @@ void Sketch3DTrimGuiCmd::onMouseMove(const MouseEvent& event)
         this->pointPick(event.x, event.y, _pointPickOption);
     this->pickTrimSegment(sel.getElementId(), sel.getPickPosition());
 
-    Application::instance().setCursor(_pTransient ? CursorType::Delete : CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(_pTransient ? CursorType::Delete : CursorType::SelectElements);
 }
 
 void Sketch3DTrimGuiCmd::pickTrimSegment(const wydb::ElementId& id, const wy::Vector3& pickPos3d)
@@ -207,7 +208,7 @@ void Sketch3DTrimGuiCmd::pickTrimSegment(const wydb::ElementId& id, const wy::Ve
         return;
     }
 
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         _pTransient = nullptr;
@@ -243,13 +244,13 @@ void Sketch3DTrimGuiCmd::onLeftMouseUp(const MouseEvent& event)
     _pTransient = nullptr;
     _pickedId = wydb::ElementId::kNull;
     _pickedSegment = wy3d::Sketch3DTrimSegment();
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 }
 
 bool Sketch3DTrimGuiCmd::trim(const wydb::ElementId curveId,
     const wy3d::Sketch3DTrimKnot& startKnot, const wy3d::Sketch3DTrimKnot& endKnot)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

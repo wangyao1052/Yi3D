@@ -25,6 +25,7 @@
 
 #include <wy3dApp/EnvironmentBase.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include <wy3dApp/Scene.h>
 #include "widgets/frame/MainWindow.h"
@@ -53,7 +54,7 @@ EnvironmentBase::~EnvironmentBase()
 
 QMenu* EnvironmentBase::addMenu(const QString& title, const std::string& name)
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
     {
         assert(false);
@@ -83,7 +84,7 @@ void EnvironmentBase::insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu)
         return;
     }
 
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
     {
         assert(false);
@@ -111,7 +112,7 @@ void EnvironmentBase::insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu)
 
 QToolBar* EnvironmentBase::addToolBar(const QString& title, const std::string& name)
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
     {
         assert(false);
@@ -232,7 +233,7 @@ void EnvironmentBase::saveUiState()
     if (!pEnv) return;
     std::string envName = pEnv->getName();
     if (envName.empty()) return;
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow) return;
 
     const QString path = QCoreApplication::applicationDirPath()
@@ -249,7 +250,7 @@ void EnvironmentBase::saveUiState()
 
 void EnvironmentBase::destroyToolBars()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     for (QToolBar* pToolBar : _toolBars)
     {
         if (!pToolBar)
@@ -273,7 +274,7 @@ void EnvironmentBase::restoreUiState()
     if (!pEnv) return;
     std::string envName = pEnv->getName();
     if (envName.empty()) return;
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow) return;
 
     const QString path = QCoreApplication::applicationDirPath()
@@ -323,10 +324,10 @@ void EnvironmentBase::cancelCommandTerminatedOnEventLoop()
 
 void EnvironmentBase::processCommandTerminatedOnEventLoop()
 {
-    wyap::Command* pCurModalCmd = Application::instance().getCmdManager()->getCurrentModalCommand();
+    wyap::Command* pCurModalCmd = ApplicationImpl::instance().getCmdManager()->getCurrentModalCommand();
     if (!pCurModalCmd)
     {
-        Application::instance().getCmdManager()->executeCommand(CommandNames::Select);
+        ApplicationImpl::instance().getCmdManager()->executeCommand(CommandNames::Select);
     }
 }
 
@@ -445,7 +446,7 @@ void EnvironmentBase::onResume()
 
 void EnvironmentBase::syncDisplayModeAction()
 {
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return;
 
     CommandAction* pAction = nullptr;

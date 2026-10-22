@@ -29,6 +29,7 @@
 #include <wy3dErrorCode.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/SolidElementNode.h"
@@ -160,17 +161,17 @@ void ShellGuiCmd::gotoStep(Step step)
     case Step::SelectFaces:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ShellGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ShellGuiCmd",
             "Select solid faces to remove; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 预览
         _preview.clear();
@@ -180,16 +181,16 @@ void ShellGuiCmd::gotoStep(Step step)
     case Step::InputThickness:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ShellGuiCmd", "Input shell thickness."));
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ShellGuiCmd", "Input shell thickness."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().setCursor(CursorType::Select);
 
         // 倒角对话框
         DoubleValueInputDialog dialog(1.0,
@@ -224,8 +225,8 @@ void ShellGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -318,7 +319,7 @@ bool ShellGuiCmd::createShell(const wyap::SelectionSet& sels, double thickness, 
 {
     errorCode = 0;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     if (sels.isEmpty()) return false;
 

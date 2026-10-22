@@ -31,6 +31,7 @@
 
 #include "gizmo/BaseGizmo.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dPrimitive.h>
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
@@ -161,7 +162,7 @@ osg::ref_ptr<osg::LineSegment> SolidMoveOsgRenderer::getAxisLineSegment() const
 
 void SolidMoveOsgRenderer::refresh()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     const wydb::Element* pElem = pDb->getElement(_pGizmo->getModifiedElement());
     if (!pElem) return;
@@ -186,7 +187,7 @@ void SolidMoveOsgRenderer::refresh()
 
 ElementNode* SolidMoveOsgRenderer::getRelatedElementNode() const
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return nullptr;
     return pActiveScene->getElementNode(_pGizmo->getModifiedElement());
 }

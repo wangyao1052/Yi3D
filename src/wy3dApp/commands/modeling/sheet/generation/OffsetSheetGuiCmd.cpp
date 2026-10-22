@@ -46,6 +46,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/Colors.h"
 #include "scene/nodes/ElementNodeType.h"
@@ -495,12 +496,12 @@ wyap::CmdExecution::StartResult OffsetSheetGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // The tree hover preview repaints the whole element and would wipe the per-face colors
-    Application::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
         DockPanelIds::FeatureTree)->setHoverPreviewEnabled(false);
 
     _pSelSetHighlightor_Faces = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
 
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     wydb::ElementId sheetId(wydb::ElementId::kNull);
     if (this->isValidSheetSelectionSet(ss, sheetId) && !sheetId.isNull())
     {
@@ -513,7 +514,7 @@ wyap::CmdExecution::StartResult OffsetSheetGuiCmd::onStart()
     _targetMode = static_cast<int>(wy3d::OffsetSheet::Target::SelectedFaces);
     this->adoptPreSelectedFaces(ss);
 
-    wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+    wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
     pSelMgr->beginChange();
     pSelMgr->clearSelections();
     pSelMgr->endChange();
@@ -564,7 +565,7 @@ void OffsetSheetGuiCmd::cleanUp()
     _pSelSetHighlightor_NewFaces = nullptr;
     this->destroyCmdPanel();
 
-    Application::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
         DockPanelIds::FeatureTree)->setHoverPreviewEnabled(true);
 }
 
@@ -592,15 +593,15 @@ void OffsetSheetGuiCmd::updatePrompt()
 {
     if (static_cast<int>(wy3d::OffsetSheet::Target::SelectedFaces) == _targetMode)
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("OffsetSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("OffsetSheetGuiCmd",
             "Select the faces to offset, then OK to apply."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     else
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("OffsetSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("OffsetSheetGuiCmd",
             "Specify the offset distance, then OK to apply."));
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().setCursor(CursorType::Select);
     }
 }
 
@@ -641,7 +642,7 @@ void OffsetSheetGuiCmd::onMouseMove(const MouseEvent& event)
 
         wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
         _preview.update(sel);
-        Application::instance().setCursor(
+        ApplicationImpl::instance().setCursor(
             _preview.isNull() ? CursorType::Forbid : CursorType::SelectElements);
     }
     break;
@@ -730,7 +731,7 @@ bool OffsetSheetGuiCmd::isValidSheetSelectionSet(
 
 bool OffsetSheetGuiCmd::isValidSheet(const wydb::ElementId& sheetId)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pDb->getElement(sheetId));
     if (!pSheet || !pSheet->getParent().isNull()) return false;
@@ -811,7 +812,7 @@ OffsetSheetGuiCmd::HostKind OffsetSheetGuiCmd::hostKindOf(
 {
     hostId = wydb::ElementId::kNull;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return HostKind::Undefined;
 
     const wydb::Element* pElem = pDb->getElement(sel.getElementId());
@@ -904,7 +905,7 @@ void OffsetSheetGuiCmd::refreshFaceColors()
     _pSelSetHighlightor_TargetFaces = nullptr;
     if (static_cast<int>(wy3d::OffsetSheet::Target::WholeSheet) == _targetMode)
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         const wy3d::Sheet* pHostSheet = pDb
             ? wy3d::Sheet::cast(pDb->getElement(_hostId)) : nullptr;
         if (pHostSheet)
@@ -966,15 +967,15 @@ void OffsetSheetGuiCmd::refreshFaceColors()
 
 void OffsetSheetGuiCmd::clearHostSelection()
 {
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 }
 
 bool OffsetSheetGuiCmd::createCmdPanel()
 {
     QOpenGLWidget* pParentWidget = nullptr;
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (pMainWindow)
         pParentWidget = pMainWindow->findChild<QOpenGLWidget*>();
     if (!pParentWidget) return false;
@@ -1029,7 +1030,7 @@ void OffsetSheetGuiCmd::onDialogAccepted()
     if (_pMakeOffsetSheet)
     {
         // 预览可能因为几何原因失败(偏置距离过大等), 确认前先看链上的错误码
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         wy3d::OffsetSheet* pOffsetSheet = _pMakeOffsetSheet->getOffsetSheet();
         if (pDb && pOffsetSheet)
         {

@@ -26,6 +26,7 @@
 #include <wydbTransaction.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -73,7 +74,7 @@ void ModelingEnvironmentImpl::onEnter()
     this->registerCommands();
     _pUI->initialize(this);
 
-    Application::instance().getCmdManager()->postCommand(CommandNames::Select);
+    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     this->updateCommandActionStates();
 
@@ -107,7 +108,7 @@ void ModelingEnvironmentImpl::onResume()
     this->registerCommands();
     _pUI->initialize(this);
 
-    Application::instance().getCmdManager()->postCommand(CommandNames::Select);
+    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     this->updateCommandActionStates();
 
@@ -131,7 +132,7 @@ void ModelingEnvironmentImpl::updateUndoRedoActionStates()
         return;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         pUndoAction->setEnabled(false);
@@ -163,7 +164,7 @@ void ModelingEnvironmentImpl::updateFileActionStates()
     };
 
     bool enabled(false);
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (pDb)
     {
         wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();

@@ -37,6 +37,7 @@
 #include <wy3dMove.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "view/OsgView.h"
 #include "commands/OsgGuiEventDispatcher.h"
@@ -110,7 +111,7 @@ wyap::CmdExecution::StartResult MoveGuiCmd::onStart()
     // 初始化
     _pLineTransient = std::make_shared<LineTransient>();
     _pLineTransient->hide();
-    if (Application::instance().getSelManager()->getSelections().isEmpty())
+    if (ApplicationImpl::instance().getSelManager()->getSelections().isEmpty())
     {
         this->gotoStep(Step::SelectElements);
     }
@@ -166,7 +167,7 @@ bool MoveGuiCmd::finishStep(Step step)
     case Step::SelectElements:
     {
         // 选择集
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (ss.isEmpty())
         {
             assert(false);
@@ -197,7 +198,7 @@ bool MoveGuiCmd::finishStep(Step step)
         _workPlnPreview.clear();
 
         // 添加工作平面坐标原点为常驻捕捉对象
-        wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+        wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
         assert(pSnapSys);
         pSnapSys->beginChange();
         {
@@ -208,7 +209,7 @@ bool MoveGuiCmd::finishStep(Step step)
         pSnapSys->endChange();
 
         // 显示工作平面坐标系
-        if (Scene* pScene = Application::instance().getActiveScene())
+        if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
         {
             pScene->showSketchCSYS(_workPln);
         }
@@ -282,7 +283,7 @@ bool MoveGuiCmd::finishStep(Step step)
         if (_pLineTransient) _pLineTransient->hide();
 
         // 清空捕捉结果
-        Application::instance().getSnapSystem()->clearSnapResult();
+        ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
         // 清空草图捕捉结果
         if (getSketchSnapSys()) getSketchSnapSys()->clearSnapResult();
         if (_pWorkPlnSnapSystem) _pWorkPlnSnapSystem->clearSnapResult();
@@ -310,7 +311,7 @@ void MoveGuiCmd::gotoStep(Step step)
     _hoverPopupState.resetValue();
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
     // 清空草图捕捉结果
     if (getSketchSnapSys()) getSketchSnapSys()->clearSnapResult();
     if (_pWorkPlnSnapSystem) _pWorkPlnSnapSystem->clearSnapResult();
@@ -331,11 +332,11 @@ void MoveGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
             "Select elements to move; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
@@ -349,11 +350,11 @@ void MoveGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
             "Select datum plane as working plane."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选配置项:选择基准面
         // 不允许选择实体面,因为若Hover到要镜像的实体特征的表面,再移开,该面会恢复到原始的颜色,但是该实体特征当前是选中态,这就冲突了.
@@ -373,10 +374,10 @@ void MoveGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
             "Specify the base point; you can directly input the coordinate values."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 局部更新草图捕捉系统
         if (getSketchSnapSys())
@@ -398,10 +399,10 @@ void MoveGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
             "Specify the move vector; you can directly input the values."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉上下文:绘制线
         _pSnapContext = std::make_shared<DrawLine2dContext>(_startPnt2d);
@@ -417,8 +418,8 @@ void MoveGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
     }
     break;
     }
@@ -543,7 +544,7 @@ void MoveGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void MoveGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
@@ -665,7 +666,7 @@ void MoveGuiCmd::onEnterKey()
 {
     if (Step::SelectElements == _step)
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (!ss.isEmpty())
         {
             if (this->finishStep(_step))
@@ -696,9 +697,9 @@ void MoveGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectElements == _step)
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 }
 

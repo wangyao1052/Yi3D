@@ -73,159 +73,24 @@ enum class CursorType;
 class WY3DAPP_EXPORT Application : public QObject, public wyap::Application
 {
     Q_OBJECT
-private:
-    Application();
-    ~Application();
-    Application(const Application&) = delete;
-    Application& operator=(const Application&) = delete;
-    Application(Application&&) = delete;
-    Application& operator=(Application&&) = delete;
-
-public:
-    // 单例
-    static Application& instance();
-    // 初始化
-    bool initialize();
-
-    // Create the Qt application and main window, load plugins, enter the gateway
-    // environment, then run the event loop. Returns the event loop's exit code.
-    int runApplication(int argc, char** argv);
-
-    // 程序配置
-    const Config* getConfig() const
-    {
-        return _pConfig;
-    }
-
-    // Auto save module
-    AutoSave* getAutoSave() const
-    {
-        return _pAutoSave.get();
-    }
-
-    // 获取当前激活的视图
-    BaseView* getActiveView() const;
-    // 获取当前激活的场景
-    Scene* getActiveScene() const;
-
-    // 获取标题
-    const QString& getTitle() const
-    {
-        return _title;
-    }
-    // 设置标题
-    void setTitle(const QString& title)
-    {
-        _title = title;
-    }
-
-    // 获取主窗口
-    MainWindow* getMainWindow() const
-    {
-        return _pMainWindow;
-    }
-    // 设置主窗口
-    void setMainWindow(MainWindow* pMainWindow)
-    {
-        _pMainWindow = pMainWindow;
-    }
-
-    DockPanelManager* getDockPanelManager() const
-    {
-        return _pDockPanelManager;
-    }
-    void setDockPanelManager(DockPanelManager* pDockPanelManager);
-
-    // 获取ToolBar
-    QToolBar* getToolBar(const std::string& toolBarName) const;
-
-    // 获取Gizmo创建工厂
-    GizmoFactory* getGizmoFactory() const
-    {
-        return _pGizmoFactory.get();
-    }
-
-    // 设置鼠标样式
-    void setCursor(CursorType cursorType);
-
-    // 新建数据库
-    virtual wydb::Database* newDatabase() override;
-    // 新建文档
-    virtual wyap::Document* newDocument() override;
-
-    // 新建场景
-    virtual wyap::Scene* newScene(wyap::Document* pDoc) override;
-    // 新建视图
-    virtual wyap::View* newView(wyap::Document* pDoc) override;
-    // 新建默认入口环境
-    virtual std::unique_ptr<wyap::GatewayEnvironment> newDefaultGatewayEnvironment() override;
-    // 新建默认文档环境
-    virtual std::unique_ptr<wyap::DocumentEnvironment> newDefaultDocumentEnvironment() override;
-
-    // 状态栏帮助类
-    StatusBarHelper* getStatusBar() { return &_statusBar; }
-
-    // 获取捕捉系统
-    wyap::SnapSystem* getSnapSystem() const { return _pSnapSystem.get(); }
-
-    // 文档激活/失活回调（管理 Scene 的 SnapSystem 注册）
-    virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
-    virtual void onDocumentToBeDeactivated(wyap::Document* pDocToDeactivate) override;
-
-    virtual void onCommandEnded(wyap::Command* pCmd) override;
-    virtual void onCommandAborted(
-        wyap::Command* pCmd,
-        wyap::CmdExecution::AbortCause abortCause) override;
-
-    const std::string& getLastEndedCommand()
-    {
-        return _lastEndedCmdName;
-    }
-
-    void fitView();
-    void viewISO();
 
 protected:
-    // wyap初始化
-    // <1>文档管理器
-    // <2>选择集管理器
-    // <3>命令堆栈
-    // <4>命令管理器
-    // <5>视图管理器
-    // <6>场景管理器
-    bool wyapInitialize();
+    Application();
+    ~Application() override;
 
-    // wyap退出(目前没有调用)
-    bool wyapTerminate();
+public:
+    // Create the Qt application and main window, load plugins, enter the gateway
+    // environment, then run the event loop. Returns the event loop's exit code.
+    virtual int runApplication(int argc, char** argv) = 0;
 
-private:
-    // 程序标题
-    QString _title;
-    // 主窗口
-    MainWindow* _pMainWindow;
-    // 停靠面板管理器
-    DockPanelManager* _pDockPanelManager;
-    // 状态栏帮助类
-    StatusBarHelper _statusBar;
-    // 配置项
-    Config* _pConfig;
-    // Auto save module
-    std::unique_ptr<AutoSave> _pAutoSave;
-    // Gizmo创建工厂
-    std::unique_ptr<GizmoFactory> _pGizmoFactory;
-    // 捕捉系统
-    std::unique_ptr<wyap::SnapSystem> _pSnapSystem;
-    // 选择过滤字符串
-    std::string _selectFilterString;
-    std::vector<std::string> _selFilterTokens;
-
-    std::string _lastEndedCmdName;
-
-    friend class MainWindow;
-
-private:
-    bool _idleRequested = false;
+    virtual StatusBarHelper* getStatusBar() = 0;
+    virtual MainWindow* getMainWindow() const = 0;
+    virtual void setCursor(CursorType cursorType) = 0;
 };
+
+// Returns the process-wide Application singleton (implemented by ApplicationImpl).
+// Never null; the caller does not own it.
+WY3DAPP_EXPORT Application* getApplication();
 
 } // namespace wy3dApp
 

@@ -35,6 +35,7 @@
 #include <wy3dSheet.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "scene/Colors.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
@@ -66,7 +67,7 @@ bool parseSubPathIndex(const std::string& subPath, unsigned int& index)
 MeasureGuiCmd::MeasureGuiCmd() : OsgGuiCommand(), _step(Step::Undefined),
     _mode(MeasureMode::PointToPoint), _tempUnhighlightedSel(wydb::ElementId::kNull), _pCmdPanel(nullptr)
 {
-    _pLengthLabel = std::make_unique<MeasureLengthLabel>(Application::instance().getMainWindow());
+    _pLengthLabel = std::make_unique<MeasureLengthLabel>(ApplicationImpl::instance().getMainWindow());
     assert(_pLengthLabel);
 
 }
@@ -90,7 +91,7 @@ wyap::CmdExecution::StartResult MeasureGuiCmd::onStart()
     this->gotoStep(Step::SpecifyStartPnt);
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::Locate);
+    ApplicationImpl::instance().setCursor(CursorType::Locate);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -241,7 +242,7 @@ void MeasureGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MeasureGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MeasureGuiCmd",
             "Specify the start point."));
 
         // 草图捕捉系统
@@ -261,7 +262,7 @@ void MeasureGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MeasureGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MeasureGuiCmd",
             "Specify the end point."));
 
         // 草图捕捉系统
@@ -275,7 +276,7 @@ void MeasureGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -448,20 +449,20 @@ void MeasureGuiCmd::setMode(MeasureMode mode)
         this->reset();
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     else
     {
         this->applyPickOptionForMode();
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 提示信息
         const char* tip = QT_TR_NOOP("Select an edge.");
         if (MeasureMode::Face == mode) tip = QT_TR_NOOP("Select a face.");
         else if (MeasureMode::Body == mode) tip = QT_TR_NOOP("Select a body.");
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("wy3dApp::MeasureGuiCmd", tip));
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("wy3dApp::MeasureGuiCmd", tip));
     }
 }
 
@@ -538,7 +539,7 @@ QVector<MeasureValue> MeasureGuiCmd::measureSelectionValues(const wyap::Selectio
 {
     QVector<MeasureValue> values;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return values;
 
     const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(sel.getElementId()));
@@ -688,7 +689,7 @@ void MeasureGuiCmd::configureContextMenu(ContextMenu& menu)
 bool MeasureGuiCmd::createCmdPanel()
 {
     QOpenGLWidget* pParentWidget = nullptr;
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (pMainWindow)
         pParentWidget = pMainWindow->findChild<QOpenGLWidget*>();
     if (!pParentWidget) return false;

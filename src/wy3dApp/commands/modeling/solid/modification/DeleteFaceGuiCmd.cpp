@@ -28,6 +28,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -165,9 +166,9 @@ void DeleteFaceGuiCmd::gotoStep(Step step)
     case Step::SelectFaces:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 拾取配置: 只能是片体的面
         _pointPickOption.allowedElemTypes = ElementNodeType::Sheet;
@@ -177,11 +178,11 @@ void DeleteFaceGuiCmd::gotoStep(Step step)
             _pSelSetHighlightor_Faces ? _pSelSetHighlightor_Faces->getSelectionSet() : wyap::SelectionSet());
 
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DeleteFaceGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DeleteFaceGuiCmd",
             "Select the faces to delete. Press Enter or Spacebar to confirm."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 预览
         _preview.clear();
@@ -308,7 +309,7 @@ bool DeleteFaceGuiCmd::createDeleteFace(const wyap::SelectionSet& faceSels, unsi
 {
     errorCode = 0;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     if (faceSels.isEmpty()) return false;
 

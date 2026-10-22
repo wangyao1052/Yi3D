@@ -32,6 +32,7 @@
 #include <wy3dMath.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "utils/MathUtils.h"
 
 namespace wy3dApp {
@@ -600,7 +601,7 @@ std::pair<Snap2dResultSPtr, wy::Vector2> Snap2dSystemImpl::snap(
     if (_isSnap3dEnabled)
     {
         wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
-        wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(
+        wyap::SnapResultSPtr pSnapResult = ApplicationImpl::instance().getSnapSystem()->snap(
             x, y, pSnapContext, excludeIds, false);
         if (pSnapResult)
         {
@@ -642,7 +643,7 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImpl(
     const wy::Vector2& pos, const std::set<wydb::ElementId>& excludeIds,
     std::shared_ptr<Snap2dContext> pContext)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) { assert(false); return nullptr; }
 
     // partiallyUpdate clears the snap context, so apply pending changes first.

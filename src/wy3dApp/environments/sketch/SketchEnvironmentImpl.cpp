@@ -26,6 +26,7 @@
 #include <wy3dSketch.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -155,18 +156,18 @@ void SketchEnvironmentImpl::onEnter()
     _pUI->initialize(this);
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // Drop the leftover modeling snap marker; the 2D layer draws its own.
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
     // 同步显示模式按钮状态
     this->syncDisplayModeAction();
 
     // 开启顶层事务组
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -216,8 +217,8 @@ void SketchEnvironmentImpl::onEnter()
     _pTopTrans = pGroupTrans;
 
     // 草图视图
-    Application::instance().getCmdManager()->postCommand(CommandNames::OrientToSketch);
-    Application::instance().getCmdManager()->postCommand(CommandNames::Select);
+    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::OrientToSketch);
+    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     // Update command action states.
     this->updateCommandActionStates();
@@ -252,11 +253,11 @@ wy3d::Sketch* SketchEnvironmentImpl::newSketch(wydb::Database* pDb)
 void SketchEnvironmentImpl::onExit(ExitCode exitCode)
 {
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     if (pDb)
     {
@@ -268,7 +269,7 @@ void SketchEnvironmentImpl::onExit(ExitCode exitCode)
     }
 
     // 草图视图
-    Application::instance().getCmdManager()->postCommand(CommandNames::IsometricView);
+    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::IsometricView);
 
     _pUI->teardown(this);
     this->removeCommands();
@@ -325,9 +326,9 @@ void SketchEnvironmentImpl::onSuspend()
     this->removeCommands();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     EnvironmentBase::onSuspend();
     wyap::TaskEnvironment::onSuspend();
@@ -342,9 +343,9 @@ void SketchEnvironmentImpl::onResume()
     _pUI->initialize(this);
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     this->updateCommandActionStates();
 
@@ -362,7 +363,7 @@ void SketchEnvironmentImpl::updateUndoRedoActionStates()
         return;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

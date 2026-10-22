@@ -33,6 +33,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/OsgCoordUtil.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap3d/Sketch3DSnapContext.h"
@@ -111,7 +112,7 @@ bool SketchDrawCircle3DGuiCmd::finishStep(unsigned int step)
     {
     case Step::SpecifyCenterPnt:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb)
         {
             assert(false);
@@ -184,7 +185,7 @@ void SketchDrawCircle3DGuiCmd::gotoStep(unsigned int step)
     case Step::SpecifyCenterPnt:
     {
         _pSnapContext = std::make_shared<Sketch3DLocateContext>();
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle3DGuiCmd",
             "Specify the center point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -192,7 +193,7 @@ void SketchDrawCircle3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyRadius:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle3DGuiCmd",
             "Specify the radius; you can directly input the value. "
             "Press Space to switch the drawing plane."));
     }
@@ -200,7 +201,7 @@ void SketchDrawCircle3DGuiCmd::gotoStep(unsigned int step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -295,7 +296,7 @@ void SketchDrawCircle3DGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawCircle3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
     {
         assert(false);

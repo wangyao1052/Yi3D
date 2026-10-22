@@ -29,6 +29,7 @@
 
 #include <wy3dApp/ModelingEnvironment.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/CommandAction.h>
 #include "commands/CommandNames.h"
@@ -1218,7 +1219,7 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
         wy3dApp::ToolBarNames::Test);
 #endif // _DEBUG
 
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     assert(pMainWindow);
     if (!pMainWindow)
     {

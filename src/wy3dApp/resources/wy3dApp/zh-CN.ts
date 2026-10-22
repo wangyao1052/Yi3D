@@ -4,12 +4,12 @@
 <context>
     <name>BooleanGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/boolean/BooleanGuiCmds.cpp" line="309"/>
+        <location filename="../../commands/modeling/solid/boolean/BooleanGuiCmds.cpp" line="310"/>
         <source>Select the target solid.</source>
         <translation type="unfinished">选择目标体。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/boolean/BooleanGuiCmds.cpp" line="331"/>
+        <location filename="../../commands/modeling/solid/boolean/BooleanGuiCmds.cpp" line="332"/>
         <source>Select one or more tool solids; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择一个或多个参与体；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
@@ -21,12 +21,12 @@
         <translation type="obsolete">选择边线或面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="186"/>
+        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="187"/>
         <source>Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择边线或面；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="207"/>
+        <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="208"/>
         <source>Input chamfer parameters.</source>
         <translation>输入倒角参数。</translation>
     </message>
@@ -38,12 +38,12 @@
 <context>
     <name>CircularPatternGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="213"/>
+        <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="214"/>
         <source>Select the solid feature to pattern.</source>
         <translation type="unfinished">选择要阵列的实体特征。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="233"/>
+        <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="234"/>
         <source>Select a cylindrical face.</source>
         <translation type="unfinished">选择圆柱面。</translation>
     </message>
@@ -52,7 +52,7 @@
         <translation type="obsolete">选择实体圆柱面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="268"/>
+        <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="269"/>
         <source>Circular Pattern</source>
         <translation type="unfinished">圆周阵列</translation>
     </message>
@@ -836,12 +836,12 @@
 <context>
     <name>CopyGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="259"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="260"/>
         <source>Select elements to copy; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要复制的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="276"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="277"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定基准点；可输入具体坐标值。</translation>
     </message>
@@ -850,7 +850,7 @@
         <translation type="obsolete">基准点</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="301"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="302"/>
         <source>Specify the move vector; you can directly input the values.</source>
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
     </message>
@@ -863,12 +863,12 @@
         <translation type="obsolete">移动向量</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="426"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="427"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="427"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="428"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -884,17 +884,17 @@
 <context>
     <name>CopyPasteUtil</name>
     <message>
-        <location filename="../../utils/CopyPasteUtil.cpp" line="183"/>
+        <location filename="../../utils/CopyPasteUtil.cpp" line="184"/>
         <source>Copy error.</source>
         <translation type="unfinished">复制出错！</translation>
     </message>
     <message>
-        <location filename="../../utils/CopyPasteUtil.cpp" line="188"/>
+        <location filename="../../utils/CopyPasteUtil.cpp" line="189"/>
         <source>The elements does not support copying.</source>
         <translation type="unfinished">元素不支持复制！</translation>
     </message>
     <message>
-        <location filename="../../utils/CopyPasteUtil.cpp" line="268"/>
+        <location filename="../../utils/CopyPasteUtil.cpp" line="269"/>
         <source>Paste error.</source>
         <translation type="unfinished">粘贴出错！</translation>
     </message>
@@ -906,32 +906,32 @@
         <translation type="obsolete">选择基准面或实体平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="243"/>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="819"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="244"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="820"/>
         <source>Select solid edge or solid face or datum plane to determine the rotation axis.</source>
         <translation type="unfinished">选择实体边、实体面或基准面以确定旋转轴线。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="419"/>
-        <location filename="../../commands/datumPlane/CoincidentDatumPlnCmd.cpp" line="112"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="162"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="420"/>
+        <location filename="../../commands/datumPlane/CoincidentDatumPlnCmd.cpp" line="113"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="163"/>
         <source>Select a planar face or datum plane.</source>
         <translation type="unfinished">选择平面或基准面。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="474"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="475"/>
         <source>Specify the rotation angle.</source>
         <translation type="unfinished">指定旋转角度。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="704"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="759"/>
-        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="349"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="705"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="760"/>
+        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="350"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="887"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="888"/>
         <source>Select solid edge or solid face or datum plane to determine the X axis.</source>
         <translation type="unfinished">选择实体边、实体面或基准面以确定新基准面的X轴。</translation>
     </message>
@@ -944,21 +944,21 @@
         <translation type="obsolete">选择实体边、草图曲线或 3D 草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="408"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="409"/>
         <source>Select an edge, sketch curve or 3D sketch curve.</source>
         <translation type="unfinished">选择边、草图曲线或 3D 草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="436"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="183"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="437"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="184"/>
         <source>Specify through point or directly input the distance value.</source>
         <translation type="unfinished">指定通过点或直接输入距离值。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="613"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="755"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="762"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="317"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="614"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="756"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="763"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="318"/>
         <source>Distance</source>
         <translation type="unfinished">距离</translation>
     </message>
@@ -967,7 +967,7 @@
         <translation type="obsolete">选择实体边。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="118"/>
+        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="119"/>
         <source>Specify the first point.</source>
         <translation type="unfinished">指定第一点。</translation>
     </message>
@@ -976,7 +976,7 @@
         <translation type="obsolete">第一点</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="135"/>
+        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="136"/>
         <source>Specify the second point.</source>
         <translation type="unfinished">指定第二点。</translation>
     </message>
@@ -985,7 +985,7 @@
         <translation type="obsolete">第二点</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="152"/>
+        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="153"/>
         <source>Specify the third point.</source>
         <translation type="unfinished">指定第三点。</translation>
     </message>
@@ -994,9 +994,9 @@
         <translation type="obsolete">第三点</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="254"/>
-        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="260"/>
-        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="266"/>
+        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="255"/>
+        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="261"/>
+        <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="267"/>
         <source>The three points are collinear and cannot define a unique plane.</source>
         <translation type="unfinished">三点共线无法确定唯一平面。</translation>
     </message>
@@ -1005,12 +1005,12 @@
         <translation type="obsolete">选择实体圆柱面。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="169"/>
+        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="170"/>
         <source>Select a cylindrical face.</source>
         <translation type="unfinished">选择圆柱面。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="195"/>
+        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="196"/>
         <source>Specify rotation angle.</source>
         <translation type="unfinished">指定旋转角度。</translation>
     </message>
@@ -1018,7 +1018,7 @@
 <context>
     <name>DeleteFaceGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/modification/DeleteFaceGuiCmd.cpp" line="180"/>
+        <location filename="../../commands/modeling/solid/modification/DeleteFaceGuiCmd.cpp" line="181"/>
         <source>Select the faces to delete. Press Enter or Spacebar to confirm.</source>
         <translation type="unfinished">选择要删除的面；按 Enter 键或空格键将完成操作。</translation>
     </message>
@@ -1026,27 +1026,27 @@
 <context>
     <name>DraftGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/modification/DraftGuiCmd.cpp" line="196"/>
+        <location filename="../../commands/modeling/solid/modification/DraftGuiCmd.cpp" line="197"/>
         <source>Select faces to draft. Press Enter or Spacebar to confirm. Press Esc to cancel.</source>
         <translation type="unfinished">选择要拔模的面；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/DraftGuiCmd.cpp" line="216"/>
+        <location filename="../../commands/modeling/solid/modification/DraftGuiCmd.cpp" line="217"/>
         <source>Select neutral face.</source>
         <translation type="unfinished">选择中性面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/DraftGuiCmd.cpp" line="241"/>
+        <location filename="../../commands/modeling/solid/modification/DraftGuiCmd.cpp" line="242"/>
         <source>Input draft angle.</source>
         <translation type="unfinished">输入拔模角度。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/DraftGuiCmd.cpp" line="252"/>
+        <location filename="../../commands/modeling/solid/modification/DraftGuiCmd.cpp" line="253"/>
         <source>Draft</source>
         <translation type="unfinished">拔模</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/DraftGuiCmd.cpp" line="253"/>
+        <location filename="../../commands/modeling/solid/modification/DraftGuiCmd.cpp" line="254"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -1107,7 +1107,7 @@
 <context>
     <name>Extend</name>
     <message>
-        <location filename="../../commands/sketch/SketchExtendGuiCmd.cpp" line="128"/>
+        <location filename="../../commands/sketch/SketchExtendGuiCmd.cpp" line="129"/>
         <source>Select sketch entities to extend.</source>
         <translation type="unfinished">选择要延伸的草图图元。</translation>
     </message>
@@ -1115,7 +1115,7 @@
 <context>
     <name>ExtrudeGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="326"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="327"/>
         <source>Select the sketch to extrude.</source>
         <translation type="unfinished">选择草图。</translation>
     </message>
@@ -1128,27 +1128,27 @@
         <translation type="vanished">指定拉伸深度；可输入具体值。按 Tab 切换拉伸方向。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="342"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="343"/>
         <source>Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction (One Side / Symmetric).</source>
         <translation>指定拉伸深度；可输入具体值。按 Tab 切换拉伸方向（单侧/对称）。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="563"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="564"/>
         <source>Depth</source>
         <translation>深度</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="564"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="565"/>
         <source>Direction</source>
         <translation>方向</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="617"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="618"/>
         <source>Symmetric</source>
         <translation type="unfinished">对称</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="618"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="619"/>
         <source>One Side</source>
         <translation type="unfinished">单侧</translation>
     </message>
@@ -1161,7 +1161,7 @@
         <translation type="obsolete">拉伸深度</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="378"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="379"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
     </message>
@@ -1169,32 +1169,32 @@
 <context>
     <name>ExtrudedSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="308"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="309"/>
         <source>Select the sketch to extrude.</source>
         <translation type="unfinished">选择草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="321"/>
         <source>Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction (One Side / Symmetric).</source>
         <translation type="unfinished">指定拉伸深度；可输入具体值。按 Tab 切换拉伸方向（单侧/对称）。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="533"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="534"/>
         <source>Depth</source>
         <translation>深度</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="534"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="535"/>
         <source>Direction</source>
         <translation>方向</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="578"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="579"/>
         <source>Symmetric</source>
         <translation type="unfinished">对称</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="579"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="580"/>
         <source>One Side</source>
         <translation type="unfinished">单侧</translation>
     </message>
@@ -1210,24 +1210,24 @@
 <context>
     <name>FileCmds</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="83"/>
+        <location filename="../../commands/FileCommands.cpp" line="84"/>
         <source>Do you want to save the changes to</source>
         <translation type="unfinished">是否将更改保存到</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="85"/>
-        <location filename="../../commands/FileCommands.cpp" line="452"/>
+        <location filename="../../commands/FileCommands.cpp" line="86"/>
+        <location filename="../../commands/FileCommands.cpp" line="453"/>
         <source>Yes</source>
         <translation type="unfinished">是</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="86"/>
-        <location filename="../../commands/FileCommands.cpp" line="453"/>
+        <location filename="../../commands/FileCommands.cpp" line="87"/>
+        <location filename="../../commands/FileCommands.cpp" line="454"/>
         <source>No</source>
         <translation type="unfinished">否</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="87"/>
+        <location filename="../../commands/FileCommands.cpp" line="88"/>
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
@@ -1236,7 +1236,7 @@
         <translation type="obsolete">%1 (*.%2)</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="153"/>
+        <location filename="../../commands/FileCommands.cpp" line="154"/>
         <source>Save file</source>
         <translation type="unfinished">保存文件</translation>
     </message>
@@ -1245,69 +1245,69 @@
         <translation type="obsolete">未命名.wy3dt</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="129"/>
-        <location filename="../../commands/FileCommands.cpp" line="417"/>
+        <location filename="../../commands/FileCommands.cpp" line="130"/>
+        <location filename="../../commands/FileCommands.cpp" line="418"/>
         <source>YI3D Text files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="132"/>
-        <location filename="../../commands/FileCommands.cpp" line="418"/>
+        <location filename="../../commands/FileCommands.cpp" line="133"/>
+        <location filename="../../commands/FileCommands.cpp" line="419"/>
         <source>YI3D Binary files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="256"/>
+        <location filename="../../commands/FileCommands.cpp" line="257"/>
         <source>unnamed</source>
         <translation type="unfinished">未命名</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="416"/>
+        <location filename="../../commands/FileCommands.cpp" line="417"/>
         <source>All YI3D files (*.%1 *.%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="422"/>
+        <location filename="../../commands/FileCommands.cpp" line="423"/>
         <source>Open file</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="449"/>
+        <location filename="../../commands/FileCommands.cpp" line="450"/>
         <source>Do you want to revert to the saved version?</source>
         <translation type="unfinished">您要返回到存储版本吗？</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="485"/>
+        <location filename="../../commands/FileCommands.cpp" line="486"/>
         <source>Opening %1...</source>
         <translation>正在打开 %1…</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="583"/>
+        <location filename="../../commands/FileCommands.cpp" line="584"/>
         <source>Export file</source>
         <translation type="unfinished">导出文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="606"/>
+        <location filename="../../commands/FileCommands.cpp" line="607"/>
         <source>Export file failed!</source>
         <translation type="unfinished">导出文件失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="794"/>
+        <location filename="../../commands/FileCommands.cpp" line="795"/>
         <source>Cannot import a sketch while editing a sketch!</source>
         <translation>草图编辑中不能导入草图！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="819"/>
+        <location filename="../../commands/FileCommands.cpp" line="820"/>
         <source>Import sketch</source>
         <translation>导入草图</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="835"/>
+        <location filename="../../commands/FileCommands.cpp" line="836"/>
         <source>Import sketch failed!</source>
         <translation>导入草图失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="870"/>
+        <location filename="../../commands/FileCommands.cpp" line="871"/>
         <source>Please select a sketch first!</source>
         <translation>请先选择草图！</translation>
     </message>
@@ -1316,12 +1316,12 @@
         <translation type="vanished">所选元素不支持导出。</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="679"/>
+        <location filename="../../commands/FileCommands.cpp" line="680"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="689"/>
+        <location filename="../../commands/FileCommands.cpp" line="690"/>
         <source>Export failed!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1334,22 +1334,22 @@
         <translation type="obsolete">导出实体失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="895"/>
+        <location filename="../../commands/FileCommands.cpp" line="896"/>
         <source>Export sketch</source>
         <translation>导出草图</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="912"/>
+        <location filename="../../commands/FileCommands.cpp" line="913"/>
         <source>Export sketch failed!</source>
         <translation>导出草图失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="721"/>
+        <location filename="../../commands/FileCommands.cpp" line="722"/>
         <source>Import file</source>
         <translation>导入文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="743"/>
+        <location filename="../../commands/FileCommands.cpp" line="744"/>
         <source>Import file failed!</source>
         <translation type="unfinished">导入文件失败！</translation>
     </message>
@@ -1365,7 +1365,7 @@
         <translation type="vanished">选择二维或三维草图，或选择实体或曲面的边创建填充曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="467"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="468"/>
         <source>Select the boundary of the filled surface: a 2D or 3D sketch, or edges of a solid or sheet.</source>
         <translation>选择填充曲面的边界：二维或三维草图，或实体或曲面的边。</translation>
     </message>
@@ -1378,23 +1378,23 @@
         <translation type="vanished">选择约束曲线（可选）；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="510"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="511"/>
         <source>Select constraint curves (optional); press Enter or Spacebar to complete.</source>
         <translation>选择约束曲线（可选）；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="849"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="861"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="870"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="884"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="850"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="862"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="871"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="885"/>
         <source>Sketch not found</source>
         <translation>草图不存在</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="853"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="858"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="876"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="881"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="854"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="859"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="877"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="882"/>
         <source>Sketch is already in use</source>
         <translation>草图已被其他特征使用</translation>
     </message>
@@ -1403,8 +1403,8 @@
         <translation type="vanished">选择边围成闭合环，闭合后自动创建填充曲面；按 Esc 清除已选边。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="483"/>
-        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="815"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="484"/>
+        <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="816"/>
         <source>Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation type="unfinished">选择边线围合成一个或多个环；按 Enter 键或空格键将完成操作；按 Esc 键将清除已选边。</translation>
     </message>
@@ -1412,12 +1412,12 @@
 <context>
     <name>FilletGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/modification/FilletGuiCmd.cpp" line="180"/>
+        <location filename="../../commands/modeling/solid/modification/FilletGuiCmd.cpp" line="181"/>
         <source>Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择边线或面；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/FilletGuiCmd.cpp" line="201"/>
+        <location filename="../../commands/modeling/solid/modification/FilletGuiCmd.cpp" line="202"/>
         <source>Input fillet radius.</source>
         <translation type="unfinished">输入圆角半径。</translation>
     </message>
@@ -1425,37 +1425,37 @@
 <context>
     <name>FindElementByIdCommand</name>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="101"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="102"/>
         <source>Find Element By ID</source>
         <translation>按 ID 查找元素</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="102"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="103"/>
         <source>Element IDs (separated by ; , or space):</source>
         <translation>元素 ID（用分号、逗号或空格分隔）：</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="239"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="240"/>
         <source>IDs not found: %1</source>
         <translation>未找到的 ID：%1</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="132"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="133"/>
         <source>No valid element IDs were entered.</source>
         <translation>未输入有效的元素 ID。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="244"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="245"/>
         <source>In the sketch environment, only entities of the current sketch can be found: %1</source>
         <translation>草图环境下只能查找当前草图内的图元：%1</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="250"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="251"/>
         <source>In the 3D sketch environment, only entities of the current 3D sketch can be found: %1</source>
         <translation>3D草图环境下只能查找当前3D草图内的图元：%1</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="267"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="268"/>
         <source>Selected %1 element(s).</source>
         <translation>已选中 %1 个元素。</translation>
     </message>
@@ -1464,7 +1464,7 @@
         <translation type="vanished"> %1 个元素在当前环境下不显示。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="271"/>
+        <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="272"/>
         <source> %1 ID(s) invalid.</source>
         <translation> %1 个 ID 无效。</translation>
     </message>
@@ -1505,22 +1505,22 @@
 <context>
     <name>GuiCommand</name>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="178"/>
+        <location filename="../../commands/GuiCommand.cpp" line="179"/>
         <source>Complete Selection</source>
         <translation>完成选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="187"/>
+        <location filename="../../commands/GuiCommand.cpp" line="188"/>
         <source>Clear Selection</source>
         <translation>清除选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="204"/>
+        <location filename="../../commands/GuiCommand.cpp" line="205"/>
         <source>Property</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="217"/>
+        <location filename="../../commands/GuiCommand.cpp" line="218"/>
         <source>World Coordinate System</source>
         <translation>世界坐标系</translation>
     </message>
@@ -1528,12 +1528,12 @@
 <context>
     <name>HelixGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/curves/HelixGuiCmd.cpp" line="145"/>
+        <location filename="../../commands/modeling/curves/HelixGuiCmd.cpp" line="146"/>
         <source>Select a sketch that contains a single circle.</source>
         <translation type="unfinished">选择包含单一圆的草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/curves/HelixGuiCmd.cpp" line="157"/>
+        <location filename="../../commands/modeling/curves/HelixGuiCmd.cpp" line="158"/>
         <source>Input helix data.</source>
         <translation type="unfinished">无效的螺旋线数据。</translation>
     </message>
@@ -1549,18 +1549,18 @@
 <context>
     <name>LinearPatternGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/LinearPatternGuiCmd.cpp" line="225"/>
+        <location filename="../../commands/edit/LinearPatternGuiCmd.cpp" line="226"/>
         <source>Select the solid feature to pattern.</source>
         <translation type="unfinished">选择要阵列的实体特征。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/LinearPatternGuiCmd.cpp" line="245"/>
+        <location filename="../../commands/edit/LinearPatternGuiCmd.cpp" line="246"/>
         <source>Select datum plane as working plane to determine the direction of the linear pattern.</source>
         <translation type="unfinished">选择基准面以确定线性阵列的方向。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="255"/>
-        <location filename="../../commands/edit/LinearPatternGuiCmd.cpp" line="262"/>
+        <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="256"/>
+        <location filename="../../commands/edit/LinearPatternGuiCmd.cpp" line="263"/>
         <source>Input pattern data.</source>
         <translation type="unfinished">输入阵列数据。</translation>
     </message>
@@ -1568,12 +1568,12 @@
 <context>
     <name>LoftGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/LoftGuiCmd.cpp" line="286"/>
+        <location filename="../../commands/modeling/solid/generation/LoftGuiCmd.cpp" line="287"/>
         <source>Select at least two profiles. Press Enter or Spacebar to confirm. Press Esc to cancel.</source>
         <translation type="unfinished">选择至少两个轮廓；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/LoftGuiCmd.cpp" line="324"/>
+        <location filename="../../commands/modeling/solid/generation/LoftGuiCmd.cpp" line="325"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
     </message>
@@ -1581,7 +1581,7 @@
 <context>
     <name>LoftedSheet</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/LoftedSheetGuiCmd.cpp" line="175"/>
+        <location filename="../../commands/modeling/sheet/generation/LoftedSheetGuiCmd.cpp" line="176"/>
         <source>Select at least two profiles. Press Enter or Spacebar to confirm. Press Esc to cancel.</source>
         <translation type="unfinished">选择至少两个轮廓；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
@@ -1615,17 +1615,17 @@
         <translation type="unfinished">快捷键</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="188"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="189"/>
         <source>Save</source>
         <translation type="unfinished">保存</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="200"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="201"/>
         <source>Import</source>
         <translation type="unfinished">导入</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="195"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="196"/>
         <source>Save As</source>
         <translation type="unfinished">另存为</translation>
     </message>
@@ -1638,280 +1638,280 @@
         <translation type="obsolete">相机</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1200"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1201"/>
         <source>Modeling</source>
         <translation type="unfinished">建模</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="257"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="258"/>
         <source>New Sketch</source>
         <translation type="unfinished">创建草图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1256"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="149"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1257"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="150"/>
         <source>Sketch</source>
         <translation type="unfinished">草图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="153"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="154"/>
         <source>Sketch Edit</source>
         <translation type="unfinished">草图编辑</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="357"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="358"/>
         <source>Point</source>
         <translation type="unfinished">点</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="367"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="204"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="368"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="205"/>
         <source>Line</source>
         <translation type="unfinished">线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="377"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="378"/>
         <source>Line Tangent</source>
         <translation type="unfinished">相切线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="383"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="384"/>
         <source>Center Line</source>
         <translation type="unfinished">中心线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="722"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="723"/>
         <source>Line Series</source>
         <translation type="unfinished">绘制线命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="389"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="244"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="390"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="245"/>
         <source>Rectangle</source>
         <translation type="unfinished">矩形</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="266"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="267"/>
         <source>Scale</source>
         <translation type="unfinished">缩放</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="276"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="322"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="277"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="323"/>
         <source>Trim</source>
         <translation type="unfinished">修剪</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="286"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="332"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="287"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="333"/>
         <source>Extend</source>
         <translation type="unfinished">延伸</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="296"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="342"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="297"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="343"/>
         <source>Sketch Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="306"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="352"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="307"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="353"/>
         <source>Sketch Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="316"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="317"/>
         <source>Sketch Offset</source>
         <translation type="unfinished">偏移草图曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="505"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="506"/>
         <source>Project Edge</source>
         <translation type="unfinished">投影边</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="326"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="327"/>
         <source>Sketch Rect Array</source>
         <translation type="unfinished">矩形阵列</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="336"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="337"/>
         <source>Sketch Polar Array</source>
         <translation type="unfinished">环形阵列</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="399"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="254"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="400"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="255"/>
         <source>CenterRectangle</source>
         <translation type="unfinished">中心矩形</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="405"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="406"/>
         <source>Polygon</source>
         <translation type="unfinished">多边形</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="415"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="214"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="416"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="215"/>
         <source>Circle</source>
         <translation type="unfinished">圆</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="425"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="426"/>
         <source>Circle by 3 Points</source>
         <translation type="unfinished">周边圆</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="431"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="224"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="432"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="225"/>
         <source>Arc</source>
         <translation type="unfinished">圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="441"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="234"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="442"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="235"/>
         <source>Arc by 3 Points</source>
         <translation type="unfinished">三点圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="447"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="448"/>
         <source>Tangent Arc</source>
         <translation>相切圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="453"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="260"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="454"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="261"/>
         <source>Ellipse</source>
         <translation type="unfinished">椭圆</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="463"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="270"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="464"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="271"/>
         <source>Ellipse Arc</source>
         <translation type="unfinished">椭圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="473"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="276"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="474"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="277"/>
         <source>Spline</source>
         <translation type="unfinished">样条曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="483"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="286"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="484"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="287"/>
         <source>Style Spline</source>
         <translation type="unfinished">样式样条曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="489"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="490"/>
         <source>Equation Driven Spline</source>
         <translation type="unfinished">方程式驱动样条曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="675"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="556"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="676"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="557"/>
         <source>Trim Series</source>
         <translation type="unfinished">修剪命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="685"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="566"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="686"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="567"/>
         <source>Fillet Series</source>
         <translation type="unfinished">圆角命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="697"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="698"/>
         <source>Array Series</source>
         <translation type="unfinished">阵列命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="732"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="523"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="733"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="524"/>
         <source>Rectangle Series</source>
         <translation type="unfinished">矩形命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="744"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="745"/>
         <source>Circle Series</source>
         <translation type="unfinished">圆命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="755"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="513"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="756"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="514"/>
         <source>Arc Series</source>
         <translation type="unfinished">圆弧命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="765"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="533"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="766"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="534"/>
         <source>Ellipse Series</source>
         <translation type="unfinished">椭圆命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="776"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="543"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="777"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="544"/>
         <source>Spline Series</source>
         <translation type="unfinished">样条曲线命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="495"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="496"/>
         <source>Sketch Text</source>
         <translation type="unfinished">草图文字</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="522"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="523"/>
         <source>End Sketch</source>
         <translation type="unfinished">结束草图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="528"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="529"/>
         <source>Cancel Sketch</source>
         <translation type="unfinished">取消草图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="534"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="535"/>
         <source>Relocate Sketch CSYS</source>
         <translation type="unfinished">重定位草图坐标系</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="596"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="597"/>
         <source>Orient to Sketch</source>
         <translation type="unfinished">草图视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1195"/>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1263"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="144"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="184"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="120"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="156"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1196"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1264"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="145"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="185"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="121"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="157"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="903"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="904"/>
         <source>Primitive</source>
         <translation type="unfinished">基础几何体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="897"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="898"/>
         <source>Boolean</source>
         <translation type="unfinished">布尔运算</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="157"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="158"/>
         <source>SketchEnvironment</source>
         <translation type="unfinished">草图环境</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1208"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="161"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="133"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1209"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="162"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="134"/>
         <source>Utility</source>
         <translation type="unfinished">实用工具</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1217"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1218"/>
         <source>Test</source>
         <translation type="unfinished">测试</translation>
     </message>
@@ -1940,59 +1940,59 @@
         <translation type="obsolete">保存文件</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="228"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="203"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="175"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="229"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="204"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="176"/>
         <source>Undo</source>
         <translation type="unfinished">撤销</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="235"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="210"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="182"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="236"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="211"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="183"/>
         <source>Redo</source>
         <translation type="unfinished">重做</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="251"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="351"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="198"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="252"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="352"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="199"/>
         <source>Select</source>
         <translation type="unfinished">选择</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="488"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="489"/>
         <source>Box</source>
         <translation type="unfinished">长方体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="205"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1597"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="206"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1598"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="495"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="496"/>
         <source>Cylinder</source>
         <translation type="unfinished">圆柱体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="502"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="503"/>
         <source>Sphere</source>
         <translation type="unfinished">球体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="509"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="510"/>
         <source>Cone</source>
         <translation type="unfinished">圆锥体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="516"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="517"/>
         <source>Torus</source>
         <translation type="unfinished">圆环体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="523"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="524"/>
         <source>Tube</source>
         <translation type="unfinished">圆管</translation>
     </message>
@@ -2022,85 +2022,85 @@
         <translation>选项</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="566"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="236"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="567"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="237"/>
         <source>Move</source>
         <translation type="unfinished">移动</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1526"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1543"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1527"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1544"/>
         <source>View Normal To</source>
         <translation type="unfinished">正视于</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1535"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1536"/>
         <source>Edit 3D Sketch</source>
         <translation>编辑3D草图</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="200"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1565"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="201"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1566"/>
         <source>Show</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="208"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1574"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="209"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1575"/>
         <source>Hide</source>
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="550"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="226"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1583"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="551"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="227"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1584"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="544"/>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="649"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="555"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="400"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="545"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="650"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="556"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="401"/>
         <source>Fit Selection</source>
         <translation>缩放到选择</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="561"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1626"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="562"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1627"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="573"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="246"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="574"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="247"/>
         <source>Rotate</source>
         <translation type="unfinished">旋转</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="539"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="540"/>
         <source>Union</source>
         <translation type="unfinished">并集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="654"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="561"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="406"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="655"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="562"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="407"/>
         <source>Isometric View</source>
         <translation type="unfinished">等轴测视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="770"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="771"/>
         <source>Datum Plane</source>
         <translation type="unfinished">基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="823"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="824"/>
         <source>Sheet Generation Series</source>
         <translation type="unfinished">曲面生成命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="834"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="835"/>
         <source>Sheet Build Series</source>
         <translation type="unfinished">曲面构建命令集</translation>
     </message>
@@ -2109,220 +2109,220 @@
         <translation type="obsolete">凸台命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1119"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1120"/>
         <source>Transform Series</source>
         <translation type="unfinished">变换命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1047"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1048"/>
         <source>Datum Plane Series</source>
         <translation type="unfinished">基准面命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="281"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="282"/>
         <source>Coincident Datum Plane</source>
         <translation type="unfinished">重合 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="275"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="276"/>
         <source>Parallel Datum Plane</source>
         <translation type="unfinished">平行 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="287"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="288"/>
         <source>Angular Datum Plane</source>
         <translation type="unfinished">成角度 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="293"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="294"/>
         <source>Perpendicular Datum Plane</source>
         <translation type="unfinished">垂直 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="299"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="300"/>
         <source>Through Axis Datum Plane</source>
         <translation type="unfinished">按轴重合 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="305"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="306"/>
         <source>Normal To Curve Datum Plane</source>
         <translation type="unfinished">垂直于曲线 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="311"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="312"/>
         <source>Through 3 Points Datum Plane</source>
         <translation type="unfinished">过3点 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="317"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="318"/>
         <source>Tangent Datum Plane</source>
         <translation type="unfinished">相切 基准面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="545"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="546"/>
         <source>Subtract</source>
         <translation type="unfinished">差集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="551"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="552"/>
         <source>Intersect</source>
         <translation type="unfinished">交集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="329"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="330"/>
         <source>Extrude</source>
         <translation type="unfinished">拉伸</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="210"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="211"/>
         <source>Import Sketch</source>
         <translation>导入草图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="215"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1520"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="216"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1521"/>
         <source>Export Sketch</source>
         <translation>导出草图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="263"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="264"/>
         <source>New 3D Sketch</source>
         <translation>创建3D草图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="269"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1514"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="270"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1515"/>
         <source>Edit Sketch</source>
         <translation type="unfinished">编辑草图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="323"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="324"/>
         <source>Helix</source>
         <translation type="unfinished">螺旋线</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="335"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="336"/>
         <source>Extruded Sheet</source>
         <translation>拉伸曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="341"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="342"/>
         <source>Revolved Sheet</source>
         <translation type="unfinished">旋转曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="347"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="348"/>
         <source>Swept Sheet</source>
         <translation type="unfinished">扫掠曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="353"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="354"/>
         <source>Lofted Sheet</source>
         <translation type="unfinished">放样曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="359"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="360"/>
         <source>Planar Sheet</source>
         <translation>平面曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="365"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="366"/>
         <source>Filled Surface</source>
         <translation>填充曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="371"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="372"/>
         <source>Sewn Sheet</source>
         <translation>缝合曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="377"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="378"/>
         <source>Thicken</source>
         <translation>加厚</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="383"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="384"/>
         <source>Solidify</source>
         <translation>实体化</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="389"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="390"/>
         <source>Offset Sheet</source>
         <translation>偏置曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="395"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="396"/>
         <source>Revolve</source>
         <translation type="unfinished">旋转</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="401"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="402"/>
         <source>Sweep</source>
         <translation>扫描</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="407"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="408"/>
         <source>Loft</source>
         <translation>放样</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="413"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="414"/>
         <source>Extrude Cut</source>
         <translation type="unfinished">拉伸切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="419"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="420"/>
         <source>Revolve Cut</source>
         <translation type="unfinished">旋转切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="425"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="426"/>
         <source>Sweep Cut</source>
         <translation type="unfinished">扫描切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="431"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="432"/>
         <source>Loft Cut</source>
         <translation type="unfinished">放样切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="437"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="438"/>
         <source>Merge</source>
         <translation type="unfinished">合并</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="443"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="444"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="449"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="450"/>
         <source>Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="455"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="456"/>
         <source>Shell</source>
         <translation type="unfinished">抽壳</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="461"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="462"/>
         <source>Draft</source>
         <translation type="unfinished">拔模</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="467"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="468"/>
         <source>Split Face</source>
         <translation type="unfinished">分割面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="473"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="474"/>
         <source>Delete Face</source>
         <translation type="unfinished">删除面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="580"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="256"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="581"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="257"/>
         <source>Mirror</source>
         <translation type="unfinished">镜像</translation>
     </message>
@@ -2335,33 +2335,33 @@
         <translation type="obsolete">等轴测视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="689"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="601"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="441"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="690"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="602"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="442"/>
         <source>Shaded with Edges</source>
         <translation>着色带边框</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="694"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="606"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="446"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="695"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="607"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="447"/>
         <source>Shaded</source>
         <translation>着色</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="699"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="611"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="451"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="700"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="612"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="452"/>
         <source>Wireframe</source>
         <translation>线框</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="714"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="715"/>
         <source>TopoName</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="720"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="721"/>
         <source>CheckTopoName</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2374,64 +2374,64 @@
         <translation type="obsolete">曲面构建命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="846"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="847"/>
         <source>Face Modify Series</source>
         <translation type="unfinished">面修改命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="857"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="858"/>
         <source>Solidify Series</source>
         <translation type="unfinished">实体化命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="873"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="874"/>
         <source>Boss</source>
         <translation type="unfinished">凸台</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="880"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="881"/>
         <source>Cut</source>
         <translation type="unfinished">切除</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="889"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="890"/>
         <source>Modification</source>
         <translation type="unfinished">修改</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="912"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="913"/>
         <source>Transform</source>
         <translation type="unfinished">变换</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="929"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="885"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="669"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="930"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="886"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="670"/>
         <source>Standard View</source>
         <translation type="unfinished">标准视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1030"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1031"/>
         <source>Sketch Series</source>
         <translation type="unfinished">草图命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1066"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1067"/>
         <source>Cut Series</source>
         <translation type="unfinished">切除命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1081"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1082"/>
         <source>Modification Series</source>
         <translation type="unfinished">修改命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1092"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1093"/>
         <source>Boolean Series</source>
         <translation type="unfinished">布尔运算命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1106"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1107"/>
         <source>Primitive Series</source>
         <translation type="unfinished">基础几何体命令集</translation>
     </message>
@@ -2440,9 +2440,9 @@
         <translation type="obsolete">编辑命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1156"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="847"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="632"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1157"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="848"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="633"/>
         <source>Standard View Series</source>
         <translation type="unfinished">标准视图命令集</translation>
     </message>
@@ -2451,72 +2451,72 @@
         <translation type="obsolete">曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1204"/>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1231"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1205"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1232"/>
         <source>Sheet</source>
         <translation type="unfinished">曲面</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="939"/>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1171"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="862"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="895"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="647"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="679"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="940"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1172"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="863"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="896"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="648"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="680"/>
         <source>Display Mode</source>
         <translation>显示模式</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1244"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1245"/>
         <source>Solid</source>
         <translation type="unfinished">实体</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1212"/>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1251"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="165"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="175"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="137"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="147"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1213"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1252"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="166"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="176"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="138"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="148"/>
         <source>View</source>
         <translation type="unfinished">视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="587"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="588"/>
         <source>Linear Pattern</source>
         <translation type="unfinished">线性阵列</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="594"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="595"/>
         <source>Circular Pattern</source>
         <translation type="unfinished">圆周阵列</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="610"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="611"/>
         <source>Set Color</source>
         <translation type="unfinished">设置颜色</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="616"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="617"/>
         <source>Measure</source>
         <translation type="unfinished">测量</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="622"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="623"/>
         <source>Run Script</source>
         <translation type="unfinished">执行脚本</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="628"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="625"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="465"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="629"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="626"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="466"/>
         <source>Find</source>
         <translation>查找</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="644"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="549"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="394"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="645"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="550"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="395"/>
         <source>Fit View</source>
         <translation type="unfinished">整屏显示全图</translation>
     </message>
@@ -2525,44 +2525,44 @@
         <translation type="obsolete">等轴侧视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="659"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="566"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="411"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="660"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="567"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="412"/>
         <source>Front View</source>
         <translation type="unfinished">前视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="664"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="571"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="416"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="665"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="572"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="417"/>
         <source>Back View</source>
         <translation type="unfinished">后视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="669"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="576"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="421"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="670"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="577"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="422"/>
         <source>Left View</source>
         <translation type="unfinished">左视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="674"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="581"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="426"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="675"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="582"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="427"/>
         <source>Right View</source>
         <translation type="unfinished">右视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="679"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="586"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="431"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="680"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="587"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="432"/>
         <source>Top View</source>
         <translation type="unfinished">顶视图</translation>
     </message>
     <message>
-        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="684"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="591"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="436"/>
+        <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="685"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="592"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="437"/>
         <source>Bottom View</source>
         <translation type="unfinished">底视图</translation>
     </message>
@@ -2591,12 +2591,12 @@
         <translation type="obsolete">导出文件</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="125"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="126"/>
         <source>3D Sketch</source>
         <translation>3D草图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="129"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="130"/>
         <source>3D Sketch Environment</source>
         <translation>3D草图环境</translation>
     </message>
@@ -2641,17 +2641,17 @@
         <translation type="obsolete">3D样式样条曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="292"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="293"/>
         <source>Include Curve</source>
         <translation type="unfinished">包含曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="302"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="303"/>
         <source>Intersection Curve</source>
         <translation type="unfinished">相交曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="312"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="313"/>
         <source>Project Curve</source>
         <translation type="unfinished">投影曲线</translation>
     </message>
@@ -2672,12 +2672,12 @@
         <translation type="obsolete">3D倒角</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="373"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="374"/>
         <source>End 3D Sketch</source>
         <translation>结束3D草图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="379"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="380"/>
         <source>Cancel 3D Sketch</source>
         <translation>取消3D草图</translation>
     </message>
@@ -2764,7 +2764,7 @@
         <translation type="obsolete">选择基准面或实体面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="193"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="194"/>
         <source>Specify the starting point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定起点；可输入具体坐标值。</translation>
     </message>
@@ -2773,7 +2773,7 @@
         <translation type="obsolete">起点</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="205"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="206"/>
         <source>Specify length and width; you can directly input the values.</source>
         <translation type="unfinished">指定长度和宽度；可输入具体值。</translation>
     </message>
@@ -2782,22 +2782,22 @@
         <translation type="obsolete">长度 &amp; 宽度</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="217"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="218"/>
         <source>Specify the height; you can directly input the value.</source>
         <translation type="unfinished">指定高度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="407"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="408"/>
         <source>Height</source>
         <translation type="unfinished">高度</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="396"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="397"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="397"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="398"/>
         <source>Width</source>
         <translation type="unfinished">宽度</translation>
     </message>
@@ -2805,7 +2805,7 @@
 <context>
     <name>MakeConeGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="183"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="184"/>
         <source>Specify the bottom center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定底面中心点；可输入具体坐标值。</translation>
     </message>
@@ -2814,22 +2814,22 @@
         <translation type="obsolete">中心点</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="195"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="196"/>
         <source>Specify the bottom radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="381"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="382"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="207"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="208"/>
         <source>Specify the height; you can directly input the value.</source>
         <translation type="unfinished">指定高度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="391"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="392"/>
         <source>Height</source>
         <translation type="unfinished">高度</translation>
     </message>
@@ -2837,7 +2837,7 @@
 <context>
     <name>MakeCylinderGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="184"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="185"/>
         <source>Specify the bottom center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定底面中心点；可输入具体坐标值。</translation>
     </message>
@@ -2846,22 +2846,22 @@
         <translation type="obsolete">中心点</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="196"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="197"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="382"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="383"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="208"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="209"/>
         <source>Specify the height; you can directly input the value.</source>
         <translation type="unfinished">指定高度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="392"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="393"/>
         <source>Height</source>
         <translation type="unfinished">高度</translation>
     </message>
@@ -2869,12 +2869,12 @@
 <context>
     <name>MakePrimitiveGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="287"/>
+        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="288"/>
         <source>Select datum plane or solid surface as working plane.</source>
         <translation type="unfinished">选择工作平面：基准面或实体面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="351"/>
+        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="352"/>
         <source>View Normal To Working Plane</source>
         <translation>正视于工作平面</translation>
     </message>
@@ -2882,7 +2882,7 @@
 <context>
     <name>MakeSphereGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="174"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="175"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定中心点；可输入具体坐标值。</translation>
     </message>
@@ -2891,12 +2891,12 @@
         <translation type="obsolete">中心点</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="186"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="187"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="331"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="332"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -2904,7 +2904,7 @@
 <context>
     <name>MakeTorusGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="193"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="194"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆心点；可输入具体坐标值。</translation>
     </message>
@@ -2913,22 +2913,22 @@
         <translation type="obsolete">圆心</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="205"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="206"/>
         <source>Specify the major radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="397"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="398"/>
         <source>Major radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="217"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="218"/>
         <source>Specify the minor radius; you can directly input the value.</source>
         <translation type="unfinished">指定管径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="407"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="408"/>
         <source>Minor radius</source>
         <translation type="unfinished">管径</translation>
     </message>
@@ -2936,7 +2936,7 @@
 <context>
     <name>MakeTubeGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="234"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="235"/>
         <source>Specify the bottom center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定底面中心点；可输入具体坐标值。</translation>
     </message>
@@ -2945,32 +2945,32 @@
         <translation type="obsolete">圆心</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="246"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="247"/>
         <source>Specify the outer radius; you can directly input the value.</source>
         <translation type="unfinished">指定外径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="480"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="481"/>
         <source>Outer radius</source>
         <translation type="unfinished">外径</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="258"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="259"/>
         <source>Specify the inner radius; you can directly input the value.</source>
         <translation type="unfinished">指定内径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="490"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="491"/>
         <source>Inner radius</source>
         <translation type="unfinished">内径</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="270"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="271"/>
         <source>Specify the height; you can directly input the value.</source>
         <translation type="unfinished">指定高度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="500"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="501"/>
         <source>Height</source>
         <translation type="unfinished">高度</translation>
     </message>
@@ -2978,17 +2978,17 @@
 <context>
     <name>MeasureGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="244"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="245"/>
         <source>Specify the start point.</source>
         <translation type="unfinished">指定起点。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="264"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="265"/>
         <source>Specify the end point.</source>
         <translation type="unfinished">指定终点。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="684"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="685"/>
         <source>Clear Measure Results</source>
         <translation>清空测量结果</translation>
     </message>
@@ -3020,12 +3020,12 @@
         <translation type="obsolete">选择目标体。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/MergeGuiCmd.cpp" line="234"/>
+        <location filename="../../commands/modeling/solid/MergeGuiCmd.cpp" line="235"/>
         <source>Select the host solid.</source>
         <translation type="unfinished">选择主体。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/MergeGuiCmd.cpp" line="258"/>
+        <location filename="../../commands/modeling/solid/MergeGuiCmd.cpp" line="259"/>
         <source>Select one or more solids to merge; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要合并的成员实体；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
@@ -3033,53 +3033,53 @@
 <context>
     <name>MessageBox</name>
     <message>
-        <location filename="../../utils/MessageBoxUtil.cpp" line="58"/>
+        <location filename="../../utils/MessageBoxUtil.cpp" line="59"/>
         <source>Cannot open file!</source>
         <translation type="unfinished">无法打开文件！</translation>
     </message>
     <message>
-        <location filename="../../utils/MessageBoxUtil.cpp" line="64"/>
+        <location filename="../../utils/MessageBoxUtil.cpp" line="65"/>
         <source>Invalid file!</source>
         <translation type="unfinished">无效的文件！</translation>
     </message>
     <message>
-        <location filename="../../utils/MessageBoxUtil.cpp" line="70"/>
+        <location filename="../../utils/MessageBoxUtil.cpp" line="71"/>
         <source>The file cannot be opened because it was created with a newer version of Yi3D.</source>
         <translation type="unfinished">无法打开文件，因为它是使用较新版本的 Yi3D 创建的！</translation>
     </message>
     <message>
-        <location filename="../../utils/MessageBoxUtil.cpp" line="78"/>
+        <location filename="../../utils/MessageBoxUtil.cpp" line="79"/>
         <source>Open file error!</source>
         <translation type="unfinished">打开文件失败！</translation>
     </message>
     <message>
-        <location filename="../../utils/MessageBoxUtil.cpp" line="86"/>
+        <location filename="../../utils/MessageBoxUtil.cpp" line="87"/>
         <source>No sketches available. Please create a sketch using the sketch command first.</source>
         <translation type="unfinished">没有可用的草图，请先使用草图命令创建。</translation>
     </message>
     <message>
-        <location filename="../../utils/MessageBoxUtil.cpp" line="108"/>
-        <location filename="../../utils/MessageBoxUtil.cpp" line="119"/>
+        <location filename="../../utils/MessageBoxUtil.cpp" line="109"/>
+        <location filename="../../utils/MessageBoxUtil.cpp" line="120"/>
         <source>Warning</source>
         <translation type="unfinished">警告</translation>
     </message>
     <message>
-        <location filename="../../utils/MessageBoxUtil.cpp" line="109"/>
+        <location filename="../../utils/MessageBoxUtil.cpp" line="110"/>
         <source>Please enter a number that is greater than or equal to </source>
         <translation type="unfinished">请输入一个大于或等于</translation>
     </message>
     <message>
-        <location filename="../../utils/MessageBoxUtil.cpp" line="111"/>
+        <location filename="../../utils/MessageBoxUtil.cpp" line="112"/>
         <source> and less than or equal to </source>
         <translation type="unfinished">且小于或等于</translation>
     </message>
     <message>
-        <location filename="../../utils/MessageBoxUtil.cpp" line="113"/>
+        <location filename="../../utils/MessageBoxUtil.cpp" line="114"/>
         <source>.</source>
         <translation type="unfinished">的数值。</translation>
     </message>
     <message>
-        <location filename="../../utils/MessageBoxUtil.cpp" line="120"/>
+        <location filename="../../utils/MessageBoxUtil.cpp" line="121"/>
         <source>Please input number.</source>
         <translation type="unfinished">请输入数值。</translation>
     </message>
@@ -3091,7 +3091,7 @@
         <translation type="obsolete">选择要镜像的元素；鼠标右键确认。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="271"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="272"/>
         <source>Select elements to mirror; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要镜像的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
@@ -3100,7 +3100,7 @@
         <translation type="obsolete">选择元素</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="288"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="289"/>
         <source>Specify the start point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定镜像轴线起点；可输入具体坐标值。</translation>
     </message>
@@ -3109,7 +3109,7 @@
         <translation type="obsolete">起点</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="309"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="310"/>
         <source>Specify the end point; you can directly input the values.</source>
         <translation type="unfinished">指定终点；可输入具体值。</translation>
     </message>
@@ -3118,12 +3118,12 @@
         <translation type="obsolete">长度 &amp; 角度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="431"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="432"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="432"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="433"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -3139,12 +3139,12 @@
 <context>
     <name>MirrorGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="166"/>
+        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="167"/>
         <source>Select the solids or sheets to mirror. Press Enter or Spacebar to confirm.</source>
         <translation type="unfinished">选择要镜像的实体或曲面；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="186"/>
+        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="187"/>
         <source>Select datum plane as mirror plane.</source>
         <translation type="unfinished">选择基准面作为镜像平面。</translation>
     </message>
@@ -3152,17 +3152,17 @@
 <context>
     <name>MoveGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="334"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="335"/>
         <source>Select elements to move; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要移动的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="352"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="353"/>
         <source>Select datum plane as working plane.</source>
         <translation type="unfinished">选择基准面作为工作平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="376"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="377"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定基准点；可输入具体坐标值。</translation>
     </message>
@@ -3171,7 +3171,7 @@
         <translation type="obsolete">基准点</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="401"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="402"/>
         <source>Specify the move vector; you can directly input the values.</source>
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
     </message>
@@ -3184,12 +3184,12 @@
         <translation type="obsolete">移动向量</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="561"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="562"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="562"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="563"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -3228,7 +3228,7 @@
         <translation type="obsolete">选择参考面或实体面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="209"/>
+        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="210"/>
         <source>Select datum plane or planar face.</source>
         <translation type="unfinished">选择基准面或平面。</translation>
     </message>
@@ -3240,12 +3240,12 @@
         <translation type="vanished">选择要偏置的曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="601"/>
+        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="602"/>
         <source>Specify the offset distance, then OK to apply.</source>
         <translation>指定偏置距离，确认后应用。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="595"/>
+        <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="596"/>
         <source>Select the faces to offset, then OK to apply.</source>
         <translation>选择要偏置的面，确认后应用。</translation>
     </message>
@@ -3272,7 +3272,7 @@
 <context>
     <name>PlanarSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="338"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="339"/>
         <source>Select a sketch to create a planar sheet, or select edges to enclose a planar face.</source>
         <translation>选择草图创建平面曲面，或选择边线围合成无参平面曲面。</translation>
     </message>
@@ -3281,23 +3281,23 @@
         <translation type="vanished">选择边围合成平面面，闭合后自动创建片体；按 Esc 清除已选边。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="353"/>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="532"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="354"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="533"/>
         <source>Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges.</source>
         <translation>选择边线围合成一个或多个平面环；按 Enter 键或空格键将完成操作；按 Esc 键将清除已选边。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="653"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="654"/>
         <source>Select edges to enclose a planar face.</source>
         <translation>选择边线围合成无参平面曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="664"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="665"/>
         <source>Closed loops found; press Enter or Spacebar to confirm, or keep selecting edges to add more loops.</source>
         <translation>已找到闭合环；按 Enter 键或空格键将完成操作，或继续选择边线以添加更多环。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="688"/>
+        <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="689"/>
         <source>Keep selecting edges to close the loop.</source>
         <translation>继续选择边线以闭合环。</translation>
     </message>
@@ -3305,12 +3305,12 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../../widgets/panels/property/adapters/SketchPlaneEditorAdapter.cpp" line="84"/>
+        <location filename="../../widgets/panels/property/adapters/SketchPlaneEditorAdapter.cpp" line="85"/>
         <source>Modify failed!</source>
         <translation type="unfinished">修改失败！</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/adapters/SketchPlaneEditorAdapter.cpp" line="89"/>
+        <location filename="../../widgets/panels/property/adapters/SketchPlaneEditorAdapter.cpp" line="90"/>
         <source>Modify successfully.</source>
         <translation type="unfinished">修改成功！</translation>
     </message>
@@ -3325,17 +3325,17 @@
 <context>
     <name>RevolveGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="305"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="306"/>
         <source>Select the sketch to revolve.</source>
         <translation type="unfinished">选择草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="326"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="327"/>
         <source>Select the axis line.</source>
         <translation>选择旋转轴线。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="359"/>
+        <location filename="../../commands/modeling/solid/generation/RevolveGuiCmd.cpp" line="360"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
     </message>
@@ -3343,12 +3343,12 @@
 <context>
     <name>RevolvedSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="182"/>
+        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="183"/>
         <source>Select the sketch to revolve.</source>
         <translation type="unfinished">选择草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="194"/>
+        <location filename="../../commands/modeling/sheet/generation/RevolvedSheetGuiCmd.cpp" line="195"/>
         <source>Select an axis line in the sketch.</source>
         <translation>在草图中选择直线作为旋转轴。</translation>
     </message>
@@ -3356,17 +3356,17 @@
 <context>
     <name>RotateGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="360"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="361"/>
         <source>Select elements to rotate; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要旋转的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="377"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="378"/>
         <source>Select datum plane as working plane.</source>
         <translation type="unfinished">选择基准面作为工作平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="394"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="395"/>
         <source>Specify the baseline start point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定旋转中心点；可输入具体坐标值。</translation>
     </message>
@@ -3375,7 +3375,7 @@
         <translation type="obsolete">中心点</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="419"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="420"/>
         <source>Specify the baseline end point; you can directly input length and angle values.</source>
         <translation>指定基线终点；可输入长度和角度值。</translation>
     </message>
@@ -3384,13 +3384,13 @@
         <translation type="obsolete">长度 &amp; 角度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="703"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="714"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="705"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="715"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -3403,7 +3403,7 @@
         <translation type="obsolete">基线终点</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="439"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="440"/>
         <source>Specify the rotation angle; you can directly input the value.</source>
         <translation type="unfinished">指定旋转角度；可输入具体值。</translation>
     </message>
@@ -3415,12 +3415,12 @@
 <context>
     <name>RunScriptCommand</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="760"/>
+        <location filename="../../commands/FileCommands.cpp" line="761"/>
         <source>Python Script (*.py)</source>
         <translation type="unfinished">Python 脚本 (*.py)</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="764"/>
+        <location filename="../../commands/FileCommands.cpp" line="765"/>
         <source>Run Python Script</source>
         <translation type="unfinished">Python脚本</translation>
     </message>
@@ -3436,12 +3436,12 @@
 <context>
     <name>Scale</name>
     <message>
-        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="267"/>
+        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="268"/>
         <source>Select elements to scale; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要缩放的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="284"/>
+        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="285"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定缩放基点；可输入具体坐标值。</translation>
     </message>
@@ -3450,12 +3450,12 @@
         <translation type="obsolete">基点</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="308"/>
+        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="309"/>
         <source>Specify the scale ratio.</source>
         <translation type="unfinished">指定缩放比例。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="477"/>
+        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="478"/>
         <source>Scale</source>
         <translation type="unfinished">比例</translation>
     </message>
@@ -3463,12 +3463,12 @@
 <context>
     <name>SelectGuiCmd</name>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="423"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="424"/>
         <source>Select elements. Pick individual items or use window selection.</source>
         <translation type="unfinished">选择元素；点选单个项目或使用窗口选择。</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="470"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="471"/>
         <source>Specify the insertion point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定插入点；可输入具体坐标值。</translation>
     </message>
@@ -3480,7 +3480,7 @@
 <context>
     <name>SetColorGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/SetColorGuiCmd.cpp" line="87"/>
+        <location filename="../../commands/utilities/SetColorGuiCmd.cpp" line="88"/>
         <source>Click solid elements to apply the selected color.</source>
         <translation type="unfinished">单击实体应用当前颜色。</translation>
     </message>
@@ -3488,7 +3488,7 @@
 <context>
     <name>SewnSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/sew/SewnSheetGuiCmd.cpp" line="260"/>
+        <location filename="../../commands/modeling/sheet/sew/SewnSheetGuiCmd.cpp" line="261"/>
         <source>Select one or more sheets to sew; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation>选择一个或多个曲面进行缝合；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
@@ -3508,22 +3508,22 @@
 <context>
     <name>ShellGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ShellGuiCmd.cpp" line="169"/>
+        <location filename="../../commands/modeling/solid/modification/ShellGuiCmd.cpp" line="170"/>
         <source>Select solid faces to remove; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要移除的实体面；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ShellGuiCmd.cpp" line="189"/>
+        <location filename="../../commands/modeling/solid/modification/ShellGuiCmd.cpp" line="190"/>
         <source>Input shell thickness.</source>
         <translation type="unfinished">输入壳厚度。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ShellGuiCmd.cpp" line="196"/>
+        <location filename="../../commands/modeling/solid/modification/ShellGuiCmd.cpp" line="197"/>
         <source>Shell</source>
         <translation type="unfinished">抽壳</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/ShellGuiCmd.cpp" line="197"/>
+        <location filename="../../commands/modeling/solid/modification/ShellGuiCmd.cpp" line="198"/>
         <source>Thickness</source>
         <translation type="unfinished">厚度</translation>
     </message>
@@ -3531,27 +3531,27 @@
 <context>
     <name>Sketch3DChamfer</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="98"/>
+        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="99"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="99"/>
+        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="100"/>
         <source>Distance1</source>
         <translation type="unfinished">距离1</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="100"/>
+        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="101"/>
         <source>Distance2</source>
         <translation type="unfinished">距离2</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="154"/>
+        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="155"/>
         <source>Select the first straight sketch entity.</source>
         <translation type="unfinished">选择第一条直线草图图元。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="164"/>
+        <location filename="../../commands/sketch3d/Sketch3DChamferGuiCmd.cpp" line="165"/>
         <source>Select the second straight sketch entity.</source>
         <translation type="unfinished">选择第二条直线草图图元。</translation>
     </message>
@@ -3571,7 +3571,7 @@
         <translation type="vanished">选择基准面或实体面作为工作平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="449"/>
+        <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="450"/>
         <source>View Normal To Working Plane</source>
         <translation>正视于工作平面</translation>
     </message>
@@ -3579,7 +3579,7 @@
 <context>
     <name>Sketch3DExtendGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DExtendGuiCmd.cpp" line="117"/>
+        <location filename="../../commands/sketch3d/Sketch3DExtendGuiCmd.cpp" line="118"/>
         <source>Select sketch entities to extend.</source>
         <translation type="unfinished">选择要延伸的草图图元。</translation>
     </message>
@@ -3587,22 +3587,22 @@
 <context>
     <name>Sketch3DFillet</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DFilletGuiCmd.cpp" line="103"/>
+        <location filename="../../commands/sketch3d/Sketch3DFilletGuiCmd.cpp" line="104"/>
         <source>Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DFilletGuiCmd.cpp" line="104"/>
+        <location filename="../../commands/sketch3d/Sketch3DFilletGuiCmd.cpp" line="105"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DFilletGuiCmd.cpp" line="157"/>
+        <location filename="../../commands/sketch3d/Sketch3DFilletGuiCmd.cpp" line="158"/>
         <source>Select the first sketch entity.</source>
         <translation type="unfinished">选择第一个草图图元。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DFilletGuiCmd.cpp" line="167"/>
+        <location filename="../../commands/sketch3d/Sketch3DFilletGuiCmd.cpp" line="168"/>
         <source>Select the second sketch entity.</source>
         <translation type="unfinished">选择第二个草图图元。</translation>
     </message>
@@ -3610,17 +3610,17 @@
 <context>
     <name>Sketch3DSelectGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="241"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="242"/>
         <source>Only planar faces can be used as the sketch plane.</source>
         <translation type="unfinished">只有平面型面可以作为草图平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="262"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="263"/>
         <source>Sketch plane set. It will be used by the next drawing command.</source>
         <translation type="unfinished">已设置草图平面，将用于下一条绘制命令。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="322"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="323"/>
         <source>Select elements. Pick a planar face or a datum plane to set the sketch plane.</source>
         <translation type="unfinished">选择元素；拾取平面型面或基准面可设置草图平面。</translation>
     </message>
@@ -3628,7 +3628,7 @@
 <context>
     <name>Sketch3DTrimGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/Sketch3DTrimGuiCmd.cpp" line="142"/>
+        <location filename="../../commands/sketch3d/Sketch3DTrimGuiCmd.cpp" line="143"/>
         <source>Select sketch entities to trim.</source>
         <translation type="unfinished">选择要修剪的草图图元。</translation>
     </message>
@@ -3636,22 +3636,22 @@
 <context>
     <name>SketchChamfer</name>
     <message>
-        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="90"/>
+        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="91"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="91"/>
+        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="92"/>
         <source>Distance1</source>
         <translation type="unfinished">距离1</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="92"/>
+        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="93"/>
         <source>Distance2</source>
         <translation type="unfinished">距离2</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="140"/>
+        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="141"/>
         <source>Select the first sketch line.</source>
         <translation type="unfinished">选择第一条草图线。</translation>
     </message>
@@ -3660,7 +3660,7 @@
         <translation type="obsolete">距离1，距离2</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="150"/>
+        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="151"/>
         <source>Select the second sketch line.</source>
         <translation type="unfinished">选择第二条草图线。</translation>
     </message>
@@ -3668,7 +3668,7 @@
 <context>
     <name>SketchCommand</name>
     <message>
-        <location filename="../../commands/sketch/SketchCommands.cpp" line="242"/>
+        <location filename="../../commands/sketch/SketchCommands.cpp" line="243"/>
         <source>Yi3D</source>
         <translation type="unfinished">易三维</translation>
     </message>
@@ -3676,7 +3676,7 @@
 <context>
     <name>SketchDrawArc</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="242"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="243"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆心点；可输入具体坐标值。</translation>
     </message>
@@ -3685,7 +3685,7 @@
         <translation type="obsolete">圆心</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="255"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="256"/>
         <source>Specify the start point; you can directly input the values.</source>
         <translation type="unfinished">指定圆弧起点；可输入具体值。</translation>
     </message>
@@ -3694,17 +3694,17 @@
         <translation type="obsolete">半径 &amp; 角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="417"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="418"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="418"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="419"/>
         <source>StartAngle</source>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="428"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="429"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
     </message>
@@ -3717,7 +3717,7 @@
         <translation type="obsolete">起点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="264"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="265"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation type="unfinished">指定圆弧角度；可输入具体值。</translation>
     </message>
@@ -3730,7 +3730,7 @@
         <translation type="obsolete">第一点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="234"/>
+        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="235"/>
         <source>Specify the first end point on arc; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆弧的第一个端点；可输入具体坐标值。</translation>
     </message>
@@ -3739,7 +3739,7 @@
         <translation type="obsolete">第一个端点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="250"/>
+        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="251"/>
         <source>Specify the second end point on arc; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆弧的第二个端点；可输入具体坐标值。</translation>
     </message>
@@ -3748,7 +3748,7 @@
         <translation type="obsolete">第二个端点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="261"/>
+        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="262"/>
         <source>Specify the third point on arc; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆弧上的第三个点；可输入具体坐标值。</translation>
     </message>
@@ -3760,12 +3760,12 @@
 <context>
     <name>SketchDrawArc3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="200"/>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="201"/>
         <source>Specify the center point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定圆心；可直接输入坐标值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="208"/>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="209"/>
         <source>Specify the start point; you can directly input the radius and the start angle. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定起点；可直接输入半径与起始角度。按空格键切换绘制平面。</translation>
     </message>
@@ -3774,22 +3774,22 @@
         <translation type="obsolete">指定总角度；可直接输入数值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="216"/>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="217"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation type="unfinished">指定总角度；可直接输入数值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="399"/>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="400"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="400"/>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="401"/>
         <source>StartAngle</source>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="412"/>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="413"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
     </message>
@@ -3797,17 +3797,17 @@
 <context>
     <name>SketchDrawArcBy3Points3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArcBy3Points3DGuiCmd.cpp" line="193"/>
+        <location filename="../../commands/sketch3d/SketchDrawArcBy3Points3DGuiCmd.cpp" line="194"/>
         <source>Specify the first end point on arc; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定圆弧的第一个端点；可输入具体坐标值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArcBy3Points3DGuiCmd.cpp" line="201"/>
+        <location filename="../../commands/sketch3d/SketchDrawArcBy3Points3DGuiCmd.cpp" line="202"/>
         <source>Specify the second end point on arc; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定圆弧的第二个端点；可输入具体坐标值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArcBy3Points3DGuiCmd.cpp" line="209"/>
+        <location filename="../../commands/sketch3d/SketchDrawArcBy3Points3DGuiCmd.cpp" line="210"/>
         <source>Specify the third point on arc; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定圆弧上的第三个点；可输入具体坐标值。按空格键切换绘制平面。</translation>
     </message>
@@ -3823,22 +3823,22 @@
 <context>
     <name>SketchDrawArcTangent</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="547"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="548"/>
         <source>Specify the start point on an endpoint of an existing curve; the arc is tangent to the curve.</source>
         <translation>在现有曲线的端点处指定圆弧起点；圆弧与该曲线相切。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="561"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="562"/>
         <source>Specify the end point of the arc; you can directly input the coordinate values.</source>
         <translation>指定圆弧终点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="574"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="575"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation>指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="587"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="588"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation>指定圆弧角度；可输入具体值。</translation>
     </message>
@@ -3847,12 +3847,12 @@
         <translation type="vanished">选择相切的直线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="789"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="790"/>
         <source>Radius</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="800"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="801"/>
         <source>SweepAngle</source>
         <translation>扫掠角度</translation>
     </message>
@@ -3864,7 +3864,7 @@
 <context>
     <name>SketchDrawCenterRectangle</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="194"/>
+        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="195"/>
         <source>Specify the rectangle center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定矩形中心点；可输入具体坐标值。</translation>
     </message>
@@ -3873,7 +3873,7 @@
         <translation type="obsolete">中心点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="207"/>
+        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="208"/>
         <source>Specify the rectangle corner point or input length &amp; width.</source>
         <translation type="unfinished">指定另一个角点或输入长宽值。</translation>
     </message>
@@ -3882,12 +3882,12 @@
         <translation type="obsolete">长度 &amp; 宽度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="319"/>
+        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="320"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="321"/>
         <source>Width</source>
         <translation type="unfinished">宽度</translation>
     </message>
@@ -3908,7 +3908,7 @@
 <context>
     <name>SketchDrawCircle</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="217"/>
+        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="218"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆心点；可输入具体坐标值。</translation>
     </message>
@@ -3917,17 +3917,17 @@
         <translation type="obsolete">圆心</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="230"/>
+        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="231"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="337"/>
+        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="338"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="241"/>
+        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="242"/>
         <source>Specify the first point on circle; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆上的第一个点；可输入具体坐标值。</translation>
     </message>
@@ -3936,7 +3936,7 @@
         <translation type="obsolete">第一点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="257"/>
+        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="258"/>
         <source>Specify the second point on circle; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆上的第二个点；可输入具体坐标值。</translation>
     </message>
@@ -3945,7 +3945,7 @@
         <translation type="obsolete">第二点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="268"/>
+        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="269"/>
         <source>Specify the third point on circle; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆上的第三个点；可输入具体坐标值。</translation>
     </message>
@@ -3957,17 +3957,17 @@
 <context>
     <name>SketchDrawCircle3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="187"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="188"/>
         <source>Specify the center point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation>指定圆心；可直接输入坐标值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="195"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="196"/>
         <source>Specify the radius; you can directly input the value. Press Space to switch the drawing plane.</source>
         <translation>指定半径；可直接输入具体值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="322"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="323"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -3975,7 +3975,7 @@
 <context>
     <name>SketchDrawEllipse</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="206"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="207"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定椭圆中心点；可输入具体坐标值。</translation>
     </message>
@@ -3984,7 +3984,7 @@
         <translation type="obsolete">圆心</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="219"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="220"/>
         <source>Specify the axis vector; you can directly input the values.</source>
         <translation type="unfinished">指定轴向量(大小和方向)；可输入具体向量值。</translation>
     </message>
@@ -3993,22 +3993,22 @@
         <translation type="obsolete">轴向量</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="228"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="229"/>
         <source>Specify the other radius; you can directly input the value.</source>
         <translation type="unfinished">指定另一条半轴长度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="393"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="394"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="382"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="383"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="383"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="384"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -4016,32 +4016,32 @@
 <context>
     <name>SketchDrawEllipse3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="214"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="215"/>
         <source>Specify the center point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定椭圆中心点；可直接输入坐标值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="222"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="223"/>
         <source>Specify the axis vector; you can directly input the values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定轴向量(大小和方向)；可输入具体向量值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="230"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="231"/>
         <source>Specify the other radius; you can directly input the value. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定另一条半轴长度；可输入具体值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="467"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="468"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="468"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="469"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="480"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="481"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -4049,7 +4049,7 @@
 <context>
     <name>SketchDrawEllipseArc</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="292"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="293"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定椭圆中心点；可输入具体坐标值。</translation>
     </message>
@@ -4058,7 +4058,7 @@
         <translation type="obsolete">圆心</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="305"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="306"/>
         <source>Specify the axis vector; you can directly input the values.</source>
         <translation type="unfinished">指定轴向量(大小和方向)；可输入具体向量值。</translation>
     </message>
@@ -4067,17 +4067,17 @@
         <translation type="obsolete">轴向量</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="314"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="315"/>
         <source>Specify the other radius; you can directly input the value.</source>
         <translation type="unfinished">指定另一条半轴长度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="556"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="557"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="323"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="324"/>
         <source>Specify the start angle; you can directly input the value.</source>
         <translation type="unfinished">指定起始角度；可输入具体值。</translation>
     </message>
@@ -4086,7 +4086,7 @@
         <translation type="obsolete">起点角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="330"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="331"/>
         <source>Specify the sweep angle; you can directly input the value.</source>
         <translation>指定扫掠角度；可输入具体值。</translation>
     </message>
@@ -4095,12 +4095,12 @@
         <translation type="vanished">扫掠角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="566"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="567"/>
         <source>StartAngle</source>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="576"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="577"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
     </message>
@@ -4113,12 +4113,12 @@
         <translation type="obsolete">终点角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="545"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="546"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="546"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="547"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -4126,52 +4126,52 @@
 <context>
     <name>SketchDrawEllipseArc3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="288"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="289"/>
         <source>Specify the center point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定椭圆中心点；可直接输入坐标值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="296"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="297"/>
         <source>Specify the axis vector; you can directly input the values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定轴向量(大小和方向)；可输入具体向量值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="304"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="305"/>
         <source>Specify the other radius; you can directly input the value. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定另一条半轴长度；可输入具体值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="312"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="313"/>
         <source>Specify the start angle; you can directly input the value. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定起始角度；可输入具体值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="321"/>
         <source>Specify the sweep angle; you can directly input the value. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定扫掠角度；可输入具体值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="579"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="580"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="580"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="581"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="592"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="593"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="604"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="605"/>
         <source>StartAngle</source>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="616"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="617"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
     </message>
@@ -4179,8 +4179,8 @@
 <context>
     <name>SketchDrawLine</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="182"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="200"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="183"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="201"/>
         <source>Specify the start point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定起点；可输入具体坐标值。</translation>
     </message>
@@ -4197,8 +4197,8 @@
         <translation type="obsolete">终点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="195"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="213"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="196"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="214"/>
         <source>Specify the end point; you can directly input the values.</source>
         <translation type="unfinished">指定终点；可输入具体值。</translation>
     </message>
@@ -4207,14 +4207,14 @@
         <translation type="obsolete">长度 &amp; 角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="299"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="321"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="301"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="322"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -4230,7 +4230,7 @@
         <translation type="vanished">指定终点。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="187"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="188"/>
         <source>Specify the start point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation>指定起点；可输入具体坐标值。按空格键切换绘制平面。</translation>
     </message>
@@ -4239,17 +4239,17 @@
         <translation type="vanished">指定终点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="195"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="196"/>
         <source>Specify the end point; you can directly input the length and angle. Press Space to switch the drawing plane.</source>
         <translation>指定终点；可直接输入长度和角度。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="312"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="313"/>
         <source>Length</source>
         <translation>长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="313"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="314"/>
         <source>Angle</source>
         <translation>角度</translation>
     </message>
@@ -4257,12 +4257,12 @@
 <context>
     <name>SketchDrawLineTangent</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawLineTangentGuiCmd.cpp" line="373"/>
+        <location filename="../../commands/sketch/SketchDrawLineTangentGuiCmd.cpp" line="374"/>
         <source>Select the start position on a circle or arc.</source>
         <translation type="unfinished">在圆、圆弧上选择切线起始位置。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawLineTangentGuiCmd.cpp" line="393"/>
+        <location filename="../../commands/sketch/SketchDrawLineTangentGuiCmd.cpp" line="394"/>
         <source>Select the end position on a circle or arc.</source>
         <translation type="unfinished">在圆、圆弧上选择切线终止位置。</translation>
     </message>
@@ -4270,7 +4270,7 @@
 <context>
     <name>SketchDrawPoint</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPointGuiCmd.cpp" line="140"/>
+        <location filename="../../commands/sketch/SketchDrawPointGuiCmd.cpp" line="141"/>
         <source>Specify the position of the point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定点位置；可输入具体坐标值。</translation>
     </message>
@@ -4282,7 +4282,7 @@
 <context>
     <name>SketchDrawPolygon</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="234"/>
+        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="235"/>
         <source>Specify the center point of the regular polygon; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定正多边形的中心点；可输入具体坐标值。</translation>
     </message>
@@ -4291,12 +4291,12 @@
         <translation type="obsolete">圆心</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="247"/>
+        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="248"/>
         <source>Specify the radius of the circumscribed circle; you can directly input the value.</source>
         <translation type="unfinished">指定外接圆的半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="361"/>
+        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="362"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -4304,7 +4304,7 @@
 <context>
     <name>SketchDrawRectangle</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="181"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="182"/>
         <source>Specify the first corner point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定第一个角点；可输入具体坐标值。</translation>
     </message>
@@ -4313,7 +4313,7 @@
         <translation type="obsolete">角点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="194"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="195"/>
         <source>Specify the other corner point or input length &amp; width.</source>
         <translation type="unfinished">指定另一个角点或输入长宽值。</translation>
     </message>
@@ -4322,12 +4322,12 @@
         <translation type="obsolete">长度 &amp; 宽度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="299"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="300"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="300"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="301"/>
         <source>Width</source>
         <translation type="unfinished">宽度</translation>
     </message>
@@ -4335,22 +4335,22 @@
 <context>
     <name>SketchDrawRectangle3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="208"/>
+        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="209"/>
         <source>Specify the first corner point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定第一个角点；可输入具体坐标值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="215"/>
+        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="216"/>
         <source>Specify the other corner point or input length &amp; width. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定另一个角点或输入长宽值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="376"/>
+        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="377"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="377"/>
+        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="378"/>
         <source>Width</source>
         <translation type="unfinished">宽度</translation>
     </message>
@@ -4358,12 +4358,12 @@
 <context>
     <name>SketchDrawSpline3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawSpline3DGuiCmd.cpp" line="211"/>
+        <location filename="../../commands/sketch3d/SketchDrawSpline3DGuiCmd.cpp" line="212"/>
         <source>Specify the start point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定起点；可输入具体坐标值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawSpline3DGuiCmd.cpp" line="219"/>
+        <location filename="../../commands/sketch3d/SketchDrawSpline3DGuiCmd.cpp" line="220"/>
         <source>Specify the next point; you can directly input the coordinate values. Press Space to switch the drawing plane. Esc or double-click finishes the spline.</source>
         <translation type="unfinished">指定下一点；可输入具体坐标值。按空格键切换绘制平面。按 Esc 键或双击结束样条。</translation>
     </message>
@@ -4371,7 +4371,7 @@
 <context>
     <name>SketchDrawSplineGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="278"/>
+        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="279"/>
         <source>Specify the start point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定起始点；可输入具体坐标值。</translation>
     </message>
@@ -4380,7 +4380,7 @@
         <translation type="obsolete">起始点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="302"/>
+        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="303"/>
         <source>Specify the next point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定下一点；可输入具体坐标值。</translation>
     </message>
@@ -4392,17 +4392,17 @@
 <context>
     <name>SketchFillet</name>
     <message>
-        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="98"/>
+        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="99"/>
         <source>Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="99"/>
+        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="100"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="146"/>
+        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="147"/>
         <source>Select the first sketch curve.</source>
         <translation type="unfinished">选择第一条草图曲线。</translation>
     </message>
@@ -4411,7 +4411,7 @@
         <translation type="obsolete">圆角半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="156"/>
+        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="157"/>
         <source>Select the second sketch curve.</source>
         <translation type="unfinished">选择第二条草图曲线。</translation>
     </message>
@@ -4419,47 +4419,47 @@
 <context>
     <name>SketchIncludeCurve3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="104"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="105"/>
         <source>Click model edges or sketch curves to include them into the 3D sketch. Press Esc to exit.</source>
         <translation type="unfinished">点击模型边或草图曲线，将其包含进 3D 草图，按 Esc 退出。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="170"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="171"/>
         <source>The curve has already been included.</source>
         <translation type="unfinished">该曲线已经包含过了。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="303"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="304"/>
         <source>Include failed: unable to retrieve curve geometry.</source>
         <translation type="unfinished">包含失败：无法获取曲线几何。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="307"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="308"/>
         <source>Include failed: the curve has an infinite parameter range.</source>
         <translation type="unfinished">包含失败：该曲线的参数范围无限。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="311"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="312"/>
         <source>Include failed: the curve is degenerate.</source>
         <translation type="unfinished">包含失败：曲线退化。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="315"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="316"/>
         <source>Include failed: the curve geometry is invalid.</source>
         <translation type="unfinished">包含失败：曲线几何无效。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="319"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="320"/>
         <source>Include failed: unsupported curve type.</source>
         <translation type="unfinished">包含失败：不支持的曲线类型。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="323"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="324"/>
         <source>Include failed.</source>
         <translation type="unfinished">包含失败。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="329"/>
+        <location filename="../../commands/sketch3d/SketchIncludeCurve3DGuiCmd.cpp" line="330"/>
         <source>Include Curve</source>
         <translation type="unfinished">包含曲线</translation>
     </message>
@@ -4467,7 +4467,7 @@
 <context>
     <name>SketchIntersectionCurve3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="205"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="206"/>
         <source>The two items must be different.</source>
         <translation type="unfinished">两个对象必须不同。</translation>
     </message>
@@ -4488,78 +4488,78 @@
         <translation type="obsolete">选择要相交的第二个面或基准面边框。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="358"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="359"/>
         <source>Select the first face or datum plane.</source>
         <translation type="unfinished">选择第一个面或基准面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="366"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="367"/>
         <source>Select the face to intersect with the datum plane.</source>
         <translation type="unfinished">选择要与基准面求相交曲线的面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="368"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="369"/>
         <source>Select the face or datum plane to intersect with the first one.</source>
         <translation type="unfinished">选择要与第一个面求相交曲线的面或基准面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="378"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="379"/>
         <source>Intersection failed: the two items do not intersect.</source>
         <translation type="unfinished">求交失败：两个对象不相交。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="382"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="383"/>
         <source>Intersection failed: the two items lie on the same plane, so they meet in a surface rather than a curve.</source>
         <translation type="unfinished">求交失败：两个对象位于同一平面，相交得到的是面而不是曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="386"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="387"/>
         <source>Intersection failed: the two items meet in an unbounded line, which cannot become a sketch curve.</source>
         <translation type="unfinished">求交失败：两个对象相交得到无限长直线，无法作为草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="390"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="391"/>
         <source>Intersection failed: the two items cannot be intersected.</source>
         <translation type="unfinished">求交失败：这两个对象无法求交。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="394"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="395"/>
         <source>Intersection failed: the intersection algorithm did not complete.</source>
         <translation type="unfinished">求交失败：求交算法未完成。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="398"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="399"/>
         <source>Intersection failed: the resulting curve is more complex than the sketch can hold. Switch to interpolation and try again.</source>
         <translation type="unfinished">求交失败：结果曲线过于复杂，草图无法容纳，请改用插值后重试。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="402"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="403"/>
         <source>Intersection failed: the geometry is invalid.</source>
         <translation type="unfinished">求交失败：几何无效。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="408"/>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="437"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="409"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="438"/>
         <source>Intersection Curve</source>
         <translation type="unfinished">相交曲线</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="418"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="419"/>
         <source>Intersection failed: the resulting curve is degenerate. The two items may be tangent.</source>
         <translation type="unfinished">求交失败：结果曲线退化，两个对象可能相切。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="422"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="423"/>
         <source>Intersection failed: the resulting curve is unbounded.</source>
         <translation type="unfinished">求交失败：结果曲线无限长。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="427"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="428"/>
         <source>Intersection failed: the resulting curve cannot be created in the sketch.</source>
         <translation type="unfinished">求交失败：结果曲线无法在草图中创建。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="431"/>
+        <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="432"/>
         <source>Intersection failed: the resulting curve geometry is invalid.</source>
         <translation type="unfinished">求交失败：结果曲线几何无效。</translation>
     </message>
@@ -4567,17 +4567,17 @@
 <context>
     <name>SketchOffset</name>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="198"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="199"/>
         <source>Select the sketch curve to offset.</source>
         <translation type="unfinished">选择要偏移的草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="333"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="334"/>
         <source>Offset Distance</source>
         <translation type="unfinished">偏移距离</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="210"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="211"/>
         <source>Specify through point or input offset distance.</source>
         <translation type="unfinished">指定通过点或输入偏移距离。</translation>
     </message>
@@ -4589,12 +4589,12 @@
         <translation type="obsolete">选择元素；单击鼠标右键确认。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="229"/>
+        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="230"/>
         <source>Select elements to perform polar array; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择元素执行环形阵列；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="247"/>
+        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="248"/>
         <source>Specify the center point of polar array; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定阵列中心点；可输入具体坐标值。</translation>
     </message>
@@ -4603,13 +4603,13 @@
         <translation type="obsolete">中心</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="269"/>
-        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="282"/>
+        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="270"/>
+        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="283"/>
         <source>Sketch Polar Array</source>
         <translation type="unfinished">环形阵列</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="283"/>
+        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="284"/>
         <source>The angle between items is too small!</source>
         <translation type="unfinished">项目间角度过小！</translation>
     </message>
@@ -4621,35 +4621,35 @@
         <translation type="obsolete">点击实体边将其投影到草图平面，按 Esc 退出。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="90"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="91"/>
         <source>Click on model edges to project them onto the sketch plane.</source>
         <translation>点击模型边将其投影到草图平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="194"/>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="200"/>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="206"/>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="212"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="195"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="201"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="207"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="213"/>
         <source>Project</source>
         <translation type="unfinished">投影</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="195"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="196"/>
         <source>The edge is perpendicular to the sketch plane, projection degenerates to a point.</source>
         <translation type="unfinished">该边垂直于草图平面，投影退化为点。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="201"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="202"/>
         <source>Projection failed: unable to retrieve curve geometry from the edge.</source>
         <translation type="unfinished">投影失败：无法获取该边的几何信息。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="207"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="208"/>
         <source>Projection failed.</source>
         <translation type="unfinished">投影失败。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="213"/>
+        <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="214"/>
         <source>Unsupported curve type for projection.</source>
         <translation type="unfinished">暂不支持该曲线类型的投影。</translation>
     </message>
@@ -4657,17 +4657,17 @@
 <context>
     <name>SketchProjectCurve3DGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="275"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="276"/>
         <source>Projection failed: the sketch cannot be read.</source>
         <translation type="unfinished">投影失败：无法读取该草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="284"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="285"/>
         <source>The sketch has no curves to project.</source>
         <translation type="unfinished">该草图没有可投影的曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="556"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="557"/>
         <source>Select the sketch to project.</source>
         <translation type="unfinished">选择要投影的草图。</translation>
     </message>
@@ -4684,7 +4684,7 @@
         <translation type="obsolete">投影失败：草图未到达所选面，可尝试反向或双向。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="567"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="568"/>
         <source>Projection curve computed. Press Enter or Spacebar to confirm.</source>
         <translation type="unfinished">已计算出投影曲线，按 Enter 或空格键确认。</translation>
     </message>
@@ -4693,37 +4693,37 @@
         <translation type="obsolete">没有投影曲线：草图未到达所选面，可尝试「反向」或「双向」。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="565"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="566"/>
         <source>Select the face or datum plane to project onto.</source>
         <translation type="unfinished">选择投影的目标面或基准面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="575"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="576"/>
         <source>Press Tab to flip the direction.</source>
         <translation type="unfinished">按 Tab 键可切换投影方向。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="591"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="592"/>
         <source>No projection curve. The sketch does not reach the picked face or plane; try Reverse or Bidirectional.</source>
         <translation type="unfinished">没有投影曲线：草图未到达所选的面或基准面，可尝试「反向」或「双向」。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="595"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="596"/>
         <source>Projection failed: the projection algorithm did not complete.</source>
         <translation type="unfinished">投影失败：投影算法未完成。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="599"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="600"/>
         <source>Projection failed: the resulting curve is more complex than the sketch can hold.</source>
         <translation type="unfinished">投影失败：结果曲线过于复杂，草图无法容纳。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="603"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="604"/>
         <source>Projection failed: the sketch and the picked face or datum plane cannot be used together.</source>
         <translation type="unfinished">投影失败：该草图与所选的面或基准面无法配合使用。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="621"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="622"/>
         <source>Projection failed: the resulting curve is degenerate. The sketch may be tangent to the face or datum plane.</source>
         <translation type="unfinished">投影失败：结果曲线退化，草图可能与所选的面或基准面相切。</translation>
     </message>
@@ -4732,7 +4732,7 @@
         <translation type="obsolete">投影失败：该草图与面无法配合使用。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="607"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="608"/>
         <source>Projection failed: the geometry is invalid.</source>
         <translation type="unfinished">投影失败：几何无效。</translation>
     </message>
@@ -4741,22 +4741,22 @@
         <translation type="obsolete">投影失败：结果曲线退化，草图可能与面相切。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="625"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="626"/>
         <source>Projection failed: the resulting curve is unbounded.</source>
         <translation type="unfinished">投影失败：结果曲线无限长。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="630"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="631"/>
         <source>Projection failed: the resulting curve cannot be created in the sketch.</source>
         <translation type="unfinished">投影失败：结果曲线无法在草图中创建。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="634"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="635"/>
         <source>Projection failed: the resulting curve geometry is invalid.</source>
         <translation type="unfinished">投影失败：结果曲线几何无效。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="640"/>
+        <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="641"/>
         <source>Project Curve</source>
         <translation type="unfinished">投影曲线</translation>
     </message>
@@ -4768,37 +4768,37 @@
         <translation type="obsolete">选择元素；单击鼠标中键确认。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="344"/>
+        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="345"/>
         <source>Select elements to perform rectangular array; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择元素执行矩形阵列；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="402"/>
+        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="403"/>
         <source>Specify the start point of column spacing or input the column spacing.</source>
         <translation type="unfinished">指定列间隙起点 或 直接输入列间隙值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="679"/>
+        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="680"/>
         <source>Column Spacing</source>
         <translation type="unfinished">列间隙</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="417"/>
+        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="418"/>
         <source>Specify the end point of column spacing or input the column spacing.</source>
         <translation type="unfinished">指定列间隙终点 或 直接输入列间隙值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="432"/>
+        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="433"/>
         <source>Specify the start point of row spacing or input the row spacing.</source>
         <translation type="unfinished">指定行间隙起点 或 直接输入行间隙值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="689"/>
+        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="690"/>
         <source>Row Spacing</source>
         <translation type="unfinished">行间隙</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="447"/>
+        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="448"/>
         <source>Specify the end point of row spacing or input the row spacing.</source>
         <translation type="unfinished">指定行间隙终点 或 直接输入行间隙值。</translation>
     </message>
@@ -4806,7 +4806,7 @@
 <context>
     <name>SketchRelocateCsysGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="123"/>
+        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="124"/>
         <source>Specify the origin point.</source>
         <translation type="unfinished">指定原点。</translation>
     </message>
@@ -4815,7 +4815,7 @@
         <translation type="obsolete">原点</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="140"/>
+        <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="141"/>
         <source>Specify the X axis.</source>
         <translation type="unfinished">指定X轴。</translation>
     </message>
@@ -4827,17 +4827,17 @@
 <context>
     <name>SketchTextCommand</name>
     <message>
-        <location filename="../../commands/sketch/SketchTextCommand.cpp" line="177"/>
+        <location filename="../../commands/sketch/SketchTextCommand.cpp" line="178"/>
         <source>Font file not found!</source>
         <translation type="unfinished">未找到字体文件！</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchTextCommand.cpp" line="190"/>
+        <location filename="../../commands/sketch/SketchTextCommand.cpp" line="191"/>
         <source>Create text profile failed!</source>
         <translation type="unfinished">创建文本轮廓失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchTextCommand.cpp" line="221"/>
+        <location filename="../../commands/sketch/SketchTextCommand.cpp" line="222"/>
         <source>Specify the start text position; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定文本位置，可输入具体坐标值。</translation>
     </message>
@@ -4889,7 +4889,7 @@
 <context>
     <name>SolidifyGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/SolidifyGuiCmd.cpp" line="125"/>
+        <location filename="../../commands/modeling/sheet/generation/SolidifyGuiCmd.cpp" line="126"/>
         <source>Select a closed sheet to solidify.</source>
         <translation>选择闭合曲面进行实体化。</translation>
     </message>
@@ -4897,12 +4897,12 @@
 <context>
     <name>SplitFaceGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="198"/>
+        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="199"/>
         <source>Select the face to split. Press Enter or Spacebar to confirm.</source>
         <translation type="unfinished">选择要分割的面；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="225"/>
+        <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="226"/>
         <source>Select the 2D or 3D sketch to split the face with.</source>
         <translation>选择用于分割的二维或三维草图。</translation>
     </message>
@@ -4930,12 +4930,12 @@
 <context>
     <name>Sweep</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="331"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="332"/>
         <source>Select the path sketch.</source>
         <translation type="unfinished">选择路径草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="356"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="357"/>
         <source>Select the profile sketch.</source>
         <translation type="unfinished">选择轮廓草图。</translation>
     </message>
@@ -4943,7 +4943,7 @@
 <context>
     <name>SweepGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="392"/>
+        <location filename="../../commands/modeling/solid/generation/SweepGuiCmd.cpp" line="393"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
     </message>
@@ -4951,12 +4951,12 @@
 <context>
     <name>SweptSheet</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="217"/>
+        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="218"/>
         <source>Select the path sketch.</source>
         <translation type="unfinished">选择路径草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="242"/>
+        <location filename="../../commands/modeling/sheet/generation/SweptSheetGuiCmd.cpp" line="243"/>
         <source>Select the profile sketch.</source>
         <translation type="unfinished">选择轮廓草图。</translation>
     </message>
@@ -4964,12 +4964,12 @@
 <context>
     <name>ThickenGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="149"/>
+        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="150"/>
         <source>Select a sheet to thicken.</source>
         <translation>选择要加厚的曲面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="256"/>
+        <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="257"/>
         <source>Specify thickness and direction, then OK to apply.</source>
         <translation>指定厚度和方向，确认后应用。</translation>
     </message>
@@ -4985,7 +4985,7 @@
 <context>
     <name>Trim</name>
     <message>
-        <location filename="../../commands/sketch/SketchTrimGuiCmd.cpp" line="161"/>
+        <location filename="../../commands/sketch/SketchTrimGuiCmd.cpp" line="162"/>
         <source>Select sketch entities to trim.</source>
         <translation type="unfinished">选择要修剪的草图图元。</translation>
     </message>
@@ -5095,7 +5095,7 @@
 <context>
     <name>wy3dApp::AutoSave</name>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="146"/>
+        <location filename="../../application/AutoSave.cpp" line="147"/>
         <source>An autosave file was found for:
 %1
 
@@ -5112,23 +5112,23 @@ Do you want to recover the unsaved changes?</source>
 是否恢复未保存的修改？</translation>
     </message>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="153"/>
-        <location filename="../../application/AutoSave.cpp" line="218"/>
+        <location filename="../../application/AutoSave.cpp" line="154"/>
+        <location filename="../../application/AutoSave.cpp" line="219"/>
         <source>Recovery</source>
         <translation type="unfinished">恢复文档</translation>
     </message>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="158"/>
+        <location filename="../../application/AutoSave.cpp" line="159"/>
         <source>Recover</source>
         <translation type="unfinished">恢复</translation>
     </message>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="160"/>
+        <location filename="../../application/AutoSave.cpp" line="161"/>
         <source>Discard</source>
         <translation type="unfinished">丢弃</translation>
     </message>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="219"/>
+        <location filename="../../application/AutoSave.cpp" line="220"/>
         <source>The document has been recovered.
 Do you want to save it to the original file now?
 %1</source>
@@ -5137,7 +5137,7 @@ Do you want to save it to the original file now?
 %1</translation>
     </message>
     <message>
-        <location filename="../../application/AutoSave.cpp" line="229"/>
+        <location filename="../../application/AutoSave.cpp" line="230"/>
         <source>Failed to save the recovered document!</source>
         <translation type="unfinished">保存恢复的文档失败！</translation>
     </message>
@@ -5810,182 +5810,182 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::FeatureTreeWidget</name>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="131"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="132"/>
         <source>FeatureTree</source>
         <translation type="unfinished">特征树</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="160"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="161"/>
         <source>Box</source>
         <translation type="unfinished">长方体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="161"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="162"/>
         <source>Cylinder</source>
         <translation type="unfinished">圆柱体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="162"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="163"/>
         <source>Sphere</source>
         <translation type="unfinished">球体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="163"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="164"/>
         <source>Cone</source>
         <translation type="unfinished">圆锥体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="164"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="165"/>
         <source>Torus</source>
         <translation type="unfinished">圆环体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="165"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="166"/>
         <source>Tube</source>
         <translation type="unfinished">圆管</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="166"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="167"/>
         <source>Union</source>
         <translation type="unfinished">并集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="167"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="168"/>
         <source>Difference</source>
         <translation type="unfinished">差集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="168"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="169"/>
         <source>Intersection</source>
         <translation type="unfinished">交集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="169"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="170"/>
         <source>DatumPlane</source>
         <translation type="unfinished">基准面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="170"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="171"/>
         <source>Sketch</source>
         <translation type="unfinished">草图</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="171"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="172"/>
         <source>Sketch3D</source>
         <translation>3D草图</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="172"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="173"/>
         <source>Extrusion</source>
         <translation type="unfinished">拉伸体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="173"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="174"/>
         <source>Revolution</source>
         <translation type="unfinished">旋转体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="174"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="175"/>
         <source>Sweep</source>
         <translation type="unfinished">扫描体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="175"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="176"/>
         <source>Loft</source>
         <translation type="unfinished">放样体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="176"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="177"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="177"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="178"/>
         <source>Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="178"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="179"/>
         <source>Shell</source>
         <translation type="unfinished">抽壳</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="179"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="180"/>
         <source>Draft</source>
         <translation type="unfinished">拔模</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="180"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="181"/>
         <source>Split Face</source>
         <translation type="unfinished">分割面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="181"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="182"/>
         <source>Delete Face</source>
         <translation type="unfinished">删除面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="182"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="183"/>
         <source>Move</source>
         <translation type="unfinished">平移</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="183"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="184"/>
         <source>Rotate</source>
         <translation type="unfinished">旋转</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="184"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="185"/>
         <source>Mirror</source>
         <translation type="unfinished">镜像</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="185"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="186"/>
         <source>Linear Pattern</source>
         <translation type="unfinished">线性阵列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="186"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="187"/>
         <source>Circular Pattern</source>
         <translation type="unfinished">圆周阵列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="187"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="188"/>
         <source>Helix</source>
         <translation type="unfinished">螺旋线</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="188"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="189"/>
         <source>Imported Solid</source>
         <translation type="unfinished">导入实体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="189"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="190"/>
         <source>Imported Sheet</source>
         <translation>导入曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="190"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="191"/>
         <source>Extruded Sheet</source>
         <translation>拉伸曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="191"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="192"/>
         <source>Revolved Sheet</source>
         <translation>旋转曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="192"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="193"/>
         <source>Swept Sheet</source>
         <translation>扫掠曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="193"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="194"/>
         <source>Lofted Sheet</source>
         <translation>放样曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="194"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="195"/>
         <source>Thicken</source>
         <translation>加厚</translation>
     </message>
@@ -5994,92 +5994,92 @@ Do you want to save it to the original file now?
         <translation type="vanished">偏置曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="203"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="204"/>
         <source>XOY</source>
         <translation type="unfinished">俯视基准面 XOY</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="204"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="205"/>
         <source>YOZ</source>
         <translation type="unfinished">右视基准面 YOZ</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="205"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="206"/>
         <source>XOZ</source>
         <translation type="unfinished">前视基准面 XOZ</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="223"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="224"/>
         <source>Name</source>
         <translation type="unfinished">名称</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="224"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="225"/>
         <source>Id</source>
         <translation type="unfinished">标识号</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="901"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="902"/>
         <source>-Cut</source>
         <translation type="unfinished">-切除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1589"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1590"/>
         <source>Erase</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1507"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1508"/>
         <source>Cancel Boolean</source>
         <translation type="unfinished">取消布尔</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="195"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="196"/>
         <source>NonParametric Sheet</source>
         <translation>无参曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="196"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="197"/>
         <source>NonParametric Solid</source>
         <translation>无参实体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="197"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="198"/>
         <source>Planar Sheet</source>
         <translation type="unfinished">平面曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="198"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="199"/>
         <source>Filled Surface</source>
         <translation>填充曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="199"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="200"/>
         <source>Sewn Sheet</source>
         <translation type="unfinished">缝合曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="200"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="201"/>
         <source>Solidify</source>
         <translation type="unfinished">实体化</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="201"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="202"/>
         <source>Offset Sheet</source>
         <translation type="unfinished">偏置曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1615"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1616"/>
         <source>Error Information</source>
         <translation type="unfinished">查看错误信息</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1633"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1634"/>
         <source>Show ID column</source>
         <translation type="unfinished">显示标识列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1633"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1634"/>
         <source>Hide ID column</source>
         <translation type="unfinished">隐藏标识列</translation>
     </message>
@@ -6294,38 +6294,38 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::MainWindow</name>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="107"/>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="339"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="108"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="340"/>
         <source>wy3dApp</source>
         <translation type="unfinished">易三维</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="185"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="186"/>
         <source>Please exit the task environment first.</source>
         <translation type="unfinished">请先退出任务环境。</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="273"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="274"/>
         <source>The following documents have unsaved changes.</source>
         <translation type="unfinished">以下文档包含未保存的更改。</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="275"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="276"/>
         <source>Do you want to return to the application so you can save these changes?</source>
         <translation type="unfinished">是否要返回应用程序，以便保存这些修改？</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="281"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="282"/>
         <source>Exit</source>
         <translation type="unfinished">退出</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="286"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="287"/>
         <source>Yes</source>
         <translation type="unfinished">是</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="289"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="290"/>
         <source>No - Exit</source>
         <translation type="unfinished">否 - 退出</translation>
     </message>
@@ -6418,17 +6418,17 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::MeasureGuiCmd</name>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="461"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="462"/>
         <source>Select an edge.</source>
         <translation type="unfinished">选择边。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="462"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="463"/>
         <source>Select a face.</source>
         <translation type="unfinished">选择面。</translation>
     </message>
     <message>
-        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="463"/>
+        <location filename="../../commands/utilities/MeasureGuiCmd.cpp" line="464"/>
         <source>Select a body.</source>
         <translation type="unfinished">选择体。</translation>
     </message>
@@ -6473,7 +6473,7 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::OptionsDialog</name>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="49"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="50"/>
         <source>Options</source>
         <translation>选项</translation>
     </message>
@@ -6486,57 +6486,57 @@ Do you want to save it to the original file now?
         <translation type="vanished">取消</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="89"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="90"/>
         <source>View</source>
         <translation>视图</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="91"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="92"/>
         <source>Mouse Rotation Speed</source>
         <translation>鼠标中键旋转速度</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="104"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="105"/>
         <source>Invert Mouse Wheel Zoom Direction</source>
         <translation>反转鼠标滚轮缩放方向</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="115"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="116"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="117"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="118"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="119"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="120"/>
         <source>Chinese</source>
         <translation>中文</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="120"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="121"/>
         <source>English</source>
         <translation>English</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="122"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="123"/>
         <source>Takes effect after restart</source>
         <translation>重启程序后生效</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="138"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="139"/>
         <source>Auto Save</source>
         <translation>自动保存</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="140"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="141"/>
         <source>Auto Save Interval (minutes)</source>
         <translation>自动保存间隔(分钟)</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/OptionsDialog.cpp" line="145"/>
+        <location filename="../../widgets/frame/OptionsDialog.cpp" line="146"/>
         <source>0 disables auto save</source>
         <translation>0 表示禁用自动保存</translation>
     </message>
@@ -7696,17 +7696,17 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::ParamLineEdit</name>
     <message>
-        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="339"/>
+        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="340"/>
         <source>The parameter does not support modification.</source>
         <translation type="unfinished">该参数不支持修改。</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="342"/>
+        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="343"/>
         <source>Invalid parameter value.</source>
         <translation type="unfinished">无效的参数值！</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="345"/>
+        <location filename="../../widgets/panels/property/ParamLineEdit.cpp" line="346"/>
         <source>Failed to modify the parameter value!</source>
         <translation type="unfinished">参数值修改失败！</translation>
     </message>
@@ -7718,17 +7718,17 @@ Do you want to save it to the original file now?
         <translation type="obsolete">颜色</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="76"/>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="77"/>
         <source>Property</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="470"/>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="471"/>
         <source>Position </source>
         <translation type="unfinished">位置 </translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="479"/>
+        <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="480"/>
         <source>Rotation </source>
         <translation type="unfinished">旋转 </translation>
     </message>
@@ -8399,12 +8399,12 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::SketchSpline3DPointsEditor</name>
     <message>
-        <location filename="../../widgets/panels/property/SketchSpline3DPointsEditor.cpp" line="134"/>
+        <location filename="../../widgets/panels/property/SketchSpline3DPointsEditor.cpp" line="135"/>
         <source>Points</source>
         <translation>点</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSpline3DPointsEditor.cpp" line="165"/>
+        <location filename="../../widgets/panels/property/SketchSpline3DPointsEditor.cpp" line="166"/>
         <source>Index</source>
         <translation>序号</translation>
     </message>
@@ -8412,27 +8412,27 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::SketchSplinePointsEditor</name>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="140"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="141"/>
         <source>Points</source>
         <translation>点</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="173"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="174"/>
         <source>Index</source>
         <translation>序号</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="191"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="192"/>
         <source>Direction Angle</source>
         <translation>方向角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="195"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="196"/>
         <source>Weight</source>
         <translation>权重</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="185"/>
+        <location filename="../../widgets/panels/property/SketchSplinePointsEditor.cpp" line="186"/>
         <source>Tangent Driving</source>
         <translation>相切驱动</translation>
     </message>

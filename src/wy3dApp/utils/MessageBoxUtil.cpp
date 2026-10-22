@@ -22,6 +22,7 @@
 #include <QMessageBox>
 #include <wy3dErrorCode.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "translation/ErrorCodeTranslation.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -31,12 +32,12 @@ void MessageBoxUtil::showError(unsigned int code)
 {
     if (wy3d::isError(code))
     {
-        QMessageBox::critical(nullptr, Application::instance().getTitle(),
+        QMessageBox::critical(nullptr, ApplicationImpl::instance().getTitle(),
             ErrorCodeTranslation::instance().getErrorCodeDescription(code));
     }
     else if (wy3d::isWarning(code))
     {
-        QMessageBox::warning(nullptr, Application::instance().getTitle(),
+        QMessageBox::warning(nullptr, ApplicationImpl::instance().getTitle(),
             ErrorCodeTranslation::instance().getErrorCodeDescription(code));
     }
     else
@@ -54,19 +55,19 @@ void MessageBoxUtil::showOpenFileError(wy::ErrorStatus error)
         break;
 
     case wy::ErrorStatus::CantOpenFile:
-        QMessageBox::critical(nullptr, Application::instance().getTitle(),
+        QMessageBox::critical(nullptr, ApplicationImpl::instance().getTitle(),
             QCoreApplication::translate("MessageBox",
                 "Cannot open file!"));
         break;
 
     case wy::ErrorStatus::BadFile:
-        QMessageBox::critical(nullptr, Application::instance().getTitle(),
+        QMessageBox::critical(nullptr, ApplicationImpl::instance().getTitle(),
             QCoreApplication::translate("MessageBox",
                 "Invalid file!"));
         break;
 
     case wy::ErrorStatus::FileVersionTooNew:
-        QMessageBox::critical(nullptr, Application::instance().getTitle(),
+        QMessageBox::critical(nullptr, ApplicationImpl::instance().getTitle(),
             QCoreApplication::translate("MessageBox",
                 "The file cannot be opened because it was created with a newer version of Yi3D."));
         break;
@@ -74,7 +75,7 @@ void MessageBoxUtil::showOpenFileError(wy::ErrorStatus error)
     case wy::ErrorStatus::Error:
     case wy::ErrorStatus::DatabaseNotEmpty:
     default:
-        QMessageBox::critical(nullptr, Application::instance().getTitle(),
+        QMessageBox::critical(nullptr, ApplicationImpl::instance().getTitle(),
             QCoreApplication::translate("MessageBox",
                 "Open file error!"));
         break;
@@ -89,17 +90,17 @@ void MessageBoxUtil::showInformation_NoAvailableSketches()
 
 void MessageBoxUtil::showInformation(const QString& qstr)
 {
-    QMessageBox::information(nullptr, Application::instance().getTitle(), qstr);
+    QMessageBox::information(nullptr, ApplicationImpl::instance().getTitle(), qstr);
 }
 
 void MessageBoxUtil::showWarning(const QString& qstr)
 {
-    QMessageBox::warning(nullptr, Application::instance().getTitle(), qstr);
+    QMessageBox::warning(nullptr, ApplicationImpl::instance().getTitle(), qstr);
 }
 
 void MessageBoxUtil::showError(const QString& qstr)
 {
-    QMessageBox::critical(nullptr, Application::instance().getTitle(), qstr);
+    QMessageBox::critical(nullptr, ApplicationImpl::instance().getTitle(), qstr);
 }
 
 void MessageBoxUtil::showWarning_InvalidValue(double allowMin, double allowMax)

@@ -41,6 +41,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "utils/MathUtils.h"
 #include "utils/SplineUtil.h"
 #include "scene/SketchEntityLinearization.h"
@@ -123,12 +124,12 @@ wyap::CmdExecution::StartResult SketchTrimGuiCmd::onStart()
     _sketchInfo = GuiCommandUtil::initSketchInfo();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 初始化修剪图信息
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -156,9 +157,9 @@ wyap::CmdExecution::StartResult SketchTrimGuiCmd::onStart()
     pDb->addReactor(this);
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     // 提示信息
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Trim", "Select sketch entities to trim."));
+    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Trim", "Select sketch entities to trim."));
 
     // 点选选项
     _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;
@@ -172,7 +173,7 @@ void SketchTrimGuiCmd::onEnd()
     GuiCommand::onEnd();
 
     // remove database reactor
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     if (pDb)
     {
@@ -185,7 +186,7 @@ void SketchTrimGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     GuiCommand::onAbort(cause);
 
     // remove database reactor
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     if (pDb)
     {
@@ -206,9 +207,9 @@ void SketchTrimGuiCmd::onMouseMove(const MouseEvent& event)
 
     // 设置鼠标样式
     if (_pTransient)
-        Application::instance().setCursor(CursorType::Delete);
+        ApplicationImpl::instance().setCursor(CursorType::Delete);
     else
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
     return;
 }
@@ -231,7 +232,7 @@ void SketchTrimGuiCmd::pickTrimSegment(const wydb::ElementId& id, const wy::Vect
             return;
         }
 
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb)
         {
             assert(false);
@@ -274,14 +275,14 @@ void SketchTrimGuiCmd::onLeftMouseDown(const MouseEvent& event)
         }
     }
     _pTransient = nullptr;
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
     return;
 }
 
 bool SketchTrimGuiCmd::trim(const wydb::ElementId curveId, const SketchTrimKnot& startKnot, const SketchTrimKnot& endKnot)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

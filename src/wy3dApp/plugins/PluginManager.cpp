@@ -31,6 +31,7 @@
 #include <plugin/Plugin.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "plugins/PluginManifest.h"
 #include "Version.h"
 #include <wy3dApp/GatewayEnvironment.h>
@@ -61,7 +62,7 @@ void PluginManager::initialize()
 
     LoadPluginsStatistics statistics = this->loadPlugins();
 
-    wyap::EnvManager* pEnvManager = Application::instance().getEnvManager();
+    wyap::EnvManager* pEnvManager = ApplicationImpl::instance().getEnvManager();
     assert(pEnvManager);
     wy::ErrorStatus error = pEnvManager->addReactor(this);
     assert(wy::ErrorStatus::Ok == error);
@@ -301,7 +302,7 @@ PluginManager::LoadPluginsStatistics PluginManager::loadPlugins()
 
 void PluginManager::terminate()
 {
-    wyap::EnvManager* pEnvManager = Application::instance().getEnvManager();
+    wyap::EnvManager* pEnvManager = ApplicationImpl::instance().getEnvManager();
     assert(pEnvManager);
     pEnvManager->removeReactor(this);
 

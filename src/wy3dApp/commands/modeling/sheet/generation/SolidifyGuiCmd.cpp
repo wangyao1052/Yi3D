@@ -31,6 +31,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
@@ -103,7 +104,7 @@ wyap::CmdExecution::StartResult SolidifyGuiCmd::onStart()
     _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::Sheet>();
     _pointPickOption.postFilter = SingleClassSelPostFilter::create<wy3d::Sheet>();
 
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     wydb::ElementId sheetId(wydb::ElementId::kNull);
     if (this->isValidSheetSelectionSet(ss, sheetId) && !sheetId.isNull())
     {
@@ -118,13 +119,13 @@ wyap::CmdExecution::StartResult SolidifyGuiCmd::onStart()
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate(
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate(
             "SolidifyGuiCmd", "Select a closed sheet to solidify."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -177,7 +178,7 @@ bool SolidifyGuiCmd::isValidSheetSelectionSet(
 
 bool SolidifyGuiCmd::isValidSheet(const wydb::ElementId& sheetId)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pDb->getElement(sheetId));
     if (!pSheet || !pSheet->getParent().isNull()) return false;

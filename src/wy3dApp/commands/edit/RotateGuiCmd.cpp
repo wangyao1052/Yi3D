@@ -43,6 +43,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "view/OsgView.h"
 #include "commands/OsgGuiEventDispatcher.h"
@@ -105,7 +106,7 @@ wyap::CmdExecution::StartResult RotateGuiCmd::onStart()
     // 初始化
     _pRotateTransient = std::make_shared<RotateTransient>();
     _pRotateTransient->hide();
-    if (Application::instance().getSelManager()->getSelections().isEmpty())
+    if (ApplicationImpl::instance().getSelManager()->getSelections().isEmpty())
     {
         this->gotoStep(Step::SelectElements);
     }
@@ -183,7 +184,7 @@ bool RotateGuiCmd::finishStep(Step step)
     case Step::SelectElements:
     {
         // 选择集
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (ss.isEmpty())
         {
             assert(false);
@@ -214,7 +215,7 @@ bool RotateGuiCmd::finishStep(Step step)
         _workPlnPreview.clear();
 
         // 添加工作平面坐标原点为常驻捕捉对象
-        wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+        wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
         assert(pSnapSys);
         pSnapSys->beginChange();
         {
@@ -225,7 +226,7 @@ bool RotateGuiCmd::finishStep(Step step)
         pSnapSys->endChange();
 
         // 显示工作平面坐标系
-        if (Scene* pScene = Application::instance().getActiveScene())
+        if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
         {
             pScene->showSketchCSYS(_workPln);
         }
@@ -308,7 +309,7 @@ bool RotateGuiCmd::finishStep(Step step)
         if (_pRotateTransient) _pRotateTransient->hide();
 
         // 清空捕捉结果
-        Application::instance().getSnapSystem()->clearSnapResult();
+        ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
         // 清空草图捕捉结果
         if (getSketchSnapSys()) getSketchSnapSys()->clearSnapResult();
         if (_pWorkPlnSnapSystem) _pWorkPlnSnapSystem->clearSnapResult();
@@ -336,7 +337,7 @@ void RotateGuiCmd::gotoStep(Step step)
     _hoverPopupState.resetValue();
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
     // 清空草图捕捉结果
     if (getSketchSnapSys()) getSketchSnapSys()->clearSnapResult();
     if (_pWorkPlnSnapSystem) _pWorkPlnSnapSystem->clearSnapResult();
@@ -357,10 +358,10 @@ void RotateGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("RotateGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RotateGuiCmd",
             "Select elements to rotate; press Enter or Spacebar to confirm; press Esc to cancel."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
@@ -374,10 +375,10 @@ void RotateGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("RotateGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RotateGuiCmd",
             "Select datum plane as working plane."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
@@ -391,10 +392,10 @@ void RotateGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("RotateGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RotateGuiCmd",
             "Specify the baseline start point; you can directly input the coordinate values."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 局部更新草图捕捉系统
         if (getSketchSnapSys())
@@ -416,10 +417,10 @@ void RotateGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("RotateGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RotateGuiCmd",
             "Specify the baseline end point; you can directly input length and angle values."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉上下文:绘制线
         _pSnapContext = std::make_shared<DrawLine2dContext>(_basePnt2);
@@ -436,10 +437,10 @@ void RotateGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("RotateGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RotateGuiCmd",
             "Specify the rotation angle; you can directly input the value."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉上下文:绘制线
         _pSnapContext = std::make_shared<DrawLine2dContext>(_basePnt2);
@@ -463,8 +464,8 @@ void RotateGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
     }
     break;
     }
@@ -685,7 +686,7 @@ void RotateGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void RotateGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
@@ -915,7 +916,7 @@ void RotateGuiCmd::onEnterKey()
 {
     if (Step::SelectElements == _step)
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (!ss.isEmpty())
         {
             if (this->finishStep(_step))
@@ -946,9 +947,9 @@ void RotateGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::SelectElements == _step)
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 }
 

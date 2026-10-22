@@ -26,6 +26,7 @@
 #include <wy3dSketchCurve3D.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/transient/Sketch3DCurveTransient.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -53,7 +54,7 @@ void Sketch3DSnapResult::show()
         return;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
 
     _pMouseFollow = std::make_shared<SnapTipMouseFollow>();
     std::set<wydb::ElementId> highlightedIds; // 同一参考图元只高亮一次(角度+相等可同参考)

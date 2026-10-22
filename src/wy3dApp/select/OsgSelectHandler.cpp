@@ -19,6 +19,7 @@
 #include "OsgSelectHandler.h"
 #include <cassert>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <osg/Camera>
 #include <osgUtil/PolytopeIntersector>
 #include "OsgSelectUtils.h"
@@ -88,7 +89,7 @@ wyap::Selection OsgSelectHandler::pointPick(float x, float y)
     option.selType = _selType;
     option.preFilter = _pPreSelFilter;
     option.postFilter = _pPostSelFilter;
-    return PointPick::pick(Application::instance().getActiveDatabase(),
+    return PointPick::pick(ApplicationImpl::instance().getActiveDatabase(),
                            _pOsgView.get(), x, y, option);
 }
 
@@ -101,7 +102,7 @@ wyap::SelectionSet OsgSelectHandler::boxPick_cross(
     option.selType = _selType;
     option.preFilter = _pPreSelFilter;
     option.postFilter = _pPostSelFilter;
-    return BoxPick::pick(Application::instance().getActiveDatabase(),
+    return BoxPick::pick(ApplicationImpl::instance().getActiveDatabase(),
                          _pOsgView.get(), xMin, yMin, xMax, yMax, option);
 }
 
@@ -124,7 +125,7 @@ wyap::SelectionSet OsgSelectHandler::boxPick_window(
     OsgSelectUtils::initPolytope(pCamera, xMin, yMin, xMax, yMax, polytope);
 
     // 窗口框选
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     std::list<wydb::ElementId> pickedIdsList;
     pickedIdsList = pScene->pickByNormalBox(polytope, _allowedElemTypes == 0 ? ElementNodeType::All : _allowedElemTypes);
 
@@ -140,7 +141,7 @@ wyap::SelectionSet OsgSelectHandler::boxPick_window(
 void OsgSelectHandler::drawBoxRect(float xMin, float yMin,
                                     float xMax, float yMax)
 {
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return;
     BoxSelectRectangle* pSelRect = pScene->getBoxSelectRectNode();
     if (!pSelRect) return;
@@ -150,7 +151,7 @@ void OsgSelectHandler::drawBoxRect(float xMin, float yMin,
 
 void OsgSelectHandler::clearBoxRect()
 {
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return;
     BoxSelectRectangle* pSelRect = pScene->getBoxSelectRectNode();
     if (!pSelRect) return;

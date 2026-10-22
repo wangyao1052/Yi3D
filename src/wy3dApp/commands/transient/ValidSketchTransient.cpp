@@ -19,6 +19,7 @@
 #include "ValidSketchTransient.h"
 #include <QToolTip>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/SketchElementNode.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -37,7 +38,7 @@ ValidSketchTransient::~ValidSketchTransient()
 
 void ValidSketchTransient::highlight(const wydb::ElementId& id, bool flag)
 {
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return;
     ElementNode* pNode = pScene->getElementNode(id);
     if (!pNode) return;

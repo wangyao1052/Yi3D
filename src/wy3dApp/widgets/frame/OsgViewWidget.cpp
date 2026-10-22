@@ -18,6 +18,7 @@
 
 #include "OsgViewWidget.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "application/Config.h"
 #include "view/CameraManipulator3d.h"
 #include "commands/OsgGuiEventDispatcher.h"
@@ -184,7 +185,7 @@ void OsgViewWidget::applyViewSettings()
     {
         return;
     }
-	const Config* pConfig = Application::instance().getConfig();
+	const Config* pConfig = ApplicationImpl::instance().getConfig();
 	if (!pConfig)
 	{
 		return;

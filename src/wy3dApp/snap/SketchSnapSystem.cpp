@@ -39,6 +39,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "SnapContext.h"
 #include "SnapConsts.h"
 #include "Snap2dResultFactory.h"
@@ -147,7 +148,7 @@ SketchSnapSystem::SketchSnapSystem(const wy3d::Sketch* pSketch)
 
 const wy3d::Sketch* SketchSnapSystem::getSketch() const
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return nullptr;
     return wy3d::Sketch::cast(pDb->getElement(_sketchId));
 }
@@ -392,7 +393,7 @@ static inline bool projectPointOnLineseg(
 
 GuiCmdTransientSPtr SketchSnapSystem::createHighlightTransient(const wydb::ElementId& id) const
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return nullptr;
 
     if (const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(id)))

@@ -34,6 +34,7 @@
 #include <wy3dSketchCurve.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Snap2dResult.h>
 #include <wy3dApp/Snap2dRule.h>
 #include <wy3dApp/Snap2dSystem.h>
@@ -302,9 +303,9 @@ wyap::CmdExecution::StartResult SketchDrawArcTangentGuiCmd::onStart()
         }
     }
 
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     this->gotoStep(Step::SpecifyStartPoint);
 
@@ -348,8 +349,8 @@ void SketchDrawArcTangentGuiCmd::showModePanel()
         // The view widget of the active document. findChild<QOpenGLWidget*>() would answer with
         // the first document's viewport instead whenever more than one document is open.
         QWidget* pParentWidget = nullptr;
-        MainWindow* pMainWindow = Application::instance().getMainWindow();
-        wyap::Document* pActiveDoc = Application::instance().getActiveDocument();
+        MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+        wyap::Document* pActiveDoc = ApplicationImpl::instance().getActiveDocument();
         if (pMainWindow && pActiveDoc)
         {
             if (ViewWidgetContainer* pViewWidgetContainer = pMainWindow->getViewWidgetContainer())
@@ -435,7 +436,7 @@ void SketchDrawArcTangentGuiCmd::cleanUp()
     _pArcTransient = nullptr;
     _pCenterPointTransient = nullptr;
 
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 }
 
@@ -537,16 +538,16 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
     this->hidePopup();
     _hoverPopupState.resetValue();
 
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
     switch (step)
     {
     case Step::SpecifyStartPoint:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
             "Specify the start point on an endpoint of an existing curve; the arc is tangent to the curve."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         if (_sketchInfo.pSketchSnapSys)
         {
@@ -558,9 +559,9 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyEndPoint:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
             "Specify the end point of the arc; you can directly input the coordinate values."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         _pSnapContext = std::make_shared<Locate2dContext>();
 
@@ -571,9 +572,9 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyRadius:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
             "Specify the radius; you can directly input the value."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         _pSnapContext = std::make_shared<Locate2dContext>();
 
@@ -584,9 +585,9 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
 
     case Step::SpecifySweepAngle:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
             "Specify the total angle; you can directly input the value."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         _pSnapContext = std::make_shared<DrawArc2dContext>(_center, _radius, _startPnt);
 
@@ -597,7 +598,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -770,7 +771,7 @@ void SketchDrawArcTangentGuiCmd::onFrame(double time)
 
 void SketchDrawArcTangentGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
@@ -1005,7 +1006,7 @@ std::set<wydb::ElementId> SketchDrawArcTangentGuiCmd::getSnapExcludeIds() const
 bool SketchDrawArcTangentGuiCmd::getEndpointSnap(const Snap2dResultSPtr& pSnapResult,
     wy::Vector2& startPnt, wy::Vector2& tangent) const
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     return getEndpointTangentFromSnap(pSnapResult.get(), pDb, _sketchInfo.sketchId, startPnt, tangent);
 }
 
@@ -1070,7 +1071,7 @@ bool SketchDrawArcTangentGuiCmd::createArc()
         return false;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

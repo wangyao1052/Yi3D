@@ -35,6 +35,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/GuiCommandUtil.h>
@@ -116,7 +117,7 @@ bool SketchDrawArc3DGuiCmd::finishStep(unsigned int step)
     {
     case Step::SpecifyCenterPnt:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb)
         {
             assert(false);
@@ -197,7 +198,7 @@ void SketchDrawArc3DGuiCmd::gotoStep(unsigned int step)
     {
     case Step::SpecifyCenterPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
             "Specify the center point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -205,7 +206,7 @@ void SketchDrawArc3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyStartPoint:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
             "Specify the start point; you can directly input the radius and the start angle. "
             "Press Space to switch the drawing plane."));
     }
@@ -213,14 +214,14 @@ void SketchDrawArc3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyEndPoint:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
             "Specify the total angle; you can directly input the value."));
     }
     break;
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -372,7 +373,7 @@ void SketchDrawArc3DGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawArc3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
     {
         assert(false);

@@ -42,6 +42,7 @@
 #include <wy3dCurve.h>
 #include <wy3dSheet.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/Colors.h"
@@ -392,24 +393,24 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
     _step = step;
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
     switch (step)
     {
     case Step::SelectEdge:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
             "Select an edge, sketch curve or 3D sketch curve."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 预览
         _preview.clear();
@@ -427,17 +428,17 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
     case Step::SpecifyDistance:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 允许输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
             "Specify through point or directly input the distance value."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 预览
         _preview.clear();
@@ -453,7 +454,7 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -608,7 +609,7 @@ void NormalToEdgeDatumPlnCmd::initializePopups()
         return;
     }
 
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     _pDistancePopup = std::make_unique<GuiCmdHoverInputPopup1>(
         QCoreApplication::translate("DatumPlnCmd", "Distance"),
         QStringLiteral("-1234.56"),

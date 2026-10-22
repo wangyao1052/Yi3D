@@ -27,6 +27,7 @@
 #include <wyapSelManager.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "utils/MessageBoxUtil.h"
 
 #include <typeindex>
@@ -63,7 +64,7 @@ public:
                 wy3d::Plane plane = pEditor->getPlane(ok);
                 if (!ok) return;
 
-                auto& app = Application::instance();
+                auto& app = ApplicationImpl::instance();
                 wydb::Database* pDb = app.getActiveDatabase();
                 if (!pDb) { assert(false); return; }
 
