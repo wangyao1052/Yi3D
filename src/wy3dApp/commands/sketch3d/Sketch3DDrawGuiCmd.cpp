@@ -42,7 +42,7 @@
 #include "snap/SnapObject.h"
 #include "snap3d/Sketch3DSnapSystem.h"
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
-#include <wy3dApp/IconUtil.h>
+#include "utils/IconUtil.h"
 #include "view/BaseView.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"

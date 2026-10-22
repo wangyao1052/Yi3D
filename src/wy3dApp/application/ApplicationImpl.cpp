@@ -32,7 +32,7 @@
 #include "application/AutoSave.h"
 #include "commands/FileCommands.h"
 #include "plugins/PluginManager.h"
-#include <wy3dApp/IconUtil.h>
+#include "utils/IconUtil.h"
 #include "OsgUtils.h"
 #include <wyVector3.h>
 #include <wyapSceneManager.h>

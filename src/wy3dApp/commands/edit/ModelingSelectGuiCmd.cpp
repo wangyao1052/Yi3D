@@ -27,7 +27,7 @@
 #include <wy3dApp/GizmoFactory.h>
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
-#include <wy3dApp/IconUtil.h>
+#include "utils/IconUtil.h"
 #include "utils/TransactionUtil.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"

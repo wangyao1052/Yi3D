@@ -44,7 +44,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/ElementNode.h>
-#include <wy3dApp/IconUtil.h>
+#include "utils/IconUtil.h"
 #include "utils/TransactionUtil.h"
 #include "utils/CopyPasteUtil.h"
 #include <wy3dApp/SketchEnvironment.h>

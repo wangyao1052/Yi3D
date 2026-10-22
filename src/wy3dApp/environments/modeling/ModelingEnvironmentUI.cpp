@@ -35,7 +35,7 @@
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
-#include <wy3dApp/IconUtil.h>
+#include "utils/IconUtil.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

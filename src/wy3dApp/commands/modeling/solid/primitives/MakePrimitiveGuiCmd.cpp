@@ -40,7 +40,7 @@
 #include "snap/SnapObject.h"
 #include "snap/SketchSnapSystem.h"
 #include "select/SketchPlaneSelFilter.h"
-#include <wy3dApp/IconUtil.h>
+#include "utils/IconUtil.h"
 #include "utils/MathUtils.h"
 #include "utils/TopoShapeUtil.h"
 #include <wy3dApp/SketchEnvironment.h>

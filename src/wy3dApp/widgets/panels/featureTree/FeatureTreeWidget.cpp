@@ -95,7 +95,7 @@
 #include <wy3dApp/CommandAction.h>
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
-#include <wy3dApp/IconUtil.h>
+#include "utils/IconUtil.h"
 #include "utils/TransactionUtil.h"
 #include "utils/MessageBoxUtil.h"
 #include "utils/CopyPasteUtil.h"
