@@ -26,6 +26,7 @@
 #include <wy3dApp/Application.h>
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/Snap2dSystem.h>
+#include "widgets/StatusBarHelper.h"
 
 #include "DemoSnapRule.h"
 

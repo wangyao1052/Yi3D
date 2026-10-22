@@ -19,70 +19,23 @@
 #ifndef WY3DAPP_APPLICATION_H
 #define WY3DAPP_APPLICATION_H
 
-#include <memory>
-#include <string>
-#include <set>
-#include <deque>
-
-#include <QObject>
-#include <QGLWidget>
-#include <QTranslator>
-#include <QToolBar>
-
-#include <osg/Node>
-#include <osg/Geode>
-#include <osg/Group>
-#include <osgViewer/View>
-#include <wydbElementId.h>
 #include <wyapApplication.h>
-#include <wyapSceneManager.h>
-#include "snap/SnapSystemBase.h"
-#include "widgets/StatusBarHelper.h"
 #include <wy3dApp/wy3dAppDefs.h>
-
-namespace wydb
-{
-    class Database;
-}
-
-namespace wyap
-{
-    class Document;
-    class DocManager;
-    class SelManager;
-    class CmdStack;
-    class CmdManager;
-    class ViewManager;
-    class SceneManager;
-}
 
 namespace wy3dApp {
 
-class View;
-class BaseView;
-class Scene;
 class MainWindow;
-class DockPanelManager;
-class Config;
-
-class GizmoFactory;
-class AutoSave;
+class StatusBarHelper;
 
 enum class CursorType;
 
-class WY3DAPP_EXPORT Application : public QObject, public wyap::Application
+class WY3DAPP_EXPORT Application : public wyap::Application
 {
-    Q_OBJECT
-
 protected:
     Application();
     ~Application() override;
 
 public:
-    // Create the Qt application and main window, load plugins, enter the gateway
-    // environment, then run the event loop. Returns the event loop's exit code.
-    virtual int runApplication(int argc, char** argv) = 0;
-
     virtual StatusBarHelper* getStatusBar() = 0;
     virtual MainWindow* getMainWindow() const = 0;
     virtual void setCursor(CursorType cursorType) = 0;

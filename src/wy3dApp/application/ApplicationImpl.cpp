@@ -131,6 +131,13 @@ Application* getApplication()
     return &ApplicationImpl::instance();
 }
 
+// Declared locally in src/main/main.cpp: the entry point is intentionally kept
+// out of the public headers.
+WY3DAPP_EXPORT int runApplication(int argc, char** argv)
+{
+    return ApplicationImpl::instance().runApplication(argc, argv);
+}
+
 ApplicationImpl::ApplicationImpl() :
     _pMainWindow(nullptr), _pDockPanelManager(nullptr),
     _pConfig(new Config())

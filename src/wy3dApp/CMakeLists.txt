@@ -23,11 +23,11 @@ add_library(wy3dApp SHARED ${APP_SRCS})
 target_compile_definitions(wy3dApp PRIVATE WY3DAPP_LIBRARY)
 # Explicit exports only: classes used by YI3D.exe or plugins carry WY3DAPP_EXPORT
 
-# The Q_OBJECT public headers (inc/wy3dApp) have no sibling .cpp files, so
-# AUTOMOC only finds them when listed in the target's sources. New public
-# Q_OBJECT headers must be added here.
+# Q_OBJECT headers that AUTOMOC cannot find through a sibling .cpp must be
+# listed here (the public inc/wy3dApp headers have none). ApplicationImpl.h is
+# listed explicitly: it carries the Q_OBJECT moved down from Application.
 set(APP_MOC_HEADERS
-    "${CMAKE_SOURCE_DIR}/inc/wy3dApp/Application.h"
+    "${CMAKE_SOURCE_DIR}/src/wy3dApp/application/ApplicationImpl.h"
     "${CMAKE_SOURCE_DIR}/inc/wy3dApp/EnvironmentBase.h"
     "${CMAKE_SOURCE_DIR}/inc/wy3dApp/ParamDisplayNameRegistry.h"
 )

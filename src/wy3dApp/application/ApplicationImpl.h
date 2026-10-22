@@ -72,8 +72,10 @@ class AutoSave;
 
 enum class CursorType;
 
-class ApplicationImpl final : public Application
+class ApplicationImpl final : public QObject, public Application
 {
+    Q_OBJECT
+
 private:
     ApplicationImpl();
     ~ApplicationImpl();
@@ -90,7 +92,7 @@ public:
 
     // Create the Qt application and main window, load plugins, enter the gateway
     // environment, then run the event loop. Returns the event loop's exit code.
-    int runApplication(int argc, char** argv) override;
+    int runApplication(int argc, char** argv);
 
     // 程序配置
     const Config* getConfig() const

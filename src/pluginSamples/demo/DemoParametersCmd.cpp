@@ -38,6 +38,7 @@
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/ParamDisplayNameRegistry.h>
+#include "widgets/StatusBarHelper.h"
 #include "widgets/frame/MainWindow.h"
 
 namespace {
@@ -156,7 +157,7 @@ void DemoParametersCmd::onLeftMouseUp(const wy3dApp::MouseEvent& event)
     wydb::ElementId id = _hoverPreview.getSelection().getElementId();
     if (id.isNull()) return;
 
-    QTimer::singleShot(0, wy3dApp::getApplication(), [this, id]()
+    QTimer::singleShot(0, QCoreApplication::instance(), [this, id]()
     {
         this->showParameters(id);
         this->requestEnd();
