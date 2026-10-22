@@ -25,6 +25,7 @@
 namespace wy3dApp {
 
 class MainWindow;
+class ParamDisplayNameRegistry;
 class StatusBarHelper;
 
 enum class CursorType;
@@ -39,6 +40,9 @@ public:
     virtual StatusBarHelper* getStatusBar() = 0;
     virtual MainWindow* getMainWindow() const = 0;
     virtual void setCursor(CursorType cursorType) = 0;
+    // Owned by the application; non-null once the application has started.
+    // The caller does not own the returned pointer.
+    virtual ParamDisplayNameRegistry* getParamDisplayNameRegistry() const = 0;
 };
 
 // Returns the process-wide Application singleton (implemented by ApplicationImpl).

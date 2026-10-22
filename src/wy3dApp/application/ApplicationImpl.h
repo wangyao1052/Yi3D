@@ -69,6 +69,7 @@ class Config;
 
 class GizmoFactory;
 class AutoSave;
+class ParamDisplayNameRegistry;
 
 enum class CursorType;
 
@@ -148,6 +149,12 @@ public:
         return _pGizmoFactory.get();
     }
 
+    // Created by runApplication after the translators are installed.
+    ParamDisplayNameRegistry* getParamDisplayNameRegistry() const override
+    {
+        return _pParamDisplayNameRegistry.get();
+    }
+
     // 设置鼠标样式
     void setCursor(CursorType cursorType) override;
 
@@ -216,6 +223,8 @@ private:
     std::unique_ptr<AutoSave> _pAutoSave;
     // Gizmo创建工厂
     std::unique_ptr<GizmoFactory> _pGizmoFactory;
+    // Parameter display name registry; created after translators are installed.
+    std::unique_ptr<ParamDisplayNameRegistry> _pParamDisplayNameRegistry;
     // 捕捉系统
     std::unique_ptr<wyap::SnapSystem> _pSnapSystem;
     // 选择过滤字符串

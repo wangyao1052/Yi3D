@@ -29,7 +29,6 @@ target_compile_definitions(wy3dApp PRIVATE WY3DAPP_LIBRARY)
 set(APP_MOC_HEADERS
     "${CMAKE_SOURCE_DIR}/src/wy3dApp/application/ApplicationImpl.h"
     "${CMAKE_SOURCE_DIR}/inc/wy3dApp/EnvironmentBase.h"
-    "${CMAKE_SOURCE_DIR}/inc/wy3dApp/ParamDisplayNameRegistry.h"
 )
 target_sources(wy3dApp PRIVATE ${APP_MOC_HEADERS})
 

@@ -202,7 +202,10 @@ void DemoParametersCmd::showParameters(const wydb::ElementId& elementId)
             continue;
         }
 
-        const QString displayName = wy3dApp::ParamDisplayNameRegistry::instance().lookup(className, paramName);
+        wy3dApp::ParamDisplayNameRegistry* pRegistry =
+            wy3dApp::getApplication()->getParamDisplayNameRegistry();
+        assert(pRegistry);
+        const QString displayName = pRegistry->lookup(className, paramName);
         lines << QStringLiteral("%1: %2").arg(displayName, paramValueToText(*pParamValue));
     }
 

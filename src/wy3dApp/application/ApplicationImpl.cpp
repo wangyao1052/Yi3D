@@ -84,7 +84,7 @@
 #include "application/Document.h"
 #include "environments/gateway/GatewayEnvironmentImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
-#include <wy3dApp/ParamDisplayNameRegistry.h>
+#include "translation/ParamDisplayNameRegistryImpl.h"
 
 #define WY3DAPP_VIEW(pView) dynamic_cast<BaseView*>(pView)
 #define WY3DAPP_SCENE(pScene) dynamic_cast<Scene*>(pScene)
@@ -240,7 +240,10 @@ int ApplicationImpl::runApplication(int argc, char** argv)
         }
     }
 
-    ParamDisplayNameRegistry::instance();
+    // Constructed after the translators are installed: the constructor registers
+    // the built-in display names through tr().
+    assert(!_pParamDisplayNameRegistry);
+    _pParamDisplayNameRegistry = std::make_unique<ParamDisplayNameRegistryImpl>();
 
     // 主窗口
     MainWindow mainWindow;

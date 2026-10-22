@@ -336,7 +336,11 @@ void PropertyEditorWidget::showParameterValueList(const std::vector<const wydb::
         assert(info.paramValue);
 
         QLabel* pLabel = this->newLabel("", this);
-        QString qstrParamDispName = ParamDisplayNameRegistry::instance().lookup(info.paramDef->getClassName(), info.paramDef->getName());
+        ParamDisplayNameRegistry* pRegistry =
+            ApplicationImpl::instance().getParamDisplayNameRegistry();
+        assert(pRegistry);
+        QString qstrParamDispName = pRegistry->lookup(
+            info.paramDef->getClassName(), info.paramDef->getName());
         pLabel->setText(qstrParamDispName);
 
         QWidget* pEditControl = this->createEditorWidgetForParam(info);

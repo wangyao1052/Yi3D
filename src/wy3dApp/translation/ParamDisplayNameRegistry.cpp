@@ -17,7 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <cassert>
-#include <wy3dApp/ParamDisplayNameRegistry.h>
+#include "ParamDisplayNameRegistryImpl.h"
 #include <wyrxClassInfo.h>
 #include <wy3dBox.h>
 #include <wy3dCylinder.h>
@@ -91,57 +91,53 @@ void addBuiltin(ParamDisplayNameRegistry& registry,
 
 } // namespace
 
-ParamDisplayNameRegistry& ParamDisplayNameRegistry::instance()
-{
-    static ParamDisplayNameRegistry instance(nullptr);
-    return instance;
-}
+ParamDisplayNameRegistry::~ParamDisplayNameRegistry() = default;
 
-ParamDisplayNameRegistry::ParamDisplayNameRegistry(QObject* parent) : QObject(parent)
+ParamDisplayNameRegistryImpl::ParamDisplayNameRegistryImpl()
 {
     // Box
     {
         const wyrx::ClassInfo* pClassInfo = wy3d::Box::classInfo();
-        addBuiltin(*this, pClassInfo, wy3d::Box::PARAM_LENGTH, tr("Box Length"));
-        addBuiltin(*this, pClassInfo, wy3d::Box::PARAM_WIDTH, tr("Box Width"));
-        addBuiltin(*this, pClassInfo, wy3d::Box::PARAM_HEIGHT, tr("Box Height"));
+        addBuiltin(*this, pClassInfo, wy3d::Box::PARAM_LENGTH, tr("Length", "wy3d::Box"));
+        addBuiltin(*this, pClassInfo, wy3d::Box::PARAM_WIDTH, tr("Width", "wy3d::Box"));
+        addBuiltin(*this, pClassInfo, wy3d::Box::PARAM_HEIGHT, tr("Height", "wy3d::Box"));
     }
     // Cylinder
     {
         const wyrx::ClassInfo* pClassInfo = wy3d::Cylinder::classInfo();
-        addBuiltin(*this, pClassInfo, wy3d::Cylinder::PARAM_RADIUS, tr("Cylinder Radius"));
-        addBuiltin(*this, pClassInfo, wy3d::Cylinder::PARAM_HEIGHT, tr("Cylinder Height"));
+        addBuiltin(*this, pClassInfo, wy3d::Cylinder::PARAM_RADIUS, tr("Radius", "wy3d::Cylinder"));
+        addBuiltin(*this, pClassInfo, wy3d::Cylinder::PARAM_HEIGHT, tr("Height", "wy3d::Cylinder"));
     }
     // Sphere
     {
         const wyrx::ClassInfo* pClassInfo = wy3d::Sphere::classInfo();
-        addBuiltin(*this, pClassInfo, wy3d::Sphere::PARAM_RADIUS, tr("Sphere Radius"));
+        addBuiltin(*this, pClassInfo, wy3d::Sphere::PARAM_RADIUS, tr("Radius", "wy3d::Sphere"));
     }
     // Cone
     {
         const wyrx::ClassInfo* pClassInfo = wy3d::Cone::classInfo();
-        addBuiltin(*this, pClassInfo, wy3d::Cone::PARAM_RADIUS, tr("Cone Radius"));
-        addBuiltin(*this, pClassInfo, wy3d::Cone::PARAM_HEIGHT, tr("Cone Height"));
+        addBuiltin(*this, pClassInfo, wy3d::Cone::PARAM_RADIUS, tr("Radius", "wy3d::Cone"));
+        addBuiltin(*this, pClassInfo, wy3d::Cone::PARAM_HEIGHT, tr("Height", "wy3d::Cone"));
     }
     // Torus
     {
         const wyrx::ClassInfo* pClassInfo = wy3d::Torus::classInfo();
-        addBuiltin(*this, pClassInfo, wy3d::Torus::PARAM_MAJOR_RADIUS, tr("Torus Major Radius"));
-        addBuiltin(*this, pClassInfo, wy3d::Torus::PARAM_MINOR_RADIUS, tr("Torus Minor Radius"));
+        addBuiltin(*this, pClassInfo, wy3d::Torus::PARAM_MAJOR_RADIUS, tr("Major Radius", "wy3d::Torus"));
+        addBuiltin(*this, pClassInfo, wy3d::Torus::PARAM_MINOR_RADIUS, tr("Minor Radius", "wy3d::Torus"));
     }
     // Tube
     {
         const wyrx::ClassInfo* pClassInfo = wy3d::Tube::classInfo();
-        addBuiltin(*this, pClassInfo, wy3d::Tube::PARAM_OUTER_RADIUS, tr("Tube Outer Radius"));
-        addBuiltin(*this, pClassInfo, wy3d::Tube::PARAM_INNER_RADIUS, tr("Tube Inner Radius"));
-        addBuiltin(*this, pClassInfo, wy3d::Tube::PARAM_HEIGHT, tr("Tube Height"));
+        addBuiltin(*this, pClassInfo, wy3d::Tube::PARAM_OUTER_RADIUS, tr("Outer Radius", "wy3d::Tube"));
+        addBuiltin(*this, pClassInfo, wy3d::Tube::PARAM_INNER_RADIUS, tr("Inner Radius", "wy3d::Tube"));
+        addBuiltin(*this, pClassInfo, wy3d::Tube::PARAM_HEIGHT, tr("Height", "wy3d::Tube"));
     }
     // Extrusion
     {
         const wyrx::ClassInfo* pClassInfo = wy3d::Extrusion::classInfo();
-        addBuiltin(*this, pClassInfo, wy3d::Extrusion::PARAM_DEPTH, tr("Depth"));
-        addBuiltin(*this, pClassInfo, wy3d::Extrusion::PARAM_START_OFFSET, tr("Extrusion Start Offset"));
-        addBuiltin(*this, pClassInfo, wy3d::Extrusion::PARAM_DIRECTION, tr("Direction"));
+        addBuiltin(*this, pClassInfo, wy3d::Extrusion::PARAM_DEPTH, tr("Depth", "wy3d::Extrusion"));
+        addBuiltin(*this, pClassInfo, wy3d::Extrusion::PARAM_START_OFFSET, tr("Start Offset", "wy3d::Extrusion"));
+        addBuiltin(*this, pClassInfo, wy3d::Extrusion::PARAM_DIRECTION, tr("Direction", "wy3d::Extrusion"));
     }
     // Revolution
     {
@@ -486,11 +482,7 @@ ParamDisplayNameRegistry::ParamDisplayNameRegistry(QObject* parent) : QObject(pa
     }
 }
 
-ParamDisplayNameRegistry::~ParamDisplayNameRegistry()
-{
-}
-
-wy::ErrorStatus ParamDisplayNameRegistry::add(
+wy::ErrorStatus ParamDisplayNameRegistryImpl::add(
     const wyrx::ClassInfo* pClassInfo, const std::string& paramName, const QString& displayName)
 {
     if (!pClassInfo) return wy::ErrorStatus::NullInputPointer;
@@ -499,7 +491,7 @@ wy::ErrorStatus ParamDisplayNameRegistry::add(
     return result.second ? wy::ErrorStatus::Ok : wy::ErrorStatus::DuplicateKey;
 }
 
-QString ParamDisplayNameRegistry::lookup(const std::string& className, const std::string& paramName) const
+QString ParamDisplayNameRegistryImpl::lookup(const std::string& className, const std::string& paramName) const
 {
     auto iter = _paramName2DisplayName.find(globalName(className, paramName));
     if (iter != _paramName2DisplayName.cend())

@@ -20,8 +20,6 @@
 #define WY3D_APP_PARAM_DISPLAY_NAME_REGISTRY_H
 
 #include <string>
-#include <map>
-#include <QObject>
 #include <QString>
 
 #include <wyErrors.h>
@@ -31,37 +29,35 @@ namespace wyrx { class ClassInfo; }
 
 namespace wy3dApp {
 
-class WY3DAPP_EXPORT ParamDisplayNameRegistry : public QObject
+// Interface only; the implementation is internal. The application owns the
+// single instance and creates it after the translators are installed; access
+// it through Application::getParamDisplayNameRegistry().
+class WY3DAPP_EXPORT ParamDisplayNameRegistry
 {
-    Q_OBJECT
 public:
-    static ParamDisplayNameRegistry& instance();
+    virtual ~ParamDisplayNameRegistry();
 
     // Returns the registered display name, or paramName if not registered.
-    QString lookup(const std::string& className, const std::string& paramName) const;
+    virtual QString lookup(const std::string& className,
+                           const std::string& paramName) const = 0;
 
     // Returns NullInputPointer if pClassInfo is null, DuplicateKey if the
     // (class, paramName) pair is already registered.
-    wy::ErrorStatus add(const wyrx::ClassInfo* pClassInfo,
-                        const std::string& paramName,
-                        const QString& displayName);
+    virtual wy::ErrorStatus add(const wyrx::ClassInfo* pClassInfo,
+                                const std::string& paramName,
+                                const QString& displayName) = 0;
 
     // Header-only sugar for classes declared with WYRX_DECLARE_MEMBERS /
     // WYDB_DECLARE_MEMBERS. Pass the class that declares the parameter.
     template <typename Class>
-    static wy::ErrorStatus add(const std::string& paramName,
-                               const QString& displayName)
+    wy::ErrorStatus add(const std::string& paramName,
+                        const QString& displayName)
     {
-        return instance().add(Class::classInfo(), paramName, displayName);
+        return add(Class::classInfo(), paramName, displayName);
     }
 
-private:
-    // className::paramName -> display name
-    std::map<std::string, QString> _paramName2DisplayName;
-
-private:
-    explicit ParamDisplayNameRegistry(QObject* parent = nullptr);
-    ~ParamDisplayNameRegistry();
+protected:
+    ParamDisplayNameRegistry() = default;
 };
 
 } // namespace wy3dApp
