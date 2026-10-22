@@ -26,6 +26,7 @@
 #include <wydbTransaction.h>
 
 #include <wy3dApp/Application.h>
+#include <wy3dApp/CommandAction.h>
 #include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -33,9 +34,9 @@
 namespace wy3dApp {
 
 ModelingEnvironmentImpl::ModelingEnvironmentImpl()
-    : _pUI(std::make_unique<ModelingEnvironmentUI>())
 {
     setName("modeling");
+    _pUI = std::make_unique<ModelingEnvironmentUI>(this);
 }
 
 ModelingEnvironmentImpl::~ModelingEnvironmentImpl()
@@ -77,7 +78,7 @@ void ModelingEnvironmentImpl::onEnter()
     _pUI->onEnter();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
@@ -89,7 +90,7 @@ void ModelingEnvironmentImpl::onEnter()
 
 void ModelingEnvironmentImpl::onExit(ExitCode exitCode)
 {
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
     _pUI->onExit(exitCode);
@@ -98,7 +99,7 @@ void ModelingEnvironmentImpl::onExit(ExitCode exitCode)
 
 void ModelingEnvironmentImpl::onSuspend()
 {
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
     _pUI->onSuspend();
@@ -111,7 +112,7 @@ void ModelingEnvironmentImpl::onResume()
     _pUI->onResume();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 

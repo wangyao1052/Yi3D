@@ -16,15 +16,21 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <QAction>
+#include <QActionGroup>
 #include <QApplication>
 #include <QCoreApplication>
 #include <QFile>
+#include <QIcon>
+#include <QMenu>
 #include <QMenuBar>
+#include <QToolBar>
 #include <QToolButton>
 #include <QTimer>
 
-#include <wy3dApp/EnvironmentUI.h>
+#include "EnvironmentUIImpl.h"
 #include <wy3dApp/Application.h>
+#include <wy3dApp/CommandAction.h>
 #include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include <wy3dApp/Scene.h>
@@ -35,8 +41,14 @@
 
 namespace wy3dApp {
 
-EnvironmentUI::EnvironmentUI() : _isCmdTerminatedOnEventLoopPosted(false)
+EnvironmentUI::~EnvironmentUI() = default;
+
+EnvironmentUIImpl::EnvironmentUIImpl(const wyap::Environment* pEnvironment)
+    : _isCmdTerminatedOnEventLoopPosted(false)
+    , _pEnvironment(pEnvironment)
 {
+    assert(pEnvironment);
+
     _toolBars.reserve(20);
     _actionGroups.reserve(10);
 
@@ -48,11 +60,11 @@ EnvironmentUI::EnvironmentUI() : _isCmdTerminatedOnEventLoopPosted(false)
     });
 }
 
-EnvironmentUI::~EnvironmentUI()
+EnvironmentUIImpl::~EnvironmentUIImpl()
 {
 }
 
-QMenu* EnvironmentUI::addMenu(const QString& title, const std::string& name)
+QMenu* EnvironmentUIImpl::addMenu(const QString& title, const std::string& name)
 {
     MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
@@ -76,7 +88,7 @@ QMenu* EnvironmentUI::addMenu(const QString& title, const std::string& name)
     return pMenu;
 }
 
-void EnvironmentUI::insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu)
+void EnvironmentUIImpl::insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu)
 {
     if (!pAnchorMenu || !pMenu)
     {
@@ -110,7 +122,7 @@ void EnvironmentUI::insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu)
     }
 }
 
-QToolBar* EnvironmentUI::addToolBar(const QString& title, const std::string& name)
+QToolBar* EnvironmentUIImpl::addToolBar(const QString& title, const std::string& name)
 {
     MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
@@ -125,7 +137,30 @@ QToolBar* EnvironmentUI::addToolBar(const QString& title, const std::string& nam
     return pToolbar;
 }
 
-CommandAction* EnvironmentUI::newCommandAction(
+const std::vector<QMenu*>& EnvironmentUIImpl::getMenus() const
+{
+    return _menus;
+}
+
+const std::vector<QToolBar*>& EnvironmentUIImpl::getToolBars() const
+{
+    return _toolBars;
+}
+
+QActionGroup* EnvironmentUIImpl::newActionGroup()
+{
+    QActionGroup* pActionGroup = new QActionGroup(this);
+    _actionGroups.emplace_back(pActionGroup);
+    return pActionGroup;
+}
+
+CommandAction* EnvironmentUIImpl::findCommandAction(const std::string& commandName) const
+{
+    auto iter = _cmdName2Action.find(commandName);
+    return (_cmdName2Action.cend() != iter) ? iter->second : nullptr;
+}
+
+CommandAction* EnvironmentUIImpl::newCommandAction(
     const std::string& commandName,
     const QString& text,
     const QIcon& icon,
@@ -146,7 +181,7 @@ CommandAction* EnvironmentUI::newCommandAction(
     return pAction;
 };
 
-QToolButton* EnvironmentUI::newMenuPopupToolButton(
+QToolButton* EnvironmentUIImpl::newMenuPopupToolButton(
     QToolBar* pToolBar,
     const QString& text,
     QActionGroup* pActionGroup,
@@ -202,7 +237,12 @@ QToolButton* EnvironmentUI::newMenuPopupToolButton(
     return pToolBtn;
 }
 
-void EnvironmentUI::destroyUI()
+bool EnvironmentUIImpl::addContextMenuActions(ContextMenu&)
+{
+    return false;
+}
+
+void EnvironmentUIImpl::destroyUI()
 {
     this->saveUiState();
     this->destroyToolBars();
@@ -211,7 +251,7 @@ void EnvironmentUI::destroyUI()
     this->destroyCommandActions();
 }
 
-void EnvironmentUI::destroyMenus()
+void EnvironmentUIImpl::destroyMenus()
 {
     for (QMenu* pMenu : _menus)
     {
@@ -227,19 +267,14 @@ void EnvironmentUI::destroyMenus()
     _menus.clear();
 }
 
-void EnvironmentUI::setEnvironment(const wyap::Environment* pEnv)
+void EnvironmentUIImpl::saveUiState()
 {
-    _envName = pEnv ? pEnv->getName() : std::string();
-}
-
-void EnvironmentUI::saveUiState()
-{
-    if (_envName.empty()) return;
+    if (!_pEnvironment) return;
     MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow) return;
 
     const QString path = QCoreApplication::applicationDirPath()
-        + "/ui-state-" + _envName.c_str() + ".dat";
+        + "/ui-state-" + _pEnvironment->getName().c_str() + ".dat";
     QFile file(path);
     if (file.open(QIODevice::WriteOnly))
     {
@@ -250,7 +285,7 @@ void EnvironmentUI::saveUiState()
     }
 }
 
-void EnvironmentUI::destroyToolBars()
+void EnvironmentUIImpl::destroyToolBars()
 {
     MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     for (QToolBar* pToolBar : _toolBars)
@@ -270,14 +305,14 @@ void EnvironmentUI::destroyToolBars()
     _toolBars.clear();
 }
 
-void EnvironmentUI::restoreUiState()
+void EnvironmentUIImpl::restoreUiState()
 {
-    if (_envName.empty()) return;
+    if (!_pEnvironment) return;
     MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow) return;
 
     const QString path = QCoreApplication::applicationDirPath()
-        + "/ui-state-" + _envName.c_str() + ".dat";
+        + "/ui-state-" + _pEnvironment->getName().c_str() + ".dat";
     QFile file(path);
     if (!file.open(QIODevice::ReadOnly)) return;
     const QByteArray state = file.readAll();
@@ -285,21 +320,21 @@ void EnvironmentUI::restoreUiState()
         pMainWindow->restoreState(state);
 }
 
-void EnvironmentUI::destroyActionGroups()
+void EnvironmentUIImpl::destroyActionGroups()
 {
     for (QActionGroup* pActionGroup : _actionGroups)
         if (pActionGroup) pActionGroup->deleteLater();
     _actionGroups.clear();
 }
 
-void EnvironmentUI::destroyCommandActions()
+void EnvironmentUIImpl::destroyCommandActions()
 {
     for (auto& kvp : _cmdName2Action)
         if (kvp.second) kvp.second->deleteLater();
     _cmdName2Action.clear();
 }
 
-void EnvironmentUI::postCommandTerminatedOnEventLoop()
+void EnvironmentUIImpl::postCommandTerminatedOnEventLoop()
 {
     if (_isCmdTerminatedOnEventLoopPosted)
     {
@@ -310,7 +345,7 @@ void EnvironmentUI::postCommandTerminatedOnEventLoop()
     _cmdTerminatedOnEventLoopTimer.start(0);
 }
 
-void EnvironmentUI::cancelCommandTerminatedOnEventLoop()
+void EnvironmentUIImpl::cancelCommandTerminatedOnEventLoop()
 {
     if (!_isCmdTerminatedOnEventLoopPosted)
     {
@@ -321,7 +356,7 @@ void EnvironmentUI::cancelCommandTerminatedOnEventLoop()
     _isCmdTerminatedOnEventLoopPosted = false;
 }
 
-void EnvironmentUI::processCommandTerminatedOnEventLoop()
+void EnvironmentUIImpl::processCommandTerminatedOnEventLoop()
 {
     wyap::Command* pCurModalCmd = ApplicationImpl::instance().getCmdManager()->getCurrentModalCommand();
     if (!pCurModalCmd)
@@ -330,7 +365,7 @@ void EnvironmentUI::processCommandTerminatedOnEventLoop()
     }
 }
 
-void EnvironmentUI::onCommandStartFailed(
+void EnvironmentUIImpl::onCommandStartFailed(
     wyap::Command* pCmd,
     wyap::CmdExecution::StartResult startResult)
 {
@@ -357,7 +392,7 @@ void EnvironmentUI::onCommandStartFailed(
     }
 }
 
-void EnvironmentUI::onCommandStarted(wyap::Command* pCmd)
+void EnvironmentUIImpl::onCommandStarted(wyap::Command* pCmd)
 {
     if (!pCmd)
     {
@@ -377,7 +412,7 @@ void EnvironmentUI::onCommandStarted(wyap::Command* pCmd)
     }
 }
 
-void EnvironmentUI::onCommandEnded(wyap::Command* pCmd)
+void EnvironmentUIImpl::onCommandEnded(wyap::Command* pCmd)
 {
     if (!pCmd)
     {
@@ -400,7 +435,7 @@ void EnvironmentUI::onCommandEnded(wyap::Command* pCmd)
     }
 }
 
-void EnvironmentUI::onCommandAborted(
+void EnvironmentUIImpl::onCommandAborted(
     wyap::Command* pCmd,
     wyap::CmdExecution::AbortCause abortCause)
 {
@@ -425,25 +460,25 @@ void EnvironmentUI::onCommandAborted(
     }
 }
 
-void EnvironmentUI::onEnter()
+void EnvironmentUIImpl::onEnter()
 {
 }
 
-void EnvironmentUI::onExit(wyap::Environment::ExitCode exitCode)
-{
-    this->cancelCommandTerminatedOnEventLoop();
-}
-
-void EnvironmentUI::onSuspend()
+void EnvironmentUIImpl::onExit(wyap::Environment::ExitCode exitCode)
 {
     this->cancelCommandTerminatedOnEventLoop();
 }
 
-void EnvironmentUI::onResume()
+void EnvironmentUIImpl::onSuspend()
+{
+    this->cancelCommandTerminatedOnEventLoop();
+}
+
+void EnvironmentUIImpl::onResume()
 {
 }
 
-void EnvironmentUI::syncDisplayModeAction()
+void EnvironmentUIImpl::syncDisplayModeAction()
 {
     Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return;

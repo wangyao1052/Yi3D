@@ -29,6 +29,7 @@
 
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include <wy3dApp/Application.h>
+#include <wy3dApp/ContextMenu.h>
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/CommandAction.h>
 #include "commands/CommandNames.h"
@@ -112,7 +113,7 @@ struct UtilityActions
     CommandAction* pActionFindElementById;
 };
 
-UiTargets createUiTargets(EnvironmentUI* pUI)
+UiTargets createUiTargets(EnvironmentUIImpl* pUI)
 {
     assert(pUI);
 
@@ -166,7 +167,7 @@ UiTargets createUiTargets(EnvironmentUI* pUI)
     return targets;
 }
 
-UndoRedoActions createUndoRedoActions(EnvironmentUI* pUI)
+UndoRedoActions createUndoRedoActions(EnvironmentUIImpl* pUI)
 {
     assert(pUI);
 
@@ -188,7 +189,7 @@ UndoRedoActions createUndoRedoActions(EnvironmentUI* pUI)
     return actions;
 }
 
-Sketch3DActions createSketch3DActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+Sketch3DActions createSketch3DActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -362,7 +363,7 @@ Sketch3DActions createSketch3DActions(EnvironmentUI* pUI, QActionGroup* pActionG
 }
 
 Sketch3DEnvironmentActions createSketch3DEnvironmentActions(
-    EnvironmentUI* pUI,
+    EnvironmentUIImpl* pUI,
     QActionGroup* pActionGroup)
 {
     assert(pUI);
@@ -384,7 +385,7 @@ Sketch3DEnvironmentActions createSketch3DEnvironmentActions(
     return actions;
 }
 
-ViewActions createViewActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+ViewActions createViewActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -455,7 +456,7 @@ ViewActions createViewActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
     return actions;
 }
 
-UtilityActions createUtilityActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+UtilityActions createUtilityActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -493,7 +494,7 @@ void buildEditToolBarUi(
 }
 
 void buildSketch3DToolBarUi(
-    EnvironmentUI* pUI,
+    EnvironmentUIImpl* pUI,
     QActionGroup* pActionGroup,
     const Sketch3DActions& actions,
     QToolBar* pToolBarSketch3D)
@@ -610,7 +611,7 @@ ViewportOverlayBar* buildOverlayBarUi(
 }
 
 void buildViewToolBarUi(
-    EnvironmentUI* pUI,
+    EnvironmentUIImpl* pUI,
     const ViewActions& actions,
     QToolBar* pToolBarView)
 {
@@ -717,7 +718,8 @@ void buildToolsMenuUi(
 }
 } // namespace
 
-Sketch3DEnvironmentUI::Sketch3DEnvironmentUI()
+Sketch3DEnvironmentUI::Sketch3DEnvironmentUI(const Sketch3DEnvironment* pEnv)
+    : EnvironmentUIImpl(pEnv)
 {
 }
 
@@ -725,16 +727,8 @@ Sketch3DEnvironmentUI::~Sketch3DEnvironmentUI()
 {
 }
 
-void Sketch3DEnvironmentUI::initialize(Sketch3DEnvironment* pEnv)
+void Sketch3DEnvironmentUI::initialize()
 {
-    if (!pEnv)
-    {
-        assert(false);
-        return;
-    }
-
-    this->setEnvironment(pEnv);
-
     const UiTargets uiTargets = createUiTargets(this);
     QActionGroup* pActionGroup = this->newActionGroup();
     const UndoRedoActions undoRedoActions = createUndoRedoActions(this);
@@ -767,16 +761,8 @@ void Sketch3DEnvironmentUI::initialize(Sketch3DEnvironment* pEnv)
         _pOverlayBar = buildOverlayBarUi(pViewWidget, sketch3DEnvironmentActions);
 }
 
-void Sketch3DEnvironmentUI::teardown(Sketch3DEnvironment* pEnv)
+void Sketch3DEnvironmentUI::teardown()
 {
-    if (!pEnv)
-    {
-        assert(false);
-        return;
-    }
-
-    this->setEnvironment(pEnv);
-
     // The bar's buttons are bound to command actions and destroyUI() destroys those:
     // the bar goes first or it would be left holding dangling pointers.
     if (_pOverlayBar)

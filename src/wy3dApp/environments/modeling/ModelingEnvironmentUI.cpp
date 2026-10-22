@@ -179,7 +179,7 @@ struct TestActions
 };
 #endif // _DEBUG
 
-FileActions createFileActions(EnvironmentUI* pUI)
+FileActions createFileActions(EnvironmentUIImpl* pUI)
 {
     assert(pUI);
 
@@ -219,7 +219,7 @@ FileActions createFileActions(EnvironmentUI* pUI)
     return actions;
 }
 
-UndoRedoActions createUndoRedoActions(EnvironmentUI* pUI)
+UndoRedoActions createUndoRedoActions(EnvironmentUIImpl* pUI)
 {
     assert(pUI);
 
@@ -241,7 +241,7 @@ UndoRedoActions createUndoRedoActions(EnvironmentUI* pUI)
     return actions;
 }
 
-ModelingActions createModelingActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+ModelingActions createModelingActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -478,7 +478,7 @@ ModelingActions createModelingActions(EnvironmentUI* pUI, QActionGroup* pActionG
     return actions;
 }
 
-PrimitiveActions createPrimitiveActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+PrimitiveActions createPrimitiveActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -529,7 +529,7 @@ PrimitiveActions createPrimitiveActions(EnvironmentUI* pUI, QActionGroup* pActio
     return actions;
 }
 
-BooleanActions createBooleanActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+BooleanActions createBooleanActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -556,7 +556,7 @@ BooleanActions createBooleanActions(EnvironmentUI* pUI, QActionGroup* pActionGro
     return actions;
 }
 
-EditActions createEditActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+EditActions createEditActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -600,7 +600,7 @@ EditActions createEditActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
     return actions;
 }
 
-UtilityActions createUtilityActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+UtilityActions createUtilityActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -635,7 +635,7 @@ UtilityActions createUtilityActions(EnvironmentUI* pUI, QActionGroup* pActionGro
     return actions;
 }
 
-ViewActions createViewActions(EnvironmentUI* pUI)
+ViewActions createViewActions(EnvironmentUIImpl* pUI)
 {
     assert(pUI);
 
@@ -704,7 +704,7 @@ ViewActions createViewActions(EnvironmentUI* pUI)
 }
 
 #ifdef _DEBUG
-TestActions createTestActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+TestActions createTestActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -805,7 +805,7 @@ void buildSheetMenuUi(
 }
 
 void buildSheetToolBarUi(
-    EnvironmentUI* pUI,
+    EnvironmentUIImpl* pUI,
     QActionGroup* pActionGroup,
     const ModelingActions& actions,
     QToolBar* pToolBarSheet)
@@ -1009,7 +1009,7 @@ void buildEditToolBarUi(
 }
 
 void buildModelingToolBarUi(
-    EnvironmentUI* pUI,
+    EnvironmentUIImpl* pUI,
     QActionGroup* pActionGroup,
     const ModelingActions& actions,
     const BooleanActions& booleanActions,
@@ -1134,7 +1134,7 @@ void buildUtilityToolBarUi(const UtilityActions& actions, QToolBar* pToolBarUtil
 }
 
 void buildViewToolBarUi(
-    EnvironmentUI* pUI,
+    EnvironmentUIImpl* pUI,
     const ViewActions& actions,
     QToolBar* pToolBarView)
 {
@@ -1185,7 +1185,7 @@ void buildTestToolBarUi(const TestActions& actions, QToolBar* pToolBarTest)
 }
 #endif // _DEBUG
 
-UiTargets createUiTargets(EnvironmentUI* pUI)
+UiTargets createUiTargets(EnvironmentUIImpl* pUI)
 {
     assert(pUI);
 
@@ -1274,22 +1274,17 @@ UiTargets createUiTargets(EnvironmentUI* pUI)
 }
 } // namespace
 
-ModelingEnvironmentUI::ModelingEnvironmentUI() {}
+ModelingEnvironmentUI::ModelingEnvironmentUI(const ModelingEnvironment* pEnv)
+    : EnvironmentUIImpl(pEnv)
+{
+}
 
 ModelingEnvironmentUI::~ModelingEnvironmentUI()
 {
 }
 
-void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
+void ModelingEnvironmentUI::initialize()
 {
-    if (!pEnv)
-    {
-        assert(false);
-        return;
-    }
-
-    this->setEnvironment(pEnv);
-
     const UiTargets uiTargets = createUiTargets(this);
     QActionGroup* pActionGroup = this->newActionGroup();
     const FileActions fileActions = createFileActions(this);
@@ -1332,16 +1327,8 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
     this->restoreUiState();
 }
 
-void ModelingEnvironmentUI::teardown(ModelingEnvironment* pEnv)
+void ModelingEnvironmentUI::teardown()
 {
-    if (!pEnv)
-    {
-        assert(false);
-        return;
-    }
-
-    this->setEnvironment(pEnv);
-
     this->destroyUI();
 }
 

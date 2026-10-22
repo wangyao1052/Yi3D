@@ -29,6 +29,7 @@
 
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Application.h>
+#include <wy3dApp/ContextMenu.h>
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/CommandAction.h>
@@ -134,7 +135,7 @@ struct UtilityActions
     CommandAction* pActionFindElementById;
 };
 
-UiTargets createUiTargets(EnvironmentUI* pUI)
+UiTargets createUiTargets(EnvironmentUIImpl* pUI)
 {
     assert(pUI);
 
@@ -194,7 +195,7 @@ UiTargets createUiTargets(EnvironmentUI* pUI)
     return targets;
 }
 
-UndoRedoActions createUndoRedoActions(EnvironmentUI* pUI)
+UndoRedoActions createUndoRedoActions(EnvironmentUIImpl* pUI)
 {
     assert(pUI);
 
@@ -216,7 +217,7 @@ UndoRedoActions createUndoRedoActions(EnvironmentUI* pUI)
     return actions;
 }
 
-EditActions createEditActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+EditActions createEditActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -341,7 +342,7 @@ EditActions createEditActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
     return actions;
 }
 
-SketchActions createSketchActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+SketchActions createSketchActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -511,7 +512,7 @@ SketchActions createSketchActions(EnvironmentUI* pUI, QActionGroup* pActionGroup
 }
 
 SketchEnvironmentActions createSketchEnvironmentActions(
-    EnvironmentUI* pUI,
+    EnvironmentUIImpl* pUI,
     QActionGroup* pActionGroup)
 {
     assert(pUI);
@@ -539,7 +540,7 @@ SketchEnvironmentActions createSketchEnvironmentActions(
     return actions;
 }
 
-ViewActions createViewActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+ViewActions createViewActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -615,7 +616,7 @@ ViewActions createViewActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
     return actions;
 }
 
-UtilityActions createUtilityActions(EnvironmentUI* pUI, QActionGroup* pActionGroup)
+UtilityActions createUtilityActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
     assert(pUI);
     assert(pActionGroup);
@@ -653,7 +654,7 @@ void buildEditToolBarUi(
 }
 
 void buildSketchEditToolBarUi(
-    EnvironmentUI* pUI,
+    EnvironmentUIImpl* pUI,
     QActionGroup* pActionGroup,
     const EditActions& actions,
     QToolBar* pToolBarSketchEdit)
@@ -702,7 +703,7 @@ void buildSketchEditToolBarUi(
 }
 
 void buildSketchToolBarUi(
-    EnvironmentUI* pUI,
+    EnvironmentUIImpl* pUI,
     QActionGroup* pActionGroup,
     const SketchActions& actions,
     QToolBar* pToolBarSketch)
@@ -824,7 +825,7 @@ ViewportOverlayBar* buildOverlayBarUi(
 }
 
 void buildViewToolBarUi(
-    EnvironmentUI* pUI,
+    EnvironmentUIImpl* pUI,
     const ViewActions& actions,
     QToolBar* pToolBarView)
 {
@@ -933,7 +934,8 @@ void buildToolsMenuUi(
 }
 } // namespace
 
-SketchEnvironmentUI::SketchEnvironmentUI()
+SketchEnvironmentUI::SketchEnvironmentUI(const SketchEnvironment* pEnv)
+    : EnvironmentUIImpl(pEnv)
 {
 }
 
@@ -941,16 +943,8 @@ SketchEnvironmentUI::~SketchEnvironmentUI()
 {
 }
 
-void SketchEnvironmentUI::initialize(SketchEnvironment* pEnv)
+void SketchEnvironmentUI::initialize()
 {
-    if (!pEnv)
-    {
-        assert(false);
-        return;
-    }
-
-    this->setEnvironment(pEnv);
-
     const UiTargets uiTargets = createUiTargets(this);
     QActionGroup* pActionGroup = this->newActionGroup();
     const UndoRedoActions undoRedoActions = createUndoRedoActions(this);
@@ -989,16 +983,8 @@ void SketchEnvironmentUI::initialize(SketchEnvironment* pEnv)
         _pOverlayBar = buildOverlayBarUi(pViewWidget, sketchEnvironmentActions);
 }
 
-void SketchEnvironmentUI::teardown(SketchEnvironment* pEnv)
+void SketchEnvironmentUI::teardown()
 {
-    if (!pEnv)
-    {
-        assert(false);
-        return;
-    }
-
-    this->setEnvironment(pEnv);
-
     // The bar's buttons are bound to command actions and destroyUI() destroys those:
     // the bar goes first or it would be left holding dangling pointers.
     if (_pOverlayBar)

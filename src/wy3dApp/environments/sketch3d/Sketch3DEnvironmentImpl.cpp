@@ -26,6 +26,7 @@
 #include <wy3dSketch3D.h>
 
 #include <wy3dApp/Application.h>
+#include <wy3dApp/CommandAction.h>
 #include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include "snap3d/Sketch3DSnapSystem.h"
@@ -38,12 +39,12 @@ Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl()
     , _sketch3dId(wydb::ElementId::kNull)
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
-    , _pUI(std::make_unique<Sketch3DEnvironmentUI>())
     , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
     , _pendingWorkPlane(wy3d::Plane::kInvalid)
     , _pendingPlaneSelection(wydb::ElementId::kNull)
 {
     setName("sketch3d");
+    _pUI = std::make_unique<Sketch3DEnvironmentUI>(this);
 }
 
 Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl(const wy3d::Sketch3D* pSketch3D)
@@ -51,13 +52,13 @@ Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl(const wy3d::Sketch3D* pSketch3D
     , _sketch3dId(wydb::ElementId::kNull)
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
-    , _pUI(std::make_unique<Sketch3DEnvironmentUI>())
     , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
     , _pendingWorkPlane(wy3d::Plane::kInvalid)
     , _pendingPlaneSelection(wydb::ElementId::kNull)
 {
     assert(pSketch3D);
     setName("sketch3d");
+    _pUI = std::make_unique<Sketch3DEnvironmentUI>(this);
     _sketch3dId = pSketch3D->getId();
 }
 
@@ -150,7 +151,7 @@ void Sketch3DEnvironmentImpl::onEnter()
     _pUI->onEnter();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 
     // 清空选择集
     ApplicationImpl::instance().getSelManager()->beginChange();
@@ -250,7 +251,7 @@ void Sketch3DEnvironmentImpl::onExit(ExitCode exitCode)
         this->commitSketch3D(pDb, ExitCode::Ok == exitCode ? true : false);
     }
 
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
     _pUI->onExit(exitCode);
@@ -302,7 +303,7 @@ void Sketch3DEnvironmentImpl::commitSketch3D(wydb::Database* pDb, bool ok)
 
 void Sketch3DEnvironmentImpl::onSuspend()
 {
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
     // 清空选择集
@@ -321,7 +322,7 @@ void Sketch3DEnvironmentImpl::onResume()
     _pUI->onResume();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 
     // 清空选择集
     ApplicationImpl::instance().getSelManager()->beginChange();

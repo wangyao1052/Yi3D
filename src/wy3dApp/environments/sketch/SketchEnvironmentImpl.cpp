@@ -26,6 +26,7 @@
 #include <wy3dSketch.h>
 
 #include <wy3dApp/Application.h>
+#include <wy3dApp/CommandAction.h>
 #include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include <wy3dApp/Scene.h>
@@ -39,10 +40,10 @@ SketchEnvironmentImpl::SketchEnvironmentImpl(const wy3d::Plane& sketchPlane)
     , _sketchPlane(sketchPlane)
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
-    , _pUI(std::make_unique<SketchEnvironmentUI>())
 {
     assert(_sketchPlane.isValid());
     setName("sketch");
+    _pUI = std::make_unique<SketchEnvironmentUI>(this);
 }
 
 SketchEnvironmentImpl::SketchEnvironmentImpl(const wy3d::Sketch* pSketch)
@@ -51,10 +52,10 @@ SketchEnvironmentImpl::SketchEnvironmentImpl(const wy3d::Sketch* pSketch)
     , _sketchPlane()
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
-    , _pUI(std::make_unique<SketchEnvironmentUI>())
 {
     assert(pSketch);
     setName("sketch");
+    _pUI = std::make_unique<SketchEnvironmentUI>(this);
     _sketchId = pSketch->getId();
     _sketchPlane = pSketch->getPlane();
 }
@@ -133,7 +134,7 @@ void SketchEnvironmentImpl::onEnter()
     _pUI->onEnter();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 
     // 清空选择集
     ApplicationImpl::instance().getSelManager()->beginChange();
@@ -251,7 +252,7 @@ void SketchEnvironmentImpl::onExit(ExitCode exitCode)
     // 草图视图
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::IsometricView);
 
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
     _pUI->onExit(exitCode);
@@ -302,7 +303,7 @@ void SketchEnvironmentImpl::commitSketch(wydb::Database* pDb, bool ok)
 
 void SketchEnvironmentImpl::onSuspend()
 {
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
     // 清空选择集
@@ -320,7 +321,7 @@ void SketchEnvironmentImpl::onResume()
     _pUI->onResume();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 
     // 清空选择集
     ApplicationImpl::instance().getSelManager()->beginChange();

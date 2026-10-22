@@ -22,21 +22,21 @@
 #include <QPointer>
 
 #include "widgets/frame/ViewportOverlayBar.h"
-#include <wy3dApp/EnvironmentUI.h>
+#include "environments/EnvironmentUIImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 class SketchEnvironment;
 
-class SketchEnvironmentUI : public EnvironmentUI
+class SketchEnvironmentUI : public EnvironmentUIImpl
 {
 public:
-    SketchEnvironmentUI();
+    explicit SketchEnvironmentUI(const SketchEnvironment* pEnv);
     ~SketchEnvironmentUI();
 
-    void initialize(SketchEnvironment* pEnv);
-    void teardown(SketchEnvironment* pEnv);
+    void initialize();
+    void teardown();
 
     virtual bool addContextMenuActions(ContextMenu& menu) override;
 

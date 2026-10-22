@@ -21,21 +21,21 @@
 
 #include <QMenu>
 #include <QToolBar>
-#include <wy3dApp/EnvironmentUI.h>
+#include "environments/EnvironmentUIImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 class GatewayEnvironment;
 
-class GatewayEnvironmentUI : public EnvironmentUI
+class GatewayEnvironmentUI : public EnvironmentUIImpl
 {
 public:
-    GatewayEnvironmentUI();
+    explicit GatewayEnvironmentUI(const GatewayEnvironment* pEnv);
     ~GatewayEnvironmentUI();
 
-    void initialize(GatewayEnvironment* pEnv);
-    void teardown(GatewayEnvironment* pEnv);
+    void initialize();
+    void teardown();
 
 private:
     // Do nothing.

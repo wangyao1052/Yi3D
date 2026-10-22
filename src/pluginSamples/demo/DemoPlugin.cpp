@@ -36,6 +36,7 @@
 #include "DemoParametersCmd.h"
 #include "DemoSnapRuleCmd.h"
 #include <wy3dApp/EnvironmentUI.h>
+#include <wy3dApp/CommandAction.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include <wy3dApp/Snap2dSystem.h>

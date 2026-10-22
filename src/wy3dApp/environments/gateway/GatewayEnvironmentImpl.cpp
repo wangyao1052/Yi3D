@@ -19,6 +19,7 @@
 #include "GatewayEnvironmentImpl.h"
 #include "GatewayEnvironmentUI.h"
 #include <wy3dApp/Application.h>
+#include <wy3dApp/CommandAction.h>
 #include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include "environments/ICommandActionStateHost.h"
@@ -27,9 +28,9 @@
 namespace wy3dApp {
 
 GatewayEnvironmentImpl::GatewayEnvironmentImpl()
-    : _pUI(std::make_unique<GatewayEnvironmentUI>())
 {
     setName("gateway");
+    _pUI = std::make_unique<GatewayEnvironmentUI>(this);
 }
 
 GatewayEnvironmentImpl::~GatewayEnvironmentImpl()
@@ -112,12 +113,12 @@ void GatewayEnvironmentImpl::onEnter()
     wyap::GatewayEnvironment::onEnter();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 }
 
 void GatewayEnvironmentImpl::onExit(ExitCode exitCode)
 {
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
     wyap::GatewayEnvironment::onExit(exitCode);

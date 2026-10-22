@@ -46,7 +46,7 @@ struct GatewayActions
     CommandAction* pActionAbout;
 };
 
-GatewayActions createActions(EnvironmentUI* pUI)
+GatewayActions createActions(EnvironmentUIImpl* pUI)
 {
     assert(pUI);
 
@@ -90,8 +90,9 @@ GatewayActions createActions(EnvironmentUI* pUI)
 }
 } // namespace
 
-GatewayEnvironmentUI::GatewayEnvironmentUI()
-    : _pMenuFile(nullptr)
+GatewayEnvironmentUI::GatewayEnvironmentUI(const GatewayEnvironment* pEnv)
+    : EnvironmentUIImpl(pEnv)
+    , _pMenuFile(nullptr)
     , _pMenuTools(nullptr)
     , _pMenuHelp(nullptr)
     , _pToolBarFile(nullptr)
@@ -102,16 +103,8 @@ GatewayEnvironmentUI::~GatewayEnvironmentUI()
 {
 }
 
-void GatewayEnvironmentUI::initialize(GatewayEnvironment* pEnv)
+void GatewayEnvironmentUI::initialize()
 {
-    if (!pEnv)
-    {
-        assert(false);
-        return;
-    }
-
-    this->setEnvironment(pEnv);
-
     const GatewayActions actions = createActions(this);
     this->createMenus();
     this->createToolBars();
@@ -132,16 +125,8 @@ void GatewayEnvironmentUI::initialize(GatewayEnvironment* pEnv)
     this->restoreUiState();
 }
 
-void GatewayEnvironmentUI::teardown(GatewayEnvironment* pEnv)
+void GatewayEnvironmentUI::teardown()
 {
-    if (!pEnv)
-    {
-        assert(false);
-        return;
-    }
-
-    this->setEnvironment(pEnv);
-
     this->destroyUI();
     this->clear();
 }

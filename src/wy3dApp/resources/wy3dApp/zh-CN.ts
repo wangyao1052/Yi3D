@@ -700,242 +700,242 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1257"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="150"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="151"/>
         <source>Sketch</source>
         <translation type="unfinished">草图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="154"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="155"/>
         <source>Sketch Edit</source>
         <translation type="unfinished">草图编辑</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="358"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="359"/>
         <source>Point</source>
         <translation type="unfinished">点</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="368"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="205"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="369"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="206"/>
         <source>Line</source>
         <translation type="unfinished">线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="378"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="379"/>
         <source>Line Tangent</source>
         <translation type="unfinished">相切线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="384"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="385"/>
         <source>Center Line</source>
         <translation type="unfinished">中心线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="723"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="724"/>
         <source>Line Series</source>
         <translation type="unfinished">绘制线命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="390"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="245"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="391"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="246"/>
         <source>Rectangle</source>
         <translation type="unfinished">矩形</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="267"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="268"/>
         <source>Scale</source>
         <translation type="unfinished">缩放</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="277"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="323"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="278"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="324"/>
         <source>Trim</source>
         <translation type="unfinished">修剪</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="287"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="333"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="288"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="334"/>
         <source>Extend</source>
         <translation type="unfinished">延伸</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="297"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="343"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="298"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="344"/>
         <source>Sketch Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="307"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="353"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="308"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="354"/>
         <source>Sketch Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="317"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="318"/>
         <source>Sketch Offset</source>
         <translation type="unfinished">偏移草图曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="506"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="507"/>
         <source>Project Edge</source>
         <translation type="unfinished">投影边</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="327"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="328"/>
         <source>Sketch Rect Array</source>
         <translation type="unfinished">矩形阵列</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="337"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="338"/>
         <source>Sketch Polar Array</source>
         <translation type="unfinished">环形阵列</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="400"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="255"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="401"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="256"/>
         <source>CenterRectangle</source>
         <translation type="unfinished">中心矩形</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="406"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="407"/>
         <source>Polygon</source>
         <translation type="unfinished">多边形</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="416"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="215"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="417"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="216"/>
         <source>Circle</source>
         <translation type="unfinished">圆</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="426"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="427"/>
         <source>Circle by 3 Points</source>
         <translation type="unfinished">周边圆</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="432"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="225"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="433"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="226"/>
         <source>Arc</source>
         <translation type="unfinished">圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="442"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="235"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="443"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="236"/>
         <source>Arc by 3 Points</source>
         <translation type="unfinished">三点圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="448"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="449"/>
         <source>Tangent Arc</source>
         <translation>相切圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="454"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="261"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="455"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="262"/>
         <source>Ellipse</source>
         <translation type="unfinished">椭圆</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="464"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="271"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="465"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="272"/>
         <source>Ellipse Arc</source>
         <translation type="unfinished">椭圆弧</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="474"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="277"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="475"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="278"/>
         <source>Spline</source>
         <translation type="unfinished">样条曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="484"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="287"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="485"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="288"/>
         <source>Style Spline</source>
         <translation type="unfinished">样式样条曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="490"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="491"/>
         <source>Equation Driven Spline</source>
         <translation type="unfinished">方程式驱动样条曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="676"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="557"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="677"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="558"/>
         <source>Trim Series</source>
         <translation type="unfinished">修剪命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="686"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="567"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="687"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="568"/>
         <source>Fillet Series</source>
         <translation type="unfinished">圆角命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="698"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="699"/>
         <source>Array Series</source>
         <translation type="unfinished">阵列命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="733"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="524"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="734"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="525"/>
         <source>Rectangle Series</source>
         <translation type="unfinished">矩形命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="745"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="746"/>
         <source>Circle Series</source>
         <translation type="unfinished">圆命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="756"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="514"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="757"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="515"/>
         <source>Arc Series</source>
         <translation type="unfinished">圆弧命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="766"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="534"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="767"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="535"/>
         <source>Ellipse Series</source>
         <translation type="unfinished">椭圆命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="777"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="544"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="778"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="545"/>
         <source>Spline Series</source>
         <translation type="unfinished">样条曲线命令集</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="496"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="497"/>
         <source>Sketch Text</source>
         <translation type="unfinished">草图文字</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="523"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="524"/>
         <source>End Sketch</source>
         <translation type="unfinished">结束草图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="529"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="530"/>
         <source>Cancel Sketch</source>
         <translation type="unfinished">取消草图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="535"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="536"/>
         <source>Relocate Sketch CSYS</source>
         <translation type="unfinished">重定位草图坐标系</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="597"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="598"/>
         <source>Orient to Sketch</source>
         <translation type="unfinished">草图视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1196"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1264"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="145"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="185"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="121"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="157"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="146"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="186"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="122"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="158"/>
         <source>Edit</source>
         <translation type="unfinished">编辑</translation>
     </message>
@@ -950,14 +950,14 @@
         <translation type="unfinished">布尔运算</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="158"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="159"/>
         <source>SketchEnvironment</source>
         <translation type="unfinished">草图环境</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1209"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="162"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="134"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="163"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="135"/>
         <source>Utility</source>
         <translation type="unfinished">实用工具</translation>
     </message>
@@ -968,22 +968,22 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="229"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="204"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="176"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="205"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="177"/>
         <source>Undo</source>
         <translation type="unfinished">撤销</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="236"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="211"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="183"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="212"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="184"/>
         <source>Redo</source>
         <translation type="unfinished">重做</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="252"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="352"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="199"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="353"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="200"/>
         <source>Select</source>
         <translation type="unfinished">选择</translation>
     </message>
@@ -1050,7 +1050,7 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="567"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="237"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="238"/>
         <source>Move</source>
         <translation type="unfinished">移动</translation>
     </message>
@@ -1079,7 +1079,7 @@
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="551"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="227"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="228"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1584"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
@@ -1087,8 +1087,8 @@
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="545"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="650"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="556"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="401"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="557"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="402"/>
         <source>Fit Selection</source>
         <translation>缩放到选择</translation>
     </message>
@@ -1100,7 +1100,7 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="574"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="247"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="248"/>
         <source>Rotate</source>
         <translation type="unfinished">旋转</translation>
     </message>
@@ -1111,8 +1111,8 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="655"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="562"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="407"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="563"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="408"/>
         <source>Isometric View</source>
         <translation type="unfinished">等轴测视图</translation>
     </message>
@@ -1345,28 +1345,28 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="581"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="257"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="258"/>
         <source>Mirror</source>
         <translation type="unfinished">镜像</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="690"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="602"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="442"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="603"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="443"/>
         <source>Shaded with Edges</source>
         <translation>着色带边框</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="695"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="607"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="447"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="608"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="448"/>
         <source>Shaded</source>
         <translation>着色</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="700"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="612"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="452"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="613"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="453"/>
         <source>Wireframe</source>
         <translation>线框</translation>
     </message>
@@ -1412,8 +1412,8 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="930"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="886"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="670"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="887"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="671"/>
         <source>Standard View</source>
         <translation type="unfinished">标准视图</translation>
     </message>
@@ -1444,8 +1444,8 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1157"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="848"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="633"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="849"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="634"/>
         <source>Standard View Series</source>
         <translation type="unfinished">标准视图命令集</translation>
     </message>
@@ -1458,10 +1458,10 @@
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="940"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1172"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="863"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="896"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="648"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="680"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="864"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="897"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="649"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="681"/>
         <source>Display Mode</source>
         <translation>显示模式</translation>
     </message>
@@ -1473,10 +1473,10 @@
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1213"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1252"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="166"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="176"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="138"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="148"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="167"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="177"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="139"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="149"/>
         <source>View</source>
         <translation type="unfinished">视图</translation>
     </message>
@@ -1507,92 +1507,92 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="629"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="626"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="466"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="627"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="467"/>
         <source>Find</source>
         <translation>查找</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="645"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="550"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="395"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="551"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="396"/>
         <source>Fit View</source>
         <translation type="unfinished">整屏显示全图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="660"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="567"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="412"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="568"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="413"/>
         <source>Front View</source>
         <translation type="unfinished">前视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="665"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="572"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="417"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="573"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="418"/>
         <source>Back View</source>
         <translation type="unfinished">后视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="670"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="577"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="422"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="578"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="423"/>
         <source>Left View</source>
         <translation type="unfinished">左视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="675"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="582"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="427"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="583"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="428"/>
         <source>Right View</source>
         <translation type="unfinished">右视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="680"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="587"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="432"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="588"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="433"/>
         <source>Top View</source>
         <translation type="unfinished">顶视图</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="685"/>
-        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="592"/>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="437"/>
+        <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="593"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="438"/>
         <source>Bottom View</source>
         <translation type="unfinished">底视图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="126"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="127"/>
         <source>3D Sketch</source>
         <translation>3D草图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="130"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="131"/>
         <source>3D Sketch Environment</source>
         <translation>3D草图环境</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="293"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="294"/>
         <source>Include Curve</source>
         <translation type="unfinished">包含曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="303"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="304"/>
         <source>Intersection Curve</source>
         <translation type="unfinished">相交曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="313"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="314"/>
         <source>Project Curve</source>
         <translation type="unfinished">投影曲线</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="374"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="375"/>
         <source>End 3D Sketch</source>
         <translation>结束3D草图</translation>
     </message>
     <message>
-        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="380"/>
+        <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="381"/>
         <source>Cancel 3D Sketch</source>
         <translation>取消3D草图</translation>
     </message>
