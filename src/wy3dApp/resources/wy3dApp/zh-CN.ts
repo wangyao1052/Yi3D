@@ -17,10 +17,6 @@
 <context>
     <name>ChamferGuiCmd</name>
     <message>
-        <source>Select edges or faces.</source>
-        <translation type="obsolete">选择边线或面。</translation>
-    </message>
-    <message>
         <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="187"/>
         <source>Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择边线或面；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
@@ -29,10 +25,6 @@
         <location filename="../../commands/modeling/solid/modification/ChamferGuiCmd.cpp" line="208"/>
         <source>Input chamfer parameters.</source>
         <translation>输入倒角参数。</translation>
-    </message>
-    <message>
-        <source>Input chamfer distance.</source>
-        <translation type="obsolete">输入倒角距离。</translation>
     </message>
 </context>
 <context>
@@ -48,789 +40,9 @@
         <translation type="unfinished">选择圆柱面。</translation>
     </message>
     <message>
-        <source>Select solid cylindrical face.</source>
-        <translation type="obsolete">选择实体圆柱面。</translation>
-    </message>
-    <message>
         <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="269"/>
         <source>Circular Pattern</source>
         <translation type="unfinished">圆周阵列</translation>
-    </message>
-</context>
-<context>
-    <name>CmdActionMgr</name>
-    <message>
-        <source>Yi3D</source>
-        <translation type="obsolete">易三维</translation>
-    </message>
-    <message>
-        <source>Command execution failed!</source>
-        <translation type="obsolete">命令执行失败！</translation>
-    </message>
-</context>
-<context>
-    <name>CmdActionRegistry</name>
-    <message>
-        <source>New</source>
-        <translation type="obsolete">新建</translation>
-    </message>
-    <message>
-        <source>Open</source>
-        <translation type="obsolete">打开</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="obsolete">保存</translation>
-    </message>
-    <message>
-        <source>Save As</source>
-        <translation type="obsolete">另存为</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="obsolete">导出</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="obsolete">导入实体</translation>
-    </message>
-    <message>
-        <source>Undo</source>
-        <translation type="obsolete">撤销</translation>
-    </message>
-    <message>
-        <source>Redo</source>
-        <translation type="obsolete">重做</translation>
-    </message>
-    <message>
-        <source>Show</source>
-        <translation type="obsolete">显示</translation>
-    </message>
-    <message>
-        <source>Hide</source>
-        <translation type="obsolete">隐藏</translation>
-    </message>
-    <message>
-        <source>Select</source>
-        <translation type="obsolete">选择</translation>
-    </message>
-    <message>
-        <source>Box</source>
-        <translation type="obsolete">长方体</translation>
-    </message>
-    <message>
-        <source>Cylinder</source>
-        <translation type="obsolete">圆柱体</translation>
-    </message>
-    <message>
-        <source>Sphere</source>
-        <translation type="obsolete">球体</translation>
-    </message>
-    <message>
-        <source>Cone</source>
-        <translation type="obsolete">圆锥体</translation>
-    </message>
-    <message>
-        <source>Torus</source>
-        <translation type="obsolete">圆环体</translation>
-    </message>
-    <message>
-        <source>Tube</source>
-        <translation type="obsolete">圆管</translation>
-    </message>
-    <message>
-        <source>Union</source>
-        <translation type="obsolete">并集</translation>
-    </message>
-    <message>
-        <source>Subtract</source>
-        <translation type="obsolete">差集</translation>
-    </message>
-    <message>
-        <source>Intersect</source>
-        <translation type="obsolete">交集</translation>
-    </message>
-    <message>
-        <source>Extrude</source>
-        <translation type="obsolete">拉伸</translation>
-    </message>
-    <message>
-        <source>Revolve</source>
-        <translation type="obsolete">旋转</translation>
-    </message>
-    <message>
-        <source>Sweep</source>
-        <translation type="obsolete">扫描</translation>
-    </message>
-    <message>
-        <source>Loft</source>
-        <translation type="obsolete">放样</translation>
-    </message>
-    <message>
-        <source>Loft Cut</source>
-        <translation type="obsolete">放样切除</translation>
-    </message>
-    <message>
-        <source>Merge</source>
-        <translation type="obsolete">合并</translation>
-    </message>
-    <message>
-        <source>Normal To Edge Datum Plane</source>
-        <translation type="obsolete">垂直于边 基准面</translation>
-    </message>
-    <message>
-        <source>Through 3 Points Datum Plane</source>
-        <translation type="obsolete">过3点 基准面</translation>
-    </message>
-    <message>
-        <source>Tangent Datum Plane</source>
-        <translation type="obsolete">相切 基准面</translation>
-    </message>
-    <message>
-        <source>Move</source>
-        <translation type="obsolete">移动</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="obsolete">复制</translation>
-    </message>
-    <message>
-        <source>Paste</source>
-        <translation type="obsolete">粘贴</translation>
-    </message>
-    <message>
-        <source>Rotate</source>
-        <translation type="obsolete">旋转</translation>
-    </message>
-    <message>
-        <source>Mirror</source>
-        <translation type="obsolete">镜像</translation>
-    </message>
-    <message>
-        <source>Scale</source>
-        <translation type="obsolete">缩放</translation>
-    </message>
-    <message>
-        <source>Trim</source>
-        <translation type="obsolete">修剪草绘图元</translation>
-    </message>
-    <message>
-        <source>Extend</source>
-        <translation type="obsolete">延伸草绘图元</translation>
-    </message>
-    <message>
-        <source>Sketch Fillet</source>
-        <translation type="obsolete">圆角</translation>
-    </message>
-    <message>
-        <source>Sketch Chamfer</source>
-        <translation type="obsolete">倒角</translation>
-    </message>
-    <message>
-        <source>Sketch Offset</source>
-        <translation type="obsolete">偏移草绘曲线</translation>
-    </message>
-    <message>
-        <source>Sketch Rect Array</source>
-        <translation type="obsolete">矩形阵列</translation>
-    </message>
-    <message>
-        <source>Sketch Polar Array</source>
-        <translation type="obsolete">环形阵列</translation>
-    </message>
-    <message>
-        <source>Linear Pattern</source>
-        <translation type="obsolete">线性阵列</translation>
-    </message>
-    <message>
-        <source>Circular Pattern</source>
-        <translation type="obsolete">圆周阵列</translation>
-    </message>
-    <message>
-        <source>Chamfer</source>
-        <translation type="obsolete">倒角</translation>
-    </message>
-    <message>
-        <source>Fillet</source>
-        <translation type="obsolete">圆角</translation>
-    </message>
-    <message>
-        <source>Shell</source>
-        <translation type="obsolete">抽壳</translation>
-    </message>
-    <message>
-        <source>Draft</source>
-        <translation type="obsolete">拔模</translation>
-    </message>
-    <message>
-        <source>Solid Color</source>
-        <translation type="obsolete">实体颜色</translation>
-    </message>
-    <message>
-        <source>Helix</source>
-        <translation type="obsolete">螺旋线</translation>
-    </message>
-    <message>
-        <source>New Sketch</source>
-        <translation type="obsolete">创建草绘</translation>
-    </message>
-    <message>
-        <source>Edit Sketch</source>
-        <translation type="obsolete">编辑草绘</translation>
-    </message>
-    <message>
-        <source>End Sketch</source>
-        <translation type="obsolete">结束草绘</translation>
-    </message>
-    <message>
-        <source>Cancel Sketch</source>
-        <translation type="obsolete">取消草绘</translation>
-    </message>
-    <message>
-        <source>Relocate Sketch CSYS</source>
-        <translation type="obsolete">重定位草图坐标系</translation>
-    </message>
-    <message>
-        <source>Point</source>
-        <translation type="obsolete">绘制点</translation>
-    </message>
-    <message>
-        <source>Line Tangent</source>
-        <translation type="obsolete">绘制相切线</translation>
-    </message>
-    <message>
-        <source>Center Line</source>
-        <translation type="obsolete">绘制中心线</translation>
-    </message>
-    <message>
-        <source>Line Series</source>
-        <translation type="obsolete">绘制线命令集</translation>
-    </message>
-    <message>
-        <source>Rectangle</source>
-        <translation type="obsolete">绘制矩形</translation>
-    </message>
-    <message>
-        <source>CenterRectangle</source>
-        <translation type="obsolete">绘制中心矩形</translation>
-    </message>
-    <message>
-        <source>Polygon</source>
-        <translation type="obsolete">绘制多边形</translation>
-    </message>
-    <message>
-        <source>Circle by 3 Points</source>
-        <translation type="obsolete">通过3点绘制圆</translation>
-    </message>
-    <message>
-        <source>Arc by 3 Points</source>
-        <translation type="obsolete">通过3点绘制圆弧</translation>
-    </message>
-    <message>
-        <source>Ellipse</source>
-        <translation type="obsolete">绘制椭圆</translation>
-    </message>
-    <message>
-        <source>Ellipse Arc</source>
-        <translation type="obsolete">绘制椭圆弧</translation>
-    </message>
-    <message>
-        <source>Spline</source>
-        <translation type="obsolete">样条曲线</translation>
-    </message>
-    <message>
-        <source>Style Spline</source>
-        <translation type="obsolete">样式样条曲线</translation>
-    </message>
-    <message>
-        <source>Equation Driven Spline</source>
-        <translation type="obsolete">方程式样条曲线</translation>
-    </message>
-    <message>
-        <source>Spline Series</source>
-        <translation type="obsolete">样条曲线命令集</translation>
-    </message>
-    <message>
-        <source>Sketch Text</source>
-        <translation type="obsolete">文字</translation>
-    </message>
-    <message>
-        <source>IsometricView View</source>
-        <translation type="obsolete">等轴测视图</translation>
-    </message>
-    <message>
-        <source>Orient to Sketch</source>
-        <translation type="obsolete">草绘视图</translation>
-    </message>
-    <message>
-        <source>Set Color</source>
-        <translation type="obsolete">设置颜色</translation>
-    </message>
-    <message>
-        <source>Measure</source>
-        <translation type="obsolete">测量</translation>
-    </message>
-    <message>
-        <source>Line</source>
-        <translation type="obsolete">绘制线</translation>
-    </message>
-    <message>
-        <source>Extrude Cut</source>
-        <translation type="obsolete">拉伸切除</translation>
-    </message>
-    <message>
-        <source>Revolve Cut</source>
-        <translation type="obsolete">旋转切除</translation>
-    </message>
-    <message>
-        <source>Sweep Cut</source>
-        <translation type="obsolete">扫描切除</translation>
-    </message>
-    <message>
-        <source>Coincident Datum Plane</source>
-        <translation type="obsolete">重合 基准面</translation>
-    </message>
-    <message>
-        <source>Parallel Datum Plane</source>
-        <translation type="obsolete">平行 基准面</translation>
-    </message>
-    <message>
-        <source>Angular Datum Plane</source>
-        <translation type="obsolete">成角度 基准面</translation>
-    </message>
-    <message>
-        <source>Perpendicular Datum Plane</source>
-        <translation type="obsolete">垂直 基准面</translation>
-    </message>
-    <message>
-        <source>Through Axis Datum Plane</source>
-        <translation type="obsolete">按轴重合 基准面</translation>
-    </message>
-    <message>
-        <source>Normal To Curve Datum Plane</source>
-        <translation type="obsolete">垂直于曲线 基准面</translation>
-    </message>
-    <message>
-        <source>Datum Plane Series</source>
-        <translation type="obsolete">基准面命令集</translation>
-    </message>
-    <message>
-        <source>Circle</source>
-        <translation type="obsolete">绘制圆</translation>
-    </message>
-    <message>
-        <source>Arc</source>
-        <translation type="obsolete">绘制圆弧</translation>
-    </message>
-    <message>
-        <source>Fit View</source>
-        <translation type="obsolete">最大化显示</translation>
-    </message>
-    <message>
-        <source>ISO View</source>
-        <translation type="obsolete">等轴侧视图</translation>
-    </message>
-    <message>
-        <source>Front View</source>
-        <translation type="obsolete">前视图</translation>
-    </message>
-    <message>
-        <source>Back View</source>
-        <translation type="obsolete">后视图</translation>
-    </message>
-    <message>
-        <source>Left View</source>
-        <translation type="obsolete">左视图</translation>
-    </message>
-    <message>
-        <source>Right View</source>
-        <translation type="obsolete">右视图</translation>
-    </message>
-    <message>
-        <source>Top View</source>
-        <translation type="obsolete">顶视图</translation>
-    </message>
-    <message>
-        <source>Bottom View</source>
-        <translation type="obsolete">底视图</translation>
-    </message>
-    <message>
-        <source>View Normal To</source>
-        <translation type="obsolete">正视于</translation>
-    </message>
-    <message>
-        <source>Ortho</source>
-        <translation type="obsolete">平行投影</translation>
-    </message>
-    <message>
-        <source>Perspective</source>
-        <translation type="obsolete">透视投影</translation>
-    </message>
-    <message>
-        <source>Run Script</source>
-        <translation type="obsolete">执行脚本</translation>
-    </message>
-    <message>
-        <source>Help Documentation</source>
-        <translation type="obsolete">帮助文档</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="obsolete">关于</translation>
-    </message>
-</context>
-<context>
-    <name>ColorEditor</name>
-    <message>
-        <source>Select Color</source>
-        <translation type="obsolete">选择颜色</translation>
-    </message>
-</context>
-<context>
-    <name>CommandText</name>
-    <message>
-        <source>Value</source>
-        <translation type="obsolete">数值</translation>
-    </message>
-    <message>
-        <source>Select an element; drag the mouse to select multiple items.</source>
-        <comment>select</comment>
-        <translation type="obsolete">选择元素；拖动鼠标选择多项。</translation>
-    </message>
-    <message>
-        <source>Select an element; drag the coordinate axis to move the element.</source>
-        <comment>select</comment>
-        <translation type="obsolete">选择元素；拖动选中元素坐标轴可移动元素。</translation>
-    </message>
-    <message>
-        <source>Specify the starting point; you can directly input the coordinate values.</source>
-        <comment>make-box</comment>
-        <translation type="obsolete">指定起点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Start point</source>
-        <comment>make-box</comment>
-        <translation type="obsolete">起点</translation>
-    </message>
-    <message>
-        <source>Specify length and width; you can directly input the values.</source>
-        <comment>make-box</comment>
-        <translation type="obsolete">指定长度和宽度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Length &amp; Width</source>
-        <comment>make-box</comment>
-        <translation type="obsolete">长度 &amp; 宽度</translation>
-    </message>
-    <message>
-        <source>Specify the height; you can directly input the value.</source>
-        <comment>make-box</comment>
-        <translation type="obsolete">指定高度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Height</source>
-        <comment>make-box</comment>
-        <translation type="obsolete">高度</translation>
-    </message>
-    <message>
-        <source>Specify the bottom center point; you can directly input the coordinate values.</source>
-        <comment>make-cylinder</comment>
-        <translation type="obsolete">指定底面中心点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <comment>make-cylinder</comment>
-        <translation type="obsolete">圆心</translation>
-    </message>
-    <message>
-        <source>Specify the radius; you can directly input the value.</source>
-        <comment>make-cylinder</comment>
-        <translation type="obsolete">指定半径；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Radius</source>
-        <comment>make-cylinder</comment>
-        <translation type="obsolete">半径</translation>
-    </message>
-    <message>
-        <source>Specify the height; you can directly input the value.</source>
-        <comment>make-cylinder</comment>
-        <translation type="obsolete">指定高度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Height</source>
-        <comment>make-cylinder</comment>
-        <translation type="obsolete">高度</translation>
-    </message>
-    <message>
-        <source>Specify the center point; you can directly input the coordinate values.</source>
-        <comment>make-sphere</comment>
-        <translation type="obsolete">指定球心；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <comment>make-sphere</comment>
-        <translation type="obsolete">球心</translation>
-    </message>
-    <message>
-        <source>Specify the radius; you can directly input the value.</source>
-        <comment>make-sphere</comment>
-        <translation type="obsolete">指定半径；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Radius</source>
-        <comment>make-sphere</comment>
-        <translation type="obsolete">半径</translation>
-    </message>
-    <message>
-        <source>Specify the bottom center point; you can directly input the coordinate values.</source>
-        <comment>make-cone</comment>
-        <translation type="obsolete">指定底面中心点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <comment>make-cone</comment>
-        <translation type="obsolete">圆心</translation>
-    </message>
-    <message>
-        <source>Specify the bottom radius; you can directly input the value.</source>
-        <comment>make-cone</comment>
-        <translation type="obsolete">指定半径；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Radius</source>
-        <comment>make-cone</comment>
-        <translation type="obsolete">半径</translation>
-    </message>
-    <message>
-        <source>Specify the height; you can directly input the value.</source>
-        <comment>make-cone</comment>
-        <translation type="obsolete">指定高度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Height</source>
-        <comment>make-cone</comment>
-        <translation type="obsolete">高度</translation>
-    </message>
-    <message>
-        <source>Specify the center point; you can directly input the coordinate values.</source>
-        <comment>make-torus</comment>
-        <translation type="obsolete">指定中心点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <comment>make-torus</comment>
-        <translation type="obsolete">圆心</translation>
-    </message>
-    <message>
-        <source>Specify the major radius; you can directly input the value.</source>
-        <comment>make-torus</comment>
-        <translation type="obsolete">指定半径；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Major radius</source>
-        <comment>make-torus</comment>
-        <translation type="obsolete">半径</translation>
-    </message>
-    <message>
-        <source>Specify the minor radius; you can directly input the value.</source>
-        <comment>make-torus</comment>
-        <translation type="obsolete">指定管径；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Minor radius</source>
-        <comment>make-torus</comment>
-        <translation type="obsolete">管径</translation>
-    </message>
-    <message>
-        <source>Specify the bottom center point; you can directly input the coordinate values.</source>
-        <comment>make-tube</comment>
-        <translation type="obsolete">指定底面中心点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <comment>make-tube</comment>
-        <translation type="obsolete">圆心</translation>
-    </message>
-    <message>
-        <source>Specify the outer radius; you can directly input the value.</source>
-        <comment>make-tube</comment>
-        <translation type="obsolete">指定外径；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Outer radius</source>
-        <comment>make-tube</comment>
-        <translation type="obsolete">外径</translation>
-    </message>
-    <message>
-        <source>Specify the inner radius; you can directly input the value.</source>
-        <comment>make-tube</comment>
-        <translation type="obsolete">指定内径；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Inner radius</source>
-        <comment>make-tube</comment>
-        <translation type="obsolete">内径</translation>
-    </message>
-    <message>
-        <source>Specify the height; you can directly input the value.</source>
-        <comment>make-tube</comment>
-        <translation type="obsolete">指定高度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Height</source>
-        <comment>make-tube</comment>
-        <translation type="obsolete">高度</translation>
-    </message>
-    <message>
-        <source>Select the target solid.</source>
-        <comment>boolean</comment>
-        <translation type="obsolete">选择目标体。</translation>
-    </message>
-    <message>
-        <source>Target</source>
-        <comment>boolean</comment>
-        <translation type="obsolete">目标体</translation>
-    </message>
-    <message>
-        <source>Select one or more tool solids; press Enter or Spacebar to confirm; press Esc to cancel.</source>
-        <comment>boolean</comment>
-        <translation type="obsolete">选择一个或多个参与体；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
-    </message>
-    <message>
-        <source>Select elements to move; press Enter or Spacebar to confirm; press Esc to cancel.</source>
-        <comment>move</comment>
-        <translation type="obsolete">选择要移动的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
-    </message>
-    <message>
-        <source>Select elements to copy; press Enter or Spacebar to confirm; press Esc to cancel.</source>
-        <comment>copy</comment>
-        <translation type="obsolete">选择要复制的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
-    </message>
-    <message>
-        <source>Select elements to rotate; press Enter or Spacebar to confirm; press Esc to cancel.</source>
-        <comment>rotate</comment>
-        <translation type="obsolete">选择要旋转的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
-    </message>
-    <message>
-        <source>Tools</source>
-        <comment>boolean</comment>
-        <translation type="obsolete">参与体</translation>
-    </message>
-    <message>
-        <source>Select elements</source>
-        <comment>move</comment>
-        <translation type="obsolete">选择元素</translation>
-    </message>
-    <message>
-        <source>Specify the start point; you can directly input the coordinate values.</source>
-        <comment>move</comment>
-        <translation type="obsolete">指定起点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Start point</source>
-        <comment>move</comment>
-        <translation type="obsolete">起点</translation>
-    </message>
-    <message>
-        <source>Specify the end point; you can directly input the coordinate values.</source>
-        <comment>move</comment>
-        <translation type="obsolete">指定终点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>End point</source>
-        <comment>move</comment>
-        <translation type="obsolete">终点</translation>
-    </message>
-    <message>
-        <source>Select elements</source>
-        <comment>copy</comment>
-        <translation type="obsolete">选择元素</translation>
-    </message>
-    <message>
-        <source>Specify the start point; you can directly input the coordinate values.</source>
-        <comment>copy</comment>
-        <translation type="obsolete">指定起点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Start point</source>
-        <comment>copy</comment>
-        <translation type="obsolete">起点</translation>
-    </message>
-    <message>
-        <source>Specify the end point; you can directly input the coordinate values.</source>
-        <comment>copy</comment>
-        <translation type="obsolete">指定终点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>End point</source>
-        <comment>copy</comment>
-        <translation type="obsolete">终点</translation>
-    </message>
-    <message>
-        <source>Select elements</source>
-        <comment>rotate</comment>
-        <translation type="obsolete">选择元素</translation>
-    </message>
-    <message>
-        <source>Specify the baseline start point; you can directly input the coordinate values.</source>
-        <comment>rotate</comment>
-        <translation type="obsolete">指定旋转中心点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Baseline start point</source>
-        <comment>rotate</comment>
-        <translation type="obsolete">中心点</translation>
-    </message>
-    <message>
-        <source>Specify the baseline end point; you can directly input the coordinate values.</source>
-        <comment>rotate</comment>
-        <translation type="obsolete">指定基线终点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Baseline end point</source>
-        <comment>rotate</comment>
-        <translation type="obsolete">基线终点</translation>
-    </message>
-    <message>
-        <source>Specify the rotation angle; you can directly input the value.</source>
-        <comment>rotate</comment>
-        <translation type="obsolete">指定旋转角度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Rotation angle</source>
-        <comment>rotate</comment>
-        <translation type="obsolete">旋转角度</translation>
-    </message>
-    <message>
-        <source>Specify the insertion point; you can directly input the coordinate values.</source>
-        <comment>paste</comment>
-        <translation type="obsolete">指定插入点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Insertion point</source>
-        <comment>paste</comment>
-        <translation type="obsolete">插入点</translation>
-    </message>
-    <message>
-        <source>Select the sketch to extrude.</source>
-        <comment>extrude</comment>
-        <translation type="obsolete">选择草图。</translation>
-    </message>
-    <message>
-        <source>Select sketch</source>
-        <comment>extrude</comment>
-        <translation type="obsolete">选择草图</translation>
-    </message>
-    <message>
-        <source>Specify the extrusion depth; you can directly input the value.</source>
-        <comment>extrude</comment>
-        <translation type="obsolete">指定拉伸深度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Extrusion depth</source>
-        <comment>extrude</comment>
-        <translation type="obsolete">拉伸深度</translation>
     </message>
 </context>
 <context>
@@ -846,21 +58,9 @@
         <translation type="unfinished">指定基准点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Base Point</source>
-        <translation type="obsolete">基准点</translation>
-    </message>
-    <message>
         <location filename="../../commands/edit/CopyGuiCmd.cpp" line="302"/>
         <source>Specify the move vector; you can directly input the values.</source>
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Length &amp; Angle</source>
-        <translation type="obsolete">长度 &amp; 角度</translation>
-    </message>
-    <message>
-        <source>Move Vector</source>
-        <translation type="obsolete">移动向量</translation>
     </message>
     <message>
         <location filename="../../commands/edit/CopyGuiCmd.cpp" line="427"/>
@@ -871,14 +71,6 @@
         <location filename="../../commands/edit/CopyGuiCmd.cpp" line="428"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
-    </message>
-    <message>
-        <source>Specify the end point; you can directly input the coordinate values.</source>
-        <translation type="obsolete">指定终点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>End point</source>
-        <translation type="obsolete">终点</translation>
     </message>
 </context>
 <context>
@@ -901,10 +93,6 @@
 </context>
 <context>
     <name>DatumPlnCmd</name>
-    <message>
-        <source>Select datum plane or solid plane surface.</source>
-        <translation type="obsolete">选择基准面或实体平面。</translation>
-    </message>
     <message>
         <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="244"/>
         <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="820"/>
@@ -936,14 +124,6 @@
         <translation type="unfinished">选择实体边、实体面或基准面以确定新基准面的X轴。</translation>
     </message>
     <message>
-        <source>Select solid edge or sketch curve.</source>
-        <translation type="obsolete">选择实体边或草图曲线。</translation>
-    </message>
-    <message>
-        <source>Select solid edge, sketch curve or 3D sketch curve.</source>
-        <translation type="obsolete">选择实体边、草图曲线或 3D 草图曲线。</translation>
-    </message>
-    <message>
         <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="409"/>
         <source>Select an edge, sketch curve or 3D sketch curve.</source>
         <translation type="unfinished">选择边、草图曲线或 3D 草图曲线。</translation>
@@ -963,17 +143,9 @@
         <translation type="unfinished">距离</translation>
     </message>
     <message>
-        <source>Select solid edge.</source>
-        <translation type="obsolete">选择实体边。</translation>
-    </message>
-    <message>
         <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="119"/>
         <source>Specify the first point.</source>
         <translation type="unfinished">指定第一点。</translation>
-    </message>
-    <message>
-        <source>The First Point</source>
-        <translation type="obsolete">第一点</translation>
     </message>
     <message>
         <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="136"/>
@@ -981,17 +153,9 @@
         <translation type="unfinished">指定第二点。</translation>
     </message>
     <message>
-        <source>The Second Point</source>
-        <translation type="obsolete">第二点</translation>
-    </message>
-    <message>
         <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="153"/>
         <source>Specify the third point.</source>
         <translation type="unfinished">指定第三点。</translation>
-    </message>
-    <message>
-        <source>The Third Point</source>
-        <translation type="obsolete">第三点</translation>
     </message>
     <message>
         <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="255"/>
@@ -999,10 +163,6 @@
         <location filename="../../commands/datumPlane/Through3PointsDatumPlnCmd.cpp" line="267"/>
         <source>The three points are collinear and cannot define a unique plane.</source>
         <translation type="unfinished">三点共线无法确定唯一平面。</translation>
-    </message>
-    <message>
-        <source>Select solid cylindrical face.</source>
-        <translation type="obsolete">选择实体圆柱面。</translation>
     </message>
     <message>
         <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="170"/>
@@ -1120,14 +280,6 @@
         <translation type="unfinished">选择草图。</translation>
     </message>
     <message>
-        <source>Specify the extrusion depth; you can directly input the value. Press Tab in the popup to switch the direction.</source>
-        <translation type="vanished">指定拉伸深度；可输入具体值。在弹窗中按 Tab 切换拉伸方向。</translation>
-    </message>
-    <message>
-        <source>Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction.</source>
-        <translation type="vanished">指定拉伸深度；可输入具体值。按 Tab 切换拉伸方向。</translation>
-    </message>
-    <message>
         <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="343"/>
         <source>Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction (One Side / Symmetric).</source>
         <translation>指定拉伸深度；可输入具体值。按 Tab 切换拉伸方向（单侧/对称）。</translation>
@@ -1151,14 +303,6 @@
         <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="619"/>
         <source>One Side</source>
         <translation type="unfinished">单侧</translation>
-    </message>
-    <message>
-        <source>Specify the extrusion depth; you can directly input the value.</source>
-        <translation type="obsolete">指定拉伸深度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Extrusion depth</source>
-        <translation type="obsolete">拉伸深度</translation>
     </message>
     <message>
         <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="379"/>
@@ -1198,14 +342,6 @@
         <source>One Side</source>
         <translation type="unfinished">单侧</translation>
     </message>
-    <message>
-        <source>Specify the extrusion depth; you can directly input the value.</source>
-        <translation type="obsolete">指定拉伸深度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Extrusion depth</source>
-        <translation type="obsolete">拉伸深度</translation>
-    </message>
 </context>
 <context>
     <name>FileCmds</name>
@@ -1232,17 +368,9 @@
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <source>%1 files (*.%2)</source>
-        <translation type="obsolete">%1 (*.%2)</translation>
-    </message>
-    <message>
         <location filename="../../commands/FileCommands.cpp" line="154"/>
         <source>Save file</source>
         <translation type="unfinished">保存文件</translation>
-    </message>
-    <message>
-        <source>unnamed.wy3dt</source>
-        <translation type="obsolete">未命名.wy3dt</translation>
     </message>
     <message>
         <location filename="../../commands/FileCommands.cpp" line="130"/>
@@ -1312,10 +440,6 @@
         <translation>请先选择草图！</translation>
     </message>
     <message>
-        <source>Selected elements do not support export.</source>
-        <translation type="vanished">所选元素不支持导出。</translation>
-    </message>
-    <message>
         <location filename="../../commands/FileCommands.cpp" line="680"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
@@ -1324,14 +448,6 @@
         <location filename="../../commands/FileCommands.cpp" line="690"/>
         <source>Export failed!</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export solid</source>
-        <translation type="obsolete">导出实体</translation>
-    </message>
-    <message>
-        <source>Export solid failed!</source>
-        <translation type="obsolete">导出实体失败！</translation>
     </message>
     <message>
         <location filename="../../commands/FileCommands.cpp" line="896"/>
@@ -1353,29 +469,13 @@
         <source>Import file failed!</source>
         <translation type="unfinished">导入文件失败！</translation>
     </message>
-    <message>
-        <source>Please first select a datum plane.</source>
-        <translation type="obsolete">请先选择一个基准面！</translation>
-    </message>
 </context>
 <context>
     <name>FilledSheetGuiCmd</name>
     <message>
-        <source>Select a 2D or 3D sketch, or edges of a solid or sheet, to create a filled surface.</source>
-        <translation type="vanished">选择二维或三维草图，或选择实体或曲面的边创建填充曲面。</translation>
-    </message>
-    <message>
         <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="468"/>
         <source>Select the boundary of the filled surface: a 2D or 3D sketch, or edges of a solid or sheet.</source>
         <translation>选择填充曲面的边界：二维或三维草图，或实体或曲面的边。</translation>
-    </message>
-    <message>
-        <source>Select a guide curve (optional); press Enter or Spacebar to complete.</source>
-        <translation type="vanished">选择引导线（可选）；按 Enter 键或空格键将完成操作。</translation>
-    </message>
-    <message>
-        <source>Select a constraint curve (optional); press Enter or Spacebar to complete.</source>
-        <translation type="vanished">选择约束曲线（可选）；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
         <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="511"/>
@@ -1397,10 +497,6 @@
         <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="882"/>
         <source>Sketch is already in use</source>
         <translation>草图已被其他特征使用</translation>
-    </message>
-    <message>
-        <source>Select edges to enclose a loop; a filled surface is created when the loop closes. Esc: clear edges.</source>
-        <translation type="vanished">选择边围成闭合环，闭合后自动创建填充曲面；按 Esc 清除已选边。</translation>
     </message>
     <message>
         <location filename="../../commands/modeling/sheet/generation/FilledSheetGuiCmd.cpp" line="484"/>
@@ -1460,46 +556,9 @@
         <translation>已选中 %1 个元素。</translation>
     </message>
     <message>
-        <source> %1 element(s) are not displayed in the current environment.</source>
-        <translation type="vanished"> %1 个元素在当前环境下不显示。</translation>
-    </message>
-    <message>
         <location filename="../../commands/utilities/FindElementByIdCommand.cpp" line="272"/>
         <source> %1 ID(s) invalid.</source>
         <translation> %1 个 ID 无效。</translation>
-    </message>
-</context>
-<context>
-    <name>FitSelectionCommand</name>
-    <message>
-        <source>Selection set is empty.</source>
-        <translation type="vanished">选择集为空。</translation>
-    </message>
-</context>
-<context>
-    <name>GatewayEnvironment</name>
-    <message>
-        <source>New</source>
-        <translation type="obsolete">新建</translation>
-    </message>
-</context>
-<context>
-    <name>GuiCmdMenuActionMgr</name>
-    <message>
-        <source>Complete Selection</source>
-        <translation type="obsolete">完成选择</translation>
-    </message>
-    <message>
-        <source>Clear Selection</source>
-        <translation type="obsolete">清除选择</translation>
-    </message>
-    <message>
-        <source>Property Widget</source>
-        <translation type="obsolete">属性窗口</translation>
-    </message>
-    <message>
-        <source>World CSYS</source>
-        <translation type="obsolete">世界坐标系</translation>
     </message>
 </context>
 <context>
@@ -1628,14 +687,6 @@
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="196"/>
         <source>Save As</source>
         <translation type="unfinished">另存为</translation>
-    </message>
-    <message>
-        <source>Model</source>
-        <translation type="obsolete">建模</translation>
-    </message>
-    <message>
-        <source>Camera</source>
-        <translation type="obsolete">相机</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1201"/>
@@ -1916,30 +967,6 @@
         <translation type="unfinished">测试</translation>
     </message>
     <message>
-        <source>Ortho</source>
-        <translation type="obsolete">平行投影</translation>
-    </message>
-    <message>
-        <source>Perspective</source>
-        <translation type="obsolete">透视投影</translation>
-    </message>
-    <message>
-        <source>Basic</source>
-        <translation type="obsolete">基础</translation>
-    </message>
-    <message>
-        <source>NewFile</source>
-        <translation type="obsolete">新建文件</translation>
-    </message>
-    <message>
-        <source>OpenFile</source>
-        <translation type="obsolete">打开文件</translation>
-    </message>
-    <message>
-        <source>SaveFile</source>
-        <translation type="obsolete">保存文件</translation>
-    </message>
-    <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="229"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="204"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="176"/>
@@ -2103,10 +1130,6 @@
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="835"/>
         <source>Sheet Build Series</source>
         <translation type="unfinished">曲面构建命令集</translation>
-    </message>
-    <message>
-        <source>Boss Series</source>
-        <translation type="obsolete">凸台命令集</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1120"/>
@@ -2327,14 +1350,6 @@
         <translation type="unfinished">镜像</translation>
     </message>
     <message>
-        <source>Find Element By ID</source>
-        <translation type="vanished">按 ID 查找元素</translation>
-    </message>
-    <message>
-        <source>IsometricView View</source>
-        <translation type="obsolete">等轴测视图</translation>
-    </message>
-    <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="690"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="602"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="442"/>
@@ -2364,14 +1379,6 @@
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="721"/>
         <source>CheckTopoName</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Surface Generation Series</source>
-        <translation type="obsolete">曲面生成命令集</translation>
-    </message>
-    <message>
-        <source>Surface Build Series</source>
-        <translation type="obsolete">曲面构建命令集</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="847"/>
@@ -2436,19 +1443,11 @@
         <translation type="unfinished">基础几何体命令集</translation>
     </message>
     <message>
-        <source>Edit Series</source>
-        <translation type="obsolete">编辑命令集</translation>
-    </message>
-    <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1157"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="848"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="633"/>
         <source>Standard View Series</source>
         <translation type="unfinished">标准视图命令集</translation>
-    </message>
-    <message>
-        <source>Surface</source>
-        <translation type="obsolete">曲面</translation>
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="1205"/>
@@ -2521,10 +1520,6 @@
         <translation type="unfinished">整屏显示全图</translation>
     </message>
     <message>
-        <source>ISO View</source>
-        <translation type="obsolete">等轴侧视图</translation>
-    </message>
-    <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="660"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="567"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="412"/>
@@ -2567,30 +1562,6 @@
         <translation type="unfinished">底视图</translation>
     </message>
     <message>
-        <source>FeatureTree</source>
-        <translation type="obsolete">特征树</translation>
-    </message>
-    <message>
-        <source>Property</source>
-        <translation type="obsolete">属性</translation>
-    </message>
-    <message>
-        <source>Output</source>
-        <translation type="obsolete">输出</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">取消</translation>
-    </message>
-    <message>
-        <source>unnamed.wy3dt</source>
-        <translation type="obsolete">未命名.wy3dt</translation>
-    </message>
-    <message>
-        <source>Export file</source>
-        <translation type="obsolete">导出文件</translation>
-    </message>
-    <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="126"/>
         <source>3D Sketch</source>
         <translation>3D草图</translation>
@@ -2599,46 +1570,6 @@
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="130"/>
         <source>3D Sketch Environment</source>
         <translation>3D草图环境</translation>
-    </message>
-    <message>
-        <source>Line 3D</source>
-        <translation type="vanished">3D直线</translation>
-    </message>
-    <message>
-        <source>Circle 3D</source>
-        <translation type="vanished">3D圆</translation>
-    </message>
-    <message>
-        <source>Arc 3D</source>
-        <translation type="obsolete">3D圆弧</translation>
-    </message>
-    <message>
-        <source>Arc by 3 Points 3D</source>
-        <translation type="obsolete">3D三点圆弧</translation>
-    </message>
-    <message>
-        <source>Rectangle 3D</source>
-        <translation type="obsolete">3D矩形</translation>
-    </message>
-    <message>
-        <source>Center Rectangle 3D</source>
-        <translation type="obsolete">3D中心矩形</translation>
-    </message>
-    <message>
-        <source>Ellipse 3D</source>
-        <translation type="obsolete">3D椭圆</translation>
-    </message>
-    <message>
-        <source>Ellipse Arc 3D</source>
-        <translation type="obsolete">3D椭圆弧</translation>
-    </message>
-    <message>
-        <source>Spline 3D</source>
-        <translation type="obsolete">3D样条曲线</translation>
-    </message>
-    <message>
-        <source>Style Spline 3D</source>
-        <translation type="obsolete">3D样式样条曲线</translation>
     </message>
     <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="293"/>
@@ -2656,22 +1587,6 @@
         <translation type="unfinished">投影曲线</translation>
     </message>
     <message>
-        <source>Trim 3D</source>
-        <translation type="obsolete">3D修剪</translation>
-    </message>
-    <message>
-        <source>Extend 3D</source>
-        <translation type="obsolete">3D延伸</translation>
-    </message>
-    <message>
-        <source>Fillet 3D</source>
-        <translation type="obsolete">3D圆角</translation>
-    </message>
-    <message>
-        <source>Chamfer 3D</source>
-        <translation type="obsolete">3D倒角</translation>
-    </message>
-    <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="374"/>
         <source>End 3D Sketch</source>
         <translation>结束3D草图</translation>
@@ -2683,103 +1598,16 @@
     </message>
 </context>
 <context>
-    <name>MainWindowUI</name>
-    <message>
-        <source>NewFile</source>
-        <translation type="obsolete">新建文件</translation>
-    </message>
-    <message>
-        <source>OpenFile</source>
-        <translation type="obsolete">打开文件</translation>
-    </message>
-    <message>
-        <source>SaveFile</source>
-        <translation type="obsolete">保存文件</translation>
-    </message>
-    <message>
-        <source>Save As</source>
-        <translation type="obsolete">另存为</translation>
-    </message>
-    <message>
-        <source>Export</source>
-        <translation type="obsolete">导出</translation>
-    </message>
-    <message>
-        <source>Model</source>
-        <translation type="obsolete">建模</translation>
-    </message>
-    <message>
-        <source>Box</source>
-        <translation type="obsolete">长方体</translation>
-    </message>
-    <message>
-        <source>Cylinder</source>
-        <translation type="obsolete">圆柱体</translation>
-    </message>
-    <message>
-        <source>Sphere</source>
-        <translation type="obsolete">球体</translation>
-    </message>
-    <message>
-        <source>Cone</source>
-        <translation type="obsolete">圆锥体</translation>
-    </message>
-    <message>
-        <source>Torus</source>
-        <translation type="obsolete">圆环体</translation>
-    </message>
-    <message>
-        <source>Tube</source>
-        <translation type="obsolete">圆管</translation>
-    </message>
-    <message>
-        <source>Camera</source>
-        <translation type="obsolete">相机</translation>
-    </message>
-    <message>
-        <source>Ortho</source>
-        <translation type="obsolete">平行投影</translation>
-    </message>
-    <message>
-        <source>Perspective</source>
-        <translation type="obsolete">透视投影</translation>
-    </message>
-    <message>
-        <source>Help</source>
-        <translation type="obsolete">帮助</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="obsolete">关于</translation>
-    </message>
-</context>
-<context>
     <name>MakeBoxGuiCmd</name>
-    <message>
-        <source>Select datum plane or solid surface.</source>
-        <translation type="obsolete">选择基准面或实体面。</translation>
-    </message>
-    <message>
-        <source>Select datum plane or solid surface as working plane.</source>
-        <translation type="obsolete">选择基准面或实体面。</translation>
-    </message>
     <message>
         <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="194"/>
         <source>Specify the starting point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定起点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Start point</source>
-        <translation type="obsolete">起点</translation>
-    </message>
-    <message>
         <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="206"/>
         <source>Specify length and width; you can directly input the values.</source>
         <translation type="unfinished">指定长度和宽度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Length &amp; Width</source>
-        <translation type="obsolete">长度 &amp; 宽度</translation>
     </message>
     <message>
         <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="218"/>
@@ -2810,10 +1638,6 @@
         <translation type="unfinished">指定底面中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Center</source>
-        <translation type="obsolete">中心点</translation>
-    </message>
-    <message>
         <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="196"/>
         <source>Specify the bottom radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
@@ -2840,10 +1664,6 @@
         <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="185"/>
         <source>Specify the bottom center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定底面中心点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <translation type="obsolete">中心点</translation>
     </message>
     <message>
         <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="197"/>
@@ -2887,10 +1707,6 @@
         <translation type="unfinished">指定中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Center</source>
-        <translation type="obsolete">中心点</translation>
-    </message>
-    <message>
         <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="187"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
@@ -2907,10 +1723,6 @@
         <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="194"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆心点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <translation type="obsolete">圆心</translation>
     </message>
     <message>
         <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="206"/>
@@ -2939,10 +1751,6 @@
         <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="235"/>
         <source>Specify the bottom center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定底面中心点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <translation type="obsolete">圆心</translation>
     </message>
     <message>
         <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="247"/>
@@ -2992,33 +1800,9 @@
         <source>Clear Measure Results</source>
         <translation>清空测量结果</translation>
     </message>
-    <message>
-        <source>Distance</source>
-        <translation type="obsolete">距离</translation>
-    </message>
-    <message>
-        <source>Length</source>
-        <translation type="obsolete">长度</translation>
-    </message>
-    <message>
-        <source>Area</source>
-        <translation type="obsolete">面积</translation>
-    </message>
-    <message>
-        <source>Perimeter</source>
-        <translation type="obsolete">周长</translation>
-    </message>
-    <message>
-        <source>Volume</source>
-        <translation type="obsolete">体积</translation>
-    </message>
 </context>
 <context>
     <name>MergeGuiCmd</name>
-    <message>
-        <source>Select the target solid.</source>
-        <translation type="obsolete">选择目标体。</translation>
-    </message>
     <message>
         <location filename="../../commands/modeling/solid/MergeGuiCmd.cpp" line="235"/>
         <source>Select the host solid.</source>
@@ -3087,17 +1871,9 @@
 <context>
     <name>Mirror</name>
     <message>
-        <source>Select elements to mirror; right-click to confirm.</source>
-        <translation type="obsolete">选择要镜像的元素；鼠标右键确认。</translation>
-    </message>
-    <message>
         <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="272"/>
         <source>Select elements to mirror; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要镜像的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
-    </message>
-    <message>
-        <source>Select elements</source>
-        <translation type="obsolete">选择元素</translation>
     </message>
     <message>
         <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="289"/>
@@ -3105,17 +1881,9 @@
         <translation type="unfinished">指定镜像轴线起点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Start point</source>
-        <translation type="obsolete">起点</translation>
-    </message>
-    <message>
         <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="310"/>
         <source>Specify the end point; you can directly input the values.</source>
         <translation type="unfinished">指定终点；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Length &amp; Angle</source>
-        <translation type="obsolete">长度 &amp; 角度</translation>
     </message>
     <message>
         <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="432"/>
@@ -3126,14 +1894,6 @@
         <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="433"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
-    </message>
-    <message>
-        <source>Specify the end point; you can directly input the coordinate values.</source>
-        <translation type="obsolete">指定镜像轴线终点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>End point</source>
-        <translation type="obsolete">终点</translation>
     </message>
 </context>
 <context>
@@ -3167,21 +1927,9 @@
         <translation type="unfinished">指定基准点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Base Point</source>
-        <translation type="obsolete">基准点</translation>
-    </message>
-    <message>
         <location filename="../../commands/edit/MoveGuiCmd.cpp" line="402"/>
         <source>Specify the move vector; you can directly input the values.</source>
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Length &amp; Angle</source>
-        <translation type="obsolete">长度 &amp; 角度</translation>
-    </message>
-    <message>
-        <source>Move Vector</source>
-        <translation type="obsolete">移动向量</translation>
     </message>
     <message>
         <location filename="../../commands/edit/MoveGuiCmd.cpp" line="562"/>
@@ -3195,38 +1943,7 @@
     </message>
 </context>
 <context>
-    <name>MoveGuiCommand</name>
-    <message>
-        <source>Select elements to move; press Enter or Spacebar to confirm; press Esc to cancel.</source>
-        <translation type="obsolete">选择要移动的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
-    </message>
-    <message>
-        <source>Select datum plane as working plane.</source>
-        <translation type="obsolete">选择基准面作为工作平面。</translation>
-    </message>
-    <message>
-        <source>Specify the base point; you can directly input the coordinate values.</source>
-        <translation type="obsolete">指定基准点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Base Point</source>
-        <translation type="obsolete">基准点</translation>
-    </message>
-    <message>
-        <source>Specify the move vector; you can directly input the values.</source>
-        <translation type="obsolete">指定移动向量；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Move Vector</source>
-        <translation type="obsolete">移动向量</translation>
-    </message>
-</context>
-<context>
     <name>NewSketch</name>
-    <message>
-        <source>Select datum plane or solid surface.</source>
-        <translation type="obsolete">选择参考面或实体面。</translation>
-    </message>
     <message>
         <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="210"/>
         <source>Select datum plane or planar face.</source>
@@ -3235,10 +1952,6 @@
 </context>
 <context>
     <name>OffsetSheetGuiCmd</name>
-    <message>
-        <source>Select a sheet to offset.</source>
-        <translation type="vanished">选择要偏置的曲面。</translation>
-    </message>
     <message>
         <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="602"/>
         <source>Specify the offset distance, then OK to apply.</source>
@@ -3249,25 +1962,6 @@
         <source>Select the faces to offset, then OK to apply.</source>
         <translation>选择要偏置的面，确认后应用。</translation>
     </message>
-    <message>
-        <source>Specify offset distance, then OK to apply.</source>
-        <translation type="vanished">指定偏置距离，确认后应用。</translation>
-    </message>
-    <message>
-        <source>Specify the offset distance.</source>
-        <translation type="vanished">指定偏置距离。</translation>
-    </message>
-    <message>
-        <source>Offset distance</source>
-        <translation type="vanished">偏置距离</translation>
-    </message>
-</context>
-<context>
-    <name>ParamColorEdit</name>
-    <message>
-        <source>Select Color</source>
-        <translation type="obsolete">选择颜色</translation>
-    </message>
 </context>
 <context>
     <name>PlanarSheetGuiCmd</name>
@@ -3275,10 +1969,6 @@
         <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="339"/>
         <source>Select a sketch to create a planar sheet, or select edges to enclose a planar face.</source>
         <translation>选择草图创建平面曲面，或选择边线围合成无参平面曲面。</translation>
-    </message>
-    <message>
-        <source>Select edges to enclose a planar face; a sheet is created when the loop closes. Esc: clear edges.</source>
-        <translation type="vanished">选择边围合成平面面，闭合后自动创建片体；按 Esc 清除已选边。</translation>
     </message>
     <message>
         <location filename="../../commands/modeling/sheet/generation/PlanarSheetGuiCmd.cpp" line="354"/>
@@ -3313,13 +2003,6 @@
         <location filename="../../widgets/panels/property/adapters/SketchPlaneEditorAdapter.cpp" line="90"/>
         <source>Modify successfully.</source>
         <translation type="unfinished">修改成功！</translation>
-    </message>
-</context>
-<context>
-    <name>Revolution</name>
-    <message>
-        <source>Select the sketch to revolve.</source>
-        <translation type="obsolete">选择草图。</translation>
     </message>
 </context>
 <context>
@@ -3371,17 +2054,9 @@
         <translation type="unfinished">指定旋转中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Baseline start point</source>
-        <translation type="obsolete">中心点</translation>
-    </message>
-    <message>
         <location filename="../../commands/edit/RotateGuiCmd.cpp" line="420"/>
         <source>Specify the baseline end point; you can directly input length and angle values.</source>
         <translation>指定基线终点；可输入长度和角度值。</translation>
-    </message>
-    <message>
-        <source>Length &amp; Angle</source>
-        <translation type="obsolete">长度 &amp; 角度</translation>
     </message>
     <message>
         <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
@@ -3395,21 +2070,9 @@
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <source>Specify the baseline end point; you can directly input the coordinate values.</source>
-        <translation type="obsolete">指定基线终点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Baseline end point</source>
-        <translation type="obsolete">基线终点</translation>
-    </message>
-    <message>
         <location filename="../../commands/edit/RotateGuiCmd.cpp" line="440"/>
         <source>Specify the rotation angle; you can directly input the value.</source>
         <translation type="unfinished">指定旋转角度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Rotation angle</source>
-        <translation type="obsolete">旋转角度</translation>
     </message>
 </context>
 <context>
@@ -3424,14 +2087,6 @@
         <source>Run Python Script</source>
         <translation type="unfinished">Python脚本</translation>
     </message>
-    <message>
-        <source>Load python library failed!</source>
-        <translation type="obsolete">加载Python库失败！</translation>
-    </message>
-    <message>
-        <source>Run script error!</source>
-        <translation type="obsolete">执行脚本错误！</translation>
-    </message>
 </context>
 <context>
     <name>Scale</name>
@@ -3444,10 +2099,6 @@
         <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="285"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定缩放基点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Base point</source>
-        <translation type="obsolete">基点</translation>
     </message>
     <message>
         <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="309"/>
@@ -3472,10 +2123,6 @@
         <source>Specify the insertion point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定插入点；可输入具体坐标值。</translation>
     </message>
-    <message>
-        <source>Insertion point</source>
-        <translation type="obsolete">插入点</translation>
-    </message>
 </context>
 <context>
     <name>SetColorGuiCmd</name>
@@ -3491,18 +2138,6 @@
         <location filename="../../commands/modeling/sheet/sew/SewnSheetGuiCmd.cpp" line="261"/>
         <source>Select one or more sheets to sew; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation>选择一个或多个曲面进行缝合；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
-    </message>
-    <message>
-        <source>Input the sew tolerance.</source>
-        <translation type="vanished">输入缝合公差。</translation>
-    </message>
-    <message>
-        <source>Sewn Sheet</source>
-        <translation type="vanished">缝合曲面</translation>
-    </message>
-    <message>
-        <source>Tolerance</source>
-        <translation type="vanished">公差</translation>
     </message>
 </context>
 <context>
@@ -3558,18 +2193,6 @@
 </context>
 <context>
     <name>Sketch3DDrawGuiCmd</name>
-    <message>
-        <source>Drawing restricted to the selected plane.</source>
-        <translation type="vanished">绘制限制在选定平面内。</translation>
-    </message>
-    <message>
-        <source>Drawing on %1 plane, press Space to switch plane.</source>
-        <translation type="vanished">在%1平面绘制,按空格键切换平面。</translation>
-    </message>
-    <message>
-        <source>Select datum plane or solid surface as working plane.</source>
-        <translation type="vanished">选择基准面或实体面作为工作平面。</translation>
-    </message>
     <message>
         <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="450"/>
         <source>View Normal To Working Plane</source>
@@ -3656,10 +2279,6 @@
         <translation type="unfinished">选择第一条草图线。</translation>
     </message>
     <message>
-        <source>Chamfer D1,D2</source>
-        <translation type="obsolete">距离1，距离2</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="151"/>
         <source>Select the second sketch line.</source>
         <translation type="unfinished">选择第二条草图线。</translation>
@@ -3681,17 +2300,9 @@
         <translation type="unfinished">指定圆心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Center point</source>
-        <translation type="obsolete">圆心</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="256"/>
         <source>Specify the start point; you can directly input the values.</source>
         <translation type="unfinished">指定圆弧起点；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Radius &amp; Angle</source>
-        <translation type="obsolete">半径 &amp; 角度</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="418"/>
@@ -3709,25 +2320,9 @@
         <translation type="unfinished">扫掠角度</translation>
     </message>
     <message>
-        <source>Specify the start point; you can directly input the coordinate values.</source>
-        <translation type="obsolete">指定圆弧起点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Start point</source>
-        <translation type="obsolete">起点</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="265"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation type="unfinished">指定圆弧角度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Angle</source>
-        <translation type="obsolete">角度</translation>
-    </message>
-    <message>
-        <source>The First Point</source>
-        <translation type="obsolete">第一点</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="235"/>
@@ -3735,26 +2330,14 @@
         <translation type="unfinished">指定圆弧的第一个端点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>The First End Point</source>
-        <translation type="obsolete">第一个端点</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="251"/>
         <source>Specify the second end point on arc; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆弧的第二个端点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>The Second End Point</source>
-        <translation type="obsolete">第二个端点</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="262"/>
         <source>Specify the third point on arc; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆弧上的第三个点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>The Third Point</source>
-        <translation type="obsolete">第三点</translation>
     </message>
 </context>
 <context>
@@ -3768,10 +2351,6 @@
         <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="209"/>
         <source>Specify the start point; you can directly input the radius and the start angle. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定起点；可直接输入半径与起始角度。按空格键切换绘制平面。</translation>
-    </message>
-    <message>
-        <source>Specify the total angle; you can directly input the value. Press Space to switch the drawing plane.</source>
-        <translation type="obsolete">指定总角度；可直接输入数值。按空格键切换绘制平面。</translation>
     </message>
     <message>
         <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="217"/>
@@ -3811,14 +2390,6 @@
         <source>Specify the third point on arc; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation type="unfinished">指定圆弧上的第三个点；可输入具体坐标值。按空格键切换绘制平面。</translation>
     </message>
-    <message>
-        <source>Specify the second end point on arc; you can directly input the coordinate values.</source>
-        <translation type="obsolete">指定圆弧的第二个端点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Specify the third point on arc; you can directly input the coordinate values.</source>
-        <translation type="obsolete">指定圆弧上的第三个点；可输入具体坐标值。</translation>
-    </message>
 </context>
 <context>
     <name>SketchDrawArcTangent</name>
@@ -3843,10 +2414,6 @@
         <translation>指定圆弧角度；可输入具体值。</translation>
     </message>
     <message>
-        <source>Select the line the arc is tangent to.</source>
-        <translation type="vanished">选择相切的直线。</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="790"/>
         <source>Radius</source>
         <translation>半径</translation>
@@ -3855,10 +2422,6 @@
         <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="801"/>
         <source>SweepAngle</source>
         <translation>扫掠角度</translation>
-    </message>
-    <message>
-        <source>Specify the end point of the arc.</source>
-        <translation type="vanished">指定圆弧终点。</translation>
     </message>
 </context>
 <context>
@@ -3869,17 +2432,9 @@
         <translation type="unfinished">指定矩形中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Center point</source>
-        <translation type="obsolete">中心点</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="208"/>
         <source>Specify the rectangle corner point or input length &amp; width.</source>
         <translation type="unfinished">指定另一个角点或输入长宽值。</translation>
-    </message>
-    <message>
-        <source>Length &amp; Width</source>
-        <translation type="obsolete">长度 &amp; 宽度</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="320"/>
@@ -3913,10 +2468,6 @@
         <translation type="unfinished">指定圆心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Center point</source>
-        <translation type="obsolete">圆心</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="231"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
@@ -3932,26 +2483,14 @@
         <translation type="unfinished">指定圆上的第一个点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>The First Point</source>
-        <translation type="obsolete">第一点</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="258"/>
         <source>Specify the second point on circle; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆上的第二个点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>The Second Point</source>
-        <translation type="obsolete">第二点</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="269"/>
         <source>Specify the third point on circle; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆上的第三个点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>The Third Point</source>
-        <translation type="obsolete">第三点</translation>
     </message>
 </context>
 <context>
@@ -3980,17 +2519,9 @@
         <translation type="unfinished">指定椭圆中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Center point</source>
-        <translation type="obsolete">圆心</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="220"/>
         <source>Specify the axis vector; you can directly input the values.</source>
         <translation type="unfinished">指定轴向量(大小和方向)；可输入具体向量值。</translation>
-    </message>
-    <message>
-        <source>Axis vector</source>
-        <translation type="obsolete">轴向量</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="229"/>
@@ -4054,17 +2585,9 @@
         <translation type="unfinished">指定椭圆中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Center point</source>
-        <translation type="obsolete">圆心</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="306"/>
         <source>Specify the axis vector; you can directly input the values.</source>
         <translation type="unfinished">指定轴向量(大小和方向)；可输入具体向量值。</translation>
-    </message>
-    <message>
-        <source>Axis vector</source>
-        <translation type="obsolete">轴向量</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="315"/>
@@ -4082,17 +2605,9 @@
         <translation type="unfinished">指定起始角度；可输入具体值。</translation>
     </message>
     <message>
-        <source>Start Angle</source>
-        <translation type="obsolete">起点角度</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="331"/>
         <source>Specify the sweep angle; you can directly input the value.</source>
         <translation>指定扫掠角度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Sweep Angle</source>
-        <translation type="vanished">扫掠角度</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="567"/>
@@ -4103,14 +2618,6 @@
         <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="577"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
-    </message>
-    <message>
-        <source>Specify the end angle; you can directly input the value.</source>
-        <translation type="obsolete">指定终止角度；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>End Angle</source>
-        <translation type="obsolete">终点角度</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="546"/>
@@ -4185,26 +2692,10 @@
         <translation type="unfinished">指定起点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Start point</source>
-        <translation type="obsolete">起点</translation>
-    </message>
-    <message>
-        <source>Specify the end point; you can directly input the coordinate values.</source>
-        <translation type="obsolete">指定终点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>End point</source>
-        <translation type="obsolete">终点</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="196"/>
         <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="214"/>
         <source>Specify the end point; you can directly input the values.</source>
         <translation type="unfinished">指定终点；可输入具体值。</translation>
-    </message>
-    <message>
-        <source>Length &amp; Angle</source>
-        <translation type="obsolete">长度 &amp; 角度</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
@@ -4222,21 +2713,9 @@
 <context>
     <name>SketchDrawLine3DGuiCmd</name>
     <message>
-        <source>Specify the start point.</source>
-        <translation type="vanished">指定起点。</translation>
-    </message>
-    <message>
-        <source>Specify the end point.</source>
-        <translation type="vanished">指定终点。</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="188"/>
         <source>Specify the start point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation>指定起点；可输入具体坐标值。按空格键切换绘制平面。</translation>
-    </message>
-    <message>
-        <source>Specify the end point; you can directly input the coordinate values.</source>
-        <translation type="vanished">指定终点；可输入具体坐标值。</translation>
     </message>
     <message>
         <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="196"/>
@@ -4274,10 +2753,6 @@
         <source>Specify the position of the point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定点位置；可输入具体坐标值。</translation>
     </message>
-    <message>
-        <source>Position</source>
-        <translation type="obsolete">位置</translation>
-    </message>
 </context>
 <context>
     <name>SketchDrawPolygon</name>
@@ -4285,10 +2760,6 @@
         <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="235"/>
         <source>Specify the center point of the regular polygon; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定正多边形的中心点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Center point</source>
-        <translation type="obsolete">圆心</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="248"/>
@@ -4309,17 +2780,9 @@
         <translation type="unfinished">指定第一个角点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Corner point</source>
-        <translation type="obsolete">角点</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="195"/>
         <source>Specify the other corner point or input length &amp; width.</source>
         <translation type="unfinished">指定另一个角点或输入长宽值。</translation>
-    </message>
-    <message>
-        <source>Length &amp; Width</source>
-        <translation type="obsolete">长度 &amp; 宽度</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="300"/>
@@ -4376,17 +2839,9 @@
         <translation type="unfinished">指定起始点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <source>Start Point</source>
-        <translation type="obsolete">起始点</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="303"/>
         <source>Specify the next point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定下一点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Next Point</source>
-        <translation type="obsolete">下一点</translation>
     </message>
 </context>
 <context>
@@ -4405,10 +2860,6 @@
         <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="147"/>
         <source>Select the first sketch curve.</source>
         <translation type="unfinished">选择第一条草图曲线。</translation>
-    </message>
-    <message>
-        <source>Fillet Radius</source>
-        <translation type="obsolete">圆角半径</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="157"/>
@@ -4470,22 +2921,6 @@
         <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="206"/>
         <source>The two items must be different.</source>
         <translation type="unfinished">两个对象必须不同。</translation>
-    </message>
-    <message>
-        <source>The intersection curve has already been created.</source>
-        <translation type="obsolete">该交线已经创建过了。</translation>
-    </message>
-    <message>
-        <source>Select the first face or datum plane to intersect. Press Esc to exit.</source>
-        <translation type="obsolete">选择要相交的第一个面或基准面，按 Esc 退出。</translation>
-    </message>
-    <message>
-        <source>Select the second face to intersect. A datum plane is not available now.</source>
-        <translation type="obsolete">选择要相交的第二个面（此时不可选基准面）。</translation>
-    </message>
-    <message>
-        <source>Select the second face or datum plane border to intersect.</source>
-        <translation type="obsolete">选择要相交的第二个面或基准面边框。</translation>
     </message>
     <message>
         <location filename="../../commands/sketch3d/SketchIntersectionCurve3DGuiCmd.cpp" line="359"/>
@@ -4585,10 +3020,6 @@
 <context>
     <name>SketchPolarArray</name>
     <message>
-        <source>Select elements to perform polar array; right-click to confirm.</source>
-        <translation type="obsolete">选择元素；单击鼠标右键确认。</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="230"/>
         <source>Select elements to perform polar array; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择元素执行环形阵列；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
@@ -4597,10 +3028,6 @@
         <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="248"/>
         <source>Specify the center point of polar array; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定阵列中心点；可输入具体坐标值。</translation>
-    </message>
-    <message>
-        <source>Center</source>
-        <translation type="obsolete">中心</translation>
     </message>
     <message>
         <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="270"/>
@@ -4616,10 +3043,6 @@
 </context>
 <context>
     <name>SketchProject</name>
-    <message>
-        <source>Click on solid edges to project them onto the sketch plane. Press Esc to exit.</source>
-        <translation type="obsolete">点击实体边将其投影到草图平面，按 Esc 退出。</translation>
-    </message>
     <message>
         <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="91"/>
         <source>Click on model edges to project them onto the sketch plane.</source>
@@ -4672,25 +3095,9 @@
         <translation type="unfinished">选择要投影的草图。</translation>
     </message>
     <message>
-        <source>Select the face to project onto.</source>
-        <translation type="obsolete">选择投影的目标面。</translation>
-    </message>
-    <message>
-        <source>Select the face to project onto. Press Enter or Spacebar to confirm.</source>
-        <translation type="obsolete">选择投影的目标面，按 Enter 或空格键确认。</translation>
-    </message>
-    <message>
-        <source>Projection failed: the sketch does not reach the picked face. Try the other direction, or both.</source>
-        <translation type="obsolete">投影失败：草图未到达所选面，可尝试反向或双向。</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="568"/>
         <source>Projection curve computed. Press Enter or Spacebar to confirm.</source>
         <translation type="unfinished">已计算出投影曲线，按 Enter 或空格键确认。</translation>
-    </message>
-    <message>
-        <source>No projection curve. The sketch does not reach the picked face; try Reverse or Bidirectional.</source>
-        <translation type="obsolete">没有投影曲线：草图未到达所选面，可尝试「反向」或「双向」。</translation>
     </message>
     <message>
         <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="566"/>
@@ -4728,17 +3135,9 @@
         <translation type="unfinished">投影失败：结果曲线退化，草图可能与所选的面或基准面相切。</translation>
     </message>
     <message>
-        <source>Projection failed: the sketch and the face cannot be used together.</source>
-        <translation type="obsolete">投影失败：该草图与面无法配合使用。</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="608"/>
         <source>Projection failed: the geometry is invalid.</source>
         <translation type="unfinished">投影失败：几何无效。</translation>
-    </message>
-    <message>
-        <source>Projection failed: the resulting curve is degenerate. The sketch may be tangent to the face.</source>
-        <translation type="obsolete">投影失败：结果曲线退化，草图可能与面相切。</translation>
     </message>
     <message>
         <location filename="../../commands/sketch3d/SketchProjectCurve3DGuiCmd.cpp" line="626"/>
@@ -4763,10 +3162,6 @@
 </context>
 <context>
     <name>SketchRectArray</name>
-    <message>
-        <source>Select elements to perform rectangular array; click the middle mouse button to confirm.</source>
-        <translation type="obsolete">选择元素；单击鼠标中键确认。</translation>
-    </message>
     <message>
         <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="345"/>
         <source>Select elements to perform rectangular array; press Enter or Spacebar to confirm; press Esc to cancel.</source>
@@ -4811,17 +3206,9 @@
         <translation type="unfinished">指定原点。</translation>
     </message>
     <message>
-        <source>Origin</source>
-        <translation type="obsolete">原点</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="141"/>
         <source>Specify the X axis.</source>
         <translation type="unfinished">指定X轴。</translation>
-    </message>
-    <message>
-        <source>X Axis</source>
-        <translation type="obsolete">X轴</translation>
     </message>
 </context>
 <context>
@@ -4841,10 +3228,6 @@
         <source>Specify the start text position; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定文本位置，可输入具体坐标值。</translation>
     </message>
-    <message>
-        <source>Position</source>
-        <translation type="obsolete">位置</translation>
-    </message>
 </context>
 <context>
     <name>SketchUtil</name>
@@ -4857,33 +3240,6 @@
         <location filename="../../utils/SketchUtil.cpp" line="397"/>
         <source>Element IDs: %1</source>
         <translation>元素 ID：%1</translation>
-    </message>
-</context>
-<context>
-    <name>SolidColorCmdPanel</name>
-    <message>
-        <source>Solid Color</source>
-        <translation type="obsolete">实体颜色</translation>
-    </message>
-    <message>
-        <source>Color</source>
-        <translation type="obsolete">颜色</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">取消</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="obsolete">确认</translation>
-    </message>
-    <message>
-        <source>Set Color</source>
-        <translation type="obsolete">设置颜色</translation>
-    </message>
-    <message>
-        <source>Select Color</source>
-        <translation type="obsolete">选择颜色</translation>
     </message>
 </context>
 <context>
@@ -4905,26 +3261,6 @@
         <location filename="../../commands/modeling/solid/modification/SplitFaceGuiCmd.cpp" line="226"/>
         <source>Select the 2D or 3D sketch to split the face with.</source>
         <translation>选择用于分割的二维或三维草图。</translation>
-    </message>
-    <message>
-        <source>Select the 3D sketch to split the face with.</source>
-        <translation type="obsolete">选择用于分割的三维草图。</translation>
-    </message>
-    <message>
-        <source>Select the 3D sketch whose curves split the face; the split is created right away.</source>
-        <translation type="obsolete">选择曲线所在的三维草图；选中后立即分割。</translation>
-    </message>
-    <message>
-        <source>Select the 3D sketch whose curves split the face. Press Enter or Spacebar to confirm.</source>
-        <translation type="obsolete">选择曲线所在的三维草图；按 Enter 键或空格键将完成操作。</translation>
-    </message>
-    <message>
-        <source>Select the sketch curves to split the face with; press Enter or Spacebar to confirm.</source>
-        <translation type="obsolete">选择用于分割的草图曲线；按 Enter 键或空格键将完成操作。</translation>
-    </message>
-    <message>
-        <source>All curves must come from the same sketch.</source>
-        <translation type="obsolete">所有曲线必须来自同一个草图。</translation>
     </message>
 </context>
 <context>
@@ -4973,14 +3309,6 @@
         <source>Specify thickness and direction, then OK to apply.</source>
         <translation>指定厚度和方向，确认后应用。</translation>
     </message>
-    <message>
-        <source>Specify the thickness.</source>
-        <translation type="vanished">指定加厚厚度。</translation>
-    </message>
-    <message>
-        <source>Thickness</source>
-        <translation type="vanished">厚度</translation>
-    </message>
 </context>
 <context>
     <name>Trim</name>
@@ -5024,21 +3352,6 @@
     </message>
 </context>
 <context>
-    <name>main</name>
-    <message>
-        <source>The software has expired. Please download the latest version from the official website.</source>
-        <translation type="obsolete">软件已超过有效期，请前往官网下载最新版本。</translation>
-    </message>
-    <message>
-        <source>System time is incorrect.Please set the system clock to the correct date and time before running the software.</source>
-        <translation type="obsolete">系统时间不正确。请将系统时钟设置为正确的日期和时间后再运行软件。</translation>
-    </message>
-    <message>
-        <source>Failed to fetch network authorization time.</source>
-        <translation type="obsolete">获取网络授权时间失败！</translation>
-    </message>
-</context>
-<context>
     <name>wy3dApp::AboutDialog</name>
     <message>
         <location filename="../../widgets/frame/AboutDialog.cpp" line="35"/>
@@ -5069,22 +3382,6 @@
         <location filename="../../widgets/frame/AboutDialog.cpp" line="92"/>
         <source>Source code is licensed under Apache 2.0</source>
         <translation>源码采用 Apache 2.0 协议</translation>
-    </message>
-    <message>
-        <source>Licensed under the Apache License, Version 2.0</source>
-        <translation type="obsolete">遵循 Apache 许可证 2.0 版本</translation>
-    </message>
-    <message>
-        <source>© 2024-2025 WangYao &lt;wangyao1052@163.com&gt;</source>
-        <translation type="obsolete">© 2024-2025 王垚 &lt;wangyao1052@163.com&gt;</translation>
-    </message>
-    <message>
-        <source>All rights reserved.</source>
-        <translation type="obsolete">版权所有</translation>
-    </message>
-    <message>
-        <source>This computer program is protected by copyright laws and international treaties. Unauthorized reproduction or distribution of this program, or any portion of it, may result in severe civil and criminal penalties, and will be prosecuted to the maximum extent possible under the law.</source>
-        <translation type="obsolete">本计算机程序受版权法及国际条约保护。未经授权复制、分发本程序或其任何部分，可能导致严重的民事和刑事处罚，并将依法被追究最严厉的法律责任。</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/AboutDialog.cpp" line="100"/>
@@ -5148,10 +3445,6 @@ Do you want to save it to the original file now?
         <location filename="../../commands/dialogs/ChamferDialog.cpp" line="62"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
-    </message>
-    <message>
-        <source>Distance</source>
-        <translation type="obsolete">距离</translation>
     </message>
     <message>
         <location filename="../../commands/dialogs/ChamferDialog.cpp" line="71"/>
@@ -5225,10 +3518,6 @@ Do you want to save it to the original file now?
         <source>Please enter an angle that is greater than 0 and less than 180 degrees.</source>
         <translation>请输入一个大于0且小于180度的角度。</translation>
     </message>
-    <message>
-        <source>Number of sides must be an integer between 3 and 100.</source>
-        <translation type="obsolete">需要 3 和 100 之间的整数。</translation>
-    </message>
 </context>
 <context>
     <name>wy3dApp::ContactUsDialog</name>
@@ -5246,10 +3535,6 @@ Do you want to save it to the original file now?
         <location filename="../../widgets/frame/ContactUsDialog.cpp" line="76"/>
         <source>WeChat Official Account</source>
         <translation type="unfinished">微信公众号</translation>
-    </message>
-    <message>
-        <source>Close</source>
-        <translation type="obsolete">关闭</translation>
     </message>
 </context>
 <context>
@@ -5305,10 +3590,6 @@ Do you want to save it to the original file now?
         <location filename="../../commands/dialogs/DoubleValueInputDialog.cpp" line="194"/>
         <source>.</source>
         <translation type="unfinished">的数值。</translation>
-    </message>
-    <message>
-        <source>Please enter a number that is greater than or equal to 0.001 and less than or equal to 1000000.</source>
-        <translation type="obsolete">请输入一个大于或等于0.001且小于或等于1000000的数字。</translation>
     </message>
 </context>
 <context>
@@ -5603,10 +3884,6 @@ Do you want to save it to the original file now?
         <translation>无法生成通过该约束的曲面！</translation>
     </message>
     <message>
-        <source>The selected edges must form a single closed loop!</source>
-        <translation type="obsolete">所选边必须构成单一闭合环！</translation>
-    </message>
-    <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="168"/>
         <source>The selected edges must be coplanar!</source>
         <translation type="unfinished">所选边必须共面！</translation>
@@ -5672,14 +3949,6 @@ Do you want to save it to the original file now?
         <translation type="unfinished">草图曲线必须构成单一闭合环！</translation>
     </message>
     <message>
-        <source>The guide sketch has no usable curve!</source>
-        <translation type="vanished">引导线草图中没有可用的曲线！</translation>
-    </message>
-    <message>
-        <source>The surface cannot be made to pass through the guide curve!</source>
-        <translation type="vanished">无法生成通过该引导线的曲面！</translation>
-    </message>
-    <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="212"/>
         <source>Invalid split face data!</source>
         <translation type="unfinished">无效的分割面数据！</translation>
@@ -5693,10 +3962,6 @@ Do you want to save it to the original file now?
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="216"/>
         <source>The sketch holds no curve to split with!</source>
         <translation type="unfinished">草图里没有可用的曲线！</translation>
-    </message>
-    <message>
-        <source>The splitting curve no longer exists!</source>
-        <translation type="obsolete">分割曲线已不存在！</translation>
     </message>
     <message>
         <location filename="../../translation/ErrorCodeTranslation.cpp" line="218"/>
@@ -5990,10 +4255,6 @@ Do you want to save it to the original file now?
         <translation>加厚</translation>
     </message>
     <message>
-        <source>Offset</source>
-        <translation type="vanished">偏置曲面</translation>
-    </message>
-    <message>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="204"/>
         <source>XOY</source>
         <translation type="unfinished">俯视基准面 XOY</translation>
@@ -6131,41 +4392,6 @@ Do you want to save it to the original file now?
     </message>
 </context>
 <context>
-    <name>wy3dApp::GuiCmdMenu</name>
-    <message>
-        <source>Complete Selection</source>
-        <translation type="obsolete">完成选择</translation>
-    </message>
-    <message>
-        <source>Clear Selection</source>
-        <translation type="obsolete">清除选择</translation>
-    </message>
-    <message>
-        <source>World Coordinate System</source>
-        <translation type="vanished">世界坐标系</translation>
-    </message>
-    <message>
-        <source>Orient to Sketch</source>
-        <translation type="obsolete">草绘视图</translation>
-    </message>
-    <message>
-        <source>End Sketch</source>
-        <translation type="obsolete">结束草绘</translation>
-    </message>
-    <message>
-        <source>Cancel Sketch</source>
-        <translation type="obsolete">取消草绘</translation>
-    </message>
-    <message>
-        <source>Property Widget</source>
-        <translation type="obsolete">属性窗口</translation>
-    </message>
-    <message>
-        <source>World CSYS</source>
-        <translation type="obsolete">世界坐标系</translation>
-    </message>
-</context>
-<context>
     <name>wy3dApp::HelixDialog</name>
     <message>
         <location filename="../../commands/dialogs/HelixDialog.cpp" line="41"/>
@@ -6225,10 +4451,6 @@ Do you want to save it to the original file now?
         <source>STEP format (*.step *.stp)</source>
         <translation type="unfinished">STEP 文件 (*.step *.stp)</translation>
     </message>
-    <message>
-        <source>IGES format (*.iges *.igs)</source>
-        <translation type="obsolete">IGES 文件 (*.iges *.igs)</translation>
-    </message>
 </context>
 <context>
     <name>wy3dApp::LinearPatternDialog</name>
@@ -6274,22 +4496,6 @@ Do you want to save it to the original file now?
         <source>At least one of the count in Direction 1 and Direction 2 must be greater than 1.</source>
         <translation type="unfinished">方向1和方向2上的数量必须至少有一个大于1。</translation>
     </message>
-    <message>
-        <source>Warning</source>
-        <translation type="obsolete">警告</translation>
-    </message>
-    <message>
-        <source>The number of rows and columns in a rectangular array must be non-zero.</source>
-        <translation type="obsolete">矩形阵列的行数和列数不能为0。</translation>
-    </message>
-    <message>
-        <source>The number of rows and columns in a rectangular array cannot both be 1 at the same time.</source>
-        <translation type="obsolete">矩形阵列的行数和列数不能同时为1。</translation>
-    </message>
-    <message>
-        <source>The number of elements in a rectangular array must be less than or equal to 10,000.</source>
-        <translation type="obsolete">矩形阵列中的元素个数必须小于等于10000。</translation>
-    </message>
 </context>
 <context>
     <name>wy3dApp::MainWindow</name>
@@ -6328,13 +4534,6 @@ Do you want to save it to the original file now?
         <location filename="../../widgets/frame/MainWindow.cpp" line="290"/>
         <source>No - Exit</source>
         <translation type="unfinished">否 - 退出</translation>
-    </message>
-</context>
-<context>
-    <name>wy3dApp::MakePrimitiveGuiCmdMenu</name>
-    <message>
-        <source>View Normal To Working Plane</source>
-        <translation type="obsolete">正视于工作平面</translation>
     </message>
 </context>
 <context>
@@ -6434,30 +4633,11 @@ Do you want to save it to the original file now?
     </message>
 </context>
 <context>
-    <name>wy3dApp::MeasureGuiCmdMenu</name>
-    <message>
-        <source>Clear Measure Results</source>
-        <translation type="obsolete">清空测量结果</translation>
-    </message>
-</context>
-<context>
     <name>wy3dApp::OffsetSheetCmdPanel</name>
     <message>
         <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="63"/>
         <source>Offset Sheet</source>
         <translation>偏置曲面</translation>
-    </message>
-    <message>
-        <source>Target:</source>
-        <translation type="vanished">目标：</translation>
-    </message>
-    <message>
-        <source>Whole Sheet</source>
-        <translation type="vanished">整个曲面</translation>
-    </message>
-    <message>
-        <source>Selected Faces</source>
-        <translation type="vanished">选定面</translation>
     </message>
     <message>
         <location filename="../../commands/dialogs/OffsetSheetCmdPanel.cpp" line="71"/>
@@ -6476,14 +4656,6 @@ Do you want to save it to the original file now?
         <location filename="../../widgets/frame/OptionsDialog.cpp" line="50"/>
         <source>Options</source>
         <translation>选项</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">确定</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="vanished">取消</translation>
     </message>
     <message>
         <location filename="../../widgets/frame/OptionsDialog.cpp" line="90"/>
@@ -6557,69 +4729,9 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::ParamDisplayNameRegistry</name>
     <message>
-        <source>Box Length</source>
-        <translation type="obsolete">长度</translation>
-    </message>
-    <message>
-        <source>Box Width</source>
-        <translation type="obsolete">宽度</translation>
-    </message>
-    <message>
-        <source>Box Height</source>
-        <translation type="obsolete">高度</translation>
-    </message>
-    <message>
-        <source>Cylinder Radius</source>
-        <translation type="obsolete">半径</translation>
-    </message>
-    <message>
-        <source>Cylinder Height</source>
-        <translation type="obsolete">高度</translation>
-    </message>
-    <message>
-        <source>Sphere Radius</source>
-        <translation type="obsolete">半径</translation>
-    </message>
-    <message>
-        <source>Cone Radius</source>
-        <translation type="obsolete">半径</translation>
-    </message>
-    <message>
-        <source>Cone Height</source>
-        <translation type="obsolete">高度</translation>
-    </message>
-    <message>
-        <source>Torus Major Radius</source>
-        <translation type="obsolete">主半径</translation>
-    </message>
-    <message>
-        <source>Torus Minor Radius</source>
-        <translation type="obsolete">管半径</translation>
-    </message>
-    <message>
-        <source>Tube Outer Radius</source>
-        <translation type="obsolete">外径</translation>
-    </message>
-    <message>
-        <source>Tube Inner Radius</source>
-        <translation type="obsolete">内径</translation>
-    </message>
-    <message>
-        <source>Tube Height</source>
-        <translation type="obsolete">高度</translation>
-    </message>
-    <message>
-        <source>Extrusion Depth</source>
-        <translation type="vanished">深度</translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="153"/>
         <source>Extrusion Start Offset</source>
         <translation>起始偏移</translation>
-    </message>
-    <message>
-        <source>Extrusion Direction</source>
-        <translation type="vanished">拉伸方向</translation>
     </message>
     <message>
         <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="146"/>
@@ -6763,11 +4875,6 @@ Do you want to save it to the original file now?
         <source>File Path</source>
         <comment>wy3d::ImportedSolid</comment>
         <translation type="unfinished">文件路径</translation>
-    </message>
-    <message>
-        <source>Distance</source>
-        <comment>wy3d::Chamfer</comment>
-        <translation type="obsolete">距离</translation>
     </message>
     <message>
         <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="175"/>
@@ -7726,11 +5833,6 @@ Do you want to save it to the original file now?
         <translation>偏置目标</translation>
     </message>
     <message>
-        <source>Source</source>
-        <comment>wy3d::OffsetSheet</comment>
-        <translation type="vanished">源对象</translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="467"/>
         <source>Offset</source>
         <comment>wy3d::OffsetSheet</comment>
@@ -7794,10 +5896,6 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::PropertyEditorWidget</name>
     <message>
-        <source>Color</source>
-        <translation type="obsolete">颜色</translation>
-    </message>
-    <message>
         <location filename="../../widgets/panels/property/PropertyEditorWidget.cpp" line="77"/>
         <source>Property</source>
         <translation>属性</translation>
@@ -7812,50 +5910,6 @@ Do you want to save it to the original file now?
         <source>Rotation </source>
         <translation type="unfinished">旋转 </translation>
     </message>
-    <message>
-        <source>Modify successfully.</source>
-        <translation type="obsolete">修改成功！</translation>
-    </message>
-    <message>
-        <source>Modify failed!</source>
-        <translation type="obsolete">修改失败！</translation>
-    </message>
-    <message>
-        <source>Origin </source>
-        <translation type="obsolete">原点 </translation>
-    </message>
-    <message>
-        <source>Z Axis </source>
-        <translation type="obsolete">Z轴 </translation>
-    </message>
-    <message>
-        <source>X Axis </source>
-        <translation type="obsolete">X轴 </translation>
-    </message>
-    <message>
-        <source>Apply</source>
-        <translation type="obsolete">应用</translation>
-    </message>
-    <message>
-        <source>Invalid input.</source>
-        <translation type="obsolete">无效的输入！</translation>
-    </message>
-    <message>
-        <source>Invalid Normal data.</source>
-        <translation type="obsolete">无效的Z轴数据！</translation>
-    </message>
-    <message>
-        <source>Invalid X Axis data.</source>
-        <translation type="obsolete">无效的X轴数据！</translation>
-    </message>
-    <message>
-        <source>Modify datum plane successfully.</source>
-        <translation type="obsolete">修改成功！</translation>
-    </message>
-    <message>
-        <source>Modify datum plane failed!</source>
-        <translation type="obsolete">修改失败！</translation>
-    </message>
 </context>
 <context>
     <name>wy3dApp::SetColorCmdPanel</name>
@@ -7863,14 +5917,6 @@ Do you want to save it to the original file now?
         <location filename="../../commands/dialogs/SetColorCmdPanel.cpp" line="67"/>
         <source>Set Color</source>
         <translation type="unfinished">设置颜色</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="obsolete">确认</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">取消</translation>
     </message>
     <message>
         <location filename="../../commands/dialogs/SetColorCmdPanel.cpp" line="171"/>
@@ -8103,13 +6149,6 @@ Do you want to save it to the original file now?
     </message>
 </context>
 <context>
-    <name>wy3dApp::Sketch3DDrawGuiCmdMenu</name>
-    <message>
-        <source>View Normal To Working Plane</source>
-        <translation type="obsolete">正视于工作平面</translation>
-    </message>
-</context>
-<context>
     <name>wy3dApp::SketchArcTangentModePanel</name>
     <message>
         <location filename="../../commands/dialogs/SketchArcTangentModePanel.cpp" line="45"/>
@@ -8126,37 +6165,9 @@ Do you want to save it to the original file now?
         <source>Radius &amp; Angle</source>
         <translation>半径+角度</translation>
     </message>
-    <message>
-        <source>Pass-through Point</source>
-        <translation type="vanished">经过的坐标点</translation>
-    </message>
-    <message>
-        <source>Arc Radius</source>
-        <translation type="vanished">圆弧半径</translation>
-    </message>
-    <message>
-        <source>Tangent Line</source>
-        <translation type="vanished">相切的直线</translation>
-    </message>
 </context>
 <context>
     <name>wy3dApp::SketchExporterManager</name>
-    <message>
-        <source>BREP format (*.brep)</source>
-        <translation type="obsolete">BREP 文件 (*.brep)</translation>
-    </message>
-    <message>
-        <source>STEP format (*.step *.stp)</source>
-        <translation type="obsolete">STEP 文件 (*.step *.stp)</translation>
-    </message>
-    <message>
-        <source>IGES format (*.iges *.igs)</source>
-        <translation type="obsolete">IGES 文件 (*.iges *.igs)</translation>
-    </message>
-    <message>
-        <source>STL Mesh (*.stl)</source>
-        <translation type="obsolete">STL 网格文件 (*.stl)</translation>
-    </message>
     <message>
         <location filename="../../exporter/SketchExporter.cpp" line="37"/>
         <source>DXF format (*.dxf)</source>
@@ -8179,30 +6190,14 @@ Do you want to save it to the original file now?
         <translation type="unfinished">相交曲线</translation>
     </message>
     <message>
-        <source>A smooth spline for any section that is not a circle or a line.</source>
-        <translation type="obsolete">圆、直线之外的交线用光滑样条。</translation>
-    </message>
-    <message>
         <location filename="../../commands/dialogs/SketchIntersectionCurvePanel.cpp" line="62"/>
         <source>Interpolate</source>
         <translation type="unfinished">插值</translation>
     </message>
     <message>
-        <source>A polyline for any section that is not a circle or a line.</source>
-        <translation type="obsolete">圆、直线之外的交线用折线。</translation>
-    </message>
-    <message>
-        <source>The curve passes through every computed point, so a section without a closed form becomes a polyline.</source>
-        <translation type="obsolete">曲线通过每一个算出的交点，因此没有解析解的截面只能是折线。</translation>
-    </message>
-    <message>
         <location filename="../../commands/dialogs/SketchIntersectionCurvePanel.cpp" line="61"/>
         <source>Fit</source>
         <translation type="unfinished">拟合</translation>
-    </message>
-    <message>
-        <source>The curve approximates those points with a smooth spline, at the intersector&apos;s own accuracy.</source>
-        <translation type="obsolete">曲线以光滑样条逼近这些交点，精度由求交算法自身决定。</translation>
     </message>
 </context>
 <context>
@@ -8303,34 +6298,6 @@ Do you want to save it to the original file now?
         <source>Cancel</source>
         <translation type="unfinished">取消</translation>
     </message>
-    <message>
-        <source>Warning</source>
-        <translation type="obsolete">警告</translation>
-    </message>
-    <message>
-        <source>The total angle must be greater than 0.</source>
-        <translation type="obsolete">总的角度必须大于0。</translation>
-    </message>
-    <message>
-        <source>The number of items must be greater than or equal to 2.</source>
-        <translation type="obsolete">项目数必须大于等于2。</translation>
-    </message>
-    <message>
-        <source>The number of items must be less than or equal to 10000.</source>
-        <translation type="obsolete">项目数必须小于等于10000。</translation>
-    </message>
-    <message>
-        <source>The number of rows and columns in a rectangular array must be non-zero.</source>
-        <translation type="obsolete">矩形阵列的行数和列数不能为0。</translation>
-    </message>
-    <message>
-        <source>The number of rows and columns in a rectangular array cannot both be 1 at the same time.</source>
-        <translation type="obsolete">矩形阵列的行数和列数不能同时为1。</translation>
-    </message>
-    <message>
-        <source>The number of elements in a rectangular array must be less than or equal to 10,000.</source>
-        <translation type="obsolete">矩形阵列中的元素个数必须小于等于10000。</translation>
-    </message>
 </context>
 <context>
     <name>wy3dApp::SketchPolygonDialog</name>
@@ -8413,17 +6380,9 @@ Do you want to save it to the original file now?
         <translation type="unfinished">选择投影的目标面或基准面。</translation>
     </message>
     <message>
-        <source>Select the face to project onto.</source>
-        <translation type="obsolete">选择投影的目标面。</translation>
-    </message>
-    <message>
         <location filename="../../commands/dialogs/SketchProjectCurvePanel.cpp" line="145"/>
         <source>Select the sketch to project.</source>
         <translation type="unfinished">选择要投影的草图。</translation>
-    </message>
-    <message>
-        <source>Select a sketch and a face.</source>
-        <translation type="obsolete">请选择草图和面。</translation>
     </message>
 </context>
 <context>

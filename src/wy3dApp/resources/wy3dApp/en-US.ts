@@ -46,17 +46,6 @@
     </message>
 </context>
 <context>
-    <name>CmdActionRegistry</name>
-    <message>
-        <source>Import</source>
-        <translation type="obsolete">Import</translation>
-    </message>
-    <message>
-        <source>Trim</source>
-        <translation type="obsolete">Trim sketch entities.</translation>
-    </message>
-</context>
-<context>
     <name>CopyGuiCmd</name>
     <message>
         <location filename="../../commands/edit/CopyGuiCmd.cpp" line="260"/>
@@ -1583,14 +1572,6 @@
         <translation>3D Sketch Environment</translation>
     </message>
     <message>
-        <source>Line 3D</source>
-        <translation type="vanished">Line 3D</translation>
-    </message>
-    <message>
-        <source>Circle 3D</source>
-        <translation type="vanished">Circle 3D</translation>
-    </message>
-    <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="293"/>
         <source>Include Curve</source>
         <translation type="unfinished"></translation>
@@ -1604,14 +1585,6 @@
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="313"/>
         <source>Project Curve</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Trim 3D</source>
-        <translation type="obsolete">Trim 3D</translation>
-    </message>
-    <message>
-        <source>Extend 3D</source>
-        <translation type="obsolete">Extend 3D</translation>
     </message>
     <message>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="374"/>
@@ -1980,10 +1953,6 @@
 <context>
     <name>OffsetSheetGuiCmd</name>
     <message>
-        <source>Select a sheet to offset.</source>
-        <translation type="vanished">Select a sheet to offset.</translation>
-    </message>
-    <message>
         <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="602"/>
         <source>Specify the offset distance, then OK to apply.</source>
         <translation type="unfinished"></translation>
@@ -1992,18 +1961,6 @@
         <location filename="../../commands/modeling/sheet/generation/OffsetSheetGuiCmd.cpp" line="596"/>
         <source>Select the faces to offset, then OK to apply.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Specify offset distance, then OK to apply.</source>
-        <translation type="vanished">Specify offset distance, then OK to apply.</translation>
-    </message>
-    <message>
-        <source>Specify the offset distance.</source>
-        <translation type="vanished">Specify the offset distance.</translation>
-    </message>
-    <message>
-        <source>Offset distance</source>
-        <translation type="vanished">Offset distance</translation>
     </message>
 </context>
 <context>
@@ -2236,18 +2193,6 @@
 </context>
 <context>
     <name>Sketch3DDrawGuiCmd</name>
-    <message>
-        <source>Drawing restricted to the selected plane.</source>
-        <translation type="vanished">Drawing restricted to the selected plane.</translation>
-    </message>
-    <message>
-        <source>Drawing on %1 plane, press Space to switch plane.</source>
-        <translation type="vanished">Drawing on %1 plane, press Space to switch plane.</translation>
-    </message>
-    <message>
-        <source>Select datum plane or solid surface as working plane.</source>
-        <translation type="vanished">Select datum plane or solid surface as working plane.</translation>
-    </message>
     <message>
         <location filename="../../commands/sketch3d/Sketch3DDrawGuiCmd.cpp" line="450"/>
         <source>View Normal To Working Plane</source>
@@ -2768,21 +2713,9 @@
 <context>
     <name>SketchDrawLine3DGuiCmd</name>
     <message>
-        <source>Specify the start point.</source>
-        <translation type="vanished">Specify the start point.</translation>
-    </message>
-    <message>
-        <source>Specify the end point.</source>
-        <translation type="vanished">Specify the end point.</translation>
-    </message>
-    <message>
         <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="188"/>
         <source>Specify the start point; you can directly input the coordinate values. Press Space to switch the drawing plane.</source>
         <translation>Specify the start point; you can directly input the coordinate values. Press Space to switch the drawing plane.</translation>
-    </message>
-    <message>
-        <source>Specify the end point; you can directly input the coordinate values.</source>
-        <translation type="vanished">Specify the end point; you can directly input the coordinate values.</translation>
     </message>
     <message>
         <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="196"/>
@@ -3375,14 +3308,6 @@
         <location filename="../../commands/modeling/sheet/generation/ThickenGuiCmd.cpp" line="257"/>
         <source>Specify thickness and direction, then OK to apply.</source>
         <translation>Specify thickness and direction, then OK to apply.</translation>
-    </message>
-    <message>
-        <source>Specify the thickness.</source>
-        <translation type="vanished">Specify the thickness.</translation>
-    </message>
-    <message>
-        <source>Thickness</source>
-        <translation type="vanished">Thickness</translation>
     </message>
 </context>
 <context>
@@ -4182,10 +4107,6 @@ Do you want to save it to the original file now?
         <translation>Thicken</translation>
     </message>
     <message>
-        <source>Offset</source>
-        <translation type="vanished">Offset</translation>
-    </message>
-    <message>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="204"/>
         <source>XOY</source>
         <translation type="unfinished">TOP</translation>
@@ -4608,13 +4529,6 @@ Do you want to save it to the original file now?
     </message>
 </context>
 <context>
-    <name>wy3dApp::MakePrimitiveGuiCmdMenu</name>
-    <message>
-        <source>View Normal To Working Plane</source>
-        <translation type="obsolete">View Normal To Working Plane</translation>
-    </message>
-</context>
-<context>
     <name>wy3dApp::MeasureCmdPanel</name>
     <message>
         <location filename="../../commands/utilities/MeasureCmdPanel.cpp" line="163"/>
@@ -4731,14 +4645,6 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::OptionsDialog</name>
     <message>
-        <source>OK</source>
-        <translation type="obsolete">OK</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Cancel</translation>
-    </message>
-    <message>
         <location filename="../../widgets/frame/OptionsDialog.cpp" line="50"/>
         <source>Options</source>
         <translation type="unfinished"></translation>
@@ -4814,62 +4720,6 @@ Do you want to save it to the original file now?
 </context>
 <context>
     <name>wy3dApp::ParamDisplayNameRegistry</name>
-    <message>
-        <source>Box Length</source>
-        <translation type="obsolete">Length</translation>
-    </message>
-    <message>
-        <source>Box Width</source>
-        <translation type="obsolete">Width</translation>
-    </message>
-    <message>
-        <source>Box Height</source>
-        <translation type="obsolete">Height</translation>
-    </message>
-    <message>
-        <source>Cylinder Radius</source>
-        <translation type="obsolete">Radius</translation>
-    </message>
-    <message>
-        <source>Cylinder Height</source>
-        <translation type="obsolete">Height</translation>
-    </message>
-    <message>
-        <source>Sphere Radius</source>
-        <translation type="obsolete">Radius</translation>
-    </message>
-    <message>
-        <source>Cone Radius</source>
-        <translation type="obsolete">Radius</translation>
-    </message>
-    <message>
-        <source>Cone Height</source>
-        <translation type="obsolete">Height</translation>
-    </message>
-    <message>
-        <source>Torus Major Radius</source>
-        <translation type="obsolete">Major Radius</translation>
-    </message>
-    <message>
-        <source>Torus Minor Radius</source>
-        <translation type="obsolete">Minor Radius</translation>
-    </message>
-    <message>
-        <source>Tube Outer Radius</source>
-        <translation type="obsolete">Outer Radius</translation>
-    </message>
-    <message>
-        <source>Tube Inner Radius</source>
-        <translation type="obsolete">Inner Radius</translation>
-    </message>
-    <message>
-        <source>Tube Height</source>
-        <translation type="obsolete">Height</translation>
-    </message>
-    <message>
-        <source>Extrusion Depth</source>
-        <translation type="obsolete">Depth</translation>
-    </message>
     <message>
         <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="153"/>
         <source>Extrusion Start Offset</source>
@@ -5975,11 +5825,6 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Source</source>
-        <comment>wy3d::OffsetSheet</comment>
-        <translation type="vanished">Source</translation>
-    </message>
-    <message>
         <location filename="../../translation/ParamDisplayNameRegistry.cpp" line="467"/>
         <source>Offset</source>
         <comment>wy3d::OffsetSheet</comment>
@@ -6060,14 +5905,6 @@ Do you want to save it to the original file now?
 </context>
 <context>
     <name>wy3dApp::SetColorCmdPanel</name>
-    <message>
-        <source>OK</source>
-        <translation type="obsolete">OK</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Cancel</translation>
-    </message>
     <message>
         <location filename="../../commands/dialogs/SetColorCmdPanel.cpp" line="67"/>
         <source>Set Color</source>
@@ -6301,13 +6138,6 @@ Do you want to save it to the original file now?
         <location filename="../../widgets/frame/ShortcutKeysDialog.cpp" line="147"/>
         <source>Tube</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>wy3dApp::Sketch3DDrawGuiCmdMenu</name>
-    <message>
-        <source>View Normal To Working Plane</source>
-        <translation type="vanished">View Normal To Working Plane</translation>
     </message>
 </context>
 <context>
