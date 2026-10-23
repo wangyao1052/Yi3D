@@ -35,7 +35,8 @@ void SketchSplineCtrolPointsPathOsgRenderer::refresh()
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return;
-    const wydb::Element* pElem = pDb->getElement(_pGizmo->getModifiedElement());
+    assert(_pGizmo->getElementIds().size() == 1);
+    const wydb::Element* pElem = pDb->getElement(_pGizmo->getFirstElementId());
     if (!pElem) return;
 
     assert(_osgNode);

@@ -163,7 +163,8 @@ void SolidMoveOsgRenderer::refresh()
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return;
-    const wydb::Element* pElem = pDb->getElement(_pGizmo->getModifiedElement());
+    assert(_pGizmo->getElementIds().size() == 1);
+    const wydb::Element* pElem = pDb->getElement(_pGizmo->getFirstElementId());
     if (!pElem) return;
     const wy3d::Primitive* pPrimitive = wy3d::Primitive::cast(pElem);
     if (!pPrimitive) return;
@@ -188,7 +189,8 @@ ElementNode* SolidMoveOsgRenderer::getRelatedElementNode() const
 {
     Scene* pActiveScene = Application::instance().getActiveScene();
     if (!pActiveScene) return nullptr;
-    return pActiveScene->getElementNode(_pGizmo->getModifiedElement());
+    assert(_pGizmo->getElementIds().size() == 1);
+    return pActiveScene->getElementNode(_pGizmo->getFirstElementId());
 }
 
 // ── 拖拽生命周期 ──

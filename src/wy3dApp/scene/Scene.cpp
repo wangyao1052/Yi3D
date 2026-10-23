@@ -1003,8 +1003,17 @@ void Scene::onDatabaseChanged(
         // Gizmo关联的元素修改了则刷新Gizmo
         BaseGizmo* pGizmo2 = dynamic_cast<BaseGizmo*>(pGizmo.get());
         if (!pGizmo2) continue;
-        wydb::ElementId id = pGizmo2->getModifiedElement();
-        if (changeInfo.modifiedIds.find(id) != changeInfo.modifiedIds.cend())
+        bool affected = false;
+        const std::vector<wydb::ElementId>& ids = pGizmo2->getElementIds();
+        for (const wydb::ElementId& id : ids)
+        {
+            if (changeInfo.modifiedIds.find(id) != changeInfo.modifiedIds.cend())
+            {
+                affected = true;
+                break;
+            }
+        }
+        if (affected)
         {
             pGizmo2->refresh();
         }

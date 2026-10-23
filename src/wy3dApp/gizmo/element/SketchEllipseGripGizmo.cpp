@@ -57,7 +57,7 @@ wy::Vector2 SketchEllipseGripGizmo::getGripPosition() const
 bool SketchEllipseGripGizmo::onBeginDrag(wydb::Database* pDb)
 {
     assert(pDb);
-    const wy3d::SketchEllipse* pEllipse = wy3d::SketchEllipse::cast(pDb->getElement(_id));
+    const wy3d::SketchEllipse* pEllipse = wy3d::SketchEllipse::cast(pDb->getElement(getFirstElementId()));
     if (!pEllipse)
     {
         assert(false);
@@ -71,7 +71,7 @@ bool SketchEllipseGripGizmo::onBeginDrag(wydb::Database* pDb)
 bool SketchEllipseGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
-    wy3d::SketchEllipse* pSketchEllipse = wy3d::SketchEllipse::cast(pTrans->getElementForWrite(_id));
+    wy3d::SketchEllipse* pSketchEllipse = wy3d::SketchEllipse::cast(pTrans->getElementForWrite(getFirstElementId()));
     if (pSketchEllipse)
     {        switch (_type)
         {
@@ -115,7 +115,7 @@ void SketchEllipseGripGizmo::onEndDrag(wydb::Database* pDb, bool commit)
     if (!commit) return; // 取消则不用处理
 
     assert(pDb);
-    const wy3d::SketchEllipse* pConstEllipse = wy3d::SketchEllipse::cast(pDb->getElement(_id));
+    const wy3d::SketchEllipse* pConstEllipse = wy3d::SketchEllipse::cast(pDb->getElement(getFirstElementId()));
     if (!pConstEllipse)
     {
         assert(false);
@@ -137,7 +137,7 @@ void SketchEllipseGripGizmo::onEndDrag(wydb::Database* pDb, bool commit)
         assert(false);
         return;
     }
-    wy3d::SketchEllipse* pEllipse = wy3d::SketchEllipse::cast(pTrans->getElementForWrite(_id));
+    wy3d::SketchEllipse* pEllipse = wy3d::SketchEllipse::cast(pTrans->getElementForWrite(getFirstElementId()));
     if (!pEllipse)
     {
         assert(false);

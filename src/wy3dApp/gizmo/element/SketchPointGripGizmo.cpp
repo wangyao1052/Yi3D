@@ -45,7 +45,7 @@ wy::Vector2 SketchPointGripGizmo::getGripPosition() const
 bool SketchPointGripGizmo::onBeginDrag(wydb::Database* pDb)
 {
     assert(pDb);
-    const wy3d::SketchPoint* pSketchPoint = wy3d::SketchPoint::cast(pDb->getElement(_id));
+    const wy3d::SketchPoint* pSketchPoint = wy3d::SketchPoint::cast(pDb->getElement(getFirstElementId()));
     if (!pSketchPoint)
     {
         assert(false);
@@ -58,7 +58,7 @@ bool SketchPointGripGizmo::onBeginDrag(wydb::Database* pDb)
 bool SketchPointGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
-    wy3d::SketchPoint* pSketchPoint = wy3d::SketchPoint::cast(pTrans->getElementForWrite(_id));
+    wy3d::SketchPoint* pSketchPoint = wy3d::SketchPoint::cast(pTrans->getElementForWrite(getFirstElementId()));
     if (pSketchPoint)
     {
         return wy::ErrorStatus::Ok == pSketchPoint->setPosition(curPos);

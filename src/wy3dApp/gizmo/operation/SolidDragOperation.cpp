@@ -144,7 +144,8 @@ bool SolidDragOperation::perform()
         assert(false);
         return false;
     }
-    wydb::ElementId id = pElemPosGizmo->getModifiedElement();
+    assert(pElemPosGizmo->getElementIds().size() == 1);
+    wydb::ElementId id = pElemPosGizmo->getFirstElementId();
     assert(_pDb);
     const wydb::Element* pConstElem = _pDb->getElement(id);
     if (!pConstElem) return false;

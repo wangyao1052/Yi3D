@@ -34,14 +34,77 @@
 namespace wy3dApp {
 
 SketchEntityGripGizmo::SketchEntityGripGizmo(const wy3d::SketchEntity* pSketchEntity)
-    : BaseGizmo(pSketchEntity ? pSketchEntity->getId() : wydb::ElementId{}), _sketchId(), _sketchPlane()
+    : BaseGizmo(wydb::ElementId::kNull)
 {
-    assert(pSketchEntity);
-    const wydb::Database* pDb = pSketchEntity->getDatabase();
-    assert(pDb);
-    const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(pSketchEntity->getParent()));
-    if (pSketch)
+    if (pSketchEntity)
     {
+        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        assert(pDb);
+        wydb::ElementId id = pSketchEntity->getId();
+        wydb::ElementId sketchId = pSketchEntity->getParent();
+        const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
+        if (pSketch)
+        {
+            this->setElementIds({ id });
+            _sketchId = sketchId;
+            _sketchPlane = pSketch->getPlane();
+        }
+        else
+        {
+            assert(false);
+        }
+    }
+    else
+    {
+        assert(false);
+    }
+
+    _pRenderer = std::make_unique<SketchGripOsgRenderer>(this);
+}
+
+SketchEntityGripGizmo::SketchEntityGripGizmo(const std::vector<const wy3d::SketchEntity*>& sketchEnts)
+    : BaseGizmo(wydb::ElementId::kNull)
+{
+    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    assert(pDb);
+    std::vector<wydb::ElementId> ids;
+    ids.reserve(sketchEnts.size());
+    const wy3d::Sketch* pSketch(nullptr);
+    for (const wy3d::SketchEntity* pSketchEnt : sketchEnts)
+    {
+        if (!pSketchEnt)
+        {
+            assert(false);
+            continue;
+        }
+        ids.emplace_back(pSketchEnt->getId());
+        if (pSketch)
+        {
+            if (pSketchEnt->getParent() != pSketch->getId())
+            {
+                assert(false);
+                pSketch = nullptr;
+                break;
+            }
+        }
+        else
+        {
+            const wy3d::Sketch* pParent = wy3d::Sketch::cast(pDb->getElement(pSketchEnt->getParent()));
+            if (pParent)
+            {
+                pSketch = pParent;
+            }
+            else
+            {
+                assert(false);
+                break;
+            }
+        }
+    }
+
+    if (pSketch && !ids.empty())
+    {
+        this->setElementIds(std::move(ids));
         _sketchId = pSketch->getId();
         _sketchPlane = pSketch->getPlane();
     }
@@ -128,7 +191,7 @@ void SketchEntityGripGizmo::onLeftMouseDrag(const MouseEvent& event)
     }
     wy::Vector2 curPos = OsgCoordUtil::computePoint2d(
         static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView(),
-        event.x, event.y, { _id, _sketchId }, _pDragContext, pSketchSnapSys).first;
+        event.x, event.y, this->getSnapExcludeIds(), _pDragContext, pSketchSnapSys).first;
     if (_pGizmoOp->onDragging(MathUtils::toVector3(curPos)))
     {
         if (_pRenderer) _pRenderer->onDragging(MathUtils::toVector3(curPos));
@@ -152,7 +215,7 @@ void SketchEntityGripGizmo::onLeftMouseUp(const MouseEvent& event)
         return;
     }
     wy::Vector2 curPos = OsgCoordUtil::computePoint2d(static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView(), event.x, event.y,
-        { _id, _sketchId }, _pDragContext, pSketchSnapSys).first;
+        this->getSnapExcludeIds(), _pDragContext, pSketchSnapSys).first;
 
     _pGizmoOp->onEndDrag(MathUtils::toVector3(curPos));
     if (_pRenderer) _pRenderer->onEndDrag(MathUtils::toVector3(curPos));
@@ -187,7 +250,7 @@ const wy3d::SketchEntity* SketchEntityGripGizmo::getSketchEntity() const
 {
     wydb::Database* pDb = Application::instance().getActiveDatabase();
     if (!pDb) return nullptr;
-    const wydb::Element* pElem = pDb->getElement(_id);
+    const wydb::Element* pElem = pDb->getElement(getFirstElementId());
     return wy3d::SketchEntity::cast(pElem);
 }
 

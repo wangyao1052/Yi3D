@@ -35,6 +35,7 @@ class GhostGizmo : public BaseGizmo
 {
 public:
     explicit GhostGizmo(const wydb::Element* pElem);
+    explicit GhostGizmo(std::vector<wydb::ElementId> ids) : BaseGizmo(std::move(ids)) {}
     virtual ~GhostGizmo() {}
 };
 

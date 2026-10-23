@@ -20,6 +20,8 @@
 #define WY3DAPP_SKETCH_ENTITY_GRIP_GIZMO_H
 
 #include <memory>
+#include <set>
+#include <vector>
 
 #include <wyVector2.h>
 #include <wy3dSketch.h>
@@ -36,6 +38,7 @@ class SketchEntityGripGizmo : public BaseGizmo
 {
 public:
     explicit SketchEntityGripGizmo(const wy3d::SketchEntity* pSketchEntity);
+    explicit SketchEntityGripGizmo(const std::vector<const wy3d::SketchEntity*>& sketchEnts);
     ~SketchEntityGripGizmo();
 
     virtual void onLeftMouseDown(const MouseEvent& event) override;
@@ -54,6 +57,17 @@ protected:
 protected:
     // 获取草图图元
     const wy3d::SketchEntity* getSketchEntity() const;
+
+    // 拖拽取点时排除的图元（默认：当前图元 + 所属草图）
+    virtual std::set<wydb::ElementId> getSnapExcludeIds() const
+    {
+        std::set<wydb::ElementId> result(_ids.begin(), _ids.end());
+        if (!_sketchId.isNull())
+        {
+            result.insert(_sketchId);
+        }
+        return result;
+    }
 
     // added by wangyao 2025.04.10 {
     // 拖拽上下文

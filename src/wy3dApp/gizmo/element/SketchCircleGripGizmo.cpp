@@ -63,7 +63,7 @@ bool SketchCircleGripGizmo::onBeginDrag(wydb::Database* pDb)
 bool SketchCircleGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
-    wy3d::SketchCircle* pSketchCircle = wy3d::SketchCircle::cast(pTrans->getElementForWrite(_id));
+    wy3d::SketchCircle* pSketchCircle = wy3d::SketchCircle::cast(pTrans->getElementForWrite(getFirstElementId()));
     if (pSketchCircle)
     {
         switch (_type)

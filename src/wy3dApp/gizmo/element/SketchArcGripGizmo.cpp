@@ -57,7 +57,7 @@ wy::Vector2 SketchArcGripGizmo::getGripPosition() const
 bool SketchArcGripGizmo::onBeginDrag(wydb::Database* pDb)
 {
     assert(pDb);
-    const wy3d::SketchArc* pSketchArc = wy3d::SketchArc::cast(pDb->getElement(_id));
+    const wy3d::SketchArc* pSketchArc = wy3d::SketchArc::cast(pDb->getElement(getFirstElementId()));
     if (!pSketchArc)
     {
         assert(false);
@@ -72,7 +72,7 @@ bool SketchArcGripGizmo::onBeginDrag(wydb::Database* pDb)
 bool SketchArcGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
-    wy3d::SketchArc* pSketchArc = wy3d::SketchArc::cast(pTrans->getElementForWrite(_id));
+    wy3d::SketchArc* pSketchArc = wy3d::SketchArc::cast(pTrans->getElementForWrite(getFirstElementId()));
     if (pSketchArc)
     {
         switch (_type)

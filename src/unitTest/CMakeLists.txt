@@ -11,9 +11,11 @@ find_package(wydb REQUIRED)
 file(GLOB_RECURSE SRCS ./*.cpp)
 add_executable(${EXE_NAME} ${SRCS})
 
-# PluginManifest is pure C++ (no Qt): compile it straight into the test binary
+# PluginManifest and SketchRectangleRecognizer are pure C++ (no Qt/OSG):
+# compile them straight into the test binary
 target_sources(${EXE_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/src/wy3dApp/plugins/PluginManifest.cpp"
+    "${CMAKE_SOURCE_DIR}/src/wy3dApp/utils/SketchRectangleRecognizer.cpp"
 )
 
 target_include_directories(${EXE_NAME} PRIVATE

@@ -58,7 +58,7 @@ wy::Vector2 SketchSplineGripGizmo::getGripPosition() const
 bool SketchSplineGripGizmo::onBeginDrag(wydb::Database* pDb)
 {
     assert(pDb);
-    const wy3d::SketchSpline* pSketchSpline = wy3d::SketchSpline::cast(pDb->getElement(_id));
+    const wy3d::SketchSpline* pSketchSpline = wy3d::SketchSpline::cast(pDb->getElement(getFirstElementId()));
     if (!pSketchSpline)
     {
         assert(false);
@@ -70,7 +70,7 @@ bool SketchSplineGripGizmo::onBeginDrag(wydb::Database* pDb)
 bool SketchSplineGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
-    wy3d::SketchSpline* pSketchSpline = wy3d::SketchSpline::cast(pTrans->getElementForWrite(_id));
+    wy3d::SketchSpline* pSketchSpline = wy3d::SketchSpline::cast(pTrans->getElementForWrite(getFirstElementId()));
     if (!pSketchSpline)
     {
         assert(false);

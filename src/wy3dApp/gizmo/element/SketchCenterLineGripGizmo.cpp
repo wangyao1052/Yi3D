@@ -52,7 +52,7 @@ wy::Vector2 SketchCenterLineGripGizmo::getGripPosition() const
 bool SketchCenterLineGripGizmo::onBeginDrag(wydb::Database* pDb)
 {
     assert(pDb);
-    const wy3d::SketchCenterLine* pCenterLine = wy3d::SketchCenterLine::cast(pDb->getElement(_id));
+    const wy3d::SketchCenterLine* pCenterLine = wy3d::SketchCenterLine::cast(pDb->getElement(getFirstElementId()));
     if (!pCenterLine)
     {
         assert(false);
@@ -67,7 +67,7 @@ bool SketchCenterLineGripGizmo::onBeginDrag(wydb::Database* pDb)
 bool SketchCenterLineGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
-    wy3d::SketchCenterLine* pCenterLine = wy3d::SketchCenterLine::cast(pTrans->getElementForWrite(_id));
+    wy3d::SketchCenterLine* pCenterLine = wy3d::SketchCenterLine::cast(pTrans->getElementForWrite(getFirstElementId()));
     if (pCenterLine)
     {
         switch (_type)

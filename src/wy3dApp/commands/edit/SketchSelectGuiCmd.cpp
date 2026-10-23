@@ -23,6 +23,7 @@
 
 #include <wy3dApp/Application.h>
 #include <wy3dApp/GizmoFactory.h>
+#include "gizmo/creator/SketchRectangleGizmoCreator.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include "snap/SketchSnapSystem.h"
@@ -78,6 +79,11 @@ bool SketchSelectGuiCmd::tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels
     if (!pDb) return true;
     GizmoFactory* pGizmoFactory = Application::instance().getGizmoFactory();
     if (!pGizmoFactory) return true;
+
+    if (SketchRectangleGizmoCreator::tryCreateGizmos(sels, gizmos))
+    {
+        return true;
+    }
 
     for (auto iter = sels.createIterator(); !iter.isDone(); iter.moveNext())
     {

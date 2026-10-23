@@ -19,7 +19,10 @@
 #ifndef WY3DAPP_BASE_GIZMO_H
 #define WY3DAPP_BASE_GIZMO_H
 
+#include <cassert>
 #include <memory>
+#include <utility>
+#include <vector>
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wyapGizmo.h>
@@ -36,7 +39,15 @@ struct KeyEvent;
 class BaseGizmo : public wyap::Gizmo
 {
 public:
-    BaseGizmo(wydb::ElementId id) : _id(id) {}
+    explicit BaseGizmo(wydb::ElementId id) : _ids{ id } {}
+    explicit BaseGizmo(std::vector<wydb::ElementId>&& ids) : _ids(std::move(ids))
+    {
+        assert(!_ids.empty());
+    }
+    explicit BaseGizmo(const std::vector<wydb::ElementId>& ids) : _ids(ids)
+    {
+        assert(!_ids.empty());
+    }
     virtual ~BaseGizmo();
 
     virtual void onLeftMouseDown(const MouseEvent& event) {}
@@ -44,11 +55,14 @@ public:
     virtual void onLeftMouseUp(const MouseEvent& event) {}
     virtual void onEscapeKey() {}
 
-    // 获取渲染器（Scene 等外部使用）
     GizmoRenderer* getRenderer() const { return _pRenderer.get(); }
 
-    // 操作的元素ID
-    wydb::ElementId getModifiedElement() const { return _id; }
+    const std::vector<wydb::ElementId>& getElementIds() const { return _ids; }
+
+    wydb::ElementId getFirstElementId() const
+    {
+        return _ids.empty() ? wydb::ElementId::kNull : _ids.front();
+    }
 
     // 刷新视觉状态（委托给 Renderer）
     virtual void refresh() override { if (_pRenderer) _pRenderer->refresh(); }
@@ -57,8 +71,19 @@ protected:
     virtual void onActivate() override;
     virtual void onDeactivate() override;
 
-    // 操作的元素ID
-    wydb::ElementId _id;
+    void setElementIds(const std::vector<wydb::ElementId>& ids)
+    {
+        _ids = ids;
+        assert(!_ids.empty());
+    }
+    void setElementIds(std::vector<wydb::ElementId>&& ids)
+    {
+        _ids = std::move(ids);
+        assert(!_ids.empty());
+    }
+
+    // 关联的元素ID（1 个或多个）
+    std::vector<wydb::ElementId> _ids;
 
     // Gizmo 操作（拖拽事务管理）
     std::unique_ptr<GizmoOperation> _pGizmoOp;
