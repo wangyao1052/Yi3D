@@ -26,6 +26,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -49,7 +50,7 @@ SketchRectangleGizmo::~SketchRectangleGizmo()
 
 wy::Vector2 SketchRectangleGizmo::getGripPosition() const
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     std::array<wy::Vector2, 4> corners{};
     if (!pDb || !readSketchRectangleCorners(pDb, _lineIds, corners))
     {

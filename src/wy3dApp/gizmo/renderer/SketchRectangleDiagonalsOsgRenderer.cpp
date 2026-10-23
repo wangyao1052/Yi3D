@@ -33,6 +33,7 @@
 #include "utils/MathUtils.h"
 #include "utils/SketchRectangleRecognizer.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -52,7 +53,7 @@ void SketchRectangleDiagonalsOsgRenderer::refresh()
     assert(_osgNode);
     _osgNode->removeChildren(0, _osgNode->getNumChildren());
 
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
 
     const SketchRectangleDiagonalsGhostGizmo* pGhostGizmo =

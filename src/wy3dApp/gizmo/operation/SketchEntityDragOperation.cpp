@@ -20,6 +20,7 @@
 #include "SketchEntityDragOperation.h"
 #include "gizmo/element/SketchEntityGripGizmo.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "widgets/panels/property/PropertyEditorWidget.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -58,7 +59,7 @@ void SketchEntityDragOperation::collectSynchronizedGrips()
     _synchronizedGrips.clear();
     this->setSnapExcludeIds({});
 
-    wyap::GizmoManager* pGizmoMgr = Application::instance().getGizmoManager();
+    wyap::GizmoManager* pGizmoMgr = ApplicationImpl::instance().getGizmoManager();
     assert(pGizmoMgr);
     if (!pGizmoMgr) return;
 

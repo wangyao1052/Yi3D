@@ -26,6 +26,7 @@
 #include <wy3dSketchLine.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 #include "gizmo/element/SketchRectangleDiagonalsGhostGizmo.h"
@@ -39,7 +40,7 @@ bool SketchRectangleGizmoCreator::tryCreateGizmos(const wyap::SelectionSet& sels
 {
     if (sels.getCount() != 4) return false;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     std::vector<const wy3d::SketchLine*> lines;

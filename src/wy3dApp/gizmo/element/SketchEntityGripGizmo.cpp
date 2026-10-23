@@ -39,7 +39,7 @@ SketchEntityGripGizmo::SketchEntityGripGizmo(const wy3d::SketchEntity* pSketchEn
 {
     if (pSketchEntity)
     {
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         assert(pDb);
         wydb::ElementId id = pSketchEntity->getId();
         wydb::ElementId sketchId = pSketchEntity->getParent();
@@ -66,7 +66,7 @@ SketchEntityGripGizmo::SketchEntityGripGizmo(const wy3d::SketchEntity* pSketchEn
 SketchEntityGripGizmo::SketchEntityGripGizmo(const std::vector<const wy3d::SketchEntity*>& sketchEnts)
     : BaseGizmo(wydb::ElementId::kNull)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     std::vector<wydb::ElementId> ids;
     ids.reserve(sketchEnts.size());
