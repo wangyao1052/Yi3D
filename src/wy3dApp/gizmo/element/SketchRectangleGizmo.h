@@ -21,7 +21,6 @@
 
 #include <array>
 #include <memory>
-#include <set>
 #include <vector>
 
 #include <wyVector2.h>
@@ -47,8 +46,6 @@ public:
                          Type type,
                          int index);
     virtual ~SketchRectangleGizmo();
-
-    virtual std::set<wydb::ElementId> getSnapExcludeIds() const override;
 
 protected:
     // 获取实时位置

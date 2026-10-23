@@ -19,6 +19,9 @@
 #ifndef WY3DAPP_SKETCH_ENTITY_DRAG_OPERATION_H
 #define WY3DAPP_SKETCH_ENTITY_DRAG_OPERATION_H
 
+#include <memory>
+#include <vector>
+
 #include <wyVector3.h>
 #include <wy3dVector2.h>
 #include <wydbDatabase.h>
@@ -47,7 +50,11 @@ public:
     virtual void onCancelDrag() override;
 
 private:
+    void collectSynchronizedGrips();
+
+private:
     SketchEntityGripGizmo* _pGripGizmo;
+    std::vector<std::weak_ptr<SketchEntityGripGizmo>> _synchronizedGrips;
 };
 
 } // namespace wy3dApp

@@ -19,9 +19,13 @@
 #ifndef WY3DAPP_GIZMO_OPERATION_H
 #define WY3DAPP_GIZMO_OPERATION_H
 
+#include <set>
+#include <utility>
+
 #include <wyVector3.h>
 #include <wy3dVector3.h>
 #include <wydbDatabase.h>
+#include <wydbElementId.h>
 #include <wydbTransaction.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -40,14 +44,25 @@ public:
     virtual void onEndDrag(const wy::Vector3& endPos) = 0;
     virtual void onCancelDrag() = 0;
 
+    const std::set<wydb::ElementId>& getSnapExcludeIds() const
+    {
+        return _snapExcludeIds;
+    }
+
 protected:
     void commitTopTransaction();
     void abortTopTransaction();
+
+    void setSnapExcludeIds(std::set<wydb::ElementId> ids)
+    {
+        _snapExcludeIds = std::move(ids);
+    }
 
 protected:
     wydb::Database* _pDb;
     wydb::Transaction* _pTopTransaction;
     BaseGizmo* _pGizmo;
+    std::set<wydb::ElementId> _snapExcludeIds;
 };
 
 } // namespace wy3dApp

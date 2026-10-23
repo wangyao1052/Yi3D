@@ -189,9 +189,15 @@ void SketchEntityGripGizmo::onLeftMouseDrag(const MouseEvent& event)
         _pGizmoOp = nullptr;
         return;
     }
+    std::set<wydb::ElementId> excludeIds = this->getSnapExcludeIds();
+    if (_pGizmoOp)
+    {
+        const std::set<wydb::ElementId>& opIds = _pGizmoOp->getSnapExcludeIds();
+        excludeIds.insert(opIds.begin(), opIds.end());
+    }
     wy::Vector2 curPos = OsgCoordUtil::computePoint2d(
         static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView(),
-        event.x, event.y, this->getSnapExcludeIds(), _pDragContext, pSketchSnapSys).first;
+        event.x, event.y, excludeIds, _pDragContext, pSketchSnapSys).first;
     if (_pGizmoOp->onDragging(MathUtils::toVector3(curPos)))
     {
         if (_pRenderer) _pRenderer->onDragging(MathUtils::toVector3(curPos));
@@ -214,8 +220,14 @@ void SketchEntityGripGizmo::onLeftMouseUp(const MouseEvent& event)
         _pGizmoOp = nullptr;
         return;
     }
+    std::set<wydb::ElementId> excludeIds = this->getSnapExcludeIds();
+    if (_pGizmoOp)
+    {
+        const std::set<wydb::ElementId>& opIds = _pGizmoOp->getSnapExcludeIds();
+        excludeIds.insert(opIds.begin(), opIds.end());
+    }
     wy::Vector2 curPos = OsgCoordUtil::computePoint2d(static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView(), event.x, event.y,
-        this->getSnapExcludeIds(), _pDragContext, pSketchSnapSys).first;
+        excludeIds, _pDragContext, pSketchSnapSys).first;
 
     _pGizmoOp->onEndDrag(MathUtils::toVector3(curPos));
     if (_pRenderer) _pRenderer->onEndDrag(MathUtils::toVector3(curPos));

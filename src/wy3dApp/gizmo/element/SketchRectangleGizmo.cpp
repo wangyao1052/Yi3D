@@ -47,11 +47,6 @@ SketchRectangleGizmo::~SketchRectangleGizmo()
 {
 }
 
-std::set<wydb::ElementId> SketchRectangleGizmo::getSnapExcludeIds() const
-{
-    return { _lineIds[0], _lineIds[1], _lineIds[2], _lineIds[3], _sketchId };
-}
-
 wy::Vector2 SketchRectangleGizmo::getGripPosition() const
 {
     const wydb::Database* pDb = Application::instance().getActiveDatabase();
