@@ -30,6 +30,7 @@
 
 #include "CopyGuiCmd.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "view/OsgView.h"
 #include "commands/OsgGuiEventDispatcher.h"
@@ -93,7 +94,7 @@ wyap::CmdExecution::StartResult CopyGuiCmd::onStart()
     // 初始化
     _pLineTransient = std::make_shared<LineTransient>();
     _pLineTransient->hide();
-    if (Application::instance().getSelManager()->getSelections().isEmpty())
+    if (ApplicationImpl::instance().getSelManager()->getSelections().isEmpty())
     {
         this->gotoStep(Step::Step1_SelectElements);
     }
@@ -138,7 +139,7 @@ bool CopyGuiCmd::finishStep(Step step)
     case Step::Step1_SelectElements:
     {
         // 选择集
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (ss.isEmpty())
         {
             assert(false);
@@ -208,7 +209,7 @@ bool CopyGuiCmd::finishStep(Step step)
         if (_pLineTransient) _pLineTransient->hide();
 
         // 清空捕捉结果
-        Application::instance().getSnapSystem()->clearSnapResult();
+        ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
         // 清空草图捕捉结果
         if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
@@ -235,7 +236,7 @@ void CopyGuiCmd::gotoStep(Step step)
     _hoverPopupState.resetValue();
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
     // 清空草图捕捉结果
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
@@ -256,10 +257,10 @@ void CopyGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("CopyGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("CopyGuiCmd",
             "Select elements to copy; press Enter or Spacebar to confirm; press Esc to cancel."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
@@ -273,10 +274,10 @@ void CopyGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("CopyGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("CopyGuiCmd",
             "Specify the base point; you can directly input the coordinate values."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 局部更新草图捕捉系统
         if (_sketchInfo.pSketchSnapSys)
@@ -298,10 +299,10 @@ void CopyGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("CopyGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("CopyGuiCmd",
             "Specify the move vector; you can directly input the values."));
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 草图捕捉上下文:绘制线
         _pSnapContext = std::make_shared<DrawLine2dContext>(_startPnt2d);
@@ -317,8 +318,8 @@ void CopyGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
     }
     break;
     }
@@ -408,7 +409,7 @@ void CopyGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void CopyGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
@@ -555,7 +556,7 @@ void CopyGuiCmd::onEnterKey()
 {
     if (Step::Step1_SelectElements == _step)
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (!ss.isEmpty())
         {
             if (this->finishStep(_step))
@@ -586,9 +587,9 @@ void CopyGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::Step1_SelectElements == _step)
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 }
 

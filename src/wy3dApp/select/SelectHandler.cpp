@@ -19,6 +19,7 @@
 #include "SelectHandler.h"
 #include <cassert>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wyapSelManager.h>
 #include <wydbDatabase.h>
 #include <wydbElementId.h>
@@ -145,7 +146,7 @@ void SelectHandler::boxSelect(bool isCross, bool isCtrlDown)
     // 用户自定义过滤
     if (_pPostSelFilter && !ss.isEmpty())
     {
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         assert(pDb);
         wyap::SelectionSet ssFiltered;
         bool skipRemaining(false);
@@ -179,7 +180,7 @@ void SelectHandler::boxSelect(bool isCross, bool isCtrlDown)
 
 void SelectHandler::updateSelectionSet(const wyap::SelectionSet& ss, bool isCtrlDown)
 {
-    Application::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
     switch (_selMode)
     {
     case SelectMode::Replace:
@@ -193,12 +194,12 @@ void SelectHandler::updateSelectionSet(const wyap::SelectionSet& ss, bool isCtrl
         assert(false);
         break;
     }
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->endChange();
 }
 
 void SelectHandler::updateSelectionSet_Replace(const wyap::SelectionSet& ss, bool isCtrlDown)
 {
-    wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+    wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
     assert(pSelMgr);
 
     if (isCtrlDown) // 反转状态
@@ -222,7 +223,7 @@ void SelectHandler::updateSelectionSet_Replace(const wyap::SelectionSet& ss, boo
 
 void SelectHandler::updateSelectionSet_Add(const wyap::SelectionSet& ss, bool isCtrlDown)
 {
-    wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+    wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
     assert(pSelMgr);
 
     if (isCtrlDown) // 反转状态

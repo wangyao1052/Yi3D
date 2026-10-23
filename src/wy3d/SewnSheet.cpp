@@ -37,7 +37,6 @@
 #include <wy3dSewnSheet.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
-#include <wy3dParamNames.h>
 
 #include "utils/Util.h"
 
@@ -176,7 +175,7 @@ void SewnSheet::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::SEWNSHEET_PARAM_TOLERANCE;
+        def.name = SewnSheet::PARAM_TOLERANCE;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -187,7 +186,7 @@ wydb::ParameterValueUPtr SewnSheet::getParameterValue(
 {
     if (className == SewnSheet::classInfo()->className())
     {
-        if (ParamNames::SEWNSHEET_PARAM_TOLERANCE == paramName)
+        if (SewnSheet::PARAM_TOLERANCE == paramName)
         {
             return wydb::ParameterValue::createDouble(_tolerance);
         }
@@ -206,7 +205,7 @@ wy::ErrorStatus SewnSheet::setParameterValue(
 {
     if (className == SewnSheet::classInfo()->className())
     {
-        if (ParamNames::SEWNSHEET_PARAM_TOLERANCE == paramName)
+        if (SewnSheet::PARAM_TOLERANCE == paramName)
         {
             if (!paramValue.isDouble())
             {

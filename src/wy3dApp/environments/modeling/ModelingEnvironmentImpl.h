@@ -35,6 +35,8 @@ public:
     ~ModelingEnvironmentImpl();
 
 public:
+    virtual EnvironmentUI* getEnvironmentUI() const override;
+
     // Command manager reactor functions.
     virtual void onCommandStartFailed(
         wyap::Command* pCmd,

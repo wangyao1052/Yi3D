@@ -33,6 +33,7 @@
 #include <wy3dBodyModification.h>
 #include <wy3dSelectionType.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -74,11 +75,11 @@ static inline bool _canCopy(const wydb::Element* pElem)
 
 CopyPasteUtil::CopyReturn CopyPasteUtil::copy()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return CopyReturn::Error;
 
     std::set<wydb::ElementId> ids;
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
     {
         const wyap::Selection& sel = iter.current();
@@ -114,7 +115,7 @@ CopyPasteUtil::CopyReturn CopyPasteUtil::copy()
         return CopyReturn::Error;
     }
     pClipData->setDescription(CopyPasteUtil::generateCopyPasteLabel());
-    Application::instance().getClipboard()->setClipData(pClipData);
+    ApplicationImpl::instance().getClipboard()->setClipData(pClipData);
     return CopyReturn::Ok;
 }
 
@@ -204,10 +205,10 @@ CopyPasteUtil::PasteReturn CopyPasteUtil::paste()
     }
 
     // 生成拷贝元素
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return PasteReturn::Error;
 
-    std::shared_ptr<const wyap::ClipData> pClipData = Application::instance().getClipboard()->getClipData();
+    std::shared_ptr<const wyap::ClipData> pClipData = ApplicationImpl::instance().getClipboard()->getClipData();
     const wyap::ElementsClipData* pElementsClipData = dynamic_cast<const wyap::ElementsClipData*>(pClipData.get());
     if (!pElementsClipData)
     {
@@ -248,7 +249,7 @@ CopyPasteUtil::PasteReturn CopyPasteUtil::paste()
 
 bool CopyPasteUtil::canPaste()
 {
-    std::shared_ptr<const wyap::ClipData> pClipData = Application::instance().getClipboard()->getClipData();
+    std::shared_ptr<const wyap::ClipData> pClipData = ApplicationImpl::instance().getClipboard()->getClipData();
     if (!pClipData) return false;
 
     const wyap::ElementsClipData* pElementsClipData = dynamic_cast<const wyap::ElementsClipData*>(pClipData.get());
@@ -277,7 +278,7 @@ void CopyPasteUtil::showPasteErrorMsgBox(PasteReturn pasteRet)
 
 std::string CopyPasteUtil::generateCopyPasteLabel()
 {
-    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     if (SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pEnv))
     {
         return "sketch";

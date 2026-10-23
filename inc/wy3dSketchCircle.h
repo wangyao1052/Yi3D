@@ -18,6 +18,14 @@ class WY3D_EXPORT SketchCircle : public wy3d::SketchCurve
     WYDB_DECLARE_MEMBERS(SketchCircle, wy3d::SketchCircle, wy3d::SketchCurve)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_CENTER_X  = "CenterPoint X";
+    static constexpr const char* PARAM_CENTER_Y  = "CenterPoint Y";
+    static constexpr const char* PARAM_RADIUS    = "Radius";
+    static constexpr const char* PARAM_DIAMETER  = "Diameter";
+    static constexpr const char* PARAM_PERIMETER = "Perimeter";
+    static constexpr const char* PARAM_AREA      = "Area";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, const wy::Vector2& center, double radius, SketchCircle*& pOut);
 
     virtual wy::Vector2 getStartPoint() const override;

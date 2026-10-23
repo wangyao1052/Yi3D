@@ -22,7 +22,6 @@
 #include <wydbTransaction.h>
 #include <wy3dLinearPattern.h>
 #include <wy3dSolid.h>
-#include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -186,77 +185,77 @@ void LinearPattern::registerParameters(wydb::ParameterSchemaExtension* pParamSch
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::LINEAR_PATTERN_COUNT_1ST;
+        def.name = LinearPattern::PARAM_COUNT_1ST;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::LINEAR_PATTERN_COUNT_2ND;
+        def.name = LinearPattern::PARAM_COUNT_2ND;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::LINEAR_PATTERN_DIRECTION_1ST_X;
+        def.name = LinearPattern::PARAM_DIRECTION_1ST_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::LINEAR_PATTERN_DIRECTION_1ST_Y;
+        def.name = LinearPattern::PARAM_DIRECTION_1ST_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::LINEAR_PATTERN_DIRECTION_1ST_Z;
+        def.name = LinearPattern::PARAM_DIRECTION_1ST_Z;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::LINEAR_PATTERN_DIRECTION_2ND_X;
+        def.name = LinearPattern::PARAM_DIRECTION_2ND_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::LINEAR_PATTERN_DIRECTION_2ND_Y;
+        def.name = LinearPattern::PARAM_DIRECTION_2ND_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::LINEAR_PATTERN_DIRECTION_2ND_Z;
+        def.name = LinearPattern::PARAM_DIRECTION_2ND_Z;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::LINEAR_PATTERN_SPACING_1ST;
+        def.name = LinearPattern::PARAM_SPACING_1ST;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::LINEAR_PATTERN_SPACING_2ND;
+        def.name = LinearPattern::PARAM_SPACING_2ND;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr LinearPattern::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == LinearPattern::classInfo()->className()) {
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_1ST_X == paramName)
+        if (LinearPattern::PARAM_DIRECTION_1ST_X == paramName)
             return wydb::ParameterValue::createDouble(_dir1st.x());
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_1ST_Y == paramName)
+        if (LinearPattern::PARAM_DIRECTION_1ST_Y == paramName)
             return wydb::ParameterValue::createDouble(_dir1st.y());
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_1ST_Z == paramName)
+        if (LinearPattern::PARAM_DIRECTION_1ST_Z == paramName)
             return wydb::ParameterValue::createDouble(_dir1st.z());
-        if (ParamNames::LINEAR_PATTERN_COUNT_1ST == paramName)
+        if (LinearPattern::PARAM_COUNT_1ST == paramName)
             return wydb::ParameterValue::createInteger(_count1st);
-        if (ParamNames::LINEAR_PATTERN_SPACING_1ST == paramName)
+        if (LinearPattern::PARAM_SPACING_1ST == paramName)
             return wydb::ParameterValue::createDouble(_spacing1st);
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_2ND_X == paramName)
+        if (LinearPattern::PARAM_DIRECTION_2ND_X == paramName)
             return wydb::ParameterValue::createDouble(_dir2nd.x());
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_2ND_Y == paramName)
+        if (LinearPattern::PARAM_DIRECTION_2ND_Y == paramName)
             return wydb::ParameterValue::createDouble(_dir2nd.y());
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_2ND_Z == paramName)
+        if (LinearPattern::PARAM_DIRECTION_2ND_Z == paramName)
             return wydb::ParameterValue::createDouble(_dir2nd.z());
-        if (ParamNames::LINEAR_PATTERN_COUNT_2ND == paramName)
+        if (LinearPattern::PARAM_COUNT_2ND == paramName)
             return wydb::ParameterValue::createInteger(_count2nd);
-        if (ParamNames::LINEAR_PATTERN_SPACING_2ND == paramName)
+        if (LinearPattern::PARAM_SPACING_2ND == paramName)
             return wydb::ParameterValue::createDouble(_spacing2nd);
 
         return nullptr;
@@ -267,25 +266,25 @@ wydb::ParameterValueUPtr LinearPattern::getParameterValue(const std::string& cla
 wy::ErrorStatus LinearPattern::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == LinearPattern::classInfo()->className()) {
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_1ST_X == paramName)
+        if (LinearPattern::PARAM_DIRECTION_1ST_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setDirection1st(wy::Vector3(paramValue.asDouble(), _dir1st.y(), _dir1st.z())); }
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_1ST_Y == paramName)
+        if (LinearPattern::PARAM_DIRECTION_1ST_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setDirection1st(wy::Vector3(_dir1st.x(), paramValue.asDouble(), _dir1st.z())); }
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_1ST_Z == paramName)
+        if (LinearPattern::PARAM_DIRECTION_1ST_Z == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setDirection1st(wy::Vector3(_dir1st.x(), _dir1st.y(), paramValue.asDouble())); }
-        if (ParamNames::LINEAR_PATTERN_COUNT_1ST == paramName)
+        if (LinearPattern::PARAM_COUNT_1ST == paramName)
         { if (!paramValue.isInteger()) return wy::ErrorStatus::InvalidInput; return setCount1st(std::abs(paramValue.asInteger())); }
-        if (ParamNames::LINEAR_PATTERN_SPACING_1ST == paramName)
+        if (LinearPattern::PARAM_SPACING_1ST == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setSpacing1st(paramValue.asDouble()); }
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_2ND_X == paramName)
+        if (LinearPattern::PARAM_DIRECTION_2ND_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setDirection2nd(wy::Vector3(paramValue.asDouble(), _dir2nd.y(), _dir2nd.z())); }
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_2ND_Y == paramName)
+        if (LinearPattern::PARAM_DIRECTION_2ND_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setDirection2nd(wy::Vector3(_dir2nd.x(), paramValue.asDouble(), _dir2nd.z())); }
-        if (ParamNames::LINEAR_PATTERN_DIRECTION_2ND_Z == paramName)
+        if (LinearPattern::PARAM_DIRECTION_2ND_Z == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setDirection2nd(wy::Vector3(_dir2nd.x(), _dir2nd.y(), paramValue.asDouble())); }
-        if (ParamNames::LINEAR_PATTERN_COUNT_2ND == paramName)
+        if (LinearPattern::PARAM_COUNT_2ND == paramName)
         { if (!paramValue.isInteger()) return wy::ErrorStatus::InvalidInput; return setCount2nd(std::abs(paramValue.asInteger())); }
-        if (ParamNames::LINEAR_PATTERN_SPACING_2ND == paramName)
+        if (LinearPattern::PARAM_SPACING_2ND == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return setSpacing2nd(paramValue.asDouble()); }
 
         return wy::ErrorStatus::ParameterNotFound;

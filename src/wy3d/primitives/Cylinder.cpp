@@ -21,7 +21,6 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dCylinder.h>
-#include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -112,12 +111,12 @@ void Cylinder::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CYLINDER_PARAM_HEIGHT;
+        def.name = Cylinder::PARAM_HEIGHT;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::CYLINDER_PARAM_RADIUS;
+        def.name = Cylinder::PARAM_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -125,11 +124,11 @@ wydb::ParameterValueUPtr Cylinder::getParameterValue(const std::string& classNam
 {
     if (className == Cylinder::classInfo()->className())
     {
-        if (ParamNames::CYLINDER_PARAM_RADIUS == n)
+        if (Cylinder::PARAM_RADIUS == n)
         {
             return wydb::ParameterValue::createDouble(_radius);
         }
-        else if (ParamNames::CYLINDER_PARAM_HEIGHT == n)
+        else if (Cylinder::PARAM_HEIGHT == n)
         {
             return wydb::ParameterValue::createDouble(_height);
         }
@@ -141,7 +140,7 @@ wy::ErrorStatus Cylinder::setParameterValue(const std::string& className, const 
 {
     if (className == Cylinder::classInfo()->className())
     {
-        if (ParamNames::CYLINDER_PARAM_RADIUS == n)
+        if (Cylinder::PARAM_RADIUS == n)
         {
             if (!v.isDouble())
             {
@@ -149,7 +148,7 @@ wy::ErrorStatus Cylinder::setParameterValue(const std::string& className, const 
             }
             return this->setRadius(v.asDouble());
         }
-        else if (ParamNames::CYLINDER_PARAM_HEIGHT == n)
+        else if (Cylinder::PARAM_HEIGHT == n)
         {
             if (!v.isDouble())
             {

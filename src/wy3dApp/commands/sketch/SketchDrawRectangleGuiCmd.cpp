@@ -32,6 +32,7 @@
 #include <wy3dSketchLine.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
@@ -66,15 +67,15 @@ wyap::CmdExecution::StartResult SketchDrawRectangleGuiCmd::onStart()
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 初始化
     this->gotoStep(Step::SpecifyStartPnt);
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::Locate);
+    ApplicationImpl::instance().setCursor(CursorType::Locate);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -118,7 +119,7 @@ bool SketchDrawRectangleGuiCmd::finishStep(Step step)
     {
     case Step::SpecifyStartPnt:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (pDb)
         {
             _pMakeSketchRectangle = std::make_shared<MakeSketchRectangle>(this, MakeSketchRectangle::Mode::CornerRect, _sketchInfo.sketchId);
@@ -178,7 +179,7 @@ void SketchDrawRectangleGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyStartPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawRectangle",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawRectangle",
             "Specify the first corner point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -191,7 +192,7 @@ void SketchDrawRectangleGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyEndPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawRectangle",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawRectangle",
             "Specify the other corner point or input length & width."));
 
         _pSnapContext = std::make_shared<Locate2dContext>();
@@ -200,7 +201,7 @@ void SketchDrawRectangleGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -281,7 +282,7 @@ void SketchDrawRectangleGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawRectangleGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(

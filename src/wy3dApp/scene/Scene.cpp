@@ -44,6 +44,7 @@
 #include <wy3dCurve.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wyapSceneManager.h>
 #include <wy3dApp/ElementNode.h>
 #include "scene/nodes/SolidElementNode.h"
@@ -995,7 +996,7 @@ void Scene::onDatabaseChanged(
     }
 
     // Gizmos
-    for (auto iter = Application::instance().getGizmoManager()->createIterator();
+    for (auto iter = ApplicationImpl::instance().getGizmoManager()->createIterator();
          !iter.isDone(); iter.moveNext())
     {
         wyap::GizmoSPtr pGizmo = iter.current();
@@ -1212,7 +1213,7 @@ void Scene::endNoBatchRender()
 // assert专用
 static bool isElementErasedByAssert(const wydb::ElementId& id)
 {
-    wyap::Document* pActiveDoc = Application::instance().getDocManager()->getActiveDocument();
+    wyap::Document* pActiveDoc = ApplicationImpl::instance().getDocManager()->getActiveDocument();
     assert(pActiveDoc);
     wydb::Database* pActiveDb = pActiveDoc->getDatabase();
     assert(pActiveDb);

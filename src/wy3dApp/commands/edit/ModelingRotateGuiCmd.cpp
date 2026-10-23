@@ -22,6 +22,7 @@
 #include <wy3dSheet.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "commands/edit/MoveRotateGuiCmdUtil.h"
@@ -69,9 +70,9 @@ void ModelingRotateGuiCmd::onStart_EnvSpecific()
 {
     // 过滤出有效选择集
     wyap::SelectionSet filterSS = getValidSSFromCurrentSelSet_MoveRotateGuiCmd();
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->setSelections(filterSS);
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->setSelections(filterSS);
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 选择工作平面点选选项:基准面
     _pickWorkPlnOption.allowedElemTypes = ElementNodeType::DatumPlane;
@@ -82,7 +83,7 @@ void ModelingRotateGuiCmd::onStart_EnvSpecific()
 void ModelingRotateGuiCmd::cleanupEnvSpecific()
 {
     // 隐藏工作平面坐标系
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->hideSketchCSYS();
     }
@@ -94,7 +95,7 @@ void ModelingRotateGuiCmd::cleanupEnvSpecific()
     // 移除工作平面原点捕捉对象
     if (_pWorkPlnOriginSnapObject)
     {
-        wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+        wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
         pSnapSys->beginChange();
         {
             pSnapSys->removeResidentSnapObject(_pWorkPlnOriginSnapObject);

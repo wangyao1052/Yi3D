@@ -19,6 +19,8 @@
 #include "GatewayEnvironmentImpl.h"
 #include "GatewayEnvironmentUI.h"
 #include <wy3dApp/Application.h>
+#include <wy3dApp/CommandAction.h>
+#include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include "environments/ICommandActionStateHost.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -26,13 +28,18 @@
 namespace wy3dApp {
 
 GatewayEnvironmentImpl::GatewayEnvironmentImpl()
-    : _pUI(std::make_unique<GatewayEnvironmentUI>())
 {
     setName("gateway");
+    _pUI = std::make_unique<GatewayEnvironmentUI>(this);
 }
 
 GatewayEnvironmentImpl::~GatewayEnvironmentImpl()
 {
+}
+
+EnvironmentUI* GatewayEnvironmentImpl::getEnvironmentUI() const
+{
+    return _pUI.get();
 }
 
 void GatewayEnvironmentImpl::onDocumentDeactivated(wyap::Document* pDeactivatedDoc)
@@ -81,24 +88,24 @@ void GatewayEnvironmentImpl::onCommandStartFailed(
     wyap::Command* pCmd,
     wyap::CmdExecution::StartResult startResult)
 {
-    EnvironmentBase::onCommandStartFailed(pCmd, startResult);
+    _pUI->onCommandStartFailed(pCmd, startResult);
 }
 
 void GatewayEnvironmentImpl::onCommandStarted(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandStarted(pCmd);
+    _pUI->onCommandStarted(pCmd);
 }
 
 void GatewayEnvironmentImpl::onCommandEnded(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandEnded(pCmd);
+    _pUI->onCommandEnded(pCmd);
 }
 
 void GatewayEnvironmentImpl::onCommandAborted(
     wyap::Command* pCmd,
     wyap::CmdExecution::AbortCause abortCause)
 {
-    EnvironmentBase::onCommandAborted(pCmd, abortCause);
+    _pUI->onCommandAborted(pCmd, abortCause);
 }
 
 void GatewayEnvironmentImpl::onEnter()
@@ -106,12 +113,12 @@ void GatewayEnvironmentImpl::onEnter()
     wyap::GatewayEnvironment::onEnter();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 }
 
 void GatewayEnvironmentImpl::onExit(ExitCode exitCode)
 {
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
     wyap::GatewayEnvironment::onExit(exitCode);
@@ -129,7 +136,7 @@ void GatewayEnvironmentImpl::onResume()
 
 void GatewayEnvironmentImpl::updateCommandActionStates()
 {
-    wyap::EnvManager* pEnvMgr = Application::instance().getEnvManager();
+    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
     wyap::Environment* pActiveEnv = pEnvMgr->getActiveEnvironment();
     if (pActiveEnv)
     {
@@ -143,15 +150,15 @@ void GatewayEnvironmentImpl::updateCommandActionStates()
 
 void GatewayEnvironmentImpl::updateFileActionStates()
 {
-    QAction* pNewFileAction = this->findCommandAction(CommandNames::NewFile);
-    QAction* pOpenFileAction = this->findCommandAction(CommandNames::OpenFile);
+    QAction* pNewFileAction = _pUI->findCommandAction(CommandNames::NewFile);
+    QAction* pOpenFileAction = _pUI->findCommandAction(CommandNames::OpenFile);
     if (!pNewFileAction || !pOpenFileAction)
     {
         return;
     }
 
     bool enabled(true);
-    wyap::Document* pActiveDoc = Application::instance().getActiveDocument();
+    wyap::Document* pActiveDoc = ApplicationImpl::instance().getActiveDocument();
     if (pActiveDoc)
     {
         wydb::Database* pDb = pActiveDoc->getDatabase();

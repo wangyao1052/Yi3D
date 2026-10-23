@@ -35,6 +35,7 @@
 #include <wy3dSketchEntity3D.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -92,9 +93,9 @@ wyap::CmdExecution::StartResult Sketch3DExtendGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     if (!this->initExtendGraph())
     {
@@ -102,7 +103,7 @@ wyap::CmdExecution::StartResult Sketch3DExtendGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -113,8 +114,8 @@ wyap::CmdExecution::StartResult Sketch3DExtendGuiCmd::onStart()
     _pTransient = nullptr;
     _pickedId = wydb::ElementId::kNull;
     _pickedSegment = wy3d::Sketch3DExtendSegment();
-    Application::instance().setCursor(CursorType::SelectElements);
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DExtendGuiCmd",
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DExtendGuiCmd",
         "Select sketch entities to extend."));
 
     _pointPickOption.allowedElemTypes = ElementNodeType::Sketch3DEntity;
@@ -127,7 +128,7 @@ wyap::CmdExecution::StartResult Sketch3DExtendGuiCmd::onStart()
 void Sketch3DExtendGuiCmd::onEnd()
 {
     _pTransient = nullptr;
-    if (wydb::Database* pDb = Application::instance().getActiveDatabase())
+    if (wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase())
     {
         pDb->removeReactor(this);
     }
@@ -137,7 +138,7 @@ void Sketch3DExtendGuiCmd::onEnd()
 void Sketch3DExtendGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
     _pTransient = nullptr;
-    if (wydb::Database* pDb = Application::instance().getActiveDatabase())
+    if (wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase())
     {
         pDb->removeReactor(this);
     }
@@ -146,7 +147,7 @@ void Sketch3DExtendGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 
 bool Sketch3DExtendGuiCmd::initExtendGraph()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -176,7 +177,7 @@ void Sketch3DExtendGuiCmd::onMouseMove(const MouseEvent& event)
         this->pointPick(event.x, event.y, _pointPickOption);
     this->pickExtendSegment(sel.getElementId(), sel.getPickPosition());
 
-    Application::instance().setCursor(
+    ApplicationImpl::instance().setCursor(
         (!sel.getElementId().isNull() && !_pTransient) ? CursorType::Forbid : CursorType::SelectElements);
 }
 
@@ -206,7 +207,7 @@ void Sketch3DExtendGuiCmd::pickExtendSegment(const wydb::ElementId& id, const wy
         return;
     }
 
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -253,7 +254,7 @@ void Sketch3DExtendGuiCmd::onLeftMouseUp(const MouseEvent& event)
     _pTransient = nullptr;
     _pickedId = wydb::ElementId::kNull;
     _pickedSegment = wy3d::Sketch3DExtendSegment();
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 }
 
 bool Sketch3DExtendGuiCmd::extend(const wydb::ElementId curveId,
@@ -272,7 +273,7 @@ bool Sketch3DExtendGuiCmd::extend(const wydb::ElementId curveId,
         return false;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

@@ -47,7 +47,7 @@ public:
     virtual Operation getOperation() const override;
     virtual wydb::ElementId getSketch3dId() const override;
     virtual Sketch3DSnapSystem* getSnapSystem() const override;
-    virtual bool addContextMenuActions(ContextMenu& menu) override;
+    virtual EnvironmentUI* getEnvironmentUI() const override;
 
     wydb::Transaction* getSketchTransaction() const;
     bool isTransactionCommited() const;

@@ -41,6 +41,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "scene/nodes/ElementNodeType.h"
@@ -272,7 +273,7 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
         ElementNodeType::Sheet;
     _edgePickOption.selType = wy3d::SelectionType::Edge;
 
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     std::vector<wydb::ElementId> pickedSketchIds;
     if (this->collectPickedSketches(ss, pickedSketchIds))
     {
@@ -297,9 +298,9 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
         {
             _sketchId = sketchId;
             _preselectedConstraintSketchIds = constraintSketchIds;
-            Application::instance().getSelManager()->beginChange();
-            Application::instance().getSelManager()->clearSelections();
-            Application::instance().getSelManager()->endChange();
+            ApplicationImpl::instance().getSelManager()->beginChange();
+            ApplicationImpl::instance().getSelManager()->clearSelections();
+            ApplicationImpl::instance().getSelManager()->endChange();
             this->finishStep(Step::SelectSketch);
             return wyap::CmdExecution::StartResult::Succeeded;
         }
@@ -319,9 +320,9 @@ wyap::CmdExecution::StartResult FilledSheetGuiCmd::onStart()
             }
         }
 
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         if (edgePicked)
         {
@@ -456,41 +457,41 @@ void FilledSheetGuiCmd::gotoStep(Step step)
     {
     case Step::SelectSketch:
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         _pValidSketchPreview = nullptr;
         _pInvalidSketchTooltip = nullptr;
         _edgePreview.clear();
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
             "Select the boundary of the filled surface: a 2D or 3D sketch, or edges of a solid or sheet."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
     case Step::SelectEdges:
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         _pValidSketchPreview = nullptr;
         _pInvalidSketchTooltip = nullptr;
         _edgePreview.clear();
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
             "Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
     case Step::SelectConstraintCurves:
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         _pValidSketchPreview = nullptr;
         _pInvalidSketchTooltip = nullptr;
@@ -507,9 +508,9 @@ void FilledSheetGuiCmd::gotoStep(Step step)
         _constraintSketchPickOption.postFilter = MultiClassSelPostFilter::create<
             wy3d::Sketch, wy3d::Sketch3D>();
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
             "Select constraint curves (optional); press Enter or Spacebar to complete."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // The preselected sketches are only recognizable here; they are added before the
         // highlight set is built
@@ -522,8 +523,8 @@ void FilledSheetGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -551,7 +552,7 @@ void FilledSheetGuiCmd::rebuildHighlights()
 // click taking a constraint out lands on something the pick can reach
 void FilledSheetGuiCmd::activateConstraintSketches()
 {
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return;
 
     for (const wydb::ElementId& constraintSketchId : this->getConstraintSketchIds())
@@ -569,8 +570,8 @@ void FilledSheetGuiCmd::activateConstraintSketches()
 // time cleanUp runs
 void FilledSheetGuiCmd::releaseConstraintSketches()
 {
-    Scene* pScene = Application::instance().getActiveScene();
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (pScene && pDb)
     {
         for (const wydb::ElementId& sketchId : _activatedConstraintSketchIds)
@@ -600,12 +601,12 @@ void FilledSheetGuiCmd::onMouseMove(const MouseEvent& event)
                     _pInvalidSketchTooltip = std::make_shared<InvalidSketchToolTip>(pickedSketchId,
                         _sketchId2ValidInfo[pickedSketchId].error);
                 }
-                Application::instance().setCursor(CursorType::Forbid);
+                ApplicationImpl::instance().setCursor(CursorType::Forbid);
             }
             else
             {
                 _pInvalidSketchTooltip = nullptr;
-                Application::instance().setCursor(CursorType::SelectElements);
+                ApplicationImpl::instance().setCursor(CursorType::SelectElements);
             }
         }
         else
@@ -615,14 +616,14 @@ void FilledSheetGuiCmd::onMouseMove(const MouseEvent& event)
 
             wyap::Selection sel = this->pointPick(event.x, event.y, _edgePickOption);
             _edgePreview.update(sel);
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
         }
     }
     else if (_step == Step::SelectEdges)
     {
         wyap::Selection sel = this->pointPick(event.x, event.y, _edgePickOption);
         _edgePreview.update(sel);
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     else if (_step == Step::SelectConstraintCurves)
     {
@@ -638,18 +639,18 @@ void FilledSheetGuiCmd::onMouseMove(const MouseEvent& event)
                     _pInvalidSketchTooltip = std::make_shared<InvalidSketchToolTip>(constraintSketchId,
                         _constraintSketchId2ValidInfo[constraintSketchId].error);
                 }
-                Application::instance().setCursor(CursorType::Forbid);
+                ApplicationImpl::instance().setCursor(CursorType::Forbid);
             }
             else
             {
                 _pInvalidSketchTooltip = nullptr;
-                Application::instance().setCursor(CursorType::SelectElements);
+                ApplicationImpl::instance().setCursor(CursorType::SelectElements);
             }
         }
         else
         {
             _pInvalidSketchTooltip = nullptr;
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
         }
     }
 
@@ -709,7 +710,7 @@ void FilledSheetGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
         // Clicking a sketch in the feature tree adds or removes a constraint sketch; anything else
         // (datum planes, features, curves) is ignored without a word, as the loft profile pick does
         if (id.isNull()) return;
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         const wydb::Element* pElem = pDb ? pDb->getElement(id) : nullptr;
         if (!pElem) return;
         if (!wy3d::Sketch::cast(pElem) && !wy3d::Sketch3D::cast(pElem)) return;
@@ -728,9 +729,9 @@ void FilledSheetGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     }
 
     _sketchId = id;
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->finishStep(Step::SelectSketch);
 }
 
@@ -812,7 +813,7 @@ void FilledSheetGuiCmd::onClearSelectionMenuItem()
         {
             _pSelSetHighlightor->clearSelections();
             _edgePickOption.preFilter = nullptr;
-            Application::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+            ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
                 "Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         }
     }
@@ -823,7 +824,7 @@ bool FilledSheetGuiCmd::collectPickedSketches(const wyap::SelectionSet& ss, std:
 {
     ids.clear();
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
@@ -843,7 +844,7 @@ bool FilledSheetGuiCmd::collectPickedSketches(const wyap::SelectionSet& ss, std:
 
 bool FilledSheetGuiCmd::isValidBoundarySketch(const wydb::ElementId& sketchId, QString& error)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wydb::Element* pElem = pDb->getElement(sketchId);
     if (!pElem) { error = QCoreApplication::translate("FilledSheetGuiCmd", "Sketch not found"); return false; }
@@ -864,7 +865,7 @@ bool FilledSheetGuiCmd::isValidBoundarySketch(const wydb::ElementId& sketchId, Q
 
 bool FilledSheetGuiCmd::isValidConstraintSketch(const wydb::ElementId& constraintSketchId, QString& error)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wydb::Element* pElem = pDb->getElement(constraintSketchId);
     if (!pElem) { error = QCoreApplication::translate("FilledSheetGuiCmd", "Sketch not found"); return false; }
@@ -992,7 +993,7 @@ bool FilledSheetGuiCmd::collectPickedEdges(std::vector<TopoDS_Edge>& edges) cons
     const wyap::SelectionSet& ss = _pSelSetHighlightor->getSelectionSet();
     if (ss.isEmpty()) return false;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     std::map<wydb::ElementId, std::vector<std::string>> id2SubPaths;

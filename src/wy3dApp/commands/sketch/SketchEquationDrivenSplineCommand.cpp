@@ -23,6 +23,7 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "commands/dialogs/EquationDrivenSplineDialog.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -32,7 +33,7 @@ namespace wy3dApp {
 int SketchEquationDrivenSplineCommand::run()
 {
     // 环境信息
-    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     if (SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pEnv))
     {
         _sketchPlane = pSketchEnv->getSketchPlane();
@@ -66,7 +67,7 @@ bool SketchEquationDrivenSplineCommand::makeSpline(
     const wydb::ElementId& sketchId,
     const std::vector<wy::Vector2>& fitPoints)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

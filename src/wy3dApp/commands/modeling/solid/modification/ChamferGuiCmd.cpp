@@ -33,6 +33,7 @@
 #include <wy3dSelectionType.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/SolidElementNode.h"
@@ -137,7 +138,7 @@ void ChamferGuiCmd::reset()
     _hostFaces.Clear();
     _hostEdges.Clear();
     _hostEdgeFaces.Clear();
-    Application::instance().setCursor(CursorType::Select);
+    ApplicationImpl::instance().setCursor(CursorType::Select);
 }
 
 bool ChamferGuiCmd::finishStep(Step step)
@@ -177,16 +178,16 @@ void ChamferGuiCmd::gotoStep(Step step)
     case Step::SelectEdges:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ChamferGuiCmd", "Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel."));
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ChamferGuiCmd", "Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 预览
         _preview.clear();
@@ -198,16 +199,16 @@ void ChamferGuiCmd::gotoStep(Step step)
     case Step::InputChamferDistance:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ChamferGuiCmd", "Input chamfer parameters."));
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ChamferGuiCmd", "Input chamfer parameters."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().setCursor(CursorType::Select);
 
         // 倒角对话框 (角度按度传入/读出)
         ChamferDialog dialog(5.0, 5.0, 45.0, wy3d::ChamferType::EqualDistance, false);
@@ -245,8 +246,8 @@ void ChamferGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -305,7 +306,7 @@ bool ChamferGuiCmd::ensureHostTopo(const wydb::ElementId& hostId)
     _hostEdges.Clear();
     _hostEdgeFaces.Clear();
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     const wydb::Element* pElement = pDb->getElement(hostId);
@@ -448,7 +449,7 @@ void ChamferGuiCmd::updateHoverPreview(double x, double y)
     if (sel.getElementId().isNull())
     {
         _preview.clear();
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
         return;
     }
 
@@ -456,12 +457,12 @@ void ChamferGuiCmd::updateHoverPreview(double x, double y)
     if (!this->resolveChamferPick(sel, sels))
     {
         _preview.clear();
-        Application::instance().setCursor(CursorType::Forbid);
+        ApplicationImpl::instance().setCursor(CursorType::Forbid);
         return;
     }
 
     _preview.update(sel);
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 }
 
 void ChamferGuiCmd::onEnterKey()

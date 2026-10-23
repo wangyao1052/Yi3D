@@ -28,7 +28,6 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dHelix.h>
-#include <wy3dParamNames.h>
 #include <wy3dSketch.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
@@ -209,38 +208,38 @@ void Helix::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::HELIX_IS_CLOCKWISE;
+        def.name = Helix::PARAM_IS_CLOCKWISE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::HELIX_IS_REVERSED;
+        def.name = Helix::PARAM_IS_REVERSED;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::HELIX_PITCH;
+        def.name = Helix::PARAM_PITCH;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::HELIX_START_ANGLE;
+        def.name = Helix::PARAM_START_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::HELIX_TURNS;
+        def.name = Helix::PARAM_TURNS;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr Helix::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == Helix::classInfo()->className()) {
-        if (ParamNames::HELIX_PITCH == paramName) return wydb::ParameterValue::createDouble(_pitch);
-        if (ParamNames::HELIX_TURNS == paramName) return wydb::ParameterValue::createDouble(_turns);
-        if (ParamNames::HELIX_START_ANGLE == paramName) return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_startAngle));
-        if (ParamNames::HELIX_IS_CLOCKWISE == paramName) return wydb::ParameterValue::createBoolean(this->isClockWise());
-        if (ParamNames::HELIX_IS_REVERSED == paramName) return wydb::ParameterValue::createBoolean(this->isReversed());
+        if (Helix::PARAM_PITCH == paramName) return wydb::ParameterValue::createDouble(_pitch);
+        if (Helix::PARAM_TURNS == paramName) return wydb::ParameterValue::createDouble(_turns);
+        if (Helix::PARAM_START_ANGLE == paramName) return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_startAngle));
+        if (Helix::PARAM_IS_CLOCKWISE == paramName) return wydb::ParameterValue::createBoolean(this->isClockWise());
+        if (Helix::PARAM_IS_REVERSED == paramName) return wydb::ParameterValue::createBoolean(this->isReversed());
     }
     return __baseClass::getParameterValue(className, paramName);
 }
@@ -248,15 +247,15 @@ wydb::ParameterValueUPtr Helix::getParameterValue(const std::string& className, 
 wy::ErrorStatus Helix::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == Helix::classInfo()->className()) {
-        if (ParamNames::HELIX_PITCH == paramName)
+        if (Helix::PARAM_PITCH == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setPitch(paramValue.asDouble()); }
-        if (ParamNames::HELIX_TURNS == paramName)
+        if (Helix::PARAM_TURNS == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setTurns(paramValue.asDouble()); }
-        if (ParamNames::HELIX_START_ANGLE == paramName)
+        if (Helix::PARAM_START_ANGLE == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setStartAngle(wy3d::degreesToRadians(paramValue.asDouble())); }
-        if (ParamNames::HELIX_IS_CLOCKWISE == paramName)
+        if (Helix::PARAM_IS_CLOCKWISE == paramName)
         { if (!paramValue.isBoolean()) return wy::ErrorStatus::InvalidInput; return this->setClockWise(paramValue.asBoolean()); }
-        if (ParamNames::HELIX_IS_REVERSED == paramName)
+        if (Helix::PARAM_IS_REVERSED == paramName)
         { if (!paramValue.isBoolean()) return wy::ErrorStatus::InvalidInput; return this->setReversed(paramValue.asBoolean()); }
     }
     return __baseClass::setParameterValue(className, paramName, paramValue);

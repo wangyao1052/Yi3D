@@ -26,6 +26,7 @@
 #include <wyapSelection.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "view/OsgView.h"
@@ -38,9 +39,9 @@ namespace wy3dApp {
 
 int FitViewCommand::run()
 {
-    BaseView* pActiveView = Application::instance().getActiveView();
+    BaseView* pActiveView = ApplicationImpl::instance().getActiveView();
     if (!pActiveView) return -1;
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return -1;
     osg::BoundingSphere bsSphere = pScene->getFitViewBoundingSphere();
     pActiveView->viewAll(bsSphere);
@@ -51,11 +52,11 @@ int FitViewCommand::run()
 
 int FitSelectionCommand::run()
 {
-    BaseView* pActiveView = Application::instance().getActiveView();
+    BaseView* pActiveView = ApplicationImpl::instance().getActiveView();
     if (!pActiveView) return -1;
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return -1;
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.isEmpty()) return 0;
 
     osg::BoundingBox mergedBBox;
@@ -91,7 +92,7 @@ int FitSelectionCommand::run()
 
 int IsometricViewCommand::run()
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (!pView) return -1;
     pView->lookAtISO();
 
@@ -101,7 +102,7 @@ int IsometricViewCommand::run()
 
 int FrontViewCommand::run()
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtFront();
@@ -113,7 +114,7 @@ int FrontViewCommand::run()
 
 int BackViewCommand::run()
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtBack();
@@ -125,7 +126,7 @@ int BackViewCommand::run()
 
 int LeftViewCommand::run()
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtLeft();
@@ -137,7 +138,7 @@ int LeftViewCommand::run()
 
 int RightViewCommand::run()
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtRight();
@@ -149,7 +150,7 @@ int RightViewCommand::run()
 
 int TopViewCommand::run()
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtTop();
@@ -161,7 +162,7 @@ int TopViewCommand::run()
 
 int BottomViewCommand::run()
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtBottom();
@@ -173,7 +174,7 @@ int BottomViewCommand::run()
 
 int OrientToSketchCommand::run()
 {
-    wyap::Environment* pCurEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pCurEnv);
     if (!pSketchEnv)
     {
@@ -182,7 +183,7 @@ int OrientToSketchCommand::run()
     }
     const wy3d::Plane& sketchPlane = pSketchEnv->getSketchPlane();
 
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (!pView)
     {
         assert(false);
@@ -196,13 +197,13 @@ int OrientToSketchCommand::run()
 
 int ViewNormalToCommand::run()
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (!pView)
     {
         assert(false);
         return 0;
     }
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.getCount() != 1)
     {
         assert(false);
@@ -214,7 +215,7 @@ int ViewNormalToCommand::run()
         assert(false);
         return 0;
     }
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -259,7 +260,7 @@ int ViewNormalToCommand::run()
 
 int ShadedWithEdgesDisplayCommand::run()
 {
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return -1;
     pScene->setDisplayMode(Scene::DisplayMode::ShadedWithEdges);
     return 0;
@@ -268,7 +269,7 @@ int ShadedWithEdgesDisplayCommand::run()
 
 int ShadedDisplayCommand::run()
 {
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return -1;
     pScene->setDisplayMode(Scene::DisplayMode::Shaded);
     return 0;
@@ -277,7 +278,7 @@ int ShadedDisplayCommand::run()
 
 int WireframeDisplayCommand::run()
 {
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return -1;
     pScene->setDisplayMode(Scene::DisplayMode::Wireframe);
     return 0;

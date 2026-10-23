@@ -20,6 +20,7 @@
 #include <list>
 #include "select/PickCommon.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "scene/nodes/SolidElementNode.h"
@@ -347,7 +348,7 @@ wyap::SelectionSet BoxPick::pick(
         if (selType == wy3d::SelectionType::Edge
             || selType == wy3d::SelectionType::Face)
         {
-            ElementNode* pElemNode = Application::instance().getActiveScene()->getElementNode(id);
+            ElementNode* pElemNode = ApplicationImpl::instance().getActiveScene()->getElementNode(id);
             pSolidElemNode = dynamic_cast<SolidElementNode*>(pElemNode);
             if (pSolidElemNode)
             {
@@ -362,13 +363,13 @@ wyap::SelectionSet BoxPick::pick(
         else if (selType == wy3d::SelectionType::SketchCurve)
         {
             pSketchElemNode = dynamic_cast<SketchElementNode*>(
-                Application::instance().getActiveScene()->getElementNode(id));
+                ApplicationImpl::instance().getActiveScene()->getElementNode(id));
             if (pSketchElemNode) pOsgNode = pSketchElemNode->getOsgNode();
         }
         else if (selType == wy3d::SelectionType::SketchCurve3D)
         {
             pSketch3DElemNode = dynamic_cast<Sketch3DElementNode*>(
-                Application::instance().getActiveScene()->getElementNode(id));
+                ApplicationImpl::instance().getActiveScene()->getElementNode(id));
             if (pSketch3DElemNode) pOsgNode = pSketch3DElemNode->getOsgNode();
         }
         if (!pOsgNode)

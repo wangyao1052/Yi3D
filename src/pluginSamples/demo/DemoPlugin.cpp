@@ -35,7 +35,8 @@
 #include "DemoHelloCmd.h"
 #include "DemoParametersCmd.h"
 #include "DemoSnapRuleCmd.h"
-#include <wy3dApp/EnvironmentBase.h>
+#include <wy3dApp/EnvironmentUI.h>
+#include <wy3dApp/CommandAction.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include <wy3dApp/Snap2dSystem.h>
@@ -136,16 +137,16 @@ void DemoPlugin::enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvir
         //demo::log(LogLevel::Warning, "demo: addCommand failed");
     }
 
-    wy3dApp::EnvironmentBase* pEnvBase = dynamic_cast<wy3dApp::EnvironmentBase*>(pSketchEnvironment);
-    assert(pEnvBase);
+    wy3dApp::EnvironmentUI* pUI = pSketchEnvironment->getEnvironmentUI();
+    assert(pUI);
 
     const QString title = QCoreApplication::translate("DemoPlugin", "Demo");
-    QToolBar* pToolBar = pEnvBase->addToolBar(title, "com.yi3d.demo.toolbar");
-    QMenu* pMenu = pEnvBase->addMenu(title, "com.yi3d.demo.menu");
+    QToolBar* pToolBar = pUI->addToolBar(title, "com.yi3d.demo.toolbar");
+    QMenu* pMenu = pUI->addMenu(title, "com.yi3d.demo.menu");
     // One shared group for all demo command actions: it is what makes them checkable,
     // and the environment base keeps the running command's action pressed through it.
-    QActionGroup* pActionGroup = pEnvBase->newActionGroup();
-    wy3dApp::CommandAction* pAction = pEnvBase->newCommandAction(
+    QActionGroup* pActionGroup = pUI->newActionGroup();
+    wy3dApp::CommandAction* pAction = pUI->newCommandAction(
         demo::kHelloCommand,
         QCoreApplication::translate("DemoPlugin", "Hello from Demo"),
         QIcon(":/plugin/com.yi3d.demo/demo_hello.svg"),
@@ -153,7 +154,7 @@ void DemoPlugin::enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvir
     if (pToolBar && pAction) pToolBar->addAction(pAction);
     if (pMenu && pAction) pMenu->addAction(pAction);
 
-    wy3dApp::CommandAction* pParametersAction = pEnvBase->newCommandAction(
+    wy3dApp::CommandAction* pParametersAction = pUI->newCommandAction(
         demo::kParametersCommand,
         QCoreApplication::translate("DemoPlugin", "List Element Parameters"),
         QIcon(":/plugin/com.yi3d.demo/demo_parameters.svg"),
@@ -161,7 +162,7 @@ void DemoPlugin::enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvir
     if (pToolBar && pParametersAction) pToolBar->addAction(pParametersAction);
     if (pMenu && pParametersAction) pMenu->addAction(pParametersAction);
 
-    wy3dApp::CommandAction* pSnapRuleAction = pEnvBase->newCommandAction(
+    wy3dApp::CommandAction* pSnapRuleAction = pUI->newCommandAction(
         demo::kSnapRuleCommand,
         QCoreApplication::translate("DemoPlugin", "Snap Rule Self Test"),
         QIcon(":/plugin/com.yi3d.demo/demo_snaprule.svg"),

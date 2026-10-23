@@ -17,6 +17,10 @@ class WY3D_EXPORT Cone : public wy3d::Primitive
     WYDB_DECLARE_MEMBERS(Cone, wy3d::Cone, wy3d::Primitive)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_RADIUS = "Radius";
+    static constexpr const char* PARAM_HEIGHT = "Height";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, double radius, double height, Cone*& pOut);
     double getRadius() const { return _radius; }
     wy::ErrorStatus setRadius(double radius);

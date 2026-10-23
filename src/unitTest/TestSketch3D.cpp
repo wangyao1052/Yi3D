@@ -25,7 +25,6 @@
 #include <wy3dSketchEllipse3D.h>
 #include <wy3dSketchEllipseArc3D.h>
 #include <wy3dSketchSpline3D.h>
-#include <wy3dSketch3DParamNames.h>
 #include <wy3dMath.h>
 #include <wydbParameter.h>
 #include <wyIterator.h>
@@ -117,9 +116,9 @@ TEST(Sketch3D, CreateCircle)
 
     // normal/xDir are immutable via parameters
     const std::string className = wy3d::SketchCircle3D::classInfo()->className();
-    EXPECT_EQ(pCircle->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_X,
+    EXPECT_EQ(pCircle->setParameterValue(className, wy3d::SketchCircle3D::PARAM_NORMAL_X,
         *wydb::ParameterValue::createDouble(0.0)), wy::ErrorStatus::ParameterReadonly);
-    EXPECT_EQ(pCircle->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_X,
+    EXPECT_EQ(pCircle->setParameterValue(className, wy3d::SketchCircle3D::PARAM_XDIR_X,
         *wydb::ParameterValue::createDouble(0.0)), wy::ErrorStatus::ParameterReadonly);
 
     // Parametric start point = center + radius * xDir
@@ -267,18 +266,18 @@ TEST(Sketch3D, LineParamRoundTrip)
 
     // read parameters
     {
-        wydb::ParameterValueUPtr pVal = pLine->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_X);
+        wydb::ParameterValueUPtr pVal = pLine->getParameterValue(className, wy3d::SketchLine3D::PARAM_START_X);
         ASSERT_NE(pVal, nullptr);
         EXPECT_TRUE(pVal->isDouble());
         EXPECT_DOUBLE_EQ(pVal->asDouble(), 1.0);
     }
     {
-        wydb::ParameterValueUPtr pVal = pLine->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_Z);
+        wydb::ParameterValueUPtr pVal = pLine->getParameterValue(className, wy3d::SketchLine3D::PARAM_END_Z);
         ASSERT_NE(pVal, nullptr);
         EXPECT_DOUBLE_EQ(pVal->asDouble(), 8.0);
     }
     {
-        wydb::ParameterValueUPtr pVal = pLine->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_LENGTH);
+        wydb::ParameterValueUPtr pVal = pLine->getParameterValue(className, wy3d::SketchLine3D::PARAM_LENGTH);
         ASSERT_NE(pVal, nullptr);
         EXPECT_NEAR(pVal->asDouble(), std::sqrt(50.0), 1e-9);
     }
@@ -288,7 +287,7 @@ TEST(Sketch3D, LineParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchLine3D* pWrite = wy3d::SketchLine3D::cast(pTrans->getElementForWrite(pLine->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_X,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchLine3D::PARAM_START_X,
             *wydb::ParameterValue::createDouble(0.0)), wy::ErrorStatus::Ok);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -299,7 +298,7 @@ TEST(Sketch3D, LineParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchLine3D* pWrite = wy3d::SketchLine3D::cast(pTrans->getElementForWrite(pLine->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_LENGTH,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchLine3D::PARAM_LENGTH,
             *wydb::ParameterValue::createDouble(10.0)), wy::ErrorStatus::Ok);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -310,7 +309,7 @@ TEST(Sketch3D, LineParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchLine3D* pWrite = wy3d::SketchLine3D::cast(pTrans->getElementForWrite(pLine->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_LENGTH,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchLine3D::PARAM_LENGTH,
             *wydb::ParameterValue::createDouble(-5.0)), wy::ErrorStatus::InvalidInput);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -344,17 +343,17 @@ TEST(Sketch3D, CircleParamRoundTrip)
 
     // derived parameters
     {
-        wydb::ParameterValueUPtr pVal = pCircle->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_DIAMETER);
+        wydb::ParameterValueUPtr pVal = pCircle->getParameterValue(className, wy3d::SketchCircle3D::PARAM_DIAMETER);
         ASSERT_NE(pVal, nullptr);
         EXPECT_NEAR(pVal->asDouble(), 50.0, 1e-9);
     }
     {
-        wydb::ParameterValueUPtr pVal = pCircle->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_PERIMETER);
+        wydb::ParameterValueUPtr pVal = pCircle->getParameterValue(className, wy3d::SketchCircle3D::PARAM_PERIMETER);
         ASSERT_NE(pVal, nullptr);
         EXPECT_NEAR(pVal->asDouble(), 2.0 * wy3d::PI * 25.0, 1e-9);
     }
     {
-        wydb::ParameterValueUPtr pVal = pCircle->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_AREA);
+        wydb::ParameterValueUPtr pVal = pCircle->getParameterValue(className, wy3d::SketchCircle3D::PARAM_AREA);
         ASSERT_NE(pVal, nullptr);
         EXPECT_NEAR(pVal->asDouble(), wy3d::PI * 25.0 * 25.0, 1e-9);
     }
@@ -364,7 +363,7 @@ TEST(Sketch3D, CircleParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchCircle3D* pWrite = wy3d::SketchCircle3D::cast(pTrans->getElementForWrite(pCircle->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_DIAMETER,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchCircle3D::PARAM_DIAMETER,
             *wydb::ParameterValue::createDouble(30.0)), wy::ErrorStatus::Ok);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -375,7 +374,7 @@ TEST(Sketch3D, CircleParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchCircle3D* pWrite = wy3d::SketchCircle3D::cast(pTrans->getElementForWrite(pCircle->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_PERIMETER,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchCircle3D::PARAM_PERIMETER,
             *wydb::ParameterValue::createDouble(2.0 * wy3d::PI * 10.0)), wy::ErrorStatus::Ok);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -386,7 +385,7 @@ TEST(Sketch3D, CircleParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchCircle3D* pWrite = wy3d::SketchCircle3D::cast(pTrans->getElementForWrite(pCircle->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_RADIUS,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchCircle3D::PARAM_RADIUS,
             *wydb::ParameterValue::createDouble(0.0005)), wy::ErrorStatus::InvalidInput);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -411,23 +410,23 @@ TEST(Sketch3D, ArcParamRoundTrip)
 
     // angles are exposed in degrees
     {
-        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_START_ANGLE);
+        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::SketchArc3D::PARAM_START_ANGLE);
         ASSERT_NE(pVal, nullptr);
         EXPECT_TRUE(pVal->isDouble());
         EXPECT_NEAR(pVal->asDouble(), 270.0, 1e-9);
     }
     {
-        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_END_ANGLE);
+        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::SketchArc3D::PARAM_END_ANGLE);
         ASSERT_NE(pVal, nullptr);
         EXPECT_NEAR(pVal->asDouble(), 90.0, 1e-9);
     }
     {
-        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE);
+        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::SketchArc3D::PARAM_TOTAL_ANGLE);
         ASSERT_NE(pVal, nullptr);
         EXPECT_NEAR(pVal->asDouble(), 180.0, 1e-9);
     }
     {
-        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_LENGTH);
+        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::SketchArc3D::PARAM_LENGTH);
         ASSERT_NE(pVal, nullptr);
         EXPECT_NEAR(pVal->asDouble(), 25.0 * wy3d::PI, 1e-9);
     }
@@ -437,7 +436,7 @@ TEST(Sketch3D, ArcParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchArc3D* pWrite = wy3d::SketchArc3D::cast(pTrans->getElementForWrite(pArc->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchArc3D::PARAM_TOTAL_ANGLE,
             *wydb::ParameterValue::createDouble(90.0)), wy::ErrorStatus::Ok);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -450,11 +449,11 @@ TEST(Sketch3D, ArcParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchArc3D* pWrite = wy3d::SketchArc3D::cast(pTrans->getElementForWrite(pArc->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchArc3D::PARAM_TOTAL_ANGLE,
             *wydb::ParameterValue::createDouble(0.0)), wy::ErrorStatus::InvalidInput);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchArc3D::PARAM_TOTAL_ANGLE,
             *wydb::ParameterValue::createDouble(-90.0)), wy::ErrorStatus::InvalidInput);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchArc3D::PARAM_TOTAL_ANGLE,
             *wydb::ParameterValue::createDouble(360.0)), wy::ErrorStatus::InvalidInput);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -465,7 +464,7 @@ TEST(Sketch3D, ArcParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchArc3D* pWrite = wy3d::SketchArc3D::cast(pTrans->getElementForWrite(pArc->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_LENGTH,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchArc3D::PARAM_LENGTH,
             *wydb::ParameterValue::createDouble(10.0)), wy::ErrorStatus::Ok);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -476,16 +475,16 @@ TEST(Sketch3D, ArcParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchArc3D* pWrite = wy3d::SketchArc3D::cast(pTrans->getElementForWrite(pArc->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_LENGTH,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchArc3D::PARAM_LENGTH,
             *wydb::ParameterValue::createDouble(25.0 * wy3d::TWO_PI)), wy::ErrorStatus::InvalidInput);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
     EXPECT_NEAR(pArc->getTotalAngle(), 0.4, 1e-9);
 
     // normal/xDir are immutable via parameters
-    EXPECT_EQ(pArc->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_X,
+    EXPECT_EQ(pArc->setParameterValue(className, wy3d::SketchArc3D::PARAM_NORMAL_X,
         *wydb::ParameterValue::createDouble(0.0)), wy::ErrorStatus::ParameterReadonly);
-    EXPECT_EQ(pArc->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_X,
+    EXPECT_EQ(pArc->setParameterValue(className, wy3d::SketchArc3D::PARAM_XDIR_X,
         *wydb::ParameterValue::createDouble(0.0)), wy::ErrorStatus::ParameterReadonly);
 
     // too small radius is rejected
@@ -493,7 +492,7 @@ TEST(Sketch3D, ArcParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchArc3D* pWrite = wy3d::SketchArc3D::cast(pTrans->getElementForWrite(pArc->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_RADIUS,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchArc3D::PARAM_RADIUS,
             *wydb::ParameterValue::createDouble(0.0005)), wy::ErrorStatus::InvalidInput);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -777,7 +776,7 @@ TEST(Sketch3D, ParameterSchemasExposed)
     {
         ASSERT_NE(pDef, nullptr);
         EXPECT_TRUE(pDef->getClassName() == lineClassName || pDef->getClassName() == curve3dClassName);
-        if (pDef->getName() == wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)
+        if (pDef->getName() == wy3d::SketchCurve3D::PARAM_ID)
         {
             EXPECT_EQ(pDef->getClassName(), curve3dClassName);
             EXPECT_TRUE(pDef->isReadonly());
@@ -786,13 +785,13 @@ TEST(Sketch3D, ParameterSchemasExposed)
         lineNames.insert(pDef->getName());
     }
     EXPECT_TRUE(foundReadonlyId);
-    EXPECT_EQ(lineNames.count(wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_X), 1u);
-    EXPECT_EQ(lineNames.count(wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Y), 1u);
-    EXPECT_EQ(lineNames.count(wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Z), 1u);
-    EXPECT_EQ(lineNames.count(wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_X), 1u);
-    EXPECT_EQ(lineNames.count(wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_Y), 1u);
-    EXPECT_EQ(lineNames.count(wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_Z), 1u);
-    EXPECT_EQ(lineNames.count(wy3d::Sketch3DParamNames::SKETCH_LINE3D_PARAM_LENGTH), 1u);
+    EXPECT_EQ(lineNames.count(wy3d::SketchLine3D::PARAM_START_X), 1u);
+    EXPECT_EQ(lineNames.count(wy3d::SketchLine3D::PARAM_START_Y), 1u);
+    EXPECT_EQ(lineNames.count(wy3d::SketchLine3D::PARAM_START_Z), 1u);
+    EXPECT_EQ(lineNames.count(wy3d::SketchLine3D::PARAM_END_X), 1u);
+    EXPECT_EQ(lineNames.count(wy3d::SketchLine3D::PARAM_END_Y), 1u);
+    EXPECT_EQ(lineNames.count(wy3d::SketchLine3D::PARAM_END_Z), 1u);
+    EXPECT_EQ(lineNames.count(wy3d::SketchLine3D::PARAM_LENGTH), 1u);
 
     // Circle schema: 13 own defs + 1 inherited readonly ID from SketchCurve3D
     const std::string circleClassName = wy3d::SketchCircle3D::classInfo()->className();
@@ -807,32 +806,32 @@ TEST(Sketch3D, ParameterSchemasExposed)
         // NORMAL/XDIR are creation-time values: readonly in the panel, like the inherited ID
         const std::string& name = pDef->getName();
         bool expectReadonly = false;
-        if (name == wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_X ||
-            name == wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Y ||
-            name == wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Z ||
-            name == wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_X ||
-            name == wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Y ||
-            name == wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Z ||
-            name == wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)
+        if (name == wy3d::SketchCircle3D::PARAM_NORMAL_X ||
+            name == wy3d::SketchCircle3D::PARAM_NORMAL_Y ||
+            name == wy3d::SketchCircle3D::PARAM_NORMAL_Z ||
+            name == wy3d::SketchCircle3D::PARAM_XDIR_X ||
+            name == wy3d::SketchCircle3D::PARAM_XDIR_Y ||
+            name == wy3d::SketchCircle3D::PARAM_XDIR_Z ||
+            name == wy3d::SketchCurve3D::PARAM_ID)
         {
             expectReadonly = true;
         }
         EXPECT_EQ(pDef->isReadonly(), expectReadonly);
     }
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_X), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Y), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_CENTER_Z), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_X), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Y), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_NORMAL_Z), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_X), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Y), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_XDIR_Z), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_RADIUS), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_DIAMETER), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_PERIMETER), 1u);
-    EXPECT_EQ(circleNames.count(wy3d::Sketch3DParamNames::SKETCH_CIRCLE3D_PARAM_AREA), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCurve3D::PARAM_ID), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_CENTER_X), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_CENTER_Y), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_CENTER_Z), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_NORMAL_X), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_NORMAL_Y), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_NORMAL_Z), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_XDIR_X), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_XDIR_Y), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_XDIR_Z), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_RADIUS), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_DIAMETER), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_PERIMETER), 1u);
+    EXPECT_EQ(circleNames.count(wy3d::SketchCircle3D::PARAM_AREA), 1u);
 
     // Arc schema: 14 own defs + 1 inherited readonly ID from SketchCurve3D
     const std::string arcClassName = wy3d::SketchArc3D::classInfo()->className();
@@ -847,33 +846,33 @@ TEST(Sketch3D, ParameterSchemasExposed)
         // NORMAL/XDIR are creation-time values: readonly in the panel, like the inherited ID
         const std::string& name = pDef->getName();
         bool expectReadonly = false;
-        if (name == wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_X ||
-            name == wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Y ||
-            name == wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Z ||
-            name == wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_X ||
-            name == wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Y ||
-            name == wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Z ||
-            name == wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID)
+        if (name == wy3d::SketchArc3D::PARAM_NORMAL_X ||
+            name == wy3d::SketchArc3D::PARAM_NORMAL_Y ||
+            name == wy3d::SketchArc3D::PARAM_NORMAL_Z ||
+            name == wy3d::SketchArc3D::PARAM_XDIR_X ||
+            name == wy3d::SketchArc3D::PARAM_XDIR_Y ||
+            name == wy3d::SketchArc3D::PARAM_XDIR_Z ||
+            name == wy3d::SketchCurve3D::PARAM_ID)
         {
             expectReadonly = true;
         }
         EXPECT_EQ(pDef->isReadonly(), expectReadonly);
     }
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_CURVE3D_ID), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_X), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Y), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_CENTER_Z), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_X), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Y), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_NORMAL_Z), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_X), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Y), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_XDIR_Z), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_RADIUS), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_START_ANGLE), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_END_ANGLE), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_TOTAL_ANGLE), 1u);
-    EXPECT_EQ(arcNames.count(wy3d::Sketch3DParamNames::SKETCH_ARC3D_PARAM_LENGTH), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchCurve3D::PARAM_ID), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_CENTER_X), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_CENTER_Y), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_CENTER_Z), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_NORMAL_X), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_NORMAL_Y), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_NORMAL_Z), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_XDIR_X), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_XDIR_Y), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_XDIR_Z), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_RADIUS), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_START_ANGLE), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_END_ANGLE), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_TOTAL_ANGLE), 1u);
+    EXPECT_EQ(arcNames.count(wy3d::SketchArc3D::PARAM_LENGTH), 1u);
 }
 
 // --- Ellipse ---
@@ -960,17 +959,17 @@ TEST(Sketch3D, EllipseParamRoundTrip)
     const std::string className = wy3d::SketchEllipse3D::classInfo()->className();
 
     {
-        wydb::ParameterValueUPtr pVal = pEllipse->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_MAJOR_RADIUS);
+        wydb::ParameterValueUPtr pVal = pEllipse->getParameterValue(className, wy3d::SketchEllipse3D::PARAM_MAJOR_RADIUS);
         ASSERT_NE(pVal, nullptr);
         EXPECT_DOUBLE_EQ(pVal->asDouble(), 20.0);
     }
     {
-        wydb::ParameterValueUPtr pVal = pEllipse->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_MINOR_RADIUS);
+        wydb::ParameterValueUPtr pVal = pEllipse->getParameterValue(className, wy3d::SketchEllipse3D::PARAM_MINOR_RADIUS);
         ASSERT_NE(pVal, nullptr);
         EXPECT_DOUBLE_EQ(pVal->asDouble(), 10.0);
     }
     {
-        wydb::ParameterValueUPtr pVal = pEllipse->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_AREA);
+        wydb::ParameterValueUPtr pVal = pEllipse->getParameterValue(className, wy3d::SketchEllipse3D::PARAM_AREA);
         ASSERT_NE(pVal, nullptr);
         EXPECT_NEAR(pVal->asDouble(), wy3d::PI * 20.0 * 10.0, 1e-9);
     }
@@ -980,15 +979,15 @@ TEST(Sketch3D, EllipseParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchEllipse3D* pWrite = wy3d::SketchEllipse3D::cast(pTrans->getElementForWrite(pEllipse->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_MINOR_RADIUS,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchEllipse3D::PARAM_MINOR_RADIUS,
             *wydb::ParameterValue::createDouble(30.0)), wy::ErrorStatus::InvalidInput);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_RADIUS_RATIO,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchEllipse3D::PARAM_RADIUS_RATIO,
             *wydb::ParameterValue::createDouble(1.5)), wy::ErrorStatus::InvalidInput);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_PERIMETER,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchEllipse3D::PARAM_PERIMETER,
             *wydb::ParameterValue::createDouble(50.0)), wy::ErrorStatus::ParameterReadonly);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_AREA,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchEllipse3D::PARAM_AREA,
             *wydb::ParameterValue::createDouble(50.0)), wy::ErrorStatus::ParameterReadonly);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_NORMAL_X,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchEllipse3D::PARAM_NORMAL_X,
             *wydb::ParameterValue::createDouble(0.0)), wy::ErrorStatus::ParameterReadonly);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -998,7 +997,7 @@ TEST(Sketch3D, EllipseParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchEllipse3D* pWrite = wy3d::SketchEllipse3D::cast(pTrans->getElementForWrite(pEllipse->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSE3D_PARAM_RADIUS_RATIO,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchEllipse3D::PARAM_RADIUS_RATIO,
             *wydb::ParameterValue::createDouble(0.25)), wy::ErrorStatus::Ok);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -1065,18 +1064,18 @@ TEST(Sketch3D, EllipseArcParamRoundTrip)
 
     // 角度按度暴露
     {
-        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_START_ANGLE);
+        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::SketchEllipseArc3D::PARAM_START_ANGLE);
         ASSERT_NE(pVal, nullptr);
         EXPECT_NEAR(pVal->asDouble(), 0.0, 1e-9);
     }
     {
-        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE);
+        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::SketchEllipseArc3D::PARAM_TOTAL_ANGLE);
         ASSERT_NE(pVal, nullptr);
         EXPECT_NEAR(pVal->asDouble(), 90.0, 1e-9);
     }
     // 长短半轴相等时弧长即 a*扫角
     {
-        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_LENGTH);
+        wydb::ParameterValueUPtr pVal = pArc->getParameterValue(className, wy3d::SketchEllipseArc3D::PARAM_LENGTH);
         ASSERT_NE(pVal, nullptr);
         EXPECT_NEAR(pVal->asDouble(), 10.0 * wy3d::PI_2, 1e-6);
     }
@@ -1086,11 +1085,11 @@ TEST(Sketch3D, EllipseArcParamRoundTrip)
         wydb::Transaction* pTrans = pMgr->startTransaction();
         wy3d::SketchEllipseArc3D* pWrite = wy3d::SketchEllipseArc3D::cast(pTrans->getElementForWrite(pArc->getId()));
         ASSERT_NE(pWrite, nullptr);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_LENGTH,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchEllipseArc3D::PARAM_LENGTH,
             *wydb::ParameterValue::createDouble(50.0)), wy::ErrorStatus::ParameterReadonly);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchEllipseArc3D::PARAM_TOTAL_ANGLE,
             *wydb::ParameterValue::createDouble(360.0)), wy::ErrorStatus::InvalidInput);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_ELLIPSEARC3D_PARAM_TOTAL_ANGLE,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchEllipseArc3D::PARAM_TOTAL_ANGLE,
             *wydb::ParameterValue::createDouble(180.0)), wy::ErrorStatus::Ok);
         EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
     }
@@ -1187,7 +1186,7 @@ TEST(Sketch3D, Spline3DControlPoints)
     // Order 参数即 次数 + 1
     const std::string className = wy3d::SketchSpline3D::classInfo()->className();
     {
-        wydb::ParameterValueUPtr pVal = pSpline->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER);
+        wydb::ParameterValueUPtr pVal = pSpline->getParameterValue(className, wy3d::SketchSpline3D::PARAM_ORDER);
         ASSERT_NE(pVal, nullptr);
         EXPECT_EQ(pVal->asInteger(), 3);
     }
@@ -1233,11 +1232,11 @@ TEST(Sketch3D, Spline3DDegreeLimit)
     // Order 9 is degree 8; the limit is the last value the parameter takes.
     const std::string className = wy3d::SketchSpline3D::classInfo()->className();
     {
-        wydb::ParameterValueUPtr pVal = pSpline->getParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER);
+        wydb::ParameterValueUPtr pVal = pSpline->getParameterValue(className, wy3d::SketchSpline3D::PARAM_ORDER);
         ASSERT_NE(pVal, nullptr);
         EXPECT_EQ(pVal->asInteger(), 9);
     }
-    EXPECT_EQ(pSpline->setParameterValue(className, wy3d::Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER,
+    EXPECT_EQ(pSpline->setParameterValue(className, wy3d::SketchSpline3D::PARAM_ORDER,
         *wydb::ParameterValue::createInteger(10)), wy::ErrorStatus::InvalidInput);
     EXPECT_EQ(pSpline->getDegree(), 8u);
 

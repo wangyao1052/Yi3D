@@ -31,6 +31,7 @@
 #include <wy3dSketchCircle.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "scene/RenderConst.h"
 #include "snap/SketchSnapSystem.h"
@@ -89,7 +90,7 @@ wyap::CmdExecution::StartResult SketchDrawCircleGuiCmd::onStart()
     this->gotoStep(Step::SpecifyCenterPnt);
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::Locate);
+    ApplicationImpl::instance().setCursor(CursorType::Locate);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -139,7 +140,7 @@ bool SketchDrawCircleGuiCmd::finishStep(Step step)
     {
     case Step::SpecifyCenterPnt:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (pDb)
         {
             _pMakeSketchCircle = std::make_shared<MakeSketchCircle>(this);
@@ -214,7 +215,7 @@ void SketchDrawCircleGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyCenterPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
             "Specify the center point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -227,7 +228,7 @@ void SketchDrawCircleGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyRadius:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
             "Specify the radius; you can directly input the value."));
 
         _pSnapContext = std::make_shared<DrawCircle2dContext>(_centerPnt);
@@ -236,7 +237,7 @@ void SketchDrawCircleGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -317,7 +318,7 @@ void SketchDrawCircleGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawCircleGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
 
     if (!_pXYPopup)
     {

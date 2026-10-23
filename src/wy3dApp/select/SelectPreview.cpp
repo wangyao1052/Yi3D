@@ -19,6 +19,7 @@
 #include <wy3dApp/SelectPreview.h>
 #include <wy3dSelectionType.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "scene/nodes/SolidElementNode.h"
@@ -58,7 +59,7 @@ void SelectPreview::showSelection(const wyap::Selection& selection, bool value)
 {
     if (selection.getElementId().isNull()) return;
 
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return;
     ElementNode* pElemNode = pActiveScene->getElementNode(selection.getElementId());
     if (!pElemNode) return;

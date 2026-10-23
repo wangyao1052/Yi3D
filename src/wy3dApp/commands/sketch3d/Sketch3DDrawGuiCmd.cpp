@@ -37,11 +37,12 @@
 #include <wyapEnvironment.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "snap/SnapObject.h"
 #include "snap3d/Sketch3DSnapSystem.h"
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
-#include <wy3dApp/IconUtil.h>
+#include "utils/IconUtil.h"
 #include "view/BaseView.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
@@ -200,7 +201,7 @@ Sketch3DWorkingPlane::~Sketch3DWorkingPlane()
         return;
     }
 
-    wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+    wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
     if (pSnapSys && _pOriginSnapObject)
     {
         pSnapSys->beginChange();
@@ -209,7 +210,7 @@ Sketch3DWorkingPlane::~Sketch3DWorkingPlane()
         _pOriginSnapObject = nullptr;
     }
 
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->hideSketchCSYS();
     }
@@ -274,7 +275,7 @@ void Sketch3DWorkingPlane::switchToNext()
 
 void Sketch3DWorkingPlane::showImpl(const wy3d::Plane& plane)
 {
-    wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+    wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
     if (pSnapSys)
     {
         if (_pOriginSnapObject)
@@ -292,13 +293,13 @@ void Sketch3DWorkingPlane::showImpl(const wy3d::Plane& plane)
         pSnapSys->endChange();
     }
 
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->showSketchCSYS(plane);
 
         if (!_pPlaneLabel)
         {
-            if (MainWindow* pMainWindow = Application::instance().getMainWindow())
+            if (MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow())
             {
                 if (QOpenGLWidget* pGLWidget = pMainWindow->findChild<QOpenGLWidget*>())
                 {
@@ -359,11 +360,11 @@ wyap::CmdExecution::StartResult Sketch3DDrawGuiCmd::onStart()
         }
     }
 
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
-    Application::instance().setCursor(CursorType::Locate);
+    ApplicationImpl::instance().setCursor(CursorType::Locate);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -428,7 +429,7 @@ const wy3d::Plane& Sketch3DDrawGuiCmd::getWorkingPlane() const
 
 Sketch3DSnapSystem* Sketch3DDrawGuiCmd::getSketch3DSnapSystem() const
 {
-    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     Sketch3DEnvironment* pSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pEnv);
     return pSketch3DEnv ? pSketch3DEnv->getSnapSystem() : nullptr;
 }
@@ -453,7 +454,7 @@ void Sketch3DDrawGuiCmd::configureContextMenu(ContextMenu& menu)
 
 void Sketch3DDrawGuiCmd::onViewNormalToWorkingPlane()
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (!pView)
     {
         assert(false);

@@ -33,7 +33,6 @@
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
-#include <wy3dSketch3DParamNames.h>
 #include "utils/FilerUtil.h"
 #include "utils/Util.h"
 
@@ -597,7 +596,7 @@ void SketchSpline3D::registerParameters(wydb::ParameterSchemaExtension* pParamSc
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER;
+        def.name = SketchSpline3D::PARAM_ORDER;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -606,7 +605,7 @@ wydb::ParameterValueUPtr SketchSpline3D::getParameterValue(const std::string& cl
 {
     if (className == SketchSpline3D::classInfo()->className())
     {
-        if (Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER == paramName)
+        if (SketchSpline3D::PARAM_ORDER == paramName)
             return wydb::ParameterValue::createInteger(static_cast<int>(_degree + 1));
         return nullptr;
     }
@@ -620,7 +619,7 @@ wy::ErrorStatus SketchSpline3D::setParameterValue(const std::string& className, 
 {
     if (className == SketchSpline3D::classInfo()->className())
     {
-        if (Sketch3DParamNames::SKETCH_SPLINE3D_PARAM_ORDER == paramName)
+        if (SketchSpline3D::PARAM_ORDER == paramName)
         {
             if (!paramValue.isInteger()) return wy::ErrorStatus::InvalidInput;
             const int order = paramValue.asInteger();

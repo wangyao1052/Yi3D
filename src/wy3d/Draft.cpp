@@ -31,7 +31,6 @@
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
-#include <wy3dParamNames.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include "topo/DraftTopoShapeComparer.h"
@@ -155,14 +154,14 @@ void Draft::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::DRAFT_ANGLE;
+        def.name = Draft::PARAM_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr Draft::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == Draft::classInfo()->className()) {
-        if (ParamNames::DRAFT_ANGLE == paramName) return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_angle));
+        if (Draft::PARAM_ANGLE == paramName) return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_angle));
     }
     return __baseClass::getParameterValue(className, paramName);
 }
@@ -170,7 +169,7 @@ wydb::ParameterValueUPtr Draft::getParameterValue(const std::string& className, 
 wy::ErrorStatus Draft::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == Draft::classInfo()->className()) {
-        if (ParamNames::DRAFT_ANGLE == paramName)
+        if (Draft::PARAM_ANGLE == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setAngle(wy3d::degreesToRadians(paramValue.asDouble())); }
     }
     return __baseClass::setParameterValue(className, paramName, paramValue);

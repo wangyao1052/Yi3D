@@ -23,10 +23,11 @@
 #include <wy3dSketch.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/GizmoFactory.h>
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
-#include <wy3dApp/IconUtil.h>
+#include "utils/IconUtil.h"
 #include "utils/TransactionUtil.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
@@ -102,13 +103,13 @@ void ModelingSelectGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
 
 void ModelingSelectGuiCmd::onStart_EnvSpecific()
 {
-    Application::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
         DockPanelIds::FeatureTree)->setSelectable(true);
 }
 
 void ModelingSelectGuiCmd::selectAll_Impl(wyap::SelectionSet& ss)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
 
     std::set<wydb::ElementId> ids;
@@ -139,9 +140,9 @@ bool ModelingSelectGuiCmd::tryAddPositionGizmo_Impl(const wyap::SelectionSet& se
         return false;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return true;
-    GizmoFactory* pGizmoFactory = Application::instance().getGizmoFactory();
+    GizmoFactory* pGizmoFactory = ApplicationImpl::instance().getGizmoFactory();
     if (!pGizmoFactory) return true;
 
     // 获取实体特征
@@ -168,14 +169,14 @@ wy::Vector3 ModelingSelectGuiCmd::computePastePosition(double x, double y,
 
 void ModelingSelectGuiCmd::configureContextMenu(ContextMenu& menu)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
         return;
     }
 
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     bool addShowAction(false);
     bool addHideAction(false);
     for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())

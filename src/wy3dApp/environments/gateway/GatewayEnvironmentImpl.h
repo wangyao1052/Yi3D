@@ -35,6 +35,8 @@ public:
     ~GatewayEnvironmentImpl();
 
 public:
+    virtual EnvironmentUI* getEnvironmentUI() const override;
+
     // Document manager reactor functions.
     virtual void onDocumentDeactivated(wyap::Document* pDeactivatedDoc) override;
     virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
@@ -58,9 +60,6 @@ protected:
     virtual void onExit(ExitCode exitCode) override;
     virtual void onSuspend() override;
     virtual void onResume() override;
-
-    // Do nothing.
-    virtual void processCommandTerminatedOnEventLoop() override {}
 
     // Update command action states.
     void updateCommandActionStates();

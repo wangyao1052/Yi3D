@@ -26,6 +26,13 @@ class WY3D_EXPORT Chamfer : public wy3d::BodyModification
     WYDB_DECLARE_MEMBERS(Chamfer, wy3d::Chamfer, wy3d::BodyModification)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_DISTANCE1  = "Distance1";
+    static constexpr const char* PARAM_DISTANCE2  = "Distance2";
+    static constexpr const char* PARAM_ANGLE      = "Angle";
+    static constexpr const char* PARAM_TYPE       = "ChamferType";
+    static constexpr const char* PARAM_IS_FLIPPED = "IsFlipped";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Solid* pSolid,

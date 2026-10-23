@@ -19,6 +19,9 @@ class WY3D_EXPORT DatumPlane : public wy3d::Datum
     WYDB_DECLARE_MEMBERS(DatumPlane, wy3d::DatumPlane, wy3d::Datum)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_PLANE = "Plane";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, const wy3d::Plane& plane, DatumPlane*& pOut);
 
     const wy3d::Plane& getPlane() const { return _plane; }

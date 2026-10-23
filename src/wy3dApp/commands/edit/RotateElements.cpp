@@ -34,6 +34,7 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchEntity.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "scene/nodes/ElementNodeType.h"
@@ -46,7 +47,7 @@ namespace wy3dApp {
 RotateElements::RotateElements(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 {
     _matrixTransform = new osg::MatrixTransform();
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         pActiveScene->addTransient(_matrixTransform);
@@ -55,7 +56,7 @@ RotateElements::RotateElements(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 
 RotateElements::~RotateElements()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         pActiveScene->removeTransient(_matrixTransform);
@@ -78,7 +79,7 @@ bool RotateElements::init(const wyap::SelectionSet& ss,
     }
     if (ids.empty()) return false;
 
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return false;
 
     for (const wydb::ElementId& id : ids)

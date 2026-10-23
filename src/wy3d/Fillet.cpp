@@ -29,7 +29,6 @@
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
-#include <wy3dParamNames.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include "topo/TopoShapeComparer.h"
@@ -240,14 +239,14 @@ void Fillet::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::FILLET_RADIUS;
+        def.name = Fillet::PARAM_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr Fillet::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == Fillet::classInfo()->className()) {
-        if (ParamNames::FILLET_RADIUS == paramName) return wydb::ParameterValue::createDouble(_radius);
+        if (Fillet::PARAM_RADIUS == paramName) return wydb::ParameterValue::createDouble(_radius);
     }
     return __baseClass::getParameterValue(className, paramName);
 }
@@ -255,7 +254,7 @@ wydb::ParameterValueUPtr Fillet::getParameterValue(const std::string& className,
 wy::ErrorStatus Fillet::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == Fillet::classInfo()->className()) {
-        if (ParamNames::FILLET_RADIUS == paramName)
+        if (Fillet::PARAM_RADIUS == paramName)
         {
             if (!paramValue.isDouble())
             {

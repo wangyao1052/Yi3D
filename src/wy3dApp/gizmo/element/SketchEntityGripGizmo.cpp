@@ -23,6 +23,7 @@
 #include <wy3dApp/GuiCommand.h> // MouseEvent
 #include "commands/OsgCoordUtil.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/OsgCoordUtil.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/SketchEnvironment.h>
@@ -122,7 +123,7 @@ SketchEntityGripGizmo::~SketchEntityGripGizmo()
 
 static SketchSnapSystem* getCurSketchSnapSystem()
 {
-    wyap::Environment* pCurEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     const SketchEnvironment* pSketchEnv = dynamic_cast<const SketchEnvironment*>(pCurEnv);
     if (pSketchEnv)
     {
@@ -145,7 +146,7 @@ void SketchEntityGripGizmo::onLeftMouseDown(const MouseEvent& event)
     }
     _pGizmoOp = nullptr;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -260,7 +261,7 @@ void SketchEntityGripGizmo::onEscapeKey()
 
 const wy3d::SketchEntity* SketchEntityGripGizmo::getSketchEntity() const
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return nullptr;
     const wydb::Element* pElem = pDb->getElement(getFirstElementId());
     return wy3d::SketchEntity::cast(pElem);

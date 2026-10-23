@@ -43,6 +43,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/SketchUtil.h"
@@ -184,15 +185,15 @@ wyap::CmdExecution::StartResult PlanarSheetGuiCmd::onStart()
         ElementNodeType::Sheet;
     _edgePickOption.selType = wy3d::SelectionType::Edge;
 
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     wydb::ElementId sketchId(wydb::ElementId::kNull);
     if (this->isValidSketchSelectionSet(ss, sketchId) && !sketchId.isNull())
     {
         // pick-first: 预选了草图
         _sketchId = sketchId;
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSketch);
     }
     else
@@ -210,9 +211,9 @@ wyap::CmdExecution::StartResult PlanarSheetGuiCmd::onStart()
             }
         }
 
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         if (edgePicked)
         {
@@ -329,37 +330,37 @@ void PlanarSheetGuiCmd::gotoStep(Step step)
     {
     case Step::SelectSketch:
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         _edgePreview.clear();
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
             "Select a sketch to create a planar sheet, or select edges to enclose a planar face."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
     case Step::SelectEdges:
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         _pValidSketchPreview = nullptr;
         _edgePreview.clear();
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
             "Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -383,12 +384,12 @@ void PlanarSheetGuiCmd::onMouseMove(const MouseEvent& event)
                     _pInvalidSketchTooltip = std::make_shared<InvalidSketchToolTip>(pickedSketchId,
                         _sketchId2ValidInfo[pickedSketchId].error);
                 }
-                Application::instance().setCursor(CursorType::Forbid);
+                ApplicationImpl::instance().setCursor(CursorType::Forbid);
             }
             else
             {
                 _pInvalidSketchTooltip = nullptr;
-                Application::instance().setCursor(CursorType::SelectElements);
+                ApplicationImpl::instance().setCursor(CursorType::SelectElements);
             }
         }
         else
@@ -398,14 +399,14 @@ void PlanarSheetGuiCmd::onMouseMove(const MouseEvent& event)
 
             wyap::Selection sel = this->pointPick(event.x, event.y, _edgePickOption);
             _edgePreview.update(sel);
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
         }
     }
     else if (_step == Step::SelectEdges)
     {
         wyap::Selection sel = this->pointPick(event.x, event.y, _edgePickOption);
         _edgePreview.update(sel);
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
 
     return;
@@ -464,9 +465,9 @@ void PlanarSheetGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (!isValidSketch(id, error)) return;
 
     _sketchId = id;
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->finishStep(Step::SelectSketch);
 }
 
@@ -529,7 +530,7 @@ void PlanarSheetGuiCmd::onClearSelectionMenuItem()
         {
             _pSelSetHighlightor->clearSelections();
             _edgePickOption.preFilter = nullptr;
-            Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+            ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
                 "Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         }
     }
@@ -553,7 +554,7 @@ bool PlanarSheetGuiCmd::isValidSketchSelectionSet(const wyap::SelectionSet& ss, 
 
 bool PlanarSheetGuiCmd::isValidSketch(const wydb::ElementId& sketchId, QString& error)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
     if (!pSketch) { error = "Sketch not found"; return false; }
@@ -599,7 +600,7 @@ bool PlanarSheetGuiCmd::collectPickedEdges(std::vector<TopoDS_Edge>& edges) cons
     const wyap::SelectionSet& ss = _pSelSetHighlightor->getSelectionSet();
     if (ss.isEmpty()) return false;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     std::map<wydb::ElementId, std::vector<std::string>> id2SubPaths;
@@ -650,7 +651,7 @@ void PlanarSheetGuiCmd::updateEdgeSelectionFeedback()
     std::vector<TopoDS_Edge> edges;
     if (!this->collectPickedEdges(edges))
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
             "Select edges to enclose a planar face."));
         return;
     }
@@ -661,7 +662,7 @@ void PlanarSheetGuiCmd::updateEdgeSelectionFeedback()
     const wy3d::ErrorCode errorCode = wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, sheetShape);
     if (wy3d::ErrorCode::NoError == errorCode)
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
             "Closed loops found; press Enter or Spacebar to confirm, or keep selecting edges to add more loops."));
         return;
     }
@@ -670,7 +671,7 @@ void PlanarSheetGuiCmd::updateEdgeSelectionFeedback()
     {
         // The reason stays in the status bar: a tooltip is gone after three seconds, which is
         // easy to miss while the next edge is being picked
-        Application::instance().getStatusBar()->setTips(
+        ApplicationImpl::instance().getStatusBar()->setTips(
             ErrorCodeTranslation::instance().getErrorCodeDescription(errorCode));
         return;
     }
@@ -679,13 +680,13 @@ void PlanarSheetGuiCmd::updateEdgeSelectionFeedback()
     // close into a planar sheet: say so instead of inviting more edges
     if (!_edgesSharePlane(edges))
     {
-        Application::instance().getStatusBar()->setTips(
+        ApplicationImpl::instance().getStatusBar()->setTips(
             ErrorCodeTranslation::instance().getErrorCodeDescription(
                 wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar));
         return;
     }
 
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
         "Keep selecting edges to close the loop."));
 }
 

@@ -34,6 +34,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
@@ -111,7 +112,7 @@ bool SketchDrawRectangle3DGuiCmd::finishStep(unsigned int step)
     {
     case Step::SpecifyStartPnt:
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb)
         {
             assert(false);
@@ -179,19 +180,19 @@ void SketchDrawRectangle3DGuiCmd::gotoStep(unsigned int step)
     {
     case Step::SpecifyStartPnt:
     {
-        Application::instance().getStatusBar()->setTips(this->getStartTip());
+        ApplicationImpl::instance().getStatusBar()->setTips(this->getStartTip());
     }
     break;
 
     case Step::SpecifyEndPnt:
     {
-        Application::instance().getStatusBar()->setTips(this->getEndTip());
+        ApplicationImpl::instance().getStatusBar()->setTips(this->getEndTip());
     }
     break;
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -349,7 +350,7 @@ void SketchDrawRectangle3DGuiCmd::destroyDiagonalTransients()
 
 void SketchDrawRectangle3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
     {
         assert(false);

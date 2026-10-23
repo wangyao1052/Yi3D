@@ -28,6 +28,7 @@
 #include <wy3dSheet.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "commands/dialogs/SetColorCmdPanel.h"
 #include "scene/nodes/ElementNodeType.h"
@@ -56,7 +57,7 @@ wyap::CmdExecution::StartResult SetColorGuiCmd::onStart()
     wyap::CmdExecution::StartResult ret = __baseClass::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
-    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     if (dynamic_cast<SketchEnvironment*>(pEnv))
     {
         return wyap::CmdExecution::StartResult::Rejected;
@@ -74,7 +75,7 @@ wyap::CmdExecution::StartResult SetColorGuiCmd::onStart()
     _pointPickOption.postFilter = MultiClassSelPostFilter::create<wy3d::Solid, wy3d::Sheet>();
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
     // 创建对话框
     if (!this->createPanel())
@@ -84,7 +85,7 @@ wyap::CmdExecution::StartResult SetColorGuiCmd::onStart()
     }
 
     // 提示信息
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SetColorGuiCmd",
+    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SetColorGuiCmd",
         "Click solid elements to apply the selected color."));
 
     return wyap::CmdExecution::StartResult::Succeeded;
@@ -158,7 +159,7 @@ void SetColorGuiCmd::onLeftMouseDown(const MouseEvent& event)
 bool SetColorGuiCmd::beginSessionTransaction()
 {
     assert(SessionTransStatus::Uninitialized == _sessionTransStatus);
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -182,7 +183,7 @@ void SetColorGuiCmd::tryCommitSessionTransaction()
         return;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -200,7 +201,7 @@ void SetColorGuiCmd::tryAbortSessionTransaction()
         return;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -216,7 +217,7 @@ bool SetColorGuiCmd::createPanel()
     assert(!_pPanel);
 
     QOpenGLWidget* pParentWidget = nullptr;
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (pMainWindow)
     {
         pParentWidget = pMainWindow->findChild<QOpenGLWidget*>();
@@ -266,7 +267,7 @@ wy3d::Color SetColorGuiCmd::getTargetColor() const
 
 bool SetColorGuiCmd::applyColorToSolid(const wydb::ElementId& solidId)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

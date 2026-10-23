@@ -21,6 +21,7 @@
 #include <wy3dMath.h>
 #include "SnapPixmap.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -102,7 +103,7 @@ SnapTipWidgetMgr::SnapTipWidgetMgr() :
     _quadrant(nullptr),
     _origin(nullptr)
 {
-    QWidget* pMainWindow = Application::instance().getMainWindow();
+    QWidget* pMainWindow = ApplicationImpl::instance().getMainWindow();
     assert(pMainWindow);
 
     _horizontal = new SnapTipWidget_UsePixmap(SnapPixmap::instance().getHorizontal(), pMainWindow);

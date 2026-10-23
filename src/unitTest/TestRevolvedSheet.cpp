@@ -26,8 +26,8 @@
 #include <wy3dSketchLine.h>
 #include <wy3dSketchCenterLine.h>
 #include <wy3dPlane.h>
-#include <wy3dParamNames.h>
 #include <wydbParameter.h>
+#include <wy3dRevolution.h>
 
 // A revolved sheet stores its angles in radians - setters, filer and OCC all work in radians - so
 // the parameter interface, which is what the property panel goes through, converts at the border:
@@ -110,13 +110,13 @@ TEST(RevolvedSheet, AnglesAreDegreesAtTheParameterBoundary)
 
     // Read back in degrees
     {
-        wydb::ParameterValueUPtr pVal = pSheet->getParameterValue(className, wy3d::ParamNames::REVOLUTION_PARAM_START_ANGLE);
+        wydb::ParameterValueUPtr pVal = pSheet->getParameterValue(className, wy3d::Revolution::PARAM_START_ANGLE);
         ASSERT_NE(pVal, nullptr);
         EXPECT_TRUE(pVal->isDouble());
         EXPECT_NEAR(pVal->asDouble(), 0.0, 1e-9);
     }
     {
-        wydb::ParameterValueUPtr pVal = pSheet->getParameterValue(className, wy3d::ParamNames::REVOLUTION_PARAM_END_ANGLE);
+        wydb::ParameterValueUPtr pVal = pSheet->getParameterValue(className, wy3d::Revolution::PARAM_END_ANGLE);
         ASSERT_NE(pVal, nullptr);
         EXPECT_TRUE(pVal->isDouble());
         EXPECT_NEAR(pVal->asDouble(), 360.0, 1e-9);
@@ -129,9 +129,9 @@ TEST(RevolvedSheet, AnglesAreDegreesAtTheParameterBoundary)
         wy3d::RevolvedSheet* pWrite = wy3d::RevolvedSheet::cast(pTrans->getElementForWrite(pSheet->getId()));
         ASSERT_NE(pWrite, nullptr);
 
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::REVOLUTION_PARAM_START_ANGLE,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Revolution::PARAM_START_ANGLE,
             *wydb::ParameterValue::createInteger(1)), wy::ErrorStatus::InvalidInput);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::REVOLUTION_PARAM_END_ANGLE,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::Revolution::PARAM_END_ANGLE,
             *wydb::ParameterValue::createDouble(90.0)), wy::ErrorStatus::Ok);
 
         EXPECT_EQ(pDb->getTransactionManager()->endTransaction(), wy::ErrorStatus::Ok);
@@ -141,7 +141,7 @@ TEST(RevolvedSheet, AnglesAreDegreesAtTheParameterBoundary)
     EXPECT_NEAR(pSheet->getEndAngle(), wy3d::PI_2, 1e-9);
 
     // And the round trip comes back as written
-    wydb::ParameterValueUPtr pVal = pSheet->getParameterValue(className, wy3d::ParamNames::REVOLUTION_PARAM_END_ANGLE);
+    wydb::ParameterValueUPtr pVal = pSheet->getParameterValue(className, wy3d::Revolution::PARAM_END_ANGLE);
     ASSERT_NE(pVal, nullptr);
     EXPECT_NEAR(pVal->asDouble(), 90.0, 1e-9);
 }

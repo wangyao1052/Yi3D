@@ -35,6 +35,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/SketchUtil.h"
@@ -176,7 +177,7 @@ ExtrudedSheetGuiCmd::~ExtrudedSheetGuiCmd()
 
 wyap::CmdExecution::StartResult ExtrudedSheetGuiCmd::onStart()
 {
-    if (!SketchUtil::hasUnusedSketch(Application::instance().getActiveDatabase()))
+    if (!SketchUtil::hasUnusedSketch(ApplicationImpl::instance().getActiveDatabase()))
     {
         MessageBoxUtil::showInformation_NoAvailableSketches();
         return wyap::CmdExecution::StartResult::Rejected;
@@ -189,22 +190,22 @@ wyap::CmdExecution::StartResult ExtrudedSheetGuiCmd::onStart()
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.postFilter = SingleClassSelPostFilter::create<wy3d::Sketch>();
 
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     wydb::ElementId sketchId(wydb::ElementId::kNull);
     if (this->isValidSketchSelectionSet(ss, sketchId) && !sketchId.isNull())
     {
         _sketchId = sketchId;
-        _pickPos = SketchUtil::getSketchOrigin(Application::instance().getActiveDatabase(), _sketchId);
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        _pickPos = SketchUtil::getSketchOrigin(ApplicationImpl::instance().getActiveDatabase(), _sketchId);
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->finishStep(Step::SelectSketch);
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectSketch);
     }
 
@@ -301,32 +302,32 @@ void ExtrudedSheetGuiCmd::gotoStep(Step step)
     {
     case Step::SelectSketch:
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudedSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudedSheetGuiCmd",
             "Select the sketch to extrude."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
     case Step::SpecifyDepth:
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudedSheetGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudedSheetGuiCmd",
             "Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction (One Side / Symmetric)."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -362,12 +363,12 @@ void ExtrudedSheetGuiCmd::onMouseMove(const MouseEvent& event)
                 _pInvalidSketchTooltip = std::make_shared<InvalidSketchToolTip>(pickedSketchId,
                     _sketchId2ValidInfo[pickedSketchId].error);
             }
-            Application::instance().setCursor(CursorType::Forbid);
+            ApplicationImpl::instance().setCursor(CursorType::Forbid);
         }
         else
         {
             _pInvalidSketchTooltip = nullptr;
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
         }
     }
     else if (_step == Step::SpecifyDepth)
@@ -454,10 +455,10 @@ void ExtrudedSheetGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     if (!isValidSketch(id, error)) return;
 
     _sketchId = id;
-    _pickPos = SketchUtil::getSketchOrigin(Application::instance().getActiveDatabase(), _sketchId);
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    _pickPos = SketchUtil::getSketchOrigin(ApplicationImpl::instance().getActiveDatabase(), _sketchId);
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->finishStep(Step::SelectSketch);
 }
 
@@ -484,7 +485,7 @@ bool ExtrudedSheetGuiCmd::isValidSketchSelectionSet(const wyap::SelectionSet& ss
 
 bool ExtrudedSheetGuiCmd::isValidSketch(const wydb::ElementId& sketchId, QString& error)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
     if (!pSketch) { error = "Sketch not found"; return false; }
@@ -526,7 +527,7 @@ void ExtrudedSheetGuiCmd::preview(wydb::ElementId sketchId)
 
 void ExtrudedSheetGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pDepthPopup)
     {
         _pDepthPopup = std::make_unique<GuiCmdHoverInputPopup2_2ndTabLabel>(

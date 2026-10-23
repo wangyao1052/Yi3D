@@ -28,6 +28,7 @@
 #include "CameraManipulator3d.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "ViewUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -60,7 +61,7 @@ OsgView::~OsgView()
 void OsgView::initialize()
 {
     assert(_pOsgView);
-    wyap::Scene* pScene = Application::instance().getSceneManager()->getScene(this->getDocument());
+    wyap::Scene* pScene = ApplicationImpl::instance().getSceneManager()->getScene(this->getDocument());
     if (pScene)
     {
         _pOsgView->setSceneData(REAL_SCENE(pScene)->getRoot());
@@ -90,7 +91,7 @@ std::list<wydb::ElementId> OsgView::snapElements(double x, double y) const
     OsgSelectUtils::initPolytope(pCamera, xMin, yMin, xMax, yMax, polytope);
 
     // 场景选择
-    Scene* pScene = REAL_SCENE(Application::instance().getSceneManager()->getScene(this->getDocument()));
+    Scene* pScene = REAL_SCENE(ApplicationImpl::instance().getSceneManager()->getScene(this->getDocument()));
     if (!pScene)
     {
         assert(false);
@@ -246,7 +247,7 @@ void OsgView::onDatabaseChanged(
         return;
     }
 
-    wyap::Scene* pScene = Application::instance().getSceneManager()->getScene(this->getDocument());
+    wyap::Scene* pScene = ApplicationImpl::instance().getSceneManager()->getScene(this->getDocument());
 
     // 动态设置ModelSize
     CameraManipulator3d* pCamMan3d = dynamic_cast<CameraManipulator3d*>(_pOsgView->getCameraManipulator());

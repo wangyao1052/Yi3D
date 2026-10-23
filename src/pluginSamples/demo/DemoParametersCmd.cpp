@@ -37,7 +37,8 @@
 #include <wy3dApp/SketchEnvironment.h>
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
-#include <wy3dApp/ParamNamesTranslation.h>
+#include <wy3dApp/ParamDisplayNameRegistry.h>
+#include "widgets/StatusBarHelper.h"
 #include "widgets/frame/MainWindow.h"
 
 namespace {
@@ -121,7 +122,7 @@ wyap::CmdExecution::StartResult DemoParametersCmd::onStart()
     wyap::CmdExecution::StartResult ret = __baseClass::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
-    wyap::Environment* pEnv = wy3dApp::Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pEnv = wy3dApp::getApplication()->getEnvManager()->getActiveEnvironment();
     if (!dynamic_cast<wy3dApp::SketchEnvironment*>(pEnv))
     {
         return wyap::CmdExecution::StartResult::Rejected;
@@ -131,10 +132,10 @@ wyap::CmdExecution::StartResult DemoParametersCmd::onStart()
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.postFilter = wy3dApp::SingleClassSelPostFilter::create<wy3d::SketchEntity>();
 
-    wy3dApp::Application::instance().getStatusBar()->setTips(QCoreApplication::translate("DemoParametersCmd",
+    wy3dApp::getApplication()->getStatusBar()->setTips(QCoreApplication::translate("DemoParametersCmd",
         "Click a sketch element to list its parameters."));
 
-    wy3dApp::Application::instance().setCursor(wy3dApp::CursorType::SelectElements);
+    wy3dApp::getApplication()->setCursor(wy3dApp::CursorType::SelectElements);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -156,7 +157,7 @@ void DemoParametersCmd::onLeftMouseUp(const wy3dApp::MouseEvent& event)
     wydb::ElementId id = _hoverPreview.getSelection().getElementId();
     if (id.isNull()) return;
 
-    QTimer::singleShot(0, &wy3dApp::Application::instance(), [this, id]()
+    QTimer::singleShot(0, QCoreApplication::instance(), [this, id]()
     {
         this->showParameters(id);
         this->requestEnd();
@@ -165,7 +166,7 @@ void DemoParametersCmd::onLeftMouseUp(const wy3dApp::MouseEvent& event)
 
 void DemoParametersCmd::showParameters(const wydb::ElementId& elementId)
 {
-    const wydb::Database* pDb = wy3dApp::Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = wy3dApp::getApplication()->getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -201,11 +202,14 @@ void DemoParametersCmd::showParameters(const wydb::ElementId& elementId)
             continue;
         }
 
-        const QString displayName = wy3dApp::ParamNamesTranslation::instance().getParamDisplayName(className, paramName);
+        wy3dApp::ParamDisplayNameRegistry* pRegistry =
+            wy3dApp::getApplication()->getParamDisplayNameRegistry();
+        assert(pRegistry);
+        const QString displayName = pRegistry->lookup(className, paramName);
         lines << QStringLiteral("%1: %2").arg(displayName, paramValueToText(*pParamValue));
     }
 
-    QMessageBox::information(wy3dApp::Application::instance().getMainWindow(),
+    QMessageBox::information(wy3dApp::getApplication()->getMainWindow(),
         QCoreApplication::translate("DemoParametersCmd", "Sketch Element Parameters"),
         lines.join(QStringLiteral("\n")));
 }

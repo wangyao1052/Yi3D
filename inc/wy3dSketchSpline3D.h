@@ -34,6 +34,9 @@ class WY3D_EXPORT SketchSpline3D : public wy3d::SketchCurve3D
     WYDB_DECLARE_MEMBERS(SketchSpline3D, wy3d::SketchSpline3D, wy3d::SketchCurve3D)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_ORDER = "Order";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         const std::vector<wy::Vector3>& fitPoints,

@@ -32,6 +32,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "ParamLineEdit.h"
 #include "PropertyEditorWidget.h"
 #include "SketchSplinePointLineEdit.h"
@@ -78,7 +79,7 @@ void SketchSplinePointsEditor::addToGrid(QGridLayout* pParamsGridLayout)
 
 const wy3d::SketchSpline* SketchSplinePointsEditor::getSplineFromDb() const
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         return nullptr;

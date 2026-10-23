@@ -35,6 +35,7 @@
 #include <wy3dDatumPlane.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/SolidElementNode.h"
@@ -94,10 +95,10 @@ wyap::CmdExecution::StartResult LinearPatternGuiCmd::onStart()
 
     // 过滤出阵列源对象
     wydb::ElementId sourceId = GuiCommandUtil::filterPatternSourceFrom(
-        Application::instance().getSelManager()->getSelections());
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->getSelections());
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 初始化
     if (sourceId.isNull())
@@ -118,7 +119,7 @@ void LinearPatternGuiCmd::onEnd()
     __baseClass::onEnd();
 
     // 隐藏工作平面坐标系
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->hideSketchCSYS();
     }
@@ -134,7 +135,7 @@ void LinearPatternGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     __baseClass::onAbort(cause);
 
     // 隐藏工作平面坐标系
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->hideSketchCSYS();
     }
@@ -156,10 +157,10 @@ bool LinearPatternGuiCmd::finishStep(Step step)
         {
             return false;
         }
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->addSelection(wyap::Selection(_sourceId));
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->addSelection(wyap::Selection(_sourceId));
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 下一步
         this->gotoStep(Step::SpecifyWorkingPlane);
@@ -182,7 +183,7 @@ bool LinearPatternGuiCmd::finishStep(Step step)
         _workPlnPreview.clear();
 
         // 显示工作平面坐标系
-        if (Scene* pScene = Application::instance().getActiveScene())
+        if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
         {
             pScene->showSketchCSYS(_workPln);
         }
@@ -216,17 +217,17 @@ void LinearPatternGuiCmd::gotoStep(Step step)
     case Step::SelectSource:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("LinearPatternGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("LinearPatternGuiCmd",
             "Select the solid feature to pattern."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
         
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
@@ -242,11 +243,11 @@ void LinearPatternGuiCmd::gotoStep(Step step)
     {
         // 禁用文本输入
         // 提示
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("LinearPatternGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("LinearPatternGuiCmd",
             "Select datum plane as working plane to determine the direction of the linear pattern."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项:工作平面
         _pointPickOption.allowedElemTypes = ElementNodeType::DatumPlane;
@@ -259,11 +260,11 @@ void LinearPatternGuiCmd::gotoStep(Step step)
     {
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("LinearPatternGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("LinearPatternGuiCmd",
             "Input pattern data."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().setCursor(CursorType::Select);
 
         // 倒角对话框
         LinearPatternDialog dialog(3, 10.0, 2, 20.0);
@@ -297,8 +298,8 @@ void LinearPatternGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -364,7 +365,7 @@ void LinearPatternGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 {
     if (Step::SelectSource == _step)
     {
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return;
         const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
         if (!pSolid) return;
@@ -382,7 +383,7 @@ void LinearPatternGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
             assert(false);
             return;
         }
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return;
         const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pDb->getElement(id));
         if (!pDatumPlane) return;
@@ -398,7 +399,7 @@ bool LinearPatternGuiCmd::createLinearPattern(
 {
     errorCode = 0;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wy3d::Solid* pSourceSolid = wy3d::Solid::cast(pDb->getElement(_sourceId));
     if (!pSourceSolid)

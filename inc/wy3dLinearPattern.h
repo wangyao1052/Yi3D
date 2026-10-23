@@ -20,6 +20,18 @@ class WY3D_EXPORT LinearPattern : public wy3d::Pattern
     WYDB_DECLARE_MEMBERS(LinearPattern, wy3d::LinearPattern, wy3d::Pattern)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_DIRECTION_1ST_X = "Direction1stX";
+    static constexpr const char* PARAM_DIRECTION_1ST_Y = "Direction1stY";
+    static constexpr const char* PARAM_DIRECTION_1ST_Z = "Direction1stZ";
+    static constexpr const char* PARAM_COUNT_1ST       = "Count1st";
+    static constexpr const char* PARAM_SPACING_1ST     = "Spacing1st";
+    static constexpr const char* PARAM_DIRECTION_2ND_X = "Direction2ndX";
+    static constexpr const char* PARAM_DIRECTION_2ND_Y = "Direction2ndY";
+    static constexpr const char* PARAM_DIRECTION_2ND_Z = "Direction2ndZ";
+    static constexpr const char* PARAM_COUNT_2ND       = "Count2nd";
+    static constexpr const char* PARAM_SPACING_2ND     = "Spacing2nd";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Solid* pOwner, const wy3d::Solid* pSource,

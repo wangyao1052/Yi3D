@@ -27,6 +27,7 @@
 #include <QFileInfo>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/output/OutputWidget.h"
@@ -81,7 +82,7 @@ bool Log::initialize(const std::string& u8FilePath, bool isOutputWidgetMirrorEna
 
     if (isOutputWidgetMirrorEnabled)
     {
-        DockPanelManager* pDockPanelManager = Application::instance().getDockPanelManager();
+        DockPanelManager* pDockPanelManager = ApplicationImpl::instance().getDockPanelManager();
         assert(pDockPanelManager);
         _pOutputWidget = pDockPanelManager->findWidgetAs<OutputWidget>(DockPanelIds::Output);
         assert(_pOutputWidget);

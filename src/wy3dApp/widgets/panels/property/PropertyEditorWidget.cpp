@@ -38,7 +38,6 @@
 #include <wy3dSolid.h>
 #include <wy3dPrimitive.h>
 #include <wy3dBoolean.h>
-#include <wy3dParamNames.h>
 #include <wyapDocument.h>
 #include <wyapDocManager.h>
 #include <wyapSelection.h>
@@ -58,11 +57,12 @@
 #include <wy3dSketchSpline3D.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "ParamLineEdit.h"
 #include "TransformLineEdit.h"
 #include "SketchSplinePointsEditor.h"
 #include "SketchSpline3DPointsEditor.h"
-#include <wy3dApp/ParamNamesTranslation.h>
+#include <wy3dApp/ParamDisplayNameRegistry.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/Scene.h>
@@ -87,30 +87,30 @@ PropertyEditorWidget::PropertyEditorWidget(QWidget* parent)
     }
 
     // 文档管理器反应器
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     assert(pDocMgr);
     pDocMgr->addReactor(this);
 
     // 选择集反应器
-    wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+    wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
     assert(pSelMgr);
     pSelMgr->addReactor(this);
 
     // Gizmo 管理器反应器
-    wyap::GizmoManager* pGizmoMgr = Application::instance().getGizmoManager();
+    wyap::GizmoManager* pGizmoMgr = ApplicationImpl::instance().getGizmoManager();
     assert(pGizmoMgr);
     pGizmoMgr->addReactor(this);
 }
 
 PropertyEditorWidget::~PropertyEditorWidget()
 {
-    wyap::GizmoManager* pGizmoMgr = Application::instance().getGizmoManager();
+    wyap::GizmoManager* pGizmoMgr = ApplicationImpl::instance().getGizmoManager();
     if (pGizmoMgr)
         pGizmoMgr->removeReactor(this);
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     if (pDocMgr)
         pDocMgr->removeReactor(this);
-    wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+    wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
     if (pSelMgr)
         pSelMgr->removeReactor(this);
 }
@@ -336,7 +336,11 @@ void PropertyEditorWidget::showParameterValueList(const std::vector<const wydb::
         assert(info.paramValue);
 
         QLabel* pLabel = this->newLabel("", this);
-        QString qstrParamDispName = ParamNamesTranslation::instance().getParamDisplayName(info.paramDef->getClassName(), info.paramDef->getName());
+        ParamDisplayNameRegistry* pRegistry =
+            ApplicationImpl::instance().getParamDisplayNameRegistry();
+        assert(pRegistry);
+        QString qstrParamDispName = pRegistry->lookup(
+            info.paramDef->getClassName(), info.paramDef->getName());
         pLabel->setText(qstrParamDispName);
 
         QWidget* pEditControl = this->createEditorWidgetForParam(info);
@@ -388,7 +392,7 @@ void PropertyEditorWidget::showSketchSpline3DPoints(const std::vector<const wydb
 void PropertyEditorWidget::showTransform(const std::vector<const wydb::Element*>& elements)
 {
     if (elements.empty()) return;
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene)
     {
         assert(false);
@@ -499,9 +503,9 @@ void PropertyEditorWidget::regen()
     this->clearParamsGridLayout();
 
     // 获取选择集中所有的元素
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.isEmpty()) return;
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -527,7 +531,7 @@ void PropertyEditorWidget::regen()
     this->showSketchSplinePoints(elements);
     this->showSketchSpline3DPoints(elements);
 
-    wyap::Environment* pCurEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     // 草图环境下不显示 Transform
     if (!dynamic_cast<SketchEnvironment*>(pCurEnv))
     {
@@ -713,7 +717,7 @@ void PropertyEditorWidget::onDatabaseChanged(
         return;
     }
 
-    const wyap::SelectionSet& sels = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& sels = ApplicationImpl::instance().getSelManager()->getSelections();
     if (sels.isEmpty()) return;
     for (auto iter = sels.createIterator();
         !iter.isDone(); iter.moveNext())

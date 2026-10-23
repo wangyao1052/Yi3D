@@ -34,6 +34,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "SketchTrimGraph.h"
 #include "SketchTrimExtendUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -295,7 +296,7 @@ SketchTrimSegment SketchTrimNode::pick(SketchTrimGraph* pGraph, const wy::Vector
     SketchTrimSegment segment; // 默认是无效的曲线段
 
     // 获取曲线
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

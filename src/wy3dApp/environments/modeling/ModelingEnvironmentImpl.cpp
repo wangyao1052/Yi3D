@@ -26,112 +26,119 @@
 #include <wydbTransaction.h>
 
 #include <wy3dApp/Application.h>
+#include <wy3dApp/CommandAction.h>
+#include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 ModelingEnvironmentImpl::ModelingEnvironmentImpl()
-    : _pUI(std::make_unique<ModelingEnvironmentUI>())
 {
     setName("modeling");
+    _pUI = std::make_unique<ModelingEnvironmentUI>(this);
 }
 
 ModelingEnvironmentImpl::~ModelingEnvironmentImpl()
 {
 }
 
+EnvironmentUI* ModelingEnvironmentImpl::getEnvironmentUI() const
+{
+    return _pUI.get();
+}
+
 void ModelingEnvironmentImpl::onCommandStartFailed(
     wyap::Command* pCmd,
     wyap::CmdExecution::StartResult startResult)
 {
-    EnvironmentBase::onCommandStartFailed(pCmd, startResult);
+    _pUI->onCommandStartFailed(pCmd, startResult);
 }
 
 void ModelingEnvironmentImpl::onCommandStarted(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandStarted(pCmd);
+    _pUI->onCommandStarted(pCmd);
 }
 
 void ModelingEnvironmentImpl::onCommandEnded(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandEnded(pCmd);
+    _pUI->onCommandEnded(pCmd);
 }
 
 void ModelingEnvironmentImpl::onCommandAborted(
     wyap::Command* pCmd,
     wyap::CmdExecution::AbortCause abortCause)
 {
-    EnvironmentBase::onCommandAborted(pCmd, abortCause);
+    _pUI->onCommandAborted(pCmd, abortCause);
 }
 
 void ModelingEnvironmentImpl::onEnter()
 {
     wyap::DocumentEnvironment::onEnter();
-    EnvironmentBase::onEnter();
+    _pUI->onEnter();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 
-    Application::instance().getCmdManager()->postCommand(CommandNames::Select);
+    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     this->updateCommandActionStates();
 
     // 同步显示模式按钮状态
-    this->syncDisplayModeAction();
+    _pUI->syncDisplayModeAction();
 }
 
 void ModelingEnvironmentImpl::onExit(ExitCode exitCode)
 {
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
-    EnvironmentBase::onExit(exitCode);
+    _pUI->onExit(exitCode);
     wyap::DocumentEnvironment::onExit(exitCode);
 }
 
 void ModelingEnvironmentImpl::onSuspend()
 {
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
-    EnvironmentBase::onSuspend();
+    _pUI->onSuspend();
     wyap::DocumentEnvironment::onSuspend();
 }
 
 void ModelingEnvironmentImpl::onResume()
 {
     wyap::DocumentEnvironment::onResume();
-    EnvironmentBase::onResume();
+    _pUI->onResume();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 
-    Application::instance().getCmdManager()->postCommand(CommandNames::Select);
+    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     this->updateCommandActionStates();
 
     // 同步显示模式按钮状态
-    this->syncDisplayModeAction();
+    _pUI->syncDisplayModeAction();
 }
 
 void ModelingEnvironmentImpl::onDocumentActivated(wyap::Document* pActivatedDoc)
 {
     wyap::DocumentEnvironment::onDocumentActivated(pActivatedDoc);
-    this->syncDisplayModeAction();
+    _pUI->syncDisplayModeAction();
 }
 
 void ModelingEnvironmentImpl::updateUndoRedoActionStates()
 {
-    QAction* pUndoAction = this->findCommandAction(CommandNames::Undo);
-    QAction* pRedoAction = this->findCommandAction(CommandNames::Redo);
+    QAction* pUndoAction = _pUI->findCommandAction(CommandNames::Undo);
+    QAction* pRedoAction = _pUI->findCommandAction(CommandNames::Redo);
     if (!pUndoAction || !pRedoAction)
     {
         assert(false);
         return;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         pUndoAction->setEnabled(false);
@@ -163,7 +170,7 @@ void ModelingEnvironmentImpl::updateFileActionStates()
     };
 
     bool enabled(false);
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (pDb)
     {
         wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
@@ -172,7 +179,7 @@ void ModelingEnvironmentImpl::updateFileActionStates()
 
     for (const std::string& commandName : fileCommandNames)
     {
-        QAction* pAction = this->findCommandAction(commandName);
+        QAction* pAction = _pUI->findCommandAction(commandName);
         if (!pAction)
         {
             assert(false);

@@ -18,6 +18,7 @@
 
 #include "CameraCommands.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "view/OsgView.h"
 #include "view/ViewUtil.h"
 #include <wy3dApp/Scene.h>
@@ -27,7 +28,7 @@ namespace wy3dApp {
 
 int OrthoCameraCommand::run()
 {
-    BaseView* pActiveView = Application::instance().getActiveView();
+    BaseView* pActiveView = ApplicationImpl::instance().getActiveView();
     if (!pActiveView) return -1;
     pActiveView->ortho();
 
@@ -37,7 +38,7 @@ int OrthoCameraCommand::run()
 
 int PerspectiveCameraCommand::run()
 {
-    BaseView* pActiveView = Application::instance().getActiveView();
+    BaseView* pActiveView = ApplicationImpl::instance().getActiveView();
     if (pActiveView)
     {
         pActiveView->perspective();

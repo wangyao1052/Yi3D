@@ -42,6 +42,7 @@
 #include <wy3dSplitFace.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "widgets/sketch/SketchPlaneDialog.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "environments/sketch/SketchEnvironmentImpl.h"
@@ -53,7 +54,7 @@ namespace wy3dApp {
 int EditSketchCommand::run()
 {
     // 当前正在草图环境
-    wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurrentEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     SketchEnvironment* pCurrSketchEnv = dynamic_cast<SketchEnvironment*>(pCurrentEnv);
     if (pCurrSketchEnv)
     {
@@ -61,8 +62,8 @@ int EditSketchCommand::run()
         return -1;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (!pDb || ss.getCount() != 1)
     {
         assert(false);
@@ -77,7 +78,7 @@ int EditSketchCommand::run()
     }
 
     std::unique_ptr<SketchEnvironmentImpl> sketchEnv = std::make_unique<SketchEnvironmentImpl>(pSketch);
-    wy::ErrorStatus error = Application::instance().getEnvManager()->enterEnvironment(
+    wy::ErrorStatus error = ApplicationImpl::instance().getEnvManager()->enterEnvironment(
         std::move(sketchEnv),
         wyap::ExecutionMode::Async);
     if (wy::ErrorStatus::Ok != error)
@@ -93,7 +94,7 @@ int EditSketchCommand::run()
 
 static bool canEndEditingSketch(const wydb::ElementId& sketchId)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -246,7 +247,7 @@ static bool canEndEditingSketch(const wydb::ElementId& sketchId)
 
 int EndSketchCommand::run()
 {
-    wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurrentEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pCurrentEnv);
     if (!pSketchEnv)
     {
@@ -265,7 +266,7 @@ int EndSketchCommand::run()
     }
 
     // 退出草图环境
-    if (wy::ErrorStatus::Ok != Application::instance().getEnvManager()->exitActiveEnvironment(
+    if (wy::ErrorStatus::Ok != ApplicationImpl::instance().getEnvManager()->exitActiveEnvironment(
         wyap::Environment::ExitCode::Ok,
         wyap::ExecutionMode::Async))
     {
@@ -279,7 +280,7 @@ int EndSketchCommand::run()
 
 int CancelSketchCommand::run()
 {
-    wyap::Environment* pCurrentEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurrentEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pCurrentEnv);
     if (!pSketchEnv)
     {
@@ -288,7 +289,7 @@ int CancelSketchCommand::run()
     }
 
     // 退出草图环境
-    if (wy::ErrorStatus::Ok != Application::instance().getEnvManager()->exitActiveEnvironment(
+    if (wy::ErrorStatus::Ok != ApplicationImpl::instance().getEnvManager()->exitActiveEnvironment(
         wyap::Environment::ExitCode::Cancel,
         wyap::ExecutionMode::Async))
     {

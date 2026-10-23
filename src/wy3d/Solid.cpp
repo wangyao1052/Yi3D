@@ -25,7 +25,6 @@
 #include <wy3dSolid.h>
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
-#include <wy3dParamNames.h>
 #include <wy3dBodyModification.h>
 #include <wy3dExtrusion.h>
 #include <wy3dRevolution.h>
@@ -126,7 +125,7 @@ void Solid::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::SOLID_PARAM_COLOR;
+        def.name = Solid::PARAM_COLOR;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -134,7 +133,7 @@ wydb::ParameterValueUPtr Solid::getParameterValue(const std::string& className, 
 {
     if (className == Solid::classInfo()->className())
     {
-        if (ParamNames::SOLID_PARAM_COLOR == paramName)
+        if (Solid::PARAM_COLOR == paramName)
             return wydb::ParameterValue::createAny(_color);
         return nullptr;
     }
@@ -144,7 +143,7 @@ wydb::ParameterValueUPtr Solid::getParameterValue(const std::string& className, 
 wy::ErrorStatus Solid::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == Solid::classInfo()->className()) {
-        if (ParamNames::SOLID_PARAM_COLOR == paramName)
+        if (Solid::PARAM_COLOR == paramName)
         {
             if (!paramValue.isAny()) return wy::ErrorStatus::InvalidInput;
             const auto* pAnyVal = dynamic_cast<const wydb::AnyParameterValue*>(&paramValue);

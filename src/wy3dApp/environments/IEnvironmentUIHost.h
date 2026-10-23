@@ -16,36 +16,21 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3D_APP_PARAM_NAMES_TRANSLATION_H
-#define WY3D_APP_PARAM_NAMES_TRANSLATION_H
-
-#include <string>
-#include <map>
-#include <QObject>
-#include <QString>
-
-#include <wy3dApp/wy3dAppDefs.h>
+#ifndef WY3DAPP_ENVIRONMENT_UI_HOST_H
+#define WY3DAPP_ENVIRONMENT_UI_HOST_H
 
 namespace wy3dApp {
 
-class WY3DAPP_EXPORT ParamNamesTranslation : public QObject
+class EnvironmentUI;
+
+class IEnvironmentUIHost
 {
-    Q_OBJECT
 public:
-    static ParamNamesTranslation& instance();
+    virtual ~IEnvironmentUIHost() = default;
 
-    // 获取参数的显示名称
-    QString getParamDisplayName(const std::string& className, const std::string& paramName) const;
-
-private:
-    // 参数名 <> 参数显示名
-    std::map<std::string, QString> _paramName2DisplayName;
-
-private:
-    explicit ParamNamesTranslation(QObject* parent = nullptr);
-    ~ParamNamesTranslation();
+    virtual EnvironmentUI* getEnvironmentUI() const = 0;
 };
 
 } // namespace wy3dApp
 
-#endif // WY3D_APP_PARAM_NAMES_TRANSLATION_H
+#endif // WY3DAPP_ENVIRONMENT_UI_HOST_H

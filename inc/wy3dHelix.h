@@ -21,6 +21,13 @@ class WY3D_EXPORT Helix : public wy3d::Curve
     WYDB_DECLARE_MEMBERS(Helix, wy3d::Helix, wy3d::Curve)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_PITCH        = "Pitch";
+    static constexpr const char* PARAM_TURNS        = "Turns";
+    static constexpr const char* PARAM_START_ANGLE  = "StartAngle";
+    static constexpr const char* PARAM_IS_CLOCKWISE = "IsClockWise";
+    static constexpr const char* PARAM_IS_REVERSED  = "IsReversed";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, wy3d::Sketch* pSketch, double pitch, double turns, double startAngle, Helix*& pOutHelix);
 
     virtual std::vector<wydb::ElementId> getChildren() const override

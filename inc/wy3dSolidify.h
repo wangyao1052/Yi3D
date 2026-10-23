@@ -31,6 +31,9 @@ class WY3D_EXPORT Solidify : public wy3d::Solid
     WYDB_DECLARE_MEMBERS(Solidify, wy3d::Solidify, wy3d::Solid)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_SOURCE = "Source";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Sheet* pSource,

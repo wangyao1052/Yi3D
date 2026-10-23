@@ -57,6 +57,7 @@
 #include "wy3d/topo/Sketch3DTopoBuilder.h"
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "utils/TopoShapeUtil.h"
 #include <wy3dApp/GuiCommandUtil.h>
@@ -95,7 +96,7 @@ bool MakeDatumPlane::create(const wy3d::Plane& sketchPlane)
     _pDb->getTransactionManager()->endTransaction();
     _pDatumPlane = pDatumPlane;
     // 刷新基准面的显示
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         pScene->updateDatumPlaneVisualSize(_pDb);
     }
@@ -141,7 +142,7 @@ bool MakeDatumPlane::getSketchPlane(const wyap::Selection& sel, wy3d::Plane& ske
 
 bool MakeDatumPlane::getSolidEdgeEndPoints(const wyap::Selection& sel, wy::Vector3& startPnt, wy::Vector3& endPnt)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -185,7 +186,7 @@ bool MakeDatumPlane::getSolidEdgeEndPoints(const wyap::Selection& sel, wy::Vecto
 
 Handle(Geom_Curve) MakeDatumPlane::getSolidEdgeGeomCurve(const wyap::Selection& sel)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -229,7 +230,7 @@ Handle(Geom_Curve) MakeDatumPlane::getSolidEdgeGeomCurve(const wyap::Selection& 
 
 Handle(Geom_Curve) MakeDatumPlane::getCurveGeomCurve(const wyap::Selection& sel)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -264,7 +265,7 @@ Handle(Geom_Curve) MakeDatumPlane::getCurveGeomCurve(const wyap::Selection& sel)
 
 Handle(Geom_Curve) MakeDatumPlane::getSketchCurve3DGeomCurve(const wyap::Selection& sel)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -334,7 +335,7 @@ Handle(Geom_Curve) MakeDatumPlane::getSketchCurve3DGeomCurve(const wyap::Selecti
 
 Handle(Geom_Curve) MakeDatumPlane::getSketchCurveGeomCurve(const wyap::Selection& sel)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -582,7 +583,7 @@ bool MakeDatumPlane::getSolidCylindricalFaceCenterPlane(
     wy3d::Plane& plane,
     double& radius)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

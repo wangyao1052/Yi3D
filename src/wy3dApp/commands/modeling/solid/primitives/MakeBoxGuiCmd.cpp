@@ -38,6 +38,7 @@
 #include <wy3dDatumPlane.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/Scene.h>
 #include "utils/MathUtils.h"
@@ -190,11 +191,11 @@ void MakeBoxGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeBoxGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeBoxGuiCmd",
             "Specify the starting point; you can directly input the coordinate values."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
@@ -202,11 +203,11 @@ void MakeBoxGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeBoxGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeBoxGuiCmd",
             "Specify length and width; you can directly input the values."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
@@ -214,18 +215,18 @@ void MakeBoxGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeBoxGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeBoxGuiCmd",
             "Specify the height; you can directly input the value."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
     default:
     {
         assert(false);
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
     }
     break;
     }
@@ -378,7 +379,7 @@ void MakeBoxGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void MakeBoxGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(

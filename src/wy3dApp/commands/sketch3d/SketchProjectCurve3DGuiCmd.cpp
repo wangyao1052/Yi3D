@@ -40,6 +40,7 @@
 #include <wy3dSolid.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/dialogs/SketchProjectCurvePanel.h"
 #include "commands/transient/Sketch3DDirectionTransient.h"
 #include "commands/transient/Sketch3DEdgesTransient.h"
@@ -156,9 +157,9 @@ wyap::CmdExecution::StartResult SketchProjectCurve3DGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     _step = Step::SelectSketch;
     _sourcePlane = wy3d::Plane();
@@ -174,7 +175,7 @@ wyap::CmdExecution::StartResult SketchProjectCurve3DGuiCmd::onStart()
 
     this->setStepOneTip();
 
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -258,7 +259,7 @@ void SketchProjectCurve3DGuiCmd::setPickForStep(Step step)
 
 bool SketchProjectCurve3DGuiCmd::takeSourceSketch(const wyap::Selection& sel)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -272,7 +273,7 @@ bool SketchProjectCurve3DGuiCmd::takeSourceSketch(const wyap::Selection& sel)
     if (wy3d::Sketch3DProjectionUtil::Result::Ok !=
         wy3d::Sketch3DProjectionUtil::collectSourceEdges(pSketch, edges))
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate(
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate(
             "SketchProjectCurve3DGuiCmd", "Projection failed: the sketch cannot be read."));
         return false;
     }
@@ -281,7 +282,7 @@ bool SketchProjectCurve3DGuiCmd::takeSourceSketch(const wyap::Selection& sel)
     // command stays on this step, where another sketch is a click away.
     if (edges.empty())
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate(
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate(
             "SketchProjectCurve3DGuiCmd", "The sketch has no curves to project."));
         return false;
     }
@@ -311,7 +312,7 @@ bool SketchProjectCurve3DGuiCmd::takeSourceSketch(const wyap::Selection& sel)
 
 bool SketchProjectCurve3DGuiCmd::takeTarget(const wyap::Selection& sel)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -501,7 +502,7 @@ void SketchProjectCurve3DGuiCmd::onClearSelectionMenuItem()
 
 bool SketchProjectCurve3DGuiCmd::commit()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -553,7 +554,7 @@ bool SketchProjectCurve3DGuiCmd::commit()
 
 void SketchProjectCurve3DGuiCmd::setStepOneTip() const
 {
-    Application::instance().getStatusBar()->setTips(QCoreApplication::translate(
+    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate(
         "SketchProjectCurve3DGuiCmd", "Select the sketch to project."));
 }
 
@@ -575,7 +576,7 @@ void SketchProjectCurve3DGuiCmd::setStepTwoTip() const
         tip += QCoreApplication::translate("SketchProjectCurve3DGuiCmd", "Press Tab to flip the direction.");
     }
 
-    Application::instance().getStatusBar()->setTips(tip);
+    ApplicationImpl::instance().getStatusBar()->setTips(tip);
 }
 
 // The failures here are recoverable and expected to happen over and over - turning on reverse
@@ -609,7 +610,7 @@ void SketchProjectCurve3DGuiCmd::reportFailure(wy3d::Sketch3DProjectionUtil::Res
         break;
     }
 
-    Application::instance().getStatusBar()->setTips(message);
+    ApplicationImpl::instance().getStatusBar()->setTips(message);
 }
 
 void SketchProjectCurve3DGuiCmd::reportCreateFailure(wy3d::Sketch3DEdgeUtil::Result result) const
@@ -645,7 +646,7 @@ void SketchProjectCurve3DGuiCmd::createPanel()
 {
     assert(!_pPanel);
 
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     QOpenGLWidget* pViewport = pMainWindow ? pMainWindow->findChild<QOpenGLWidget*>() : nullptr;
     // No viewport means no 3D picking either, and the command is not worth refusing over a panel:
     // without one every projection is the plain forward sweep.

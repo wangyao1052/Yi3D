@@ -30,7 +30,7 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dRevolvedSheet.h>
-#include <wy3dParamNames.h>
+#include <wy3dRevolution.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -236,12 +236,12 @@ void RevolvedSheet::registerParameters(wydb::ParameterSchemaExtension* pParamSch
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::REVOLUTION_PARAM_START_ANGLE;
+        def.name = Revolution::PARAM_START_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::REVOLUTION_PARAM_END_ANGLE;
+        def.name = Revolution::PARAM_END_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -250,11 +250,11 @@ wydb::ParameterValueUPtr RevolvedSheet::getParameterValue(const std::string& cla
 {
     if (className == RevolvedSheet::classInfo()->className())
     {
-        if (ParamNames::REVOLUTION_PARAM_START_ANGLE == paramName)
+        if (Revolution::PARAM_START_ANGLE == paramName)
         {
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_startAngle));
         }
-        else if (ParamNames::REVOLUTION_PARAM_END_ANGLE == paramName)
+        else if (Revolution::PARAM_END_ANGLE == paramName)
         {
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(_endAngle));
         }
@@ -270,12 +270,12 @@ wy::ErrorStatus RevolvedSheet::setParameterValue(const std::string& className, c
 {
     if (className == RevolvedSheet::classInfo()->className())
     {
-        if (ParamNames::REVOLUTION_PARAM_START_ANGLE == paramName)
+        if (Revolution::PARAM_START_ANGLE == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setStartAngle(wy3d::degreesToRadians(paramValue.asDouble()));
         }
-        else if (ParamNames::REVOLUTION_PARAM_END_ANGLE == paramName)
+        else if (Revolution::PARAM_END_ANGLE == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             return this->setEndAngle(wy3d::degreesToRadians(paramValue.asDouble()));

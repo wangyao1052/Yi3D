@@ -29,12 +29,13 @@
 
 #include <wy3dApp/ModelingEnvironment.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/CommandAction.h>
 #include "commands/CommandNames.h"
 #include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
-#include <wy3dApp/IconUtil.h>
+#include "utils/IconUtil.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -178,39 +179,39 @@ struct TestActions
 };
 #endif // _DEBUG
 
-FileActions createFileActions(ModelingEnvironment* pEnv)
+FileActions createFileActions(EnvironmentUIImpl* pUI)
 {
-    assert(pEnv);
+    assert(pUI);
 
     FileActions actions = {};
-    actions.pActionSaveFile = pEnv->newCommandAction(
+    actions.pActionSaveFile = pUI->newCommandAction(
         CommandNames::SaveFile,
         QCoreApplication::translate("MainWindow", "Save"),
         IconUtil::get(":/images/Document_Save.svg"));
     actions.pActionSaveFile->setShortcut(QKeySequence::Save);
     actions.pActionSaveFile->setShortcutContext(Qt::ApplicationShortcut);
 
-    actions.pActionSaveAsFile = pEnv->newCommandAction(
+    actions.pActionSaveAsFile = pUI->newCommandAction(
         CommandNames::SaveAsFile,
         QCoreApplication::translate("MainWindow", "Save As"),
         IconUtil::get(":/images/Document_SaveAs.svg"));
 
-    actions.pActionImportFile = pEnv->newCommandAction(
+    actions.pActionImportFile = pUI->newCommandAction(
         CommandNames::ImportFile,
         QCoreApplication::translate("MainWindow", "Import"),
         IconUtil::get(":/images/Document_Import.svg"));
 
-    actions.pActionExportFile = pEnv->newCommandAction(
+    actions.pActionExportFile = pUI->newCommandAction(
         CommandNames::ExportFile,
         QCoreApplication::translate("MainWindow", "Export"),
         IconUtil::get(":/images/Document_Export.svg"));
 
-    actions.pActionImportSketch = pEnv->newCommandAction(
+    actions.pActionImportSketch = pUI->newCommandAction(
         CommandNames::ImportSketch,
         QCoreApplication::translate("MainWindow", "Import Sketch"),
         IconUtil::get(":/images/Document_Import.svg"));
 
-    actions.pActionExportSketch = pEnv->newCommandAction(
+    actions.pActionExportSketch = pUI->newCommandAction(
         CommandNames::ExportSketch,
         QCoreApplication::translate("MainWindow", "Export Sketch"),
         IconUtil::get(":/images/Document_Export.svg"));
@@ -218,19 +219,19 @@ FileActions createFileActions(ModelingEnvironment* pEnv)
     return actions;
 }
 
-UndoRedoActions createUndoRedoActions(ModelingEnvironment* pEnv)
+UndoRedoActions createUndoRedoActions(EnvironmentUIImpl* pUI)
 {
-    assert(pEnv);
+    assert(pUI);
 
     UndoRedoActions actions = {};
-    actions.pActionUndo = pEnv->newCommandAction(
+    actions.pActionUndo = pUI->newCommandAction(
         CommandNames::Undo,
         QCoreApplication::translate("MainWindow", "Undo"),
         IconUtil::get(":/images/Basic_Undo.svg"));
     actions.pActionUndo->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Z));
     actions.pActionUndo->setShortcutContext(Qt::ApplicationShortcut);
 
-    actions.pActionRedo = pEnv->newCommandAction(
+    actions.pActionRedo = pUI->newCommandAction(
         CommandNames::Redo,
         QCoreApplication::translate("MainWindow", "Redo"),
         IconUtil::get(":/images/Basic_Redo.svg"));
@@ -240,235 +241,235 @@ UndoRedoActions createUndoRedoActions(ModelingEnvironment* pEnv)
     return actions;
 }
 
-ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* pActionGroup)
+ModelingActions createModelingActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
-    assert(pEnv);
+    assert(pUI);
     assert(pActionGroup);
 
     ModelingActions actions = {};
-    actions.pActionSelect = pEnv->newCommandAction(
+    actions.pActionSelect = pUI->newCommandAction(
         CommandNames::Select,
         QCoreApplication::translate("MainWindow", "Select"),
         IconUtil::get(":/images/Basic_Select.svg"),
         pActionGroup);
 
-    actions.pActionNewSketch = pEnv->newCommandAction(
+    actions.pActionNewSketch = pUI->newCommandAction(
         CommandNames::NewSketch,
         QCoreApplication::translate("MainWindow", "New Sketch"),
         IconUtil::get(":/images/Modeling_NewSketch.svg"),
         pActionGroup);
 
-    actions.pActionNewSketch3D = pEnv->newCommandAction(
+    actions.pActionNewSketch3D = pUI->newCommandAction(
         CommandNames::NewSketch3D,
         QCoreApplication::translate("MainWindow", "New 3D Sketch"),
         IconUtil::get(":/images/Modeling_NewSketch3D.svg"),
         pActionGroup);
 
-    actions.pActionEditSketch = pEnv->newCommandAction(
+    actions.pActionEditSketch = pUI->newCommandAction(
         CommandNames::EditSketch,
         QCoreApplication::translate("MainWindow", "Edit Sketch"),
         IconUtil::get(":/images/Edit_Sketch.svg"),
         pActionGroup);
 
-    actions.pActionParallelDatumPlane = pEnv->newCommandAction(
+    actions.pActionParallelDatumPlane = pUI->newCommandAction(
         CommandNames::ParallelDatumPlane,
         QCoreApplication::translate("MainWindow", "Parallel Datum Plane"),
         IconUtil::get(":/images/DatumPlane_Parallel.svg"),
         pActionGroup);
 
-    actions.pActionCoincidentDatumPlane = pEnv->newCommandAction(
+    actions.pActionCoincidentDatumPlane = pUI->newCommandAction(
         CommandNames::CoincidentDatumPlane,
         QCoreApplication::translate("MainWindow", "Coincident Datum Plane"),
         IconUtil::get(":/images/DatumPlane_Coincident.svg"),
         pActionGroup);
 
-    actions.pActionAngularDatumPlane = pEnv->newCommandAction(
+    actions.pActionAngularDatumPlane = pUI->newCommandAction(
         CommandNames::AngularDatumPlane,
         QCoreApplication::translate("MainWindow", "Angular Datum Plane"),
         IconUtil::get(":/images/DatumPlane_Angular.svg"),
         pActionGroup);
 
-    actions.pActionPerpendicularDatumPlane = pEnv->newCommandAction(
+    actions.pActionPerpendicularDatumPlane = pUI->newCommandAction(
         CommandNames::PerpendicularDatumPlane,
         QCoreApplication::translate("MainWindow", "Perpendicular Datum Plane"),
         IconUtil::get(":/images/DatumPlane_Perpendicular.svg"),
         pActionGroup);
 
-    actions.pActionThroughAxisDatumPlane = pEnv->newCommandAction(
+    actions.pActionThroughAxisDatumPlane = pUI->newCommandAction(
         CommandNames::ThroughAxisDatumPlane,
         QCoreApplication::translate("MainWindow", "Through Axis Datum Plane"),
         IconUtil::get(":/images/DatumPlane_ThroughAxis.svg"),
         pActionGroup);
 
-    actions.pActionNormalToCurveDatumPlane = pEnv->newCommandAction(
+    actions.pActionNormalToCurveDatumPlane = pUI->newCommandAction(
         CommandNames::NormalToCurveDatumPlane,
         QCoreApplication::translate("MainWindow", "Normal To Curve Datum Plane"),
         IconUtil::get(":/images/DatumPlane_NormalToEdge.svg"),
         pActionGroup);
 
-    actions.pActionThrough3PointsDatumPlane = pEnv->newCommandAction(
+    actions.pActionThrough3PointsDatumPlane = pUI->newCommandAction(
         CommandNames::Through3PointsDatumPlane,
         QCoreApplication::translate("MainWindow", "Through 3 Points Datum Plane"),
         IconUtil::get(":/images/DatumPlane_Through3Points.svg"),
         pActionGroup);
 
-    actions.pActionTangentDatumPlane = pEnv->newCommandAction(
+    actions.pActionTangentDatumPlane = pUI->newCommandAction(
         CommandNames::TangentDatumPlane,
         QCoreApplication::translate("MainWindow", "Tangent Datum Plane"),
         IconUtil::get(":/images/DatumPlane_Tangent.svg"),
         pActionGroup);
 
-    actions.pActionHelix = pEnv->newCommandAction(
+    actions.pActionHelix = pUI->newCommandAction(
         CommandNames::Helix,
         QCoreApplication::translate("MainWindow", "Helix"),
         IconUtil::get(":/images/Curve_Helix.svg"),
         pActionGroup);
 
-    actions.pActionExtrude = pEnv->newCommandAction(
+    actions.pActionExtrude = pUI->newCommandAction(
         CommandNames::Extrude,
         QCoreApplication::translate("MainWindow", "Extrude"),
         IconUtil::get(":/images/Modeling_Extrusion.png"),
         pActionGroup);
 
-    actions.pActionExtrudedSheet = pEnv->newCommandAction(
+    actions.pActionExtrudedSheet = pUI->newCommandAction(
         CommandNames::ExtrudedSheet,
         QCoreApplication::translate("MainWindow", "Extruded Sheet"),
         IconUtil::get(":/images/Modeling_ExtrudedSheet.svg"),
         pActionGroup);
 
-    actions.pActionRevolvedSheet = pEnv->newCommandAction(
+    actions.pActionRevolvedSheet = pUI->newCommandAction(
         CommandNames::RevolvedSheet,
         QCoreApplication::translate("MainWindow", "Revolved Sheet"),
         IconUtil::get(":/images/Modeling_RevolvedSheet.svg"),
         pActionGroup);
 
-    actions.pActionSweptSheet = pEnv->newCommandAction(
+    actions.pActionSweptSheet = pUI->newCommandAction(
         CommandNames::SweptSheet,
         QCoreApplication::translate("MainWindow", "Swept Sheet"),
         IconUtil::get(":/images/Modeling_SweptSheet.svg"),
         pActionGroup);
 
-    actions.pActionLoftedSheet = pEnv->newCommandAction(
+    actions.pActionLoftedSheet = pUI->newCommandAction(
         CommandNames::LoftedSheet,
         QCoreApplication::translate("MainWindow", "Lofted Sheet"),
         IconUtil::get(":/images/Modeling_LoftedSheet.svg"),
         pActionGroup);
 
-    actions.pActionPlanarSheet = pEnv->newCommandAction(
+    actions.pActionPlanarSheet = pUI->newCommandAction(
         CommandNames::PlanarSheet,
         QCoreApplication::translate("MainWindow", "Planar Sheet"),
         IconUtil::get(":/images/Modeling_PlanarSheet.svg"),
         pActionGroup);
 
-    actions.pActionFilledSheet = pEnv->newCommandAction(
+    actions.pActionFilledSheet = pUI->newCommandAction(
         CommandNames::FilledSheet,
         QCoreApplication::translate("MainWindow", "Filled Surface"),
         IconUtil::get(":/images/Modeling_FilledSheet.svg"),
         pActionGroup);
 
-    actions.pActionSewnSheet = pEnv->newCommandAction(
+    actions.pActionSewnSheet = pUI->newCommandAction(
         CommandNames::SewnSheet,
         QCoreApplication::translate("MainWindow", "Sewn Sheet"),
         IconUtil::get(":/images/Modeling_SewnSheet.svg"),
         pActionGroup);
 
-    actions.pActionThicken = pEnv->newCommandAction(
+    actions.pActionThicken = pUI->newCommandAction(
         CommandNames::Thicken,
         QCoreApplication::translate("MainWindow", "Thicken"),
         IconUtil::get(":/images/Modeling_Thicken.svg"),
         pActionGroup);
 
-    actions.pActionSolidify = pEnv->newCommandAction(
+    actions.pActionSolidify = pUI->newCommandAction(
         CommandNames::Solidify,
         QCoreApplication::translate("MainWindow", "Solidify"),
         IconUtil::get(":/images/Modeling_Solidify.svg"),
         pActionGroup);
 
-    actions.pActionOffsetSheet = pEnv->newCommandAction(
+    actions.pActionOffsetSheet = pUI->newCommandAction(
         CommandNames::OffsetSheet,
         QCoreApplication::translate("MainWindow", "Offset Sheet"),
         IconUtil::get(":/images/Modeling_OffsetSheet.png"),
         pActionGroup);
 
-    actions.pActionRevolve = pEnv->newCommandAction(
+    actions.pActionRevolve = pUI->newCommandAction(
         CommandNames::Revolve,
         QCoreApplication::translate("MainWindow", "Revolve"),
         IconUtil::get(":/images/Modeling_Revolution.png"),
         pActionGroup);
 
-    actions.pActionSweep = pEnv->newCommandAction(
+    actions.pActionSweep = pUI->newCommandAction(
         CommandNames::Sweep,
         QCoreApplication::translate("MainWindow", "Sweep"),
         IconUtil::get(":/images/Modeling_Sweep.png"),
         pActionGroup);
 
-    actions.pActionLoft = pEnv->newCommandAction(
+    actions.pActionLoft = pUI->newCommandAction(
         CommandNames::Loft,
         QCoreApplication::translate("MainWindow", "Loft"),
         IconUtil::get(":/images/Modeling_Loft.png"),
         pActionGroup);
 
-    actions.pActionExtrudeCut = pEnv->newCommandAction(
+    actions.pActionExtrudeCut = pUI->newCommandAction(
         CommandNames::ExtrudeCut,
         QCoreApplication::translate("MainWindow", "Extrude Cut"),
         IconUtil::get(":/images/Modeling_ExtrusionCut.png"),
         pActionGroup);
 
-    actions.pActionRevolveCut = pEnv->newCommandAction(
+    actions.pActionRevolveCut = pUI->newCommandAction(
         CommandNames::RevolveCut,
         QCoreApplication::translate("MainWindow", "Revolve Cut"),
         IconUtil::get(":/images/Modeling_RevolutionCut.png"),
         pActionGroup);
 
-    actions.pActionSweepCut = pEnv->newCommandAction(
+    actions.pActionSweepCut = pUI->newCommandAction(
         CommandNames::SweepCut,
         QCoreApplication::translate("MainWindow", "Sweep Cut"),
         IconUtil::get(":/images/Modeling_SweepCut.png"),
         pActionGroup);
 
-    actions.pActionLoftCut = pEnv->newCommandAction(
+    actions.pActionLoftCut = pUI->newCommandAction(
         CommandNames::LoftCut,
         QCoreApplication::translate("MainWindow", "Loft Cut"),
         IconUtil::get(":/images/Modeling_LoftCut.png"),
         pActionGroup);
 
-    actions.pActionMerge = pEnv->newCommandAction(
+    actions.pActionMerge = pUI->newCommandAction(
         CommandNames::Merge,
         QCoreApplication::translate("MainWindow", "Merge"),
         IconUtil::get(":/images/Modeling_Merge.svg"),
         pActionGroup);
 
-    actions.pActionChamfer = pEnv->newCommandAction(
+    actions.pActionChamfer = pUI->newCommandAction(
         CommandNames::Chamfer,
         QCoreApplication::translate("MainWindow", "Chamfer"),
         IconUtil::get(":/images/Modeling_Chamfer.png"),
         pActionGroup);
 
-    actions.pActionFillet = pEnv->newCommandAction(
+    actions.pActionFillet = pUI->newCommandAction(
         CommandNames::Fillet,
         QCoreApplication::translate("MainWindow", "Fillet"),
         IconUtil::get(":/images/Modeling_Fillet.png"),
         pActionGroup);
 
-    actions.pActionShell = pEnv->newCommandAction(
+    actions.pActionShell = pUI->newCommandAction(
         CommandNames::Shell,
         QCoreApplication::translate("MainWindow", "Shell"),
         IconUtil::get(":/images/Modeling_Shell.png"),
         pActionGroup);
 
-    actions.pActionDraft = pEnv->newCommandAction(
+    actions.pActionDraft = pUI->newCommandAction(
         CommandNames::Draft,
         QCoreApplication::translate("MainWindow", "Draft"),
         IconUtil::get(":/images/Modeling_Draft.png"),
         pActionGroup);
 
-    actions.pActionSplitFace = pEnv->newCommandAction(
+    actions.pActionSplitFace = pUI->newCommandAction(
         CommandNames::SplitFace,
         QCoreApplication::translate("MainWindow", "Split Face"),
         IconUtil::get(":/images/Modeling_SplitFace.svg"),
         pActionGroup);
 
-    actions.pActionDeleteFace = pEnv->newCommandAction(
+    actions.pActionDeleteFace = pUI->newCommandAction(
         CommandNames::DeleteFace,
         QCoreApplication::translate("MainWindow", "Delete Face"),
         IconUtil::get(":/images/Modeling_DeleteFace.svg"),
@@ -477,48 +478,48 @@ ModelingActions createModelingActions(ModelingEnvironment* pEnv, QActionGroup* p
     return actions;
 }
 
-PrimitiveActions createPrimitiveActions(ModelingEnvironment* pEnv, QActionGroup* pActionGroup)
+PrimitiveActions createPrimitiveActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
-    assert(pEnv);
+    assert(pUI);
     assert(pActionGroup);
 
     PrimitiveActions actions = {};
-    actions.pActionMakeBox = pEnv->newCommandAction(
+    actions.pActionMakeBox = pUI->newCommandAction(
         CommandNames::MakeBox,
         QCoreApplication::translate("MainWindow", "Box"),
         IconUtil::get(":/images/Primitive_Box.png"),
         pActionGroup);
     actions.pActionMakeBox->setShortcut(QKeySequence::fromString("B,O,X"));
 
-    actions.pActionMakeCylinder = pEnv->newCommandAction(
+    actions.pActionMakeCylinder = pUI->newCommandAction(
         CommandNames::MakeCylinder,
         QCoreApplication::translate("MainWindow", "Cylinder"),
         IconUtil::get(":/images/Primitive_Cylinder.png"),
         pActionGroup);
     actions.pActionMakeCylinder->setShortcut(QKeySequence::fromString("C,Y,L"));
 
-    actions.pActionMakeSphere = pEnv->newCommandAction(
+    actions.pActionMakeSphere = pUI->newCommandAction(
         CommandNames::MakeSphere,
         QCoreApplication::translate("MainWindow", "Sphere"),
         IconUtil::get(":/images/Primitive_Sphere.png"),
         pActionGroup);
     actions.pActionMakeSphere->setShortcut(QKeySequence::fromString("S,P,H"));
 
-    actions.pActionMakeCone = pEnv->newCommandAction(
+    actions.pActionMakeCone = pUI->newCommandAction(
         CommandNames::MakeCone,
         QCoreApplication::translate("MainWindow", "Cone"),
         IconUtil::get(":/images/Primitive_Cone.png"),
         pActionGroup);
     actions.pActionMakeCone->setShortcut(QKeySequence::fromString("C,O,N"));
 
-    actions.pActionMakeTorus = pEnv->newCommandAction(
+    actions.pActionMakeTorus = pUI->newCommandAction(
         CommandNames::MakeTorus,
         QCoreApplication::translate("MainWindow", "Torus"),
         IconUtil::get(":/images/Primitive_Torus.png"),
         pActionGroup);
     actions.pActionMakeTorus->setShortcut(QKeySequence::fromString("T,O,R"));
 
-    actions.pActionMakeTube = pEnv->newCommandAction(
+    actions.pActionMakeTube = pUI->newCommandAction(
         CommandNames::MakeTube,
         QCoreApplication::translate("MainWindow", "Tube"),
         IconUtil::get(":/images/Primitive_Tube.png"),
@@ -528,25 +529,25 @@ PrimitiveActions createPrimitiveActions(ModelingEnvironment* pEnv, QActionGroup*
     return actions;
 }
 
-BooleanActions createBooleanActions(ModelingEnvironment* pEnv, QActionGroup* pActionGroup)
+BooleanActions createBooleanActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
-    assert(pEnv);
+    assert(pUI);
     assert(pActionGroup);
 
     BooleanActions actions = {};
-    actions.pActionUnion = pEnv->newCommandAction(
+    actions.pActionUnion = pUI->newCommandAction(
         CommandNames::Union,
         QCoreApplication::translate("MainWindow", "Union"),
         IconUtil::get(":/images/Modeling_Fuse.svg"),
         pActionGroup);
 
-    actions.pActionSubtract = pEnv->newCommandAction(
+    actions.pActionSubtract = pUI->newCommandAction(
         CommandNames::Subtract,
         QCoreApplication::translate("MainWindow", "Subtract"),
         IconUtil::get(":/images/Modeling_Cut.svg"),
         pActionGroup);
 
-    actions.pActionIntersect = pEnv->newCommandAction(
+    actions.pActionIntersect = pUI->newCommandAction(
         CommandNames::Intersect,
         QCoreApplication::translate("MainWindow", "Intersect"),
         IconUtil::get(":/images/Modeling_Common.svg"),
@@ -555,41 +556,41 @@ BooleanActions createBooleanActions(ModelingEnvironment* pEnv, QActionGroup* pAc
     return actions;
 }
 
-EditActions createEditActions(ModelingEnvironment* pEnv, QActionGroup* pActionGroup)
+EditActions createEditActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
-    assert(pEnv);
+    assert(pUI);
     assert(pActionGroup);
 
     EditActions actions = {};
-    actions.pActionMove = pEnv->newCommandAction(
+    actions.pActionMove = pUI->newCommandAction(
         CommandNames::Move,
         QCoreApplication::translate("MainWindow", "Move"),
         IconUtil::get(":/images/Edit_Move.svg"),
         pActionGroup);
     actions.pActionMove->setShortcut(QKeySequence::fromString("M,O"));
 
-    actions.pActionRotate = pEnv->newCommandAction(
+    actions.pActionRotate = pUI->newCommandAction(
         CommandNames::Rotate,
         QCoreApplication::translate("MainWindow", "Rotate"),
         IconUtil::get(":/images/Edit_Rotate.svg"),
         pActionGroup);
     actions.pActionRotate->setShortcut(QKeySequence::fromString("R,O"));
 
-    actions.pActionMirror = pEnv->newCommandAction(
+    actions.pActionMirror = pUI->newCommandAction(
         CommandNames::Mirror,
         QCoreApplication::translate("MainWindow", "Mirror"),
         IconUtil::get(":/images/Sketch_Mirror.svg"),
         pActionGroup);
     actions.pActionMirror->setShortcut(QKeySequence::fromString("M,I"));
 
-    actions.pActionLinearPattern = pEnv->newCommandAction(
+    actions.pActionLinearPattern = pUI->newCommandAction(
         CommandNames::LinearPattern,
         QCoreApplication::translate("MainWindow", "Linear Pattern"),
         IconUtil::get(":/images/Sketch_RectArray.svg"),
         pActionGroup);
     actions.pActionLinearPattern->setShortcut(QKeySequence::fromString("L,P"));
 
-    actions.pActionCircularPattern = pEnv->newCommandAction(
+    actions.pActionCircularPattern = pUI->newCommandAction(
         CommandNames::CircularPattern,
         QCoreApplication::translate("MainWindow", "Circular Pattern"),
         IconUtil::get(":/images/Sketch_PolarArray.svg"),
@@ -599,31 +600,31 @@ EditActions createEditActions(ModelingEnvironment* pEnv, QActionGroup* pActionGr
     return actions;
 }
 
-UtilityActions createUtilityActions(ModelingEnvironment* pEnv, QActionGroup* pActionGroup)
+UtilityActions createUtilityActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
-    assert(pEnv);
+    assert(pUI);
     assert(pActionGroup);
 
     UtilityActions actions = {};
-    actions.pActionSetColor = pEnv->newCommandAction(
+    actions.pActionSetColor = pUI->newCommandAction(
         CommandNames::SetColor,
         QCoreApplication::translate("MainWindow", "Set Color"),
         IconUtil::get(":/images/Utility_SetColor.svg"),
         pActionGroup);
 
-    actions.pActionMeasure = pEnv->newCommandAction(
+    actions.pActionMeasure = pUI->newCommandAction(
         CommandNames::Measure,
         QCoreApplication::translate("MainWindow", "Measure"),
         IconUtil::get(":/images/Utility_MeasureDistance.svg"),
         pActionGroup);
 
-    actions.pActionRunScript = pEnv->newCommandAction(
+    actions.pActionRunScript = pUI->newCommandAction(
         CommandNames::RunScript,
         QCoreApplication::translate("MainWindow", "Run Script"),
         IconUtil::get(":/images/Utility_RunScript.svg"),
         pActionGroup);
 
-    actions.pActionFindElementById = pEnv->newCommandAction(
+    actions.pActionFindElementById = pUI->newCommandAction(
         CommandNames::FindElementById,
         QCoreApplication::translate("MainWindow", "Find"),
         IconUtil::get(":/images/Utility_FindElementById.svg"),
@@ -634,67 +635,67 @@ UtilityActions createUtilityActions(ModelingEnvironment* pEnv, QActionGroup* pAc
     return actions;
 }
 
-ViewActions createViewActions(ModelingEnvironment* pEnv)
+ViewActions createViewActions(EnvironmentUIImpl* pUI)
 {
-    assert(pEnv);
+    assert(pUI);
 
     ViewActions actions = {};
-    actions.pActionFitView = pEnv->newCommandAction(
+    actions.pActionFitView = pUI->newCommandAction(
         CommandNames::FitView,
         QCoreApplication::translate("MainWindow", "Fit View"),
         IconUtil::get(":/images/View_FullScreen.svg"));
 
-    actions.pActionFitSelection = pEnv->newCommandAction(
+    actions.pActionFitSelection = pUI->newCommandAction(
         CommandNames::FitSelection,
         QCoreApplication::translate("MainWindow", "Fit Selection"),
         IconUtil::get(":/images/View_FitSelection.svg"));
 
-    actions.pActionIsometricView = pEnv->newCommandAction(
+    actions.pActionIsometricView = pUI->newCommandAction(
         CommandNames::IsometricView,
         QCoreApplication::translate("MainWindow", "Isometric View"),
         IconUtil::get(":/images/View_ISO.svg"));
 
-    actions.pActionFrontView = pEnv->newCommandAction(
+    actions.pActionFrontView = pUI->newCommandAction(
         CommandNames::FrontView,
         QCoreApplication::translate("MainWindow", "Front View"),
         IconUtil::get(":/images/View_Front.svg"));
 
-    actions.pActionBackView = pEnv->newCommandAction(
+    actions.pActionBackView = pUI->newCommandAction(
         CommandNames::BackView,
         QCoreApplication::translate("MainWindow", "Back View"),
         IconUtil::get(":/images/View_Back.svg"));
 
-    actions.pActionLeftView = pEnv->newCommandAction(
+    actions.pActionLeftView = pUI->newCommandAction(
         CommandNames::LeftView,
         QCoreApplication::translate("MainWindow", "Left View"),
         IconUtil::get(":/images/View_Left.svg"));
 
-    actions.pActionRightView = pEnv->newCommandAction(
+    actions.pActionRightView = pUI->newCommandAction(
         CommandNames::RightView,
         QCoreApplication::translate("MainWindow", "Right View"),
         IconUtil::get(":/images/View_Right.svg"));
 
-    actions.pActionTopView = pEnv->newCommandAction(
+    actions.pActionTopView = pUI->newCommandAction(
         CommandNames::TopView,
         QCoreApplication::translate("MainWindow", "Top View"),
         IconUtil::get(":/images/View_Top.svg"));
 
-    actions.pActionBottomView = pEnv->newCommandAction(
+    actions.pActionBottomView = pUI->newCommandAction(
         CommandNames::BottomView,
         QCoreApplication::translate("MainWindow", "Bottom View"),
         IconUtil::get(":/images/View_Bottom.svg"));
 
-    actions.pActionShadedWithEdgesDisplay = pEnv->newCommandAction(
+    actions.pActionShadedWithEdgesDisplay = pUI->newCommandAction(
         CommandNames::ShadedWithEdgesDisplay,
         QCoreApplication::translate("MainWindow", "Shaded with Edges"),
         IconUtil::get(":/images/View_ShadedWithEdges.svg"));
 
-    actions.pActionShadedDisplay = pEnv->newCommandAction(
+    actions.pActionShadedDisplay = pUI->newCommandAction(
         CommandNames::ShadedDisplay,
         QCoreApplication::translate("MainWindow", "Shaded"),
         IconUtil::get(":/images/View_Shaded.svg"));
 
-    actions.pActionWireframeDisplay = pEnv->newCommandAction(
+    actions.pActionWireframeDisplay = pUI->newCommandAction(
         CommandNames::WireframeDisplay,
         QCoreApplication::translate("MainWindow", "Wireframe"),
         IconUtil::get(":/images/View_Wireframe.svg"));
@@ -703,19 +704,19 @@ ViewActions createViewActions(ModelingEnvironment* pEnv)
 }
 
 #ifdef _DEBUG
-TestActions createTestActions(ModelingEnvironment* pEnv, QActionGroup* pActionGroup)
+TestActions createTestActions(EnvironmentUIImpl* pUI, QActionGroup* pActionGroup)
 {
-    assert(pEnv);
+    assert(pUI);
     assert(pActionGroup);
 
     TestActions actions = {};
-    actions.pActionTopoName = pEnv->newCommandAction(
+    actions.pActionTopoName = pUI->newCommandAction(
         CommandNames::TopoName,
         QCoreApplication::translate("MainWindow", "TopoName"),
         IconUtil::get(":/images/Test_TopoName.svg"),
         pActionGroup);
 
-    actions.pActionCheckTopoName = pEnv->newCommandAction(
+    actions.pActionCheckTopoName = pUI->newCommandAction(
         CommandNames::CheckTopoName,
         QCoreApplication::translate("MainWindow", "CheckTopoName"),
         IconUtil::get(":/images/Test_CheckTopoName.svg"),
@@ -804,12 +805,12 @@ void buildSheetMenuUi(
 }
 
 void buildSheetToolBarUi(
-    ModelingEnvironment* pEnv,
+    EnvironmentUIImpl* pUI,
     QActionGroup* pActionGroup,
     const ModelingActions& actions,
     QToolBar* pToolBarSheet)
 {
-    assert(pEnv);
+    assert(pUI);
     assert(pActionGroup);
     assert(pToolBarSheet);
 
@@ -818,7 +819,7 @@ void buildSheetToolBarUi(
     sheetGenerationActions.emplace_back(actions.pActionRevolvedSheet);
     sheetGenerationActions.emplace_back(actions.pActionSweptSheet);
     sheetGenerationActions.emplace_back(actions.pActionLoftedSheet);
-    QToolButton* pToolBtnSheetGeneration = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtnSheetGeneration = pUI->newMenuPopupToolButton(
         pToolBarSheet,
         QCoreApplication::translate("MainWindow", "Sheet Generation Series"),
         pActionGroup,
@@ -829,7 +830,7 @@ void buildSheetToolBarUi(
     sheetBuildActions.emplace_back(actions.pActionPlanarSheet);
     sheetBuildActions.emplace_back(actions.pActionFilledSheet);
     sheetBuildActions.emplace_back(actions.pActionOffsetSheet);
-    QToolButton* pToolBtnSheetBuild = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtnSheetBuild = pUI->newMenuPopupToolButton(
         pToolBarSheet,
         QCoreApplication::translate("MainWindow", "Sheet Build Series"),
         pActionGroup,
@@ -841,7 +842,7 @@ void buildSheetToolBarUi(
     faceModifyActions.emplace_back(actions.pActionDeleteFace);
     faceModifyActions.emplace_back(actions.pActionChamfer);
     faceModifyActions.emplace_back(actions.pActionFillet);
-    QToolButton* pToolBtnFaceModify = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtnFaceModify = pUI->newMenuPopupToolButton(
         pToolBarSheet,
         QCoreApplication::translate("MainWindow", "Face Modify Series"),
         pActionGroup,
@@ -852,7 +853,7 @@ void buildSheetToolBarUi(
     solidifyActions.emplace_back(actions.pActionSewnSheet);
     solidifyActions.emplace_back(actions.pActionSolidify);
     solidifyActions.emplace_back(actions.pActionThicken);
-    QToolButton* pToolBtnSolidify = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtnSolidify = pUI->newMenuPopupToolButton(
         pToolBarSheet,
         QCoreApplication::translate("MainWindow", "Solidify Series"),
         pActionGroup,
@@ -1008,7 +1009,7 @@ void buildEditToolBarUi(
 }
 
 void buildModelingToolBarUi(
-    ModelingEnvironment* pEnv,
+    EnvironmentUIImpl* pUI,
     QActionGroup* pActionGroup,
     const ModelingActions& actions,
     const BooleanActions& booleanActions,
@@ -1016,7 +1017,7 @@ void buildModelingToolBarUi(
     const EditActions& editActions,
     QToolBar* pToolBarModeling)
 {
-    assert(pEnv);
+    assert(pUI);
     assert(pActionGroup);
     assert(pToolBarModeling);
 
@@ -1025,7 +1026,7 @@ void buildModelingToolBarUi(
     std::list<QAction*> sketchActions;
     sketchActions.emplace_back(actions.pActionNewSketch);
     sketchActions.emplace_back(actions.pActionNewSketch3D);
-    QToolButton* pToolBtnSketch = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtnSketch = pUI->newMenuPopupToolButton(
         pToolBarModeling,
         QCoreApplication::translate("MainWindow", "Sketch Series"),
         pActionGroup,
@@ -1042,7 +1043,7 @@ void buildModelingToolBarUi(
     datumPlaneActions.emplace_back(actions.pActionThrough3PointsDatumPlane);
     datumPlaneActions.emplace_back(actions.pActionTangentDatumPlane);
 
-    QToolButton* pToolBtn = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtn = pUI->newMenuPopupToolButton(
         pToolBarModeling,
         QCoreApplication::translate("MainWindow", "Datum Plane Series"),
         pActionGroup,
@@ -1061,7 +1062,7 @@ void buildModelingToolBarUi(
     cutActions.emplace_back(actions.pActionRevolveCut);
     cutActions.emplace_back(actions.pActionSweepCut);
     cutActions.emplace_back(actions.pActionLoftCut);
-    QToolButton* pToolBtnCut = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtnCut = pUI->newMenuPopupToolButton(
         pToolBarModeling,
         QCoreApplication::translate("MainWindow", "Cut Series"),
         pActionGroup,
@@ -1076,7 +1077,7 @@ void buildModelingToolBarUi(
     modificationActions.emplace_back(actions.pActionShell);
     modificationActions.emplace_back(actions.pActionDraft);
     modificationActions.emplace_back(actions.pActionSplitFace);
-    QToolButton* pToolBtnModification = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtnModification = pUI->newMenuPopupToolButton(
         pToolBarModeling,
         QCoreApplication::translate("MainWindow", "Modification Series"),
         pActionGroup,
@@ -1087,7 +1088,7 @@ void buildModelingToolBarUi(
     booleanActionsList.emplace_back(booleanActions.pActionUnion);
     booleanActionsList.emplace_back(booleanActions.pActionSubtract);
     booleanActionsList.emplace_back(booleanActions.pActionIntersect);
-    QToolButton* pToolBtnBoolean = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtnBoolean = pUI->newMenuPopupToolButton(
         pToolBarModeling,
         QCoreApplication::translate("MainWindow", "Boolean Series"),
         pActionGroup,
@@ -1101,7 +1102,7 @@ void buildModelingToolBarUi(
     primitiveActionsList.emplace_back(primitiveActions.pActionMakeCone);
     primitiveActionsList.emplace_back(primitiveActions.pActionMakeTorus);
     primitiveActionsList.emplace_back(primitiveActions.pActionMakeTube);
-    QToolButton* pToolBtnPrimitive = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtnPrimitive = pUI->newMenuPopupToolButton(
         pToolBarModeling,
         QCoreApplication::translate("MainWindow", "Primitive Series"),
         pActionGroup,
@@ -1114,7 +1115,7 @@ void buildModelingToolBarUi(
     editActionsList.emplace_back(editActions.pActionMirror);
     editActionsList.emplace_back(editActions.pActionLinearPattern);
     editActionsList.emplace_back(editActions.pActionCircularPattern);
-    QToolButton* pToolBtnEdit = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtnEdit = pUI->newMenuPopupToolButton(
         pToolBarModeling,
         QCoreApplication::translate("MainWindow", "Transform Series"),
         pActionGroup,
@@ -1133,11 +1134,11 @@ void buildUtilityToolBarUi(const UtilityActions& actions, QToolBar* pToolBarUtil
 }
 
 void buildViewToolBarUi(
-    ModelingEnvironment* pEnv,
+    EnvironmentUIImpl* pUI,
     const ViewActions& actions,
     QToolBar* pToolBarView)
 {
-    assert(pEnv);
+    assert(pUI);
     assert(pToolBarView);
 
     pToolBarView->addAction(actions.pActionFitView);
@@ -1151,7 +1152,7 @@ void buildViewToolBarUi(
     standardViewActions.emplace_back(actions.pActionRightView);
     standardViewActions.emplace_back(actions.pActionTopView);
     standardViewActions.emplace_back(actions.pActionBottomView);
-    QToolButton* pToolBtnStandardView = pEnv->newMenuPopupToolButton(
+    QToolButton* pToolBtnStandardView = pUI->newMenuPopupToolButton(
         pToolBarView,
         QCoreApplication::translate("MainWindow", "Standard View Series"),
         nullptr,
@@ -1165,8 +1166,8 @@ void buildViewToolBarUi(
     displayModeActions.emplace_back(actions.pActionShadedDisplay);
     displayModeActions.emplace_back(actions.pActionWireframeDisplay);
 
-    QActionGroup* pDisplayModeGroup = pEnv->newActionGroup();
-    QToolButton* pToolBtn = pEnv->newMenuPopupToolButton(
+    QActionGroup* pDisplayModeGroup = pUI->newActionGroup();
+    QToolButton* pToolBtn = pUI->newMenuPopupToolButton(
         pToolBarView,
         QCoreApplication::translate("MainWindow", "Display Mode"),
         pDisplayModeGroup,
@@ -1184,41 +1185,41 @@ void buildTestToolBarUi(const TestActions& actions, QToolBar* pToolBarTest)
 }
 #endif // _DEBUG
 
-UiTargets createUiTargets(ModelingEnvironment* pEnv)
+UiTargets createUiTargets(EnvironmentUIImpl* pUI)
 {
-    assert(pEnv);
+    assert(pUI);
 
     UiTargets targets = {};
     // Created before the environment's own tool bars so it lands right after the file
     // tool bar, which the gateway environment owns.
-    targets.pToolBarEdit = pEnv->addToolBar(
+    targets.pToolBarEdit = pUI->addToolBar(
         QCoreApplication::translate("MainWindow", "Edit"),
         wy3dApp::ToolBarNames::Edit);
     assert(targets.pToolBarEdit);
 
-    targets.pToolBarModeling = pEnv->addToolBar(
+    targets.pToolBarModeling = pUI->addToolBar(
         QCoreApplication::translate("MainWindow", "Modeling"),
         wy3dApp::ToolBarNames::Modeling);
 
-    targets.pToolBarSheet = pEnv->addToolBar(
+    targets.pToolBarSheet = pUI->addToolBar(
         QCoreApplication::translate("MainWindow", "Sheet"),
         wy3dApp::ToolBarNames::Sheet);
 
-    targets.pToolBarUtility = pEnv->addToolBar(
+    targets.pToolBarUtility = pUI->addToolBar(
         QCoreApplication::translate("MainWindow", "Utility"),
         wy3dApp::ToolBarNames::Utility);
 
-    targets.pToolBarView = pEnv->addToolBar(
+    targets.pToolBarView = pUI->addToolBar(
         QCoreApplication::translate("MainWindow", "View"),
         wy3dApp::ToolBarNames::ModelingView);
 
 #ifdef _DEBUG
-    targets.pToolBarTest = pEnv->addToolBar(
+    targets.pToolBarTest = pUI->addToolBar(
         QCoreApplication::translate("MainWindow", "Test"),
         wy3dApp::ToolBarNames::Test);
 #endif // _DEBUG
 
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     assert(pMainWindow);
     if (!pMainWindow)
     {
@@ -1228,7 +1229,7 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
     targets.pMenuFile = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::File);
     assert(targets.pMenuFile);
 
-    targets.pMenuSheet = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Sheet"),
+    targets.pMenuSheet = pUI->addMenu(QCoreApplication::translate("MainWindow", "Sheet"),
                                        wy3dApp::MenuBarNames::Sheet);
     assert(targets.pMenuSheet);
     // 以工具菜单为锚,曲面插到工具之前;工具菜单缺失时回退到帮助菜单
@@ -1241,30 +1242,30 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
     targets.pMenuTools = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::Tools);
     assert(targets.pMenuTools);
 
-    targets.pMenuSolid = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Solid"),
+    targets.pMenuSolid = pUI->addMenu(QCoreApplication::translate("MainWindow", "Solid"),
                                        wy3dApp::MenuBarNames::Solid);
     assert(targets.pMenuSolid);
     // Anchor on the sheet menu so the solid menu lands immediately to its left.
     if (targets.pMenuSolid && targets.pMenuSheet)
         pMainWindow->menuBar()->insertMenu(targets.pMenuSheet->menuAction(), targets.pMenuSolid);
 
-    targets.pMenuView = pEnv->addMenu(QCoreApplication::translate("MainWindow", "View"),
+    targets.pMenuView = pUI->addMenu(QCoreApplication::translate("MainWindow", "View"),
                                       wy3dApp::MenuBarNames::View);
     assert(targets.pMenuView);
-    pEnv->insertMenuAfter(targets.pMenuFile, targets.pMenuView);
+    pUI->insertMenuAfter(targets.pMenuFile, targets.pMenuView);
 
-    targets.pMenuSketch = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Sketch"),
+    targets.pMenuSketch = pUI->addMenu(QCoreApplication::translate("MainWindow", "Sketch"),
                                         wy3dApp::MenuBarNames::Sketch);
     assert(targets.pMenuSketch);
     // Anchor on the view menu so the sketch menu lands immediately to its right,
     // i.e. before the solid menu.
-    pEnv->insertMenuAfter(targets.pMenuView, targets.pMenuSketch);
+    pUI->insertMenuAfter(targets.pMenuView, targets.pMenuSketch);
 
-    targets.pMenuEdit = pEnv->addMenu(QCoreApplication::translate("MainWindow", "Edit"),
+    targets.pMenuEdit = pUI->addMenu(QCoreApplication::translate("MainWindow", "Edit"),
                                       wy3dApp::MenuBarNames::Edit);
     assert(targets.pMenuEdit);
     // Anchor on the file menu so the edit menu lands immediately to its right.
-    pEnv->insertMenuAfter(targets.pMenuFile, targets.pMenuEdit);
+    pUI->insertMenuAfter(targets.pMenuFile, targets.pMenuEdit);
 
     targets.pToolBarFile = pMainWindow->findChild<QToolBar*>(wy3dApp::ToolBarNames::File);
     assert(targets.pToolBarFile);
@@ -1273,32 +1274,29 @@ UiTargets createUiTargets(ModelingEnvironment* pEnv)
 }
 } // namespace
 
-ModelingEnvironmentUI::ModelingEnvironmentUI() {}
+ModelingEnvironmentUI::ModelingEnvironmentUI(const ModelingEnvironment* pEnv)
+    : EnvironmentUIImpl(pEnv)
+{
+}
 
 ModelingEnvironmentUI::~ModelingEnvironmentUI()
 {
 }
 
-void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
+void ModelingEnvironmentUI::initialize()
 {
-    if (!pEnv)
-    {
-        assert(false);
-        return;
-    }
-
-    const UiTargets uiTargets = createUiTargets(pEnv);
-    QActionGroup* pActionGroup = pEnv->newActionGroup();
-    const FileActions fileActions = createFileActions(pEnv);
-    const UndoRedoActions undoRedoActions = createUndoRedoActions(pEnv);
-    const ModelingActions modelingActions = createModelingActions(pEnv, pActionGroup);
-    const PrimitiveActions primitiveActions = createPrimitiveActions(pEnv, pActionGroup);
-    const BooleanActions booleanActions = createBooleanActions(pEnv, pActionGroup);
-    const EditActions editActions = createEditActions(pEnv, pActionGroup);
-    const UtilityActions utilityActions = createUtilityActions(pEnv, pActionGroup);
-    const ViewActions viewActions = createViewActions(pEnv);
+    const UiTargets uiTargets = createUiTargets(this);
+    QActionGroup* pActionGroup = this->newActionGroup();
+    const FileActions fileActions = createFileActions(this);
+    const UndoRedoActions undoRedoActions = createUndoRedoActions(this);
+    const ModelingActions modelingActions = createModelingActions(this, pActionGroup);
+    const PrimitiveActions primitiveActions = createPrimitiveActions(this, pActionGroup);
+    const BooleanActions booleanActions = createBooleanActions(this, pActionGroup);
+    const EditActions editActions = createEditActions(this, pActionGroup);
+    const UtilityActions utilityActions = createUtilityActions(this, pActionGroup);
+    const ViewActions viewActions = createViewActions(this);
 #ifdef _DEBUG
-    const TestActions testActions = createTestActions(pEnv, pActionGroup);
+    const TestActions testActions = createTestActions(this, pActionGroup);
 #endif // _DEBUG
 
     buildFileMenuUi(fileActions, uiTargets.pMenuFile);
@@ -1308,11 +1306,11 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
     buildSolidMenuUi(modelingActions, booleanActions, primitiveActions, editActions,
                      uiTargets.pMenuSolid);
     buildSheetMenuUi(modelingActions, uiTargets.pMenuSheet);
-    buildSheetToolBarUi(pEnv, pActionGroup, modelingActions, uiTargets.pToolBarSheet);
+    buildSheetToolBarUi(this, pActionGroup, modelingActions, uiTargets.pToolBarSheet);
     buildFileToolBarUi(fileActions, uiTargets.pToolBarFile);
     buildEditToolBarUi(undoRedoActions, uiTargets.pToolBarEdit);
     buildModelingToolBarUi(
-        pEnv,
+        this,
         pActionGroup,
         modelingActions,
         booleanActions,
@@ -1321,23 +1319,17 @@ void ModelingEnvironmentUI::initialize(ModelingEnvironment* pEnv)
         uiTargets.pToolBarModeling);
     buildUtilityToolBarUi(utilityActions, uiTargets.pToolBarUtility);
     buildToolsMenuUi(modelingActions.pActionSelect, utilityActions, uiTargets.pMenuTools);
-    buildViewToolBarUi(pEnv, viewActions, uiTargets.pToolBarView);
+    buildViewToolBarUi(this, viewActions, uiTargets.pToolBarView);
 #ifdef _DEBUG
     buildTestToolBarUi(testActions, uiTargets.pToolBarTest);
 #endif // _DEBUG
 
-    pEnv->restoreUiState();
+    this->restoreUiState();
 }
 
-void ModelingEnvironmentUI::teardown(ModelingEnvironment* pEnv)
+void ModelingEnvironmentUI::teardown()
 {
-    if (!pEnv)
-    {
-        assert(false);
-        return;
-    }
-
-    pEnv->destroyUI();
+    this->destroyUI();
 }
 
 } // namespace wy3dApp

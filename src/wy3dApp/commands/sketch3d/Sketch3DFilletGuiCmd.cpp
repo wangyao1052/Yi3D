@@ -28,6 +28,7 @@
 #include <wy3dSketchEntity3D.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/dialogs/DoubleValueInputDialog.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
@@ -49,7 +50,7 @@ namespace
 
     const wy3d::SketchCurve3D* getCurve(const wydb::ElementId& id)
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return nullptr;
         return wy3d::SketchCurve3D::cast(pDb->getElement(id));
     }
@@ -83,11 +84,11 @@ wyap::CmdExecution::StartResult Sketch3DFilletGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -154,9 +155,9 @@ void Sketch3DFilletGuiCmd::gotoStep(Step step)
     {
     case Step::First:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DFillet",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DFillet",
             "Select the first sketch entity."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::SketchEntity3D>();
     }
@@ -164,9 +165,9 @@ void Sketch3DFilletGuiCmd::gotoStep(Step step)
 
     case Step::Second:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DFillet",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DFillet",
             "Select the second sketch entity."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         auto pPreFilter = CommonSelPreFilter::create<wy3d::SketchEntity3D>();
         pPreFilter->setExcludeIds({ _id1st });
@@ -176,7 +177,7 @@ void Sketch3DFilletGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -198,11 +199,11 @@ void Sketch3DFilletGuiCmd::onMouseMove(const MouseEvent& event)
         : (_pCurveTransient2nd != nullptr);
     if (!sel.getElementId().isNull() && !usable)
     {
-        Application::instance().setCursor(CursorType::Forbid);
+        ApplicationImpl::instance().setCursor(CursorType::Forbid);
     }
     else
     {
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
 }
 
@@ -334,7 +335,7 @@ bool Sketch3DFilletGuiCmd::fillet(const Fillet3DData* pFilletData)
 {
     assert(pFilletData);
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

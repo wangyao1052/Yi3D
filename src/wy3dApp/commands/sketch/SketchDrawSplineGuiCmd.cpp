@@ -32,6 +32,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap/SketchSnapSystem.h"
 #include "scene/Colors.h"
@@ -96,7 +97,7 @@ void SketchDrawSplineGuiCmd::cleanUp()
     // added by wangyao 2025.08.14 {
     if (_pStartPointSnapObject)
     {
-        wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+        wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
         pSnapSys->beginChange();
         {
             pSnapSys->removeResidentSnapObject(_pStartPointSnapObject);
@@ -275,7 +276,7 @@ void SketchDrawSplineGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSplineGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSplineGuiCmd",
             "Specify the start point; you can directly input the coordinate values."));
 
         // 局部刷新草图捕捉系统
@@ -291,7 +292,7 @@ void SketchDrawSplineGuiCmd::gotoStep(Step step)
         _snapExcludeIds.insert(_sketchInfo.sketchId);
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
     break;
 
@@ -299,7 +300,7 @@ void SketchDrawSplineGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSplineGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSplineGuiCmd",
             "Specify the next point; you can directly input the coordinate values."));
 
         // 草图捕捉上下文
@@ -311,7 +312,7 @@ void SketchDrawSplineGuiCmd::gotoStep(Step step)
         if (_pMakeSketchSpline) _snapExcludeIds.insert(_pMakeSketchSpline->getId());
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // added by wangyao 2025.08.14 {
         this->tryAddStartPntAsResidentSnapObject();
@@ -322,8 +323,8 @@ void SketchDrawSplineGuiCmd::gotoStep(Step step)
     default:
     {
         assert(false);
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
     }
     break;
     }
@@ -371,7 +372,7 @@ void SketchDrawSplineGuiCmd::tryAddStartPntAsResidentSnapObject()
     if (!add) return;
 
     wy::Vector3 point = _sketchInfo.sketchPlane.value(_startPoint);
-    wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+    wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
     pSnapSys->beginChange();
     {
         _pStartPointSnapObject = std::make_shared<SnapPoint>(
@@ -487,7 +488,7 @@ void SketchDrawSplineGuiCmd::initializePopups()
         return;
     }
 
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
         QStringLiteral("X"),
         QStringLiteral("Y"),

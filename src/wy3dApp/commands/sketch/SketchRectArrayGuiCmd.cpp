@@ -38,6 +38,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/sketch/dialogs/SketchRectArrayDialog.h"
 #include "commands/transient/BasicTransient.h"
@@ -117,7 +118,7 @@ wyap::CmdExecution::StartResult SketchRectArrayGuiCmd::onStart()
     // 初始化
     _pLineTransient = std::make_shared<LineTransient>();
     _pLineTransient->hide();
-    if (Application::instance().getSelManager()->getSelections().isEmpty())
+    if (ApplicationImpl::instance().getSelManager()->getSelections().isEmpty())
     {
         this->gotoStep(Step::Step1_SelectElements);
     }
@@ -174,7 +175,7 @@ bool SketchRectArrayGuiCmd::finishStep(Step step)
     {
     case Step::Step1_SelectElements:
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (ss.isEmpty()) return false;
         _ids.clear();
         for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
@@ -195,7 +196,7 @@ bool SketchRectArrayGuiCmd::finishStep(Step step)
     case Step::Step2_SpecifyRowsCols:
     {
         _pRectArray = nullptr;
-        if (wydb::Database* pDb = Application::instance().getActiveDatabase())
+        if (wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase())
         {
             _pRectArray = std::make_shared<SketchRectArrayElements>(this, _sketchInfo.sketchPlane, _sketchInfo.sketchId);
             if (!_pRectArray->init(_ids, _cols, _rows, _colSpacing, _rowSpacing))
@@ -330,7 +331,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
     }
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
     // 清空草图捕捉结果
     if (_sketchInfo.pSketchSnapSys)
     {
@@ -341,9 +342,9 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
     {
     case Step::Step1_SelectElements:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
             "Select elements to perform rectangular array; press Enter or Spacebar to confirm; press Esc to cancel."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         SelectOptions selOptions;
         selOptions.pointSelect = true;
@@ -399,9 +400,9 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
             "Specify the start point of column spacing or input the column spacing."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         _pSnapContext = std::make_shared<Locate2dContext>();
     }
@@ -414,9 +415,9 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
             "Specify the end point of column spacing or input the column spacing."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         _pSnapContext = std::make_shared<Locate2dContext>();
     }
@@ -429,9 +430,9 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
             "Specify the start point of row spacing or input the row spacing."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         _pSnapContext = std::make_shared<Locate2dContext>();
     }
@@ -444,9 +445,9 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
             "Specify the end point of row spacing or input the row spacing."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         _pSnapContext = std::make_shared<Locate2dContext>();
     }
@@ -459,7 +460,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -636,7 +637,7 @@ void SketchRectArrayGuiCmd::onEnterKey()
 {
     if (Step::Step1_SelectElements == _step)
     {
-        const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+        const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
         if (!ss.isEmpty())
         {
             this->finishStep(_step);
@@ -664,15 +665,15 @@ void SketchRectArrayGuiCmd::onClearSelectionMenuItem()
 {
     if (Step::Step1_SelectElements == _step)
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 }
 
 void SketchRectArrayGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!_pColSpacingPopup)
     {
         _pColSpacingPopup = std::make_unique<GuiCmdHoverInputPopup1>(
@@ -828,7 +829,7 @@ void SketchRectArrayGuiCmd::computeDefaultColRowSpacing(
     colSpacing = 50.0;
     rowSpacing = 50.0;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     wy3d::geom::BoundingBox2 totalBBox;
     for (const wydb::ElementId& id : ids)

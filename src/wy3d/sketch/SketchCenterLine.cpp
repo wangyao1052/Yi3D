@@ -23,8 +23,8 @@
 #include <wydbTransaction.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchCenterLine.h>
+#include <wy3dSketchLine.h>
 #include <wy3dImpl.h>
-#include <wy3dSketchParamNames.h>
 #include <utils/wy3dSketchCurveIntersectUtil.h>
 #include "utils/Util.h"
 
@@ -146,44 +146,44 @@ void SketchCenterLine::registerParameters(wydb::ParameterSchemaExtension* pParam
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CENTER_LINE_PARAM_START_X;
+        def.name = SketchCenterLine::PARAM_START_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CENTER_LINE_PARAM_START_Y;
+        def.name = SketchCenterLine::PARAM_START_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CENTER_LINE_PARAM_END_X;
+        def.name = SketchCenterLine::PARAM_END_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_CENTER_LINE_PARAM_END_Y;
+        def.name = SketchCenterLine::PARAM_END_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_LINE_PARAM_LENGTH;
+        def.name = SketchLine::PARAM_LENGTH;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = SketchParamNames::SKETCH_LINE_PARAM_ANGLE;
+        def.name = SketchLine::PARAM_ANGLE;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr SketchCenterLine::getParameterValue(const std::string& className, const std::string& n) const
 {
     if (className == SketchCenterLine::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_CENTER_LINE_PARAM_START_X == n) return wydb::ParameterValue::createDouble(_startPnt.x());
-        if (SketchParamNames::SKETCH_CENTER_LINE_PARAM_START_Y == n) return wydb::ParameterValue::createDouble(_startPnt.y());
-        if (SketchParamNames::SKETCH_CENTER_LINE_PARAM_END_X == n) return wydb::ParameterValue::createDouble(_endPnt.x());
-        if (SketchParamNames::SKETCH_CENTER_LINE_PARAM_END_Y == n) return wydb::ParameterValue::createDouble(_endPnt.y());
-        if (SketchParamNames::SKETCH_LINE_PARAM_LENGTH == n) return wydb::ParameterValue::createDouble((_endPnt - _startPnt).length());
-        if (SketchParamNames::SKETCH_LINE_PARAM_ANGLE == n)
+        if (SketchCenterLine::PARAM_START_X == n) return wydb::ParameterValue::createDouble(_startPnt.x());
+        if (SketchCenterLine::PARAM_START_Y == n) return wydb::ParameterValue::createDouble(_startPnt.y());
+        if (SketchCenterLine::PARAM_END_X == n) return wydb::ParameterValue::createDouble(_endPnt.x());
+        if (SketchCenterLine::PARAM_END_Y == n) return wydb::ParameterValue::createDouble(_endPnt.y());
+        if (SketchLine::PARAM_LENGTH == n) return wydb::ParameterValue::createDouble((_endPnt - _startPnt).length());
+        if (SketchLine::PARAM_ANGLE == n)
         {
             double angle = wy::Vector2::rotationAngle(wy::Vector2::kXAxis, _endPnt - _startPnt);
             return wydb::ParameterValue::createDouble(wy3d::radiansToDegrees(angle));
@@ -195,7 +195,7 @@ wydb::ParameterValueUPtr SketchCenterLine::getParameterValue(const std::string& 
 wy::ErrorStatus SketchCenterLine::setParameterValue(const std::string& className, const std::string& n, const wydb::ParameterValue& v)
 {
     if (className == SketchCenterLine::classInfo()->className()) {
-        if (SketchParamNames::SKETCH_LINE_PARAM_LENGTH == n)
+        if (SketchLine::PARAM_LENGTH == n)
         {
             if (!v.isDouble()) return wy::ErrorStatus::InvalidInput;
             double length = v.asDouble();
@@ -204,7 +204,7 @@ wy::ErrorStatus SketchCenterLine::setParameterValue(const std::string& className
             if (dir.length() < 0.5) dir.set(1.0, 0.0);
             return this->setEndPoint(_startPnt + length * dir);
         }
-        if (SketchParamNames::SKETCH_LINE_PARAM_ANGLE == n)
+        if (SketchLine::PARAM_ANGLE == n)
         {
             if (!v.isDouble()) return wy::ErrorStatus::InvalidInput;
             double length = (_endPnt - _startPnt).length();
@@ -213,10 +213,10 @@ wy::ErrorStatus SketchCenterLine::setParameterValue(const std::string& className
             return this->setEndPoint(_startPnt + dir * length);
         }
         if (!v.isDouble()) return wy::ErrorStatus::InvalidInput; double d = v.asDouble();
-        if (SketchParamNames::SKETCH_CENTER_LINE_PARAM_START_X == n) return this->setStartPoint(wy::Vector2(d, _startPnt.y()));
-        if (SketchParamNames::SKETCH_CENTER_LINE_PARAM_START_Y == n) return this->setStartPoint(wy::Vector2(_startPnt.x(), d));
-        if (SketchParamNames::SKETCH_CENTER_LINE_PARAM_END_X == n) return this->setEndPoint(wy::Vector2(d, _endPnt.y()));
-        if (SketchParamNames::SKETCH_CENTER_LINE_PARAM_END_Y == n) return this->setEndPoint(wy::Vector2(_endPnt.x(), d));
+        if (SketchCenterLine::PARAM_START_X == n) return this->setStartPoint(wy::Vector2(d, _startPnt.y()));
+        if (SketchCenterLine::PARAM_START_Y == n) return this->setStartPoint(wy::Vector2(_startPnt.x(), d));
+        if (SketchCenterLine::PARAM_END_X == n) return this->setEndPoint(wy::Vector2(d, _endPnt.y()));
+        if (SketchCenterLine::PARAM_END_Y == n) return this->setEndPoint(wy::Vector2(_endPnt.x(), d));
     }
     return __baseClass::setParameterValue(className, n, v);
 }

@@ -30,6 +30,7 @@
 
 #include "gizmo/OsgGizmoNode.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "gizmo/operation/SolidDragOperation.h"
 #include "gizmo/renderer/SolidMoveOsgRenderer.h"
@@ -126,8 +127,8 @@ void SolidMoveGizmo::onLeftMouseDown(const MouseEvent& event)
     }
     _pGizmoOp = nullptr;
 
-    wydb::Database* pActiveDb = Application::instance().getActiveDatabase();
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    wydb::Database* pActiveDb = ApplicationImpl::instance().getActiveDatabase();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveDb || !pActiveScene)
     {
         assert(false);

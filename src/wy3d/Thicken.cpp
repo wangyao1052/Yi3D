@@ -45,7 +45,6 @@
 #include <wy3dThicken.h>
 #include <wy3dSheet.h>
 #include <wy3dImpl.h>
-#include <wy3dParamNames.h>
 #include <wy3dErrorCode.h>
 #include <wy3dParamEnumDef.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
@@ -210,18 +209,18 @@ void Thicken::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::THICKEN_PARAM_SOURCE;
+        def.name = Thicken::PARAM_SOURCE;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::THICKEN_PARAM_THICKNESS;
+        def.name = Thicken::PARAM_THICKNESS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::THICKEN_PARAM_DIRECTION;
+        def.name = Thicken::PARAM_DIRECTION;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -232,15 +231,15 @@ wydb::ParameterValueUPtr Thicken::getParameterValue(
 {
     if (className == Thicken::classInfo()->className())
     {
-        if (ParamNames::THICKEN_PARAM_SOURCE == paramName)
+        if (Thicken::PARAM_SOURCE == paramName)
         {
             return wydb::ParameterValue::createInteger(_source.value());
         }
-        else if (ParamNames::THICKEN_PARAM_THICKNESS == paramName)
+        else if (Thicken::PARAM_THICKNESS == paramName)
         {
             return wydb::ParameterValue::createDouble(_thickness);
         }
-        else if (ParamNames::THICKEN_PARAM_DIRECTION == paramName)
+        else if (Thicken::PARAM_DIRECTION == paramName)
         {
             return wydb::ParameterValue::createAny(
                 wy3d::ParamEnumDef(
@@ -263,12 +262,12 @@ wy::ErrorStatus Thicken::setParameterValue(
 {
     if (className == Thicken::classInfo()->className())
     {
-        if (ParamNames::THICKEN_PARAM_SOURCE == paramName)
+        if (Thicken::PARAM_SOURCE == paramName)
         {
             assert(false);
             return wy::ErrorStatus::ParameterReadonly;
         }
-        else if (ParamNames::THICKEN_PARAM_THICKNESS == paramName)
+        else if (Thicken::PARAM_THICKNESS == paramName)
         {
             if (!paramValue.isDouble())
             {
@@ -276,7 +275,7 @@ wy::ErrorStatus Thicken::setParameterValue(
             }
             return this->setThickness(paramValue.asDouble());
         }
-        else if (ParamNames::THICKEN_PARAM_DIRECTION == paramName)
+        else if (Thicken::PARAM_DIRECTION == paramName)
         {
             int enumVal = -1;
             if (paramValue.isInteger())

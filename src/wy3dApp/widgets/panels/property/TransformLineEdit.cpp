@@ -37,6 +37,7 @@
 #include <QGridLayout>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -123,7 +124,7 @@ void TransformLineEdit::getCurrParamValueFromDb(bool& isAllTheSameValue, wydb::P
     pOutParamValue = nullptr;
 
     // 获取当前选择集
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.isEmpty())
     {
         assert(false);
@@ -131,7 +132,7 @@ void TransformLineEdit::getCurrParamValueFromDb(bool& isAllTheSameValue, wydb::P
     }
 
     // 获取当前数据库
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

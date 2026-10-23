@@ -23,6 +23,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include <wy3dSolid.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -96,10 +97,10 @@ wyap::CmdExecution::StartResult MergeGuiCmd::onStart()
     _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
 
     // 初始化:步骤
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     auto isValidSelectionSet = [](const wyap::SelectionSet& ss, std::vector<wydb::ElementId>& ids) -> bool
     {
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return false;
 
         ids.clear();
@@ -122,9 +123,9 @@ wyap::CmdExecution::StartResult MergeGuiCmd::onStart()
     std::vector<wydb::ElementId> ids;
     if (isValidSelectionSet(ss, ids) && !ids.empty())
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         _hostId = ids.front();
         for (const wydb::ElementId& id : ids)
         {
@@ -142,9 +143,9 @@ wyap::CmdExecution::StartResult MergeGuiCmd::onStart()
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectHost);
     }
 
@@ -225,17 +226,17 @@ void MergeGuiCmd::gotoStep(Step step)
     case Step::SelectHost:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MergeGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MergeGuiCmd",
             "Select the host solid."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 预览
         _preview.clear();
@@ -249,17 +250,17 @@ void MergeGuiCmd::gotoStep(Step step)
     case Step::SelectMembers:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MergeGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MergeGuiCmd",
             "Select one or more solids to merge; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 预览
         _preview.clear();
@@ -273,8 +274,8 @@ void MergeGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -348,7 +349,7 @@ void MergeGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     {
     case Step::SelectHost:
     {
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return;
         const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
         if (!pSolid) return;
@@ -364,7 +365,7 @@ void MergeGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     {
         if (id == _hostId) return;
 
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return;
         const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
         if (!pSolid) return;
@@ -426,7 +427,7 @@ bool MergeGuiCmd::merge(unsigned int errorCode)
 {
     errorCode = 0;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     // 提取数据

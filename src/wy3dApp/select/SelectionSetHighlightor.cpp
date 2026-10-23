@@ -19,6 +19,7 @@
 #include "SelectionSetHighlightor.h"
 #include <wy3dSelectionType.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "scene/nodes/SolidElementNode.h"
@@ -93,7 +94,7 @@ void SelectionSetHighlightor::showSelectionSet(const wyap::SelectionSet& ss, boo
 
 void SelectionSetHighlightor::showSelection(const wyap::Selection& sel, bool value)
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return;
     ElementNode* pElemNode = pActiveScene->getElementNode(sel.getElementId());
     if (!pElemNode) return;

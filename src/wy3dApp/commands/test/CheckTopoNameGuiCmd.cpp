@@ -40,6 +40,7 @@
 #include <wy3dErrorCode.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/SolidElementNode.h"
@@ -59,7 +60,7 @@ namespace
 // Report invalid topology names of all top-level solids and sheets.
 void checkAll()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     std::vector<wydb::ElementId> invalidIds;
     for (auto iter = pDb->createIterator(); !iter.isDone(); iter.moveNext())
@@ -140,16 +141,16 @@ wyap::CmdExecution::StartResult CheckTopoNameGuiCmd::onStart()
     _pointPickOption.preFilter = std::make_shared<CheckTopoNameGuiCmdPreSelFilter>();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 禁用输入
     // 提示信息
-    Application::instance().getStatusBar()->setTips("");
+    ApplicationImpl::instance().getStatusBar()->setTips("");
 
     // 鼠标样式
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
     // 预览
     _preview.clear();
@@ -184,7 +185,7 @@ void CheckTopoNameGuiCmd::checkTopoName(const wyap::Selection& sel)
     }
     else
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return;
         const wydb::Element* pElem = pDb->getElement(id);
         const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
@@ -206,7 +207,7 @@ void CheckTopoNameGuiCmd::checkTopoName(const wyap::Selection& sel)
         strTotal += infoItem + "; ";
     }
     QToolTip::showText(QCursor::pos(), strTotal.c_str(), nullptr, QRect(), 30000); // 30s
-    Application::instance().getStatusBar()->setTips(strTotal.c_str());
+    ApplicationImpl::instance().getStatusBar()->setTips(strTotal.c_str());
 }
 
 void CheckTopoNameGuiCmd::onMouseMove(const MouseEvent& event)
@@ -214,7 +215,7 @@ void CheckTopoNameGuiCmd::onMouseMove(const MouseEvent& event)
     // 点选预览
     wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
     _preview.update(sel);
-    Application::instance().getStatusBar()->setTips("");
+    ApplicationImpl::instance().getStatusBar()->setTips("");
     if (!_preview.isNull())
     {
         wyap::Selection sel = _preview.getSelection();

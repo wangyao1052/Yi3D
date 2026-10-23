@@ -20,6 +20,7 @@
 #include "ViewWidget.h"
 #include "OsgViewWidget.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/FileCommands.h"
 
 #include <QHBoxLayout>
@@ -71,7 +72,7 @@ ViewWidgetContainer::ViewWidgetContainer(QWidget* parent)
         this, &ViewWidgetContainer::onTabCloseRequested);
 
     // 添加文档管理器反应器
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     assert(pDocMgr);
     wy::ErrorStatus error = pDocMgr->addReactor(this);
     assert(wy::ErrorStatus::Ok == error);
@@ -80,7 +81,7 @@ ViewWidgetContainer::ViewWidgetContainer(QWidget* parent)
 ViewWidgetContainer::~ViewWidgetContainer()
 {
     // 移除文档管理器反应器
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     assert(pDocMgr);
     wy::ErrorStatus error = pDocMgr->removeReactor(this);
     assert(wy::ErrorStatus::Ok == error);
@@ -208,7 +209,7 @@ wyap::Document* ViewWidgetContainer::getDocumentAt(int index) const
 void ViewWidgetContainer::onCurrentTabChanged(int index)
 {
     wyap::Document* pDoc = this->getDocumentAt(index);
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     assert(pDocMgr);
 
     auto restoreActiveDocumentTab = [this, pDocMgr]()
@@ -234,7 +235,7 @@ void ViewWidgetContainer::onCurrentTabChanged(int index)
     };
 
     // Only in the document environment is tab switching allowed to change the active document.
-    wyap::EnvManager* pEnvMgr = Application::instance().getEnvManager();
+    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
     assert(pEnvMgr);
     wyap::Environment* pCurEnv = pEnvMgr->getActiveEnvironment();
     if (!pCurEnv || pCurEnv->getType() != wyap::Environment::Type::Document)
@@ -250,14 +251,14 @@ void ViewWidgetContainer::onCurrentTabChanged(int index)
     }
     if (pDocMgr->getActiveDocument() != pDoc)
     {
-        wy::ErrorStatus error = Application::instance().getCmdManager()->abortCurrentModalCommand(
+        wy::ErrorStatus error = ApplicationImpl::instance().getCmdManager()->abortCurrentModalCommand(
             wyap::CmdExecution::AbortCause::ForceTerminate);
         assert(wy::ErrorStatus::Ok == error
             || wy::ErrorStatus::NoCurrentModalCommand == error);
         // added by wangyao 2026.06.10 {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         // }
         error = pDocMgr->activateDocument(pDoc, wyap::ExecutionMode::Sync);
         if (wy::ErrorStatus::Ok != error)
@@ -335,7 +336,7 @@ void ViewWidgetContainer::onTabCloseRequested(int index)
     {
         return;
     }
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     if (!pDocMgr)
     {
         assert(false);
@@ -345,11 +346,11 @@ void ViewWidgetContainer::onTabCloseRequested(int index)
     if (pDocMgr->getActiveDocument() == pDoc)
     {
         // Force abort current modal command
-        wy::ErrorStatus error = Application::instance().getCmdManager()->abortCurrentModalCommand(
+        wy::ErrorStatus error = ApplicationImpl::instance().getCmdManager()->abortCurrentModalCommand(
             wyap::CmdExecution::AbortCause::ForceTerminate);
         assert(wy::ErrorStatus::Ok == error
             || wy::ErrorStatus::NoCurrentModalCommand == error);
-        assert(nullptr == Application::instance().getCmdManager()->getCurrentModalCommand());
+        assert(nullptr == ApplicationImpl::instance().getCmdManager()->getCurrentModalCommand());
     }
 
     // Ask whether to save the document if it has unsaved changes.
@@ -362,11 +363,11 @@ void ViewWidgetContainer::onTabCloseRequested(int index)
     if (pDocMgr->getActiveDocument() == pDoc)
     {
         // force abort current modal command
-        wy::ErrorStatus error = Application::instance().getCmdManager()->abortCurrentModalCommand(
+        wy::ErrorStatus error = ApplicationImpl::instance().getCmdManager()->abortCurrentModalCommand(
             wyap::CmdExecution::AbortCause::ForceTerminate);
         assert(wy::ErrorStatus::Ok == error
             || wy::ErrorStatus::NoCurrentModalCommand == error);
-        assert(nullptr == Application::instance().getCmdManager()->getCurrentModalCommand());
+        assert(nullptr == ApplicationImpl::instance().getCmdManager()->getCurrentModalCommand());
 
         // Close the active document.
         error = pDocMgr->closeActiveDocument(wyap::ExecutionMode::Sync);

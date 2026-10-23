@@ -19,6 +19,11 @@ class WY3D_EXPORT Revolution : public wy3d::Solid
     WYDB_DECLARE_MEMBERS(Revolution, wy3d::Revolution, wy3d::Solid)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_START_ANGLE = "StartAngle";
+    static constexpr const char* PARAM_END_ANGLE   = "EndAngle";
+    static constexpr const char* PARAM_AXIS        = "Axis";
+
     // 创建旋转体
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,

@@ -27,6 +27,7 @@
 #include <wyapSelManager.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "snap/SnapContext.h"
 #include <wy3dApp/Snap2dSystem.h>
 #include <wy3dApp/Snap2dContext.h>
@@ -131,7 +132,7 @@ std::pair<wy::Vector3, wyap::SnapResultSPtr> OsgCoordUtil::computePoint(
     if (snap)
     {
         wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
-        wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(
+        wyap::SnapResultSPtr pSnapResult = ApplicationImpl::instance().getSnapSystem()->snap(
             x, y, pSnapContext, excludeIds, isResultPublished);
         if (pSnapResult)
         {
@@ -222,7 +223,7 @@ wy::Vector3 OsgCoordUtil::computePointOnAxis(
     if (!pCamera) return axisOrigin;
 
     wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
-    wyap::SnapResultSPtr pSnapResult = Application::instance().getSnapSystem()->snap(x, y, pSnapContext, excludeIds);
+    wyap::SnapResultSPtr pSnapResult = ApplicationImpl::instance().getSnapSystem()->snap(x, y, pSnapContext, excludeIds);
     if (pSnapResult)
     {
         const wy::Vector3& pos = pSnapResult->getPosition();

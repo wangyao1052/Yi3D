@@ -21,6 +21,7 @@
 #include <cassert>
 #include <osgGA/TrackballManipulator>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -165,7 +166,7 @@ void ViewUtil::viewAll(osgViewer::View* pView, const osg::BoundingSphere& bdSphe
         double distance = (center - eye).length();
         // added by wangyao 2025.05.05 {
         // 草图环境下调整观察的中心点到草图平面
-        wyap::Environment* pCurEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+        wyap::Environment* pCurEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
         SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pCurEnv);
         if (pSketchEnv) // 如果当前在草图环境
         {
@@ -206,7 +207,7 @@ void ViewUtil::viewAll(osgViewer::View* pView, const osg::BoundingSphere& bdSphe
         }
         // added by wangyao 2025.05.05 {
         // 草图环境下调整观察的中心点到草图平面
-        wyap::Environment* pCurEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+        wyap::Environment* pCurEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
         SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pCurEnv);
         if (pSketchEnv) // 如果当前在草图环境
         {

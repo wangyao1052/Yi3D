@@ -31,6 +31,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/SketchUtil.h"
@@ -53,7 +54,7 @@ SweptSheetGuiCmd::~SweptSheetGuiCmd()
 wyap::CmdExecution::StartResult SweptSheetGuiCmd::onStart()
 {
     // 是否有可用的草图
-    if (!SketchUtil::hasUnusedSketch(Application::instance().getActiveDatabase()))
+    if (!SketchUtil::hasUnusedSketch(ApplicationImpl::instance().getActiveDatabase()))
     {
         MessageBoxUtil::showInformation_NoAvailableSketches();
         return wyap::CmdExecution::StartResult::Rejected;
@@ -68,7 +69,7 @@ wyap::CmdExecution::StartResult SweptSheetGuiCmd::onStart()
     _pointPickOption.selType = wy3d::SelectionType::Element;
 
     // 初始化:步骤
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     wydb::ElementId pathId(wydb::ElementId::kNull);
     wydb::ElementId profileId(wydb::ElementId::kNull);
     if (this->isValidSketchSelectionSet(ss, pathId, profileId))
@@ -77,9 +78,9 @@ wyap::CmdExecution::StartResult SweptSheetGuiCmd::onStart()
         {
             _pathId = pathId;
             _profileId = profileId;
-            Application::instance().getSelManager()->beginChange();
-            Application::instance().getSelManager()->clearSelections();
-            Application::instance().getSelManager()->endChange();
+            ApplicationImpl::instance().getSelManager()->beginChange();
+            ApplicationImpl::instance().getSelManager()->clearSelections();
+            ApplicationImpl::instance().getSelManager()->endChange();
             this->finishStep(Step::SelectProfile);
         }
         else if (!pathId.isNull())
@@ -90,17 +91,17 @@ wyap::CmdExecution::StartResult SweptSheetGuiCmd::onStart()
         else
         {
             assert(false);
-            Application::instance().getSelManager()->beginChange();
-            Application::instance().getSelManager()->clearSelections();
-            Application::instance().getSelManager()->endChange();
+            ApplicationImpl::instance().getSelManager()->beginChange();
+            ApplicationImpl::instance().getSelManager()->clearSelections();
+            ApplicationImpl::instance().getSelManager()->endChange();
             this->gotoStep(Step::SelectPath);
         }
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->gotoStep(Step::SelectPath);
     }
 
@@ -209,15 +210,15 @@ void SweptSheetGuiCmd::gotoStep(Step step)
     case Step::SelectPath:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 更新提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SweptSheet", "Select the path sketch."));
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SweptSheet", "Select the path sketch."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项:路径可以是2D草图、3D草图或模型曲线
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch | ElementNodeType::Sketch3D | ElementNodeType::Curve;
@@ -229,9 +230,9 @@ void SweptSheetGuiCmd::gotoStep(Step step)
     case Step::SelectProfile:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 高亮路径草图
         wyap::SelectionSet ss;
@@ -239,10 +240,10 @@ void SweptSheetGuiCmd::gotoStep(Step step)
         _pPathHighlightor = std::make_shared<SelectionSetHighlightor>(ss);
 
         // 更新提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SweptSheet", "Select the profile sketch."));
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SweptSheet", "Select the profile sketch."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项:轮廓只能是2D草图
         _pointPickOption.allowedElemTypes = ElementNodeType::Sketch;
@@ -255,8 +256,8 @@ void SweptSheetGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -281,12 +282,12 @@ void SweptSheetGuiCmd::mouseMovePreview(
             _pInvalidSketchTooltip = std::make_shared<InvalidSketchToolTip>(pickedSketchId,
                 _sketchId2ValidInfo[pickedSketchId].error);
         }
-        Application::instance().setCursor(CursorType::Forbid);
+        ApplicationImpl::instance().setCursor(CursorType::Forbid);
     }
     else
     {
         _pInvalidSketchTooltip = nullptr;
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
 }
 
@@ -357,7 +358,7 @@ void SweptSheetGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
     {
     case Step::SelectPath:
     {
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return;
         const wydb::Element* pElem = pDb->getElement(id);
         const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pElem);
@@ -384,7 +385,7 @@ void SweptSheetGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 
     case Step::SelectProfile:
     {
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return;
         const wydb::Element* pElem = pDb->getElement(id);
         const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pElem);
@@ -481,7 +482,7 @@ bool SweptSheetGuiCmd::isValidSketchSelectionSet(const wyap::SelectionSet& ss,
 
 bool SweptSheetGuiCmd::isValidPath(const wydb::ElementId& pathId, QString& error)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wydb::Element* pElem = pDb->getElement(pathId);
     if (!pElem) return false;
@@ -508,7 +509,7 @@ bool SweptSheetGuiCmd::isValidPath(const wydb::ElementId& pathId, QString& error
 
 bool SweptSheetGuiCmd::isValidProfile(const wydb::ElementId& profileId, QString& error)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     const wydb::Element* pElem = pDb->getElement(profileId);
     if (!pElem) return false;

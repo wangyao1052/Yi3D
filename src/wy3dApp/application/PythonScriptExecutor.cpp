@@ -32,6 +32,7 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/output/OutputWidget.h"
@@ -152,7 +153,7 @@ PythonScriptExecutor::Error _executePythonScript(void* hPythonLib, const std::st
 
         std::stringstream ssTitle;
         ssTitle << "----------" << scriptFullPath << "----------";
-        Application::instance().getDockPanelManager()->findWidgetAs<OutputWidget>(
+        ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<OutputWidget>(
             DockPanelIds::Output)->info(ssTitle.str());
 
         // Execute through a wrapper that catches SystemExit: an unhandled
@@ -184,7 +185,7 @@ PythonScriptExecutor::Error _executePythonScript(void* hPythonLib, const std::st
     Py_Finalize();
 
     // 刷新输出窗口
-    Application::instance().getDockPanelManager()->findWidgetAs<OutputWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<OutputWidget>(
         DockPanelIds::Output)->refresh();
 
     if (0 == runRet)
@@ -254,7 +255,7 @@ PythonScriptExecutor::Error PythonScriptExecutor::Run(const std::string& scriptF
 
 void PythonScriptExecutor::abortActiveTransaction()
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
 
     // 如果有激活事务则中止事务

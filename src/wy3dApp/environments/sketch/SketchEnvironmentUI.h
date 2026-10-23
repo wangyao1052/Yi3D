@@ -22,20 +22,23 @@
 #include <QPointer>
 
 #include "widgets/frame/ViewportOverlayBar.h"
+#include "environments/EnvironmentUIImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 class SketchEnvironment;
 
-class SketchEnvironmentUI
+class SketchEnvironmentUI : public EnvironmentUIImpl
 {
 public:
-    SketchEnvironmentUI();
+    explicit SketchEnvironmentUI(const SketchEnvironment* pEnv);
     ~SketchEnvironmentUI();
 
-    void initialize(SketchEnvironment* pEnv);
-    void teardown(SketchEnvironment* pEnv);
+    void initialize();
+    void teardown();
+
+    virtual bool addContextMenuActions(ContextMenu& menu) override;
 
 private:
     // End/cancel buttons over the viewport. Its buttons hold command actions, which the

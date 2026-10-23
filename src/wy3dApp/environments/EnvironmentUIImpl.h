@@ -16,78 +16,57 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_ENVIRONMENT_BASE_H
-#define WY3DAPP_ENVIRONMENT_BASE_H
+#ifndef WY3DAPP_ENVIRONMENT_UI_IMPL_H
+#define WY3DAPP_ENVIRONMENT_UI_IMPL_H
 
-#include <QObject>
-#include <QAction>
-#include <QMenu>
 #include <QTimer>
-#include <QToolBar>
-#include <QToolButton>
 
-#include <wyapEnvironment.h>
+#include <list>
+#include <map>
+#include <string>
+#include <vector>
+
 #include <wyapCmdStack.h>
+#include <wyapEnvironment.h>
 
-#include <wy3dApp/CommandAction.h>
-#include <wy3dApp/ContextMenu.h>
-#include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/EnvironmentUI.h>
+
+class QAction;
+class QActionGroup;
+class QIcon;
+class QMenu;
+class QToolBar;
+class QToolButton;
 
 namespace wy3dApp {
 
-class WY3DAPP_EXPORT EnvironmentBase : public QObject
+class CommandAction;
+class ContextMenu;
+
+class EnvironmentUIImpl : public EnvironmentUI
 {
-    Q_OBJECT
 public:
-    EnvironmentBase();
-    virtual ~EnvironmentBase();
+    explicit EnvironmentUIImpl(const wyap::Environment* pEnvironment);
+    ~EnvironmentUIImpl() override;
 
-    // Add menu.
-    QMenu* addMenu(const QString& title, const std::string& name);
-
-    // Insert menu immediately after an existing menu in the menu bar.
-    void insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu);
-
-    // Add tool bar.
-    QToolBar* addToolBar(const QString& title, const std::string& name);
-
-    // Get all menus.
-    inline const std::vector<QMenu*>& getMenus() const
-    {
-        return _menus;
-    }
-
-    // Get all tool bars.
-    inline const std::vector<QToolBar*>& getToolBars() const
-    {
-        return _toolBars;
-    }
-
-    // New action group.
-    inline QActionGroup* newActionGroup()
-    {
-        QActionGroup* pActionGroup = new QActionGroup(this);
-        _actionGroups.emplace_back(pActionGroup);
-        return pActionGroup;
-    }
-
-    // New command action.
+    // EnvironmentUI
+    QMenu* addMenu(const QString& title, const std::string& name) override;
+    QToolBar* addToolBar(const QString& title, const std::string& name) override;
+    QActionGroup* newActionGroup() override;
     CommandAction* newCommandAction(
         const std::string& commandName,
         const QString& text,
         const QIcon& icon,
-        QActionGroup* pActionGroup = nullptr);
+        QActionGroup* pActionGroup = nullptr) override;
+    bool addContextMenuActions(ContextMenu& menu) override;
+    const std::vector<QMenu*>& getMenus() const override;
+    const std::vector<QToolBar*>& getToolBars() const override;
+
+    // Insert menu immediately after an existing menu in the menu bar.
+    void insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu);
 
     // Find command action by command name.
-    inline CommandAction* findCommandAction(const std::string& commandName) const
-    {
-        auto iter = _cmdName2Action.find(commandName);
-        return (_cmdName2Action.cend() != iter) ? iter->second : nullptr;
-    }
-
-    // Add environment-specific items to a command context menu.
-    // Returns true if any actions were added.
-    virtual bool addContextMenuActions(ContextMenu& menu) { return false; }
+    CommandAction* findCommandAction(const std::string& commandName) const;
 
     // New menu popup tool button.
     QToolButton* newMenuPopupToolButton(
@@ -96,7 +75,7 @@ public:
         QActionGroup* pActionGroup,
         const std::list<QAction*>& actions);
 
-    // Destroy all ui elements created and managed by this environment base instance.
+    // Destroy all ui elements created and managed by this environment UI instance.
     void destroyUI();
 
     // Save toolbar/dock positions to persisted state.
@@ -104,7 +83,6 @@ public:
     // Restore toolbar/dock positions from persisted state.
     void restoreUiState();
 
-protected:
     // command manager reactor
     void onCommandStartFailed(
         wyap::Command* pCmd,
@@ -120,7 +98,7 @@ protected:
     void onSuspend();
     void onResume();
 
-    // 同步显示模式按钮状态
+    // Sync the display mode action state.
     void syncDisplayModeAction();
 
 private:
@@ -157,8 +135,10 @@ private:
     QTimer _cmdTerminatedOnEventLoopTimer;
     // Guard to prevent duplicate posting of command-terminated tasks to the event loop.
     bool _isCmdTerminatedOnEventLoopPosted;
+    // The owning environment, used for UI state persistence.
+    const wyap::Environment* _pEnvironment;
 };
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_ENVIRONMENT_BASE_H
+#endif // WY3DAPP_ENVIRONMENT_UI_IMPL_H

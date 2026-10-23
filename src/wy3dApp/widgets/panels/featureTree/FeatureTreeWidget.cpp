@@ -18,6 +18,7 @@
 
 #include "FeatureTreeWidget.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -94,7 +95,7 @@
 #include <wy3dApp/CommandAction.h>
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
-#include <wy3dApp/IconUtil.h>
+#include "utils/IconUtil.h"
 #include "utils/TransactionUtil.h"
 #include "utils/MessageBoxUtil.h"
 #include "utils/CopyPasteUtil.h"
@@ -148,11 +149,11 @@ FeatureTreeWidget::FeatureTreeWidget(QWidget* parent)
     mainLayout->addWidget(_treeView);
 
     // 文档管理器反应器
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     assert(pDocMgr);
     pDocMgr->addReactor(this);
     // 选择集管理器反应器
-    wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+    wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
     assert(pSelMgr);
     pSelMgr->addReactor(this);
 
@@ -343,7 +344,7 @@ void FeatureTreeWidget::onSelfSelectionChanged(const QItemSelection& selected, c
     }
 
     // 变更选择集
-    wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+    wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
     assert(pSelMgr);
     pSelMgr->beginChange();
     for (const wydb::ElementId& id : idsToAddSel)
@@ -370,7 +371,7 @@ void FeatureTreeWidget::onSelectionChanged(
     AutoSwitchOnSelChange autoSwitch(_onSelChangeType);
     autoSwitch.changeTo(OnSelChangeType::SelectionManager);
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -1340,13 +1341,13 @@ void FeatureTreeWidget::onContextMenu_Erase()
     // added by wangyao 2025.04.19 {
     // 删除前清空选择集应该是一个不错的选择,避免未考虑到的一些逻辑问题.
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     // }
 
     // 删除元素
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -1387,7 +1388,7 @@ void FeatureTreeWidget::onContextMenu_CancelBoolean()
     wydb::ElementId id = *ids.cbegin();
 
     // 开启事务
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -1461,11 +1462,11 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
     assert(_treeView);
 
     QMenu menu;
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.getCount() > 0) // 有选中项
     {
         // 提取选中的元素
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb)
         {
             assert(false);
@@ -1672,7 +1673,7 @@ void FeatureTreeWidget::onTreeViewClicked(const QModelIndex& index)
     wydb::ElementId id = this->getElementIdByModelIndex(index);
     if (id.isNull()) return;
 
-    wyap::CmdManager* pCmdMgr = Application::instance().getCmdManager();
+    wyap::CmdManager* pCmdMgr = ApplicationImpl::instance().getCmdManager();
     if (!pCmdMgr) return;
     wyap::CmdExecution* pCmdExecutor = pCmdMgr->getCurrentModalCmdExecution();
     if (!pCmdExecutor) return;

@@ -23,7 +23,6 @@
 #include <wydbTransaction.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchLine3D.h>
-#include <wy3dSketch3DParamNames.h>
 #include "utils/Util.h"
 
 NS_WY3D_BEG
@@ -125,56 +124,56 @@ void SketchLine3D::registerParameters(wydb::ParameterSchemaExtension* pParamSche
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_X;
+        def.name = SketchLine3D::PARAM_START_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Y;
+        def.name = SketchLine3D::PARAM_START_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Z;
+        def.name = SketchLine3D::PARAM_START_Z;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_X;
+        def.name = SketchLine3D::PARAM_END_X;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_Y;
+        def.name = SketchLine3D::PARAM_END_Y;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_Z;
+        def.name = SketchLine3D::PARAM_END_Z;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_LINE3D_PARAM_LENGTH;
+        def.name = SketchLine3D::PARAM_LENGTH;
         pParamSchema->addParameterDefinition(def);
     }
 }
 wydb::ParameterValueUPtr SketchLine3D::getParameterValue(const std::string& className, const std::string& paramName) const
 {
     if (className == SketchLine3D::classInfo()->className()) {
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_X == paramName)
+        if (SketchLine3D::PARAM_START_X == paramName)
             return wydb::ParameterValue::createDouble(_startPnt.x());
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Y == paramName)
+        if (SketchLine3D::PARAM_START_Y == paramName)
             return wydb::ParameterValue::createDouble(_startPnt.y());
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Z == paramName)
+        if (SketchLine3D::PARAM_START_Z == paramName)
             return wydb::ParameterValue::createDouble(_startPnt.z());
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_X == paramName)
+        if (SketchLine3D::PARAM_END_X == paramName)
             return wydb::ParameterValue::createDouble(_endPnt.x());
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_Y == paramName)
+        if (SketchLine3D::PARAM_END_Y == paramName)
             return wydb::ParameterValue::createDouble(_endPnt.y());
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_Z == paramName)
+        if (SketchLine3D::PARAM_END_Z == paramName)
             return wydb::ParameterValue::createDouble(_endPnt.z());
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_LENGTH == paramName)
+        if (SketchLine3D::PARAM_LENGTH == paramName)
             return wydb::ParameterValue::createDouble((_endPnt - _startPnt).length());
         return nullptr;
     }
@@ -184,19 +183,19 @@ wydb::ParameterValueUPtr SketchLine3D::getParameterValue(const std::string& clas
 wy::ErrorStatus SketchLine3D::setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue)
 {
     if (className == SketchLine3D::classInfo()->className()) {
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_X == paramName)
+        if (SketchLine3D::PARAM_START_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setStartPoint(wy::Vector3(paramValue.asDouble(), _startPnt.y(), _startPnt.z())); }
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Y == paramName)
+        if (SketchLine3D::PARAM_START_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setStartPoint(wy::Vector3(_startPnt.x(), paramValue.asDouble(), _startPnt.z())); }
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_START_Z == paramName)
+        if (SketchLine3D::PARAM_START_Z == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setStartPoint(wy::Vector3(_startPnt.x(), _startPnt.y(), paramValue.asDouble())); }
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_X == paramName)
+        if (SketchLine3D::PARAM_END_X == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setEndPoint(wy::Vector3(paramValue.asDouble(), _endPnt.y(), _endPnt.z())); }
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_Y == paramName)
+        if (SketchLine3D::PARAM_END_Y == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setEndPoint(wy::Vector3(_endPnt.x(), paramValue.asDouble(), _endPnt.z())); }
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_END_Z == paramName)
+        if (SketchLine3D::PARAM_END_Z == paramName)
         { if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput; return this->setEndPoint(wy::Vector3(_endPnt.x(), _endPnt.y(), paramValue.asDouble())); }
-        if (Sketch3DParamNames::SKETCH_LINE3D_PARAM_LENGTH == paramName)
+        if (SketchLine3D::PARAM_LENGTH == paramName)
         {
             if (!paramValue.isDouble()) return wy::ErrorStatus::InvalidInput;
             double length = paramValue.asDouble();

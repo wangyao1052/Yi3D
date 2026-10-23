@@ -21,7 +21,6 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dTorus.h>
-#include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -120,12 +119,12 @@ void Torus::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::TORUS_PARAM_MAJOR_RADIUS;
+        def.name = Torus::PARAM_MAJOR_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::TORUS_PARAM_MINOR_RADIUS;
+        def.name = Torus::PARAM_MINOR_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -133,11 +132,11 @@ wydb::ParameterValueUPtr Torus::getParameterValue(const std::string& className, 
 {
     if (className == Torus::classInfo()->className())
     {
-        if (ParamNames::TORUS_PARAM_MAJOR_RADIUS == n)
+        if (Torus::PARAM_MAJOR_RADIUS == n)
         {
             return wydb::ParameterValue::createDouble(_majorRadius);
         }
-        else if (ParamNames::TORUS_PARAM_MINOR_RADIUS == n)
+        else if (Torus::PARAM_MINOR_RADIUS == n)
         {
             return wydb::ParameterValue::createDouble(_minorRadius);
         }
@@ -159,11 +158,11 @@ wy::ErrorStatus Torus::setParameterValue(const std::string& className, const std
         }
 
         double d = v.asDouble();
-        if (ParamNames::TORUS_PARAM_MAJOR_RADIUS == n)
+        if (Torus::PARAM_MAJOR_RADIUS == n)
         {
             return this->setMajorRadius(d);
         }
-        else if (ParamNames::TORUS_PARAM_MINOR_RADIUS == n)
+        else if (Torus::PARAM_MINOR_RADIUS == n)
         {
             return this->setMinorRadius(d);
         }

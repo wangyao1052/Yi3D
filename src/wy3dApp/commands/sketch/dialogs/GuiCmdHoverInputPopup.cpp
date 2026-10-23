@@ -32,6 +32,7 @@
 #include <algorithm>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "widgets/frame/MainWindow.h"
 #include "widgets/frame/ViewWidget.h"
 #include "widgets/frame/ViewWidgetContainer.h"
@@ -317,7 +318,7 @@ void GuiCmdHoverInputPopupBase::onCancel() const
 
 QRect GuiCmdHoverInputPopupBase::computeBoundaryRectGlobal() const
 {
-    Application& app = Application::instance();
+    Application& app = ApplicationImpl::instance();
     MainWindow* pMainWindow = app.getMainWindow();
     wyap::Document* pActiveDoc = app.getActiveDocument();
     if (!pMainWindow || !pActiveDoc)

@@ -18,6 +18,7 @@
 
 #include <wy3dApp/CommandAction.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -32,8 +33,8 @@ CommandAction::CommandAction(
 
 void CommandAction::onTriggered()
 {
-    wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
-    wyap::CmdManager* pCmdMgr = Application::instance().getCmdManager();
+    wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
+    wyap::CmdManager* pCmdMgr = ApplicationImpl::instance().getCmdManager();
 
     wyap::Command* pCmd = pCmdStack->getCommand(_commandName);
     if (!pCmd)

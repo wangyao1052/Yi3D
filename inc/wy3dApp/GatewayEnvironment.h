@@ -22,14 +22,14 @@
 #include <wydbTransaction.h>
 #include <wyapEnvironment.h>
 
-#include <wy3dApp/EnvironmentBase.h>
+#include "environments/IEnvironmentUIHost.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 class WY3DAPP_EXPORT GatewayEnvironment
     : public wyap::GatewayEnvironment
-    , public EnvironmentBase
+    , public IEnvironmentUIHost
     , public wydb::TransactionReactor
 {
 protected:

@@ -20,7 +20,6 @@
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
 #include <wy3dSketchCurve3D.h>
-#include <wy3dSketch3DParamNames.h>
 
 NS_WY3D_BEG
 
@@ -41,7 +40,7 @@ void SketchCurve3D::registerParameters(wydb::ParameterSchemaExtension* pParamSch
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = Sketch3DParamNames::SKETCH_CURVE3D_ID;
+        def.name = SketchCurve3D::PARAM_ID;
         def.isReadonly = true;
         pParamSchema->addParameterDefinition(def);
     }
@@ -51,7 +50,7 @@ wydb::ParameterValueUPtr SketchCurve3D::getParameterValue(const std::string& cla
 {
     if (className == SketchCurve3D::classInfo()->className())
     {
-        if (Sketch3DParamNames::SKETCH_CURVE3D_ID == paramName)
+        if (SketchCurve3D::PARAM_ID == paramName)
         {
             return wydb::ParameterValue::createElementId(this->getId());
         }
@@ -70,7 +69,7 @@ wy::ErrorStatus SketchCurve3D::setParameterValue(const std::string& className, c
 {
     if (className == SketchCurve3D::classInfo()->className())
     {
-        if (Sketch3DParamNames::SKETCH_CURVE3D_ID == paramName)
+        if (SketchCurve3D::PARAM_ID == paramName)
         {
             return wy::ErrorStatus::ParameterReadonly;
         }

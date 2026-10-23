@@ -21,7 +21,6 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dSphere.h>
-#include <wy3dParamNames.h>
 #include <wy3dImpl.h>
 #include <wydbFiler.h>
 #include <wydbFieldRegistry.h>
@@ -90,7 +89,7 @@ void Sphere::registerParameters(wydb::ParameterSchemaExtension* pParamSchema)
 {
     {
         wydb::ParameterDefinitionData def;
-        def.name = ParamNames::SPHERE_PARAM_RADIUS;
+        def.name = Sphere::PARAM_RADIUS;
         pParamSchema->addParameterDefinition(def);
     }
 }
@@ -98,7 +97,7 @@ wydb::ParameterValueUPtr Sphere::getParameterValue(const std::string& className,
 {
     if (className == Sphere::classInfo()->className())
     {
-        if (ParamNames::SPHERE_PARAM_RADIUS == n)
+        if (Sphere::PARAM_RADIUS == n)
         {
             return wydb::ParameterValue::createDouble(_radius);
         }
@@ -111,7 +110,7 @@ wy::ErrorStatus Sphere::setParameterValue(const std::string& className, const st
 {
     if (className == Sphere::classInfo()->className())
     {
-        if (ParamNames::SPHERE_PARAM_RADIUS == n)
+        if (Sphere::PARAM_RADIUS == n)
         {
             if (!v.isDouble())
             {

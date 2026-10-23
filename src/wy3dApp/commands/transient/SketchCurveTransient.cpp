@@ -36,6 +36,7 @@
 #include "utils/MathUtils.h"
 #include "scene/SketchEntityLinearization.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/RenderConst.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -227,7 +228,7 @@ void SketchCurveTransient::initGeom(osg::ref_ptr<osg::Vec3Array> vertices, const
 
 const wy3d::SketchCurve* SketchCurveTransient::getCurve(const wydb::ElementId& id)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return nullptr;
     const wy3d::SketchCurve* pCurve = wy3d::SketchCurve::cast(pDb->getElement(id));
     return pCurve;

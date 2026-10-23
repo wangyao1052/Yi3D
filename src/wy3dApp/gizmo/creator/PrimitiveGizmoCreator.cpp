@@ -21,6 +21,7 @@
 #include <wy3dPrimitive.h>
 #include "gizmo/element/SolidMoveGizmo.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -47,7 +48,7 @@ std::list<wyap::GizmoSPtr> PrimitiveGizmoCreator::createGizmos(const wydb::Eleme
     // }
 
     // 节点类型为实体修改,则不支持Gizmo
-    if (Scene* pScene = Application::instance().getActiveScene())
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
     {
         ElementNode* pElemNode = pScene->getElementNode(pPrimitive->getId());
         if (pElemNode && pElemNode->getNodeType() == ElementNodeType::BodyModification)

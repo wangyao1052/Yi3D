@@ -23,6 +23,7 @@
 #include <QCursor>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wyVector2.h>
 #include <wyVector3.h>
 #include <wydbDatabase.h>
@@ -37,7 +38,8 @@
 #include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
 #include "snap/SnapContext.h"
-#include <wy3dApp/EnvironmentBase.h>
+#include <wy3dApp/EnvironmentUI.h>
+#include "environments/IEnvironmentUIHost.h"
 #include "snap/SnapTipWidget.h"
 #include "commands/GuiEventDispatcher.h"
 #include "select/SelectHandler.h"
@@ -54,17 +56,17 @@ void onPropertyWidgetToggled(bool checked)
 {
     if (checked)
     {
-        Application::instance().getDockPanelManager()->showPanel(DockPanelIds::Property);
+        ApplicationImpl::instance().getDockPanelManager()->showPanel(DockPanelIds::Property);
     }
     else
     {
-        Application::instance().getDockPanelManager()->hidePanel(DockPanelIds::Property);
+        ApplicationImpl::instance().getDockPanelManager()->hidePanel(DockPanelIds::Property);
     }
 }
 
 void onWCSToggled(bool checked)
 {
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene)
     {
         assert(false);
@@ -98,11 +100,11 @@ wyap::CmdExecution::StartResult GuiCommand::onStart()
 
     // 默认设置特征树不可选
     // 目前只有建模环境下的选择命令需要支持在特征树上选择
-    Application::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
         DockPanelIds::FeatureTree)->setSelectable(false);
     // 默认属性框只读
     // 目前只有选择命令需要支持属性框可编辑
-    Application::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
         DockPanelIds::Property)->setReadOnly(true);
 
     // 命令配置:选择
@@ -110,15 +112,15 @@ wyap::CmdExecution::StartResult GuiCommand::onStart()
     this->initializeSelectOptions(selectOptions);
     this->applySelectOptions(selectOptions);
     // 重置状态栏
-    Application::instance().getStatusBar()->reset();
+    ApplicationImpl::instance().getStatusBar()->reset();
     // 重置捕捉系统
-    Application::instance().getSnapSystem()->reset();
+    ApplicationImpl::instance().getSnapSystem()->reset();
     // 设置鼠标样式
-    Application::instance().setCursor(CursorType::Select);
+    ApplicationImpl::instance().setCursor(CursorType::Select);
 
     // added by wangyao 2025.05.06 {
     // 清除动态生成的面&边
-    Application::instance().getActiveScene()->endNoBatchRender();
+    ApplicationImpl::instance().getActiveScene()->endNoBatchRender();
     // }
 
     return wyap::CmdExecution::StartResult::Succeeded;
@@ -129,15 +131,15 @@ void GuiCommand::onEnd()
     SelectOptions options;
     this->applySelectOptions(options);
 
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         pActiveScene->clearTransients();
     }
 
-    Application::instance().getGizmoManager()->beginChange();
-    Application::instance().getGizmoManager()->clearGizmos();
-    Application::instance().getGizmoManager()->endChange();
+    ApplicationImpl::instance().getGizmoManager()->beginChange();
+    ApplicationImpl::instance().getGizmoManager()->clearGizmos();
+    ApplicationImpl::instance().getGizmoManager()->endChange();
 
     this->cleanUp();
 }
@@ -147,15 +149,15 @@ void GuiCommand::onAbort(wyap::CmdExecution::AbortCause cause)
     SelectOptions options;
     this->applySelectOptions(options);
 
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         pActiveScene->clearTransients();
     }
 
-    Application::instance().getGizmoManager()->beginChange();
-    Application::instance().getGizmoManager()->clearGizmos();
-    Application::instance().getGizmoManager()->endChange();
+    ApplicationImpl::instance().getGizmoManager()->beginChange();
+    ApplicationImpl::instance().getGizmoManager()->clearGizmos();
+    ApplicationImpl::instance().getGizmoManager()->endChange();
 
     this->cleanUp();
 }
@@ -193,10 +195,11 @@ void GuiCommand::onRightMouseUp(const MouseEvent& event)
     if (added) menu.addSeparator();
 
     // Environment actions
-    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
-    if (EnvironmentBase* pEnvBase = dynamic_cast<EnvironmentBase*>(pEnv))
+    wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
+    if (IEnvironmentUIHost* pEnvUIHost = dynamic_cast<IEnvironmentUIHost*>(pEnv))
     {
-        if (pEnvBase->addContextMenuActions(menu)) menu.addSeparator();
+        EnvironmentUI* pEnvUI = pEnvUIHost->getEnvironmentUI();
+        if (pEnvUI && pEnvUI->addContextMenuActions(menu)) menu.addSeparator();
     }
 
     // Property panel
@@ -204,13 +207,13 @@ void GuiCommand::onRightMouseUp(const MouseEvent& event)
         QCoreApplication::translate("GuiCommand", "Property"), &menu);
     pActionPropertyWidget->setCheckable(true);
     pActionPropertyWidget->setChecked(
-        Application::instance().getDockPanelManager()->isPanelVisible(DockPanelIds::Property));
+        ApplicationImpl::instance().getDockPanelManager()->isPanelVisible(DockPanelIds::Property));
     menu.addAction(pActionPropertyWidget);
     QObject::connect(pActionPropertyWidget, &QAction::toggled, pActionPropertyWidget,
         onPropertyWidgetToggled);
 
     // World coordinate system (hidden when there is no active scene)
-    Scene* pScene = Application::instance().getActiveScene();
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (pScene)
     {
         QAction* pActionWCS = new QAction(
@@ -246,7 +249,7 @@ void GuiCommand::onKeyDown(const KeyEvent& event)
 
 void GuiCommand::applySelectOptions(SelectOptions options)
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (!pView) return;
     GuiEventDispatcher* pGuiEventDispatcher = pView->getGuiEventDispatcher();
     if (!pGuiEventDispatcher) return;
@@ -269,7 +272,7 @@ void GuiCommand::applySelectOptions(SelectOptions options)
 
 GuiCommand::SelectOptions GuiCommand::getSelectOptions()
 {
-    BaseView* pView = Application::instance().getActiveView();
+    BaseView* pView = ApplicationImpl::instance().getActiveView();
     if (!pView) return SelectOptions();
     GuiEventDispatcher* pGuiEventDispatcher = pView->getGuiEventDispatcher();
     if (!pGuiEventDispatcher) return SelectOptions();

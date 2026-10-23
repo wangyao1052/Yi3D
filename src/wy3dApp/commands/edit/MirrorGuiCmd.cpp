@@ -25,6 +25,7 @@
 #include <wy3dSheet.h>
 #include <wy3dMirror.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "utils/MessageBoxUtil.h"
 #include "select/SketchPlaneSelFilter.h"
@@ -66,10 +67,10 @@ wyap::CmdExecution::StartResult MirrorGuiCmd::onStart()
 
     // 过滤出源对象
     wydb::ElementId sourceId = GuiCommandUtil::filterMirrorSourceFrom(
-        Application::instance().getSelManager()->getSelections());
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->getSelections());
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 初始化
     if (sourceId.isNull())
@@ -96,10 +97,10 @@ bool MirrorGuiCmd::finishStep(Step step)
         {
             return false;
         }
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->addSelection(wyap::Selection(_sourceId));
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->addSelection(wyap::Selection(_sourceId));
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 下一步
         this->gotoStep(Step::SelectMirrorPlane);
@@ -157,17 +158,17 @@ void MirrorGuiCmd::gotoStep(Step step)
     case Step::SelectSource:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MirrorGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MirrorGuiCmd",
             "Select the solids or sheets to mirror. Press Enter or Spacebar to confirm."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Sheet;
@@ -183,11 +184,11 @@ void MirrorGuiCmd::gotoStep(Step step)
     {
         // 禁用输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("MirrorGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MirrorGuiCmd",
             "Select datum plane as mirror plane."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 预览
         _mirrorPlanePreview.clear();
@@ -203,8 +204,8 @@ void MirrorGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -276,7 +277,7 @@ void MirrorGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 {
     if (Step::SelectSource == _step)
     {
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return;
         // 实体(含实体内的子特征)或顶层片体
         const wydb::Element* pElem = pDb->getElement(id);
@@ -292,7 +293,7 @@ void MirrorGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
             assert(false);
             return;
         }
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return;
         const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pDb->getElement(id));
         if (!pDatumPlane) return;
@@ -308,7 +309,7 @@ bool MirrorGuiCmd::createMirror(
 {
     errorCode = 0;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     const wydb::Element* pSourceElem = pDb->getElement(sourceId);
@@ -356,7 +357,7 @@ bool MirrorGuiCmd::createMirrorOnSolid(
     const wy3d::Plane& mirrorPlane,
     unsigned int& errorCode)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -402,7 +403,7 @@ bool MirrorGuiCmd::createMirrorOnSheet(
     const wy3d::Plane& mirrorPlane,
     unsigned int& errorCode)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

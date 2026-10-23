@@ -31,6 +31,7 @@
 #include <wy3dSketchEllipseArc.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "SketchExtendGraph.h"
 #include "SketchTrimExtendUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -308,7 +309,7 @@ SketchExtendSegment SketchExtendNode::pick(SketchExtendGraph* pGraph, const wy::
     }
 
     // 获取曲线
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

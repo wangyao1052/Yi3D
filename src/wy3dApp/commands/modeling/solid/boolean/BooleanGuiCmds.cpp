@@ -18,6 +18,7 @@
 
 #include "commands/modeling/solid/boolean/BooleanGuiCmds.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dUnion.h>
@@ -103,13 +104,13 @@ wyap::CmdExecution::StartResult BooleanGuiCmd::onStart()
 
 
     // 初始化
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     auto extractTargetTools = [](const wyap::SelectionSet& ss,
         wydb::ElementId& targetId, std::set<wydb::ElementId>& toolIds) -> bool
     {
         if (ss.isEmpty()) return false;
 
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return false;
 
         for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
@@ -144,20 +145,20 @@ wyap::CmdExecution::StartResult BooleanGuiCmd::onStart()
     {
         if (toolIds.empty())
         {
-            Application::instance().getSelManager()->beginChange();
-            Application::instance().getSelManager()->clearSelections();
-            Application::instance().getSelManager()->endChange();
+            ApplicationImpl::instance().getSelManager()->beginChange();
+            ApplicationImpl::instance().getSelManager()->clearSelections();
+            ApplicationImpl::instance().getSelManager()->endChange();
             _targetId = targetId;
             this->finishStep(Step::SpecifyTarget);
 
             // 监听选择集
-            Application::instance().getSelManager()->addReactor(this);
+            ApplicationImpl::instance().getSelManager()->addReactor(this);
         }
         else
         {
-            Application::instance().getSelManager()->beginChange();
-            Application::instance().getSelManager()->clearSelections();
-            Application::instance().getSelManager()->endChange();
+            ApplicationImpl::instance().getSelManager()->beginChange();
+            ApplicationImpl::instance().getSelManager()->clearSelections();
+            ApplicationImpl::instance().getSelManager()->endChange();
             _targetId = targetId;
             _toolIds = toolIds;
             this->finishStep(Step::SpecifyTools);
@@ -165,13 +166,13 @@ wyap::CmdExecution::StartResult BooleanGuiCmd::onStart()
     }
     else
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
         this->gotoStep(Step::SpecifyTarget);
 
         // 监听选择集
-        Application::instance().getSelManager()->addReactor(this);
+        ApplicationImpl::instance().getSelManager()->addReactor(this);
     }
 
     return wyap::CmdExecution::StartResult::Succeeded;
@@ -179,29 +180,29 @@ wyap::CmdExecution::StartResult BooleanGuiCmd::onStart()
 void BooleanGuiCmd::onEnd()
 {
     // 取消监听选择集
-    Application::instance().getSelManager()->removeReactor(this);
+    ApplicationImpl::instance().getSelManager()->removeReactor(this);
 
     // 基类
     __baseClass::onEnd();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
 }
 void BooleanGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
 {
     // 取消监听选择集
-    Application::instance().getSelManager()->removeReactor(this);
+    ApplicationImpl::instance().getSelManager()->removeReactor(this);
 
     // 基类
     __baseClass::onAbort(cause);
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
 }
 
@@ -290,9 +291,9 @@ void BooleanGuiCmd::gotoStep(Step step)
     case Step::SpecifyTarget:
     {
         // 清空选择集
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
 
         // 支持点选;不支持框选
         SelectOptions selOptions;
@@ -306,11 +307,11 @@ void BooleanGuiCmd::gotoStep(Step step)
         this->applySelectOptions(selOptions);
 
         // 输入控件
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("BooleanGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("BooleanGuiCmd",
             "Select the target solid."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     break;
 
@@ -328,11 +329,11 @@ void BooleanGuiCmd::gotoStep(Step step)
         this->applySelectOptions(selOptions);
 
         // 输入控件
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("BooleanGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("BooleanGuiCmd",
             "Select one or more tool solids; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 高亮目标体
         _targetHighlightor.addSelection(wyap::Selection(_targetId));
@@ -341,8 +342,8 @@ void BooleanGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
     break;
@@ -353,10 +354,10 @@ void BooleanGuiCmd::onFeatureTreeItemClicked(const wydb::ElementId& id)
 {
     auto tryAddSelection = [](const wydb::ElementId& id)
     {
-        wyap::SelManager* pSelMgr = Application::instance().getSelManager();
+        wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
         if (!pSelMgr) return;
 
-        const wydb::Database* pDb = Application::instance().getActiveDatabase();
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb) return;
         const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(id));
         if (!pSolid) return;
@@ -432,9 +433,9 @@ void BooleanGuiCmd::onClearSelectionMenuItem()
 {
     if (BooleanGuiCmd::Step::SpecifyTools == _step)
     {
-        Application::instance().getSelManager()->beginChange();
-        Application::instance().getSelManager()->clearSelections();
-        Application::instance().getSelManager()->endChange();
+        ApplicationImpl::instance().getSelManager()->beginChange();
+        ApplicationImpl::instance().getSelManager()->clearSelections();
+        ApplicationImpl::instance().getSelManager()->endChange();
     }
 }
 
@@ -452,7 +453,7 @@ bool BooleanGuiCmd::newBooleanFeature()
     if (_toolIds.empty()) return false;
 
     // 开启事务
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
     wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
     assert(pTransMgr);

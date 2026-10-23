@@ -35,6 +35,7 @@
 #include <wyapEnums.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "application/Config.h"
 #include "application/Document.h"
 #include "commands/FileCommands.h"
@@ -98,7 +99,7 @@ void AutoSave::initialize()
     {
         return;
     }
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     if (!pDocMgr)
     {
         assert(false);
@@ -112,7 +113,7 @@ void AutoSave::initialize()
     }
     _initialized = true;
 
-    const Config* pConfig = Application::instance().getConfig();
+    const Config* pConfig = ApplicationImpl::instance().getConfig();
     assert(pConfig);
     _intervalMs = static_cast<int64_t>(pConfig->autoSave.intervalMinutes) * 60 * 1000;
 
@@ -121,7 +122,7 @@ void AutoSave::initialize()
 
 bool AutoSave::checkRecoveryForOpen(const std::string& u8FileFullPath)
 {
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     const QString originalPath = QString::fromStdString(u8FileFullPath);
     const QString autosavePath = originalPath + kAutosaveSuffix;
     if (!QFile::exists(autosavePath))
@@ -153,7 +154,7 @@ bool AutoSave::checkRecoveryForOpen(const std::string& u8FileFullPath)
         tr("Recovery"),
         text,
         QMessageBox::NoButton,
-        Application::instance().getMainWindow());
+        ApplicationImpl::instance().getMainWindow());
     QPushButton* pRecoverButton = messageBox.addButton(
         tr("Recover"), QMessageBox::AcceptRole);
     QPushButton* pDiscardButton = messageBox.addButton(
@@ -214,7 +215,7 @@ bool AutoSave::checkRecoveryForOpen(const std::string& u8FileFullPath)
     // Ask whether to save the recovered document now (target is clear: the
     // original path; save directly without a dialog).
     const int ret = QMessageBox::question(
-        Application::instance().getMainWindow(),
+        ApplicationImpl::instance().getMainWindow(),
         tr("Recovery"),
         tr("The document has been recovered.\n"
             "Do you want to save it to the original file now?\n%1").arg(originalPath),
@@ -223,7 +224,7 @@ bool AutoSave::checkRecoveryForOpen(const std::string& u8FileFullPath)
     if (QMessageBox::Yes == ret)
     {
         const wydb::FileType fileType = FileCmdsUtil::inferFileType(u8FileFullPath);
-        wy::ErrorStatus error = Application::instance().getDocManager()->saveDocument(pDoc, u8FileFullPath, { fileType });
+        wy::ErrorStatus error = ApplicationImpl::instance().getDocManager()->saveDocument(pDoc, u8FileFullPath, { fileType });
         if (wy::ErrorStatus::Ok != error)
         {
             MessageBoxUtil::showError(tr("Failed to save the recovered document!"));
@@ -344,7 +345,7 @@ void AutoSave::onTimer()
 std::vector<wyap::Document*> AutoSave::getEligibleModifiedDocuments() const
 {
     std::vector<wyap::Document*> eligibleDocs;
-    wyap::DocManager* pDocMgr = Application::instance().getDocManager();
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     if (!pDocMgr)
     {
         assert(false);

@@ -17,6 +17,9 @@ class WY3D_EXPORT Sphere : public wy3d::Primitive
     WYDB_DECLARE_MEMBERS(Sphere, wy3d::Sphere, wy3d::Primitive)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_RADIUS = "Radius";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, double radius, Sphere*& pOut);
 
     double getRadius() const { return _radius; }

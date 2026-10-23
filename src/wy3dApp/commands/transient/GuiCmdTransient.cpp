@@ -19,6 +19,7 @@
 #include <wy3dApp/GuiCmdTransient.h>
 #include <osg/StateSet>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -36,7 +37,7 @@ GuiCmdTransient::GuiCmdTransient()
     _root->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::GuiTransientObject, "RenderBin");
 
     // 添加到当前场景中
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         pActiveScene->addTransient(_root.get());
@@ -46,7 +47,7 @@ GuiCmdTransient::GuiCmdTransient()
 GuiCmdTransient::~GuiCmdTransient()
 {
     // 从当前场景中移除
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         pActiveScene->removeTransient(_root.get());

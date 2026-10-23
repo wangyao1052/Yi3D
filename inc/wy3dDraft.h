@@ -19,6 +19,9 @@ class WY3D_EXPORT Draft : public wy3d::BodyModification
     WYDB_DECLARE_MEMBERS(Draft, wy3d::Draft, wy3d::BodyModification)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_ANGLE = "Angle";
+
     static wy::ErrorStatus create(
         wydb::Transaction* pTrans,
         wy3d::Solid* pSolid,

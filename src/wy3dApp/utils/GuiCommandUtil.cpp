@@ -26,6 +26,7 @@
 #include <wy3dPattern.h>
 #include <wy3dMirror.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include "snap/SketchSnapSystem.h"
@@ -37,7 +38,7 @@ namespace wy3dApp {
 
 bool GuiCommandUtil::getWorkingPlane(const wyap::Selection& sel, wy3d::Plane& workPln)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -96,7 +97,7 @@ bool GuiCommandUtil::getWorkingPlane(const wyap::Selection& sel, wy3d::Plane& wo
 wyap::SelectionSet GuiCommandUtil::filterTopSolidFeaturesFrom(const wyap::SelectionSet& ss)
 {
     wyap::SelectionSet filterSS;
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return filterSS;
 
     for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
@@ -119,7 +120,7 @@ wyap::SelectionSet GuiCommandUtil::filterTopSolidFeaturesFrom(const wyap::Select
 
 wydb::ElementId GuiCommandUtil::filterPatternSourceFrom(const wyap::SelectionSet& ss)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -159,7 +160,7 @@ wydb::ElementId GuiCommandUtil::filterPatternSourceFrom(const wyap::SelectionSet
 
 wydb::ElementId GuiCommandUtil::filterMirrorSourceFrom(const wyap::SelectionSet& ss)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -238,7 +239,7 @@ const wy3d::Solid* GuiCommandUtil::autoGetSolidToCut(const wydb::Database* pDb)
 GuiCmdSketchInfo GuiCommandUtil::initSketchInfo()
 {
     GuiCmdSketchInfo info;
-    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     if (SketchEnvironment* pSketchEnv = dynamic_cast<SketchEnvironment*>(pEnv))
     {
         info.sketchPlane = pSketchEnv->getSketchPlane();
@@ -254,13 +255,13 @@ GuiCmdSketchInfo GuiCommandUtil::initSketchInfo()
 
 SketchEnvironment* GuiCommandUtil::getActiveSketchEnvironment()
 {
-    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     return dynamic_cast<SketchEnvironment*>(pEnv);
 }
 
 Sketch3DEnvironment* GuiCommandUtil::getActiveSketch3DEnvironment()
 {
-    wyap::Environment* pEnv = Application::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     return dynamic_cast<Sketch3DEnvironment*>(pEnv);
 }
 

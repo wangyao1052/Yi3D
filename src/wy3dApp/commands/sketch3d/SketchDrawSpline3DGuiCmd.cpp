@@ -37,6 +37,7 @@
 #include <wy3dImpl.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "gizmo/OsgGizmoNode.h"
 #include "scene/Colors.h"
@@ -144,7 +145,7 @@ bool SketchDrawSpline3DGuiCmd::finishStep(unsigned int step)
 {
     if (Step::SpecifyStartPnt == static_cast<Step>(step))
     {
-        wydb::Database* pDb = Application::instance().getActiveDatabase();
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
         if (!pDb)
         {
             assert(false);
@@ -208,7 +209,7 @@ void SketchDrawSpline3DGuiCmd::gotoStep(unsigned int step)
     {
     case Step::SpecifyStartPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSpline3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSpline3DGuiCmd",
             "Specify the start point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -216,7 +217,7 @@ void SketchDrawSpline3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyNextPnt:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSpline3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSpline3DGuiCmd",
             "Specify the next point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane. Esc or double-click finishes the spline."));
     }
@@ -224,7 +225,7 @@ void SketchDrawSpline3DGuiCmd::gotoStep(unsigned int step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -277,7 +278,7 @@ void SketchDrawSpline3DGuiCmd::updateStartPointSnapObject()
     if (_pStartPointSnapObject) return;
     if (_points.size() + 1 < _closureMinPoints) return;
 
-    wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+    wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
     if (!pSnapSys)
     {
         assert(false);
@@ -295,7 +296,7 @@ void SketchDrawSpline3DGuiCmd::removeStartPointSnapObject()
 {
     if (!_pStartPointSnapObject) return;
 
-    wyap::SnapSystem* pSnapSys = Application::instance().getSnapSystem();
+    wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem();
     if (pSnapSys)
     {
         pSnapSys->beginChange();
@@ -435,7 +436,7 @@ void SketchDrawSpline3DGuiCmd::onLeftMouseDoubleClicked(const MouseEvent& event)
 
 void SketchDrawSpline3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     if (!pMainWindow)
     {
         assert(false);

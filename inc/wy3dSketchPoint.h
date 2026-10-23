@@ -19,6 +19,10 @@ class WY3D_EXPORT SketchPoint : public wy3d::SketchEntity
     WYDB_DECLARE_MEMBERS(SketchPoint, wy3d::SketchPoint, wy3d::SketchEntity)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_POSITION_X = "Position X";
+    static constexpr const char* PARAM_POSITION_Y = "Position Y";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, const wy::Vector2& position, SketchPoint*& pOut);
 
     wy::Vector2 getPosition() const { return _position; }

@@ -26,6 +26,8 @@
 #include <wy3dSketch3D.h>
 
 #include <wy3dApp/Application.h>
+#include <wy3dApp/CommandAction.h>
+#include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include "snap3d/Sketch3DSnapSystem.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -37,12 +39,12 @@ Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl()
     , _sketch3dId(wydb::ElementId::kNull)
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
-    , _pUI(std::make_unique<Sketch3DEnvironmentUI>())
     , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
     , _pendingWorkPlane(wy3d::Plane::kInvalid)
     , _pendingPlaneSelection(wydb::ElementId::kNull)
 {
     setName("sketch3d");
+    _pUI = std::make_unique<Sketch3DEnvironmentUI>(this);
 }
 
 Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl(const wy3d::Sketch3D* pSketch3D)
@@ -50,13 +52,13 @@ Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl(const wy3d::Sketch3D* pSketch3D
     , _sketch3dId(wydb::ElementId::kNull)
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
-    , _pUI(std::make_unique<Sketch3DEnvironmentUI>())
     , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
     , _pendingWorkPlane(wy3d::Plane::kInvalid)
     , _pendingPlaneSelection(wydb::ElementId::kNull)
 {
     assert(pSketch3D);
     setName("sketch3d");
+    _pUI = std::make_unique<Sketch3DEnvironmentUI>(this);
     _sketch3dId = pSketch3D->getId();
 }
 
@@ -89,23 +91,9 @@ Sketch3DSnapSystem* Sketch3DEnvironmentImpl::getSnapSystem() const
     return _pSnapSys.get();
 }
 
-bool Sketch3DEnvironmentImpl::addContextMenuActions(ContextMenu& menu)
+EnvironmentUI* Sketch3DEnvironmentImpl::getEnvironmentUI() const
 {
-    bool added(false);
-
-    if (CommandAction* pActionEndSketch3D = this->findCommandAction(CommandNames::EndSketch3D))
-    {
-        menu.addAction(pActionEndSketch3D);
-        added = true;
-    }
-
-    if (CommandAction* pActionCancelSketch3D = this->findCommandAction(CommandNames::CancelSketch3D))
-    {
-        menu.addAction(pActionCancelSketch3D);
-        added = true;
-    }
-
-    return added;
+    return _pUI.get();
 }
 
 void Sketch3DEnvironmentImpl::setPendingWorkPlane(const wy3d::Plane& plane, const wyap::Selection& sel)
@@ -137,45 +125,45 @@ void Sketch3DEnvironmentImpl::onCommandStartFailed(
     wyap::Command* pCmd,
     wyap::CmdExecution::StartResult startResult)
 {
-    EnvironmentBase::onCommandStartFailed(pCmd, startResult);
+    _pUI->onCommandStartFailed(pCmd, startResult);
 }
 
 void Sketch3DEnvironmentImpl::onCommandStarted(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandStarted(pCmd);
+    _pUI->onCommandStarted(pCmd);
 }
 
 void Sketch3DEnvironmentImpl::onCommandEnded(wyap::Command* pCmd)
 {
-    EnvironmentBase::onCommandEnded(pCmd);
+    _pUI->onCommandEnded(pCmd);
 }
 
 void Sketch3DEnvironmentImpl::onCommandAborted(
     wyap::Command* pCmd,
     wyap::CmdExecution::AbortCause abortCause)
 {
-    EnvironmentBase::onCommandAborted(pCmd, abortCause);
+    _pUI->onCommandAborted(pCmd, abortCause);
 }
 
 void Sketch3DEnvironmentImpl::onEnter()
 {
     wyap::TaskEnvironment::onEnter();
-    EnvironmentBase::onEnter();
+    _pUI->onEnter();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
     // 同步显示模式按钮状态
-    this->syncDisplayModeAction();
+    _pUI->syncDisplayModeAction();
 
     // 开启顶层事务组
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -215,7 +203,7 @@ void Sketch3DEnvironmentImpl::onEnter()
     }
     _pTopTrans = pGroupTrans;
 
-    Application::instance().getCmdManager()->postCommand(CommandNames::Select);
+    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     // Update command action states.
     this->updateCommandActionStates();
@@ -250,12 +238,12 @@ wy3d::Sketch3D* Sketch3DEnvironmentImpl::newSketch3D(wydb::Database* pDb)
 void Sketch3DEnvironmentImpl::onExit(ExitCode exitCode)
 {
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     if (pDb)
     {
@@ -263,10 +251,10 @@ void Sketch3DEnvironmentImpl::onExit(ExitCode exitCode)
         this->commitSketch3D(pDb, ExitCode::Ok == exitCode ? true : false);
     }
 
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
-    EnvironmentBase::onExit(exitCode);
+    _pUI->onExit(exitCode);
     wyap::TaskEnvironment::onExit(exitCode);
 }
 
@@ -315,50 +303,50 @@ void Sketch3DEnvironmentImpl::commitSketch3D(wydb::Database* pDb, bool ok)
 
 void Sketch3DEnvironmentImpl::onSuspend()
 {
-    _pUI->teardown(this);
+    _pUI->teardown();
     this->removeCommands();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
-    EnvironmentBase::onSuspend();
+    _pUI->onSuspend();
     wyap::TaskEnvironment::onSuspend();
 }
 
 void Sketch3DEnvironmentImpl::onResume()
 {
     wyap::TaskEnvironment::onResume();
-    EnvironmentBase::onResume();
+    _pUI->onResume();
 
     this->registerCommands();
-    _pUI->initialize(this);
+    _pUI->initialize();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
     this->updateCommandActionStates();
 
     // 同步显示模式按钮状态
-    this->syncDisplayModeAction();
+    _pUI->syncDisplayModeAction();
 }
 
 void Sketch3DEnvironmentImpl::updateUndoRedoActionStates()
 {
-    QAction* pUndoAction = this->findCommandAction(CommandNames::Undo);
-    QAction* pRedoAction = this->findCommandAction(CommandNames::Redo);
+    QAction* pUndoAction = _pUI->findCommandAction(CommandNames::Undo);
+    QAction* pRedoAction = _pUI->findCommandAction(CommandNames::Redo);
     if (!pUndoAction || !pRedoAction)
     {
         assert(false);
         return;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

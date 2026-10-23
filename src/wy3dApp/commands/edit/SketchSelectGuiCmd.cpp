@@ -22,6 +22,7 @@
 #include <wy3dSketchEntity.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/GizmoFactory.h>
 #include "gizmo/creator/SketchRectangleGizmoCreator.h"
 #include "scene/nodes/ElementNodeType.h"
@@ -61,7 +62,7 @@ void SketchSelectGuiCmd::onStart_EnvSpecific()
 
 void SketchSelectGuiCmd::selectAll_Impl(wyap::SelectionSet& ss)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(_sketchInfo.sketchId));
     if (pSketch)
@@ -75,9 +76,9 @@ void SketchSelectGuiCmd::selectAll_Impl(wyap::SelectionSet& ss)
 
 bool SketchSelectGuiCmd::tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return true;
-    GizmoFactory* pGizmoFactory = Application::instance().getGizmoFactory();
+    GizmoFactory* pGizmoFactory = ApplicationImpl::instance().getGizmoFactory();
     if (!pGizmoFactory) return true;
 
     if (SketchRectangleGizmoCreator::tryCreateGizmos(sels, gizmos))

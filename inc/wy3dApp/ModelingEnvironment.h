@@ -21,16 +21,16 @@
 
 #include <wyapEnvironment.h>
 
-#include <wy3dApp/EnvironmentBase.h>
 #include "environments/ICommandActionStateHost.h"
+#include "environments/IEnvironmentUIHost.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 class WY3DAPP_EXPORT ModelingEnvironment
-    : public EnvironmentBase
-    , public wyap::DocumentEnvironment
+    : public wyap::DocumentEnvironment
     , public ICommandActionStateHost
+    , public IEnvironmentUIHost
 {
 protected:
     ModelingEnvironment() = default;

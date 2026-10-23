@@ -18,13 +18,19 @@
 
 #include <QDir>
 
-#include <wy3dApp/Application.h>
+#include <wy3dApp/wy3dAppDefs.h>
 #include "crashDump/CrashDump.h"
+
+namespace wy3dApp {
+// Exported by wy3dApp.dll; kept out of the public headers because only the
+// shell needs this entry point.
+WY3DAPP_EXPORT int runApplication(int argc, char** argv);
+}
 
 int main(int argc, char *argv[])
 {
     // core dump
     initializeCrashDump(QDir::currentPath());
 
-    return wy3dApp::Application::instance().runApplication(argc, argv);
+    return wy3dApp::runApplication(argc, argv);
 }

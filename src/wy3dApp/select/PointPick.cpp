@@ -19,6 +19,7 @@
 #include "PointPick.h"
 #include "select/PickCommon.h"
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "scene/nodes/SolidElementNode.h"
@@ -138,7 +139,7 @@ wyap::Selection _newSelection(
 {
     assert(!id.isNull());
 
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     assert(pActiveScene);
     if (!pActiveScene) return wyap::Selection(wydb::ElementId::kNull);
     ElementNode* pElemNode = pActiveScene->getElementNode(id);

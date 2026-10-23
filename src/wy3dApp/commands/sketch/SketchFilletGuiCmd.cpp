@@ -29,6 +29,7 @@
 #include <wy3dImpl.h>
 #include <wy3dSketch.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/UndoRedoCommands.h"
 #include "commands/sketch/SketchTrimExtendUtil.h"
 #include "utils/MathUtils.h"
@@ -70,12 +71,12 @@ wyap::CmdExecution::StartResult SketchFilletGuiCmd::onStart()
     _sketchInfo = GuiCommandUtil::initSketchInfo();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 基本信息
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -143,8 +144,8 @@ void SketchFilletGuiCmd::gotoStep(Step step)
     {
     case Step::First:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchFillet", "Select the first sketch curve."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchFillet", "Select the first sketch curve."));
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 前置选择过滤器
         _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::SketchEntity>();
@@ -153,8 +154,8 @@ void SketchFilletGuiCmd::gotoStep(Step step)
 
     case Step::Second:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchFillet", "Select the second sketch curve."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchFillet", "Select the second sketch curve."));
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 前置选择过滤器
         wydb::ElementId excludeId = wydb::ElementId::kNull;
@@ -167,7 +168,7 @@ void SketchFilletGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -194,9 +195,9 @@ void SketchFilletGuiCmd::onMouseMove(const MouseEvent& event)
     if (Step::First == _step)
     {
         if (!sel.getElementId().isNull() && !_pCurveTransient1st)
-            Application::instance().setCursor(CursorType::Forbid);
+            ApplicationImpl::instance().setCursor(CursorType::Forbid);
         else
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     else // 第二步
     {
@@ -210,9 +211,9 @@ void SketchFilletGuiCmd::onMouseMove(const MouseEvent& event)
         }
 
         if (!sel.getElementId().isNull() && !_pCurveTransient2nd)
-            Application::instance().setCursor(CursorType::Forbid);
+            ApplicationImpl::instance().setCursor(CursorType::Forbid);
         else
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
 
     return;
@@ -360,7 +361,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreview(
     assert(id1st != id2nd);
     if (id1st == id2nd) return nullptr;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
     if (!pDb) return nullptr;
 
@@ -961,7 +962,7 @@ std::shared_ptr<FilletData> SketchFilletGuiCmd::filletPreviewSplineSpline(
 
 const wy3d::SketchCurve* SketchFilletGuiCmd::getSketchCurve(const wydb::ElementId& id) const
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return nullptr;
     const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(id));
     if (!pSketchCurve) return nullptr;
@@ -971,7 +972,7 @@ const wy3d::SketchCurve* SketchFilletGuiCmd::getSketchCurve(const wydb::ElementI
 
 bool SketchFilletGuiCmd::fillet(const FilletData* pFilletData)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return false;
 
     wydb::Transaction* pTransGroup = pDb->getTransactionManager()->startTransactionGroup();

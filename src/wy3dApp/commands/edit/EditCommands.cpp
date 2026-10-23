@@ -24,6 +24,7 @@
 #include <wyapSelManager.h>
 #include <wyapSelection.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "utils/CopyPasteUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -31,10 +32,10 @@ namespace wy3dApp {
 
 int ShowCommand::run()
 {
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.isEmpty()) return 0;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -67,10 +68,10 @@ int ShowCommand::run()
 
 int HideCommand::run()
 {
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.isEmpty()) return 0;
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -98,9 +99,9 @@ int HideCommand::run()
     assert(wy::ErrorStatus::Ok == error);
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     return 0;
 }

@@ -19,6 +19,12 @@ class WY3D_EXPORT SketchCenterLine : public wy3d::SketchCurve
     WYDB_DECLARE_MEMBERS(SketchCenterLine, wy3d::SketchCenterLine, wy3d::SketchCurve)
 
 public:
+    // Parameter names
+    static constexpr const char* PARAM_START_X = "StartPoint X";
+    static constexpr const char* PARAM_START_Y = "StartPoint Y";
+    static constexpr const char* PARAM_END_X   = "EndPoint X";
+    static constexpr const char* PARAM_END_Y   = "EndPoint Y";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, const wy::Vector2& startPnt, const wy::Vector2& endPnt, SketchCenterLine*& pOut);
 
     virtual wy::Vector2 getStartPoint() const override { return _startPnt; }

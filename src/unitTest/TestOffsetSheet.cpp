@@ -40,7 +40,6 @@
 #include <wy3dErrorCode.h>
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include <wy3dParamEnumDef.h>
-#include <wy3dParamNames.h>
 
 #include <TopoDS.hxx>
 #include <TopoDS_Shape.hxx>
@@ -1569,7 +1568,7 @@ TEST(OffsetSheet, TargetIsFixedAfterCreation)
     for (const wydb::ParameterDefinition* pDef : pOffset->listParameters())
     {
         ASSERT_NE(pDef, nullptr);
-        if (pDef->getName() != wy3d::ParamNames::OFFSETSHEET_PARAM_TARGET) continue;
+        if (pDef->getName() != wy3d::OffsetSheet::PARAM_TARGET) continue;
         foundTarget = true;
         EXPECT_TRUE(pDef->isReadonly());
     }
@@ -1591,14 +1590,14 @@ TEST(OffsetSheet, TargetIsFixedAfterCreation)
             {{static_cast<int>(wy3d::OffsetSheet::Target::WholeSheet), "Whole Sheet"},
              {static_cast<int>(wy3d::OffsetSheet::Target::SelectedFaces), "Selected Faces"}},
             static_cast<int>(wy3d::OffsetSheet::Target::WholeSheet));
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::OFFSETSHEET_PARAM_TARGET,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::OffsetSheet::PARAM_TARGET,
             *wydb::ParameterValue::createAny(enumDef)), wy::ErrorStatus::ParameterReadonly);
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::OFFSETSHEET_PARAM_TARGET,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::OffsetSheet::PARAM_TARGET,
             *wydb::ParameterValue::createInteger(static_cast<int>(wy3d::OffsetSheet::Target::WholeSheet))),
             wy::ErrorStatus::ParameterReadonly);
 
         // The distance is an ordinary parameter and stays editable
-        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::ParamNames::OFFSETSHEET_PARAM_OFFSET,
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::OffsetSheet::PARAM_OFFSET,
             *wydb::ParameterValue::createDouble(5.0)), wy::ErrorStatus::Ok);
 
         ASSERT_EQ(pTransMgr->endTransaction(), wy::ErrorStatus::Ok);

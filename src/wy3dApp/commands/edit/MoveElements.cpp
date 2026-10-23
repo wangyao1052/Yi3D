@@ -29,6 +29,7 @@
 #include <wy3dMove.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "scene/nodes/ElementNodeType.h"
@@ -40,7 +41,7 @@ namespace wy3dApp {
 MoveElemens::MoveElemens(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 {
     _pat = new osg::PositionAttitudeTransform();
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         pActiveScene->addTransient(_pat);
@@ -49,7 +50,7 @@ MoveElemens::MoveElemens(GuiCommand* pGuiCmd) : GuiCmdMakeElement(pGuiCmd)
 
 MoveElemens::~MoveElemens()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         pActiveScene->removeTransient(_pat);
@@ -66,7 +67,7 @@ bool MoveElemens::init(const wyap::SelectionSet& ss)
     }
     if (ids.empty()) return false;
 
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene) return false;
 
     for (const wydb::ElementId& id : ids)

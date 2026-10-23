@@ -30,6 +30,7 @@
 #include <wyapSelManager.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "PropertyEditorWidget.h"
@@ -141,7 +142,7 @@ void ParamComboBox::onCurrentIndexChanged(int index)
     if (newValue == _enumDef.currentValue && _isAllTheSameValue) return;
 
     // 通过事务修改参数值
-    Application::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
         DockPanelIds::Property)->startModifyElements();
     {
         // 构造新的 ParamEnumDef
@@ -169,20 +170,20 @@ void ParamComboBox::onCurrentIndexChanged(int index)
             _updating = false;
         }
     }
-    Application::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
+    ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
         DockPanelIds::Property)->endModifyElements();
 }
 
 bool ParamComboBox::modifyElementsByTransaction(const wydb::ParameterValue& paramValue)
 {
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     if (ss.isEmpty())
     {
         assert(false);
         return false;
     }
 
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

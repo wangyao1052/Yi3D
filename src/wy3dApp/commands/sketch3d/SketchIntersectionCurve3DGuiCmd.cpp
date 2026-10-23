@@ -38,6 +38,7 @@
 #include <wy3dSolid.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/dialogs/SketchIntersectionCurvePanel.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "select/SelectionSetHighlightor.h"
@@ -135,9 +136,9 @@ wyap::CmdExecution::StartResult SketchIntersectionCurve3DGuiCmd::onStart()
         return wyap::CmdExecution::StartResult::Failed;
     }
 
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // Faces and datum planes in one pick. The Element bit has to stay on, see the filter above.
     // The sketch being edited is not reachable here: its entities are Sketch3DEntity nodes
@@ -156,7 +157,7 @@ wyap::CmdExecution::StartResult SketchIntersectionCurve3DGuiCmd::onStart()
 
     this->setStepOneTip();
 
-    Application::instance().setCursor(CursorType::SelectElements);
+    ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
     return wyap::CmdExecution::StartResult::Succeeded;
 }
@@ -202,7 +203,7 @@ void SketchIntersectionCurve3DGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
     if (sel == _firstSelection)
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchIntersectionCurve3DGuiCmd",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchIntersectionCurve3DGuiCmd",
             "The two items must be different."));
         return;
     }
@@ -214,7 +215,7 @@ void SketchIntersectionCurve3DGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
 bool SketchIntersectionCurve3DGuiCmd::resolveSource(const wyap::Selection& sel, Source& source) const
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -289,7 +290,7 @@ void SketchIntersectionCurve3DGuiCmd::setAllowPlane(bool allow)
 
 void SketchIntersectionCurve3DGuiCmd::applyPair(const wyap::Selection& second, const Source& source)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);
@@ -354,7 +355,7 @@ void SketchIntersectionCurve3DGuiCmd::applyPair(const wyap::Selection& second, c
 
 void SketchIntersectionCurve3DGuiCmd::setStepOneTip() const
 {
-    Application::instance().getStatusBar()->setTips(
+    ApplicationImpl::instance().getStatusBar()->setTips(
         QCoreApplication::translate("SketchIntersectionCurve3DGuiCmd", "Select the first face or datum plane."));
 }
 
@@ -362,7 +363,7 @@ void SketchIntersectionCurve3DGuiCmd::setStepTwoTip(bool firstIsPlane) const
 {
     // A datum plane is only pickable along its border, and a second one cannot be paired with
     // it, so the tip asks for a face only rather than letting the pick be rejected silently.
-    Application::instance().getStatusBar()->setTips(firstIsPlane
+    ApplicationImpl::instance().getStatusBar()->setTips(firstIsPlane
         ? QCoreApplication::translate("SketchIntersectionCurve3DGuiCmd",
             "Select the face to intersect with the datum plane.")
         : QCoreApplication::translate("SketchIntersectionCurve3DGuiCmd",
@@ -442,7 +443,7 @@ void SketchIntersectionCurve3DGuiCmd::createPanel()
 {
     assert(!_pPanel);
 
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     QOpenGLWidget* pViewport = pMainWindow ? pMainWindow->findChild<QOpenGLWidget*>() : nullptr;
     // No viewport means no 3D picking either, and the command is not worth refusing over a
     // panel: without one every pair is created in fit mode.

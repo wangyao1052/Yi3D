@@ -16,6 +16,11 @@ class WY3D_EXPORT Box : public wy3d::Primitive
 {
     WYDB_DECLARE_MEMBERS(Box, wy3d::Box, wy3d::Primitive)
 public:
+    // Parameter names
+    static constexpr const char* PARAM_LENGTH = "Length";
+    static constexpr const char* PARAM_WIDTH  = "Width";
+    static constexpr const char* PARAM_HEIGHT = "Height";
+
     static wy::ErrorStatus create(wydb::Transaction* pTrans, double length, double width, double height, Box*& pOut);
 
     double getLength() const { return _length; }

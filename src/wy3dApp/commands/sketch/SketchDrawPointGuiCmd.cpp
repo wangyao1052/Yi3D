@@ -31,6 +31,7 @@
 #include <wy3dSketchLine.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
@@ -137,11 +138,11 @@ void SketchDrawPointGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPoint",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPoint",
             "Specify the position of the point; you can directly input the coordinate values."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         // 局部更新草图捕捉系统
         if (_sketchInfo.pSketchSnapSys)
@@ -156,8 +157,8 @@ void SketchDrawPointGuiCmd::gotoStep(Step step)
     default:
     {
         assert(false);
-        Application::instance().getStatusBar()->setTips("");
-        Application::instance().setCursor(CursorType::Select);
+        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setCursor(CursorType::Select);
 
     }
     break;
@@ -222,7 +223,7 @@ void SketchDrawPointGuiCmd::initializePopups()
         return;
     }
 
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
         QStringLiteral("X"),
         QStringLiteral("Y"),

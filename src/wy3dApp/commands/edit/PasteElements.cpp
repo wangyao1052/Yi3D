@@ -27,6 +27,7 @@
 #include <wy3dSketchCurve.h>
 #include <wyapClipboard.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "scene/nodes/ElementNodeType.h"
@@ -40,7 +41,7 @@ PasteElements::PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, wydb::Ele
     : GuiCmdMakeElement(pGuiCmd), _isSketching(nullptr != GuiCommandUtil::getActiveSketchEnvironment()), _sketchId(sketchId), _sketchPlane(sketchPlane)
 {
     _pat = new osg::PositionAttitudeTransform();
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         pActiveScene->addTransient(_pat);
@@ -49,7 +50,7 @@ PasteElements::PasteElements(wydb::Database* pDb, GuiCommand* pGuiCmd, wydb::Ele
 
 PasteElements::~PasteElements()
 {
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (pActiveScene)
     {
         pActiveScene->removeTransient(_pat);
@@ -120,7 +121,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
     }
 
     // 生成拷贝元素
-    std::shared_ptr<const wyap::ClipData> pClipData = Application::instance().getClipboard()->getClipData();
+    std::shared_ptr<const wyap::ClipData> pClipData = ApplicationImpl::instance().getClipboard()->getClipData();
     const wyap::ElementsClipData* pElementsClipData = dynamic_cast<const wyap::ElementsClipData*>(pClipData.get());
     if (!pElementsClipData)
     {
@@ -276,7 +277,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
     }
 
     // 生成跟随鼠标移动的渲染节点
-    Scene* pActiveScene = Application::instance().getActiveScene();
+    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
     if (!pActiveScene)
     {
         assert(false);

@@ -30,6 +30,7 @@
 #include <wy3dSketch.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap/SketchSnapSystem.h"
 #include <wy3dApp/CommonSelFilters.h>
@@ -70,9 +71,9 @@ wyap::CmdExecution::StartResult SketchOffsetGuiCmd::onStart()
     if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
     // 清空选择集
-    Application::instance().getSelManager()->beginChange();
-    Application::instance().getSelManager()->clearSelections();
-    Application::instance().getSelManager()->endChange();
+    ApplicationImpl::instance().getSelManager()->beginChange();
+    ApplicationImpl::instance().getSelManager()->clearSelections();
+    ApplicationImpl::instance().getSelManager()->endChange();
 
     // 初始化
     _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;
@@ -189,14 +190,14 @@ void SketchOffsetGuiCmd::gotoStep(Step step)
     _hoverPopupState.resetValue();
 
     // 清空捕捉结果
-    Application::instance().getSnapSystem()->clearSnapResult();
+    ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
     switch (step)
     {
     case Step::SelectElement:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchOffset", "Select the sketch curve to offset."));
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchOffset", "Select the sketch curve to offset."));
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         if (_sketchInfo.pSketchSnapSys)
         {
@@ -207,8 +208,8 @@ void SketchOffsetGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyOffset:
     {
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchOffset", "Specify through point or input offset distance."));
-        Application::instance().setCursor(CursorType::Locate);
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchOffset", "Specify through point or input offset distance."));
+        ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         _pSnapContext = std::make_shared<Locate2dContext>();
     }
@@ -216,7 +217,7 @@ void SketchOffsetGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -247,9 +248,9 @@ void SketchOffsetGuiCmd::onMouseMove(const MouseEvent& event)
         previewCurve(id);
 
         if (!id.isNull() && !_pCurve)
-            Application::instance().setCursor(CursorType::Forbid);
+            ApplicationImpl::instance().setCursor(CursorType::Forbid);
         else
-            Application::instance().setCursor(CursorType::SelectElements);
+            ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     else if (_step == Step::SpecifyOffset)
     {
@@ -328,7 +329,7 @@ void SketchOffsetGuiCmd::initializePopups()
         return;
     }
 
-    MainWindow* pMainWindow = Application::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
     _pOffsetPopup = std::make_unique<GuiCmdHoverInputPopup1>(
         QCoreApplication::translate("SketchOffset", "Offset Distance"),
         QStringLiteral("-1234.56"),
@@ -421,7 +422,7 @@ void SketchOffsetGuiCmd::simulateMouseMoveFromPopup()
 
 const wy3d::SketchCurve* SketchOffsetGuiCmd::getSketchCurve(const wydb::ElementId& id)
 {
-    const wydb::Database* pDb = Application::instance().getActiveDatabase();
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return nullptr;
     return wy3d::SketchCurve::cast(pDb->getElement(id));
 }

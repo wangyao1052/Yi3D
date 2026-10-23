@@ -32,6 +32,7 @@
 #include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "snap/SketchSnapSystem.h"
 #include "commands/sketch/SketchTrimExtendUtil.h"
 #include "utils/MathUtils.h"
@@ -370,11 +371,11 @@ void SketchDrawLineTangentGuiCmd::gotoStep(Step step)
     {
         // 禁止输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLineTangent",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLineTangent",
             "Select the start position on a circle or arc."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;
@@ -390,11 +391,11 @@ void SketchDrawLineTangentGuiCmd::gotoStep(Step step)
     {
         // 禁止输入
         // 提示信息
-        Application::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLineTangent",
+        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLineTangent",
             "Select the end position on a circle or arc."));
 
         // 鼠标样式
-        Application::instance().setCursor(CursorType::SelectElements);
+        ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项
         _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;
@@ -405,7 +406,7 @@ void SketchDrawLineTangentGuiCmd::gotoStep(Step step)
 
     default:
     {
-        Application::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().getStatusBar()->setTips("");
         assert(false);
     }
     break;
@@ -507,7 +508,7 @@ void SketchDrawLineTangentGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 bool SketchDrawLineTangentGuiCmd::createLine(const wy::Vector2& startPnt, const wy::Vector2& endPnt)
 {
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
     {
         assert(false);

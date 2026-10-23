@@ -25,6 +25,7 @@
 #include <wyrxClassInfo.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
 #include "commands/edit/ModelingSelectGuiCmd.h"
 #include "commands/modeling/solid/primitives/PrimitiveCommands.h"
@@ -191,7 +192,7 @@ static constexpr size_t kCommandEntryCount =
 
 void ModelingEnvironmentImpl::registerCommands()
 {
-    wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
+    wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
     if (!pCmdStack)
     {
         assert(false);
@@ -216,7 +217,7 @@ void ModelingEnvironmentImpl::registerCommands()
 
 void ModelingEnvironmentImpl::removeCommands()
 {
-    wyap::CmdStack* pCmdStack = Application::instance().getCmdStack();
+    wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
     if (!pCmdStack)
     {
         assert(false);

@@ -25,6 +25,7 @@
 #include <wy3dSelectionType.h>
 
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -35,10 +36,10 @@ namespace wy3dApp {
 inline wyap::SelectionSet getValidSSFromCurrentSelSet_MoveRotateGuiCmd()
 {
     wyap::SelectionSet filterSS;
-    wydb::Database* pDb = Application::instance().getActiveDatabase();
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return filterSS;
 
-    const wyap::SelectionSet& ss = Application::instance().getSelManager()->getSelections();
+    const wyap::SelectionSet& ss = ApplicationImpl::instance().getSelManager()->getSelections();
     for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
     {
         const wyap::Selection& sel = iter.current();
