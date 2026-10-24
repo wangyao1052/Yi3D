@@ -56,15 +56,11 @@ namespace wy3dApp {
 typedef Snap2dAngleSPtr AngleSPtr;
 typedef Snap2dParallelSPtr ParlSPtr;
 typedef Snap2dPerpendicularSPtr PerpSPtr;
-typedef Snap2dAlignXSPtr AlignXSPtr;
-typedef Snap2dAlignYSPtr AlignYSPtr;
 
 #define NULL_ID wydb::ElementId::kNull
 #define MKSPTR std::make_shared
 #define MKSPTR_HORZ   std::make_shared<Snap2dHorizontal>
 #define MKSPTR_VERT   std::make_shared<Snap2dVertical>
-#define MKSPTR_AlignX std::make_shared<Snap2dAlignX>
-#define MKSPTR_AlignY std::make_shared<Snap2dAlignY>
 #define MKSPTR_Parl   std::make_shared<Snap2dParallel>
 #define MKSPTR_Perp   std::make_shared<Snap2dPerpendicular>
 #define MKSPTR_EqualLength std::make_shared<Snap2dEqualLength>
@@ -247,16 +243,6 @@ void SketchSnapSystem::appendSnapObjects(const wydb::Database* pDb, const wydb::
         this->appendAngleSnapObject(MKSPTR_Parl(id, startPnt, endPnt), _parlAndPerps);
         // 垂直
         this->appendAngleSnapObject(MKSPTR_Perp(id, startPnt, endPnt), _parlAndPerps);
-        // 对齐X
-        this->appendAlignSnapObject<AlignXSPtr>(
-            _alignXMap, MKSPTR_AlignX(id, startPnt));
-        this->appendAlignSnapObject<AlignXSPtr>(
-            _alignXMap, MKSPTR_AlignX(id, endPnt));
-        // 对齐Y
-        this->appendAlignSnapObject<AlignYSPtr>(
-            _alignYMap, MKSPTR_AlignY(id, startPnt));
-        this->appendAlignSnapObject<AlignYSPtr>(
-            _alignYMap, MKSPTR_AlignY(id, endPnt));
         // 相等
         double angle = Snap2dObject::computeParallelAngle(startPnt, endPnt);
         assert(angle >= 0.0 && angle < wy3d::PI);
@@ -274,16 +260,6 @@ void SketchSnapSystem::appendSnapObjects(const wydb::Database* pDb, const wydb::
         this->appendAngleSnapObject(MKSPTR_Parl(id, startPnt, endPnt), _parlAndPerps);
         // 垂直
         this->appendAngleSnapObject(MKSPTR_Perp(id, startPnt, endPnt), _parlAndPerps);
-        // 对齐X
-        this->appendAlignSnapObject<AlignXSPtr>(
-            _alignXMap, MKSPTR_AlignX(id, startPnt));
-        this->appendAlignSnapObject<AlignXSPtr>(
-            _alignXMap, MKSPTR_AlignX(id, endPnt));
-        // 对齐Y
-        this->appendAlignSnapObject<AlignYSPtr>(
-            _alignYMap, MKSPTR_AlignY(id, startPnt));
-        this->appendAlignSnapObject<AlignYSPtr>(
-            _alignYMap, MKSPTR_AlignY(id, endPnt));
         // 相等
         double angle = Snap2dObject::computeParallelAngle(startPnt, endPnt);
         assert(angle >= 0.0 && angle < wy3d::PI);
@@ -294,12 +270,7 @@ void SketchSnapSystem::appendSnapObjects(const wydb::Database* pDb, const wydb::
     else if (const wy3d::SketchCircle* pCircle = wy3d::SketchCircle::cast(pSketchCurve))
     {
         if (pCircle->getRadius() <= wy3d::TOL) return;
-        wy::Vector2 center = pCircle->getCenter();
 
-        // 对齐X
-        this->appendAlignSnapObject<AlignXSPtr>(_alignXMap, MKSPTR_AlignX(id, center));
-        // 对齐Y
-        this->appendAlignSnapObject<AlignYSPtr>(_alignYMap, MKSPTR_AlignY(id, center));
         // 相等
         this->appendEqualSnapObject(
             MKSPTR_EqualRadius(id, pCircle->getRadius()));
@@ -309,56 +280,25 @@ void SketchSnapSystem::appendSnapObjects(const wydb::Database* pDb, const wydb::
     {
         if (pArc->getRadius() <= wy3d::TOL) return;
         if (pArc->getTotalAngle() <= wy3d::TOL) return;
-        wy::Vector2 center = pArc->getCenter();
 
-        // 对齐X
-        this->appendAlignSnapObject<AlignXSPtr>(_alignXMap, MKSPTR_AlignX(id, center));
-        // 对齐Y
-        this->appendAlignSnapObject<AlignYSPtr>(_alignYMap, MKSPTR_AlignY(id, center));
         // 相等
         this->appendEqualSnapObject(
             MKSPTR_EqualRadius(id, pArc->getRadius()));
     }
     // 椭圆
-    else if (const wy3d::SketchEllipse* pEllipse = wy3d::SketchEllipse::cast(pSketchCurve))
+    else if (wy3d::SketchEllipse::cast(pSketchCurve))
     {
-        if (pEllipse->getMajorRadius() <= wy3d::TOL) return;
-        if (pEllipse->getMinorRadius() <= wy3d::TOL) return;
-        wy::Vector2 center = pEllipse->getCenter();
-
-        // 对齐X
-        this->appendAlignSnapObject<AlignXSPtr>(_alignXMap, MKSPTR_AlignX(id, center));
-        // 对齐Y
-        this->appendAlignSnapObject<AlignYSPtr>(_alignYMap, MKSPTR_AlignY(id, center));
+        // 对齐X/Y改为动态收集,此处无需登记捕捉对象
     }
     // 椭圆弧
-    else if (const wy3d::SketchEllipseArc* pEllipseArc = wy3d::SketchEllipseArc::cast(pSketchCurve))
+    else if (wy3d::SketchEllipseArc::cast(pSketchCurve))
     {
-        if (pEllipseArc->getMajorRadius() <= wy3d::TOL) return;
-        if (pEllipseArc->getMinorRadius() <= wy3d::TOL) return;
-        if (pEllipseArc->getTotalAngle() <= wy3d::TOL) return;
-        wy::Vector2 center = pEllipseArc->getCenter();
-
-        // 对齐X
-        this->appendAlignSnapObject<AlignXSPtr>(_alignXMap, MKSPTR_AlignX(id, center));
-        // 对齐Y
-        this->appendAlignSnapObject<AlignYSPtr>(_alignYMap, MKSPTR_AlignY(id, center));
+        // 对齐X/Y改为动态收集,此处无需登记捕捉对象
     }
     // 样条曲线
-    else if (const wy3d::SketchSpline* pSpline = wy3d::SketchSpline::cast(pSketchCurve))
+    else if (wy3d::SketchSpline::cast(pSketchCurve))
     {
-        const std::vector<wy::Vector2>& fitPoints = pSpline->getPoints();
-        if (fitPoints.size() >= 2)
-        {
-            // 对齐X
-            this->appendAlignSnapObject<AlignXSPtr>(_alignXMap, MKSPTR_AlignX(id, fitPoints.front()));
-            // 对齐Y
-            this->appendAlignSnapObject<AlignYSPtr>(_alignYMap, MKSPTR_AlignY(id, fitPoints.front()));
-            // 对齐X
-            this->appendAlignSnapObject<AlignXSPtr>(_alignXMap, MKSPTR_AlignX(id, fitPoints.back()));
-            // 对齐Y
-            this->appendAlignSnapObject<AlignYSPtr>(_alignYMap, MKSPTR_AlignY(id, fitPoints.back()));
-        }
+        // 对齐X/Y改为动态收集,此处无需登记捕捉对象
     }
     else
     {

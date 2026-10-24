@@ -24,6 +24,7 @@
 #include "SnapObject.h"
 #include "SnapResult.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 
@@ -40,15 +41,11 @@ namespace wy3dApp {
 typedef Snap2dAngleSPtr AngleSPtr;
 typedef Snap2dParallelSPtr ParlSPtr;
 typedef Snap2dPerpendicularSPtr PerpSPtr;
-typedef Snap2dAlignXSPtr AlignXSPtr;
-typedef Snap2dAlignYSPtr AlignYSPtr;
 
 #define NULL_ID wydb::ElementId::kNull
 #define MKSPTR std::make_shared
 #define MKSPTR_HORZ   std::make_shared<Snap2dHorizontal>
 #define MKSPTR_VERT   std::make_shared<Snap2dVertical>
-#define MKSPTR_AlignX std::make_shared<Snap2dAlignX>
-#define MKSPTR_AlignY std::make_shared<Snap2dAlignY>
 #define MKSPTR_Parl   std::make_shared<Snap2dParallel>
 #define MKSPTR_Perp   std::make_shared<Snap2dPerpendicular>
 #define MOVE std::move
@@ -330,10 +327,9 @@ void Snap2dSystemImpl::initDefaultSnapObjects()
     _defaultAngleSnapObjects.emplace_back(MOVE(MKSPTR_HORZ()));
     _defaultAngleSnapObjects.emplace_back(MOVE(MKSPTR_VERT()));
 
-    // 坐标原点对齐
-    wy::Vector2 origin = wy::Vector2::kZero;
-    this->appendAlignSnapObject<AlignXSPtr>(_alignXMap, MKSPTR_AlignX(NULL_ID, origin));
-    this->appendAlignSnapObject<AlignYSPtr>(_alignYMap, MKSPTR_AlignY(NULL_ID, origin));
+    // 坐标原点对齐(常驻,不占动态对齐点名额)
+    _originAlignRef.pAlignX = std::make_shared<Snap2dAlignX>(NULL_ID, wy::Vector2::kZero);
+    _originAlignRef.pAlignY = std::make_shared<Snap2dAlignY>(NULL_ID, wy::Vector2::kZero);
 }
 
 void Snap2dSystemImpl::reset()
@@ -349,8 +345,7 @@ void Snap2dSystemImpl::reset()
         snapRange.objects.clear();
     }
     // }
-    _alignXMap.clear();
-    _alignYMap.clear();
+    _alignRefPoints.clear();
     _equalLengthMap.clear();
     _equalRadiusMap.clear();
     _dynSnapObjs.clear();
@@ -410,6 +405,10 @@ bool Snap2dSystemImpl::partiallyUpdate(const wydb::Database* pDb)
         }
     }
 
+    // 剔除引用已修改/已删除元素的动态对齐点(必须在清空_erasedIds之前)
+    this->pruneAlignRefPoints(dirtyIds);
+    this->pruneAlignRefPoints(_erasedIds);
+
     // 既没有失效的元素也没有新增的元素则直接返回
     if (dirtyIds.empty() && addIds.empty())
     {
@@ -432,13 +431,12 @@ bool Snap2dSystemImpl::partiallyUpdate(const wydb::Database* pDb)
     _modifiedIds.clear();
     _erasedIds.clear();
 
-    // 清空捕捉上下文和捕捉结果
-    _pSnapContext = nullptr;
+    // 清空捕捉结果(不能重置_pSnapContext: 增量更新不应清空动态对齐点序列)
     _pSnapResult = nullptr;
 
     // 清空动态捕捉对象
     _dynSnapObjs.clear();
-   
+
     // 移除失效的捕捉对象
     if (!dirtyIds.empty())
     {
@@ -446,16 +444,6 @@ bool Snap2dSystemImpl::partiallyUpdate(const wydb::Database* pDb)
         for (SnapRange<Snap2dAngleSPtr>& snapRange : _parlAndPerps)
         {
             eraseDirtySnapObjects(snapRange, dirtyIds);
-        }
-        // 对齐X
-        for (auto& kvp : _alignXMap)
-        {
-            eraseDirtySnapObjects(kvp.second, dirtyIds);
-        }
-        // 对齐Y
-        for (auto& kvp : _alignYMap)
-        {
-            eraseDirtySnapObjects(kvp.second, dirtyIds);
         }
         // 相等(长度)
         for (auto& kvp : _equalLengthMap)
@@ -480,6 +468,162 @@ bool Snap2dSystemImpl::partiallyUpdate(const wydb::Database* pDb)
     }
 
     return true;
+}
+
+void Snap2dSystemImpl::beginSnapContext(const Snap2dContextSPtr& pContext)
+{
+    if (_pSnapContext == pContext) return;
+
+    _pSnapContext = pContext;
+
+    // 上下文(命令/步骤)切换时清空动态捕捉数据
+    _dynSnapObjs.clear();
+    _alignRefPoints.clear();
+}
+
+void Snap2dSystemImpl::appendAlignRefPoint(
+    const wydb::ElementId& id, const wy::Vector2& point)
+{
+    // 待删除的元素不再记录
+    if (!id.isNull() && _erasedIds.find(id) != _erasedIds.cend()) return;
+
+    // 按位置去重: 同一坐标只保留一条, 重复捕捉时刷新为最新
+    auto iter = std::find_if(_alignRefPoints.begin(), _alignRefPoints.end(),
+        [&point](const AlignRefPoint& ref)
+        {
+            assert(ref.pAlignX);
+            return (ref.pAlignX->getRefPoint() - point).length2()
+                <= wy3d::TOL * wy3d::TOL;
+        });
+    if (iter != _alignRefPoints.end())
+    {
+        if (iter->pAlignX->getId() == id)
+        {
+            AlignRefPoint existing = *iter; // id 相同: 复用对象, 只刷新顺序
+            _alignRefPoints.erase(iter);
+            _alignRefPoints.emplace_back(MOVE(existing));
+            return; // 刷新为最新不触发淘汰
+        }
+
+        // id 变化: 同一位置来自另一个元素, 重建对象以关联最新元素
+        _alignRefPoints.erase(iter);
+    }
+
+    AlignRefPoint ref;
+    ref.pAlignX = std::make_shared<Snap2dAlignX>(id, point);
+    ref.pAlignY = std::make_shared<Snap2dAlignY>(id, point);
+    _alignRefPoints.emplace_back(MOVE(ref));
+
+    // 超出上限则淘汰最早加入的点
+    while (_alignRefPoints.size() > kMaxAlignRefPointCount)
+    {
+        _alignRefPoints.pop_front();
+    }
+}
+
+void Snap2dSystemImpl::appendAlignRefPoints(const Snap2dResultSPtr& pSnapResult)
+{
+    if (!pSnapResult) return;
+
+    for (const Snap2dHit& hit : pSnapResult->getHits())
+    {
+        if (this->isAlignRefPointType(hit.type))
+        {
+            this->appendAlignRefPoint(hit.element, hit.point);
+        }
+    }
+}
+
+bool Snap2dSystemImpl::isAlignRefPointType(Snap2dType type)
+{
+    switch (type)
+    {
+    case Snap2dType::Origin:
+    case Snap2dType::GenericPoint:
+    case Snap2dType::EndPoint:
+    case Snap2dType::MiddlePoint:
+    case Snap2dType::CenterPoint:
+    case Snap2dType::QuadrantPoint:
+        return true;
+
+    default:
+        return false;
+    }
+}
+
+void Snap2dSystemImpl::pruneAlignRefPoints(
+    const std::set<wydb::ElementId>& invalidIds)
+{
+    if (invalidIds.empty() || _alignRefPoints.empty()) return;
+
+    for (auto iter = _alignRefPoints.begin(); iter != _alignRefPoints.end(); )
+    {
+        assert(iter->pAlignX);
+        const wydb::ElementId id = iter->pAlignX->getId();
+        if (!id.isNull() && invalidIds.find(id) != invalidIds.cend())
+        {
+            iter = _alignRefPoints.erase(iter);
+        }
+        else
+        {
+            ++iter;
+        }
+    }
+}
+
+const Snap2dSystemImpl::AlignRefPoint* Snap2dSystemImpl::findAlignRefPoint(
+    double value, bool isX, double tolPx, double valuePerPixel,
+    const std::set<wydb::ElementId>& excludeIds) const
+{
+    assert(tolPx > 0.0);
+    assert(valuePerPixel > 0.0);
+
+    const double tol = std::fabs(tolPx * valuePerPixel);
+    const AlignRefPoint* pRet = nullptr;
+    double minDelta = DBL_MAX;
+
+    auto consider = [&](const AlignRefPoint& ref)
+    {
+        assert(ref.pAlignX);
+        const wydb::ElementId& id = ref.pAlignX->getId();
+        if (excludeIds.find(id) != excludeIds.cend()) return;
+        if (_erasedIds.find(id) != _erasedIds.cend()) return;
+
+        const wy::Vector2& pnt = ref.pAlignX->getRefPoint();
+        const double delta = std::fabs((isX ? pnt.x() : pnt.y()) - value);
+        if (delta <= tol && delta < minDelta)
+        {
+            minDelta = delta;
+            pRet = &ref;
+        }
+    };
+
+    // 动态点优先于原点(并列时先扫到的优先)
+    for (auto iter = _alignRefPoints.crbegin(); iter != _alignRefPoints.crend(); ++iter)
+    {
+        consider(*iter);
+    }
+    consider(_originAlignRef);
+
+    return pRet;
+}
+
+Snap2dAlignXSPtr Snap2dSystemImpl::snapAlignRefX(
+    double value, double tolPx, double valuePerPixel,
+    const std::set<wydb::ElementId>& excludeIds) const
+{
+    const AlignRefPoint* pRef =
+        this->findAlignRefPoint(value, true, tolPx, valuePerPixel, excludeIds);
+    return pRef ? pRef->pAlignX : nullptr;
+}
+
+Snap2dAlignYSPtr Snap2dSystemImpl::snapAlignRefY(
+    double value, double tolPx, double valuePerPixel,
+    const std::set<wydb::ElementId>& excludeIds) const
+{
+    const AlignRefPoint* pRef =
+        this->findAlignRefPoint(value, false, tolPx, valuePerPixel, excludeIds);
+    return pRef ? pRef->pAlignY : nullptr;
 }
 
 void Snap2dSystemImpl::appendAngleSnapObject(
@@ -598,6 +742,9 @@ std::pair<Snap2dResultSPtr, wy::Vector2> Snap2dSystemImpl::snap(
 {
     assert(pContext);
 
+    // 上下文(命令/步骤)切换时清理动态对齐点(必须在全局点捕捉之前)
+    this->beginSnapContext(pContext);
+
     if (_isSnap3dEnabled)
     {
         wyap::SnapContextSPtr pSnapContext = std::make_shared<LocateContext>();
@@ -609,6 +756,7 @@ std::pair<Snap2dResultSPtr, wy::Vector2> Snap2dSystemImpl::snap(
             const wy::Vector3 planePnt = _sketchPlane.value(snapPos);
             const wy::Vector2 retPos = _sketchPlane.uv(planePnt);
             Snap2dResultSPtr pSketchSnapRet = convertSnapResult(_sketchPlane, retPos, pSnapResult);
+            this->appendAlignRefPoints(pSketchSnapRet);
             this->setSnapResult(pSketchSnapRet);
             return std::make_pair(pSketchSnapRet, retPos);
         }
@@ -617,6 +765,7 @@ std::pair<Snap2dResultSPtr, wy::Vector2> Snap2dSystemImpl::snap(
     assert(pView);
     const wy::Vector2 rawPos = _sketchPlane.uv(MathUtils::projectToPlane(pView, x, y, _sketchPlane));
     Snap2dResultSPtr pSnapResult = this->snapImpl(x, y, pView, rawPos, excludeIds, pContext);
+    this->appendAlignRefPoints(pSnapResult);
     this->setSnapResult(pSnapResult);
     return std::make_pair(pSnapResult, rawPos);
 }
@@ -627,7 +776,9 @@ Snap2dResultSPtr Snap2dSystemImpl::snapIndexOnly(
     Snap2dContextSPtr pContext)
 {
     assert(pContext);
+    this->beginSnapContext(pContext);
     Snap2dResultSPtr pSnapResult = this->snapImpl(x, y, pView, pos, excludeIds, pContext);
+    this->appendAlignRefPoints(pSnapResult);
     this->setSnapResult(pSnapResult);
     return pSnapResult;
 }
@@ -646,14 +797,11 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImpl(
     const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) { assert(false); return nullptr; }
 
-    // partiallyUpdate clears the snap context, so apply pending changes first.
+    // Apply pending database changes first: a full rebuild resets the snap context.
     if (_isPartiallyUpdatePending) this->partiallyUpdate(pDb);
 
-    if (_pSnapContext != pContext)
-    {
-        _pSnapContext = pContext;
-        _dynSnapObjs.clear();
-    }
+    // Re-establish the context after partiallyUpdate (rebuildAll -> reset clears it).
+    this->beginSnapContext(pContext);
 
     osg::Camera* camera = pView->getCamera();
     assert(camera);
@@ -991,9 +1139,9 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     assert(pDb);
 
     // 对齐X
-    Snap2dAlignXSPtr pAlignXSnapObj = this->snapSingleValueInRangeMap<Snap2dAlignXSPtr>(_alignXMap, pos.x(), 10, valuePerPixelX, excludeIds);
+    Snap2dAlignXSPtr pAlignXSnapObj = this->snapAlignRefX(pos.x(), 10, valuePerPixelX, excludeIds);
     // 对齐Y
-    Snap2dAlignYSPtr pAlignYSnapObj = this->snapSingleValueInRangeMap<Snap2dAlignYSPtr>(_alignYMap, pos.y(), 10, valuePerPixelY, excludeIds);
+    Snap2dAlignYSPtr pAlignYSnapObj = this->snapAlignRefY(pos.y(), 10, valuePerPixelY, excludeIds);
     // 结果
     if (pAlignXSnapObj && pAlignYSnapObj)
     {
@@ -1152,8 +1300,8 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
                 return makeSnap2dResult(_sketchPlane, retPos, pAngleSnapObj, pEqualSnapObj);
             }
             // 对齐X
-            else if (Snap2dAlignXSPtr pAlignXSnapObj = this->snapSingleValueInRangeMap<Snap2dAlignXSPtr>(
-                _alignXMap, pos.x(), 10, valuePerPixelX, excludeIds))
+            else if (Snap2dAlignXSPtr pAlignXSnapObj = this->snapAlignRefX(
+                pos.x(), 10, valuePerPixelX, excludeIds))
             {
                 retPos.setX(pAlignXSnapObj->getValue());
                 return makeSnap2dResult(_sketchPlane, retPos, pAngleSnapObj, pAlignXSnapObj);
@@ -1170,8 +1318,8 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
                 return makeSnap2dResult(_sketchPlane, retPos, pAngleSnapObj, pEqualSnapObj);
             }
             // 对齐Y
-            else if (Snap2dAlignYSPtr pAlignYSnapObj = this->snapSingleValueInRangeMap<Snap2dAlignYSPtr>(
-                _alignYMap, pos.y(), 10, valuePerPixelY, excludeIds))
+            else if (Snap2dAlignYSPtr pAlignYSnapObj = this->snapAlignRefY(
+                pos.y(), 10, valuePerPixelY, excludeIds))
             {
                 retPos.setY(pAlignYSnapObj->getValue());
                 return makeSnap2dResult(_sketchPlane, retPos, pAngleSnapObj, pAlignYSnapObj);
@@ -1188,8 +1336,8 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
                 return makeSnap2dResult(_sketchPlane, retPos, pAngleSnapObj, pEqualSnapObj);
             }
             // 对齐X
-            else if (Snap2dAlignXSPtr pAlignXSnapObj = this->snapSingleValueInRangeMap<Snap2dAlignXSPtr>(
-                _alignXMap, pos.x(), 10, valuePerPixelX, excludeIds))
+            else if (Snap2dAlignXSPtr pAlignXSnapObj = this->snapAlignRefX(
+                pos.x(), 10, valuePerPixelX, excludeIds))
             {
                 if (std::fabs(std::cos(angle)) > wy3d::EPS)
                 {
@@ -1206,8 +1354,8 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
                 }
             }
             // 对齐Y
-            else if (Snap2dAlignYSPtr pAlignYSnapObj = this->snapSingleValueInRangeMap<Snap2dAlignYSPtr>(
-                _alignYMap, pos.y(), 10, valuePerPixelY, excludeIds))
+            else if (Snap2dAlignYSPtr pAlignYSnapObj = this->snapAlignRefY(
+                pos.y(), 10, valuePerPixelY, excludeIds))
             {
                 if (std::fabs(std::sin(angle)) > wy3d::EPS)
                 {
@@ -1231,11 +1379,11 @@ Snap2dResultSPtr Snap2dSystemImpl::snapImplNoPicked(
     else
     {
         // 对齐X
-        Snap2dAlignXSPtr pAlignX = this->snapSingleValueInRangeMap<Snap2dAlignXSPtr>(
-            _alignXMap, pos.x(), 10, valuePerPixelX, excludeIds);
+        Snap2dAlignXSPtr pAlignX = this->snapAlignRefX(
+            pos.x(), 10, valuePerPixelX, excludeIds);
         // 对齐Y
-        Snap2dAlignYSPtr pAlignY = this->snapSingleValueInRangeMap<Snap2dAlignYSPtr>(
-            _alignYMap, pos.y(), 10, valuePerPixelY, excludeIds);
+        Snap2dAlignYSPtr pAlignY = this->snapAlignRefY(
+            pos.y(), 10, valuePerPixelY, excludeIds);
         // 结果
         if (pAlignX && pAlignY)
         {

@@ -22,6 +22,7 @@
 #include <cassert>
 #include <cfloat>
 #include <cmath>
+#include <deque>
 #include <vector>
 #include <list>
 #include <map>
@@ -550,10 +551,37 @@ protected:
     Snap2dContextSPtr _pSnapContext;
     // 平行和垂直
     std::vector<SnapRange<Snap2dAngleSPtr>> _parlAndPerps;
-    // 对齐X
-    std::map<DoubleMinMax, SnapRange<Snap2dAlignXSPtr>> _alignXMap;
-    // 对齐Y
-    std::map<DoubleMinMax, SnapRange<Snap2dAlignYSPtr>> _alignYMap;
+
+    // 对齐参照点：X/Y 两个索引对象成对保存，id 与参照点直接从对象读取
+    struct AlignRefPoint
+    {
+        Snap2dAlignXSPtr pAlignX;
+        Snap2dAlignYSPtr pAlignY;
+    };
+    static constexpr size_t kMaxAlignRefPointCount = 6; // 6 动态 + 常驻原点 = 7
+
+    // 捕捉上下文（命令/步骤）切换时清理动态对齐点
+    void beginSnapContext(const Snap2dContextSPtr& pContext);
+    // 追加对齐参照点：按位置去重、刷新为最新、超上限淘汰最旧
+    void appendAlignRefPoint(const wydb::ElementId& id, const wy::Vector2& point);
+    // 从捕捉结果中提取基础点加入动态对齐点序列
+    void appendAlignRefPoints(const Snap2dResultSPtr& pSnapResult);
+    // 是否属于可进入对齐序列的基础点类型
+    static bool isAlignRefPointType(Snap2dType type);
+    // 移除引用已失效元素的参照点
+    void pruneAlignRefPoints(const std::set<wydb::ElementId>& invalidIds);
+    // 对齐X/Y查找：线性扫描，返回容差内距离最近的参照点
+    Snap2dAlignXSPtr snapAlignRefX(double value, double tolPx, double valuePerPixel,
+        const std::set<wydb::ElementId>& excludeIds) const;
+    Snap2dAlignYSPtr snapAlignRefY(double value, double tolPx, double valuePerPixel,
+        const std::set<wydb::ElementId>& excludeIds) const;
+    const AlignRefPoint* findAlignRefPoint(double value, bool isX, double tolPx,
+        double valuePerPixel, const std::set<wydb::ElementId>& excludeIds) const;
+
+    // 常驻原点参照
+    AlignRefPoint _originAlignRef;
+    // 动态对齐参照点（队首最旧、队尾最新，最多 kMaxAlignRefPointCount 个）
+    std::deque<AlignRefPoint> _alignRefPoints;
     // 动态捕捉对象集合
     // 和绘制的上下文相关,当上下文变更时需要清空
     struct DynSnapObjs
