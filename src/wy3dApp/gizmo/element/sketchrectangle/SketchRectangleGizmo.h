@@ -26,7 +26,7 @@
 #include <wyVector2.h>
 #include <wy3dSketchLine.h>
 
-#include "SketchEntityGripGizmo.h"
+#include "gizmo/element/SketchEntityGripGizmo.h"
 #include "utils/SketchRectangleDragMath.h"
 #include "utils/SketchRectangleRecognizer.h"
 #include <wy3dApp/wy3dAppDefs.h>

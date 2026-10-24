@@ -3199,6 +3199,19 @@
     </message>
 </context>
 <context>
+    <name>SketchRectangleDimensionGizmo</name>
+    <message>
+        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="83"/>
+        <source>Width</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="84"/>
+        <source>Height</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>SketchRelocateCsysGuiCmd</name>
     <message>
         <location filename="../../commands/sketch/SketchRelocateCsysGuiCmd.cpp" line="124"/>
