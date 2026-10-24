@@ -18,59 +18,31 @@
 
 #include "SketchRectangleDimensionGizmo.h"
 
+#include <array>
 #include <cassert>
-#include <cmath>
 #include <utility>
 
 #include <QCoreApplication>
-#include <QCursor>
 #include <QString>
 
 #include <wy3dImpl.h>
 #include <wy3dSketch.h>
 #include <wy3dSketchLine.h>
 
-#include <wy3dApp/GuiCommand.h> // MouseEvent
 #include "application/ApplicationImpl.h"
-#include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
-#include "gizmo/renderer/SketchRectangleDimensionOsgRenderer.h"
-#include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-namespace {
-
-// A click that moved further than this is a miss, not an attempt to edit.
-constexpr float kClickTolerancePx = 3.0f;
-
-} // namespace
-
 SketchRectangleDimensionGizmo::SketchRectangleDimensionGizmo(
     std::shared_ptr<const SketchRectangleInfo> rect,
     SketchRectangleDimension dimension)
-    : BaseGizmo(std::vector<wydb::ElementId>(rect->lineIds.begin(), rect->lineIds.end()))
-    , _lineIds(rect->lineIds)
+    : SketchDimensionGizmo(
+          std::vector<wydb::ElementId>(rect->lineIds.begin(), rect->lineIds.end()),
+          rect->sketchId)
     , _rect(std::move(rect))
     , _dimension(dimension)
 {
-    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
-    assert(pDb);
-    if (pDb)
-    {
-        const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(_rect->sketchId));
-        if (pSketch)
-        {
-            _sketchId = pSketch->getId();
-            _sketchPlane = pSketch->getPlane();
-        }
-        else
-        {
-            assert(false);
-        }
-    }
-
-    _pRenderer = std::make_unique<SketchRectangleDimensionOsgRenderer>(this);
 }
 
 SketchRectangleDimensionGizmo::~SketchRectangleDimensionGizmo()
@@ -84,97 +56,34 @@ QString SketchRectangleDimensionGizmo::getDimensionName() const
         : QCoreApplication::translate("SketchRectangleDimensionGizmo", "Height");
 }
 
-void SketchRectangleDimensionGizmo::onLeftMouseDown(const MouseEvent& event)
+bool SketchRectangleDimensionGizmo::readDimension(
+    double& value,
+    wy::Vector2& anchorUv,
+    SketchDimensionPlacement& placement,
+    wy::Vector2& radialDirectionUv) const
 {
-    _mouseDownX = event.x;
-    _mouseDownY = event.y;
-    _isMouseDown = true;
-}
-
-void SketchRectangleDimensionGizmo::onLeftMouseUp(const MouseEvent& event)
-{
-    if (!_isMouseDown)
-    {
-        return;
-    }
-    _isMouseDown = false;
-
-    if (std::fabs(event.x - _mouseDownX) > kClickTolerancePx ||
-        std::fabs(event.y - _mouseDownY) > kClickTolerancePx)
-    {
-        return;
-    }
-    this->openEditor();
-}
-
-bool SketchRectangleDimensionGizmo::readDimensionLabel(RectangleDimensionLabel& label) const
-{
+    // Live geometry first; the snapshot is only a fallback for a transient failure
+    std::array<wy::Vector2, 4> corners = _rect->corners;
     const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
-    if (!pDb)
+    std::array<wy::Vector2, 4> liveCorners{};
+    if (pDb && readSketchRectangleCorners(pDb, _rect->lineIds, liveCorners, nullptr, _rect->distTol))
+    {
+        corners = liveCorners;
+    }
+
+    const RectangleDimensionLabel label = computeRectangleDimensionLabel(corners, _dimension);
+    if (!label.isValid)
     {
         return false;
     }
 
-    std::array<wy::Vector2, 4> corners{};
-    if (!readSketchRectangleCorners(pDb, _lineIds, corners, nullptr, _rect->distTol))
-    {
-        return false;
-    }
-
-    label = computeRectangleDimensionLabel(corners, _dimension);
-    return label.isValid;
-}
-
-void SketchRectangleDimensionGizmo::openEditor()
-{
-    RectangleDimensionLabel label;
-    if (!this->readDimensionLabel(label))
-    {
-        return;
-    }
-
-    if (!_pValuePopup)
-    {
-        MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
-        _pValuePopup = std::make_unique<GuiCmdHoverInputPopup1>(
-            this->getDimensionName(), QStringLiteral("-1234.56"), pMainWindow);
-        _pValuePopup->setAcceptHandler([this]() { this->onEditorAccepted(); });
-        _pValuePopup->setCancelHandler([this]() { this->hideEditor(); });
-        // Click-to-open editor: unlike the hover-summoned command popups it has no
-        // mouse-move dismissal, so it closes as soon as the focus moves elsewhere
-        _pValuePopup->setHideOnFocusLoss(true);
-        _pValuePopup->hide();
-    }
-
-    _pValuePopup->setValue(label.value, 2);
-    _pValuePopup->showAtGlobal(QCursor::pos());
-}
-
-void SketchRectangleDimensionGizmo::hideEditor()
-{
-    if (_pValuePopup)
-    {
-        _pValuePopup->hide();
-    }
-}
-
-void SketchRectangleDimensionGizmo::onEditorAccepted()
-{
-    if (!_pValuePopup)
-    {
-        return;
-    }
-
-    bool ok = false;
-    const double value = _pValuePopup->getRowText().trimmed().toDouble(&ok);
-    if (!ok)
-    {
-        // Leave the box open so the text can be corrected
-        return;
-    }
-
-    this->applyValue(value);
-    this->hideEditor();
+    value = label.value;
+    anchorUv = label.edgeMid;
+    placement = SketchRectangleDimension::Width == _dimension
+        ? SketchDimensionPlacement::Below
+        : SketchDimensionPlacement::Right;
+    radialDirectionUv = wy::Vector2();
+    return true;
 }
 
 bool SketchRectangleDimensionGizmo::applyValue(double value)
@@ -187,7 +96,7 @@ bool SketchRectangleDimensionGizmo::applyValue(double value)
 
     std::array<wy::Vector2, 4> corners{};
     std::array<bool, 4> lineStartAtCorner{};
-    if (!readSketchRectangleCorners(pDb, _lineIds, corners, &lineStartAtCorner, _rect->distTol))
+    if (!readSketchRectangleCorners(pDb, _rect->lineIds, corners, &lineStartAtCorner, _rect->distTol))
     {
         return false;
     }
@@ -217,7 +126,7 @@ bool SketchRectangleDimensionGizmo::applyValue(double value)
     wy3d::SketchLine* pLines[4] = {};
     for (int i = 0; i < 4; ++i)
     {
-        pLines[i] = wy3d::SketchLine::cast(pTrans->getElementForWrite(_lineIds[i]));
+        pLines[i] = wy3d::SketchLine::cast(pTrans->getElementForWrite(_rect->lineIds[i]));
         if (!pLines[i])
         {
             pTransMgr->abortTransaction();

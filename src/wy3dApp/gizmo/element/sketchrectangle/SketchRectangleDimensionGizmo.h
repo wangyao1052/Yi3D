@@ -19,65 +19,39 @@
 #ifndef WY3DAPP_SKETCH_RECTANGLE_DIMENSION_GIZMO_H
 #define WY3DAPP_SKETCH_RECTANGLE_DIMENSION_GIZMO_H
 
-#include <array>
 #include <memory>
 
 #include <wyVector2.h>
-#include <wy3dPlane.h>
-#include <wydbElementId.h>
 
-#include "gizmo/BaseGizmo.h"
+#include "gizmo/element/SketchDimensionGizmo.h"
 #include "utils/SketchRectangleDimensionMath.h"
 #include "utils/SketchRectangleRecognizer.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
-class QString;
-
 namespace wy3dApp {
-
-class GuiCmdHoverInputPopup1;
 
 // Width/height label of a rectangle: a click-only Gizmo that shows the dimension
 // as text and opens a value box on click. It never drags.
-class SketchRectangleDimensionGizmo : public BaseGizmo
+class SketchRectangleDimensionGizmo : public SketchDimensionGizmo
 {
 public:
     SketchRectangleDimensionGizmo(std::shared_ptr<const SketchRectangleInfo> rect,
                                   SketchRectangleDimension dimension);
     virtual ~SketchRectangleDimensionGizmo();
 
-    virtual void onLeftMouseDown(const MouseEvent& event) override;
-    virtual void onLeftMouseUp(const MouseEvent& event) override;
-
-    SketchRectangleDimension getDimension() const { return _dimension; }
-    const std::array<wydb::ElementId, 4>& getLineIds() const { return _lineIds; }
-    const wy3d::Plane& getSketchPlane() const { return _sketchPlane; }
-    const SketchRectangleInfo& getRectangleInfo() const { return *_rect; }
-
     // "Width" / "Height" in the user's language
-    QString getDimensionName() const;
+    virtual QString getDimensionName() const override;
+
+protected:
+    virtual bool readDimension(double& value,
+                               wy::Vector2& anchorUv,
+                               SketchDimensionPlacement& placement,
+                               wy::Vector2& radialDirectionUv) const override;
+    virtual bool applyValue(double value) override;
 
 private:
-    // Reads the live rectangle; false when it has degenerated.
-    bool readDimensionLabel(RectangleDimensionLabel& label) const;
-
-    void openEditor();
-    void hideEditor();
-    void onEditorAccepted();
-    bool applyValue(double value);
-
-private:
-    std::array<wydb::ElementId, 4> _lineIds{};
     std::shared_ptr<const SketchRectangleInfo> _rect;
     SketchRectangleDimension _dimension = SketchRectangleDimension::Width;
-    wydb::ElementId _sketchId;
-    wy3d::Plane _sketchPlane;
-
-    std::unique_ptr<GuiCmdHoverInputPopup1> _pValuePopup;
-
-    float _mouseDownX = 0.0f;
-    float _mouseDownY = 0.0f;
-    bool _isMouseDown = false;
 };
 
 } // namespace wy3dApp

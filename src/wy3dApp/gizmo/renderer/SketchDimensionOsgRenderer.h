@@ -16,8 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SKETCH_RECTANGLE_DIMENSION_OSG_RENDERER_H
-#define WY3DAPP_SKETCH_RECTANGLE_DIMENSION_OSG_RENDERER_H
+#ifndef WY3DAPP_SKETCH_DIMENSION_OSG_RENDERER_H
+#define WY3DAPP_SKETCH_DIMENSION_OSG_RENDERER_H
 
 #include <osg/BoundingSphere>
 #include <osg/CullStack>
@@ -31,6 +31,7 @@
 #include <QString>
 
 #include "OsgGizmoRenderer.h"
+#include "utils/SketchDimensionLabelMath.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -52,11 +53,23 @@ public:
     void setAnchor(const osg::Vec3d& anchor) { _anchor = anchor; dirtyBound(); }
     // On-screen size of the quad, in device pixels
     void setPixelSize(const osg::Vec2d& pixelSize) { _pixelSize = pixelSize; dirtyBound(); }
-    // On-screen centre offset from the anchor, in device pixels
-    void setPixelOffset(const osg::Vec2d& pixelOffset) { _pixelOffset = pixelOffset; dirtyBound(); }
+    // Where the label sits relative to the anchor
+    void setPlacement(SketchDimensionPlacement placement)
+    {
+        _placement = placement;
+        dirtyBound();
+    }
+    // World-space direction at the anchor; only used by the Radial placement
+    void setRadialDirection(const osg::Vec3d& direction)
+    {
+        _radialDirection = direction;
+        dirtyBound();
+    }
+    // Gap between the anchor and the near edge of the label box, in pixels
+    void setGapPixels(double gapPx) { _gapPx = gapPx; dirtyBound(); }
 
     virtual bool computeLocalToWorldMatrix(osg::Matrix& matrix, osg::NodeVisitor* nv) const override;
-    virtual bool computeWorldToLocalMatrix(osg::Matrix& matrix, osg::NodeVisitor* nv) const override;
+    virtual bool computeWorldToLocalMatrix(osg::Matrix& matrix, osg::NodeVisitor*) const override;
 
     // The billboard matrix is only known during the cull traversal, so the bound
     // follows the last culled frame. Without it the base Transform bound stays a
@@ -70,17 +83,19 @@ private:
 private:
     osg::Vec3d _anchor;
     osg::Vec2d _pixelSize = osg::Vec2d(1.0, 1.0);
-    osg::Vec2d _pixelOffset;
+    SketchDimensionPlacement _placement = SketchDimensionPlacement::Below;
+    osg::Vec3d _radialDirection;
+    double _gapPx = 0.0;
     mutable osg::Matrixd _matrix;
     mutable double _worldRadius = 0.0;
 };
 
-// Draws the width/height text as a QPainter-baked texture on a screen-sized quad
-class SketchRectangleDimensionOsgRenderer : public OsgGizmoRenderer
+// Draws a dimension text as a QPainter-baked texture on a screen-sized quad
+class SketchDimensionOsgRenderer : public OsgGizmoRenderer
 {
 public:
-    explicit SketchRectangleDimensionOsgRenderer(BaseGizmo* pGizmo);
-    virtual ~SketchRectangleDimensionOsgRenderer();
+    explicit SketchDimensionOsgRenderer(BaseGizmo* pGizmo);
+    virtual ~SketchDimensionOsgRenderer();
 
     virtual void refresh() override;
     virtual void onActivate() override {}
@@ -95,6 +110,7 @@ public:
 private:
     osg::Geometry* createQuadGeometry();
     void setLabelText(const QString& text);
+    void setLabelVisible(bool visible);
 
 private:
     osg::ref_ptr<ScreenBillboardTransform> _pBillboard;
@@ -102,8 +118,9 @@ private:
     osg::ref_ptr<osg::Texture2D> _pTexture;
     QString _text;
     double _aspect = 1.0;
+    bool _isVisible = true;
 };
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_SKETCH_RECTANGLE_DIMENSION_OSG_RENDERER_H
+#endif // WY3DAPP_SKETCH_DIMENSION_OSG_RENDERER_H

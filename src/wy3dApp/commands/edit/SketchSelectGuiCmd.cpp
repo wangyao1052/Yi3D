@@ -24,6 +24,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/GizmoFactory.h>
+#include "gizmo/creator/SketchDimensionGizmoCreator.h"
 #include "gizmo/creator/SketchRectangleGizmoCreator.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
@@ -103,6 +104,8 @@ bool SketchSelectGuiCmd::tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels
         std::list<wyap::GizmoSPtr> elemGizmos = pGizmoFactory->createGizmos(pElem);
         gizmos.insert(gizmos.cend(), elemGizmos.cbegin(), elemGizmos.cend());
     }
+
+    SketchDimensionGizmoCreator::tryCreateGizmos(sels, gizmos);
     return true;
 }
 

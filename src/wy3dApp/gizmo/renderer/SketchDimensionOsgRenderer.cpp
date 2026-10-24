@@ -16,10 +16,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SketchRectangleDimensionOsgRenderer.h"
+#include "SketchDimensionOsgRenderer.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <cstring>
 
@@ -37,11 +36,12 @@
 #include <osg/Viewport>
 
 #include <wyMath.h>
+#include <wyVector2.h>
 #include <wyVector3.h>
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include "gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.h"
+#include "gizmo/element/SketchDimensionGizmo.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -50,7 +50,7 @@ namespace {
 
 // Drawn size of the label, in device pixels
 constexpr double kLabelHeightPx = 20.0;
-// Gap between the rectangle edge and the near side of the label box
+// Gap between the geometry anchor and the near side of the label box
 constexpr double kLabelGapPx = 8.0;
 
 // The label is drawn at a fixed size, so the texture is baked a little above it
@@ -127,7 +127,9 @@ ScreenBillboardTransform::ScreenBillboardTransform(
     : osg::Transform(rhs, copyop)
     , _anchor(rhs._anchor)
     , _pixelSize(rhs._pixelSize)
-    , _pixelOffset(rhs._pixelOffset)
+    , _placement(rhs._placement)
+    , _radialDirection(rhs._radialDirection)
+    , _gapPx(rhs._gapPx)
     , _matrix(rhs._matrix)
     , _worldRadius(rhs._worldRadius)
 {
@@ -172,11 +174,23 @@ osg::Matrixd ScreenBillboardTransform::computeMatrix(const osg::CullStack& cullS
     }
     const double worldPerPixel = 1.0 / pixelsPerUnit;
 
-    const double halfWidth = 0.5 * _pixelSize.x() * worldPerPixel;
-    const double halfHeight = 0.5 * _pixelSize.y() * worldPerPixel;
-    const double worldRadius = std::sqrt(halfWidth * halfWidth + halfHeight * halfHeight)
-        + osg::Vec3d(_pixelOffset.x() * worldPerPixel,
-                     _pixelOffset.y() * worldPerPixel, 0.0).length();
+    const double halfWidthPx = 0.5 * _pixelSize.x();
+    const double halfHeightPx = 0.5 * _pixelSize.y();
+
+    wy::Vector2 radialPixels;
+    if (SketchDimensionPlacement::Radial == _placement && _radialDirection.length2() > 0.0)
+    {
+        const osg::Vec2d projected =
+            toPixels(_anchor + _radialDirection) - anchorPixels;
+        radialPixels.set(projected.x(), projected.y());
+    }
+    const wy::Vector2 pixelOffset = computeSketchDimensionPixelOffset(
+        _placement, _gapPx, _pixelSize.x(), _pixelSize.y(), radialPixels);
+
+    const double worldRadius =
+        std::sqrt(halfWidthPx * halfWidthPx + halfHeightPx * halfHeightPx) * worldPerPixel
+        + osg::Vec3d(pixelOffset.x() * worldPerPixel,
+                     pixelOffset.y() * worldPerPixel, 0.0).length();
     if (std::fabs(worldRadius - _worldRadius) > 1e-6 + 0.02 * std::max(worldRadius, _worldRadius))
     {
         _worldRadius = worldRadius;
@@ -184,7 +198,7 @@ osg::Matrixd ScreenBillboardTransform::computeMatrix(const osg::CullStack& cullS
     }
 
     const osg::Vec3d center = _anchor + billboard * osg::Vec3d(
-        _pixelOffset.x() * worldPerPixel, _pixelOffset.y() * worldPerPixel, 0.0);
+        pixelOffset.x() * worldPerPixel, pixelOffset.y() * worldPerPixel, 0.0);
 
     // Row-vector convention, same order as AutoTransform::computeMatrix: the
     // vertices are scaled, then billboarded, then moved onto the anchor
@@ -221,7 +235,7 @@ osg::BoundingSphere ScreenBillboardTransform::computeBound() const
     return osg::BoundingSphere(_anchor, std::max(_worldRadius, wy::EPS));
 }
 
-SketchRectangleDimensionOsgRenderer::SketchRectangleDimensionOsgRenderer(BaseGizmo* pGizmo)
+SketchDimensionOsgRenderer::SketchDimensionOsgRenderer(BaseGizmo* pGizmo)
     : OsgGizmoRenderer(pGizmo)
 {
     _pBillboard = new ScreenBillboardTransform();
@@ -230,11 +244,11 @@ SketchRectangleDimensionOsgRenderer::SketchRectangleDimensionOsgRenderer(BaseGiz
     this->getOsgNode()->addChild(_pBillboard.get());
 }
 
-SketchRectangleDimensionOsgRenderer::~SketchRectangleDimensionOsgRenderer()
+SketchDimensionOsgRenderer::~SketchDimensionOsgRenderer()
 {
 }
 
-osg::Geometry* SketchRectangleDimensionOsgRenderer::createQuadGeometry()
+osg::Geometry* SketchDimensionOsgRenderer::createQuadGeometry()
 {
     osg::ref_ptr<osg::Geometry> pGeom = new osg::Geometry;
     pGeom->setUseDisplayList(false);
@@ -265,7 +279,7 @@ osg::Geometry* SketchRectangleDimensionOsgRenderer::createQuadGeometry()
     return pGeom.release();
 }
 
-void SketchRectangleDimensionOsgRenderer::setLabelText(const QString& text)
+void SketchDimensionOsgRenderer::setLabelText(const QString& text)
 {
     double aspect = 1.0;
     osg::ref_ptr<osg::Texture2D> pTexture = createLabelTexture(text, aspect);
@@ -281,45 +295,56 @@ void SketchRectangleDimensionOsgRenderer::setLabelText(const QString& text)
         0, _pTexture.get(), osg::StateAttribute::ON);
 }
 
-void SketchRectangleDimensionOsgRenderer::refresh()
+void SketchDimensionOsgRenderer::setLabelVisible(bool visible)
 {
-    auto* pGizmo = static_cast<SketchRectangleDimensionGizmo*>(_pGizmo);
+    if (visible == _isVisible)
+    {
+        return;
+    }
+    _isVisible = visible;
+    _pBillboard->setNodeMask(visible ? ~0u : 0u);
+}
+
+void SketchDimensionOsgRenderer::refresh()
+{
+    auto* pGizmo = static_cast<SketchDimensionGizmo*>(_pGizmo);
     if (!pGizmo || !_pBillboard)
     {
         return;
     }
 
-    const SketchRectangleInfo& rect = pGizmo->getRectangleInfo();
-
-    // Live geometry first; the snapshot is only a fallback for a transient failure
-    std::array<wy::Vector2, 4> corners = rect.corners;
-    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
-    std::array<wy::Vector2, 4> liveCorners{};
-    if (pDb && readSketchRectangleCorners(pDb, pGizmo->getLineIds(), liveCorners))
+    SketchDimensionLabel label;
+    if (!pGizmo->readLabel(label))
     {
-        corners = liveCorners;
+        this->setLabelVisible(false);
+        return;
+    }
+    this->setLabelVisible(true);
+
+    if (label.text != _text)
+    {
+        this->setLabelText(label.text);
     }
 
-    const RectangleDimensionLabel label =
-        computeRectangleDimensionLabel(corners, pGizmo->getDimension());
-
-    const QString text = QStringLiteral("%1=%2")
-        .arg(pGizmo->getDimensionName())
-        .arg(QString::number(label.value, 'f', 2));
-    if (text != _text)
-    {
-        this->setLabelText(text);
-    }
-
-    const wy::Vector3 worldPos = pGizmo->getSketchPlane().value(label.edgeMid);
-    _pBillboard->setAnchor(osg::Vec3d(worldPos.x(), worldPos.y(), worldPos.z()));
+    const wy::Vector3 anchor = pGizmo->getSketchPlane().value(label.anchorUv);
+    _pBillboard->setAnchor(osg::Vec3d(anchor.x(), anchor.y(), anchor.z()));
 
     const double widthPx = kLabelHeightPx * _aspect;
-    const osg::Vec2d pixelOffset = SketchRectangleDimension::Width == pGizmo->getDimension()
-        ? osg::Vec2d(0.0, -(kLabelGapPx + 0.5 * kLabelHeightPx))
-        : osg::Vec2d(kLabelGapPx + 0.5 * widthPx, 0.0);
-    _pBillboard->setPixelOffset(pixelOffset);
     _pBillboard->setPixelSize(osg::Vec2d(widthPx, kLabelHeightPx));
+    _pBillboard->setGapPixels(kLabelGapPx);
+    _pBillboard->setPlacement(label.placement);
+
+    osg::Vec3d radialDirection;
+    if (SketchDimensionPlacement::Radial == label.placement &&
+        0.0 < label.radialDirectionUv.length())
+    {
+        const wy::Vector3 outside =
+            pGizmo->getSketchPlane().value(label.anchorUv + label.radialDirectionUv);
+        radialDirection.set(outside.x() - anchor.x(),
+                           outside.y() - anchor.y(),
+                           outside.z() - anchor.z());
+    }
+    _pBillboard->setRadialDirection(radialDirection);
 }
 
 } // namespace wy3dApp

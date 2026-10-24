@@ -2257,6 +2257,14 @@
     </message>
 </context>
 <context>
+    <name>SketchArcDimensionGizmo</name>
+    <message>
+        <location filename="../../gizmo/element/SketchArcDimensionGizmo.cpp" line="42"/>
+        <source>Radius</source>
+        <translation type="unfinished">Radius</translation>
+    </message>
+</context>
+<context>
     <name>SketchChamfer</name>
     <message>
         <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="91"/>
@@ -2281,6 +2289,14 @@
     <message>
         <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="151"/>
         <source>Select the second sketch line.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SketchCircleDimensionGizmo</name>
+    <message>
+        <location filename="../../gizmo/element/SketchCircleDimensionGizmo.cpp" line="43"/>
+        <source>Diameter</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3000,6 +3016,19 @@
     </message>
 </context>
 <context>
+    <name>SketchLineDimensionGizmo</name>
+    <message>
+        <location filename="../../gizmo/element/SketchLineDimensionGizmo.cpp" line="56"/>
+        <source>Length</source>
+        <translation type="unfinished">Length</translation>
+    </message>
+    <message>
+        <location filename="../../gizmo/element/SketchLineDimensionGizmo.cpp" line="57"/>
+        <source>Angle</source>
+        <translation type="unfinished">Angle</translation>
+    </message>
+</context>
+<context>
     <name>SketchOffset</name>
     <message>
         <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="199"/>
@@ -3201,12 +3230,12 @@
 <context>
     <name>SketchRectangleDimensionGizmo</name>
     <message>
-        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="83"/>
+        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="57"/>
         <source>Width</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="84"/>
+        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="58"/>
         <source>Height</source>
         <translation type="unfinished"></translation>
     </message>
