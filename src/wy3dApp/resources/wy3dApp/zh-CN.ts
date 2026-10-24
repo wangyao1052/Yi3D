@@ -2257,6 +2257,14 @@
     </message>
 </context>
 <context>
+    <name>SketchArcDimensionGizmo</name>
+    <message>
+        <location filename="../../gizmo/element/SketchArcDimensionGizmo.cpp" line="42"/>
+        <source>Radius</source>
+        <translation>半径</translation>
+    </message>
+</context>
+<context>
     <name>SketchChamfer</name>
     <message>
         <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="91"/>
@@ -2282,6 +2290,14 @@
         <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="151"/>
         <source>Select the second sketch line.</source>
         <translation type="unfinished">选择第二条草图线。</translation>
+    </message>
+</context>
+<context>
+    <name>SketchCircleDimensionGizmo</name>
+    <message>
+        <location filename="../../gizmo/element/SketchCircleDimensionGizmo.cpp" line="43"/>
+        <source>Diameter</source>
+        <translation>直径</translation>
     </message>
 </context>
 <context>
@@ -3000,6 +3016,19 @@
     </message>
 </context>
 <context>
+    <name>SketchLineDimensionGizmo</name>
+    <message>
+        <location filename="../../gizmo/element/SketchLineDimensionGizmo.cpp" line="56"/>
+        <source>Length</source>
+        <translation>长度</translation>
+    </message>
+    <message>
+        <location filename="../../gizmo/element/SketchLineDimensionGizmo.cpp" line="57"/>
+        <source>Angle</source>
+        <translation>角度</translation>
+    </message>
+</context>
+<context>
     <name>SketchOffset</name>
     <message>
         <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="199"/>
@@ -3039,6 +3068,14 @@
         <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="284"/>
         <source>The angle between items is too small!</source>
         <translation type="unfinished">项目间角度过小！</translation>
+    </message>
+</context>
+<context>
+    <name>SketchPolygonDimensionGizmo</name>
+    <message>
+        <location filename="../../gizmo/element/sketchpolygon/SketchPolygonDimensionGizmo.cpp" line="57"/>
+        <source>Radius</source>
+        <translation>半径</translation>
     </message>
 </context>
 <context>
@@ -3196,6 +3233,19 @@
         <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="448"/>
         <source>Specify the end point of row spacing or input the row spacing.</source>
         <translation type="unfinished">指定行间隙终点 或 直接输入行间隙值。</translation>
+    </message>
+</context>
+<context>
+    <name>SketchRectangleDimensionGizmo</name>
+    <message>
+        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="55"/>
+        <source>Width</source>
+        <translation>宽度</translation>
+    </message>
+    <message>
+        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="56"/>
+        <source>Height</source>
+        <translation>高度</translation>
     </message>
 </context>
 <context>

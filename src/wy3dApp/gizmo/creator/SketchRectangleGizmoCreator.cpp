@@ -29,8 +29,10 @@
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
-#include "gizmo/element/SketchRectangleDiagonalsGhostGizmo.h"
-#include "gizmo/element/SketchRectangleGizmo.h"
+#include "gizmo/element/sketchrectangle/SketchRectangleDiagonalsGhostGizmo.h"
+#include "gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.h"
+#include "gizmo/element/sketchrectangle/SketchRectangleGizmo.h"
+#include "utils/SketchRectangleDimensionMath.h"
 #include "utils/SketchRectangleRecognizer.h"
 
 namespace wy3dApp {
@@ -75,6 +77,11 @@ bool SketchRectangleGizmoCreator::tryCreateGizmos(const wyap::SelectionSet& sels
         pRect, lines, SketchRectangleGizmo::Type::Center, 0));
 
     created.emplace_back(std::make_shared<SketchRectangleDiagonalsGhostGizmo>(pRect));
+
+    created.emplace_back(std::make_shared<SketchRectangleDimensionGizmo>(
+        pRect, SketchRectangleDimension::Width));
+    created.emplace_back(std::make_shared<SketchRectangleDimensionGizmo>(
+        pRect, SketchRectangleDimension::Height));
 
     gizmos.insert(gizmos.cend(), created.cbegin(), created.cend());
     return true;

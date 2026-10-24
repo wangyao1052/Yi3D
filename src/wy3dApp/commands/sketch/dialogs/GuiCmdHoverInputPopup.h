@@ -44,6 +44,11 @@ public:
     void setDefaultOffset(const QPoint& offset);
     void showAtGlobal(const QPoint& globalPos);
 
+    // Opt-in: dismiss the popup when its own window loses activation, i.e. on a
+    // click anywhere in the main window. Unlike the hover-summoned command
+    // popups, a click-to-open popup has no mouse-move dismissal of its own.
+    void setHideOnFocusLoss(bool hide) { _hideOnFocusLoss = hide; }
+
 protected:
     virtual bool eventFilter(QObject* watched, QEvent* event) override;
     virtual void focusInput() = 0;
@@ -60,6 +65,7 @@ private:
     QPoint _defaultOffset;
     QElapsedTimer _renderAreaReentryTimer;
     bool _cursorOutsideRenderArea;
+    bool _hideOnFocusLoss = false;
 };
 
 class GuiCmdHoverInputPopup1 : public GuiCmdHoverInputPopupBase

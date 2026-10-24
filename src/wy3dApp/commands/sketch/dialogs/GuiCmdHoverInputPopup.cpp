@@ -226,6 +226,22 @@ bool GuiCmdHoverInputPopupBase::eventFilter(QObject* watched, QEvent* event)
         break;
     }
 
+    case QEvent::WindowDeactivate:
+    {
+        // The popup is a Qt::Tool top-level window, so a click anywhere in the main
+        // window deactivates it while clicks inside the popup do not. Dismissed the
+        // same way as Esc: whatever was typed but not committed is dropped.
+        if (watched == this && _hideOnFocusLoss)
+        {
+            this->onCancel();
+            if (this->isVisible())
+            {
+                this->hide();
+            }
+        }
+        break;
+    }
+
     case QEvent::Enter:
     case QEvent::ApplicationActivate:
     {
