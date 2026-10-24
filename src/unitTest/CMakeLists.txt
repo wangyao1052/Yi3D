@@ -11,10 +11,12 @@ find_package(wydb REQUIRED)
 file(GLOB_RECURSE SRCS ./*.cpp)
 add_executable(${EXE_NAME} ${SRCS})
 
-# PluginManifest and SketchRectangleRecognizer are pure C++ (no Qt/OSG):
+# PluginManifest and the sketch recognizers are pure C++ (no Qt/OSG):
 # compile them straight into the test binary
 target_sources(${EXE_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/src/wy3dApp/plugins/PluginManifest.cpp"
+    "${CMAKE_SOURCE_DIR}/src/wy3dApp/utils/SketchClosedLoop.cpp"
+    "${CMAKE_SOURCE_DIR}/src/wy3dApp/utils/SketchPolygonRecognizer.cpp"
     "${CMAKE_SOURCE_DIR}/src/wy3dApp/utils/SketchRectangleRecognizer.cpp"
 )
 

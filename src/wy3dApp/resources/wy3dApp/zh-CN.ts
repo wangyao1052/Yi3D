@@ -3071,6 +3071,14 @@
     </message>
 </context>
 <context>
+    <name>SketchPolygonDimensionGizmo</name>
+    <message>
+        <location filename="../../gizmo/element/sketchpolygon/SketchPolygonDimensionGizmo.cpp" line="57"/>
+        <source>Radius</source>
+        <translation>半径</translation>
+    </message>
+</context>
+<context>
     <name>SketchProject</name>
     <message>
         <location filename="../../commands/sketch/SketchProjectGuiCmd.cpp" line="91"/>
@@ -3230,12 +3238,12 @@
 <context>
     <name>SketchRectangleDimensionGizmo</name>
     <message>
-        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="57"/>
+        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="55"/>
         <source>Width</source>
         <translation>宽度</translation>
     </message>
     <message>
-        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="58"/>
+        <location filename="../../gizmo/element/sketchrectangle/SketchRectangleDimensionGizmo.cpp" line="56"/>
         <source>Height</source>
         <translation>高度</translation>
     </message>
