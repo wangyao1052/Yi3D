@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "OsgGizmoNode.h"
+#include <wy3dApp/OsgGizmoNode.h>
 #include "scene/RenderConst.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

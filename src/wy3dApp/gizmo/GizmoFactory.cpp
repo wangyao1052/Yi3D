@@ -18,6 +18,8 @@
 
 #include <wy3dApp/GizmoFactory.h>
 
+#include <utility>
+
 #include <wy3dSolid.h>
 #include <wy3dBox.h>
 #include <wy3dCylinder.h>
@@ -74,6 +76,24 @@
     }
 
 namespace wy3dApp {
+
+namespace {
+
+// Sets the "creating selection gizmos" flag for the duration of a scope, and
+// restores it even if a creator throws.
+class ScopedSelectionCreatorFlag
+{
+public:
+    explicit ScopedSelectionCreatorFlag(bool& flag) : _flag(flag) { _flag = true; }
+    ~ScopedSelectionCreatorFlag() { _flag = false; }
+    ScopedSelectionCreatorFlag(const ScopedSelectionCreatorFlag&) = delete;
+    ScopedSelectionCreatorFlag& operator=(const ScopedSelectionCreatorFlag&) = delete;
+
+private:
+    bool& _flag;
+};
+
+} // namespace
 
 GizmoFactory::GizmoFactory()
 {
@@ -136,6 +156,50 @@ std::list<wyap::GizmoSPtr> GizmoFactory::createGizmos(const wydb::Element* pElem
     }
 
     return iter->second->createGizmos(pElem);
+}
+
+wy::ErrorStatus GizmoFactory::addSelectionCreator(
+    const std::string& key, std::shared_ptr<SelectionGizmoCreator> pCreator)
+{
+    if (key.empty() || !pCreator)
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+
+    if (_isCreatingSelectionGizmos)
+    {
+        return wy::ErrorStatus::NotCurrentlyAllowed;
+    }
+
+    const auto inserted = _selectionCreators.emplace(key, std::move(pCreator));
+    return inserted.second ? wy::ErrorStatus::Ok : wy::ErrorStatus::DuplicateKey;
+}
+
+wy::ErrorStatus GizmoFactory::removeSelectionCreator(const std::string& key)
+{
+    if (_isCreatingSelectionGizmos)
+    {
+        return wy::ErrorStatus::NotCurrentlyAllowed;
+    }
+
+    return 0 == _selectionCreators.erase(key) ? wy::ErrorStatus::KeyNotFound
+                                              : wy::ErrorStatus::Ok;
+}
+
+void GizmoFactory::createSelectionGizmos(
+    const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos) const
+{
+    if (_isCreatingSelectionGizmos)
+    {
+        assert(false);
+        return;
+    }
+
+    const ScopedSelectionCreatorFlag flag(_isCreatingSelectionGizmos);
+    for (const auto& kvp : _selectionCreators)
+    {
+        kvp.second->createGizmos(sels, gizmos);
+    }
 }
 
 } // namespace wy3dApp

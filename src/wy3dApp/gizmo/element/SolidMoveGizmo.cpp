@@ -28,13 +28,13 @@
 
 #include <wyVector3.h>
 
-#include "gizmo/OsgGizmoNode.h"
+#include <wy3dApp/OsgGizmoNode.h>
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "gizmo/operation/SolidDragOperation.h"
 #include "gizmo/renderer/SolidMoveOsgRenderer.h"
-#include "gizmo/renderer/OsgGizmoRenderer.h"
+#include <wy3dApp/OsgGizmoRenderer.h>
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

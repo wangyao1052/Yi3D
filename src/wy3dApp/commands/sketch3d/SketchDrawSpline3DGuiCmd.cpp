@@ -39,7 +39,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
-#include "gizmo/OsgGizmoNode.h"
+#include <wy3dApp/OsgGizmoNode.h>
 #include "scene/Colors.h"
 #include "scene/RenderConst.h"
 #include "snap/SnapConsts.h"

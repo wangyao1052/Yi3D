@@ -27,8 +27,8 @@
 #include <wydbTransaction.h>
 #include <wyapGizmo.h>
 
-#include "operation/GizmoOperation.h"
-#include "renderer/GizmoRenderer.h"
+#include <wy3dApp/GizmoOperation.h>
+#include <wy3dApp/GizmoRenderer.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -36,7 +36,7 @@ namespace wy3dApp {
 struct MouseEvent;
 struct KeyEvent;
 
-class BaseGizmo : public wyap::Gizmo
+class WY3DAPP_EXPORT BaseGizmo : public wyap::Gizmo
 {
 public:
     explicit BaseGizmo(wydb::ElementId id) : _ids{ id } {}
@@ -88,6 +88,8 @@ protected:
     // Gizmo 操作（拖拽事务管理）
     std::unique_ptr<GizmoOperation> _pGizmoOp;
     // Gizmo 渲染器（拖拽视觉反馈）
+    // 子类必须把它设置为 OsgGizmoRenderer 或其派生类：Scene 的挂载/拾取和
+    // 事件分发都依赖这一契约。
     std::unique_ptr<GizmoRenderer> _pRenderer;
 };
 

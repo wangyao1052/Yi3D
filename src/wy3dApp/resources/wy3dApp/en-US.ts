@@ -1541,14 +1541,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="551"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="554"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="228"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1584"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="545"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="548"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="650"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="557"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="402"/>
@@ -1556,7 +1556,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="562"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="565"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1627"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>

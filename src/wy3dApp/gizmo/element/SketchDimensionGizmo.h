@@ -27,7 +27,7 @@
 #include <wy3dPlane.h>
 #include <wydbElementId.h>
 
-#include "gizmo/BaseGizmo.h"
+#include <wy3dApp/BaseGizmo.h>
 #include "utils/SketchDimensionLabelMath.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

@@ -524,6 +524,9 @@ bool SelectGuiCmd::tryAddElementPositionGizmo(const wyap::SelectionSet& sels)
         return false;
     }
 
+    // 插件注册的选择集级 creator：追加在内置夹点/尺寸之后
+    pGizmoFactory->createSelectionGizmos(sels, gizmos);
+
     ApplicationImpl::instance().getGizmoManager()->beginChange();
     ApplicationImpl::instance().getGizmoManager()->clearGizmos();
     for (const wyap::GizmoSPtr& pGizmo : gizmos)

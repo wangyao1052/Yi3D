@@ -144,7 +144,7 @@ public:
     QToolBar* getToolBar(const std::string& toolBarName) const;
 
     // 获取Gizmo创建工厂
-    GizmoFactory* getGizmoFactory() const
+    GizmoFactory* getGizmoFactory() const override
     {
         return _pGizmoFactory.get();
     }

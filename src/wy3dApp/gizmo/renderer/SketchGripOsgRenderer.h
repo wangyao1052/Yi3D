@@ -22,7 +22,7 @@
 #include <osg/Geometry>
 #include <osg/AutoTransform>
 
-#include "OsgGizmoRenderer.h"
+#include <wy3dApp/OsgGizmoRenderer.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {

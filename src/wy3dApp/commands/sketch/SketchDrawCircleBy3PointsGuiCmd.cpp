@@ -37,7 +37,7 @@
 #include "utils/MathUtils.h"
 #include "scene/Colors.h"
 #include "snap/SnapConsts.h"
-#include "gizmo/OsgGizmoNode.h"
+#include <wy3dApp/OsgGizmoNode.h>
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

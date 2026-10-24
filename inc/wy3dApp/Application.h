@@ -24,6 +24,7 @@
 
 namespace wy3dApp {
 
+class GizmoFactory;
 class MainWindow;
 class ParamDisplayNameRegistry;
 class StatusBarHelper;
@@ -43,6 +44,9 @@ public:
     // Owned by the application; non-null once the application has started.
     // The caller does not own the returned pointer.
     virtual ParamDisplayNameRegistry* getParamDisplayNameRegistry() const = 0;
+    // Owned by the application; non-null once the application has started.
+    // The caller does not own the returned pointer.
+    virtual GizmoFactory* getGizmoFactory() const = 0;
 };
 
 // Returns the process-wide Application singleton (implemented by ApplicationImpl).

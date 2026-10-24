@@ -25,7 +25,7 @@
 namespace wy3dApp {
 
 // Gizmo的OSG节点
-class OsgGizmoNode : public osg::PositionAttitudeTransform
+class WY3DAPP_EXPORT OsgGizmoNode : public osg::PositionAttitudeTransform
 {
 public:
     OsgGizmoNode();

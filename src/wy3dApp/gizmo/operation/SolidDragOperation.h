@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_SOLID_DRAG_OPERATION_H
 #define WY3DAPP_SOLID_DRAG_OPERATION_H
 
-#include "GizmoOperation.h"
+#include <wy3dApp/GizmoOperation.h>
 #include <wyVector3.h>
 #include <wydbDatabase.h>
 #include <wy3dApp/wy3dAppDefs.h>

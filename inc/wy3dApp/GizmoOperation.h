@@ -33,7 +33,7 @@ namespace wy3dApp {
 
 class BaseGizmo;
 
-class GizmoOperation
+class WY3DAPP_EXPORT GizmoOperation
 {
 public:
     GizmoOperation(wydb::Database* pDb, BaseGizmo* pGizmo);

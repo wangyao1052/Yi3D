@@ -25,8 +25,8 @@
 #include <wydbDatabase.h>
 #include <wy3dPrimitive.h>
 
-#include "gizmo/BaseGizmo.h"
-#include "gizmo/OsgGizmoNode.h"
+#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/OsgGizmoNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {

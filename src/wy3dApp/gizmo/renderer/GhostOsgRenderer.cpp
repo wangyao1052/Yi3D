@@ -18,7 +18,7 @@
 
 #include "GhostOsgRenderer.h"
 #include <cassert>
-#include "gizmo/BaseGizmo.h"
+#include <wy3dApp/BaseGizmo.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {

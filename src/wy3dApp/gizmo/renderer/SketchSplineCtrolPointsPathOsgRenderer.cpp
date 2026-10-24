@@ -24,7 +24,7 @@
 #include <wy3dSketchSpline.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
-#include "gizmo/BaseGizmo.h"
+#include <wy3dApp/BaseGizmo.h>
 #include "utils/MathUtils.h"
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"

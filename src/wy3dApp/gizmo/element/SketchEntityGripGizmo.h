@@ -27,7 +27,7 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchEntity.h>
 
-#include "gizmo/BaseGizmo.h"
+#include <wy3dApp/BaseGizmo.h>
 #include "gizmo/operation/SketchEntityDragOperation.h"
 #include <wy3dApp/Snap2dContext.h>
 #include <wy3dApp/wy3dAppDefs.h>

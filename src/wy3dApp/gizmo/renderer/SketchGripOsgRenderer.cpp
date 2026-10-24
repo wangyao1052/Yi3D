@@ -18,7 +18,7 @@
 
 #include "SketchGripOsgRenderer.h"
 
-#include "gizmo/BaseGizmo.h"
+#include <wy3dApp/BaseGizmo.h>
 #include "gizmo/element/SketchEntityGripGizmo.h"
 #include "OsgUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>

@@ -29,7 +29,7 @@
 
 #include <wyVector3.h>
 
-#include "gizmo/BaseGizmo.h"
+#include <wy3dApp/BaseGizmo.h>
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include <wy3dPrimitive.h>

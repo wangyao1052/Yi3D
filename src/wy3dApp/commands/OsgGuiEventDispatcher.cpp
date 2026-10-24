@@ -29,8 +29,8 @@
 #include <wyapCmdManager.h>
 #include <wyapCommand.h>
 #include <wy3dApp/OsgGuiCommand.h>
-#include "gizmo/BaseGizmo.h"
-#include "gizmo/renderer/OsgGizmoRenderer.h"
+#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/OsgGizmoRenderer.h>
 #include <wy3dApp/GuiCommand.h> // MouseEvent
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -157,7 +157,7 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
             BaseGizmo* pGizmo = getActiveOsgGizmo();
             if (pGizmo)
             {
-                auto* pRenderer = static_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
+                auto* pRenderer = dynamic_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
                 if (pRenderer) pRenderer->setOsgView(pView);
                 pGizmo->onLeftMouseDown({ea.getX(), ea.getY(), ea.getTime()});
                 return true;
@@ -172,7 +172,7 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
         if (pGizmo)
         {
             osgViewer::View* pView = dynamic_cast<osgViewer::View*>(&aa);
-            auto* pRenderer = static_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
+            auto* pRenderer = dynamic_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
             if (pRenderer) pRenderer->setOsgView(pView);
             pGizmo->onLeftMouseDrag({ea.getX(), ea.getY(), ea.getTime()});
             return true;
@@ -188,7 +188,7 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
             if (pGizmo)
             {
                 osgViewer::View* pView = dynamic_cast<osgViewer::View*>(&aa);
-                auto* pRenderer = static_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
+                auto* pRenderer = dynamic_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
                 if (pRenderer) pRenderer->setOsgView(pView);
                 pGizmo->onLeftMouseUp({ea.getX(), ea.getY(), ea.getTime()});
 
@@ -209,7 +209,7 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
             if (pGizmo)
             {
                 osgViewer::View* pView = dynamic_cast<osgViewer::View*>(&aa);
-                auto* pRenderer = static_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
+                auto* pRenderer = dynamic_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
                 if (pRenderer) pRenderer->setOsgView(pView);
                 pGizmo->onEscapeKey();
 

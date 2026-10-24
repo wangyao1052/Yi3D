@@ -16,9 +16,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "OsgGizmoRenderer.h"
+#include <wy3dApp/OsgGizmoRenderer.h>
 #include <cassert>
-#include "gizmo/BaseGizmo.h"
+#include <wy3dApp/BaseGizmo.h>
 #include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
 #include <wy3dApp/wy3dAppDefs.h>

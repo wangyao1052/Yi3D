@@ -54,8 +54,8 @@
 #include "scene/nodes/BodyModificationElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
 #include <wy3dSheet.h>
-#include "gizmo/BaseGizmo.h"
-#include "gizmo/renderer/OsgGizmoRenderer.h"
+#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/OsgGizmoRenderer.h>
 #include "scene/nodes/CurveElementNode.h"
 #include "scene/nodes/Sketch3DElementNode.h"
 #include "scene/nodes/SketchEntity3DElementNode.h"
@@ -1498,7 +1498,12 @@ void Scene::onGizmoChanged(
             assert(false);
             continue;
         }
-        auto* pRenderer = static_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
+        auto* pRenderer = dynamic_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
+        if (!pRenderer)
+        {
+            assert(false);
+            continue;
+        }
         pRenderer->detachFromScene(this);
         auto iter = _node2Gizmo.find(pRenderer->getOsgNode());
         if (iter != _node2Gizmo.cend())
@@ -1521,8 +1526,13 @@ void Scene::onGizmoChanged(
             assert(false);
             continue;
         }
+        auto* pRenderer = dynamic_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
+        if (!pRenderer)
+        {
+            assert(false);
+            continue;
+        }
         pGizmo->refresh();
-        auto* pRenderer = static_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
         pRenderer->attachToScene(this);
         _node2Gizmo[pRenderer->getOsgNode()] = pGizmoSPtr;
     }

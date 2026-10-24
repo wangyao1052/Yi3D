@@ -30,7 +30,7 @@
 
 #include <QString>
 
-#include "OsgGizmoRenderer.h"
+#include <wy3dApp/OsgGizmoRenderer.h>
 #include "utils/SketchDimensionLabelMath.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

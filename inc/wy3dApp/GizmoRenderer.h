@@ -27,7 +27,10 @@ namespace wy3dApp {
 class BaseGizmo;
 class Scene;
 
-class GizmoRenderer
+// Gizmo renderer interface. Gizmos managed by wyap::GizmoManager must use an
+// OsgGizmoRenderer (or a subclass): the application scene and the event
+// dispatcher attach, pick and route mouse events through that concrete base.
+class WY3DAPP_EXPORT GizmoRenderer
 {
 public:
     explicit GizmoRenderer(BaseGizmo* pGizmo) : _pGizmo(pGizmo) {}

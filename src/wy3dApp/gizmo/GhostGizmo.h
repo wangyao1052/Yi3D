@@ -22,7 +22,7 @@
 #include <memory>
 #include <wydbElement.h>
 
-#include "gizmo/BaseGizmo.h"
+#include <wy3dApp/BaseGizmo.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {

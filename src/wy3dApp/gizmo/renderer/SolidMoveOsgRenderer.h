@@ -23,7 +23,7 @@
 #include <osg/ShapeDrawable>
 #include <osg/LineSegment>
 
-#include "OsgGizmoRenderer.h"
+#include <wy3dApp/OsgGizmoRenderer.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
