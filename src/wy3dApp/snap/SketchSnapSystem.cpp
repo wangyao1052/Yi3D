@@ -31,12 +31,8 @@
 #include <wy3dImpl.h>
 #include <wy3dSketchCurve.h>
 #include <wy3dSketchLine.h>
-#include <wy3dSketchCenterLine.h>
 #include <wy3dSketchCircle.h>
 #include <wy3dSketchArc.h>
-#include <wy3dSketchEllipse.h>
-#include <wy3dSketchEllipseArc.h>
-#include <wy3dSketchSpline.h>
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
@@ -52,20 +48,6 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
-
-typedef Snap2dAngleSPtr AngleSPtr;
-typedef Snap2dParallelSPtr ParlSPtr;
-typedef Snap2dPerpendicularSPtr PerpSPtr;
-
-#define NULL_ID wydb::ElementId::kNull
-#define MKSPTR std::make_shared
-#define MKSPTR_HORZ   std::make_shared<Snap2dHorizontal>
-#define MKSPTR_VERT   std::make_shared<Snap2dVertical>
-#define MKSPTR_Parl   std::make_shared<Snap2dParallel>
-#define MKSPTR_Perp   std::make_shared<Snap2dPerpendicular>
-#define MKSPTR_EqualLength std::make_shared<Snap2dEqualLength>
-#define MKSPTR_EqualRadius std::make_shared<Snap2dEqualRadius>
-#define MOVE std::move
 
 class SketchSnapPreSelFilter : public SelectPreFilterFunctor
 {
@@ -132,9 +114,6 @@ SketchSnapSystem::SketchSnapSystem(const wy3d::Sketch* pSketch)
 {
     _sketchId = pSketch->getId();
 
-    // 初始化
-    this->init(pSketch);
-
     // 点选选项
     _pickOption.pickHalfSize = SnapConsts::PickSize;
     _pickOption.allowedElemTypes = ElementNodeType::SketchEntity;
@@ -142,36 +121,10 @@ SketchSnapSystem::SketchSnapSystem(const wy3d::Sketch* pSketch)
     _pickOption.preFilter = std::make_shared<SketchSnapPreSelFilter>(wy3d::SketchCurve::classInfo(), nullptr);
 }
 
-const wy3d::Sketch* SketchSnapSystem::getSketch() const
+bool SketchSnapSystem::isSnapRefElementAllowed(const wy3d::SketchCurve& curve) const
 {
-    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
-    if (!pDb) return nullptr;
-    return wy3d::Sketch::cast(pDb->getElement(_sketchId));
-}
-
-bool SketchSnapSystem::init(const wy3d::Sketch* pSketch)
-{
-    if (!pSketch)
-    {
-        assert(false);
-        return false;
-    }
-    wydb::Database* pDb = pSketch->getDatabase();
-    if (!pDb)
-    {
-        assert(false);
-        return false;
-    }
-
-    // 创建所有的捕捉对象
-    wydb::ElementId id(wydb::ElementId::kNull);
-    for (auto iter = pSketch->createIterator(); !iter.isDone(); iter.moveNext())
-    {
-        id = iter.current();
-        this->appendSnapObjects(pDb, id);
-    }
-
-    return true;
+    // 只收集当前草图的图元
+    return curve.getParent() == _sketchId;
 }
 
 bool SketchSnapSystem::refreshPlane(const wydb::Database* pDb)
@@ -209,12 +162,6 @@ void SketchSnapSystem::onDatabaseChanged(
     if (changeInfo.modifiedIds.count(_sketchId)) this->refreshPlane(pDatabase);
 }
 
-void SketchSnapSystem::rebuildAll()
-{
-    Snap2dSystemImpl::rebuildAll();  // reset + initDefaultSnapObjects（基类事务）
-    this->init(this->getSketch());   // 草图元素（子类事务）
-}
-
 wydb::ElementId SketchSnapSystem::pickElement(
     const wydb::Database* pDb, osgViewer::View* pView,
     double x, double y, const std::set<wydb::ElementId>& excludeIds)
@@ -225,86 +172,6 @@ wydb::ElementId SketchSnapSystem::pickElement(
     return sel.getElementId();
 }
 
-void SketchSnapSystem::appendSnapObjects(const wydb::Database* pDb, const wydb::ElementId& id)
-{
-    assert(pDb);
-    const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pDb->getElement(id));
-    if (!pSketchCurve) return;
-    _ids.insert(id);
-
-    // 直线段
-    if (const wy3d::SketchLine* pLine = wy3d::SketchLine::cast(pSketchCurve))
-    {
-        if (pLine->getLength() <= wy3d::TOL) return;
-        wy::Vector2 startPnt = pLine->getStartPoint();
-        wy::Vector2 endPnt = pLine->getEndPoint();
-
-        // 平行
-        this->appendAngleSnapObject(MKSPTR_Parl(id, startPnt, endPnt), _parlAndPerps);
-        // 垂直
-        this->appendAngleSnapObject(MKSPTR_Perp(id, startPnt, endPnt), _parlAndPerps);
-        // 相等
-        double angle = Snap2dObject::computeParallelAngle(startPnt, endPnt);
-        assert(angle >= 0.0 && angle < wy3d::PI);
-        this->appendEqualSnapObject(
-            MKSPTR_EqualLength(id, pLine->getLength(), angle));
-    }
-    // 中心线
-    else if (const wy3d::SketchCenterLine* pCenterLine = wy3d::SketchCenterLine::cast(pSketchCurve))
-    {
-        if (pCenterLine->getLength() <= wy3d::TOL) return;
-        wy::Vector2 startPnt = pCenterLine->getStartPoint();
-        wy::Vector2 endPnt = pCenterLine->getEndPoint();
-
-        // 平行
-        this->appendAngleSnapObject(MKSPTR_Parl(id, startPnt, endPnt), _parlAndPerps);
-        // 垂直
-        this->appendAngleSnapObject(MKSPTR_Perp(id, startPnt, endPnt), _parlAndPerps);
-        // 相等
-        double angle = Snap2dObject::computeParallelAngle(startPnt, endPnt);
-        assert(angle >= 0.0 && angle < wy3d::PI);
-        this->appendEqualSnapObject(
-            MKSPTR_EqualLength(id, pCenterLine->getLength(), angle));
-    }
-    // 圆
-    else if (const wy3d::SketchCircle* pCircle = wy3d::SketchCircle::cast(pSketchCurve))
-    {
-        if (pCircle->getRadius() <= wy3d::TOL) return;
-
-        // 相等
-        this->appendEqualSnapObject(
-            MKSPTR_EqualRadius(id, pCircle->getRadius()));
-    }
-    // 圆弧
-    else if (const wy3d::SketchArc* pArc = wy3d::SketchArc::cast(pSketchCurve))
-    {
-        if (pArc->getRadius() <= wy3d::TOL) return;
-        if (pArc->getTotalAngle() <= wy3d::TOL) return;
-
-        // 相等
-        this->appendEqualSnapObject(
-            MKSPTR_EqualRadius(id, pArc->getRadius()));
-    }
-    // 椭圆
-    else if (wy3d::SketchEllipse::cast(pSketchCurve))
-    {
-        // 对齐X/Y改为动态收集,此处无需登记捕捉对象
-    }
-    // 椭圆弧
-    else if (wy3d::SketchEllipseArc::cast(pSketchCurve))
-    {
-        // 对齐X/Y改为动态收集,此处无需登记捕捉对象
-    }
-    // 样条曲线
-    else if (wy3d::SketchSpline::cast(pSketchCurve))
-    {
-        // 对齐X/Y改为动态收集,此处无需登记捕捉对象
-    }
-    else
-    {
-        assert(false);
-    }
-}
 
 // 计算点到直线段的投影点
 static inline bool projectPointOnLineseg(

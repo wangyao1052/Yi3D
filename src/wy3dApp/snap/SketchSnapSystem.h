@@ -63,17 +63,11 @@ public:
         const wydb::DatabaseChangeInfo& changeInfo) override;
 
 protected:
-    // 初始化
-    bool init(const wy3d::Sketch* pSketch);
-
-    const wy3d::Sketch* getSketch() const;
-
     virtual wydb::ElementId pickElement(
         const wydb::Database* pDb, osgViewer::View* pView,
         double x, double y, const std::set<wydb::ElementId>& excludeIds) override;
     virtual bool refreshPlane(const wydb::Database* pDb) override;
-    virtual void rebuildAll() override;
-    virtual void appendSnapObjects(const wydb::Database* pDb, const wydb::ElementId& id) override;
+    virtual bool isSnapRefElementAllowed(const wy3d::SketchCurve& curve) const override;
     virtual GuiCmdTransientSPtr createHighlightTransient(const wydb::ElementId& id) const override;
 
 private:

@@ -173,10 +173,6 @@ protected:
         double x, double y, const std::set<wydb::ElementId>& excludeIds);
     // 刷新平面(默认不刷新)
     virtual bool refreshPlane(const wydb::Database* pDb);
-    // 重建捕捉对象(默认重置并恢复默认对象)
-    virtual void rebuildAll();
-    // 添加捕捉对象(默认无)
-    virtual void appendSnapObjects(const wydb::Database* pDb, const wydb::ElementId& id);
     // Element highlight transient (none by default: plane users have no element highlight)
     virtual GuiCmdTransientSPtr createHighlightTransient(const wydb::ElementId& id) const
     {
@@ -206,19 +202,8 @@ protected:
         const wy::Vector2& pos,
         double valuePerPixelX, double valuePerPixelY);
 
-    // 构造平行&垂直数据
-    void constructParlAndPerpsData();
-
     // 初始化默认捕捉对象
     void initDefaultSnapObjects();
-
-    // 重置
-    void reset();
-
-    // 添加角度捕捉对象
-    void appendAngleSnapObject(
-        Snap2dAngleSPtr&& pAngleSnapObj,
-        std::vector<SnapRange<Snap2dAngleSPtr>>& angleRegions);
 
     // 添加XY捕捉对象
     template<typename T>
@@ -236,29 +221,6 @@ protected:
             max = value + 1;
         }
         map[DoubleMinMax(min, max)].objects.push_back(std::move(pSnapObj));
-    }
-
-    // 添加相等捕捉对象(长度)
-    void appendEqualSnapObject(Snap2dEqualLengthSPtr&& pSnapObj);
-    // 添加相等捕捉对象(半径)
-    void appendEqualSnapObject(Snap2dEqualRadiusSPtr&& pSnapObj);
-
-    // 移除失效的捕捉对象
-    template <typename T>
-    void eraseDirtySnapObjects(SnapRange<T>& snapRange, const std::set<wydb::ElementId>& dirtyIds)
-    {
-        for (auto iter = snapRange.objects.cbegin(); iter != snapRange.objects.cend(); )
-        {
-            assert(*iter);
-            if (dirtyIds.find((*iter)->getId()) != dirtyIds.cend())
-            {
-                iter = snapRange.objects.erase(iter);
-            }
-            else
-            {
-                ++iter;
-            }
-        }
     }
 
     // 捕捉点
@@ -330,9 +292,6 @@ private:
     Snap2dAngleSPtr snapAngleSnapObject(
         const std::vector<Snap2dAngleSPtr>& angleSnapObjs,
         double angle, double angleTol);
-    Snap2dAngleSPtr snapAngleSnapObject(
-        const std::vector<SnapRange<Snap2dAngleSPtr>>& angleRegions,
-        double angle, double angleTol, const std::set<wydb::ElementId>& excludeIds);
 
     // 捕捉对齐:动态
     template <typename T, template <typename...> class Container = std::vector>
@@ -524,33 +483,11 @@ private:
         return pRet;
     }
 
-    // 添加相等捕捉对象(分桶)
-    template<typename T>
-    void appendEqualSnapObjectImpl(std::map<DoubleMinMax, SnapRange<T>>& map, double value, T&& pSnapObj);
-
-    // 捕捉相等(长度)
-    Snap2dEqualLengthSPtr snapEqualLengthInMap(
-        double length, double tol, double valuePerPixel, double angle,
-        const std::set<wydb::ElementId>& excludeIds);
-    // 捕捉相等(半径)
-    Snap2dEqualRadiusSPtr snapEqualRadiusInMap(
-        double radius, double tol, double valuePerPixel,
-        const std::set<wydb::ElementId>& excludeIds);
-    // 捕捉相等(公共实现)
-    template<typename T, typename GetValue, typename Accept>
-    T snapEqualInMapImpl(
-        const std::map<DoubleMinMax, SnapRange<T>>& map,
-        double value, double tol, double valuePerPixel,
-        GetValue getValue, const Accept& accept,
-        const std::set<wydb::ElementId>& excludeIds);
-
 protected:
     // 草图平面
     wy3d::Plane _sketchPlane;
     // 捕捉上下文
     Snap2dContextSPtr _pSnapContext;
-    // 平行和垂直
-    std::vector<SnapRange<Snap2dAngleSPtr>> _parlAndPerps;
 
     // 对齐参照点：X/Y 两个索引对象成对保存，id 与参照点直接从对象读取
     struct AlignRefPoint
@@ -582,6 +519,42 @@ protected:
     AlignRefPoint _originAlignRef;
     // 动态对齐参照点（队首最旧、队尾最新，最多 kMaxAlignRefPointCount 个）
     std::deque<AlignRefPoint> _alignRefPoints;
+
+    // 动态参考图元池：只存 id，几何在查询时从数据库实时读取。
+    // 队首最旧、队尾最新；仅收集当前草图的直线/中心线/圆/圆弧。
+    static constexpr size_t kMaxSnapRefElementCount = 6;
+
+    // 从捕捉结果中采集参考图元
+    void appendSnapRefElements(const Snap2dResultSPtr& pSnapResult,
+        const wydb::Database* pDb, const std::set<wydb::ElementId>& excludeIds);
+    // 采集单个参考图元：先池内去重，首次入池才做数据库/类型校验
+    void appendSnapRefElement(const wydb::ElementId& id,
+        const wydb::Database* pDb, const std::set<wydb::ElementId>& excludeIds);
+    // 移除已删除的参考图元
+    void pruneSnapRefElements(const std::set<wydb::ElementId>& invalidIds);
+    // 取得可作为参考的草图曲线(过滤空 id/已删除/类型/父草图)
+    const wy3d::SketchCurve* getSnapRefCurve(const wydb::Database* pDb,
+        const wydb::ElementId& id) const;
+    // 参考图元作用域：默认不收集(工作平面型系统保持旧行为)
+    virtual bool isSnapRefElementAllowed(const wy3d::SketchCurve& curve) const
+    {
+        return false;
+    }
+
+    // 平行/垂直(参考动态池)
+    Snap2dAngleSPtr snapParallelOrPerpendicular(const wydb::Database* pDb,
+        double drawAngle, double angleTol,
+        const std::set<wydb::ElementId>& excludeIds) const;
+    // 相等长度(参考动态池)
+    Snap2dEqualLengthSPtr snapEqualLengthInRefElements(const wydb::Database* pDb,
+        double length, double tolPx, double valuePerPixel, double angle,
+        const std::set<wydb::ElementId>& excludeIds) const;
+    // 相等半径(参考动态池)
+    Snap2dEqualRadiusSPtr snapEqualRadiusInRefElements(const wydb::Database* pDb,
+        double radius, double tolPx, double valuePerPixel,
+        const std::set<wydb::ElementId>& excludeIds) const;
+
+    std::deque<wydb::ElementId> _snapRefElements;
     // 动态捕捉对象集合
     // 和绘制的上下文相关,当上下文变更时需要清空
     struct DynSnapObjs
@@ -606,9 +579,6 @@ protected:
         }
     } _dynSnapObjs;
 
-    // 当前捕捉系统中的元素
-    std::set<wydb::ElementId> _ids;
-
 private:
     // Snap rule table: one rule per context class name (WYRX class), both faces
     std::map<std::string, std::shared_ptr<Snap2dRuleHandler>> _rules;
@@ -620,17 +590,9 @@ private:
     std::unique_ptr<Snap2dResultDisplay> _pResultDisplay;
     // 水平和竖直
     std::vector<Snap2dAngleSPtr> _defaultAngleSnapObjects;
-    // 平行和垂直
-    size_t _angleSpansCnt;
-    double _angleSpan;
-    // 相等(长度)
-    std::map<DoubleMinMax, SnapRange<Snap2dEqualLengthSPtr>> _equalLengthMap;
-    // 相等(半径)
-    std::map<DoubleMinMax, SnapRange<Snap2dEqualRadiusSPtr>> _equalRadiusMap;
 
     // 数据库更新信息(用于局部更新捕捉数据)
     bool _isPartiallyUpdatePending = false;
-    std::set<wydb::ElementId> _addedIds;    // 实际新增的元素
     std::set<wydb::ElementId> _erasedIds;    // 实际删除的元素
     // 修改的元素
     // 如果一个元素先修改再移除会同时存在于_erasedIds&_modifiedIds;
