@@ -81,11 +81,26 @@ bool SketchLineDimensionGizmo::readDimension(
         return false;
     }
 
-    anchorUv = (pLine->getStartPoint() + pLine->getEndPoint()) * 0.5;
-    placement = Type::Length == _type
-        ? SketchDimensionPlacement::Below
-        : SketchDimensionPlacement::Above;
-    radialDirectionUv = wy::Vector2();
+    const wy::Vector2 start = pLine->getStartPoint();
+    const wy::Vector2 end = pLine->getEndPoint();
+    const wy::Vector2 direction = (end - start).normalized();
+
+    if (Type::Length == _type)
+    {
+        // Beyond the end, along the line
+        anchorUv = end;
+        radialDirectionUv = direction;
+    }
+    else
+    {
+        // Beside the middle point; the upper side puts a vertical line's label
+        // on the right, independent of the stored direction
+        const wy::Vector2 normal(-direction.y(), direction.x());
+        const bool isUpper = 0.0 < normal.y() || (0.0 == normal.y() && 0.0 < normal.x());
+        anchorUv = (start + end) * 0.5;
+        radialDirectionUv = isUpper ? normal : wy::Vector2(-normal.x(), -normal.y());
+    }
+    placement = SketchDimensionPlacement::Radial;
     return true;
 }
 
