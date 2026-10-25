@@ -334,17 +334,38 @@ ViewWidgetContainer* getViewWidgetContainer()
     return g_mainLayoutWindow;
 }
 
+void MainWindow::updateWindowTitle(wyap::Document* pDoc)
+{
+    if (pDoc)
+    {
+        this->setWindowTitle(QString::fromStdString(pDoc->getFileName()));
+    }
+    else
+    {
+        this->setWindowTitle(tr("wy3dApp"));
+    }
+}
+
 void MainWindow::onDocumentDeactivated(wyap::Document* pDeactivatedDoc)
 {
     assert(pDeactivatedDoc);
-    this->setWindowTitle(tr("wy3dApp"));
+    this->updateWindowTitle(nullptr);
 }
 
 void MainWindow::onDocumentActivated(wyap::Document* pActivatedDoc)
 {
     assert(pActivatedDoc);
-    const std::string& fileName = pActivatedDoc->getFileName();
-    this->setWindowTitle(QString::fromStdString(fileName));
+    this->updateWindowTitle(pActivatedDoc);
+}
+
+void MainWindow::onDocumentTitleUpdated(wyap::Document* pDoc)
+{
+    assert(pDoc);
+    if (ApplicationImpl::instance().getActiveDocument() != pDoc)
+    {
+        return;
+    }
+    this->updateWindowTitle(pDoc);
 }
 
 } // namespace wy3dApp

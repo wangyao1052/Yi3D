@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <wy3dApp/GizmoFactory.h>
+#include "GizmoFactoryImpl.h"
 
 #include <utility>
 
@@ -79,15 +79,15 @@ namespace wy3dApp {
 
 namespace {
 
-// Sets the "creating selection gizmos" flag for the duration of a scope, and
-// restores it even if a creator throws.
-class ScopedSelectionCreatorFlag
+// Sets a "creating gizmos" flag for the duration of a scope, and restores it
+// even if a creator throws.
+class ScopedGizmoCreationFlag
 {
 public:
-    explicit ScopedSelectionCreatorFlag(bool& flag) : _flag(flag) { _flag = true; }
-    ~ScopedSelectionCreatorFlag() { _flag = false; }
-    ScopedSelectionCreatorFlag(const ScopedSelectionCreatorFlag&) = delete;
-    ScopedSelectionCreatorFlag& operator=(const ScopedSelectionCreatorFlag&) = delete;
+    explicit ScopedGizmoCreationFlag(bool& flag) : _flag(flag) { _flag = true; }
+    ~ScopedGizmoCreationFlag() { _flag = false; }
+    ScopedGizmoCreationFlag(const ScopedGizmoCreationFlag&) = delete;
+    ScopedGizmoCreationFlag& operator=(const ScopedGizmoCreationFlag&) = delete;
 
 private:
     bool& _flag;
@@ -95,7 +95,7 @@ private:
 
 } // namespace
 
-GizmoFactory::GizmoFactory()
+GizmoFactoryImpl::GizmoFactoryImpl()
 {
     REGISTER_CREATOR(wy3d::Solid, NullGizmoCreator);
     REGISTER_CREATOR(wy3d::Box, PrimitiveGizmoCreator);
@@ -140,9 +140,16 @@ GizmoFactory::GizmoFactory()
 
 }
 
-std::list<wyap::GizmoSPtr> GizmoFactory::createGizmos(const wydb::Element* pElem) const
+std::list<wyap::GizmoSPtr> GizmoFactoryImpl::createGizmos(
+    const wydb::Element* pElem) const
 {
     if (!pElem)
+    {
+        assert(false);
+        return std::list<wyap::GizmoSPtr>();
+    }
+
+    if (_isCreatingElemGizmos)
     {
         assert(false);
         return std::list<wyap::GizmoSPtr>();
@@ -155,51 +162,38 @@ std::list<wyap::GizmoSPtr> GizmoFactory::createGizmos(const wydb::Element* pElem
         return std::list<wyap::GizmoSPtr>();
     }
 
+    const ScopedGizmoCreationFlag flag(_isCreatingElemGizmos);
     return iter->second->createGizmos(pElem);
 }
 
-wy::ErrorStatus GizmoFactory::addSelectionCreator(
-    std::shared_ptr<SelectionGizmoCreator> pCreator)
+wy::ErrorStatus GizmoFactoryImpl::addElemGizmoCreator(
+    const std::string& className,
+    std::unique_ptr<ElemGizmoCreator> pCreator)
 {
-    if (!pCreator)
+    if (className.empty() || !pCreator)
     {
         return wy::ErrorStatus::InvalidInput;
     }
 
-    if (_isCreatingSelectionGizmos)
+    if (_isCreatingElemGizmos)
     {
         return wy::ErrorStatus::NotCurrentlyAllowed;
     }
 
-    _selectionCreators.push_back(std::move(pCreator));
-    return wy::ErrorStatus::Ok;
+    const auto inserted = _name2Creator.emplace(className, std::move(pCreator));
+    return inserted.second ? wy::ErrorStatus::Ok : wy::ErrorStatus::DuplicateKey;
 }
 
-void GizmoFactory::createSelectionGizmos(
-    const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos) const
+wy::ErrorStatus GizmoFactoryImpl::removeElemGizmoCreator(
+    const std::string& className)
 {
-    if (_isCreatingSelectionGizmos)
+    if (_isCreatingElemGizmos)
     {
-        assert(false);
-        return;
+        return wy::ErrorStatus::NotCurrentlyAllowed;
     }
 
-    const ScopedSelectionCreatorFlag flag(_isCreatingSelectionGizmos);
-    for (const std::shared_ptr<SelectionGizmoCreator>& pCreator : _selectionCreators)
-    {
-        pCreator->createGizmos(sels, gizmos);
-    }
-}
-
-void GizmoFactory::clearSelectionCreators()
-{
-    if (_isCreatingSelectionGizmos)
-    {
-        assert(false);
-        return;
-    }
-
-    _selectionCreators.clear();
+    return 0 == _name2Creator.erase(className) ? wy::ErrorStatus::KeyNotFound
+                                               : wy::ErrorStatus::Ok;
 }
 
 } // namespace wy3dApp

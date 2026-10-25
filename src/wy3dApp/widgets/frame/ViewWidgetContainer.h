@@ -21,6 +21,8 @@
 #include <QWidget>
 #include <QString>
 
+#include <vector>
+
 #include <wyapDocManager.h>
 #include <wyapDocument.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -88,6 +90,23 @@ private:
 
     // 构建文档Tab页标题
     QString buildTabTitle(wyap::Document* pDoc) const;
+
+    // 弹出标签页右键菜单
+    void showTabContextMenu(int tabIndex, const QPoint& globalPos);
+
+    // 按当前Tab顺序快照所有文档(必须在任何关闭动作之前调用)
+    std::vector<wyap::Document*> getDocumentsInTabOrder() const;
+
+    // 关闭单个文档(必要时先询问是否保存).
+    // 返回false表示用户取消/保存失败/关闭失败,文档保持打开.
+    bool closeDocumentWithPrompt(wyap::Document* pDoc);
+
+    // 批量关闭文档:非活动文档按给定顺序先关,活动文档最后关;
+    // 遇到取消或失败立即停止,剩余文档保持打开.
+    bool closeDocuments(const std::vector<wyap::Document*>& documents);
+
+    // 中止当前模态命令.返回false表示出现意外状态.
+    bool abortCurrentModalCommand();
 
 private:
     QTabWidget* _pTabWidget;

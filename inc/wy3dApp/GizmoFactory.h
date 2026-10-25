@@ -20,14 +20,12 @@
 #define WY3DAPP_GIZMO_FACTORY_H
 
 #include <list>
-#include <map>
 #include <memory>
-#include <vector>
+#include <string>
 #include <wydbElement.h>
 #include <wyErrors.h>
 #include <wyapGizmo.h>
 #include <wy3dApp/ElemGizmoCreator.h>
-#include <wy3dApp/SelectionGizmoCreator.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -35,40 +33,35 @@ namespace wy3dApp {
 class WY3DAPP_EXPORT GizmoFactory
 {
 public:
-    GizmoFactory();
+    // Create the gizmos registered for the element's class.
+    virtual std::list<wyap::GizmoSPtr> createGizmos(const wydb::Element* pElem) const = 0;
+
+    // Register a creator for an element class. className must be
+    // Element::getClassInfo()->className() (a plugin class can pass its
+    // ElementT::className()). The factory takes ownership of pCreator.
+    // Plugins must remove the creator in Plugin::terminate(), before their DLL
+    // is unloaded.
+    // Returns InvalidInput for an empty class name or null creator, DuplicateKey
+    // if the class already has a creator, or NotCurrentlyAllowed while gizmos
+    // are being created. UI thread only.
+    virtual wy::ErrorStatus addElemGizmoCreator(
+        const std::string& className,
+        std::unique_ptr<ElemGizmoCreator> pCreator) = 0;
+
+    // Remove the creator registered for className. Built-in and plugin
+    // creators share the same table; the caller is responsible for not
+    // removing creators it does not own.
+    // Returns KeyNotFound when no creator is registered, or
+    // NotCurrentlyAllowed while gizmos are being created. UI thread only.
+    virtual wy::ErrorStatus removeElemGizmoCreator(const std::string& className) = 0;
+
+protected:
+    GizmoFactory() = default;
+    virtual ~GizmoFactory() = default;
     GizmoFactory(const GizmoFactory&) = delete;
     GizmoFactory& operator=(const GizmoFactory&) = delete;
     GizmoFactory(GizmoFactory&&) = delete;
     GizmoFactory& operator=(GizmoFactory&&) = delete;
-
-    std::list<wyap::GizmoSPtr> createGizmos(const wydb::Element* pElem) const;
-
-    // Register a selection-set level creator. Only the built-in select command
-    // uses this; plugins do not register selection creators. The registry is
-    // cleared when the next GUI command starts, so there is no per-creator
-    // removal.
-    // Returns InvalidInput for a null creator, or NotCurrentlyAllowed while
-    // createSelectionGizmos is running.
-    // UI thread only.
-    wy::ErrorStatus addSelectionCreator(std::shared_ptr<SelectionGizmoCreator> pCreator);
-
-    // Append the gizmos of every registered selection creator to gizmos.
-    // Must not be called reentrantly from a creator. UI thread only.
-    void createSelectionGizmos(const wyap::SelectionSet& sels,
-                               std::list<wyap::GizmoSPtr>& gizmos) const;
-
-    // Remove all selection creators. GuiCommand::onStart calls this for every
-    // GUI command, so creators from a previous command do not leak into the
-    // next one. UI thread only.
-    void clearSelectionCreators();
-
-private:
-    std::map<std::string, std::unique_ptr<ElemGizmoCreator>> _name2Creator;
-    std::vector<std::shared_ptr<SelectionGizmoCreator>> _selectionCreators;
-
-    // True while createSelectionGizmos is running: add/clear are rejected in
-    // that window so the creator list cannot be mutated during iteration.
-    mutable bool _isCreatingSelectionGizmos = false;
 };
 
 } // namespace wy3dApp

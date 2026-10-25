@@ -30,7 +30,6 @@
 #include <wy3dSolid.h>
 
 #include <wy3dApp/Application.h>
-#include <wyapGizmoManager.h>
 #include "application/ApplicationImpl.h"
 #include "commands/GuiEventDispatcher.h"
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
@@ -318,21 +317,6 @@ void Sketch3DSelectGuiCmd::updateSelectTipAndLabel()
         ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",
             "Select elements. Pick a planar face or a datum plane to set the sketch plane."));
     }
-}
-
-void Sketch3DSelectGuiCmd::onSelectionChanged(
-    const wyap::SelectionSet&,
-    const wyap::SelectionSet&,
-    const wyap::SelectionSet&)
-{
-    // 3D 草图图元不支持 Gizmo：清空可能残留的 Gizmo，只更新提示。
-    if (wyap::GizmoManager* pGizmoMgr = ApplicationImpl::instance().getGizmoManager())
-    {
-        pGizmoMgr->beginChange();
-        pGizmoMgr->clearGizmos();
-        pGizmoMgr->endChange();
-    }
-    this->updateSelectTipAndLabel();
 }
 
 void Sketch3DSelectGuiCmd::onKeyDown(const KeyEvent& event)

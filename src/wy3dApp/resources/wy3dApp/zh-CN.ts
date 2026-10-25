@@ -63,12 +63,12 @@
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="427"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="426"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="428"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="427"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -352,13 +352,13 @@
     </message>
     <message>
         <location filename="../../commands/FileCommands.cpp" line="86"/>
-        <location filename="../../commands/FileCommands.cpp" line="453"/>
+        <location filename="../../commands/FileCommands.cpp" line="454"/>
         <source>Yes</source>
         <translation type="unfinished">是</translation>
     </message>
     <message>
         <location filename="../../commands/FileCommands.cpp" line="87"/>
-        <location filename="../../commands/FileCommands.cpp" line="454"/>
+        <location filename="../../commands/FileCommands.cpp" line="455"/>
         <source>No</source>
         <translation type="unfinished">否</translation>
     </message>
@@ -368,104 +368,109 @@
         <translation type="unfinished">取消</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="154"/>
+        <location filename="../../commands/FileCommands.cpp" line="208"/>
+        <source>Failed to save the file!</source>
+        <translation type="unfinished">保存文件失败！</translation>
+    </message>
+    <message>
+        <location filename="../../commands/FileCommands.cpp" line="155"/>
         <source>Save file</source>
         <translation type="unfinished">保存文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="130"/>
-        <location filename="../../commands/FileCommands.cpp" line="418"/>
+        <location filename="../../commands/FileCommands.cpp" line="131"/>
+        <location filename="../../commands/FileCommands.cpp" line="419"/>
         <source>YI3D Text files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="133"/>
-        <location filename="../../commands/FileCommands.cpp" line="419"/>
+        <location filename="../../commands/FileCommands.cpp" line="134"/>
+        <location filename="../../commands/FileCommands.cpp" line="420"/>
         <source>YI3D Binary files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="257"/>
+        <location filename="../../commands/FileCommands.cpp" line="258"/>
         <source>unnamed</source>
         <translation type="unfinished">未命名</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="417"/>
+        <location filename="../../commands/FileCommands.cpp" line="418"/>
         <source>All YI3D files (*.%1 *.%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="423"/>
+        <location filename="../../commands/FileCommands.cpp" line="424"/>
         <source>Open file</source>
         <translation type="unfinished">打开文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="450"/>
+        <location filename="../../commands/FileCommands.cpp" line="451"/>
         <source>Do you want to revert to the saved version?</source>
         <translation type="unfinished">您要返回到存储版本吗？</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="486"/>
+        <location filename="../../commands/FileCommands.cpp" line="487"/>
         <source>Opening %1...</source>
         <translation>正在打开 %1…</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="584"/>
+        <location filename="../../commands/FileCommands.cpp" line="583"/>
         <source>Export file</source>
         <translation type="unfinished">导出文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="607"/>
+        <location filename="../../commands/FileCommands.cpp" line="606"/>
         <source>Export file failed!</source>
         <translation type="unfinished">导出文件失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="795"/>
+        <location filename="../../commands/FileCommands.cpp" line="794"/>
         <source>Cannot import a sketch while editing a sketch!</source>
         <translation>草图编辑中不能导入草图！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="820"/>
+        <location filename="../../commands/FileCommands.cpp" line="819"/>
         <source>Import sketch</source>
         <translation>导入草图</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="836"/>
+        <location filename="../../commands/FileCommands.cpp" line="835"/>
         <source>Import sketch failed!</source>
         <translation>导入草图失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="871"/>
+        <location filename="../../commands/FileCommands.cpp" line="870"/>
         <source>Please select a sketch first!</source>
         <translation>请先选择草图！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="680"/>
+        <location filename="../../commands/FileCommands.cpp" line="679"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="690"/>
+        <location filename="../../commands/FileCommands.cpp" line="689"/>
         <source>Export failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="896"/>
+        <location filename="../../commands/FileCommands.cpp" line="895"/>
         <source>Export sketch</source>
         <translation>导出草图</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="913"/>
+        <location filename="../../commands/FileCommands.cpp" line="912"/>
         <source>Export sketch failed!</source>
         <translation>导出草图失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="722"/>
+        <location filename="../../commands/FileCommands.cpp" line="721"/>
         <source>Import file</source>
         <translation>导入文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="744"/>
+        <location filename="../../commands/FileCommands.cpp" line="743"/>
         <source>Import file failed!</source>
         <translation type="unfinished">导入文件失败！</translation>
     </message>
@@ -564,22 +569,22 @@
 <context>
     <name>GuiCommand</name>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="204"/>
+        <location filename="../../commands/GuiCommand.cpp" line="180"/>
         <source>Complete Selection</source>
         <translation>完成选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="213"/>
+        <location filename="../../commands/GuiCommand.cpp" line="189"/>
         <source>Clear Selection</source>
         <translation>清除选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="231"/>
+        <location filename="../../commands/GuiCommand.cpp" line="207"/>
         <source>Property</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="244"/>
+        <location filename="../../commands/GuiCommand.cpp" line="220"/>
         <source>World Coordinate System</source>
         <translation>世界坐标系</translation>
     </message>
@@ -662,6 +667,21 @@
         <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="61"/>
         <source>Open</source>
         <translation type="unfinished">打开</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ViewWidgetContainer.cpp" line="376"/>
+        <source>Close</source>
+        <translation type="unfinished">关闭</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ViewWidgetContainer.cpp" line="379"/>
+        <source>Close Others</source>
+        <translation type="unfinished">关闭所有其它文件</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ViewWidgetContainer.cpp" line="381"/>
+        <source>Close All</source>
+        <translation type="unfinished">全部关闭</translation>
     </message>
     <message>
         <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="71"/>
@@ -1066,26 +1086,26 @@
         <translation>编辑3D草图</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="215"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="202"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1566"/>
         <source>Show</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="223"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="210"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1575"/>
         <source>Hide</source>
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="544"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="534"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="228"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1584"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="538"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="528"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="650"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="557"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="402"/>
@@ -1093,7 +1113,7 @@
         <translation>缩放到选择</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="555"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="545"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1627"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
@@ -1886,12 +1906,12 @@
         <translation type="unfinished">指定终点；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="432"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="431"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="433"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="432"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -1932,12 +1952,12 @@
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="562"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="561"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="563"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="562"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -2059,13 +2079,13 @@
         <translation>指定基线终点；可输入长度和角度值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="703"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="705"/>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="715"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="714"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -2078,12 +2098,12 @@
 <context>
     <name>RunScriptCommand</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="761"/>
+        <location filename="../../commands/FileCommands.cpp" line="760"/>
         <source>Python Script (*.py)</source>
         <translation type="unfinished">Python 脚本 (*.py)</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="765"/>
+        <location filename="../../commands/FileCommands.cpp" line="764"/>
         <source>Run Python Script</source>
         <translation type="unfinished">Python脚本</translation>
     </message>
@@ -2106,7 +2126,7 @@
         <translation type="unfinished">指定缩放比例。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="478"/>
+        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="477"/>
         <source>Scale</source>
         <translation type="unfinished">比例</translation>
     </message>
@@ -2114,12 +2134,12 @@
 <context>
     <name>SelectGuiCmd</name>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="435"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="431"/>
         <source>Select elements. Pick individual items or use window selection.</source>
         <translation type="unfinished">选择元素；点选单个项目或使用窗口选择。</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="482"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="478"/>
         <source>Specify the insertion point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定插入点；可输入具体坐标值。</translation>
     </message>
@@ -2233,17 +2253,17 @@
 <context>
     <name>Sketch3DSelectGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="237"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="236"/>
         <source>Only planar faces can be used as the sketch plane.</source>
         <translation type="unfinished">只有平面型面可以作为草图平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="258"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="257"/>
         <source>Sketch plane set. It will be used by the next drawing command.</source>
         <translation type="unfinished">已设置草图平面，将用于下一条绘制命令。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="318"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="317"/>
         <source>Select elements. Pick a planar face or a datum plane to set the sketch plane.</source>
         <translation type="unfinished">选择元素；拾取平面型面或基准面可设置草图平面。</translation>
     </message>
@@ -4561,7 +4581,7 @@ Do you want to save it to the original file now?
     <name>wy3dApp::MainWindow</name>
     <message>
         <location filename="../../widgets/frame/MainWindow.cpp" line="108"/>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="340"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="345"/>
         <source>wy3dApp</source>
         <translation type="unfinished">易三维</translation>
     </message>

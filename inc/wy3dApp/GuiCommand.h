@@ -83,9 +83,7 @@ struct KeyEvent
     double time;
 };
 
-class WY3DAPP_EXPORT GuiCommand
-    : public wyap::InteractiveCmdExecution
-    , public wyap::SelManagerReactor
+class WY3DAPP_EXPORT GuiCommand : public wyap::InteractiveCmdExecution
 {
     WYRX_DECLARE_ABSTRACT_MEMBERS(GuiCommand, wy3dApp::GuiCommand, wyap::InteractiveCmdExecution)
 protected:
@@ -95,15 +93,6 @@ protected:
     virtual wyap::CmdExecution::StartResult onStart() override;
     virtual void onEnd() override;
     virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
-
-    // Selection-set change: refreshes the gizmos for the current selection.
-    // Commands with their own selection handling (BooleanGuiCmd, SewnSheetGuiCmd,
-    // ...) override this and do not call the base; commands that never register a
-    // SelManager reactor do not receive this callback.
-    virtual void onSelectionChanged(
-        const wyap::SelectionSet& addedSS,
-        const wyap::SelectionSet& removedSS,
-        const wyap::SelectionSet& currSS) override;
 
     // Command selection options.
     struct SelectOptions

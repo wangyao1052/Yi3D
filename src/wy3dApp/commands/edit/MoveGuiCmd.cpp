@@ -523,10 +523,9 @@ void MoveGuiCmd::onLeftMouseDown(const MouseEvent& event)
     case Step::SpecifyEndPnt:
     {
         onLeftMouseDown_SpecifyEndPnt(event.x, event.y);
-        if (this->finishStep(_step))
-        {
-            this->simulateMouseMoveFromPopup();
-        }
+        // 该步骤的 finishStep 会同步结束命令，之后不能再模拟鼠标移动，
+        // 否则会重新计算捕捉并重新显示已清理的捕捉提示图标。
+        this->finishStep(_step);
         return;
     }
     break;
@@ -640,9 +639,11 @@ void MoveGuiCmd::onPopupEnterKey()
         return;
     }
 
+    const Step finishedStep = _step;
     handlePopupEnterKey();
 
-    if (this->finishStep(_step))
+    // 终点步骤结束后命令已同步终止，不再模拟鼠标移动，避免重新显示捕捉提示图标。
+    if (this->finishStep(finishedStep) && finishedStep != Step::SpecifyEndPnt)
     {
         this->simulateMouseMoveFromPopup();
     }

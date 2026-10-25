@@ -89,12 +89,14 @@ FileCmdsUtil::UiAskRet FileCmdsUtil::uiAskWhetherSaveDocument(wyap::Document* pD
         0);
     if (0 == ret) // Yes
     {
-        bool isUserCanceled(false);
-        FileCmdsUtil::uiSaveFile(pDoc, false, isUserCanceled);
-        if (isUserCanceled)
+        // A failed save (not only a canceled Save As dialog) must also cancel
+        // the close; otherwise the caller destroys the document and loses the
+        // changes.
+        if (FileCmdsUtil::SaveResult::Saved != FileCmdsUtil::uiSaveFile(pDoc, false))
+        {
             return UiAskRet::Cancel;
-        else
-            return UiAskRet::Continue;
+        }
+        return UiAskRet::Continue;
     }
     else if (1 == ret) // No
     {
@@ -113,10 +115,9 @@ FileCmdsUtil::UiAskRet FileCmdsUtil::uiAskWhetherSaveDocument(wyap::Document* pD
     return UiAskRet::Continue;
 }
 
-bool FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserCanceled)
+FileCmdsUtil::SaveResult FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isSaveAs)
 {
     assert(pDoc);
-    isUserCanceled = false;
 
     std::string u8FileName = pDoc->getFileName();
     // The file name's suffix decides the format; the dialog block below may
@@ -158,8 +159,7 @@ bool FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserC
             QFileDialog::Options());
         if (fileFullPath.isEmpty() || fileFullPath.isNull())
         {
-            isUserCanceled = true;
-            return false;
+            return SaveResult::Canceled;
         }
 
         // 根据用户选择的filter决定文件类型
@@ -195,17 +195,18 @@ bool FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserC
         u8FileName = fileFullPath.toStdString();
     }
 
+    // The window title is owned by MainWindow and follows the active document;
+    // saving (including saving inactive documents in a batch) must not touch it.
     wy::ErrorStatus error = ApplicationImpl::instance().getDocManager()->saveDocument(pDoc, u8FileName, {fileType});
     if (wy::ErrorStatus::Ok == error)
     {
-        ApplicationImpl::instance().getMainWindow()->setWindowTitle(QString::fromStdString(u8FileName));
-        return true;
+        return SaveResult::Saved;
     }
     else
     {
-        // TODO 弹出错误提示窗口
-        assert(false);
-        return false;
+        MessageBoxUtil::showError(
+            QCoreApplication::translate("FileCmds", "Failed to save the file!"));
+        return SaveResult::Failed;
     }
 }
 
@@ -533,8 +534,7 @@ int SaveFileCommand::run()
         return 0;
     }
 
-    bool isUserCanceled(false);
-    FileCmdsUtil::uiSaveFile(pActiveDoc, false, isUserCanceled);
+    FileCmdsUtil::uiSaveFile(pActiveDoc, false);
     return 0;
 }
 
@@ -547,8 +547,7 @@ int SaveAsFileCommand::run()
         return 0;
     }
 
-    bool isUserCanceled(false);
-    FileCmdsUtil::uiSaveFile(pActiveDoc, true, isUserCanceled);
+    FileCmdsUtil::uiSaveFile(pActiveDoc, true);
     return 0;
 }
 
