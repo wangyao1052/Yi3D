@@ -26,11 +26,16 @@
 #include <QHBoxLayout>
 #include <QTabWidget>
 #include <QMouseEvent>
+#include <QContextMenuEvent>
 #include <QTabBar>
 #include <QWidget>
 #include <QFileInfo>
 #include <QSignalBlocker>
+#include <QMenu>
+#include <QAction>
+#include <QCoreApplication>
 
+#include <algorithm>
 #include <cassert>
 
 #include <wyapDocument.h>
@@ -319,6 +324,22 @@ bool ViewWidgetContainer::eventFilter(QObject* watched, QEvent* event)
                 return true;
             }
         }
+        else if (QEvent::ContextMenu == eventType)
+        {
+            QContextMenuEvent* pContextMenuEvent = dynamic_cast<QContextMenuEvent*>(event);
+            if (!pContextMenuEvent)
+            {
+                assert(false);
+                return QWidget::eventFilter(watched, event);
+            }
+            const int tabIndex = pTabBar->tabAt(pContextMenuEvent->pos());
+            if (tabIndex < 0)
+            {
+                return QWidget::eventFilter(watched, event);
+            }
+            this->showTabContextMenu(tabIndex, pContextMenuEvent->globalPos());
+            return true;
+        }
 
         return QWidget::eventFilter(watched, event);
     }
@@ -329,13 +350,9 @@ bool ViewWidgetContainer::eventFilter(QObject* watched, QEvent* event)
     }
 }
 
-void ViewWidgetContainer::onTabCloseRequested(int index)
+void ViewWidgetContainer::showTabContextMenu(int tabIndex, const QPoint& globalPos)
 {
-    wyap::Document* pDoc = this->getDocumentAt(index);
-    if (!pDoc)
-    {
-        return;
-    }
+    assert(_pTabWidget);
     wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
     if (!pDocMgr)
     {
@@ -343,42 +360,209 @@ void ViewWidgetContainer::onTabCloseRequested(int index)
         return;
     }
 
-    if (pDocMgr->getActiveDocument() == pDoc)
+    // Capture the document the user right-clicked before the menu's nested
+    // event loop runs: the tab index may shift while the menu is open (e.g. an
+    // IPC script closes a document), so the index must not be used afterwards.
+    wyap::Document* pContextDoc = this->getDocumentAt(tabIndex);
+    if (!pContextDoc)
     {
-        // Force abort current modal command
-        wy::ErrorStatus error = ApplicationImpl::instance().getCmdManager()->abortCurrentModalCommand(
-            wyap::CmdExecution::AbortCause::ForceTerminate);
-        assert(wy::ErrorStatus::Ok == error
-            || wy::ErrorStatus::NoCurrentModalCommand == error);
-        assert(nullptr == ApplicationImpl::instance().getCmdManager()->getCurrentModalCommand());
+        assert(false);
+        return;
+    }
+    const wyap::DocumentId contextDocId = pContextDoc->getId();
+
+    QMenu menu;
+    QAction* pActionClose = menu.addAction(
+        QCoreApplication::translate("MainWindow", "Close"));
+    menu.addSeparator();
+    QAction* pActionCloseOthers = menu.addAction(
+        QCoreApplication::translate("MainWindow", "Close Others"));
+    QAction* pActionCloseAll = menu.addAction(
+        QCoreApplication::translate("MainWindow", "Close All"));
+    assert(pActionClose);
+    assert(pActionCloseOthers);
+    assert(pActionCloseAll);
+    if (pActionCloseOthers)
+    {
+        pActionCloseOthers->setEnabled(_pTabWidget->count() > 1);
     }
 
-    // Ask whether to save the document if it has unsaved changes.
-    if (FileCmdsUtil::UiAskRet::Cancel == FileCmdsUtil::uiAskWhetherSaveDocument(pDoc))
+    QAction* pSelectedAction = menu.exec(globalPos);
+    if (!pSelectedAction)
     {
         return;
     }
 
-    // Close the active document
-    if (pDocMgr->getActiveDocument() == pDoc)
+    // Relocate the right-clicked document by ID: a document closed and reopened
+    // while the menu was open gets a new ID, so this cannot match another
+    // document. If it is gone, abandon the action.
+    const std::vector<wyap::Document*> documents = pDocMgr->getDocuments();
+    auto iter = std::find_if(documents.cbegin(), documents.cend(),
+        [contextDocId](wyap::Document* pDoc)
+        {
+            return pDoc && pDoc->getId() == contextDocId;
+        });
+    if (documents.cend() == iter)
     {
-        // force abort current modal command
-        wy::ErrorStatus error = ApplicationImpl::instance().getCmdManager()->abortCurrentModalCommand(
-            wyap::CmdExecution::AbortCause::ForceTerminate);
-        assert(wy::ErrorStatus::Ok == error
-            || wy::ErrorStatus::NoCurrentModalCommand == error);
-        assert(nullptr == ApplicationImpl::instance().getCmdManager()->getCurrentModalCommand());
-
-        // Close the active document.
-        error = pDocMgr->closeActiveDocument(wyap::ExecutionMode::Sync);
-        //assert(wy::ErrorStatus::Ok == error);
+        return;
     }
-    // Close document.
+    pContextDoc = *iter;
+
+    if (pSelectedAction == pActionClose)
+    {
+        this->closeDocumentWithPrompt(pContextDoc);
+    }
+    else if (pSelectedAction == pActionCloseOthers)
+    {
+        std::vector<wyap::Document*> docsToClose = this->getDocumentsInTabOrder();
+        auto anchorIter = std::find(docsToClose.begin(), docsToClose.end(), pContextDoc);
+        if (docsToClose.end() != anchorIter)
+        {
+            docsToClose.erase(anchorIter);
+        }
+        this->closeDocuments(docsToClose);
+    }
+    else if (pSelectedAction == pActionCloseAll)
+    {
+        this->closeDocuments(this->getDocumentsInTabOrder());
+    }
     else
     {
-        wy::ErrorStatus error = pDocMgr->closeDocument(pDoc);
-        assert(wy::ErrorStatus::Ok == error);
+        assert(false);
     }
+}
+
+std::vector<wyap::Document*> ViewWidgetContainer::getDocumentsInTabOrder() const
+{
+    assert(_pTabWidget);
+    std::vector<wyap::Document*> documents;
+    if (!_pTabWidget)
+    {
+        return documents;
+    }
+
+    // Snapshot before any close: closing removes tabs and shifts indices.
+    const int count = _pTabWidget->count();
+    documents.reserve(static_cast<size_t>(count));
+    for (int index = 0; index < count; ++index)
+    {
+        wyap::Document* pDoc = this->getDocumentAt(index);
+        if (!pDoc)
+        {
+            assert(false);
+            continue;
+        }
+        documents.emplace_back(pDoc);
+    }
+    return documents;
+}
+
+void ViewWidgetContainer::onTabCloseRequested(int index)
+{
+    wyap::Document* pDoc = this->getDocumentAt(index);
+    if (!pDoc)
+    {
+        return;
+    }
+    this->closeDocumentWithPrompt(pDoc);
+}
+
+bool ViewWidgetContainer::closeDocumentWithPrompt(wyap::Document* pDoc)
+{
+    if (!pDoc)
+    {
+        assert(false);
+        return false;
+    }
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
+    if (!pDocMgr)
+    {
+        assert(false);
+        return false;
+    }
+
+    // A modal command may own an open transaction; abort it before prompting
+    // the active document (same ordering as the original single-tab close).
+    if (pDocMgr->getActiveDocument() == pDoc && !this->abortCurrentModalCommand())
+    {
+        return false;
+    }
+
+    // Ask whether to save the document if it has unsaved changes. Cancel also
+    // covers a failed save, so the document is never closed after losing data.
+    if (FileCmdsUtil::UiAskRet::Cancel == FileCmdsUtil::uiAskWhetherSaveDocument(pDoc))
+    {
+        return false;
+    }
+
+    // Closing the active document requires closeActiveDocument().
+    if (pDocMgr->getActiveDocument() == pDoc)
+    {
+        if (!this->abortCurrentModalCommand())
+        {
+            return false;
+        }
+        // Known to fail when a task/sketch environment is on top; the original
+        // code intentionally did not assert here.
+        const wy::ErrorStatus error = pDocMgr->closeActiveDocument(wyap::ExecutionMode::Sync);
+        return (wy::ErrorStatus::Ok == error);
+    }
+
+    const wy::ErrorStatus error = pDocMgr->closeDocument(pDoc);
+    assert(wy::ErrorStatus::Ok == error);
+    return (wy::ErrorStatus::Ok == error);
+}
+
+bool ViewWidgetContainer::closeDocuments(const std::vector<wyap::Document*>& documents)
+{
+    wyap::DocManager* pDocMgr = ApplicationImpl::instance().getDocManager();
+    if (!pDocMgr)
+    {
+        assert(false);
+        return false;
+    }
+
+    // Close inactive documents first: closeDocument() rejects the active one,
+    // and closing the active document hands activation to another tab (or
+    // exits the document environment when none is left).
+    wyap::Document* pActiveDoc = pDocMgr->getActiveDocument();
+    for (wyap::Document* pDoc : documents)
+    {
+        if (!pDoc)
+        {
+            assert(false);
+            continue;
+        }
+        if (pDoc == pActiveDoc)
+        {
+            continue;
+        }
+        if (!this->closeDocumentWithPrompt(pDoc))
+        {
+            return false; // Canceled or failed: keep the remaining documents open.
+        }
+    }
+
+    const bool closeActiveDoc = pActiveDoc
+        && (std::find(documents.cbegin(), documents.cend(), pActiveDoc) != documents.cend());
+    if (closeActiveDoc && !this->closeDocumentWithPrompt(pActiveDoc))
+    {
+        return false;
+    }
+    return true;
+}
+
+bool ViewWidgetContainer::abortCurrentModalCommand()
+{
+    wyap::CmdManager* pCmdMgr = ApplicationImpl::instance().getCmdManager();
+    assert(pCmdMgr);
+    const wy::ErrorStatus error = pCmdMgr->abortCurrentModalCommand(
+        wyap::CmdExecution::AbortCause::ForceTerminate);
+    assert(wy::ErrorStatus::Ok == error
+        || wy::ErrorStatus::NoCurrentModalCommand == error);
+    assert(nullptr == pCmdMgr->getCurrentModalCommand());
+    return (wy::ErrorStatus::Ok == error
+        || wy::ErrorStatus::NoCurrentModalCommand == error);
 }
 
 void ViewWidgetContainer::onDocumentCreated(wyap::Document* pNewDoc)

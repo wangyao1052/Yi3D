@@ -352,13 +352,13 @@
     </message>
     <message>
         <location filename="../../commands/FileCommands.cpp" line="86"/>
-        <location filename="../../commands/FileCommands.cpp" line="453"/>
+        <location filename="../../commands/FileCommands.cpp" line="457"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../../commands/FileCommands.cpp" line="87"/>
-        <location filename="../../commands/FileCommands.cpp" line="454"/>
+        <location filename="../../commands/FileCommands.cpp" line="458"/>
         <source>No</source>
         <translation type="unfinished"></translation>
     </message>
@@ -368,104 +368,109 @@
         <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="130"/>
-        <location filename="../../commands/FileCommands.cpp" line="418"/>
+        <location filename="../../commands/FileCommands.cpp" line="133"/>
+        <location filename="../../commands/FileCommands.cpp" line="422"/>
         <source>YI3D Text files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="133"/>
-        <location filename="../../commands/FileCommands.cpp" line="419"/>
+        <location filename="../../commands/FileCommands.cpp" line="136"/>
+        <location filename="../../commands/FileCommands.cpp" line="423"/>
         <source>YI3D Binary files (*.%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="154"/>
+        <location filename="../../commands/FileCommands.cpp" line="157"/>
         <source>Save file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="257"/>
+        <location filename="../../commands/FileCommands.cpp" line="211"/>
+        <source>Failed to save the file!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../commands/FileCommands.cpp" line="261"/>
         <source>unnamed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="417"/>
+        <location filename="../../commands/FileCommands.cpp" line="421"/>
         <source>All YI3D files (*.%1 *.%2)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="423"/>
+        <location filename="../../commands/FileCommands.cpp" line="427"/>
         <source>Open file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="450"/>
+        <location filename="../../commands/FileCommands.cpp" line="454"/>
         <source>Do you want to revert to the saved version?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="486"/>
+        <location filename="../../commands/FileCommands.cpp" line="490"/>
         <source>Opening %1...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="584"/>
+        <location filename="../../commands/FileCommands.cpp" line="588"/>
         <source>Export file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="607"/>
+        <location filename="../../commands/FileCommands.cpp" line="611"/>
         <source>Export file failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="680"/>
+        <location filename="../../commands/FileCommands.cpp" line="684"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="690"/>
+        <location filename="../../commands/FileCommands.cpp" line="694"/>
         <source>Export failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="722"/>
+        <location filename="../../commands/FileCommands.cpp" line="726"/>
         <source>Import file</source>
         <translation type="unfinished">Import file</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="744"/>
+        <location filename="../../commands/FileCommands.cpp" line="748"/>
         <source>Import file failed!</source>
         <translation type="unfinished">Import file failed!</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="795"/>
+        <location filename="../../commands/FileCommands.cpp" line="799"/>
         <source>Cannot import a sketch while editing a sketch!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="820"/>
+        <location filename="../../commands/FileCommands.cpp" line="824"/>
         <source>Import sketch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="836"/>
+        <location filename="../../commands/FileCommands.cpp" line="840"/>
         <source>Import sketch failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="871"/>
+        <location filename="../../commands/FileCommands.cpp" line="875"/>
         <source>Please select a sketch first!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="896"/>
+        <location filename="../../commands/FileCommands.cpp" line="900"/>
         <source>Export sketch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="913"/>
+        <location filename="../../commands/FileCommands.cpp" line="917"/>
         <source>Export sketch failed!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1596,6 +1601,21 @@
         <source>Cancel 3D Sketch</source>
         <translation>Cancel 3D Sketch</translation>
     </message>
+    <message>
+        <location filename="../../widgets/frame/ViewWidgetContainer.cpp" line="369"/>
+        <source>Close</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ViewWidgetContainer.cpp" line="372"/>
+        <source>Close Others</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../widgets/frame/ViewWidgetContainer.cpp" line="374"/>
+        <source>Close All</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MakeBoxGuiCmd</name>
@@ -2078,12 +2098,12 @@
 <context>
     <name>RunScriptCommand</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="761"/>
+        <location filename="../../commands/FileCommands.cpp" line="765"/>
         <source>Python Script (*.py)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="765"/>
+        <location filename="../../commands/FileCommands.cpp" line="769"/>
         <source>Run Python Script</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4543,7 +4563,7 @@ Do you want to save it to the original file now?
     <name>wy3dApp::MainWindow</name>
     <message>
         <location filename="../../widgets/frame/MainWindow.cpp" line="108"/>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="340"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="345"/>
         <source>wy3dApp</source>
         <translation type="unfinished">Yi3D</translation>
     </message>

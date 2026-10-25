@@ -39,10 +39,13 @@ public:
     // 是否保存文件
     static UiAskRet uiAskWhetherSaveDocument(wyap::Document* pDoc);
 
-    // 保存文件
-    // isSaveAs       --- [in]是否是另存为
-    // isUserCanceled --- [out]用户是否取消
-    static bool uiSaveFile(wyap::Document* pDoc, bool isSaveAs, bool& isUserCanceled);
+    enum class SaveResult
+    {
+        Saved    = 0,
+        Canceled = 1,
+        Failed   = 2,
+    };
+    static SaveResult uiSaveFile(wyap::Document* pDoc, bool isSaveAs);
 
     // Infer the file type from the file name's suffix
     // (.wy3db -> Binary, otherwise Text).

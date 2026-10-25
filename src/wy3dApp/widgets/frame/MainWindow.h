@@ -64,12 +64,16 @@ public:
     // Document manager reactor functions.
     virtual void onDocumentDeactivated(wyap::Document* pDeactivatedDoc) override;
     virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
+    virtual void onDocumentTitleUpdated(wyap::Document* pDoc) override;
 
 private:
     // 初始化状态栏
     void initStatusBar();
     // 初始化可停靠窗口
     void initDockableWidgets();
+
+    // 窗口标题 = 活动文档文件名;pDoc为空时显示应用名
+    void updateWindowTitle(wyap::Document* pDoc);
 
     std::vector<wyap::Document*> getModifiedDocuments() const;
     bool confirmReturnToSave(
