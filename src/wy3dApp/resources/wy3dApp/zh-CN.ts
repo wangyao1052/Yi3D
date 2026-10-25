@@ -564,22 +564,22 @@
 <context>
     <name>GuiCommand</name>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="215"/>
+        <location filename="../../commands/GuiCommand.cpp" line="204"/>
         <source>Complete Selection</source>
         <translation>完成选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="224"/>
+        <location filename="../../commands/GuiCommand.cpp" line="213"/>
         <source>Clear Selection</source>
         <translation>清除选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="242"/>
+        <location filename="../../commands/GuiCommand.cpp" line="231"/>
         <source>Property</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="255"/>
+        <location filename="../../commands/GuiCommand.cpp" line="244"/>
         <source>World Coordinate System</source>
         <translation>世界坐标系</translation>
     </message>
@@ -2233,17 +2233,17 @@
 <context>
     <name>Sketch3DSelectGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="236"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="237"/>
         <source>Only planar faces can be used as the sketch plane.</source>
         <translation type="unfinished">只有平面型面可以作为草图平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="257"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="258"/>
         <source>Sketch plane set. It will be used by the next drawing command.</source>
         <translation type="unfinished">已设置草图平面，将用于下一条绘制命令。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="317"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="318"/>
         <source>Select elements. Pick a planar face or a datum plane to set the sketch plane.</source>
         <translation type="unfinished">选择元素；拾取平面型面或基准面可设置草图平面。</translation>
     </message>

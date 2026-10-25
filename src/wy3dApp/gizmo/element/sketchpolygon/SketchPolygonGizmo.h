@@ -32,8 +32,9 @@
 
 namespace wy3dApp {
 
-// N lines making up a regular polygon: one handle per corner and per edge
-// midpoint. Dragging any handle rewrites all N lines in one go.
+// N lines making up a regular polygon: one handle per corner, one per edge
+// midpoint and one at the center. Dragging any handle rewrites all N lines in
+// one go; the center handle translates the whole polygon.
 class SketchPolygonGizmo : public SketchEntityGripGizmo
 {
 public:

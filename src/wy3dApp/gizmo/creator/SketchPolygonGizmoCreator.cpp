@@ -78,6 +78,9 @@ bool SketchPolygonGizmoCreator::tryCreateGizmos(const wyap::SelectionSet& sels,
             pPolygon, lines, SketchPolygonGizmo::Type::EdgeMid, i));
     }
 
+    created.emplace_back(std::make_shared<SketchPolygonGizmo>(
+        pPolygon, lines, SketchPolygonGizmo::Type::Center, 0));
+
     created.emplace_back(std::make_shared<SketchPolygonInscribedCircleGhostGizmo>(pPolygon));
     created.emplace_back(std::make_shared<SketchPolygonDimensionGizmo>(pPolygon));
 

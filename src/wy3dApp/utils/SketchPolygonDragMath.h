@@ -35,6 +35,7 @@ enum class SketchPolygonHandle
 {
     Corner = 0,
     EdgeMid = 1,
+    Center = 2,
 };
 
 // Vertex i sits at rotation + i*step on the circumscribed circle
@@ -111,6 +112,32 @@ inline std::vector<wy::Vector2> computePolygonEdgeMidDragVertices(
 
     const double circumRadius = computePolygonCircumradius(inRadius, sides);
     return computePolygonVertices(center, circumRadius, rotation, sides);
+}
+
+// Center drag: translate the whole polygon with the cursor. The snapshot
+// corners are shifted, never rebuilt from the parameters, so a live ring that
+// is only regular within tolerance does not jump. A non-finite cursor keeps
+// the polygon where it is.
+inline std::vector<wy::Vector2> computePolygonCenterDragVertices(
+    const std::vector<wy::Vector2>& startCorners,
+    const wy::Vector2& startCenter,
+    const wy::Vector2& curPos)
+{
+    if (static_cast<int>(startCorners.size()) < kMinPolygonSides) return {};
+
+    const wy::Vector2 offset = curPos - startCenter;
+    if (!std::isfinite(offset.x()) || !std::isfinite(offset.y()))
+    {
+        return startCorners;
+    }
+
+    std::vector<wy::Vector2> corners;
+    corners.reserve(startCorners.size());
+    for (const wy::Vector2& corner : startCorners)
+    {
+        corners.push_back(corner + offset);
+    }
+    return corners;
 }
 
 // Radius edit (text label): scale about the center, keep the rotation

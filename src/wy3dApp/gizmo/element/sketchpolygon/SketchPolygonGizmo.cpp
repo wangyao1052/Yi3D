@@ -28,6 +28,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include "utils/SketchClosedLoop.h"
+#include "utils/SketchPolygonGeometry.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -53,9 +54,24 @@ SketchPolygonGizmo::~SketchPolygonGizmo()
 wy::Vector2 SketchPolygonGizmo::getGripPosition() const
 {
     const int sides = _polygon->sides;
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+
+    if (Type::Center == _type)
+    {
+        if (!pDb) return _polygon->center;
+
+        std::vector<wy::Vector2> liveCorners;
+        if (!readSketchClosedLoopCorners(pDb, _polygon->lineIds, liveCorners,
+                                         nullptr, _polygon->distTol)
+            || static_cast<int>(liveCorners.size()) != sides)
+        {
+            return _polygon->center;
+        }
+        return computePolygonCenter(liveCorners);
+    }
+
     if (_index < 0 || _index >= sides) return _polygon->center;
 
-    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (Type::EdgeMid == _type)
     {
         const wy::Vector2 fallback =
@@ -135,15 +151,22 @@ bool SketchPolygonGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2
     const double minInradius = computePolygonMinInradius(sides, wy3d::kMinValue);
 
     std::vector<wy::Vector2> newCorners;
-    if (Type::Corner == _type)
+    switch (_type)
     {
+    case Type::Corner:
         newCorners = computePolygonCornerDragVertices(
             _dragCenter, _dragRotation, sides, _index, curPos, minInradius);
-    }
-    else
-    {
+        break;
+    case Type::EdgeMid:
         newCorners = computePolygonEdgeMidDragVertices(
             _dragCenter, _dragRotation, sides, _index, curPos, minInradius);
+        break;
+    case Type::Center:
+        newCorners = computePolygonCenterDragVertices(_dragCorners, _dragCenter, curPos);
+        break;
+    default:
+        assert(false);
+        return false;
     }
     if (static_cast<int>(newCorners.size()) != sides) return false;
 
