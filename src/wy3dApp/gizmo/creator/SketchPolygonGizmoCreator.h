@@ -28,8 +28,9 @@
 namespace wy3dApp {
 
 // Selection-level creator: 3..100 selected lines (4 stays with the rectangle)
-// that form a regular polygon get corner/edge-midpoint/center handles, an
-// inscribed circle ghost and a radius label
+// that form a regular polygon get corner/edge-midpoint/center handles, a circle
+// ghost and a radius label that switches between the inscribed and circumscribed
+// readings; the ghost draws the circle of the reading the label shows
 class SketchPolygonGizmoCreator
 {
 public:

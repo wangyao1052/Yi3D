@@ -3073,9 +3073,19 @@
 <context>
     <name>SketchPolygonDimensionGizmo</name>
     <message>
-        <location filename="../../gizmo/element/sketchpolygon/SketchPolygonDimensionGizmo.cpp" line="57"/>
+        <location filename="../../gizmo/element/sketchpolygon/SketchPolygonDimensionGizmo.cpp" line="61"/>
         <source>Radius</source>
         <translation>半径</translation>
+    </message>
+    <message>
+        <location filename="../../gizmo/element/sketchpolygon/SketchPolygonDimensionGizmo.cpp" line="66"/>
+        <source>Inscribed</source>
+        <translation>内切</translation>
+    </message>
+    <message>
+        <location filename="../../gizmo/element/sketchpolygon/SketchPolygonDimensionGizmo.cpp" line="67"/>
+        <source>Circumscribed</source>
+        <translation>外接</translation>
     </message>
 </context>
 <context>

@@ -16,32 +16,25 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SKETCH_POLYGON_INSCRIBED_CIRCLE_GHOST_GIZMO_H
-#define WY3DAPP_SKETCH_POLYGON_INSCRIBED_CIRCLE_GHOST_GIZMO_H
+#ifndef WY3DAPP_SKETCH_POLYGON_CIRCLE_OSG_RENDERER_H
+#define WY3DAPP_SKETCH_POLYGON_CIRCLE_OSG_RENDERER_H
 
-#include <memory>
-
-#include "gizmo/GhostGizmo.h"
-#include "utils/SketchPolygonRecognizer.h"
+#include "GhostOsgRenderer.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-// Dashed inscribed circle of a regular polygon (not pickable), hinting that the
-// selected lines are recognized as one polygon.
-class SketchPolygonInscribedCircleGhostGizmo : public GhostGizmo
+// Dashed circle of a regular polygon, refreshed from live lines; the radius
+// follows the dimension label's inscribed/circumscribed reading
+class SketchPolygonCircleOsgRenderer : public GhostOsgRenderer
 {
 public:
-    explicit SketchPolygonInscribedCircleGhostGizmo(
-        std::shared_ptr<const SketchPolygonInfo> polygon);
-    virtual ~SketchPolygonInscribedCircleGhostGizmo();
+    explicit SketchPolygonCircleOsgRenderer(BaseGizmo* pGizmo);
+    virtual ~SketchPolygonCircleOsgRenderer();
 
-    const SketchPolygonInfo& getPolygonInfo() const { return *_polygon; }
-
-private:
-    std::shared_ptr<const SketchPolygonInfo> _polygon;
+    virtual void refresh() override;
 };
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_SKETCH_POLYGON_INSCRIBED_CIRCLE_GHOST_GIZMO_H
+#endif // WY3DAPP_SKETCH_POLYGON_CIRCLE_OSG_RENDERER_H

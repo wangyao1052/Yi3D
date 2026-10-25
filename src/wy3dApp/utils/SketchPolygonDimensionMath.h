@@ -24,43 +24,94 @@
 
 #include <wyVector2.h>
 
+#include "utils/SketchPolygonDragMath.h"
 #include "utils/SketchPolygonGeometry.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-// The radius label reads the inscribed circle and sits at the midpoint of the
-// edge picked at recognition (labelEdge), pointing outwards
+enum class SketchPolygonDimension
+{
+    InscribedRadius = 0,
+    CircumscribedRadius = 1,
+};
+
+// One radius label of a regular polygon. The inscribed radius is read at the
+// midpoint of the edge picked at recognition (labelEdge); the circumscribed
+// radius is read at corners[0], the canonical vertex closest to +X at
+// recognition. Both labels point radially outwards.
 struct PolygonDimensionLabel
 {
     bool isValid = false;
     double value = 0.0;
-    wy::Vector2 edgeMid;
+    wy::Vector2 anchor;
     wy::Vector2 radialDirection;
-    int edge = -1;
+    int edge = -1; // inscribed only
 };
 
 inline PolygonDimensionLabel computePolygonDimensionLabel(
     const std::vector<wy::Vector2>& corners,
     const wy::Vector2& center,
+    SketchPolygonDimension dimension,
     int labelEdge)
 {
     PolygonDimensionLabel label;
 
     const int sides = static_cast<int>(corners.size());
-    if (sides < kMinPolygonSides || labelEdge < 0 || labelEdge >= sides) return label;
+    if (sides < kMinPolygonSides) return label;
 
-    const wy::Vector2 edgeMid = (corners[labelEdge] + corners[(labelEdge + 1) % sides]) * 0.5;
-    const wy::Vector2 radial = edgeMid - center;
+    wy::Vector2 anchor;
+    if (SketchPolygonDimension::InscribedRadius == dimension)
+    {
+        if (labelEdge < 0 || labelEdge >= sides) return label;
+        anchor = (corners[labelEdge] + corners[(labelEdge + 1) % sides]) * 0.5;
+        label.edge = labelEdge;
+    }
+    else
+    {
+        anchor = corners[0];
+    }
+
+    const wy::Vector2 radial = anchor - center;
     const double distance = radial.length();
     if (!std::isfinite(distance) || distance <= 0.0) return label;
 
     label.isValid = true;
     label.value = distance;
-    label.edgeMid = edgeMid;
+    label.anchor = anchor;
     label.radialDirection = radial / distance;
-    label.edge = labelEdge;
     return label;
+}
+
+// Smallest value the given reading may take while keeping the polygon
+// recognizable after it is deselected; both readings clamp at the same minimum
+// inscribed radius.
+inline double computePolygonMinDimensionValue(SketchPolygonDimension dimension,
+                                              int sides,
+                                              double minLength)
+{
+    const double minInradius = computePolygonMinInradius(sides, minLength);
+    return SketchPolygonDimension::InscribedRadius == dimension
+        ? minInradius
+        : computePolygonCircumradius(minInradius, sides);
+}
+
+// Radius edit from the label: scale about the center, keep the rotation. The
+// value is measured on the circle the given dimension names.
+inline std::vector<wy::Vector2> computePolygonDimensionResizedVertices(
+    const wy::Vector2& center,
+    double rotation,
+    int sides,
+    SketchPolygonDimension dimension,
+    double value,
+    double minInradius)
+{
+    if (sides < kMinPolygonSides || !std::isfinite(value)) return {};
+
+    const double inRadius = SketchPolygonDimension::InscribedRadius == dimension
+        ? value
+        : computePolygonInradius(value, sides);
+    return computePolygonResizedVertices(center, rotation, sides, inRadius, minInradius);
 }
 
 } // namespace wy3dApp

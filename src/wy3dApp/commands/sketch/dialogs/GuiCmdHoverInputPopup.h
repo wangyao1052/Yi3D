@@ -20,15 +20,20 @@
 #define WY3DAPP_GUI_CMD_HOVER_INPUT_POPUP_H
 
 #include <QString>
+#include <QStringList>
 #include <QWidget>
 #include <QElapsedTimer>
 #include <QPoint>
 #include <QRect>
 #include <functional>
+#include <vector>
 #include <wy3dApp/wy3dAppDefs.h>
 
+class QButtonGroup;
+class QGridLayout;
 class QLabel;
 class QLineEdit;
+class QRadioButton;
 
 namespace wy3dApp {
 
@@ -80,19 +85,47 @@ public:
     void setValue(const QString& value);
     void setValue(double value, int precision = 2);
     QString getRowText() const;
+    // setValue() leaves the text unselected with the caret at the front; call
+    // this when the next typed digits should replace the whole value
+    void selectAllValue();
 
 protected:
     virtual bool eventFilter(QObject* watched, QEvent* event) override;
     virtual void focusInput() override;
 
+    // Subclasses that add a row above the label/value row move these widgets
+    // inside the grid; see GuiCmdHoverInputPopup1_ChoiceRow
+    QGridLayout* _pGridLayout;
+    QLabel* _pRowLabel;
+    QLineEdit* _pRowEdit;
+
 private:
     void applyPresetWidths();
 
 private:
-    QLabel* _pRowLabel;
-    QLineEdit* _pRowEdit;
     QString _valueSample;
     bool _focusInput;
+};
+
+// One radio per entry of the choice list, in a row above the label/value row;
+// the button group id is the entry index. Clicking a radio reports the new
+// index through the handler; programmatic setChoice() stays silent.
+class GuiCmdHoverInputPopup1_ChoiceRow : public GuiCmdHoverInputPopup1
+{
+public:
+    GuiCmdHoverInputPopup1_ChoiceRow(
+        const QString& label,
+        const QString& valueSample,
+        const QStringList& choices,
+        QWidget* parent = nullptr);
+    virtual ~GuiCmdHoverInputPopup1_ChoiceRow();
+
+    void setChoice(int index);
+    void setChoiceHandler(const std::function<void(int)>& handler);
+
+private:
+    std::vector<QRadioButton*> _choices;
+    std::function<void(int)> _choiceHandler;
 };
 
 class GuiCmdHoverInputPopup2 : public GuiCmdHoverInputPopupBase

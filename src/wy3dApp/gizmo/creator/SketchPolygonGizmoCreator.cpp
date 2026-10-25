@@ -27,9 +27,9 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
+#include "gizmo/element/sketchpolygon/SketchPolygonCircleGhostGizmo.h"
 #include "gizmo/element/sketchpolygon/SketchPolygonDimensionGizmo.h"
 #include "gizmo/element/sketchpolygon/SketchPolygonGizmo.h"
-#include "gizmo/element/sketchpolygon/SketchPolygonInscribedCircleGhostGizmo.h"
 #include "utils/SketchPolygonGeometry.h"
 #include "utils/SketchPolygonRecognizer.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -81,8 +81,12 @@ bool SketchPolygonGizmoCreator::tryCreateGizmos(const wyap::SelectionSet& sels,
     created.emplace_back(std::make_shared<SketchPolygonGizmo>(
         pPolygon, lines, SketchPolygonGizmo::Type::Center, 0));
 
-    created.emplace_back(std::make_shared<SketchPolygonInscribedCircleGhostGizmo>(pPolygon));
-    created.emplace_back(std::make_shared<SketchPolygonDimensionGizmo>(pPolygon));
+    // The label drives the ghost's reading, so keep the ghost alive in a named
+    // local and hand the label a weak reference to it
+    const std::shared_ptr<SketchPolygonCircleGhostGizmo> pCircleGhost =
+        std::make_shared<SketchPolygonCircleGhostGizmo>(pPolygon);
+    created.emplace_back(pCircleGhost);
+    created.emplace_back(std::make_shared<SketchPolygonDimensionGizmo>(pPolygon, pCircleGhost));
 
     gizmos.insert(gizmos.cend(), created.cbegin(), created.cend());
     return true;
