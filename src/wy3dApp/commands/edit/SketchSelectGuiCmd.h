@@ -34,7 +34,8 @@ protected:
     GuiCmdSketchInfo _sketchInfo;
     virtual wyap::CmdExecution::StartResult onStart() override;
     virtual void initializeSelectOptions(SelectOptions& selectOptions) override;
-    virtual void onStart_EnvSpecific() override;
+    virtual void createSelectionGizmos(
+        const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos) override;
     virtual void selectAll_Impl(wyap::SelectionSet& ss) override;
     virtual wy::Vector3 computePastePosition(double x, double y,
         const std::set<wydb::ElementId>& excludeIds) override;

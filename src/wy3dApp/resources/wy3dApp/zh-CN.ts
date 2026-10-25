@@ -564,22 +564,22 @@
 <context>
     <name>GuiCommand</name>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="215"/>
+        <location filename="../../commands/GuiCommand.cpp" line="180"/>
         <source>Complete Selection</source>
         <translation>完成选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="224"/>
+        <location filename="../../commands/GuiCommand.cpp" line="189"/>
         <source>Clear Selection</source>
         <translation>清除选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="242"/>
+        <location filename="../../commands/GuiCommand.cpp" line="207"/>
         <source>Property</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="255"/>
+        <location filename="../../commands/GuiCommand.cpp" line="220"/>
         <source>World Coordinate System</source>
         <translation>世界坐标系</translation>
     </message>
@@ -1066,26 +1066,26 @@
         <translation>编辑3D草图</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="215"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="202"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1566"/>
         <source>Show</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="223"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="210"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1575"/>
         <source>Hide</source>
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="544"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="534"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="228"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1584"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="538"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="528"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="650"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="557"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="402"/>
@@ -1093,7 +1093,7 @@
         <translation>缩放到选择</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="555"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="545"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1627"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
@@ -2114,12 +2114,12 @@
 <context>
     <name>SelectGuiCmd</name>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="435"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="431"/>
         <source>Select elements. Pick individual items or use window selection.</source>
         <translation type="unfinished">选择元素；点选单个项目或使用窗口选择。</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="482"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="478"/>
         <source>Specify the insertion point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定插入点；可输入具体坐标值。</translation>
     </message>

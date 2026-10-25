@@ -22,7 +22,6 @@
 #include <wydbElementId.h>
 #include <wyapSelManager.h>
 #include <wyapGizmoManager.h>
-#include <wy3dApp/GizmoFactory.h>
 #include <wyapClipboard.h>
 
 #include <wy3dApp/Application.h>
@@ -155,25 +154,11 @@ wyap::CmdExecution::StartResult SelectGuiCmd::onStart()
     // 监听选择集
     ApplicationImpl::instance().getSelManager()->addReactor(this);
 
-    // 注册 Gizmo：设置了内置 creator 的命令才参与首次刷新。
-    // creator 由 GuiCommand::onStart 在命令开始时统一清空。
-    if (_pBuiltinSelectionCreator)
-    {
-        if (GizmoFactory* pGizmoFactory = ApplicationImpl::instance().getGizmoFactory())
-        {
-            const wy::ErrorStatus error =
-                pGizmoFactory->addSelectionCreator(_pBuiltinSelectionCreator);
-            assert(wy::ErrorStatus::Ok == error);
-            (void)error;
-        }
-
-        // 首次刷新：用当前选择集触发基类的内联刷新逻辑。
-        // 限定调用 GuiCommand::onSelectionChanged，避免虚分派到子类覆写。
-        const wyap::SelectionSet& sels =
-            ApplicationImpl::instance().getSelManager()->getSelections();
-        GuiCommand::onSelectionChanged(
-            wyap::SelectionSet(), wyap::SelectionSet(), sels);
-    }
+    // 首次刷新：用当前选择集创建 Gizmo
+    const wyap::SelectionSet& sels =
+        ApplicationImpl::instance().getSelManager()->getSelections();
+    SelectGuiCmd::onSelectionChanged(
+        wyap::SelectionSet(), wyap::SelectionSet(), sels);
 
     // 拷贝操作
     _pPasteOp = nullptr;
@@ -268,12 +253,23 @@ void SelectGuiCmd::onSpaceKey()
 
 // 选择集变更
 void SelectGuiCmd::onSelectionChanged(
-    const wyap::SelectionSet& addedSS,
-    const wyap::SelectionSet& removedSS,
+    const wyap::SelectionSet&,
+    const wyap::SelectionSet&,
     const wyap::SelectionSet& currSS)
 {
-    // 通用 Gizmo 刷新（清空 + 按需重建 + 提交）
-    GuiCommand::onSelectionChanged(addedSS, removedSS, currSS);
+    wyap::GizmoManager* pGizmoMgr = ApplicationImpl::instance().getGizmoManager();
+    if (!pGizmoMgr) return;
+
+    std::list<wyap::GizmoSPtr> gizmos;
+    this->createSelectionGizmos(currSS, gizmos);
+
+    pGizmoMgr->beginChange();
+    pGizmoMgr->clearGizmos();
+    for (const wyap::GizmoSPtr& pGizmo : gizmos)
+    {
+        pGizmoMgr->addGizmo(pGizmo);
+    }
+    pGizmoMgr->endChange();
 
     // 更新提示
     this->updateSelectTipAndLabel();
@@ -520,12 +516,6 @@ void SelectGuiCmd::cancelPaste()
 
     // 启用选择
     this->applySelectOptions(_selectOptions);
-}
-
-void SelectGuiCmd::setBuiltinSelectionCreator(
-    std::shared_ptr<SelectionGizmoCreator> pCreator)
-{
-    _pBuiltinSelectionCreator = pCreator;
 }
 
 void SelectGuiCmd::configureContextMenu(ContextMenu& menu)

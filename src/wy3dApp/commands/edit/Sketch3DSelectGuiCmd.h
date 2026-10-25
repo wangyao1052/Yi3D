@@ -44,11 +44,6 @@ protected:
     virtual void initializeSelectOptions(SelectOptions& selectOptions) override;
     virtual void onStart_EnvSpecific() override;
     virtual void selectAll_Impl(wyap::SelectionSet& ss) override;
-    // 3D 草图图元不支持 Gizmo：只更新提示，不调用基类的 Gizmo 刷新
-    virtual void onSelectionChanged(
-        const wyap::SelectionSet& addedSS,
-        const wyap::SelectionSet& removedSS,
-        const wyap::SelectionSet& currSS) override;
     virtual void onKeyDown(const KeyEvent& event) override;
     virtual void onMouseMove(const MouseEvent& event) override;
     virtual void onLeftMouseDown(const MouseEvent& event) override;
