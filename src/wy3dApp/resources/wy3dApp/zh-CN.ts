@@ -63,12 +63,12 @@
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="427"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="426"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="428"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="427"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -1906,12 +1906,12 @@
         <translation type="unfinished">指定终点；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="432"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="431"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="433"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="432"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -1952,12 +1952,12 @@
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="562"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="561"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="563"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="562"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -2079,13 +2079,13 @@
         <translation>指定基线终点；可输入长度和角度值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="703"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="705"/>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="715"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="714"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -2126,7 +2126,7 @@
         <translation type="unfinished">指定缩放比例。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="478"/>
+        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="477"/>
         <source>Scale</source>
         <translation type="unfinished">比例</translation>
     </message>

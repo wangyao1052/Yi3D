@@ -399,10 +399,9 @@ void SketchMirrorGuiCmd::onLeftMouseDown(const MouseEvent& event)
     else if (_step == Step::Step3_SpecifyEndPnt)
     {
         _axisEndPnt = this->computePoint2d(event.x, event.y, _sketchInfo.pSketchSnapSys, _pSnapContext).first;
-        if (this->finishStep(_step))
-        {
-            this->simulateMouseMoveFromPopup();
-        }
+        // 该步骤的 finishStep 会同步结束命令，之后不能再模拟鼠标移动，
+        // 否则会重新计算捕捉并重新显示已清理的捕捉提示图标。
+        this->finishStep(_step);
     }
     else
     {
@@ -534,7 +533,9 @@ void SketchMirrorGuiCmd::onPopupEnterKey()
         _axisEndPnt = _axisStartPnt + length * wy::Vector2(std::cos(angleRad), std::sin(angleRad));
     }
 
-    if (this->finishStep(_step))
+    const Step finishedStep = _step;
+    // 终点步骤结束后命令已同步终止，不再模拟鼠标移动。
+    if (this->finishStep(finishedStep) && finishedStep != Step::Step3_SpecifyEndPnt)
     {
         this->simulateMouseMoveFromPopup();
     }
