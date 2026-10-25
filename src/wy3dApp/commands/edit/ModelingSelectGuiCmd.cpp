@@ -25,10 +25,10 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/GizmoFactory.h>
+#include "utils/TransactionUtil.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include "utils/IconUtil.h"
-#include "utils/TransactionUtil.h"
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/featureTree/FeatureTreeWidget.h"
@@ -38,6 +38,44 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
+
+namespace {
+
+// 建模选择命令的内置 Gizmo creator：单个实体 → 移动 Gizmo
+class ModelingSelectionGizmoCreator final : public SelectionGizmoCreator
+{
+public:
+    virtual bool createGizmos(const wyap::SelectionSet& sels,
+                              std::list<wyap::GizmoSPtr>& gizmos) const override
+    {
+        // 事务进行中不创建内置 Gizmo（草图环境有常驻事务组，不能套用此检查）
+        if (TransactionUtil::hasActiveTransaction())
+        {
+            return true;
+        }
+
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+        if (!pDb) return true;
+        GizmoFactory* pGizmoFactory = ApplicationImpl::instance().getGizmoFactory();
+        if (!pGizmoFactory) return true;
+
+        // 获取实体特征
+        if (sels.getCount() != 1) return true;
+        const wyap::Selection& sel = sels.createIterator().current();
+        // 只有选择了单个整体元素才触发Gizmo
+        if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::Element) return true;
+        wydb::ElementId id = sel.getElementId();
+        const wydb::Element* pElem = pDb->getElement(id);
+        if (!pElem) return true;
+        const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
+        if (!pSolid) return true;
+
+        gizmos = pGizmoFactory->createGizmos(pSolid);
+        return true;
+    }
+};
+
+} // namespace
 
 class SelectGuiCmdSelFilter_Modeling : public SelectPostFilterFunctor
 {
@@ -103,6 +141,9 @@ void ModelingSelectGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
 
 void ModelingSelectGuiCmd::onStart_EnvSpecific()
 {
+    // 设置内置 creator（基类在 onStart_EnvSpecific 之后注册并做首次刷新）
+    this->setBuiltinSelectionCreator(std::make_shared<ModelingSelectionGizmoCreator>());
+
     ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<FeatureTreeWidget>(
         DockPanelIds::FeatureTree)->setSelectable(true);
 }
@@ -131,33 +172,6 @@ void ModelingSelectGuiCmd::selectAll_Impl(wyap::SelectionSet& ss)
             ss.add(wyap::Selection(id));
         }
     }
-}
-
-bool ModelingSelectGuiCmd::tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos)
-{
-    if (TransactionUtil::hasActiveTransaction())
-    {
-        return false;
-    }
-
-    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
-    if (!pDb) return true;
-    GizmoFactory* pGizmoFactory = ApplicationImpl::instance().getGizmoFactory();
-    if (!pGizmoFactory) return true;
-
-    // 获取实体特征
-    if (sels.getCount() != 1) return true;
-    const wyap::Selection& sel = sels.createIterator().current();
-    // 只有选择了单个整体元素才触发Gizmo
-    if (wy3d::UIntToSelectionType(sel.getSelectionType()) != wy3d::SelectionType::Element) return true;
-    wydb::ElementId id = sel.getElementId();
-    const wydb::Element* pElem = pDb->getElement(id);
-    if (!pElem) return true;
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
-    if (!pSolid) return true;
-
-    gizmos = pGizmoFactory->createGizmos(pSolid);
-    return true;
 }
 
 wy::Vector3 ModelingSelectGuiCmd::computePastePosition(double x, double y,

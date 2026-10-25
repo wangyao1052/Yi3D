@@ -159,9 +159,9 @@ std::list<wyap::GizmoSPtr> GizmoFactory::createGizmos(const wydb::Element* pElem
 }
 
 wy::ErrorStatus GizmoFactory::addSelectionCreator(
-    const std::string& key, std::shared_ptr<SelectionGizmoCreator> pCreator)
+    std::shared_ptr<SelectionGizmoCreator> pCreator)
 {
-    if (key.empty() || !pCreator)
+    if (!pCreator)
     {
         return wy::ErrorStatus::InvalidInput;
     }
@@ -171,19 +171,8 @@ wy::ErrorStatus GizmoFactory::addSelectionCreator(
         return wy::ErrorStatus::NotCurrentlyAllowed;
     }
 
-    const auto inserted = _selectionCreators.emplace(key, std::move(pCreator));
-    return inserted.second ? wy::ErrorStatus::Ok : wy::ErrorStatus::DuplicateKey;
-}
-
-wy::ErrorStatus GizmoFactory::removeSelectionCreator(const std::string& key)
-{
-    if (_isCreatingSelectionGizmos)
-    {
-        return wy::ErrorStatus::NotCurrentlyAllowed;
-    }
-
-    return 0 == _selectionCreators.erase(key) ? wy::ErrorStatus::KeyNotFound
-                                              : wy::ErrorStatus::Ok;
+    _selectionCreators.push_back(std::move(pCreator));
+    return wy::ErrorStatus::Ok;
 }
 
 void GizmoFactory::createSelectionGizmos(
@@ -196,10 +185,21 @@ void GizmoFactory::createSelectionGizmos(
     }
 
     const ScopedSelectionCreatorFlag flag(_isCreatingSelectionGizmos);
-    for (const auto& kvp : _selectionCreators)
+    for (const std::shared_ptr<SelectionGizmoCreator>& pCreator : _selectionCreators)
     {
-        kvp.second->createGizmos(sels, gizmos);
+        pCreator->createGizmos(sels, gizmos);
     }
+}
+
+void GizmoFactory::clearSelectionCreators()
+{
+    if (_isCreatingSelectionGizmos)
+    {
+        assert(false);
+        return;
+    }
+
+    _selectionCreators.clear();
 }
 
 } // namespace wy3dApp

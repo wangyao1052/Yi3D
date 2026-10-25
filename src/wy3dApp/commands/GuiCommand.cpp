@@ -29,6 +29,8 @@
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wyapSelManager.h>
+#include <wyapGizmoManager.h>
+#include <wy3dApp/GizmoFactory.h>
 #include "widgets/panels/DockPanelIds.h"
 #include "widgets/panels/DockPanelManager.h"
 #include "widgets/panels/featureTree/FeatureTreeWidget.h"
@@ -92,11 +94,33 @@ GuiCommand::~GuiCommand()
 {
 }
 
+void GuiCommand::onSelectionChanged(
+    const wyap::SelectionSet&,
+    const wyap::SelectionSet&,
+    const wyap::SelectionSet& currSS)
+{
+    GizmoFactory* pGizmoFactory = ApplicationImpl::instance().getGizmoFactory();
+    wyap::GizmoManager* pGizmoMgr = ApplicationImpl::instance().getGizmoManager();
+    assert(pGizmoFactory && pGizmoMgr);
+
+    std::list<wyap::GizmoSPtr> gizmos;
+    pGizmoFactory->createSelectionGizmos(currSS, gizmos);
+
+    pGizmoMgr->beginChange();
+    pGizmoMgr->clearGizmos();
+    for (const wyap::GizmoSPtr& pGizmo : gizmos)
+    {
+        pGizmoMgr->addGizmo(pGizmo);
+    }
+    pGizmoMgr->endChange();
+}
+
 wyap::CmdExecution::StartResult GuiCommand::onStart()
 {
-    // 基类:如果不使用预选择集则会清空选择集
     wyap::CmdExecution::StartResult ret = __baseClass::onStart();
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
+
+    ApplicationImpl::instance().getGizmoFactory()->clearSelectionCreators();
 
     // 默认设置特征树不可选
     // 目前只有建模环境下的选择命令需要支持在特征树上选择

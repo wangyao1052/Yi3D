@@ -18,9 +18,7 @@
 
 #include "DemoPlugin.h"
 
-#include <string>
 #include <cassert>
-#include <memory>
 
 #include <QAction>
 #include <QCoreApplication>
@@ -33,24 +31,14 @@
 
 #include <plugin/PluginApi.h>
 
-#include "DemoDimensionGizmo.h"
 #include "DemoHelloCmd.h"
 #include "DemoParametersCmd.h"
 #include "DemoSnapRuleCmd.h"
-#include <wy3dApp/Application.h>
 #include <wy3dApp/EnvironmentUI.h>
 #include <wy3dApp/CommandAction.h>
-#include <wy3dApp/GizmoFactory.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include <wy3dApp/Snap2dSystem.h>
-
-namespace {
-
-// 选择集级尺寸 Gizmo 的注册键（带插件 id 前缀，避免与其他插件冲突）
-constexpr const char* kDemoDimensionCreatorKey = "com.yi3d.demo.lineDimension";
-
-} // namespace
 
 DemoPlugin::DemoPlugin() = default;
 
@@ -62,16 +50,6 @@ bool DemoPlugin::initialize()
     wy3dApp::Snap2dSystemSPtr pSnap2dSys = wy3dApp::Snap2dSystem::create(wy3d::Plane());
     pSnap2dSys->clearSnapResult();
     pSnap2dSys.reset();
-
-    // GizmoFactory export smoke: reach the factory through the public facade and
-    // register/unregister a selection creator across the DLL boundary.
-    if (wy3dApp::GizmoFactory* pGizmoFactory =
-            wy3dApp::getApplication()->getGizmoFactory())
-    {
-        pGizmoFactory->addSelectionCreator(
-            "com.yi3d.demo.smoke", std::make_shared<DemoDimensionCreator>());
-        pGizmoFactory->removeSelectionCreator("com.yi3d.demo.smoke");
-    }
 
     //demo::log(LogLevel::Info, "demo plugin initialized");
     return true;
@@ -190,15 +168,6 @@ void DemoPlugin::enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvir
         pActionGroup);
     if (pToolBar && pSnapRuleAction) pToolBar->addAction(pSnapRuleAction);
     if (pMenu && pSnapRuleAction) pMenu->addAction(pSnapRuleAction);
-
-    // 插件尺寸 Gizmo：选中一条草图直线时与内置尺寸一起出现。
-    // resume 会重复进入本函数，DuplicateKey 视为正常。
-    wy3dApp::GizmoFactory* pGizmoFactory = wy3dApp::getApplication()->getGizmoFactory();
-    if (pGizmoFactory)
-    {
-        pGizmoFactory->addSelectionCreator(
-            kDemoDimensionCreatorKey, std::make_shared<DemoDimensionCreator>());
-    }
 }
 
 void DemoPlugin::exitSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvironment)
@@ -226,12 +195,6 @@ void DemoPlugin::exitSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnviro
     if (wy::ErrorStatus::Ok != error && wy::ErrorStatus::KeyNotFound != error)
     {
         //demo::log(LogLevel::Warning, "demo: removeCommand failed");
-    }
-
-    wy3dApp::GizmoFactory* pGizmoFactory = wy3dApp::getApplication()->getGizmoFactory();
-    if (pGizmoFactory)
-    {
-        pGizmoFactory->removeSelectionCreator(kDemoDimensionCreatorKey);
     }
 
     //demo::log(LogLevel::Info, "demo ui torn down");

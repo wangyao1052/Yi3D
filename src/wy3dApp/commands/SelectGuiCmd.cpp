@@ -121,9 +121,7 @@ void SelectGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
     selectOptions.selectMode = SelectMode::Replace;
 }
 
-SelectGuiCmd::~SelectGuiCmd()
-{
-}
+SelectGuiCmd::~SelectGuiCmd() = default;
 
 void SelectGuiCmd::disableSelect()
 {
@@ -149,6 +147,7 @@ wyap::CmdExecution::StartResult SelectGuiCmd::onStart()
 
     // 建模环境下的选择命令才支持特征树上的节点可选择
     onStart_EnvSpecific();
+
     // 选择命令支持属性框可编辑
     ApplicationImpl::instance().getDockPanelManager()->findWidgetAs<PropertyEditorWidget>(
         DockPanelIds::Property)->setReadOnly(false);
@@ -156,8 +155,25 @@ wyap::CmdExecution::StartResult SelectGuiCmd::onStart()
     // 监听选择集
     ApplicationImpl::instance().getSelManager()->addReactor(this);
 
-    // 添加Gizmo
-    bool addGizmoRet = this->tryAddElementPositionGizmo(ApplicationImpl::instance().getSelManager()->getSelections());
+    // 注册 Gizmo：设置了内置 creator 的命令才参与首次刷新。
+    // creator 由 GuiCommand::onStart 在命令开始时统一清空。
+    if (_pBuiltinSelectionCreator)
+    {
+        if (GizmoFactory* pGizmoFactory = ApplicationImpl::instance().getGizmoFactory())
+        {
+            const wy::ErrorStatus error =
+                pGizmoFactory->addSelectionCreator(_pBuiltinSelectionCreator);
+            assert(wy::ErrorStatus::Ok == error);
+            (void)error;
+        }
+
+        // 首次刷新：用当前选择集触发基类的内联刷新逻辑。
+        // 限定调用 GuiCommand::onSelectionChanged，避免虚分派到子类覆写。
+        const wyap::SelectionSet& sels =
+            ApplicationImpl::instance().getSelManager()->getSelections();
+        GuiCommand::onSelectionChanged(
+            wyap::SelectionSet(), wyap::SelectionSet(), sels);
+    }
 
     // 拷贝操作
     _pPasteOp = nullptr;
@@ -256,13 +272,8 @@ void SelectGuiCmd::onSelectionChanged(
     const wyap::SelectionSet& removedSS,
     const wyap::SelectionSet& currSS)
 {
-    // 清除Gizmo
-    ApplicationImpl::instance().getGizmoManager()->beginChange();
-    ApplicationImpl::instance().getGizmoManager()->clearGizmos();
-    ApplicationImpl::instance().getGizmoManager()->endChange();
-
-    // 获取选择的特征
-    bool addGizmoRet = this->tryAddElementPositionGizmo(currSS);
+    // 通用 Gizmo 刷新（清空 + 按需重建 + 提交）
+    GuiCommand::onSelectionChanged(addedSS, removedSS, currSS);
 
     // 更新提示
     this->updateSelectTipAndLabel();
@@ -511,31 +522,10 @@ void SelectGuiCmd::cancelPaste()
     this->applySelectOptions(_selectOptions);
 }
 
-bool SelectGuiCmd::tryAddElementPositionGizmo(const wyap::SelectionSet& sels)
+void SelectGuiCmd::setBuiltinSelectionCreator(
+    std::shared_ptr<SelectionGizmoCreator> pCreator)
 {
-    std::list<wyap::GizmoSPtr> gizmos;
-    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
-    if (!pDb) return false;
-    GizmoFactory* pGizmoFactory = ApplicationImpl::instance().getGizmoFactory();
-    if (!pGizmoFactory) return false;
-
-    if (!tryAddPositionGizmo_Impl(sels, gizmos))
-    {
-        return false;
-    }
-
-    // 插件注册的选择集级 creator：追加在内置夹点/尺寸之后
-    pGizmoFactory->createSelectionGizmos(sels, gizmos);
-
-    ApplicationImpl::instance().getGizmoManager()->beginChange();
-    ApplicationImpl::instance().getGizmoManager()->clearGizmos();
-    for (const wyap::GizmoSPtr& pGizmo : gizmos)
-    {
-        ApplicationImpl::instance().getGizmoManager()->addGizmo(pGizmo);
-    }
-    ApplicationImpl::instance().getGizmoManager()->endChange();
-
-    return true;
+    _pBuiltinSelectionCreator = pCreator;
 }
 
 void SelectGuiCmd::configureContextMenu(ContextMenu& menu)

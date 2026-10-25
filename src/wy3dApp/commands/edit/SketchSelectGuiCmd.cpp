@@ -34,6 +34,54 @@
 
 namespace wy3dApp {
 
+namespace {
+
+// 草图选择命令的内置 Gizmo creator：矩形/多边形识别、逐元素夹点、尺寸标签
+class SketchSelectionGizmoCreator final : public SelectionGizmoCreator
+{
+public:
+    virtual bool createGizmos(const wyap::SelectionSet& sels,
+                              std::list<wyap::GizmoSPtr>& gizmos) const override
+    {
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+        if (!pDb) return true;
+        GizmoFactory* pGizmoFactory = ApplicationImpl::instance().getGizmoFactory();
+        if (!pGizmoFactory) return true;
+
+        if (SketchRectangleGizmoCreator::tryCreateGizmos(sels, gizmos))
+        {
+            return true;
+        }
+        if (SketchPolygonGizmoCreator::tryCreateGizmos(sels, gizmos))
+        {
+            return true;
+        }
+
+        for (auto iter = sels.createIterator(); !iter.isDone(); iter.moveNext())
+        {
+            const wydb::Element* pElem = pDb->getElement(iter.current().getElementId());
+            if (!pElem)
+            {
+                assert(false);
+                continue;
+            }
+            const wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElem);
+            if (!pSketchEntity)
+            {
+                assert(false);
+                continue;
+            }
+            std::list<wyap::GizmoSPtr> elemGizmos = pGizmoFactory->createGizmos(pElem);
+            gizmos.insert(gizmos.cend(), elemGizmos.cbegin(), elemGizmos.cend());
+        }
+
+        SketchDimensionGizmoCreator::tryCreateGizmos(sels, gizmos);
+        return true;
+    }
+};
+
+} // namespace
+
 SketchSelectGuiCmd::SketchSelectGuiCmd() : SelectGuiCmd()
 {
 }
@@ -60,6 +108,8 @@ void SketchSelectGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
 void SketchSelectGuiCmd::onStart_EnvSpecific()
 {
     // 草图环境不需要启用特征树可选择
+    // 设置内置 creator（基类在 onStart_EnvSpecific 之后注册并做首次刷新）
+    this->setBuiltinSelectionCreator(std::make_shared<SketchSelectionGizmoCreator>());
 }
 
 void SketchSelectGuiCmd::selectAll_Impl(wyap::SelectionSet& ss)
@@ -74,44 +124,6 @@ void SketchSelectGuiCmd::selectAll_Impl(wyap::SelectionSet& ss)
             ss.add(wyap::Selection(iter.current()));
         }
     }
-}
-
-bool SketchSelectGuiCmd::tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos)
-{
-    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
-    if (!pDb) return true;
-    GizmoFactory* pGizmoFactory = ApplicationImpl::instance().getGizmoFactory();
-    if (!pGizmoFactory) return true;
-
-    if (SketchRectangleGizmoCreator::tryCreateGizmos(sels, gizmos))
-    {
-        return true;
-    }
-    if (SketchPolygonGizmoCreator::tryCreateGizmos(sels, gizmos))
-    {
-        return true;
-    }
-
-    for (auto iter = sels.createIterator(); !iter.isDone(); iter.moveNext())
-    {
-        const wydb::Element* pElem = pDb->getElement(iter.current().getElementId());
-        if (!pElem)
-        {
-            assert(false);
-            continue;
-        }
-        const wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElem);
-        if (!pSketchEntity)
-        {
-            assert(false);
-            continue;
-        }
-        std::list<wyap::GizmoSPtr> elemGizmos = pGizmoFactory->createGizmos(pElem);
-        gizmos.insert(gizmos.cend(), elemGizmos.cbegin(), elemGizmos.cend());
-    }
-
-    SketchDimensionGizmoCreator::tryCreateGizmos(sels, gizmos);
-    return true;
 }
 
 wy::Vector3 SketchSelectGuiCmd::computePastePosition(double x, double y,

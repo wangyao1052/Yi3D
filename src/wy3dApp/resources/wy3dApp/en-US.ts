@@ -564,22 +564,22 @@
 <context>
     <name>GuiCommand</name>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="180"/>
+        <location filename="../../commands/GuiCommand.cpp" line="215"/>
         <source>Complete Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="189"/>
+        <location filename="../../commands/GuiCommand.cpp" line="224"/>
         <source>Clear Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="207"/>
+        <location filename="../../commands/GuiCommand.cpp" line="242"/>
         <source>Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="220"/>
+        <location filename="../../commands/GuiCommand.cpp" line="255"/>
         <source>World Coordinate System</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1529,26 +1529,26 @@
         <translation>Edit 3D Sketch</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="201"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="215"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1566"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="209"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="223"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1575"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="554"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="544"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="228"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1584"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="548"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="538"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="650"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="557"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="402"/>
@@ -1556,7 +1556,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="565"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="555"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1627"/>
         <source>Paste</source>
         <translation type="unfinished"></translation>
@@ -2114,12 +2114,12 @@
 <context>
     <name>SelectGuiCmd</name>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="424"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="435"/>
         <source>Select elements. Pick individual items or use window selection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="471"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="482"/>
         <source>Specify the insertion point; you can directly input the coordinate values.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2233,17 +2233,17 @@
 <context>
     <name>Sketch3DSelectGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="242"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="236"/>
         <source>Only planar faces can be used as the sketch plane.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="263"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="257"/>
         <source>Sketch plane set. It will be used by the next drawing command.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="323"/>
+        <location filename="../../commands/edit/Sketch3DSelectGuiCmd.cpp" line="317"/>
         <source>Select elements. Pick a planar face or a datum plane to set the sketch plane.</source>
         <translation type="unfinished"></translation>
     </message>

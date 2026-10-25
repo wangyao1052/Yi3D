@@ -29,7 +29,7 @@
 
 namespace wy3dApp {
 
-class SewnSheetGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor
+class SewnSheetGuiCmd : public OsgGuiCommand
 {
     WYRX_DECLARE_MEMBERS(SewnSheetGuiCmd, wy3dApp::SewnSheetGuiCmd, OsgGuiCommand)
 public:

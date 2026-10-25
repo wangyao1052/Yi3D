@@ -30,6 +30,7 @@
 #include <wy3dSolid.h>
 
 #include <wy3dApp/Application.h>
+#include <wyapGizmoManager.h>
 #include "application/ApplicationImpl.h"
 #include "commands/GuiEventDispatcher.h"
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
@@ -140,12 +141,6 @@ void Sketch3DSelectGuiCmd::selectAll_Impl(wyap::SelectionSet& ss)
             ss.add(wyap::Selection(iter.current()));
         }
     }
-}
-
-bool Sketch3DSelectGuiCmd::tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos)
-{
-    // 3D草图图元不支持Gizmo(仅属性面板修改)
-    return false;
 }
 
 // The verdict comes from the selection channel itself, so "an entity in front wins" can never
@@ -323,6 +318,21 @@ void Sketch3DSelectGuiCmd::updateSelectTipAndLabel()
         ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",
             "Select elements. Pick a planar face or a datum plane to set the sketch plane."));
     }
+}
+
+void Sketch3DSelectGuiCmd::onSelectionChanged(
+    const wyap::SelectionSet&,
+    const wyap::SelectionSet&,
+    const wyap::SelectionSet&)
+{
+    // 3D 草图图元不支持 Gizmo：清空可能残留的 Gizmo，只更新提示。
+    if (wyap::GizmoManager* pGizmoMgr = ApplicationImpl::instance().getGizmoManager())
+    {
+        pGizmoMgr->beginChange();
+        pGizmoMgr->clearGizmos();
+        pGizmoMgr->endChange();
+    }
+    this->updateSelectTipAndLabel();
 }
 
 void Sketch3DSelectGuiCmd::onKeyDown(const KeyEvent& event)

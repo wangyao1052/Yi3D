@@ -34,9 +34,11 @@ namespace wy3dApp {
 //
 // Every returned gizmo must derive from BaseGizmo and its renderer must be an
 // OsgGizmoRenderer (or a subclass); otherwise the scene cannot attach it.
-// While createGizmos is running, addSelectionCreator/removeSelectionCreator
-// return NotCurrentlyAllowed and reentrant createSelectionGizmos calls are
-// rejected. Do not modify the gizmo manager directly.
+// While createGizmos is running, addSelectionCreator returns
+// NotCurrentlyAllowed, clearSelectionCreators is rejected, and reentrant
+// createSelectionGizmos calls are rejected. Only the built-in select command
+// registers selection creators; plugins do not. Do not modify the gizmo
+// manager directly.
 class WY3DAPP_EXPORT SelectionGizmoCreator
 {
 public:

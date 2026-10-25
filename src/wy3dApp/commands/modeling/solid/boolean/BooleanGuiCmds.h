@@ -31,7 +31,7 @@
 
 namespace wy3dApp {
 
-class BooleanGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor
+class BooleanGuiCmd : public OsgGuiCommand
 {
     WYRX_DECLARE_MEMBERS(BooleanGuiCmd, wy3dApp::BooleanGuiCmd, OsgGuiCommand)
 public:

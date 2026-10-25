@@ -32,8 +32,9 @@
 namespace wy3dApp {
 
 class ElementNode;
+class SelectionGizmoCreator;
 
-class WY3DAPP_EXPORT SelectGuiCmd : public OsgGuiCommand, public wyap::SelManagerReactor
+class WY3DAPP_EXPORT SelectGuiCmd : public OsgGuiCommand
 {
     WYRX_DECLARE_MEMBERS(SelectGuiCmd, wy3dApp::SelectGuiCmd, OsgGuiCommand)
 
@@ -75,8 +76,8 @@ private:
     void endPaste(const wy::Vector3& pos);
     void cancelPaste();
 
-    // 添加移动Gizmo
-    bool tryAddElementPositionGizmo(const wyap::SelectionSet& sels);
+    // 内置 creator（具体命令在 onStart_EnvSpecific 中设置，基类在 onStart 中注册）
+    std::shared_ptr<SelectionGizmoCreator> _pBuiltinSelectionCreator;
 
     // 禁用选择
     void disableSelect();
@@ -94,14 +95,15 @@ protected:
 
     virtual void initializeSelectOptions(SelectOptions& selectOptions) override;
 
-    // 启动时环境特定操作
+    // 启动时环境特定操作；具体命令在这里 setBuiltinSelectionCreator(...)
     virtual void onStart_EnvSpecific() {}
+
+    // 设置本命令的内置 creator。必须在基类注册/首次刷新之前调用
+    // （onStart_EnvSpecific 满足这个时序）。
+    void setBuiltinSelectionCreator(std::shared_ptr<SelectionGizmoCreator> pCreator);
 
     // 全选实现(填充 ss)
     virtual void selectAll_Impl(wyap::SelectionSet& ss) {}
-
-    // 添加位置 Gizmo(填充 gizmos). 返回 false 表示跳过
-    virtual bool tryAddPositionGizmo_Impl(const wyap::SelectionSet& sels, std::list<wyap::GizmoSPtr>& gizmos) { return true; }
 
     // 粘贴时计算位置
     virtual wy::Vector3 computePastePosition(double x, double y,
