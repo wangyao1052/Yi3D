@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <wy3dApp/GizmoFactory.h>
+#include "GizmoFactoryImpl.h"
 
 #include <utility>
 
@@ -95,7 +95,7 @@ private:
 
 } // namespace
 
-GizmoFactory::GizmoFactory()
+GizmoFactoryImpl::GizmoFactoryImpl()
 {
     REGISTER_CREATOR(wy3d::Solid, NullGizmoCreator);
     REGISTER_CREATOR(wy3d::Box, PrimitiveGizmoCreator);
@@ -140,11 +140,8 @@ GizmoFactory::GizmoFactory()
 
 }
 
-GizmoFactory::~GizmoFactory()
-{
-}
-
-std::list<wyap::GizmoSPtr> GizmoFactory::createGizmos(const wydb::Element* pElem) const
+std::list<wyap::GizmoSPtr> GizmoFactoryImpl::createGizmos(
+    const wydb::Element* pElem) const
 {
     if (!pElem)
     {
@@ -169,7 +166,7 @@ std::list<wyap::GizmoSPtr> GizmoFactory::createGizmos(const wydb::Element* pElem
     return iter->second->createGizmos(pElem);
 }
 
-wy::ErrorStatus GizmoFactory::addElemGizmoCreator(
+wy::ErrorStatus GizmoFactoryImpl::addElemGizmoCreator(
     const std::string& className,
     std::unique_ptr<ElemGizmoCreator> pCreator)
 {
@@ -187,7 +184,8 @@ wy::ErrorStatus GizmoFactory::addElemGizmoCreator(
     return inserted.second ? wy::ErrorStatus::Ok : wy::ErrorStatus::DuplicateKey;
 }
 
-wy::ErrorStatus GizmoFactory::removeElemGizmoCreator(const std::string& className)
+wy::ErrorStatus GizmoFactoryImpl::removeElemGizmoCreator(
+    const std::string& className)
 {
     if (_isCreatingElemGizmos)
     {

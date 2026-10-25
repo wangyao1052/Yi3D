@@ -73,6 +73,7 @@
 #include <wy3dApp/SketchEnvironment.h>
 #include "environments/modeling/ModelingEnvironmentImpl.h"
 #include <wy3dApp/GizmoFactory.h>
+#include "gizmo/GizmoFactoryImpl.h"
 #include "widgets/CursorCenter.h"
 #include "utils/StringUtil.h"
 #include "application/wy3dQApplication.h"
@@ -152,6 +153,11 @@ ApplicationImpl::~ApplicationImpl()
     }
 }
 
+GizmoFactory* ApplicationImpl::getGizmoFactory() const
+{
+    return _pGizmoFactory.get();
+}
+
 bool ApplicationImpl::initialize()
 {
     // 配置项初始化
@@ -199,7 +205,7 @@ bool ApplicationImpl::initialize()
     pSnapSys->endChange();
 
     // Gizmo创建工厂
-    _pGizmoFactory = std::make_unique<GizmoFactory>();
+    _pGizmoFactory = std::make_unique<GizmoFactoryImpl>();
 
     return true;
 }

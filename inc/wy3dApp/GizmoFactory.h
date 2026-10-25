@@ -20,7 +20,6 @@
 #define WY3DAPP_GIZMO_FACTORY_H
 
 #include <list>
-#include <map>
 #include <memory>
 #include <string>
 #include <wydbElement.h>
@@ -34,14 +33,8 @@ namespace wy3dApp {
 class WY3DAPP_EXPORT GizmoFactory
 {
 public:
-    GizmoFactory();
-    ~GizmoFactory();
-    GizmoFactory(const GizmoFactory&) = delete;
-    GizmoFactory& operator=(const GizmoFactory&) = delete;
-    GizmoFactory(GizmoFactory&&) = delete;
-    GizmoFactory& operator=(GizmoFactory&&) = delete;
-
-    std::list<wyap::GizmoSPtr> createGizmos(const wydb::Element* pElem) const;
+    // Create the gizmos registered for the element's class.
+    virtual std::list<wyap::GizmoSPtr> createGizmos(const wydb::Element* pElem) const = 0;
 
     // Register a creator for an element class. className must be
     // Element::getClassInfo()->className() (a plugin class can pass its
@@ -51,23 +44,24 @@ public:
     // Returns InvalidInput for an empty class name or null creator, DuplicateKey
     // if the class already has a creator, or NotCurrentlyAllowed while gizmos
     // are being created. UI thread only.
-    wy::ErrorStatus addElemGizmoCreator(
+    virtual wy::ErrorStatus addElemGizmoCreator(
         const std::string& className,
-        std::unique_ptr<ElemGizmoCreator> pCreator);
+        std::unique_ptr<ElemGizmoCreator> pCreator) = 0;
 
     // Remove the creator registered for className. Built-in and plugin
     // creators share the same table; the caller is responsible for not
     // removing creators it does not own.
     // Returns KeyNotFound when no creator is registered, or
     // NotCurrentlyAllowed while gizmos are being created. UI thread only.
-    wy::ErrorStatus removeElemGizmoCreator(const std::string& className);
+    virtual wy::ErrorStatus removeElemGizmoCreator(const std::string& className) = 0;
 
-private:
-    std::map<std::string, std::unique_ptr<ElemGizmoCreator>> _name2Creator;
-
-    // True while createGizmos is running: creator add/remove are rejected in
-    // that window.
-    mutable bool _isCreatingElemGizmos = false;
+protected:
+    GizmoFactory() = default;
+    virtual ~GizmoFactory() = default;
+    GizmoFactory(const GizmoFactory&) = delete;
+    GizmoFactory& operator=(const GizmoFactory&) = delete;
+    GizmoFactory(GizmoFactory&&) = delete;
+    GizmoFactory& operator=(GizmoFactory&&) = delete;
 };
 
 } // namespace wy3dApp

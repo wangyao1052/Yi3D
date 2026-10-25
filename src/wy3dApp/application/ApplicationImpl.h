@@ -68,6 +68,7 @@ class DockPanelManager;
 class Config;
 
 class GizmoFactory;
+class GizmoFactoryImpl;
 class AutoSave;
 class ParamDisplayNameRegistry;
 
@@ -144,10 +145,7 @@ public:
     QToolBar* getToolBar(const std::string& toolBarName) const;
 
     // 获取Gizmo创建工厂
-    GizmoFactory* getGizmoFactory() const override
-    {
-        return _pGizmoFactory.get();
-    }
+    GizmoFactory* getGizmoFactory() const override;
 
     // Created by runApplication after the translators are installed.
     ParamDisplayNameRegistry* getParamDisplayNameRegistry() const override
@@ -222,7 +220,7 @@ private:
     // Auto save module
     std::unique_ptr<AutoSave> _pAutoSave;
     // Gizmo创建工厂
-    std::unique_ptr<GizmoFactory> _pGizmoFactory;
+    std::unique_ptr<GizmoFactoryImpl> _pGizmoFactory;
     // Parameter display name registry; created after translators are installed.
     std::unique_ptr<ParamDisplayNameRegistry> _pParamDisplayNameRegistry;
     // 捕捉系统
