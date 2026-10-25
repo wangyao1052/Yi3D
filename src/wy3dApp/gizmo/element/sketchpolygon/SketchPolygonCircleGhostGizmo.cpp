@@ -16,27 +16,37 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SketchPolygonInscribedCircleGhostGizmo.h"
+#include "SketchPolygonCircleGhostGizmo.h"
 
 #include <memory>
 #include <utility>
 
-#include "gizmo/renderer/SketchPolygonInscribedCircleOsgRenderer.h"
+#include "gizmo/renderer/SketchPolygonCircleOsgRenderer.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-SketchPolygonInscribedCircleGhostGizmo::SketchPolygonInscribedCircleGhostGizmo(
+SketchPolygonCircleGhostGizmo::SketchPolygonCircleGhostGizmo(
     std::shared_ptr<const SketchPolygonInfo> polygon)
     : GhostGizmo(std::vector<wydb::ElementId>(
           polygon->lineIds.begin(), polygon->lineIds.end()))
     , _polygon(std::move(polygon))
 {
-    _pRenderer = std::make_unique<SketchPolygonInscribedCircleOsgRenderer>(this);
+    _pRenderer = std::make_unique<SketchPolygonCircleOsgRenderer>(this);
 }
 
-SketchPolygonInscribedCircleGhostGizmo::~SketchPolygonInscribedCircleGhostGizmo()
+SketchPolygonCircleGhostGizmo::~SketchPolygonCircleGhostGizmo()
 {
+}
+
+void SketchPolygonCircleGhostGizmo::setDimension(SketchPolygonDimension dimension)
+{
+    if (dimension == _dimension)
+    {
+        return;
+    }
+    _dimension = dimension;
+    this->refresh();
 }
 
 } // namespace wy3dApp

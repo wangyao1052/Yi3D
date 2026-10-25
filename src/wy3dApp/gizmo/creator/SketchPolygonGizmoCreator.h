@@ -28,12 +28,13 @@
 namespace wy3dApp {
 
 // Selection-level creator: 3..100 selected lines (4 stays with the rectangle)
-// that form a regular polygon get corner/edge-midpoint handles, an inscribed
-// circle ghost and a radius label
+// that form a regular polygon get corner/edge-midpoint/center handles, a circle
+// ghost and a radius label that switches between the inscribed and circumscribed
+// readings; the ghost draws the circle of the reading the label shows
 class SketchPolygonGizmoCreator
 {
 public:
-    // On success appends 2N+2 gizmos and returns true; on failure leaves
+    // On success appends 2N+3 gizmos and returns true; on failure leaves
     // gizmos untouched and returns false so the caller falls back to per-line grips.
     static bool tryCreateGizmos(const wyap::SelectionSet& sels,
                                 std::list<wyap::GizmoSPtr>& gizmos);

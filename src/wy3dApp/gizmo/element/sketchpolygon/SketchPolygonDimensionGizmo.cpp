@@ -30,6 +30,7 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
+#include "SketchPolygonCircleGhostGizmo.h"
 #include "utils/SketchClosedLoop.h"
 #include "utils/SketchPolygonDimensionMath.h"
 #include "utils/SketchPolygonDragMath.h"
@@ -39,13 +40,16 @@
 namespace wy3dApp {
 
 SketchPolygonDimensionGizmo::SketchPolygonDimensionGizmo(
-    std::shared_ptr<const SketchPolygonInfo> polygon)
+    std::shared_ptr<const SketchPolygonInfo> polygon,
+    std::weak_ptr<SketchPolygonCircleGhostGizmo> circleGhost)
     : SketchDimensionGizmo(
           std::vector<wydb::ElementId>(polygon->lineIds.begin(), polygon->lineIds.end()),
           polygon->sketchId)
     , _polygon(std::move(polygon))
+    , _pCircleGhost(std::move(circleGhost))
 {
     assert(_polygon);
+    assert(!_pCircleGhost.expired());
 }
 
 SketchPolygonDimensionGizmo::~SketchPolygonDimensionGizmo()
@@ -55,6 +59,32 @@ SketchPolygonDimensionGizmo::~SketchPolygonDimensionGizmo()
 QString SketchPolygonDimensionGizmo::getDimensionName() const
 {
     return QCoreApplication::translate("SketchPolygonDimensionGizmo", "Radius");
+}
+
+QStringList SketchPolygonDimensionGizmo::getEditorChoices() const
+{
+    return { QCoreApplication::translate("SketchPolygonDimensionGizmo", "Inscribed"),
+             QCoreApplication::translate("SketchPolygonDimensionGizmo", "Circumscribed") };
+}
+
+int SketchPolygonDimensionGizmo::getEditorChoice() const
+{
+    return static_cast<int>(_dimension);
+}
+
+void SketchPolygonDimensionGizmo::setEditorChoice(int index)
+{
+    if (index < 0 || index > 1) return;
+    const SketchPolygonDimension dimension = static_cast<SketchPolygonDimension>(index);
+    if (dimension == _dimension) return;
+    _dimension = dimension;
+
+    // Only the reading changes: no transaction, the circle merely redraws
+    if (const std::shared_ptr<SketchPolygonCircleGhostGizmo> pCircleGhost =
+            _pCircleGhost.lock())
+    {
+        pCircleGhost->setDimension(dimension);
+    }
 }
 
 bool SketchPolygonDimensionGizmo::readDimension(
@@ -82,11 +112,11 @@ bool SketchPolygonDimensionGizmo::readDimension(
     }
 
     const PolygonDimensionLabel label =
-        computePolygonDimensionLabel(corners, center, _polygon->labelEdge);
+        computePolygonDimensionLabel(corners, center, _dimension, _polygon->labelEdge);
     if (!label.isValid) return false;
 
     value = label.value;
-    anchorUv = label.edgeMid;
+    anchorUv = label.anchor;
     placement = SketchDimensionPlacement::Radial;
     radialDirectionUv = label.radialDirection;
     return true;
@@ -111,9 +141,9 @@ bool SketchPolygonDimensionGizmo::applyValue(double value)
 
     const int sides = _polygon->sides;
     const double minInradius = computePolygonMinInradius(sides, wy3d::kMinValue);
-    const std::vector<wy::Vector2> newCorners = computePolygonResizedVertices(
+    const std::vector<wy::Vector2> newCorners = computePolygonDimensionResizedVertices(
         regularity.center, computePolygonRotation(corners, regularity.center),
-        sides, value, minInradius);
+        sides, _dimension, value, minInradius);
     if (static_cast<int>(newCorners.size()) != sides) return false;
 
     wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
@@ -134,9 +164,9 @@ bool SketchPolygonDimensionGizmo::applyValue(double value)
 
 bool SketchPolygonDimensionGizmo::isValidValue(double value) const
 {
-    const double minInradius =
-        computePolygonMinInradius(_polygon->sides, wy3d::kMinValue);
-    return std::isfinite(value) && value >= minInradius;
+    const double minValue =
+        computePolygonMinDimensionValue(_dimension, _polygon->sides, wy3d::kMinValue);
+    return std::isfinite(value) && value >= minValue;
 }
 
 } // namespace wy3dApp

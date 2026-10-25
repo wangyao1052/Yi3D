@@ -230,6 +230,116 @@ TEST(SketchPolygonDragMath, EdgeMidDragAcrossCenterClamps)
     }
 }
 
+TEST(SketchPolygonDragMath, CenterDragTranslatesWholePolygon)
+{
+    const Vector2 center(2.0, -3.0);
+    const double radius = 6.0;
+    const double rotation = 0.3;
+    const int sides = 7;
+    const double step = wy::TWO_PI / sides;
+    const std::vector<Vector2> start =
+        wy3dApp::computePolygonVertices(center, radius, rotation, sides);
+
+    const Vector2 curPos(-4.5, 9.25);
+    const std::vector<Vector2> moved =
+        wy3dApp::computePolygonCenterDragVertices(start, center, curPos);
+    ASSERT_EQ(static_cast<int>(moved.size()), sides);
+
+    const Vector2 offset = curPos - center;
+    for (int i = 0; i < sides; ++i)
+    {
+        EXPECT_NEAR((moved[i] - start[i] - offset).length(), 0.0, 1e-12);
+        // The shape is rigid: radius and rotation survive the move
+        EXPECT_NEAR((moved[i] - curPos).length(), radius, 1e-12);
+        const double expectedAngle = rotation + i * step;
+        EXPECT_NEAR(wrapAngle(angleOf(moved[i], curPos) - expectedAngle), 0.0, 1e-12);
+    }
+    EXPECT_NEAR((wy3dApp::computePolygonCenter(moved) - curPos).length(), 0.0, 1e-12);
+
+    // Fewer than three corners are refused
+    EXPECT_TRUE(wy3dApp::computePolygonCenterDragVertices(
+        { start[0], start[1] }, center, curPos).empty());
+}
+
+TEST(SketchPolygonDragMath, CenterDragPreservesSlightIrregularity)
+{
+    const Vector2 center(1.0, 2.0);
+    const int sides = 5;
+    std::vector<Vector2> start =
+        wy3dApp::computePolygonVertices(center, 8.0, 0.1, sides);
+    start[2] += Vector2(1e-9, -2e-9);
+
+    const Vector2 curPos = center + Vector2(3.0, -4.0);
+    const std::vector<Vector2> moved =
+        wy3dApp::computePolygonCenterDragVertices(start, center, curPos);
+    ASSERT_EQ(static_cast<int>(moved.size()), sides);
+
+    const Vector2 offset = curPos - center;
+    for (int i = 0; i < sides; ++i)
+    {
+        EXPECT_NEAR((moved[i] - start[i] - offset).length(), 0.0, 1e-12);
+    }
+    // The perturbation survives: the corners are shifted, not rebuilt
+    EXPECT_NEAR((moved[2] - moved[0]).length(), (start[2] - start[0]).length(), 1e-12);
+}
+
+TEST(SketchPolygonDragMath, CenterDragNonFiniteKeepsShape)
+{
+    const Vector2 center(-2.0, 0.5);
+    const int sides = 6;
+    const std::vector<Vector2> start =
+        wy3dApp::computePolygonVertices(center, 5.0, -0.4, sides);
+
+    const Vector2 cursors[] = {
+        Vector2(std::numeric_limits<double>::quiet_NaN(), 1.0),
+        Vector2(0.0, std::numeric_limits<double>::infinity()),
+    };
+    for (const Vector2& curPos : cursors)
+    {
+        const std::vector<Vector2> moved =
+            wy3dApp::computePolygonCenterDragVertices(start, center, curPos);
+        ASSERT_EQ(moved.size(), start.size());
+        for (int i = 0; i < sides; ++i)
+        {
+            EXPECT_EQ(moved[i].x(), start[i].x());
+            EXPECT_EQ(moved[i].y(), start[i].y());
+        }
+    }
+}
+
+TEST(SketchPolygonDragMath, CenterDragStableForManySides)
+{
+    for (const int sides : { 3, 5, 100 })
+    {
+        const Vector2 center(1e5, -1e5);
+        const std::vector<Vector2> start =
+            wy3dApp::computePolygonVertices(center, 50.0, 0.2, sides);
+        const Vector2 curPos = center + Vector2(-7.0, 3.0);
+
+        const std::vector<Vector2> moved =
+            wy3dApp::computePolygonCenterDragVertices(start, center, curPos);
+        ASSERT_EQ(static_cast<int>(moved.size()), sides);
+        for (const Vector2& corner : moved)
+        {
+            EXPECT_TRUE(std::isfinite(corner.x()));
+            EXPECT_TRUE(std::isfinite(corner.y()));
+        }
+        EXPECT_NEAR((wy3dApp::computePolygonCenter(moved) - curPos).length(), 0.0, 1e-9);
+    }
+}
+
+TEST(SketchPolygonDragMath, PolygonCenterMatchesVertexAverage)
+{
+    EXPECT_NEAR(wy3dApp::computePolygonCenter({}).length(), 0.0, 0.0);
+
+    const std::vector<Vector2> corners = {
+        Vector2(-2.0, 1.0), Vector2(4.0, 1.0), Vector2(4.0, 7.0), Vector2(-2.0, 7.0)
+    };
+    const Vector2 center = wy3dApp::computePolygonCenter(corners);
+    EXPECT_NEAR(center.x(), 1.0, 1e-12);
+    EXPECT_NEAR(center.y(), 4.0, 1e-12);
+}
+
 TEST(SketchPolygonDragMath, ResizeKeepsCenterAndRotation)
 {
     const Vector2 center(-2.0, 4.0);

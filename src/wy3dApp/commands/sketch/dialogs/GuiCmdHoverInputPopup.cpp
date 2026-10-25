@@ -19,6 +19,7 @@
 #include "GuiCmdHoverInputPopup.h"
 
 #include <QApplication>
+#include <QButtonGroup>
 #include <QCursor>
 #include <QEvent>
 #include <QFontMetrics>
@@ -28,8 +29,10 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPointer>
+#include <QRadioButton>
 #include <QTimer>
 #include <algorithm>
+#include <cassert>
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
@@ -362,6 +365,7 @@ GuiCmdHoverInputPopup1::GuiCmdHoverInputPopup1(
     const QString& valueSample,
     QWidget* parent)
     : GuiCmdHoverInputPopupBase(parent),
+    _pGridLayout(nullptr),
     _pRowLabel(nullptr),
     _pRowEdit(nullptr),
     _valueSample(valueSample),
@@ -387,6 +391,7 @@ GuiCmdHoverInputPopup1::GuiCmdHoverInputPopup1(
     pGridLayout->setHorizontalSpacing(0);
     pGridLayout->setVerticalSpacing(0);
     pGridLayout->setSizeConstraint(QLayout::SetFixedSize);
+    _pGridLayout = pGridLayout;
 
     _pRowLabel = new QLabel(label, pTableWidget);
     _pRowLabel->setObjectName("cellName");
@@ -427,6 +432,11 @@ void GuiCmdHoverInputPopup1::setValue(double value, int precision)
 QString GuiCmdHoverInputPopup1::getRowText() const
 {
     return _pRowEdit->text();
+}
+
+void GuiCmdHoverInputPopup1::selectAllValue()
+{
+    selectAllAndAnchorLeft(_pRowEdit);
 }
 
 bool GuiCmdHoverInputPopup1::eventFilter(QObject* watched, QEvent* event)
@@ -1053,6 +1063,69 @@ void GuiCmdHoverInputPopup2_2ndTabLabel::applyPresetWidths()
     _pRowEdit->setMaximumWidth(valueWidth);
     _pDirectionEdit->setMinimumWidth(valueWidth);
     _pDirectionEdit->setMaximumWidth(valueWidth);
+}
+
+GuiCmdHoverInputPopup1_ChoiceRow::GuiCmdHoverInputPopup1_ChoiceRow(
+    const QString& label,
+    const QString& valueSample,
+    const QStringList& choices,
+    QWidget* parent)
+    : GuiCmdHoverInputPopup1(label, valueSample, parent)
+    , _choices()
+    , _choiceHandler()
+{
+    assert(!choices.isEmpty());
+
+    // The choice row takes the first row and the label/value row moves below
+    // it; removeWidget is explicit because a freshly built popup has not been
+    // laid out yet, so addWidget would not relocate the items by itself
+    _pGridLayout->removeWidget(_pRowLabel);
+    _pGridLayout->removeWidget(_pRowEdit);
+    _pGridLayout->addWidget(_pRowLabel, 1, 0);
+    _pGridLayout->addWidget(_pRowEdit, 1, 1);
+
+    QWidget* pChoiceWidget = new QWidget(_pGridLayout->parentWidget());
+    QHBoxLayout* pChoiceLayout = new QHBoxLayout(pChoiceWidget);
+    pChoiceLayout->setContentsMargins(6, 4, 6, 4);
+    pChoiceLayout->setSpacing(8);
+
+    QButtonGroup* pChoiceGroup = new QButtonGroup(pChoiceWidget);
+    for (int i = 0; i < choices.size(); ++i)
+    {
+        QRadioButton* pChoice = new QRadioButton(choices.at(i), pChoiceWidget);
+        // Clicking a radio must not pull the keyboard focus off the value box:
+        // Esc is handled on the edit, and a focused radio would let it through
+        pChoice->setFocusPolicy(Qt::NoFocus);
+        pChoiceLayout->addWidget(pChoice);
+        pChoiceGroup->addButton(pChoice, i);
+        _choices.push_back(pChoice);
+    }
+    pChoiceLayout->addStretch(1);
+    if (!_choices.empty()) _choices.front()->setChecked(true);
+    // Only a user click switches the choice; programmatic setChecked stays silent
+    connect(pChoiceGroup, &QButtonGroup::idClicked, this, [this](int id)
+    {
+        if (_choiceHandler) _choiceHandler(id);
+    });
+
+    _pGridLayout->addWidget(pChoiceWidget, 0, 0, 1, 2);
+    this->adjustSize();
+}
+
+GuiCmdHoverInputPopup1_ChoiceRow::~GuiCmdHoverInputPopup1_ChoiceRow()
+{
+}
+
+void GuiCmdHoverInputPopup1_ChoiceRow::setChoice(int index)
+{
+    const int count = static_cast<int>(_choices.size());
+    if (0 > index || count <= index) return;
+    _choices.at(index)->setChecked(true);
+}
+
+void GuiCmdHoverInputPopup1_ChoiceRow::setChoiceHandler(const std::function<void(int)>& handler)
+{
+    _choiceHandler = handler;
 }
 
 } // namespace wy3dApp

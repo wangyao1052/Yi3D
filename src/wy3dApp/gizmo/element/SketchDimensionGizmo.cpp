@@ -142,11 +142,26 @@ void SketchDimensionGizmo::openEditor()
         return;
     }
 
+    const QStringList choices = this->getEditorChoices();
     if (!_pValuePopup)
     {
         MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
-        _pValuePopup = std::make_unique<GuiCmdHoverInputPopup1>(
-            this->getDimensionName(), QStringLiteral("-1234.56"), pMainWindow);
+        if (choices.isEmpty())
+        {
+            _pValuePopup = std::make_unique<GuiCmdHoverInputPopup1>(
+                this->getDimensionName(), QStringLiteral("-1234.56"), pMainWindow);
+        }
+        else
+        {
+            auto pChoiceRow = std::make_unique<GuiCmdHoverInputPopup1_ChoiceRow>(
+                this->getDimensionName(), QStringLiteral("-1234.56"), choices, pMainWindow);
+            pChoiceRow->setChoiceHandler([this](int index)
+            {
+                this->onEditorChoiceChanged(index);
+            });
+            _pChoiceRow = pChoiceRow.get();
+            _pValuePopup = std::move(pChoiceRow);
+        }
         _pValuePopup->setAcceptHandler([this]() { this->onEditorAccepted(); });
         _pValuePopup->setCancelHandler([this]() { this->hideEditor(); });
         // Click-to-open editor: unlike the hover-summoned command popups it has no
@@ -155,6 +170,10 @@ void SketchDimensionGizmo::openEditor()
         _pValuePopup->hide();
     }
 
+    if (_pChoiceRow)
+    {
+        _pChoiceRow->setChoice(this->getEditorChoice());
+    }
     _pValuePopup->setValue(label.value, 2);
     _pValuePopup->showAtGlobal(QCursor::pos());
 }
@@ -184,6 +203,32 @@ void SketchDimensionGizmo::onEditorAccepted()
 
     this->applyValue(value);
     this->hideEditor();
+}
+
+void SketchDimensionGizmo::onEditorChoiceChanged(int index)
+{
+    if (index == this->getEditorChoice())
+    {
+        return;
+    }
+
+    this->setEditorChoice(index);
+    // Only the reading changes, so no transaction is opened; the label still
+    // has to be redrawn because its value and anchor follow the new dimension
+    this->refresh();
+
+    if (!_pValuePopup)
+    {
+        return;
+    }
+    SketchDimensionLabel label;
+    if (this->readLabel(label))
+    {
+        // The typed text belonged to the previous reading; show the current one
+        // and keep the next typed digits replacing the whole value
+        _pValuePopup->setValue(label.value, 2);
+        _pValuePopup->selectAllValue();
+    }
 }
 
 bool SketchDimensionGizmo::readSingleParameter(const char* paramName, double& value) const

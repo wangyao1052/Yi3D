@@ -24,23 +24,34 @@
 #include <wyVector2.h>
 
 #include "gizmo/element/SketchDimensionGizmo.h"
+#include "utils/SketchPolygonDimensionMath.h"
 #include "utils/SketchPolygonRecognizer.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-// Radius label of a regular polygon: reads and edits the inscribed circle
-// radius. Click-only; the value box scales the polygon about its center.
+class SketchPolygonCircleGhostGizmo;
+
+// Radius label of a regular polygon: reads and edits the inscribed or the
+// circumscribed radius and shows it as "Radius=value". The value box carries a
+// two-way switch; click-only, and the value scales the polygon about its center
+// without changing the rotation. The circle ghost follows the switch.
 class SketchPolygonDimensionGizmo : public SketchDimensionGizmo
 {
 public:
-    explicit SketchPolygonDimensionGizmo(std::shared_ptr<const SketchPolygonInfo> polygon);
+    explicit SketchPolygonDimensionGizmo(
+        std::shared_ptr<const SketchPolygonInfo> polygon,
+        std::weak_ptr<SketchPolygonCircleGhostGizmo> circleGhost);
     virtual ~SketchPolygonDimensionGizmo();
 
-    // "Radius" in the user's language
+    // Always "Radius": one name for both readings, the switch picks the value
     virtual QString getDimensionName() const override;
 
 protected:
+    virtual QStringList getEditorChoices() const override;
+    virtual int getEditorChoice() const override;
+    virtual void setEditorChoice(int index) override;
+
     virtual bool readDimension(double& value,
                                wy::Vector2& anchorUv,
                                SketchDimensionPlacement& placement,
@@ -50,6 +61,8 @@ protected:
 
 private:
     std::shared_ptr<const SketchPolygonInfo> _polygon;
+    std::weak_ptr<SketchPolygonCircleGhostGizmo> _pCircleGhost;
+    SketchPolygonDimension _dimension = SketchPolygonDimension::InscribedRadius;
 };
 
 } // namespace wy3dApp

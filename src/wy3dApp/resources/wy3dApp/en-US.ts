@@ -3093,9 +3093,19 @@
 <context>
     <name>SketchPolygonDimensionGizmo</name>
     <message>
-        <location filename="../../gizmo/element/sketchpolygon/SketchPolygonDimensionGizmo.cpp" line="57"/>
+        <location filename="../../gizmo/element/sketchpolygon/SketchPolygonDimensionGizmo.cpp" line="61"/>
         <source>Radius</source>
         <translation type="unfinished">Radius</translation>
+    </message>
+    <message>
+        <location filename="../../gizmo/element/sketchpolygon/SketchPolygonDimensionGizmo.cpp" line="66"/>
+        <source>Inscribed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../gizmo/element/sketchpolygon/SketchPolygonDimensionGizmo.cpp" line="67"/>
+        <source>Circumscribed</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

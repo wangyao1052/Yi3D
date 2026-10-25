@@ -23,6 +23,7 @@
 #include <vector>
 
 #include <QString>
+#include <QStringList>
 #include <wyVector2.h>
 #include <wy3dPlane.h>
 #include <wydbElementId.h>
@@ -34,6 +35,7 @@
 namespace wy3dApp {
 
 class GuiCmdHoverInputPopup1;
+class GuiCmdHoverInputPopup1_ChoiceRow;
 
 // Snapshot of one dimension label as it should be drawn right now
 struct SketchDimensionLabel
@@ -64,8 +66,14 @@ public:
 
     const wy3d::Plane& getSketchPlane() const { return _sketchPlane; }
 
-    // "Width" / "Diameter" / ... in the user's language
+    // "Width" / "Diameter" / ... in the user's language; also the value box label
     virtual QString getDimensionName() const = 0;
+
+    // Optional mode switch shown above the value box: one radio per entry,
+    // index 0 selects the first. The label shows only the name and the value.
+    virtual QStringList getEditorChoices() const { return {}; }
+    virtual int getEditorChoice() const { return 0; }
+    virtual void setEditorChoice(int) {}
 
 protected:
     SketchDimensionGizmo(const std::vector<wydb::ElementId>& ids, wydb::ElementId sketchId);
@@ -91,12 +99,15 @@ private:
     void openEditor();
     void hideEditor();
     void onEditorAccepted();
+    void onEditorChoiceChanged(int index);
     QString formatText(double value) const;
 
 private:
     wy3d::Plane _sketchPlane;
 
     std::unique_ptr<GuiCmdHoverInputPopup1> _pValuePopup;
+    // Non-owning alias of _pValuePopup when the editor has a choice row
+    GuiCmdHoverInputPopup1_ChoiceRow* _pChoiceRow = nullptr;
 
     float _mouseDownX = 0.0f;
     float _mouseDownY = 0.0f;

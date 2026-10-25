@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SketchPolygonInscribedCircleOsgRenderer.h"
+#include "SketchPolygonCircleOsgRenderer.h"
 
 #include <cassert>
 #include <cmath>
@@ -29,7 +29,7 @@
 #include <wyVector2.h>
 #include <wy3dSketch.h>
 
-#include "gizmo/element/sketchpolygon/SketchPolygonInscribedCircleGhostGizmo.h"
+#include "gizmo/element/sketchpolygon/SketchPolygonCircleGhostGizmo.h"
 #include "scene/Colors.h"
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
@@ -48,18 +48,18 @@ constexpr int kCircleSegments = 128;
 
 } // namespace
 
-SketchPolygonInscribedCircleOsgRenderer::SketchPolygonInscribedCircleOsgRenderer(
+SketchPolygonCircleOsgRenderer::SketchPolygonCircleOsgRenderer(
     BaseGizmo* pGizmo)
     : GhostOsgRenderer(pGizmo)
 {
     assert(pGizmo);
 }
 
-SketchPolygonInscribedCircleOsgRenderer::~SketchPolygonInscribedCircleOsgRenderer()
+SketchPolygonCircleOsgRenderer::~SketchPolygonCircleOsgRenderer()
 {
 }
 
-void SketchPolygonInscribedCircleOsgRenderer::refresh()
+void SketchPolygonCircleOsgRenderer::refresh()
 {
     assert(_osgNode);
     _osgNode->removeChildren(0, _osgNode->getNumChildren());
@@ -67,8 +67,8 @@ void SketchPolygonInscribedCircleOsgRenderer::refresh()
     const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb) return;
 
-    const SketchPolygonInscribedCircleGhostGizmo* pGhostGizmo =
-        dynamic_cast<const SketchPolygonInscribedCircleGhostGizmo*>(_pGizmo);
+    const SketchPolygonCircleGhostGizmo* pGhostGizmo =
+        dynamic_cast<const SketchPolygonCircleGhostGizmo*>(_pGizmo);
     if (!pGhostGizmo)
     {
         assert(false);
@@ -91,13 +91,20 @@ void SketchPolygonInscribedCircleOsgRenderer::refresh()
     if (!pSketch || !pSketch->getPlane().isValid()) return;
     const wy3d::Plane& plane = pSketch->getPlane();
 
+    // The circle mirrors the dimension label: tangent to the edges or through
+    // the vertices
+    const double radius =
+        SketchPolygonDimension::CircumscribedRadius == pGhostGizmo->getDimension()
+        ? regularity.circumRadius
+        : regularity.inRadius;
+
     osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
     vertices->reserve(kCircleSegments);
     for (int i = 0; i < kCircleSegments; ++i)
     {
         const double angle = wy::TWO_PI * i / kCircleSegments;
         const wy::Vector2 uv = regularity.center
-            + regularity.inRadius * wy::Vector2(std::cos(angle), std::sin(angle));
+            + radius * wy::Vector2(std::cos(angle), std::sin(angle));
         vertices->push_back(MathUtils::toVec3(plane.value(uv)));
     }
 

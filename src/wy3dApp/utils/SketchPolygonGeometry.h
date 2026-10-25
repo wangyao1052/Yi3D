@@ -60,6 +60,18 @@ inline double computePolygonCircumradius(double inRadius, int sides)
     return inRadius / std::cos(wy::PI / static_cast<double>(sides));
 }
 
+// Vertex average; exact for a regular polygon. Empty input yields the origin.
+inline wy::Vector2 computePolygonCenter(const std::vector<wy::Vector2>& corners)
+{
+    wy::Vector2 center;
+    for (const wy::Vector2& corner : corners) center += corner;
+    if (!corners.empty())
+    {
+        center = center / static_cast<double>(corners.size());
+    }
+    return center;
+}
+
 struct PolygonRegularity
 {
     bool isValid = false;
@@ -119,9 +131,7 @@ inline PolygonRegularity validateRegularPolygon(const std::vector<wy::Vector2>& 
         }
     }
 
-    wy::Vector2 center;
-    for (int i = 0; i < sides; ++i) center += corners[i];
-    center = center / static_cast<double>(sides);
+    const wy::Vector2 center = computePolygonCenter(corners);
 
     double radiusSum = 0.0;
     std::vector<double> radii(sides);
