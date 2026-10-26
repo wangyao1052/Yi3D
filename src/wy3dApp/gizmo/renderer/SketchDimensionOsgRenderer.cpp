@@ -51,7 +51,7 @@ namespace {
 // Drawn size of the label, in device pixels
 constexpr double kLabelHeightPx = 20.0;
 // Gap between the geometry anchor and the near side of the label box
-constexpr double kLabelGapPx = 8.0;
+constexpr double kLabelGapPx = 10.0;
 
 // The label is drawn at a fixed size, so the texture is baked a little above it
 constexpr int kLabelBakeHeightPx = 48;
