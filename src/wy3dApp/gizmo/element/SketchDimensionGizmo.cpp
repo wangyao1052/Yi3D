@@ -23,6 +23,7 @@
 #include <utility>
 
 #include <QCursor>
+#include <QPoint>
 #include <QString>
 
 #include <wy3dSketch.h>
@@ -41,6 +42,12 @@ namespace {
 
 // A click that moved further than this is a miss, not an attempt to edit.
 constexpr float kClickTolerancePx = 3.0f;
+
+// Offset of the value box's top-left corner from the click point, in logical
+// pixels. The shared default (36 px) is tuned for hover-summoned command
+// popups, which follow the moving cursor; a click-opened editor should sit
+// close to the text instead.
+constexpr int kEditorOffsetPx = 20;
 
 } // namespace
 
@@ -167,6 +174,7 @@ void SketchDimensionGizmo::openEditor()
         // Click-to-open editor: unlike the hover-summoned command popups it has no
         // mouse-move dismissal, so it closes as soon as the focus moves elsewhere
         _pValuePopup->setHideOnFocusLoss(true);
+        _pValuePopup->setDefaultOffset(QPoint(kEditorOffsetPx, kEditorOffsetPx));
         _pValuePopup->hide();
     }
 
