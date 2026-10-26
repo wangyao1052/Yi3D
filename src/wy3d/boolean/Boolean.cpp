@@ -374,7 +374,7 @@ TopoDS_Shape Boolean::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdateFe
                     static_cast<unsigned int>(wy3d::ErrorCode::TOPOSHAPE_GenerateShapeError));
                 return TopoDS_Shape();
             }
-            fuseAlgo.SimplifyResult();
+            //fuseAlgo.SimplifyResult();
 
             BooleanTopoShapeComparer topoComparer(fuseAlgo);
             topoComparer.perform();

@@ -278,7 +278,7 @@ std::pair<bool, TopoDS_Shape> BodyModification::modifyOwnerShapeByInstance(
                     static_cast<unsigned int>(wy3d::ErrorCode::TOPOSHAPE_GenerateShapeError));
                 return std::pair<bool, TopoDS_Shape>(false, shape);
             }
-            fuseAlgo.SimplifyResult();
+            //fuseAlgo.SimplifyResult();
             retShape = fuseAlgo.Shape();
 
             pTopoComparer = std::make_shared<BooleanTopoShapeComparer>(fuseAlgo);
