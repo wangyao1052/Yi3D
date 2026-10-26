@@ -18,6 +18,9 @@
 
 #include "headers.h"
 
+#include <TopExp.hxx>
+#include <TopTools_IndexedMapOfShape.hxx>
+
 // --- helpers ---
 
 static void createTwoBoxes(
@@ -69,6 +72,52 @@ TEST(Boolean, UnionMultiTools)
     ASSERT_NE(pUnion, nullptr);
     EXPECT_EQ(pUnion->getTools().size(), 2u);
     EXPECT_FALSE(pUnion->getShape().IsNull());
+}
+
+TEST(Boolean, UnionRefinesRedundantFaces)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    Union* pUnion(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        Box* pBox1(nullptr);
+        Box* pBox2(nullptr);
+        Box::create(pTrans, 100.0, 100.0, 100.0, pBox1);
+        Box::create(pTrans, 100.0, 100.0, 100.0, pBox2);
+        EXPECT_EQ(pBox2->setPosition(wy::Vector3(0.0, 0.0, 100.0)), wy::ErrorStatus::Ok);
+        wy::ErrorStatus error = Union::create(pTrans, pBox1, pBox2, pUnion);
+        EXPECT_EQ(error, wy::ErrorStatus::Ok);
+        pMgr->endTransaction();
+    }
+
+    ASSERT_NE(pUnion, nullptr);
+    const TopoDS_Shape& shape = pUnion->getShape();
+    ASSERT_FALSE(shape.IsNull());
+
+    // Two stacked boxes fuse into one box. Without refinement the side and cap faces keep the
+    // split at the common plane (10 faces).
+    TopTools_IndexedMapOfShape faces;
+    TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_FACE, faces);
+    EXPECT_EQ(faces.Extent(), 6);
+
+    const wy3d::TopoNaming* pTopoNaming = pUnion->getTopoNaming();
+    ASSERT_NE(pTopoNaming, nullptr);
+    for (int i = 1; i <= faces.Extent(); ++i)
+    {
+        EXPECT_FALSE(pTopoNaming->getTopoName(faces(i)).empty()) << "face " << i;
+    }
+
+    TopTools_IndexedMapOfShape edges;
+    TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_EDGE, edges);
+    for (int i = 1; i <= edges.Extent(); ++i)
+    {
+        EXPECT_FALSE(pTopoNaming->getTopoName(edges(i)).empty()) << "edge " << i;
+    }
+
+    std::vector<std::string> info;
+    EXPECT_TRUE(pTopoNaming->check(shape, info)) << (info.empty() ? "" : info[0]);
 }
 
 // --- Difference ---
@@ -290,4 +339,35 @@ TEST(Boolean, IO)
         EXPECT_EQ(pUnion->getBooleanType(), BooleanType::Union);
         EXPECT_FALSE(pUnion->getShape().IsNull());
     }
+}
+
+TEST(Boolean, LoadEndCoverSample)
+{
+    // Regression: opening this model used to trip the face-count assert in
+    // TopoShapeComparer::finallyCheckFace(). A fuse kept one body's face while splitting the
+    // other body's face onto it, so the same new face was counted as both kept and split.
+    const std::string filePath = std::string(YI3D_SOURCE_DIR) + "/samples/end-cover.wy3dt";
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    ASSERT_EQ(pDb->readFile(filePath, {wydb::FileType::Text}), wy::ErrorStatus::Ok);
+
+    const wy3d::Union* pUnion = nullptr;
+    wy::Iterator<wydb::ElementId> iter = pDb->createIterator();
+    for (; !iter.isDone(); iter.moveNext())
+    {
+        const wy3d::Union* pCandidate = wy3d::Union::cast(pDb->getElement(iter.current()));
+        if (pCandidate)
+        {
+            pUnion = pCandidate;
+            break;
+        }
+    }
+    ASSERT_NE(pUnion, nullptr);
+
+    const TopoDS_Shape& shape = pUnion->getShape();
+    ASSERT_FALSE(shape.IsNull());
+
+    const wy3d::TopoNaming* pTopoNaming = pUnion->getTopoNaming();
+    ASSERT_NE(pTopoNaming, nullptr);
+    std::vector<std::string> info;
+    EXPECT_TRUE(pTopoNaming->check(shape, info)) << (info.empty() ? "" : info[0]);
 }

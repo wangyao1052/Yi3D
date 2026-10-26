@@ -29,6 +29,7 @@ After extraction, the project directory should look like:
 Yi3D
 ├── 3rdParty/
 │   └── bundles/
+│       ├── ModelRefine/
 │       ├── occt/
 │       ├── osg/
 │       ├── python3/
@@ -40,6 +41,10 @@ Yi3D
 ├── CMakeSettings.json
 └── ...
 ```
+
+`ModelRefine` is an LGPL-2.1-or-later shared library maintained as a separate project
+(https://github.com/wangyao1052/ModelRefine). If your bundle predates it, build and install it
+into `3rdParty/bundles/ModelRefine/` following that project's README.
 
 ---
 

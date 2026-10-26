@@ -29,10 +29,12 @@
 NS_WY3D_BEG
 
 TopoShapeComparer::TopoShapeComparer(
-    BRepBuilderAPI_MakeShape& mkShape, const TopoDS_Shape& oldShape)
+    BRepBuilderAPI_MakeShape& mkShape,
+    const TopoDS_Shape& oldShape,
+    const TopoDS_Shape& newShape)
     : _mkShape(mkShape), _oldShape(oldShape)
 {
-    _newShape = mkShape.Shape();
+    _newShape = newShape.IsNull() ? mkShape.Shape() : newShape;
 }
 
 TopoShapeComparer::~TopoShapeComparer()

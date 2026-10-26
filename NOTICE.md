@@ -54,3 +54,8 @@ under their respective licenses.
 
 - utfcpp
   Licensed under the Boost Software License, Version 1.0.
+
+- ModelRefine (separate LGPL-2.1-or-later shared library, dynamically linked)
+  Copyright (c) 2011 Thomas Anderson <blobfish[at]gmx.com>
+  Ported from FreeCAD 1.1.3 src/Mod/Part/App/modelRefine.*
+  Source code: https://github.com/wangyao1052/ModelRefine

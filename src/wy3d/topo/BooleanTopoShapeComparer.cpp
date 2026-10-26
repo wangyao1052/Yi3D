@@ -40,8 +40,9 @@ static TopoDS_Compound makeCompound(const TopoDS_Shape& shape1, const TopoDS_Sha
     return compound;
 }
 
-BooleanTopoShapeComparer::BooleanTopoShapeComparer(BRepAlgoAPI_BooleanOperation& booleanAlgo)
-    : TopoShapeComparer(booleanAlgo, TopoDS_Shape()), _booleanAlgo(booleanAlgo)
+BooleanTopoShapeComparer::BooleanTopoShapeComparer(
+    BRepAlgoAPI_BooleanOperation& booleanAlgo, const TopoDS_Shape& newShape)
+    : TopoShapeComparer(booleanAlgo, TopoDS_Shape(), newShape), _booleanAlgo(booleanAlgo)
 {
     _oldShape = makeCompound(booleanAlgo.Shape1(), booleanAlgo.Shape2());
 }
@@ -160,6 +161,13 @@ void BooleanTopoShapeComparer::recordModified()
     // 记录修改的边
     for (const auto& kvp : newEdge2Sources)
     {
+        // A new edge that is identical to an old edge was already recorded as kept. Do not
+        // record it again, or finallyCheckEdge() counts the same edge twice.
+        if (_edgeDelta.kept.find(kvp.first) != _edgeDelta.kept.cend())
+        {
+            continue;
+        }
+
         const std::pair<SourceInfo, SourceInfo>& sourcePair = kvp.second;
         const SourceInfo* pSourceInfo(nullptr);
         if (!sourcePair.first.shape.IsNull())
@@ -245,6 +253,14 @@ void BooleanTopoShapeComparer::recordModified()
     // 记录修改的面
     for (const auto& kvp : newFace2Sources)
     {
+        // The modified target may be an old face that was already recorded as kept (one body's
+        // face survives while the other body's face is split onto it). Do not record it again,
+        // or finallyCheckFace() counts the same face twice.
+        if (_faceDelta.kept.find(kvp.first) != _faceDelta.kept.cend())
+        {
+            continue;
+        }
+
         const std::pair<SourceInfo, SourceInfo>& sourcePair = kvp.second;
         const SourceInfo* pSourceInfo(nullptr);
         if (!sourcePair.first.shape.IsNull())

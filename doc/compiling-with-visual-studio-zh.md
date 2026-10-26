@@ -29,6 +29,7 @@ git clone https://github.com/wangyao1052/Yi3D.git
 Yi3D
 ├── 3rdParty/
 │   └── bundles/
+│       ├── ModelRefine/
 │       ├── occt/
 │       ├── osg/
 │       ├── python3/

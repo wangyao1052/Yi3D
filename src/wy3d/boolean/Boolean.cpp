@@ -32,6 +32,7 @@
 #include <wy3dDefaultChainUpdateFeedback.h>
 #include "topo/TopoShapeComparer.h"
 #include "topo/BooleanTopoShapeComparer.h"
+#include "topo/BooleanRefineUtil.h"
 
 NS_WY3D_BEG
 WYDB_IMPLEMENT_MEMBERS(Boolean)
@@ -374,13 +375,11 @@ TopoDS_Shape Boolean::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdateFe
                     static_cast<unsigned int>(wy3d::ErrorCode::TOPOSHAPE_GenerateShapeError));
                 return TopoDS_Shape();
             }
-            //fuseAlgo.SimplifyResult();
+            resultShape = refineBooleanResult(fuseAlgo);
 
-            BooleanTopoShapeComparer topoComparer(fuseAlgo);
+            BooleanTopoShapeComparer topoComparer(fuseAlgo, resultShape);
             topoComparer.perform();
             pTopoNaming->update(&topoComparer, this->getId().value());
-
-            resultShape = fuseAlgo.Shape();
         }
     }
     break;

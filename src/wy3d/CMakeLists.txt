@@ -7,6 +7,7 @@ project(${PROJECT_NAME} VERSION 0.0.1 LANGUAGES CXX)
 add_definitions(-DWY3D_LIBRARY)
 
 find_package(wydb)
+find_package(ModelRefine CONFIG REQUIRED)
 
 file(GLOB_RECURSE SRCS ./*.cpp)
 list(APPEND SRCS "${CMAKE_SOURCE_DIR}/3rdParty/base64/base64.cpp")
@@ -37,3 +38,5 @@ target_link_libraries(${LIBRARY_NAME}
 TKernel TKMath TKG2d TKG3d TKGeomBase TKBRep TKGeomAlgo TKTopAlgo TKPrim 
 TKBO TKBool TKFeat TKFillet TKOffset TKHLR TKMesh TKShHealing TKXSBase TKSTEP TKIGES)
 target_link_libraries(${LIBRARY_NAME} Freetype::Freetype)
+# link ModelRefine (separate LGPL-2.1-or-later shared library)
+target_link_libraries(${LIBRARY_NAME} ModelRefine::ModelRefine)

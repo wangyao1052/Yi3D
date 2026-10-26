@@ -34,6 +34,7 @@
 #include "topo/TopoNamingUtil.h"
 #include "topo/TopoShapeUtil.h"
 #include "topo/BooleanTopoShapeComparer.h"
+#include "topo/BooleanRefineUtil.h"
 #include "BodyModificationUtil.h"
 
 NS_WY3D_BEG
@@ -622,10 +623,9 @@ std::pair<bool, TopoDS_Shape> Solid::modifyOwnerShape(
                     static_cast<unsigned int>(wy3d::ErrorCode::TOPOSHAPE_GenerateShapeError));
                 return std::pair<bool, TopoDS_Shape>(false, shape);
             }
-            //fuseAlgo.SimplifyResult();
-            retShape = fuseAlgo.Shape();
+            retShape = refineBooleanResult(fuseAlgo);
 
-            pTopoComparer = std::make_shared<BooleanTopoShapeComparer>(fuseAlgo);
+            pTopoComparer = std::make_shared<BooleanTopoShapeComparer>(fuseAlgo, retShape);
             pTopoComparer->perform();
         }
 

@@ -27,3 +27,4 @@ target_include_directories(${EXE_NAME} PRIVATE
 )
 
 target_link_libraries(${EXE_NAME} PRIVATE wydb wy3d gtest)
+target_compile_definitions(${EXE_NAME} PRIVATE YI3D_SOURCE_DIR="${CMAKE_SOURCE_DIR}")

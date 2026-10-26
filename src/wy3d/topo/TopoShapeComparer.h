@@ -31,7 +31,10 @@ NS_WY3D_BEG
 class TopoShapeComparer
 {
 public:
-    TopoShapeComparer(BRepBuilderAPI_MakeShape& mkShape, const TopoDS_Shape& oldShape);
+    TopoShapeComparer(
+        BRepBuilderAPI_MakeShape& mkShape,
+        const TopoDS_Shape& oldShape,
+        const TopoDS_Shape& newShape = TopoDS_Shape());
     ~TopoShapeComparer();
 
     // 执行

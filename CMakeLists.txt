@@ -35,6 +35,7 @@ if (UNIX)
 endif()
 
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/3rdParty/bundles/wyaf")
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/3rdParty/bundles/ModelRefine")
 if(WIN32)
     list(APPEND CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/3rdParty/bundles/qt5")
     list(APPEND CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/3rdParty/bundles/occt")

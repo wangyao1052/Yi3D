@@ -40,6 +40,14 @@
 - **说明**: 轻量级 UTF-8 字符串处理库（header-only）。
 - **商用**: 完全兼容，需保留版权声明和许可文本。
 
+### 5. ModelRefine
+
+- **路径**: 独立开源项目（构建产物安装到 `3rdParty/bundles/ModelRefine/`）
+- **许可**: LGPL-2.1-or-later
+- **作者**: 移植自 FreeCAD 1.1.3 的 `src/Mod/Part/App/modelRefine.*`（原作者 Thomas Anderson），Wang Yao 移植
+- **说明**: 清理布尔并集后冗余分割面的动态链接库；源码见 https://github.com/wangyao1052/ModelRefine
+- **商用**: 以独立 DLL 动态链接，符合 LGPL 条款。
+
 ---
 
 ## Apache 2.0 与其它许可的兼容性
@@ -48,6 +56,7 @@
 
 - **MIT / Public Domain / zlib-like / BSL-1.0**: 无任何冲突。可以整体项目以 Apache 2.0 发布，只需在发行版中保留各第三方的原始许可声明。
 - **OSGPL（基于 LGPL）**: LGPL 允许你的主体代码使用任意许可（包括 Apache 2.0），但要求被修改的 LGPL 部分保持原许可。osgQt 在运行时以动态链接库（DLL）形式使用，符合 LGPL 条款。
+- **LGPL-2.1-or-later（ModelRefine）**: 主体代码保持 Apache 2.0；ModelRefine 作为独立开源项目构建成 DLL，在运行时动态链接，符合 LGPL 条款。
 
 ---
 

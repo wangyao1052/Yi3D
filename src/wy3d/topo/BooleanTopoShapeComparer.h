@@ -29,7 +29,9 @@ NS_WY3D_BEG
 class BooleanTopoShapeComparer : public TopoShapeComparer
 {
 public:
-    explicit BooleanTopoShapeComparer(BRepAlgoAPI_BooleanOperation& booleanAlgo);
+    explicit BooleanTopoShapeComparer(
+        BRepAlgoAPI_BooleanOperation& booleanAlgo,
+        const TopoDS_Shape& newShape = TopoDS_Shape());
     ~BooleanTopoShapeComparer();
 
 protected:
