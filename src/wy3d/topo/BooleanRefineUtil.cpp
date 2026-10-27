@@ -19,6 +19,7 @@
 #include "topo/BooleanRefineUtil.h"
 
 #include <BRepTools_History.hxx>
+
 #include <modelrefine/refine.h>
 
 NS_WY3D_BEG
@@ -32,18 +33,18 @@ TopoDS_Shape refineBooleanResult(BRepAlgoAPI_BooleanOperation& booleanAlgo)
     }
 
     TopoDS_Shape refinedShape;
-    Handle(BRepTools_History) refineHistory;
-    if (!modelrefine::refine(rawShape, refinedShape, refineHistory))
+    Handle(BRepTools_History) modelRefineHistory;
+    if (!modelrefine::refine(rawShape, refinedShape, modelRefineHistory))
     {
         return rawShape;
     }
 
-    // Compose the boolean history with the refinement history, so that topological naming
+    // Compose the boolean history with the raw-to-refined history, so that topological naming
     // maps old sub-shapes directly to the refined ones.
     Handle(BRepTools_History) history = booleanAlgo.History();
-    if (!history.IsNull() && !refineHistory.IsNull())
+    if (!history.IsNull())
     {
-        history->Merge(refineHistory);
+        history->Merge(modelRefineHistory);
     }
 
     return refinedShape;
