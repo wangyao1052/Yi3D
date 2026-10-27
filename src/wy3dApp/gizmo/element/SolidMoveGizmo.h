@@ -25,14 +25,14 @@
 #include <wydbDatabase.h>
 #include <wy3dPrimitive.h>
 
-#include <wy3dApp/Gizmo.h>
+#include <wy3dApp/DraggableGizmo.h>
 #include <wy3dApp/OsgGizmoNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 // 单轴移动 Gizmo 基类
-class SolidMoveGizmo : public Gizmo
+class SolidMoveGizmo : public DraggableGizmo
 {
 public:
     virtual ~SolidMoveGizmo();

@@ -14,7 +14,9 @@ find_package(wyap)
 
 # 应用框架共享库(app framework shared library): YI3D.exe 与插件共同链接
 # Application framework shared library: linked by both YI3D.exe and plugins
-file(GLOB_RECURSE APP_SRCS ./*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/resources/wy3dApp.qrc)
+file(GLOB_RECURSE APP_SRCS CONFIGURE_DEPENDS
+    ./*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/resources/wy3dApp.qrc)
 list(APPEND APP_SRCS "${CMAKE_SOURCE_DIR}/src/common/osg/OsgUtils.cpp")
 list(APPEND APP_SRCS "${CMAKE_SOURCE_DIR}/src/common/osg/OsgSelectUtils.cpp")
 list(APPEND APP_SRCS "${CMAKE_SOURCE_DIR}/3rdParty/base64/base64.cpp")

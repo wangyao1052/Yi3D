@@ -17,12 +17,15 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include <wy3dApp/Gizmo.h>
+#include <wy3dApp/KeyCode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 Gizmo::~Gizmo()
 {
+    // 基类析构时派生类已销毁，不能回调 operation 的派生钩子。
+    // 这里只做 renderer 的视觉清理。
     if (_pGizmoOp && _pRenderer)
         _pRenderer->onCancelDrag();
 }
@@ -32,15 +35,20 @@ void Gizmo::onActivate()
     if (_pRenderer) _pRenderer->onActivate();
 }
 
+void Gizmo::onKeyDown(const KeyEvent& event)
+{
+    if (event.key == KeyCode::Escape)
+        this->onEscapeKey();
+}
+
 void Gizmo::onDeactivate()
 {
     if (_pRenderer) _pRenderer->onDeactivate();
-    if (_pGizmoOp)
-    {
-        _pGizmoOp->onCancelDrag();
-        if (_pRenderer) _pRenderer->onCancelDrag();
-        _pGizmoOp = nullptr;
-    }
+    // 先移出成员：回调期间重入 onDeactivate 不会二次取消同一个 operation。
+    auto pOp = std::move(_pGizmoOp);
+    if (!pOp) return;
+    pOp->onCancelDrag();
+    if (_pRenderer) _pRenderer->onCancelDrag();
 }
 
 } // namespace wy3dApp

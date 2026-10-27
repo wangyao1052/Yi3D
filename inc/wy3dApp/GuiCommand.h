@@ -72,17 +72,6 @@ struct MouseEvent
     double time;
 };
 
-// Keyboard event.
-struct KeyEvent
-{
-    // Key code; see KeyCode.
-    int key;
-    // Modifier key state; see KeyModifier.
-    int modifiers;
-    // Seconds since the program started.
-    double time;
-};
-
 class WY3DAPP_EXPORT GuiCommand : public wyap::InteractiveCmdExecution
 {
     WYRX_DECLARE_ABSTRACT_MEMBERS(GuiCommand, wy3dApp::GuiCommand, wyap::InteractiveCmdExecution)

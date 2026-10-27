@@ -191,6 +191,17 @@ enum KeyModifier
     Super = osgGA::GUIEventAdapter::MODKEY_SUPER
 };
 
+// Keyboard event.
+struct KeyEvent
+{
+    // Key code; see KeyCode.
+    int key;
+    // Modifier key state; see KeyModifier.
+    int modifiers;
+    // Seconds since the program started.
+    double time;
+};
+
 } // namespace wy3dApp
 
 #endif // WY3DAPP_KEY_CODE_H

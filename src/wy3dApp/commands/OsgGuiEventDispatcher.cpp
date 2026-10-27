@@ -30,6 +30,7 @@
 #include <wyapCommand.h>
 #include <wy3dApp/OsgGuiCommand.h>
 #include <wy3dApp/Gizmo.h>
+#include <wy3dApp/KeyCode.h>
 #include <wy3dApp/OsgGizmoRenderer.h>
 #include <wy3dApp/GuiCommand.h> // MouseEvent
 #include <wy3dApp/wy3dAppDefs.h>
@@ -203,21 +204,32 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
 
     case osgGA::GUIEventAdapter::KEYDOWN:
     {
-        if (ea.getKey() == osgGA::GUIEventAdapter::KEY_Escape)
-        {
-            Gizmo* pGizmo = getActiveOsgGizmo();
-            if (pGizmo)
-            {
-                osgViewer::View* pView = dynamic_cast<osgViewer::View*>(&aa);
-                auto* pRenderer = dynamic_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
-                if (pRenderer) pRenderer->setOsgView(pView);
-                pGizmo->onEscapeKey();
+        Gizmo* pGizmo = getActiveOsgGizmo();
+        if (!pGizmo) return false;
 
-                ApplicationImpl::instance().getGizmoManager()->setActiveGizmo(nullptr);
-                return true;
-            }
-        }
-        return false;
+        osgViewer::View* pView = dynamic_cast<osgViewer::View*>(&aa);
+        auto* pRenderer = dynamic_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
+        if (pRenderer) pRenderer->setOsgView(pView);
+
+        KeyEvent keyEvent{ea.getKey(), ea.getModKeyMask(), ea.getTime()};
+        pGizmo->onKeyDown(keyEvent);
+
+        if (ea.getKey() == osgGA::GUIEventAdapter::KEY_Escape)
+            ApplicationImpl::instance().getGizmoManager()->setActiveGizmo(nullptr);
+        return true;
+    }
+    case osgGA::GUIEventAdapter::KEYUP:
+    {
+        Gizmo* pGizmo = getActiveOsgGizmo();
+        if (!pGizmo) return false;
+
+        osgViewer::View* pView = dynamic_cast<osgViewer::View*>(&aa);
+        auto* pRenderer = dynamic_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
+        if (pRenderer) pRenderer->setOsgView(pView);
+
+        KeyEvent keyEvent{ea.getKey(), ea.getModKeyMask(), ea.getTime()};
+        pGizmo->onKeyUp(keyEvent);
+        return true;
     }
     }
 

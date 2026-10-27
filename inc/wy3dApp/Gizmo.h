@@ -53,6 +53,12 @@ public:
     virtual void onLeftMouseDown(const MouseEvent& event) {}
     virtual void onLeftMouseDrag(const MouseEvent& event) {}
     virtual void onLeftMouseUp(const MouseEvent& event) {}
+
+    // 键盘事件（仅在该 Gizmo 处于激活状态时由事件分发器调用）
+    virtual void onKeyDown(const KeyEvent& event);
+    virtual void onKeyUp(const KeyEvent& event) {}
+
+    // 兼容/便捷钩子：onKeyDown 收到 Escape 时调用。
     virtual void onEscapeKey() {}
 
     GizmoRenderer* getRenderer() const { return _pRenderer.get(); }
@@ -85,7 +91,8 @@ protected:
     // 关联的元素ID（1 个或多个）
     std::vector<wydb::ElementId> _ids;
 
-    // Gizmo 操作（拖拽事务管理）
+    // Gizmo 操作（拖拽事务管理）。非拖拽 Gizmo 保持为空；
+    // 拖拽编排见 DraggableGizmo。
     std::unique_ptr<GizmoOperation> _pGizmoOp;
     // Gizmo 渲染器（拖拽视觉反馈）
     // 子类必须把它设置为 OsgGizmoRenderer 或其派生类：Scene 的挂载/拾取和
@@ -97,4 +104,4 @@ protected:
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_BASE_GIZMO_H
+#endif // WY3DAPP_GIZMO_H

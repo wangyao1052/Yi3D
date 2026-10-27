@@ -84,7 +84,7 @@ static bool computeClosestPoints(const osg::LineSegment& l1, const osg::LineSegm
 // ── SolidMoveGizmo ──
 
 SolidMoveGizmo::SolidMoveGizmo(const wy3d::Primitive* pPrimitive, const osg::Vec4& color, const osg::Quat& axisRot)
-    : Gizmo(pPrimitive ? pPrimitive->getId() : wydb::ElementId{})
+    : DraggableGizmo(pPrimitive ? pPrimitive->getId() : wydb::ElementId{})
 {
     assert(pPrimitive);
     if (!pPrimitive) return;
@@ -122,10 +122,8 @@ void SolidMoveGizmo::onLeftMouseDown(const MouseEvent& event)
     if (_pGizmoOp)
     {
         assert(false);
-        _pGizmoOp->onCancelDrag();
-        if (_pRenderer) _pRenderer->onCancelDrag();
+        this->cancelDrag();
     }
-    _pGizmoOp = nullptr;
 
     wydb::Database* pActiveDb = ApplicationImpl::instance().getActiveDatabase();
     Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
@@ -135,13 +133,11 @@ void SolidMoveGizmo::onLeftMouseDown(const MouseEvent& event)
         return;
     }
     _pGizmoOp = std::make_unique<SolidDragOperation>(pActiveDb, this);
-    if (!_pGizmoOp->onBeginDrag(MathUtils::toVector3(closestPnt)))
+    if (!this->beginDrag(MathUtils::toVector3(closestPnt)))
     {
         assert(false);
-        _pGizmoOp = nullptr;
         return;
     }
-    if (_pRenderer) _pRenderer->onBeginDrag(MathUtils::toVector3(closestPnt));
 }
 
 void SolidMoveGizmo::onLeftMouseDrag(const MouseEvent& event)
@@ -153,13 +149,10 @@ void SolidMoveGizmo::onLeftMouseDrag(const MouseEvent& event)
     if (!this->computeClosestPoint(static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView()->getCamera(), event.x, event.y, dragCurrPnt))
     {
         assert(false);
-        _pGizmoOp->onCancelDrag();
-        if (_pRenderer) _pRenderer->onCancelDrag();
-        _pGizmoOp = nullptr;
+        this->cancelDrag();
         return;
     }
-    _pGizmoOp->onDragging(MathUtils::toVector3(dragCurrPnt));
-    _pRenderer->onDragging(MathUtils::toVector3(dragCurrPnt));
+    this->dragTo(MathUtils::toVector3(dragCurrPnt));
     this->syncPosition();
 }
 
@@ -172,24 +165,15 @@ void SolidMoveGizmo::onLeftMouseUp(const MouseEvent& event)
     if (!this->computeClosestPoint(static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView()->getCamera(), event.x, event.y, dragEndPnt))
     {
         assert(false);
-        _pGizmoOp->onCancelDrag();
-        if (_pRenderer) _pRenderer->onCancelDrag();
-        _pGizmoOp = nullptr;
+        this->cancelDrag();
         return;
     }
-    _pGizmoOp->onEndDrag(MathUtils::toVector3(dragEndPnt));
-    _pRenderer->onEndDrag(MathUtils::toVector3(dragEndPnt));
-    _pGizmoOp = nullptr;
+    this->endDrag(MathUtils::toVector3(dragEndPnt));
 }
 
 void SolidMoveGizmo::onEscapeKey()
 {
-    if (_pGizmoOp)
-    {
-        _pGizmoOp->onCancelDrag();
-        _pGizmoOp = nullptr;
-        if (_pRenderer) _pRenderer->onCancelDrag();
-    }
+    this->cancelDrag();
     this->syncPosition();
 }
 

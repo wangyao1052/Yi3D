@@ -35,7 +35,7 @@
 namespace wy3dApp {
 
 SketchEntityGripGizmo::SketchEntityGripGizmo(const wy3d::SketchEntity* pSketchEntity)
-    : Gizmo(wydb::ElementId::kNull)
+    : DraggableGizmo(wydb::ElementId::kNull)
 {
     if (pSketchEntity)
     {
@@ -64,7 +64,7 @@ SketchEntityGripGizmo::SketchEntityGripGizmo(const wy3d::SketchEntity* pSketchEn
 }
 
 SketchEntityGripGizmo::SketchEntityGripGizmo(const std::vector<const wy3d::SketchEntity*>& sketchEnts)
-    : Gizmo(wydb::ElementId::kNull)
+    : DraggableGizmo(wydb::ElementId::kNull)
 {
     const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);
@@ -141,10 +141,8 @@ void SketchEntityGripGizmo::onLeftMouseDown(const MouseEvent& event)
     if (_pGizmoOp)
     {
         assert(false);
-        _pGizmoOp->onCancelDrag();
-        if (_pRenderer) _pRenderer->onCancelDrag();
+        this->cancelDrag();
     }
-    _pGizmoOp = nullptr;
 
     wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
@@ -157,13 +155,11 @@ void SketchEntityGripGizmo::onLeftMouseDown(const MouseEvent& event)
     wy::Vector3 startPos3(startPos2.x(), startPos2.y(), 0.0);
 
     _pGizmoOp = std::make_unique<SketchEntityDragOperation>(pDb, this);
-    if (!_pGizmoOp->onBeginDrag(startPos3))
+    if (!this->beginDrag(startPos3))
     {
         assert(false);
-        _pGizmoOp = nullptr;
         return;
     }
-    if (_pRenderer) _pRenderer->onBeginDrag(startPos3);
 
     // added by wangyao 2025.04.10 {
     _pDragContext = this->newDragContext();
@@ -185,9 +181,7 @@ void SketchEntityGripGizmo::onLeftMouseDrag(const MouseEvent& event)
     if (!pSketchSnapSys)
     {
         assert(false);
-        _pGizmoOp->onCancelDrag();
-        if (_pRenderer) _pRenderer->onCancelDrag();
-        _pGizmoOp = nullptr;
+        this->cancelDrag();
         return;
     }
     std::set<wydb::ElementId> excludeIds = this->getSnapExcludeIds();
@@ -199,10 +193,7 @@ void SketchEntityGripGizmo::onLeftMouseDrag(const MouseEvent& event)
     wy::Vector2 curPos = OsgCoordUtil::computePoint2d(
         static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView(),
         event.x, event.y, excludeIds, _pDragContext, pSketchSnapSys).first;
-    if (_pGizmoOp->onDragging(MathUtils::toVector3(curPos)))
-    {
-        if (_pRenderer) _pRenderer->onDragging(MathUtils::toVector3(curPos));
-    }
+    this->dragTo(MathUtils::toVector3(curPos));
 }
 
 void SketchEntityGripGizmo::onLeftMouseUp(const MouseEvent& event)
@@ -216,9 +207,7 @@ void SketchEntityGripGizmo::onLeftMouseUp(const MouseEvent& event)
     if (!pSketchSnapSys)
     {
         assert(false);
-        _pGizmoOp->onCancelDrag();
-        if (_pRenderer) _pRenderer->onCancelDrag();
-        _pGizmoOp = nullptr;
+        this->cancelDrag();
         return;
     }
     std::set<wydb::ElementId> excludeIds = this->getSnapExcludeIds();
@@ -230,9 +219,7 @@ void SketchEntityGripGizmo::onLeftMouseUp(const MouseEvent& event)
     wy::Vector2 curPos = OsgCoordUtil::computePoint2d(static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView(), event.x, event.y,
         excludeIds, _pDragContext, pSketchSnapSys).first;
 
-    _pGizmoOp->onEndDrag(MathUtils::toVector3(curPos));
-    if (_pRenderer) _pRenderer->onEndDrag(MathUtils::toVector3(curPos));
-    _pGizmoOp = nullptr;
+    this->endDrag(MathUtils::toVector3(curPos));
     _pDragContext = nullptr;
 
     // added by wangyao 2025.04.10 {
@@ -243,13 +230,8 @@ void SketchEntityGripGizmo::onLeftMouseUp(const MouseEvent& event)
 
 void SketchEntityGripGizmo::onEscapeKey()
 {
-    if (_pGizmoOp)
-    {
-        _pGizmoOp->onCancelDrag();
-        _pGizmoOp = nullptr;
+    if (this->cancelDrag())
         _pDragContext = nullptr;
-        if (_pRenderer) _pRenderer->onCancelDrag();
-    }
 
     // added by wangyao 2025.04.10 {
     // 取消拖拽之后清空草图捕捉结果
