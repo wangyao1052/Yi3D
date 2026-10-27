@@ -19,9 +19,11 @@
 #include "CameraManipulator3d.h"
 #include <cassert>
 #include <cmath>
+#include <gp.hxx>
 #include <Geom_Plane.hxx>
 #include <Geom_Line.hxx>
 #include <GeomAPI_IntCS.hxx>
+#include <Standard_Failure.hxx>
 #include "scene/RenderConst.h"
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -200,15 +202,50 @@ bool CameraManipulator3d::handleMouseWheel(const osgGA::GUIEventAdapter& ea, osg
 	return true;
 }
 
+// Intersect the eye->center and eye->cursor rays with the wheel plane through the view
+// center perpendicular to the view direction. Returns false when either ray is degenerate
+// or does not hit the plane, in which case the pan is skipped.
+static bool computeWheelPanPoints(
+	const gp_Pnt& eye, const gp_Pnt& center, const osg::Vec3d& planeNormal,
+	const gp_Pnt& cursor, gp_Pnt& centerPoint, gp_Pnt& cursorPoint)
+{
+	const double normalLength = planeNormal.length();
+	if (!std::isfinite(normalLength) || gp::Resolution() >= normalLength)
+		return false;
+	const gp_Vec centerRay(eye, center);
+	const double centerRayLength = centerRay.Magnitude();
+	if (!std::isfinite(centerRayLength) || gp::Resolution() >= centerRayLength)
+		return false;
+	const gp_Vec cursorRay(eye, cursor);
+	const double cursorRayLength = cursorRay.Magnitude();
+	if (!std::isfinite(cursorRayLength) || gp::Resolution() >= cursorRayLength)
+		return false;
+
+	try
+	{
+		Handle(Geom_Plane) plane = new Geom_Plane(center, gp_Dir(planeNormal.x(), planeNormal.y(), planeNormal.z()));
+		GeomAPI_IntCS intCS;
+		intCS.Perform(new Geom_Line(eye, gp_Dir(centerRay)), plane);
+		if (!intCS.IsDone() || 1 > intCS.NbPoints())
+			return false;
+		centerPoint = intCS.Point(1);
+		intCS.Perform(new Geom_Line(eye, gp_Dir(cursorRay)), plane);
+		if (!intCS.IsDone() || 1 > intCS.NbPoints())
+			return false;
+		cursorPoint = intCS.Point(1);
+		return true;
+	}
+	catch (const Standard_Failure&)
+	{
+		return false;
+	}
+}
+
 bool CameraManipulator3d::handleMouseWheelImpl_Perspective(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& us)
 {
 	if (!_camera) return false;
 	const osg::Viewport* viewport = _camera->getViewport();
 	if (!viewport) return false;
-	osg::Vec3 winCenter(
-		viewport->x() + viewport->width() / 2.0f,
-		viewport->y() + viewport->height() / 2.0f,
-		0.0f);
 	osg::Vec3 winCursor(ea.getX(), ea.getY(), 0.0f);
 
 	//
@@ -216,25 +253,20 @@ bool CameraManipulator3d::handleMouseWheelImpl_Perspective(const osgGA::GUIEvent
 		osg::Matrix VPW = this->getInverseMatrix() * _camera->getProjectionMatrix() *
 			_camera->getViewport()->computeWindowMatrix();
 		osg::Matrix inverseVPW = osg::Matrix::inverse(VPW);
-		osg::Vec3 center = winCenter * inverseVPW;
 		osg::Vec3 cursor = winCursor * inverseVPW;
 
 		gp_Pnt pntCenter(_center.x(), _center.y(), _center.z());
 		osg::Vec3d eye = _center + _rotation * osg::Vec3d(0.0, 0.0, _distance);
 		gp_Pnt pntEye(eye.x(), eye.y(), eye.z());
 		gp_Pnt pntCursor(cursor.x(), cursor.y(), cursor.z());
-		Handle(Geom_Line) line1 = new Geom_Line(pntEye, gp_Dir(gp_Vec(pntEye, pntCenter)));
-		Handle(Geom_Line) line2 = new Geom_Line(pntEye, gp_Dir(gp_Vec(pntEye, pntCursor)));
 		osg::Vec3d zaxis = _rotation * osg::Vec3d(0.0, 0.0, 1.0);
-		Handle(Geom_Plane) plane = new Geom_Plane(pntCenter, gp_Dir(zaxis.x(), zaxis.y(), zaxis.z()));
-		GeomAPI_IntCS intCS;
-		intCS.Perform(line1, plane);
-		gp_Pnt intPnt1 = intCS.Point(1);
-		intCS.Perform(line2, plane);
-		gp_Pnt intPnt2 = intCS.Point(1);
-		osg::Vec3d panVec(intPnt2.X() - intPnt1.X(), intPnt2.Y() - intPnt1.Y(), intPnt2.Z() - intPnt1.Z());
-
-		_center += panVec;
+		gp_Pnt intPnt1;
+		gp_Pnt intPnt2;
+		if (computeWheelPanPoints(pntEye, pntCenter, zaxis, pntCursor, intPnt1, intPnt2))
+		{
+			osg::Vec3d panVec(intPnt2.X() - intPnt1.X(), intPnt2.Y() - intPnt1.Y(), intPnt2.Z() - intPnt1.Z());
+			_center += panVec;
+		}
 	}
 
 	osgGA::GUIEventAdapter::ScrollingMotion sm = ea.getScrollingMotion();
@@ -295,25 +327,20 @@ bool CameraManipulator3d::handleMouseWheelImpl_Perspective(const osgGA::GUIEvent
 		osg::Matrix VPW = this->getInverseMatrix() * _camera->getProjectionMatrix() *
 			_camera->getViewport()->computeWindowMatrix();
 		osg::Matrix inverseVPW = osg::Matrix::inverse(VPW);
-		osg::Vec3 center = winCenter * inverseVPW;
 		osg::Vec3 cursor = winCursor * inverseVPW;
 
 		gp_Pnt pntCenter(_center.x(), _center.y(), _center.z());
 		osg::Vec3d eye = _center + _rotation * osg::Vec3d(0.0, 0.0, _distance);
 		gp_Pnt pntEye(eye.x(), eye.y(), eye.z());
 		gp_Pnt pntCursor(cursor.x(), cursor.y(), cursor.z());
-		Handle(Geom_Line) line1 = new Geom_Line(pntEye, gp_Dir(gp_Vec(pntEye, pntCenter)));
-		Handle(Geom_Line) line2 = new Geom_Line(pntEye, gp_Dir(gp_Vec(pntEye, pntCursor)));
 		osg::Vec3d zaxis = _rotation * osg::Vec3d(0.0, 0.0, 1.0);
-		Handle(Geom_Plane) plane = new Geom_Plane(pntCenter, gp_Dir(zaxis.x(), zaxis.y(), zaxis.z()));
-		GeomAPI_IntCS intCS;
-		intCS.Perform(line1, plane);
-		gp_Pnt intPnt1 = intCS.Point(1);
-		intCS.Perform(line2, plane);
-		gp_Pnt intPnt2 = intCS.Point(1);
-		osg::Vec3d panVec(intPnt2.X() - intPnt1.X(), intPnt2.Y() - intPnt1.Y(), intPnt2.Z() - intPnt1.Z());
-
-		_center -= panVec;
+		gp_Pnt intPnt1;
+		gp_Pnt intPnt2;
+		if (computeWheelPanPoints(pntEye, pntCenter, zaxis, pntCursor, intPnt1, intPnt2))
+		{
+			osg::Vec3d panVec(intPnt2.X() - intPnt1.X(), intPnt2.Y() - intPnt1.Y(), intPnt2.Z() - intPnt1.Z());
+			_center -= panVec;
+		}
 	}
 	
 	return true;
