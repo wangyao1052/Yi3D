@@ -84,7 +84,7 @@ static bool computeClosestPoints(const osg::LineSegment& l1, const osg::LineSegm
 // ── SolidMoveGizmo ──
 
 SolidMoveGizmo::SolidMoveGizmo(const wy3d::Primitive* pPrimitive, const osg::Vec4& color, const osg::Quat& axisRot)
-    : BaseGizmo(pPrimitive ? pPrimitive->getId() : wydb::ElementId{})
+    : Gizmo(pPrimitive ? pPrimitive->getId() : wydb::ElementId{})
 {
     assert(pPrimitive);
     if (!pPrimitive) return;

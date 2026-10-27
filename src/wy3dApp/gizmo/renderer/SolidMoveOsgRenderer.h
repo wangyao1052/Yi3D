@@ -36,7 +36,7 @@ class ElementNode;
 class SolidMoveOsgRenderer : public OsgGizmoRenderer
 {
 public:
-    SolidMoveOsgRenderer(BaseGizmo* pGizmo, const osg::Vec4& color, const osg::Quat& axisRot);
+    SolidMoveOsgRenderer(Gizmo* pGizmo, const osg::Vec4& color, const osg::Quat& axisRot);
     virtual ~SolidMoveOsgRenderer();
 
     // ── GizmoRenderer 拖拽生命周期 ──

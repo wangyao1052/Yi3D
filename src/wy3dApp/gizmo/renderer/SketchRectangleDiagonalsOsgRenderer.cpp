@@ -38,7 +38,7 @@
 
 namespace wy3dApp {
 
-SketchRectangleDiagonalsOsgRenderer::SketchRectangleDiagonalsOsgRenderer(BaseGizmo* pGizmo)
+SketchRectangleDiagonalsOsgRenderer::SketchRectangleDiagonalsOsgRenderer(Gizmo* pGizmo)
     : GhostOsgRenderer(pGizmo)
 {
     assert(pGizmo);

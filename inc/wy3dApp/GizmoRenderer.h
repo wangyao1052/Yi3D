@@ -24,7 +24,7 @@
 
 namespace wy3dApp {
 
-class BaseGizmo;
+class Gizmo;
 class Scene;
 
 // Gizmo renderer interface. Gizmos managed by wyap::GizmoManager must use an
@@ -33,7 +33,7 @@ class Scene;
 class WY3DAPP_EXPORT GizmoRenderer
 {
 public:
-    explicit GizmoRenderer(BaseGizmo* pGizmo) : _pGizmo(pGizmo) {}
+    explicit GizmoRenderer(Gizmo* pGizmo) : _pGizmo(pGizmo) {}
     virtual ~GizmoRenderer() {}
 
     virtual void refresh() = 0;
@@ -49,7 +49,7 @@ public:
     virtual void detachFromScene(Scene* pScene) = 0;
 
 protected:
-    BaseGizmo* _pGizmo;
+    Gizmo* _pGizmo;
 };
 
 } // namespace wy3dApp

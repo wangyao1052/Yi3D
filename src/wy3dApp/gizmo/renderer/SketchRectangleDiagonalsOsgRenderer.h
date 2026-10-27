@@ -28,7 +28,7 @@ namespace wy3dApp {
 class SketchRectangleDiagonalsOsgRenderer : public GhostOsgRenderer
 {
 public:
-    explicit SketchRectangleDiagonalsOsgRenderer(BaseGizmo* pGizmo);
+    explicit SketchRectangleDiagonalsOsgRenderer(Gizmo* pGizmo);
     virtual ~SketchRectangleDiagonalsOsgRenderer();
 
     virtual void refresh() override;

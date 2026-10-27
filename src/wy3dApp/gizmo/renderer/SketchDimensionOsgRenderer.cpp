@@ -235,7 +235,7 @@ osg::BoundingSphere ScreenBillboardTransform::computeBound() const
     return osg::BoundingSphere(_anchor, std::max(_worldRadius, wy::EPS));
 }
 
-SketchDimensionOsgRenderer::SketchDimensionOsgRenderer(BaseGizmo* pGizmo)
+SketchDimensionOsgRenderer::SketchDimensionOsgRenderer(Gizmo* pGizmo)
     : OsgGizmoRenderer(pGizmo)
 {
     _pBillboard = new ScreenBillboardTransform();

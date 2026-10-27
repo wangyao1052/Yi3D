@@ -31,12 +31,12 @@
 
 namespace wy3dApp {
 
-class BaseGizmo;
+class Gizmo;
 
 class WY3DAPP_EXPORT GizmoOperation
 {
 public:
-    GizmoOperation(wydb::Database* pDb, BaseGizmo* pGizmo);
+    GizmoOperation(wydb::Database* pDb, Gizmo* pGizmo);
     virtual ~GizmoOperation();
 
     virtual bool onBeginDrag(const wy::Vector3& startPos) = 0;
@@ -61,7 +61,7 @@ protected:
 protected:
     wydb::Database* _pDb;
     wydb::Transaction* _pTopTransaction;
-    BaseGizmo* _pGizmo;
+    Gizmo* _pGizmo;
     std::set<wydb::ElementId> _snapExcludeIds;
 };
 

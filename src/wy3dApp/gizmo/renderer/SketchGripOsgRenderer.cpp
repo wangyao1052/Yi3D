@@ -18,14 +18,14 @@
 
 #include "SketchGripOsgRenderer.h"
 
-#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/Gizmo.h>
 #include "gizmo/element/SketchEntityGripGizmo.h"
 #include "OsgUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-SketchGripOsgRenderer::SketchGripOsgRenderer(BaseGizmo* pGizmo)
+SketchGripOsgRenderer::SketchGripOsgRenderer(Gizmo* pGizmo)
     : OsgGizmoRenderer(pGizmo)
 {
     _geom = this->generateGeometry();

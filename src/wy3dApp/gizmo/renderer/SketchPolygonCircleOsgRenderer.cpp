@@ -49,7 +49,7 @@ constexpr int kCircleSegments = 128;
 } // namespace
 
 SketchPolygonCircleOsgRenderer::SketchPolygonCircleOsgRenderer(
-    BaseGizmo* pGizmo)
+    Gizmo* pGizmo)
     : GhostOsgRenderer(pGizmo)
 {
     assert(pGizmo);

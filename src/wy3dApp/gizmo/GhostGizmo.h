@@ -22,7 +22,7 @@
 #include <memory>
 #include <wydbElement.h>
 
-#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/Gizmo.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -31,11 +31,11 @@ class GhostOsgRenderer;
 
 // Ghost Gizmo — 用于显示草图图元/特征的辅助几何
 // 几何生成由 GhostOsgRenderer 子类负责
-class GhostGizmo : public BaseGizmo
+class GhostGizmo : public Gizmo
 {
 public:
     explicit GhostGizmo(const wydb::Element* pElem);
-    explicit GhostGizmo(std::vector<wydb::ElementId> ids) : BaseGizmo(std::move(ids)) {}
+    explicit GhostGizmo(std::vector<wydb::ElementId> ids) : Gizmo(std::move(ids)) {}
     virtual ~GhostGizmo() {}
 };
 

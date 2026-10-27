@@ -28,7 +28,7 @@
 #include <wy3dPlane.h>
 #include <wydbElementId.h>
 
-#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/Gizmo.h>
 #include "utils/SketchDimensionLabelMath.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -53,7 +53,7 @@ struct SketchDimensionLabel
 // Click-only text Gizmo showing one dimension of sketch geometry. Clicking the
 // text opens a value box; the new value is written back in a single transaction
 // and the label refreshes from the database. It never drags.
-class SketchDimensionGizmo : public BaseGizmo
+class SketchDimensionGizmo : public Gizmo
 {
 public:
     virtual ~SketchDimensionGizmo();

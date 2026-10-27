@@ -53,7 +53,7 @@ constexpr int kEditorOffsetPx = 20;
 
 SketchDimensionGizmo::SketchDimensionGizmo(const std::vector<wydb::ElementId>& ids,
                                            wydb::ElementId sketchId)
-    : BaseGizmo(ids)
+    : Gizmo(ids)
 {
     const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);

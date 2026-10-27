@@ -31,7 +31,7 @@ namespace wy3dApp {
 class GhostOsgRenderer : public OsgGizmoRenderer
 {
 public:
-    explicit GhostOsgRenderer(BaseGizmo* pGizmo);
+    explicit GhostOsgRenderer(Gizmo* pGizmo);
     virtual ~GhostOsgRenderer() {}
 
     virtual void refresh() {}

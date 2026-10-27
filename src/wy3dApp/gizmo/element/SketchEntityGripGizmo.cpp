@@ -35,7 +35,7 @@
 namespace wy3dApp {
 
 SketchEntityGripGizmo::SketchEntityGripGizmo(const wy3d::SketchEntity* pSketchEntity)
-    : BaseGizmo(wydb::ElementId::kNull)
+    : Gizmo(wydb::ElementId::kNull)
 {
     if (pSketchEntity)
     {
@@ -64,7 +64,7 @@ SketchEntityGripGizmo::SketchEntityGripGizmo(const wy3d::SketchEntity* pSketchEn
 }
 
 SketchEntityGripGizmo::SketchEntityGripGizmo(const std::vector<const wy3d::SketchEntity*>& sketchEnts)
-    : BaseGizmo(wydb::ElementId::kNull)
+    : Gizmo(wydb::ElementId::kNull)
 {
     const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     assert(pDb);

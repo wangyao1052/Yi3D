@@ -29,17 +29,17 @@
 #include <wyapCmdManager.h>
 #include <wyapCommand.h>
 #include <wy3dApp/OsgGuiCommand.h>
-#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/Gizmo.h>
 #include <wy3dApp/OsgGizmoRenderer.h>
 #include <wy3dApp/GuiCommand.h> // MouseEvent
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-static BaseGizmo* getActiveOsgGizmo()
+static Gizmo* getActiveOsgGizmo()
 {
     wyap::GizmoSPtr pActiveGizmo = ApplicationImpl::instance().getGizmoManager()->getActiveGizmo();
-    return pActiveGizmo ? dynamic_cast<BaseGizmo*>(pActiveGizmo.get()) : nullptr;
+    return pActiveGizmo ? dynamic_cast<Gizmo*>(pActiveGizmo.get()) : nullptr;
 }
 
 OsgGuiEventDispatcher::OsgGuiEventDispatcher()
@@ -154,7 +154,7 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
             wy::ErrorStatus gizmoRet = ApplicationImpl::instance().getGizmoManager()->setActiveGizmo(pickRet);
             assert(wy::ErrorStatus::Ok == gizmoRet);
 
-            BaseGizmo* pGizmo = getActiveOsgGizmo();
+            Gizmo* pGizmo = getActiveOsgGizmo();
             if (pGizmo)
             {
                 auto* pRenderer = dynamic_cast<OsgGizmoRenderer*>(pGizmo->getRenderer());
@@ -168,7 +168,7 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
 
     case osgGA::GUIEventAdapter::DRAG:
     {
-        BaseGizmo* pGizmo = getActiveOsgGizmo();
+        Gizmo* pGizmo = getActiveOsgGizmo();
         if (pGizmo)
         {
             osgViewer::View* pView = dynamic_cast<osgViewer::View*>(&aa);
@@ -184,7 +184,7 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
     {
         if (ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)
         {
-            BaseGizmo* pGizmo = getActiveOsgGizmo();
+            Gizmo* pGizmo = getActiveOsgGizmo();
             if (pGizmo)
             {
                 osgViewer::View* pView = dynamic_cast<osgViewer::View*>(&aa);
@@ -205,7 +205,7 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
     {
         if (ea.getKey() == osgGA::GUIEventAdapter::KEY_Escape)
         {
-            BaseGizmo* pGizmo = getActiveOsgGizmo();
+            Gizmo* pGizmo = getActiveOsgGizmo();
             if (pGizmo)
             {
                 osgViewer::View* pView = dynamic_cast<osgViewer::View*>(&aa);

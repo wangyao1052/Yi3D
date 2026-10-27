@@ -54,7 +54,7 @@
 #include "scene/nodes/BodyModificationElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
 #include <wy3dSheet.h>
-#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/Gizmo.h>
 #include <wy3dApp/OsgGizmoRenderer.h>
 #include "scene/nodes/CurveElementNode.h"
 #include "scene/nodes/Sketch3DElementNode.h"
@@ -1002,7 +1002,7 @@ void Scene::onDatabaseChanged(
         wyap::GizmoSPtr pGizmo = iter.current();
         if (!pGizmo) continue;
         // Gizmo关联的元素修改了则刷新Gizmo
-        BaseGizmo* pGizmo2 = dynamic_cast<BaseGizmo*>(pGizmo.get());
+        Gizmo* pGizmo2 = dynamic_cast<Gizmo*>(pGizmo.get());
         if (!pGizmo2) continue;
         bool affected = false;
         const std::vector<wydb::ElementId>& ids = pGizmo2->getElementIds();
@@ -1492,7 +1492,7 @@ void Scene::onGizmoChanged(
     for (const wyap::GizmoSPtr pGizmoSPtr : removedGizmos)
     {
         if (!pGizmoSPtr) continue;
-        BaseGizmo* pGizmo = dynamic_cast<BaseGizmo*>(pGizmoSPtr.get());
+        Gizmo* pGizmo = dynamic_cast<Gizmo*>(pGizmoSPtr.get());
         if (!pGizmo)
         {
             assert(false);
@@ -1520,7 +1520,7 @@ void Scene::onGizmoChanged(
     for (const wyap::GizmoSPtr pGizmoSPtr : addedGizmos)
     {
         if (!pGizmoSPtr) continue;
-        BaseGizmo* pGizmo = dynamic_cast<BaseGizmo*>(pGizmoSPtr.get());
+        Gizmo* pGizmo = dynamic_cast<Gizmo*>(pGizmoSPtr.get());
         if (!pGizmo)
         {
             assert(false);
@@ -1544,7 +1544,7 @@ void Scene::onGizmoChanged(
 void Scene::onGizmoToBeDeactivated(wyap::GizmoSPtr pGizmoSPtr)
 {
     assert(pGizmoSPtr);
-    BaseGizmo* pGizmo = dynamic_cast<BaseGizmo*>(pGizmoSPtr.get());
+    Gizmo* pGizmo = dynamic_cast<Gizmo*>(pGizmoSPtr.get());
     assert(pGizmo);
 }
 
@@ -1554,7 +1554,7 @@ void Scene::onGizmoToBeActivated(wyap::GizmoSPtr pGizmoSPtr)
 }
 void Scene::onGizmoActivated(wyap::GizmoSPtr pGizmoSPtr)
 {
-    BaseGizmo* pGizmo = dynamic_cast<BaseGizmo*>(pGizmoSPtr.get());
+    Gizmo* pGizmo = dynamic_cast<Gizmo*>(pGizmoSPtr.get());
     assert(pGizmo);
 }
 

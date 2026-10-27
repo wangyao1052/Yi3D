@@ -16,23 +16,23 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/Gizmo.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-BaseGizmo::~BaseGizmo()
+Gizmo::~Gizmo()
 {
     if (_pGizmoOp && _pRenderer)
         _pRenderer->onCancelDrag();
 }
 
-void BaseGizmo::onActivate()
+void Gizmo::onActivate()
 {
     if (_pRenderer) _pRenderer->onActivate();
 }
 
-void BaseGizmo::onDeactivate()
+void Gizmo::onDeactivate()
 {
     if (_pRenderer) _pRenderer->onDeactivate();
     if (_pGizmoOp)

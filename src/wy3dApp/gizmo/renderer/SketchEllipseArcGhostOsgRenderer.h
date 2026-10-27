@@ -28,7 +28,7 @@ namespace wy3dApp {
 class SketchEllipseArcGhostOsgRenderer : public GhostOsgRenderer
 {
 public:
-    explicit SketchEllipseArcGhostOsgRenderer(BaseGizmo* pGizmo)
+    explicit SketchEllipseArcGhostOsgRenderer(Gizmo* pGizmo)
         : GhostOsgRenderer(pGizmo) {}
     virtual ~SketchEllipseArcGhostOsgRenderer() {}
 

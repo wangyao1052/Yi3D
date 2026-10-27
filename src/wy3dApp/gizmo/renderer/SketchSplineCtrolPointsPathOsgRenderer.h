@@ -28,7 +28,7 @@ namespace wy3dApp {
 class SketchSplineCtrolPointsPathOsgRenderer : public GhostOsgRenderer
 {
 public:
-    explicit SketchSplineCtrolPointsPathOsgRenderer(BaseGizmo* pGizmo)
+    explicit SketchSplineCtrolPointsPathOsgRenderer(Gizmo* pGizmo)
         : GhostOsgRenderer(pGizmo) {}
     virtual ~SketchSplineCtrolPointsPathOsgRenderer() {}
 

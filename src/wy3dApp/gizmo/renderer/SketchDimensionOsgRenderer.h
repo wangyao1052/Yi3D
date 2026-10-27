@@ -94,7 +94,7 @@ private:
 class SketchDimensionOsgRenderer : public OsgGizmoRenderer
 {
 public:
-    explicit SketchDimensionOsgRenderer(BaseGizmo* pGizmo);
+    explicit SketchDimensionOsgRenderer(Gizmo* pGizmo);
     virtual ~SketchDimensionOsgRenderer();
 
     virtual void refresh() override;

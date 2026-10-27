@@ -25,7 +25,7 @@
 
 namespace wy3dApp {
 
-SolidDragOperation::SolidDragOperation(wydb::Database* pDb, BaseGizmo* pGizmo)
+SolidDragOperation::SolidDragOperation(wydb::Database* pDb, Gizmo* pGizmo)
     : GizmoOperation(pDb, pGizmo)
 {
 }

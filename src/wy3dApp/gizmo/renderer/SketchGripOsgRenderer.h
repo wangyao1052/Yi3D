@@ -33,7 +33,7 @@ namespace wy3dApp {
 class SketchGripOsgRenderer : public OsgGizmoRenderer
 {
 public:
-    explicit SketchGripOsgRenderer(BaseGizmo* pGizmo);
+    explicit SketchGripOsgRenderer(Gizmo* pGizmo);
     virtual ~SketchGripOsgRenderer();
 
     // ── GizmoRenderer ──

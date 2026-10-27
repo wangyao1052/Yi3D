@@ -16,8 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_BASE_GIZMO_H
-#define WY3DAPP_BASE_GIZMO_H
+#ifndef WY3DAPP_GIZMO_H
+#define WY3DAPP_GIZMO_H
 
 #include <cassert>
 #include <memory>
@@ -36,19 +36,19 @@ namespace wy3dApp {
 struct MouseEvent;
 struct KeyEvent;
 
-class WY3DAPP_EXPORT BaseGizmo : public wyap::Gizmo
+class WY3DAPP_EXPORT Gizmo : public wyap::Gizmo
 {
 public:
-    explicit BaseGizmo(wydb::ElementId id) : _ids{ id } {}
-    explicit BaseGizmo(std::vector<wydb::ElementId>&& ids) : _ids(std::move(ids))
+    explicit Gizmo(wydb::ElementId id) : _ids{ id } {}
+    explicit Gizmo(std::vector<wydb::ElementId>&& ids) : _ids(std::move(ids))
     {
         assert(!_ids.empty());
     }
-    explicit BaseGizmo(const std::vector<wydb::ElementId>& ids) : _ids(ids)
+    explicit Gizmo(const std::vector<wydb::ElementId>& ids) : _ids(ids)
     {
         assert(!_ids.empty());
     }
-    virtual ~BaseGizmo();
+    virtual ~Gizmo();
 
     virtual void onLeftMouseDown(const MouseEvent& event) {}
     virtual void onLeftMouseDrag(const MouseEvent& event) {}

@@ -29,7 +29,7 @@ namespace wy3dApp {
 class SketchPolygonCircleOsgRenderer : public GhostOsgRenderer
 {
 public:
-    explicit SketchPolygonCircleOsgRenderer(BaseGizmo* pGizmo);
+    explicit SketchPolygonCircleOsgRenderer(Gizmo* pGizmo);
     virtual ~SketchPolygonCircleOsgRenderer();
 
     virtual void refresh() override;

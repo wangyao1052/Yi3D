@@ -29,7 +29,7 @@
 
 #include <wyVector3.h>
 
-#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/Gizmo.h>
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include <wy3dPrimitive.h>
@@ -65,7 +65,7 @@ namespace
 
 // ── SolidMoveOsgRenderer ──
 
-SolidMoveOsgRenderer::SolidMoveOsgRenderer(BaseGizmo* pGizmo, const osg::Vec4& color, const osg::Quat& axisRot)
+SolidMoveOsgRenderer::SolidMoveOsgRenderer(Gizmo* pGizmo, const osg::Vec4& color, const osg::Quat& axisRot)
     : OsgGizmoRenderer(pGizmo), _color(color)
 {
     this->generateGeometry(color, axisRot);

@@ -18,12 +18,12 @@
 
 #include "GhostOsgRenderer.h"
 #include <cassert>
-#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/Gizmo.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-GhostOsgRenderer::GhostOsgRenderer(BaseGizmo* pGizmo)
+GhostOsgRenderer::GhostOsgRenderer(Gizmo* pGizmo)
     : OsgGizmoRenderer(pGizmo)
 {
     assert(_osgNode);

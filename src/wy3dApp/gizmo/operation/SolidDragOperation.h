@@ -26,13 +26,13 @@
 
 namespace wy3dApp {
 
-class BaseGizmo;
+class Gizmo;
 
 // 移动拖拽操作 — 仅负责事务管理（数据修改），渲染由 SolidMoveOsgRenderer 处理
 class SolidDragOperation : public GizmoOperation
 {
 public:
-    explicit SolidDragOperation(wydb::Database* pDb, BaseGizmo* pGizmo);
+    explicit SolidDragOperation(wydb::Database* pDb, Gizmo* pGizmo);
     ~SolidDragOperation();
 
     // 启动

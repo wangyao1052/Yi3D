@@ -24,7 +24,7 @@
 namespace wy3dApp {
 
 GhostGizmo::GhostGizmo(const wydb::Element* pElem)
-    : BaseGizmo(pElem ? pElem->getId() : wydb::ElementId{})
+    : Gizmo(pElem ? pElem->getId() : wydb::ElementId{})
 {
     assert(pElem);
 }

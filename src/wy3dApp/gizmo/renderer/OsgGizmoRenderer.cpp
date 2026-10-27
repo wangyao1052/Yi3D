@@ -18,14 +18,14 @@
 
 #include <wy3dApp/OsgGizmoRenderer.h>
 #include <cassert>
-#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/Gizmo.h>
 #include <wy3dApp/Scene.h>
 #include "scene/RenderConst.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-OsgGizmoRenderer::OsgGizmoRenderer(BaseGizmo* pGizmo)
+OsgGizmoRenderer::OsgGizmoRenderer(Gizmo* pGizmo)
     : GizmoRenderer(pGizmo)
 {
     _osgNode = new OsgGizmoNode();

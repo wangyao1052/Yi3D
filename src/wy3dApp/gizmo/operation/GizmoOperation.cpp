@@ -18,12 +18,12 @@
 
 #include <wy3dApp/GizmoOperation.h>
 #include <cassert>
-#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/Gizmo.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-GizmoOperation::GizmoOperation(wydb::Database* pDb, BaseGizmo* pGizmo)
+GizmoOperation::GizmoOperation(wydb::Database* pDb, Gizmo* pGizmo)
     : _pDb(pDb), _pGizmo(pGizmo), _pTopTransaction(nullptr)
 {
     assert(_pDb);

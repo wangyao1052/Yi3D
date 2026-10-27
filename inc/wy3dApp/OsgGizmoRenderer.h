@@ -30,13 +30,13 @@
 
 namespace wy3dApp {
 
-class BaseGizmo;
+class Gizmo;
 class ElementNode;
 
 class WY3DAPP_EXPORT OsgGizmoRenderer : public GizmoRenderer
 {
 public:
-    explicit OsgGizmoRenderer(BaseGizmo* pGizmo);
+    explicit OsgGizmoRenderer(Gizmo* pGizmo);
     virtual ~OsgGizmoRenderer() {}
 
     OsgGizmoNode* getOsgNode() const { return _osgNode.get(); }

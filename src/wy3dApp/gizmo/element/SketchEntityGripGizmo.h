@@ -27,14 +27,14 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchEntity.h>
 
-#include <wy3dApp/BaseGizmo.h>
+#include <wy3dApp/Gizmo.h>
 #include "gizmo/operation/SketchEntityDragOperation.h"
 #include <wy3dApp/Snap2dContext.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-class SketchEntityGripGizmo : public BaseGizmo
+class SketchEntityGripGizmo : public Gizmo
 {
 public:
     explicit SketchEntityGripGizmo(const wy3d::SketchEntity* pSketchEntity);
