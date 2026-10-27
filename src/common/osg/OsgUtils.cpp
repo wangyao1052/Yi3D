@@ -18,6 +18,7 @@
 
 #include "OsgUtils.h"
 
+#include <cassert>
 #include <osg/Geode>
 #include <osg/Geometry>
 #include <osg/ShapeDrawable>
@@ -150,6 +151,12 @@ osg::Node* OsgUtils::BuildShapeMesh(
 		TopLoc_Location loc;
 		TopoDS_Face aFace = TopoDS::Face(faceExplorer.Current());
 		Handle_Poly_Triangulation triFace = BRep_Tool::Triangulation(aFace, loc);
+		if (triFace.IsNull())
+		{
+			// The face has no triangulation, e.g. meshing failed.
+			assert(false);
+			continue;
+		}
 		Standard_Integer nTriangles = triFace->NbTriangles();
 
 		gp_Pnt vertex1;

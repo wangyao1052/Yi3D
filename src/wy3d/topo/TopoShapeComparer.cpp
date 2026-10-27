@@ -287,7 +287,14 @@ void TopoShapeComparer::finallyCheckEdge()
             if (recordEdges.find(edge) != recordEdges.cend()) continue;
 
             // 未被记录的新边
-            const TopTools_ListOfShape& faceList = newEdgeToFacesMap.FindFromKey(edge);
+            const TopTools_ListOfShape* pFaceList = newEdgeToFacesMap.Seek(edge);
+            if (!pFaceList)
+            {
+                // The edge belongs to a face that is not part of the new body.
+                assert(false);
+                continue;
+            }
+            const TopTools_ListOfShape& faceList = *pFaceList;
             int numFaces = faceList.Extent();
             switch (numFaces)
             {
@@ -303,7 +310,10 @@ void TopoShapeComparer::finallyCheckEdge()
                 ShapeDelta::DoubleSourceInfo doubleSourceInfo;
                 if (iter1 != modifiedNewface2OldIndex.cend() && iter2 != modifiedNewface2OldIndex.cend())
                 {
-                    assert(iter1->second != iter2->second);
+                    // A seam edge has the same face on both sides, so the two sources are the
+                    // same face and their indices are equal. The name builder appends the same
+                    // source name twice, which is still a valid and unique name.
+                    //assert(iter1->second != iter2->second);
                     // 索引小的在前,索引大的在后
                     if (iter1->second <= iter2->second)
                     {

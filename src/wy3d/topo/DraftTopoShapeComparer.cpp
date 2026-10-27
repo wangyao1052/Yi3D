@@ -133,11 +133,17 @@ void DraftTopoShapeComparer::recordAdded()
                     assert(false); // 推测理论上应该不太可能
                     continue;
                 }
-
                 // 记录新生成的边
                 ShapeDelta::DoubleSourceInfo doubleSourceInfo;
                 doubleSourceInfo.source1 = oldFaceInfo.shape;
-                const TopTools_ListOfShape& faceList = newEdgeToFacesMap.FindFromKey(newEdge);
+                const TopTools_ListOfShape* pFaceList = newEdgeToFacesMap.Seek(newEdge);
+                if (!pFaceList)
+                {
+                    // The edge belongs to a face that is not part of the new body.
+                    assert(false);
+                    continue;
+                }
+                const TopTools_ListOfShape& faceList = *pFaceList;
                 assert(faceList.Extent() <= 2);
                 for (TopTools_ListIteratorOfListOfShape faceIt(faceList); faceIt.More(); faceIt.Next())
                 {

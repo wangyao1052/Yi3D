@@ -18,6 +18,9 @@
 
 #include "headers.h"
 
+#include <wy3dSolid.h>
+#include <wy3dDefaultChainUpdateFeedback.h>
+
 #include <TopExp.hxx>
 #include <TopTools_IndexedMapOfShape.hxx>
 
@@ -367,6 +370,46 @@ TEST(Boolean, LoadEndCoverSample)
     ASSERT_FALSE(shape.IsNull());
 
     const wy3d::TopoNaming* pTopoNaming = pUnion->getTopoNaming();
+    ASSERT_NE(pTopoNaming, nullptr);
+    std::vector<std::string> info;
+    EXPECT_TRUE(pTopoNaming->check(shape, info)) << (info.empty() ? "" : info[0]);
+}
+
+TEST(Boolean, MergeBodiesAnnulusCylinder)
+{
+    // Regression: merging the R3.8 cylinder (28) into the coaxial annulus (25) used to throw
+    // Standard_NoSuchObject from TopoShapeComparer::finallyCheckEdge(), because the refinement
+    // history referenced faces that were not part of the refined result.
+    const std::string filePath = std::string(YI3D_SOURCE_DIR) + "/src/unitTest/123.wy3dt";
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    ASSERT_EQ(pDb->readFile(filePath, {wydb::FileType::Text}), wy::ErrorStatus::Ok);
+
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::Solid* pTarget = wy3d::Solid::cast(pTrans->getElementForWrite(wydb::ElementId(25)));
+        wy3d::Solid* pTool = wy3d::Solid::cast(pTrans->getElementForWrite(wydb::ElementId(28)));
+        ASSERT_NE(pTarget, nullptr);
+        ASSERT_NE(pTool, nullptr);
+        EXPECT_EQ(pTarget->addModification(pTool), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+
+    const wy3d::Solid* pOwner = wy3d::Solid::cast(pDb->getElement(wydb::ElementId(25)));
+    ASSERT_NE(pOwner, nullptr);
+    const TopoDS_Shape& shape = pOwner->getShape();
+    ASSERT_FALSE(shape.IsNull());
+
+    // A failing merge is swallowed by Solid::modifyOwnerShape(): the error is reported against the
+    // modification (28) and the owner keeps its pre-merge shape, whose naming is still consistent.
+    // Check the feedback and the face count, or this test would pass without a real merge.
+    EXPECT_EQ(0u, wy3d::getErrorCodeFromChainUpdateFeedback(
+        pMgr->getChainUpdateFeedback(wydb::ElementId(28)).get()));
+    TopTools_IndexedMapOfShape faces;
+    TopExp::MapShapes(shape, TopAbs_ShapeEnum::TopAbs_FACE, faces);
+    EXPECT_EQ(10, faces.Extent());
+
+    const wy3d::TopoNaming* pTopoNaming = pOwner->getTopoNaming();
     ASSERT_NE(pTopoNaming, nullptr);
     std::vector<std::string> info;
     EXPECT_TRUE(pTopoNaming->check(shape, info)) << (info.empty() ? "" : info[0]);

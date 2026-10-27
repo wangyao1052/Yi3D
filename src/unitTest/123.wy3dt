@@ -1,0 +1,20 @@
+WY3D
+0 20
+ELEMENTS
+14
+wy3d::DatumPlane 1 0 0 0 0 0 0 1 1 0 0 TOP #
+wy3d::DatumPlane 2 0 0 0 0 1 0 0 0 1 0 RIGHT #
+wy3d::DatumPlane 3 0 0 0 0 -0 -1 -0 1 0 0 FRONT #
+wy3d::Sketch 17 0 0 0 0 0 1 0 0 0 1 0 1 18 #
+wy3d::SketchCircle 18 0 17 0 0 0 3 #
+wy3d::Sketch 22 0 25 -12 0 0 -1 -0 -0 0 0 -1 2 23 24 #
+wy3d::SketchCircle 23 0 22 0 0 0 3.2 #
+wy3d::SketchCircle 24 0 22 0 0 0 3.8 #
+wy3d::Extrusion 25 0 0 0 1 33 140 153 165 22 0 -6.8 0 #
+wy3d::Sketch 26 0 28 -12 0 0 -1 -0 -0 0 0 -1 1 27 #
+wy3d::SketchCircle 27 0 26 0 0 0 3.8 #
+wy3d::Extrusion 28 0 0 0 1 34 140 153 165 26 0 0.8 0 #
+wy3d::Mirror 33 0 25 0 0 0 0 1 0 0 0 1 0 #
+wy3d::Mirror 34 0 28 0 0 0 0 1 0 0 0 1 0 #
+ENDELEMS
+EOF
