@@ -36,6 +36,7 @@ class WY3DAPP_EXPORT SketchEnvironment
     , public ICommandActionStateHost
     , public IEnvironmentUIHost
 {
+    WYRX_DECLARE_NO_CREATE_MEMBERS(SketchEnvironment, wy3dApp::SketchEnvironment, wyap::TaskEnvironment)
 public:
     enum class Operation
     {

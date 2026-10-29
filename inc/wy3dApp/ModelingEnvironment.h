@@ -32,6 +32,7 @@ class WY3DAPP_EXPORT ModelingEnvironment
     , public ICommandActionStateHost
     , public IEnvironmentUIHost
 {
+    WYRX_DECLARE_NO_CREATE_MEMBERS(ModelingEnvironment, wy3dApp::ModelingEnvironment, wyap::DocumentEnvironment)
 protected:
     ModelingEnvironment() = default;
     ~ModelingEnvironment();

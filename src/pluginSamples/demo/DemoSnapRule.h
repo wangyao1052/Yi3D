@@ -46,7 +46,7 @@ std::vector<DemoSnapCandidate> collectSnapCandidates(
 // Snap context carrying the sketch whose geometry the demo rule scans.
 class DemoSnapContext : public wy3dApp::Snap2dContext
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(DemoSnapContext, com.yi3d.demo::DemoSnapContext, wy3dApp::Snap2dContext)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(DemoSnapContext, com.yi3d.demo::DemoSnapContext, wy3dApp::Snap2dContext)
 public:
     explicit DemoSnapContext(const wydb::ElementId& sketchId) : _sketchId(sketchId) {}
 

@@ -32,6 +32,7 @@ class WY3DAPP_EXPORT GatewayEnvironment
     , public IEnvironmentUIHost
     , public wydb::TransactionReactor
 {
+    WYRX_DECLARE_NO_CREATE_MEMBERS(GatewayEnvironment, wy3dApp::GatewayEnvironment, wyap::GatewayEnvironment)
 protected:
     GatewayEnvironment() = default;
     ~GatewayEnvironment();

@@ -34,7 +34,7 @@ namespace wy3dApp {
 
 class WY3DAPP_EXPORT OsgGuiCommand : public GuiCommand
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(OsgGuiCommand, wy3dApp::OsgGuiCommand, GuiCommand)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(OsgGuiCommand, wy3dApp::OsgGuiCommand, GuiCommand)
 public:
     OsgGuiCommand();
 

@@ -28,7 +28,7 @@ namespace wy3dApp {
 
 class WY3DAPP_EXPORT Snap2dContext : public wyrx::Object
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(Snap2dContext, wy3dApp::Snap2dContext, wyrx::Object)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(Snap2dContext, wy3dApp::Snap2dContext, wyrx::Object)
 protected:
     Snap2dContext() = default;
     virtual ~Snap2dContext() override = default;
@@ -49,7 +49,7 @@ typedef std::shared_ptr<Locate2dContext> Locate2dContextSPtr;
 
 class WY3DAPP_EXPORT DrawLine2dContext : public Snap2dContext
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(DrawLine2dContext, wy3dApp::DrawLine2dContext, Snap2dContext)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(DrawLine2dContext, wy3dApp::DrawLine2dContext, Snap2dContext)
 public:
     explicit DrawLine2dContext(const wy::Vector2& startPoint)
         : _startPoint(startPoint) {}
@@ -63,7 +63,7 @@ typedef std::shared_ptr<DrawLine2dContext> DrawLine2dContextSPtr;
 
 class WY3DAPP_EXPORT DrawCircle2dContext : public Snap2dContext
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(DrawCircle2dContext, wy3dApp::DrawCircle2dContext, Snap2dContext)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(DrawCircle2dContext, wy3dApp::DrawCircle2dContext, Snap2dContext)
 public:
     explicit DrawCircle2dContext(const wy::Vector2& center)
         : _center(center) {}
@@ -77,7 +77,7 @@ typedef std::shared_ptr<DrawCircle2dContext> DrawCircle2dContextSPtr;
 
 class WY3DAPP_EXPORT DrawArc2dContext : public Snap2dContext
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(DrawArc2dContext, wy3dApp::DrawArc2dContext, Snap2dContext)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(DrawArc2dContext, wy3dApp::DrawArc2dContext, Snap2dContext)
 public:
     DrawArc2dContext(const wy::Vector2& center, double radius, const wy::Vector2& startPoint)
         : _center(center), _radius(radius), _startPoint(startPoint) {}

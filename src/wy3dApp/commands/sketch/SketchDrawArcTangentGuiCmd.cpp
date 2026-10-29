@@ -179,7 +179,7 @@ namespace {
 // curves of the given sketch snap.
 class SketchCurveEndPointContext : public Snap2dContext
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(SketchCurveEndPointContext, wy3dApp::SketchCurveEndPointContext, Snap2dContext)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(SketchCurveEndPointContext, wy3dApp::SketchCurveEndPointContext, Snap2dContext)
 public:
     explicit SketchCurveEndPointContext(const wydb::ElementId& sketchId)
         : _sketchId(sketchId) {}

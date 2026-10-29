@@ -40,7 +40,7 @@ struct SnapStartTangent
 // can snap tangent to that curve. Host-internal; not part of the SDK header.
 class DrawLineTangent2dContext final : public DrawLine2dContext
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(DrawLineTangent2dContext, wy3dApp::DrawLineTangent2dContext, DrawLine2dContext)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(DrawLineTangent2dContext, wy3dApp::DrawLineTangent2dContext, DrawLine2dContext)
 public:
     DrawLineTangent2dContext(
         const wy::Vector2& startPoint, const SnapStartTangent& startTangent)

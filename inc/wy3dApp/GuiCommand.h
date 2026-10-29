@@ -74,7 +74,7 @@ struct MouseEvent
 
 class WY3DAPP_EXPORT GuiCommand : public wyap::InteractiveCmdExecution
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(GuiCommand, wy3dApp::GuiCommand, wyap::InteractiveCmdExecution)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(GuiCommand, wy3dApp::GuiCommand, wyap::InteractiveCmdExecution)
 protected:
     GuiCommand();
     virtual ~GuiCommand();

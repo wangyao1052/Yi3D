@@ -41,7 +41,7 @@ class RotateTransient;
 
 class RotateGuiCmd : public OsgGuiCommand
 {
-    WYRX_DECLARE_ABSTRACT_MEMBERS(RotateGuiCmd, wy3dApp::RotateGuiCmd, OsgGuiCommand)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(RotateGuiCmd, wy3dApp::RotateGuiCmd, OsgGuiCommand)
 public:
     RotateGuiCmd();
     virtual ~RotateGuiCmd();
