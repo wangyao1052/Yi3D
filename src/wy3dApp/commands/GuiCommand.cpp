@@ -36,7 +36,7 @@
 #include "widgets/panels/property/PropertyEditorWidget.h"
 #include "widgets/frame/MainWindow.h"
 
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "scene/RenderConst.h"
 #include "snap/SnapContext.h"
 #include <wy3dApp/EnvironmentUI.h>
@@ -67,7 +67,7 @@ void onPropertyWidgetToggled(bool checked)
 
 void onWCSToggled(bool checked)
 {
-    Scene* pScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (!pScene)
     {
         assert(false);
@@ -120,7 +120,7 @@ wyap::CmdExecution::StartResult GuiCommand::onStart()
 
     // added by wangyao 2025.05.06 {
     // 清除动态生成的面&边
-    ApplicationImpl::instance().getActiveScene()->endNoBatchRender();
+    ApplicationImpl::instance().getActiveSceneImpl()->endNoBatchRender();
     // }
 
     return wyap::CmdExecution::StartResult::Succeeded;
@@ -131,7 +131,7 @@ void GuiCommand::onEnd()
     SelectOptions options;
     this->applySelectOptions(options);
 
-    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pActiveScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (pActiveScene)
     {
         pActiveScene->clearTransients();
@@ -149,7 +149,7 @@ void GuiCommand::onAbort(wyap::CmdExecution::AbortCause cause)
     SelectOptions options;
     this->applySelectOptions(options);
 
-    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pActiveScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (pActiveScene)
     {
         pActiveScene->clearTransients();
@@ -213,7 +213,7 @@ void GuiCommand::onRightMouseUp(const MouseEvent& event)
         onPropertyWidgetToggled);
 
     // World coordinate system (hidden when there is no active scene)
-    Scene* pScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (pScene)
     {
         QAction* pActionWCS = new QAction(

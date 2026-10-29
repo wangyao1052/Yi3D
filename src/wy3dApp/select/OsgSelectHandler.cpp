@@ -23,7 +23,7 @@
 #include <osg/Camera>
 #include <osgUtil/PolytopeIntersector>
 #include "OsgSelectUtils.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "select/PointPick.h"
 #include "select/BoxPick.h"
@@ -125,7 +125,7 @@ wyap::SelectionSet OsgSelectHandler::boxPick_window(
     OsgSelectUtils::initPolytope(pCamera, xMin, yMin, xMax, yMax, polytope);
 
     // 窗口框选
-    Scene* pScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl();
     std::list<wydb::ElementId> pickedIdsList;
     pickedIdsList = pScene->pickByNormalBox(polytope, _allowedElemTypes == 0 ? ElementNodeType::All : _allowedElemTypes);
 
@@ -141,7 +141,7 @@ wyap::SelectionSet OsgSelectHandler::boxPick_window(
 void OsgSelectHandler::drawBoxRect(float xMin, float yMin,
                                     float xMax, float yMax)
 {
-    Scene* pScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (!pScene) return;
     BoxSelectRectangle* pSelRect = pScene->getBoxSelectRectNode();
     if (!pSelRect) return;
@@ -151,7 +151,7 @@ void OsgSelectHandler::drawBoxRect(float xMin, float yMin,
 
 void OsgSelectHandler::clearBoxRect()
 {
-    Scene* pScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (!pScene) return;
     BoxSelectRectangle* pSelRect = pScene->getBoxSelectRectNode();
     if (!pSelRect) return;

@@ -20,7 +20,6 @@
 
 #include <cassert>
 
-#include <gp_Quaternion.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Face.hxx>
 #include <Bnd_Box.hxx>
@@ -60,27 +59,6 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
-
-osg::Matrix ElementNode::createMatrix(const wy::Vector3& pos, const wy::Vector3& rot)
-{
-    static gp_Vec xAxis(1.0, 0.0, 0.0);
-    static gp_Vec yAxis(0.0, 1.0, 0.0);
-    static gp_Vec zAxis(0.0, 0.0, 1.0);
-
-    osg::Matrix matrix;
-    // 移动
-    matrix.makeTranslate(pos.x(), pos.y(), pos.z());
-    // 旋转(四元数)
-    // TODO 此处有优化的空间,可以一次性构造出四元数,而不是三个四元数做乘法
-    gp_Quaternion quat;
-    gp_Quaternion rotZ(zAxis, rot.z());
-    gp_Quaternion rotX(xAxis, rot.x());
-    gp_Quaternion rotY(yAxis, rot.y());
-    quat = rotY * rotX * rotZ;
-    matrix.setRotate(osg::Quat(quat.X(), quat.Y(), quat.Z(), quat.W()));
-
-    return matrix;
-}
 
 ElementNode::ElementNode(const wydb::ElementId& id) : _id(id), _status(0)
 {

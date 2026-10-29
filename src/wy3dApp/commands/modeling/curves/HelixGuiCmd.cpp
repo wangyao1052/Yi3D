@@ -34,7 +34,7 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include <wy3dApp/ElementNode.h>
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"
@@ -407,7 +407,7 @@ bool HelixGuiCmd::createHelix(
     }
     // }
     // 刷新基准面的显示
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->updateDatumPlaneVisualSize(pDb);
     }

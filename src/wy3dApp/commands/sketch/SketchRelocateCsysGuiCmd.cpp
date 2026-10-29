@@ -25,7 +25,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include "snap/SketchSnapSystem.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "environments/sketch/SketchEnvironmentImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -266,7 +266,7 @@ bool SketchRelocateCsysGuiCmd::relocateSketchCsys(const wy3d::Plane& plane, cons
     pDb->getTransactionManager()->endTransaction();
     
     // 刷新草图坐标系的显示
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->showSketchCSYS(newPlane);
     }

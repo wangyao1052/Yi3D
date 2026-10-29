@@ -38,7 +38,7 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "snap/SnapObject.h"
 #include "snap3d/Sketch3DSnapSystem.h"
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
@@ -210,7 +210,7 @@ Sketch3DWorkingPlane::~Sketch3DWorkingPlane()
         _pOriginSnapObject = nullptr;
     }
 
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->hideSketchCSYS();
     }
@@ -293,7 +293,7 @@ void Sketch3DWorkingPlane::showImpl(const wy3d::Plane& plane)
         pSnapSys->endChange();
     }
 
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->showSketchCSYS(plane);
 

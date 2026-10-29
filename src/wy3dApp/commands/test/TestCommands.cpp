@@ -34,7 +34,7 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "view/OsgView.h"
 #include "OsgUtils.h"
 #include <wy3dApp/SketchEnvironment.h>
@@ -44,7 +44,7 @@ namespace wy3dApp {
 
 int OsgNewBoxCommand::run()
 {
-    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pActiveScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (!pActiveScene) return -1;
     osg::Group* pOsgTestRoot = pActiveScene->getOsgTestRoot();
     if (!pOsgTestRoot) return -1;
@@ -59,7 +59,7 @@ int OsgNewBoxCommand::run()
 
 int OpenGLNewBoxCommand::run()
 {
-    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pActiveScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (!pActiveScene) return -1;
     osg::Group* pOsgTestRoot = pActiveScene->getOsgTestRoot();
     if (!pOsgTestRoot) return -1;
@@ -73,7 +73,7 @@ int OpenGLNewBoxCommand::run()
 
 int OsgNewCylinderCommand::run()
 {
-    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pActiveScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (!pActiveScene) return -1;
     osg::Group* pOsgTestRoot = pActiveScene->getOsgTestRoot();
     if (!pOsgTestRoot) return -1;
@@ -88,7 +88,7 @@ int OsgNewCylinderCommand::run()
 
 int OsgNewSphereCommand::run()
 {
-    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pActiveScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (!pActiveScene) return -1;
     osg::Group* pOsgTestRoot = pActiveScene->getOsgTestRoot();
     if (!pOsgTestRoot) return -1;
@@ -102,7 +102,7 @@ int OsgNewSphereCommand::run()
 
 int OsgNewCowCommand::run()
 {
-    Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pActiveScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (!pActiveScene) return -1;
     osg::Group* pOsgTestRoot = pActiveScene->getOsgTestRoot();
     if (!pOsgTestRoot) return -1;

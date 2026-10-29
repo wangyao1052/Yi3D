@@ -44,7 +44,7 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "view/OsgView.h"
 #include "commands/OsgGuiEventDispatcher.h"
 #include <wy3dApp/ElementNode.h>
@@ -226,7 +226,7 @@ bool RotateGuiCmd::finishStep(Step step)
         pSnapSys->endChange();
 
         // 显示工作平面坐标系
-        if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+        if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
         {
             pScene->showSketchCSYS(_workPln);
         }

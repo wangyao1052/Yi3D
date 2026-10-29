@@ -63,6 +63,7 @@ namespace wy3dApp {
 class View;
 class BaseView;
 class Scene;
+class SceneImpl;
 class MainWindow;
 class DockPanelManager;
 class Config;
@@ -108,10 +109,9 @@ public:
         return _pAutoSave.get();
     }
 
-    // 获取当前激活的视图
     BaseView* getActiveView() const;
-    // 获取当前激活的场景
-    Scene* getActiveScene() const;
+    Scene* getActiveScene() const override;
+    SceneImpl* getActiveSceneImpl() const;
 
     // 获取标题
     const QString& getTitle() const

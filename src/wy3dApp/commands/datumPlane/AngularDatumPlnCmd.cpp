@@ -33,7 +33,7 @@
 #include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "select/SketchPlaneSelFilter.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/DatumPlaneElementNode.h"
 #include "widgets/frame/MainWindow.h"
@@ -347,7 +347,7 @@ bool AngularDatumPlnCmd::finishStep(Step step)
         }
 
         // 刷新创建的基准面的显示
-        if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+        if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
         {
             pScene->updateDatumPlaneVisualSize(ApplicationImpl::instance().getActiveDatabase(), _pMakeDatumPlane->getId());
         }
@@ -785,7 +785,7 @@ bool AngularDatumPlnCmd::computeRotateAxisLineSegment(
     const wy::Vector2& lineOrigin, const wy::Vector2& lineDir,
     wy::Vector2& axisLineStart, wy::Vector2& axisLineEnd)
 {
-    Scene* pScene = ApplicationImpl::instance().getActiveScene();
+    SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl();
     if (!pScene)
     {
         assert(false);

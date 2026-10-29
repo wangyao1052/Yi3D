@@ -24,9 +24,11 @@
 
 namespace wy3dApp {
 
+class SceneImpl;
+
 class SolidElementNode : public ElementNode
 {
-    friend class Scene;
+    friend class SceneImpl;
 
 public:
     SolidElementNode(const wydb::ElementId& id, osg::Vec4 color)

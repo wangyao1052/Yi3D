@@ -35,7 +35,7 @@
 #include <wy3dApp/SketchEnvironment.h>
 #include "environments/sketch/SketchEnvironmentImpl.h"
 #include "scene/nodes/ElementNodeType.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -106,7 +106,7 @@ void NewSketchGuiCmd::onEnd()
     GuiCommand::onEnd();
 
     // 结束非批次渲染
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->endNoBatchRender();
     }
@@ -132,7 +132,7 @@ void NewSketchGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     GuiCommand::onAbort(cause);
 
     // 结束非批次渲染
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->endNoBatchRender();
     }

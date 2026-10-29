@@ -32,7 +32,7 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "utils/MathUtils.h"
 #include "utils/TopoShapeUtil.h"
 
@@ -45,7 +45,6 @@
 #include "utils/TopoShapeUtil.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "scene/nodes/ElementNodeType.h"
-#include <wy3dApp/Scene.h>
 #include "view/ViewUtil.h"
 #include "view/OsgView.h"
 #include "commands/CommandNames.h"
@@ -169,7 +168,7 @@ void MakePrimitiveGuiCmd::onEnd()
     GuiCommand::onEnd();
 
     // 隐藏工作平面坐标系
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->hideSketchCSYS();
     }
@@ -195,7 +194,7 @@ void MakePrimitiveGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     GuiCommand::onAbort(cause);
 
     // 隐藏工作平面坐标系
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->hideSketchCSYS();
     }
@@ -252,7 +251,7 @@ bool MakePrimitiveGuiCmd::finishStep(unsigned int step)
         pSnapSys->endChange();
 
         // 显示工作平面坐标系
-        if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+        if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
         {
             pScene->showSketchCSYS(_workPln);
         }

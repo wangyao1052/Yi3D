@@ -23,7 +23,7 @@
 #include "select/OsgSelectHandler.h"
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "OsgSelectUtils.h"
 #include <wyapGizmoManager.h>
 #include <wyapCmdManager.h>
@@ -57,7 +57,7 @@ bool OsgGuiEventDispatcher::handle(
     // The ViewCube is a screen space overlay and comes before gizmo, selection and modal
     // commands. It has to come first: the PUSH branch of handleGizmoEvent unconditionally
     // picks and may activate a gizmo, so a click on a cube corner would be stolen by it.
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         if (ViewCube* pViewCube = pScene->getViewCubeNode())
         {
@@ -111,7 +111,7 @@ bool OsgGuiEventDispatcher::handle(
 void OsgGuiEventDispatcher::onCursorLeftViewport()
 {
     // The hovered facet of the navigation cube, through the same lookup handle() uses
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         if (ViewCube* pViewCube = pScene->getViewCubeNode())
         {
@@ -151,7 +151,7 @@ bool OsgGuiEventDispatcher::handleGizmoEvent(
             osg::Polytope polytope;
             OsgSelectUtils::initPolytope(pCamera, xMin, yMin, xMax, yMax, polytope);
 
-            wyap::GizmoSPtr pickRet = ApplicationImpl::instance().getActiveScene()->pickGizmo(polytope);
+            wyap::GizmoSPtr pickRet = ApplicationImpl::instance().getActiveSceneImpl()->pickGizmo(polytope);
             wy::ErrorStatus gizmoRet = ApplicationImpl::instance().getGizmoManager()->setActiveGizmo(pickRet);
             assert(wy::ErrorStatus::Ok == gizmoRet);
 

@@ -26,9 +26,11 @@
 
 namespace wy3dApp {
 
+class SceneImpl;
+
 class BodyModificationElementNode : public ElementNode
 {
-    friend class Scene;
+    friend class SceneImpl;
 public:
     explicit BodyModificationElementNode(const wydb::ElementId& id) : ElementNode(id) {}
 

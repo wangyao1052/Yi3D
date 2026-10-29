@@ -23,7 +23,7 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "commands/edit/MoveRotateGuiCmdUtil.h"
 #include <wy3dApp/CommonSelFilters.h>
@@ -83,7 +83,7 @@ void ModelingRotateGuiCmd::onStart_EnvSpecific()
 void ModelingRotateGuiCmd::cleanupEnvSpecific()
 {
     // 隐藏工作平面坐标系
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->hideSketchCSYS();
     }

@@ -19,7 +19,7 @@
 #include "OsgView.h"
 #include <wyVector3.h>
 #include <wyapDocument.h>
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "commands/OsgGuiEventDispatcher.h"
 #include "OsgSelectUtils.h"
 #include "snap/SnapObject.h"
@@ -32,7 +32,7 @@
 #include "ViewUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
-#define REAL_SCENE(pScene) dynamic_cast<Scene*>(pScene)
+#define REAL_SCENE(pScene) dynamic_cast<SceneImpl*>(pScene)
 
 namespace wy3dApp {
 
@@ -91,7 +91,7 @@ std::list<wydb::ElementId> OsgView::snapElements(double x, double y) const
     OsgSelectUtils::initPolytope(pCamera, xMin, yMin, xMax, yMax, polytope);
 
     // 场景选择
-    Scene* pScene = REAL_SCENE(ApplicationImpl::instance().getSceneManager()->getScene(this->getDocument()));
+    SceneImpl* pScene = REAL_SCENE(ApplicationImpl::instance().getSceneManager()->getScene(this->getDocument()));
     if (!pScene)
     {
         assert(false);

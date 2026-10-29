@@ -36,14 +36,12 @@
 namespace wy3dApp {
 
 class Scene;
+class SceneImpl;
 
 // 元素节点
 // 生命周期由Scene类管理
 class WY3DAPP_EXPORT ElementNode
 {
-public:
-    static osg::Matrix createMatrix(const wy::Vector3& pos, const wy::Vector3& rot);
-
 protected:
     // 构造析构
     explicit ElementNode(const wydb::ElementId& id);
@@ -275,7 +273,7 @@ protected:
     osg::ref_ptr<osg::Group> _osgNode;
     // 包围盒
     osg::BoundingBox _boundBox;
-    friend class Scene;
+    friend class SceneImpl;
 
     //---------------------------------
     // 渲染数据

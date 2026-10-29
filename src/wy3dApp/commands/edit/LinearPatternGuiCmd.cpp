@@ -36,7 +36,7 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "scene/nodes/ElementNodeType.h"
 #include "scene/nodes/SolidElementNode.h"
 #include "utils/SketchUtil.h"
@@ -119,7 +119,7 @@ void LinearPatternGuiCmd::onEnd()
     __baseClass::onEnd();
 
     // 隐藏工作平面坐标系
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->hideSketchCSYS();
     }
@@ -135,7 +135,7 @@ void LinearPatternGuiCmd::onAbort(wyap::CmdExecution::AbortCause cause)
     __baseClass::onAbort(cause);
 
     // 隐藏工作平面坐标系
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->hideSketchCSYS();
     }
@@ -183,7 +183,7 @@ bool LinearPatternGuiCmd::finishStep(Step step)
         _workPlnPreview.clear();
 
         // 显示工作平面坐标系
-        if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+        if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
         {
             pScene->showSketchCSYS(_workPln);
         }

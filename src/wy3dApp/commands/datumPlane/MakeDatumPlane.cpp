@@ -58,7 +58,7 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "utils/TopoShapeUtil.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "utils/MathUtils.h"
@@ -96,7 +96,7 @@ bool MakeDatumPlane::create(const wy3d::Plane& sketchPlane)
     _pDb->getTransactionManager()->endTransaction();
     _pDatumPlane = pDatumPlane;
     // 刷新基准面的显示
-    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
         pScene->updateDatumPlaneVisualSize(_pDb);
     }

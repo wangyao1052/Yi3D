@@ -61,7 +61,7 @@
 
 #include <wyapCmdStack.h>
 #include "view/OsgView.h"
-#include <wy3dApp/Scene.h>
+#include "scene/SceneImpl.h"
 #include "commands/OsgGuiEventDispatcher.h"
 #include "Config.h"
 #include "snap/SnapObjectFactory.h"
@@ -88,7 +88,6 @@
 #include "translation/ParamDisplayNameRegistryImpl.h"
 
 #define WY3DAPP_VIEW(pView) dynamic_cast<BaseView*>(pView)
-#define WY3DAPP_SCENE(pScene) dynamic_cast<Scene*>(pScene)
 
 namespace wy3dApp {
 
@@ -304,7 +303,7 @@ void ApplicationImpl::onDocumentActivated(wyap::Document* pActivatedDoc)
 
     if (_pSnapSystem)
     {
-        Scene* pScene = static_cast<Scene*>(getSceneManager()->getScene(pActivatedDoc));
+        SceneImpl* pScene = static_cast<SceneImpl*>(getSceneManager()->getScene(pActivatedDoc));
         if (pScene)
         {
             _pSnapSystem->addReactor(pScene);
@@ -318,7 +317,7 @@ void ApplicationImpl::onDocumentToBeDeactivated(wyap::Document* pDocToDeactivate
 
     if (_pSnapSystem)
     {
-        Scene* pScene = static_cast<Scene*>(getSceneManager()->getScene(pDocToDeactivate));
+        SceneImpl* pScene = static_cast<SceneImpl*>(getSceneManager()->getScene(pDocToDeactivate));
         if (pScene)
         {
             _pSnapSystem->removeReactor(pScene);
@@ -371,7 +370,7 @@ wyap::Document* ApplicationImpl::newDocument()
 
 wyap::Scene* ApplicationImpl::newScene(wyap::Document* pDoc)
 {
-    return new Scene(pDoc);
+    return new SceneImpl(pDoc);
 }
 
 wyap::View* ApplicationImpl::newView(wyap::Document* pDoc)
@@ -421,13 +420,19 @@ BaseView* ApplicationImpl::getActiveView() const
 
 Scene* ApplicationImpl::getActiveScene() const
 {
+    return this->getActiveSceneImpl();
+}
+
+SceneImpl* ApplicationImpl::getActiveSceneImpl() const
+{
     wyap::Document* pActiveDoc = this->getActiveDocument();
     if (!pActiveDoc)
     {
         return nullptr;
     }
     wyap::Scene* pScene = this->getSceneManager()->getScene(pActiveDoc);
-    return WY3DAPP_SCENE(pScene);
+    assert(!pScene || dynamic_cast<SceneImpl*>(pScene) != nullptr);
+    return static_cast<SceneImpl*>(pScene);
 }
 
 void ApplicationImpl::fitView()
