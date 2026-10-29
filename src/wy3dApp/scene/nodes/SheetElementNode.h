@@ -64,7 +64,7 @@ public:
     void highlightEdge(unsigned int edgeIndex, bool flag);
     void previewEdge(unsigned int edgeIndex, bool flag);
 
-    void clearDynamicRenderGeometry();
+    virtual void clearDynamicRenderGeometry() override;
 
     void setWireframe(bool flag);
     bool isWireframe() const { return _wireframe; }

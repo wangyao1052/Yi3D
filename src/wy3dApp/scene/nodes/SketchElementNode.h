@@ -81,7 +81,7 @@ public:
     void previewCurveById(unsigned int id, bool flag);
 
     // 清空动态渲染对象
-    void clearDynamicRenderGeometry();
+    virtual void clearDynamicRenderGeometry() override;
 
 protected:
     // 默认框选(完全框住才选中)

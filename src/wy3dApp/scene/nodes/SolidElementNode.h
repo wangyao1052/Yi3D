@@ -76,7 +76,7 @@ public:
     void previewEdge(unsigned int edgeIndex, bool flag);
 
     // 清空动态渲染对象
-    void clearDynamicRenderGeometry();
+    virtual void clearDynamicRenderGeometry() override;
 
     // 线框模式
     void setWireframe(bool flag);

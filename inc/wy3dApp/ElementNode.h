@@ -151,6 +151,8 @@ public:
     void highlight(bool flag, bool forced = false);
     // 预览
     void preview(bool flag);
+    // 清空动态渲染对象(NoBatch渲染结束时调用);默认不做处理
+    virtual void clearDynamicRenderGeometry() {}
 
     // 是否激活
     inline bool isActive() const

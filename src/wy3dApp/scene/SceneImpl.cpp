@@ -1164,52 +1164,7 @@ void SceneImpl::endNoBatchRender()
     for (auto kvp : _id2ElemNode)
     {
         assert(kvp.second);
-        switch (kvp.second->getNodeType())
-        {
-        case ElementNodeType::Solid:
-        {
-            SolidElementNode* pSolidNode = static_cast<SolidElementNode*>(kvp.second);
-            pSolidNode->clearDynamicRenderGeometry();
-        }
-        break;
-
-        case ElementNodeType::Sheet:
-        {
-            SheetElementNode* pSheetNode = static_cast<SheetElementNode*>(kvp.second);
-            pSheetNode->clearDynamicRenderGeometry();
-        }
-        break;
-
-        case ElementNodeType::Sketch:
-        {
-            SketchElementNode* pSketchNode = static_cast<SketchElementNode*>(kvp.second);
-            pSketchNode->clearDynamicRenderGeometry();
-        }
-        break;
-
-        case ElementNodeType::Sketch3D:
-        {
-            Sketch3DElementNode* pSketch3DNode = static_cast<Sketch3DElementNode*>(kvp.second);
-            pSketch3DNode->clearDynamicRenderGeometry();
-        }
-        break;
-
-        case ElementNodeType::SketchEntity:
-        case ElementNodeType::Sketch3DEntity:
-        case ElementNodeType::Datum:
-        case ElementNodeType::BodyModification:
-        case ElementNodeType::Curve:
-        {
-            // do nothing
-        }
-        break;
-
-        default:
-        {
-            assert(false);
-        }
-        break;
-        }
+        kvp.second->clearDynamicRenderGeometry();
     }
 }
 

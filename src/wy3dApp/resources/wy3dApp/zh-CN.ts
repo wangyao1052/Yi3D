@@ -624,7 +624,7 @@
     </message>
     <message>
         <location filename="../../commands/edit/CircularPatternGuiCmd.cpp" line="256"/>
-        <location filename="../../commands/edit/LinearPatternGuiCmd.cpp" line="263"/>
+        <location filename="../../commands/edit/LinearPatternGuiCmd.cpp" line="264"/>
         <source>Input pattern data.</source>
         <translation type="unfinished">输入阵列数据。</translation>
     </message>
@@ -1086,13 +1086,13 @@
         <translation>编辑3D草图</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="202"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="199"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1566"/>
         <source>Show</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="210"/>
+        <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="207"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1575"/>
         <source>Hide</source>
         <translation type="unfinished">隐藏</translation>
@@ -1709,12 +1709,12 @@
 <context>
     <name>MakePrimitiveGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="288"/>
+        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="287"/>
         <source>Select datum plane or solid surface as working plane.</source>
         <translation type="unfinished">选择工作平面：基准面或实体面。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="352"/>
+        <location filename="../../commands/modeling/solid/primitives/MakePrimitiveGuiCmd.cpp" line="351"/>
         <source>View Normal To Working Plane</source>
         <translation>正视于工作平面</translation>
     </message>
@@ -1919,12 +1919,12 @@
 <context>
     <name>MirrorGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="167"/>
+        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="168"/>
         <source>Select the solids or sheets to mirror. Press Enter or Spacebar to confirm.</source>
         <translation type="unfinished">选择要镜像的实体或曲面；按 Enter 键或空格键将完成操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="187"/>
+        <location filename="../../commands/edit/MirrorGuiCmd.cpp" line="188"/>
         <source>Select datum plane as mirror plane.</source>
         <translation type="unfinished">选择基准面作为镜像平面。</translation>
     </message>
@@ -1932,32 +1932,32 @@
 <context>
     <name>MoveGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="335"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="336"/>
         <source>Select elements to move; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要移动的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="353"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="354"/>
         <source>Select datum plane as working plane.</source>
         <translation type="unfinished">选择基准面作为工作平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="377"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="380"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定基准点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="402"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="405"/>
         <source>Specify the move vector; you can directly input the values.</source>
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="561"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="564"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="562"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="565"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
