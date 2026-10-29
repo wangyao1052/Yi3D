@@ -37,6 +37,19 @@
 
 namespace wy3dApp {
 
+wyap::Selection BodyModificationElementNode::createSelection(
+    osg::Drawable* pDrawable,
+    unsigned int primitiveIndex,
+    wy3d::SelectionType selType) const
+{
+    (void)pDrawable;
+    (void)primitiveIndex;
+    (void)selType;
+
+    assert(false);
+    return wyap::Selection(wydb::ElementId::kNull);
+}
+
 namespace
 {
 

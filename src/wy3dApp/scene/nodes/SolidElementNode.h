@@ -58,6 +58,12 @@ public:
     // 没有找到的话返回unsigned int(-1)
     unsigned int getEdgeIndex(unsigned int primitiveIndex) const;
 
+    // 由拾取结果创建选择对象
+    virtual wyap::Selection createSelection(
+        osg::Drawable* pDrawable,
+        unsigned int primitiveIndex,
+        wy3d::SelectionType selType) const override;
+
     // 高亮面
     void highlightFace(unsigned int faceIndex, bool flag);
     void highlightFace(unsigned int faceIndex, const osg::Vec4& color);

@@ -348,6 +348,24 @@ void ElementNode::hide(bool flag)
 //    }
 //}
 
+wyap::Selection ElementNode::createSelection(
+    osg::Drawable* pDrawable,
+    unsigned int primitiveIndex,
+    wy3d::SelectionType selType) const
+{
+    (void)pDrawable;
+    (void)primitiveIndex;
+
+    // 没有子元素的节点:整元素即选择结果
+    if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
+    {
+        return wyap::Selection(_id);
+    }
+
+    assert(false);
+    return wyap::Selection(wydb::ElementId::kNull);
+}
+
 bool ElementNode::pickByNormalBox(osg::Polytope& polytope) const
 {
     if (!_boundBox.valid()) return false;

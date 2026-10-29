@@ -19,6 +19,7 @@
 #include "Sketch3DElementNode.h"
 
 #include <cassert>
+#include <string>
 
 #include <osg/LineWidth>
 #include <OsgUtils.h>
@@ -229,6 +230,36 @@ unsigned int Sketch3DElementNode::getCurveId(unsigned int primitiveIndex) const
     }
 
     return 0;
+}
+
+wyap::Selection Sketch3DElementNode::createSelection(
+    osg::Drawable* pDrawable,
+    unsigned int primitiveIndex,
+    wy3d::SelectionType selType) const
+{
+    (void)pDrawable;
+
+    if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SketchCurve3D))
+    {
+        unsigned int curveId = this->getCurveId(primitiveIndex);
+        if (0 == curveId)
+        {
+            assert(false);
+            return wyap::Selection(wydb::ElementId::kNull);
+        }
+
+        return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::SketchCurve3D),
+            this->getElementId(), std::to_string(curveId));
+    }
+    else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
+    {
+        return wyap::Selection(this->getElementId());
+    }
+    else
+    {
+        assert(false);
+        return wyap::Selection(wydb::ElementId::kNull);
+    }
 }
 
 void Sketch3DElementNode::highlightCurveByIndex(unsigned int curveIndex, bool flag)

@@ -19,6 +19,7 @@
 #include "SolidElementNode.h"
 
 #include <cassert>
+#include <string>
 
 #include <gp_Quaternion.hxx>
 #include <TopoDS_Shape.hxx>
@@ -38,6 +39,8 @@
 #include <osg/MatrixTransform>
 #include <OsgUtils.h>
 #include <osg/LineWidth>
+
+#include "select/PickCommon.h"
 
 #include <wy3dApp/Scene.h>
 
@@ -1002,6 +1005,80 @@ unsigned int SolidElementNode::getEdgeIndex(unsigned int primitiveIndex) const
     }
 
     return static_cast<unsigned int>(-1); // 没有找到
+}
+
+wyap::Selection SolidElementNode::createSelection(
+    osg::Drawable* pDrawable,
+    unsigned int primitiveIndex,
+    wy3d::SelectionType selType) const
+{
+    switch (PickCommon::getDrawableMode(pDrawable))
+    {
+    case DrawMode::Face:
+    {
+        if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Face))
+        {
+            unsigned int faceIndex = this->getFaceIndex(primitiveIndex);
+            if (-1 == faceIndex)
+            {
+                assert(false);
+                return wyap::Selection(wydb::ElementId::kNull);
+            }
+            return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::Face),
+                this->getElementId(), std::to_string(faceIndex));
+        }
+        else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
+        {
+            return wyap::Selection(this->getElementId());
+        }
+        return wyap::Selection(wydb::ElementId::kNull);
+    }
+    break;
+
+    case DrawMode::Edge:
+    {
+        if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Edge))
+        {
+            unsigned int edgeIndex = this->getEdgeIndex(primitiveIndex);
+            if (-1 == edgeIndex)
+            {
+                assert(false);
+                return wyap::Selection(wydb::ElementId::kNull);
+            }
+            return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::Edge),
+                this->getElementId(), std::to_string(edgeIndex));
+        }
+        else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
+        {
+            return wyap::Selection(this->getElementId());
+        }
+        return wyap::Selection(wydb::ElementId::kNull);
+    }
+    break;
+
+    case DrawMode::Vertex:
+    {
+        if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Vertex))
+        {
+            // TODO 后续支持
+            assert(false);
+            return wyap::Selection(wydb::ElementId::kNull);
+        }
+        else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
+        {
+            return wyap::Selection(this->getElementId());
+        }
+        return wyap::Selection(wydb::ElementId::kNull);
+    }
+    break;
+
+    default:
+    {
+        assert(false);
+        return wyap::Selection(wydb::ElementId::kNull);
+    }
+    break;
+    }
 }
 
 void SolidElementNode::highlightFace(unsigned int faceIndex, bool flag)

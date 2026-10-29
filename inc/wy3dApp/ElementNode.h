@@ -24,12 +24,15 @@
 #include <osg/Node>
 #include <osg/Group>
 #include <osg/Polytope>
+#include <osg/Drawable>
 #include <wyVector3.h>
 #include <wydbElementId.h>
 #include <wydbElement.h>
 #include <wy3dFeature.h>
 #include <wy3dSolid.h>
 #include <wy3dSketch.h>
+#include <wy3dSelectionType.h>
+#include <wyapSelection.h>
 #include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -49,6 +52,13 @@ protected:
 
 public:
     virtual ElementNodeType getNodeType() const = 0;
+
+    // 由拾取到的渲染对象创建选择对象
+    // 默认实现:请求整元素时返回整个元素,其余情况视为调用错误
+    virtual wyap::Selection createSelection(
+        osg::Drawable* pDrawable,
+        unsigned int primitiveIndex,
+        wy3d::SelectionType selType) const;
 
     // 获取顶点数组
     osg::ref_ptr<osg::Vec3Array> getVertices() const

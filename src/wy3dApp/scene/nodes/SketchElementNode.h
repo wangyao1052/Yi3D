@@ -69,6 +69,12 @@ public:
     // 没有找到的话返回unsigned int(0)
     unsigned int getCenterLineCurveId(unsigned int primitiveIndex) const;
 
+    // 由拾取结果创建选择对象
+    virtual wyap::Selection createSelection(
+        osg::Drawable* pDrawable,
+        unsigned int primitiveIndex,
+        wy3d::SelectionType selType) const override;
+
     void highlightCurveByIndex(unsigned int curveIndex, bool flag);
     void highlightCurveById(unsigned int id, bool flag);
     void previewCurveByIndex(unsigned int curveIndex, bool flag);

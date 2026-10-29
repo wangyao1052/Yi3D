@@ -19,6 +19,7 @@
 #include "SketchElementNode.h"
 
 #include <cassert>
+#include <string>
 
 #include <gp_Quaternion.hxx>
 #include <TopoDS_Shape.hxx>
@@ -393,6 +394,42 @@ unsigned int SketchElementNode::getCenterLineCurveId(unsigned int primitiveIndex
     }
 
     return 0;
+}
+
+wyap::Selection SketchElementNode::createSelection(
+    osg::Drawable* pDrawable,
+    unsigned int primitiveIndex,
+    wy3d::SelectionType selType) const
+{
+    if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SketchCurve))
+    {
+        unsigned int curveId(0);
+        if (pDrawable == this->getCenterLinesGeom())
+        {
+            curveId = this->getCenterLineCurveId(primitiveIndex);
+        }
+        else
+        {
+            curveId = this->getCurveId(primitiveIndex);
+        }
+        if (0 == curveId)
+        {
+            assert(false);
+            return wyap::Selection(wydb::ElementId::kNull);
+        }
+
+        return wyap::Selection(static_cast<unsigned int>(wy3d::SelectionType::SketchCurve),
+            this->getElementId(), std::to_string(curveId));
+    }
+    else if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
+    {
+        return wyap::Selection(this->getElementId());
+    }
+    else
+    {
+        assert(false);
+        return wyap::Selection(wydb::ElementId::kNull);
+    }
 }
 
 void SketchElementNode::highlightCurveByIndex(unsigned int curveIndex, bool flag)

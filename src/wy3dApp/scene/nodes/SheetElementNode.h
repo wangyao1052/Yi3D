@@ -51,6 +51,12 @@ public:
     unsigned int getFaceIndex(unsigned int primitiveIndex) const;
     unsigned int getEdgeIndex(unsigned int primitiveIndex) const;
 
+    // 由拾取结果创建选择对象
+    virtual wyap::Selection createSelection(
+        osg::Drawable* pDrawable,
+        unsigned int primitiveIndex,
+        wy3d::SelectionType selType) const override;
+
     void highlightFace(unsigned int faceIndex, bool flag);
     void highlightFace(unsigned int faceIndex, const osg::Vec4& color);
     void previewFace(unsigned int faceIndex, bool flag);
