@@ -19,7 +19,7 @@
 #include "ModelingSelectGuiCmd.h"
 
 #include <wy3dSolid.h>
-#include <wy3dDatumPlane.h>
+#include <wy3dDatum.h>
 #include <wy3dSketch.h>
 
 #include <wy3dApp/Application.h>
@@ -87,10 +87,8 @@ public:
         case SelectAction::Window:
         case SelectAction::Crossing:
         {
-            // 参照SolidWorks的行为:框选时不选中参照平面
-            const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(
-                pDb->getElement(sel.getElementId()));
-            if (pDatumPlane)
+            // 参照SolidWorks的行为:框选时不选中基准对象(基准面/基准轴/基准点等)
+            if (wy3d::Datum::cast(pDb->getElement(sel.getElementId())))
             {
                 return SelectFilterStatus::Continue;
             }
@@ -148,8 +146,8 @@ void ModelingSelectGuiCmd::selectAll_Impl(wyap::SelectionSet& ss)
     {
         const wydb::Element* pElem = pDb->getElement(id);
         if (!pElem) continue;
-        // Ctrl+A选中基准面是没有意义的
-        if (pElem->getClassInfo() == wy3d::DatumPlane::classInfo())
+        // Ctrl+A选中基准对象(基准面/基准轴/基准点等)是没有意义的
+        if (wy3d::Datum::cast(pElem))
         {
             continue;
         }
