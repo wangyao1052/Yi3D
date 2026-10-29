@@ -120,12 +120,11 @@ ModelingSelectGuiCmd::~ModelingSelectGuiCmd()
 void ModelingSelectGuiCmd::initializeSelectOptions(SelectOptions& selectOptions)
 {
     SelectGuiCmd::initializeSelectOptions(selectOptions);
-    selectOptions.allowedElemTypes = ElementNodeType::Solid |
-        ElementNodeType::Sheet |
-        ElementNodeType::Sketch |
-        ElementNodeType::DatumPlane |
-        ElementNodeType::Curve |
-        ElementNodeType::Sketch3D;
+    // 建模环境下场景里可拾取的元素都应能选中。内部对象不可拾取:
+    // - SketchEntity/Sketch3DEntity 只在草图环境加入场景(addElementNode 的 addSketchEntity 为 false 时直接返回);
+    // - BodyModification 不渲染面、边节点 NodeMask 为 0 或 ~All、包围盒为空不进 RTree.
+    // 因此用 All,让后续新增的顶层元素类型自动可选.
+    selectOptions.allowedElemTypes = ElementNodeType::All;
     selectOptions.postFilter = std::make_shared<SelectGuiCmdSelFilter_Modeling>();
 }
 

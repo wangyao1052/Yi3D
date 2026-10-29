@@ -522,7 +522,7 @@ osg::BoundingSphere SceneImpl::getFitViewBoundingSphere() const
 
         const ElementNodeType nodeType = pElemNode->getNodeType();
         // datum planes
-        if (ElementNodeType::DatumPlane == nodeType) continue;
+        if (ElementNodeType::Datum == nodeType) continue;
         // body modifications (no geometry of their own)
         if (ElementNodeType::BodyModification == nodeType) continue;
 
@@ -880,7 +880,7 @@ void SceneImpl::addToRTree(const ElementNode* pElemNode)
     {
         double min[3] = { bbox.xMin(), bbox.yMin(), bbox.zMin() };
         double max[3] = { bbox.xMax(), bbox.yMax(), bbox.zMax() };
-        if (pElemNode->getNodeType() == ElementNodeType::DatumPlane)
+        if (dynamic_cast<const DatumPlaneElementNode*>(pElemNode))
         {
             _rtreeDatum.Insert(min, max, pElemNode->getElementId().value());
         }
@@ -900,7 +900,7 @@ void SceneImpl::removeFromRTree(const ElementNode* pElemNode)
     {
         double min[3] = { bbox.xMin(), bbox.yMin(), bbox.zMin() };
         double max[3] = { bbox.xMax(), bbox.yMax(), bbox.zMax() };
-        if (pElemNode->getNodeType() == ElementNodeType::DatumPlane)
+        if (dynamic_cast<const DatumPlaneElementNode*>(pElemNode))
         {
             _rtreeDatum.Remove(pElemNode->getElementId().value());
         }
@@ -1096,9 +1096,8 @@ void SceneImpl::updateDatumPlaneVisualSize(const wydb::Database* pDb)
     for (auto kvp : _id2ElemNode)
     {
         assert(kvp.second);
-        if (kvp.second->getNodeType() != ElementNodeType::DatumPlane) continue;
-        DatumPlaneElementNode* pDatumPlaneNode = static_cast<DatumPlaneElementNode*>(kvp.second);
-        assert(pDatumPlaneNode);
+        DatumPlaneElementNode* pDatumPlaneNode = dynamic_cast<DatumPlaneElementNode*>(kvp.second);
+        if (!pDatumPlaneNode) continue;
         this->removeFromRTree(kvp.second);
         pDatumPlaneNode->update(pDb, bbox);
         this->addToRTree(kvp.second);
@@ -1193,7 +1192,7 @@ void SceneImpl::endNoBatchRender()
 
         case ElementNodeType::SketchEntity:
         case ElementNodeType::Sketch3DEntity:
-        case ElementNodeType::DatumPlane:
+        case ElementNodeType::Datum:
         case ElementNodeType::BodyModification:
         case ElementNodeType::Curve:
         {

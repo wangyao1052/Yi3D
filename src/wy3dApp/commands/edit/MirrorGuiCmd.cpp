@@ -24,6 +24,7 @@
 #include <wy3dSolid.h>
 #include <wy3dSheet.h>
 #include <wy3dMirror.h>
+#include <wy3dDatumPlane.h>
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include "scene/nodes/ElementNodeType.h"
@@ -195,10 +196,11 @@ void MirrorGuiCmd::gotoStep(Step step)
 
         // 点选选项:基准面
         // 不允许选择实体面,因为若Hover到要镜像的实体特征的表面,再移开,该面会恢复到原始的颜色,但是该实体特征当前是选中态,这就冲突了.
+        // Datum是大类,这里只接受基准面:后续新增基准轴/基准点时不会被选中.
         assert(!_sourceId.isNull());
-        _pointPickOption.allowedElemTypes = ElementNodeType::DatumPlane;
+        _pointPickOption.allowedElemTypes = ElementNodeType::Datum;
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.preFilter = nullptr;
+        _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::DatumPlane>();
     }
     break;
 

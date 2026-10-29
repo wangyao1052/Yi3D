@@ -23,6 +23,7 @@
 #include <wyapSelManager.h>
 #include <wydbDatabase.h>
 #include <wydbElementId.h>
+#include "scene/nodes/ElementNodeType.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -30,7 +31,7 @@ namespace wy3dApp {
 SelectHandler::SelectHandler() :
     _mouseDownX(0), _mouseDownY(0), _mouseUpX(0), _mouseUpY(0), _isMouseDown(false),
     _supportsPointSelect(true), _supportsBoxSelect(true),
-    _allowedElemTypes(0x0000FFFF), _selType(wy3d::SelectionType::Element),
+    _allowedElemTypes(ElementNodeType::All), _selType(wy3d::SelectionType::Element),
     _pPreSelFilter(nullptr), _pPostSelFilter(nullptr),
     _supportPreview(false), _selMode(SelectMode::Replace)
 {
@@ -48,7 +49,7 @@ void SelectHandler::reset()
     _supportsPointSelect = true;
     _supportsBoxSelect = true;
 
-    _allowedElemTypes = 0x0000FFFF;
+    _allowedElemTypes = ElementNodeType::All;
     _selType = wy3d::SelectionType::Element;
     _pPreSelFilter = nullptr;
     _pPostSelFilter = nullptr;

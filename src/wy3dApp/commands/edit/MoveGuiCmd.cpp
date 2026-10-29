@@ -35,6 +35,7 @@
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchSpline.h>
 #include <wy3dMove.h>
+#include <wy3dDatumPlane.h>
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
@@ -358,8 +359,10 @@ void MoveGuiCmd::gotoStep(Step step)
 
         // 点选配置项:选择基准面
         // 不允许选择实体面,因为若Hover到要镜像的实体特征的表面,再移开,该面会恢复到原始的颜色,但是该实体特征当前是选中态,这就冲突了.
-        _pickWorkPlnOption.allowedElemTypes = /*ElementNodeType::Solid | */ElementNodeType::DatumPlane;
+        // Datum是大类,这里只接受基准面:后续新增基准轴/基准点时不会被选中.
+        _pickWorkPlnOption.allowedElemTypes = /*ElementNodeType::Solid | */ElementNodeType::Datum;
         _pickWorkPlnOption.selType = wy3d::SelectionType::Element;
+        _pickWorkPlnOption.preFilter = CommonSelPreFilter::create<wy3d::DatumPlane>();
         //_pointPickOption.postFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
     }
     break;

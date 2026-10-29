@@ -31,7 +31,7 @@ public:
     explicit DatumPlaneElementNode(const wydb::ElementId& id);
 
     // 结点类型
-    virtual ElementNodeType getNodeType() const override { return ElementNodeType::DatumPlane; }
+    virtual ElementNodeType getNodeType() const override { return ElementNodeType::Datum; }
 
     // 刷新
     void update(const wydb::Database* pDb, const osg::BoundingBox& bbox);

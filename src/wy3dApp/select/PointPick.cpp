@@ -386,7 +386,7 @@ wyap::Selection _newSelection(
     }
     break;
 
-    case ElementNodeType::DatumPlane:
+    case ElementNodeType::Datum:
     {
         if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
         {

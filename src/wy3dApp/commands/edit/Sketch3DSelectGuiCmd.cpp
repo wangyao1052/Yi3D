@@ -103,7 +103,7 @@ wyap::CmdExecution::StartResult Sketch3DSelectGuiCmd::onStart()
     // selection set. The Element bit has to stay on, see the filter above.
     _planePickOption.allowedElemTypes = ElementNodeType::Solid |
         ElementNodeType::Sheet |
-        ElementNodeType::DatumPlane;
+        ElementNodeType::Datum;
     _planePickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
     _planePickOption.postFilter = std::make_shared<WorkPlaneSourceSelFilter>();
 

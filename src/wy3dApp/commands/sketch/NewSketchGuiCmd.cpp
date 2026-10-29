@@ -55,7 +55,7 @@ wyap::CmdExecution::StartResult NewSketchGuiCmd::onStart()
     assert(wyap::CmdExecution::StartResult::Succeeded == ret);
 
     // 初始化:点选选项
-    _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::DatumPlane | ElementNodeType::Sheet;
+    _pointPickOption.allowedElemTypes = ElementNodeType::Solid | ElementNodeType::Datum | ElementNodeType::Sheet;
     _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
     _pointPickOption.postFilter = std::make_shared<SketchPlaneSelFilterFunctor>();
 

@@ -252,7 +252,7 @@ void SketchProjectCurve3DGuiCmd::setPickForStep(Step step)
     // stay on, see the filter above: that is what lets the whole-element pass see the datum plane at all.
     _pointPickOption.allowedElemTypes = ElementNodeType::Solid |
         ElementNodeType::Sheet |
-        ElementNodeType::DatumPlane;
+        ElementNodeType::Datum;
     _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
     _pointPickOption.postFilter = std::make_shared<ProjectTargetSelFilter>();
 }

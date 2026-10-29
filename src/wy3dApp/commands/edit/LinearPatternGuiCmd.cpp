@@ -250,9 +250,10 @@ void LinearPatternGuiCmd::gotoStep(Step step)
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 点选选项:工作平面
-        _pointPickOption.allowedElemTypes = ElementNodeType::DatumPlane;
+        // Datum是大类,这里只接受基准面:后续新增基准轴/基准点时不会被选中.
+        _pointPickOption.allowedElemTypes = ElementNodeType::Datum;
         _pointPickOption.selType = wy3d::SelectionType::Element;
-        _pointPickOption.preFilter = nullptr;
+        _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::DatumPlane>();
     }
     break;
 

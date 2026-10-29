@@ -145,7 +145,7 @@ wyap::CmdExecution::StartResult SketchIntersectionCurve3DGuiCmd::onStart()
     // and its own Sketch3D node has been swapped out by the environment.
     _pointPickOption.allowedElemTypes = ElementNodeType::Solid |
         ElementNodeType::Sheet |
-        ElementNodeType::DatumPlane;
+        ElementNodeType::Datum;
     _pointPickOption.selType = wy3d::SelectionType::Face | wy3d::SelectionType::Element;
     this->setAllowPlane(true);
 
