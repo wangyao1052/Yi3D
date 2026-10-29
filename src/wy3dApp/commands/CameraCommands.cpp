@@ -28,7 +28,7 @@ namespace wy3dApp {
 
 int OrthoCameraCommand::run()
 {
-    BaseView* pActiveView = ApplicationImpl::instance().getActiveView();
+    View* pActiveView = ApplicationImpl::instance().getActiveView();
     if (!pActiveView) return -1;
     pActiveView->ortho();
 
@@ -38,7 +38,7 @@ int OrthoCameraCommand::run()
 
 int PerspectiveCameraCommand::run()
 {
-    BaseView* pActiveView = ApplicationImpl::instance().getActiveView();
+    View* pActiveView = ApplicationImpl::instance().getActiveView();
     if (pActiveView)
     {
         pActiveView->perspective();

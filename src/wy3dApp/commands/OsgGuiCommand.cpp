@@ -37,7 +37,7 @@
 #include "select/PointPick.h"
 #include "select/SelectHandler.h"
 #include "select/SelectFilterFunctors.h"
-#include "view/BaseView.h"
+#include "view/View.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {

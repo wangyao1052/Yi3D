@@ -16,8 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_BASE_VIEW_H
-#define WY3DAPP_BASE_VIEW_H
+#ifndef WY3DAPP_VIEW_H
+#define WY3DAPP_VIEW_H
 
 #include <wyapView.h>
 #include <wy3dPlane.h>
@@ -30,11 +30,11 @@ namespace wy3dApp {
 
 class GuiEventDispatcher;
 
-class BaseView : public wyap::View
+class View : public wyap::View
 {
 public:
-    explicit BaseView(wyap::Document* pDoc) : wyap::View(pDoc) {}
-    virtual ~BaseView() = default;
+    explicit View(wyap::Document* pDoc) : wyap::View(pDoc) {}
+    virtual ~View() = default;
 
     // 获取事件分发器
     virtual GuiEventDispatcher* getGuiEventDispatcher() const = 0;
@@ -64,4 +64,4 @@ public:
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_BASE_VIEW_H
+#endif // WY3DAPP_VIEW_H

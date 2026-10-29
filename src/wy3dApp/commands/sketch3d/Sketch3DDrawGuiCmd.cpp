@@ -43,7 +43,7 @@
 #include "snap3d/Sketch3DSnapSystem.h"
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
 #include "utils/IconUtil.h"
-#include "view/BaseView.h"
+#include "view/View.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -454,7 +454,7 @@ void Sketch3DDrawGuiCmd::configureContextMenu(ContextMenu& menu)
 
 void Sketch3DDrawGuiCmd::onViewNormalToWorkingPlane()
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (!pView)
     {
         assert(false);

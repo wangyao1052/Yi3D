@@ -16,8 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_VIEW_H
-#define WY3DAPP_VIEW_H
+#ifndef WY3DAPP_OSG_VIEW_H
+#define WY3DAPP_OSG_VIEW_H
 
 #include <cassert>
 #include <osgViewer/View>
@@ -25,7 +25,7 @@
 #include <wyapView.h>
 #include "snap/SnapSystemBase.h"
 
-#include "view/BaseView.h"
+#include "view/View.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -33,7 +33,7 @@ namespace wy3dApp {
 class OsgGuiEventDispatcher;
 
 // 视图
-class OsgView : public BaseView
+class OsgView : public View
 {
 public:
     OsgView(wyap::Document* pDoc, osgViewer::View* pOsgView);
@@ -86,4 +86,4 @@ private:
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_VIEW_H
+#endif // WY3DAPP_OSG_VIEW_H

@@ -39,7 +39,7 @@ namespace wy3dApp {
 
 int FitViewCommand::run()
 {
-    BaseView* pActiveView = ApplicationImpl::instance().getActiveView();
+    View* pActiveView = ApplicationImpl::instance().getActiveView();
     if (!pActiveView) return -1;
     Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return -1;
@@ -52,7 +52,7 @@ int FitViewCommand::run()
 
 int FitSelectionCommand::run()
 {
-    BaseView* pActiveView = ApplicationImpl::instance().getActiveView();
+    View* pActiveView = ApplicationImpl::instance().getActiveView();
     if (!pActiveView) return -1;
     Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return -1;
@@ -92,7 +92,7 @@ int FitSelectionCommand::run()
 
 int IsometricViewCommand::run()
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (!pView) return -1;
     pView->lookAtISO();
 
@@ -102,7 +102,7 @@ int IsometricViewCommand::run()
 
 int FrontViewCommand::run()
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtFront();
@@ -114,7 +114,7 @@ int FrontViewCommand::run()
 
 int BackViewCommand::run()
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtBack();
@@ -126,7 +126,7 @@ int BackViewCommand::run()
 
 int LeftViewCommand::run()
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtLeft();
@@ -138,7 +138,7 @@ int LeftViewCommand::run()
 
 int RightViewCommand::run()
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtRight();
@@ -150,7 +150,7 @@ int RightViewCommand::run()
 
 int TopViewCommand::run()
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtTop();
@@ -162,7 +162,7 @@ int TopViewCommand::run()
 
 int BottomViewCommand::run()
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (pView)
     {
         pView->lookAtBottom();
@@ -183,7 +183,7 @@ int OrientToSketchCommand::run()
     }
     const wy3d::Plane& sketchPlane = pSketchEnv->getSketchPlane();
 
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (!pView)
     {
         assert(false);
@@ -197,7 +197,7 @@ int OrientToSketchCommand::run()
 
 int ViewNormalToCommand::run()
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (!pView)
     {
         assert(false);

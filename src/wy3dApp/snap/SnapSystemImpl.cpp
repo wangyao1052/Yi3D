@@ -23,7 +23,7 @@
 #include <wyapViewManager.h>
 #include <wyapSceneManager.h>
 #include <wyapView.h>
-#include "view/BaseView.h"
+#include "view/View.h"
 
 NS_WYAP_BEG
 
@@ -87,7 +87,7 @@ SnapResultSPtr SnapSystemImpl::snapImpl(double x, double y, wyap::SnapContextSPt
     }
 
     // 优先捕捉常驻对象
-    wy3dApp::BaseView* pBaseView = static_cast<wy3dApp::BaseView*>(pView);
+    wy3dApp::View* pBaseView = static_cast<wy3dApp::View*>(pView);
     wyap::SnapResultSPtr pSnapResult = pBaseView->snapObject(x, y, _residentSnapObjects);
     if (pSnapResult)
     {

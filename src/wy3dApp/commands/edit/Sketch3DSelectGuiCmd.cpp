@@ -37,7 +37,7 @@
 #include "select/SelectHandler.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/GuiCommandUtil.h>
-#include "view/BaseView.h"
+#include "view/View.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -152,7 +152,7 @@ bool Sketch3DSelectGuiCmd::isEntityUnderPointer(double x, double y)
 
 SelectHandler* Sketch3DSelectGuiCmd::getSelectHandler() const
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (!pView) return nullptr;
     GuiEventDispatcher* pGuiEventDispatcher = pView->getGuiEventDispatcher();
     return pGuiEventDispatcher ? pGuiEventDispatcher->getSelectHandler() : nullptr;

@@ -356,7 +356,7 @@ void MakePrimitiveGuiCmd::configureContextMenu(ContextMenu& menu)
 
 void MakePrimitiveGuiCmd::onViewNormalToWorkingPlane()
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (!pView)
     {
         assert(false);

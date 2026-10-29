@@ -61,7 +61,6 @@ namespace wyap
 namespace wy3dApp {
 
 class View;
-class BaseView;
 class Scene;
 class SceneImpl;
 class MainWindow;
@@ -109,7 +108,7 @@ public:
         return _pAutoSave.get();
     }
 
-    BaseView* getActiveView() const;
+    View* getActiveView() const;
     Scene* getActiveScene() const override;
     SceneImpl* getActiveSceneImpl() const;
 

@@ -215,7 +215,7 @@ void FileCmdsUtil::fitViewToAll(wyap::Document* pDoc)
     assert(pDoc);
 
     wyap::View* pView = ApplicationImpl::instance().getViewManager()->getView(pDoc);
-    BaseView* pAppView = dynamic_cast<BaseView*>(pView);
+    View* pAppView = dynamic_cast<View*>(pView);
     if (!pAppView)
     {
         assert(false);
@@ -337,7 +337,7 @@ int NewFileCommand::run()
 
     //
     wyap::View* pView = ApplicationImpl::instance().getViewManager()->getView(pDoc);
-    BaseView* pAppView = dynamic_cast<BaseView*>(pView);
+    View* pAppView = dynamic_cast<View*>(pView);
     if (pAppView)
     {
         pAppView->ortho();

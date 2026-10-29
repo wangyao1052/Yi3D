@@ -36,7 +36,7 @@
 
 namespace wy3dApp {
 
-OsgView::OsgView(wyap::Document* pDoc, osgViewer::View* pOsgView) : BaseView(pDoc), _pOsgView(pOsgView), _pGuiEventDispatcher(nullptr)
+OsgView::OsgView(wyap::Document* pDoc, osgViewer::View* pOsgView) : View(pDoc), _pOsgView(pOsgView), _pGuiEventDispatcher(nullptr)
 {
     assert(_pOsgView);
 

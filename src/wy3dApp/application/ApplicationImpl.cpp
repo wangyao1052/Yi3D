@@ -87,7 +87,7 @@
 #include <wy3dApp/wy3dAppDefs.h>
 #include "translation/ParamDisplayNameRegistryImpl.h"
 
-#define WY3DAPP_VIEW(pView) dynamic_cast<BaseView*>(pView)
+#define WY3DAPP_VIEW(pView) dynamic_cast<View*>(pView)
 
 namespace wy3dApp {
 
@@ -407,7 +407,7 @@ std::unique_ptr<wyap::DocumentEnvironment> ApplicationImpl::newDefaultDocumentEn
     return std::unique_ptr<wyap::DocumentEnvironment>(pModelingEnv);
 }
 
-BaseView* ApplicationImpl::getActiveView() const
+View* ApplicationImpl::getActiveView() const
 {
     wyap::Document* pActiveDoc = this->getActiveDocument();
     if (!pActiveDoc)
@@ -437,7 +437,7 @@ SceneImpl* ApplicationImpl::getActiveSceneImpl() const
 
 void ApplicationImpl::fitView()
 {
-    BaseView* pActiveView = this->getActiveView();
+    View* pActiveView = this->getActiveView();
     if (!pActiveView) return;
     Scene* pScene = ApplicationImpl::instance().getActiveScene();
     if (!pScene) return;
@@ -447,7 +447,7 @@ void ApplicationImpl::fitView()
 
 void ApplicationImpl::viewISO()
 {
-    BaseView* pView = this->getActiveView();
+    View* pView = this->getActiveView();
     if (!pView) return;
     pView->lookAtISO();
 }

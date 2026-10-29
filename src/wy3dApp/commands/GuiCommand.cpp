@@ -44,7 +44,7 @@
 #include "snap/SnapTipWidget.h"
 #include "commands/GuiEventDispatcher.h"
 #include "select/SelectHandler.h"
-#include "view/BaseView.h"
+#include "view/View.h"
 #include "select/SelectFilterFunctors.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -249,7 +249,7 @@ void GuiCommand::onKeyDown(const KeyEvent& event)
 
 void GuiCommand::applySelectOptions(SelectOptions options)
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (!pView) return;
     GuiEventDispatcher* pGuiEventDispatcher = pView->getGuiEventDispatcher();
     if (!pGuiEventDispatcher) return;
@@ -272,7 +272,7 @@ void GuiCommand::applySelectOptions(SelectOptions options)
 
 GuiCommand::SelectOptions GuiCommand::getSelectOptions()
 {
-    BaseView* pView = ApplicationImpl::instance().getActiveView();
+    View* pView = ApplicationImpl::instance().getActiveView();
     if (!pView) return SelectOptions();
     GuiEventDispatcher* pGuiEventDispatcher = pView->getGuiEventDispatcher();
     if (!pGuiEventDispatcher) return SelectOptions();
