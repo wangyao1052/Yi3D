@@ -16,37 +16,25 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SKETCH_GRIP_OSG_RENDERER_H
-#define WY3DAPP_SKETCH_GRIP_OSG_RENDERER_H
+#ifndef WY3DAPP_SKETCH_ENTITY_GRIP_RENDERER_H
+#define WY3DAPP_SKETCH_ENTITY_GRIP_RENDERER_H
 
 #include <osg/Geometry>
 #include <osg/AutoTransform>
 
+#include <wy3dSketch.h>
 #include <wy3dApp/OsgGizmoRenderer.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-// SketchEntityGripGizmo 的 OSG 渲染器
-// 负责：抓取点几何创建、高亮、位置更新
-// 拖拽时的位置更新通过 DB 变更 → refresh() 路径，因此 drag 生命周期为空
-class SketchGripOsgRenderer : public OsgGizmoRenderer
+class SketchEntityGripRenderer : public OsgGizmoRenderer
 {
 public:
-    explicit SketchGripOsgRenderer(Gizmo* pGizmo);
-    virtual ~SketchGripOsgRenderer();
+    SketchEntityGripRenderer(Gizmo* pGizmo, const wy3d::Plane& sketchPlane);
+    virtual ~SketchEntityGripRenderer();
 
-    // ── GizmoRenderer ──
     virtual void refresh() override;
-    virtual bool onBeginDrag(const wy::Vector3& startPos) override { return true; }
-    virtual bool onDragging(const wy::Vector3& curPos) override { return true; }
-    virtual void onEndDrag(const wy::Vector3& endPos) override {}
-    virtual void onCancelDrag() override {}
-
-    // ── 静态视觉 ──
-    void setPosition(const wy::Vector3& pos);
-
-    // ── Gizmo 激活/去激活 ──
     virtual void onActivate() override;
     virtual void onDeactivate() override;
 
@@ -54,10 +42,11 @@ private:
     osg::ref_ptr<osg::Geometry> generateGeometry();
 
 private:
+    wy3d::Plane _sketchPlane;
     osg::ref_ptr<osg::Geometry> _geom;
     osg::ref_ptr<osg::AutoTransform> _at;
 };
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_SKETCH_GRIP_OSG_RENDERER_H
+#endif // WY3DAPP_SKETCH_ENTITY_GRIP_RENDERER_H

@@ -21,6 +21,7 @@
 #include <wyVector2.h>
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "utils/MathUtils.h"
 #include "gizmo/renderer/SketchEllipseArcGhostOsgRenderer.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -34,14 +35,21 @@ EllipseArcGhostGizmo::EllipseArcGhostGizmo(const wy3d::SketchEllipseArc* pSketch
 }
 
 SketchEllipseArcGripGizmo::SketchEllipseArcGripGizmo(const wy3d::SketchEllipseArc* pSketchEllipseArc, Type type)
-    : SketchEntityGripGizmo(pSketchEllipseArc), _type(type), _startMajorRadius(0.0), _startMinorRadius(0.0)
+    : SketchEntityGripGizmo(pSketchEllipseArc->getParent(), pSketchEllipseArc->getId()), _type(type), _startMajorRadius(0.0), _startMinorRadius(0.0)
 {
     assert(pSketchEllipseArc);
 }
 
 wy::Vector2 SketchEllipseArcGripGizmo::getGripPosition() const
 {
-    const wy3d::SketchEllipseArc* pEllipseArc = wy3d::SketchEllipseArc::cast(this->getSketchEntity());
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return wy::Vector2(0.0, 0.0);
+    }
+    const wy3d::SketchEllipseArc* pEllipseArc = wy3d::SketchEllipseArc::cast(
+        pDb->getElement(this->getFirstElementId()));
     if (pEllipseArc)
     {        switch (_type)
         {
@@ -68,7 +76,7 @@ wy::Vector2 SketchEllipseArcGripGizmo::getGripPosition() const
     return wy::Vector2(0.0, 0.0);
 }
 
-bool SketchEllipseArcGripGizmo::onBeginDrag(wydb::Database* pDb)
+bool SketchEllipseArcGripGizmo::onStartEdit(wydb::Database* pDb)
 {
     assert(pDb);
     const wy3d::SketchEllipseArc* pEllipseArc = wy3d::SketchEllipseArc::cast(pDb->getElement(getFirstElementId()));
@@ -82,7 +90,7 @@ bool SketchEllipseArcGripGizmo::onBeginDrag(wydb::Database* pDb)
     return true;
 }
 
-bool SketchEllipseArcGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchEllipseArcGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
     wy3d::SketchEllipseArc* pEllipseArc = wy3d::SketchEllipseArc::cast(pTrans->getElementForWrite(getFirstElementId()));
@@ -133,7 +141,7 @@ bool SketchEllipseArcGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::
     return false;
 }
 
-void SketchEllipseArcGripGizmo::onEndDrag(wydb::Database* pDb, bool commit)
+void SketchEllipseArcGripGizmo::onEndEdit(wydb::Database* pDb, bool commit)
 {
     if (!commit) return; // 取消则不用处理
 

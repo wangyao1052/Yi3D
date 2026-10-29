@@ -17,6 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "SketchEllipseGripGizmo.h"
+#include "application/ApplicationImpl.h"
 #include <wyVector2.h>
 #include <wy3dSketchEllipse.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -24,14 +25,21 @@
 namespace wy3dApp {
 
 SketchEllipseGripGizmo::SketchEllipseGripGizmo(const wy3d::SketchEllipse* pSketchEllipse, Type type)
-    : SketchEntityGripGizmo(pSketchEllipse), _type(type), _startMajorRadius(0.0), _startMinorRadius(0.0)
+    : SketchEntityGripGizmo(pSketchEllipse->getParent(), pSketchEllipse->getId()), _type(type), _startMajorRadius(0.0), _startMinorRadius(0.0)
 {
     assert(pSketchEllipse);
 }
 
 wy::Vector2 SketchEllipseGripGizmo::getGripPosition() const
 {
-    const wy3d::SketchEllipse* pSketchEllipse = wy3d::SketchEllipse::cast(this->getSketchEntity());
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return wy::Vector2(0.0, 0.0);
+    }
+    const wy3d::SketchEllipse* pSketchEllipse = wy3d::SketchEllipse::cast(
+        pDb->getElement(this->getFirstElementId()));
     if (pSketchEllipse)
     {        switch (_type)
         {
@@ -54,7 +62,7 @@ wy::Vector2 SketchEllipseGripGizmo::getGripPosition() const
     return wy::Vector2(0.0, 0.0);
 }
 
-bool SketchEllipseGripGizmo::onBeginDrag(wydb::Database* pDb)
+bool SketchEllipseGripGizmo::onStartEdit(wydb::Database* pDb)
 {
     assert(pDb);
     const wy3d::SketchEllipse* pEllipse = wy3d::SketchEllipse::cast(pDb->getElement(getFirstElementId()));
@@ -68,7 +76,7 @@ bool SketchEllipseGripGizmo::onBeginDrag(wydb::Database* pDb)
     return true;
 }
 
-bool SketchEllipseGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchEllipseGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
     wy3d::SketchEllipse* pSketchEllipse = wy3d::SketchEllipse::cast(pTrans->getElementForWrite(getFirstElementId()));
@@ -110,7 +118,7 @@ bool SketchEllipseGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vec
 // 在椭圆的夹点拖拽过程中,允许长轴半径小于短轴半径,在完成拖拽之后如果长轴半径小于短轴半径,需要互换长短轴;
 // 注:目前草图Gizmo的架构系统中,Gizmo由id和类型唯一确定,如果允许拖拽夹点过程中长轴与短轴互换,则夹点在
 // refresh时会转换类型,目前系统不支持,所以在拖拽完成之后针对长轴半径小于短轴半径的情况互换长短轴.
-void SketchEllipseGripGizmo::onEndDrag(wydb::Database* pDb, bool commit)
+void SketchEllipseGripGizmo::onEndEdit(wydb::Database* pDb, bool commit)
 {
     if (!commit) return; // 取消则不用处理
 

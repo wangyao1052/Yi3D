@@ -37,16 +37,16 @@ class SolidMoveGizmo : public DraggableGizmo
 public:
     virtual ~SolidMoveGizmo();
 
-    // ── 事件回调 ──
-    virtual void onLeftMouseDown(const MouseEvent& event) override;
-    virtual void onLeftMouseDrag(const MouseEvent& event) override;
-    virtual void onLeftMouseUp(const MouseEvent& event) override;
-    virtual void onEscapeKey() override;
-
     // 设置兄弟 Gizmo（拖拽时同步位置）
     void setSiblings(SolidMoveGizmo* pSiblingA, SolidMoveGizmo* pSiblingB);
 
 protected:
+    DraggableGizmo::StepResult onStartDrag(wydb::Database* pDb, const MouseEvent& event) override;
+    DraggableGizmo::StepResult onDragging(wydb::Database* pDb, const MouseEvent& event) override;
+    DraggableGizmo::StepResult onEndDrag(wydb::Database* pDb, const MouseEvent& event) override;
+    void onDragMoved() override;
+    void onDragCancelled() override;
+
     SolidMoveGizmo(const wy3d::Primitive* pPrimitive, const osg::Vec4& color, const osg::Quat& axisRot);
 
 private:
@@ -57,6 +57,9 @@ private:
 
     // 同步位置到兄弟 Gizmo
     void syncPosition();
+
+    // 本次拖拽的起始点
+    wy::Vector3 _startPos;
 
 protected:
     // 兄弟 Gizmo（同 Primitive 的另外两个轴）

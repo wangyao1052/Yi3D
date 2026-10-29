@@ -27,7 +27,6 @@
 #include <wydbTransaction.h>
 #include <wyapGizmo.h>
 
-#include <wy3dApp/GizmoOperation.h>
 #include <wy3dApp/GizmoRenderer.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -40,26 +39,17 @@ class WY3DAPP_EXPORT Gizmo : public wyap::Gizmo
 {
 public:
     explicit Gizmo(wydb::ElementId id) : _ids{ id } {}
-    explicit Gizmo(std::vector<wydb::ElementId>&& ids) : _ids(std::move(ids))
-    {
-        assert(!_ids.empty());
-    }
-    explicit Gizmo(const std::vector<wydb::ElementId>& ids) : _ids(ids)
-    {
-        assert(!_ids.empty());
-    }
+    explicit Gizmo(std::vector<wydb::ElementId>&& ids) : _ids(std::move(ids)) { assert(!_ids.empty()); }
+    explicit Gizmo(const std::vector<wydb::ElementId>& ids) : _ids(ids) { assert(!_ids.empty()); }
     virtual ~Gizmo();
+
+    virtual void refresh() override { if (_pRenderer) _pRenderer->refresh(); }
 
     virtual void onLeftMouseDown(const MouseEvent& event) {}
     virtual void onLeftMouseDrag(const MouseEvent& event) {}
     virtual void onLeftMouseUp(const MouseEvent& event) {}
-
-    // 键盘事件（仅在该 Gizmo 处于激活状态时由事件分发器调用）
-    virtual void onKeyDown(const KeyEvent& event);
+    virtual void onKeyDown(const KeyEvent& event) {}
     virtual void onKeyUp(const KeyEvent& event) {}
-
-    // 兼容/便捷钩子：onKeyDown 收到 Escape 时调用。
-    virtual void onEscapeKey() {}
 
     GizmoRenderer* getRenderer() const { return _pRenderer.get(); }
 
@@ -70,33 +60,11 @@ public:
         return _ids.empty() ? wydb::ElementId::kNull : _ids.front();
     }
 
-    // 刷新视觉状态（委托给 Renderer）
-    virtual void refresh() override { if (_pRenderer) _pRenderer->refresh(); }
-
 protected:
     virtual void onActivate() override;
     virtual void onDeactivate() override;
 
-    void setElementIds(const std::vector<wydb::ElementId>& ids)
-    {
-        _ids = ids;
-        assert(!_ids.empty());
-    }
-    void setElementIds(std::vector<wydb::ElementId>&& ids)
-    {
-        _ids = std::move(ids);
-        assert(!_ids.empty());
-    }
-
-    // 关联的元素ID（1 个或多个）
     std::vector<wydb::ElementId> _ids;
-
-    // Gizmo 操作（拖拽事务管理）。非拖拽 Gizmo 保持为空；
-    // 拖拽编排见 DraggableGizmo。
-    std::unique_ptr<GizmoOperation> _pGizmoOp;
-    // Gizmo 渲染器（拖拽视觉反馈）
-    // 子类必须把它设置为 OsgGizmoRenderer 或其派生类：Scene 的挂载/拾取和
-    // 事件分发都依赖这一契约。
     std::unique_ptr<GizmoRenderer> _pRenderer;
 };
 

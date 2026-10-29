@@ -18,19 +18,27 @@
 
 #include <wyVector2.h>
 #include "SketchCircleGripGizmo.h"
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 SketchCircleGripGizmo::SketchCircleGripGizmo(const wy3d::SketchCircle* pSketchCircle, Type type)
-    : SketchEntityGripGizmo(pSketchCircle), _type(type)
+    : SketchEntityGripGizmo(pSketchCircle->getParent(), pSketchCircle->getId()), _type(type)
 {
     assert(pSketchCircle);
 }
 
 wy::Vector2 SketchCircleGripGizmo::getGripPosition() const
 {
-    const wy3d::SketchCircle* pSketchCircle = wy3d::SketchCircle::cast(this->getSketchEntity());
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return wy::Vector2(0.0, 0.0);
+    }
+    const wy3d::SketchCircle* pSketchCircle = wy3d::SketchCircle::cast(
+        pDb->getElement(this->getFirstElementId()));
     if (pSketchCircle)
     {
         switch (_type)
@@ -54,13 +62,13 @@ wy::Vector2 SketchCircleGripGizmo::getGripPosition() const
     return wy::Vector2(0.0, 0.0);
 }
 
-bool SketchCircleGripGizmo::onBeginDrag(wydb::Database* pDb)
+bool SketchCircleGripGizmo::onStartEdit(wydb::Database* pDb)
 {
     assert(pDb);
     return true;
 }
 
-bool SketchCircleGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchCircleGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
     wy3d::SketchCircle* pSketchCircle = wy3d::SketchCircle::cast(pTrans->getElementForWrite(getFirstElementId()));
@@ -87,7 +95,7 @@ bool SketchCircleGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vect
     return false;
 }
 
-Snap2dContextSPtr SketchCircleGripGizmo::newDragContext() const
+Snap2dContextSPtr SketchCircleGripGizmo::createSnap2dContext() const
 {
     switch (_type)
     {
@@ -98,12 +106,19 @@ Snap2dContextSPtr SketchCircleGripGizmo::newDragContext() const
     case Type::Quarter2:
     case Type::Quarter3:
     {
-        const wy3d::SketchCircle* pCircle = wy3d::SketchCircle::cast(this->getSketchEntity());
+        const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+        if (!pDb)
+        {
+            assert(false);
+            return std::make_shared<Locate2dContext>();
+        }
+        const wy3d::SketchCircle* pCircle = wy3d::SketchCircle::cast(
+            pDb->getElement(this->getFirstElementId()));
         if (pCircle) return std::make_shared<DrawCircle2dContext>(pCircle->getCenter());
         else return std::make_shared<Locate2dContext>();
     }
     default:
-        return SketchEntityGripGizmo::newDragContext();
+        return SketchEntityGripGizmo::createSnap2dContext();
     }
 }
 

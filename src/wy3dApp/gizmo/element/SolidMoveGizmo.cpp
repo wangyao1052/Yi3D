@@ -32,7 +32,6 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
-#include "gizmo/operation/SolidDragOperation.h"
 #include "gizmo/renderer/SolidMoveOsgRenderer.h"
 #include <wy3dApp/OsgGizmoRenderer.h>
 #include "utils/MathUtils.h"
@@ -110,70 +109,76 @@ void SolidMoveGizmo::syncPosition()
         pR->syncPosition(static_cast<SolidMoveOsgRenderer*>(s ? s->_pRenderer.get() : nullptr));
 }
 
-void SolidMoveGizmo::onLeftMouseDown(const MouseEvent& event)
+DraggableGizmo::StepResult SolidMoveGizmo::onStartDrag(wydb::Database* pDb, const MouseEvent& event)
 {
     osg::Vec3d closestPnt;
     if (!this->computeClosestPoint(static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView()->getCamera(), event.x, event.y, closestPnt))
     {
-        assert(false);
-        return;
+        return { false, wy::Vector3() };
     }
 
-    if (_pGizmoOp)
-    {
-        assert(false);
-        this->cancelDrag();
-    }
-
-    wydb::Database* pActiveDb = ApplicationImpl::instance().getActiveDatabase();
     Scene* pActiveScene = ApplicationImpl::instance().getActiveScene();
-    if (!pActiveDb || !pActiveScene)
+    if (!pDb || !pActiveScene)
     {
         assert(false);
-        return;
+        return { false, wy::Vector3() };
     }
-    _pGizmoOp = std::make_unique<SolidDragOperation>(pActiveDb, this);
-    if (!this->beginDrag(MathUtils::toVector3(closestPnt)))
-    {
-        assert(false);
-        return;
-    }
+
+    _startPos = MathUtils::toVector3(closestPnt);
+    return { true, _startPos };
 }
 
-void SolidMoveGizmo::onLeftMouseDrag(const MouseEvent& event)
+DraggableGizmo::StepResult SolidMoveGizmo::onDragging(wydb::Database*, const MouseEvent& event)
 {
-    if (!_pGizmoOp)
-        return;
-
-    osg::Vec3d dragCurrPnt;
-    if (!this->computeClosestPoint(static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView()->getCamera(), event.x, event.y, dragCurrPnt))
+    osg::Vec3d dragPnt;
+    if (!this->computeClosestPoint(static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView()->getCamera(), event.x, event.y, dragPnt))
     {
-        assert(false);
-        this->cancelDrag();
-        return;
+        return { false, wy::Vector3() };
     }
-    this->dragTo(MathUtils::toVector3(dragCurrPnt));
+
+    return { true, MathUtils::toVector3(dragPnt) };
+}
+
+DraggableGizmo::StepResult SolidMoveGizmo::onEndDrag(wydb::Database* pDb, const MouseEvent& event)
+{
+    StepResult result = this->onDragging(pDb, event);
+    if (!result.result) return result;
+
+    wydb::TransactionManager* pTransMgr = pDb ? pDb->getTransactionManager() : nullptr;
+    if (!pTransMgr) return { false, result.position };
+
+    wydb::Transaction* pTrans = pTransMgr->startTransaction();
+    if (!pTrans) return { false, result.position };
+
+    bool ok = false;
+    wy3d::Primitive* pPrimitive =
+        wy3d::Primitive::cast(pTrans->getElementForWrite(this->getFirstElementId()));
+    if (pPrimitive)
+    {
+        const wy::Vector3 delta = result.position - _startPos;
+        pPrimitive->setPosition(pPrimitive->getPosition() + delta);
+        ok = true;
+    }
+
+    if (ok)
+    {
+        if (wy::ErrorStatus::Ok != pTransMgr->endTransaction()) ok = false;
+    }
+    else
+    {
+        pTransMgr->abortTransaction();
+    }
+
+    return { ok, result.position };
+}
+
+void SolidMoveGizmo::onDragMoved()
+{
     this->syncPosition();
 }
 
-void SolidMoveGizmo::onLeftMouseUp(const MouseEvent& event)
+void SolidMoveGizmo::onDragCancelled()
 {
-    if (!_pGizmoOp)
-        return;
-
-    osg::Vec3d dragEndPnt;
-    if (!this->computeClosestPoint(static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView()->getCamera(), event.x, event.y, dragEndPnt))
-    {
-        assert(false);
-        this->cancelDrag();
-        return;
-    }
-    this->endDrag(MathUtils::toVector3(dragEndPnt));
-}
-
-void SolidMoveGizmo::onEscapeKey()
-{
-    this->cancelDrag();
     this->syncPosition();
 }
 

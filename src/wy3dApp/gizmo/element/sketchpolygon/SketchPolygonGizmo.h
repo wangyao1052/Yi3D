@@ -25,7 +25,7 @@
 #include <wyVector2.h>
 #include <wy3dSketchLine.h>
 
-#include "gizmo/element/SketchEntityGripGizmo.h"
+#include <wy3dApp/SketchEntityGripGizmo.h>
 #include "utils/SketchPolygonDragMath.h"
 #include "utils/SketchPolygonRecognizer.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -42,7 +42,6 @@ public:
 
 public:
     SketchPolygonGizmo(std::shared_ptr<const SketchPolygonInfo> polygon,
-                       const std::vector<const wy3d::SketchLine*>& lines,
                        Type type,
                        int index);
     virtual ~SketchPolygonGizmo();
@@ -50,8 +49,8 @@ public:
 protected:
     // O(1): reads only the one or two lines that touch this handle
     virtual wy::Vector2 getGripPosition() const override;
-    virtual bool onBeginDrag(wydb::Database* pDb) override;
-    virtual bool onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
+    virtual bool onStartEdit(wydb::Database* pDb) override;
+    virtual bool onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
 
 private:
     std::shared_ptr<const SketchPolygonInfo> _polygon;

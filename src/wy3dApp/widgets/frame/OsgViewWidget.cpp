@@ -19,6 +19,7 @@
 #include "OsgViewWidget.h"
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
+#include <wyapGizmoManager.h>
 #include "application/Config.h"
 #include "view/CameraManipulator3d.h"
 #include "commands/OsgGuiEventDispatcher.h"
@@ -30,6 +31,8 @@
 #include <QMenu>
 #include <QWindow>
 #include <QPushButton>
+#include <QApplication>
+#include <QGuiApplication>
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -54,8 +57,26 @@
 
 #include <vector>
 #include <wy3dApp/wy3dAppDefs.h>
+#include <cassert>
 
 namespace wy3dApp {
+
+namespace {
+
+// 应用失焦时取消当前 active gizmo 的交互。
+void cancelActiveGizmo()
+{
+    wyap::GizmoManager* pGizmoMgr = ApplicationImpl::instance().getGizmoManager();
+    assert(pGizmoMgr);
+    if (!pGizmoMgr->getActiveGizmo()) return;
+    pGizmoMgr->setActiveGizmo(nullptr);
+    if (wyap::SnapSystem* pSnapSys = ApplicationImpl::instance().getSnapSystem())
+    {
+        pSnapSys->clearSnapResult();
+    }
+}
+
+} // namespace
 
 OsgViewWidget::OsgViewWidget(QWidget *parent) : ViewWidget(parent), _pOsgGLWidget(nullptr), _pGuiEventDispatcher(nullptr), _navCursorActive(false)
 {
@@ -148,6 +169,17 @@ void OsgViewWidget::initWindow()
     // Gui event dispatcher.
     _pGuiEventDispatcher = new OsgGuiEventDispatcher();
     mainView->addEventHandler(_pGuiEventDispatcher);
+
+    // 应用失焦（Alt+Tab/最小化）时可能丢失 mouse release，取消正在进行的 Gizmo 拖拽。
+    connect(qApp, &QGuiApplication::applicationStateChanged, this,
+        [this](Qt::ApplicationState state)
+        {
+            if (state == Qt::ApplicationActive)
+                return;
+            cancelActiveGizmo();
+            if (osgViewer::View* pOsgView = _pOsgGLWidget->getOsgViewer())
+                pOsgView->requestRedraw();
+        });
 }
 
 bool OsgViewWidget::eventFilter(QObject* pWatched, QEvent* pEvent)

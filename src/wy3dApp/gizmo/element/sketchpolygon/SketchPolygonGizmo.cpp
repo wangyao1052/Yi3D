@@ -34,11 +34,9 @@
 namespace wy3dApp {
 
 SketchPolygonGizmo::SketchPolygonGizmo(std::shared_ptr<const SketchPolygonInfo> polygon,
-                                       const std::vector<const wy3d::SketchLine*>& lines,
                                        Type type,
                                        int index)
-    : SketchEntityGripGizmo(
-        std::vector<const wy3d::SketchEntity*>(lines.begin(), lines.end()))
+    : SketchEntityGripGizmo(polygon->sketchId, polygon->lineIds)
     , _polygon(std::move(polygon))
     , _type(type)
     , _index(index)
@@ -116,7 +114,7 @@ wy::Vector2 SketchPolygonGizmo::getGripPosition() const
     return _polygon->corners[_index];
 }
 
-bool SketchPolygonGizmo::onBeginDrag(wydb::Database* pDb)
+bool SketchPolygonGizmo::onStartEdit(wydb::Database* pDb)
 {
     assert(pDb);
     if (!pDb) return false;
@@ -142,7 +140,7 @@ bool SketchPolygonGizmo::onBeginDrag(wydb::Database* pDb)
     return true;
 }
 
-bool SketchPolygonGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchPolygonGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
     if (!pTrans) return false;

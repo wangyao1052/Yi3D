@@ -21,6 +21,7 @@
 #include <wyVector2.h>
 #include <wy3dSketchSpline.h>
 #include <wy3dApp/Application.h>
+#include "application/ApplicationImpl.h"
 #include "gizmo/renderer/SketchSplineCtrolPointsPathOsgRenderer.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -33,14 +34,21 @@ SplineCtrolPointsPathGhostGizmo::SplineCtrolPointsPathGhostGizmo(const wy3d::Ske
 }
 
 SketchSplineGripGizmo::SketchSplineGripGizmo(const wy3d::SketchSpline* pSketchSpline, unsigned int index)
-    : SketchEntityGripGizmo(pSketchSpline), _index(index)
+    : SketchEntityGripGizmo(pSketchSpline->getParent(), pSketchSpline->getId()), _index(index)
 {
     assert(pSketchSpline);
 }
 
 wy::Vector2 SketchSplineGripGizmo::getGripPosition() const
 {
-    const wy3d::SketchSpline* pSketchSpline = wy3d::SketchSpline::cast(this->getSketchEntity());
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return wy::Vector2(0.0, 0.0);
+    }
+    const wy3d::SketchSpline* pSketchSpline = wy3d::SketchSpline::cast(
+        pDb->getElement(this->getFirstElementId()));
     if (!pSketchSpline)
     {
         assert(false);
@@ -55,7 +63,7 @@ wy::Vector2 SketchSplineGripGizmo::getGripPosition() const
     return points[_index];
 }
 
-bool SketchSplineGripGizmo::onBeginDrag(wydb::Database* pDb)
+bool SketchSplineGripGizmo::onStartEdit(wydb::Database* pDb)
 {
     assert(pDb);
     const wy3d::SketchSpline* pSketchSpline = wy3d::SketchSpline::cast(pDb->getElement(getFirstElementId()));
@@ -67,7 +75,7 @@ bool SketchSplineGripGizmo::onBeginDrag(wydb::Database* pDb)
     return true;
 }
 
-bool SketchSplineGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchSplineGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
     wy3d::SketchSpline* pSketchSpline = wy3d::SketchSpline::cast(pTrans->getElementForWrite(getFirstElementId()));
@@ -94,7 +102,7 @@ bool SketchSplineGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vect
     }
 }
 
-Snap2dContextSPtr SketchSplineGripGizmo::newDragContext() const
+Snap2dContextSPtr SketchSplineGripGizmo::createSnap2dContext() const
 {
     return std::make_shared<Locate2dContext>();
 }

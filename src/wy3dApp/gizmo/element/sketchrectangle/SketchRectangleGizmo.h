@@ -26,7 +26,7 @@
 #include <wyVector2.h>
 #include <wy3dSketchLine.h>
 
-#include "gizmo/element/SketchEntityGripGizmo.h"
+#include <wy3dApp/SketchEntityGripGizmo.h>
 #include "utils/SketchRectangleDragMath.h"
 #include "utils/SketchRectangleRecognizer.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -42,7 +42,6 @@ public:
 
 public:
     SketchRectangleGizmo(std::shared_ptr<const SketchRectangleInfo> rect,
-                         const std::vector<const wy3d::SketchLine*>& lines,
                          Type type,
                          int index);
     virtual ~SketchRectangleGizmo();
@@ -51,9 +50,9 @@ protected:
     // 获取实时位置
     virtual wy::Vector2 getGripPosition() const override;
     // 开始
-    virtual bool onBeginDrag(wydb::Database* pDb) override;
+    virtual bool onStartEdit(wydb::Database* pDb) override;
     // 更新
-    virtual bool onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
+    virtual bool onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
 
 private:
     wy::Vector2 gripPositionFromCorners(const std::array<wy::Vector2, 4>& corners) const;

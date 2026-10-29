@@ -70,16 +70,16 @@ bool SketchPolygonGizmoCreator::tryCreateGizmos(const wyap::SelectionSet& sels,
     for (int i = 0; i < sides; ++i)
     {
         created.emplace_back(std::make_shared<SketchPolygonGizmo>(
-            pPolygon, lines, SketchPolygonGizmo::Type::Corner, i));
+            pPolygon, SketchPolygonGizmo::Type::Corner, i));
     }
     for (int i = 0; i < sides; ++i)
     {
         created.emplace_back(std::make_shared<SketchPolygonGizmo>(
-            pPolygon, lines, SketchPolygonGizmo::Type::EdgeMid, i));
+            pPolygon, SketchPolygonGizmo::Type::EdgeMid, i));
     }
 
     created.emplace_back(std::make_shared<SketchPolygonGizmo>(
-        pPolygon, lines, SketchPolygonGizmo::Type::Center, 0));
+        pPolygon, SketchPolygonGizmo::Type::Center, 0));
 
     // The label drives the ghost's reading, so keep the ghost alive in a named
     // local and hand the label a weak reference to it

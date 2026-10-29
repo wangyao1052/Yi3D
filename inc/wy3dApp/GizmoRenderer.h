@@ -27,9 +27,6 @@ namespace wy3dApp {
 class Gizmo;
 class Scene;
 
-// Gizmo renderer interface. Gizmos managed by wyap::GizmoManager must use an
-// OsgGizmoRenderer (or a subclass): the application scene and the event
-// dispatcher attach, pick and route mouse events through that concrete base.
 class WY3DAPP_EXPORT GizmoRenderer
 {
 public:
@@ -40,13 +37,13 @@ public:
     virtual void onActivate() = 0;
     virtual void onDeactivate() = 0;
 
-    virtual bool onBeginDrag(const wy::Vector3& startPos) = 0;
-    virtual bool onDragging(const wy::Vector3& curPos) = 0;
-    virtual void onEndDrag(const wy::Vector3& endPos) = 0;
-    virtual void onCancelDrag() = 0;
-
     virtual void attachToScene(Scene* pScene) = 0;
     virtual void detachFromScene(Scene* pScene) = 0;
+
+    virtual bool onStartDrag(const wy::Vector3&) { return true; }
+    virtual bool onDragging(const wy::Vector3&) { return true; }
+    virtual bool onEndDrag(const wy::Vector3&) { return true; }
+    virtual void onCancelDrag() {}
 
 protected:
     Gizmo* _pGizmo;

@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_SKETCH_ELLIPSE_GRIP_GIZMO_H
 #define WY3DAPP_SKETCH_ELLIPSE_GRIP_GIZMO_H
 
-#include "SketchEntityGripGizmo.h"
+#include <wy3dApp/SketchEntityGripGizmo.h>
 #include <wyVector2.h>
 #include <wy3dSketchEllipse.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -45,11 +45,11 @@ protected:
     // 获取位置
     virtual wy::Vector2 getGripPosition() const override;
     // 开始
-    virtual bool onBeginDrag(wydb::Database* pDb) override;
+    virtual bool onStartEdit(wydb::Database* pDb) override;
     // 更新
-    virtual bool onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
+    virtual bool onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
     // 结束
-    virtual void onEndDrag(wydb::Database* pDb, bool commit) override;
+    virtual void onEndEdit(wydb::Database* pDb, bool commit) override;
 
 private:
     Type _type;

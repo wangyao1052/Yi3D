@@ -21,7 +21,7 @@
 
 #include <wyVector2.h>
 #include <wy3dSketchSpline.h>
-#include "SketchEntityGripGizmo.h"
+#include <wy3dApp/SketchEntityGripGizmo.h>
 #include "gizmo/GhostGizmo.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -42,11 +42,11 @@ protected:
     // 获取实时位置
     virtual wy::Vector2 getGripPosition() const override;
     // 开始
-    virtual bool onBeginDrag(wydb::Database* pDb) override;
+    virtual bool onStartEdit(wydb::Database* pDb) override;
     // 更新
-    virtual bool onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
+    virtual bool onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
     // 拖拽上下文
-    virtual Snap2dContextSPtr newDragContext() const override;
+    virtual Snap2dContextSPtr createSnap2dContext() const override;
 
 private:
     unsigned int _index;

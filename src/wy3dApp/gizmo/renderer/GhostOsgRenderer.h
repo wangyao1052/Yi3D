@@ -37,11 +37,6 @@ public:
     virtual void refresh() {}
     virtual void onActivate() {}
     virtual void onDeactivate() {}
-
-    virtual bool onBeginDrag(const wy::Vector3& startPos) override { return true; }
-    virtual bool onDragging(const wy::Vector3& curPos) override { return true; }
-    virtual void onEndDrag(const wy::Vector3& endPos) override {}
-    virtual void onCancelDrag() override {}
 };
 
 } // namespace wy3dApp

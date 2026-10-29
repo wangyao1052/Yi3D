@@ -18,19 +18,27 @@
 
 #include <wyVector2.h>
 #include "SketchLineGripGizmo.h"
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 SketchLineGripGizmo::SketchLineGripGizmo(const wy3d::SketchLine* pSketchLine, Type type)
-    : SketchEntityGripGizmo(pSketchLine), _type(type)
+    : SketchEntityGripGizmo(pSketchLine->getParent(), pSketchLine->getId()), _type(type)
 {
     assert(pSketchLine);
 }
 
 wy::Vector2 SketchLineGripGizmo::getGripPosition() const
 {
-    const wy3d::SketchLine* pSketchLine = wy3d::SketchLine::cast(this->getSketchEntity());
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return wy::Vector2(0.0, 0.0);
+    }
+    const wy3d::SketchLine* pSketchLine = wy3d::SketchLine::cast(
+        pDb->getElement(this->getFirstElementId()));
     if (pSketchLine)
     {
         switch (_type)
@@ -49,7 +57,7 @@ wy::Vector2 SketchLineGripGizmo::getGripPosition() const
     return wy::Vector2(0.0, 0.0);
 }
 
-bool SketchLineGripGizmo::onBeginDrag(wydb::Database* pDb)
+bool SketchLineGripGizmo::onStartEdit(wydb::Database* pDb)
 {
     assert(pDb);
     const wy3d::SketchLine* pSketchLine = wy3d::SketchLine::cast(pDb->getElement(getFirstElementId()));
@@ -64,7 +72,7 @@ bool SketchLineGripGizmo::onBeginDrag(wydb::Database* pDb)
     return true;
 }
 
-bool SketchLineGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchLineGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
     wy3d::SketchLine* pSketchLine = wy3d::SketchLine::cast(pTrans->getElementForWrite(getFirstElementId()));
@@ -92,7 +100,7 @@ bool SketchLineGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector
     return false;
 }
 
-Snap2dContextSPtr SketchLineGripGizmo::newDragContext() const
+Snap2dContextSPtr SketchLineGripGizmo::createSnap2dContext() const
 {
     switch (_type)
     {
@@ -103,7 +111,7 @@ Snap2dContextSPtr SketchLineGripGizmo::newDragContext() const
     case Type::MiddlePoint:
         return std::make_shared<Locate2dContext>();
     default:
-        return SketchEntityGripGizmo::newDragContext();
+        return SketchEntityGripGizmo::createSnap2dContext();
     }
 }
 

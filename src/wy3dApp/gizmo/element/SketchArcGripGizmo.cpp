@@ -19,20 +19,28 @@
 #include <wyVector2.h>
 #include <geom/wy3dArc2.h>
 #include "SketchArcGripGizmo.h"
+#include "application/ApplicationImpl.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 SketchArcGripGizmo::SketchArcGripGizmo(const wy3d::SketchArc* pSketchArc, Type type)
-    : SketchEntityGripGizmo(pSketchArc), _type(type)
+    : SketchEntityGripGizmo(pSketchArc->getParent(), pSketchArc->getId()), _type(type)
 {
     assert(pSketchArc);
 }
 
 wy::Vector2 SketchArcGripGizmo::getGripPosition() const
 {
-    const wy3d::SketchArc* pSketchArc = wy3d::SketchArc::cast(this->getSketchEntity());
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return wy::Vector2(0.0, 0.0);
+    }
+    const wy3d::SketchArc* pSketchArc = wy3d::SketchArc::cast(
+        pDb->getElement(this->getFirstElementId()));
     if (pSketchArc)
     {
         switch (_type)
@@ -54,7 +62,7 @@ wy::Vector2 SketchArcGripGizmo::getGripPosition() const
     return wy::Vector2(0.0, 0.0);
 }
 
-bool SketchArcGripGizmo::onBeginDrag(wydb::Database* pDb)
+bool SketchArcGripGizmo::onStartEdit(wydb::Database* pDb)
 {
     assert(pDb);
     const wy3d::SketchArc* pSketchArc = wy3d::SketchArc::cast(pDb->getElement(getFirstElementId()));
@@ -69,7 +77,7 @@ bool SketchArcGripGizmo::onBeginDrag(wydb::Database* pDb)
     return true;
 }
 
-bool SketchArcGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchArcGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
     wy3d::SketchArc* pSketchArc = wy3d::SketchArc::cast(pTrans->getElementForWrite(getFirstElementId()));

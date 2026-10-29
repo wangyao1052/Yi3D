@@ -40,9 +40,9 @@ public:
     virtual ~SolidMoveOsgRenderer();
 
     // ── GizmoRenderer 拖拽生命周期 ──
-    virtual bool onBeginDrag(const wy::Vector3& startPos) override;
+    virtual bool onStartDrag(const wy::Vector3& startPos) override;
     virtual bool onDragging(const wy::Vector3& curPos) override;
-    virtual void onEndDrag(const wy::Vector3& endPos) override;
+    virtual bool onEndDrag(const wy::Vector3& endPos) override;
     virtual void onCancelDrag() override;
 
     // ── GizmoRenderer 刷新 ──

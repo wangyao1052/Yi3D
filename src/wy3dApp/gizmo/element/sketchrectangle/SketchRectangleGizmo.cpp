@@ -32,11 +32,11 @@
 namespace wy3dApp {
 
 SketchRectangleGizmo::SketchRectangleGizmo(std::shared_ptr<const SketchRectangleInfo> rect,
-                                           const std::vector<const wy3d::SketchLine*>& lines,
                                            Type type,
                                            int index)
     : SketchEntityGripGizmo(
-        std::vector<const wy3d::SketchEntity*>(lines.begin(), lines.end()))
+        rect->sketchId,
+        std::vector<wydb::ElementId>(rect->lineIds.begin(), rect->lineIds.end()))
     , _lineIds(rect->lineIds)
     , _rect(std::move(rect))
     , _type(type)
@@ -79,7 +79,7 @@ wy::Vector2 SketchRectangleGizmo::gripPositionFromCorners(const std::array<wy::V
     return corners[0];
 }
 
-bool SketchRectangleGizmo::onBeginDrag(wydb::Database* pDb)
+bool SketchRectangleGizmo::onStartEdit(wydb::Database* pDb)
 {
     assert(pDb);
     if (!pDb) return false;
@@ -144,7 +144,7 @@ bool SketchRectangleGizmo::onBeginDrag(wydb::Database* pDb)
     return true;
 }
 
-bool SketchRectangleGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchRectangleGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
     if (!pTrans) return false;

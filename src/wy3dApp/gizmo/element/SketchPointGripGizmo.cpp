@@ -18,19 +18,27 @@
 
 #include <wyVector2.h>
 #include "SketchPointGripGizmo.h"
+#include "application/ApplicationImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 SketchPointGripGizmo::SketchPointGripGizmo(const wy3d::SketchPoint* pSketchPoint)
-    : SketchEntityGripGizmo(pSketchPoint), _position()
+    : SketchEntityGripGizmo(pSketchPoint->getParent(), pSketchPoint->getId()), _position()
 {
     assert(pSketchPoint);
 }
 
 wy::Vector2 SketchPointGripGizmo::getGripPosition() const
 {
-    const wy3d::SketchPoint* pSketchPoint = wy3d::SketchPoint::cast(this->getSketchEntity());
+    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return wy::Vector2(0.0, 0.0);
+    }
+    const wy3d::SketchPoint* pSketchPoint = wy3d::SketchPoint::cast(
+        pDb->getElement(this->getFirstElementId()));
     if (pSketchPoint)
     {
         return pSketchPoint->getPosition();
@@ -42,7 +50,7 @@ wy::Vector2 SketchPointGripGizmo::getGripPosition() const
     }
 }
 
-bool SketchPointGripGizmo::onBeginDrag(wydb::Database* pDb)
+bool SketchPointGripGizmo::onStartEdit(wydb::Database* pDb)
 {
     assert(pDb);
     const wy3d::SketchPoint* pSketchPoint = wy3d::SketchPoint::cast(pDb->getElement(getFirstElementId()));
@@ -55,7 +63,7 @@ bool SketchPointGripGizmo::onBeginDrag(wydb::Database* pDb)
     return true;
 }
 
-bool SketchPointGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchPointGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
 {
     assert(pTrans);
     wy3d::SketchPoint* pSketchPoint = wy3d::SketchPoint::cast(pTrans->getElementForWrite(getFirstElementId()));
@@ -70,7 +78,7 @@ bool SketchPointGripGizmo::onDragging(wydb::Transaction* pTrans, const wy::Vecto
     }
 }
 
-Snap2dContextSPtr SketchPointGripGizmo::newDragContext() const
+Snap2dContextSPtr SketchPointGripGizmo::createSnap2dContext() const
 {
     return std::make_shared<Locate2dContext>();
 }

@@ -102,10 +102,6 @@ public:
     virtual void onDeactivate() override {}
 
     // Click-only: it never drags
-    virtual bool onBeginDrag(const wy::Vector3&) override { return false; }
-    virtual bool onDragging(const wy::Vector3&) override { return false; }
-    virtual void onEndDrag(const wy::Vector3&) override {}
-    virtual void onCancelDrag() override {}
 
 private:
     osg::Geometry* createQuadGeometry();

@@ -66,15 +66,15 @@ bool SketchRectangleGizmoCreator::tryCreateGizmos(const wyap::SelectionSet& sels
     for (int i = 0; i < 4; ++i)
     {
         created.emplace_back(std::make_shared<SketchRectangleGizmo>(
-            pRect, lines, SketchRectangleGizmo::Type::Corner, i));
+            pRect, SketchRectangleGizmo::Type::Corner, i));
     }
     for (int i = 0; i < 4; ++i)
     {
         created.emplace_back(std::make_shared<SketchRectangleGizmo>(
-            pRect, lines, SketchRectangleGizmo::Type::EdgeMid, i));
+            pRect, SketchRectangleGizmo::Type::EdgeMid, i));
     }
     created.emplace_back(std::make_shared<SketchRectangleGizmo>(
-        pRect, lines, SketchRectangleGizmo::Type::Center, 0));
+        pRect, SketchRectangleGizmo::Type::Center, 0));
 
     created.emplace_back(std::make_shared<SketchRectangleDiagonalsGhostGizmo>(pRect));
 

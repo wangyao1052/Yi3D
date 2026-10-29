@@ -16,17 +16,20 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "SketchGripOsgRenderer.h"
+#include "SketchEntityGripRenderer.h"
 
 #include <wy3dApp/Gizmo.h>
-#include "gizmo/element/SketchEntityGripGizmo.h"
+#include <wy3dApp/SketchEntityGripGizmo.h>
 #include "OsgUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-SketchGripOsgRenderer::SketchGripOsgRenderer(Gizmo* pGizmo)
-    : OsgGizmoRenderer(pGizmo)
+SketchEntityGripRenderer::SketchEntityGripRenderer(
+    Gizmo* pGizmo,
+    const wy3d::Plane& sketchPlane)
+    : OsgGizmoRenderer(pGizmo),
+      _sketchPlane(sketchPlane)
 {
     _geom = this->generateGeometry();
     _at = new osg::AutoTransform();
@@ -36,11 +39,11 @@ SketchGripOsgRenderer::SketchGripOsgRenderer(Gizmo* pGizmo)
     this->getOsgNode()->addChild(_at.get());
 }
 
-SketchGripOsgRenderer::~SketchGripOsgRenderer()
+SketchEntityGripRenderer::~SketchEntityGripRenderer()
 {
 }
 
-osg::ref_ptr<osg::Geometry> SketchGripOsgRenderer::generateGeometry()
+osg::ref_ptr<osg::Geometry> SketchEntityGripRenderer::generateGeometry()
 {
     // 几何
     osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
@@ -86,26 +89,21 @@ osg::ref_ptr<osg::Geometry> SketchGripOsgRenderer::generateGeometry()
     return geom;
 }
 
-void SketchGripOsgRenderer::onActivate()
+void SketchEntityGripRenderer::refresh()
+{
+    auto* pGizmo = static_cast<SketchEntityGripGizmo*>(_pGizmo);
+    wy::Vector3 pos = _sketchPlane.value(pGizmo->getGripPosition());
+    if (_at) _at->setPosition(osg::Vec3d(pos.x(), pos.y(), pos.z()));
+}
+
+void SketchEntityGripRenderer::onActivate()
 {
     OsgUtils::setNodeColor(_geom.get(), OsgGizmoNode::RED_COLOR);
 }
 
-void SketchGripOsgRenderer::onDeactivate()
+void SketchEntityGripRenderer::onDeactivate()
 {
     OsgUtils::setNodeColor(_geom.get(), OsgGizmoNode::SKETCH_ENTITY_COLOR);
-}
-
-void SketchGripOsgRenderer::setPosition(const wy::Vector3& pos)
-{
-    _at->setPosition(osg::Vec3d(pos.x(), pos.y(), pos.z()));
-}
-
-void SketchGripOsgRenderer::refresh()
-{
-    auto* pGizmo = static_cast<SketchEntityGripGizmo*>(_pGizmo);
-    wy::Vector3 pos = pGizmo->_sketchPlane.value(pGizmo->getGripPosition());
-    this->setPosition(pos);
 }
 
 } // namespace wy3dApp

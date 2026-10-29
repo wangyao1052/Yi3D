@@ -19,7 +19,7 @@
 #ifndef WY3DAPP_DRAGGABLE_GIZMO_H
 #define WY3DAPP_DRAGGABLE_GIZMO_H
 
-#include <utility>
+#include <memory>
 #include <vector>
 
 #include <wyVector3.h>
@@ -28,22 +28,43 @@
 
 namespace wy3dApp {
 
-// 可拖拽 Gizmo 的公共基类：在 Gizmo 之上提供 Operation 与 Renderer 的拖拽编排。
-// 非拖拽 Gizmo 直接派生 Gizmo，不引入这些接口。
+class DraggableGizmoImpl;
+
 class WY3DAPP_EXPORT DraggableGizmo : public Gizmo
 {
 public:
-    explicit DraggableGizmo(wydb::ElementId id) : Gizmo(id) {}
-    explicit DraggableGizmo(std::vector<wydb::ElementId>&& ids) : Gizmo(std::move(ids)) {}
-    explicit DraggableGizmo(const std::vector<wydb::ElementId>& ids) : Gizmo(ids) {}
+    explicit DraggableGizmo(wydb::ElementId id);
+    explicit DraggableGizmo(std::vector<wydb::ElementId>&& ids);
+    explicit DraggableGizmo(const std::vector<wydb::ElementId>& ids);
     virtual ~DraggableGizmo();
 
+    virtual void onLeftMouseDown(const MouseEvent& event) final;
+    virtual void onLeftMouseDrag(const MouseEvent& event) final;
+    virtual void onLeftMouseUp(const MouseEvent& event) final;
+    virtual void onKeyDown(const KeyEvent& event) override;
+
 protected:
-    // 拖拽编排：子类创建 _pGizmoOp 后调用，统一 Operation 与 Renderer 的调用顺序。
-    bool beginDrag(const wy::Vector3& startPos);
-    bool dragTo(const wy::Vector3& curPos);
-    bool endDrag(const wy::Vector3& endPos);
-    bool cancelDrag();
+    void onDeactivate() override;
+
+    struct StepResult
+    {
+        bool result;
+        wy::Vector3 position;
+    };
+    virtual StepResult onStartDrag(wydb::Database* pDb, const MouseEvent& event) = 0;
+    virtual StepResult onDragging(wydb::Database* pDb, const MouseEvent& event) = 0;
+    virtual StepResult onEndDrag(wydb::Database* pDb, const MouseEvent& event) = 0;
+    virtual void onCancelDrag(wydb::Database* pDb) {}
+
+    virtual void onDragStarted() {}
+    virtual void onDragMoved() {}
+    virtual void onDragEnded() {}
+    virtual void onDragCancelled() {}
+
+private:
+    void cancelDrag();
+
+    std::unique_ptr<DraggableGizmoImpl> _pImpl;
 };
 
 } // namespace wy3dApp

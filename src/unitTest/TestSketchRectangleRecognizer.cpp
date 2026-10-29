@@ -355,7 +355,7 @@ TEST(SketchRectangleRecognizer, ReadCornersAfterFlipDrag)
         wy3dApp::SketchRectangleHandle::Corner, 1,
         corners[3] + Vector2(-3.0, 3.0), kMinHalf);
 
-    // 与 SketchRectangleGizmo::onDragging 相同的写法写回 4 条线
+    // 与 SketchRectangleGizmo::onApplyEdit 相同的写法写回 4 条线
     {
         wydb::TransactionManager* pMgr = pFixture->pDb->getTransactionManager();
         wydb::Transaction* pTrans = pMgr->startTransaction();

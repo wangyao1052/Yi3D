@@ -76,6 +76,10 @@ SolidMoveOsgRenderer::SolidMoveOsgRenderer(Gizmo* pGizmo, const osg::Vec4& color
 
 SolidMoveOsgRenderer::~SolidMoveOsgRenderer()
 {
+    // 异常路径（拖拽中销毁）兜底：移除 ghost，不访问 _pGizmo。
+    if (_previewGroup && _ghostPat.valid())
+        _previewGroup->removeChild(_ghostPat);
+    _ghostPat = nullptr;
 }
 
 void SolidMoveOsgRenderer::attachToScene(Scene* pScene)
@@ -196,7 +200,7 @@ ElementNode* SolidMoveOsgRenderer::getRelatedElementNode() const
 
 // ── 拖拽生命周期 ──
 
-bool SolidMoveOsgRenderer::onBeginDrag(const wy::Vector3& startPos)
+bool SolidMoveOsgRenderer::onStartDrag(const wy::Vector3& startPos)
 {
     // 保存起始位置
     osg::Vec3d gizmoPos = this->getOsgNode()->getPosition();
@@ -237,7 +241,7 @@ bool SolidMoveOsgRenderer::onDragging(const wy::Vector3& curPos)
     return true;
 }
 
-void SolidMoveOsgRenderer::onEndDrag(const wy::Vector3& endPos)
+bool SolidMoveOsgRenderer::onEndDrag(const wy::Vector3& endPos)
 {
     // 恢复显示元素节点
     ElementNode* pElemNode = this->getRelatedElementNode();
@@ -250,6 +254,7 @@ void SolidMoveOsgRenderer::onEndDrag(const wy::Vector3& endPos)
         pElementsRenderNode->removeChild(_ghostPat);
     }
     _ghostPat = nullptr;
+    return true;
 }
 
 void SolidMoveOsgRenderer::onCancelDrag()
