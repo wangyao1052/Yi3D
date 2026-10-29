@@ -409,7 +409,7 @@ bool HelixGuiCmd::createHelix(
     // 刷新基准面的显示
     if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
-        pScene->updateDatumPlaneVisualSize(pDb);
+        pScene->updateDatumVisualSize(pDb);
     }
     return true;
 

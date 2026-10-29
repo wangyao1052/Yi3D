@@ -128,8 +128,8 @@ public:
     std::list<wydb::ElementId> pickByCrossBox(osg::Polytope& polytope, unsigned int allowedElemTypes) const;
     wyap::GizmoSPtr pickGizmo(osg::Polytope& polytope) const;
 
-    void updateDatumPlaneVisualSize(const wydb::Database* pDb);
-    void updateDatumPlaneVisualSize(const wydb::Database* pDb, const wydb::ElementId& datumPlnId);
+    void updateDatumVisualSize(const wydb::Database* pDb);
+    void updateDatumVisualSize(const wydb::Database* pDb, const wydb::ElementId& datumId);
 
     void endNoBatchRender();
 

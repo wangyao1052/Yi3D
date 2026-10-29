@@ -74,7 +74,7 @@
 namespace wy3dApp {
 
 DatumPlaneElementNode::DatumPlaneElementNode(const wydb::ElementId& id)
-    : ElementNode(id), _min(-SIDE, -SIDE), _max(SIDE, SIDE)
+    : DatumElementNode(id), _min(-SIDE, -SIDE), _max(SIDE, SIDE)
 {}
 
 inline void updateMinMax(double& uMin, double& vMin, double& uMax, double& vMax,
@@ -87,7 +87,7 @@ inline void updateMinMax(double& uMin, double& vMin, double& uMax, double& vMax,
     vMax = std::max(vMax, uv.y());
 }
 
-void DatumPlaneElementNode::update(const wydb::Database* pDb, const osg::BoundingBox& bbox)
+void DatumPlaneElementNode::updateVisualSize(const wydb::Database* pDb, const osg::BoundingBox& bbox)
 {
     if (!pDb)
     {

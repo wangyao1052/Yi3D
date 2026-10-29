@@ -98,7 +98,7 @@ bool MakeDatumPlane::create(const wy3d::Plane& sketchPlane)
     // 刷新基准面的显示
     if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
     {
-        pScene->updateDatumPlaneVisualSize(_pDb);
+        pScene->updateDatumVisualSize(_pDb);
     }
     return true;
 }

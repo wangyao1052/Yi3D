@@ -50,6 +50,7 @@
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
 #include "scene/nodes/SketchEntityElementNode.h"
+#include "scene/nodes/DatumElementNode.h"
 #include "scene/nodes/DatumPlaneElementNode.h"
 #include "scene/nodes/BodyModificationElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
@@ -147,7 +148,7 @@ SceneImpl::SceneImpl(wyap::Document* pDoc) : Scene(pDoc)
                 changeInfo.addedIds.insert(iter.current());
             }
             this->onDatabaseChanged(pDb, nullptr, changeInfo);
-            this->updateDatumPlaneVisualSize(pDb);
+            this->updateDatumVisualSize(pDb);
         }
     }
 }
@@ -880,7 +881,9 @@ void SceneImpl::addToRTree(const ElementNode* pElemNode)
     {
         double min[3] = { bbox.xMin(), bbox.yMin(), bbox.zMin() };
         double max[3] = { bbox.xMax(), bbox.yMax(), bbox.zMax() };
-        if (dynamic_cast<const DatumPlaneElementNode*>(pElemNode))
+        // 按Datum大类路由:未来的基准轴/基准点等也不能进入实体树_rtree,
+        // 因为_rtree的根包围盒是基准面视觉尺寸的依据.
+        if (pElemNode->getNodeType() == ElementNodeType::Datum)
         {
             _rtreeDatum.Insert(min, max, pElemNode->getElementId().value());
         }
@@ -900,7 +903,8 @@ void SceneImpl::removeFromRTree(const ElementNode* pElemNode)
     {
         double min[3] = { bbox.xMin(), bbox.yMin(), bbox.zMin() };
         double max[3] = { bbox.xMax(), bbox.yMax(), bbox.zMax() };
-        if (dynamic_cast<const DatumPlaneElementNode*>(pElemNode))
+        // 与addToRTree使用同一谓词
+        if (pElemNode->getNodeType() == ElementNodeType::Datum)
         {
             _rtreeDatum.Remove(pElemNode->getElementId().value());
         }
@@ -1048,7 +1052,7 @@ void SceneImpl::onTransactionEnded(wydb::Transaction* pTrans)
     wydb::Transaction* pActiveTrans = pDb->getTransactionManager()->getActiveTransaction();
     if (!pActiveTrans)
     {
-        this->updateDatumPlaneVisualSize(pDb);
+        this->updateDatumVisualSize(pDb);
     }
 }
 
@@ -1062,7 +1066,7 @@ void SceneImpl::onTransactionUndone(wydb::Transaction* pTrans)
     wydb::Transaction* pActiveTrans = pDb->getTransactionManager()->getActiveTransaction();
     if (!pActiveTrans)
     {
-        this->updateDatumPlaneVisualSize(pDb);
+        this->updateDatumVisualSize(pDb);
     }
 }
 
@@ -1072,11 +1076,11 @@ void SceneImpl::onTransactionRedone(wydb::Transaction* pTrans)
     wydb::Transaction* pActiveTrans = pDb->getTransactionManager()->getActiveTransaction();
     if (!pActiveTrans)
     {
-        this->updateDatumPlaneVisualSize(pDb);
+        this->updateDatumVisualSize(pDb);
     }
 }
 
-void SceneImpl::updateDatumPlaneVisualSize(const wydb::Database* pDb)
+void SceneImpl::updateDatumVisualSize(const wydb::Database* pDb)
 {
     if (!pDb)
     {
@@ -1096,15 +1100,15 @@ void SceneImpl::updateDatumPlaneVisualSize(const wydb::Database* pDb)
     for (auto kvp : _id2ElemNode)
     {
         assert(kvp.second);
-        DatumPlaneElementNode* pDatumPlaneNode = dynamic_cast<DatumPlaneElementNode*>(kvp.second);
-        if (!pDatumPlaneNode) continue;
+        DatumElementNode* pDatumNode = dynamic_cast<DatumElementNode*>(kvp.second);
+        if (!pDatumNode) continue;
         this->removeFromRTree(kvp.second);
-        pDatumPlaneNode->update(pDb, bbox);
+        pDatumNode->updateVisualSize(pDb, bbox);
         this->addToRTree(kvp.second);
     }
 }
 
-void SceneImpl::updateDatumPlaneVisualSize(const wydb::Database* pDb, const wydb::ElementId& datumPlnId)
+void SceneImpl::updateDatumVisualSize(const wydb::Database* pDb, const wydb::ElementId& datumId)
 {
     if (!pDb)
     {
@@ -1112,8 +1116,8 @@ void SceneImpl::updateDatumPlaneVisualSize(const wydb::Database* pDb, const wydb
         return;
     }
 
-    DatumPlaneElementNode* pDatumPlaneNode = dynamic_cast<DatumPlaneElementNode*>(this->getElementNode(datumPlnId));
-    if (!pDatumPlaneNode)
+    DatumElementNode* pDatumNode = dynamic_cast<DatumElementNode*>(this->getElementNode(datumId));
+    if (!pDatumNode)
     {
         assert(false);
         return;
@@ -1128,10 +1132,10 @@ void SceneImpl::updateDatumPlaneVisualSize(const wydb::Database* pDb, const wydb
     }
     osg::BoundingBox bbox(rect.m_min[0], rect.m_min[1], rect.m_min[2], rect.m_max[0], rect.m_max[1], rect.m_max[2]);
 
-    // 刷新基准面显示大小
-    this->removeFromRTree(pDatumPlaneNode);
-    pDatumPlaneNode->update(pDb, bbox);
-    this->addToRTree(pDatumPlaneNode);
+    // 刷新基准对象显示大小
+    this->removeFromRTree(pDatumNode);
+    pDatumNode->updateVisualSize(pDb, bbox);
+    this->addToRTree(pDatumNode);
 }
 
 void SceneImpl::setDisplayMode(DisplayMode mode)

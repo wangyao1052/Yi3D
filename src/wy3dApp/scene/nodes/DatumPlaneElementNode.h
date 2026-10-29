@@ -20,21 +20,19 @@
 #define WY3DAPP_DATUM_PLANE_ELEMENT_NODE_H
 
 #include <wyVector2.h>
-#include <wy3dApp/ElementNode.h>
+#include "DatumElementNode.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-class DatumPlaneElementNode : public ElementNode
+class DatumPlaneElementNode : public DatumElementNode
 {
 public:
     explicit DatumPlaneElementNode(const wydb::ElementId& id);
 
-    // 结点类型
-    virtual ElementNodeType getNodeType() const override { return ElementNodeType::Datum; }
-
-    // 刷新
-    void update(const wydb::Database* pDb, const osg::BoundingBox& bbox);
+    // 刷新:按实体范围重算基准面的显示尺寸
+    virtual void updateVisualSize(
+        const wydb::Database* pDb, const osg::BoundingBox& bbox) override;
 
     // 获取数据
     const wy::Vector2& getMinPoint() const { return _min; }

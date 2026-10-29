@@ -349,7 +349,7 @@ bool AngularDatumPlnCmd::finishStep(Step step)
         // 刷新创建的基准面的显示
         if (SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl())
         {
-            pScene->updateDatumPlaneVisualSize(ApplicationImpl::instance().getActiveDatabase(), _pMakeDatumPlane->getId());
+            pScene->updateDatumVisualSize(ApplicationImpl::instance().getActiveDatabase(), _pMakeDatumPlane->getId());
         }
 
         // 下一步
