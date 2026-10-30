@@ -24,6 +24,8 @@
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
+#include "scene/nodes/ElementRenderData.h"
+
 namespace wy3dApp {
 
 class SceneImpl;
@@ -47,7 +49,8 @@ protected:
     // 生成渲染对象
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
     // 生成渲染数据
-    virtual GenRenderDataRet generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement) override;
+    virtual std::unique_ptr<RenderData> generateRenderData(
+        Scene* pScene, const wydb::Element* pElement) noexcept override;
 
     virtual void highlightImpl(bool flag) override;
     virtual void previewImpl(bool flag) override;
@@ -69,23 +72,9 @@ protected:
         _edgeGeom = nullptr;
     }
 
-    // 清空渲染数据
-    virtual void clearRenderData() override
-    {
-        ElementNode::clearRenderData();
-        _triangleIndices = nullptr;
-        _lineIndices = nullptr;
-    }
-
-    // 初始化渲染数据
-    virtual void initRenderData() override
-    {
-        ElementNode::initRenderData();
-        _triangleIndices = new osg::UIntArray();
-        _lineIndices = new osg::UIntArray();
-    }
-
 private:
+    MeshRenderData* renderData() const { return this->getRenderDataAs<MeshRenderData>(); }
+
     osg::ref_ptr<osg::Geometry> generateShapeGeom(const wydb::ElementId& id) const;
     osg::ref_ptr<osg::Geometry> generateEdgeGeom(const wydb::ElementId& id) const;
 
@@ -100,16 +89,6 @@ private:
     // 边
     osg::ref_ptr<osg::Group> _edgeNode;
     osg::ref_ptr<osg::Geometry> _edgeGeom;
-
-    //---------------------------------
-    // 渲染数据
-    //---------------------------------
-    // 法线数据
-    osg::ref_ptr<osg::Vec3Array> _normals;
-    // 三角面片索引
-    osg::ref_ptr<osg::UIntArray> _triangleIndices;
-    // 线索引
-    osg::ref_ptr<osg::UIntArray> _lineIndices;
 };
 
 } // namespace wy3dApp

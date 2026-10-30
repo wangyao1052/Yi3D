@@ -23,12 +23,23 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 #include "scene/nodes/ElementMeshInfo.h"
+#include "scene/nodes/ElementRenderData.h"
 
 #include <TopoDS_Shape.hxx>
 
 namespace wy3dApp {
 
 class SceneImpl;
+
+// 实体/片体共用的网格渲染数据
+class SolidRenderData final : public MeshRenderData
+{
+public:
+    // 面数据
+    std::vector<FaceInfo> faceInfos;
+    // 边数据
+    std::vector<EdgeInfo> edgeInfos;
+};
 
 class SolidElementNode : public ElementNode
 {
@@ -44,12 +55,34 @@ public:
     // 结点类型
     virtual ElementNodeType getNodeType() const override { return ElementNodeType::Solid; }
 
-    // 获取数据
-    const std::vector<FaceInfo>& getFaceInfos() const { return _faceInfos; }
-    const std::vector<EdgeInfo>& getEdgeInfos() const { return _edgeInfos; }
-    osg::ref_ptr<osg::Vec3Array> getNormals() const { return _normals; }
-    osg::ref_ptr<osg::UIntArray> getTriangleIndices() const { return _triangleIndices; }
-    osg::ref_ptr<osg::UIntArray> getLineIndices() const { return _lineIndices; }
+    // 获取数据;返回的引用在下一次重生后失效
+    const std::vector<FaceInfo>& getFaceInfos() const
+    {
+        const SolidRenderData* data = this->renderData();
+        static const std::vector<FaceInfo> kEmpty;
+        return data ? data->faceInfos : kEmpty;
+    }
+    const std::vector<EdgeInfo>& getEdgeInfos() const
+    {
+        const SolidRenderData* data = this->renderData();
+        static const std::vector<EdgeInfo> kEmpty;
+        return data ? data->edgeInfos : kEmpty;
+    }
+    osg::ref_ptr<osg::Vec3Array> getNormals() const
+    {
+        const SolidRenderData* data = this->renderData();
+        return data ? data->normals : nullptr;
+    }
+    osg::ref_ptr<osg::UIntArray> getTriangleIndices() const
+    {
+        const SolidRenderData* data = this->renderData();
+        return data ? data->triangleIndices : nullptr;
+    }
+    osg::ref_ptr<osg::UIntArray> getLineIndices() const
+    {
+        const SolidRenderData* data = this->renderData();
+        return data ? data->lineIndices : nullptr;
+    }
     const osg::Matrix& getMatrix() const { return _matrix; }
     void setSolidFaceColor(const osg::Vec4& color) { _solidFaceColor = color; }
     const osg::Vec4& getSolidFaceColor() const { return _solidFaceColor; }
@@ -97,7 +130,8 @@ protected:
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) override;
     // 生成渲染数据
-    virtual GenRenderDataRet generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement) override;
+    virtual std::unique_ptr<RenderData> generateRenderData(
+        Scene* pScene, const wydb::Element* pElement) noexcept override;
 
     virtual void highlightImpl(bool flag) override;
     virtual void previewImpl(bool flag) override;
@@ -125,31 +159,11 @@ protected:
         _edgeGeomPreview = nullptr;
     }
 
-    // 清空渲染数据
-    virtual void clearRenderData() override
-    {
-        ElementNode::clearRenderData();
-        _normals = nullptr;
-        _triangleIndices = nullptr;
-        _lineIndices = nullptr;
-        _faceInfos.clear();
-        _edgeInfos.clear();
-    }
-
-    // 初始化渲染数据
-    virtual void initRenderData() override
-    {
-        ElementNode::initRenderData();
-        _normals = new osg::Vec3Array();
-        _triangleIndices = new osg::UIntArray();
-        _lineIndices = new osg::UIntArray();
-        _faceInfos.clear();
-        _edgeInfos.clear();
-    }
-
 private:
+    SolidRenderData* renderData() const { return this->getRenderDataAs<SolidRenderData>(); }
+
     // 生成渲染数据
-    GenRenderDataRet generateRenderData(TopoDS_Shape& shape);
+    bool generateMeshData(TopoDS_Shape& shape, SolidRenderData& data);
     // 生成面几何
     osg::ref_ptr<osg::Geometry> generateShapeGeom(const wydb::ElementId& id, bool batch) const;
     // 生成边几何
@@ -219,28 +233,12 @@ private:
     osg::ref_ptr<osg::Geometry> _edgeGeomPreview;   // 预览
 
     //---------------------------------
-    // 渲染数据
-    //---------------------------------
-    // 法线数据
-    osg::ref_ptr<osg::Vec3Array> _normals;
-    // 三角面片索引
-    osg::ref_ptr<osg::UIntArray> _triangleIndices;
-    // 线索引
-    osg::ref_ptr<osg::UIntArray> _lineIndices;
-
-    // 面数据
-    std::vector<FaceInfo> _faceInfos;
-
-    // 边数据
-    std::vector<EdgeInfo> _edgeInfos;
-
-    //---------------------------------
     // 变换矩阵
     // 实体拓扑形体TopoDS_Shape中存储了变换矩阵的信息(TopoDS_Shape::Location())
     // 渲染数据是基于TopoDS_Shape中变换矩阵为单位矩阵生成的
     // TopoDS_Shape shape = pSolid->getShape();
     // shape.Location(loc, Standard_False);
-    // return this->generateRenderData(shape);
+    // return this->generateMeshData(shape);
     // 对应TopoDS_Shape::Location
     //---------------------------------
     osg::Matrix _matrix;

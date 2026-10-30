@@ -23,6 +23,7 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 #include "scene/nodes/ElementMeshInfo.h"
+#include "scene/nodes/ElementRenderData.h"
 
 #include <TopoDS_Shape.hxx>
 #include <wydbElement.h>
@@ -30,6 +31,16 @@
 namespace wy3dApp {
 
 class SceneImpl;
+
+// 片体渲染数据
+class SheetRenderData final : public MeshRenderData
+{
+public:
+    // 面数据
+    std::vector<FaceInfo> faceInfos;
+    // 边数据
+    std::vector<EdgeInfo> edgeInfos;
+};
 
 class SheetElementNode : public ElementNode
 {
@@ -44,11 +55,34 @@ public:
 
     virtual ElementNodeType getNodeType() const override { return ElementNodeType::Sheet; }
 
-    const std::vector<FaceInfo>& getFaceInfos() const { return _faceInfos; }
-    const std::vector<EdgeInfo>& getEdgeInfos() const { return _edgeInfos; }
-    osg::ref_ptr<osg::Vec3Array> getNormals() const { return _normals; }
-    osg::ref_ptr<osg::UIntArray> getTriangleIndices() const { return _triangleIndices; }
-    osg::ref_ptr<osg::UIntArray> getLineIndices() const { return _lineIndices; }
+    // 获取数据;返回的引用在下一次重生后失效
+    const std::vector<FaceInfo>& getFaceInfos() const
+    {
+        const SheetRenderData* data = this->renderData();
+        static const std::vector<FaceInfo> kEmpty;
+        return data ? data->faceInfos : kEmpty;
+    }
+    const std::vector<EdgeInfo>& getEdgeInfos() const
+    {
+        const SheetRenderData* data = this->renderData();
+        static const std::vector<EdgeInfo> kEmpty;
+        return data ? data->edgeInfos : kEmpty;
+    }
+    osg::ref_ptr<osg::Vec3Array> getNormals() const
+    {
+        const SheetRenderData* data = this->renderData();
+        return data ? data->normals : nullptr;
+    }
+    osg::ref_ptr<osg::UIntArray> getTriangleIndices() const
+    {
+        const SheetRenderData* data = this->renderData();
+        return data ? data->triangleIndices : nullptr;
+    }
+    osg::ref_ptr<osg::UIntArray> getLineIndices() const
+    {
+        const SheetRenderData* data = this->renderData();
+        return data ? data->lineIndices : nullptr;
+    }
     const osg::Matrix& getMatrix() const { return _matrix; }
     void setSheetFaceColor(const osg::Vec4& color) { _sheetFaceColor = color; }
     const osg::Vec4& getSheetFaceColor() const { return _sheetFaceColor; }
@@ -83,7 +117,8 @@ protected:
 
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) override;
-    virtual GenRenderDataRet generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement) override;
+    virtual std::unique_ptr<RenderData> generateRenderData(
+        Scene* pScene, const wydb::Element* pElement) noexcept override;
 
     virtual void highlightImpl(bool flag) override;
     virtual void previewImpl(bool flag) override;
@@ -111,28 +146,10 @@ protected:
         _edgeGeomPreview = nullptr;
     }
 
-    virtual void clearRenderData() override
-    {
-        ElementNode::clearRenderData();
-        _normals = nullptr;
-        _triangleIndices = nullptr;
-        _lineIndices = nullptr;
-        _faceInfos.clear();
-        _edgeInfos.clear();
-    }
-
-    virtual void initRenderData() override
-    {
-        ElementNode::initRenderData();
-        _normals = new osg::Vec3Array();
-        _triangleIndices = new osg::UIntArray();
-        _lineIndices = new osg::UIntArray();
-        _faceInfos.clear();
-        _edgeInfos.clear();
-    }
-
 private:
-    GenRenderDataRet generateRenderData(TopoDS_Shape& shape);
+    SheetRenderData* renderData() const { return this->getRenderDataAs<SheetRenderData>(); }
+
+    bool generateMeshData(TopoDS_Shape& shape, SheetRenderData& data);
     osg::ref_ptr<osg::Geometry> generateShapeGeom(const wydb::ElementId& id, bool batch) const;
     osg::ref_ptr<osg::Geometry> generateEdgeGeom(const wydb::ElementId& id) const;
     void startNoBatchRender_Face();
@@ -179,13 +196,6 @@ private:
     osg::ref_ptr<osg::Geometry> _edgeGeom;
     osg::ref_ptr<osg::Geometry> _edgeGeomHighlight;
     osg::ref_ptr<osg::Geometry> _edgeGeomPreview;
-
-    osg::ref_ptr<osg::Vec3Array> _normals;
-    osg::ref_ptr<osg::UIntArray> _triangleIndices;
-    osg::ref_ptr<osg::UIntArray> _lineIndices;
-
-    std::vector<FaceInfo> _faceInfos;
-    std::vector<EdgeInfo> _edgeInfos;
 
     osg::Matrix _matrix;
 };

@@ -21,6 +21,7 @@
 #include <cassert>
 #include <string>
 
+#include <Standard_Failure.hxx>
 #include <gp_Quaternion.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Face.hxx>
@@ -118,19 +119,21 @@ void SolidElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Eleme
     if (pSolid->isCut()) this->addFlag(Flag::Cut);
     else this->removeFlag(Flag::Cut);
 
-    assert(_vertices);
-    assert(_normals);
-    assert(_triangleIndices);
-    assert(_lineIndices);
-    assert(!_faceInfos.empty());
-    assert(!_edgeInfos.empty());
+    SolidRenderData* data = this->renderData();
+    if (!data || !data->vertices || !data->normals || !data->triangleIndices || !data->lineIndices)
+    {
+        assert(false);
+        return;
+    }
+    assert(!data->faceInfos.empty());
+    assert(!data->edgeInfos.empty());
 
     // 获取移动旋转矩阵
     TopoDS_Shape shape = pSolid->getShape();
     _matrix = convertTopLocToOsgMatrix(shape.Location());
 
     // 面片
-    if (!_triangleIndices->empty())
+    if (!data->triangleIndices->empty())
     {
         // batch
         _shapeGeom = this->generateShapeGeom(pElem->getId(), true);
@@ -147,7 +150,7 @@ void SolidElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Eleme
         _osgNode->addChild(_shapeNode);
     }
     // 边
-    if (!_lineIndices->empty())
+    if (!data->lineIndices->empty())
     {
         _edgeGeom = this->generateEdgeGeom(pElem->getId());
         osg::ref_ptr<osg::MatrixTransform> pMatrixTransform = new osg::MatrixTransform(_matrix);
@@ -191,7 +194,8 @@ void SolidElementNode::setEdgesVisible(bool flag)
 
 osg::ref_ptr<osg::Geometry> SolidElementNode::generateShapeGeom(const wydb::ElementId& id, bool batch) const
 {
-    if (_triangleIndices->empty() || _faceInfos.empty())
+    SolidRenderData* data = this->renderData();
+    if (!data || !data->triangleIndices || data->triangleIndices->empty() || data->faceInfos.empty())
     {
         assert(false);
         return nullptr;
@@ -203,26 +207,26 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateShapeGeom(const wydb::Elem
     shapeGeom->setUseVertexBufferObjects(true);
     shapeGeom->getOrCreateStateSet()->setMode(GL_CULL_FACE, osg::StateAttribute::ON);
     shapeGeom->getOrCreateStateSet()->setAttribute(new osg::CullFace(osg::CullFace::BACK));
-    shapeGeom->setVertexArray(_vertices);
-    shapeGeom->setNormalArray(_normals, osg::Array::Binding::BIND_PER_VERTEX);
+    shapeGeom->setVertexArray(data->vertices);
+    shapeGeom->setNormalArray(data->normals, osg::Array::Binding::BIND_PER_VERTEX);
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
     if (batch)
     {
         colors->push_back(this->getFaceDefaultColor());
         shapeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-        shapeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_TRIANGLES, _triangleIndices->begin(), _triangleIndices->end()));
+        shapeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_TRIANGLES, data->triangleIndices->begin(), data->triangleIndices->end()));
     }
     else
     {
-        size_t numFaces = _faceInfos.size();
+        size_t numFaces = data->faceInfos.size();
         colors->resize(numFaces, this->getFaceDefaultColor());
         shapeGeom->setColorArray(colors, osg::Array::Binding::BIND_PER_PRIMITIVE_SET);
 
-        auto iterBeg = _triangleIndices->begin();
+        auto iterBeg = data->triangleIndices->begin();
         auto iterEnd = iterBeg;
         for (size_t i = 0; i < numFaces; ++i)
         {
-            iterEnd += static_cast<size_t>(_faceInfos[i].numTriangles) * 3;
+            iterEnd += static_cast<size_t>(data->faceInfos[i].numTriangles) * 3;
             shapeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_TRIANGLES, iterBeg, iterEnd));
             iterBeg = iterEnd;
         }
@@ -234,7 +238,8 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateShapeGeom(const wydb::Elem
 
 osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom(const wydb::ElementId& id) const
 {
-    if (_lineIndices->empty() || _edgeInfos.empty())
+    SolidRenderData* data = this->renderData();
+    if (!data || !data->lineIndices || data->lineIndices->empty() || data->edgeInfos.empty())
     {
         assert(false);
         return nullptr;
@@ -244,11 +249,11 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom(const wydb::Eleme
     edgeGeom->setNodeMask(this->getNodeType());
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
-    edgeGeom->setVertexArray(_vertices);
+    edgeGeom->setVertexArray(data->vertices);
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
     colors->push_back(this->getEdgeDefaultColor());
     edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-    edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, _lineIndices->begin(), _lineIndices->end()));
+    edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, data->lineIndices->begin(), data->lineIndices->end()));
     edgeGeom->setUserValue("ElementId", static_cast<unsigned int>(id.value()));
     osg::StateSet* stateSet = edgeGeom->getOrCreateStateSet();
     stateSet->setAttributeAndModes(new osg::LineWidth(1.5f), osg::StateAttribute::ON);
@@ -258,7 +263,8 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom(const wydb::Eleme
 
 osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Highlight()
 {
-    if (_lineIndices->empty() || _edgeInfos.empty())
+    SolidRenderData* data = this->renderData();
+    if (!data || !data->lineIndices || data->lineIndices->empty() || data->edgeInfos.empty())
     {
         assert(false);
         return nullptr;
@@ -267,7 +273,7 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Highlight()
     // 索引数组
     osg::ref_ptr<osg::UIntArray> indices = new osg::UIntArray();
     size_t totalNumIndices(0);
-    for (const EdgeInfo& edgeInfo : _edgeInfos)
+    for (const EdgeInfo& edgeInfo : data->edgeInfos)
     {
         if (edgeInfo.hasFlag(EdgeInfoFlag::Highlight))
         {
@@ -282,14 +288,14 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Highlight()
 
     // 填充索引数组
     size_t startIndex = 0;
-    for (const EdgeInfo& edgeInfo : _edgeInfos)
+    for (const EdgeInfo& edgeInfo : data->edgeInfos)
     {
         size_t numIndices = static_cast<size_t>(edgeInfo.numLines) * 2;
         if (edgeInfo.hasFlag(EdgeInfoFlag::Highlight))
         {
             indices->insert(indices->end(),
-                _lineIndices->begin() + startIndex,
-                _lineIndices->begin() + startIndex + numIndices);
+                data->lineIndices->begin() + startIndex,
+                data->lineIndices->begin() + startIndex + numIndices);
         }
         startIndex += numIndices;
     }
@@ -299,7 +305,7 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Highlight()
     edgeGeom->setNodeMask(~ElementNodeType::All); // 不可拾取
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
-    edgeGeom->setVertexArray(_vertices);
+    edgeGeom->setVertexArray(data->vertices);
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
     colors->push_back(Colors::kEdge_Highlight);
     edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
@@ -316,12 +322,13 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Highlight()
 
 osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Preview(unsigned int edgeIndex)
 {
-    if (_lineIndices->empty() || _edgeInfos.empty())
+    SolidRenderData* data = this->renderData();
+    if (!data || !data->lineIndices || data->lineIndices->empty() || data->edgeInfos.empty())
     {
         assert(false);
         return nullptr;
     }
-    if (edgeIndex >= _edgeInfos.size())
+    if (edgeIndex >= data->edgeInfos.size())
     {
         assert(false);
         return nullptr;
@@ -329,20 +336,20 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Preview(unsigned 
 
     // 索引数组
     osg::ref_ptr<osg::UIntArray> indices = new osg::UIntArray();
-    size_t numIndices = static_cast<size_t>(_edgeInfos[edgeIndex].numLines) * 2;
+    size_t numIndices = static_cast<size_t>(data->edgeInfos[edgeIndex].numLines) * 2;
     indices->reserve(numIndices);
 
     // 填充索引数组
     size_t startIndex = 0;
-    for (size_t i = 0; i < _edgeInfos.size(); ++i)
+    for (size_t i = 0; i < data->edgeInfos.size(); ++i)
     {
-        const EdgeInfo& edgeInfo = _edgeInfos[i];
+        const EdgeInfo& edgeInfo = data->edgeInfos[i];
         numIndices = static_cast<size_t>(edgeInfo.numLines) * 2;
         if (i == edgeIndex)
         {
             indices->insert(indices->end(),
-                _lineIndices->begin() + startIndex,
-                _lineIndices->begin() + startIndex + numIndices);
+                data->lineIndices->begin() + startIndex,
+                data->lineIndices->begin() + startIndex + numIndices);
             break;
         }
         startIndex += numIndices;
@@ -353,7 +360,7 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Preview(unsigned 
     edgeGeom->setNodeMask(~ElementNodeType::All); // 不可拾取
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
-    edgeGeom->setVertexArray(_vertices);
+    edgeGeom->setVertexArray(data->vertices);
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
     colors->push_back(Colors::kEdge_Preview);
     edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
@@ -368,33 +375,50 @@ osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Preview(unsigned 
     return edgeGeom;
 }
 
-ElementNode::GenRenderDataRet SolidElementNode::generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement)
+std::unique_ptr<RenderData> SolidElementNode::generateRenderData(
+    Scene* pScene, const wydb::Element* pElement) noexcept
 {
-    _normals = new osg::Vec3Array();
-    _triangleIndices = new osg::UIntArray();
-    _lineIndices = new osg::UIntArray();
-    _faceInfos.clear();
+    (void)pScene;
 
-    assert(pElement);
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pElement);
-    if (!pSolid)
+    try
+    {
+        auto data = std::make_unique<SolidRenderData>();
+
+        assert(pElement);
+        const wy3d::Solid* pSolid = wy3d::Solid::cast(pElement);
+        if (!pSolid)
+        {
+            assert(false);
+            return nullptr;
+        }
+
+        assert(pSolid);
+        TopLoc_Location loc;
+        TopoDS_Shape shape = pSolid->getShape();
+        shape.Location(loc, Standard_False);
+        if (!this->generateMeshData(shape, *data))
+        {
+            return nullptr;
+        }
+        return data;
+    }
+    catch (const Standard_Failure&)
     {
         assert(false);
-        return GenRenderDataRet::Ok_Empty;
+        return nullptr;
     }
-
-    assert(pSolid);
-    TopLoc_Location loc;
-    TopoDS_Shape shape = pSolid->getShape();
-    shape.Location(loc, Standard_False);
-    return this->generateRenderData(shape);
+    catch (...)
+    {
+        assert(false);
+        return nullptr;
+    }
 }
 
-ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape& shape)
+bool SolidElementNode::generateMeshData(TopoDS_Shape& shape, SolidRenderData& data)
 {
     if (shape.IsNull())
     {
-        return GenRenderDataRet::Ok_Empty;
+        return false;
     }
 
     // 布尔差可以得到shape.IsNull()为false但是shape里面啥都没有
@@ -402,7 +426,7 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
     bool hasFace = exp.More();
     if (!hasFace)
     {
-        return GenRenderDataRet::Ok_Empty;
+        return false;
     }
 
     // 由包围盒确定三角网格化精度
@@ -491,10 +515,10 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
     numNodes += vertexMap.Extent();
 
     // 数组容量
-    _vertices->resize(numNodes, osg::Vec3(0.0f, 0.0f, 0.0f));
-    _normals->resize(numNorms, osg::Vec3(0.0f, 0.0f, 1.0f));
-    _triangleIndices->resize(static_cast<size_t>(numTriangles) * 3, 0);
-    _faceInfos.resize(numFaces);
+    data.vertices->resize(numNodes, osg::Vec3(0.0f, 0.0f, 0.0f));
+    data.normals->resize(numNorms, osg::Vec3(0.0f, 0.0f, 1.0f));
+    data.triangleIndices->resize(static_cast<size_t>(numTriangles) * 3, 0);
+    data.faceInfos.resize(numFaces);
 
     // 遍历面
     unsigned int ii = 0, faceNodeOffset = 0, faceTriaOffset = 0;
@@ -509,7 +533,7 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
         if (mesh.IsNull())
         {
             assert(false);
-            _faceInfos[ii].numTriangles = 0; // 第ii个面的三角面片的数量
+            data.faceInfos[ii].numTriangles = 0; // 第ii个面的三角面片的数量
             continue;
         }
 
@@ -530,7 +554,7 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
             {
                 pnt.Transform(myTransf);
             }
-            (*_vertices)[idxVertices++].set(pnt.X(), pnt.Y(), pnt.Z());
+            (*data.vertices)[idxVertices++].set(pnt.X(), pnt.Y(), pnt.Z());
         }
         assert(idxVertices == faceNodeOffset + nbNodesInFace);
 
@@ -613,7 +637,7 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
             {
                 normal.Transform(myTransf);
             }
-            (*_normals)[idxNormals++].set(normal.X(), normal.Y(), normal.Z());
+            (*data.normals)[idxNormals++].set(normal.X(), normal.Y(), normal.Z());
         }
         assert(idxNormals == faceNodeOffset + nbNodesInFace);
 
@@ -628,9 +652,9 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
             {
                 std::swap(N1, N2);
             }
-            (*_triangleIndices)[idxTriIndices++] = N1 + faceNodeOffset - 1;
-            (*_triangleIndices)[idxTriIndices++] = N2 + faceNodeOffset - 1;
-            (*_triangleIndices)[idxTriIndices++] = N3 + faceNodeOffset - 1;
+            (*data.triangleIndices)[idxTriIndices++] = N1 + faceNodeOffset - 1;
+            (*data.triangleIndices)[idxTriIndices++] = N2 + faceNodeOffset - 1;
+            (*data.triangleIndices)[idxTriIndices++] = N3 + faceNodeOffset - 1;
         }
         assert(idxTriIndices == faceTriaOffset * 3 + nbTriInFace * 3);
 
@@ -663,9 +687,9 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
             }
         }
 
-        _faceInfos[ii].numTriangles = nbTriInFace;
-        _faceInfos[ii].edgeIndices.reserve(edgeIndices.size());
-        _faceInfos[ii].edgeIndices = edgeIndices;
+        data.faceInfos[ii].numTriangles = nbTriInFace;
+        data.faceInfos[ii].edgeIndices.reserve(edgeIndices.size());
+        data.faceInfos[ii].edgeIndices = edgeIndices;
         faceNodeOffset += nbNodesInFace;
         faceTriaOffset += nbTriInFace;
     }
@@ -706,7 +730,7 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
             pnt = aNodes(j);
             if (!identity) pnt.Transform(myTransf);
             int index = faceNodeOffset + j - 1;
-            (*_vertices)[idxVertices++].set(pnt.X(), pnt.Y(), pnt.Z());
+            (*data.vertices)[idxVertices++].set(pnt.X(), pnt.Y(), pnt.Z());
             lineSetMap[i].push_back(index);
         }
         faceNodeOffset += nbNodesInEdge;
@@ -719,7 +743,7 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
     {
         const TopoDS_Vertex& aVertex = TopoDS::Vertex(vertexMap(i));
         gp_Pnt pnt = BRep_Tool::Pnt(aVertex);
-        (*_vertices)[idxVertices++].set(pnt.X(), pnt.Y(), pnt.Z());
+        (*data.vertices)[idxVertices++].set(pnt.X(), pnt.Y(), pnt.Z());
     }
 
     // 校验顶点&三角面片&法向数量
@@ -729,7 +753,7 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
 
     // 边的Line
     unsigned int numOfLineIndices(0);
-    _edgeInfos.reserve(lineSetMap.size());
+    data.edgeInfos.reserve(lineSetMap.size());
     for (const auto& kvp : lineSetMap)
     {
         unsigned int size = kvp.second.size();
@@ -738,11 +762,11 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
         {
             EdgeInfo edgeInfo;
             edgeInfo.numLines = size - 1;
-            _edgeInfos.emplace_back(edgeInfo);
+            data.edgeInfos.emplace_back(edgeInfo);
             numOfLineIndices += (size - 1) * 2;
         }
     }
-    _lineIndices->resize(numOfLineIndices);
+    data.lineIndices->resize(numOfLineIndices);
     unsigned int idxLine(0);
     for (const auto& kvp : lineSetMap)
     {
@@ -750,13 +774,13 @@ ElementNode::GenRenderDataRet SolidElementNode::generateRenderData(TopoDS_Shape&
         if (indices.size() <= 1) continue;
         for (size_t i = 0; i < indices.size() - 1; ++i)
         {
-            (*_lineIndices)[idxLine++] = indices[i];
-            (*_lineIndices)[idxLine++] = indices[i + 1];
+            (*data.lineIndices)[idxLine++] = indices[i];
+            (*data.lineIndices)[idxLine++] = indices[i + 1];
         }
     }
     assert(idxLine == numOfLineIndices);
 
-    return GenRenderDataRet::Ok;
+    return true;
 }
 
 void SolidElementNode::highlightImpl(bool flag)
@@ -923,11 +947,12 @@ void SolidElementNode::updateColorAndTransparent()
 
 unsigned int SolidElementNode::getFaceIndex(unsigned int primitiveIndex) const
 {
-    if (_faceInfos.empty()) return static_cast<unsigned int>(-1);
+    const SolidRenderData* data = this->renderData();
+    if (!data || data->faceInfos.empty()) return static_cast<unsigned int>(-1);
 
     unsigned int faceIndex(-1);
     unsigned int count(0);
-    for (auto iter = _faceInfos.cbegin(); iter != _faceInfos.cend(); ++iter)
+    for (auto iter = data->faceInfos.cbegin(); iter != data->faceInfos.cend(); ++iter)
     {
         ++faceIndex;
         count += iter->numTriangles;
@@ -942,11 +967,12 @@ unsigned int SolidElementNode::getFaceIndex(unsigned int primitiveIndex) const
 
 unsigned int SolidElementNode::getEdgeIndex(unsigned int primitiveIndex) const
 {
-    if (_edgeInfos.empty()) return static_cast<unsigned int>(-1);
+    const SolidRenderData* data = this->renderData();
+    if (!data || data->edgeInfos.empty()) return static_cast<unsigned int>(-1);
 
     unsigned int edgeIndex(-1);
     unsigned int count(0);
-    for (auto iter = _edgeInfos.cbegin(); iter != _edgeInfos.cend(); ++iter)
+    for (auto iter = data->edgeInfos.cbegin(); iter != data->edgeInfos.cend(); ++iter)
     {
         ++edgeIndex;
         count += iter->numLines;
@@ -1035,7 +1061,8 @@ wyap::Selection SolidElementNode::createSelection(
 
 void SolidElementNode::highlightFace(unsigned int faceIndex, bool flag)
 {
-    if (faceIndex >= _faceInfos.size())
+    SolidRenderData* data = this->renderData();
+    if (!data || faceIndex >= data->faceInfos.size())
     {
         assert(false);
         return;
@@ -1045,18 +1072,19 @@ void SolidElementNode::highlightFace(unsigned int faceIndex, bool flag)
     if (flag)
     {
         this->setFaceColor(faceIndex, Colors::kSolidFace_Highlight);
-        _faceInfos[faceIndex].addFlag(FaceInfoFlag::Highlight);
+        data->faceInfos[faceIndex].addFlag(FaceInfoFlag::Highlight);
     }
     else
     {
         this->setFaceColor(faceIndex, this->getFaceDefaultColor());
-        _faceInfos[faceIndex].removeFlag(FaceInfoFlag::Highlight);
+        data->faceInfos[faceIndex].removeFlag(FaceInfoFlag::Highlight);
     }
 }
 
 void SolidElementNode::highlightFace(unsigned int faceIndex, const osg::Vec4& color)
 {
-    if (faceIndex >= _faceInfos.size())
+    SolidRenderData* data = this->renderData();
+    if (!data || faceIndex >= data->faceInfos.size())
     {
         assert(false);
         return;
@@ -1064,12 +1092,13 @@ void SolidElementNode::highlightFace(unsigned int faceIndex, const osg::Vec4& co
 
     this->startNoBatchRender_Face();
     this->setFaceColor(faceIndex, color);
-    _faceInfos[faceIndex].addFlag(FaceInfoFlag::Highlight);
+    data->faceInfos[faceIndex].addFlag(FaceInfoFlag::Highlight);
 }
 
 void SolidElementNode::previewFace(unsigned int faceIndex, bool flag)
 {
-    if (faceIndex >= _faceInfos.size())
+    SolidRenderData* data = this->renderData();
+    if (!data || faceIndex >= data->faceInfos.size())
     {
         return;
     }
@@ -1078,7 +1107,7 @@ void SolidElementNode::previewFace(unsigned int faceIndex, bool flag)
     if (flag)
     {
         // 预览态是临时态(没有变量记录是否在该状态下),不能影响当前的高亮态.
-        if (!_faceInfos[faceIndex].hasFlag(FaceInfoFlag::Highlight))
+        if (!data->faceInfos[faceIndex].hasFlag(FaceInfoFlag::Highlight))
         {
             this->setFaceColor(faceIndex, Colors::kSolidFace_Preview);
         }
@@ -1086,7 +1115,7 @@ void SolidElementNode::previewFace(unsigned int faceIndex, bool flag)
     else
     {
         // 预览态是临时态(没有变量记录是否在该状态下),不能影响当前的高亮态.
-        if (!_faceInfos[faceIndex].hasFlag(FaceInfoFlag::Highlight))
+        if (!data->faceInfos[faceIndex].hasFlag(FaceInfoFlag::Highlight))
         {
             this->setFaceColor(faceIndex, this->getFaceDefaultColor());
         }
@@ -1101,14 +1130,15 @@ void SolidElementNode::highlightEdge(unsigned int edgeIndex, bool flag)
         _edgeGeomHighlight = nullptr;
     }
 
-    if (edgeIndex >= _edgeInfos.size())
+    SolidRenderData* data = this->renderData();
+    if (!data || edgeIndex >= data->edgeInfos.size())
     {
         assert(false);
         return;
     }
 
-    if (flag) _edgeInfos[edgeIndex].addFlag(EdgeInfoFlag::Highlight);
-    else _edgeInfos[edgeIndex].removeFlag(EdgeInfoFlag::Highlight);
+    if (flag) data->edgeInfos[edgeIndex].addFlag(EdgeInfoFlag::Highlight);
+    else data->edgeInfos[edgeIndex].removeFlag(EdgeInfoFlag::Highlight);
 
      osg::ref_ptr<osg::Geometry> edgeGeomHighlight = this->generateEdgeGeom_Highlight();
      if (edgeGeomHighlight)
@@ -1126,13 +1156,14 @@ void SolidElementNode::previewEdge(unsigned int edgeIndex, bool flag)
         _edgeGeomPreview = nullptr;
     }
 
-    if (edgeIndex >= _edgeInfos.size())
+    SolidRenderData* data = this->renderData();
+    if (!data || edgeIndex >= data->edgeInfos.size())
     {
         assert(false);
         return;
     }
 
-    if (flag && _edgeInfos[edgeIndex].hasFlag(EdgeInfoFlag::Highlight))
+    if (flag && data->edgeInfos[edgeIndex].hasFlag(EdgeInfoFlag::Highlight))
         return;
 
     if (flag)
@@ -1210,7 +1241,8 @@ bool SolidElementNode::setFaceColor(unsigned int faceIndex, const osg::Vec4& col
     {
         return false;
     }
-    if (faceIndex >= _faceInfos.size())
+    SolidRenderData* data = this->renderData();
+    if (!data || faceIndex >= data->faceInfos.size())
     {
         return false;
     }
@@ -1220,7 +1252,7 @@ bool SolidElementNode::setFaceColor(unsigned int faceIndex, const osg::Vec4& col
     osg::Vec4Array* pColorVec4Arr = dynamic_cast<osg::Vec4Array*>(_nobatchShapeGeom->getColorArray());
     if (pColorVec4Arr)
     {
-        assert(pColorVec4Arr->size() == _faceInfos.size());
+        assert(pColorVec4Arr->size() == data->faceInfos.size());
         if (faceIndex < pColorVec4Arr->size())
         {
             (*pColorVec4Arr)[faceIndex] = color;

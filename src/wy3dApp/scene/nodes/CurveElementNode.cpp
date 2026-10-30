@@ -20,6 +20,7 @@
 
 #include <cassert>
 
+#include <Standard_Failure.hxx>
 #include <gp_Quaternion.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Face.hxx>
@@ -74,14 +75,15 @@ void CurveElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Eleme
         return;
     }
 
-    if (!_vertices || !_lineIndices)
+    LineRenderData* data = this->renderData();
+    if (!data || !data->vertices || !data->lineIndices)
     {
         assert(false);
         return;
     }
 
     // 生成渲染对象
-    if (!_lineIndices->empty())
+    if (!data->lineIndices->empty())
     {
         _curvesGeom = new osg::Geometry();
         _curvesGeom->setNodeMask(this->getNodeType());
@@ -89,11 +91,11 @@ void CurveElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Eleme
         {
             _curvesGeom->setUseDisplayList(false);
             _curvesGeom->setUseVertexBufferObjects(true);
-            _curvesGeom->setVertexArray(_vertices);
+            _curvesGeom->setVertexArray(data->vertices);
             osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
             colors->push_back(Colors::kSketch);
             _curvesGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-            _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, _lineIndices->begin(), _lineIndices->end()));
+            _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, data->lineIndices->begin(), data->lineIndices->end()));
             _curvesGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
             _curvesGeom->setUserValue("ElementId", static_cast<unsigned int>(pElem->getId().value()));
             _curvesGeom->getStateSet()->setAttribute(new osg::LineWidth(1.2f));
@@ -102,89 +104,100 @@ void CurveElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Eleme
     }
 }
 
-ElementNode::GenRenderDataRet CurveElementNode::generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement)
+std::unique_ptr<RenderData> CurveElementNode::generateRenderData(
+    Scene* pScene, const wydb::Element* pElement) noexcept
 {
-    _vertices = new osg::Vec3Array();
-    _lineIndices = new osg::UIntArray();
+    (void)pScene;
 
-    assert(pElement);
-    const wy3d::Curve* pCurve = wy3d::Curve::cast(pElement);
-    if (!pCurve)
+    try
+    {
+        auto data = std::make_unique<LineRenderData>();
+
+        assert(pElement);
+        const wy3d::Curve* pCurve = wy3d::Curve::cast(pElement);
+        if (!pCurve)
+        {
+            assert(false);
+            return nullptr;
+        }
+
+        TopoDS_Edge edge = pCurve->getEdge();
+        if (edge.IsNull())
+        {
+            assert(false);
+            return nullptr;
+        }
+
+        // 由包围盒确定三角网格化精度
+        Bnd_Box bounds;
+        BRepBndLib::Add(edge, bounds);
+        bounds.SetGap(0.0);
+        Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
+        bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
+        Standard_Real deflection = ((xMax - xMin) + (yMax - yMin) + (zMax - zMin)) / 2400.0;
+        if (deflection < gp::Resolution())
+        {
+            deflection = Precision::Confusion();
+        }
+        deflection = std::min(deflection, 20.0);
+        Standard_Real AngDeflectionRads = 0.5; // 弧度
+
+        // 离散化
+        BRepMesh_IncrementalMesh incrementalMesh(edge, deflection, Standard_False, AngDeflectionRads, Standard_True);
+
+        TopLoc_Location aLoc;
+        Handle(Poly_Polygon3D) aPoly = BRep_Tool::Polygon3D(edge, aLoc);
+        if (aPoly.IsNull())
+        {
+            assert(false);
+            return nullptr;
+        }
+
+        Standard_Boolean identity = true;
+        gp_Trsf myTransf;
+        if (!aLoc.IsIdentity())
+        {
+            identity = false;
+            myTransf = aLoc.Transformation();
+        }
+
+        // 顶点
+        const TColgp_Array1OfPnt& aNodes = aPoly->Nodes();
+        int nbNodesInEdge = aPoly->NbNodes();
+        data->vertices->reserve(nbNodesInEdge);
+        gp_Pnt pnt;
+        for (Standard_Integer j = 1; j <= nbNodesInEdge; j++)
+        {
+            pnt = aNodes(j);
+            if (!identity) pnt.Transform(myTransf);
+            data->vertices->push_back(osg::Vec3(pnt.X(), pnt.Y(), pnt.Z()));
+        }
+
+        // 索引
+        if (data->vertices->size() <= 1)
+        {
+            assert(false);
+            return nullptr;
+        }
+        data->lineIndices->reserve((data->vertices->size() - 1) * 2);
+        for (size_t i = 0; i < data->vertices->size() - 1; ++i)
+        {
+            data->lineIndices->push_back(i);
+            data->lineIndices->push_back(i + 1);
+        }
+
+        return data;
+    }
+    catch (const Standard_Failure&)
     {
         assert(false);
-        return GenRenderDataRet::Ok_Empty;
-    }    if (!pCurve)
+        return nullptr;
+    }
+    catch (...)
     {
         assert(false);
-        return GenRenderDataRet::Ok_Empty;
+        return nullptr;
     }
-
-    TopoDS_Edge edge = pCurve->getEdge();
-    if (edge.IsNull())
-    {
-        assert(false);
-        return GenRenderDataRet::Ok_Empty;
-    }
-
-    // 由包围盒确定三角网格化精度
-    Bnd_Box bounds;
-    BRepBndLib::Add(edge, bounds);
-    bounds.SetGap(0.0);
-    Standard_Real xMin, yMin, zMin, xMax, yMax, zMax;
-    bounds.Get(xMin, yMin, zMin, xMax, yMax, zMax);
-    Standard_Real deflection = ((xMax - xMin) + (yMax - yMin) + (zMax - zMin)) / 2400.0;
-    if (deflection < gp::Resolution())
-    {
-        deflection = Precision::Confusion();
-    }
-    deflection = std::min(deflection, 20.0);
-    Standard_Real AngDeflectionRads = 0.5; // 弧度
-
-    // 离散化
-    BRepMesh_IncrementalMesh incrementalMesh(edge, deflection, Standard_False, AngDeflectionRads, Standard_True);
-
-    TopLoc_Location aLoc;
-    Handle(Poly_Polygon3D) aPoly = BRep_Tool::Polygon3D(edge, aLoc);
-    if (aPoly.IsNull())
-    {
-        assert(false);
-        return GenRenderDataRet::Ok_Empty;
-    }
-
-    Standard_Boolean identity = true;
-    gp_Trsf myTransf;
-    if (!aLoc.IsIdentity())
-    {
-        identity = false;
-        myTransf = aLoc.Transformation();
-    }
-
-    // 顶点
-    const TColgp_Array1OfPnt& aNodes = aPoly->Nodes();
-    int nbNodesInEdge = aPoly->NbNodes();
-    _vertices->reserve(nbNodesInEdge);
-    gp_Pnt pnt;
-    for (Standard_Integer j = 1; j <= nbNodesInEdge; j++)
-    {
-        pnt = aNodes(j);
-        if (!identity) pnt.Transform(myTransf);
-        (*_vertices).push_back(osg::Vec3(pnt.X(), pnt.Y(), pnt.Z()));
-    }
-
-    // 索引
-    if (_vertices->size() <= 1)
-    {
-        assert(false);
-        return GenRenderDataRet::Ok_Empty;
-    }
-    _lineIndices->reserve((_vertices->size() - 1) * 2);
-    for (size_t i = 0; i < _vertices->size() - 1; ++i)
-    {
-        (*_lineIndices).push_back(i);
-        (*_lineIndices).push_back(i + 1);
-    }
-
-    return GenRenderDataRet::Ok;
 }
 
 void CurveElementNode::highlightImpl(bool flag)

@@ -20,6 +20,7 @@
 
 #include <cassert>
 
+#include <Standard_Failure.hxx>
 #include <osg/LineWidth>
 #include <osg/StateSet>
 #include <OsgUtils.h>
@@ -51,22 +52,26 @@ void SketchEntity3DElementNode::generateRenderObjectImpl(Scene* pScene, const wy
         return;
     }
 
-    assert(_vertices);
-    assert(_lineIndices);
+    LineRenderData* data = this->renderData();
+    if (!data || !data->vertices || !data->lineIndices)
+    {
+        assert(false);
+        return;
+    }
 
     // 生成渲染对象
-    if (!_lineIndices->empty())
+    if (!data->lineIndices->empty())
     {
         _curvesGeom = new osg::Geometry();
         _curvesGeom->setNodeMask(this->getNodeType());
         {
             _curvesGeom->setUseDisplayList(false);
             _curvesGeom->setUseVertexBufferObjects(true);
-            _curvesGeom->setVertexArray(_vertices);
+            _curvesGeom->setVertexArray(data->vertices);
             osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
             colors->push_back(Colors::kSketchEntity);
             _curvesGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-            _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, _lineIndices->begin(), _lineIndices->end()));
+            _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, data->lineIndices->begin(), data->lineIndices->end()));
             _curvesGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
             _curvesGeom->setUserValue("ElementId", static_cast<unsigned int>(pElem->getId().value()));
             _curvesGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(2.0f));
@@ -75,32 +80,48 @@ void SketchEntity3DElementNode::generateRenderObjectImpl(Scene* pScene, const wy
     }
 }
 
-ElementNode::GenRenderDataRet SketchEntity3DElementNode::generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement)
+std::unique_ptr<RenderData> SketchEntity3DElementNode::generateRenderData(
+    Scene* pScene, const wydb::Element* pElement) noexcept
 {
-    _lineIndices = new osg::UIntArray();
+    (void)pScene;
 
-    assert(pElement);
-    const wy3d::SketchEntity3D* pSketchEntity3D = wy3d::SketchEntity3D::cast(pElement);
-    if (!pSketchEntity3D)
+    try
+    {
+        auto data = std::make_unique<LineRenderData>();
+
+        assert(pElement);
+        const wy3d::SketchEntity3D* pSketchEntity3D = wy3d::SketchEntity3D::cast(pElement);
+        if (!pSketchEntity3D)
+        {
+            assert(false);
+            return nullptr;
+        }
+
+        std::shared_ptr<SketchEntity3DLinearization> pEntityLinear = std::make_shared<SketchEntity3DLinearization>(pSketchEntity3D);
+        data->vertices->reserve(pEntityLinear->getVertices().size());
+        data->lineIndices->reserve(pEntityLinear->getIndices().size());
+        unsigned int baseIndex = data->vertices->size();
+        for (const wy::Vector3& pnt : pEntityLinear->getVertices())
+        {
+            data->vertices->push_back(osg::Vec3(pnt.x(), pnt.y(), pnt.z()));
+        }
+        for (unsigned int index : pEntityLinear->getIndices())
+        {
+            data->lineIndices->push_back(baseIndex + index);
+        }
+
+        return data;
+    }
+    catch (const Standard_Failure&)
     {
         assert(false);
-        return GenRenderDataRet::Ok_Empty;
+        return nullptr;
     }
-
-    std::shared_ptr<SketchEntity3DLinearization> pEntityLinear = std::make_shared<SketchEntity3DLinearization>(pSketchEntity3D);
-    _vertices->reserve(pEntityLinear->getVertices().size());
-    _lineIndices->reserve(pEntityLinear->getIndices().size());
-    unsigned int baseIndex = _vertices->size();
-    for (const wy::Vector3& pnt : pEntityLinear->getVertices())
+    catch (...)
     {
-        _vertices->push_back(osg::Vec3(pnt.x(), pnt.y(), pnt.z()));
+        assert(false);
+        return nullptr;
     }
-    for (unsigned int index : pEntityLinear->getIndices())
-    {
-        _lineIndices->push_back(baseIndex + index);
-    }
-
-    return GenRenderDataRet::Ok;
 }
 
 void SketchEntity3DElementNode::highlightImpl(bool flag)

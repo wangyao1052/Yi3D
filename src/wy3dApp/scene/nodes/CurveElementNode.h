@@ -22,6 +22,8 @@
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
+#include "scene/nodes/ElementRenderData.h"
+
 namespace wy3dApp {
 
 class CurveElementNode : public ElementNode
@@ -34,7 +36,8 @@ public:
 
 protected:
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
-    virtual GenRenderDataRet generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement) override;
+    virtual std::unique_ptr<RenderData> generateRenderData(
+        Scene* pScene, const wydb::Element* pElement) noexcept override;
 
     virtual void highlightImpl(bool flag) override;
     virtual void previewImpl(bool flag) override;
@@ -53,32 +56,14 @@ protected:
         _curvesGeom = nullptr;
     }
 
-    // 清空渲染数据
-    virtual void clearRenderData() override
-    {
-        ElementNode::clearRenderData();
-        if (_lineIndices) _lineIndices = nullptr;
-    }
-
-    // 初始化渲染数据
-    virtual void initRenderData() override
-    {
-        ElementNode::initRenderData();
-        _lineIndices = new osg::UIntArray();
-    }
-
 private:
+    LineRenderData* renderData() const { return this->getRenderDataAs<LineRenderData>(); }
+
     //---------------------------------
     // 渲染对象
     //---------------------------------
     // 线
     osg::ref_ptr<osg::Geometry> _curvesGeom;
-
-    //---------------------------------
-    // 渲染数据
-    //---------------------------------
-    // 线索引
-    osg::ref_ptr<osg::UIntArray> _lineIndices;
 };
 
 } // namespace wy3dApp

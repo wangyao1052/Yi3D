@@ -20,6 +20,7 @@
 
 #include <cassert>
 
+#include <Standard_Failure.hxx>
 #include <gp_Quaternion.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Face.hxx>
@@ -124,22 +125,26 @@ void SketchEntityElementNode::generateRenderObjectImpl(Scene* pScene, const wydb
     float lineWidth = isDashed ? 1.5f : 2.0f;
     osg::Vec4 color = Colors::kSketchEntity;
 
-    assert(_vertices);
-    assert(_lineIndices);
+    LineRenderData* data = this->renderData();
+    if (!data || !data->vertices || !data->lineIndices)
+    {
+        assert(false);
+        return;
+    }
 
     // 生成渲染对象
-    if (!_lineIndices->empty())
+    if (!data->lineIndices->empty())
     {
         _curvesGeom = new osg::Geometry();
         _curvesGeom->setNodeMask(this->getNodeType());
         {
             _curvesGeom->setUseDisplayList(false);
             _curvesGeom->setUseVertexBufferObjects(true);
-            _curvesGeom->setVertexArray(_vertices);
+            _curvesGeom->setVertexArray(data->vertices);
             osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
             colors->push_back(color);
             _curvesGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-            osg::ref_ptr<osg::UIntArray> stripIndices = makeStripIndices(*_lineIndices);
+            osg::ref_ptr<osg::UIntArray> stripIndices = makeStripIndices(*data->lineIndices);
             _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINE_STRIP, stripIndices->begin(), stripIndices->end()));
             _curvesGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
             _curvesGeom->setUserValue("ElementId", static_cast<unsigned int>(pElem->getId().value()));
@@ -153,14 +158,14 @@ void SketchEntityElementNode::generateRenderObjectImpl(Scene* pScene, const wydb
         }
         _osgNode->addChild(_curvesGeom);
     }
-    else if (!_vertices->empty()) // 草图点
+    else if (!data->vertices->empty()) // 草图点
     {
         _curvesGeom = new osg::Geometry();
         _curvesGeom->setNodeMask(this->getNodeType());
         {
             _curvesGeom->setUseDisplayList(false);
             _curvesGeom->setUseVertexBufferObjects(true);
-            _curvesGeom->setVertexArray(_vertices);
+            _curvesGeom->setVertexArray(data->vertices);
             osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
             colors->push_back(color);
             _curvesGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
@@ -173,57 +178,73 @@ void SketchEntityElementNode::generateRenderObjectImpl(Scene* pScene, const wydb
     }
 }
 
-ElementNode::GenRenderDataRet SketchEntityElementNode::generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement)
+std::unique_ptr<RenderData> SketchEntityElementNode::generateRenderData(
+    Scene* pScene, const wydb::Element* pElement) noexcept
 {
-    _lineIndices = new osg::UIntArray();
+    (void)pScene;
 
-    assert(pElement);
-    const wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElement);
-    if (!pSketchEntity)
+    try
+    {
+        auto data = std::make_unique<LineRenderData>();
+
+        assert(pElement);
+        const wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElement);
+        if (!pSketchEntity)
+        {
+            assert(false);
+            return nullptr;
+        }
+
+        const wydb::Database* pDb = pElement->getDatabase();
+        assert(pDb);
+        wydb::ElementId sketchId = pSketchEntity->getParent();
+        const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
+        if (!pSketch)
+        {
+            assert(false);
+            return nullptr;
+        }
+        const wy3d::Plane& sketchPlane = pSketch->getPlane();
+
+        if (const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pSketchEntity))
+        {
+            unsigned int totalNumVertices(0);
+            unsigned int totalNumIndices(0);
+            std::shared_ptr<SketchEntityLinearization> pEntityLinear = std::make_shared<SketchEntityLinearization>(pSketchEntity);
+            totalNumVertices += pEntityLinear->getVertices().size();
+            totalNumIndices += pEntityLinear->getIndices().size();
+
+            data->vertices->reserve(totalNumVertices);
+            data->lineIndices->reserve(totalNumIndices);
+            unsigned int baseIndex = data->vertices->size();
+            for (const wy::Vector2& pnt2d : pEntityLinear->getVertices())
+            {
+                wy::Vector3 pnt3d = sketchPlane.value(pnt2d.x(), pnt2d.y());
+                data->vertices->push_back(osg::Vec3(pnt3d.x(), pnt3d.y(), pnt3d.z()));
+            }
+            for (unsigned int index : pEntityLinear->getIndices())
+            {
+                data->lineIndices->push_back(baseIndex + index);
+            }
+        }
+        else if (const wy3d::SketchPoint* pSketchPoint = wy3d::SketchPoint::cast(pSketchEntity))
+        {
+            wy::Vector3 pnt3d = sketchPlane.value(pSketchPoint->getPosition());
+            data->vertices->push_back(osg::Vec3(pnt3d.x(), pnt3d.y(), pnt3d.z()));
+        }
+
+        return data;
+    }
+    catch (const Standard_Failure&)
     {
         assert(false);
-        return GenRenderDataRet::Ok_Empty;
+        return nullptr;
     }
-
-    const wydb::Database* pDb = pElement->getDatabase();
-    assert(pDb);
-    wydb::ElementId sketchId = pSketchEntity->getParent();
-    const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
-    if (!pSketch)
+    catch (...)
     {
         assert(false);
-        return GenRenderDataRet::Ok_Empty;
+        return nullptr;
     }
-    const wy3d::Plane& sketchPlane = pSketch->getPlane();
-
-    if (const wy3d::SketchCurve* pSketchCurve = wy3d::SketchCurve::cast(pSketchEntity))
-    {
-        unsigned int totalNumVertices(0);
-        unsigned int totalNumIndices(0);
-        std::shared_ptr<SketchEntityLinearization> pEntityLinear = std::make_shared<SketchEntityLinearization>(pSketchEntity);
-        totalNumVertices += pEntityLinear->getVertices().size();
-        totalNumIndices += pEntityLinear->getIndices().size();
-
-        _vertices->reserve(totalNumVertices);
-        _lineIndices->reserve(totalNumIndices);
-        unsigned int baseIndex = _vertices->size();
-        for (const wy::Vector2& pnt2d : pEntityLinear->getVertices())
-        {
-            wy::Vector3 pnt3d = sketchPlane.value(pnt2d.x(), pnt2d.y());
-            _vertices->push_back(osg::Vec3(pnt3d.x(), pnt3d.y(), pnt3d.z()));
-        }
-        for (unsigned int index : pEntityLinear->getIndices())
-        {
-            _lineIndices->push_back(baseIndex + index);
-        }
-    }
-    else if (const wy3d::SketchPoint* pSketchPoint = wy3d::SketchPoint::cast(pSketchEntity))
-    {
-        wy::Vector3 pnt3d = sketchPlane.value(pSketchPoint->getPosition());
-        _vertices->push_back(osg::Vec3(pnt3d.x(), pnt3d.y(), pnt3d.z()));
-    }
-
-    return GenRenderDataRet::Ok;
 }
 
 void SketchEntityElementNode::highlightImpl(bool flag)

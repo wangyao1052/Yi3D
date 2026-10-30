@@ -20,7 +20,6 @@
 
 #include <cassert>
 
-#include <Standard_Failure.hxx>
 #include <osg/Matrix>
 #include <osg/Polytope>
 
@@ -32,6 +31,9 @@
 
 namespace wy3dApp {
 
+RenderData::RenderData() = default;
+RenderData::~RenderData() = default;
+
 ElementNode::ElementNode(const wydb::ElementId& id)
     : _id(id), _status(0), _pImpl(std::make_unique<ElementNodeImpl>())
 {
@@ -41,15 +43,11 @@ ElementNode::ElementNode(const wydb::ElementId& id)
 
 ElementNode::~ElementNode() = default;
 
-ElementNode::GenRenderDataRet ElementNode::generateRenderData(Scene* pScene, const wydb::Element* pElement)
+std::unique_ptr<RenderData> ElementNode::generateRenderData(Scene* pScene, const wydb::Element* pElement) noexcept
 {
-    this->initRenderData();
-    return this->generateRenderDataImpl(pScene, pElement);
-}
-
-ElementNode::GenRenderDataRet ElementNode::generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement)
-{
-    return GenRenderDataRet::Ok_Empty;
+    (void)pScene;
+    (void)pElement;
+    return nullptr;
 }
 
 bool ElementNode::updateApperance(wydb::Database* pDb)
@@ -93,7 +91,7 @@ bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb)
     // 清空渲染对象
     this->clearRenderObjects();
     // 清空渲染数据
-    this->clearRenderData();
+    _renderData.reset();
     // 重置包围盒
     _boundBox.init();
 
@@ -106,31 +104,9 @@ bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb)
         return false;
     }
 
-    // 生成渲染数据
-    GenRenderDataRet ret = GenRenderDataRet::Ok;
-    try
-    {
-        ret = this->generateRenderData(pScene, pElem);
-        if (GenRenderDataRet::Error == ret)
-        {
-            assert(false);
-            this->clearRenderData();
-            return false;
-        }
-    }
-    catch (const Standard_Failure&)
-    {
-        assert(false);
-        this->clearRenderData();
-        return false;
-    }
-    catch (...)
-    {
-        assert(false);
-        this->clearRenderData();
-        return false;
-    }
-    if (GenRenderDataRet::Ok_Empty == ret) // 元素没有形体
+    // 生成渲染数据；实现内部保证不抛异常
+    _renderData = this->generateRenderData(pScene, pElem);
+    if (!_renderData) // 元素没有形体或生成失败
     {
         return true;
     }
@@ -139,10 +115,13 @@ bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb)
     this->generateRenderObjectImpl(pScene, pElem);
 
     // 自动计算包围盒(局部坐标),再按模型矩阵变换到世界坐标
-    if (_pImpl->autoComputeBoundingBox && _vertices)
+    if (_pImpl->autoComputeBoundingBox)
     {
-        _boundBox = ElementBounds::compute(*_vertices);
-        ElementBounds::transform(_boundBox, this->getModelMatrix());
+        if (auto vertices = this->getVertices())
+        {
+            _boundBox = ElementBounds::compute(*vertices);
+            ElementBounds::transform(_boundBox, this->getModelMatrix());
+        }
     }
 
     // 布尔体的成员默认不显示
@@ -288,8 +267,8 @@ wyap::Selection ElementNode::createSelection(
 bool ElementNode::pickByNormalBox(osg::Polytope& polytope) const
 {
     if (!_boundBox.valid()) return false;
-    assert(_vertices);
-    if (_vertices->empty()) return false;
+    const osg::ref_ptr<osg::Vec3Array> vertices = this->getVertices();
+    if (!vertices || vertices->empty()) return false;
     
     // 过滤掉非活动的节点
     // 布尔体的成员节点为Inactive状态
@@ -305,7 +284,7 @@ bool ElementNode::pickByNormalBox(osg::Polytope& polytope) const
     const osg::Matrix matrix = this->getModelMatrix();
     if (matrix.isIdentity())
     {
-        for (const osg::Vec3& vertex : *_vertices)
+        for (const osg::Vec3& vertex : *vertices)
         {
             if (!polytope.contains(vertex))
             {
@@ -319,7 +298,7 @@ bool ElementNode::pickByNormalBox(osg::Polytope& polytope) const
         osg::Polytope transformedPolytope;
         transformedPolytope.setAndTransformProvidingInverse(polytope, matrix);
 
-        for (const osg::Vec3& vertex : *_vertices)
+        for (const osg::Vec3& vertex : *vertices)
         {
             if (!transformedPolytope.contains(vertex))
             {
@@ -334,8 +313,8 @@ bool ElementNode::pickByNormalBox(osg::Polytope& polytope) const
 bool ElementNode::pickByCrossBox(osg::Polytope& polytope) const
 {
     if (!_boundBox.valid()) return false;
-    assert(_vertices);
-    if (_vertices->empty()) return false;
+    const osg::ref_ptr<osg::Vec3Array> vertices = this->getVertices();
+    if (!vertices || vertices->empty()) return false;
 
     // 过滤掉非活动的节点
     // 布尔体的成员节点为Inactive状态

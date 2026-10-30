@@ -24,6 +24,8 @@
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
+#include "scene/nodes/ElementRenderData.h"
+
 namespace wy3dApp {
 
 class SketchElementNode : public ElementNode
@@ -87,7 +89,8 @@ public:
 
 protected:
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
-    virtual GenRenderDataRet generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement) override;
+    virtual std::unique_ptr<RenderData> generateRenderData(
+        Scene* pScene, const wydb::Element* pElement) noexcept override;
 
     virtual void highlightImpl(bool flag) override;
     virtual void previewImpl(bool flag) override;
@@ -121,31 +124,18 @@ protected:
         _pointsGeom = nullptr;
     }
 
-    // 清空渲染数据
-    virtual void clearRenderData() override
-    {
-        ElementNode::clearRenderData();
-
-        _lineIndices = nullptr;
-        _centerLineIndices = nullptr;
-        _pointIndices = nullptr;
-        _curveInfos.clear();
-        _centerLineInfos.clear();
-    }
-
-    // 初始化渲染数据
-    virtual void initRenderData() override
-    {
-        ElementNode::initRenderData();
-
-        _lineIndices = new osg::UIntArray();
-        _centerLineIndices = new osg::UIntArray();
-        _pointIndices = new osg::UIntArray();
-        _curveInfos.clear();
-        _centerLineInfos.clear();
-    }
-
 private:
+    class SketchRenderData final : public LineRenderData
+    {
+    public:
+        osg::ref_ptr<osg::UIntArray> centerLineIndices = new osg::UIntArray();
+        osg::ref_ptr<osg::UIntArray> pointIndices = new osg::UIntArray();
+        std::vector<CurveInfo> curveInfos;
+        std::vector<CurveInfo> centerLineInfos;
+    };
+
+    SketchRenderData* renderData() const { return this->getRenderDataAs<SketchRenderData>(); }
+
     //---------------------------------
     // 渲染对象
     //---------------------------------
@@ -160,20 +150,6 @@ private:
     // 点
     osg::ref_ptr<osg::Geometry> _pointsGeom;
 
-    //---------------------------------
-    // 渲染数据
-    //---------------------------------
-    // 普通线索引
-    osg::ref_ptr<osg::UIntArray> _lineIndices;
-    // 中心线索引
-    osg::ref_ptr<osg::UIntArray> _centerLineIndices;
-    // 点索引
-    osg::ref_ptr<osg::UIntArray> _pointIndices;
-
-    // 线数据
-    std::vector<CurveInfo> _curveInfos;
-    // 中心线数据
-    std::vector<CurveInfo> _centerLineInfos;
 };
 
 } // namespace wy3dApp

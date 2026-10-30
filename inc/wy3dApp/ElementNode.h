@@ -19,6 +19,7 @@
 #ifndef WY3DAPP_ELEMENT_NODE_H
 #define WY3DAPP_ELEMENT_NODE_H
 
+#include <cassert>
 #include <memory>
 
 #include <osg/Array>
@@ -50,6 +51,19 @@ class ElementNodeImpl;
 class Scene;
 class SceneImpl;
 
+class WY3DAPP_EXPORT RenderData
+{
+public:
+    RenderData();
+    virtual ~RenderData();
+
+    RenderData(const RenderData&) = delete;
+    RenderData& operator=(const RenderData&) = delete;
+
+    // 顶点数据
+    osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
+};
+
 // 元素节点
 // 生命周期由Scene类管理
 class WY3DAPP_EXPORT ElementNode
@@ -69,10 +83,10 @@ public:
         unsigned int primitiveIndex,
         wy3d::SelectionType selType) const;
 
-    // 获取顶点数组
+    // 获取顶点数组;元素没有形体或生成失败时返回 nullptr
     osg::ref_ptr<osg::Vec3Array> getVertices() const
     {
-        return _vertices;
+        return _renderData ? _renderData->vertices : nullptr;
     }
 
 public:
@@ -169,15 +183,18 @@ protected:
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) {}
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) {}
 
-    // 生成渲染数据
-    enum class GenRenderDataRet
+    // 生成渲染数据；返回 nullptr 表示元素没有形体或生成失败
+    // 实现内部必须自己捕获所有异常，不能抛出
+    virtual std::unique_ptr<RenderData> generateRenderData(
+        Scene* pScene, const wydb::Element* pElement) noexcept;
+
+    // 按节点实际类型获取渲染数据；类型不匹配时断言
+    template <typename T>
+    T* getRenderDataAs() const
     {
-        Ok = 0,
-        Ok_Empty = 1,
-        Error = 2
-    };
-    GenRenderDataRet generateRenderData(Scene* pScene, const wydb::Element* pElement);
-    virtual GenRenderDataRet generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement);
+        assert(!_renderData || dynamic_cast<T*>(_renderData.get()));
+        return static_cast<T*>(_renderData.get());
+    }
 
 protected:
     // 清空渲染对象
@@ -185,18 +202,6 @@ protected:
     {
         unsigned int numChild = _osgNode->getNumChildren();
         _osgNode->removeChildren(0, numChild);
-    }
-
-    // 清空渲染数据
-    virtual void clearRenderData()
-    {
-        if (_vertices) _vertices = nullptr;
-    }
-
-    // 初始化渲染数据
-    virtual void initRenderData()
-    {
-        _vertices = new osg::Vec3Array();
     }
 
 protected:
@@ -235,13 +240,12 @@ protected:
     // 包围盒
     osg::BoundingBox _boundBox;
 
+private:
     //---------------------------------
     // 渲染数据
     //---------------------------------
-    // 顶点数据
-    osg::ref_ptr<osg::Vec3Array> _vertices;
+    std::unique_ptr<RenderData> _renderData;
 
-private:
     // 内部实现；当前为空壳，后续逐步迁入状态机等细节
     std::unique_ptr<ElementNodeImpl> _pImpl;
 };

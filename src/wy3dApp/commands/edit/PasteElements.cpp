@@ -131,7 +131,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
 
     // 用一个独立临时事务来创建剪贴板元素
     // 草图环境下同时将图元加入草图, 避免提交孤儿图元导致 Scene 回调
-    // 在 SketchEntityElementNode::generateRenderDataImpl 中因找不到父草图而 assert.
+    // 在 SketchEntityElementNode::generateRenderData 中因找不到父草图而 assert.
     {
         wydb::TransactionOption tempOpt;
         if (_isSketching)

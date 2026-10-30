@@ -21,6 +21,8 @@
 
 #include <cassert>
 
+#include <Standard_Failure.hxx>
+
 #include <gp_Quaternion.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Face.hxx>
@@ -176,16 +178,17 @@ void DatumPlaneElementNode::updateVisualSize(const wydb::Database* pDb, const os
     _max.set(uMax, vMax);
 
     // 更新顶点坐标
-    if (_vertices && _vertices->size() == 4)
+    osg::ref_ptr<osg::Vec3Array> vertices = this->getVertices();
+    if (vertices && vertices->size() == 4)
     {
-        (*_vertices)[0] = MathUtils::toVec3(plane.value(uMin, vMin));
-        (*_vertices)[1] = MathUtils::toVec3(plane.value(uMax, vMin));
-        (*_vertices)[2] = MathUtils::toVec3(plane.value(uMax, vMax));
-        (*_vertices)[3] = MathUtils::toVec3(plane.value(uMin, vMax));
-        _vertices->dirty();
+        (*vertices)[0] = MathUtils::toVec3(plane.value(uMin, vMin));
+        (*vertices)[1] = MathUtils::toVec3(plane.value(uMax, vMin));
+        (*vertices)[2] = MathUtils::toVec3(plane.value(uMax, vMax));
+        (*vertices)[3] = MathUtils::toVec3(plane.value(uMin, vMax));
+        vertices->dirty();
 
         // 更新包围盒
-        _boundBox = ElementBounds::compute(*_vertices);
+        _boundBox = ElementBounds::compute(*vertices);
     }
     else
     {
@@ -208,25 +211,27 @@ void DatumPlaneElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::
     }
     wydb::ElementId id = pElem->getId();
 
-    assert(_vertices);
-    assert(_normals);
-    assert(_triangleIndices);
-    assert(_lineIndices);
+    MeshRenderData* data = this->renderData();
+    if (!data || !data->vertices || !data->normals || !data->triangleIndices || !data->lineIndices)
+    {
+        assert(false);
+        return;
+    }
 
-    if (!_triangleIndices->empty())
+    if (!data->triangleIndices->empty())
     {
         _planeGeom = new osg::Geometry();
         _planeGeom->setNodeMask(~ElementNodeType::All); // 不可Pick
         _planeGeom->setUseDisplayList(false);
         _planeGeom->setUseVertexBufferObjects(true);
         _planeGeom->setDataVariance(osg::Object::DYNAMIC);
-        _planeGeom->setVertexArray(_vertices);
-        _planeGeom->setNormalArray(_normals, osg::Array::BIND_OVERALL);
+        _planeGeom->setVertexArray(data->vertices);
+        _planeGeom->setNormalArray(data->normals, osg::Array::BIND_OVERALL);
         osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
         colors->push_back(Colors::kDatumPlaneFace);
         _planeGeom->setColorArray(colors, osg::Array::BIND_OVERALL);
         _planeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_TRIANGLES,
-            _triangleIndices->begin(), _triangleIndices->end()));
+            data->triangleIndices->begin(), data->triangleIndices->end()));
 
         osg::StateSet* stateset = _planeGeom->getOrCreateStateSet();
 
@@ -269,19 +274,19 @@ void DatumPlaneElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::
         _osgNode->addChild(_planeGeom);
     }
 
-    if (!_lineIndices->empty())
+    if (!data->lineIndices->empty())
     {
         _curvesGeom = new osg::Geometry();
         _curvesGeom->setNodeMask(this->getNodeType());
         _curvesGeom->setUseDisplayList(false);
         _curvesGeom->setUseVertexBufferObjects(true);
         _curvesGeom->setDataVariance(osg::Object::DYNAMIC);
-        _curvesGeom->setVertexArray(_vertices);
+        _curvesGeom->setVertexArray(data->vertices);
         osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
         colors->push_back(Colors::kDatumPlaneEdge);
         _curvesGeom->setColorArray(colors, osg::Array::BIND_OVERALL);
         _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES,
-            _lineIndices->begin(), _lineIndices->end()));
+            data->lineIndices->begin(), data->lineIndices->end()));
 
         osg::StateSet* stateset = _curvesGeom->getOrCreateStateSet();
 
@@ -315,49 +320,63 @@ void DatumPlaneElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::
     }
 }
 
-ElementNode::GenRenderDataRet DatumPlaneElementNode::generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement)
+std::unique_ptr<RenderData> DatumPlaneElementNode::generateRenderData(
+    Scene* pScene, const wydb::Element* pElement) noexcept
 {
-    _normals = new osg::Vec3Array();
-    _triangleIndices = new osg::UIntArray();
-    _lineIndices = new osg::UIntArray();
+    (void)pScene;
 
-    assert(pElement);
-    const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pElement);
-    if (!pDatumPlane)
+    try
+    {
+        auto data = std::make_unique<MeshRenderData>();
+
+        assert(pElement);
+        const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pElement);
+        if (!pDatumPlane)
+        {
+            assert(false);
+            return nullptr;
+        }
+        const wy3d::Plane& sketchPlane = pDatumPlane->getPlane();
+
+        data->vertices->reserve(4);
+        data->vertices->push_back(MathUtils::toVec3(sketchPlane.value(_min.x(), _min.y())));
+        data->vertices->push_back(MathUtils::toVec3(sketchPlane.value(_max.x(), _min.y())));
+        data->vertices->push_back(MathUtils::toVec3(sketchPlane.value(_max.x(), _max.y())));
+        data->vertices->push_back(MathUtils::toVec3(sketchPlane.value(_min.x(), _max.y())));
+
+        data->normals->reserve(1);
+        data->normals->push_back(MathUtils::toVec3(sketchPlane.getNormal()));
+
+        data->triangleIndices->reserve(6);
+        data->triangleIndices->push_back(0);
+        data->triangleIndices->push_back(1);
+        data->triangleIndices->push_back(2);
+        data->triangleIndices->push_back(2);
+        data->triangleIndices->push_back(3);
+        data->triangleIndices->push_back(0);
+
+        data->lineIndices->reserve(8);
+        data->lineIndices->push_back(0);
+        data->lineIndices->push_back(1);
+        data->lineIndices->push_back(1);
+        data->lineIndices->push_back(2);
+        data->lineIndices->push_back(2);
+        data->lineIndices->push_back(3);
+        data->lineIndices->push_back(3);
+        data->lineIndices->push_back(0);
+
+        return data;
+    }
+    catch (const Standard_Failure&)
     {
         assert(false);
-        return GenRenderDataRet::Ok_Empty;
+        return nullptr;
     }
-    const wy3d::Plane& sketchPlane = pDatumPlane->getPlane();
-
-    _vertices->reserve(4);
-    _vertices->push_back(MathUtils::toVec3(sketchPlane.value(_min.x(), _min.y())));
-    _vertices->push_back(MathUtils::toVec3(sketchPlane.value(_max.x(), _min.y())));
-    _vertices->push_back(MathUtils::toVec3(sketchPlane.value(_max.x(), _max.y())));
-    _vertices->push_back(MathUtils::toVec3(sketchPlane.value(_min.x(), _max.y())));
-
-    _normals->reserve(1);
-    _normals->push_back(MathUtils::toVec3(sketchPlane.getNormal()));
-
-    _triangleIndices->reserve(6);
-    _triangleIndices->push_back(0);
-    _triangleIndices->push_back(1);
-    _triangleIndices->push_back(2);
-    _triangleIndices->push_back(2);
-    _triangleIndices->push_back(3);
-    _triangleIndices->push_back(0);
-
-    _lineIndices->reserve(8);
-    _lineIndices->push_back(0);
-    _lineIndices->push_back(1);
-    _lineIndices->push_back(1);
-    _lineIndices->push_back(2);
-    _lineIndices->push_back(2);
-    _lineIndices->push_back(3);
-    _lineIndices->push_back(3);
-    _lineIndices->push_back(0);
-
-    return GenRenderDataRet::Ok;
+    catch (...)
+    {
+        assert(false);
+        return nullptr;
+    }
 }
 
 void DatumPlaneElementNode::highlightImpl(bool flag)

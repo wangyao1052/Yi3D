@@ -21,6 +21,7 @@
 
 #include <wyVector2.h>
 #include "DatumElementNode.h"
+#include "scene/nodes/ElementRenderData.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -40,7 +41,8 @@ public:
 
 protected:
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
-    virtual GenRenderDataRet generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement) override;
+    virtual std::unique_ptr<RenderData> generateRenderData(
+        Scene* pScene, const wydb::Element* pElement) noexcept override;
 
     virtual void highlightImpl(bool flag) override;
     virtual void previewImpl(bool flag) override;
@@ -55,40 +57,14 @@ protected:
         _curvesGeom = nullptr;
     }
 
-    // 清空渲染数据
-    virtual void clearRenderData() override
-    {
-        ElementNode::clearRenderData();
-        if (_normals) _normals = nullptr;
-        if (_triangleIndices) _triangleIndices = nullptr;
-        if (_lineIndices) _lineIndices = nullptr;
-    }
-
-    // 初始化渲染数据
-    virtual void initRenderData() override
-    {
-        ElementNode::initRenderData();
-        _normals = new osg::Vec3Array();
-        _triangleIndices = new osg::UIntArray();
-        _lineIndices = new osg::UIntArray();
-    }
-
 private:
+    MeshRenderData* renderData() const { return this->getRenderDataAs<MeshRenderData>(); }
+
     //---------------------------------
     // 渲染对象
     //---------------------------------
     osg::ref_ptr<osg::Geometry> _planeGeom;  // 面
     osg::ref_ptr<osg::Geometry> _curvesGeom; // 边
-
-    //---------------------------------
-    // 渲染数据
-    //---------------------------------
-    // 法线数据
-    osg::ref_ptr<osg::Vec3Array> _normals;
-    // 三角面片索引
-    osg::ref_ptr<osg::UIntArray> _triangleIndices;
-    // 线索引
-    osg::ref_ptr<osg::UIntArray> _lineIndices;
 
     //---------------------------------
     // 尺寸数据

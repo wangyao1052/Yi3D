@@ -24,6 +24,8 @@
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
+#include "scene/nodes/ElementRenderData.h"
+
 namespace wy3dApp {
 
 class Sketch3DElementNode : public ElementNode
@@ -81,7 +83,8 @@ public:
 
 protected:
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
-    virtual GenRenderDataRet generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement) override;
+    virtual std::unique_ptr<RenderData> generateRenderData(
+        Scene* pScene, const wydb::Element* pElement) noexcept override;
 
     virtual void highlightImpl(bool flag) override;
     virtual void previewImpl(bool flag) override;
@@ -108,25 +111,15 @@ protected:
         _curveGeomPreview = nullptr;
     }
 
-    // 清空渲染数据
-    virtual void clearRenderData() override
-    {
-        ElementNode::clearRenderData();
-
-        _lineIndices = nullptr;
-        _curveInfos.clear();
-    }
-
-    // 初始化渲染数据
-    virtual void initRenderData() override
-    {
-        ElementNode::initRenderData();
-
-        _lineIndices = new osg::UIntArray();
-        _curveInfos.clear();
-    }
-
 private:
+    class Sketch3DRenderData final : public LineRenderData
+    {
+    public:
+        std::vector<CurveInfo> curveInfos;
+    };
+
+    Sketch3DRenderData* renderData() const { return this->getRenderDataAs<Sketch3DRenderData>(); }
+
     //---------------------------------
     // 渲染对象
     //---------------------------------
@@ -136,14 +129,6 @@ private:
     osg::ref_ptr<osg::Geometry> _curveGeomHighlight; // 高亮
     osg::ref_ptr<osg::Geometry> _curveGeomPreview;   // 预览
 
-    //---------------------------------
-    // 渲染数据
-    //---------------------------------
-    // 普通线索引
-    osg::ref_ptr<osg::UIntArray> _lineIndices;
-
-    // 线数据
-    std::vector<CurveInfo> _curveInfos;
 };
 
 } // namespace wy3dApp

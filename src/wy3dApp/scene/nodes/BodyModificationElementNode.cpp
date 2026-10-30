@@ -18,6 +18,7 @@
 
 #include "BodyModificationElementNode.h"
 
+#include <Standard_Failure.hxx>
 #include <osg/MatrixTransform>
 #include <osg/CullFace>
 #include <osg/BlendFunc>
@@ -135,10 +136,12 @@ void BodyModificationElementNode::generateRenderObjectImpl(Scene* pScene, const 
 {
     assert(pScene);
     assert(pElem);
-    assert(_vertices);
-    assert(_normals);
-    assert(_triangleIndices);
-    assert(_lineIndices);
+    MeshRenderData* data = this->renderData();
+    if (!data || !data->vertices || !data->normals || !data->triangleIndices || !data->lineIndices)
+    {
+        assert(false);
+        return;
+    }
 
     osg::Matrix hostMatrix;
     if (!findHostMatrix(pScene->getElementNode(findHostId(pElem)), hostMatrix))
@@ -165,7 +168,7 @@ void BodyModificationElementNode::generateRenderObjectImpl(Scene* pScene, const 
     */
 
     // 边
-    if (!_lineIndices->empty())
+    if (!data->lineIndices->empty())
     {
         _edgeGeom = this->generateEdgeGeom(pElem->getId());
         osg::ref_ptr<osg::MatrixTransform> pMatrixTransform = new osg::MatrixTransform();
@@ -179,7 +182,8 @@ void BodyModificationElementNode::generateRenderObjectImpl(Scene* pScene, const 
 
 osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateShapeGeom(const wydb::ElementId& id) const
 {
-    if (_triangleIndices->empty())
+    MeshRenderData* data = this->renderData();
+    if (!data || !data->triangleIndices || data->triangleIndices->empty())
     {
         assert(false);
         return nullptr;
@@ -191,12 +195,12 @@ osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateShapeGeom(const
     shapeGeom->setUseVertexBufferObjects(true);
     shapeGeom->getOrCreateStateSet()->setMode(GL_CULL_FACE, osg::StateAttribute::ON);
     shapeGeom->getOrCreateStateSet()->setAttribute(new osg::CullFace(osg::CullFace::BACK));
-    shapeGeom->setVertexArray(_vertices);
-    shapeGeom->setNormalArray(_normals, osg::Array::Binding::BIND_PER_VERTEX);
+    shapeGeom->setVertexArray(data->vertices);
+    shapeGeom->setNormalArray(data->normals, osg::Array::Binding::BIND_PER_VERTEX);
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
     colors->push_back(Colors::kSolidFace);
     shapeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-    shapeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_TRIANGLES, _triangleIndices->begin(), _triangleIndices->end()));
+    shapeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_TRIANGLES, data->triangleIndices->begin(), data->triangleIndices->end()));
     shapeGeom->setUserValue("ElementId", static_cast<unsigned int>(id.value()));
 
     return shapeGeom;
@@ -204,7 +208,8 @@ osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateShapeGeom(const
 
 osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateEdgeGeom(const wydb::ElementId& id) const
 {
-    if (_lineIndices->empty())
+    MeshRenderData* data = this->renderData();
+    if (!data || !data->lineIndices || data->lineIndices->empty())
     {
         assert(false);
         return nullptr;
@@ -214,11 +219,11 @@ osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateEdgeGeom(const 
     edgeGeom->setNodeMask(this->getNodeType());
     edgeGeom->setUseDisplayList(false);
     edgeGeom->setUseVertexBufferObjects(true);
-    edgeGeom->setVertexArray(_vertices);
+    edgeGeom->setVertexArray(data->vertices);
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
     colors->push_back(Colors::kSolidEdge);
     edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-    edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, _lineIndices->begin(), _lineIndices->end()));
+    edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, data->lineIndices->begin(), data->lineIndices->end()));
     edgeGeom->setUserValue("ElementId", static_cast<unsigned int>(id.value()));
     edgeGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
     edgeGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(2.0));
@@ -226,105 +231,75 @@ osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateEdgeGeom(const 
     return edgeGeom;
 }
 
-ElementNode::GenRenderDataRet BodyModificationElementNode::generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement)
+std::unique_ptr<RenderData> BodyModificationElementNode::generateRenderData(
+    Scene* pScene, const wydb::Element* pElement) noexcept
 {
-    assert(pScene);
-    assert(pElement);
+    try
+    {
+        auto data = std::make_unique<MeshRenderData>();
 
-    _triangleIndices = new osg::UIntArray();
-    _lineIndices = new osg::UIntArray();
+        assert(pScene);
+        assert(pElement);
 
-    // 实体修改元素
-    std::vector<unsigned int> newFaceIndexVec;
-    if (const wy3d::BodyModification* pSolidMod = wy3d::BodyModification::cast(pElement))
-    {
-        newFaceIndexVec = pSolidMod->getNewFaceIndices();
-    }
-    else if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElement))
-    {
-        newFaceIndexVec = pSolid->getNewFaceIndices();
-    }
-    else
-    {
-        assert(false);
-        return GenRenderDataRet::Ok_Empty;
-    }
-    const wydb::ElementId ownerId = findHostId(pElement);
-    assert(!ownerId.isNull());
-
-    // 实体修改元素新生成的面为空
-    if (newFaceIndexVec.empty())
-    {
-        // 当倒角特征出错时会导致newFaceIndices为空
-        return GenRenderDataRet::Ok_Empty;
-    }
-
-    // 关联的宿主元素节点(实体或片体)
-    HostRenderData hostData;
-    if (!collectHostRenderData(pScene->getElementNode(ownerId), hostData))
-    {
-        assert(false);
-        return GenRenderDataRet::Ok_Empty;
-    }
-    _vertices = hostData.vertices;
-    if (!_vertices)
-    {
-        assert(false);
-        return GenRenderDataRet::Ok_Empty;
-    }
-    _normals = hostData.normals;
-    if (!_normals)
-    {
-        assert(false);
-        return GenRenderDataRet::Ok_Empty;
-    }
-    if (!hostData.triangleIndices || !hostData.lineIndices ||
-        !hostData.faceInfos || !hostData.edgeInfos)
-    {
-        assert(false);
-        return GenRenderDataRet::Ok_Empty;
-    }
-    const std::vector<FaceInfo>& faceInfos = *hostData.faceInfos;
-    const std::vector<EdgeInfo>& edgeInfos = *hostData.edgeInfos;
-
-    // 新生成的面的索引
-    std::set<unsigned int> newFaceIndices;
-    newFaceIndices.insert(newFaceIndexVec.cbegin(), newFaceIndexVec.cend());
-    std::set<unsigned int>::const_iterator iterNewFaceIndex = newFaceIndices.cbegin();
-    assert(iterNewFaceIndex != newFaceIndices.cend());
-
-    // 算出总的三角形索引数量 + 边的索引
-    size_t totalTriIndices(0);
-    std::set<unsigned int> edgeIndexSet;
-    for (size_t i = 0; i < faceInfos.size(); ++i)
-    {
-        if (i == *iterNewFaceIndex)
+        // 实体修改元素
+        std::vector<unsigned int> newFaceIndexVec;
+        if (const wy3d::BodyModification* pSolidMod = wy3d::BodyModification::cast(pElement))
         {
-            totalTriIndices += static_cast<size_t>(faceInfos[i].numTriangles) * 3;
-            edgeIndexSet.insert(faceInfos[i].edgeIndices.cbegin(), faceInfos[i].edgeIndices.cend());
-
-            ++iterNewFaceIndex;
-            if (iterNewFaceIndex == newFaceIndices.cend())
-            {
-                break;
-            }
+            newFaceIndexVec = pSolidMod->getNewFaceIndices();
         }
-    }
-    // 不渲染三角面
-    //_triangleIndices->reserve(totalTriIndices);
+        else if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElement))
+        {
+            newFaceIndexVec = pSolid->getNewFaceIndices();
+        }
+        else
+        {
+            assert(false);
+            return nullptr;
+        }
+        const wydb::ElementId ownerId = findHostId(pElement);
+        assert(!ownerId.isNull());
 
-    // 填充三角形索引
-    if (0) // 实体修改元素不渲染面只渲染边
-    {
-        auto iterBeg = hostData.triangleIndices->begin();
-        auto iterEnd = iterBeg;
-        iterNewFaceIndex = newFaceIndices.cbegin();
+        // 实体修改元素新生成的面为空
+        if (newFaceIndexVec.empty())
+        {
+            // 当倒角特征出错时会导致newFaceIndices为空
+            return nullptr;
+        }
+
+        // 关联的宿主元素节点(实体或片体)
+        HostRenderData hostData;
+        if (!collectHostRenderData(pScene->getElementNode(ownerId), hostData))
+        {
+            assert(false);
+            return nullptr;
+        }
+        // 宿主当前可能没有形体(例如布尔结果暂时为空),此时不生成修改边
+        data->vertices = hostData.vertices;
+        data->normals = hostData.normals;
+        if (!data->vertices || !data->normals ||
+            !hostData.triangleIndices || !hostData.lineIndices ||
+            !hostData.faceInfos || !hostData.edgeInfos)
+        {
+            return nullptr;
+        }
+        const std::vector<FaceInfo>& faceInfos = *hostData.faceInfos;
+        const std::vector<EdgeInfo>& edgeInfos = *hostData.edgeInfos;
+
+        // 新生成的面的索引
+        std::set<unsigned int> newFaceIndices;
+        newFaceIndices.insert(newFaceIndexVec.cbegin(), newFaceIndexVec.cend());
+        std::set<unsigned int>::const_iterator iterNewFaceIndex = newFaceIndices.cbegin();
+        assert(iterNewFaceIndex != newFaceIndices.cend());
+
+        // 算出总的三角形索引数量 + 边的索引
+        size_t totalTriIndices(0);
+        std::set<unsigned int> edgeIndexSet;
         for (size_t i = 0; i < faceInfos.size(); ++i)
         {
-            iterEnd += static_cast<size_t>(faceInfos[i].numTriangles) * 3;
             if (i == *iterNewFaceIndex)
             {
-                _triangleIndices->insert(_triangleIndices->end(), iterBeg, iterEnd);
+                totalTriIndices += static_cast<size_t>(faceInfos[i].numTriangles) * 3;
+                edgeIndexSet.insert(faceInfos[i].edgeIndices.cbegin(), faceInfos[i].edgeIndices.cend());
 
                 ++iterNewFaceIndex;
                 if (iterNewFaceIndex == newFaceIndices.cend())
@@ -332,35 +307,69 @@ ElementNode::GenRenderDataRet BodyModificationElementNode::generateRenderDataImp
                     break;
                 }
             }
-            iterBeg = iterEnd;
         }
-    }
+        // 不渲染三角面
+        //data->triangleIndices->reserve(totalTriIndices);
 
-    // 填充边的索引
-    if (!edgeIndexSet.empty())
-    {
-        auto iterBeg = hostData.lineIndices->begin();
-        auto iterEnd = iterBeg;
-        auto iterEdgeIndex = edgeIndexSet.cbegin();
-        for (size_t i = 0; i < edgeInfos.size(); ++i)
+        // 填充三角形索引
+        if (0) // 实体修改元素不渲染面只渲染边
         {
-            assert(hostData.lineIndices->end() - iterEnd >= static_cast<size_t>(edgeInfos[i].numLines) * 2);
-            iterEnd += static_cast<size_t>(edgeInfos[i].numLines) * 2;
-            if (i == *iterEdgeIndex)
+            auto iterBeg = hostData.triangleIndices->begin();
+            auto iterEnd = iterBeg;
+            iterNewFaceIndex = newFaceIndices.cbegin();
+            for (size_t i = 0; i < faceInfos.size(); ++i)
             {
-                _lineIndices->insert(_lineIndices->end(), iterBeg, iterEnd);
-
-                ++iterEdgeIndex;
-                if (iterEdgeIndex == edgeIndexSet.cend())
+                iterEnd += static_cast<size_t>(faceInfos[i].numTriangles) * 3;
+                if (i == *iterNewFaceIndex)
                 {
-                    break;
-                }
-            }
-            iterBeg = iterEnd;
-        }
-    }
+                    data->triangleIndices->insert(data->triangleIndices->end(), iterBeg, iterEnd);
 
-    return GenRenderDataRet::Ok;
+                    ++iterNewFaceIndex;
+                    if (iterNewFaceIndex == newFaceIndices.cend())
+                    {
+                        break;
+                    }
+                }
+                iterBeg = iterEnd;
+            }
+        }
+
+        // 填充边的索引
+        if (!edgeIndexSet.empty())
+        {
+            auto iterBeg = hostData.lineIndices->begin();
+            auto iterEnd = iterBeg;
+            auto iterEdgeIndex = edgeIndexSet.cbegin();
+            for (size_t i = 0; i < edgeInfos.size(); ++i)
+            {
+                assert(hostData.lineIndices->end() - iterEnd >= static_cast<size_t>(edgeInfos[i].numLines) * 2);
+                iterEnd += static_cast<size_t>(edgeInfos[i].numLines) * 2;
+                if (i == *iterEdgeIndex)
+                {
+                    data->lineIndices->insert(data->lineIndices->end(), iterBeg, iterEnd);
+
+                    ++iterEdgeIndex;
+                    if (iterEdgeIndex == edgeIndexSet.cend())
+                    {
+                        break;
+                    }
+                }
+                iterBeg = iterEnd;
+            }
+        }
+
+        return data;
+    }
+    catch (const Standard_Failure&)
+    {
+        assert(false);
+        return nullptr;
+    }
+    catch (...)
+    {
+        assert(false);
+        return nullptr;
+    }
 }
 
 void BodyModificationElementNode::highlightImpl(bool flag)
