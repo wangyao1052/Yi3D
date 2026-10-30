@@ -3401,32 +3401,32 @@
 <context>
     <name>ViewCube</name>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="1001"/>
+        <location filename="../../scene/ViewCube.cpp" line="1243"/>
         <source>Front</source>
         <translation type="unfinished">Front</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="1002"/>
+        <location filename="../../scene/ViewCube.cpp" line="1244"/>
         <source>Back</source>
         <translation type="unfinished">Back</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="1003"/>
+        <location filename="../../scene/ViewCube.cpp" line="1245"/>
         <source>Left</source>
         <translation type="unfinished">Left</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="1004"/>
+        <location filename="../../scene/ViewCube.cpp" line="1246"/>
         <source>Right</source>
         <translation type="unfinished">Right</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="1005"/>
+        <location filename="../../scene/ViewCube.cpp" line="1247"/>
         <source>Top</source>
         <translation type="unfinished">Top</translation>
     </message>
     <message>
-        <location filename="../../scene/ViewCube.cpp" line="1006"/>
+        <location filename="../../scene/ViewCube.cpp" line="1248"/>
         <source>Bottom</source>
         <translation type="unfinished">Bottom</translation>
     </message>

@@ -26,6 +26,7 @@
 #include <cmath>
 #include <cstring>
 #include <limits>
+#include <utility>
 
 #include <osg/BlendFunc>
 #include <osg/GraphicsContext>
@@ -46,6 +47,8 @@
 #include <QHash>
 #include <QImage>
 #include <QPainter>
+#include <QPainterPath>
+#include <QPen>
 #include <QString>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -53,12 +56,35 @@ namespace wy3dApp {
 
 namespace
 {
-    // Side length of the overlay viewport, in device pixels. The whole widget scales with it
-    // -- the fixed orthographic projection and the square viewport turn it into screen
-    // pixels -- so this is the knob for the cube's overall size.
+    // Side length of the cube's own square, in device pixels. The whole widget scales with it
+    // -- the fixed orthographic projection maps this square to 2 eye units -- so this is the
+    // knob for the cube's overall size. The overlay viewport is wider by the home strip.
     const double kCubeSize = 142.0;
     // Gap to the viewport's right and top edges, in device pixels
     const double kMargin = 16.0;
+    // The home button: a square glyph left of the cube, its top edge flush with the cube's top
+    // edge, with a small gap between them. The overlay viewport is wider than the cube by this
+    // strip, so the cube keeps its own square on the right of it and its rectangle on screen
+    // does not move.
+    const double kHomeGap = 4.0;
+    // Icon size in device pixels; the strip width, the overlay width and every eye-space
+    // coordinate follow from it.
+    const double kHomeButton = 30.0;
+    const double kHomeStrip = kHomeGap + kHomeButton;
+    const double kOverlayWidth = kCubeSize + kHomeStrip;
+    // Overlay eye units per device pixel. The cube square is kCubeSize across and the
+    // projection spans [-1, 1] across it, so this is the same on both axes even though the
+    // viewport is wider than it is tall: the cube's pixels stay square and its size does not
+    // change.
+    const double kEyePerPixel = 2.0 / kCubeSize;
+    // Projection left: the right kCubeSize pixels are the cube's [-1, 1] square, the strip to
+    // their left takes the rest of the eye range. Without this the projection would still be
+    // square while the viewport is not, and the cube would stretch horizontally.
+    const double kOverlayLeft = -1.0 - kHomeStrip * kEyePerPixel;
+    // The home glyph is baked at twice its drawn size, like the labels. The quad is screen
+    // aligned and always minified by exactly 2, so LINEAR without mipmaps is an exact 2x2
+    // box filter; a mip filter would only blend in a softer level for no gain.
+    const double kHomeBakeScale = 2.0;
     // Rounding radius (cube half-size is 1). The body is the Minkowski sum of the inner box
     // [-(1-r), 1-r]^3 with a ball of radius r, so the faces stay flat, the edges are
     // cylindrical arcs and the corners spherical patches, all tangent continuous. This is
@@ -179,6 +205,9 @@ namespace
     const osg::Vec4 kPlateColor(0.89f, 0.89f, 0.89f, 1.0f);
     const osg::Vec4 kBodyColor(0.73f, 0.73f, 0.73f, 1.0f);
     const osg::Vec4 kHoverColor(0.353f, 0.627f, 0.902f, 1.0f);
+    // Home button ink. The glyph texture is white and this is the colour that actually shows,
+    // so it has to read on the light viewport background; the hover state matches the cube's.
+    const osg::Vec4 kHomeColor(0.30f, 0.30f, 0.30f, 1.0f);
     // Pure black ink, as asked (2026-09-26); it used to be 0x1A1A1A, which measured a touch
     // lighter than CrownCAD's ink (about 50)
     const QColor kLabelColor(0x00, 0x00, 0x00);
@@ -404,6 +433,73 @@ namespace
         pTexture->setUnRefImageDataAfterApply(true);
         return pTexture.release();
     }
+
+    // The home glyph: a white house on a transparent white ground. White rather than black
+    // because the quad tints it (MODULATE), and transparent *white* because a transparent
+    // black ground would darken the antialiased edges when filtered -- only alpha should vary.
+    QImage homeIconBitmap()
+    {
+        const int size = std::max(kLabelTexMinSize,
+                                  static_cast<int>(std::lround(kHomeButton * kHomeBakeScale)));
+        QImage image(size, size, QImage::Format_RGBA8888);
+        image.fill(QColor(255, 255, 255, 0));
+
+        QPainter painter(&image);
+        painter.setRenderHint(QPainter::Antialiasing, true);
+        QPen pen(Qt::white);
+        pen.setWidthF(size * 0.10);
+        pen.setCapStyle(Qt::RoundCap);
+        pen.setJoinStyle(Qt::RoundJoin);
+        painter.setPen(pen);
+        painter.setBrush(Qt::NoBrush);
+
+        // Roof, walls and an open door, as fractions of the texture; the stroke is centred on
+        // the path, so the margins leave room for half its width.
+        const double s = size;
+        QPainterPath house;
+        house.moveTo(0.14 * s, 0.50 * s);
+        house.lineTo(0.50 * s, 0.16 * s);
+        house.lineTo(0.86 * s, 0.50 * s);
+        house.moveTo(0.24 * s, 0.40 * s);
+        house.lineTo(0.24 * s, 0.86 * s);
+        house.lineTo(0.76 * s, 0.86 * s);
+        house.lineTo(0.76 * s, 0.40 * s);
+        house.moveTo(0.38 * s, 0.86 * s);
+        house.lineTo(0.38 * s, 0.62 * s);
+        house.lineTo(0.62 * s, 0.62 * s);
+        house.lineTo(0.62 * s, 0.86 * s);
+        painter.drawPath(house);
+
+        // QImage row 0 is the top row; osg::Image starts at the bottom left
+        return image.mirrored(false, true);
+    }
+
+    // Bake the glyph into a texture, the same route the labels take. No mipmaps here, unlike
+    // the labels: the quad is screen aligned and exactly 2x minified, so a plain LINEAR min
+    // filter averages the 2x2 block under each pixel -- the supersample the bake was made for.
+    osg::Texture2D* createHomeIconTexture()
+    {
+        const QImage flipped = homeIconBitmap();
+        const std::size_t bytes = static_cast<std::size_t>(flipped.sizeInBytes());
+
+        osg::ref_ptr<osg::Image> pImage = new osg::Image;
+        pImage->setImage(flipped.width(), flipped.height(), 1,
+                         GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE,
+                         new unsigned char[bytes], osg::Image::USE_NEW_DELETE);
+        std::memcpy(pImage->data(), flipped.constBits(), bytes);
+
+        osg::ref_ptr<osg::Texture2D> pTexture = new osg::Texture2D;
+        pTexture->setImage(pImage.get());
+        // 52 is not a power of two; without this osg rescales the image to 64 and the exact
+        // 2x bake the filter above relies on is gone
+        pTexture->setResizeNonPowerOfTwoHint(false);
+        pTexture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::LINEAR);
+        pTexture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::LINEAR);
+        pTexture->setWrap(osg::Texture::WRAP_S, osg::Texture::CLAMP_TO_EDGE);
+        pTexture->setWrap(osg::Texture::WRAP_T, osg::Texture::CLAMP_TO_EDGE);
+        pTexture->setUnRefImageDataAfterApply(true);
+        return pTexture.release();
+    }
 }
 
 // Refresh the cube's orientation and viewport every frame, during cull.
@@ -431,8 +527,8 @@ private:
     ViewCube* _pCube = nullptr;
 };
 
-ViewCube::ViewCube(osgViewer::View* pView)
-    : osg::Camera(), _pView(pView)
+ViewCube::ViewCube(osgViewer::View* pView, std::function<osg::BoundingSphere()> getFitSphere)
+    : osg::Camera(), _pView(pView), _getFitSphere(std::move(getFitSphere))
 {
     // Overlay setup, the same as select/BoxSelectRectangle
     setRenderOrder(osg::Camera::POST_RENDER);
@@ -442,11 +538,14 @@ ViewCube::ViewCube(osgViewer::View* pView)
     // Depth only: clearing colour would wipe out the main scene
     setClearMask(GL_DEPTH_BUFFER_BIT);
 
-    // A square viewport keeps the fixed orthographic projection undistorted; the zoom is
-    // folded into the _pCubeXform matrix
-    _pViewport = new osg::Viewport(0.0, 0.0, kCubeSize, kCubeSize);
+    // The viewport is wider than the cube: its right kCubeSize pixels are the cube's square
+    // and the strip to their left carries the home button. The projection's left is extended
+    // by the same strip, so one device pixel still covers kEyePerPixel on both axes and the
+    // cube keeps its size and square pixels; the zoom stays folded into the _pCubeXform
+    // matrix.
+    _pViewport = new osg::Viewport(0.0, 0.0, kOverlayWidth, kCubeSize);
     setViewport(_pViewport.get());
-    setProjectionMatrixAsOrtho2D(-1.0, 1.0, -1.0, 1.0);
+    setProjectionMatrixAsOrtho2D(kOverlayLeft, 1.0, -1.0, 1.0);
     // Never let the cull compute this camera's near/far from the scene. A nested camera inherits
     // its parent's mode (the inheritance mask defaults to every variable), so the main camera's
     // setting would otherwise rule here -- and with it on, osg discards a drawable whose bounding
@@ -475,6 +574,7 @@ ViewCube::ViewCube(osgViewer::View* pView)
 
     buildCube();
     buildLabels();
+    buildHomeButton();
 
     setCullCallback(new CubeCullCallback(this));
 }
@@ -494,6 +594,26 @@ bool ViewCube::handleEvent(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAda
         {
             return false;
         }
+        // A left press always starts a new gesture. Clearing first drops state left behind by
+        // a RELEASE that never arrived (Alt+Tab, release outside the widget).
+        _isPressed = false;
+        _pressedFacet = -1;
+        _homePressed = false;
+
+        if (hitHome(ea.getX(), ea.getY()))
+        {
+            _homePressed = true;
+            const bool facetChanged = setHoverFacet(-1);
+            const bool homeChanged = setHomeHovered(true);
+            if (facetChanged || homeChanged)
+            {
+                aa.requestRedraw();
+            }
+            // Consumed: no facet toggle, gizmo, selection or orbit. The view changes on
+            // release, not here, so a press dragged away can still be cancelled.
+            return true;
+        }
+
         const int facet = pickFacet(ea.getX(), ea.getY());
         if (facet < 0)
         {
@@ -501,6 +621,7 @@ bool ViewCube::handleEvent(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAda
         }
         _pressedFacet = facet;
         _isPressed = true;
+        setHomeHovered(false);
         if (setHoverFacet(facet))
         {
             aa.requestRedraw();
@@ -509,35 +630,63 @@ bool ViewCube::handleEvent(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAda
     }
 
     case osgGA::GUIEventAdapter::DRAG:
-        // Swallow only what this cube received a PUSH for, or an in-progress gizmo drag or
-        // box selection would be cut short
-        return _isPressed;
-
-    case osgGA::GUIEventAdapter::RELEASE:
-    {
-        if (!_isPressed)
-        {
-            return false;
-        }
-        _isPressed = false;
-        const int pressed = _pressedFacet;
-        _pressedFacet = -1;
-        const int released = pickFacet(ea.getX(), ea.getY());
-        // Switch views only when the press and the release land on the same facet
-        if (pressed >= 0 && pressed == released)
-        {
-            applyView(pressed);
-        }
-        if (setHoverFacet(released))
+        // The button's feedback follows the cursor, so dragging off it reads as cancelled
+        // before the release decides; the cube keeps its press highlight for the whole drag
+        if (_homePressed && setHomeHovered(hitHome(ea.getX(), ea.getY())))
         {
             aa.requestRedraw();
         }
+        // Swallow only what this overlay received a PUSH for, or an in-progress gizmo drag or
+        // box selection would be cut short
+        return _isPressed || _homePressed;
+
+    case osgGA::GUIEventAdapter::RELEASE:
+    {
+        if (!_isPressed && !_homePressed)
+        {
+            return false;
+        }
+        // The gesture belongs to the left button. Another button's release neither ends it
+        // nor acts on the overlay; it used to switch views when a right release arrived
+        // while a left press was still held.
+        if (ea.getButton() != osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)
+        {
+            return true;
+        }
+
+        const bool homePressed = _homePressed;
+        const bool cubePressed = _isPressed;
+        const int pressed = _pressedFacet;
+        _homePressed = false;
+        _isPressed = false;
+        _pressedFacet = -1;
+
+        const bool onHome = hitHome(ea.getX(), ea.getY());
+        const int released = pickFacet(ea.getX(), ea.getY());
+        // A view switches only when the release lands on the control that was pressed
+        if (homePressed && onHome)
+        {
+            applyHomeView();
+        }
+        if (cubePressed && pressed >= 0 && pressed == released)
+        {
+            applyView(pressed);
+        }
+
+        const bool facetChanged = setHoverFacet(released);
+        const bool homeChanged = setHomeHovered(onHome);
+        if (facetChanged || homeChanged)
+        {
+            aa.requestRedraw();
+        }
+        // Even a cancelled press must not leak its release to selection or the manipulator:
+        // the press was consumed, so its release has to be as well
         return true;
     }
 
     case osgGA::GUIEventAdapter::MOVE:
         // Never swallow MOVE: doing so leaves SelectHandler's hover highlight stuck
-        if (setHoverFacet(pickFacet(ea.getX(), ea.getY())))
+        if (updateHover(ea.getX(), ea.getY()))
         {
             aa.requestRedraw();
         }
@@ -552,7 +701,9 @@ bool ViewCube::handleEvent(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAda
 
 void ViewCube::clearHover()
 {
-    if (!setHoverFacet(-1))
+    const bool facetChanged = setHoverFacet(-1);
+    const bool homeChanged = setHomeHovered(false);
+    if (!facetChanged && !homeChanged)
     {
         return;
     }
@@ -580,10 +731,12 @@ void ViewCube::refresh()
     if (pTraits && _pViewport.valid())
     {
         // Traits are in device pixels and the viewport origin is bottom left, so pinning to
-        // the top right means folding y downwards
-        _pViewport->setViewport(pTraits->width - kMargin - kCubeSize,
+        // the top right means folding y downwards. The viewport is wider than the cube: its
+        // right and top edges stay at kMargin and the home strip extends to the left, which
+        // leaves the cube's own rectangle exactly where it was before the strip existed.
+        _pViewport->setViewport(pTraits->width - kMargin - kOverlayWidth,
                                 pTraits->height - kMargin - kCubeSize,
-                                kCubeSize, kCubeSize);
+                                kOverlayWidth, kCubeSize);
     }
 
     if (!computeBasis())
@@ -593,9 +746,9 @@ void ViewCube::refresh()
 
     // World -> overlay view space. The eye sits at the world origin: the overlay is an
     // orthographic projection so the eye distance does not affect the image, and the cube is
-    // centred on the world origin anyway, which puts it dead centre in the overlay viewport.
-    // Use OSG's own lookAt rather than a hand built matrix: the row/column convention is
-    // then the library's, as everywhere else in this project.
+    // centred on the world origin anyway, which puts it dead centre in the cube square at the
+    // right of the overlay viewport. Use OSG's own lookAt rather than a hand built matrix: the
+    // row/column convention is then the library's, as everywhere else in this project.
     const osg::Matrix view = osg::Matrix::lookAt(osg::Vec3d(0.0, 0.0, 0.0), _forward, _up);
     const osg::Matrix matrix = osg::Matrix::scale(kScale, kScale, kScale) * view;
     if (_pCubeXform.valid() && _pCubeXform->getMatrix() != matrix)
@@ -676,6 +829,61 @@ void ViewCube::applyView(int facet)
     ViewUtil::viewTo(pView, -regionNormal(facet), osg::Vec3d(0.0, 0.0, 1.0));
 }
 
+void ViewCube::applyHomeView()
+{
+    if (!_pView.valid())
+    {
+        return;
+    }
+
+    osgViewer::View* pView = _pView.get();
+    // ViewUtil::viewTo has an unguarded assert inside: check the manipulator type first
+    if (!dynamic_cast<CameraManipulator3d*>(pView->getCameraManipulator()))
+    {
+        return;
+    }
+
+    // The default view of a document is the isometric direction fitted to the model (the
+    // sequence FileCmdsUtil::fitViewToAll runs). Fit after the orientation: viewAll keeps the
+    // look direction and handles ortho and perspective itself, so the current projection
+    // mode is preserved.
+    ViewUtil::viewToISO(pView);
+    if (_getFitSphere)
+    {
+        ViewUtil::viewAll(pView, _getFitSphere());
+    }
+    // On-demand rendering: applying a view may not change any hover state, so the frame that
+    // shows it has to be asked for here
+    pView->requestRedraw();
+}
+
+osg::Vec2d ViewCube::windowToEye(float winX, float winY) const
+{
+    // Window pixels (origin bottom left) -> overlay eye space. The cube square is kCubeSize
+    // across with the projection spanning [-1, 1] across it, so one device pixel is
+    // kEyePerPixel on both axes. The cube's square is the rightmost kCubeSize pixels of the
+    // wider viewport and the home strip extends to its left, which is what kOverlayLeft
+    // shifts for.
+    return osg::Vec2d(kOverlayLeft + 2.0 * (winX - _pViewport->x()) / kCubeSize,
+                      -1.0 + 2.0 * (winY - _pViewport->y()) / kCubeSize);
+}
+
+bool ViewCube::hitHome(float winX, float winY) const
+{
+    if (!_pViewport.valid())
+    {
+        return false;
+    }
+
+    // The same rectangle buildHomeButton draws, from the same constants, so the glyph and its
+    // hit area cannot drift apart. The outer edges (left, top) are inclusive; the edges that
+    // face the gap are not. The top edge maps to eye y 1.0 exactly.
+    const osg::Vec2d eye = windowToEye(winX, winY);
+    const double size = kHomeButton * kEyePerPixel;
+    return eye.x() >= kOverlayLeft && eye.x() < kOverlayLeft + size &&
+           eye.y() > 1.0 - size && eye.y() <= 1.0;
+}
+
 int ViewCube::pickFacet(float winX, float winY)
 {
     if (!_pViewport.valid() || !computeBasis())
@@ -683,11 +891,10 @@ int ViewCube::pickFacet(float winX, float winY)
         return -1;
     }
 
-    // Window pixels (origin bottom left) -> overlay NDC
-    const double half = kCubeSize * 0.5;
-    const double ndcX = (winX - _pViewport->x()) / half - 1.0;
-    const double ndcY = (winY - _pViewport->y()) / half - 1.0;
-    if (ndcX < -1.0 || ndcX > 1.0 || ndcY < -1.0 || ndcY > 1.0)
+    // Window pixels -> overlay eye space. Only the cube's own square is a valid pick target:
+    // the home strip to its left has eyeX < -1 and falls out through the same test.
+    const osg::Vec2d eye = windowToEye(winX, winY);
+    if (eye.x() < -1.0 || eye.x() > 1.0 || eye.y() < -1.0 || eye.y() > 1.0)
     {
         return -1;
     }
@@ -695,7 +902,7 @@ int ViewCube::pickFacet(float winX, float winY)
     // Under an orthographic projection a screen point is a ray along the view direction;
     // the origin is placed in front of the cube
     const osg::Vec3d origin =
-        _right * (ndcX / kScale) + _up * (ndcY / kScale) - _forward * kRayFar;
+        _right * (eye.x() / kScale) + _up * (eye.y() / kScale) - _forward * kRayFar;
 
     // The body is a rounded box rather than a polyhedron, so the entry point comes from the
     // distance field: gap2(p) is the squared distance from p to the inner box, it is convex
@@ -832,6 +1039,41 @@ void ViewCube::refreshColors()
         (*_plateColors[face])[0] = (_hoverFacet == face) ? kHoverColor : kPlateColor;
         _plateColors[face]->dirty();
     }
+}
+
+bool ViewCube::setHomeHovered(bool hovered)
+{
+    if (hovered == _homeHovered)
+    {
+        return false;
+    }
+    _homeHovered = hovered;
+    refreshHomeColor();
+    return true;
+}
+
+void ViewCube::refreshHomeColor()
+{
+    if (!_pHomeColors.valid() || _pHomeColors->empty())
+    {
+        return;
+    }
+    (*_pHomeColors)[0] = _homeHovered ? kHoverColor : kHomeColor;
+    _pHomeColors->dirty();
+}
+
+bool ViewCube::updateHover(float winX, float winY)
+{
+    // The button and the cube are disjoint, so only one of the two can light up
+    if (hitHome(winX, winY))
+    {
+        const bool homeChanged = setHomeHovered(true);
+        const bool facetChanged = setHoverFacet(-1);
+        return homeChanged || facetChanged;
+    }
+    const bool homeChanged = setHomeHovered(false);
+    const bool facetChanged = setHoverFacet(pickFacet(winX, winY));
+    return homeChanged || facetChanged;
 }
 
 void ViewCube::buildCube()
@@ -1078,6 +1320,56 @@ void ViewCube::buildLabels()
 
     // Added last, drawn last
     _pCubeXform->addChild(pLabelGroup.get());
+}
+
+void ViewCube::buildHomeButton()
+{
+    // The quad sits flush with the top left of the overlay viewport: its top edge lines up
+    // with the cube square's top edge and its right edge is kHomeGap left of the cube square.
+    const double left = kOverlayLeft;
+    const double right = kOverlayLeft + kHomeButton * kEyePerPixel;
+    const double top = 1.0;
+    const double bottom = 1.0 - kHomeButton * kEyePerPixel;
+
+    osg::ref_ptr<osg::Vec3Array> pVertices = new osg::Vec3Array;
+    pVertices->push_back(osg::Vec3d(left, bottom, 0.0));
+    pVertices->push_back(osg::Vec3d(right, bottom, 0.0));
+    pVertices->push_back(osg::Vec3d(right, top, 0.0));
+    pVertices->push_back(osg::Vec3d(left, top, 0.0));
+
+    osg::ref_ptr<osg::Vec2Array> pTexCoords = new osg::Vec2Array;
+    pTexCoords->push_back(osg::Vec2(0.0f, 0.0f));
+    pTexCoords->push_back(osg::Vec2(1.0f, 0.0f));
+    pTexCoords->push_back(osg::Vec2(1.0f, 1.0f));
+    pTexCoords->push_back(osg::Vec2(0.0f, 1.0f));
+
+    _pHomeColors = new osg::Vec4Array;
+    _pHomeColors->push_back(kHomeColor);
+
+    osg::ref_ptr<osg::Geometry> pGeom = new osg::Geometry;
+    pGeom->setUseDisplayList(false);
+    pGeom->setUseVertexBufferObjects(true);
+    pGeom->setVertexArray(pVertices.get());
+    pGeom->setTexCoordArray(0, pTexCoords.get());
+    pGeom->setColorArray(_pHomeColors.get());
+    pGeom->setColorBinding(osg::Geometry::BIND_OVERALL);
+    pGeom->addPrimitiveSet(new osg::DrawArrays(GL_TRIANGLE_FAN, 0, 4));
+
+    osg::ref_ptr<osg::Texture2D> pTexture = createHomeIconTexture();
+    osg::StateSet* pStateSet = pGeom->getOrCreateStateSet();
+    pStateSet->setTextureAttributeAndModes(0, pTexture.get(), osg::StateAttribute::ON);
+    // MODULATE, not REPLACE: the texture is a white mask and the visible ink is the quad's
+    // overall colour, so a hover only rewrites that colour and never re-bakes the glyph
+    pStateSet->setAttribute(new osg::TexEnv(osg::TexEnv::MODULATE));
+    pStateSet->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+    // A flat screen-space glyph: it has no depth relationship with the cube or the scene
+    pStateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+    pStateSet->setAttributeAndModes(new osg::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA),
+                                    osg::StateAttribute::ON);
+
+    // Added to the camera directly, not under _pCubeXform: the glyph must stay upright while
+    // the cube turns
+    addChild(pGeom.get());
 }
 
 } // namespace wy3dApp
