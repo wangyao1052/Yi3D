@@ -301,23 +301,6 @@ void ElementNode::hide(bool flag)
     this->updateVisibleNodeMask();
 }
 
-//void ElementNode::setStatus(unsigned int status)
-//{
-//    // Active的优先级是最高的,涉及到节点的显示与隐藏
-//    bool isActive = !(status & static_cast<unsigned int>(Status::Inactive));
-//    if (isActive != this->isActive())
-//    {
-//        this->setActive(isActive);
-//    }
-//
-//    // 高亮状态
-//    bool isHighlighted = status & static_cast<unsigned int>(Status::Highlighted);
-//    if (isHighlighted != this->isHighlighted())
-//    {
-//        this->highlight(isHighlighted);
-//    }
-//}
-
 wyap::Selection ElementNode::createSelection(
     osg::Drawable* pDrawable,
     unsigned int primitiveIndex,

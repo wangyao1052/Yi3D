@@ -740,12 +740,12 @@ bool SceneImpl::modifyElementNode(const wydb::ElementId& id, const wydb::Databas
         // 方位产生了变化
         if (details.isDataPieceDirty(id, wydb::ElementDataPieceType::Transform))
         {
-            // 从RTree中移除
-            this->removeFromRTree(pElemNode);
-            // transform
-            pElemNode->transform(pDb);
-            // 添加到RTree中
-            this->addToRTree(pElemNode);
+            //// 从RTree中移除
+            //this->removeFromRTree(pElemNode);
+            //// transform
+            //pElemNode->transform(pDb);
+            //// 添加到RTree中
+            //this->addToRTree(pElemNode);
         }
 
         // 外观产生了变化

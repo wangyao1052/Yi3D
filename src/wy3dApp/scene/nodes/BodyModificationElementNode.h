@@ -44,9 +44,6 @@ public:
         wy3d::SelectionType selType) const override;
 
 protected:
-    // 移动(不支持)
-    virtual bool transform(wydb::Database* pDb) override;
-
     // 生成渲染对象
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
     // 生成渲染数据

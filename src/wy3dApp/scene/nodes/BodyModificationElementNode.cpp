@@ -123,12 +123,6 @@ bool findHostMatrix(const ElementNode* pHostNode, osg::Matrix& matrix)
 
 } // namespace
 
-bool BodyModificationElementNode::transform(wydb::Database* pDb)
-{
-    // 由于当前Solid::Transform-->Solid::Shape,所以该接口直接不做任何操作.
-    return true;
-}
-
 void BodyModificationElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
 {
     assert(pScene);

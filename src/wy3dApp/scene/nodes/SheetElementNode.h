@@ -79,7 +79,6 @@ public:
 
 protected:
     virtual bool pickByNormalBoxImpl(osg::Polytope& polytope) const override;
-    virtual bool transform(wydb::Database* pDb) override;
 
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) override;

@@ -123,11 +123,6 @@ bool SheetElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
     return true;
 }
 
-bool SheetElementNode::transform(wydb::Database* pDb)
-{
-    return true;
-}
-
 void SheetElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
 {
     assert(pElem);

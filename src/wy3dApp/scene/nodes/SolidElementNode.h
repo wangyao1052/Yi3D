@@ -93,9 +93,6 @@ protected:
     // 默认框选(完全框住才选中)
     virtual bool pickByNormalBoxImpl(osg::Polytope& polytope) const override;
 
-    // 移动
-    virtual bool transform(wydb::Database* pDb) override;
-
     // 生成渲染对象
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) override;

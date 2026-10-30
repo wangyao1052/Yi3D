@@ -73,39 +73,10 @@ public:
     }
 
 public:
-    enum NodeMask
-    {
-        Visible   = 0x3FFFFFFF, // 可见:最高位为0,由高亮状态控制
-        Highlight = 0x80000000, // 最高位为1
-        Preview   = 0x40000000, // 次高位为1
-    };
-
-    // 状态标志
-    enum class Status : unsigned int
-    {
-        Highlighted = 0x00000001, // 高亮
-        Inactive    = 0x00000002, // 非活动状态,布尔体的成员为此状态
-        Hidden      = 0x00000004, // 隐藏状态
-    };
-    // 获取当前状态
-    unsigned int getStatus() const
-    {
-        return _status;
-    }
-    // 设置状态
-    //void setStatus(unsigned int status);
-
-    // 是否高亮
-    inline bool isHighlighted() const
-    {
-        return _status & static_cast<unsigned int>(Status::Highlighted);
-    }
     // 高亮
     void highlight(bool flag, bool forced = false);
     // 预览
     void preview(bool flag);
-    // 清空动态渲染对象(NoBatch渲染结束时调用);默认不做处理
-    virtual void clearDynamicRenderGeometry() {}
 
     // 是否激活
     inline bool isActive() const
@@ -116,14 +87,6 @@ public:
     virtual void setActive(bool flag);
     // 计算是否Active
     virtual bool computeWhetherActive(const wydb::Element* pCurElem) const { return true; }
-
-    // 是否隐藏
-    inline bool isHidden() const
-    {
-        return _status & static_cast<unsigned int>(Status::Hidden);
-    }
-    // 隐藏
-    virtual void hide(bool flag);
 
 public:
     // 获取元素ID
@@ -138,12 +101,31 @@ public:
     // 重新计算NodeMask
     void recomputeNodeMask();
 
-    // 默认框选(完全框住才选中)
-    bool pickByNormalBox(osg::Polytope& polytope) const;
-    // 交叉框选(任何部分有交集就选中)
-    bool pickByCrossBox(osg::Polytope& polytope) const;
+private:
+    friend class SceneImpl;
 
-protected:
+    enum NodeMask
+    {
+        Visible   = 0x3FFFFFFF, // 可见:最高位为0,由高亮状态控制
+        Highlight = 0x80000000, // 最高位为1
+        Preview   = 0x40000000, // 次高位为1
+    };
+
+    // 状态标志
+    enum class Status : unsigned int
+    {
+        Highlighted = 0x00000001, // 高亮
+        Inactive    = 0x00000002, // 非活动状态,布尔体的成员为此状态
+        Hidden      = 0x00000004, // 隐藏状态
+    };
+    // 是否隐藏
+    inline bool isHidden() const
+    {
+        return _status & static_cast<unsigned int>(Status::Hidden);
+    }
+    // 隐藏
+    virtual void hide(bool flag);
+
     void addStatus(Status status)
     {
         _status |= static_cast<unsigned int>(status);
@@ -154,12 +136,24 @@ protected:
         _status &= ~static_cast<unsigned int>(status);
     }
 
+    // 默认框选(完全框住才选中)
+    bool pickByNormalBox(osg::Polytope& polytope) const;
+    // 交叉框选(任何部分有交集就选中)
+    bool pickByCrossBox(osg::Polytope& polytope) const;
+
 protected:
+    // 是否高亮
+    inline bool isHighlighted() const
+    {
+        return _status & static_cast<unsigned int>(Status::Highlighted);
+    }
+
+    // 清空动态渲染对象(NoBatch渲染结束时调用);默认不做处理
+    virtual void clearDynamicRenderGeometry() {}
+
     // 默认框选(完全框住才选中)
     virtual bool pickByNormalBoxImpl(osg::Polytope& polytope) const { return false; }
 
-    // 移动
-    virtual bool transform(wydb::Database* pDb) = 0;
     // 更新显示效果
     virtual bool updateApperance(wydb::Database* pDb);
      
@@ -230,7 +224,11 @@ private:
 
 protected:
     wydb::ElementId _id;
+
+private:
     unsigned int _status;
+
+protected:
     // OSG节点
     // 默认的NodeMask是:0111 1111 1111 1111 (0x7FFFFFFF) NodeMask::Default
     // 最高位(32位)代表高亮状态,高亮时为1,普通状态时为0;
@@ -238,7 +236,6 @@ protected:
     osg::ref_ptr<osg::Group> _osgNode;
     // 包围盒
     osg::BoundingBox _boundBox;
-    friend class SceneImpl;
 
     //---------------------------------
     // 渲染数据

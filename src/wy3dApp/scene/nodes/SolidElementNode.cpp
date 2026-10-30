@@ -103,12 +103,6 @@ bool SolidElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
     return true;
 }
 
-bool SolidElementNode::transform(wydb::Database* pDb)
-{
-    // 由于当前Solid::Transform-->Solid::Shape,所以该接口直接不做任何操作.
-    return true;
-}
-
 osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc)
 {
     if (loc.IsIdentity())
