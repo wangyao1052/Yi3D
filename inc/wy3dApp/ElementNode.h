@@ -19,6 +19,8 @@
 #ifndef WY3DAPP_ELEMENT_NODE_H
 #define WY3DAPP_ELEMENT_NODE_H
 
+#include <memory>
+
 #include <osg/Array>
 #include <osg/BoundingBox>
 #include <osg/Group>
@@ -44,6 +46,7 @@ namespace wydb
 
 namespace wy3dApp {
 
+class ElementNodeImpl;
 class Scene;
 class SceneImpl;
 
@@ -54,7 +57,7 @@ class WY3DAPP_EXPORT ElementNode
 protected:
     // 构造析构
     explicit ElementNode(const wydb::ElementId& id);
-    virtual ~ElementNode() {}
+    virtual ~ElementNode();
 
 public:
     virtual ElementNodeType getNodeType() const = 0;
@@ -151,8 +154,11 @@ protected:
     // 清空动态渲染对象(NoBatch渲染结束时调用);默认不做处理
     virtual void clearDynamicRenderGeometry() {}
 
-    // 默认框选(完全框住才选中)
-    virtual bool pickByNormalBoxImpl(osg::Polytope& polytope) const { return false; }
+    // 本地坐标到世界坐标的变换矩阵;默认单位矩阵
+    virtual osg::Matrix getModelMatrix() const
+    {
+        return osg::Matrix::identity();
+    }
 
     // 更新显示效果
     virtual bool updateApperance(wydb::Database* pDb);
@@ -242,6 +248,10 @@ protected:
     //---------------------------------
     // 顶点数据
     osg::ref_ptr<osg::Vec3Array> _vertices;
+
+private:
+    // 内部实现；当前为空壳，后续逐步迁入状态机等细节
+    std::unique_ptr<ElementNodeImpl> _pImpl;
 };
 
 } // namespace wy3dApp

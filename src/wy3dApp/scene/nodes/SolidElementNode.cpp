@@ -37,7 +37,6 @@
 #include <GeomLib.hxx>
 
 #include <osg/MatrixTransform>
-#include <osg/Polytope>
 #include <OsgUtils.h>
 #include <osg/LineWidth>
 
@@ -69,39 +68,6 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
-
-bool SolidElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
-{
-    // 是否包含所有点
-    assert(_shapeNode);
-    osg::MatrixTransform* pMatrixTransf = dynamic_cast<osg::MatrixTransform*>(_shapeNode.get());
-    if (pMatrixTransf)
-    {
-        // 构建模型坐标系下的多面体
-        osg::Polytope transformedPolytope;
-        transformedPolytope.setAndTransformProvidingInverse(polytope, pMatrixTransf->getMatrix());
-
-        for (const osg::Vec3& vertex : *_vertices)
-        {
-            if (!transformedPolytope.contains(vertex))
-            {
-                return false;
-            }
-        }
-    }
-    else
-    {
-        for (const osg::Vec3& vertex : *_vertices)
-        {
-            if (!polytope.contains(vertex))
-            {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
 
 osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc)
 {

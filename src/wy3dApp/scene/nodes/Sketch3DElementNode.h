@@ -80,9 +80,6 @@ public:
     virtual void clearDynamicRenderGeometry() override;
 
 protected:
-    // 默认框选(完全框住才选中)
-    virtual bool pickByNormalBoxImpl(osg::Polytope& polytope) const override;
-
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
     virtual GenRenderDataRet generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement) override;
 

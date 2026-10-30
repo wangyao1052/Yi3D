@@ -37,7 +37,6 @@
 #include <GeomLib.hxx>
 
 #include <osg/MatrixTransform>
-#include <osg/Polytope>
 #include <OsgUtils.h>
 
 #include <wyVector2.h>
@@ -100,20 +99,6 @@ SketchEntityElementNode::SketchEntityElementNode(const wydb::ElementId& id) : El
     // 设置RenderBin
     _osgNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchEntity, "RenderBin");
     // }
-}
-
-bool SketchEntityElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
-{
-    // 是否包含所有点
-    for (const osg::Vec3& vertex : *_vertices)
-    {
-        if (!polytope.contains(vertex))
-        {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 void SketchEntityElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)

@@ -37,7 +37,6 @@
 #include <GeomLib.hxx>
 
 #include <osg/MatrixTransform>
-#include <osg/Polytope>
 #include <OsgUtils.h>
 #include <osg/LineWidth>
 
@@ -90,37 +89,6 @@ static osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc)
         r13, r23, r33, 0.0,
         tx,  ty,  tz,  1.0
     );
-}
-
-bool SheetElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
-{
-    assert(_shapeNode);
-    osg::MatrixTransform* pMatrixTransf = dynamic_cast<osg::MatrixTransform*>(_shapeNode.get());
-    if (pMatrixTransf)
-    {
-        osg::Polytope transformedPolytope;
-        transformedPolytope.setAndTransformProvidingInverse(polytope, pMatrixTransf->getMatrix());
-
-        for (const osg::Vec3& vertex : *_vertices)
-        {
-            if (!transformedPolytope.contains(vertex))
-            {
-                return false;
-            }
-        }
-    }
-    else
-    {
-        for (const osg::Vec3& vertex : *_vertices)
-        {
-            if (!polytope.contains(vertex))
-            {
-                return false;
-            }
-        }
-    }
-
-    return true;
 }
 
 void SheetElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)

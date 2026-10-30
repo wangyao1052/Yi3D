@@ -37,7 +37,6 @@
 #include <GeomLib.hxx>
 
 #include <osg/MatrixTransform>
-#include <osg/Polytope>
 #include <osg/LineStipple>
 #include <OsgUtils.h>
 
@@ -64,26 +63,6 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
-
-bool CurveElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
-{
-    if (!_vertices)
-    {
-        assert(false);
-        return false;
-    }
-
-    // 是否包含所有点
-    for (const osg::Vec3& vertex : *_vertices)
-    {
-        if (!polytope.contains(vertex))
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
 
 void CurveElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
 {

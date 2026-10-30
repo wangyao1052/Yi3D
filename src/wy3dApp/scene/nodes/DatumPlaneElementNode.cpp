@@ -37,7 +37,6 @@
 #include <GeomLib.hxx>
 
 #include <osg/MatrixTransform>
-#include <osg/Polytope>
 #include <osg/LineStipple>
 #include <OsgUtils.h>
 #include <osg/Depth>
@@ -195,20 +194,6 @@ void DatumPlaneElementNode::updateVisualSize(const wydb::Database* pDb, const os
     // 刷新渲染对象
     if (_planeGeom) _planeGeom->dirtyBound();
     if (_curvesGeom) _curvesGeom->dirtyBound();
-}
-
-bool DatumPlaneElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
-{
-    // 是否包含所有点
-    for (const osg::Vec3& vertex : *_vertices)
-    {
-        if (!polytope.contains(vertex))
-        {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 void DatumPlaneElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)

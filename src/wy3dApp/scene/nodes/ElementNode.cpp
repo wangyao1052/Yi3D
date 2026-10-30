@@ -28,13 +28,18 @@
 #include <wydbDatabase.h>
 #include <wy3dFeature.h>
 
+#include "scene/nodes/ElementNodeImpl.h"
+
 namespace wy3dApp {
 
-ElementNode::ElementNode(const wydb::ElementId& id) : _id(id), _status(0)
+ElementNode::ElementNode(const wydb::ElementId& id)
+    : _id(id), _status(0), _pImpl(std::make_unique<ElementNodeImpl>())
 {
     _osgNode = new osg::Group();
     _osgNode->setNodeMask(NodeMask::Visible);
 }
+
+ElementNode::~ElementNode() = default;
 
 ElementNode::GenRenderDataRet ElementNode::generateRenderData(Scene* pScene, const wydb::Element* pElement)
 {
@@ -335,7 +340,34 @@ bool ElementNode::pickByNormalBox(osg::Polytope& polytope) const
         return false;
     }
 
-    return this->pickByNormalBoxImpl(polytope);
+    // 是否包含所有点
+    const osg::Matrix matrix = this->getModelMatrix();
+    if (matrix.isIdentity())
+    {
+        for (const osg::Vec3& vertex : *_vertices)
+        {
+            if (!polytope.contains(vertex))
+            {
+                return false;
+            }
+        }
+    }
+    else
+    {
+        // 顶点是局部坐标:把多面体逆变换到模型坐标系再判断
+        osg::Polytope transformedPolytope;
+        transformedPolytope.setAndTransformProvidingInverse(polytope, matrix);
+
+        for (const osg::Vec3& vertex : *_vertices)
+        {
+            if (!transformedPolytope.contains(vertex))
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 bool ElementNode::pickByCrossBox(osg::Polytope& polytope) const

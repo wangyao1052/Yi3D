@@ -21,7 +21,6 @@
 #include <cassert>
 
 #include <osg/LineWidth>
-#include <osg/Polytope>
 #include <osg/StateSet>
 #include <OsgUtils.h>
 
@@ -40,20 +39,6 @@ SketchEntity3DElementNode::SketchEntity3DElementNode(const wydb::ElementId& id) 
     _osgNode->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
     _osgNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
     _osgNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchEntity3D, "RenderBin");
-}
-
-bool SketchEntity3DElementNode::pickByNormalBoxImpl(osg::Polytope& polytope) const
-{
-    // 是否包含所有点
-    for (const osg::Vec3& vertex : *_vertices)
-    {
-        if (!polytope.contains(vertex))
-        {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 void SketchEntity3DElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)

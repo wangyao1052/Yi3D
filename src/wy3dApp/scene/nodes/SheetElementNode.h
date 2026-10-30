@@ -78,7 +78,8 @@ public:
     bool isEdgesVisible() const { return _showEdges; }
 
 protected:
-    virtual bool pickByNormalBoxImpl(osg::Polytope& polytope) const override;
+    // 本地坐标到世界坐标的变换矩阵
+    osg::Matrix getModelMatrix() const override { return _matrix; }
 
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) override;
