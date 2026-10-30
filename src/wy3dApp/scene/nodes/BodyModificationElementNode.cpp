@@ -132,7 +132,7 @@ bool findHostMatrix(const ElementNode* pHostNode, osg::Matrix& matrix)
 
 } // namespace
 
-void BodyModificationElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+void BodyModificationElementNode::generateRenderObject(Scene* pScene, const wydb::Element* pElem)
 {
     assert(pScene);
     assert(pElem);

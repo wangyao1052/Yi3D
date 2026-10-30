@@ -105,7 +105,7 @@ osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc)
     );
 }
 
-void SolidElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+void SolidElementNode::generateRenderObject(Scene* pScene, const wydb::Element* pElem)
 {
     assert(pElem);
     const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);

@@ -80,7 +80,7 @@ bool ElementNode::updateApperance(wydb::Database* pDb)
     return true;
 }
 
-bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb)
+bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
 {
     assert(pScene);
 
@@ -111,8 +111,8 @@ bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb)
         return true;
     }
 
-    // 生成渲染对象
-    this->generateRenderObjectImpl(pScene, pElem);
+    // 根据渲染数据生成OSG对象
+    this->generateRenderObject(pScene, pElem);
 
     // 自动计算包围盒(局部坐标),再按模型矩阵变换到世界坐标
     if (_pImpl->autoComputeBoundingBox)

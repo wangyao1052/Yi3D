@@ -65,7 +65,7 @@
 
 namespace wy3dApp {
 
-void CurveElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+void CurveElementNode::generateRenderObject(Scene* pScene, const wydb::Element* pElem)
 {
     assert(pElem);
     const wy3d::Curve* pCurve = wy3d::Curve::cast(pElem);

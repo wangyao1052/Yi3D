@@ -178,9 +178,10 @@ protected:
     // 更新显示效果
     virtual bool updateApperance(wydb::Database* pDb);
      
-    // 生成渲染对象
-    bool generateRenderObject(Scene* pScene, wydb::Database* pDb);
-    virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) {}
+    // 更新渲染对象(生成渲染数据、OSG对象及显示状态)
+    bool updateRenderObject(Scene* pScene, wydb::Database* pDb);
+    // 根据渲染数据生成OSG对象
+    virtual void generateRenderObject(Scene* pScene, const wydb::Element* pElem) {}
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) {}
 
     // 生成渲染数据；返回 nullptr 表示元素没有形体或生成失败

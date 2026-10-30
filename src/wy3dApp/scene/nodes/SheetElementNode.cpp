@@ -92,7 +92,7 @@ static osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc)
     );
 }
 
-void SheetElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+void SheetElementNode::generateRenderObject(Scene* pScene, const wydb::Element* pElem)
 {
     assert(pElem);
     const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem);

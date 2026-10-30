@@ -37,7 +37,7 @@
 
 namespace wy3dApp {
 
-void Sketch3DElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+void Sketch3DElementNode::generateRenderObject(Scene* pScene, const wydb::Element* pElem)
 {
     assert(pElem);
     const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pElem);

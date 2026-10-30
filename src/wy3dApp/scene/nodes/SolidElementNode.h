@@ -127,7 +127,7 @@ protected:
     osg::Matrix getModelMatrix() const override { return _matrix; }
 
     // 生成渲染对象
-    virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
+    virtual void generateRenderObject(Scene* pScene, const wydb::Element* pElem) override;
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) override;
     // 生成渲染数据
     virtual std::unique_ptr<RenderData> generateRenderData(

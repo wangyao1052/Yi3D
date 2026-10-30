@@ -42,7 +42,7 @@ SketchEntity3DElementNode::SketchEntity3DElementNode(const wydb::ElementId& id) 
     _osgNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchEntity3D, "RenderBin");
 }
 
-void SketchEntity3DElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+void SketchEntity3DElementNode::generateRenderObject(Scene* pScene, const wydb::Element* pElem)
 {
     assert(pElem);
     const wy3d::SketchEntity3D* pSketchEntity3D = wy3d::SketchEntity3D::cast(pElem);

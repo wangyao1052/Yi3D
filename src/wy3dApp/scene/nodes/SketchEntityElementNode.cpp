@@ -102,7 +102,7 @@ SketchEntityElementNode::SketchEntityElementNode(const wydb::ElementId& id) : El
     // }
 }
 
-void SketchEntityElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+void SketchEntityElementNode::generateRenderObject(Scene* pScene, const wydb::Element* pElem)
 {
     assert(pElem);
     const wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElem);

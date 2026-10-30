@@ -200,7 +200,7 @@ void DatumPlaneElementNode::updateVisualSize(const wydb::Database* pDb, const os
     if (_curvesGeom) _curvesGeom->dirtyBound();
 }
 
-void DatumPlaneElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+void DatumPlaneElementNode::generateRenderObject(Scene* pScene, const wydb::Element* pElem)
 {
     assert(pElem);
     const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pElem);
