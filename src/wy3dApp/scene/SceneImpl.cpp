@@ -501,8 +501,10 @@ void SceneImpl::initViewCube(osgViewer::View* pView)
 
     if (pView)
     {
-        // The cube sets its own node mask and lighting state
-        _pViewCube = new ViewCube(pView);
+        // The cube sets its own node mask and lighting state. The fit sphere is read lazily on
+        // the home button click; the cube lives and dies with this scene, so `this` is valid
+        // for as long as the callback can be reached.
+        _pViewCube = new ViewCube(pView, [this]() { return this->getFitViewBoundingSphere(); });
         _pRoot->addChild(_pViewCube);
     }
 }
