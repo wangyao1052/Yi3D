@@ -38,6 +38,7 @@
 #include <GeomLib.hxx>
 
 #include <osg/MatrixTransform>
+#include <osg/Polytope>
 #include <osg/LineStipple>
 #include <OsgUtils.h>
 

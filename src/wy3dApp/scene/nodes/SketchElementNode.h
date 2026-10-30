@@ -19,6 +19,8 @@
 #ifndef WY3DAPP_SKETCH_ELEMENT_NODE_H
 #define WY3DAPP_SKETCH_ELEMENT_NODE_H
 
+#include <vector>
+
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 

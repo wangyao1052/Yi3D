@@ -37,6 +37,7 @@
 #include <GeomLib.hxx>
 
 #include <osg/MatrixTransform>
+#include <osg/Polytope>
 #include <OsgUtils.h>
 #include <osg/LineWidth>
 

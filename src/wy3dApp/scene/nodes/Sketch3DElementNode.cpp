@@ -22,6 +22,7 @@
 #include <string>
 
 #include <osg/LineWidth>
+#include <osg/Polytope>
 #include <OsgUtils.h>
 
 #include <wydbDatabase.h>

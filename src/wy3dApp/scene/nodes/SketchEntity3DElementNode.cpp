@@ -21,6 +21,7 @@
 #include <cassert>
 
 #include <osg/LineWidth>
+#include <osg/Polytope>
 #include <osg/StateSet>
 #include <OsgUtils.h>
 
