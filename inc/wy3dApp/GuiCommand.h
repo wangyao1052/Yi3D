@@ -44,7 +44,7 @@
 #include "widgets/CursorType.h"
 #include <wy3dApp/Snap2dContext.h>
 #include <wy3dApp/Snap2dResult.h>
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 
 #include "select/SelectMode.h"
 #include "select/SelectFilterFunctors.h"

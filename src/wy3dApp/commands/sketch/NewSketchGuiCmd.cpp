@@ -34,7 +34,7 @@
 #include "utils/MathUtils.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "environments/sketch/SketchEnvironmentImpl.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "scene/SceneImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

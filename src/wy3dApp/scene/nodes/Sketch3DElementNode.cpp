@@ -22,6 +22,7 @@
 #include <string>
 
 #include <osg/LineWidth>
+#include <osg/Polytope>
 #include <OsgUtils.h>
 
 #include <wydbDatabase.h>
@@ -29,7 +30,7 @@
 #include <wy3dSketchEntity3D.h>
 
 #include "scene/SketchEntity3DLinearization.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include <wy3dApp/wy3dAppDefs.h>

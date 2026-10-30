@@ -19,44 +19,14 @@
 #include <wy3dApp/ElementNode.h>
 
 #include <cassert>
+#include <vector>
 
-#include <TopoDS_Shape.hxx>
-#include <TopoDS_Face.hxx>
-#include <Bnd_Box.hxx>
-#include <BRepBndLib.hxx>
-#include <Precision.hxx>
-#include <BRepMesh_IncrementalMesh.hxx>
-#include <TopTools_IndexedMapOfShape.hxx>
-#include <TopExp.hxx>
-#include <BRep_Tool.hxx>
-#include <TopoDS.hxx>
-#include <TopExp_Explorer.hxx>
-#include <TColgp_Array1OfDir.hxx>
-#include <Poly_Connect.hxx>
-#include <GeomLib.hxx>
+#include <Standard_Failure.hxx>
+#include <osg/Matrix>
+#include <osg/Polytope>
 
-#include <osg/MatrixTransform>
-#include <OsgUtils.h>
-
-#include <wyVector3.h>
-#include <wy3dMath.h>
 #include <wydbDatabase.h>
 #include <wy3dFeature.h>
-#include <wy3dBox.h>
-#include <wy3dCylinder.h>
-#include <wy3dSphere.h>
-#include <wy3dSketch.h>
-#include <wy3dSketchLine.h>
-#include <wy3dSketchCircle.h>
-#include <wy3dSketchArc.h>
-
-#include <osg/BlendFunc>
-#include <osg/Material>
-#include <osg/PolygonOffset>
-#include <osg/CullFace>
-
-#include "scene/SketchEntityLinearization.h"
-#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 

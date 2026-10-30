@@ -35,7 +35,7 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "snap/SketchSnapSystem.h"
 #include <wy3dApp/SelectPreview.h>
 #include <wy3dApp/GuiCommandUtil.h>

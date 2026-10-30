@@ -24,7 +24,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "scene/Colors.h"
 #include "select/filters/SolidFaceSelFilter.h"
 #include "widgets/frame/MainWindow.h"

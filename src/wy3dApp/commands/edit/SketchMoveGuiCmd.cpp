@@ -28,7 +28,7 @@
 #include <wy3dApp/Application.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/BasicTransient.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"

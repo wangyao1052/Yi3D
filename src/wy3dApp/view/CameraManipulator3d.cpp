@@ -25,7 +25,7 @@
 #include <GeomAPI_IntCS.hxx>
 #include <Standard_Failure.hxx>
 #include "scene/RenderConst.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {

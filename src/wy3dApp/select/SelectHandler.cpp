@@ -23,7 +23,7 @@
 #include <wyapSelManager.h>
 #include <wydbDatabase.h>
 #include <wydbElementId.h>
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {

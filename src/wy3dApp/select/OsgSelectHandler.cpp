@@ -24,7 +24,7 @@
 #include <osgUtil/PolytopeIntersector>
 #include "OsgSelectUtils.h"
 #include "scene/SceneImpl.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "select/PointPick.h"
 #include "select/BoxPick.h"
 #include <wy3dApp/wy3dAppDefs.h>

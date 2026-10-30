@@ -37,6 +37,7 @@
 #include <GeomLib.hxx>
 
 #include <osg/MatrixTransform>
+#include <osg/Polytope>
 #include <osg/LineStipple>
 #include <OsgUtils.h>
 #include <osg/Depth>
@@ -63,7 +64,7 @@
 #include <osg/LineWidth>
 
 #include "scene/SketchEntityLinearization.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include "utils/MathUtils.h"

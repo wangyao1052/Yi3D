@@ -44,7 +44,7 @@
 #include "utils/MathUtils.h"
 #include "utils/TopoShapeUtil.h"
 #include <wy3dApp/SketchEnvironment.h>
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "view/ViewUtil.h"
 #include "view/OsgView.h"
 #include "commands/CommandNames.h"

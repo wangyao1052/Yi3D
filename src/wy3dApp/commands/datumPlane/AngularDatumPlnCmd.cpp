@@ -34,7 +34,7 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "select/SketchPlaneSelFilter.h"
 #include "scene/SceneImpl.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "scene/nodes/DatumPlaneElementNode.h"
 #include "widgets/frame/MainWindow.h"
 #include <QCoreApplication>

@@ -30,7 +30,8 @@
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
-#include "scene/nodes/ElementNodeType.h"
+#include "scene/nodes/ElementMeshInfo.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -61,8 +62,8 @@ struct HostRenderData
     osg::ref_ptr<osg::UIntArray> triangleIndices;
     osg::ref_ptr<osg::UIntArray> lineIndices;
     // 借用宿主节点的面/边信息, 不拷贝; 生命周期同宿主节点
-    const std::vector<ElementNode::FaceInfo>* faceInfos = nullptr;
-    const std::vector<ElementNode::EdgeInfo>* edgeInfos = nullptr;
+    const std::vector<FaceInfo>* faceInfos = nullptr;
+    const std::vector<EdgeInfo>* edgeInfos = nullptr;
 };
 
 wydb::ElementId findHostId(const wydb::Element* pElem)
@@ -281,8 +282,8 @@ ElementNode::GenRenderDataRet BodyModificationElementNode::generateRenderDataImp
         assert(false);
         return GenRenderDataRet::Ok_Empty;
     }
-    const std::vector<ElementNode::FaceInfo>& faceInfos = *hostData.faceInfos;
-    const std::vector<ElementNode::EdgeInfo>& edgeInfos = *hostData.edgeInfos;
+    const std::vector<FaceInfo>& faceInfos = *hostData.faceInfos;
+    const std::vector<EdgeInfo>& edgeInfos = *hostData.edgeInfos;
 
     // 新生成的面的索引
     std::set<unsigned int> newFaceIndices;

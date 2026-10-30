@@ -38,7 +38,7 @@
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "utils/TopoShapeUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

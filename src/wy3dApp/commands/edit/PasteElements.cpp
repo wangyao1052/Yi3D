@@ -30,7 +30,7 @@
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "utils/CopyPasteUtil.h"
 #include <wy3dApp/GuiCommandUtil.h>
 #include <wy3dApp/wy3dAppDefs.h>

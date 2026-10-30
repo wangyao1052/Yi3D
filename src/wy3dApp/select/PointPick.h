@@ -22,7 +22,7 @@
 #include <osgViewer/View>
 #include <wyapSelection.h>
 #include <wy3dSelectionType.h>
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "select/SelectFilterFunctors.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

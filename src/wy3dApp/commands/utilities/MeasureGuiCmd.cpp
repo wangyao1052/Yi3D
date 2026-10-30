@@ -37,7 +37,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include "scene/Colors.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include "snap/SketchSnapSystem.h"
 #include "utils/MeasureUtil.h"

@@ -36,7 +36,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "utils/SketchUtil.h"
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/GuiCommandUtil.h>

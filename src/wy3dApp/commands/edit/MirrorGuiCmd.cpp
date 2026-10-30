@@ -27,7 +27,7 @@
 #include <wy3dDatumPlane.h>
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "utils/MessageBoxUtil.h"
 #include "select/SketchPlaneSelFilter.h"
 #include <wy3dApp/GuiCommandUtil.h>

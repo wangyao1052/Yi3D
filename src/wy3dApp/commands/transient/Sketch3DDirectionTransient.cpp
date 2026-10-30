@@ -29,7 +29,7 @@
 #include <wy3dMath.h>
 
 #include "scene/Colors.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {

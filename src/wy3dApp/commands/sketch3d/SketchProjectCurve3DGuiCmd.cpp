@@ -44,7 +44,7 @@
 #include "commands/dialogs/SketchProjectCurvePanel.h"
 #include "commands/transient/Sketch3DDirectionTransient.h"
 #include "commands/transient/Sketch3DEdgesTransient.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "select/SelectionSetHighlightor.h"
 #include "utils/TopoShapeUtil.h"
 #include "widgets/frame/MainWindow.h"

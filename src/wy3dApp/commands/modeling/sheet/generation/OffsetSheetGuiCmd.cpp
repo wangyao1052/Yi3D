@@ -49,7 +49,7 @@
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
 #include "scene/Colors.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include "commands/dialogs/OffsetSheetCmdPanel.h"
 #include "utils/MessageBoxUtil.h"

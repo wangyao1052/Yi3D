@@ -22,6 +22,10 @@
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
+#include "scene/nodes/ElementMeshInfo.h"
+
+#include <TopoDS_Shape.hxx>
+
 namespace wy3dApp {
 
 class SceneImpl;

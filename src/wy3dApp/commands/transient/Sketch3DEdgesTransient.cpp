@@ -28,7 +28,7 @@
 #include <osg/LineWidth>
 #include <wyVector3.h>
 
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
