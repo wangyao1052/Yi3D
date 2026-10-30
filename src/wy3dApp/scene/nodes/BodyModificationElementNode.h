@@ -32,7 +32,7 @@ class BodyModificationElementNode : public ElementNode
 {
     friend class SceneImpl;
 public:
-    explicit BodyModificationElementNode(const wydb::ElementId& id) : ElementNode(id) {}
+    explicit BodyModificationElementNode(const wydb::ElementId& id);
 
     // 结点类型
     virtual ElementNodeType getNodeType() const override { return ElementNodeType::BodyModification; }
@@ -90,9 +90,6 @@ private:
     osg::ref_ptr<osg::Geometry> generateEdgeGeom(const wydb::ElementId& id) const;
 
 private:
-    // 初始包围盒
-    osg::BoundingBox _boundBoxInit;
-
     //---------------------------------
     // 渲染对象
     //---------------------------------

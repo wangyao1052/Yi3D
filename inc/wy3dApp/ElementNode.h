@@ -105,6 +105,7 @@ public:
     void recomputeNodeMask();
 
 private:
+    friend class BodyModificationElementNode;
     friend class SceneImpl;
 
     enum NodeMask
@@ -201,13 +202,6 @@ protected:
     }
 
 protected:
-    // 重置包围盒
-    void resetBoundingBox() { _boundBox.init(); }
-    // 生成包围盒
-    osg::BoundingBox computeBoundingBox(const osg::Vec3Array& vertices);
-    // 变换包围盒
-    void transformBoundingBox(osg::BoundingBox& bbox, const osg::Matrix& matrix);
-
     virtual void highlightImpl(bool flag) {}
     virtual void previewImpl(bool flag) {}
     virtual void setActiveImpl(bool flag) {}

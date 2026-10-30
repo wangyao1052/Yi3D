@@ -17,6 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "DatumPlaneElementNode.h"
+#include "scene/nodes/ElementBounds.h"
 
 #include <cassert>
 
@@ -184,7 +185,7 @@ void DatumPlaneElementNode::updateVisualSize(const wydb::Database* pDb, const os
         _vertices->dirty();
 
         // 更新包围盒
-        _boundBox = this->computeBoundingBox(*_vertices);
+        _boundBox = ElementBounds::compute(*_vertices);
     }
     else
     {
@@ -211,9 +212,6 @@ void DatumPlaneElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::
     assert(_normals);
     assert(_triangleIndices);
     assert(_lineIndices);
-
-    // 生成包围盒
-    _boundBox = this->computeBoundingBox(*_vertices);
 
     if (!_triangleIndices->empty())
     {

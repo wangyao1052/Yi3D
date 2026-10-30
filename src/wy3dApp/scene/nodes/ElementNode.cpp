@@ -19,7 +19,6 @@
 #include <wy3dApp/ElementNode.h>
 
 #include <cassert>
-#include <vector>
 
 #include <Standard_Failure.hxx>
 #include <osg/Matrix>
@@ -28,6 +27,7 @@
 #include <wydbDatabase.h>
 #include <wy3dFeature.h>
 
+#include "scene/nodes/ElementBounds.h"
 #include "scene/nodes/ElementNodeImpl.h"
 
 namespace wy3dApp {
@@ -50,49 +50,6 @@ ElementNode::GenRenderDataRet ElementNode::generateRenderData(Scene* pScene, con
 ElementNode::GenRenderDataRet ElementNode::generateRenderDataImpl(Scene* pScene, const wydb::Element* pElement)
 {
     return GenRenderDataRet::Ok_Empty;
-}
-
-osg::BoundingBox ElementNode::computeBoundingBox(const osg::Vec3Array& vertices)
-{
-    osg::BoundingBox bbox;
-    for (const osg::Vec3& vertex : vertices)
-    {
-        bbox.expandBy(vertex);
-    }
-    return bbox;
-}
-
-void ElementNode::transformBoundingBox(osg::BoundingBox& bbox, const osg::Matrix& matrix)
-{
-    if (!bbox.valid()) return;
-    if (matrix.isIdentity()) return;
-
-    // 求出8个角点
-    float xMin = bbox.xMin();
-    float xMax = bbox.xMax();
-    float yMin = bbox.yMin();
-    float yMax = bbox.yMax();
-    float zMin = bbox.zMin();
-    float zMax = bbox.zMax();
-    std::vector<osg::Vec3> cornerPoints;
-    cornerPoints.reserve(8);
-    // 1
-    cornerPoints.emplace_back(osg::Vec3(xMin, yMin, zMin));
-    cornerPoints.emplace_back(osg::Vec3(xMin, yMin, zMax));
-    cornerPoints.emplace_back(osg::Vec3(xMin, yMax, zMin));
-    cornerPoints.emplace_back(osg::Vec3(xMin, yMax, zMax));
-    // 2
-    cornerPoints.emplace_back(osg::Vec3(xMax, yMin, zMin));
-    cornerPoints.emplace_back(osg::Vec3(xMax, yMin, zMax));
-    cornerPoints.emplace_back(osg::Vec3(xMax, yMax, zMin));
-    cornerPoints.emplace_back(osg::Vec3(xMax, yMax, zMax));
-
-    // 对8个角点做变换构建新包围盒
-    bbox.init();
-    for (const osg::Vec3& pnt : cornerPoints)
-    {
-        bbox.expandBy(pnt * matrix);
-    }
 }
 
 bool ElementNode::updateApperance(wydb::Database* pDb)
@@ -134,7 +91,7 @@ bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb, bool 
     // 清空渲染数据
     this->clearRenderData();
     // 重置包围盒
-    this->resetBoundingBox();
+    _boundBox.init();
 
     // 获取对应元素
     assert(pDb);
@@ -176,6 +133,13 @@ bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb, bool 
 
     // 生成渲染对象
     this->generateRenderObjectImpl(pScene, pElem);
+
+    // 自动计算包围盒(局部坐标),再按模型矩阵变换到世界坐标
+    if (_pImpl->autoComputeBoundingBox && _vertices)
+    {
+        _boundBox = ElementBounds::compute(*_vertices);
+        ElementBounds::transform(_boundBox, this->getModelMatrix());
+    }
 
     // 布尔体的成员默认不显示
     this->setActive(this->computeWhetherActive(pElem));

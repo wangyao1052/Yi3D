@@ -127,9 +127,6 @@ void SketchEntityElementNode::generateRenderObjectImpl(Scene* pScene, const wydb
     assert(_vertices);
     assert(_lineIndices);
 
-    // 生成包围盒
-    _boundBox = this->computeBoundingBox(*_vertices);
-
     // 生成渲染对象
     if (!_lineIndices->empty())
     {

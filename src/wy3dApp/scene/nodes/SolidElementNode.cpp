@@ -129,15 +129,6 @@ void SolidElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Eleme
     TopoDS_Shape shape = pSolid->getShape();
     _matrix = convertTopLocToOsgMatrix(shape.Location());
 
-    // 生成包围盒
-    osg::BoundingBox bbox = this->computeBoundingBox(*_vertices);
-    _boundBoxInit = bbox;
-    if (!_matrix.isIdentity())
-    {
-        this->transformBoundingBox(bbox, _matrix);
-    }
-    _boundBox = bbox;
-
     // 面片
     if (!_triangleIndices->empty())
     {

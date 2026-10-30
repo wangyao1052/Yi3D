@@ -29,6 +29,9 @@ public:
     ElementNodeImpl();
     ~ElementNodeImpl();
 
+    // 是否由 ElementNode 基类根据 _vertices 自动计算包围盒
+    bool autoComputeBoundingBox = true;
+
     ElementNodeImpl(const ElementNodeImpl&) = delete;
     ElementNodeImpl& operator=(const ElementNodeImpl&) = delete;
     ElementNodeImpl(ElementNodeImpl&&) = delete;

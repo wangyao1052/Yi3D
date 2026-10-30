@@ -164,7 +164,6 @@ private:
     }
 
 private:
-    osg::BoundingBox _boundBoxInit;
     osg::Vec4 _sheetFaceColor;
     unsigned int _flags;
     bool _wireframe = false;

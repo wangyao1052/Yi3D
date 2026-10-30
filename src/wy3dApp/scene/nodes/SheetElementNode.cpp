@@ -111,14 +111,6 @@ void SheetElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Eleme
     TopoDS_Shape shape = pSheet->getShape();
     _matrix = convertTopLocToOsgMatrix(shape.Location());
 
-    osg::BoundingBox bbox = this->computeBoundingBox(*_vertices);
-    _boundBoxInit = bbox;
-    if (!_matrix.isIdentity())
-    {
-        this->transformBoundingBox(bbox, _matrix);
-    }
-    _boundBox = bbox;
-
     if (!_triangleIndices->empty())
     {
         _shapeGeom = this->generateShapeGeom(pElem->getId(), true);

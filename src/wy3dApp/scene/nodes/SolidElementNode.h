@@ -193,8 +193,6 @@ private:
     }
 
 private:
-    // 初始包围盒
-    osg::BoundingBox _boundBoxInit;
     // 实体默认面色
     osg::Vec4 _solidFaceColor;
 

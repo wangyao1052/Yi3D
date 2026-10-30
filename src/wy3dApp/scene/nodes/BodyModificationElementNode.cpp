@@ -31,12 +31,20 @@
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/ElementMeshInfo.h"
+#include "scene/nodes/ElementNodeImpl.h"
 #include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
+
+BodyModificationElementNode::BodyModificationElementNode(const wydb::ElementId& id)
+    : ElementNode(id)
+{
+    // 该节点的包围盒始终为空(不进入 RTree/fit view/框选),不参与基类的自动计算
+    _pImpl->autoComputeBoundingBox = false;
+}
 
 wyap::Selection BodyModificationElementNode::createSelection(
     osg::Drawable* pDrawable,

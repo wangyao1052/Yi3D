@@ -49,9 +49,6 @@ void Sketch3DElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::El
     assert(_vertices);
     assert(_lineIndices);
 
-    // 生成包围盒
-    _boundBox = this->computeBoundingBox(*_vertices);
-
     // 生成渲染对象:普通线
     _curveNode = new osg::Group();
     if (!_lineIndices->empty())

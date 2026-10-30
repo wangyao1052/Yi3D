@@ -87,9 +87,6 @@ void SketchElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Elem
     assert(_centerLineIndices);
     assert(_pointIndices);
 
-    // 生成包围盒
-    _boundBox = this->computeBoundingBox(*_vertices);
-
     // 生成渲染对象:普通线
     _curveNode = new osg::Group();
     if (!_lineIndices->empty())
