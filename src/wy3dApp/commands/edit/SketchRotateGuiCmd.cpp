@@ -20,7 +20,7 @@
 
 #include <wy3dSketchEntity.h>
 
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "snap/SketchSnapSystem.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/wy3dAppDefs.h>

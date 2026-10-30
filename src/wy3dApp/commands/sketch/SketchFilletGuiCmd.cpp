@@ -35,7 +35,7 @@
 #include "utils/MathUtils.h"
 #include <utils/wy3dSketchFilletAlgo.h>
 #include <wy3dApp/CommonSelFilters.h>
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "utils/SplineUtil.h"
 #include "commands/dialogs/DoubleValueInputDialog.h"
 

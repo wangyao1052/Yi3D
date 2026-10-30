@@ -36,7 +36,7 @@
 #include "snap/SketchSnapSystem.h"
 #include "commands/sketch/SketchTrimExtendUtil.h"
 #include "utils/MathUtils.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {

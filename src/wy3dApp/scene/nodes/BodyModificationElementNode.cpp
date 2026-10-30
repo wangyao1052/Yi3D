@@ -30,7 +30,7 @@
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include <wy3dApp/wy3dAppDefs.h>

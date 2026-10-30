@@ -35,7 +35,7 @@
 
 #include <wy3dApp/Application.h>
 #include <wy3dApp/SketchEnvironment.h>
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/ParamDisplayNameRegistry.h>
 #include "widgets/StatusBarHelper.h"

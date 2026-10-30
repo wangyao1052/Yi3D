@@ -42,7 +42,7 @@
 #include "utils/MathUtils.h"
 #include <wy3dApp/GuiCommand.h>
 #include "utils/StlUtil.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 
 #include <iostream>
 #include <wy3dApp/wy3dAppDefs.h>

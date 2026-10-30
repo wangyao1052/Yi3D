@@ -37,7 +37,7 @@
 #include "scene/SketchEntityLinearization.h"
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

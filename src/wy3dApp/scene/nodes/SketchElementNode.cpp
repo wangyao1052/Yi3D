@@ -64,7 +64,7 @@
 #include <osg/Point>
 
 #include "scene/SketchEntityLinearization.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
 #include "utils/MathUtils.h"

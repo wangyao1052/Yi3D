@@ -34,7 +34,7 @@
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap/SketchSnapSystem.h"
 #include <wy3dApp/CommonSelFilters.h>
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

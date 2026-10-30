@@ -31,7 +31,7 @@
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/SketchEnvironment.h>
 #include "commands/dialogs/SetColorCmdPanel.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>

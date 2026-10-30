@@ -69,7 +69,7 @@
 #include "environments/sketch/SketchEnvironmentImpl.h"
 #include <wy3dApp/Sketch3DEnvironment.h>
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>

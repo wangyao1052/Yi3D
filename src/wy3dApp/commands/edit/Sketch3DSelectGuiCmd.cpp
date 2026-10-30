@@ -33,7 +33,7 @@
 #include "application/ApplicationImpl.h"
 #include "commands/GuiEventDispatcher.h"
 #include "environments/sketch3d/Sketch3DEnvironmentImpl.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "select/SelectHandler.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/GuiCommandUtil.h>

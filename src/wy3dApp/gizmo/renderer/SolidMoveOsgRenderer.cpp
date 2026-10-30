@@ -34,7 +34,7 @@
 #include "application/ApplicationImpl.h"
 #include <wy3dPrimitive.h>
 #include <wy3dApp/Scene.h>
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 

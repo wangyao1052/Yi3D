@@ -31,7 +31,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include "scene/SceneImpl.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "commands/transient/BasicTransient.h"
 #include "commands/edit/MoveRotateGuiCmdUtil.h"

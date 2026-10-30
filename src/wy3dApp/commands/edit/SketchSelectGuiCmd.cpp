@@ -27,7 +27,7 @@
 #include "gizmo/creator/SketchDimensionGizmoCreator.h"
 #include "gizmo/creator/SketchPolygonGizmoCreator.h"
 #include "gizmo/creator/SketchRectangleGizmoCreator.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include "snap/SketchSnapSystem.h"
 #include <wy3dApp/wy3dAppDefs.h>

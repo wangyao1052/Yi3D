@@ -17,7 +17,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "ViewCube.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 
 #include "view/CameraManipulator3d.h"
 #include "view/ViewUtil.h"

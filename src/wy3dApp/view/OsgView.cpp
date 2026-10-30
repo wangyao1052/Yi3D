@@ -26,7 +26,7 @@
 #include "snap/SnapResult.h"
 #include "snap/SnapConsts.h"
 #include "CameraManipulator3d.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include "ViewUtil.h"

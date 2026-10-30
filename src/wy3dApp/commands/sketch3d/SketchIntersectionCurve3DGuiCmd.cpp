@@ -40,7 +40,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include "commands/dialogs/SketchIntersectionCurvePanel.h"
-#include "scene/nodes/ElementNodeType.h"
+#include <wy3dApp/ElementNodeType.h>
 #include "select/SelectionSetHighlightor.h"
 #include "utils/TopoShapeUtil.h"
 #include "widgets/frame/MainWindow.h"
