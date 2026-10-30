@@ -165,11 +165,9 @@ protected:
     virtual bool updateApperance(wydb::Database* pDb);
      
     // 生成渲染对象
-    bool generateRenderObject(Scene* pScene, wydb::Database* pDb, bool isInitial = true);
+    bool generateRenderObject(Scene* pScene, wydb::Database* pDb);
     virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) {}
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) {}
-    // 重生渲染对象
-    void reGenerateRenderObject(Scene* pScene, wydb::Database* pDb);
 
     // 生成渲染数据
     enum class GenRenderDataRet

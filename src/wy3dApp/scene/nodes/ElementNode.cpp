@@ -82,9 +82,13 @@ bool ElementNode::updateApperance(wydb::Database* pDb)
     return true;
 }
 
-bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb, bool isInitial)
+bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb)
 {
     assert(pScene);
+
+    // 第一次生成(新建元素)不刷新高亮;之后的调用(重生)需要刷新
+    const bool isRegeneration = _pImpl->renderObjectGenerated;
+    _pImpl->renderObjectGenerated = true;
 
     // 清空渲染对象
     this->clearRenderObjects();
@@ -158,8 +162,8 @@ bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb, bool 
     }
     // }
 
-    // 如果不是初始状态(重生时),还需要刷新高亮显示
-    if (!isInitial)
+    // 重生时几何重新生成,需要重新应用高亮并清理可能残留的预览态
+    if (isRegeneration)
     {
         this->highlight(this->isHighlighted(), true); // 强制刷新显示效果(FixBug:Gizmo拖拽布尔运算结果体松开鼠标后没有高亮显示)
     }
@@ -168,13 +172,6 @@ bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb, bool 
     this->generateRenderObjectFinished(pElem);
 
     return true;
-}
-
-void ElementNode::reGenerateRenderObject(Scene* pScene, wydb::Database* pDb)
-{
-    assert(pDb);
-    bool isInitial(false);
-    this->generateRenderObject(pScene, pDb, isInitial);
 }
 
 void ElementNode::recomputeNodeMask()

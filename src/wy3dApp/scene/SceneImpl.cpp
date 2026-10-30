@@ -731,7 +731,7 @@ bool SceneImpl::modifyElementNode(const wydb::ElementId& id, const wydb::Databas
         // 从RTree中移除
         this->removeFromRTree(pElemNode);
         // 重生
-        pElemNode->reGenerateRenderObject(this, pDb);
+        pElemNode->generateRenderObject(this, pDb);
         // 添加到OSG场景中
         //this->addToOsgScene(pElemNode); // commented by wangyao 2025.02.21
         // 添加到RTree中
