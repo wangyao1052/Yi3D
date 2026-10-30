@@ -32,6 +32,7 @@
 #include "application/AutoSave.h"
 #include "commands/FileCommands.h"
 #include "plugins/PluginManager.h"
+#include "scene/nodes/ElementNodeFactoryImpl.h"
 #include "utils/IconUtil.h"
 #include "OsgUtils.h"
 #include <wyVector3.h>
@@ -157,11 +158,19 @@ GizmoFactory* ApplicationImpl::getGizmoFactory() const
     return _pGizmoFactory.get();
 }
 
+ElementNodeFactory* ApplicationImpl::getElementNodeFactory() const
+{
+    return _pElementNodeFactory.get();
+}
+
 bool ApplicationImpl::initialize()
 {
     // 配置项初始化
     assert(_pConfig);
     _pConfig->initialize();
+
+    // 元素节点创建工厂;必须早于插件加载与任何文档/场景创建
+    _pElementNodeFactory = std::make_unique<ElementNodeFactoryImpl>();
 
     // 初始化
     // <1>文档管理器

@@ -24,6 +24,7 @@
 
 namespace wy3dApp {
 
+class ElementNodeFactory;
 class GizmoFactory;
 class MainWindow;
 class ParamDisplayNameRegistry;
@@ -48,6 +49,9 @@ public:
     // Owned by the application; non-null once the application has started.
     // The caller does not own the returned pointer.
     virtual GizmoFactory* getGizmoFactory() const = 0;
+    // Owned by the application; non-null once the application has initialized.
+    // The caller does not own the returned pointer.
+    virtual ElementNodeFactory* getElementNodeFactory() const = 0;
     // 当前激活的场景。返回公共 Scene 接口，调用方不拥有该指针。
     virtual Scene* getActiveScene() const = 0;
 };

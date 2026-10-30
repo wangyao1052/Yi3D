@@ -53,6 +53,7 @@ class ElementNode;
 class OsgGizmoNode;
 class SketchEnvironment;
 class Sketch3DEnvironment;
+struct ElementNodeCreateContext;
 
 // Scene 的具体实现。只在 wy3dApp DLL 内部使用，不导出。
 class SceneImpl final : public Scene, public wyap::SnapSystemReactor
@@ -177,8 +178,9 @@ public:
         wyap::Environment::ExitCode exitCode) override;
 
 private:
-    bool addElementNode(const wydb::ElementId& id, bool addSketchEntity = false);
-    ElementNode* newElementNodeOfSolid(const wy3d::Solid* pSolid);
+    bool addElementNode(
+        const wydb::ElementId& id,
+        const ElementNodeCreateContext& context);
     bool removeElementNode(const wydb::ElementId& id);
     bool modifyElementNode(
         const wydb::ElementId& id,

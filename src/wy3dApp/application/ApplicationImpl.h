@@ -67,6 +67,7 @@ class MainWindow;
 class DockPanelManager;
 class Config;
 
+class ElementNodeFactoryImpl;
 class GizmoFactory;
 class GizmoFactoryImpl;
 class AutoSave;
@@ -146,6 +147,9 @@ public:
     // 获取Gizmo创建工厂
     GizmoFactory* getGizmoFactory() const override;
 
+    // 获取元素节点创建工厂
+    ElementNodeFactory* getElementNodeFactory() const override;
+
     // Created by runApplication after the translators are installed.
     ParamDisplayNameRegistry* getParamDisplayNameRegistry() const override
     {
@@ -220,6 +224,8 @@ private:
     std::unique_ptr<AutoSave> _pAutoSave;
     // Gizmo创建工厂
     std::unique_ptr<GizmoFactoryImpl> _pGizmoFactory;
+    // 元素节点创建工厂
+    std::unique_ptr<ElementNodeFactoryImpl> _pElementNodeFactory;
     // Parameter display name registry; created after translators are installed.
     std::unique_ptr<ParamDisplayNameRegistry> _pParamDisplayNameRegistry;
     // 捕捉系统

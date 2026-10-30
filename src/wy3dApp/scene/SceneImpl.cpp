@@ -33,6 +33,8 @@
 #include <wydbDatabase.h>
 #include <wyapDocument.h>
 #include <wyapDocManager.h>
+#include <wyapEnvManager.h>
+#include <wyapEnvironment.h>
 #include <wy3dSketchEntity.h>
 #include <wy3dSketch3D.h>
 #include <wy3dSketchEntity3D.h>
@@ -47,6 +49,7 @@
 #include "application/ApplicationImpl.h"
 #include <wyapSceneManager.h>
 #include <wy3dApp/ElementNode.h>
+#include <wy3dApp/ElementNodeFactory.h>
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SketchElementNode.h"
 #include "scene/nodes/SketchEntityElementNode.h"
@@ -561,58 +564,8 @@ ElementNode* SceneImpl::getElementNode(const wydb::ElementId& id) const
     return iter->second;
 }
 
-ElementNode* SceneImpl::newElementNodeOfSolid(const wy3d::Solid* pSolid)
-{
-    assert(pSolid);
-    wydb::ElementId id = pSolid->getId();
-    auto toOsgColor = [](const wy3d::Color& color) -> osg::Vec4
-    {
-        constexpr float inv255 = 1.0f / 255.0f;
-        return osg::Vec4(
-            static_cast<float>(color.red) * inv255,
-            static_cast<float>(color.green) * inv255,
-            static_cast<float>(color.blue) * inv255,
-            1.0f);
-    };
-    auto newSolidNode = [id](const osg::Vec4& faceColor) -> SolidElementNode*
-    {
-        SolidElementNode* pNode = new SolidElementNode(id, faceColor);
-        return pNode;
-    };
-    osg::Vec4 faceColor = toOsgColor(pSolid->getColor());
-
-    if (pSolid->getParent().isNull()) // 首层实体元素
-    {
-        return newSolidNode(faceColor);
-    }
-
-    
-    if (pSolid->isCut()) // 切除材料
-    {
-        if (pSolid->getParent().isNull()) // 还未切除主体时创建实体节点,比如在创建拉伸切除命令中(最后才切除实体).
-        {
-            return newSolidNode(faceColor);
-        }
-        else // 切除了主体
-        {
-            return new BodyModificationElementNode(id);
-        }
-    }
-    else
-    {
-        const wy3d::Boolean* pBoolean = wy3d::Boolean::cast(pSolid->getDatabase()->getElement(pSolid->getParent()));
-        if (pBoolean) // 说明实体本身是布尔目标体或参与体
-        {
-            return newSolidNode(faceColor);
-        }
-        else // 说明实体本身是被合并的
-        {
-            return new BodyModificationElementNode(id);
-        }
-    }
-}
-
-bool SceneImpl::addElementNode(const wydb::ElementId& id, bool addSketchEntity)
+bool SceneImpl::addElementNode(
+    const wydb::ElementId& id, const ElementNodeCreateContext& context)
 {
     // 校验是否已经存在
     auto iter = _id2ElemNode.find(id);
@@ -635,71 +588,14 @@ bool SceneImpl::addElementNode(const wydb::ElementId& id, bool addSketchEntity)
     }
 
     // 创建元素节点
-    ElementNode* pElemNode(nullptr);
-    // 实体
-    if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+    ElementNodeFactory* pFactory = ApplicationImpl::instance().getElementNodeFactory();
+    assert(pFactory);
+    if (!pFactory) return false;
+
+    ElementNode* pElemNode = pFactory->create(pElem, context);
+    if (!pElemNode)
     {
-        pElemNode = this->newElementNodeOfSolid(pSolid);
-    }
-    // 草图
-    else if (const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pElem))
-    {
-        pElemNode = new SketchElementNode(id);
-    }
-    // 草图图元
-    else if (const wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElem))
-    {
-        if (!addSketchEntity)
-        {
-            return false;
-        }
-        pElemNode = new SketchEntityElementNode(id);
-    }
-    // 基准面
-    else if (const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pElem))
-    {
-        pElemNode = new DatumPlaneElementNode(id);
-    }
-    // 实体修改对象
-    else if (const wy3d::BodyModification* pSolidMod = wy3d::BodyModification::cast(pElem))
-    {
-        pElemNode = new BodyModificationElementNode(id);
-    }
-    // 曲线
-    else if (const wy3d::Curve* pCurve = wy3d::Curve::cast(pElem))
-    {
-        pElemNode = new CurveElementNode(id);
-    }
-    // 曲面
-    else if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
-    {
-        constexpr float inv255 = 1.0f / 255.0f;
-        const wy3d::Color& sheetColor = pSheet->getColor();
-        osg::Vec4 faceColor(
-            static_cast<float>(sheetColor.red) * inv255,
-            static_cast<float>(sheetColor.green) * inv255,
-            static_cast<float>(sheetColor.blue) * inv255,
-            1.0f);
-        pElemNode = new SheetElementNode(id, faceColor);
-    }
-    // 3D 草图
-    else if (wy3d::Sketch3D::cast(pElem))
-    {
-        pElemNode = new Sketch3DElementNode(id);
-    }
-    // 3D 草图图元
-    else if (wy3d::SketchEntity3D::cast(pElem))
-    {
-        if (!addSketchEntity)
-        {
-            return false;
-        }
-        pElemNode = new SketchEntity3DElementNode(id);
-    }
-    // 其它
-    else
-    {
-        assert(false);
+        // 未注册(工厂内已断言)或拒绝创建(如草图环境外)
         return false;
     }
 
@@ -803,7 +699,8 @@ bool SceneImpl::modifyElementNode(const wydb::ElementId& id, const wydb::Databas
                 if (nodeType == ElementNodeType::BodyModification)
                 {
                     this->removeElementNode(id);
-                    return this->addElementNode(id);
+                    // 实体/形体修改节点的重建只在建模路径发生,与草图环境无关
+                    return this->addElementNode(id, ElementNodeCreateContext{});
                 }
             }
             // 首层节点>>>子节点
@@ -814,7 +711,8 @@ bool SceneImpl::modifyElementNode(const wydb::ElementId& id, const wydb::Databas
                 if (!pBoolean)
                 {
                     this->removeElementNode(id);
-                    return this->addElementNode(id);
+                    // 实体/形体修改节点的重建只在建模路径发生,与草图环境无关
+                    return this->addElementNode(id, ElementNodeCreateContext{});
                 }
             }
         }
@@ -921,6 +819,13 @@ void SceneImpl::onDatabaseChanged(
     const wydb::DatabaseChangeInfo& changeInfo)
 {
     assert(pDb);
+    // 当前活动环境(环境切换过程中可能为空)
+    ElementNodeCreateContext context;
+    const wyap::Environment* pActiveEnvironment =
+        ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
+    context.pEnvironmentClassInfo =
+        pActiveEnvironment ? pActiveEnvironment->getClassInfo() : nullptr;
+
     bool isInSketchEnv = (_pSketchEnvInfo != nullptr);
 
     // 区分出实体修改元素
@@ -957,7 +862,7 @@ void SceneImpl::onDatabaseChanged(
         }
         else
         {
-            this->addElementNode(id, isInSketchEnv);
+            this->addElementNode(id, context);
         }
     }
 
@@ -990,7 +895,7 @@ void SceneImpl::onDatabaseChanged(
     }
     for (const wydb::ElementId& id : addedSolidMods)
     {
-        this->addElementNode(id, isInSketchEnv);
+        this->addElementNode(id, context);
     }
 
     // 删除元素
@@ -1699,9 +1604,11 @@ void SceneImpl::enterSketchEnvironment(SketchEnvironment* pSketchEnv)
         assert(false);
         return;
     }
+    ElementNodeCreateContext context;
+    context.pEnvironmentClassInfo = pSketchEnv->getClassInfo();
     for (auto iter = pSketch->createIterator(); !iter.isDone(); iter.moveNext())
     {
-        this->addElementNode(iter.current(), true);
+        this->addElementNode(iter.current(), context);
     }
 
     // 移除SketchOwner的渲染节点
@@ -1820,9 +1727,11 @@ void SceneImpl::enterSketch3DEnvironment(Sketch3DEnvironment* pSketch3DEnv)
         assert(false);
         return;
     }
+    ElementNodeCreateContext context;
+    context.pEnvironmentClassInfo = pSketch3DEnv->getClassInfo();
     for (auto iter = pSketch3D->createIterator(); !iter.isDone(); iter.moveNext())
     {
-        this->addElementNode(iter.current(), true);
+        this->addElementNode(iter.current(), context);
     }
 }
 
