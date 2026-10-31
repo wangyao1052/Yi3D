@@ -68,19 +68,22 @@
 #include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "scene/nodes/SketchRenderObject.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-void SketchElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+std::unique_ptr<RenderObject> SketchElementNode::createRenderObject(
+    Scene* pScene, const wydb::Element* pElem)
 {
+    (void)pScene;
     assert(pElem);
     const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pElem);
     if (!pSketch)
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
     SketchRenderData* data = this->renderData();
@@ -88,78 +91,51 @@ void SketchElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Elem
         !data->centerLineIndices || !data->pointIndices)
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
-    // 生成渲染对象:普通线
-    _curveNode = new osg::Group();
-    if (!data->lineIndices->empty())
-    {
-        _curveGeom = new osg::Geometry();
-        _curveGeom->setNodeMask(this->getNodeType());
-        _curveGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchElement, "RenderBin");
-        {
-            _curveGeom->setUseDisplayList(false);
-            _curveGeom->setUseVertexBufferObjects(true);
-            _curveGeom->setVertexArray(data->vertices);
-            osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-            colors->push_back(Colors::kSketch);
-            _curveGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-            _curveGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, data->lineIndices->begin(), data->lineIndices->end()));
-            _curveGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-            _curveGeom->setUserValue("ElementId", static_cast<unsigned int>(pElem->getId().value()));
-            _curveGeom->getStateSet()->setAttribute(new osg::LineWidth(1.2f));
-        }
-        _curveNode->addChild(_curveGeom);
-    }
-    _osgNode->addChild(_curveNode);
+    const ElementNodeType nodeType = this->getNodeType();
 
-    // 生成渲染对象:中心线
-    if (!data->centerLineIndices->empty())
-    {
-        _centerLinesGeom = new osg::Geometry();
-        _centerLinesGeom->setNodeMask(this->getNodeType());
-        _centerLinesGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchElement, "RenderBin");
-        {
-            _centerLinesGeom->setUseDisplayList(false);
-            _centerLinesGeom->setUseVertexBufferObjects(true);
-            _centerLinesGeom->setVertexArray(data->vertices);
-            osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-            colors->push_back(Colors::kSketch);
-            _centerLinesGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-            _centerLinesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, data->centerLineIndices->begin(), data->centerLineIndices->end()));
-            _centerLinesGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-            _centerLinesGeom->setUserValue("ElementId", static_cast<unsigned int>(pElem->getId().value()));
-            _centerLinesGeom->getStateSet()->setAttribute(new osg::LineWidth(1.2f));
-            // 线样式
-            {
-                _centerLinesGeom->getOrCreateStateSet()->setAttributeAndModes(new osg::LineStipple(
-                    CENTER_LINE_STIPPLE_FACTOR, CENTER_LINE_STIPPLE_PATTERN), osg::StateAttribute::ON);
-            }
-        }
-        _osgNode->addChild(_centerLinesGeom);
-    }
+    SketchRenderStyle style;
+    style.curveStyle.nodeType = nodeType;
+    style.curveStyle.color = Colors::kSketch;
+    style.curveStyle.highlightColor = Colors::kSketch_Highlight;
+    style.curveStyle.previewColor = Colors::kSketch_Preview;
+    style.curveStyle.lineWidth = 1.2f;
+    style.curveStyle.highlightLineWidth = 2.0f;
+    style.curveStyle.depthTest = true;
+    style.curveStyle.highlightDepthTest = false;
+    style.curveStyle.lighting = false;
+    style.curveStyle.renderBin = RenderBinNumers::SketchElement;
 
-    // 生成渲染对象:点
-    if (!data->pointIndices->empty())
-    {
-        _pointsGeom = new osg::Geometry();
-        _pointsGeom->setNodeMask(this->getNodeType());
-        _pointsGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchElement, "RenderBin");
-        {
-            _pointsGeom->setUseDisplayList(false);
-            _pointsGeom->setUseVertexBufferObjects(true);
-            _pointsGeom->setVertexArray(data->vertices);
-            osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-            colors->push_back(Colors::kSketch);
-            _pointsGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-            _pointsGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_POINTS, data->pointIndices->begin(), data->pointIndices->end()));
-            _pointsGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-            _pointsGeom->setUserValue("ElementId", static_cast<unsigned int>(pElem->getId().value()));
-            _pointsGeom->getStateSet()->setAttribute(new osg::Point(5.0f));
-        }
-        _osgNode->addChild(_pointsGeom);
-    }
+    style.centerLineStyle = style.curveStyle;
+    style.centerLineStyle.stipple = true;
+    style.centerLineStyle.stippleFactor = CENTER_LINE_STIPPLE_FACTOR;
+    style.centerLineStyle.stipplePattern = CENTER_LINE_STIPPLE_PATTERN;
+
+    style.pointStyle = style.curveStyle;
+    style.pointStyle.indicesAsPoints = true;
+    style.pointStyle.pointSize = 5.0f;
+    style.pointStyle.highlightPointSize = 7.0f;
+    style.pointStyle.changePointSizeOnHighlight = true;
+
+    style.highlightOverlayColor = Colors::kEdge_Highlight;
+    style.previewOverlayColor = Colors::kEdge_Preview;
+
+    auto renderObject = std::make_unique<SketchRenderObject>(pElem->getId(), *data, style);
+    renderObject->build();
+    return renderObject;
+}
+
+SketchRenderObject* SketchElementNode::renderObject() const
+{
+    return this->getRenderObjectAs<SketchRenderObject>();
+}
+
+osg::Geometry* SketchElementNode::getCenterLinesGeom() const
+{
+    SketchRenderObject* obj = this->renderObject();
+    return obj ? obj->getCenterLinesGeom() : nullptr;
 }
 
 std::unique_ptr<RenderData> SketchElementNode::generateRenderData(
@@ -252,7 +228,7 @@ std::unique_ptr<RenderData> SketchElementNode::generateRenderData(
             if (info.isCenterLine)
             {
                 const std::vector<unsigned int>& indices = info.pLinear->getIndices();
-                CurveInfo curveInfo;
+                CurveRenderInfo curveInfo;
                 curveInfo.id = info.id.value();
                 size_t numIndices = indices.size();
                 if (numIndices % 2 == 0)
@@ -268,7 +244,7 @@ std::unique_ptr<RenderData> SketchElementNode::generateRenderData(
             else
             {
                 const std::vector<unsigned int>& indices = info.pLinear->getIndices();
-                CurveInfo curveInfo;
+                CurveRenderInfo curveInfo;
                 curveInfo.id = info.id.value();
                 size_t numIndices = indices.size();
                 if (numIndices % 2 == 0) // 偶数
@@ -302,61 +278,6 @@ std::unique_ptr<RenderData> SketchElementNode::generateRenderData(
     }
 }
 
-void SketchElementNode::highlightImpl(bool flag)
-{
-    this->highlightGeom(_curveGeom, flag, Colors::kSketch_Highlight);
-    this->highlightGeom(_centerLinesGeom, flag, Colors::kSketch_Highlight);
-    if (_pointsGeom) this->highlightGeom(_pointsGeom, flag, Colors::kSketch_Highlight);
-}
-
-void SketchElementNode::previewImpl(bool flag)
-{
-    if (this->isHighlighted())
-    {
-        assert(false);
-        return;
-    }
-
-    this->highlightGeom(_curveGeom, flag, Colors::kSketch_Preview);
-    this->highlightGeom(_centerLinesGeom, flag, Colors::kSketch_Preview);
-    if (_pointsGeom) this->highlightGeom(_pointsGeom, flag, Colors::kSketch_Preview);
-}
-
-void SketchElementNode::highlightGeom(const osg::ref_ptr<osg::Geometry>& geom, bool flag, const osg::Vec4& highlightColor)
-{
-    if (!geom) return;
-
-    OsgUtils::setNodeColor(geom, flag ? highlightColor : Colors::kSketch);
-    if (flag)
-    {
-        // 草图高亮时加大点的大小
-        if (_pointsGeom)
-        {
-            _pointsGeom->getOrCreateStateSet()->setAttribute(new osg::Point(7.0f));
-        }
-        // 草图高亮时加大线宽
-        geom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(2.0f));
-        // 草图高亮时禁用深度测试确保不被遮挡住
-        geom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-    }
-    else
-    {
-        // 草图取消高亮时恢复点的大小
-        if (_pointsGeom)
-        {
-            _pointsGeom->getOrCreateStateSet()->setAttribute(new osg::Point(5.0f));
-        }
-        // 草图取消高亮时恢复线宽
-        geom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(1.2f));
-        // 草图取消高亮时启用深度测试
-        geom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-    }
-}
-
-void SketchElementNode::setActiveImpl(bool flag)
-{
-}
-
 bool SketchElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
 {
     assert(pCurElem);
@@ -369,7 +290,7 @@ unsigned int SketchElementNode::getCurveId(unsigned int primitiveIndex) const
     if (!data || data->curveInfos.empty()) return 0;
 
     unsigned int count(0);
-    for (const CurveInfo& info : data->curveInfos)
+    for (const CurveRenderInfo& info : data->curveInfos)
     {
         count += info.numLines;
         if (primitiveIndex < count)
@@ -387,7 +308,7 @@ unsigned int SketchElementNode::getCenterLineCurveId(unsigned int primitiveIndex
     if (!data || data->centerLineInfos.empty()) return 0;
 
     unsigned int count(0);
-    for (const CurveInfo& info : data->centerLineInfos)
+    for (const CurveRenderInfo& info : data->centerLineInfos)
     {
         count += info.numLines;
         if (primitiveIndex < count)
@@ -437,34 +358,19 @@ wyap::Selection SketchElementNode::createSelection(
 
 void SketchElementNode::highlightCurveByIndex(unsigned int curveIndex, bool flag)
 {
-    if (_curveGeomHighlight)
+    if (SketchRenderObject* obj = this->renderObject())
     {
-        if (_curveNode) _curveNode->removeChild(_curveGeomHighlight);
-        _curveGeomHighlight = nullptr;
+        obj->highlightCurveByIndex(curveIndex, flag);
     }
-
-    SketchRenderData* data = this->renderData();
-    if (!data || curveIndex >= data->curveInfos.size())
+    else
     {
         assert(false);
-        return;
-    }
-
-    if (flag) data->curveInfos[curveIndex].addFlag(CurveInfoFlag::Highlight);
-    else data->curveInfos[curveIndex].removeFlag(CurveInfoFlag::Highlight);
-
-    osg::ref_ptr<osg::Geometry> curveGeomHighlight = this->generateCurveGeom_Highlight();
-    if (curveGeomHighlight)
-    {
-        _curveGeomHighlight = curveGeomHighlight;
-        if (_curveNode) _curveNode->addChild(_curveGeomHighlight);
     }
 }
 
 void SketchElementNode::highlightCurveById(unsigned int id, bool flag)
 {
-    unsigned int index = static_cast<unsigned int>(-1);
-    index = this->getCurveIndexById(id);
+    unsigned int index = this->getCurveIndexById(id);
     if (index != static_cast<unsigned int>(-1))
     {
         this->highlightCurveByIndex(index, flag);
@@ -479,35 +385,19 @@ void SketchElementNode::highlightCurveById(unsigned int id, bool flag)
 
 void SketchElementNode::previewCurveByIndex(unsigned int curveIndex, bool flag)
 {
-    if (_curveGeomPreview)
+    if (SketchRenderObject* obj = this->renderObject())
     {
-        if (_curveNode) _curveNode->removeChild(_curveGeomPreview);
-        _curveGeomPreview = nullptr;
+        obj->previewCurveByIndex(curveIndex, flag);
     }
-
-    SketchRenderData* data = this->renderData();
-    if (!data || curveIndex >= data->curveInfos.size())
+    else
     {
         assert(false);
-        return;
-    }
-
-    if (flag)
-    {
-        osg::ref_ptr<osg::Geometry> curveGeomPreview = this->generateCurveGeom_Preview(curveIndex);
-        assert(curveGeomPreview);
-        if (curveGeomPreview)
-        {
-            _curveGeomPreview = curveGeomPreview;
-            if (_curveNode) _curveNode->addChild(_curveGeomPreview);
-        }
     }
 }
 
 void SketchElementNode::previewCurveById(unsigned int id, bool flag)
 {
-    unsigned int index = static_cast<unsigned int>(-1);
-    index = this->getCurveIndexById(id);
+    unsigned int index = this->getCurveIndexById(id);
     if (index != static_cast<unsigned int>(-1))
     {
         this->previewCurveByIndex(index, flag);
@@ -520,169 +410,13 @@ void SketchElementNode::previewCurveById(unsigned int id, bool flag)
     }
 }
 
-void SketchElementNode::clearDynamicRenderGeometry()
-{
-    if (_curveGeomHighlight)
-    {
-        if (_curveNode) _curveNode->removeChild(_curveGeomHighlight);
-        _curveGeomHighlight = nullptr;
-    }
-    if (_curveGeomPreview)
-    {
-        if (_curveNode) _curveNode->removeChild(_curveGeomPreview);
-        _curveGeomPreview = nullptr;
-    }
-    if (SketchRenderData* data = this->renderData())
-    {
-        for (CurveInfo& info : data->curveInfos)
-        {
-            info.removeFlag(CurveInfoFlag::Highlight);
-        }
-        for (CurveInfo& info : data->centerLineInfos)
-        {
-            info.removeFlag(CurveInfoFlag::Highlight);
-        }
-    }
-}
-
-osg::ref_ptr<osg::Geometry> SketchElementNode::generateCurveGeom_Highlight()
-{
-    SketchRenderData* data = this->renderData();
-    if (!data ||
-        ((!data->lineIndices || data->lineIndices->empty()) &&
-         (!data->centerLineIndices || data->centerLineIndices->empty())))
-    {
-        return nullptr;
-    }
-
-    // 统计高亮索引总数（普通线 + 中心线）
-    size_t totalNumIndices(0);
-    for (const CurveInfo& curveInfo : data->curveInfos)
-    {
-        if (curveInfo.hasFlag(CurveInfoFlag::Highlight))
-            totalNumIndices += static_cast<size_t>(curveInfo.numLines) * 2;
-    }
-    for (const CurveInfo& curveInfo : data->centerLineInfos)
-    {
-        if (curveInfo.hasFlag(CurveInfoFlag::Highlight))
-            totalNumIndices += static_cast<size_t>(curveInfo.numLines) * 2;
-    }
-    if (totalNumIndices == 0)
-    {
-        return nullptr;
-    }
-
-    // 填充索引数组
-    osg::ref_ptr<osg::UIntArray> indices = new osg::UIntArray();
-    indices->reserve(totalNumIndices);
-
-    size_t startIndex = 0;
-    for (const CurveInfo& curveInfo : data->curveInfos)
-    {
-        size_t numIndices = static_cast<size_t>(curveInfo.numLines) * 2;
-        if (curveInfo.hasFlag(CurveInfoFlag::Highlight))
-        {
-            indices->insert(indices->end(),
-                data->lineIndices->begin() + startIndex,
-                data->lineIndices->begin() + startIndex + numIndices);
-        }
-        startIndex += numIndices;
-    }
-    startIndex = 0;
-    for (const CurveInfo& curveInfo : data->centerLineInfos)
-    {
-        size_t numIndices = static_cast<size_t>(curveInfo.numLines) * 2;
-        if (curveInfo.hasFlag(CurveInfoFlag::Highlight))
-        {
-            indices->insert(indices->end(),
-                data->centerLineIndices->begin() + startIndex,
-                data->centerLineIndices->begin() + startIndex + numIndices);
-        }
-        startIndex += numIndices;
-    }
-
-    // 创建几何
-    osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~ElementNodeType::All); // 不可拾取
-    edgeGeom->setUseDisplayList(false);
-    edgeGeom->setUseVertexBufferObjects(true);
-    edgeGeom->setVertexArray(data->vertices);
-    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(Colors::kEdge_Highlight);
-    edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-    edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, indices->begin(), indices->end()));
-    edgeGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-    // 宽度
-    edgeGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(3.0f));
-    // 关闭深度测试始终可见
-    edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-    edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
-
-    return edgeGeom;
-}
-
-osg::ref_ptr<osg::Geometry> SketchElementNode::generateCurveGeom_Preview(unsigned int curveIndex)
-{
-    SketchRenderData* data = this->renderData();
-    if (!data || !data->lineIndices || data->lineIndices->empty() || data->curveInfos.empty())
-    {
-        assert(false);
-        return nullptr;
-    }
-    if (curveIndex >= data->curveInfos.size())
-    {
-        assert(false);
-        return nullptr;
-    }
-
-    // 索引数组
-    osg::ref_ptr<osg::UIntArray> indices = new osg::UIntArray();
-    size_t numIndices = static_cast<size_t>(data->curveInfos[curveIndex].numLines) * 2;
-    indices->reserve(numIndices);
-
-    // 填充索引数组
-    size_t startIndex = 0;
-    for (size_t i = 0; i < data->curveInfos.size(); ++i)
-    {
-        const CurveInfo& curveInfo = data->curveInfos[i];
-        numIndices = static_cast<size_t>(curveInfo.numLines) * 2;
-        if (i == curveIndex)
-        {
-            indices->insert(indices->end(),
-                data->lineIndices->begin() + startIndex,
-                data->lineIndices->begin() + startIndex + numIndices);
-            break;
-        }
-        startIndex += numIndices;
-    }
-
-    // 创建几何
-    osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~ElementNodeType::All); // 不可拾取
-    edgeGeom->setUseDisplayList(false);
-    edgeGeom->setUseVertexBufferObjects(true);
-    edgeGeom->setVertexArray(data->vertices);
-    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(Colors::kEdge_Preview);
-    edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-    edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, indices->begin(), indices->end()));
-    edgeGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-    // 宽度
-    edgeGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(3.0f));
-    // 关闭深度测试始终可见
-    edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-    edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
-
-    return edgeGeom;
-}
-
 unsigned int SketchElementNode::getCurveIndexById(unsigned int id) const
 {
     const SketchRenderData* data = this->renderData();
     if (!data) return static_cast<unsigned int>(-1);
 
     unsigned int index(-1);
-    for (const CurveInfo& info : data->curveInfos)
+    for (const CurveRenderInfo& info : data->curveInfos)
     {
         ++index;
         if (info.id == id)
@@ -699,7 +433,7 @@ unsigned int SketchElementNode::getCenterLineCurveIndexById(unsigned int id) con
     if (!data) return static_cast<unsigned int>(-1);
 
     unsigned int index(-1);
-    for (const CurveInfo& info : data->centerLineInfos)
+    for (const CurveRenderInfo& info : data->centerLineInfos)
     {
         ++index;
         if (info.id == id)
@@ -712,105 +446,26 @@ unsigned int SketchElementNode::getCenterLineCurveIndexById(unsigned int id) con
 
 void SketchElementNode::highlightCenterLineByIndex(unsigned int curveIndex, bool flag)
 {
-    if (_curveGeomHighlight)
+    if (SketchRenderObject* obj = this->renderObject())
     {
-        if (_curveNode) _curveNode->removeChild(_curveGeomHighlight);
-        _curveGeomHighlight = nullptr;
+        obj->highlightCenterLineByIndex(curveIndex, flag);
     }
-
-    SketchRenderData* data = this->renderData();
-    if (!data || curveIndex >= data->centerLineInfos.size())
+    else
     {
         assert(false);
-        return;
-    }
-
-    if (flag) data->centerLineInfos[curveIndex].addFlag(CurveInfoFlag::Highlight);
-    else data->centerLineInfos[curveIndex].removeFlag(CurveInfoFlag::Highlight);
-
-    osg::ref_ptr<osg::Geometry> curveGeomHighlight = this->generateCurveGeom_Highlight();
-    if (curveGeomHighlight)
-    {
-        _curveGeomHighlight = curveGeomHighlight;
-        if (_curveNode) _curveNode->addChild(_curveGeomHighlight);
     }
 }
 
 void SketchElementNode::previewCenterLineByIndex(unsigned int curveIndex, bool flag)
 {
-    if (_curveGeomPreview)
+    if (SketchRenderObject* obj = this->renderObject())
     {
-        if (_curveNode) _curveNode->removeChild(_curveGeomPreview);
-        _curveGeomPreview = nullptr;
+        obj->previewCenterLineByIndex(curveIndex, flag);
     }
-
-    SketchRenderData* data = this->renderData();
-    if (!data || curveIndex >= data->centerLineInfos.size())
+    else
     {
         assert(false);
-        return;
     }
-
-    if (flag)
-    {
-        osg::ref_ptr<osg::Geometry> curveGeomPreview = this->generateCenterLineGeom_Preview(curveIndex);
-        assert(curveGeomPreview);
-        if (curveGeomPreview)
-        {
-            _curveGeomPreview = curveGeomPreview;
-            if (_curveNode) _curveNode->addChild(_curveGeomPreview);
-        }
-    }
-}
-
-osg::ref_ptr<osg::Geometry> SketchElementNode::generateCenterLineGeom_Preview(unsigned int curveIndex)
-{
-    SketchRenderData* data = this->renderData();
-    if (!data || !data->centerLineIndices || data->centerLineIndices->empty() || data->centerLineInfos.empty())
-    {
-        assert(false);
-        return nullptr;
-    }
-    if (curveIndex >= data->centerLineInfos.size())
-    {
-        assert(false);
-        return nullptr;
-    }
-
-    osg::ref_ptr<osg::UIntArray> indices = new osg::UIntArray();
-    size_t numIndices = static_cast<size_t>(data->centerLineInfos[curveIndex].numLines) * 2;
-    indices->reserve(numIndices);
-
-    size_t startIndex = 0;
-    for (size_t i = 0; i < data->centerLineInfos.size(); ++i)
-    {
-        const CurveInfo& curveInfo = data->centerLineInfos[i];
-        numIndices = static_cast<size_t>(curveInfo.numLines) * 2;
-        if (i == curveIndex)
-        {
-            indices->insert(indices->end(),
-                data->centerLineIndices->begin() + startIndex,
-                data->centerLineIndices->begin() + startIndex + numIndices);
-            break;
-        }
-        startIndex += numIndices;
-    }
-
-    osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~ElementNodeType::All);
-    edgeGeom->setUseDisplayList(false);
-    edgeGeom->setUseVertexBufferObjects(true);
-    edgeGeom->setVertexArray(data->vertices);
-    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(Colors::kEdge_Preview);
-    edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-    edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, indices->begin(), indices->end()));
-    edgeGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-    edgeGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(3.0f));
-    edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-    edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
-
-    return edgeGeom;
 }
 
 } // namespace wy3dApp

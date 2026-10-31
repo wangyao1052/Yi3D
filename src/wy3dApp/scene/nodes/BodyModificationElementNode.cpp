@@ -36,6 +36,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "scene/nodes/BodyModificationRenderObject.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -67,8 +68,6 @@ namespace
 struct HostRenderData
 {
     osg::ref_ptr<osg::Vec3Array> vertices;
-    osg::ref_ptr<osg::Vec3Array> normals;
-    osg::ref_ptr<osg::UIntArray> triangleIndices;
     osg::ref_ptr<osg::UIntArray> lineIndices;
     // 借用宿主节点的面/边信息, 不拷贝; 生命周期同宿主节点
     const std::vector<FaceInfo>* faceInfos = nullptr;
@@ -92,8 +91,6 @@ template<typename HostNode>
 void collectHostRenderDataFrom(const HostNode* pHostNode, HostRenderData& data)
 {
     data.vertices = pHostNode->getVertices();
-    data.normals = pHostNode->getNormals();
-    data.triangleIndices = pHostNode->getTriangleIndices();
     data.lineIndices = pHostNode->getLineIndices();
     data.faceInfos = &pHostNode->getFaceInfos();
     data.edgeInfos = &pHostNode->getEdgeInfos();
@@ -132,103 +129,43 @@ bool findHostMatrix(const ElementNode* pHostNode, osg::Matrix& matrix)
 
 } // namespace
 
-void BodyModificationElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+std::unique_ptr<RenderObject> BodyModificationElementNode::createRenderObject(
+    Scene* pScene, const wydb::Element* pElem)
 {
     assert(pScene);
     assert(pElem);
-    MeshRenderData* data = this->renderData();
-    if (!data || !data->vertices || !data->normals || !data->triangleIndices || !data->lineIndices)
+    LineRenderData* data = this->renderData();
+    if (!data || !data->vertices || !data->lineIndices)
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
     osg::Matrix hostMatrix;
     if (!findHostMatrix(pScene->getElementNode(findHostId(pElem)), hostMatrix))
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
     // 设置包围盒始终为空
     _boundBox = osg::BoundingBox();
 
-    /* 不渲染三角面片
-    // 面片
-    if (!_triangleIndices->empty())
-    {
-        // batch
-        _shapeGeom = this->generateShapeGeom(pElem->getId());
-        osg::ref_ptr<osg::MatrixTransform> pMatrixTransform = new osg::MatrixTransform();
-        pMatrixTransform->setMatrix(hostMatrix);
-        pMatrixTransform->addChild(_shapeGeom);
-        _shapeNode = pMatrixTransform;
-        _osgNode->addChild(_shapeNode);
-    }
-    */
+    BodyModificationRenderStyle style;
+    style.edgeColor = Colors::kSolidEdge;
+    style.highlightColor = Colors::kEdge_Highlight;
+    style.previewColor = Colors::kEdge_Preview;
+    style.inactiveColor = Colors::kTransparent;
 
-    // 边
-    if (!data->lineIndices->empty())
-    {
-        _edgeGeom = this->generateEdgeGeom(pElem->getId());
-        osg::ref_ptr<osg::MatrixTransform> pMatrixTransform = new osg::MatrixTransform();
-        pMatrixTransform->setMatrix(hostMatrix);
-        pMatrixTransform->addChild(_edgeGeom);
-        _edgeNode = pMatrixTransform;
-        _edgeNode->setNodeMask(0); // 默认不显示只在高亮和预览的时候显示
-        _osgNode->addChild(_edgeNode);
-    }
+    auto renderObject = std::make_unique<BodyModificationRenderObject>(
+        pElem->getId(), this->getNodeType(), *data, hostMatrix, style);
+    renderObject->build();
+    return renderObject;
 }
 
-osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateShapeGeom(const wydb::ElementId& id) const
+BodyModificationRenderObject* BodyModificationElementNode::renderObject() const
 {
-    MeshRenderData* data = this->renderData();
-    if (!data || !data->triangleIndices || data->triangleIndices->empty())
-    {
-        assert(false);
-        return nullptr;
-    }
-
-    osg::ref_ptr<osg::Geometry> shapeGeom = new osg::Geometry();
-    shapeGeom->setNodeMask(this->getNodeType());
-    shapeGeom->setUseDisplayList(false);
-    shapeGeom->setUseVertexBufferObjects(true);
-    shapeGeom->getOrCreateStateSet()->setMode(GL_CULL_FACE, osg::StateAttribute::ON);
-    shapeGeom->getOrCreateStateSet()->setAttribute(new osg::CullFace(osg::CullFace::BACK));
-    shapeGeom->setVertexArray(data->vertices);
-    shapeGeom->setNormalArray(data->normals, osg::Array::Binding::BIND_PER_VERTEX);
-    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(Colors::kSolidFace);
-    shapeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-    shapeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_TRIANGLES, data->triangleIndices->begin(), data->triangleIndices->end()));
-    shapeGeom->setUserValue("ElementId", static_cast<unsigned int>(id.value()));
-
-    return shapeGeom;
-}
-
-osg::ref_ptr<osg::Geometry> BodyModificationElementNode::generateEdgeGeom(const wydb::ElementId& id) const
-{
-    MeshRenderData* data = this->renderData();
-    if (!data || !data->lineIndices || data->lineIndices->empty())
-    {
-        assert(false);
-        return nullptr;
-    }
-
-    osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(this->getNodeType());
-    edgeGeom->setUseDisplayList(false);
-    edgeGeom->setUseVertexBufferObjects(true);
-    edgeGeom->setVertexArray(data->vertices);
-    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(Colors::kSolidEdge);
-    edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-    edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, data->lineIndices->begin(), data->lineIndices->end()));
-    edgeGeom->setUserValue("ElementId", static_cast<unsigned int>(id.value()));
-    edgeGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-    edgeGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(2.0));
-
-    return edgeGeom;
+    return this->getRenderObjectAs<BodyModificationRenderObject>();
 }
 
 std::unique_ptr<RenderData> BodyModificationElementNode::generateRenderData(
@@ -236,7 +173,7 @@ std::unique_ptr<RenderData> BodyModificationElementNode::generateRenderData(
 {
     try
     {
-        auto data = std::make_unique<MeshRenderData>();
+        auto data = std::make_unique<LineRenderData>();
 
         assert(pScene);
         assert(pElement);
@@ -275,9 +212,7 @@ std::unique_ptr<RenderData> BodyModificationElementNode::generateRenderData(
         }
         // 宿主当前可能没有形体(例如布尔结果暂时为空),此时不生成修改边
         data->vertices = hostData.vertices;
-        data->normals = hostData.normals;
-        if (!data->vertices || !data->normals ||
-            !hostData.triangleIndices || !hostData.lineIndices ||
+        if (!data->vertices || !hostData.lineIndices ||
             !hostData.faceInfos || !hostData.edgeInfos)
         {
             return nullptr;
@@ -291,14 +226,12 @@ std::unique_ptr<RenderData> BodyModificationElementNode::generateRenderData(
         std::set<unsigned int>::const_iterator iterNewFaceIndex = newFaceIndices.cbegin();
         assert(iterNewFaceIndex != newFaceIndices.cend());
 
-        // 算出总的三角形索引数量 + 边的索引
-        size_t totalTriIndices(0);
+        // 计算新面的所有边索引(实体修改元素只渲染边)
         std::set<unsigned int> edgeIndexSet;
         for (size_t i = 0; i < faceInfos.size(); ++i)
         {
             if (i == *iterNewFaceIndex)
             {
-                totalTriIndices += static_cast<size_t>(faceInfos[i].numTriangles) * 3;
                 edgeIndexSet.insert(faceInfos[i].edgeIndices.cbegin(), faceInfos[i].edgeIndices.cend());
 
                 ++iterNewFaceIndex;
@@ -306,31 +239,6 @@ std::unique_ptr<RenderData> BodyModificationElementNode::generateRenderData(
                 {
                     break;
                 }
-            }
-        }
-        // 不渲染三角面
-        //data->triangleIndices->reserve(totalTriIndices);
-
-        // 填充三角形索引
-        if (0) // 实体修改元素不渲染面只渲染边
-        {
-            auto iterBeg = hostData.triangleIndices->begin();
-            auto iterEnd = iterBeg;
-            iterNewFaceIndex = newFaceIndices.cbegin();
-            for (size_t i = 0; i < faceInfos.size(); ++i)
-            {
-                iterEnd += static_cast<size_t>(faceInfos[i].numTriangles) * 3;
-                if (i == *iterNewFaceIndex)
-                {
-                    data->triangleIndices->insert(data->triangleIndices->end(), iterBeg, iterEnd);
-
-                    ++iterNewFaceIndex;
-                    if (iterNewFaceIndex == newFaceIndices.cend())
-                    {
-                        break;
-                    }
-                }
-                iterBeg = iterEnd;
             }
         }
 
@@ -369,121 +277,6 @@ std::unique_ptr<RenderData> BodyModificationElementNode::generateRenderData(
     {
         assert(false);
         return nullptr;
-    }
-}
-
-void BodyModificationElementNode::highlightImpl(bool flag)
-{
-    this->updateColorAndTransparent();
-}
-
-void BodyModificationElementNode::previewImpl(bool flag)
-{
-    if (this->isHighlighted())
-    {
-        assert(false);
-        return;
-    }
-    
-    /* 不渲染面
-    // 面
-    if (_shapeNode)
-    {
-        OsgUtils::setNodeColor(_shapeNode, flag ? Colors::kSolidFace_Preview : Colors::kSolidFace);
-    }
-    */
-
-    // 边
-    if (_edgeNode)
-    {
-        OsgUtils::setNodeColor(_edgeNode, flag ? Colors::kEdge_Preview : Colors::kSolidEdge);
-
-        if (flag) // 预览时关闭深度测试使边线始终可见
-        {
-            _edgeNode->setNodeMask(~ElementNodeType::All);
-            _edgeNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-            _edgeNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Preview, "RenderBin");
-        }
-        else // 隐藏
-        {
-            _edgeNode->setNodeMask(0);
-            _edgeNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-            _edgeNode->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
-        }
-    }
-}
-
-void BodyModificationElementNode::setActiveImpl(bool flag)
-{
-    this->updateColorAndTransparent();
-}
-
-void BodyModificationElementNode::updateColorAndTransparent()
-{
-    /* 不渲染面
-    // 面
-    if (_shapeNode)
-    {
-        if (this->isActive())
-        {
-            OsgUtils::setNodeColor(_shapeNode, this->isHighlighted() ? Colors::kSolidFace_Highlight : Colors::kSolidFace);
-        }
-        else
-        {
-            OsgUtils::setNodeColor(_shapeNode, this->isHighlighted() ? Colors::kTransparent : Colors::kSolidFace);
-        }
-
-        if (_shapeGeom)
-        {
-            if (this->isActive())
-            {
-                // remove transparent
-                _shapeGeom->getOrCreateStateSet()->setRenderingHint(osg::StateSet::DEFAULT_BIN);
-                _shapeGeom->getOrCreateStateSet()->removeAttribute(osg::StateAttribute::Type::BLENDFUNC);
-                // remove z-fighting
-                _shapeGeom->getOrCreateStateSet()->removeAttribute(osg::StateAttribute::Type::POLYGONOFFSET);
-            }
-            else
-            {
-                // transparent
-                _shapeGeom->getOrCreateStateSet()->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
-                _shapeGeom->getOrCreateStateSet()->setAttributeAndModes(new osg::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-                // z-fighting
-                osg::ref_ptr<osg::PolygonOffset> polyOffset = new osg::PolygonOffset(-1.0f, 1.0f);
-                _shapeGeom->getOrCreateStateSet()->setAttributeAndModes(polyOffset, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
-            }
-        }
-    }
-    */
-
-    // 边
-    if (_edgeNode)
-    {
-        if (this->isActive())
-        {
-            OsgUtils::setNodeColor(_edgeNode, this->isHighlighted() ? Colors::kEdge_Highlight : Colors::kSolidEdge);
-        }
-        else
-        {
-            OsgUtils::setNodeColor(_edgeNode, this->isHighlighted() ? Colors::kTransparent : Colors::kSolidEdge);
-        }
-
-        // 高亮时关闭深度测试使边线始终可见
-        if (this->isActive() && this->isHighlighted())
-        {
-            _edgeNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-            _edgeNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
-        }
-        else
-        {
-            _edgeNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-            _edgeNode->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
-        }
-
-        if (this->isHighlighted()) // 显示
-            _edgeNode->setNodeMask(~ElementNodeType::All);
-        else // 隐藏
-            _edgeNode->setNodeMask(0);
     }
 }
 

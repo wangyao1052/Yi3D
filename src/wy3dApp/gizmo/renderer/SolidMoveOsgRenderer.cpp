@@ -218,9 +218,11 @@ bool SolidMoveOsgRenderer::onStartDrag(const wy::Vector3& startPos)
     }
     _previewGroup->addChild(_ghostPat);
 
-    // 暂时隐藏元素节点
+    // 暂时隐藏元素节点,记录原掩码以便恢复
     if (pElemNode && pElemNode->getOsgNode())
     {
+        _elemNodeMaskBeforeDrag = pElemNode->getOsgNode()->getNodeMask();
+        _elemNodeMaskSaved = true;
         pElemNode->getOsgNode()->setNodeMask(0);
     }
 
@@ -245,7 +247,11 @@ bool SolidMoveOsgRenderer::onEndDrag(const wy::Vector3& endPos)
 {
     // 恢复显示元素节点
     ElementNode* pElemNode = this->getRelatedElementNode();
-    if (pElemNode) pElemNode->recomputeNodeMask();
+    if (pElemNode && pElemNode->getOsgNode() && _elemNodeMaskSaved)
+    {
+        pElemNode->getOsgNode()->setNodeMask(_elemNodeMaskBeforeDrag);
+    }
+    _elemNodeMaskSaved = false;
 
     // 清理 ghost
     osg::Group* pElementsRenderNode = _previewGroup;
@@ -265,7 +271,11 @@ void SolidMoveOsgRenderer::onCancelDrag()
 
     // 恢复显示元素节点
     ElementNode* pElemNode = this->getRelatedElementNode();
-    if (pElemNode) pElemNode->recomputeNodeMask();
+    if (pElemNode && pElemNode->getOsgNode() && _elemNodeMaskSaved)
+    {
+        pElemNode->getOsgNode()->setNodeMask(_elemNodeMaskBeforeDrag);
+    }
+    _elemNodeMaskSaved = false;
 
     // 清理 ghost
     osg::Group* pElementsRenderNode = _previewGroup;

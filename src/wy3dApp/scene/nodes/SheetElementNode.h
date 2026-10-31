@@ -22,7 +22,6 @@
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
-#include "scene/nodes/ElementMeshInfo.h"
 #include "scene/nodes/ElementRenderData.h"
 
 #include <TopoDS_Shape.hxx>
@@ -31,16 +30,8 @@
 namespace wy3dApp {
 
 class SceneImpl;
-
-// 片体渲染数据
-class SheetRenderData final : public MeshRenderData
-{
-public:
-    // 面数据
-    std::vector<FaceInfo> faceInfos;
-    // 边数据
-    std::vector<EdgeInfo> edgeInfos;
-};
+struct MeshRenderStyle;
+class MeshRenderObject;
 
 class SheetElementNode : public ElementNode
 {
@@ -58,29 +49,29 @@ public:
     // 获取数据;返回的引用在下一次重生后失效
     const std::vector<FaceInfo>& getFaceInfos() const
     {
-        const SheetRenderData* data = this->renderData();
+        const MeshRenderData* data = this->renderData();
         static const std::vector<FaceInfo> kEmpty;
         return data ? data->faceInfos : kEmpty;
     }
     const std::vector<EdgeInfo>& getEdgeInfos() const
     {
-        const SheetRenderData* data = this->renderData();
+        const MeshRenderData* data = this->renderData();
         static const std::vector<EdgeInfo> kEmpty;
         return data ? data->edgeInfos : kEmpty;
     }
     osg::ref_ptr<osg::Vec3Array> getNormals() const
     {
-        const SheetRenderData* data = this->renderData();
+        const MeshRenderData* data = this->renderData();
         return data ? data->normals : nullptr;
     }
     osg::ref_ptr<osg::UIntArray> getTriangleIndices() const
     {
-        const SheetRenderData* data = this->renderData();
+        const MeshRenderData* data = this->renderData();
         return data ? data->triangleIndices : nullptr;
     }
     osg::ref_ptr<osg::UIntArray> getLineIndices() const
     {
-        const SheetRenderData* data = this->renderData();
+        const MeshRenderData* data = this->renderData();
         return data ? data->lineIndices : nullptr;
     }
     const osg::Matrix& getMatrix() const { return _matrix; }
@@ -106,23 +97,21 @@ public:
     virtual void clearDynamicRenderGeometry() override;
 
     void setWireframe(bool flag);
-    bool isWireframe() const { return _wireframe; }
+    bool isWireframe() const;
 
     void setEdgesVisible(bool flag);
-    bool isEdgesVisible() const { return _showEdges; }
+    bool isEdgesVisible() const;
 
 protected:
     // 本地坐标到世界坐标的变换矩阵
     osg::Matrix getModelMatrix() const override { return _matrix; }
 
-    virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
+    virtual std::unique_ptr<RenderObject> createRenderObject(
+        Scene* pScene, const wydb::Element* pElem) override;
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) override;
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
-    virtual void highlightImpl(bool flag) override;
-    virtual void previewImpl(bool flag) override;
-    virtual void setActiveImpl(bool flag) override;
     virtual bool updateApperance(wydb::Database* pDb) override;
     void updateColorAndTransparent();
 
@@ -132,34 +121,14 @@ protected:
         return pCurElem->getParent().isNull();
     }
 
-protected:
-    virtual void clearRenderObjects() override
-    {
-        ElementNode::clearRenderObjects();
-        _shapeNode = nullptr;
-        _shapeGeom = nullptr;
-        _nobatchShapeGeom = nullptr;
-        _edgeNode = nullptr;
-        _edgeWrap = nullptr;
-        _edgeGeom = nullptr;
-        _edgeGeomHighlight = nullptr;
-        _edgeGeomPreview = nullptr;
-    }
-
 private:
-    SheetRenderData* renderData() const { return this->getRenderDataAs<SheetRenderData>(); }
+    MeshRenderData* renderData() const { return this->getRenderDataAs<MeshRenderData>(); }
+    MeshRenderObject* renderObject() const;
+    MeshRenderStyle makeStyle() const;
 
-    bool generateMeshData(TopoDS_Shape& shape, SheetRenderData& data);
-    osg::ref_ptr<osg::Geometry> generateShapeGeom(const wydb::ElementId& id, bool batch) const;
-    osg::ref_ptr<osg::Geometry> generateEdgeGeom(const wydb::ElementId& id) const;
-    void startNoBatchRender_Face();
-    void endNoBatchRender_Face();
-    bool setFaceColor(unsigned int faceIndex, const osg::Vec4& color);
+    bool generateMeshData(TopoDS_Shape& shape, MeshRenderData& data);
     osg::Vec4 getFaceDefaultColor() const;
     osg::Vec4 getEdgeDefaultColor() const;
-
-    osg::ref_ptr<osg::Geometry> generateEdgeGeom_Highlight();
-    osg::ref_ptr<osg::Geometry> generateEdgeGeom_Preview(unsigned int edgeIndex);
 
 private:
     enum class Flag : unsigned int
@@ -183,19 +152,6 @@ private:
 private:
     osg::Vec4 _sheetFaceColor;
     unsigned int _flags;
-    bool _wireframe = false;
-    // 边是否可见
-    bool _showEdges = true;
-
-    osg::ref_ptr<osg::Group> _shapeNode;
-    osg::ref_ptr<osg::Geometry> _shapeGeom;
-    osg::ref_ptr<osg::Geometry> _nobatchShapeGeom;
-
-    osg::ref_ptr<osg::Group> _edgeNode;
-    osg::ref_ptr<osg::Group> _edgeWrap;
-    osg::ref_ptr<osg::Geometry> _edgeGeom;
-    osg::ref_ptr<osg::Geometry> _edgeGeomHighlight;
-    osg::ref_ptr<osg::Geometry> _edgeGeomPreview;
 
     osg::Matrix _matrix;
 };

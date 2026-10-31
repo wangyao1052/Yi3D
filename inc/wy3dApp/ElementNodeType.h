@@ -24,6 +24,7 @@
 namespace wy3dApp {
 
 // Underlying type matches osg::NodeMask (unsigned int).
+// 低 24 位为类型/可拾取区, 高 8 位为"仅渲染、不可拾取"区(叠加几何/ghost 等使用 ~All).
 enum ElementNodeType : unsigned int
 {
     Undefined         = 0,
@@ -36,7 +37,7 @@ enum ElementNodeType : unsigned int
     SketchEntity      = 0x00000040,
     Sketch3D          = 0x00000080,
     Sketch3DEntity    = 0x00000100,
-    All               = 0x0000FFFF,
+    All               = 0x00FFFFFF,
 };
 
 } // namespace wy3dApp

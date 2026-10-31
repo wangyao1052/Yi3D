@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2026 Wang Yao <wangyao1052@163.com>
+// Copyright (C) 2024-2026 Wang Yao <wangyao1052@163.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@
 
 namespace wy3dApp {
 
+class LineRenderObject;
+
 class SketchEntity3DElementNode : public ElementNode
 {
 public:
@@ -35,30 +37,14 @@ public:
     virtual ElementNodeType getNodeType() const override { return ElementNodeType::Sketch3DEntity; }
 
 protected:
-    virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
+    virtual std::unique_ptr<RenderObject> createRenderObject(
+        Scene* pScene, const wydb::Element* pElem) override;
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
-    virtual void highlightImpl(bool flag) override;
-    virtual void previewImpl(bool flag) override;
-    virtual void setActiveImpl(bool flag) override;
-
-protected:
-    // 清空渲染对象
-    virtual void clearRenderObjects() override
-    {
-        ElementNode::clearRenderObjects();
-        _curvesGeom = nullptr;
-    }
-
 private:
     LineRenderData* renderData() const { return this->getRenderDataAs<LineRenderData>(); }
-
-    //---------------------------------
-    // 渲染对象
-    //---------------------------------
-    // OSG具体节点
-    osg::ref_ptr<osg::Geometry> _curvesGeom;
+    LineRenderObject* renderObject() const;
 };
 
 } // namespace wy3dApp

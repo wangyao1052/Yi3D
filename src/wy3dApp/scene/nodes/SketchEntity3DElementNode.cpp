@@ -30,54 +30,58 @@
 #include "scene/SketchEntity3DLinearization.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "scene/nodes/LineRenderObject.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 SketchEntity3DElementNode::SketchEntity3DElementNode(const wydb::ElementId& id) : ElementNode(id)
 {
-    // Draw on top of solid faces: disable depth test and render in the entity bin
-    _osgNode->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-    _osgNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-    _osgNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchEntity3D, "RenderBin");
 }
 
-void SketchEntity3DElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+std::unique_ptr<RenderObject> SketchEntity3DElementNode::createRenderObject(
+    Scene* pScene, const wydb::Element* pElem)
 {
+    (void)pScene;
     assert(pElem);
     const wy3d::SketchEntity3D* pSketchEntity3D = wy3d::SketchEntity3D::cast(pElem);
     if (!pSketchEntity3D)
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
     LineRenderData* data = this->renderData();
     if (!data || !data->vertices || !data->lineIndices)
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
-    // 生成渲染对象
-    if (!data->lineIndices->empty())
-    {
-        _curvesGeom = new osg::Geometry();
-        _curvesGeom->setNodeMask(this->getNodeType());
-        {
-            _curvesGeom->setUseDisplayList(false);
-            _curvesGeom->setUseVertexBufferObjects(true);
-            _curvesGeom->setVertexArray(data->vertices);
-            osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-            colors->push_back(Colors::kSketchEntity);
-            _curvesGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-            _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, data->lineIndices->begin(), data->lineIndices->end()));
-            _curvesGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-            _curvesGeom->setUserValue("ElementId", static_cast<unsigned int>(pElem->getId().value()));
-            _curvesGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(2.0f));
-        }
-        _osgNode->addChild(_curvesGeom);
-    }
+    LineRenderStyle style;
+    style.nodeType = this->getNodeType();
+    style.color = Colors::kSketchEntity;
+    style.highlightColor = Colors::kSketchEntity_Highlight;
+    style.previewColor = Colors::kSketchEntity_Preview;
+    style.lineWidth = 2.0f;
+    style.highlightLineWidth = 2.0f;
+    style.changeLineWidthOnHighlight = false;
+    style.depthTest = false;
+    style.highlightDepthTest = false;
+    style.changeDepthTestOnHighlight = false;
+    style.lighting = false;
+    style.applyStateToRoot = true;
+    style.renderBin = RenderBinNumers::SketchEntity3D;
+
+    auto renderObject = std::make_unique<LineRenderObject>(
+        pElem->getId(), this->getNodeType(), *data, *data->lineIndices, style);
+    renderObject->build();
+    return renderObject;
+}
+
+LineRenderObject* SketchEntity3DElementNode::renderObject() const
+{
+    return this->getRenderObjectAs<LineRenderObject>();
 }
 
 std::unique_ptr<RenderData> SketchEntity3DElementNode::generateRenderData(
@@ -122,31 +126,6 @@ std::unique_ptr<RenderData> SketchEntity3DElementNode::generateRenderData(
         assert(false);
         return nullptr;
     }
-}
-
-void SketchEntity3DElementNode::highlightImpl(bool flag)
-{
-    if (_curvesGeom)
-    {
-        OsgUtils::setNodeColor(_curvesGeom, flag ? Colors::kSketchEntity_Highlight : Colors::kSketchEntity);
-    }
-}
-
-void SketchEntity3DElementNode::previewImpl(bool flag)
-{
-    if (this->isHighlighted())
-    {
-        assert(false);
-        return;
-    }
-    if (_curvesGeom)
-    {
-        OsgUtils::setNodeColor(_curvesGeom, flag ? Colors::kSketchEntity_Preview : Colors::kSketchEntity);
-    }
-}
-
-void SketchEntity3DElementNode::setActiveImpl(bool flag)
-{
 }
 
 } // namespace wy3dApp

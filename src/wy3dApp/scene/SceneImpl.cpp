@@ -537,7 +537,7 @@ osg::BoundingSphere SceneImpl::getFitViewBoundingSphere() const
         if (parents.empty() || _pElemsRoot.get() != parents.front()) continue;
 
         // hidden or inactive
-        if (0 == (pElemNode->getOsgNode()->getNodeMask() & ElementNode::Visible)) continue;
+        if (!pElemNode->isVisible()) continue;
 
         const osg::BoundingBox& elemBox = pElemNode->getBoundingBox();
         if (elemBox.valid()) bbox.expandBy(elemBox);
@@ -602,7 +602,7 @@ bool SceneImpl::addElementNode(
     }
 
     // 生成元素渲染对象
-    if (!pElemNode->generateRenderObject(this, pDb))
+    if (!pElemNode->updateRenderObject(this, pDb))
     {
         assert(false);
     }
@@ -731,7 +731,7 @@ bool SceneImpl::modifyElementNode(const wydb::ElementId& id, const wydb::Databas
         // 从RTree中移除
         this->removeFromRTree(pElemNode);
         // 重生
-        pElemNode->generateRenderObject(this, pDb);
+        pElemNode->updateRenderObject(this, pDb);
         // 添加到OSG场景中
         //this->addToOsgScene(pElemNode); // commented by wangyao 2025.02.21
         // 添加到RTree中

@@ -55,13 +55,13 @@ PasteElements::~PasteElements()
     {
         pActiveScene->removeTransient(_pat);
 
-        // show hidden element node
-        for (const wydb::ElementId& hiddenElemId : _hiddenElemIds)
+        // 恢复被隐藏元素节点的掩码
+        for (const auto& kvp : _hiddenNodeMasks)
         {
-            ElementNode* pHiddenElemNode = pActiveScene->getElementNode(hiddenElemId);
-            if (pHiddenElemNode)
+            ElementNode* pHiddenElemNode = pActiveScene->getElementNode(kvp.first);
+            if (pHiddenElemNode && pHiddenElemNode->getOsgNode())
             {
-                pHiddenElemNode->recomputeNodeMask();
+                pHiddenElemNode->getOsgNode()->setNodeMask(kvp.second);
             }
         }
     }
@@ -314,9 +314,9 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
         copy->setNodeMask(~ElementNodeType::All); // added by wangyao 2025.04.28 不可PICK
         _pat->addChild(copy); // 浅拷贝
 
-        // 暂时隐藏元素节点
+        // 暂时隐藏元素节点,记录原掩码以便恢复
+        _hiddenNodeMasks[copyElem.pElem->getId()] = pElemOsgRoot->getNodeMask();
         pElemOsgRoot->setNodeMask(0);
-        _hiddenElemIds.emplace_back(copyElem.pElem->getId());
     }
 
     this->update(pos);

@@ -48,6 +48,7 @@ namespace wydb
 namespace wy3dApp {
 
 class ElementNodeImpl;
+class RenderObject;
 class Scene;
 class SceneImpl;
 
@@ -91,15 +92,11 @@ public:
 
 public:
     // 高亮
-    void highlight(bool flag, bool forced = false);
+    void highlight(bool flag);
     // 预览
     void preview(bool flag);
 
-    // 是否激活
-    inline bool isActive() const
-    {
-        return !(_status & static_cast<unsigned int>(Status::Inactive));
-    }
+
     // 激活
     virtual void setActive(bool flag);
     // 计算是否Active
@@ -115,19 +112,36 @@ public:
     }
     // 获取Osg节点
     osg::Group* getOsgNode() const { return _osgNode.get(); }
-    // 重新计算NodeMask
-    void recomputeNodeMask();
+
+    inline bool isHighlighted() const
+    {
+        return _status & static_cast<unsigned int>(Status::Highlighted);
+    }
+
+    inline bool isHidden() const
+    {
+        return _status & static_cast<unsigned int>(Status::Hidden);
+    }
+
+    inline bool isActive() const
+    {
+        return !(_status & static_cast<unsigned int>(Status::Inactive));
+    }
+
+    inline bool isPreviewed() const
+    {
+        return _status & static_cast<unsigned int>(Status::Previewed);
+    }
+
+    // 是否正常可见:激活且未隐藏(高亮/预览不改变该判断)
+    inline bool isVisible() const
+    {
+        return this->isActive() && !this->isHidden();
+    }
 
 private:
     friend class BodyModificationElementNode;
     friend class SceneImpl;
-
-    enum NodeMask
-    {
-        Visible   = 0x3FFFFFFF, // 可见:最高位为0,由高亮状态控制
-        Highlight = 0x80000000, // 最高位为1
-        Preview   = 0x40000000, // 次高位为1
-    };
 
     // 状态标志
     enum class Status : unsigned int
@@ -135,14 +149,10 @@ private:
         Highlighted = 0x00000001, // 高亮
         Inactive    = 0x00000002, // 非活动状态,布尔体的成员为此状态
         Hidden      = 0x00000004, // 隐藏状态
+        Previewed   = 0x00000008, // 预览(临时交互态,高亮优先)
     };
-    // 是否隐藏
-    inline bool isHidden() const
-    {
-        return _status & static_cast<unsigned int>(Status::Hidden);
-    }
     // 隐藏
-    virtual void hide(bool flag);
+    void hide(bool flag);
 
     void addStatus(Status status)
     {
@@ -160,14 +170,8 @@ private:
     bool pickByCrossBox(osg::Polytope& polytope) const;
 
 protected:
-    // 是否高亮
-    inline bool isHighlighted() const
-    {
-        return _status & static_cast<unsigned int>(Status::Highlighted);
-    }
-
-    // 清空动态渲染对象(NoBatch渲染结束时调用);默认不做处理
-    virtual void clearDynamicRenderGeometry() {}
+    // 清空动态渲染对象(NoBatch渲染结束时调用);默认委托给 RenderObject
+    virtual void clearDynamicRenderGeometry();
 
     // 本地坐标到世界坐标的变换矩阵;默认单位矩阵
     virtual osg::Matrix getModelMatrix() const
@@ -178,17 +182,17 @@ protected:
     // 更新显示效果
     virtual bool updateApperance(wydb::Database* pDb);
      
-    // 生成渲染对象
-    bool generateRenderObject(Scene* pScene, wydb::Database* pDb);
-    virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) {}
+    // 更新渲染对象(生成渲染数据、OSG对象及显示状态)
+    bool updateRenderObject(Scene* pScene, wydb::Database* pDb);
+    // 根据渲染数据创建渲染对象;返回 nullptr 表示该节点没有渲染对象.
+    // 插件重写该函数时需包含 <wy3dApp/ElementRenderObject.h>.
+    virtual std::unique_ptr<RenderObject> createRenderObject(
+        Scene* pScene, const wydb::Element* pElem);
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) {}
 
-    // 生成渲染数据；返回 nullptr 表示元素没有形体或生成失败
-    // 实现内部必须自己捕获所有异常，不能抛出
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept;
 
-    // 按节点实际类型获取渲染数据；类型不匹配时断言
     template <typename T>
     T* getRenderDataAs() const
     {
@@ -196,33 +200,11 @@ protected:
         return static_cast<T*>(_renderData.get());
     }
 
-protected:
-    // 清空渲染对象
-    virtual void clearRenderObjects()
+    template <typename T>
+    T* getRenderObjectAs() const
     {
-        unsigned int numChild = _osgNode->getNumChildren();
-        _osgNode->removeChildren(0, numChild);
-    }
-
-protected:
-    virtual void highlightImpl(bool flag) {}
-    virtual void previewImpl(bool flag) {}
-    virtual void setActiveImpl(bool flag) {}
-
-private:
-    inline void updateVisibleNodeMask()
-    {
-        // 激活并显示
-        if (this->isActive() && !this->isHidden())
-        {
-            // 显示:控制第1-31位为1                           0111 1111 1111 1111
-            _osgNode->setNodeMask(_osgNode->getNodeMask() | NodeMask::Visible);
-        }
-        else
-        {
-            // 隐藏:控制第1-31位为0                            1000 0000 0000 0000
-            _osgNode->setNodeMask(_osgNode->getNodeMask() & (~NodeMask::Visible));
-        }
+        assert(!_renderObject || dynamic_cast<T*>(_renderObject.get()));
+        return static_cast<T*>(_renderObject.get());
     }
 
 protected:
@@ -233,9 +215,8 @@ private:
 
 protected:
     // OSG节点
-    // 默认的NodeMask是:0111 1111 1111 1111 (0x7FFFFFFF) NodeMask::Default
-    // 最高位(32位)代表高亮状态,高亮时为1,普通状态时为0;
-    // 其余位:(1-31为)由Inactive和Hidden状态联合控制
+    // NodeMask 由状态在实现内推导:正常可见时为 ElementNodeType::All(可渲染可拾取),
+    // 隐藏/未激活但在高亮或预览中时为仅渲染掩码(高 8 位,不可拾取),其余为 0。
     osg::ref_ptr<osg::Group> _osgNode;
     // 包围盒
     osg::BoundingBox _boundBox;
@@ -245,6 +226,12 @@ private:
     // 渲染数据
     //---------------------------------
     std::unique_ptr<RenderData> _renderData;
+
+    //---------------------------------
+    // 渲染对象(OSG表示层)
+    //---------------------------------
+    // 必须声明在 _renderData 之后: 析构逆序保证渲染对象先于数据销毁.
+    std::unique_ptr<RenderObject> _renderObject;
 
     // 内部实现；当前为空壳，后续逐步迁入状态机等细节
     std::unique_ptr<ElementNodeImpl> _pImpl;

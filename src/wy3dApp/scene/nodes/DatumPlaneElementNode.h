@@ -26,6 +26,8 @@
 
 namespace wy3dApp {
 
+class DatumPlaneRenderObject;
+
 class DatumPlaneElementNode : public DatumElementNode
 {
 public:
@@ -40,31 +42,14 @@ public:
     const wy::Vector2& getMaxPoint() const { return _max; }
 
 protected:
-    virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
+    virtual std::unique_ptr<RenderObject> createRenderObject(
+        Scene* pScene, const wydb::Element* pElem) override;
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
-    virtual void highlightImpl(bool flag) override;
-    virtual void previewImpl(bool flag) override;
-    virtual void setActiveImpl(bool flag) override;
-
-protected:
-    // 清空渲染对象
-    virtual void clearRenderObjects() override
-    {
-        ElementNode::clearRenderObjects();
-        _planeGeom = nullptr;
-        _curvesGeom = nullptr;
-    }
-
 private:
     MeshRenderData* renderData() const { return this->getRenderDataAs<MeshRenderData>(); }
-
-    //---------------------------------
-    // 渲染对象
-    //---------------------------------
-    osg::ref_ptr<osg::Geometry> _planeGeom;  // 面
-    osg::ref_ptr<osg::Geometry> _curvesGeom; // 边
+    DatumPlaneRenderObject* renderObject() const;
 
     //---------------------------------
     // 尺寸数据

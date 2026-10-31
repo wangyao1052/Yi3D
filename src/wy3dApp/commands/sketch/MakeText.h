@@ -19,6 +19,7 @@
 #ifndef WY3DAPP_MAKE_TEXT_H
 #define WY3DAPP_MAKE_TEXT_H
 
+#include <map>
 #include <set>
 
 #include <osg/PositionAttitudeTransform>
@@ -53,6 +54,8 @@ private:
 private:
     wy3d::Plane _sketchPlane;
     std::set<wydb::ElementId> _ids;
+    // 被隐藏元素的节点掩码(恢复时写回)
+    std::map<wydb::ElementId, unsigned int> _savedNodeMasks;
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
 };
 

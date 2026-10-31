@@ -20,6 +20,8 @@
 
 #include <cassert>
 
+#include <wy3dApp/ElementRenderObject.h>
+
 #include <osg/Matrix>
 #include <osg/Polytope>
 
@@ -31,6 +33,33 @@
 
 namespace wy3dApp {
 
+namespace {
+
+// 元素节点掩码:低 24 位为类型/可拾取区,高 8 位为仅渲染区
+constexpr unsigned int kVisibleNodeMask = static_cast<unsigned int>(ElementNodeType::All);
+constexpr unsigned int kRenderOnlyNodeMask = 0x80000000u;
+
+// 按状态推导元素节点掩码
+void updateVisibleNodeMask(ElementNode& node)
+{
+    if (node.isVisible())
+    {
+        // 正常可见:可渲染,可拾取
+        node.getOsgNode()->setNodeMask(kVisibleNodeMask);
+    }
+    else if (node.isHighlighted() || node.isPreviewed())
+    {
+        // 隐藏/未激活,但处于高亮或预览:只渲染,不可拾取
+        node.getOsgNode()->setNodeMask(kRenderOnlyNodeMask);
+    }
+    else
+    {
+        node.getOsgNode()->setNodeMask(0);
+    }
+}
+
+} // namespace
+
 RenderData::RenderData() = default;
 RenderData::~RenderData() = default;
 
@@ -38,7 +67,7 @@ ElementNode::ElementNode(const wydb::ElementId& id)
     : _id(id), _status(0), _pImpl(std::make_unique<ElementNodeImpl>())
 {
     _osgNode = new osg::Group();
-    _osgNode->setNodeMask(NodeMask::Visible);
+    updateVisibleNodeMask(*this);
 }
 
 ElementNode::~ElementNode() = default;
@@ -48,6 +77,21 @@ std::unique_ptr<RenderData> ElementNode::generateRenderData(Scene* pScene, const
     (void)pScene;
     (void)pElement;
     return nullptr;
+}
+
+std::unique_ptr<RenderObject> ElementNode::createRenderObject(Scene* pScene, const wydb::Element* pElement)
+{
+    (void)pScene;
+    (void)pElement;
+    return nullptr;
+}
+
+void ElementNode::clearDynamicRenderGeometry()
+{
+    if (_renderObject)
+    {
+        _renderObject->clearDynamicRenderGeometry();
+    }
 }
 
 bool ElementNode::updateApperance(wydb::Database* pDb)
@@ -80,16 +124,14 @@ bool ElementNode::updateApperance(wydb::Database* pDb)
     return true;
 }
 
-bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb)
+bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
 {
     assert(pScene);
 
-    // 第一次生成(新建元素)不刷新高亮;之后的调用(重生)需要刷新
-    const bool isRegeneration = _pImpl->renderObjectGenerated;
-    _pImpl->renderObjectGenerated = true;
-
     // 清空渲染对象
-    this->clearRenderObjects();
+    _osgNode->removeChildren(0, _osgNode->getNumChildren());
+    // 清空渲染对象(必须先于渲染数据销毁:渲染对象借用数据中的数组)
+    _renderObject.reset();
     // 清空渲染数据
     _renderData.reset();
     // 重置包围盒
@@ -111,8 +153,12 @@ bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb)
         return true;
     }
 
-    // 生成渲染对象
-    this->generateRenderObjectImpl(pScene, pElem);
+    // 根据渲染数据创建渲染对象
+    _renderObject = this->createRenderObject(pScene, pElem);
+    if (_renderObject)
+    {
+        _osgNode->addChild(_renderObject->getContentRoot());
+    }
 
     // 自动计算包围盒(局部坐标),再按模型矩阵变换到世界坐标
     if (_pImpl->autoComputeBoundingBox)
@@ -141,10 +187,14 @@ bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb)
     }
     // }
 
-    // 重生时几何重新生成,需要重新应用高亮并清理可能残留的预览态
-    if (isRegeneration)
+    // 几何重新生成后清除临时预览态,并把当前显示状态同步到新渲染对象
+    // (FixBug:Gizmo拖拽布尔运算结果体松开鼠标后没有高亮显示)
+    this->removeStatus(Status::Previewed);
+    updateVisibleNodeMask(*this);
+    if (_renderObject)
     {
-        this->highlight(this->isHighlighted(), true); // 强制刷新显示效果(FixBug:Gizmo拖拽布尔运算结果体松开鼠标后没有高亮显示)
+        _renderObject->setActive(this->isActive());
+        _renderObject->setHighlighted(this->isHighlighted());
     }
 
     // 后处理
@@ -153,49 +203,35 @@ bool ElementNode::generateRenderObject(Scene* pScene, wydb::Database* pDb)
     return true;
 }
 
-void ElementNode::recomputeNodeMask()
+void ElementNode::highlight(bool flag)
 {
-    unsigned int nodeMask(0);
-    if (this->isHighlighted())
+    if (this->isHighlighted() == flag)
     {
-        nodeMask |= NodeMask::Highlight;
+        return;
     }
-    _osgNode->setNodeMask(nodeMask);
-    this->updateVisibleNodeMask();
-}
-
-void ElementNode::highlight(bool flag, bool forced)
-{
-    if (!forced)
-    {
-        if (this->isHighlighted() == flag)
-        {
-            return;
-        }
-    }
-
-    // 取消预览:控制次高位为0
-    _osgNode->setNodeMask(_osgNode->getNodeMask() & (~NodeMask::Preview));
 
     if (flag)
     {
-        // 高亮:控制最高位为1
-        _osgNode->setNodeMask(_osgNode->getNodeMask() | NodeMask::Highlight);
         this->addStatus(Status::Highlighted);
+        // 高亮优先于预览
+        this->removeStatus(Status::Previewed);
     }
     else
     {
-        // 取消高亮:控制最高位为0
-        _osgNode->setNodeMask(_osgNode->getNodeMask() & (~NodeMask::Highlight));
         this->removeStatus(Status::Highlighted);
     }
 
-    this->highlightImpl(flag);
+    updateVisibleNodeMask(*this);
+
+    if (_renderObject)
+    {
+        _renderObject->setHighlighted(flag);
+    }
 }
 
 void ElementNode::preview(bool flag)
 {
-    // 预览态是临时态(没有变量记录是否在该状态下),不能影响当前的高亮态.
+    // 预览态是临时交互态,高亮优先
     if (this->isHighlighted())
     {
         return;
@@ -203,16 +239,19 @@ void ElementNode::preview(bool flag)
 
     if (flag)
     {
-        // 预览:控制次高位为1
-        _osgNode->setNodeMask(_osgNode->getNodeMask() | NodeMask::Preview);
+        this->addStatus(Status::Previewed);
     }
     else
     {
-        // 取消预览:控制次高位为0
-        _osgNode->setNodeMask(_osgNode->getNodeMask() & (~NodeMask::Preview));
+        this->removeStatus(Status::Previewed);
     }
 
-    this->previewImpl(flag);
+    updateVisibleNodeMask(*this);
+
+    if (_renderObject)
+    {
+        _renderObject->setPreviewed(flag);
+    }
 }
 
 void ElementNode::setActive(bool flag)
@@ -227,8 +266,11 @@ void ElementNode::setActive(bool flag)
     else
         this->addStatus(Status::Inactive);
 
-    this->updateVisibleNodeMask();
-    this->setActiveImpl(flag);
+    updateVisibleNodeMask(*this);
+    if (_renderObject)
+    {
+        _renderObject->setActive(flag);
+    }
 }
 
 void ElementNode::hide(bool flag)
@@ -243,7 +285,7 @@ void ElementNode::hide(bool flag)
     else
         this->removeStatus(Status::Hidden);
 
-    this->updateVisibleNodeMask();
+    updateVisibleNodeMask(*this);
 }
 
 wyap::Selection ElementNode::createSelection(

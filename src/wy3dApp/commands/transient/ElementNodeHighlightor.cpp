@@ -50,7 +50,7 @@ void ElementNodeHighlightor::highlightImpl(const wydb::ElementId& id, bool flag)
     if (!pScene) return;
     SolidElementNode* pSolidNode = dynamic_cast<SolidElementNode*>(pScene->getElementNode(id));
     if (!pSolidNode) return;
-    pSolidNode->highlight(flag, false);
+    pSolidNode->highlight(flag);
 }
 
 } // namespace wy3dApp

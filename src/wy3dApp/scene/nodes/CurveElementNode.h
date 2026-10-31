@@ -26,6 +26,8 @@
 
 namespace wy3dApp {
 
+class LineRenderObject;
+
 class CurveElementNode : public ElementNode
 {
 public:
@@ -35,35 +37,17 @@ public:
     virtual ElementNodeType getNodeType() const override { return ElementNodeType::Curve; }
 
 protected:
-    virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
+    virtual std::unique_ptr<RenderObject> createRenderObject(
+        Scene* pScene, const wydb::Element* pElem) override;
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
-
-    virtual void highlightImpl(bool flag) override;
-    virtual void previewImpl(bool flag) override;
-    virtual void setActiveImpl(bool flag) override;
-
-    void highlightGeom(const osg::ref_ptr<osg::Geometry>& geom, bool flag, const osg::Vec4& color);
 
     // 计算是否Active
     virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override;
 
-protected:
-    // 清空渲染对象
-    virtual void clearRenderObjects() override
-    {
-        ElementNode::clearRenderObjects();
-        _curvesGeom = nullptr;
-    }
-
 private:
     LineRenderData* renderData() const { return this->getRenderDataAs<LineRenderData>(); }
-
-    //---------------------------------
-    // 渲染对象
-    //---------------------------------
-    // 线
-    osg::ref_ptr<osg::Geometry> _curvesGeom;
+    LineRenderObject* renderObject() const;
 };
 
 } // namespace wy3dApp

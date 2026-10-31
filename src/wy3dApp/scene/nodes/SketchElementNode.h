@@ -19,8 +19,6 @@
 #ifndef WY3DAPP_SKETCH_ELEMENT_NODE_H
 #define WY3DAPP_SKETCH_ELEMENT_NODE_H
 
-#include <vector>
-
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -28,35 +26,10 @@
 
 namespace wy3dApp {
 
+class SketchRenderObject;
+
 class SketchElementNode : public ElementNode
 {
-public:
-    enum class CurveInfoFlag
-    {
-        Highlight = 0x00000001,
-    };
-    struct CurveInfo
-    {
-        unsigned int id;
-        unsigned int numLines;
-        unsigned int flags;
-
-        inline void addFlag(CurveInfoFlag flag)
-        {
-            flags |= static_cast<unsigned int>(flag);
-        }
-        inline void removeFlag(CurveInfoFlag flag)
-        {
-            flags &= ~static_cast<unsigned int>(flag);
-        }
-        inline bool hasFlag(CurveInfoFlag flag) const
-        {
-            return flags & static_cast<unsigned int>(flag);
-        }
-
-        CurveInfo() : id(0), numLines(0), flags(0) {}
-    };
-
 public:
     explicit SketchElementNode(const wydb::ElementId& id) : ElementNode(id) {}
 
@@ -64,7 +37,7 @@ public:
     virtual ElementNodeType getNodeType() const override { return ElementNodeType::Sketch; }
 
     // 获取中心线渲染对象
-    osg::Geometry* getCenterLinesGeom() const { return _centerLinesGeom.get(); }
+    osg::Geometry* getCenterLinesGeom() const;
 
     // 由PrimitiveIndex获取线的ID
     // 没有找到的话返回unsigned int(0)
@@ -84,72 +57,23 @@ public:
     void previewCurveByIndex(unsigned int curveIndex, bool flag);
     void previewCurveById(unsigned int id, bool flag);
 
-    // 清空动态渲染对象
-    virtual void clearDynamicRenderGeometry() override;
-
 protected:
-    virtual void generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem) override;
+    virtual std::unique_ptr<RenderObject> createRenderObject(
+        Scene* pScene, const wydb::Element* pElem) override;
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
-
-    virtual void highlightImpl(bool flag) override;
-    virtual void previewImpl(bool flag) override;
-    virtual void setActiveImpl(bool flag) override;
-
-    void highlightGeom(const osg::ref_ptr<osg::Geometry>& geom, bool flag, const osg::Vec4& color);
 
     // 计算是否Active
     virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override;
 
-    osg::ref_ptr<osg::Geometry> generateCurveGeom_Highlight();
-    osg::ref_ptr<osg::Geometry> generateCurveGeom_Preview(unsigned int curveIndex);
     unsigned int getCurveIndexById(unsigned int id) const;
     unsigned int getCenterLineCurveIndexById(unsigned int id) const;
     void highlightCenterLineByIndex(unsigned int curveIndex, bool flag);
     void previewCenterLineByIndex(unsigned int curveIndex, bool flag);
-    osg::ref_ptr<osg::Geometry> generateCenterLineGeom_Preview(unsigned int curveIndex);
-
-protected:
-    // 清空渲染对象
-    virtual void clearRenderObjects() override
-    {
-        ElementNode::clearRenderObjects();
-
-        _curveNode = nullptr;
-        _curveGeom = nullptr;
-        _curveGeomHighlight = nullptr;
-        _curveGeomPreview = nullptr;
-
-        _centerLinesGeom = nullptr;
-        _pointsGeom = nullptr;
-    }
 
 private:
-    class SketchRenderData final : public LineRenderData
-    {
-    public:
-        osg::ref_ptr<osg::UIntArray> centerLineIndices = new osg::UIntArray();
-        osg::ref_ptr<osg::UIntArray> pointIndices = new osg::UIntArray();
-        std::vector<CurveInfo> curveInfos;
-        std::vector<CurveInfo> centerLineInfos;
-    };
-
     SketchRenderData* renderData() const { return this->getRenderDataAs<SketchRenderData>(); }
-
-    //---------------------------------
-    // 渲染对象
-    //---------------------------------
-    // 普通线
-    osg::ref_ptr<osg::Group> _curveNode;
-    osg::ref_ptr<osg::Geometry> _curveGeom;
-    osg::ref_ptr<osg::Geometry> _curveGeomHighlight; // 高亮
-    osg::ref_ptr<osg::Geometry> _curveGeomPreview;   // 预览
-
-    // 中心线
-    osg::ref_ptr<osg::Geometry> _centerLinesGeom;
-    // 点
-    osg::ref_ptr<osg::Geometry> _pointsGeom;
-
+    SketchRenderObject* renderObject() const;
 };
 
 } // namespace wy3dApp

@@ -60,48 +60,55 @@
 #include "scene/SketchEntityLinearization.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "scene/nodes/LineRenderObject.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-void CurveElementNode::generateRenderObjectImpl(Scene* pScene, const wydb::Element* pElem)
+std::unique_ptr<RenderObject> CurveElementNode::createRenderObject(
+    Scene* pScene, const wydb::Element* pElem)
 {
+    (void)pScene;
     assert(pElem);
     const wy3d::Curve* pCurve = wy3d::Curve::cast(pElem);
     if (!pCurve)
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
     LineRenderData* data = this->renderData();
     if (!data || !data->vertices || !data->lineIndices)
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
-    // 生成渲染对象
-    if (!data->lineIndices->empty())
-    {
-        _curvesGeom = new osg::Geometry();
-        _curvesGeom->setNodeMask(this->getNodeType());
-        _curvesGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchElement, "RenderBin");
-        {
-            _curvesGeom->setUseDisplayList(false);
-            _curvesGeom->setUseVertexBufferObjects(true);
-            _curvesGeom->setVertexArray(data->vertices);
-            osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-            colors->push_back(Colors::kSketch);
-            _curvesGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-            _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, data->lineIndices->begin(), data->lineIndices->end()));
-            _curvesGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-            _curvesGeom->setUserValue("ElementId", static_cast<unsigned int>(pElem->getId().value()));
-            _curvesGeom->getStateSet()->setAttribute(new osg::LineWidth(1.2f));
-        }
-        _osgNode->addChild(_curvesGeom);
-    }
+    LineRenderStyle style;
+    style.nodeType = this->getNodeType();
+    style.color = Colors::kSketch;
+    style.highlightColor = Colors::kSketch_Highlight;
+    style.previewColor = Colors::kSketch_Preview;
+    style.lineWidth = 1.2f;
+    style.highlightLineWidth = 2.0f;
+    style.changeLineWidthOnHighlight = true;
+    style.depthTest = true;
+    style.highlightDepthTest = false;
+    style.changeDepthTestOnHighlight = true;
+    style.lighting = false;
+    style.applyStateToRoot = false;
+    style.renderBin = RenderBinNumers::SketchElement;
+
+    auto renderObject = std::make_unique<LineRenderObject>(
+        pElem->getId(), this->getNodeType(), *data, *data->lineIndices, style);
+    renderObject->build();
+    return renderObject;
+}
+
+LineRenderObject* CurveElementNode::renderObject() const
+{
+    return this->getRenderObjectAs<LineRenderObject>();
 }
 
 std::unique_ptr<RenderData> CurveElementNode::generateRenderData(
@@ -198,47 +205,6 @@ std::unique_ptr<RenderData> CurveElementNode::generateRenderData(
         assert(false);
         return nullptr;
     }
-}
-
-void CurveElementNode::highlightImpl(bool flag)
-{
-    this->highlightGeom(_curvesGeom, flag, Colors::kSketch_Highlight);
-}
-
-void CurveElementNode::previewImpl(bool flag)
-{
-    if (this->isHighlighted())
-    {
-        assert(false);
-        return;
-    }
-
-    this->highlightGeom(_curvesGeom, flag, Colors::kSketch_Preview);
-}
-
-void CurveElementNode::highlightGeom(const osg::ref_ptr<osg::Geometry>& geom, bool flag, const osg::Vec4& highlightColor)
-{
-    if (!geom) return;
-
-    OsgUtils::setNodeColor(geom, flag ? highlightColor : Colors::kSketch);
-    if (flag)
-    {
-        // 草图高亮时加大线宽
-        geom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(2.0f));
-        // 草图高亮时禁用深度测试确保不被遮挡住
-        geom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-    }
-    else
-    {
-        // 草图取消高亮时恢复线宽
-        geom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(1.2f));
-        // 草图取消高亮时启用深度测试
-        geom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-    }
-}
-
-void CurveElementNode::setActiveImpl(bool flag)
-{
 }
 
 bool CurveElementNode::computeWhetherActive(const wydb::Element* pCurElem) const

@@ -20,6 +20,7 @@
 #define WY3DAPP_PASTE_ELEMENTS_H
 
 #include <list>
+#include <map>
 #include <set>
 
 #include <osg/PositionAttitudeTransform>
@@ -84,8 +85,8 @@ private:
     wy::Vector3 _initOrigin;
     // 临时渲染节点
     osg::ref_ptr<osg::PositionAttitudeTransform> _pat;
-    // 隐藏的元素渲染节点
-    std::list<wydb::ElementId> _hiddenElemIds;
+    // 被隐藏元素的节点掩码(恢复时写回)
+    std::map<wydb::ElementId, unsigned int> _hiddenNodeMasks;
 };
 
 } // namespace wy3dApp
