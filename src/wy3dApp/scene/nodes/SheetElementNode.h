@@ -74,7 +74,16 @@ public:
         const MeshRenderData* data = this->renderData();
         return data ? data->lineIndices : nullptr;
     }
-    const osg::Matrix& getMatrix() const { return _matrix; }
+    osg::ref_ptr<osg::Vec3Array> getVertices() const
+    {
+        const MeshRenderData* data = this->renderData();
+        return data ? data->vertices : nullptr;
+    }
+    osg::Matrix getMatrix() const
+    {
+        const MeshRenderData* data = this->renderData();
+        return data ? data->matrix : osg::Matrix::identity();
+    }
     void setSheetFaceColor(const osg::Vec4& color) { _sheetFaceColor = color; }
     const osg::Vec4& getSheetFaceColor() const { return _sheetFaceColor; }
 
@@ -82,7 +91,7 @@ public:
     unsigned int getEdgeIndex(unsigned int primitiveIndex) const;
 
     // 由拾取结果创建选择对象
-    virtual wyap::Selection createSelection(
+    virtual wyap::Selection createSelectionFromPick(
         osg::Drawable* pDrawable,
         unsigned int primitiveIndex,
         wy3d::SelectionType selType) const override;
@@ -103,9 +112,6 @@ public:
     bool isEdgesVisible() const;
 
 protected:
-    // 本地坐标到世界坐标的变换矩阵
-    osg::Matrix getModelMatrix() const override { return _matrix; }
-
     virtual std::unique_ptr<RenderObject> createRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) override;
@@ -152,8 +158,6 @@ private:
 private:
     osg::Vec4 _sheetFaceColor;
     unsigned int _flags;
-
-    osg::Matrix _matrix;
 };
 
 } // namespace wy3dApp

@@ -47,7 +47,7 @@ public:
     unsigned int getCenterLineCurveId(unsigned int primitiveIndex) const;
 
     // 由拾取结果创建选择对象
-    virtual wyap::Selection createSelection(
+    virtual wyap::Selection createSelectionFromPick(
         osg::Drawable* pDrawable,
         unsigned int primitiveIndex,
         wy3d::SelectionType selType) const override;

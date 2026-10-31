@@ -52,7 +52,6 @@ public:
     BodyModificationRenderObject(const wydb::ElementId& id,
         ElementNodeType nodeType,
         LineRenderData& data,
-        const osg::Matrix& hostMatrix,
         const BodyModificationRenderStyle& style);
     ~BodyModificationRenderObject() override;
 
@@ -70,7 +69,6 @@ private:
     wydb::ElementId _id;
     ElementNodeType _nodeType;
     LineRenderData* _data;
-    osg::Matrix _hostMatrix;
     BodyModificationRenderStyle _style;
     bool _active = true;
     bool _highlighted = false;

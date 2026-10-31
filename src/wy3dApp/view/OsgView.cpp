@@ -99,7 +99,7 @@ std::list<wydb::ElementId> OsgView::snapElements(double x, double y) const
     }
 
     // 交叉框选
-    snappedElemsIds = pScene->pickByCrossBox(polytope, ElementNodeType::All);
+    snappedElemsIds = pScene->selectByCrossing(polytope, ElementNodeType::All);
     return snappedElemsIds;
 }
 

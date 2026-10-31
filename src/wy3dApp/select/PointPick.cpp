@@ -143,7 +143,7 @@ wyap::Selection _newSelection(
     assert(pElemNode);
     if (!pElemNode) return wyap::Selection(wydb::ElementId::kNull);
 
-    return pElemNode->createSelection(pDrawable, primitiveIndex, selType);
+    return pElemNode->createSelectionFromPick(pDrawable, primitiveIndex, selType);
 }
 
 inline wyap::Selection _userFilter(

@@ -560,7 +560,7 @@ void FilledSheetGuiCmd::activateConstraintSketches()
         ElementNode* pElemNode = pScene->getElementNode(constraintSketchId);
         if (!pElemNode) continue;
         if (!pElemNode->isActive()) _activatedConstraintSketchIds.emplace_back(constraintSketchId);
-        pElemNode->setActive(true);
+        pElemNode->activate(true);
     }
 }
 
@@ -578,7 +578,7 @@ void FilledSheetGuiCmd::releaseConstraintSketches()
         {
             ElementNode* pElemNode = pScene->getElementNode(sketchId);
             const wydb::Element* pElem = pDb->getElement(sketchId);
-            if (pElemNode && pElem) pElemNode->setActive(pElemNode->computeWhetherActive(pElem));
+            if (pElemNode && pElem) pElemNode->activate(pElemNode->computeWhetherActive(pElem));
         }
     }
     _activatedConstraintSketchIds.clear();

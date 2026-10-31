@@ -66,8 +66,7 @@ class MeshRenderObject final : public RenderObject
 public:
     MeshRenderObject(const wydb::ElementId& id,
         ElementNodeType nodeType,
-        MeshRenderData& data,
-        const osg::Matrix& matrix);
+        MeshRenderData& data);
     ~MeshRenderObject() override;
 
     // 构建面/边几何; initialNoBatchFace 用于跨重建保持按面渲染状态
@@ -127,7 +126,6 @@ private:
     wydb::ElementId _id;
     ElementNodeType _nodeType;
     MeshRenderData* _data;
-    osg::Matrix _matrix;
     MeshRenderStyle _style;
 
     // 线框模式

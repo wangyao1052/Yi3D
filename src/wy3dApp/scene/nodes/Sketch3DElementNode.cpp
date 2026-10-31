@@ -203,7 +203,7 @@ unsigned int Sketch3DElementNode::getCurveId(unsigned int primitiveIndex) const
     return 0;
 }
 
-wyap::Selection Sketch3DElementNode::createSelection(
+wyap::Selection Sketch3DElementNode::createSelectionFromPick(
     osg::Drawable* pDrawable,
     unsigned int primitiveIndex,
     wy3d::SelectionType selType) const

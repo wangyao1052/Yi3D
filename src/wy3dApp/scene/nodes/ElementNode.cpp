@@ -35,6 +35,25 @@ namespace wy3dApp {
 
 namespace {
 
+// 元素节点状态位,仅本实现内使用
+enum class Status : unsigned int
+{
+    Highlighted = 0x00000001, // 高亮
+    Inactive    = 0x00000002, // 非活动状态,布尔体的成员为此状态
+    Hidden      = 0x00000004, // 隐藏状态
+    Previewed   = 0x00000008, // 预览(临时交互态,高亮优先)
+};
+
+void addStatus(unsigned int& status, Status s)
+{
+    status |= static_cast<unsigned int>(s);
+}
+
+void removeStatus(unsigned int& status, Status s)
+{
+    status &= ~static_cast<unsigned int>(s);
+}
+
 // 元素节点掩码:低 24 位为类型/可拾取区,高 8 位为仅渲染区
 constexpr unsigned int kVisibleNodeMask = static_cast<unsigned int>(ElementNodeType::All);
 constexpr unsigned int kRenderOnlyNodeMask = 0x80000000u;
@@ -42,7 +61,7 @@ constexpr unsigned int kRenderOnlyNodeMask = 0x80000000u;
 // 按状态推导元素节点掩码
 void updateVisibleNodeMask(ElementNode& node)
 {
-    if (node.isVisible())
+    if (node.isActive() && !node.isHidden())
     {
         // 正常可见:可渲染,可拾取
         node.getOsgNode()->setNodeMask(kVisibleNodeMask);
@@ -60,6 +79,26 @@ void updateVisibleNodeMask(ElementNode& node)
 
 } // namespace
 
+bool ElementNode::isHighlighted() const
+{
+    return _status & static_cast<unsigned int>(Status::Highlighted);
+}
+
+bool ElementNode::isHidden() const
+{
+    return _status & static_cast<unsigned int>(Status::Hidden);
+}
+
+bool ElementNode::isActive() const
+{
+    return !(_status & static_cast<unsigned int>(Status::Inactive));
+}
+
+bool ElementNode::isPreviewed() const
+{
+    return _status & static_cast<unsigned int>(Status::Previewed);
+}
+
 RenderData::RenderData() = default;
 RenderData::~RenderData() = default;
 
@@ -72,7 +111,7 @@ ElementNode::ElementNode(const wydb::ElementId& id)
 
 ElementNode::~ElementNode() = default;
 
-std::unique_ptr<RenderData> ElementNode::generateRenderData(Scene* pScene, const wydb::Element* pElement) noexcept
+std::unique_ptr<RenderData> ElementNode::generateRenderData(Scene* pScene, const wydb::Element* pElement)
 {
     (void)pScene;
     (void)pElement;
@@ -109,7 +148,7 @@ bool ElementNode::updateApperance(wydb::Database* pDb)
     const wy3d::Feature* pFeature = wy3d::Feature::cast(pElem);
     if (pFeature)
     {
-        this->setActive(this->computeWhetherActive(pElem));
+        this->activate(this->computeWhetherActive(pElem));
 
         if (pFeature->isHidden())
         {
@@ -163,20 +202,20 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
     // 自动计算包围盒(局部坐标),再按模型矩阵变换到世界坐标
     if (_pImpl->autoComputeBoundingBox)
     {
-        if (auto vertices = this->getVertices())
+        if (_renderData && _renderData->vertices)
         {
-            _boundBox = ElementBounds::compute(*vertices);
-            ElementBounds::transform(_boundBox, this->getModelMatrix());
+            _boundBox = ElementBounds::compute(*_renderData->vertices);
+            ElementBounds::transform(_boundBox, _renderData->matrix);
         }
     }
 
     // 布尔体的成员默认不显示
-    this->setActive(this->computeWhetherActive(pElem));
+    this->activate(this->computeWhetherActive(pElem));
 
     // added by wangyao 2025.06.04 {
     // FixBug:新建模型;隐藏某些特征;保存;再打开;隐藏的特征在模型树上是灰显的,但在场景中依然可见;
     // 在生成渲染对象时需要设置显示和隐藏状态
-    // 感觉可以和上一语句的setActive合并起来就可以只调用updateApperance;稳妥起见还是先按照最小化改动的方式来修改后续再仔细斟酌
+    // 感觉可以和上一语句的activate合并起来就可以只调用updateApperance;稳妥起见还是先按照最小化改动的方式来修改后续再仔细斟酌
     if (pElem->isHidden())
     {
         this->hide(true);
@@ -189,7 +228,7 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
 
     // 几何重新生成后清除临时预览态,并把当前显示状态同步到新渲染对象
     // (FixBug:Gizmo拖拽布尔运算结果体松开鼠标后没有高亮显示)
-    this->removeStatus(Status::Previewed);
+    removeStatus(_status, Status::Previewed);
     updateVisibleNodeMask(*this);
     if (_renderObject)
     {
@@ -212,13 +251,13 @@ void ElementNode::highlight(bool flag)
 
     if (flag)
     {
-        this->addStatus(Status::Highlighted);
+        addStatus(_status, Status::Highlighted);
         // 高亮优先于预览
-        this->removeStatus(Status::Previewed);
+        removeStatus(_status, Status::Previewed);
     }
     else
     {
-        this->removeStatus(Status::Highlighted);
+        removeStatus(_status, Status::Highlighted);
     }
 
     updateVisibleNodeMask(*this);
@@ -239,11 +278,11 @@ void ElementNode::preview(bool flag)
 
     if (flag)
     {
-        this->addStatus(Status::Previewed);
+        addStatus(_status, Status::Previewed);
     }
     else
     {
-        this->removeStatus(Status::Previewed);
+        removeStatus(_status, Status::Previewed);
     }
 
     updateVisibleNodeMask(*this);
@@ -254,7 +293,7 @@ void ElementNode::preview(bool flag)
     }
 }
 
-void ElementNode::setActive(bool flag)
+void ElementNode::activate(bool flag)
 {
     if (this->isActive() == flag)
     {
@@ -262,9 +301,9 @@ void ElementNode::setActive(bool flag)
     }
 
     if (flag)
-        this->removeStatus(Status::Inactive);
+        removeStatus(_status, Status::Inactive);
     else
-        this->addStatus(Status::Inactive);
+        addStatus(_status, Status::Inactive);
 
     updateVisibleNodeMask(*this);
     if (_renderObject)
@@ -281,14 +320,14 @@ void ElementNode::hide(bool flag)
     }
 
     if (flag)
-        this->addStatus(Status::Hidden);
+        addStatus(_status, Status::Hidden);
     else
-        this->removeStatus(Status::Hidden);
+        removeStatus(_status, Status::Hidden);
 
     updateVisibleNodeMask(*this);
 }
 
-wyap::Selection ElementNode::createSelection(
+wyap::Selection ElementNode::createSelectionFromPick(
     osg::Drawable* pDrawable,
     unsigned int primitiveIndex,
     wy3d::SelectionType selType) const
@@ -306,11 +345,11 @@ wyap::Selection ElementNode::createSelection(
     return wyap::Selection(wydb::ElementId::kNull);
 }
 
-bool ElementNode::pickByNormalBox(osg::Polytope& polytope) const
+bool ElementNode::selectByWindow(osg::Polytope& polytope) const
 {
     if (!_boundBox.valid()) return false;
-    const osg::ref_ptr<osg::Vec3Array> vertices = this->getVertices();
-    if (!vertices || vertices->empty()) return false;
+    if (!_renderData || !_renderData->vertices || _renderData->vertices->empty()) return false;
+    const osg::ref_ptr<osg::Vec3Array> vertices = _renderData->vertices;
     
     // 过滤掉非活动的节点
     // 布尔体的成员节点为Inactive状态
@@ -323,7 +362,7 @@ bool ElementNode::pickByNormalBox(osg::Polytope& polytope) const
     }
 
     // 是否包含所有点
-    const osg::Matrix matrix = this->getModelMatrix();
+    const osg::Matrix matrix = _renderData->matrix;
     if (matrix.isIdentity())
     {
         for (const osg::Vec3& vertex : *vertices)
@@ -352,11 +391,11 @@ bool ElementNode::pickByNormalBox(osg::Polytope& polytope) const
     return true;
 }
 
-bool ElementNode::pickByCrossBox(osg::Polytope& polytope) const
+bool ElementNode::selectByCrossing(osg::Polytope& polytope) const
 {
     if (!_boundBox.valid()) return false;
-    const osg::ref_ptr<osg::Vec3Array> vertices = this->getVertices();
-    if (!vertices || vertices->empty()) return false;
+    if (!_renderData || !_renderData->vertices || _renderData->vertices->empty()) return false;
+    const osg::ref_ptr<osg::Vec3Array> vertices = _renderData->vertices;
 
     // 过滤掉非活动的节点
     // 布尔体的成员节点为Inactive状态
@@ -371,7 +410,7 @@ bool ElementNode::pickByCrossBox(osg::Polytope& polytope) const
     // added by wangyao 2025.01.17 {
     // TODO
     // 临时这么处理,后面的逻辑是错误的
-    // 目前pickByCrossBox只是在捕捉的时候会用到,cross框选还是用的OSG那一套
+    // 目前selectByCrossing只是在捕捉的时候会用到,交叉框选还是用的OSG那一套
     return true;
     // }
 
