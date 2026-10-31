@@ -16,10 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_SOLID_MODIFICATION_ELEMENT_NODE_H
-#define WY3DAPP_SOLID_MODIFICATION_ELEMENT_NODE_H
-
-#include <osg/Geometry>
+#ifndef WY3DAPP_BODY_MODIFICATION_ELEMENT_NODE_H
+#define WY3DAPP_BODY_MODIFICATION_ELEMENT_NODE_H
 
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -29,6 +27,7 @@
 namespace wy3dApp {
 
 class SceneImpl;
+class BodyModificationRenderObject;
 
 class BodyModificationElementNode : public ElementNode
 {
@@ -46,8 +45,9 @@ public:
         wy3d::SelectionType selType) const override;
 
 protected:
-    // 生成渲染对象
-    virtual void generateRenderObject(Scene* pScene, const wydb::Element* pElem) override;
+    // 创建渲染对象
+    virtual std::unique_ptr<RenderObject> createRenderObject(
+        Scene* pScene, const wydb::Element* pElem) override;
     // 生成渲染数据
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
@@ -59,38 +59,11 @@ protected:
 
     virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override;
 
-protected:
-    // 清空渲染对象
-    virtual void clearRenderObjects() override
-    {
-        ElementNode::clearRenderObjects();
-        // 面
-        _shapeNode = nullptr;
-        _shapeGeom = nullptr;
-        // 边
-        _edgeNode = nullptr;
-        _edgeGeom = nullptr;
-    }
-
 private:
-    MeshRenderData* renderData() const { return this->getRenderDataAs<MeshRenderData>(); }
-
-    osg::ref_ptr<osg::Geometry> generateShapeGeom(const wydb::ElementId& id) const;
-    osg::ref_ptr<osg::Geometry> generateEdgeGeom(const wydb::ElementId& id) const;
-
-private:
-    //---------------------------------
-    // 渲染对象
-    //---------------------------------
-    // 面
-    osg::ref_ptr<osg::Group> _shapeNode;
-    osg::ref_ptr<osg::Geometry> _shapeGeom;
-
-    // 边
-    osg::ref_ptr<osg::Group> _edgeNode;
-    osg::ref_ptr<osg::Geometry> _edgeGeom;
+    LineRenderData* renderData() const { return this->getRenderDataAs<LineRenderData>(); }
+    BodyModificationRenderObject* renderObject() const;
 };
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_SOLID_MODIFICATION_ELEMENT_NODE_H
+#endif // WY3DAPP_BODY_MODIFICATION_ELEMENT_NODE_H

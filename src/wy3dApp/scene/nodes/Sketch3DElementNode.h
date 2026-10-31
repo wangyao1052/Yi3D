@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Copyright (C) 2026 Wang Yao <wangyao1052@163.com>
+// Copyright (C) 2024-2026 Wang Yao <wangyao1052@163.com>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,8 +19,6 @@
 #ifndef WY3DAPP_SKETCH3D_ELEMENT_NODE_H
 #define WY3DAPP_SKETCH3D_ELEMENT_NODE_H
 
-#include <vector>
-
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -28,35 +26,10 @@
 
 namespace wy3dApp {
 
+class CurveRenderObject;
+
 class Sketch3DElementNode : public ElementNode
 {
-public:
-    enum class CurveInfoFlag
-    {
-        Highlight = 0x00000001,
-    };
-    struct CurveInfo
-    {
-        unsigned int id;
-        unsigned int numLines;
-        unsigned int flags;
-
-        inline void addFlag(CurveInfoFlag flag)
-        {
-            flags |= static_cast<unsigned int>(flag);
-        }
-        inline void removeFlag(CurveInfoFlag flag)
-        {
-            flags &= ~static_cast<unsigned int>(flag);
-        }
-        inline bool hasFlag(CurveInfoFlag flag) const
-        {
-            return flags & static_cast<unsigned int>(flag);
-        }
-
-        CurveInfo() : id(0), numLines(0), flags(0) {}
-    };
-
 public:
     explicit Sketch3DElementNode(const wydb::ElementId& id) : ElementNode(id) {}
 
@@ -78,57 +51,23 @@ public:
     void previewCurveByIndex(unsigned int curveIndex, bool flag);
     void previewCurveById(unsigned int id, bool flag);
 
-    // 清空动态渲染对象
-    virtual void clearDynamicRenderGeometry() override;
-
 protected:
-    virtual void generateRenderObject(Scene* pScene, const wydb::Element* pElem) override;
+    virtual std::unique_ptr<RenderObject> createRenderObject(
+        Scene* pScene, const wydb::Element* pElem) override;
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
     virtual void highlightImpl(bool flag) override;
     virtual void previewImpl(bool flag) override;
-    virtual void setActiveImpl(bool flag) override;
-
-    void highlightGeom(const osg::ref_ptr<osg::Geometry>& geom, bool flag, const osg::Vec4& color);
+    virtual void setActiveImpl(bool flag) override {}
 
     // 计算是否Active
     virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override;
 
-    osg::ref_ptr<osg::Geometry> generateCurveGeom_Highlight();
-    osg::ref_ptr<osg::Geometry> generateCurveGeom_Preview(unsigned int curveIndex);
-    unsigned int getCurveIndexById(unsigned int id) const;
-
-protected:
-    // 清空渲染对象
-    virtual void clearRenderObjects() override
-    {
-        ElementNode::clearRenderObjects();
-
-        _curveNode = nullptr;
-        _curveGeom = nullptr;
-        _curveGeomHighlight = nullptr;
-        _curveGeomPreview = nullptr;
-    }
-
 private:
-    class Sketch3DRenderData final : public LineRenderData
-    {
-    public:
-        std::vector<CurveInfo> curveInfos;
-    };
-
-    Sketch3DRenderData* renderData() const { return this->getRenderDataAs<Sketch3DRenderData>(); }
-
-    //---------------------------------
-    // 渲染对象
-    //---------------------------------
-    // 普通线
-    osg::ref_ptr<osg::Group> _curveNode;
-    osg::ref_ptr<osg::Geometry> _curveGeom;
-    osg::ref_ptr<osg::Geometry> _curveGeomHighlight; // 高亮
-    osg::ref_ptr<osg::Geometry> _curveGeomPreview;   // 预览
-
+    CurveRenderData* renderData() const { return this->getRenderDataAs<CurveRenderData>(); }
+    CurveRenderObject* renderObject() const;
+    unsigned int getCurveIndexById(unsigned int id) const;
 };
 
 } // namespace wy3dApp

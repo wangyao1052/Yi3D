@@ -66,6 +66,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "scene/nodes/MeshRenderObject.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -105,25 +106,26 @@ osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc)
     );
 }
 
-void SolidElementNode::generateRenderObject(Scene* pScene, const wydb::Element* pElem)
+std::unique_ptr<RenderObject> SolidElementNode::createRenderObject(
+    Scene* pScene, const wydb::Element* pElem)
 {
+    assert(pScene);
     assert(pElem);
     const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
     if (!pSolid)
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
-    
     if (pSolid->isCut()) this->addFlag(Flag::Cut);
     else this->removeFlag(Flag::Cut);
 
-    SolidRenderData* data = this->renderData();
+    MeshRenderData* data = this->renderData();
     if (!data || !data->vertices || !data->normals || !data->triangleIndices || !data->lineIndices)
     {
         assert(false);
-        return;
+        return nullptr;
     }
     assert(!data->faceInfos.empty());
     assert(!data->edgeInfos.empty());
@@ -132,40 +134,41 @@ void SolidElementNode::generateRenderObject(Scene* pScene, const wydb::Element* 
     TopoDS_Shape shape = pSolid->getShape();
     _matrix = convertTopLocToOsgMatrix(shape.Location());
 
-    // 面片
-    if (!data->triangleIndices->empty())
-    {
-        // batch
-        _shapeGeom = this->generateShapeGeom(pElem->getId(), true);
-        // no batch
-        if (this->hasFlag(Flag::NoBatchFace))
-        {
-            _shapeGeom->setNodeMask(0);
-            _nobatchShapeGeom = this->generateShapeGeom(pElem->getId(), false);
-        }
-        osg::ref_ptr<osg::MatrixTransform> pMatrixTransform = new osg::MatrixTransform(_matrix);
-        pMatrixTransform->addChild(_shapeGeom);
-        if (_nobatchShapeGeom) pMatrixTransform->addChild(_nobatchShapeGeom);
-        _shapeNode = pMatrixTransform;
-        _osgNode->addChild(_shapeNode);
-    }
-    // 边
-    if (!data->lineIndices->empty())
-    {
-        _edgeGeom = this->generateEdgeGeom(pElem->getId());
-        osg::ref_ptr<osg::MatrixTransform> pMatrixTransform = new osg::MatrixTransform(_matrix);
-        // 用一层普通Group包裹边几何,显示模式切换在该Group上挂SkipRenderCallback隐藏边
-        _edgeWrap = new osg::Group;
-        _edgeWrap->addChild(_edgeGeom);
-        pMatrixTransform->addChild(_edgeWrap);
-        _edgeNode = pMatrixTransform;
-        _osgNode->addChild(_edgeNode);
-    }
+    auto renderObject = std::make_unique<MeshRenderObject>(
+        pElem->getId(), this->getNodeType(), *data, _matrix);
+    renderObject->build(this->makeStyle(), this->hasFlag(Flag::NoBatchFace));
 
     // 同步显示模式
     Scene::DisplayMode mode = pScene->getDisplayMode();
-    this->setWireframe(mode == Scene::DisplayMode::Wireframe);
-    this->setEdgesVisible(mode != Scene::DisplayMode::Shaded);
+    renderObject->setWireframe(mode == Scene::DisplayMode::Wireframe);
+    renderObject->setEdgesVisible(mode != Scene::DisplayMode::Shaded);
+
+    return renderObject;
+}
+
+MeshRenderObject* SolidElementNode::renderObject() const
+{
+    return this->getRenderObjectAs<MeshRenderObject>();
+}
+
+MeshRenderStyle SolidElementNode::makeStyle() const
+{
+    MeshRenderStyle style;
+    style.doubleSided = false;
+    style.active = this->isActive();
+    style.highlighted = this->isHighlighted();
+    style.cut = this->hasFlag(Flag::Cut);
+    style.faceColor = this->getFaceDefaultColor();
+    style.edgeColor = this->getEdgeDefaultColor();
+    style.inactiveColor = Colors::kTransparent;
+    style.faceHighlightColor = Colors::kSolidFace_Highlight;
+    style.facePreviewColor = Colors::kSolidFace_Preview;
+    style.edgeHighlightColor = Colors::kSolidEdge_Highlight;
+    style.edgePreviewColor = Colors::kSolidEdge_Preview;
+    style.edgePreviewWireframeColor = Colors::kEdge_Preview;
+    style.edgeHighlightOverlayColor = Colors::kEdge_Highlight;
+    style.edgePreviewOverlayColor = Colors::kEdge_Preview;
+    return style;
 }
 
 void SolidElementNode::generateRenderObjectFinished(const wydb::Element* pElem)
@@ -175,205 +178,33 @@ void SolidElementNode::generateRenderObjectFinished(const wydb::Element* pElem)
 
 void SolidElementNode::setWireframe(bool flag)
 {
-    _wireframe = flag;
-    if (_shapeNode)
+    if (MeshRenderObject* obj = this->renderObject())
     {
-        _shapeNode->setNodeMask(flag ? 0 : getNodeType());
+        obj->setWireframe(flag);
     }
+}
+
+bool SolidElementNode::isWireframe() const
+{
+    MeshRenderObject* obj = this->renderObject();
+    return obj ? obj->isWireframe() : false;
 }
 
 void SolidElementNode::setEdgesVisible(bool flag)
 {
-    _showEdges = flag;
-    // 隐藏边时在包裹Group上挂回调跳过渲染遍历，拾取遍历不受影响，边仍可选中
-    if (_edgeWrap)
+    if (MeshRenderObject* obj = this->renderObject())
     {
-        _edgeWrap->setCullCallback(flag ? nullptr : new OsgUtils::SkipRenderCallback());
+        obj->setEdgesVisible(flag);
     }
 }
 
-osg::ref_ptr<osg::Geometry> SolidElementNode::generateShapeGeom(const wydb::ElementId& id, bool batch) const
+bool SolidElementNode::isEdgesVisible() const
 {
-    SolidRenderData* data = this->renderData();
-    if (!data || !data->triangleIndices || data->triangleIndices->empty() || data->faceInfos.empty())
-    {
-        assert(false);
-        return nullptr;
-    }
-
-    osg::ref_ptr<osg::Geometry> shapeGeom = new osg::Geometry();
-    shapeGeom->setNodeMask(this->getNodeType());
-    shapeGeom->setUseDisplayList(false);
-    shapeGeom->setUseVertexBufferObjects(true);
-    shapeGeom->getOrCreateStateSet()->setMode(GL_CULL_FACE, osg::StateAttribute::ON);
-    shapeGeom->getOrCreateStateSet()->setAttribute(new osg::CullFace(osg::CullFace::BACK));
-    shapeGeom->setVertexArray(data->vertices);
-    shapeGeom->setNormalArray(data->normals, osg::Array::Binding::BIND_PER_VERTEX);
-    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    if (batch)
-    {
-        colors->push_back(this->getFaceDefaultColor());
-        shapeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-        shapeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_TRIANGLES, data->triangleIndices->begin(), data->triangleIndices->end()));
-    }
-    else
-    {
-        size_t numFaces = data->faceInfos.size();
-        colors->resize(numFaces, this->getFaceDefaultColor());
-        shapeGeom->setColorArray(colors, osg::Array::Binding::BIND_PER_PRIMITIVE_SET);
-
-        auto iterBeg = data->triangleIndices->begin();
-        auto iterEnd = iterBeg;
-        for (size_t i = 0; i < numFaces; ++i)
-        {
-            iterEnd += static_cast<size_t>(data->faceInfos[i].numTriangles) * 3;
-            shapeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_TRIANGLES, iterBeg, iterEnd));
-            iterBeg = iterEnd;
-        }
-    }
-
-    shapeGeom->setUserValue("ElementId", static_cast<unsigned int>(id.value()));
-    return shapeGeom;
+    MeshRenderObject* obj = this->renderObject();
+    return obj ? obj->isEdgesVisible() : true;
 }
 
-osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom(const wydb::ElementId& id) const
-{
-    SolidRenderData* data = this->renderData();
-    if (!data || !data->lineIndices || data->lineIndices->empty() || data->edgeInfos.empty())
-    {
-        assert(false);
-        return nullptr;
-    }
 
-    osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(this->getNodeType());
-    edgeGeom->setUseDisplayList(false);
-    edgeGeom->setUseVertexBufferObjects(true);
-    edgeGeom->setVertexArray(data->vertices);
-    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(this->getEdgeDefaultColor());
-    edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-    edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, data->lineIndices->begin(), data->lineIndices->end()));
-    edgeGeom->setUserValue("ElementId", static_cast<unsigned int>(id.value()));
-    osg::StateSet* stateSet = edgeGeom->getOrCreateStateSet();
-    stateSet->setAttributeAndModes(new osg::LineWidth(1.5f), osg::StateAttribute::ON);
-    stateSet->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-    return edgeGeom;
-}
-
-osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Highlight()
-{
-    SolidRenderData* data = this->renderData();
-    if (!data || !data->lineIndices || data->lineIndices->empty() || data->edgeInfos.empty())
-    {
-        assert(false);
-        return nullptr;
-    }
-
-    // 索引数组
-    osg::ref_ptr<osg::UIntArray> indices = new osg::UIntArray();
-    size_t totalNumIndices(0);
-    for (const EdgeInfo& edgeInfo : data->edgeInfos)
-    {
-        if (edgeInfo.hasFlag(EdgeInfoFlag::Highlight))
-        {
-            totalNumIndices += static_cast<size_t>(edgeInfo.numLines) * 2;
-        }
-    }
-    if (totalNumIndices == 0) // 没有高亮的边
-    {
-        return nullptr;
-    }
-    indices->reserve(totalNumIndices);
-
-    // 填充索引数组
-    size_t startIndex = 0;
-    for (const EdgeInfo& edgeInfo : data->edgeInfos)
-    {
-        size_t numIndices = static_cast<size_t>(edgeInfo.numLines) * 2;
-        if (edgeInfo.hasFlag(EdgeInfoFlag::Highlight))
-        {
-            indices->insert(indices->end(),
-                data->lineIndices->begin() + startIndex,
-                data->lineIndices->begin() + startIndex + numIndices);
-        }
-        startIndex += numIndices;
-    }
-
-    // 创建几何
-    osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~ElementNodeType::All); // 不可拾取
-    edgeGeom->setUseDisplayList(false);
-    edgeGeom->setUseVertexBufferObjects(true);
-    edgeGeom->setVertexArray(data->vertices);
-    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(Colors::kEdge_Highlight);
-    edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-    edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, indices->begin(), indices->end()));
-    edgeGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-    // 宽度
-    edgeGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(3.0f));
-    // 关闭深度测试始终可见
-    edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-    edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
-
-    return edgeGeom;
-}
-
-osg::ref_ptr<osg::Geometry> SolidElementNode::generateEdgeGeom_Preview(unsigned int edgeIndex)
-{
-    SolidRenderData* data = this->renderData();
-    if (!data || !data->lineIndices || data->lineIndices->empty() || data->edgeInfos.empty())
-    {
-        assert(false);
-        return nullptr;
-    }
-    if (edgeIndex >= data->edgeInfos.size())
-    {
-        assert(false);
-        return nullptr;
-    }
-
-    // 索引数组
-    osg::ref_ptr<osg::UIntArray> indices = new osg::UIntArray();
-    size_t numIndices = static_cast<size_t>(data->edgeInfos[edgeIndex].numLines) * 2;
-    indices->reserve(numIndices);
-
-    // 填充索引数组
-    size_t startIndex = 0;
-    for (size_t i = 0; i < data->edgeInfos.size(); ++i)
-    {
-        const EdgeInfo& edgeInfo = data->edgeInfos[i];
-        numIndices = static_cast<size_t>(edgeInfo.numLines) * 2;
-        if (i == edgeIndex)
-        {
-            indices->insert(indices->end(),
-                data->lineIndices->begin() + startIndex,
-                data->lineIndices->begin() + startIndex + numIndices);
-            break;
-        }
-        startIndex += numIndices;
-    }
-
-    // 创建几何
-    osg::ref_ptr<osg::Geometry> edgeGeom = new osg::Geometry();
-    edgeGeom->setNodeMask(~ElementNodeType::All); // 不可拾取
-    edgeGeom->setUseDisplayList(false);
-    edgeGeom->setUseVertexBufferObjects(true);
-    edgeGeom->setVertexArray(data->vertices);
-    osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(Colors::kEdge_Preview);
-    edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-    edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, indices->begin(), indices->end()));
-    edgeGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-    // 宽度
-    edgeGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(3.0f));
-    // 关闭深度测试始终可见
-    edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-    edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
-
-    return edgeGeom;
-}
 
 std::unique_ptr<RenderData> SolidElementNode::generateRenderData(
     Scene* pScene, const wydb::Element* pElement) noexcept
@@ -382,7 +213,7 @@ std::unique_ptr<RenderData> SolidElementNode::generateRenderData(
 
     try
     {
-        auto data = std::make_unique<SolidRenderData>();
+        auto data = std::make_unique<MeshRenderData>();
 
         assert(pElement);
         const wy3d::Solid* pSolid = wy3d::Solid::cast(pElement);
@@ -414,7 +245,7 @@ std::unique_ptr<RenderData> SolidElementNode::generateRenderData(
     }
 }
 
-bool SolidElementNode::generateMeshData(TopoDS_Shape& shape, SolidRenderData& data)
+bool SolidElementNode::generateMeshData(TopoDS_Shape& shape, MeshRenderData& data)
 {
     if (shape.IsNull())
     {
@@ -796,29 +627,9 @@ void SolidElementNode::previewImpl(bool flag)
         return;
     }
 
-    // 面
-    if (_shapeNode)
+    if (MeshRenderObject* obj = this->renderObject())
     {
-        OsgUtils::setNodeColor(_shapeNode, flag ? Colors::kSolidFace_Preview : this->getFaceDefaultColor());
-    }
-
-    // 边
-    if (_edgeGeom)
-    {
-        // 线框模式下无面可见，边改用亮橙色与黑色线框区分
-        OsgUtils::setNodeColor(_edgeGeom, flag ? (this->_wireframe ? Colors::kEdge_Preview : Colors::kSolidEdge_Preview) : this->getEdgeDefaultColor());
-
-        // 预览时关闭深度测试使边线始终可见
-        if (flag)
-        {
-            _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-            _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Preview, "RenderBin");
-        }
-        else
-        {
-            _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-            _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
-        }
+        obj->setPreview(flag);
     }
 }
 
@@ -855,99 +666,15 @@ bool SolidElementNode::updateApperance(wydb::Database* pDb)
 
 void SolidElementNode::updateColorAndTransparent()
 {
-    // 面
-    if (_shapeNode)
+    if (MeshRenderObject* obj = this->renderObject())
     {
-        if (this->isActive())
-        {
-            OsgUtils::setNodeColor(_shapeNode, this->isHighlighted() ? Colors::kSolidFace_Highlight : this->getFaceDefaultColor());
-        }
-        else
-        {
-            OsgUtils::setNodeColor(_shapeNode, this->isHighlighted() ? Colors::kTransparent : this->getFaceDefaultColor());
-        }
-
-        if (_shapeGeom)
-        {
-            if (this->isActive())
-            {
-                if (this->hasFlag(Flag::Cut))
-                {
-                    _shapeGeom->getOrCreateStateSet()->setRenderBinDetails(1, "RenderBin");
-                    // z-fighting
-                    osg::ref_ptr<osg::PolygonOffset> polyOffset = new osg::PolygonOffset(-1.0f, 1.0f);
-                    _shapeGeom->getOrCreateStateSet()->setAttributeAndModes(polyOffset, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
-                }
-                else
-                {
-                    _shapeGeom->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
-                    // Push faces slightly behind coplanar edge geometry to keep outlines crisp.
-                    osg::ref_ptr<osg::PolygonOffset> polyOffset = new osg::PolygonOffset(1.0f, 1.0f);
-                    _shapeGeom->getOrCreateStateSet()->setAttributeAndModes(
-                        polyOffset,
-                        osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
-                }
-
-                // remove transparent
-                _shapeGeom->getOrCreateStateSet()->setRenderingHint(osg::StateSet::DEFAULT_BIN);
-                _shapeGeom->getOrCreateStateSet()->removeAttribute(osg::StateAttribute::Type::BLENDFUNC);
-            }
-            else
-            {
-                // transparent
-                _shapeGeom->getOrCreateStateSet()->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
-                _shapeGeom->getOrCreateStateSet()->setAttributeAndModes(new osg::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-                // z-fighting
-                osg::ref_ptr<osg::PolygonOffset> polyOffset = new osg::PolygonOffset(-1.0f, 1.0f);
-                _shapeGeom->getOrCreateStateSet()->setAttributeAndModes(polyOffset, osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
-            }
-        }
-    }
-
-    // 边
-    if (_edgeGeom)
-    {
-        if (this->isActive())
-        {
-            OsgUtils::setNodeColor(_edgeGeom, this->isHighlighted() ? Colors::kSolidEdge_Highlight : this->getEdgeDefaultColor());
-        }
-        else
-        {
-            OsgUtils::setNodeColor(_edgeGeom, this->isHighlighted() ? Colors::kTransparent : this->getEdgeDefaultColor());
-        }
-
-        if (this->isActive())
-        {
-            if (this->isHighlighted() || this->hasFlag(Flag::Cut))
-            {
-                _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-                _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
-            }
-            else
-            {
-                _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-                _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
-            }
-        }
-        else
-        {
-            if (this->isHighlighted())
-            {
-                _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-                _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
-            }
-            else
-            {
-                _edgeGeom->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-                _edgeGeom->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
-            }
-        }
+        obj->applyAppearance(this->makeStyle());
     }
 }
 
 unsigned int SolidElementNode::getFaceIndex(unsigned int primitiveIndex) const
 {
-    const SolidRenderData* data = this->renderData();
+    const MeshRenderData* data = this->renderData();
     if (!data || data->faceInfos.empty()) return static_cast<unsigned int>(-1);
 
     unsigned int faceIndex(-1);
@@ -967,7 +694,7 @@ unsigned int SolidElementNode::getFaceIndex(unsigned int primitiveIndex) const
 
 unsigned int SolidElementNode::getEdgeIndex(unsigned int primitiveIndex) const
 {
-    const SolidRenderData* data = this->renderData();
+    const MeshRenderData* data = this->renderData();
     if (!data || data->edgeInfos.empty()) return static_cast<unsigned int>(-1);
 
     unsigned int edgeIndex(-1);
@@ -1061,213 +788,68 @@ wyap::Selection SolidElementNode::createSelection(
 
 void SolidElementNode::highlightFace(unsigned int faceIndex, bool flag)
 {
-    SolidRenderData* data = this->renderData();
-    if (!data || faceIndex >= data->faceInfos.size())
+    MeshRenderObject* obj = this->renderObject();
+    if (!obj)
     {
         assert(false);
         return;
     }
-
-    this->startNoBatchRender_Face();
-    if (flag)
-    {
-        this->setFaceColor(faceIndex, Colors::kSolidFace_Highlight);
-        data->faceInfos[faceIndex].addFlag(FaceInfoFlag::Highlight);
-    }
-    else
-    {
-        this->setFaceColor(faceIndex, this->getFaceDefaultColor());
-        data->faceInfos[faceIndex].removeFlag(FaceInfoFlag::Highlight);
-    }
+    obj->highlightFace(faceIndex, flag);
+    if (obj->isNoBatchFace()) this->addFlag(Flag::NoBatchFace);
 }
 
 void SolidElementNode::highlightFace(unsigned int faceIndex, const osg::Vec4& color)
 {
-    SolidRenderData* data = this->renderData();
-    if (!data || faceIndex >= data->faceInfos.size())
+    MeshRenderObject* obj = this->renderObject();
+    if (!obj)
     {
         assert(false);
         return;
     }
-
-    this->startNoBatchRender_Face();
-    this->setFaceColor(faceIndex, color);
-    data->faceInfos[faceIndex].addFlag(FaceInfoFlag::Highlight);
+    obj->highlightFace(faceIndex, color);
+    if (obj->isNoBatchFace()) this->addFlag(Flag::NoBatchFace);
 }
 
 void SolidElementNode::previewFace(unsigned int faceIndex, bool flag)
 {
-    SolidRenderData* data = this->renderData();
-    if (!data || faceIndex >= data->faceInfos.size())
+    if (MeshRenderObject* obj = this->renderObject())
     {
-        return;
-    }
-
-    this->startNoBatchRender_Face();
-    if (flag)
-    {
-        // 预览态是临时态(没有变量记录是否在该状态下),不能影响当前的高亮态.
-        if (!data->faceInfos[faceIndex].hasFlag(FaceInfoFlag::Highlight))
-        {
-            this->setFaceColor(faceIndex, Colors::kSolidFace_Preview);
-        }
-    }
-    else
-    {
-        // 预览态是临时态(没有变量记录是否在该状态下),不能影响当前的高亮态.
-        if (!data->faceInfos[faceIndex].hasFlag(FaceInfoFlag::Highlight))
-        {
-            this->setFaceColor(faceIndex, this->getFaceDefaultColor());
-        }
+        obj->previewFace(faceIndex, flag);
+        if (obj->isNoBatchFace()) this->addFlag(Flag::NoBatchFace);
     }
 }
 
 void SolidElementNode::highlightEdge(unsigned int edgeIndex, bool flag)
 {
-    if (_edgeGeomHighlight)
+    if (MeshRenderObject* obj = this->renderObject())
     {
-        _edgeNode->removeChild(_edgeGeomHighlight);
-        _edgeGeomHighlight = nullptr;
+        obj->highlightEdge(edgeIndex, flag);
     }
-
-    SolidRenderData* data = this->renderData();
-    if (!data || edgeIndex >= data->edgeInfos.size())
+    else
     {
         assert(false);
-        return;
     }
-
-    if (flag) data->edgeInfos[edgeIndex].addFlag(EdgeInfoFlag::Highlight);
-    else data->edgeInfos[edgeIndex].removeFlag(EdgeInfoFlag::Highlight);
-
-     osg::ref_ptr<osg::Geometry> edgeGeomHighlight = this->generateEdgeGeom_Highlight();
-     if (edgeGeomHighlight)
-     {
-         _edgeGeomHighlight = edgeGeomHighlight;
-         _edgeNode->addChild(_edgeGeomHighlight);
-     }
 }
 
 void SolidElementNode::previewEdge(unsigned int edgeIndex, bool flag)
 {
-    if (_edgeGeomPreview)
+    if (MeshRenderObject* obj = this->renderObject())
     {
-        _edgeNode->removeChild(_edgeGeomPreview);
-        _edgeGeomPreview = nullptr;
+        obj->previewEdge(edgeIndex, flag);
     }
-
-    SolidRenderData* data = this->renderData();
-    if (!data || edgeIndex >= data->edgeInfos.size())
+    else
     {
         assert(false);
-        return;
-    }
-
-    if (flag && data->edgeInfos[edgeIndex].hasFlag(EdgeInfoFlag::Highlight))
-        return;
-
-    if (flag)
-    {
-        osg::ref_ptr<osg::Geometry> edgeGeomPreview = this->generateEdgeGeom_Preview(edgeIndex);
-        assert(edgeGeomPreview);
-        if (edgeGeomPreview)
-        {
-            _edgeGeomPreview = edgeGeomPreview;
-            _edgeNode->addChild(_edgeGeomPreview);
-        }
     }
 }
 
 void SolidElementNode::clearDynamicRenderGeometry()
 {
-    this->endNoBatchRender_Face();
-    if (_edgeGeomHighlight)
+    if (MeshRenderObject* obj = this->renderObject())
     {
-        _edgeNode->removeChild(_edgeGeomHighlight);
-        _edgeGeomHighlight = nullptr;
-    }
-    if (_edgeGeomPreview)
-    {
-        _edgeNode->removeChild(_edgeGeomPreview);
-        _edgeGeomPreview = nullptr;
-    }
-}
-
-void SolidElementNode::startNoBatchRender_Face()
-{
-    if (this->hasFlag(Flag::NoBatchFace))
-    {
-        return;
-    }
-
-    assert(_shapeGeom);
-    if (_shapeGeom) _shapeGeom->setNodeMask(0);
-    assert(!_nobatchShapeGeom);
-    _nobatchShapeGeom = this->generateShapeGeom(this->getElementId(), false);
-    if (_nobatchShapeGeom)
-    {
-        assert(_shapeNode);
-        if (_shapeNode) _shapeNode->addChild(_nobatchShapeGeom);
-        this->updateColorAndTransparent();
-    }
-    else
-    {
-        assert(false);
-    }
-    this->addFlag(Flag::NoBatchFace);
-}
-
-void SolidElementNode::endNoBatchRender_Face()
-{
-    if (!this->hasFlag(Flag::NoBatchFace))
-    {
-        return;
-    }
-
-    assert(_shapeGeom);
-    if (_shapeGeom) _shapeGeom->setNodeMask(this->getNodeType());
-    if (_nobatchShapeGeom)
-    {
-        assert(_shapeNode);
-        if (_shapeNode) _shapeNode->removeChild(_nobatchShapeGeom);
-        _nobatchShapeGeom = nullptr;
+        obj->clearDynamicRenderGeometry();
     }
     this->removeFlag(Flag::NoBatchFace);
-}
-
-bool SolidElementNode::setFaceColor(unsigned int faceIndex, const osg::Vec4& color)
-{
-    if (!this->hasFlag(Flag::NoBatchFace))
-    {
-        return false;
-    }
-    SolidRenderData* data = this->renderData();
-    if (!data || faceIndex >= data->faceInfos.size())
-    {
-        return false;
-    }
-    assert(_nobatchShapeGeom);
-    if (!_nobatchShapeGeom) return false;
-
-    osg::Vec4Array* pColorVec4Arr = dynamic_cast<osg::Vec4Array*>(_nobatchShapeGeom->getColorArray());
-    if (pColorVec4Arr)
-    {
-        assert(pColorVec4Arr->size() == data->faceInfos.size());
-        if (faceIndex < pColorVec4Arr->size())
-        {
-            (*pColorVec4Arr)[faceIndex] = color;
-            _nobatchShapeGeom->dirtyGLObjects();
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else
-    {
-        return false;
-    }
 }
 
 bool SolidElementNode::computeWhetherActive(const wydb::Element* pCurElem) const

@@ -20,6 +20,8 @@
 
 #include <cassert>
 
+#include <wy3dApp/ElementRenderObject.h>
+
 #include <osg/Matrix>
 #include <osg/Polytope>
 
@@ -48,6 +50,21 @@ std::unique_ptr<RenderData> ElementNode::generateRenderData(Scene* pScene, const
     (void)pScene;
     (void)pElement;
     return nullptr;
+}
+
+std::unique_ptr<RenderObject> ElementNode::createRenderObject(Scene* pScene, const wydb::Element* pElement)
+{
+    (void)pScene;
+    (void)pElement;
+    return nullptr;
+}
+
+void ElementNode::clearDynamicRenderGeometry()
+{
+    if (_renderObject)
+    {
+        _renderObject->clearDynamicRenderGeometry();
+    }
 }
 
 bool ElementNode::updateApperance(wydb::Database* pDb)
@@ -89,7 +106,9 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
     _pImpl->renderObjectGenerated = true;
 
     // 清空渲染对象
-    this->clearRenderObjects();
+    _osgNode->removeChildren(0, _osgNode->getNumChildren());
+    // 清空渲染对象(必须先于渲染数据销毁:渲染对象借用数据中的数组)
+    _renderObject.reset();
     // 清空渲染数据
     _renderData.reset();
     // 重置包围盒
@@ -111,8 +130,12 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
         return true;
     }
 
-    // 根据渲染数据生成OSG对象
-    this->generateRenderObject(pScene, pElem);
+    // 根据渲染数据创建渲染对象
+    _renderObject = this->createRenderObject(pScene, pElem);
+    if (_renderObject)
+    {
+        _osgNode->addChild(_renderObject->getContentRoot());
+    }
 
     // 自动计算包围盒(局部坐标),再按模型矩阵变换到世界坐标
     if (_pImpl->autoComputeBoundingBox)

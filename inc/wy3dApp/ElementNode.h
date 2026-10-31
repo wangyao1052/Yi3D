@@ -48,6 +48,7 @@ namespace wydb
 namespace wy3dApp {
 
 class ElementNodeImpl;
+class RenderObject;
 class Scene;
 class SceneImpl;
 
@@ -166,8 +167,8 @@ protected:
         return _status & static_cast<unsigned int>(Status::Highlighted);
     }
 
-    // 清空动态渲染对象(NoBatch渲染结束时调用);默认不做处理
-    virtual void clearDynamicRenderGeometry() {}
+    // 清空动态渲染对象(NoBatch渲染结束时调用);默认委托给 RenderObject
+    virtual void clearDynamicRenderGeometry();
 
     // 本地坐标到世界坐标的变换矩阵;默认单位矩阵
     virtual osg::Matrix getModelMatrix() const
@@ -180,16 +181,15 @@ protected:
      
     // 更新渲染对象(生成渲染数据、OSG对象及显示状态)
     bool updateRenderObject(Scene* pScene, wydb::Database* pDb);
-    // 根据渲染数据生成OSG对象
-    virtual void generateRenderObject(Scene* pScene, const wydb::Element* pElem) {}
+    // 根据渲染数据创建渲染对象;返回 nullptr 表示该节点没有渲染对象.
+    // 插件重写该函数时需包含 <wy3dApp/ElementRenderObject.h>.
+    virtual std::unique_ptr<RenderObject> createRenderObject(
+        Scene* pScene, const wydb::Element* pElem);
     virtual void generateRenderObjectFinished(const wydb::Element* pElem) {}
 
-    // 生成渲染数据；返回 nullptr 表示元素没有形体或生成失败
-    // 实现内部必须自己捕获所有异常，不能抛出
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept;
 
-    // 按节点实际类型获取渲染数据；类型不匹配时断言
     template <typename T>
     T* getRenderDataAs() const
     {
@@ -197,12 +197,11 @@ protected:
         return static_cast<T*>(_renderData.get());
     }
 
-protected:
-    // 清空渲染对象
-    virtual void clearRenderObjects()
+    template <typename T>
+    T* getRenderObjectAs() const
     {
-        unsigned int numChild = _osgNode->getNumChildren();
-        _osgNode->removeChildren(0, numChild);
+        assert(!_renderObject || dynamic_cast<T*>(_renderObject.get()));
+        return static_cast<T*>(_renderObject.get());
     }
 
 protected:
@@ -246,6 +245,12 @@ private:
     // 渲染数据
     //---------------------------------
     std::unique_ptr<RenderData> _renderData;
+
+    //---------------------------------
+    // 渲染对象(OSG表示层)
+    //---------------------------------
+    // 必须声明在 _renderData 之后: 析构逆序保证渲染对象先于数据销毁.
+    std::unique_ptr<RenderObject> _renderObject;
 
     // 内部实现；当前为空壳，后续逐步迁入状态机等细节
     std::unique_ptr<ElementNodeImpl> _pImpl;

@@ -66,50 +66,25 @@
 #include "scene/SketchEntityLinearization.h"
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "scene/nodes/LineRenderObject.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-// GL_LINES resets the stipple counter before every segment, while GL_LINE_STRIP keeps it running.
-// Drawing the tessellated curves as a strip is what makes their dashes continuous.
-static osg::ref_ptr<osg::UIntArray> makeStripIndices(const osg::UIntArray& lineIndices)
-{
-    assert(lineIndices.size() % 2 == 0);
-
-    osg::ref_ptr<osg::UIntArray> stripIndices = new osg::UIntArray();
-    stripIndices->reserve(lineIndices.size() / 2 + 1);
-    for (size_t i = 0; i + 1 < lineIndices.size(); i += 2)
-    {
-        // The linearizations emit chained pairs (0,1)(1,2)..., so each pair only adds its end point.
-        assert(0 == i || lineIndices[i - 1] == lineIndices[i]);
-        if (0 == i) stripIndices->push_back(lineIndices[i]);
-        stripIndices->push_back(lineIndices[i + 1]);
-    }
-
-    return stripIndices;
-}
-
 SketchEntityElementNode::SketchEntityElementNode(const wydb::ElementId& id) : ElementNode(id)
 {
-    // added by wangyao 2025.02.24 {
-    // 设置草图图元渲染在前以防被遮挡
-    // 关闭光照
-    _osgNode->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-    // 关闭深度测试
-    _osgNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-    // 设置RenderBin
-    _osgNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::SketchEntity, "RenderBin");
-    // }
 }
 
-void SketchEntityElementNode::generateRenderObject(Scene* pScene, const wydb::Element* pElem)
+std::unique_ptr<RenderObject> SketchEntityElementNode::createRenderObject(
+    Scene* pScene, const wydb::Element* pElem)
 {
+    (void)pScene;
     assert(pElem);
     const wy3d::SketchEntity* pSketchEntity = wy3d::SketchEntity::cast(pElem);
     if (!pSketchEntity)
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
     bool isConstruction(false);
@@ -122,60 +97,47 @@ void SketchEntityElementNode::generateRenderObject(Scene* pScene, const wydb::El
     }
     // Construction and centre lines share the curve colour, only thinner and dashed.
     const bool isDashed = (isConstruction || isCenterLine);
-    float lineWidth = isDashed ? 1.5f : 2.0f;
-    osg::Vec4 color = Colors::kSketchEntity;
+    const float lineWidth = isDashed ? 1.5f : 2.0f;
 
     LineRenderData* data = this->renderData();
     if (!data || !data->vertices || !data->lineIndices)
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
-    // 生成渲染对象
-    if (!data->lineIndices->empty())
-    {
-        _curvesGeom = new osg::Geometry();
-        _curvesGeom->setNodeMask(this->getNodeType());
-        {
-            _curvesGeom->setUseDisplayList(false);
-            _curvesGeom->setUseVertexBufferObjects(true);
-            _curvesGeom->setVertexArray(data->vertices);
-            osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-            colors->push_back(color);
-            _curvesGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-            osg::ref_ptr<osg::UIntArray> stripIndices = makeStripIndices(*data->lineIndices);
-            _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINE_STRIP, stripIndices->begin(), stripIndices->end()));
-            _curvesGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-            _curvesGeom->setUserValue("ElementId", static_cast<unsigned int>(pElem->getId().value()));
-            _curvesGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(lineWidth));
+    LineRenderStyle style;
+    style.nodeType = this->getNodeType();
+    style.color = Colors::kSketchEntity;
+    style.highlightColor = Colors::kSketchEntity_Highlight;
+    style.previewColor = Colors::kSketchEntity_Preview;
+    style.lineWidth = lineWidth;
+    style.highlightLineWidth = lineWidth;
+    style.changeLineWidthOnHighlight = false;
+    style.depthTest = false;
+    style.highlightDepthTest = false;
+    style.changeDepthTestOnHighlight = false;
+    style.lighting = false;
+    style.applyStateToRoot = true;
+    style.renderBin = RenderBinNumers::SketchEntity;
+    style.stripFromSegments = true;
+    style.stipple = isDashed;
+    style.stippleFactor = CENTER_LINE_STIPPLE_FACTOR;
+    style.stipplePattern = CENTER_LINE_STIPPLE_PATTERN;
+    style.pointsWhenNoLines = true;
+    style.pointSize = 8.0f;
+    style.highlightPointSize = 8.0f;
+    style.changePointSizeOnHighlight = false;
 
-            if (isDashed)
-            {
-                _curvesGeom->getOrCreateStateSet()->setAttributeAndModes(new osg::LineStipple(
-                    CENTER_LINE_STIPPLE_FACTOR, CENTER_LINE_STIPPLE_PATTERN), osg::StateAttribute::ON);
-            }
-        }
-        _osgNode->addChild(_curvesGeom);
-    }
-    else if (!data->vertices->empty()) // 草图点
-    {
-        _curvesGeom = new osg::Geometry();
-        _curvesGeom->setNodeMask(this->getNodeType());
-        {
-            _curvesGeom->setUseDisplayList(false);
-            _curvesGeom->setUseVertexBufferObjects(true);
-            _curvesGeom->setVertexArray(data->vertices);
-            osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-            colors->push_back(color);
-            _curvesGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
-            _curvesGeom->addPrimitiveSet(new osg::DrawArrays(GL_POINTS, 0, 1));
-            _curvesGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-            _curvesGeom->setUserValue("ElementId", static_cast<unsigned int>(pElem->getId().value()));
-            _curvesGeom->getOrCreateStateSet()->setAttribute(new osg::Point(8.0f));
-        }
-        _osgNode->addChild(_curvesGeom);
-    }
+    auto renderObject = std::make_unique<LineRenderObject>(
+        pElem->getId(), this->getNodeType(), *data, *data->lineIndices, style);
+    renderObject->build();
+    return renderObject;
+}
+
+LineRenderObject* SketchEntityElementNode::renderObject() const
+{
+    return this->getRenderObjectAs<LineRenderObject>();
 }
 
 std::unique_ptr<RenderData> SketchEntityElementNode::generateRenderData(
@@ -249,8 +211,10 @@ std::unique_ptr<RenderData> SketchEntityElementNode::generateRenderData(
 
 void SketchEntityElementNode::highlightImpl(bool flag)
 {
-    if (_curvesGeom)
-        OsgUtils::setNodeColor(_curvesGeom, flag ? Colors::kSketchEntity_Highlight : Colors::kSketchEntity);
+    if (LineRenderObject* obj = this->renderObject())
+    {
+        obj->setElementHighlight(flag);
+    }
 }
 
 void SketchEntityElementNode::previewImpl(bool flag)
@@ -260,12 +224,10 @@ void SketchEntityElementNode::previewImpl(bool flag)
         assert(false);
         return;
     }
-    if (_curvesGeom)
-        OsgUtils::setNodeColor(_curvesGeom, flag ? Colors::kSketchEntity_Preview : Colors::kSketchEntity);
-}
-
-void SketchEntityElementNode::setActiveImpl(bool flag)
-{
+    if (LineRenderObject* obj = this->renderObject())
+    {
+        obj->setElementPreview(flag);
+    }
 }
 
 } // namespace wy3dApp

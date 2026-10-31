@@ -69,6 +69,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
+#include "scene/nodes/DatumPlaneRenderObject.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -196,128 +197,48 @@ void DatumPlaneElementNode::updateVisualSize(const wydb::Database* pDb, const os
     }
 
     // 刷新渲染对象
-    if (_planeGeom) _planeGeom->dirtyBound();
-    if (_curvesGeom) _curvesGeom->dirtyBound();
+    if (DatumPlaneRenderObject* obj = this->renderObject())
+    {
+        obj->dirtyGeometryBound();
+    }
 }
 
-void DatumPlaneElementNode::generateRenderObject(Scene* pScene, const wydb::Element* pElem)
+std::unique_ptr<RenderObject> DatumPlaneElementNode::createRenderObject(
+    Scene* pScene, const wydb::Element* pElem)
 {
+    (void)pScene;
     assert(pElem);
     const wy3d::DatumPlane* pDatumPlane = wy3d::DatumPlane::cast(pElem);
     if (!pDatumPlane)
     {
         assert(false);
-        return;
+        return nullptr;
     }
-    wydb::ElementId id = pElem->getId();
 
     MeshRenderData* data = this->renderData();
     if (!data || !data->vertices || !data->normals || !data->triangleIndices || !data->lineIndices)
     {
         assert(false);
-        return;
+        return nullptr;
     }
 
-    if (!data->triangleIndices->empty())
-    {
-        _planeGeom = new osg::Geometry();
-        _planeGeom->setNodeMask(~ElementNodeType::All); // 不可Pick
-        _planeGeom->setUseDisplayList(false);
-        _planeGeom->setUseVertexBufferObjects(true);
-        _planeGeom->setDataVariance(osg::Object::DYNAMIC);
-        _planeGeom->setVertexArray(data->vertices);
-        _planeGeom->setNormalArray(data->normals, osg::Array::BIND_OVERALL);
-        osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-        colors->push_back(Colors::kDatumPlaneFace);
-        _planeGeom->setColorArray(colors, osg::Array::BIND_OVERALL);
-        _planeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_TRIANGLES,
-            data->triangleIndices->begin(), data->triangleIndices->end()));
+    DatumPlaneRenderStyle style;
+    style.faceColor = Colors::kDatumPlaneFace;
+    style.edgeColor = Colors::kDatumPlaneEdge;
+    style.faceHighlightColor = Colors::kDatumPlaneFace_Highlight;
+    style.edgeHighlightColor = Colors::kDatumPlaneEdge_Highlight;
+    style.facePreviewColor = Colors::kDatumPlaneFace_Preview;
+    style.edgePreviewColor = Colors::kDatumPlaneEdge_Preview;
 
-        osg::StateSet* stateset = _planeGeom->getOrCreateStateSet();
+    auto renderObject = std::make_unique<DatumPlaneRenderObject>(
+        pElem->getId(), this->getNodeType(), *data, style);
+    renderObject->build();
+    return renderObject;
+}
 
-        // 1.混合与透明设置
-        stateset->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
-        stateset->setAttributeAndModes(
-            new osg::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA),
-            osg::StateAttribute::ON);
-
-        // 2.深度缓冲控制以避免透明面片互相覆盖
-        stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-        stateset->setAttribute(new osg::Depth(
-            osg::Depth::LESS,
-            0.0, 1.0,
-            false // 关闭深度写入!关键点!
-        ));
-
-        // 3.双面渲染(禁用背面剔除)
-        stateset->setAttributeAndModes(
-            new osg::CullFace(osg::CullFace::BACK),
-            osg::StateAttribute::OFF);
-
-        // 4.多边形偏移(解决Z-Fighting)
-        osg::ref_ptr<osg::PolygonOffset> polyOffset = new osg::PolygonOffset();
-        polyOffset->setFactor(-2.5f);  // 经验值：Creo 风格偏移
-        polyOffset->setUnits(1.5f);
-        stateset->setAttributeAndModes(polyOffset, osg::StateAttribute::ON);
-
-        // 5.渲染排序（确保透明面最后绘制）
-        stateset->setRenderBinDetails(
-            /*20*/RenderBinNumers::DATUM_PLANE,  // 高于普通几何体的渲染顺序
-            RenderBinNames::DepthSortedBin);
-
-        // 6.禁用光照计算
-        stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-
-        // 附加ID
-        _planeGeom->setUserValue("ElementId", static_cast<unsigned int>(id.value()));
-
-        _osgNode->addChild(_planeGeom);
-    }
-
-    if (!data->lineIndices->empty())
-    {
-        _curvesGeom = new osg::Geometry();
-        _curvesGeom->setNodeMask(this->getNodeType());
-        _curvesGeom->setUseDisplayList(false);
-        _curvesGeom->setUseVertexBufferObjects(true);
-        _curvesGeom->setDataVariance(osg::Object::DYNAMIC);
-        _curvesGeom->setVertexArray(data->vertices);
-        osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-        colors->push_back(Colors::kDatumPlaneEdge);
-        _curvesGeom->setColorArray(colors, osg::Array::BIND_OVERALL);
-        _curvesGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES,
-            data->lineIndices->begin(), data->lineIndices->end()));
-
-        osg::StateSet* stateset = _curvesGeom->getOrCreateStateSet();
-
-        // 1.确保边线在透明面上方渲染
-        //stateset->setRenderBinDetails(
-        //    /*25*/RenderBinNumers::DATUM_PLANE_LINE,  // 比面片更高的渲染顺序
-        //    "DepthSortedBin");
-        stateset->setRenderBinDetails(
-            /*25*/RenderBinNumers::DATUM_PLANE_LINE,  // 比面片更高的渲染顺序
-            RenderBinNames::RenderBin);
-
-        // 2.线宽与抗锯齿
-        stateset->setAttribute(new osg::LineWidth(1.2f));
-        stateset->setMode(GL_LINE_SMOOTH, osg::StateAttribute::ON);
-
-        // 3. 禁用深度写入(避免影响后续渲染)
-        //stateset->setAttribute(new osg::Depth(
-        //    osg::Depth::LESS,
-        //    0.0, 1.0,
-        //    false));
-        // 3.禁用深度测试(始终可见)
-        stateset->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-
-        // 4.禁用光照
-        stateset->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
-
-        // 附加ID
-        _curvesGeom->setUserValue("ElementId", static_cast<unsigned int>(id.value()));
-
-        _osgNode->addChild(_curvesGeom);
-    }
+DatumPlaneRenderObject* DatumPlaneElementNode::renderObject() const
+{
+    return this->getRenderObjectAs<DatumPlaneRenderObject>();
 }
 
 std::unique_ptr<RenderData> DatumPlaneElementNode::generateRenderData(
@@ -381,50 +302,18 @@ std::unique_ptr<RenderData> DatumPlaneElementNode::generateRenderData(
 
 void DatumPlaneElementNode::highlightImpl(bool flag)
 {
-    if (_planeGeom)
+    if (DatumPlaneRenderObject* obj = this->renderObject())
     {
-        OsgUtils::setNodeColor(_planeGeom, flag ? Colors::kDatumPlaneFace_Highlight : Colors::kDatumPlaneFace);
-
-        _planeGeom->getOrCreateStateSet()->setRenderBinDetails(
-            flag ? RenderBinNumers::DATUM_PLANE + 1 : RenderBinNumers::DATUM_PLANE,
-            RenderBinNames::DepthSortedBin);
-    }
-
-    if (_curvesGeom)
-    {
-        OsgUtils::setNodeColor(_curvesGeom, flag ? Colors::kDatumPlaneEdge_Highlight : Colors::kDatumPlaneEdge);
-
-        _curvesGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(flag ? 2.0f : 1.2f));
-        _curvesGeom->getOrCreateStateSet()->setRenderBinDetails(
-            flag ? RenderBinNumers::DATUM_PLANE_LINE + 1 : RenderBinNumers::DATUM_PLANE_LINE,
-            RenderBinNames::RenderBin);
+        obj->setHighlighted(flag);
     }
 }
 
 void DatumPlaneElementNode::previewImpl(bool flag)
 {
-    if (_planeGeom)
+    if (DatumPlaneRenderObject* obj = this->renderObject())
     {
-        OsgUtils::setNodeColor(_planeGeom, flag ? Colors::kDatumPlaneFace_Preview : Colors::kDatumPlaneFace);
-
-        _planeGeom->getOrCreateStateSet()->setRenderBinDetails(
-            flag ? RenderBinNumers::DATUM_PLANE + 1 : RenderBinNumers::DATUM_PLANE,
-            RenderBinNames::DepthSortedBin);
+        obj->setPreviewed(flag);
     }
-
-    if (_curvesGeom)
-    {
-        OsgUtils::setNodeColor(_curvesGeom, flag ? Colors::kDatumPlaneEdge_Preview : Colors::kDatumPlaneEdge);
-
-        _curvesGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(flag ? 2.0f : 1.2f));
-        _curvesGeom->getOrCreateStateSet()->setRenderBinDetails(
-            flag ? RenderBinNumers::DATUM_PLANE_LINE + 1 : RenderBinNumers::DATUM_PLANE_LINE,
-            RenderBinNames::RenderBin);
-    }
-}
-
-void DatumPlaneElementNode::setActiveImpl(bool flag)
-{
 }
 
 } // namespace wy3dApp
