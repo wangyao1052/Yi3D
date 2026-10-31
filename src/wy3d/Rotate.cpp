@@ -368,6 +368,7 @@ wy::ErrorStatus Rotate::readFromFiler(wydb::InFiler& filer)
 
 std::pair<bool, TopoDS_Shape> Rotate::modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
+    wy3d::reportChainUpdateSuccess(feedbackCollector, this->getId());
     assert(pTopoNaming);
 
     wydb::Database* pDb = this->getDatabase();

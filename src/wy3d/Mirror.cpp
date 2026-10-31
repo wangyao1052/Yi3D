@@ -448,6 +448,7 @@ bool Mirror::onDependenciesErased(const std::set<wydb::ElementId>& erasedDepende
 
 std::pair<bool, TopoDS_Shape> Mirror::modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
+    wy3d::reportChainUpdateSuccess(feedbackCollector, this->getId());
     assert(pTopoNaming);
     wydb::Database* pDb = this->getDatabase();
     assert(pDb);

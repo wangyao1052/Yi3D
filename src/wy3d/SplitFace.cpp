@@ -447,6 +447,7 @@ bool SplitFace::onDependenciesErased(const std::set<wydb::ElementId>& erasedDepe
 
 std::pair<bool, TopoDS_Shape> SplitFace::modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
+    wy3d::reportChainUpdateSuccess(feedbackCollector, this->getId());
     assert(pTopoNaming);
 
     wydb::Database* pDb = this->getDatabase();

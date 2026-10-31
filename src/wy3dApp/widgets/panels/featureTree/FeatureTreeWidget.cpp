@@ -31,6 +31,7 @@
 #include <QMessageBox>
 #include <QMenu>
 
+#include <algorithm>
 #include <sstream>
 
 #include <wydbElementId.h>
@@ -74,6 +75,7 @@
 #include <wy3dCircularPattern.h>
 #include <wy3dSolid.h>
 #include <wy3dSheet.h>
+#include <wy3dBodyModification.h>
 #include <wy3dHelix.h>
 #include <wy3dExtrudedSheet.h>
 #include <wy3dRevolvedSheet.h>
@@ -123,6 +125,66 @@ static std::map<wydb::ElementId, unsigned int> collectErrorCodesFromChainUpdateF
             pTransMgr->getChainUpdateFeedback(id).get());
     }
     return id2Errors;
+}
+
+struct ModificationPosition
+{
+    wydb::ElementId hostId;
+    std::size_t index = 0;
+    std::size_t count = 0;
+
+    bool isValid() const { return !hostId.isNull(); }
+};
+
+// Returns the position of an element inside its host's modification chain.
+// Candidates are BodyModification or Solid (merged members); membership in
+// getModifications() is the discriminator, not the parent type.
+static ModificationPosition findModificationPosition(
+    const wydb::Database* pDb, const wydb::Element* pElem)
+{
+    if (!pDb || !pElem) return {};
+    if (!wy3d::BodyModification::cast(pElem) && !wy3d::Solid::cast(pElem)) return {};
+
+    const wydb::ElementId hostId = pElem->getParent();
+    if (hostId.isNull()) return {};
+    const wydb::Element* pHost = pDb->getElement(hostId);
+    if (!pHost) return {};
+
+    const std::vector<wydb::ElementId>* pModifications(nullptr);
+    if (const wy3d::Solid* pHostSolid = wy3d::Solid::cast(pHost))
+        pModifications = &pHostSolid->getModifications();
+    else if (const wy3d::Sheet* pHostSheet = wy3d::Sheet::cast(pHost))
+        pModifications = &pHostSheet->getModifications();
+    else
+        return {};
+
+    std::vector<wydb::ElementId>::const_iterator iter =
+        std::find(pModifications->cbegin(), pModifications->cend(), pElem->getId());
+    if (pModifications->cend() == iter) return {};
+
+    return { hostId, static_cast<std::size_t>(iter - pModifications->cbegin()), pModifications->size() };
+}
+
+// Host id plus every id of its modification chain.
+static std::set<wydb::ElementId> getModificationChainIds(
+    const wydb::Database* pDb, const wydb::ElementId& hostId)
+{
+    std::set<wydb::ElementId> ids;
+    ids.insert(hostId);
+    if (!pDb) return ids;
+
+    const wydb::Element* pHost = pDb->getElement(hostId);
+    if (const wy3d::Solid* pHostSolid = wy3d::Solid::cast(pHost))
+    {
+        const std::vector<wydb::ElementId>& modifications = pHostSolid->getModifications();
+        ids.insert(modifications.cbegin(), modifications.cend());
+    }
+    else if (const wy3d::Sheet* pHostSheet = wy3d::Sheet::cast(pHost))
+    {
+        const std::vector<wydb::ElementId>& modifications = pHostSheet->getModifications();
+        ids.insert(modifications.cbegin(), modifications.cend());
+    }
+    return ids;
 }
 
 FeatureTreeWidget::FeatureTreeWidget(QWidget* parent)
@@ -593,6 +655,18 @@ void FeatureTreeWidget::onDatabaseChanged(
         {
             dirtyOwnerIds.insert(ownerId);
         }
+    }
+
+    // Modification order changed: signal marked by Solid/Sheet::_setModifications.
+    for (const wydb::ElementId& id : changeInfo.modifiedIds)
+    {
+        if (!changeInfo.details.isDataPieceDirty(id, wydb::ElementDataPieceType::UserDefinedExt5)) continue;
+
+        FeatureRow* pFeatRow = this->uiFindRow(id);
+        if (!pFeatRow || !pFeatRow->pNameItem) continue;
+        if (pFeatRow->pNameItem->rowCount() <= 1) continue;
+
+        dirtyOwnerIds.insert(id);
     }
     this->reorderDirtyOwnerItems(pDb, dirtyOwnerIds);
 }
@@ -1453,6 +1527,143 @@ void FeatureTreeWidget::onContextMenu_ShowErrorInfo()
     }
 }
 
+void FeatureTreeWidget::onContextMenu_MoveModificationUp()
+{
+    this->moveSelectedModification(MoveModificationTarget::Up);
+}
+
+void FeatureTreeWidget::onContextMenu_MoveModificationDown()
+{
+    this->moveSelectedModification(MoveModificationTarget::Down);
+}
+
+void FeatureTreeWidget::onContextMenu_MoveModificationToTop()
+{
+    this->moveSelectedModification(MoveModificationTarget::Top);
+}
+
+void FeatureTreeWidget::onContextMenu_MoveModificationToBottom()
+{
+    this->moveSelectedModification(MoveModificationTarget::Bottom);
+}
+
+void FeatureTreeWidget::moveSelectedModification(MoveModificationTarget target)
+{
+    if (TransactionUtil::hasActiveTransaction()) return;
+
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return;
+    }
+
+    wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
+    assert(pSelMgr);
+    const wyap::SelectionSet& ss = pSelMgr->getSelections();
+    if (1 != ss.getCount()) return;
+
+    wydb::ElementId id = wydb::ElementId::kNull;
+    for (auto iter = ss.createIterator(); !iter.isDone(); iter.moveNext())
+    {
+        id = iter.current().getElementId();
+    }
+    if (id.isNull()) return;
+
+    const ModificationPosition position = findModificationPosition(pDb, pDb->getElement(id));
+    if (!position.isValid()) return;
+
+    std::size_t newIndex = position.index;
+    switch (target)
+    {
+    case MoveModificationTarget::Up:
+        if (0 == position.index) return;
+        newIndex = position.index - 1;
+        break;
+    case MoveModificationTarget::Down:
+        if (position.index + 1 >= position.count) return;
+        newIndex = position.index + 1;
+        break;
+    case MoveModificationTarget::Top:
+        if (0 == position.index) return;
+        newIndex = 0;
+        break;
+    case MoveModificationTarget::Bottom:
+        if (position.index + 1 >= position.count) return;
+        newIndex = position.count - 1;
+        break;
+    default:
+        assert(false);
+        return;
+    }
+
+    // Copy the chain before opening the transaction; the field write reassigns it.
+    std::vector<wydb::ElementId> modifications;
+    if (const wy3d::Solid* pHostSolid = wy3d::Solid::cast(pDb->getElement(position.hostId)))
+    {
+        modifications = pHostSolid->getModifications();
+    }
+    else if (const wy3d::Sheet* pHostSheet = wy3d::Sheet::cast(pDb->getElement(position.hostId)))
+    {
+        modifications = pHostSheet->getModifications();
+    }
+    else
+    {
+        assert(false);
+        return;
+    }
+    assert(modifications.size() == position.count);
+    modifications.erase(modifications.cbegin() + position.index);
+    modifications.insert(modifications.cbegin() + newIndex, id);
+
+    wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
+    assert(pTransMgr);
+
+    // Snapshot before the move so pre-existing failures are not reported again.
+    const std::set<wydb::ElementId> chainIds = getModificationChainIds(pDb, position.hostId);
+    const std::map<wydb::ElementId, unsigned int> beforeCodes =
+        collectErrorCodesFromChainUpdateFeedbacks(pTransMgr, chainIds);
+
+    wydb::Transaction* pTrans = pTransMgr->startTransaction();
+    if (!pTrans)
+    {
+        assert(false);
+        return;
+    }
+    wydb::Element* pHostElem = pTrans->getElementForWrite(position.hostId);
+    wy::ErrorStatus error = wy::ErrorStatus::Error;
+    if (wy3d::Solid* pHostSolid = wy3d::Solid::cast(pHostElem))
+    {
+        error = pHostSolid->setModifications(modifications);
+    }
+    else if (wy3d::Sheet* pHostSheet = wy3d::Sheet::cast(pHostElem))
+    {
+        error = pHostSheet->setModifications(modifications);
+    }
+    if (wy::ErrorStatus::Ok != error)
+    {
+        assert(false);
+        pTransMgr->abortTransaction();
+        return;
+    }
+    pTransMgr->endTransaction();
+
+    // Reordering rebuilds the rows and drops the view selection.
+    this->uiSelectItem(id, true);
+
+    // Keep the new order even if the chain update failed; report only new errors.
+    const std::map<wydb::ElementId, unsigned int> afterCodes =
+        collectErrorCodesFromChainUpdateFeedbacks(pTransMgr, chainIds);
+    for (const wydb::ElementId& chainId : chainIds)
+    {
+        const unsigned int errorCode = afterCodes.at(chainId);
+        if (0 == errorCode) continue;
+        if (beforeCodes.at(chainId) == errorCode) continue;
+        MessageBoxUtil::showError(errorCode);
+        break;
+    }
+}
+
 void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
 {
     if (TransactionUtil::hasActiveTransaction())
@@ -1584,6 +1795,35 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
             pActionCopyClip->setText(QCoreApplication::translate("MainWindow", "Copy"));
             pActionCopyClip->setIcon(IconUtil::get(":/images/Edit_Copy.svg"));
             menu.addAction(pActionCopyClip);
+        }
+
+        // Modification reorder (single selection only)
+        if (1 == ss.getCount() && 1 == selectedElems.size())
+        {
+            const ModificationPosition position = findModificationPosition(pDb, selectedElems.front());
+            if (position.isValid())
+            {
+                const bool canMoveUp = position.index > 0;
+                const bool canMoveDown = position.index + 1 < position.count;
+
+                QMenu* pReorderMenu = menu.addMenu(tr("Reorder"));
+
+                QAction* pMoveToTop = pReorderMenu->addAction(tr("Move To Top"));
+                pMoveToTop->setEnabled(canMoveUp);
+                this->connect(pMoveToTop, SIGNAL(triggered()), this, SLOT(onContextMenu_MoveModificationToTop()));
+
+                QAction* pMoveToBottom = pReorderMenu->addAction(tr("Move To Bottom"));
+                pMoveToBottom->setEnabled(canMoveDown);
+                this->connect(pMoveToBottom, SIGNAL(triggered()), this, SLOT(onContextMenu_MoveModificationToBottom()));
+
+                QAction* pMoveUp = pReorderMenu->addAction(tr("Move Up"));
+                pMoveUp->setEnabled(canMoveUp);
+                this->connect(pMoveUp, SIGNAL(triggered()), this, SLOT(onContextMenu_MoveModificationUp()));
+
+                QAction* pMoveDown = pReorderMenu->addAction(tr("Move Down"));
+                pMoveDown->setEnabled(canMoveDown);
+                this->connect(pMoveDown, SIGNAL(triggered()), this, SLOT(onContextMenu_MoveModificationDown()));
+            }
         }
 
         // 删除

@@ -78,6 +78,8 @@ public:
     // 获取实体修改
     const std::vector<wydb::ElementId>& getModifications() const { return _modifications; }
 
+    wy::ErrorStatus setModifications(const std::vector<wydb::ElementId>& modifications);
+
     // 获取新生成的面
     const TopoNameList& getNewFaces() const { return _newFaces; }
     // 获取新生成的面在Solid面中的索引

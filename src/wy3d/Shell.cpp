@@ -377,6 +377,7 @@ wy::ErrorStatus Shell::readFromFiler(wydb::InFiler& f)
 
 std::pair<bool, TopoDS_Shape> Shell::modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
+    wy3d::reportChainUpdateSuccess(feedbackCollector, this->getId());
     assert(pTopoNaming);
     wydb::Database* pDb = this->getDatabase(); assert(pDb);
     wydb::Transaction* pTrans = pDb->getTransactionManager()->getActiveTransaction(); assert(pTrans); assert(!pTrans->isGroup());

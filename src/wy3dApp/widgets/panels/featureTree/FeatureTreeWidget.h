@@ -119,6 +119,11 @@ private slots:
     void onContextMenu_CancelBoolean();
     // 上下文菜单:显示错误信息
     void onContextMenu_ShowErrorInfo();
+    // 上下文菜单:实体修改上移/下移/置顶/置底
+    void onContextMenu_MoveModificationUp();
+    void onContextMenu_MoveModificationDown();
+    void onContextMenu_MoveModificationToTop();
+    void onContextMenu_MoveModificationToBottom();
 
     // 树节点折叠与展开
     void onCollapsed(const QModelIndex& index);
@@ -166,6 +171,17 @@ private:
 
     // 重排序
     void reorderDirtyOwnerItems(const wydb::Database* pDb, const std::set<wydb::ElementId>& dirtyOwnerIds);
+
+    // 实体修改的移动目标
+    enum class MoveModificationTarget
+    {
+        Up = 0,
+        Down,
+        Top,
+        Bottom,
+    };
+    // 移动当前选中的实体修改
+    void moveSelectedModification(MoveModificationTarget target);
 
 private:
     // ICON

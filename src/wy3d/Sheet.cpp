@@ -156,6 +156,25 @@ wy::ErrorStatus Sheet::addModification(wy3d::BodyModification* pModification)
     }
 }
 
+wy::ErrorStatus Sheet::setModifications(const std::vector<wydb::ElementId>& modifications)
+{
+    if (modifications.size() != _modifications.size()
+        || !std::is_permutation(modifications.cbegin(), modifications.cend(), _modifications.cbegin()))
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+
+    const bool isOrderChanged = modifications != _modifications;
+    const wy::ErrorStatus error = this->_setModifications(modifications);
+    if (wy::ErrorStatus::Ok == error && isOrderChanged)
+    {
+        // Extra signal for the feature tree: the modification order changed.
+        this->markDataPieceDirty(wydb::ElementDataPiece::create(
+            this->getId(), wydb::ElementDataPieceType::UserDefinedExt5, wydb::TypedValue()));
+    }
+    return error;
+}
+
 wy::ErrorStatus Sheet::_setModifications(const std::vector<wydb::ElementId>& modifications)
 {
     if (modifications == _modifications)
