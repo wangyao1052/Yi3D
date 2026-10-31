@@ -250,6 +250,7 @@ static inline gp_Dir _toDir(const wy::Vector3& dir)
 
 std::pair<bool, TopoDS_Shape> Draft::modifyOwnerShape(const TopoDS_Shape& shape, TopoNaming* pTopoNaming, wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
+    wy3d::reportChainUpdateSuccess(feedbackCollector, this->getId());
     assert(pTopoNaming);
 
     wydb::Database* pDb = this->getDatabase();

@@ -345,6 +345,7 @@ std::pair<bool, TopoDS_Shape> OffsetSheet::modifyOwnerShape(
     TopoNaming* pTopoNaming,
     wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
+    wy3d::reportChainUpdateSuccess(feedbackCollector, this->getId());
     assert(pTopoNaming);
     this->clearNewFaces();
 

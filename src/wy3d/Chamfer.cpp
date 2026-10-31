@@ -598,6 +598,7 @@ std::pair<bool, TopoDS_Shape> Chamfer::modifyOwnerShape(
     TopoNaming* pTopoNaming,
     wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
+    wy3d::reportChainUpdateSuccess(feedbackCollector, this->getId());
     assert(pTopoNaming);
 
     wydb::Database* pDb = this->getDatabase();

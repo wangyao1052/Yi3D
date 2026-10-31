@@ -16,6 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <algorithm>
 #include <gp_Quaternion.hxx>
 #include <BRepAlgoAPI_Cut.hxx>
 #include <BRepAlgoAPI_Fuse.hxx>
@@ -252,6 +253,25 @@ wy::ErrorStatus Solid::addModification(wy3d::Solid* pCutSolid)
     {
         return error;
     }
+}
+
+wy::ErrorStatus Solid::setModifications(const std::vector<wydb::ElementId>& modifications)
+{
+    if (modifications.size() != _modifications.size()
+        || !std::is_permutation(modifications.cbegin(), modifications.cend(), _modifications.cbegin()))
+    {
+        return wy::ErrorStatus::InvalidInput;
+    }
+
+    const bool isOrderChanged = modifications != _modifications;
+    const wy::ErrorStatus error = this->_setModifications(modifications);
+    if (wy::ErrorStatus::Ok == error && isOrderChanged)
+    {
+        // Extra signal for the feature tree: the modification order changed.
+        this->markDataPieceDirty(wydb::ElementDataPiece::create(
+            this->getId(), wydb::ElementDataPieceType::UserDefinedExt5, wydb::TypedValue()));
+    }
+    return error;
 }
 
 wy::ErrorStatus Solid::_setModifications(const std::vector<wydb::ElementId>& modifications)
@@ -567,6 +587,7 @@ std::pair<bool, TopoDS_Shape> Solid::modifyOwnerShape(
     TopoNaming* pTopoNaming,
     wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
+    wy3d::reportChainUpdateSuccess(feedbackCollector, this->getId());
     assert(pTopoNaming);
 
     wydb::Database* pDb = this->getDatabase();

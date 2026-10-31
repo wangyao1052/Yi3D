@@ -225,6 +225,7 @@ std::pair<bool, TopoDS_Shape> BodyModification::modifyOwnerShapeByInstance(
     bool isCut,
     wydb::ChainUpdateFeedbackCollector& feedbackCollector)
 {
+    wy3d::reportChainUpdateSuccess(feedbackCollector, this->getId());
     assert(!shape.IsNull());
     assert(pTopoNaming);
     assert(!instShape.IsNull());

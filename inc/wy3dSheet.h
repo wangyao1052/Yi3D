@@ -51,6 +51,7 @@ public:
     wy::ErrorStatus setColor(const wy3d::Color& color);
 
     wy::ErrorStatus addModification(wy3d::BodyModification* pModification);
+    wy::ErrorStatus setModifications(const std::vector<wydb::ElementId>& modifications);
     const std::vector<wydb::ElementId>& getModifications() const { return _modifications; }
 
 public:
