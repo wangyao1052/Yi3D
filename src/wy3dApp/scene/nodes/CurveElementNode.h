@@ -42,10 +42,6 @@ protected:
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
-    virtual void highlightImpl(bool flag) override;
-    virtual void previewImpl(bool flag) override;
-    virtual void setActiveImpl(bool flag) override {}
-
     // 计算是否Active
     virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override;
 

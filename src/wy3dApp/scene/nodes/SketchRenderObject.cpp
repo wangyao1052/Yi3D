@@ -61,18 +61,18 @@ void SketchRenderObject::build()
     if (_points->getGeometry()) _node->addChild(_points->getContentRoot());
 }
 
-void SketchRenderObject::setElementHighlight(bool flag)
+void SketchRenderObject::setHighlighted(bool flag)
 {
-    if (_curves) _curves->setElementHighlight(flag);
-    if (_centerLines) _centerLines->setElementHighlight(flag);
-    if (_points) _points->setElementHighlight(flag);
+    if (_curves) _curves->setHighlighted(flag);
+    if (_centerLines) _centerLines->setHighlighted(flag);
+    if (_points) _points->setHighlighted(flag);
 }
 
-void SketchRenderObject::setElementPreview(bool flag)
+void SketchRenderObject::setPreviewed(bool flag)
 {
-    if (_curves) _curves->setElementPreview(flag);
-    if (_centerLines) _centerLines->setElementPreview(flag);
-    if (_points) _points->setElementPreview(flag);
+    if (_curves) _curves->setPreviewed(flag);
+    if (_centerLines) _centerLines->setPreviewed(flag);
+    if (_points) _points->setPreviewed(flag);
 }
 
 void SketchRenderObject::highlightCurveByIndex(unsigned int curveIndex, bool flag)

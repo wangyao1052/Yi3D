@@ -572,30 +572,6 @@ bool SheetElementNode::generateMeshData(TopoDS_Shape& shape, MeshRenderData& dat
     return true;
 }
 
-void SheetElementNode::highlightImpl(bool flag)
-{
-    this->updateColorAndTransparent();
-}
-
-void SheetElementNode::previewImpl(bool flag)
-{
-    if (this->isHighlighted())
-    {
-        assert(false);
-        return;
-    }
-
-    if (MeshRenderObject* obj = this->renderObject())
-    {
-        obj->setPreview(flag);
-    }
-}
-
-void SheetElementNode::setActiveImpl(bool flag)
-{
-    this->updateColorAndTransparent();
-}
-
 bool SheetElementNode::updateApperance(wydb::Database* pDb)
 {
     if (!ElementNode::updateApperance(pDb))

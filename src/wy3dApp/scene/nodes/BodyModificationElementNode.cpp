@@ -280,38 +280,6 @@ std::unique_ptr<RenderData> BodyModificationElementNode::generateRenderData(
     }
 }
 
-void BodyModificationElementNode::highlightImpl(bool flag)
-{
-    this->updateColorAndTransparent();
-}
-
-void BodyModificationElementNode::previewImpl(bool flag)
-{
-    if (this->isHighlighted())
-    {
-        assert(false);
-        return;
-    }
-
-    if (BodyModificationRenderObject* obj = this->renderObject())
-    {
-        obj->setPreview(flag);
-    }
-}
-
-void BodyModificationElementNode::setActiveImpl(bool flag)
-{
-    this->updateColorAndTransparent();
-}
-
-void BodyModificationElementNode::updateColorAndTransparent()
-{
-    if (BodyModificationRenderObject* obj = this->renderObject())
-    {
-        obj->applyAppearance(this->isActive(), this->isHighlighted());
-    }
-}
-
 bool BodyModificationElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
 {
     // always return true

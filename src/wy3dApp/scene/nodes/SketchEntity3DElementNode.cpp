@@ -128,25 +128,4 @@ std::unique_ptr<RenderData> SketchEntity3DElementNode::generateRenderData(
     }
 }
 
-void SketchEntity3DElementNode::highlightImpl(bool flag)
-{
-    if (LineRenderObject* obj = this->renderObject())
-    {
-        obj->setElementHighlight(flag);
-    }
-}
-
-void SketchEntity3DElementNode::previewImpl(bool flag)
-{
-    if (this->isHighlighted())
-    {
-        assert(false);
-        return;
-    }
-    if (LineRenderObject* obj = this->renderObject())
-    {
-        obj->setElementPreview(flag);
-    }
-}
-
 } // namespace wy3dApp

@@ -32,9 +32,6 @@ public:
     // 是否由 ElementNode 基类根据顶点数据自动计算包围盒
     bool autoComputeBoundingBox = true;
 
-    // 是否已经生成过渲染对象:首次生成(新建)不需要刷新高亮,之后的调用(重生)需要
-    bool renderObjectGenerated = false;
-
     ElementNodeImpl(const ElementNodeImpl&) = delete;
     ElementNodeImpl& operator=(const ElementNodeImpl&) = delete;
     ElementNodeImpl(ElementNodeImpl&&) = delete;

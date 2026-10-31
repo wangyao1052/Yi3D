@@ -42,6 +42,12 @@ public:
     // 内容根
     osg::Group* getContentRoot() const { return _node.get(); }
 
+    // 元素级显示状态, 由 ElementNode 的状态机调用; 派生类按需重写
+    // (active: 是否激活; highlighted: 是否高亮; previewed: 是否预览)
+    virtual void setActive(bool flag) {}
+    virtual void setHighlighted(bool flag) {}
+    virtual void setPreviewed(bool flag) {}
+
     // 清空全部内容
     virtual void clear();
 

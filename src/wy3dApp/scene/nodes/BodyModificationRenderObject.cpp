@@ -79,20 +79,32 @@ void BodyModificationRenderObject::build()
     _node->addChild(_edgeNode);
 }
 
-void BodyModificationRenderObject::applyAppearance(bool active, bool highlighted)
+void BodyModificationRenderObject::setActive(bool flag)
+{
+    _active = flag;
+    this->applyAppearance();
+}
+
+void BodyModificationRenderObject::setHighlighted(bool flag)
+{
+    _highlighted = flag;
+    this->applyAppearance();
+}
+
+void BodyModificationRenderObject::applyAppearance()
 {
     if (!_edgeNode)
     {
         return;
     }
 
-    const osg::Vec4 color = active
-        ? (highlighted ? _style.highlightColor : _style.edgeColor)
-        : (highlighted ? _style.inactiveColor : _style.edgeColor);
+    const osg::Vec4 color = _active
+        ? (_highlighted ? _style.highlightColor : _style.edgeColor)
+        : (_highlighted ? _style.inactiveColor : _style.edgeColor);
     OsgUtils::setNodeColor(_edgeNode, color);
 
     // 高亮时关闭深度测试使边线始终可见
-    if (active && highlighted)
+    if (_active && _highlighted)
     {
         _edgeNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
         _edgeNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
@@ -103,13 +115,13 @@ void BodyModificationRenderObject::applyAppearance(bool active, bool highlighted
         _edgeNode->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
     }
 
-    if (highlighted) // 显示
+    if (_highlighted) // 显示
         _edgeNode->setNodeMask(~ElementNodeType::All);
     else // 隐藏
         _edgeNode->setNodeMask(0);
 }
 
-void BodyModificationRenderObject::setPreview(bool flag)
+void BodyModificationRenderObject::setPreviewed(bool flag)
 {
     if (!_edgeNode)
     {

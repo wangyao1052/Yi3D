@@ -57,8 +57,8 @@ public:
 
     void build();
 
-    void setHighlighted(bool flag);
-    void setPreviewed(bool flag);
+    void setHighlighted(bool flag) override;
+    void setPreviewed(bool flag) override;
 
     // 顶点被原地修改后刷新包围球
     void dirtyGeometryBound();

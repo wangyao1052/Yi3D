@@ -58,15 +58,22 @@ public:
 
     void build();
 
-    void applyAppearance(bool active, bool highlighted);
-    void setPreview(bool flag);
+    // 元素级显示状态
+    void setActive(bool flag) override;
+    void setHighlighted(bool flag) override;
+    void setPreviewed(bool flag) override;
 
 private:
+    // 按 _active/_highlighted 更新显示效果
+    void applyAppearance();
+
     wydb::ElementId _id;
     ElementNodeType _nodeType;
     LineRenderData* _data;
     osg::Matrix _hostMatrix;
     BodyModificationRenderStyle _style;
+    bool _active = true;
+    bool _highlighted = false;
 
     osg::ref_ptr<osg::MatrixTransform> _edgeNode;
     osg::ref_ptr<osg::Geometry> _edgeGeom;

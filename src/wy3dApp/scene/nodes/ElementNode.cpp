@@ -101,10 +101,6 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
 {
     assert(pScene);
 
-    // 第一次生成(新建元素)不刷新高亮;之后的调用(重生)需要刷新
-    const bool isRegeneration = _pImpl->renderObjectGenerated;
-    _pImpl->renderObjectGenerated = true;
-
     // 清空渲染对象
     _osgNode->removeChildren(0, _osgNode->getNumChildren());
     // 清空渲染对象(必须先于渲染数据销毁:渲染对象借用数据中的数组)
@@ -164,10 +160,13 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
     }
     // }
 
-    // 重生时几何重新生成,需要重新应用高亮并清理可能残留的预览态
-    if (isRegeneration)
+    // 几何重新生成后,把当前显示状态同步到新渲染对象,并清理可能残留的预览态
+    // (FixBug:Gizmo拖拽布尔运算结果体松开鼠标后没有高亮显示)
+    _osgNode->setNodeMask(_osgNode->getNodeMask() & (~NodeMask::Preview));
+    if (_renderObject)
     {
-        this->highlight(this->isHighlighted(), true); // 强制刷新显示效果(FixBug:Gizmo拖拽布尔运算结果体松开鼠标后没有高亮显示)
+        _renderObject->setActive(this->isActive());
+        _renderObject->setHighlighted(this->isHighlighted());
     }
 
     // 后处理
@@ -187,14 +186,11 @@ void ElementNode::recomputeNodeMask()
     this->updateVisibleNodeMask();
 }
 
-void ElementNode::highlight(bool flag, bool forced)
+void ElementNode::highlight(bool flag)
 {
-    if (!forced)
+    if (this->isHighlighted() == flag)
     {
-        if (this->isHighlighted() == flag)
-        {
-            return;
-        }
+        return;
     }
 
     // 取消预览:控制次高位为0
@@ -213,7 +209,10 @@ void ElementNode::highlight(bool flag, bool forced)
         this->removeStatus(Status::Highlighted);
     }
 
-    this->highlightImpl(flag);
+    if (_renderObject)
+    {
+        _renderObject->setHighlighted(flag);
+    }
 }
 
 void ElementNode::preview(bool flag)
@@ -235,7 +234,10 @@ void ElementNode::preview(bool flag)
         _osgNode->setNodeMask(_osgNode->getNodeMask() & (~NodeMask::Preview));
     }
 
-    this->previewImpl(flag);
+    if (_renderObject)
+    {
+        _renderObject->setPreviewed(flag);
+    }
 }
 
 void ElementNode::setActive(bool flag)
@@ -251,7 +253,10 @@ void ElementNode::setActive(bool flag)
         this->addStatus(Status::Inactive);
 
     this->updateVisibleNodeMask();
-    this->setActiveImpl(flag);
+    if (_renderObject)
+    {
+        _renderObject->setActive(flag);
+    }
 }
 
 void ElementNode::hide(bool flag)

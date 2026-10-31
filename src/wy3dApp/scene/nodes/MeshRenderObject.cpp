@@ -94,12 +94,18 @@ void MeshRenderObject::build(const MeshRenderStyle& style, bool initialNoBatchFa
         _node->addChild(_edgeNode);
     }
 
-    this->applyAppearance(_style);
+    this->applyAppearance();
 }
 
 void MeshRenderObject::applyAppearance(const MeshRenderStyle& style)
 {
     _style = style;
+    this->applyAppearance();
+}
+
+void MeshRenderObject::applyAppearance()
+{
+    const MeshRenderStyle& style = _style;
 
     // 面
     if (_shapeNode)
@@ -186,7 +192,19 @@ void MeshRenderObject::applyAppearance(const MeshRenderStyle& style)
     }
 }
 
-void MeshRenderObject::setPreview(bool flag)
+void MeshRenderObject::setActive(bool flag)
+{
+    _style.active = flag;
+    this->applyAppearance();
+}
+
+void MeshRenderObject::setHighlighted(bool flag)
+{
+    _style.highlighted = flag;
+    this->applyAppearance();
+}
+
+void MeshRenderObject::setPreviewed(bool flag)
 {
     // 面
     if (_shapeNode)

@@ -54,14 +54,14 @@ void CurveRenderObject::build()
     _node->addChild(_line->getContentRoot());
 }
 
-void CurveRenderObject::setElementHighlight(bool flag)
+void CurveRenderObject::setHighlighted(bool flag)
 {
-    if (_line) _line->setElementHighlight(flag);
+    if (_line) _line->setHighlighted(flag);
 }
 
-void CurveRenderObject::setElementPreview(bool flag)
+void CurveRenderObject::setPreviewed(bool flag)
 {
-    if (_line) _line->setElementPreview(flag);
+    if (_line) _line->setPreviewed(flag);
 }
 
 void CurveRenderObject::highlightCurveByIndex(unsigned int curveIndex, bool flag)

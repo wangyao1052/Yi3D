@@ -278,28 +278,6 @@ std::unique_ptr<RenderData> SketchElementNode::generateRenderData(
     }
 }
 
-void SketchElementNode::highlightImpl(bool flag)
-{
-    if (SketchRenderObject* obj = this->renderObject())
-    {
-        obj->setElementHighlight(flag);
-    }
-}
-
-void SketchElementNode::previewImpl(bool flag)
-{
-    if (this->isHighlighted())
-    {
-        assert(false);
-        return;
-    }
-
-    if (SketchRenderObject* obj = this->renderObject())
-    {
-        obj->setElementPreview(flag);
-    }
-}
-
 bool SketchElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
 {
     assert(pCurElem);

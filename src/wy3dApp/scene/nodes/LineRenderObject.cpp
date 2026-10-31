@@ -175,12 +175,12 @@ void LineRenderObject::build()
     _node->addChild(_geom);
 }
 
-void LineRenderObject::setElementHighlight(bool flag)
+void LineRenderObject::setHighlighted(bool flag)
 {
     this->applyElementState(flag, _style.highlightColor);
 }
 
-void LineRenderObject::setElementPreview(bool flag)
+void LineRenderObject::setPreviewed(bool flag)
 {
     this->applyElementState(flag, _style.previewColor);
 }

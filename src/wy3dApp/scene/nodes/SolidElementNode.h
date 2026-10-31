@@ -125,9 +125,6 @@ protected:
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
-    virtual void highlightImpl(bool flag) override;
-    virtual void previewImpl(bool flag) override;
-    virtual void setActiveImpl(bool flag) override;
     virtual bool updateApperance(wydb::Database* pDb) override;
     void updateColorAndTransparent();
 

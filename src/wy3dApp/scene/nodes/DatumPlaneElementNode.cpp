@@ -300,20 +300,4 @@ std::unique_ptr<RenderData> DatumPlaneElementNode::generateRenderData(
     }
 }
 
-void DatumPlaneElementNode::highlightImpl(bool flag)
-{
-    if (DatumPlaneRenderObject* obj = this->renderObject())
-    {
-        obj->setHighlighted(flag);
-    }
-}
-
-void DatumPlaneElementNode::previewImpl(bool flag)
-{
-    if (DatumPlaneRenderObject* obj = this->renderObject())
-    {
-        obj->setPreviewed(flag);
-    }
-}
-
 } // namespace wy3dApp

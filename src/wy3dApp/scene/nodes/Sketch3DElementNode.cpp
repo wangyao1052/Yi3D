@@ -179,28 +179,6 @@ std::unique_ptr<RenderData> Sketch3DElementNode::generateRenderData(
     }
 }
 
-void Sketch3DElementNode::highlightImpl(bool flag)
-{
-    if (CurveRenderObject* obj = this->renderObject())
-    {
-        obj->setElementHighlight(flag);
-    }
-}
-
-void Sketch3DElementNode::previewImpl(bool flag)
-{
-    if (this->isHighlighted())
-    {
-        assert(false);
-        return;
-    }
-
-    if (CurveRenderObject* obj = this->renderObject())
-    {
-        obj->setElementPreview(flag);
-    }
-}
-
 bool Sketch3DElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
 {
     assert(pCurElem);

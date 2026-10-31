@@ -92,7 +92,7 @@ public:
 
 public:
     // 高亮
-    void highlight(bool flag, bool forced = false);
+    void highlight(bool flag);
     // 预览
     void preview(bool flag);
 
@@ -203,11 +203,6 @@ protected:
         assert(!_renderObject || dynamic_cast<T*>(_renderObject.get()));
         return static_cast<T*>(_renderObject.get());
     }
-
-protected:
-    virtual void highlightImpl(bool flag) {}
-    virtual void previewImpl(bool flag) {}
-    virtual void setActiveImpl(bool flag) {}
 
 private:
     inline void updateVisibleNodeMask()

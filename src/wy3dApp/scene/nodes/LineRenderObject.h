@@ -93,8 +93,8 @@ public:
     void build();
 
     // 元素级高亮/预览
-    void setElementHighlight(bool flag);
-    void setElementPreview(bool flag);
+    void setHighlighted(bool flag) override;
+    void setPreviewed(bool flag) override;
 
     osg::Geometry* getGeometry() const { return _geom.get(); }
 

@@ -48,8 +48,8 @@ public:
     void build();
 
     // 元素级高亮/预览
-    void setElementHighlight(bool flag);
-    void setElementPreview(bool flag);
+    void setHighlighted(bool flag) override;
+    void setPreviewed(bool flag) override;
 
     // 主曲线高亮/预览
     void highlightCurveByIndex(unsigned int curveIndex, bool flag);

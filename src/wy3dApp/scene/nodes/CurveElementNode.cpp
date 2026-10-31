@@ -207,28 +207,6 @@ std::unique_ptr<RenderData> CurveElementNode::generateRenderData(
     }
 }
 
-void CurveElementNode::highlightImpl(bool flag)
-{
-    if (LineRenderObject* obj = this->renderObject())
-    {
-        obj->setElementHighlight(flag);
-    }
-}
-
-void CurveElementNode::previewImpl(bool flag)
-{
-    if (this->isHighlighted())
-    {
-        assert(false);
-        return;
-    }
-
-    if (LineRenderObject* obj = this->renderObject())
-    {
-        obj->setElementPreview(flag);
-    }
-}
-
 bool CurveElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
 {
     assert(pCurElem);

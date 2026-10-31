@@ -76,6 +76,11 @@ public:
     // 更新显示效果(颜色/透明/深度/渲染排序)
     void applyAppearance(const MeshRenderStyle& style);
 
+    // 元素级显示状态
+    void setActive(bool flag) override;
+    void setHighlighted(bool flag) override;
+    void setPreviewed(bool flag) override;
+
     bool isNoBatchFace() const { return _noBatchFace; }
 
     // 线框模式
@@ -85,9 +90,6 @@ public:
     // 边是否可见
     void setEdgesVisible(bool flag);
     bool isEdgesVisible() const { return _showEdges; }
-
-    // 预览(元素级)
-    void setPreview(bool flag);
 
     // 面高亮/预览
     void highlightFace(unsigned int faceIndex, bool flag);
@@ -102,6 +104,9 @@ public:
     void clearDynamicRenderGeometry() override;
 
 private:
+    // 按 _style 更新显示效果
+    void applyAppearance();
+
     // 生成面几何
     osg::ref_ptr<osg::Geometry> generateShapeGeom(bool batch) const;
     // 生成边几何

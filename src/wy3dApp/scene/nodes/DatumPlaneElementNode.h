@@ -47,10 +47,6 @@ protected:
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
-    virtual void highlightImpl(bool flag) override;
-    virtual void previewImpl(bool flag) override;
-    virtual void setActiveImpl(bool flag) override {}
-
 private:
     MeshRenderData* renderData() const { return this->getRenderDataAs<MeshRenderData>(); }
     DatumPlaneRenderObject* renderObject() const;
