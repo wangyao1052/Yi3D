@@ -537,7 +537,7 @@ osg::BoundingSphere SceneImpl::getFitViewBoundingSphere() const
         if (parents.empty() || _pElemsRoot.get() != parents.front()) continue;
 
         // hidden or inactive
-        if (0 == (pElemNode->getOsgNode()->getNodeMask() & ElementNode::Visible)) continue;
+        if (!pElemNode->isVisible()) continue;
 
         const osg::BoundingBox& elemBox = pElemNode->getBoundingBox();
         if (elemBox.valid()) bbox.expandBy(elemBox);

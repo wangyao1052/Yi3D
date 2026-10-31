@@ -58,16 +58,16 @@ MakeText::~MakeText()
         pActiveScene->removeTransient(_pat);
     }
 
-    // 恢复隐藏节点的显示
-    for (const wydb::ElementId& id : _ids)
+    // 恢复被隐藏节点的掩码
+    for (const auto& kvp : _savedNodeMasks)
     {
-        ElementNode* pElemNode = pActiveScene->getElementNode(id);
-        if (!pElemNode)
+        ElementNode* pElemNode = pActiveScene->getElementNode(kvp.first);
+        if (!pElemNode || !pElemNode->getOsgNode())
         {
             assert(false);
             continue;
         }
-        pElemNode->recomputeNodeMask();
+        pElemNode->getOsgNode()->setNodeMask(kvp.second);
     }
 }
 
@@ -139,7 +139,8 @@ void MakeText::initCopyNodes()
         copy->setNodeMask(~ElementNodeType::All); // 不可PICK
         _pat->addChild(copy);
 
-        // 暂时隐藏元素节点
+        // 暂时隐藏元素节点,记录原掩码以便恢复
+        _savedNodeMasks[id] = pElemOsgRoot->getNodeMask();
         pElemOsgRoot->setNodeMask(0);
     }
 }

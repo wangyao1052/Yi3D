@@ -68,7 +68,9 @@ protected:
     std::unique_ptr<GizmoRenderer> _pRenderer;
 };
 
-#define PICK_GIZMO_MASK 0x0000FFFF
+// 与 ElementNodeType::All 保持一致(低 24 位为类型/可拾取区);
+// ghost 等仅渲染几何使用其补集 ~PICK_GIZMO_MASK(高 8 位),因此不可被拾取.
+#define PICK_GIZMO_MASK 0x00FFFFFF
 
 } // namespace wy3dApp
 

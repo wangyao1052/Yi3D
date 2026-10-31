@@ -33,6 +33,33 @@
 
 namespace wy3dApp {
 
+namespace {
+
+// 元素节点掩码:低 24 位为类型/可拾取区,高 8 位为仅渲染区
+constexpr unsigned int kVisibleNodeMask = static_cast<unsigned int>(ElementNodeType::All);
+constexpr unsigned int kRenderOnlyNodeMask = 0x80000000u;
+
+// 按状态推导元素节点掩码
+void updateVisibleNodeMask(ElementNode& node)
+{
+    if (node.isVisible())
+    {
+        // 正常可见:可渲染,可拾取
+        node.getOsgNode()->setNodeMask(kVisibleNodeMask);
+    }
+    else if (node.isHighlighted() || node.isPreviewed())
+    {
+        // 隐藏/未激活,但处于高亮或预览:只渲染,不可拾取
+        node.getOsgNode()->setNodeMask(kRenderOnlyNodeMask);
+    }
+    else
+    {
+        node.getOsgNode()->setNodeMask(0);
+    }
+}
+
+} // namespace
+
 RenderData::RenderData() = default;
 RenderData::~RenderData() = default;
 
@@ -40,7 +67,7 @@ ElementNode::ElementNode(const wydb::ElementId& id)
     : _id(id), _status(0), _pImpl(std::make_unique<ElementNodeImpl>())
 {
     _osgNode = new osg::Group();
-    _osgNode->setNodeMask(NodeMask::Visible);
+    updateVisibleNodeMask(*this);
 }
 
 ElementNode::~ElementNode() = default;
@@ -160,9 +187,10 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
     }
     // }
 
-    // 几何重新生成后,把当前显示状态同步到新渲染对象,并清理可能残留的预览态
+    // 几何重新生成后清除临时预览态,并把当前显示状态同步到新渲染对象
     // (FixBug:Gizmo拖拽布尔运算结果体松开鼠标后没有高亮显示)
-    _osgNode->setNodeMask(_osgNode->getNodeMask() & (~NodeMask::Preview));
+    this->removeStatus(Status::Previewed);
+    updateVisibleNodeMask(*this);
     if (_renderObject)
     {
         _renderObject->setActive(this->isActive());
@@ -175,17 +203,6 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
     return true;
 }
 
-void ElementNode::recomputeNodeMask()
-{
-    unsigned int nodeMask(0);
-    if (this->isHighlighted())
-    {
-        nodeMask |= NodeMask::Highlight;
-    }
-    _osgNode->setNodeMask(nodeMask);
-    this->updateVisibleNodeMask();
-}
-
 void ElementNode::highlight(bool flag)
 {
     if (this->isHighlighted() == flag)
@@ -193,21 +210,18 @@ void ElementNode::highlight(bool flag)
         return;
     }
 
-    // 取消预览:控制次高位为0
-    _osgNode->setNodeMask(_osgNode->getNodeMask() & (~NodeMask::Preview));
-
     if (flag)
     {
-        // 高亮:控制最高位为1
-        _osgNode->setNodeMask(_osgNode->getNodeMask() | NodeMask::Highlight);
         this->addStatus(Status::Highlighted);
+        // 高亮优先于预览
+        this->removeStatus(Status::Previewed);
     }
     else
     {
-        // 取消高亮:控制最高位为0
-        _osgNode->setNodeMask(_osgNode->getNodeMask() & (~NodeMask::Highlight));
         this->removeStatus(Status::Highlighted);
     }
+
+    updateVisibleNodeMask(*this);
 
     if (_renderObject)
     {
@@ -217,7 +231,7 @@ void ElementNode::highlight(bool flag)
 
 void ElementNode::preview(bool flag)
 {
-    // 预览态是临时态(没有变量记录是否在该状态下),不能影响当前的高亮态.
+    // 预览态是临时交互态,高亮优先
     if (this->isHighlighted())
     {
         return;
@@ -225,14 +239,14 @@ void ElementNode::preview(bool flag)
 
     if (flag)
     {
-        // 预览:控制次高位为1
-        _osgNode->setNodeMask(_osgNode->getNodeMask() | NodeMask::Preview);
+        this->addStatus(Status::Previewed);
     }
     else
     {
-        // 取消预览:控制次高位为0
-        _osgNode->setNodeMask(_osgNode->getNodeMask() & (~NodeMask::Preview));
+        this->removeStatus(Status::Previewed);
     }
+
+    updateVisibleNodeMask(*this);
 
     if (_renderObject)
     {
@@ -252,7 +266,7 @@ void ElementNode::setActive(bool flag)
     else
         this->addStatus(Status::Inactive);
 
-    this->updateVisibleNodeMask();
+    updateVisibleNodeMask(*this);
     if (_renderObject)
     {
         _renderObject->setActive(flag);
@@ -271,7 +285,7 @@ void ElementNode::hide(bool flag)
     else
         this->removeStatus(Status::Hidden);
 
-    this->updateVisibleNodeMask();
+    updateVisibleNodeMask(*this);
 }
 
 wyap::Selection ElementNode::createSelection(

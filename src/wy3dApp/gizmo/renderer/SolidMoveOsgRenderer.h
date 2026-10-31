@@ -75,6 +75,10 @@ private:
     wy::Vector3 _gizmoStartPos;   // 拖拽开始时 gizmo 节点位置
     wy::Vector3 _dragStartPnt;    // 拖拽起始点（轴上最近点）
     osg::ref_ptr<osg::PositionAttitudeTransform> _ghostPat;
+
+    // 拖拽开始前的元素节点掩码(拖拽期间原节点被隐藏,结束时写回)
+    unsigned int _elemNodeMaskBeforeDrag = 0;
+    bool _elemNodeMaskSaved = false;
 };
 
 } // namespace wy3dApp
