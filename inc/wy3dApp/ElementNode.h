@@ -110,20 +110,20 @@ public:
 protected:
     // 清空动态渲染对象(NoBatch渲染结束时调用);默认委托给 RenderObject
     virtual void clearDynamicRenderGeometry();
-
-    // 更新显示效果
-    virtual bool updateApperance(wydb::Database* pDb);
      
-    // 更新渲染对象(生成渲染数据、OSG对象及显示状态)
-    bool updateRenderObject(Scene* pScene, wydb::Database* pDb);
+    bool regenerate(Scene* pScene, wydb::Database* pDb);
 
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene,
-        const wydb::Element* pElement);
+        const wydb::Element* pElement) = 0;
 
-    virtual std::unique_ptr<RenderObject> createRenderObject(
+    virtual osg::BoundingBox computeBoundingBox(const RenderData* pRenderData) const;
+
+    virtual std::unique_ptr<RenderObject> generateRenderObject(
         Scene* pScene,
-        const wydb::Element* pElem);
+        const wydb::Element* pElem) = 0;
+
+    virtual bool updateAppearance(wydb::Database* pDb);
 
     template <typename T>
     T* getRenderDataAs() const

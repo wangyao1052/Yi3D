@@ -39,7 +39,7 @@ SketchEntity3DElementNode::SketchEntity3DElementNode(const wydb::ElementId& id) 
 {
 }
 
-std::unique_ptr<RenderObject> SketchEntity3DElementNode::createRenderObject(
+std::unique_ptr<RenderObject> SketchEntity3DElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     (void)pScene;

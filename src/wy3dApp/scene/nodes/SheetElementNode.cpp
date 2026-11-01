@@ -93,7 +93,7 @@ static osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc)
     );
 }
 
-std::unique_ptr<RenderObject> SheetElementNode::createRenderObject(
+std::unique_ptr<RenderObject> SheetElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     assert(pScene);
@@ -567,9 +567,9 @@ bool SheetElementNode::generateMeshData(TopoDS_Shape& shape, MeshRenderData& dat
     return true;
 }
 
-bool SheetElementNode::updateApperance(wydb::Database* pDb)
+bool SheetElementNode::updateAppearance(wydb::Database* pDb)
 {
-    if (!ElementNode::updateApperance(pDb))
+    if (!ElementNode::updateAppearance(pDb))
     {
         assert(false);
         return false;
@@ -581,7 +581,6 @@ bool SheetElementNode::updateApperance(wydb::Database* pDb)
     {
         return false;
     }
-
     const wy3d::Color& sheetColor = pSheet->getColor();
     constexpr float inv255 = 1.0f / 255.0f;
     _sheetFaceColor.set(

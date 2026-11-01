@@ -52,7 +52,7 @@ public:
     void previewCurveById(unsigned int id, bool flag);
 
 protected:
-    virtual std::unique_ptr<RenderObject> createRenderObject(
+    virtual std::unique_ptr<RenderObject> generateRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;

@@ -204,7 +204,7 @@ void DatumPlaneElementNode::updateVisualSize(const wydb::Database* pDb, const os
     }
 }
 
-std::unique_ptr<RenderObject> DatumPlaneElementNode::createRenderObject(
+std::unique_ptr<RenderObject> DatumPlaneElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     (void)pScene;

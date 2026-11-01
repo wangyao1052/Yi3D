@@ -112,12 +112,12 @@ public:
     bool isEdgesVisible() const;
 
 protected:
-    virtual std::unique_ptr<RenderObject> createRenderObject(
+    virtual std::unique_ptr<RenderObject> generateRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
-    virtual bool updateApperance(wydb::Database* pDb) override;
+    virtual bool updateAppearance(wydb::Database* pDb) override;
     void updateColorAndTransparent();
 
     virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override

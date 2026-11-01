@@ -66,7 +66,7 @@
 
 namespace wy3dApp {
 
-std::unique_ptr<RenderObject> CurveElementNode::createRenderObject(
+std::unique_ptr<RenderObject> CurveElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     (void)pScene;

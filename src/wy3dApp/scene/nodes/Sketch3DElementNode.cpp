@@ -38,7 +38,7 @@
 
 namespace wy3dApp {
 
-std::unique_ptr<RenderObject> Sketch3DElementNode::createRenderObject(
+std::unique_ptr<RenderObject> Sketch3DElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     (void)pScene;

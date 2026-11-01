@@ -44,8 +44,15 @@ namespace wy3dApp {
 BodyModificationElementNode::BodyModificationElementNode(const wydb::ElementId& id)
     : ElementNode(id)
 {
-    // 该节点的包围盒始终为空(不进入 RTree/fit view/框选),不参与基类的自动计算
-    _pImpl->autoComputeBoundingBox = false;
+}
+
+osg::BoundingBox BodyModificationElementNode::computeBoundingBox(const RenderData* pRenderData) const
+{
+    (void)pRenderData;
+
+    // 该节点借用宿主的顶点数组,且没有独立可拾取几何;包围盒保持为空,
+    // 使其不进入 RTree/fit view/框选.
+    return osg::BoundingBox();
 }
 
 wyap::Selection BodyModificationElementNode::createSelectionFromPick(
@@ -129,7 +136,7 @@ bool findHostMatrix(const ElementNode* pHostNode, osg::Matrix& matrix)
 
 } // namespace
 
-std::unique_ptr<RenderObject> BodyModificationElementNode::createRenderObject(
+std::unique_ptr<RenderObject> BodyModificationElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     assert(pScene);
@@ -140,9 +147,6 @@ std::unique_ptr<RenderObject> BodyModificationElementNode::createRenderObject(
         assert(false);
         return nullptr;
     }
-
-    // 设置包围盒始终为空
-    _boundBox = osg::BoundingBox();
 
     BodyModificationRenderStyle style;
     style.edgeColor = Colors::kSolidEdge;

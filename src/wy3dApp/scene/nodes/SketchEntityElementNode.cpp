@@ -75,7 +75,7 @@ SketchEntityElementNode::SketchEntityElementNode(const wydb::ElementId& id) : El
 {
 }
 
-std::unique_ptr<RenderObject> SketchEntityElementNode::createRenderObject(
+std::unique_ptr<RenderObject> SketchEntityElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     (void)pScene;

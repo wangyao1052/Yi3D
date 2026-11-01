@@ -106,7 +106,7 @@ osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc)
     );
 }
 
-std::unique_ptr<RenderObject> SolidElementNode::createRenderObject(
+std::unique_ptr<RenderObject> SolidElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     assert(pScene);
@@ -609,9 +609,9 @@ bool SolidElementNode::generateMeshData(TopoDS_Shape& shape, MeshRenderData& dat
     return true;
 }
 
-bool SolidElementNode::updateApperance(wydb::Database* pDb)
+bool SolidElementNode::updateAppearance(wydb::Database* pDb)
 {
-    if (!ElementNode::updateApperance(pDb))
+    if (!ElementNode::updateAppearance(pDb))
     {
         assert(false);
         return false;

@@ -54,22 +54,18 @@ void removeStatus(unsigned int& status, Status s)
     status &= ~static_cast<unsigned int>(s);
 }
 
-// 元素节点掩码:低 24 位为类型/可拾取区,高 8 位为仅渲染区
 constexpr unsigned int kVisibleNodeMask = static_cast<unsigned int>(ElementNodeType::All);
 constexpr unsigned int kRenderOnlyNodeMask = 0x80000000u;
 
-// 按状态推导元素节点掩码
 void updateVisibleNodeMask(ElementNode& node)
 {
     if (node.isActive() && !node.isHidden())
     {
-        // 正常可见:可渲染,可拾取
-        node.getOsgNode()->setNodeMask(kVisibleNodeMask);
+        node.getOsgNode()->setNodeMask(kVisibleNodeMask); // 渲染+可拾取
     }
     else if (node.isHighlighted() || node.isPreviewed())
     {
-        // 隐藏/未激活,但处于高亮或预览:只渲染,不可拾取
-        node.getOsgNode()->setNodeMask(kRenderOnlyNodeMask);
+        node.getOsgNode()->setNodeMask(kRenderOnlyNodeMask); // 仅渲染
     }
     else
     {
@@ -111,20 +107,6 @@ ElementNode::ElementNode(const wydb::ElementId& id)
 
 ElementNode::~ElementNode() = default;
 
-std::unique_ptr<RenderData> ElementNode::generateRenderData(Scene* pScene, const wydb::Element* pElement)
-{
-    (void)pScene;
-    (void)pElement;
-    return nullptr;
-}
-
-std::unique_ptr<RenderObject> ElementNode::createRenderObject(Scene* pScene, const wydb::Element* pElement)
-{
-    (void)pScene;
-    (void)pElement;
-    return nullptr;
-}
-
 void ElementNode::clearDynamicRenderGeometry()
 {
     if (_renderObject)
@@ -133,37 +115,7 @@ void ElementNode::clearDynamicRenderGeometry()
     }
 }
 
-bool ElementNode::updateApperance(wydb::Database* pDb)
-{
-    // 获取对应元素
-    assert(pDb);
-    const wydb::Element* pElem = pDb->getElement(_id);
-    if (!pElem)
-    {
-        assert(false);
-        return false;
-    }
-
-    // 特征
-    const wy3d::Feature* pFeature = wy3d::Feature::cast(pElem);
-    if (pFeature)
-    {
-        this->activate(this->computeWhetherActive(pElem));
-
-        if (pFeature->isHidden())
-        {
-            this->hide(true);
-        }
-        else
-        {
-            this->hide(false);
-        }
-    }
-
-    return true;
-}
-
-bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
+bool ElementNode::regenerate(Scene* pScene, wydb::Database* pDb)
 {
     assert(pScene);
 
@@ -187,29 +139,24 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
         return true;
     }
 
-    _renderObject = this->createRenderObject(pScene, pElem);
+    _boundBox = this->computeBoundingBox(_renderData.get());
+
+    _renderObject = this->generateRenderObject(pScene, pElem);
     if (_renderObject)
     {
         _osgNode->addChild(_renderObject->getContentRoot());
     }
-
-    // 自动计算包围盒(局部坐标),再按模型矩阵变换到世界坐标
-    if (_pImpl->autoComputeBoundingBox)
+    else
     {
-        if (_renderData && _renderData->vertices)
-        {
-            _boundBox = ElementBounds::compute(*_renderData->vertices);
-            ElementBounds::transform(_boundBox, _renderData->matrix);
-        }
+        _boundBox = osg::BoundingBox();
     }
 
-    // 布尔体的成员默认不显示
     this->activate(this->computeWhetherActive(pElem));
 
     // added by wangyao 2025.06.04 {
     // FixBug:新建模型;隐藏某些特征;保存;再打开;隐藏的特征在模型树上是灰显的,但在场景中依然可见;
     // 在生成渲染对象时需要设置显示和隐藏状态
-    // 感觉可以和上一语句的activate合并起来就可以只调用updateApperance;稳妥起见还是先按照最小化改动的方式来修改后续再仔细斟酌
+    // 感觉可以和上一语句的activate合并起来就可以只调用updateAppearance;稳妥起见还是先按照最小化改动的方式来修改后续再仔细斟酌
     if (pElem->isHidden())
     {
         this->hide(true);
@@ -233,6 +180,43 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
     return true;
 }
 
+osg::BoundingBox ElementNode::computeBoundingBox(const RenderData* pRenderData) const
+{
+    if (!pRenderData || !pRenderData->vertices)
+    {
+        return osg::BoundingBox();
+    }
+
+    osg::BoundingBox bbox = ElementBounds::compute(*pRenderData->vertices);
+    ElementBounds::transform(bbox, pRenderData->matrix);
+    return bbox;
+}
+
+bool ElementNode::updateAppearance(wydb::Database* pDb)
+{
+    if (!pDb)
+    {
+        assert(false);
+        return false;
+    }
+
+    const wydb::Element* pElem = pDb->getElement(_id);
+    if (!pElem)
+    {
+        assert(false);
+        return false;
+    }
+
+    const wy3d::Feature* pFeature = wy3d::Feature::cast(pElem);
+    if (pFeature)
+    {
+        this->activate(this->computeWhetherActive(pElem));
+        this->hide(pFeature->isHidden());
+    }
+
+    return true;
+}
+
 void ElementNode::highlight(bool flag)
 {
     if (this->isHighlighted() == flag)
@@ -243,8 +227,7 @@ void ElementNode::highlight(bool flag)
     if (flag)
     {
         addStatus(_status, Status::Highlighted);
-        // 高亮优先于预览
-        removeStatus(_status, Status::Previewed);
+        removeStatus(_status, Status::Previewed); // 高亮优先于预览
     }
     else
     {
@@ -261,20 +244,13 @@ void ElementNode::highlight(bool flag)
 
 void ElementNode::preview(bool flag)
 {
-    // 预览态是临时交互态,高亮优先
-    if (this->isHighlighted())
+    if (this->isHighlighted()) // 预览态是临时交互态,高亮优先
     {
         return;
     }
 
-    if (flag)
-    {
-        addStatus(_status, Status::Previewed);
-    }
-    else
-    {
-        removeStatus(_status, Status::Previewed);
-    }
+    if (flag) addStatus(_status, Status::Previewed);
+    else removeStatus(_status, Status::Previewed);
 
     updateVisibleNodeMask(*this);
 
@@ -291,10 +267,8 @@ void ElementNode::activate(bool flag)
         return;
     }
 
-    if (flag)
-        removeStatus(_status, Status::Inactive);
-    else
-        addStatus(_status, Status::Inactive);
+    if (flag) removeStatus(_status, Status::Inactive);
+    else addStatus(_status, Status::Inactive);
 
     updateVisibleNodeMask(*this);
     if (_renderObject)
@@ -310,10 +284,8 @@ void ElementNode::hide(bool flag)
         return;
     }
 
-    if (flag)
-        addStatus(_status, Status::Hidden);
-    else
-        removeStatus(_status, Status::Hidden);
+    if (flag) addStatus(_status, Status::Hidden);
+    else removeStatus(_status, Status::Hidden);
 
     updateVisibleNodeMask(*this);
 }

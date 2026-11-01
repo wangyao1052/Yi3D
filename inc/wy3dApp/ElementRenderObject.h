@@ -26,10 +26,6 @@
 
 namespace wy3dApp {
 
-// 元素渲染对象基类.
-// 插件节点可派生该类, 把自己的 OSG 内容挂到 getContentRoot() 下,
-// 并通过重写 ElementNode::createRenderObject() 返回.
-// 生命周期由 ElementNode 管理; 内容根由 ElementNode 挂到稳定的 _osgNode 下.
 class WY3DAPP_EXPORT RenderObject
 {
 public:
@@ -42,8 +38,6 @@ public:
     // 内容根
     osg::Group* getContentRoot() const { return _node.get(); }
 
-    // 元素级显示状态, 由 ElementNode 的状态机调用; 派生类按需重写
-    // (active: 是否激活; highlighted: 是否高亮; previewed: 是否预览)
     virtual void setActive(bool flag) {}
     virtual void setHighlighted(bool flag) {}
     virtual void setPreviewed(bool flag) {}

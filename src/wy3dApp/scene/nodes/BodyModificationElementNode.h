@@ -45,8 +45,11 @@ public:
         wy3d::SelectionType selType) const override;
 
 protected:
-    // 创建渲染对象
-    virtual std::unique_ptr<RenderObject> createRenderObject(
+    // 包围盒始终为空(不进入 RTree/fit view/框选)
+    virtual osg::BoundingBox computeBoundingBox(const RenderData* pRenderData) const override;
+
+    // 生成渲染对象
+    virtual std::unique_ptr<RenderObject> generateRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
     // 生成渲染数据
     virtual std::unique_ptr<RenderData> generateRenderData(
