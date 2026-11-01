@@ -74,7 +74,16 @@ public:
         const MeshRenderData* data = this->renderData();
         return data ? data->lineIndices : nullptr;
     }
-    const osg::Matrix& getMatrix() const { return _matrix; }
+    osg::ref_ptr<osg::Vec3Array> getVertices() const
+    {
+        const MeshRenderData* data = this->renderData();
+        return data ? data->vertices : nullptr;
+    }
+    osg::Matrix getMatrix() const
+    {
+        const MeshRenderData* data = this->renderData();
+        return data ? data->matrix : osg::Matrix::identity();
+    }
     void setSolidFaceColor(const osg::Vec4& color) { _solidFaceColor = color; }
     const osg::Vec4& getSolidFaceColor() const { return _solidFaceColor; }
 
@@ -87,7 +96,7 @@ public:
     unsigned int getEdgeIndex(unsigned int primitiveIndex) const;
 
     // 由拾取结果创建选择对象
-    virtual wyap::Selection createSelection(
+    virtual wyap::Selection createSelectionFromPick(
         osg::Drawable* pDrawable,
         unsigned int primitiveIndex,
         wy3d::SelectionType selType) const override;
@@ -114,13 +123,9 @@ public:
     bool isEdgesVisible() const;
 
 protected:
-    // 本地坐标到世界坐标的变换矩阵
-    osg::Matrix getModelMatrix() const override { return _matrix; }
-
     // 创建渲染对象
     virtual std::unique_ptr<RenderObject> createRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
-    virtual void generateRenderObjectFinished(const wydb::Element* pElem) override;
     // 生成渲染数据
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
@@ -170,17 +175,6 @@ private:
 
     // 标志信息
     unsigned int _flags;
-
-    //---------------------------------
-    // 变换矩阵
-    // 实体拓扑形体TopoDS_Shape中存储了变换矩阵的信息(TopoDS_Shape::Location())
-    // 渲染数据是基于TopoDS_Shape中变换矩阵为单位矩阵生成的
-    // TopoDS_Shape shape = pSolid->getShape();
-    // shape.Location(loc, Standard_False);
-    // return this->generateMeshData(shape);
-    // 对应TopoDS_Shape::Location
-    //---------------------------------
-    osg::Matrix _matrix;
 };
 
 } // namespace wy3dApp

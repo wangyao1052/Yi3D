@@ -39,12 +39,10 @@ namespace wy3dApp {
 
 MeshRenderObject::MeshRenderObject(const wydb::ElementId& id,
     ElementNodeType nodeType,
-    MeshRenderData& data,
-    const osg::Matrix& matrix)
+    MeshRenderData& data)
     : _id(id),
     _nodeType(nodeType),
-    _data(&data),
-    _matrix(matrix)
+    _data(&data)
 {
     assert(_data);
 }
@@ -77,7 +75,7 @@ void MeshRenderObject::build(const MeshRenderStyle& style, bool initialNoBatchFa
             _nobatchShapeGeom = this->generateShapeGeom(false);
         }
 
-        _shapeNode = new osg::MatrixTransform(_matrix);
+        _shapeNode = new osg::MatrixTransform(_data->matrix);
         if (_shapeGeom) _shapeNode->addChild(_shapeGeom);
         if (_nobatchShapeGeom) _shapeNode->addChild(_nobatchShapeGeom);
         _node->addChild(_shapeNode);
@@ -87,7 +85,7 @@ void MeshRenderObject::build(const MeshRenderStyle& style, bool initialNoBatchFa
     if (_data->lineIndices && !_data->lineIndices->empty())
     {
         _edgeGeom = this->generateEdgeGeom();
-        _edgeNode = new osg::MatrixTransform(_matrix);
+        _edgeNode = new osg::MatrixTransform(_data->matrix);
         _edgeWrap = new osg::Group;
         if (_edgeGeom) _edgeWrap->addChild(_edgeGeom);
         _edgeNode->addChild(_edgeWrap);

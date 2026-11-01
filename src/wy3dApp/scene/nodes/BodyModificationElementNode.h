@@ -39,7 +39,7 @@ public:
     virtual ElementNodeType getNodeType() const override { return ElementNodeType::BodyModification; }
 
     // 由拾取结果创建选择对象:该节点没有可拾取几何,不应走到这里
-    virtual wyap::Selection createSelection(
+    virtual wyap::Selection createSelectionFromPick(
         osg::Drawable* pDrawable,
         unsigned int primitiveIndex,
         wy3d::SelectionType selType) const override;

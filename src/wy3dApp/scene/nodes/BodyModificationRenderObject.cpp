@@ -35,12 +35,10 @@ namespace wy3dApp {
 BodyModificationRenderObject::BodyModificationRenderObject(const wydb::ElementId& id,
     ElementNodeType nodeType,
     LineRenderData& data,
-    const osg::Matrix& hostMatrix,
     const BodyModificationRenderStyle& style)
     : _id(id),
     _nodeType(nodeType),
     _data(&data),
-    _hostMatrix(hostMatrix),
     _style(style)
 {
     assert(_data);
@@ -73,7 +71,7 @@ void BodyModificationRenderObject::build()
     _edgeGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
     _edgeGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(2.0));
 
-    _edgeNode = new osg::MatrixTransform(_hostMatrix);
+    _edgeNode = new osg::MatrixTransform(_data->matrix);
     _edgeNode->addChild(_edgeGeom);
     _edgeNode->setNodeMask(0); // 默认不显示只在高亮和预览的时候显示
     _node->addChild(_edgeNode);

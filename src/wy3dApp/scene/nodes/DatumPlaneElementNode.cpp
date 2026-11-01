@@ -179,7 +179,8 @@ void DatumPlaneElementNode::updateVisualSize(const wydb::Database* pDb, const os
     _max.set(uMax, vMax);
 
     // 更新顶点坐标
-    osg::ref_ptr<osg::Vec3Array> vertices = this->getVertices();
+    const auto* pData = this->renderData();
+    osg::ref_ptr<osg::Vec3Array> vertices = pData ? pData->vertices : nullptr;
     if (vertices && vertices->size() == 4)
     {
         (*vertices)[0] = MathUtils::toVec3(plane.value(uMin, vMin));

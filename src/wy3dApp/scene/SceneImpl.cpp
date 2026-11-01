@@ -537,7 +537,7 @@ osg::BoundingSphere SceneImpl::getFitViewBoundingSphere() const
         if (parents.empty() || _pElemsRoot.get() != parents.front()) continue;
 
         // hidden or inactive
-        if (!pElemNode->isVisible()) continue;
+        if (!pElemNode->isActive() || pElemNode->isHidden()) continue;
 
         const osg::BoundingBox& elemBox = pElemNode->getBoundingBox();
         if (elemBox.valid()) bbox.expandBy(elemBox);
@@ -1440,25 +1440,25 @@ void SceneImpl::onSnapResultChanged(
     }
 }
 
-std::list<wydb::ElementId> SceneImpl::pickByNormalBox(osg::Polytope& polytope, unsigned int allowedElemTypes) const
+std::list<wydb::ElementId> SceneImpl::selectByWindow(osg::Polytope& polytope, unsigned int allowedElemTypes) const
 {
-    return this->pickByBoxImpl(polytope, false, allowedElemTypes);
+    return this->selectByBoxImpl(polytope, false, allowedElemTypes);
 }
 
-std::list<wydb::ElementId> SceneImpl::pickByCrossBox(osg::Polytope& polytope, unsigned int allowedElemTypes) const
+std::list<wydb::ElementId> SceneImpl::selectByCrossing(osg::Polytope& polytope, unsigned int allowedElemTypes) const
 {
-    return this->pickByBoxImpl(polytope, true, allowedElemTypes);
+    return this->selectByBoxImpl(polytope, true, allowedElemTypes);
 }
 
-std::list<wydb::ElementId> SceneImpl::pickByBoxImpl(osg::Polytope& polytope, bool isCross, unsigned int allowedElemTypes) const
+std::list<wydb::ElementId> SceneImpl::selectByBoxImpl(osg::Polytope& polytope, bool crossing, unsigned int allowedElemTypes) const
 {
     // RTree初筛
     std::set<unsigned int> rtreeSelectIds;
-    _rtree.BoxSelect(polytope, isCross, [&rtreeSelectIds](const unsigned int& idValue) {
+    _rtree.BoxSelect(polytope, crossing, [&rtreeSelectIds](const unsigned int& idValue) {
         rtreeSelectIds.insert(idValue);
         return true;
         });
-    _rtreeDatum.BoxSelect(polytope, isCross, [&rtreeSelectIds](const unsigned int& idValue) {
+    _rtreeDatum.BoxSelect(polytope, crossing, [&rtreeSelectIds](const unsigned int& idValue) {
         rtreeSelectIds.insert(idValue);
         return true;
         });
@@ -1476,16 +1476,16 @@ std::list<wydb::ElementId> SceneImpl::pickByBoxImpl(osg::Polytope& polytope, boo
         bool canPick = pElemNode->getNodeType() & allowedElemTypes;
         if (!canPick) continue;
 
-        if (isCross)
+        if (crossing)
         {
-            if (pElemNode->pickByCrossBox(polytope))
+            if (pElemNode->selectByCrossing(polytope))
             {
                 pickedIds.emplace_back(pElemNode->getElementId());
             }
         }
         else
         {
-            if (pElemNode->pickByNormalBox(polytope))
+            if (pElemNode->selectByWindow(polytope))
             {
                 pickedIds.emplace_back(pElemNode->getElementId());
             }

@@ -48,7 +48,7 @@ BodyModificationElementNode::BodyModificationElementNode(const wydb::ElementId& 
     _pImpl->autoComputeBoundingBox = false;
 }
 
-wyap::Selection BodyModificationElementNode::createSelection(
+wyap::Selection BodyModificationElementNode::createSelectionFromPick(
     osg::Drawable* pDrawable,
     unsigned int primitiveIndex,
     wy3d::SelectionType selType) const
@@ -141,13 +141,6 @@ std::unique_ptr<RenderObject> BodyModificationElementNode::createRenderObject(
         return nullptr;
     }
 
-    osg::Matrix hostMatrix;
-    if (!findHostMatrix(pScene->getElementNode(findHostId(pElem)), hostMatrix))
-    {
-        assert(false);
-        return nullptr;
-    }
-
     // 设置包围盒始终为空
     _boundBox = osg::BoundingBox();
 
@@ -158,7 +151,7 @@ std::unique_ptr<RenderObject> BodyModificationElementNode::createRenderObject(
     style.inactiveColor = Colors::kTransparent;
 
     auto renderObject = std::make_unique<BodyModificationRenderObject>(
-        pElem->getId(), this->getNodeType(), *data, hostMatrix, style);
+        pElem->getId(), this->getNodeType(), *data, style);
     renderObject->build();
     return renderObject;
 }
@@ -210,6 +203,14 @@ std::unique_ptr<RenderData> BodyModificationElementNode::generateRenderData(
             assert(false);
             return nullptr;
         }
+        // 修改边与宿主共用同一模型变换
+        osg::Matrix hostMatrix;
+        if (!findHostMatrix(pScene->getElementNode(ownerId), hostMatrix))
+        {
+            assert(false);
+            return nullptr;
+        }
+        data->matrix = hostMatrix;
         // 宿主当前可能没有形体(例如布尔结果暂时为空),此时不生成修改边
         data->vertices = hostData.vertices;
         if (!data->vertices || !hostData.lineIndices ||

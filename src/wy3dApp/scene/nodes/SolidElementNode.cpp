@@ -132,10 +132,10 @@ std::unique_ptr<RenderObject> SolidElementNode::createRenderObject(
 
     // 获取移动旋转矩阵
     TopoDS_Shape shape = pSolid->getShape();
-    _matrix = convertTopLocToOsgMatrix(shape.Location());
+    data->matrix = convertTopLocToOsgMatrix(shape.Location());
 
     auto renderObject = std::make_unique<MeshRenderObject>(
-        pElem->getId(), this->getNodeType(), *data, _matrix);
+        pElem->getId(), this->getNodeType(), *data);
     renderObject->build(this->makeStyle(), this->hasFlag(Flag::NoBatchFace));
 
     // 同步显示模式
@@ -169,11 +169,6 @@ MeshRenderStyle SolidElementNode::makeStyle() const
     style.edgeHighlightOverlayColor = Colors::kEdge_Highlight;
     style.edgePreviewOverlayColor = Colors::kEdge_Preview;
     return style;
-}
-
-void SolidElementNode::generateRenderObjectFinished(const wydb::Element* pElem)
-{
-    this->updateColorAndTransparent();
 }
 
 void SolidElementNode::setWireframe(bool flag)
@@ -688,7 +683,7 @@ unsigned int SolidElementNode::getEdgeIndex(unsigned int primitiveIndex) const
     return static_cast<unsigned int>(-1); // 没有找到
 }
 
-wyap::Selection SolidElementNode::createSelection(
+wyap::Selection SolidElementNode::createSelectionFromPick(
     osg::Drawable* pDrawable,
     unsigned int primitiveIndex,
     wy3d::SelectionType selType) const

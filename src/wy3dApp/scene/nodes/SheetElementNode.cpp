@@ -115,10 +115,10 @@ std::unique_ptr<RenderObject> SheetElementNode::createRenderObject(
     assert(!data->edgeInfos.empty());
 
     TopoDS_Shape shape = pSheet->getShape();
-    _matrix = convertTopLocToOsgMatrix(shape.Location());
+    data->matrix = convertTopLocToOsgMatrix(shape.Location());
 
     auto renderObject = std::make_unique<MeshRenderObject>(
-        pElem->getId(), this->getNodeType(), *data, _matrix);
+        pElem->getId(), this->getNodeType(), *data);
     renderObject->build(this->makeStyle(), this->hasFlag(Flag::NoBatchFace));
 
     // 同步显示模式
@@ -152,11 +152,6 @@ MeshRenderStyle SheetElementNode::makeStyle() const
     style.edgeHighlightOverlayColor = Colors::kEdge_Highlight;
     style.edgePreviewOverlayColor = Colors::kEdge_Preview;
     return style;
-}
-
-void SheetElementNode::generateRenderObjectFinished(const wydb::Element* pElem)
-{
-    this->updateColorAndTransparent();
 }
 
 void SheetElementNode::setWireframe(bool flag)
@@ -646,7 +641,7 @@ unsigned int SheetElementNode::getEdgeIndex(unsigned int primitiveIndex) const
     return static_cast<unsigned int>(-1);
 }
 
-wyap::Selection SheetElementNode::createSelection(
+wyap::Selection SheetElementNode::createSelectionFromPick(
     osg::Drawable* pDrawable,
     unsigned int primitiveIndex,
     wy3d::SelectionType selType) const

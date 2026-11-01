@@ -127,7 +127,7 @@ wyap::SelectionSet OsgSelectHandler::boxPick_window(
     // 窗口框选
     SceneImpl* pScene = ApplicationImpl::instance().getActiveSceneImpl();
     std::list<wydb::ElementId> pickedIdsList;
-    pickedIdsList = pScene->pickByNormalBox(polytope, _allowedElemTypes == 0 ? ElementNodeType::All : _allowedElemTypes);
+    pickedIdsList = pScene->selectByWindow(polytope, _allowedElemTypes == 0 ? ElementNodeType::All : _allowedElemTypes);
 
     wyap::SelectionSet ss;
     for (const wydb::ElementId& id : pickedIdsList)

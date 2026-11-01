@@ -125,8 +125,8 @@ public:
     void initViewCube(osgViewer::View* pView);
     ViewCube* getViewCubeNode() const { return _pViewCube.get(); }
 
-    std::list<wydb::ElementId> pickByNormalBox(osg::Polytope& polytope, unsigned int allowedElemTypes) const;
-    std::list<wydb::ElementId> pickByCrossBox(osg::Polytope& polytope, unsigned int allowedElemTypes) const;
+    std::list<wydb::ElementId> selectByWindow(osg::Polytope& polytope, unsigned int allowedElemTypes) const;
+    std::list<wydb::ElementId> selectByCrossing(osg::Polytope& polytope, unsigned int allowedElemTypes) const;
     wyap::GizmoSPtr pickGizmo(osg::Polytope& polytope) const;
 
     void updateDatumVisualSize(const wydb::Database* pDb);
@@ -201,7 +201,7 @@ private:
     void addToRTree(const ElementNode* pElemNode);
     void removeFromRTree(const ElementNode* pElemNode);
 
-    std::list<wydb::ElementId> pickByBoxImpl(osg::Polytope& polytope, bool isCross, unsigned int allowedElemTypes) const;
+    std::list<wydb::ElementId> selectByBoxImpl(osg::Polytope& polytope, bool crossing, unsigned int allowedElemTypes) const;
 
     void enterSketchEnvironment(SketchEnvironment* pSketchEnv);
     void exitSketchEnvironment(

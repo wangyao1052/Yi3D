@@ -320,7 +320,7 @@ unsigned int SketchElementNode::getCenterLineCurveId(unsigned int primitiveIndex
     return 0;
 }
 
-wyap::Selection SketchElementNode::createSelection(
+wyap::Selection SketchElementNode::createSelectionFromPick(
     osg::Drawable* pDrawable,
     unsigned int primitiveIndex,
     wy3d::SelectionType selType) const
