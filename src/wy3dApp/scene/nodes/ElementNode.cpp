@@ -167,13 +167,9 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
 {
     assert(pScene);
 
-    // 清空渲染对象
     _osgNode->removeChildren(0, _osgNode->getNumChildren());
-    // 清空渲染对象(必须先于渲染数据销毁:渲染对象借用数据中的数组)
     _renderObject.reset();
-    // 清空渲染数据
     _renderData.reset();
-    // 重置包围盒
     _boundBox.init();
 
     // 获取对应元素
@@ -185,14 +181,12 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
         return false;
     }
 
-    // 生成渲染数据；实现内部保证不抛异常
     _renderData = this->generateRenderData(pScene, pElem);
-    if (!_renderData) // 元素没有形体或生成失败
+    if (!_renderData)
     {
         return true;
     }
 
-    // 根据渲染数据创建渲染对象
     _renderObject = this->createRenderObject(pScene, pElem);
     if (_renderObject)
     {
@@ -235,9 +229,6 @@ bool ElementNode::updateRenderObject(Scene* pScene, wydb::Database* pDb)
         _renderObject->setActive(this->isActive());
         _renderObject->setHighlighted(this->isHighlighted());
     }
-
-    // 后处理
-    this->generateRenderObjectFinished(pElem);
 
     return true;
 }

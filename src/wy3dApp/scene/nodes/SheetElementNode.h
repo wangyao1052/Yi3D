@@ -114,7 +114,6 @@ public:
 protected:
     virtual std::unique_ptr<RenderObject> createRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
-    virtual void generateRenderObjectFinished(const wydb::Element* pElem) override;
     virtual std::unique_ptr<RenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 

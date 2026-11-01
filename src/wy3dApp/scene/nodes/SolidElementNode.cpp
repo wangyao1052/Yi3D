@@ -171,11 +171,6 @@ MeshRenderStyle SolidElementNode::makeStyle() const
     return style;
 }
 
-void SolidElementNode::generateRenderObjectFinished(const wydb::Element* pElem)
-{
-    this->updateColorAndTransparent();
-}
-
 void SolidElementNode::setWireframe(bool flag)
 {
     if (MeshRenderObject* obj = this->renderObject())

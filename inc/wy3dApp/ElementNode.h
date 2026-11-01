@@ -125,8 +125,6 @@ protected:
         Scene* pScene,
         const wydb::Element* pElem);
 
-    virtual void generateRenderObjectFinished(const wydb::Element* pElem) {}
-
     template <typename T>
     T* getRenderDataAs() const
     {
