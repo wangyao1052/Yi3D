@@ -571,14 +571,12 @@ void FilledSheetGuiCmd::activateConstraintSketches()
 void FilledSheetGuiCmd::releaseConstraintSketches()
 {
     Scene* pScene = ApplicationImpl::instance().getActiveScene();
-    const wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
-    if (pScene && pDb)
+    if (pScene)
     {
         for (const wydb::ElementId& sketchId : _activatedConstraintSketchIds)
         {
-            ElementNode* pElemNode = pScene->getElementNode(sketchId);
-            const wydb::Element* pElem = pDb->getElement(sketchId);
-            if (pElemNode && pElem) pElemNode->activate(pElemNode->computeWhetherActive(pElem));
+            // 按当前模型关系重新推导 Active 状态并刷新外观
+            pScene->updateElementAppearance(sketchId);
         }
     }
     _activatedConstraintSketchIds.clear();

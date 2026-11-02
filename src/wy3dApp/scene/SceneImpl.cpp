@@ -566,6 +566,24 @@ ElementNode* SceneImpl::getElementNode(const wydb::ElementId& id) const
     return iter->second;
 }
 
+bool SceneImpl::updateElementAppearance(const wydb::ElementId& id)
+{
+    ElementNode* pElemNode = this->getElementNode(id);
+    if (!pElemNode)
+    {
+        return false;
+    }
+
+    wyap::Document* pDoc = this->getDocument();
+    wydb::Database* pDb = pDoc ? pDoc->getDatabase() : nullptr;
+    if (!pDb)
+    {
+        return false;
+    }
+
+    return pElemNode->updateAppearance(pDb);
+}
+
 bool SceneImpl::addElementNode(
     const wydb::ElementId& id, const ElementNodeCreateContext& context)
 {

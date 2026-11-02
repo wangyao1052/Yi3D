@@ -71,6 +71,9 @@ public:
     // 获取元素节点
     virtual ElementNode* getElementNode(const wydb::ElementId& id) const = 0;
 
+    // 按数据库状态刷新元素外观（Active/Hidden/NodeMask/RenderObject）
+    virtual bool updateElementAppearance(const wydb::ElementId& id) = 0;
+
     // 显示模式
     virtual DisplayMode getDisplayMode() const = 0;
     virtual void setDisplayMode(DisplayMode mode) = 0;

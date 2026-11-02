@@ -112,6 +112,7 @@ public:
     }
 
     ElementNode* getElementNode(const wydb::ElementId& id) const override;
+    bool updateElementAppearance(const wydb::ElementId& id) override;
 
     DisplayMode getDisplayMode() const override { return _displayMode; }
     void setDisplayMode(DisplayMode mode) override;

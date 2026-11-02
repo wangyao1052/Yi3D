@@ -85,9 +85,6 @@ public:
     void activate(bool flag);
     void hide(bool flag);
 
-    // 计算是否Active
-    virtual bool computeWhetherActive(const wydb::Element* pCurElem) const { return true; }
-
     // 获取Osg节点
     osg::Group* getOsgNode() const { return _osgNode.get(); }
 
@@ -111,6 +108,8 @@ protected:
 
     bool updateAppearance(wydb::Database* pDb);
 
+    virtual bool computeWhetherActive(const wydb::Element* pCurElem) const { return true; }
+
     template <typename T>
     T* getRenderDataAs() const
     {
@@ -130,8 +129,8 @@ protected:
     std::unique_ptr<ElementNodeImpl> _pImpl;
 
     std::unique_ptr<ElementRenderData> _renderData;
-    osg::BoundingBox _boundBox;
     std::unique_ptr<ElementRenderObject> _renderObject;
+    osg::BoundingBox _boundBox;
     osg::ref_ptr<osg::Group> _osgNode;
 
     friend class SceneImpl;
