@@ -48,7 +48,7 @@ protected:
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
 private:
-    MeshRenderData* renderData() const { return this->getRenderDataAs<MeshRenderData>(); }
+    MeshRenderData* renderData() const { return dynamic_cast<MeshRenderData*>(_renderData.get()); }
     DatumPlaneRenderObject* renderObject() const;
 
     //---------------------------------

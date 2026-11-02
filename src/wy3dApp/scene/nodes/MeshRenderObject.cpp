@@ -111,6 +111,12 @@ void MeshRenderObject::setEdgesVisible(bool flag)
     }
 }
 
+void MeshRenderObject::setDisplayMode(DisplayMode mode)
+{
+    this->setWireframe(mode == DisplayMode::Wireframe);
+    this->setEdgesVisible(mode != DisplayMode::Shaded);
+}
+
 void MeshRenderObject::highlightFace(unsigned int faceIndex, bool flag)
 {
     if (!_data || faceIndex >= _data->faceInfos.size())
@@ -225,7 +231,7 @@ void MeshRenderObject::previewEdge(unsigned int edgeIndex, bool flag)
     }
 }
 
-void MeshRenderObject::clearDynamicRenderGeometry()
+void MeshRenderObject::clearTransientGeometry()
 {
     this->endNoBatchRender_Face();
     if (_edgeGeomHighlight)

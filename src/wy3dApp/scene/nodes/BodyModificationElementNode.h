@@ -58,7 +58,7 @@ protected:
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
 private:
-    LineRenderData* renderData() const { return this->getRenderDataAs<LineRenderData>(); }
+    LineRenderData* renderData() const { return dynamic_cast<LineRenderData*>(_renderData.get()); }
     BodyModificationRenderObject* renderObject() const;
 };
 

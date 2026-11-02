@@ -19,7 +19,9 @@
 #ifndef WY3DAPP_MESH_RENDER_OBJECT_H
 #define WY3DAPP_MESH_RENDER_OBJECT_H
 
+#include <osg/Geometry>
 #include <osg/Matrix>
+#include <osg/MatrixTransform>
 #include <osg/Vec4>
 
 #include <wydbElementId.h>
@@ -29,16 +31,8 @@
 #include "scene/Colors.h"
 #include "scene/nodes/ElementRenderDataTypes.h"
 
-namespace osg
-{
-    class Geometry;
-    class MatrixTransform;
-}
-
 namespace wy3dApp {
 
-// 实体/片体共用的网格渲染对象基类，负责几何生成与交互几何；
-// 外观状态机由 SolidMeshRenderObject / SheetMeshRenderObject 各自实现
 class MeshRenderObject : public ElementRenderObject
 {
 public:
@@ -47,13 +41,8 @@ public:
     // 构建面/边几何
     void build();
 
-    // 线框模式
-    void setWireframe(bool flag);
-    bool isWireframe() const { return _wireframe; }
-
-    // 边是否可见
-    void setEdgesVisible(bool flag);
-    bool isEdgesVisible() const { return _showEdges; }
+    // 显示模式
+    void setDisplayMode(DisplayMode mode) override;
 
     // 面高亮/预览
     void highlightFace(unsigned int faceIndex, bool flag);
@@ -64,8 +53,8 @@ public:
     void highlightEdge(unsigned int edgeIndex, bool flag);
     void previewEdge(unsigned int edgeIndex, bool flag);
 
-    // 清空动态渲染对象(NoBatch渲染结束时调用)
-    void clearDynamicRenderGeometry() override;
+    // 清空临时渲染几何(NoBatch渲染结束时调用)
+    void clearTransientGeometry() override;
 
     // 外观状态机由子类实现
     void updateAppearance(
@@ -107,6 +96,14 @@ private:
     void endNoBatchRender_Face();
     // 设置面的颜色
     bool setFaceColor(unsigned int faceIndex, const osg::Vec4& color);
+
+    // 线框模式
+    void setWireframe(bool flag);
+    bool isWireframe() const { return _wireframe; }
+
+    // 边是否可见
+    void setEdgesVisible(bool flag);
+    bool isEdgesVisible() const { return _showEdges; }
 
 private:
     wydb::ElementId _id;

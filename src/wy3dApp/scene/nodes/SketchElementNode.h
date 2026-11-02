@@ -72,7 +72,7 @@ protected:
     void previewCenterLineByIndex(unsigned int curveIndex, bool flag);
 
 private:
-    SketchRenderData* renderData() const { return this->getRenderDataAs<SketchRenderData>(); }
+    SketchRenderData* renderData() const { return dynamic_cast<SketchRenderData*>(_renderData.get()); }
     SketchRenderObject* renderObject() const;
 };
 

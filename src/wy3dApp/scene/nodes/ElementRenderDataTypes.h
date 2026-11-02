@@ -29,34 +29,27 @@
 
 namespace wy3dApp {
 
-// 只有顶点和线索引的渲染数据
 class LineRenderData : public ElementRenderData
 {
 public:
     osg::ref_ptr<osg::UIntArray> lineIndices = new osg::UIntArray();
 };
 
-// 网格渲染数据:顶点、法线、三角面片索引、线索引、面/边拓扑信息
-// 与 LineRenderData 平级:网格不是线,只是同时包含三角面与边线数据.
 class MeshRenderData : public ElementRenderData
 {
 public:
     osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array();
     osg::ref_ptr<osg::UIntArray> triangleIndices = new osg::UIntArray();
     osg::ref_ptr<osg::UIntArray> lineIndices = new osg::UIntArray();
-    // 面数据
     std::vector<FaceInfo> faceInfos;
-    // 边数据
     std::vector<EdgeInfo> edgeInfos;
 };
 
-// 曲线高亮标志
 enum class CurveRenderInfoFlag
 {
     Highlight = 0x00000001,
 };
 
-// 曲线渲染信息
 struct CurveRenderInfo
 {
     unsigned int id;
@@ -79,14 +72,12 @@ struct CurveRenderInfo
     CurveRenderInfo() : id(0), numLines(0), flags(0) {}
 };
 
-// 曲线渲染数据:线 + 曲线信息
 class CurveRenderData : public LineRenderData
 {
 public:
     std::vector<CurveRenderInfo> curveInfos;
 };
 
-// 草图渲染数据:普通曲线、中心线、点
 class SketchRenderData : public CurveRenderData
 {
 public:

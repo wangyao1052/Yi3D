@@ -112,13 +112,6 @@ public:
     // 预览边
     void previewEdge(unsigned int edgeIndex, bool flag);
 
-    // 线框模式
-    void setWireframe(bool flag);
-    bool isWireframe() const;
-
-    void setEdgesVisible(bool flag);
-    bool isEdgesVisible() const;
-
 protected:
     // 生成渲染对象
     virtual std::unique_ptr<ElementRenderObject> generateRenderObject(
@@ -131,7 +124,7 @@ protected:
     virtual bool shouldBeActive(const wydb::Element* pCurElem) const override;
 
 private:
-    MeshRenderData* renderData() const { return this->getRenderDataAs<MeshRenderData>(); }
+    MeshRenderData* renderData() const { return dynamic_cast<MeshRenderData*>(_renderData.get()); }
     MeshRenderObject* renderObject() const;
 
     // 生成渲染数据

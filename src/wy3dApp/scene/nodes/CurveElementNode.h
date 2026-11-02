@@ -46,7 +46,7 @@ protected:
     virtual bool shouldBeActive(const wydb::Element* pCurElem) const override;
 
 private:
-    LineRenderData* renderData() const { return this->getRenderDataAs<LineRenderData>(); }
+    LineRenderData* renderData() const { return dynamic_cast<LineRenderData*>(_renderData.get()); }
     LineRenderObject* renderObject() const;
 };
 

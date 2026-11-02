@@ -82,7 +82,7 @@ std::unique_ptr<ElementRenderObject> Sketch3DElementNode::generateRenderObject(
 
 CurveRenderObject* Sketch3DElementNode::renderObject() const
 {
-    return this->getRenderObjectAs<CurveRenderObject>();
+    return dynamic_cast<CurveRenderObject*>(_renderObject.get());
 }
 
 std::unique_ptr<ElementRenderData> Sketch3DElementNode::generateRenderData(

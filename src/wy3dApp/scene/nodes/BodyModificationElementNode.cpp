@@ -159,7 +159,7 @@ std::unique_ptr<ElementRenderObject> BodyModificationElementNode::generateRender
 
 BodyModificationRenderObject* BodyModificationElementNode::renderObject() const
 {
-    return this->getRenderObjectAs<BodyModificationRenderObject>();
+    return dynamic_cast<BodyModificationRenderObject*>(_renderObject.get());
 }
 
 std::unique_ptr<ElementRenderData> BodyModificationElementNode::generateRenderData(

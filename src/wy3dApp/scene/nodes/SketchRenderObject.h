@@ -58,7 +58,7 @@ public:
     // 中心线几何(BoxPick 指针身份)
     osg::Geometry* getCenterLinesGeom() const;
 
-    void clearDynamicRenderGeometry() override;
+    void clearTransientGeometry() override;
 
 private:
     // 元素级显示状态

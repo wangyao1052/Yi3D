@@ -239,7 +239,7 @@ std::unique_ptr<ElementRenderObject> DatumPlaneElementNode::generateRenderObject
 
 DatumPlaneRenderObject* DatumPlaneElementNode::renderObject() const
 {
-    return this->getRenderObjectAs<DatumPlaneRenderObject>();
+    return dynamic_cast<DatumPlaneRenderObject*>(_renderObject.get());
 }
 
 std::unique_ptr<ElementRenderData> DatumPlaneElementNode::generateRenderData(

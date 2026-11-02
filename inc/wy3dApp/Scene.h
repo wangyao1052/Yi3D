@@ -23,6 +23,7 @@
 
 #include <wydbElementId.h>
 #include <wyapScene.h>
+#include <wy3dApp/DisplayMode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace osg
@@ -49,7 +50,7 @@ protected:
 
 public:
     // 显示模式
-    enum class DisplayMode { ShadedWithEdges = 0, Shaded = 1, Wireframe = 2 };
+    using DisplayMode = ::wy3dApp::DisplayMode;
 
     // 场景根节点
     virtual osg::Group* getRoot() const = 0;

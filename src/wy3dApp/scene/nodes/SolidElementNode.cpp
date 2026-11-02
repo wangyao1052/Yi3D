@@ -75,6 +75,7 @@ std::unique_ptr<ElementRenderObject> SolidElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     assert(pScene);
+    (void)pScene;
     assert(pElem);
     const wy3d::Solid* pSolid = wy3d::Solid::cast(pElem);
     if (!pSolid)
@@ -96,45 +97,12 @@ std::unique_ptr<ElementRenderObject> SolidElementNode::generateRenderObject(
         pElem->getId(), this->getNodeType(), *data, pSolid);
     renderObject->build();
 
-    // 同步显示模式
-    Scene::DisplayMode mode = pScene->getDisplayMode();
-    renderObject->setWireframe(mode == Scene::DisplayMode::Wireframe);
-    renderObject->setEdgesVisible(mode != Scene::DisplayMode::Shaded);
-
     return renderObject;
 }
 
 MeshRenderObject* SolidElementNode::renderObject() const
 {
-    return this->getRenderObjectAs<MeshRenderObject>();
-}
-
-void SolidElementNode::setWireframe(bool flag)
-{
-    if (MeshRenderObject* obj = this->renderObject())
-    {
-        obj->setWireframe(flag);
-    }
-}
-
-bool SolidElementNode::isWireframe() const
-{
-    MeshRenderObject* obj = this->renderObject();
-    return obj ? obj->isWireframe() : false;
-}
-
-void SolidElementNode::setEdgesVisible(bool flag)
-{
-    if (MeshRenderObject* obj = this->renderObject())
-    {
-        obj->setEdgesVisible(flag);
-    }
-}
-
-bool SolidElementNode::isEdgesVisible() const
-{
-    MeshRenderObject* obj = this->renderObject();
-    return obj ? obj->isEdgesVisible() : true;
+    return dynamic_cast<MeshRenderObject*>(_renderObject.get());
 }
 
 std::unique_ptr<ElementRenderData> SolidElementNode::generateRenderData(

@@ -108,7 +108,7 @@ std::unique_ptr<ElementRenderObject> CurveElementNode::generateRenderObject(
 
 LineRenderObject* CurveElementNode::renderObject() const
 {
-    return this->getRenderObjectAs<LineRenderObject>();
+    return dynamic_cast<LineRenderObject*>(_renderObject.get());
 }
 
 std::unique_ptr<ElementRenderData> CurveElementNode::generateRenderData(

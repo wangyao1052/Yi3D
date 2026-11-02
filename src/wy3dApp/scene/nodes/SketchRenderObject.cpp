@@ -182,7 +182,7 @@ osg::Geometry* SketchRenderObject::getCenterLinesGeom() const
     return _centerLines ? _centerLines->getGeometry() : nullptr;
 }
 
-void SketchRenderObject::clearDynamicRenderGeometry()
+void SketchRenderObject::clearTransientGeometry()
 {
     if (_highlightGeom)
     {

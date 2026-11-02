@@ -103,12 +103,6 @@ public:
     void highlightEdge(unsigned int edgeIndex, bool flag);
     void previewEdge(unsigned int edgeIndex, bool flag);
 
-    void setWireframe(bool flag);
-    bool isWireframe() const;
-
-    void setEdgesVisible(bool flag);
-    bool isEdgesVisible() const;
-
 protected:
     virtual std::unique_ptr<ElementRenderObject> generateRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
@@ -122,7 +116,7 @@ protected:
     }
 
 private:
-    MeshRenderData* renderData() const { return this->getRenderDataAs<MeshRenderData>(); }
+    MeshRenderData* renderData() const { return dynamic_cast<MeshRenderData*>(_renderData.get()); }
     MeshRenderObject* renderObject() const;
 
     bool generateMeshData(TopoDS_Shape& shape, MeshRenderData& data);

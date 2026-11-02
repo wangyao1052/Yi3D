@@ -129,7 +129,7 @@ std::unique_ptr<ElementRenderObject> SketchElementNode::generateRenderObject(
 
 SketchRenderObject* SketchElementNode::renderObject() const
 {
-    return this->getRenderObjectAs<SketchRenderObject>();
+    return dynamic_cast<SketchRenderObject*>(_renderObject.get());
 }
 
 osg::Geometry* SketchElementNode::getCenterLinesGeom() const

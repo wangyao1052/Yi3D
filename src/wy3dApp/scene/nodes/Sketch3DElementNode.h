@@ -61,7 +61,7 @@ protected:
     virtual bool shouldBeActive(const wydb::Element* pCurElem) const override;
 
 private:
-    CurveRenderData* renderData() const { return this->getRenderDataAs<CurveRenderData>(); }
+    CurveRenderData* renderData() const { return dynamic_cast<CurveRenderData*>(_renderData.get()); }
     CurveRenderObject* renderObject() const;
     unsigned int getCurveIndexById(unsigned int id) const;
 };

@@ -137,7 +137,7 @@ std::unique_ptr<ElementRenderObject> SketchEntityElementNode::generateRenderObje
 
 LineRenderObject* SketchEntityElementNode::renderObject() const
 {
-    return this->getRenderObjectAs<LineRenderObject>();
+    return dynamic_cast<LineRenderObject*>(_renderObject.get());
 }
 
 std::unique_ptr<ElementRenderData> SketchEntityElementNode::generateRenderData(

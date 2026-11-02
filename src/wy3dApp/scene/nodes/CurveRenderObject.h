@@ -49,7 +49,7 @@ public:
     void highlightCurveByIndex(unsigned int curveIndex, bool flag);
     void previewCurveByIndex(unsigned int curveIndex, bool flag);
 
-    void clearDynamicRenderGeometry() override;
+    void clearTransientGeometry() override;
 
     osg::Geometry* getGeometry() const;
 

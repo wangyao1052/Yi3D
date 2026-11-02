@@ -22,6 +22,7 @@
 #include <osg/Group>
 #include <osg/ref_ptr>
 
+#include <wy3dApp/DisplayMode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wydb { class Element; }
@@ -51,7 +52,10 @@ public:
     virtual void clear();
 
     // 清理临时高亮/预览/NoBatch 几何
-    virtual void clearDynamicRenderGeometry() {}
+    virtual void clearTransientGeometry() {}
+
+    // 显示模式(默认不处理,由具体渲染对象按需响应)
+    virtual void setDisplayMode(DisplayMode mode) { (void)mode; }
 
 public:
     virtual void updateAppearance(

@@ -1067,19 +1067,11 @@ void SceneImpl::setDisplayMode(DisplayMode mode)
 {
     if (_displayMode == mode) return;
     _displayMode = mode;
-    bool isWireframe = (mode == DisplayMode::Wireframe);
-    bool showEdges = (mode != DisplayMode::Shaded);
     for (auto& kvp : _id2ElemNode)
     {
-        if (auto* pNode = dynamic_cast<SolidElementNode*>(kvp.second))
+        if (kvp.second && kvp.second->_renderObject)
         {
-            pNode->setWireframe(isWireframe);
-            pNode->setEdgesVisible(showEdges);
-        }
-        else if (auto* pNode = dynamic_cast<SheetElementNode*>(kvp.second))
-        {
-            pNode->setWireframe(isWireframe);
-            pNode->setEdgesVisible(showEdges);
+            kvp.second->_renderObject->setDisplayMode(mode);
         }
     }
 }
@@ -1091,7 +1083,7 @@ void SceneImpl::endNoBatchRender()
         assert(kvp.second);
         if (kvp.second->_renderObject)
         {
-            kvp.second->_renderObject->clearDynamicRenderGeometry();
+            kvp.second->_renderObject->clearTransientGeometry();
         }
     }
 }

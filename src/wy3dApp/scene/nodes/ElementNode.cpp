@@ -21,6 +21,7 @@
 #include <cassert>
 
 #include <wy3dApp/ElementRenderObject.h>
+#include <wy3dApp/Scene.h>
 
 #include <osg/Matrix>
 #include <osg/Polytope>
@@ -87,6 +88,7 @@ bool ElementNode::regenerate(Scene* pScene, wydb::Database* pDb)
     _renderObject = this->generateRenderObject(pScene, pElem);
     if (_renderObject)
     {
+        _renderObject->setDisplayMode(pScene->getDisplayMode());
         _osgNode->addChild(_renderObject->getContentRoot());
     }
 

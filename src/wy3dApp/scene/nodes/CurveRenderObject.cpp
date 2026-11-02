@@ -115,7 +115,7 @@ void CurveRenderObject::previewCurveByIndex(unsigned int curveIndex, bool flag)
     }
 }
 
-void CurveRenderObject::clearDynamicRenderGeometry()
+void CurveRenderObject::clearTransientGeometry()
 {
     if (_highlightGeom)
     {

@@ -23,8 +23,12 @@
 #include <memory>
 
 #include <osg/BoundingBox>
+#include <osg/Drawable>
 #include <osg/Group>
+#include <osg/Polytope>
 
+#include <wydbDatabase.h>
+#include <wydbElement.h>
 #include <wydbElementId.h>
 #include <wy3dSelectionType.h>
 #include <wyapSelection.h>
@@ -32,18 +36,6 @@
 #include <wy3dApp/ElementRenderData.h>
 #include <wy3dApp/ElementRenderObject.h>
 #include <wy3dApp/wy3dAppDefs.h>
-
-namespace osg
-{
-    class Drawable;
-    class Polytope;
-}
-
-namespace wydb
-{
-    class Database;
-    class Element;
-}
 
 namespace wy3dApp {
 
@@ -105,20 +97,6 @@ protected:
     bool updateAppearance(wydb::Database* pDb);
 
     virtual bool shouldBeActive(const wydb::Element* pElem) const { return true; }
-
-    template <typename T>
-    T* getRenderDataAs() const
-    {
-        assert(!_renderData || dynamic_cast<T*>(_renderData.get()));
-        return static_cast<T*>(_renderData.get());
-    }
-
-    template <typename T>
-    T* getRenderObjectAs() const
-    {
-        assert(!_renderObject || dynamic_cast<T*>(_renderObject.get()));
-        return static_cast<T*>(_renderObject.get());
-    }
 
 protected:
     wydb::ElementId _id;
