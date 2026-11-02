@@ -28,7 +28,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/ElementRenderObject.h>
 
-#include "scene/nodes/ElementRenderData.h"
+#include "scene/nodes/ElementRenderDataTypes.h"
 
 namespace osg
 {
@@ -80,7 +80,7 @@ struct LineRenderStyle
 };
 
 // 线/点渲染对象
-class LineRenderObject : public RenderObject
+class LineRenderObject : public ElementRenderObject
 {
 public:
     LineRenderObject(const wydb::ElementId& id,
@@ -92,14 +92,12 @@ public:
 
     void build();
 
-    // 元素级高亮/预览
-    void setHighlighted(bool flag) override;
-    void setPreviewed(bool flag) override;
-
     osg::Geometry* getGeometry() const { return _geom.get(); }
 
-private:
-    void applyElementState(bool flag, const osg::Vec4& color);
+public:
+    void updateAppearance(
+        const DisplayState& dispState,
+        const wydb::Element* pElement = nullptr) override;
 
 private:
     wydb::ElementId _id;

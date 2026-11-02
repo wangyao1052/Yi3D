@@ -204,7 +204,7 @@ void DatumPlaneElementNode::updateVisualSize(const wydb::Database* pDb, const os
     }
 }
 
-std::unique_ptr<RenderObject> DatumPlaneElementNode::generateRenderObject(
+std::unique_ptr<ElementRenderObject> DatumPlaneElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     (void)pScene;
@@ -224,12 +224,12 @@ std::unique_ptr<RenderObject> DatumPlaneElementNode::generateRenderObject(
     }
 
     DatumPlaneRenderStyle style;
-    style.faceColor = Colors::kDatumPlaneFace;
-    style.edgeColor = Colors::kDatumPlaneEdge;
-    style.faceHighlightColor = Colors::kDatumPlaneFace_Highlight;
-    style.edgeHighlightColor = Colors::kDatumPlaneEdge_Highlight;
-    style.facePreviewColor = Colors::kDatumPlaneFace_Preview;
-    style.edgePreviewColor = Colors::kDatumPlaneEdge_Preview;
+    style.faceColor = Colors::datumPlane.face.normal;
+    style.edgeColor = Colors::datumPlane.edge.normal;
+    style.faceHighlightColor = Colors::datumPlane.face.highlight;
+    style.edgeHighlightColor = Colors::datumPlane.edge.highlight;
+    style.facePreviewColor = Colors::datumPlane.face.preview;
+    style.edgePreviewColor = Colors::datumPlane.edge.preview;
 
     auto renderObject = std::make_unique<DatumPlaneRenderObject>(
         pElem->getId(), this->getNodeType(), *data, style);
@@ -242,7 +242,7 @@ DatumPlaneRenderObject* DatumPlaneElementNode::renderObject() const
     return this->getRenderObjectAs<DatumPlaneRenderObject>();
 }
 
-std::unique_ptr<RenderData> DatumPlaneElementNode::generateRenderData(
+std::unique_ptr<ElementRenderData> DatumPlaneElementNode::generateRenderData(
     Scene* pScene, const wydb::Element* pElement) noexcept
 {
     (void)pScene;

@@ -16,11 +16,31 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "scene/nodes/ElementNodeImpl.h"
+#ifndef WY3DAPP_ELEMENT_RENDER_DATA_H
+#define WY3DAPP_ELEMENT_RENDER_DATA_H
+
+#include <osg/Array>
+#include <osg/Matrix>
+
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-ElementNodeImpl::ElementNodeImpl() = default;
-ElementNodeImpl::~ElementNodeImpl() = default;
+class WY3DAPP_EXPORT ElementRenderData
+{
+public:
+    ElementRenderData();
+    virtual ~ElementRenderData();
+
+    ElementRenderData(const ElementRenderData&) = delete;
+    ElementRenderData& operator=(const ElementRenderData&) = delete;
+
+    // 顶点数据
+    osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
+    // 局部坐标到世界坐标的模型变换
+    osg::Matrix matrix = osg::Matrix::identity();
+};
 
 } // namespace wy3dApp
+
+#endif // WY3DAPP_ELEMENT_RENDER_DATA_H

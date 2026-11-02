@@ -66,7 +66,7 @@
 
 namespace wy3dApp {
 
-std::unique_ptr<RenderObject> CurveElementNode::generateRenderObject(
+std::unique_ptr<ElementRenderObject> CurveElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     (void)pScene;
@@ -87,9 +87,9 @@ std::unique_ptr<RenderObject> CurveElementNode::generateRenderObject(
 
     LineRenderStyle style;
     style.nodeType = this->getNodeType();
-    style.color = Colors::kSketch;
-    style.highlightColor = Colors::kSketch_Highlight;
-    style.previewColor = Colors::kSketch_Preview;
+    style.color = Colors::sketch.normal;
+    style.highlightColor = Colors::sketch.highlight;
+    style.previewColor = Colors::sketch.preview;
     style.lineWidth = 1.2f;
     style.highlightLineWidth = 2.0f;
     style.changeLineWidthOnHighlight = true;
@@ -111,7 +111,7 @@ LineRenderObject* CurveElementNode::renderObject() const
     return this->getRenderObjectAs<LineRenderObject>();
 }
 
-std::unique_ptr<RenderData> CurveElementNode::generateRenderData(
+std::unique_ptr<ElementRenderData> CurveElementNode::generateRenderData(
     Scene* pScene, const wydb::Element* pElement) noexcept
 {
     (void)pScene;

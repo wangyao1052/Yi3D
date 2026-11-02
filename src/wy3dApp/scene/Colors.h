@@ -23,63 +23,99 @@
 #include <osg/Vec4>
 #include <wy3dApp/wy3dAppDefs.h>
 
+namespace wy3d { class Color; }
+
 namespace wy3dApp {
 
 class Colors
 {
 public:
-    // solid
-    static const osg::Vec4 kSolidFace;
-    static const osg::Vec4 kSolidEdge;
-    static const osg::Vec4 kSolidFace_Highlight;
-    static const osg::Vec4 kSolidEdge_Highlight;
-    static const osg::Vec4 kSolidFace_Preview;
-    static const osg::Vec4 kSolidEdge_Preview;
+    static osg::Vec4 toOsgColor(const wy3d::Color& color);
 
-    // cut
-    static const osg::Vec4 kCutFace;
-    static const osg::Vec4 kCutEdge;
-    
-    // solid edge
-    static const osg::Vec4 kEdge_Highlight;
-    static const osg::Vec4 kEdge_Preview;
+    // mesh 调色板（Solid/Sheet 各一份）
+    struct Mesh
+    {
+        struct
+        {
+            struct
+            {
+                osg::Vec4 face;  // 默认常态面色（元素颜色会覆盖）
+                osg::Vec4 edge;
+            } normal;
 
-    // sketch
-    static const osg::Vec4 kSketch;
-    static const osg::Vec4 kSketch_Highlight;
-    static const osg::Vec4 kSketch_Preview;
+            struct
+            {
+                osg::Vec4 face;
+                osg::Vec4 edge;
+            } highlight;
 
-    // sketch entity
-    static const osg::Vec4 kSketchEntity;
-    static const osg::Vec4 kSketchEntity_Highlight;
-    static const osg::Vec4 kSketchEntity_Preview;
+            struct
+            {
+                osg::Vec4 face;
+                osg::Vec4 edge;
+                osg::Vec4 edgeWireframe;  // 线框模式下的元素整体预览
+            } preview;
+        } element;
 
-    // datum plane
-    static const osg::Vec4 kDatumPlaneFace;
-    static const osg::Vec4 kDatumPlaneEdge;
-    static const osg::Vec4 kDatumPlaneFace_Highlight;
-    static const osg::Vec4 kDatumPlaneEdge_Highlight;
-    static const osg::Vec4 kDatumPlaneFace_Preview;
-    static const osg::Vec4 kDatumPlaneEdge_Preview;
+        struct
+        {
+            osg::Vec4 highlight;
+            osg::Vec4 preview;
+        } face;
 
-    // sheet
-    static const osg::Vec4 kSheetFace;
-    static const osg::Vec4 kSheetEdge;
-    static const osg::Vec4 kSheetFace_Highlight;
-    static const osg::Vec4 kSheetEdge_Highlight;
-    static const osg::Vec4 kSheetFace_Preview;
-    static const osg::Vec4 kSheetEdge_Preview;
-    // 命令生成的新面
-    static const osg::Vec4 kSheetFace_New;
+        struct
+        {
+            osg::Vec4 highlight;
+            osg::Vec4 preview;
+        } edge;
 
-    // transparent
-    static const osg::Vec4 kTransparent;
+        osg::Vec4 inactive;
+    };
 
-    // ghost gizmo
-    static const osg::Vec4 kGhostGizmo;
+    static const Mesh solidMesh;
+    static const Mesh sheetMesh;
 
-    // direction arrow
-    static const osg::Vec4 kDirectionArrow;
+    // 线状元素（草图/曲线）调色板
+    struct LinePalette
+    {
+        osg::Vec4 normal;
+        osg::Vec4 highlight;
+        osg::Vec4 preview;
+    };
+
+    // 基准面调色板
+    struct PlanePalette
+    {
+        struct
+        {
+            osg::Vec4 normal;
+            osg::Vec4 highlight;
+            osg::Vec4 preview;
+        } face;
+
+        struct
+        {
+            osg::Vec4 normal;
+            osg::Vec4 highlight;
+            osg::Vec4 preview;
+        } edge;
+    };
+
+    static const LinePalette sketch;
+    static const LinePalette sketchEntity;
+    static const PlanePalette datumPlane;
+
+    // sky blue
+    static const osg::Vec4 kSkyBlue;
+
+    // rust red
+    static const osg::Vec4 kRustRed;
+
+    // gray
+    static const osg::Vec4 kGray;
+
+    // ocean blue
+    static const osg::Vec4 kOceanBlue;
 
     // 备选的一些颜色
     // 粉色

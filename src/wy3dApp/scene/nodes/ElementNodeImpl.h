@@ -19,20 +19,96 @@
 #ifndef WY3DAPP_ELEMENT_NODE_IMPL_H
 #define WY3DAPP_ELEMENT_NODE_IMPL_H
 
+#include <cassert>
+#include <osg/Group>
+
+#include <wy3dApp/ElementNodeType.h>
+#include <wy3dApp/ElementRenderObject.h>
+
 namespace wy3dApp {
 
-// ElementNode 的内部实现。当前刻意保持为空，后续逐步迁入
-// 状态机、NodeMask 与 id 等实现细节。
 class ElementNodeImpl
 {
 public:
-    ElementNodeImpl();
-    ~ElementNodeImpl();
-
+    ElementNodeImpl() = default;
+    ~ElementNodeImpl() = default;
     ElementNodeImpl(const ElementNodeImpl&) = delete;
     ElementNodeImpl& operator=(const ElementNodeImpl&) = delete;
     ElementNodeImpl(ElementNodeImpl&&) = delete;
     ElementNodeImpl& operator=(ElementNodeImpl&&) = delete;
+
+    enum class Status : unsigned int
+    {
+        Highlighted = 0x00000001, // 高亮
+        Inactive    = 0x00000002, // 非活动状态,布尔体的成员为此状态
+        Hidden      = 0x00000004, // 隐藏状态
+        Previewed   = 0x00000008, // 预览(临时交互态,高亮优先)
+    };
+
+    bool isHighlighted() const
+    {
+        return (_status & static_cast<unsigned int>(Status::Highlighted)) != 0;
+    }
+
+    bool isHidden() const
+    {
+        return (_status & static_cast<unsigned int>(Status::Hidden)) != 0;
+    }
+
+    bool isActive() const
+    {
+        return !(_status & static_cast<unsigned int>(Status::Inactive));
+    }
+
+    bool isPreviewed() const
+    {
+        return (_status & static_cast<unsigned int>(Status::Previewed)) != 0;
+    }
+
+    void addStatus(Status s)
+    {
+        _status |= static_cast<unsigned int>(s);
+    }
+
+    void removeStatus(Status s)
+    {
+        _status &= ~static_cast<unsigned int>(s);
+    }
+
+    DisplayState getDisplayState() const
+    {
+        assert(!(this->isHighlighted() && this->isPreviewed()));
+        DisplayState dispState;
+        dispState.active = this->isActive();
+        dispState.highlighted = this->isHighlighted();
+        dispState.previewed = this->isPreviewed();
+        return dispState;
+    }
+
+    void updateNodeMask(osg::Group* osgNode) const
+    {
+        if (!osgNode) return;
+
+        if (this->isActive() && !this->isHidden())
+        {
+            osgNode->setNodeMask(kVisibleNodeMask); // 渲染+可拾取
+        }
+        else if (this->isHighlighted() || this->isPreviewed())
+        {
+            osgNode->setNodeMask(kRenderOnlyNodeMask); // 仅渲染
+        }
+        else
+        {
+            osgNode->setNodeMask(0);
+        }
+    }
+
+private:
+    static constexpr unsigned int kVisibleNodeMask =
+        static_cast<unsigned int>(ElementNodeType::All);
+    static constexpr unsigned int kRenderOnlyNodeMask = 0x80000000u;
+
+    unsigned int _status = 0;
 };
 
 } // namespace wy3dApp

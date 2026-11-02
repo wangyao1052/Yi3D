@@ -25,7 +25,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/ElementRenderObject.h>
 
-#include "scene/nodes/ElementRenderData.h"
+#include "scene/nodes/ElementRenderDataTypes.h"
 
 namespace osg
 {
@@ -46,7 +46,7 @@ struct DatumPlaneRenderStyle
 };
 
 // 基准面渲染对象:半透明面 + 边线
-class DatumPlaneRenderObject : public RenderObject
+class DatumPlaneRenderObject : public ElementRenderObject
 {
 public:
     DatumPlaneRenderObject(const wydb::ElementId& id,
@@ -57,13 +57,15 @@ public:
 
     void build();
 
-    void setHighlighted(bool flag) override;
-    void setPreviewed(bool flag) override;
-
     // 顶点被原地修改后刷新包围球
     void dirtyGeometryBound();
 
 private:
+    // 元素级显示状态
+    void updateAppearance(
+        const DisplayState& dispState,
+        const wydb::Element* pElement) override;
+
     wydb::ElementId _id;
     ElementNodeType _nodeType;
     MeshRenderData* _data;

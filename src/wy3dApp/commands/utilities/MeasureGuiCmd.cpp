@@ -169,7 +169,7 @@ bool MeasureGuiCmd::finishStep(Step step)
     case Step::SpecifyStartPnt:
     {
         // 显示直线段
-        _pLineTransient = std::make_shared<LineTransient>(nullptr, new osg::LineWidth(3.0f), Colors::kEdge_Highlight);
+        _pLineTransient = std::make_shared<LineTransient>(nullptr, new osg::LineWidth(3.0f), Colors::solidMesh.edge.highlight);
         _pLineTransient->update(_startPnt, _startPnt);
 
         // 下一步
@@ -188,7 +188,7 @@ bool MeasureGuiCmd::finishStep(Step step)
 
         // 持久测量线(绿色),与结果行同生命周期
         {
-            LineTransientSPtr pLine = std::make_shared<LineTransient>(nullptr, new osg::LineWidth(3.0f), Colors::kEdge_Highlight);
+            LineTransientSPtr pLine = std::make_shared<LineTransient>(nullptr, new osg::LineWidth(3.0f), Colors::solidMesh.edge.highlight);
             if (_sketchInfo.pSketchSnapSys)
                 pLine->update(_sketchInfo.sketchPlane, _startPnt2d, _endPnt2d);
             else
@@ -629,7 +629,7 @@ void MeasureGuiCmd::onResultHovered(const wyap::Selection& sel)
         // 面的高亮态会挡住previewFace(节点守卫),改用自定义色高亮器直接覆写预览色
         wyap::SelectionSet previewSet;
         previewSet.add(sel);
-        _pRowFacePreviewHighlightor = std::make_shared<SelectionSetHighlightor>(previewSet, Colors::kSolidFace_Preview);
+        _pRowFacePreviewHighlightor = std::make_shared<SelectionSetHighlightor>(previewSet, Colors::solidMesh.element.preview.face);
     }
     else
     {
@@ -656,7 +656,7 @@ void MeasureGuiCmd::onResultRowHovered(int row)
     // 恢复上一条被预览的测量线
     if (_pP2pHoverLine)
     {
-        _pP2pHoverLine->setColor(Colors::kEdge_Highlight);
+        _pP2pHoverLine->setColor(Colors::solidMesh.edge.highlight);
         _pP2pHoverLine = nullptr;
     }
 
@@ -664,7 +664,7 @@ void MeasureGuiCmd::onResultRowHovered(int row)
     if (row < 0 || row >= _pMeasureLines.size()) return;
 
     _pP2pHoverLine = _pMeasureLines.at(row);
-    _pP2pHoverLine->setColor(Colors::kEdge_Preview);
+    _pP2pHoverLine->setColor(Colors::solidMesh.edge.preview);
 }
 
 void MeasureGuiCmd::clearResults()

@@ -175,39 +175,40 @@ void LineRenderObject::build()
     _node->addChild(_geom);
 }
 
-void LineRenderObject::setHighlighted(bool flag)
+void LineRenderObject::updateAppearance(
+    const DisplayState& dispState,
+    const wydb::Element* pElement)
 {
-    this->applyElementState(flag, _style.highlightColor);
-}
+    (void)pElement;
+    //_displayState = dispState;
 
-void LineRenderObject::setPreviewed(bool flag)
-{
-    this->applyElementState(flag, _style.previewColor);
-}
-
-void LineRenderObject::applyElementState(bool flag, const osg::Vec4& color)
-{
     if (!_geom)
     {
         return;
     }
 
-    OsgUtils::setNodeColor(_geom, flag ? color : _style.color);
+    const bool highlighted = dispState.highlighted;
+    const bool previewed = dispState.previewed;
+    const bool emphasized = highlighted || previewed;
+    const osg::Vec4 color = highlighted ? _style.highlightColor
+                          : previewed   ? _style.previewColor
+                          : _style.color;
+    OsgUtils::setNodeColor(_geom, color);
 
     osg::StateSet* stateSet = _geom->getOrCreateStateSet();
     if (_style.changeLineWidthOnHighlight)
     {
-        const float lineWidth = flag ? _style.highlightLineWidth : _style.lineWidth;
+        const float lineWidth = emphasized ? _style.highlightLineWidth : _style.lineWidth;
         stateSet->setAttribute(new osg::LineWidth(lineWidth));
     }
     if (_style.changeDepthTestOnHighlight)
     {
-        const bool depthTest = flag ? _style.highlightDepthTest : _style.depthTest;
+        const bool depthTest = emphasized ? _style.highlightDepthTest : _style.depthTest;
         stateSet->setMode(GL_DEPTH_TEST, depthTest ? osg::StateAttribute::ON : osg::StateAttribute::OFF);
     }
     if (_style.changePointSizeOnHighlight && _isPoints)
     {
-        const float pointSize = flag ? _style.highlightPointSize : _style.pointSize;
+        const float pointSize = emphasized ? _style.highlightPointSize : _style.pointSize;
         stateSet->setAttribute(new osg::Point(pointSize));
     }
 }

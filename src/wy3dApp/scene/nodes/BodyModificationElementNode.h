@@ -22,7 +22,7 @@
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
-#include "scene/nodes/ElementRenderData.h"
+#include "scene/nodes/ElementRenderDataTypes.h"
 
 namespace wy3dApp {
 
@@ -46,13 +46,15 @@ public:
 
 protected:
     // 包围盒始终为空(不进入 RTree/fit view/框选)
-    virtual osg::BoundingBox computeBoundingBox(const RenderData* pRenderData) const override;
+    virtual osg::BoundingBox computeBoundingBox(
+        const ElementRenderData* pRenderData,
+        const ElementRenderObject* pRenderObject) const override;
 
     // 生成渲染对象
-    virtual std::unique_ptr<RenderObject> generateRenderObject(
+    virtual std::unique_ptr<ElementRenderObject> generateRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
     // 生成渲染数据
-    virtual std::unique_ptr<RenderData> generateRenderData(
+    virtual std::unique_ptr<ElementRenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
     virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override;

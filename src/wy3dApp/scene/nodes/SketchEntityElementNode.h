@@ -22,7 +22,7 @@
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
-#include "scene/nodes/ElementRenderData.h"
+#include "scene/nodes/ElementRenderDataTypes.h"
 
 namespace wy3dApp {
 
@@ -37,9 +37,9 @@ public:
     virtual ElementNodeType getNodeType() const override { return ElementNodeType::SketchEntity; }
 
 protected:
-    virtual std::unique_ptr<RenderObject> generateRenderObject(
+    virtual std::unique_ptr<ElementRenderObject> generateRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
-    virtual std::unique_ptr<RenderData> generateRenderData(
+    virtual std::unique_ptr<ElementRenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
 private:

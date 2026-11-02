@@ -104,7 +104,7 @@ Sketch3DDirectionTransient::Sketch3DDirectionTransient(const wy::Vector3& origin
         pCone->setCenter(osg::Vec3(0.0, 0.0, -pCone->getBaseOffset() + kShaftLength));
 
         osg::ref_ptr<osg::ShapeDrawable> pDrawable = new osg::ShapeDrawable(pCone.get());
-        pDrawable->setColor(Colors::kDirectionArrow);
+        pDrawable->setColor(Colors::kOceanBlue);
         if (!flipped) return pDrawable;
 
         // Half a turn about X puts the same head on the other side, pointing the other way.
@@ -122,7 +122,7 @@ Sketch3DDirectionTransient::Sketch3DDirectionTransient(const wy::Vector3& origin
     osg::ref_ptr<osg::Cylinder> pShaft =
         new osg::Cylinder(osg::Vec3(0.0, 0.0, shaftCenterZ), kShaftRadius, shaftLength);
     osg::ref_ptr<osg::ShapeDrawable> pShaftDrawable = new osg::ShapeDrawable(pShaft.get());
-    pShaftDrawable->setColor(Colors::kDirectionArrow);
+    pShaftDrawable->setColor(Colors::kOceanBlue);
     pAxis->addChild(pShaftDrawable.get());
 
     pAxis->addChild(makeHead(false).get());

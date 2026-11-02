@@ -61,18 +61,16 @@ void SketchRenderObject::build()
     if (_points->getGeometry()) _node->addChild(_points->getContentRoot());
 }
 
-void SketchRenderObject::setHighlighted(bool flag)
+void SketchRenderObject::updateAppearance(
+    const DisplayState& dispState,
+    const wydb::Element* pElement)
 {
-    if (_curves) _curves->setHighlighted(flag);
-    if (_centerLines) _centerLines->setHighlighted(flag);
-    if (_points) _points->setHighlighted(flag);
-}
+    (void)pElement;
+    //_displayState = dispState;
 
-void SketchRenderObject::setPreviewed(bool flag)
-{
-    if (_curves) _curves->setPreviewed(flag);
-    if (_centerLines) _centerLines->setPreviewed(flag);
-    if (_points) _points->setPreviewed(flag);
+    if (_curves) _curves->updateAppearance(dispState);
+    if (_centerLines) _centerLines->updateAppearance(dispState);
+    if (_points) _points->updateAppearance(dispState);
 }
 
 void SketchRenderObject::highlightCurveByIndex(unsigned int curveIndex, bool flag)

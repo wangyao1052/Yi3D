@@ -20,14 +20,27 @@
 
 namespace wy3dApp {
 
-RenderObject::RenderObject()
+ElementRenderObject::ElementRenderObject()
     : _node(new osg::Group())
 {
 }
 
-RenderObject::~RenderObject() = default;
+ElementRenderObject::~ElementRenderObject() = default;
 
-void RenderObject::clear()
+//void ElementRenderObject::setDisplayState(const DisplayState& state)
+//{
+//    if (_displayState.active == state.active &&
+//        _displayState.highlighted == state.highlighted &&
+//        _displayState.previewed == state.previewed)
+//    {
+//        return;
+//    }
+//
+//    _displayState = state;
+//    this->updateAppearance(_displayState, nullptr);
+//}
+
+void ElementRenderObject::clear()
 {
     _node->removeChildren(0, _node->getNumChildren());
 }

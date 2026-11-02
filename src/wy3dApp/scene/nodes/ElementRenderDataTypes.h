@@ -16,21 +16,21 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_ELEMENT_RENDER_DATA_H
-#define WY3DAPP_ELEMENT_RENDER_DATA_H
+#ifndef WY3DAPP_ELEMENT_RENDER_DATA_TYPES_H
+#define WY3DAPP_ELEMENT_RENDER_DATA_TYPES_H
 
 #include <vector>
 
 #include <osg/Array>
 
-#include <wy3dApp/ElementNode.h>
+#include <wy3dApp/ElementRenderData.h>
 
 #include "scene/nodes/ElementMeshInfo.h"
 
 namespace wy3dApp {
 
 // 只有顶点和线索引的渲染数据
-class LineRenderData : public RenderData
+class LineRenderData : public ElementRenderData
 {
 public:
     osg::ref_ptr<osg::UIntArray> lineIndices = new osg::UIntArray();
@@ -38,7 +38,7 @@ public:
 
 // 网格渲染数据:顶点、法线、三角面片索引、线索引、面/边拓扑信息
 // 与 LineRenderData 平级:网格不是线,只是同时包含三角面与边线数据.
-class MeshRenderData : public RenderData
+class MeshRenderData : public ElementRenderData
 {
 public:
     osg::ref_ptr<osg::Vec3Array> normals = new osg::Vec3Array();
@@ -97,4 +97,4 @@ public:
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_ELEMENT_RENDER_DATA_H
+#endif // WY3DAPP_ELEMENT_RENDER_DATA_TYPES_H

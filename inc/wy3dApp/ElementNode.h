@@ -22,15 +22,15 @@
 #include <cassert>
 #include <memory>
 
-#include <osg/Array>
 #include <osg/BoundingBox>
 #include <osg/Group>
-#include <osg/Matrix>
 
 #include <wydbElementId.h>
 #include <wy3dSelectionType.h>
 #include <wyapSelection.h>
 #include <wy3dApp/ElementNodeType.h>
+#include <wy3dApp/ElementRenderData.h>
+#include <wy3dApp/ElementRenderObject.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace osg
@@ -48,24 +48,8 @@ namespace wydb
 namespace wy3dApp {
 
 class ElementNodeImpl;
-class RenderObject;
 class Scene;
 class SceneImpl;
-
-class WY3DAPP_EXPORT RenderData
-{
-public:
-    RenderData();
-    virtual ~RenderData();
-
-    RenderData(const RenderData&) = delete;
-    RenderData& operator=(const RenderData&) = delete;
-
-    // 顶点数据
-    osg::ref_ptr<osg::Vec3Array> vertices = new osg::Vec3Array();
-    // 局部坐标到世界坐标的模型变换
-    osg::Matrix matrix = osg::Matrix::identity();
-};
 
 class WY3DAPP_EXPORT ElementNode
 {
@@ -108,22 +92,24 @@ public:
     osg::Group* getOsgNode() const { return _osgNode.get(); }
 
 protected:
-    // 清空动态渲染对象(NoBatch渲染结束时调用);默认委托给 RenderObject
+    // 清空动态渲染对象(NoBatch渲染结束时调用);默认委托给 ElementRenderObject
     virtual void clearDynamicRenderGeometry();
      
     bool regenerate(Scene* pScene, wydb::Database* pDb);
 
-    virtual std::unique_ptr<RenderData> generateRenderData(
+    virtual std::unique_ptr<ElementRenderData> generateRenderData(
         Scene* pScene,
         const wydb::Element* pElement) = 0;
 
-    virtual osg::BoundingBox computeBoundingBox(const RenderData* pRenderData) const;
+    virtual osg::BoundingBox computeBoundingBox(
+        const ElementRenderData* pRenderData,
+        const ElementRenderObject* pRenderObject) const;
 
-    virtual std::unique_ptr<RenderObject> generateRenderObject(
+    virtual std::unique_ptr<ElementRenderObject> generateRenderObject(
         Scene* pScene,
         const wydb::Element* pElem) = 0;
 
-    virtual bool updateAppearance(wydb::Database* pDb);
+    bool updateAppearance(wydb::Database* pDb);
 
     template <typename T>
     T* getRenderDataAs() const
@@ -141,14 +127,12 @@ protected:
 
 protected:
     wydb::ElementId _id;
-    unsigned int _status;
-
-    osg::ref_ptr<osg::Group> _osgNode;
-    osg::BoundingBox _boundBox;
-    std::unique_ptr<RenderData> _renderData;
-    std::unique_ptr<RenderObject> _renderObject;
-
     std::unique_ptr<ElementNodeImpl> _pImpl;
+
+    std::unique_ptr<ElementRenderData> _renderData;
+    osg::BoundingBox _boundBox;
+    std::unique_ptr<ElementRenderObject> _renderObject;
+    osg::ref_ptr<osg::Group> _osgNode;
 
     friend class SceneImpl;
 };

@@ -65,48 +65,13 @@
 #include "scene/SketchEntityLinearization.h"
 #include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
-#include "scene/Colors.h"
 #include "scene/nodes/MeshRenderObject.h"
+#include "scene/nodes/SolidMeshRenderObject.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc)
-{
-    if (loc.IsIdentity())
-    {
-        return osg::Matrix::identity();
-    }
-    const gp_Trsf& trsf = loc.Transformation();
-    
-    // 提取旋转矩阵元素
-    gp_Mat rotation = trsf.VectorialPart();
-    double r11 = rotation.Value(1, 1);
-    double r12 = rotation.Value(1, 2);
-    double r13 = rotation.Value(1, 3);
-    double r21 = rotation.Value(2, 1);
-    double r22 = rotation.Value(2, 2);
-    double r23 = rotation.Value(2, 3);
-    double r31 = rotation.Value(3, 1);
-    double r32 = rotation.Value(3, 2);
-    double r33 = rotation.Value(3, 3);
-
-    // 提取平移分量
-    gp_XYZ translation = trsf.TranslationPart();
-    double tx = translation.X();
-    double ty = translation.Y();
-    double tz = translation.Z();
-
-    // 构建OSG矩阵（列优先存储）
-    return osg::Matrix(
-        r11, r21, r31, 0.0,  // 第一列 (旋转部分)
-        r12, r22, r32, 0.0,  // 第二列
-        r13, r23, r33, 0.0,  // 第三列
-        tx,  ty,  tz,  1.0   // 第四列 (平移部分)
-    );
-}
-
-std::unique_ptr<RenderObject> SolidElementNode::generateRenderObject(
+std::unique_ptr<ElementRenderObject> SolidElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     assert(pScene);
@@ -118,9 +83,6 @@ std::unique_ptr<RenderObject> SolidElementNode::generateRenderObject(
         return nullptr;
     }
 
-    if (pSolid->isCut()) this->addFlag(Flag::Cut);
-    else this->removeFlag(Flag::Cut);
-
     MeshRenderData* data = this->renderData();
     if (!data || !data->vertices || !data->normals || !data->triangleIndices || !data->lineIndices)
     {
@@ -130,13 +92,9 @@ std::unique_ptr<RenderObject> SolidElementNode::generateRenderObject(
     assert(!data->faceInfos.empty());
     assert(!data->edgeInfos.empty());
 
-    // 获取移动旋转矩阵
-    TopoDS_Shape shape = pSolid->getShape();
-    data->matrix = convertTopLocToOsgMatrix(shape.Location());
-
-    auto renderObject = std::make_unique<MeshRenderObject>(
-        pElem->getId(), this->getNodeType(), *data);
-    renderObject->build(this->makeStyle(), this->hasFlag(Flag::NoBatchFace));
+    auto renderObject = std::make_unique<SolidMeshRenderObject>(
+        pElem->getId(), this->getNodeType(), *data, pSolid);
+    renderObject->build(this->hasFlag(Flag::NoBatchFace));
 
     // 同步显示模式
     Scene::DisplayMode mode = pScene->getDisplayMode();
@@ -149,26 +107,6 @@ std::unique_ptr<RenderObject> SolidElementNode::generateRenderObject(
 MeshRenderObject* SolidElementNode::renderObject() const
 {
     return this->getRenderObjectAs<MeshRenderObject>();
-}
-
-MeshRenderStyle SolidElementNode::makeStyle() const
-{
-    MeshRenderStyle style;
-    style.doubleSided = false;
-    style.active = this->isActive();
-    style.highlighted = this->isHighlighted();
-    style.cut = this->hasFlag(Flag::Cut);
-    style.faceColor = this->getFaceDefaultColor();
-    style.edgeColor = this->getEdgeDefaultColor();
-    style.inactiveColor = Colors::kTransparent;
-    style.faceHighlightColor = Colors::kSolidFace_Highlight;
-    style.facePreviewColor = Colors::kSolidFace_Preview;
-    style.edgeHighlightColor = Colors::kSolidEdge_Highlight;
-    style.edgePreviewColor = Colors::kSolidEdge_Preview;
-    style.edgePreviewWireframeColor = Colors::kEdge_Preview;
-    style.edgeHighlightOverlayColor = Colors::kEdge_Highlight;
-    style.edgePreviewOverlayColor = Colors::kEdge_Preview;
-    return style;
 }
 
 void SolidElementNode::setWireframe(bool flag)
@@ -199,9 +137,7 @@ bool SolidElementNode::isEdgesVisible() const
     return obj ? obj->isEdgesVisible() : true;
 }
 
-
-
-std::unique_ptr<RenderData> SolidElementNode::generateRenderData(
+std::unique_ptr<ElementRenderData> SolidElementNode::generateRenderData(
     Scene* pScene, const wydb::Element* pElement) noexcept
 {
     (void)pScene;
@@ -221,6 +157,7 @@ std::unique_ptr<RenderData> SolidElementNode::generateRenderData(
         assert(pSolid);
         TopLoc_Location loc;
         TopoDS_Shape shape = pSolid->getShape();
+        data->matrix = OsgUtils::convertTopLocToOsgMatrix(shape.Location());
         shape.Location(loc, Standard_False);
         if (!this->generateMeshData(shape, *data))
         {
@@ -609,40 +546,6 @@ bool SolidElementNode::generateMeshData(TopoDS_Shape& shape, MeshRenderData& dat
     return true;
 }
 
-bool SolidElementNode::updateAppearance(wydb::Database* pDb)
-{
-    if (!ElementNode::updateAppearance(pDb))
-    {
-        assert(false);
-        return false;
-    }
-
-    assert(pDb);
-    const wy3d::Solid* pSolid = wy3d::Solid::cast(pDb->getElement(_id));
-    if (!pSolid)
-    {
-        return false;
-    }
-
-    const wy3d::Color& solidColor = pSolid->getColor();
-    constexpr float inv255 = 1.0f / 255.0f;
-    _solidFaceColor.set(
-        static_cast<float>(solidColor.red) * inv255,
-        static_cast<float>(solidColor.green) * inv255,
-        static_cast<float>(solidColor.blue) * inv255,
-        1.0f);
-    this->updateColorAndTransparent();
-    return true;
-}
-
-void SolidElementNode::updateColorAndTransparent()
-{
-    if (MeshRenderObject* obj = this->renderObject())
-    {
-        obj->applyAppearance(this->makeStyle());
-    }
-}
-
 unsigned int SolidElementNode::getFaceIndex(unsigned int primitiveIndex) const
 {
     const MeshRenderData* data = this->renderData();
@@ -844,22 +747,6 @@ bool SolidElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
         assert(false);
         return true;
     }
-}
-
-osg::Vec4 SolidElementNode::getFaceDefaultColor() const
-{
-    if (this->hasFlag(Flag::Cut))
-        return Colors::kCutFace;
-    else
-        return _solidFaceColor;
-}
-
-osg::Vec4 SolidElementNode::getEdgeDefaultColor() const
-{
-    if (this->hasFlag(Flag::Cut))
-        return Colors::kCutEdge;
-    else
-        return Colors::kSolidEdge;
 }
 
 } // namespace wy3dApp

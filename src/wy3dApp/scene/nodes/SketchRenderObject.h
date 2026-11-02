@@ -37,7 +37,7 @@ struct SketchRenderStyle
 
 // 草图渲染对象:普通曲线 + 中心线 + 点.
 // 主曲线与中心线共享同一对高亮/预览叠加几何(高亮累积,预览 last-writer-wins).
-class SketchRenderObject : public RenderObject
+class SketchRenderObject : public ElementRenderObject
 {
 public:
     SketchRenderObject(const wydb::ElementId& id,
@@ -46,10 +46,6 @@ public:
     ~SketchRenderObject() override;
 
     void build();
-
-    // 元素级高亮/预览
-    void setHighlighted(bool flag) override;
-    void setPreviewed(bool flag) override;
 
     // 主曲线高亮/预览
     void highlightCurveByIndex(unsigned int curveIndex, bool flag);
@@ -65,6 +61,11 @@ public:
     void clearDynamicRenderGeometry() override;
 
 private:
+    // 元素级显示状态
+    void updateAppearance(
+        const DisplayState& dispState,
+        const wydb::Element* pElement) override;
+
     osg::ref_ptr<osg::Geometry> generateHighlightGeom() const;
     osg::ref_ptr<osg::Geometry> generatePreviewGeom(const osg::UIntArray& indices,
         const std::vector<CurveRenderInfo>& infos,

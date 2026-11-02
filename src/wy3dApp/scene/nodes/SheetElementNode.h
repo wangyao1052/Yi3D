@@ -22,15 +22,19 @@
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
-#include "scene/nodes/ElementRenderData.h"
+#include "scene/nodes/ElementRenderDataTypes.h"
 
 #include <TopoDS_Shape.hxx>
 #include <wydbElement.h>
 
+namespace wy3d
+{
+    class Sheet;
+}
+
 namespace wy3dApp {
 
 class SceneImpl;
-struct MeshRenderStyle;
 class MeshRenderObject;
 
 class SheetElementNode : public ElementNode
@@ -38,9 +42,8 @@ class SheetElementNode : public ElementNode
     friend class SceneImpl;
 
 public:
-    SheetElementNode(const wydb::ElementId& id, osg::Vec4 color)
+    explicit SheetElementNode(const wydb::ElementId& id)
         : ElementNode(id),
-        _sheetFaceColor(color),
         _flags(0)
     {}
 
@@ -84,8 +87,6 @@ public:
         const MeshRenderData* data = this->renderData();
         return data ? data->matrix : osg::Matrix::identity();
     }
-    void setSheetFaceColor(const osg::Vec4& color) { _sheetFaceColor = color; }
-    const osg::Vec4& getSheetFaceColor() const { return _sheetFaceColor; }
 
     unsigned int getFaceIndex(unsigned int primitiveIndex) const;
     unsigned int getEdgeIndex(unsigned int primitiveIndex) const;
@@ -112,13 +113,10 @@ public:
     bool isEdgesVisible() const;
 
 protected:
-    virtual std::unique_ptr<RenderObject> generateRenderObject(
+    virtual std::unique_ptr<ElementRenderObject> generateRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
-    virtual std::unique_ptr<RenderData> generateRenderData(
+    virtual std::unique_ptr<ElementRenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
-
-    virtual bool updateAppearance(wydb::Database* pDb) override;
-    void updateColorAndTransparent();
 
     virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override
     {
@@ -129,11 +127,8 @@ protected:
 private:
     MeshRenderData* renderData() const { return this->getRenderDataAs<MeshRenderData>(); }
     MeshRenderObject* renderObject() const;
-    MeshRenderStyle makeStyle() const;
 
     bool generateMeshData(TopoDS_Shape& shape, MeshRenderData& data);
-    osg::Vec4 getFaceDefaultColor() const;
-    osg::Vec4 getEdgeDefaultColor() const;
 
 private:
     enum class Flag : unsigned int
@@ -155,7 +150,6 @@ private:
     }
 
 private:
-    osg::Vec4 _sheetFaceColor;
     unsigned int _flags;
 };
 

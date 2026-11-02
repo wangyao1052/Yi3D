@@ -33,7 +33,7 @@ struct CurveRenderStyle : LineRenderStyle
 };
 
 // 曲线渲染对象:线几何 + 按曲线索引的高亮/预览叠加几何
-class CurveRenderObject : public RenderObject
+class CurveRenderObject : public ElementRenderObject
 {
 public:
     CurveRenderObject(const wydb::ElementId& id,
@@ -45,10 +45,6 @@ public:
 
     void build();
 
-    // 元素级高亮/预览
-    void setHighlighted(bool flag) override;
-    void setPreviewed(bool flag) override;
-
     // 单条曲线高亮/预览
     void highlightCurveByIndex(unsigned int curveIndex, bool flag);
     void previewCurveByIndex(unsigned int curveIndex, bool flag);
@@ -58,6 +54,11 @@ public:
     osg::Geometry* getGeometry() const;
 
 private:
+    // 元素级显示状态
+    void updateAppearance(
+        const DisplayState& dispState,
+        const wydb::Element* pElement) override;
+
     osg::ref_ptr<osg::Geometry> generateHighlightGeom() const;
     osg::ref_ptr<osg::Geometry> generatePreviewGeom(unsigned int curveIndex) const;
 

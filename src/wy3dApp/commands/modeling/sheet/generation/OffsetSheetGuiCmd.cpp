@@ -949,7 +949,7 @@ void OffsetSheetGuiCmd::refreshFaceColors()
     if (!newFaceSels.isEmpty())
     {
         _pSelSetHighlightor_NewFaces =
-            std::make_shared<SelectionSetHighlightor>(newFaceSels, Colors::kSheetFace_New);
+            std::make_shared<SelectionSetHighlightor>(newFaceSels, Colors::kSkyBlue);
     }
 
     if (!_pSelSetHighlightor_Faces) return;

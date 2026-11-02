@@ -54,14 +54,14 @@ void CurveRenderObject::build()
     _node->addChild(_line->getContentRoot());
 }
 
-void CurveRenderObject::setHighlighted(bool flag)
+void CurveRenderObject::updateAppearance(
+    const DisplayState& dispState,
+    const wydb::Element* pElement)
 {
-    if (_line) _line->setHighlighted(flag);
-}
+    //(void)pElement;
+    //_displayState = dispState;
 
-void CurveRenderObject::setPreviewed(bool flag)
-{
-    if (_line) _line->setPreviewed(flag);
+    if (_line) _line->updateAppearance(dispState, pElement);
 }
 
 void CurveRenderObject::highlightCurveByIndex(unsigned int curveIndex, bool flag)

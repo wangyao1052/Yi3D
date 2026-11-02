@@ -22,14 +22,18 @@
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
-#include "scene/nodes/ElementRenderData.h"
+#include "scene/nodes/ElementRenderDataTypes.h"
 
 #include <TopoDS_Shape.hxx>
+
+namespace wy3d
+{
+    class Solid;
+}
 
 namespace wy3dApp {
 
 class SceneImpl;
-struct MeshRenderStyle;
 class MeshRenderObject;
 
 class SolidElementNode : public ElementNode
@@ -37,9 +41,8 @@ class SolidElementNode : public ElementNode
     friend class SceneImpl;
 
 public:
-    SolidElementNode(const wydb::ElementId& id, osg::Vec4 color)
+    explicit SolidElementNode(const wydb::ElementId& id)
         : ElementNode(id),
-        _solidFaceColor(color),
         _flags(0)
     {}
 
@@ -84,8 +87,6 @@ public:
         const MeshRenderData* data = this->renderData();
         return data ? data->matrix : osg::Matrix::identity();
     }
-    void setSolidFaceColor(const osg::Vec4& color) { _solidFaceColor = color; }
-    const osg::Vec4& getSolidFaceColor() const { return _solidFaceColor; }
 
     // 由PrimitiveIndex获取面的序号
     // 没有找到的话返回unsigned int(-1)
@@ -124,14 +125,11 @@ public:
 
 protected:
     // 生成渲染对象
-    virtual std::unique_ptr<RenderObject> generateRenderObject(
+    virtual std::unique_ptr<ElementRenderObject> generateRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
     // 生成渲染数据
-    virtual std::unique_ptr<RenderData> generateRenderData(
+    virtual std::unique_ptr<ElementRenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
-
-    virtual bool updateAppearance(wydb::Database* pDb) override;
-    void updateColorAndTransparent();
 
     // 计算是否Active
     virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override;
@@ -139,21 +137,15 @@ protected:
 private:
     MeshRenderData* renderData() const { return this->getRenderDataAs<MeshRenderData>(); }
     MeshRenderObject* renderObject() const;
-    MeshRenderStyle makeStyle() const;
 
     // 生成渲染数据
     bool generateMeshData(TopoDS_Shape& shape, MeshRenderData& data);
-    // 获取面的默认颜色
-    osg::Vec4 getFaceDefaultColor() const;
-    // 获取边的默认颜色
-    osg::Vec4 getEdgeDefaultColor() const;
 
 private:
     // 标志位
     enum class Flag : unsigned int
     {
         NoBatchFace = 0x00000001, // 分离式渲染面
-        Cut         = 0x00000010, // 切除材料
     };
 
     inline void addFlag(Flag flag)
@@ -170,9 +162,6 @@ private:
     }
 
 private:
-    // 实体默认面色
-    osg::Vec4 _solidFaceColor;
-
     // 标志信息
     unsigned int _flags;
 };

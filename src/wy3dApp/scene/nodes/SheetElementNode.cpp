@@ -55,45 +55,13 @@
 #include <osg/PolygonOffset>
 #include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
-#include "scene/Colors.h"
 #include "scene/nodes/MeshRenderObject.h"
+#include "scene/nodes/SheetMeshRenderObject.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-static osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc)
-{
-    if (loc.IsIdentity())
-    {
-        return osg::Matrix::identity();
-    }
-    const gp_Trsf& trsf = loc.Transformation();
-
-    gp_Mat rotation = trsf.VectorialPart();
-    double r11 = rotation.Value(1, 1);
-    double r12 = rotation.Value(1, 2);
-    double r13 = rotation.Value(1, 3);
-    double r21 = rotation.Value(2, 1);
-    double r22 = rotation.Value(2, 2);
-    double r23 = rotation.Value(2, 3);
-    double r31 = rotation.Value(3, 1);
-    double r32 = rotation.Value(3, 2);
-    double r33 = rotation.Value(3, 3);
-
-    gp_XYZ translation = trsf.TranslationPart();
-    double tx = translation.X();
-    double ty = translation.Y();
-    double tz = translation.Z();
-
-    return osg::Matrix(
-        r11, r21, r31, 0.0,
-        r12, r22, r32, 0.0,
-        r13, r23, r33, 0.0,
-        tx,  ty,  tz,  1.0
-    );
-}
-
-std::unique_ptr<RenderObject> SheetElementNode::generateRenderObject(
+std::unique_ptr<ElementRenderObject> SheetElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     assert(pScene);
@@ -114,12 +82,9 @@ std::unique_ptr<RenderObject> SheetElementNode::generateRenderObject(
     assert(!data->faceInfos.empty());
     assert(!data->edgeInfos.empty());
 
-    TopoDS_Shape shape = pSheet->getShape();
-    data->matrix = convertTopLocToOsgMatrix(shape.Location());
-
-    auto renderObject = std::make_unique<MeshRenderObject>(
-        pElem->getId(), this->getNodeType(), *data);
-    renderObject->build(this->makeStyle(), this->hasFlag(Flag::NoBatchFace));
+    auto renderObject = std::make_unique<SheetMeshRenderObject>(
+        pElem->getId(), this->getNodeType(), *data, pSheet);
+    renderObject->build(this->hasFlag(Flag::NoBatchFace));
 
     // 同步显示模式
     Scene::DisplayMode mode = pScene->getDisplayMode();
@@ -132,26 +97,6 @@ std::unique_ptr<RenderObject> SheetElementNode::generateRenderObject(
 MeshRenderObject* SheetElementNode::renderObject() const
 {
     return this->getRenderObjectAs<MeshRenderObject>();
-}
-
-MeshRenderStyle SheetElementNode::makeStyle() const
-{
-    MeshRenderStyle style;
-    style.doubleSided = true;
-    style.active = this->isActive();
-    style.highlighted = this->isHighlighted();
-    style.cut = false;
-    style.faceColor = this->getFaceDefaultColor();
-    style.edgeColor = this->getEdgeDefaultColor();
-    style.inactiveColor = Colors::kTransparent;
-    style.faceHighlightColor = Colors::kSheetFace_Highlight;
-    style.facePreviewColor = Colors::kSheetFace_Preview;
-    style.edgeHighlightColor = Colors::kSheetEdge_Highlight;
-    style.edgePreviewColor = Colors::kSheetEdge_Preview;
-    style.edgePreviewWireframeColor = Colors::kEdge_Preview;
-    style.edgeHighlightOverlayColor = Colors::kEdge_Highlight;
-    style.edgePreviewOverlayColor = Colors::kEdge_Preview;
-    return style;
 }
 
 void SheetElementNode::setWireframe(bool flag)
@@ -182,7 +127,7 @@ bool SheetElementNode::isEdgesVisible() const
     return obj ? obj->isEdgesVisible() : true;
 }
 
-std::unique_ptr<RenderData> SheetElementNode::generateRenderData(
+std::unique_ptr<ElementRenderData> SheetElementNode::generateRenderData(
     Scene* pScene, const wydb::Element* pElement) noexcept
 {
     (void)pScene;
@@ -201,6 +146,7 @@ std::unique_ptr<RenderData> SheetElementNode::generateRenderData(
 
         TopLoc_Location loc;
         TopoDS_Shape shape = pSheet->getShape();
+        data->matrix = OsgUtils::convertTopLocToOsgMatrix(shape.Location());
         shape.Location(loc, Standard_False);
         if (!this->generateMeshData(shape, *data))
         {
@@ -567,39 +513,6 @@ bool SheetElementNode::generateMeshData(TopoDS_Shape& shape, MeshRenderData& dat
     return true;
 }
 
-bool SheetElementNode::updateAppearance(wydb::Database* pDb)
-{
-    if (!ElementNode::updateAppearance(pDb))
-    {
-        assert(false);
-        return false;
-    }
-
-    assert(pDb);
-    const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pDb->getElement(_id));
-    if (!pSheet)
-    {
-        return false;
-    }
-    const wy3d::Color& sheetColor = pSheet->getColor();
-    constexpr float inv255 = 1.0f / 255.0f;
-    _sheetFaceColor.set(
-        static_cast<float>(sheetColor.red) * inv255,
-        static_cast<float>(sheetColor.green) * inv255,
-        static_cast<float>(sheetColor.blue) * inv255,
-        1.0f);
-    this->updateColorAndTransparent();
-    return true;
-}
-
-void SheetElementNode::updateColorAndTransparent()
-{
-    if (MeshRenderObject* obj = this->renderObject())
-    {
-        obj->applyAppearance(this->makeStyle());
-    }
-}
-
 unsigned int SheetElementNode::getFaceIndex(unsigned int primitiveIndex) const
 {
     const MeshRenderData* data = this->renderData();
@@ -793,16 +706,6 @@ void SheetElementNode::clearDynamicRenderGeometry()
         obj->clearDynamicRenderGeometry();
     }
     this->removeFlag(Flag::NoBatchFace);
-}
-
-osg::Vec4 SheetElementNode::getFaceDefaultColor() const
-{
-    return _sheetFaceColor;
-}
-
-osg::Vec4 SheetElementNode::getEdgeDefaultColor() const
-{
-    return Colors::kSheetEdge;
 }
 
 } // namespace wy3dApp

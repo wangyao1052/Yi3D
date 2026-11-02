@@ -566,7 +566,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
         _pSnapContext = std::make_shared<Locate2dContext>();
 
         _pArcTransient = std::make_shared<SketchArcTransient>(
-            _sketchInfo.sketchPlane, Colors::kSketchEntity, 2.0f);
+            _sketchInfo.sketchPlane, Colors::sketchEntity.normal, 2.0f);
     }
     break;
 
@@ -579,7 +579,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
         _pSnapContext = std::make_shared<Locate2dContext>();
 
         _pArcTransient = std::make_shared<SketchArcTransient>(
-            _sketchInfo.sketchPlane, Colors::kSketchEntity, 2.0f);
+            _sketchInfo.sketchPlane, Colors::sketchEntity.normal, 2.0f);
     }
     break;
 
@@ -592,7 +592,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
         _pSnapContext = std::make_shared<DrawArc2dContext>(_center, _radius, _startPnt);
 
         _pArcTransient = std::make_shared<SketchArcTransient>(
-            _sketchInfo.sketchPlane, Colors::kSketchEntity, 2.0f);
+            _sketchInfo.sketchPlane, Colors::sketchEntity.normal, 2.0f);
     }
     break;
 

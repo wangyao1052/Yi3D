@@ -20,27 +20,30 @@
 
 #include <cassert>
 
-#include <osg/BlendFunc>
 #include <osg/CullFace>
 #include <osg/Geometry>
 #include <osg/Group>
 #include <osg/LightModel>
 #include <osg/LineWidth>
 #include <osg/MatrixTransform>
-#include <osg/PolygonOffset>
 #include <osg/PrimitiveSet>
 #include <osg/Array>
 
 #include <OsgUtils.h>
 
+#include "scene/Colors.h"
 #include "scene/RenderConst.h"
 
 namespace wy3dApp {
 
 MeshRenderObject::MeshRenderObject(const wydb::ElementId& id,
     ElementNodeType nodeType,
-    MeshRenderData& data)
-    : _id(id),
+    MeshRenderData& data,
+    bool doubleSided,
+    const Colors::Mesh& palette)
+    : _palette(palette),
+    _doubleSided(doubleSided),
+    _id(id),
     _nodeType(nodeType),
     _data(&data)
 {
@@ -49,10 +52,9 @@ MeshRenderObject::MeshRenderObject(const wydb::ElementId& id,
 
 MeshRenderObject::~MeshRenderObject() = default;
 
-void MeshRenderObject::build(const MeshRenderStyle& style, bool initialNoBatchFace)
+void MeshRenderObject::build(bool initialNoBatchFace)
 {
     assert(_data);
-    _style = style;
     _noBatchFace = initialNoBatchFace;
 
     this->clear();
@@ -92,145 +94,7 @@ void MeshRenderObject::build(const MeshRenderStyle& style, bool initialNoBatchFa
         _node->addChild(_edgeNode);
     }
 
-    this->applyAppearance();
-}
-
-void MeshRenderObject::applyAppearance(const MeshRenderStyle& style)
-{
-    _style = style;
-    this->applyAppearance();
-}
-
-void MeshRenderObject::applyAppearance()
-{
-    const MeshRenderStyle& style = _style;
-
-    // 面
-    if (_shapeNode)
-    {
-        const osg::Vec4 faceColor = style.active
-            ? (style.highlighted ? style.faceHighlightColor : style.faceColor)
-            : (style.highlighted ? style.inactiveColor : style.faceColor);
-        OsgUtils::setNodeColor(_shapeNode, faceColor);
-
-        if (_shapeGeom)
-        {
-            osg::StateSet* stateSet = _shapeGeom->getOrCreateStateSet();
-            if (style.active)
-            {
-                if (style.cut)
-                {
-                    stateSet->setRenderBinDetails(1, "RenderBin");
-                    // z-fighting
-                    osg::ref_ptr<osg::PolygonOffset> polyOffset = new osg::PolygonOffset(-1.0f, 1.0f);
-                    stateSet->setAttributeAndModes(polyOffset,
-                        osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
-                }
-                else
-                {
-                    stateSet->setRenderBinDetails(0, "RenderBin");
-                    // Push faces slightly behind coplanar edge geometry to keep outlines crisp.
-                    osg::ref_ptr<osg::PolygonOffset> polyOffset = new osg::PolygonOffset(1.0f, 1.0f);
-                    stateSet->setAttributeAndModes(polyOffset,
-                        osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
-                }
-
-                // remove transparent
-                stateSet->setRenderingHint(osg::StateSet::DEFAULT_BIN);
-                stateSet->removeAttribute(osg::StateAttribute::Type::BLENDFUNC);
-            }
-            else
-            {
-                // transparent
-                stateSet->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
-                stateSet->setAttributeAndModes(new osg::BlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-                // z-fighting
-                osg::ref_ptr<osg::PolygonOffset> polyOffset = new osg::PolygonOffset(-1.0f, 1.0f);
-                stateSet->setAttributeAndModes(polyOffset,
-                    osg::StateAttribute::OVERRIDE | osg::StateAttribute::ON);
-            }
-        }
-    }
-
-    // 边
-    if (_edgeGeom)
-    {
-        const osg::Vec4 edgeColor = style.active
-            ? (style.highlighted ? style.edgeHighlightColor : style.edgeColor)
-            : (style.highlighted ? style.inactiveColor : style.edgeColor);
-        OsgUtils::setNodeColor(_edgeGeom, edgeColor);
-
-        osg::StateSet* stateSet = _edgeGeom->getOrCreateStateSet();
-        if (style.active)
-        {
-            if (style.highlighted || style.cut)
-            {
-                stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-                stateSet->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
-            }
-            else
-            {
-                stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-                stateSet->setRenderBinDetails(0, "RenderBin");
-            }
-        }
-        else
-        {
-            if (style.highlighted)
-            {
-                stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-                stateSet->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
-            }
-            else
-            {
-                stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-                stateSet->setRenderBinDetails(0, "RenderBin");
-            }
-        }
-    }
-}
-
-void MeshRenderObject::setActive(bool flag)
-{
-    _style.active = flag;
-    this->applyAppearance();
-}
-
-void MeshRenderObject::setHighlighted(bool flag)
-{
-    _style.highlighted = flag;
-    this->applyAppearance();
-}
-
-void MeshRenderObject::setPreviewed(bool flag)
-{
-    // 面
-    if (_shapeNode)
-    {
-        OsgUtils::setNodeColor(_shapeNode, flag ? _style.facePreviewColor : _style.faceColor);
-    }
-
-    // 边
-    if (_edgeGeom)
-    {
-        // 线框模式下无面可见，边改用亮橙色与黑色线框区分
-        OsgUtils::setNodeColor(_edgeGeom,
-            flag ? (_wireframe ? _style.edgePreviewWireframeColor : _style.edgePreviewColor)
-                 : _style.edgeColor);
-
-        osg::StateSet* stateSet = _edgeGeom->getOrCreateStateSet();
-        if (flag)
-        {
-            // 预览时关闭深度测试使边线始终可见
-            stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-            stateSet->setRenderBinDetails(RenderBinNumers::Preview, "RenderBin");
-        }
-        else
-        {
-            stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-            stateSet->setRenderBinDetails(0, "RenderBin");
-        }
-    }
+    //this->updateAppearance(_displayState, nullptr);
 }
 
 void MeshRenderObject::setWireframe(bool flag)
@@ -263,12 +127,12 @@ void MeshRenderObject::highlightFace(unsigned int faceIndex, bool flag)
     this->startNoBatchRender_Face();
     if (flag)
     {
-        this->setFaceColor(faceIndex, _style.faceHighlightColor);
+        this->setFaceColor(faceIndex, _palette.face.highlight);
         _data->faceInfos[faceIndex].addFlag(FaceInfoFlag::Highlight);
     }
     else
     {
-        this->setFaceColor(faceIndex, _style.faceColor);
+        this->setFaceColor(faceIndex, getFaceDefaultColor());
         _data->faceInfos[faceIndex].removeFlag(FaceInfoFlag::Highlight);
     }
 }
@@ -299,7 +163,7 @@ void MeshRenderObject::previewFace(unsigned int faceIndex, bool flag)
         // 预览态是临时态(没有变量记录是否在该状态下),不能影响当前的高亮态.
         if (!_data->faceInfos[faceIndex].hasFlag(FaceInfoFlag::Highlight))
         {
-            this->setFaceColor(faceIndex, _style.facePreviewColor);
+            this->setFaceColor(faceIndex, _palette.face.preview);
         }
     }
     else
@@ -307,7 +171,7 @@ void MeshRenderObject::previewFace(unsigned int faceIndex, bool flag)
         // 预览态是临时态(没有变量记录是否在该状态下),不能影响当前的高亮态.
         if (!_data->faceInfos[faceIndex].hasFlag(FaceInfoFlag::Highlight))
         {
-            this->setFaceColor(faceIndex, _style.faceColor);
+            this->setFaceColor(faceIndex, getFaceDefaultColor());
         }
     }
 }
@@ -393,7 +257,7 @@ osg::ref_ptr<osg::Geometry> MeshRenderObject::generateShapeGeom(bool batch) cons
     shapeGeom->setNodeMask(_nodeType);
     shapeGeom->setUseDisplayList(false);
     shapeGeom->setUseVertexBufferObjects(true);
-    if (_style.doubleSided)
+    if (_doubleSided)
     {
         // Sheet: 双面渲染 + 双面光照
         osg::StateSet* pSS = shapeGeom->getOrCreateStateSet();
@@ -412,14 +276,14 @@ osg::ref_ptr<osg::Geometry> MeshRenderObject::generateShapeGeom(bool batch) cons
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
     if (batch)
     {
-        colors->push_back(_style.faceColor);
+        colors->push_back(getFaceDefaultColor());
         shapeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
         shapeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_TRIANGLES, _data->triangleIndices->begin(), _data->triangleIndices->end()));
     }
     else
     {
         size_t numFaces = _data->faceInfos.size();
-        colors->resize(numFaces, _style.faceColor);
+        colors->resize(numFaces, getFaceDefaultColor());
         shapeGeom->setColorArray(colors, osg::Array::Binding::BIND_PER_PRIMITIVE_SET);
 
         auto iterBeg = _data->triangleIndices->begin();
@@ -450,7 +314,7 @@ osg::ref_ptr<osg::Geometry> MeshRenderObject::generateEdgeGeom() const
     edgeGeom->setUseVertexBufferObjects(true);
     edgeGeom->setVertexArray(_data->vertices);
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(_style.edgeColor);
+    colors->push_back(getEdgeDefaultColor());
     edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
     edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, _data->lineIndices->begin(), _data->lineIndices->end()));
     edgeGeom->setUserValue("ElementId", static_cast<unsigned int>(_id.value()));
@@ -505,7 +369,7 @@ osg::ref_ptr<osg::Geometry> MeshRenderObject::generateEdgeGeom_Highlight() const
     edgeGeom->setUseVertexBufferObjects(true);
     edgeGeom->setVertexArray(_data->vertices);
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(_style.edgeHighlightOverlayColor);
+    colors->push_back(_palette.edge.highlight);
     edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
     edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, indices->begin(), indices->end()));
     edgeGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
@@ -559,7 +423,7 @@ osg::ref_ptr<osg::Geometry> MeshRenderObject::generateEdgeGeom_Preview(unsigned 
     edgeGeom->setUseVertexBufferObjects(true);
     edgeGeom->setVertexArray(_data->vertices);
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(_style.edgePreviewOverlayColor);
+    colors->push_back(_palette.edge.preview);
     edgeGeom->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
     edgeGeom->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, indices->begin(), indices->end()));
     edgeGeom->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
@@ -587,7 +451,7 @@ void MeshRenderObject::startNoBatchRender_Face()
     {
         assert(_shapeNode);
         if (_shapeNode) _shapeNode->addChild(_nobatchShapeGeom);
-        this->applyAppearance(_style);
+        //this->updateAppearance(_displayState, nullptr);
     }
     else
     {

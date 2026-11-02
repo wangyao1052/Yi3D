@@ -77,69 +77,51 @@ void BodyModificationRenderObject::build()
     _node->addChild(_edgeNode);
 }
 
-void BodyModificationRenderObject::setActive(bool flag)
+void BodyModificationRenderObject::updateAppearance(
+    const DisplayState& dispState,
+    const wydb::Element* pElement)
 {
-    _active = flag;
-    this->applyAppearance();
-}
+    (void)pElement;
+    //_displayState = dispState;
 
-void BodyModificationRenderObject::setHighlighted(bool flag)
-{
-    _highlighted = flag;
-    this->applyAppearance();
-}
-
-void BodyModificationRenderObject::applyAppearance()
-{
     if (!_edgeNode)
     {
         return;
     }
 
-    const osg::Vec4 color = _active
-        ? (_highlighted ? _style.highlightColor : _style.edgeColor)
-        : (_highlighted ? _style.inactiveColor : _style.edgeColor);
+    osg::Vec4 color = _style.edgeColor;
+    if (dispState.highlighted)
+    {
+        color = dispState.active ? _style.highlightColor : _style.inactiveColor;
+    }
+    else if (dispState.previewed)
+    {
+        color = _style.previewColor;
+    }
     OsgUtils::setNodeColor(_edgeNode, color);
 
-    // 高亮时关闭深度测试使边线始终可见
-    if (_active && _highlighted)
+    osg::StateSet* stateSet = _edgeNode->getOrCreateStateSet();
+    if (dispState.active && dispState.highlighted)
     {
-        _edgeNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-        _edgeNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
+        // 高亮时关闭深度测试使边线始终可见
+        stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+        stateSet->setRenderBinDetails(RenderBinNumers::Highlight, "RenderBin");
+    }
+    else if (dispState.previewed)
+    {
+        // 预览时关闭深度测试使边线始终可见
+        stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
+        stateSet->setRenderBinDetails(RenderBinNumers::Preview, "RenderBin");
     }
     else
     {
-        _edgeNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-        _edgeNode->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
+        stateSet->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
+        stateSet->setRenderBinDetails(0, "RenderBin");
     }
 
-    if (_highlighted) // 显示
-        _edgeNode->setNodeMask(~ElementNodeType::All);
-    else // 隐藏
-        _edgeNode->setNodeMask(0);
-}
-
-void BodyModificationRenderObject::setPreviewed(bool flag)
-{
-    if (!_edgeNode)
-    {
-        return;
-    }
-
-    OsgUtils::setNodeColor(_edgeNode, flag ? _style.previewColor : _style.edgeColor);
-
-    if (flag) // 预览时关闭深度测试使边线始终可见
-    {
-        _edgeNode->setNodeMask(~ElementNodeType::All);
-        _edgeNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::OFF);
-        _edgeNode->getOrCreateStateSet()->setRenderBinDetails(RenderBinNumers::Preview, "RenderBin");
-    }
-    else // 隐藏
-    {
-        _edgeNode->setNodeMask(0);
-        _edgeNode->getOrCreateStateSet()->setMode(GL_DEPTH_TEST, osg::StateAttribute::ON);
-        _edgeNode->getOrCreateStateSet()->setRenderBinDetails(0, "RenderBin");
-    }
+    // 高亮/预览时显示叠加边线
+    _edgeNode->setNodeMask(
+        (dispState.highlighted || dispState.previewed) ? ~ElementNodeType::All : 0);
 }
 
 } // namespace wy3dApp

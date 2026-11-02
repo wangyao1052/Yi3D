@@ -207,7 +207,7 @@ void TangentDatumPlnCmd::gotoStep(Step step)
         }
 
         // 旋转弧线
-        _pRotationArcTransient = std::make_shared<SketchArcTransient>(_rotationPlane, Colors::kEdge_Preview, 2.0);
+        _pRotationArcTransient = std::make_shared<SketchArcTransient>(_rotationPlane, Colors::solidMesh.edge.preview, 2.0);
         _pRotationArcTransient->update(wy::Vector2::kZero, _radius, 0.0, 0.0);
 
         //

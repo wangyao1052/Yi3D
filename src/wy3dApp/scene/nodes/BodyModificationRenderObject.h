@@ -26,7 +26,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/ElementRenderObject.h>
 
-#include "scene/nodes/ElementRenderData.h"
+#include "scene/nodes/ElementRenderDataTypes.h"
 
 namespace osg
 {
@@ -46,7 +46,7 @@ struct BodyModificationRenderStyle
 };
 
 // 实体修改渲染对象:只显示修改边,默认隐藏,高亮/预览时显示
-class BodyModificationRenderObject : public RenderObject
+class BodyModificationRenderObject : public ElementRenderObject
 {
 public:
     BodyModificationRenderObject(const wydb::ElementId& id,
@@ -57,21 +57,16 @@ public:
 
     void build();
 
-    // 元素级显示状态
-    void setActive(bool flag) override;
-    void setHighlighted(bool flag) override;
-    void setPreviewed(bool flag) override;
-
 private:
-    // 按 _active/_highlighted 更新显示效果
-    void applyAppearance();
+    // 按 _displayState/_style 更新显示效果
+    void updateAppearance(
+        const DisplayState& dispState,
+        const wydb::Element* pElement) override;
 
     wydb::ElementId _id;
     ElementNodeType _nodeType;
     LineRenderData* _data;
     BodyModificationRenderStyle _style;
-    bool _active = true;
-    bool _highlighted = false;
 
     osg::ref_ptr<osg::MatrixTransform> _edgeNode;
     osg::ref_ptr<osg::Geometry> _edgeGeom;

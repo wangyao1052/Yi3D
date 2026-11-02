@@ -592,7 +592,7 @@ void NormalToEdgeDatumPlnCmd::onLeftMouseUp(const MouseEvent& event)
 
         // 显示起点
         _pEdgeStartPntTransient = std::make_shared<PointTransient>(_curveInfo.initPoint,
-            Colors::kEdge_Preview, SnapConsts::PickSize);
+            Colors::solidMesh.edge.preview, SnapConsts::PickSize);
 
         // 完成步骤
         this->finishStep(_step);

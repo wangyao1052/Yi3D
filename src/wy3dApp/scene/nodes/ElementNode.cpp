@@ -26,86 +26,40 @@
 #include <osg/Polytope>
 
 #include <wydbDatabase.h>
-#include <wy3dFeature.h>
 
 #include "scene/nodes/ElementBounds.h"
 #include "scene/nodes/ElementNodeImpl.h"
 
 namespace wy3dApp {
 
-namespace {
-
-// 元素节点状态位,仅本实现内使用
-enum class Status : unsigned int
+ElementNode::ElementNode(const wydb::ElementId& id)
+    : _id(id), _pImpl(std::make_unique<ElementNodeImpl>())
 {
-    Highlighted = 0x00000001, // 高亮
-    Inactive    = 0x00000002, // 非活动状态,布尔体的成员为此状态
-    Hidden      = 0x00000004, // 隐藏状态
-    Previewed   = 0x00000008, // 预览(临时交互态,高亮优先)
-};
-
-void addStatus(unsigned int& status, Status s)
-{
-    status |= static_cast<unsigned int>(s);
+    _osgNode = new osg::Group();
+    _pImpl->updateNodeMask(_osgNode.get());
 }
 
-void removeStatus(unsigned int& status, Status s)
-{
-    status &= ~static_cast<unsigned int>(s);
-}
-
-constexpr unsigned int kVisibleNodeMask = static_cast<unsigned int>(ElementNodeType::All);
-constexpr unsigned int kRenderOnlyNodeMask = 0x80000000u;
-
-void updateVisibleNodeMask(ElementNode& node)
-{
-    if (node.isActive() && !node.isHidden())
-    {
-        node.getOsgNode()->setNodeMask(kVisibleNodeMask); // 渲染+可拾取
-    }
-    else if (node.isHighlighted() || node.isPreviewed())
-    {
-        node.getOsgNode()->setNodeMask(kRenderOnlyNodeMask); // 仅渲染
-    }
-    else
-    {
-        node.getOsgNode()->setNodeMask(0);
-    }
-}
-
-} // namespace
+ElementNode::~ElementNode() = default;
 
 bool ElementNode::isHighlighted() const
 {
-    return _status & static_cast<unsigned int>(Status::Highlighted);
+    return _pImpl->isHighlighted();
 }
 
 bool ElementNode::isHidden() const
 {
-    return _status & static_cast<unsigned int>(Status::Hidden);
+    return _pImpl->isHidden();
 }
 
 bool ElementNode::isActive() const
 {
-    return !(_status & static_cast<unsigned int>(Status::Inactive));
+    return _pImpl->isActive();
 }
 
 bool ElementNode::isPreviewed() const
 {
-    return _status & static_cast<unsigned int>(Status::Previewed);
+    return _pImpl->isPreviewed();
 }
-
-RenderData::RenderData() = default;
-RenderData::~RenderData() = default;
-
-ElementNode::ElementNode(const wydb::ElementId& id)
-    : _id(id), _status(0), _pImpl(std::make_unique<ElementNodeImpl>())
-{
-    _osgNode = new osg::Group();
-    updateVisibleNodeMask(*this);
-}
-
-ElementNode::~ElementNode() = default;
 
 void ElementNode::clearDynamicRenderGeometry()
 {
@@ -118,14 +72,13 @@ void ElementNode::clearDynamicRenderGeometry()
 bool ElementNode::regenerate(Scene* pScene, wydb::Database* pDb)
 {
     assert(pScene);
+    assert(pDb);
 
     _osgNode->removeChildren(0, _osgNode->getNumChildren());
     _renderObject.reset();
     _renderData.reset();
     _boundBox.init();
 
-    // 获取对应元素
-    assert(pDb);
     const wydb::Element* pElem = pDb->getElement(_id);
     if (!pElem)
     {
@@ -139,50 +92,24 @@ bool ElementNode::regenerate(Scene* pScene, wydb::Database* pDb)
         return true;
     }
 
-    _boundBox = this->computeBoundingBox(_renderData.get());
-
     _renderObject = this->generateRenderObject(pScene, pElem);
     if (_renderObject)
     {
         _osgNode->addChild(_renderObject->getContentRoot());
     }
-    else
-    {
-        _boundBox = osg::BoundingBox();
-    }
 
-    this->activate(this->computeWhetherActive(pElem));
+    _boundBox = this->computeBoundingBox(_renderData.get(), _renderObject.get());
 
-    // added by wangyao 2025.06.04 {
-    // FixBug:新建模型;隐藏某些特征;保存;再打开;隐藏的特征在模型树上是灰显的,但在场景中依然可见;
-    // 在生成渲染对象时需要设置显示和隐藏状态
-    // 感觉可以和上一语句的activate合并起来就可以只调用updateAppearance;稳妥起见还是先按照最小化改动的方式来修改后续再仔细斟酌
-    if (pElem->isHidden())
-    {
-        this->hide(true);
-    }
-    else
-    {
-        this->hide(false);
-    }
-    // }
-
-    // 几何重新生成后清除临时预览态,并把当前显示状态同步到新渲染对象
-    // (FixBug:Gizmo拖拽布尔运算结果体松开鼠标后没有高亮显示)
-    removeStatus(_status, Status::Previewed);
-    updateVisibleNodeMask(*this);
-    if (_renderObject)
-    {
-        _renderObject->setActive(this->isActive());
-        _renderObject->setHighlighted(this->isHighlighted());
-    }
+    this->updateAppearance(pDb);
 
     return true;
 }
 
-osg::BoundingBox ElementNode::computeBoundingBox(const RenderData* pRenderData) const
+osg::BoundingBox ElementNode::computeBoundingBox(
+    const ElementRenderData* pRenderData,
+    const ElementRenderObject* pRenderObject) const
 {
-    if (!pRenderData || !pRenderData->vertices)
+    if (!pRenderData || !pRenderData->vertices || !pRenderObject)
     {
         return osg::BoundingBox();
     }
@@ -207,87 +134,100 @@ bool ElementNode::updateAppearance(wydb::Database* pDb)
         return false;
     }
 
-    const wy3d::Feature* pFeature = wy3d::Feature::cast(pElem);
-    if (pFeature)
-    {
-        this->activate(this->computeWhetherActive(pElem));
-        this->hide(pFeature->isHidden());
-    }
+    const bool active = this->computeWhetherActive(pElem);
+    if (active) _pImpl->removeStatus(ElementNodeImpl::Status::Inactive);
+    else _pImpl->addStatus(ElementNodeImpl::Status::Inactive);
 
+    const bool hidden = pElem->isHidden();
+    if (hidden) _pImpl->addStatus(ElementNodeImpl::Status::Hidden);
+    else _pImpl->removeStatus(ElementNodeImpl::Status::Hidden);
+
+    _pImpl->updateNodeMask(_osgNode.get());
+
+    if (_renderObject)
+    {
+        _renderObject->updateAppearance(_pImpl->getDisplayState(), pElem);
+    }
     return true;
 }
 
 void ElementNode::highlight(bool flag)
 {
-    if (this->isHighlighted() == flag)
-    {
-        return;
-    }
+    if (this->isHighlighted() == flag) return;
 
     if (flag)
     {
-        addStatus(_status, Status::Highlighted);
-        removeStatus(_status, Status::Previewed); // 高亮优先于预览
+        _pImpl->addStatus(ElementNodeImpl::Status::Highlighted);
+        _pImpl->removeStatus(ElementNodeImpl::Status::Previewed);
     }
     else
     {
-        removeStatus(_status, Status::Highlighted);
+        _pImpl->removeStatus(ElementNodeImpl::Status::Highlighted);
     }
-
-    updateVisibleNodeMask(*this);
+    _pImpl->updateNodeMask(_osgNode.get());
 
     if (_renderObject)
     {
-        _renderObject->setHighlighted(flag);
+        _renderObject->updateAppearance(_pImpl->getDisplayState(), nullptr);
     }
 }
 
 void ElementNode::preview(bool flag)
 {
-    if (this->isHighlighted()) // 预览态是临时交互态,高亮优先
+    if (this->isHighlighted())
     {
+        assert(!this->isPreviewed());
         return;
     }
 
-    if (flag) addStatus(_status, Status::Previewed);
-    else removeStatus(_status, Status::Previewed);
-
-    updateVisibleNodeMask(*this);
+    if (this->isPreviewed() == flag) return;
+    if (flag)
+    {
+        _pImpl->addStatus(ElementNodeImpl::Status::Previewed);
+    }
+    else
+    {
+        _pImpl->removeStatus(ElementNodeImpl::Status::Previewed);
+    }
+    _pImpl->updateNodeMask(_osgNode.get());
 
     if (_renderObject)
     {
-        _renderObject->setPreviewed(flag);
+        _renderObject->updateAppearance(_pImpl->getDisplayState(), nullptr);
     }
 }
 
 void ElementNode::activate(bool flag)
 {
-    if (this->isActive() == flag)
+    if (this->isActive() == flag) return;
+    if (flag)
     {
-        return;
+        _pImpl->removeStatus(ElementNodeImpl::Status::Inactive);
     }
+    else
+    {
+        _pImpl->addStatus(ElementNodeImpl::Status::Inactive);
+    }
+    _pImpl->updateNodeMask(_osgNode.get());
 
-    if (flag) removeStatus(_status, Status::Inactive);
-    else addStatus(_status, Status::Inactive);
-
-    updateVisibleNodeMask(*this);
     if (_renderObject)
     {
-        _renderObject->setActive(flag);
+        _renderObject->updateAppearance(_pImpl->getDisplayState(), nullptr);
     }
 }
 
 void ElementNode::hide(bool flag)
 {
-    if (this->isHidden() == flag)
+    if (this->isHidden() == flag) return;
+    if (flag)
     {
-        return;
+        _pImpl->addStatus(ElementNodeImpl::Status::Hidden);
     }
-
-    if (flag) addStatus(_status, Status::Hidden);
-    else removeStatus(_status, Status::Hidden);
-
-    updateVisibleNodeMask(*this);
+    else
+    {
+        _pImpl->removeStatus(ElementNodeImpl::Status::Hidden);
+    }
+    _pImpl->updateNodeMask(_osgNode.get());
 }
 
 wyap::Selection ElementNode::createSelectionFromPick(

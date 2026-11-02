@@ -119,7 +119,7 @@ osg::ref_ptr<osg::Geometry> SketchSplineCtrolPointsPathOsgRenderer::generateGeom
         geometry->setUseVertexBufferObjects(true);
         geometry->setVertexArray(vertices);
         osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-        colors->push_back(Colors::kGhostGizmo);
+        colors->push_back(Colors::kGray);
         geometry->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
         geometry->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, indices.begin(), indices.end()));
         // 中心线

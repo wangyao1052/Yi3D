@@ -24,29 +24,39 @@
 
 #include <wy3dApp/wy3dAppDefs.h>
 
+namespace wydb { class Element; }
+
 namespace wy3dApp {
 
-class WY3DAPP_EXPORT RenderObject
+struct DisplayState
+{
+    bool active = true;
+    bool highlighted = false;
+    bool previewed = false;
+};
+
+class WY3DAPP_EXPORT ElementRenderObject
 {
 public:
-    RenderObject();
-    virtual ~RenderObject();
+    ElementRenderObject();
+    virtual ~ElementRenderObject();
 
-    RenderObject(const RenderObject&) = delete;
-    RenderObject& operator=(const RenderObject&) = delete;
+    ElementRenderObject(const ElementRenderObject&) = delete;
+    ElementRenderObject& operator=(const ElementRenderObject&) = delete;
 
     // 内容根
     osg::Group* getContentRoot() const { return _node.get(); }
-
-    virtual void setActive(bool flag) {}
-    virtual void setHighlighted(bool flag) {}
-    virtual void setPreviewed(bool flag) {}
 
     // 清空全部内容
     virtual void clear();
 
     // 清理临时高亮/预览/NoBatch 几何
     virtual void clearDynamicRenderGeometry() {}
+
+public:
+    virtual void updateAppearance(
+        const DisplayState& dispState,
+        const wydb::Element* pElement = nullptr) {}
 
 protected:
     osg::ref_ptr<osg::Group> _node;

@@ -26,7 +26,8 @@
 #include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/ElementRenderObject.h>
 
-#include "scene/nodes/ElementRenderData.h"
+#include "scene/Colors.h"
+#include "scene/nodes/ElementRenderDataTypes.h"
 
 namespace osg
 {
@@ -36,49 +37,15 @@ namespace osg
 
 namespace wy3dApp {
 
-// 网格渲染样式:由节点根据元素状态与颜色解析后传入
-struct MeshRenderStyle
-{
-    // Sheet 为 true(双面渲染+双面光照), Solid 为 false
-    bool doubleSided = false;
-
-    // 元素状态
-    bool active = true;
-    bool highlighted = false;
-    bool cut = false;
-
-    // 颜色
-    osg::Vec4 faceColor;
-    osg::Vec4 edgeColor;
-    osg::Vec4 inactiveColor;
-    osg::Vec4 faceHighlightColor;
-    osg::Vec4 facePreviewColor;
-    osg::Vec4 edgeHighlightColor;
-    osg::Vec4 edgePreviewColor;
-    osg::Vec4 edgePreviewWireframeColor;
-    osg::Vec4 edgeHighlightOverlayColor;
-    osg::Vec4 edgePreviewOverlayColor;
-};
-
-// 实体/片体共用的网格渲染对象
-class MeshRenderObject final : public RenderObject
+// 实体/片体共用的网格渲染对象基类，负责几何生成与交互几何；
+// 外观状态机由 SolidMeshRenderObject / SheetMeshRenderObject 各自实现
+class MeshRenderObject : public ElementRenderObject
 {
 public:
-    MeshRenderObject(const wydb::ElementId& id,
-        ElementNodeType nodeType,
-        MeshRenderData& data);
     ~MeshRenderObject() override;
 
     // 构建面/边几何; initialNoBatchFace 用于跨重建保持按面渲染状态
-    void build(const MeshRenderStyle& style, bool initialNoBatchFace = false);
-
-    // 更新显示效果(颜色/透明/深度/渲染排序)
-    void applyAppearance(const MeshRenderStyle& style);
-
-    // 元素级显示状态
-    void setActive(bool flag) override;
-    void setHighlighted(bool flag) override;
-    void setPreviewed(bool flag) override;
+    void build(bool initialNoBatchFace = false);
 
     bool isNoBatchFace() const { return _noBatchFace; }
 
@@ -102,10 +69,31 @@ public:
     // 清空动态渲染对象(NoBatch渲染结束时调用)
     void clearDynamicRenderGeometry() override;
 
-private:
-    // 按 _style 更新显示效果
-    void applyAppearance();
+    // 外观状态机由子类实现
+    void updateAppearance(
+        const DisplayState& dispState,
+        const wydb::Element* pElement) override = 0;
 
+protected:
+    MeshRenderObject(const wydb::ElementId& id,
+        ElementNodeType nodeType,
+        MeshRenderData& data,
+        bool doubleSided,
+        const Colors::Mesh& palette);
+
+    // 常态面/边颜色，由子类按元素颜色和类型推导
+    virtual osg::Vec4 getFaceDefaultColor() const = 0;
+    virtual osg::Vec4 getEdgeDefaultColor() const = 0;
+
+    // 子类 updateAppearance 需要访问的状态
+    const Colors::Mesh& _palette;
+    bool _doubleSided = false;
+    bool _wireframe = false;
+    osg::ref_ptr<osg::MatrixTransform> _shapeNode;
+    osg::ref_ptr<osg::Geometry> _shapeGeom;
+    osg::ref_ptr<osg::Geometry> _edgeGeom;
+
+private:
     // 生成面几何
     osg::ref_ptr<osg::Geometry> generateShapeGeom(bool batch) const;
     // 生成边几何
@@ -126,10 +114,7 @@ private:
     wydb::ElementId _id;
     ElementNodeType _nodeType;
     MeshRenderData* _data;
-    MeshRenderStyle _style;
 
-    // 线框模式
-    bool _wireframe = false;
     // 边是否可见
     bool _showEdges = true;
     // 按面渲染(NoBatch)
@@ -139,14 +124,11 @@ private:
     // 渲染对象
     //---------------------------------
     // 面
-    osg::ref_ptr<osg::MatrixTransform> _shapeNode;
-    osg::ref_ptr<osg::Geometry> _shapeGeom;        // batch
     osg::ref_ptr<osg::Geometry> _nobatchShapeGeom; // no batch
 
     // 边
     osg::ref_ptr<osg::MatrixTransform> _edgeNode;
     osg::ref_ptr<osg::Group> _edgeWrap;
-    osg::ref_ptr<osg::Geometry> _edgeGeom;
     osg::ref_ptr<osg::Geometry> _edgeGeomHighlight; // 高亮
     osg::ref_ptr<osg::Geometry> _edgeGeomPreview;   // 预览
 };

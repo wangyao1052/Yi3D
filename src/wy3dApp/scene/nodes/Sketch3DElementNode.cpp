@@ -38,7 +38,7 @@
 
 namespace wy3dApp {
 
-std::unique_ptr<RenderObject> Sketch3DElementNode::generateRenderObject(
+std::unique_ptr<ElementRenderObject> Sketch3DElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     (void)pScene;
@@ -59,9 +59,9 @@ std::unique_ptr<RenderObject> Sketch3DElementNode::generateRenderObject(
 
     CurveRenderStyle style;
     style.nodeType = this->getNodeType();
-    style.color = Colors::kSketch;
-    style.highlightColor = Colors::kSketch_Highlight;
-    style.previewColor = Colors::kSketch_Preview;
+    style.color = Colors::sketch.normal;
+    style.highlightColor = Colors::sketch.highlight;
+    style.previewColor = Colors::sketch.preview;
     style.lineWidth = 1.2f;
     style.highlightLineWidth = 2.0f;
     style.changeLineWidthOnHighlight = true;
@@ -71,8 +71,8 @@ std::unique_ptr<RenderObject> Sketch3DElementNode::generateRenderObject(
     style.lighting = false;
     style.applyStateToRoot = false;
     style.renderBin = RenderBinNumers::SketchElement;
-    style.highlightOverlayColor = Colors::kEdge_Highlight;
-    style.previewOverlayColor = Colors::kEdge_Preview;
+    style.highlightOverlayColor = Colors::sketch.highlight;
+    style.previewOverlayColor = Colors::sketch.preview;
 
     auto renderObject = std::make_unique<CurveRenderObject>(
         pElem->getId(), this->getNodeType(), *data, *data->lineIndices, style);
@@ -85,7 +85,7 @@ CurveRenderObject* Sketch3DElementNode::renderObject() const
     return this->getRenderObjectAs<CurveRenderObject>();
 }
 
-std::unique_ptr<RenderData> Sketch3DElementNode::generateRenderData(
+std::unique_ptr<ElementRenderData> Sketch3DElementNode::generateRenderData(
     Scene* pScene, const wydb::Element* pElement) noexcept
 {
     (void)pScene;

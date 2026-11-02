@@ -157,46 +157,37 @@ void DatumPlaneRenderObject::build()
     }
 }
 
-void DatumPlaneRenderObject::setHighlighted(bool flag)
+void DatumPlaneRenderObject::updateAppearance(
+    const DisplayState& dispState,
+    const wydb::Element* pElement)
 {
+    (void)pElement;
+    //_displayState = dispState;
+
+    const bool emphasized = dispState.highlighted || dispState.previewed;
+
     if (_planeGeom)
     {
-        OsgUtils::setNodeColor(_planeGeom, flag ? _style.faceHighlightColor : _style.faceColor);
+        const osg::Vec4 color = dispState.highlighted ? _style.faceHighlightColor
+                              : dispState.previewed  ? _style.facePreviewColor
+                              : _style.faceColor;
+        OsgUtils::setNodeColor(_planeGeom, color);
 
         _planeGeom->getOrCreateStateSet()->setRenderBinDetails(
-            flag ? RenderBinNumers::DATUM_PLANE + 1 : RenderBinNumers::DATUM_PLANE,
+            emphasized ? RenderBinNumers::DATUM_PLANE + 1 : RenderBinNumers::DATUM_PLANE,
             RenderBinNames::DepthSortedBin);
     }
 
     if (_curvesGeom)
     {
-        OsgUtils::setNodeColor(_curvesGeom, flag ? _style.edgeHighlightColor : _style.edgeColor);
+        const osg::Vec4 color = dispState.highlighted ? _style.edgeHighlightColor
+                              : dispState.previewed  ? _style.edgePreviewColor
+                              : _style.edgeColor;
+        OsgUtils::setNodeColor(_curvesGeom, color);
 
-        _curvesGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(flag ? 2.0f : 1.2f));
+        _curvesGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(emphasized ? 2.0f : 1.2f));
         _curvesGeom->getOrCreateStateSet()->setRenderBinDetails(
-            flag ? RenderBinNumers::DATUM_PLANE_LINE + 1 : RenderBinNumers::DATUM_PLANE_LINE,
-            RenderBinNames::RenderBin);
-    }
-}
-
-void DatumPlaneRenderObject::setPreviewed(bool flag)
-{
-    if (_planeGeom)
-    {
-        OsgUtils::setNodeColor(_planeGeom, flag ? _style.facePreviewColor : _style.faceColor);
-
-        _planeGeom->getOrCreateStateSet()->setRenderBinDetails(
-            flag ? RenderBinNumers::DATUM_PLANE + 1 : RenderBinNumers::DATUM_PLANE,
-            RenderBinNames::DepthSortedBin);
-    }
-
-    if (_curvesGeom)
-    {
-        OsgUtils::setNodeColor(_curvesGeom, flag ? _style.edgePreviewColor : _style.edgeColor);
-
-        _curvesGeom->getOrCreateStateSet()->setAttribute(new osg::LineWidth(flag ? 2.0f : 1.2f));
-        _curvesGeom->getOrCreateStateSet()->setRenderBinDetails(
-            flag ? RenderBinNumers::DATUM_PLANE_LINE + 1 : RenderBinNumers::DATUM_PLANE_LINE,
+            emphasized ? RenderBinNumers::DATUM_PLANE_LINE + 1 : RenderBinNumers::DATUM_PLANE_LINE,
             RenderBinNames::RenderBin);
     }
 }

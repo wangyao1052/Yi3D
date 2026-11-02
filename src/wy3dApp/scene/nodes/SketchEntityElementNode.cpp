@@ -75,7 +75,7 @@ SketchEntityElementNode::SketchEntityElementNode(const wydb::ElementId& id) : El
 {
 }
 
-std::unique_ptr<RenderObject> SketchEntityElementNode::generateRenderObject(
+std::unique_ptr<ElementRenderObject> SketchEntityElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     (void)pScene;
@@ -108,9 +108,9 @@ std::unique_ptr<RenderObject> SketchEntityElementNode::generateRenderObject(
 
     LineRenderStyle style;
     style.nodeType = this->getNodeType();
-    style.color = Colors::kSketchEntity;
-    style.highlightColor = Colors::kSketchEntity_Highlight;
-    style.previewColor = Colors::kSketchEntity_Preview;
+    style.color = Colors::sketchEntity.normal;
+    style.highlightColor = Colors::sketchEntity.highlight;
+    style.previewColor = Colors::sketchEntity.preview;
     style.lineWidth = lineWidth;
     style.highlightLineWidth = lineWidth;
     style.changeLineWidthOnHighlight = false;
@@ -140,7 +140,7 @@ LineRenderObject* SketchEntityElementNode::renderObject() const
     return this->getRenderObjectAs<LineRenderObject>();
 }
 
-std::unique_ptr<RenderData> SketchEntityElementNode::generateRenderData(
+std::unique_ptr<ElementRenderData> SketchEntityElementNode::generateRenderData(
     Scene* pScene, const wydb::Element* pElement) noexcept
 {
     (void)pScene;

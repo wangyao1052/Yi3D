@@ -54,54 +54,30 @@ namespace wy3dApp {
 namespace
 {
 
-osg::Vec4 toOsgColor(const wy3d::Color& color)
-{
-    constexpr float inv255 = 1.0f / 255.0f;
-    return osg::Vec4(
-        static_cast<float>(color.red) * inv255,
-        static_cast<float>(color.green) * inv255,
-        static_cast<float>(color.blue) * inv255,
-        1.0f);
-}
-
 ElementNode* newElementNodeOfSolid(const wy3d::Solid* pSolid)
 {
     assert(pSolid);
-    wydb::ElementId id = pSolid->getId();
-    auto newSolidNode = [id](const osg::Vec4& faceColor) -> SolidElementNode*
-    {
-        return new SolidElementNode(id, faceColor);
-    };
-    osg::Vec4 faceColor = toOsgColor(pSolid->getColor());
+    const wydb::ElementId id = pSolid->getId();
 
     if (pSolid->getParent().isNull())
     {
-        return newSolidNode(faceColor);
+        return new SolidElementNode(id);
     }
 
     if (pSolid->isCut())
     {
-        if (pSolid->getParent().isNull())
-        {
-            return newSolidNode(faceColor);
-        }
-        else
-        {
-            return new BodyModificationElementNode(id);
-        }
+        return new BodyModificationElementNode(id);
     }
-    else
+
+    const wy3d::Boolean* pBoolean =
+        wy3d::Boolean::cast(pSolid->getDatabase()->getElement(pSolid->getParent()));
+    if (pBoolean)
     {
-        const wy3d::Boolean* pBoolean = wy3d::Boolean::cast(pSolid->getDatabase()->getElement(pSolid->getParent()));
-        if (pBoolean)
-        {
-            return newSolidNode(faceColor);
-        }
-        else // merge
-        {
-            return new BodyModificationElementNode(id);
-        }
+        return new SolidElementNode(id);
     }
+
+    // merge
+    return new BodyModificationElementNode(id);
 }
 
 } // namespace
@@ -124,7 +100,7 @@ ElementNodeFactoryImpl::ElementNodeFactoryImpl()
         {
             const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem);
             if (!pSheet) return nullptr;
-            return new SheetElementNode(pSheet->getId(), toOsgColor(pSheet->getColor()));
+            return new SheetElementNode(pSheet->getId());
         });
 
     this->registerCreator(wy3d::BodyModification::classInfo(),

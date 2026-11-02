@@ -228,7 +228,7 @@ bool Through3PointsDatumPlnCmd::setPoint(const wy::Vector3& pnt, QString& error)
     {
         _pnt1st = pnt;
         _pPntTransient1st = std::make_shared<PointTransient>(_pnt1st,
-            Colors::kEdge_Highlight, SnapConsts::PickSize + 1);
+            Colors::solidMesh.edge.highlight, SnapConsts::PickSize + 1);
         return this->finishStep(_step);
     }
     break;
@@ -241,7 +241,7 @@ bool Through3PointsDatumPlnCmd::setPoint(const wy::Vector3& pnt, QString& error)
             return false;
         }
         _pPntTransient2nd = std::make_shared<PointTransient>(_pnt2nd,
-            Colors::kEdge_Highlight, SnapConsts::PickSize + 1);
+            Colors::solidMesh.edge.highlight, SnapConsts::PickSize + 1);
         return this->finishStep(_step);
     }
     break;
@@ -268,7 +268,7 @@ bool Through3PointsDatumPlnCmd::setPoint(const wy::Vector3& pnt, QString& error)
             return false;
         }
         _pPntTransient3rd = std::make_shared<PointTransient>(_pnt3rd,
-            Colors::kEdge_Highlight, SnapConsts::PickSize + 1);
+            Colors::solidMesh.edge.highlight, SnapConsts::PickSize + 1);
         return this->finishStep(_step);
     }
     break;

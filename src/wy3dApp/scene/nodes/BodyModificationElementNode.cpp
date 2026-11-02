@@ -32,7 +32,6 @@
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
 #include "scene/nodes/ElementMeshInfo.h"
-#include "scene/nodes/ElementNodeImpl.h"
 #include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
@@ -46,12 +45,10 @@ BodyModificationElementNode::BodyModificationElementNode(const wydb::ElementId& 
 {
 }
 
-osg::BoundingBox BodyModificationElementNode::computeBoundingBox(const RenderData* pRenderData) const
+osg::BoundingBox BodyModificationElementNode::computeBoundingBox(
+    const ElementRenderData* pRenderData,
+    const ElementRenderObject* pRenderObject) const
 {
-    (void)pRenderData;
-
-    // 该节点借用宿主的顶点数组,且没有独立可拾取几何;包围盒保持为空,
-    // 使其不进入 RTree/fit view/框选.
     return osg::BoundingBox();
 }
 
@@ -136,7 +133,7 @@ bool findHostMatrix(const ElementNode* pHostNode, osg::Matrix& matrix)
 
 } // namespace
 
-std::unique_ptr<RenderObject> BodyModificationElementNode::generateRenderObject(
+std::unique_ptr<ElementRenderObject> BodyModificationElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     assert(pScene);
@@ -149,10 +146,10 @@ std::unique_ptr<RenderObject> BodyModificationElementNode::generateRenderObject(
     }
 
     BodyModificationRenderStyle style;
-    style.edgeColor = Colors::kSolidEdge;
-    style.highlightColor = Colors::kEdge_Highlight;
-    style.previewColor = Colors::kEdge_Preview;
-    style.inactiveColor = Colors::kTransparent;
+    style.edgeColor = Colors::solidMesh.element.normal.edge;
+    style.highlightColor = Colors::solidMesh.edge.highlight;
+    style.previewColor = Colors::solidMesh.edge.preview;
+    style.inactiveColor = Colors::kRustRed;
 
     auto renderObject = std::make_unique<BodyModificationRenderObject>(
         pElem->getId(), this->getNodeType(), *data, style);
@@ -165,7 +162,7 @@ BodyModificationRenderObject* BodyModificationElementNode::renderObject() const
     return this->getRenderObjectAs<BodyModificationRenderObject>();
 }
 
-std::unique_ptr<RenderData> BodyModificationElementNode::generateRenderData(
+std::unique_ptr<ElementRenderData> BodyModificationElementNode::generateRenderData(
     Scene* pScene, const wydb::Element* pElement) noexcept
 {
     try

@@ -34,6 +34,7 @@
 #include <TopoDS_Face.hxx>
 #include <BRep_Tool.hxx>
 #include <TopExp.hxx>
+#include <gp_Trsf.hxx>
 
 // 顶点坐标
 const float boxVertices[][3] = {
@@ -292,6 +293,41 @@ osg::Node* OsgUtils::BuildEdgeLine(
 	geode->addDrawable(triGeom);
 
 	return geode.release();
+}
+
+osg::Matrix OsgUtils::convertTopLocToOsgMatrix(const TopLoc_Location& loc)
+{
+	if (loc.IsIdentity())
+	{
+		return osg::Matrix::identity();
+	}
+	const gp_Trsf& trsf = loc.Transformation();
+
+	// 提取旋转矩阵元素
+	gp_Mat rotation = trsf.VectorialPart();
+	double r11 = rotation.Value(1, 1);
+	double r12 = rotation.Value(1, 2);
+	double r13 = rotation.Value(1, 3);
+	double r21 = rotation.Value(2, 1);
+	double r22 = rotation.Value(2, 2);
+	double r23 = rotation.Value(2, 3);
+	double r31 = rotation.Value(3, 1);
+	double r32 = rotation.Value(3, 2);
+	double r33 = rotation.Value(3, 3);
+
+	// 提取平移分量
+	gp_XYZ translation = trsf.TranslationPart();
+	double tx = translation.X();
+	double ty = translation.Y();
+	double tz = translation.Z();
+
+	// OSG 使用行向量约定：旋转部分取转置放入左上 3x3，平移放入第四行
+	return osg::Matrix(
+		r11, r21, r31, 0.0,
+		r12, r22, r32, 0.0,
+		r13, r23, r33, 0.0,
+		tx,  ty,  tz,  1.0
+	);
 }
 
 bool OsgUtils::setNodeColor(osg::Node* pNode, const osg::Vec4& color)

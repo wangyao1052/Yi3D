@@ -74,7 +74,7 @@
 
 namespace wy3dApp {
 
-std::unique_ptr<RenderObject> SketchElementNode::generateRenderObject(
+std::unique_ptr<ElementRenderObject> SketchElementNode::generateRenderObject(
     Scene* pScene, const wydb::Element* pElem)
 {
     (void)pScene;
@@ -98,9 +98,9 @@ std::unique_ptr<RenderObject> SketchElementNode::generateRenderObject(
 
     SketchRenderStyle style;
     style.curveStyle.nodeType = nodeType;
-    style.curveStyle.color = Colors::kSketch;
-    style.curveStyle.highlightColor = Colors::kSketch_Highlight;
-    style.curveStyle.previewColor = Colors::kSketch_Preview;
+    style.curveStyle.color = Colors::sketch.normal;
+    style.curveStyle.highlightColor = Colors::sketch.highlight;
+    style.curveStyle.previewColor = Colors::sketch.preview;
     style.curveStyle.lineWidth = 1.2f;
     style.curveStyle.highlightLineWidth = 2.0f;
     style.curveStyle.depthTest = true;
@@ -119,8 +119,8 @@ std::unique_ptr<RenderObject> SketchElementNode::generateRenderObject(
     style.pointStyle.highlightPointSize = 7.0f;
     style.pointStyle.changePointSizeOnHighlight = true;
 
-    style.highlightOverlayColor = Colors::kEdge_Highlight;
-    style.previewOverlayColor = Colors::kEdge_Preview;
+    style.highlightOverlayColor = Colors::sketch.highlight;
+    style.previewOverlayColor = Colors::sketch.preview;
 
     auto renderObject = std::make_unique<SketchRenderObject>(pElem->getId(), *data, style);
     renderObject->build();
@@ -138,7 +138,7 @@ osg::Geometry* SketchElementNode::getCenterLinesGeom() const
     return obj ? obj->getCenterLinesGeom() : nullptr;
 }
 
-std::unique_ptr<RenderData> SketchElementNode::generateRenderData(
+std::unique_ptr<ElementRenderData> SketchElementNode::generateRenderData(
     Scene* pScene, const wydb::Element* pElement) noexcept
 {
     (void)pScene;

@@ -18,10 +18,12 @@
 
 #pragma once
 
+#include <osg/Matrix>
 #include <osg/Node>
 #include <osg/NodeCallback>
 #include <osg/ShapeDrawable>
 #include <osgText/Text>
+#include <TopLoc_Location.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Edge.hxx>
 
@@ -42,6 +44,9 @@ public:
 	static osg::Node* BuildEdgeLine(
 		const TopoDS_Edge& edge,
 		double deflection = 0.1);
+
+	// TopLoc_Location 转为 OSG 模型矩阵（局部坐标 -> 世界坐标）
+	static osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc);
 
 	static bool setNodeColor(osg::Node* node, const osg::Vec4& color);
 

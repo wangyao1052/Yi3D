@@ -109,7 +109,7 @@ void SketchPolygonCircleOsgRenderer::refresh()
     }
 
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(Colors::kGhostGizmo);
+    colors->push_back(Colors::kGray);
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
     geometry->setUseDisplayList(false);
