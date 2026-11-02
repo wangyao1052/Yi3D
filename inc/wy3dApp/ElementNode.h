@@ -89,9 +89,6 @@ public:
     osg::Group* getOsgNode() const { return _osgNode.get(); }
 
 protected:
-    // 清空动态渲染对象(NoBatch渲染结束时调用);默认委托给 ElementRenderObject
-    virtual void clearDynamicRenderGeometry();
-     
     bool regenerate(Scene* pScene, wydb::Database* pDb);
 
     virtual std::unique_ptr<ElementRenderData> generateRenderData(

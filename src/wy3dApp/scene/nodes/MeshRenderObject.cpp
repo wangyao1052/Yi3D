@@ -52,10 +52,10 @@ MeshRenderObject::MeshRenderObject(const wydb::ElementId& id,
 
 MeshRenderObject::~MeshRenderObject() = default;
 
-void MeshRenderObject::build(bool initialNoBatchFace)
+void MeshRenderObject::build()
 {
     assert(_data);
-    _noBatchFace = initialNoBatchFace;
+    _noBatchFace = false;
 
     this->clear();
     _shapeNode = nullptr;
@@ -71,11 +71,6 @@ void MeshRenderObject::build(bool initialNoBatchFace)
     if (_data->triangleIndices && !_data->triangleIndices->empty())
     {
         _shapeGeom = this->generateShapeGeom(true);
-        if (initialNoBatchFace)
-        {
-            if (_shapeGeom) _shapeGeom->setNodeMask(0);
-            _nobatchShapeGeom = this->generateShapeGeom(false);
-        }
 
         _shapeNode = new osg::MatrixTransform(_data->matrix);
         if (_shapeGeom) _shapeNode->addChild(_shapeGeom);

@@ -42,8 +42,7 @@ class SolidElementNode : public ElementNode
 
 public:
     explicit SolidElementNode(const wydb::ElementId& id)
-        : ElementNode(id),
-        _flags(0)
+        : ElementNode(id)
     {}
 
     // 结点类型
@@ -113,9 +112,6 @@ public:
     // 预览边
     void previewEdge(unsigned int edgeIndex, bool flag);
 
-    // 清空动态渲染对象
-    virtual void clearDynamicRenderGeometry() override;
-
     // 线框模式
     void setWireframe(bool flag);
     bool isWireframe() const;
@@ -140,30 +136,6 @@ private:
 
     // 生成渲染数据
     bool generateMeshData(TopoDS_Shape& shape, MeshRenderData& data);
-
-private:
-    // 标志位
-    enum class Flag : unsigned int
-    {
-        NoBatchFace = 0x00000001, // 分离式渲染面
-    };
-
-    inline void addFlag(Flag flag)
-    {
-        _flags |= static_cast<unsigned int>(flag);
-    }
-    inline void removeFlag(Flag flag)
-    {
-        _flags &= ~static_cast<unsigned int>(flag);
-    }
-    inline bool hasFlag(Flag flag) const
-    {
-        return _flags & static_cast<unsigned int>(flag);
-    }
-
-private:
-    // 标志信息
-    unsigned int _flags;
 };
 
 } // namespace wy3dApp

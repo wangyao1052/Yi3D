@@ -44,10 +44,8 @@ class MeshRenderObject : public ElementRenderObject
 public:
     ~MeshRenderObject() override;
 
-    // 构建面/边几何; initialNoBatchFace 用于跨重建保持按面渲染状态
-    void build(bool initialNoBatchFace = false);
-
-    bool isNoBatchFace() const { return _noBatchFace; }
+    // 构建面/边几何
+    void build();
 
     // 线框模式
     void setWireframe(bool flag);

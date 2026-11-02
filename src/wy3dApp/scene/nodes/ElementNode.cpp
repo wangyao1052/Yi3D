@@ -61,14 +61,6 @@ bool ElementNode::isPreviewed() const
     return _pImpl->isPreviewed();
 }
 
-void ElementNode::clearDynamicRenderGeometry()
-{
-    if (_renderObject)
-    {
-        _renderObject->clearDynamicRenderGeometry();
-    }
-}
-
 bool ElementNode::regenerate(Scene* pScene, wydb::Database* pDb)
 {
     assert(pScene);

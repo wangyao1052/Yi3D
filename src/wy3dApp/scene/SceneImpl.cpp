@@ -1089,7 +1089,10 @@ void SceneImpl::endNoBatchRender()
     for (auto kvp : _id2ElemNode)
     {
         assert(kvp.second);
-        kvp.second->clearDynamicRenderGeometry();
+        if (kvp.second->_renderObject)
+        {
+            kvp.second->_renderObject->clearDynamicRenderGeometry();
+        }
     }
 }
 

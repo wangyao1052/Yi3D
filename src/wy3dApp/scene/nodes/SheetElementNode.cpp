@@ -84,7 +84,7 @@ std::unique_ptr<ElementRenderObject> SheetElementNode::generateRenderObject(
 
     auto renderObject = std::make_unique<SheetMeshRenderObject>(
         pElem->getId(), this->getNodeType(), *data, pSheet);
-    renderObject->build(this->hasFlag(Flag::NoBatchFace));
+    renderObject->build();
 
     // 同步显示模式
     Scene::DisplayMode mode = pScene->getDisplayMode();
@@ -638,7 +638,6 @@ void SheetElementNode::highlightFace(unsigned int faceIndex, bool flag)
         return;
     }
     obj->highlightFace(faceIndex, flag);
-    if (obj->isNoBatchFace()) this->addFlag(Flag::NoBatchFace);
 }
 
 void SheetElementNode::highlightFace(unsigned int faceIndex, const osg::Vec4& color)
@@ -657,7 +656,6 @@ void SheetElementNode::highlightFace(unsigned int faceIndex, const osg::Vec4& co
         return;
     }
     obj->highlightFace(faceIndex, color);
-    if (obj->isNoBatchFace()) this->addFlag(Flag::NoBatchFace);
 }
 
 void SheetElementNode::previewFace(unsigned int faceIndex, bool flag)
@@ -671,7 +669,6 @@ void SheetElementNode::previewFace(unsigned int faceIndex, bool flag)
     if (MeshRenderObject* obj = this->renderObject())
     {
         obj->previewFace(faceIndex, flag);
-        if (obj->isNoBatchFace()) this->addFlag(Flag::NoBatchFace);
     }
 }
 
@@ -697,15 +694,6 @@ void SheetElementNode::previewEdge(unsigned int edgeIndex, bool flag)
     {
         assert(false);
     }
-}
-
-void SheetElementNode::clearDynamicRenderGeometry()
-{
-    if (MeshRenderObject* obj = this->renderObject())
-    {
-        obj->clearDynamicRenderGeometry();
-    }
-    this->removeFlag(Flag::NoBatchFace);
 }
 
 } // namespace wy3dApp

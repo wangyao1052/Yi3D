@@ -43,8 +43,7 @@ class SheetElementNode : public ElementNode
 
 public:
     explicit SheetElementNode(const wydb::ElementId& id)
-        : ElementNode(id),
-        _flags(0)
+        : ElementNode(id)
     {}
 
     virtual ElementNodeType getNodeType() const override { return ElementNodeType::Sheet; }
@@ -104,8 +103,6 @@ public:
     void highlightEdge(unsigned int edgeIndex, bool flag);
     void previewEdge(unsigned int edgeIndex, bool flag);
 
-    virtual void clearDynamicRenderGeometry() override;
-
     void setWireframe(bool flag);
     bool isWireframe() const;
 
@@ -129,28 +126,6 @@ private:
     MeshRenderObject* renderObject() const;
 
     bool generateMeshData(TopoDS_Shape& shape, MeshRenderData& data);
-
-private:
-    enum class Flag : unsigned int
-    {
-        NoBatchFace = 0x00000001,
-    };
-
-    inline void addFlag(Flag flag)
-    {
-        _flags |= static_cast<unsigned int>(flag);
-    }
-    inline void removeFlag(Flag flag)
-    {
-        _flags &= ~static_cast<unsigned int>(flag);
-    }
-    inline bool hasFlag(Flag flag) const
-    {
-        return _flags & static_cast<unsigned int>(flag);
-    }
-
-private:
-    unsigned int _flags;
 };
 
 } // namespace wy3dApp

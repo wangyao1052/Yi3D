@@ -94,7 +94,7 @@ std::unique_ptr<ElementRenderObject> SolidElementNode::generateRenderObject(
 
     auto renderObject = std::make_unique<SolidMeshRenderObject>(
         pElem->getId(), this->getNodeType(), *data, pSolid);
-    renderObject->build(this->hasFlag(Flag::NoBatchFace));
+    renderObject->build();
 
     // 同步显示模式
     Scene::DisplayMode mode = pScene->getDisplayMode();
@@ -669,7 +669,6 @@ void SolidElementNode::highlightFace(unsigned int faceIndex, bool flag)
         return;
     }
     obj->highlightFace(faceIndex, flag);
-    if (obj->isNoBatchFace()) this->addFlag(Flag::NoBatchFace);
 }
 
 void SolidElementNode::highlightFace(unsigned int faceIndex, const osg::Vec4& color)
@@ -681,7 +680,6 @@ void SolidElementNode::highlightFace(unsigned int faceIndex, const osg::Vec4& co
         return;
     }
     obj->highlightFace(faceIndex, color);
-    if (obj->isNoBatchFace()) this->addFlag(Flag::NoBatchFace);
 }
 
 void SolidElementNode::previewFace(unsigned int faceIndex, bool flag)
@@ -689,7 +687,6 @@ void SolidElementNode::previewFace(unsigned int faceIndex, bool flag)
     if (MeshRenderObject* obj = this->renderObject())
     {
         obj->previewFace(faceIndex, flag);
-        if (obj->isNoBatchFace()) this->addFlag(Flag::NoBatchFace);
     }
 }
 
@@ -715,15 +712,6 @@ void SolidElementNode::previewEdge(unsigned int edgeIndex, bool flag)
     {
         assert(false);
     }
-}
-
-void SolidElementNode::clearDynamicRenderGeometry()
-{
-    if (MeshRenderObject* obj = this->renderObject())
-    {
-        obj->clearDynamicRenderGeometry();
-    }
-    this->removeFlag(Flag::NoBatchFace);
 }
 
 bool SolidElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
