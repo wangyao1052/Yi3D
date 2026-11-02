@@ -115,7 +115,7 @@ protected:
     virtual std::unique_ptr<ElementRenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
-    virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override
+    virtual bool shouldBeActive(const wydb::Element* pCurElem) const override
     {
         assert(pCurElem);
         return pCurElem->getParent().isNull();

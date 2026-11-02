@@ -64,6 +64,8 @@ public:
 
     const osg::BoundingBox& getBoundingBox() const { return _boundBox; }
 
+    osg::Group* getOsgNode() const { return _osgNode.get(); }
+
     // point select
     virtual wyap::Selection createSelectionFromPick(
         osg::Drawable* pDrawable,
@@ -85,9 +87,6 @@ public:
     void activate(bool flag);
     void hide(bool flag);
 
-    // 获取Osg节点
-    osg::Group* getOsgNode() const { return _osgNode.get(); }
-
 protected:
     bool regenerate(Scene* pScene, wydb::Database* pDb);
 
@@ -105,7 +104,7 @@ protected:
 
     bool updateAppearance(wydb::Database* pDb);
 
-    virtual bool computeWhetherActive(const wydb::Element* pCurElem) const { return true; }
+    virtual bool shouldBeActive(const wydb::Element* pElem) const { return true; }
 
     template <typename T>
     T* getRenderDataAs() const

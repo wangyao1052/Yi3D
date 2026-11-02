@@ -179,7 +179,7 @@ std::unique_ptr<ElementRenderData> Sketch3DElementNode::generateRenderData(
     }
 }
 
-bool Sketch3DElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
+bool Sketch3DElementNode::shouldBeActive(const wydb::Element* pCurElem) const
 {
     assert(pCurElem);
     return pCurElem->getParent().isNull();

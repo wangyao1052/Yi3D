@@ -278,7 +278,7 @@ std::unique_ptr<ElementRenderData> SketchElementNode::generateRenderData(
     }
 }
 
-bool SketchElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
+bool SketchElementNode::shouldBeActive(const wydb::Element* pCurElem) const
 {
     assert(pCurElem);
     return pCurElem->getParent().isNull();

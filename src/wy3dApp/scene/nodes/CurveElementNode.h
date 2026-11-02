@@ -43,7 +43,7 @@ protected:
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
     // 计算是否Active
-    virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override;
+    virtual bool shouldBeActive(const wydb::Element* pCurElem) const override;
 
 private:
     LineRenderData* renderData() const { return this->getRenderDataAs<LineRenderData>(); }

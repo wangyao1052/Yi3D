@@ -57,8 +57,6 @@ protected:
     virtual std::unique_ptr<ElementRenderData> generateRenderData(
         Scene* pScene, const wydb::Element* pElement) noexcept override;
 
-    virtual bool computeWhetherActive(const wydb::Element* pCurElem) const override;
-
 private:
     LineRenderData* renderData() const { return this->getRenderDataAs<LineRenderData>(); }
     BodyModificationRenderObject* renderObject() const;

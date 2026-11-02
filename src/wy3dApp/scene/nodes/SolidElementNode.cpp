@@ -714,7 +714,7 @@ void SolidElementNode::previewEdge(unsigned int edgeIndex, bool flag)
     }
 }
 
-bool SolidElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
+bool SolidElementNode::shouldBeActive(const wydb::Element* pCurElem) const
 {
     assert(pCurElem);
 

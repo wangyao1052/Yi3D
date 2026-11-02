@@ -282,22 +282,4 @@ std::unique_ptr<ElementRenderData> BodyModificationElementNode::generateRenderDa
     }
 }
 
-bool BodyModificationElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
-{
-    // always return true
-    return true;
-    /*
-    assert(pCurElem);
-    const wydb::Database* pDb = pCurElem->getDatabase();
-    assert(pDb);
-    const wydb::Element* pOwnerElem = pDb->getElement(pCurElem->getParent());
-    if (!pOwnerElem)
-    {
-        assert(false);
-        return true;
-    }
-    return pOwnerElem->getParent().isNull();
-    */
-}
-
 } // namespace wy3dApp

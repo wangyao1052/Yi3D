@@ -126,7 +126,7 @@ bool ElementNode::updateAppearance(wydb::Database* pDb)
         return false;
     }
 
-    const bool active = this->computeWhetherActive(pElem);
+    const bool active = this->shouldBeActive(pElem);
     if (active) _pImpl->removeStatus(ElementNodeImpl::Status::Inactive);
     else _pImpl->addStatus(ElementNodeImpl::Status::Inactive);
 

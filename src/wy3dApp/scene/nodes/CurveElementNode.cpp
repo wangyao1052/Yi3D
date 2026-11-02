@@ -207,7 +207,7 @@ std::unique_ptr<ElementRenderData> CurveElementNode::generateRenderData(
     }
 }
 
-bool CurveElementNode::computeWhetherActive(const wydb::Element* pCurElem) const
+bool CurveElementNode::shouldBeActive(const wydb::Element* pCurElem) const
 {
     assert(pCurElem);
     return pCurElem->getParent().isNull();
