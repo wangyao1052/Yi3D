@@ -477,6 +477,8 @@ wyap::SelectionSet BoxPick::pick(
             }
             else if (selType == wy3d::SelectionType::SketchCurve3D && pSketch3DElemNode)
             {
+                // 点不是曲线,不产生 SketchCurve3D 选择
+                if (geom == pSketch3DElemNode->getPointsGeom()) continue;
                 unsigned int curveId = pSketch3DElemNode->getCurveId(intersection.primitiveIndex);
                 if (0 == curveId)
                 {

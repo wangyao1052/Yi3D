@@ -182,6 +182,11 @@ osg::Geometry* SketchRenderObject::getCenterLinesGeom() const
     return _centerLines ? _centerLines->getGeometry() : nullptr;
 }
 
+osg::Geometry* SketchRenderObject::getPointsGeom() const
+{
+    return _points ? _points->getGeometry() : nullptr;
+}
+
 void SketchRenderObject::clearTransientGeometry()
 {
     if (_highlightGeom)

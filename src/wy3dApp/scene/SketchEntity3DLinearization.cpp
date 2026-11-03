@@ -19,6 +19,7 @@
 #include "scene/SketchEntity3DLinearization.h"
 #include <cassert>
 #include <wy3dMath.h>
+#include <wy3dSketchPoint3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
@@ -232,7 +233,12 @@ static inline void bspline3DLinearization(const Handle(Geom_BSplineCurve)& pBSpl
 SketchEntity3DLinearization::SketchEntity3DLinearization(const wy3d::SketchEntity3D* pEntity)
 {
     assert(pEntity);
-    if (const wy3d::SketchLine3D* pLine = wy3d::SketchLine3D::cast(pEntity))
+    if (const wy3d::SketchPoint3D* pPoint = wy3d::SketchPoint3D::cast(pEntity))
+    {
+        // 点只产生一个顶点,不产生线索引,由点渲染样式按 GL_POINTS 绘制
+        _vertices.push_back(pPoint->getPosition());
+    }
+    else if (const wy3d::SketchLine3D* pLine = wy3d::SketchLine3D::cast(pEntity))
     {
         lineLinearization(pLine->getStartPoint(), pLine->getEndPoint(), _vertices, _indices);
     }

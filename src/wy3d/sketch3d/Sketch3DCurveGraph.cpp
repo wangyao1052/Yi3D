@@ -117,8 +117,8 @@ bool Sketch3DCurveGraph::collect()
         const wy3d::SketchCurve3D* pCurve = wy3d::SketchCurve3D::cast(pElem);
         if (!pCurve)
         {
-            assert(false);
-            return false;
+            // 非曲线图元(点)不参与轮廓/路径
+            continue;
         }
         if (pCurve->isDegenerate(wy3d::TOL))
         {

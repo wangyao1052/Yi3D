@@ -67,6 +67,7 @@ struct UndoRedoActions
 struct Sketch3DActions
 {
     CommandAction* pActionSelect;
+    CommandAction* pActionDrawPoint3D;
     CommandAction* pActionDrawLine3D;
     CommandAction* pActionDrawCircle3D;
     CommandAction* pActionDrawArc3D;
@@ -199,6 +200,12 @@ Sketch3DActions createSketch3DActions(EnvironmentUIImpl* pUI, QActionGroup* pAct
         CommandNames::Select,
         QCoreApplication::translate("MainWindow", "Select"),
         IconUtil::get(":/images/Basic_Select.svg"),
+        pActionGroup);
+
+    actions.pActionDrawPoint3D = pUI->newCommandAction(
+        CommandNames::Point3D,
+        QCoreApplication::translate("MainWindow", "Point"),
+        IconUtil::get(":/images/Sketch_DrawPoint.svg"),
         pActionGroup);
 
     actions.pActionDrawLine3D = pUI->newCommandAction(
@@ -504,6 +511,7 @@ void buildSketch3DToolBarUi(
     assert(pToolBarSketch3D);
 
     pToolBarSketch3D->addAction(actions.pActionSelect);
+    pToolBarSketch3D->addAction(actions.pActionDrawPoint3D);
     pToolBarSketch3D->addAction(actions.pActionDrawLine3D);
     pToolBarSketch3D->addAction(actions.pActionDrawCircle3D);
 

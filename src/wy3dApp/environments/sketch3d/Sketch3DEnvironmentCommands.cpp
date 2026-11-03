@@ -29,6 +29,7 @@
 #include "commands/CommandNames.h"
 #include "commands/edit/Sketch3DSelectGuiCmd.h"
 #include "commands/ViewCommands.h"
+#include "commands/sketch3d/SketchDrawPoint3DGuiCmd.h"
 #include "commands/sketch3d/SketchDrawLine3DGuiCmd.h"
 #include "commands/sketch3d/SketchDrawCircle3DGuiCmd.h"
 #include "commands/sketch3d/SketchDrawArc3DGuiCmd.h"
@@ -52,6 +53,7 @@
 
 #define WY3DAPP_SKETCH3D_ENV_COMMAND_LIST(X) \
     X(CommandNames::Select, WYAP_CMD_MODAL | WYAP_CMD_USEPICKFIRST | WYAP_CMD_NOHISTORY, Sketch3DSelectGuiCmd::classInfo()) \
+    X(CommandNames::Point3D, WYAP_CMD_MODAL, SketchDrawPoint3DGuiCmd::classInfo()) \
     X(CommandNames::Line3D, WYAP_CMD_MODAL, SketchDrawLine3DGuiCmd::classInfo()) \
     X(CommandNames::Circle3D, WYAP_CMD_MODAL, SketchDrawCircle3DGuiCmd::classInfo()) \
     X(CommandNames::Arc3D, WYAP_CMD_MODAL, SketchDrawArc3DGuiCmd::classInfo()) \

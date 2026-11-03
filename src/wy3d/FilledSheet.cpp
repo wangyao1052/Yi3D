@@ -47,6 +47,7 @@
 #include <wy3dSketch3D.h>
 #include <wy3dSketchCurve3D.h>
 #include <wy3dSketchPoint.h>
+#include <wy3dSketchPoint3D.h>
 #include <wy3dSketchProfile.h>
 #include <wy3dSketch3DProfile.h>
 #include <wy3dErrorCode.h>
@@ -447,13 +448,19 @@ static ErrorCode makeConstraints(
     const wydb::Database* pDb,
     const wy3d::Sketch3D* pConstraintSketch,
     std::vector<TopoDS_Edge>& edges,
-    std::vector<TopoDS_Vertex>& vertices) // a 3D sketch holds curves only
+    std::vector<TopoDS_Vertex>& vertices) // 3D sketch: curves become edges, points become vertices
 {
     assert(pDb);
     Sketch3DTopoBuilder sketch3DTopoBuilder(true);
     for (auto iter = pConstraintSketch->createIterator(); !iter.isDone(); iter.moveNext())
     {
-        const wy3d::SketchCurve3D* pCurve = wy3d::SketchCurve3D::cast(pDb->getElement(iter.current()));
+        const wydb::Element* pEntity = pDb->getElement(iter.current());
+        if (const wy3d::SketchPoint3D* pPoint = wy3d::SketchPoint3D::cast(pEntity))
+        {
+            vertices.emplace_back(BRepBuilderAPI_MakeVertex(OccUtil::toPnt(pPoint->getPosition())));
+            continue;
+        }
+        const wy3d::SketchCurve3D* pCurve = wy3d::SketchCurve3D::cast(pEntity);
         if (!pCurve) continue;
         TopoDS_Edge edge = sketch3DTopoBuilder.makeEdge(pCurve);
         if (edge.IsNull()) return ErrorCode::FILLEDSHEET_ConstraintCurveInvalid;

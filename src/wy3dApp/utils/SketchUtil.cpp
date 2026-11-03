@@ -23,6 +23,7 @@
 #include <wydbDatabase.h>
 #include <wy3dErrorCode.h>
 #include <wy3dSketchPoint.h>
+#include <wy3dSketchPoint3D.h>
 #include <wy3dSketchCenterLine.h>
 #include <wy3dSketchCurve.h>
 #include <wy3dSketchCurve3D.h>
@@ -308,7 +309,10 @@ bool SketchUtil::isValidConstraintCurve3D(const wy3d::Sketch3D& sketch3D, QStrin
 
     for (auto iter = sketch3D.createIterator(); !iter.isDone(); iter.moveNext())
     {
-        if (wy3d::SketchCurve3D::cast(pDb->getElement(iter.current()))) return true;
+        const wydb::Element* pEntity = pDb->getElement(iter.current());
+        // A point constrains the surface the way a curve does, so it is usable on its own
+        if (wy3d::SketchPoint3D::cast(pEntity)) return true;
+        if (wy3d::SketchCurve3D::cast(pEntity)) return true;
     }
 
     error = ErrorCodeTranslation::instance().getErrorCodeDescription(

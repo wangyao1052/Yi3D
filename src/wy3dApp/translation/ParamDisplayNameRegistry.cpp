@@ -52,6 +52,7 @@
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchSpline.h>
 #include <wy3dSketchCurve3D.h>
+#include <wy3dSketchPoint3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
@@ -332,6 +333,14 @@ ParamDisplayNameRegistryImpl::ParamDisplayNameRegistryImpl()
     {
         const wyrx::ClassInfo* pClassInfo = wy3d::SketchSpline::classInfo();
         addBuiltin(*this, pClassInfo, wy3d::SketchSpline::PARAM_ORDER, tr("Order", "wy3d::SketchSpline"));
+    }
+    // SketchPoint3D
+    {
+        const wyrx::ClassInfo* pClassInfo = wy3d::SketchPoint3D::classInfo();
+        addBuiltin(*this, pClassInfo, wy3d::SketchPoint3D::PARAM_ID, tr("ID", "wy3d::SketchPoint3D"));
+        addBuiltin(*this, pClassInfo, wy3d::SketchPoint3D::PARAM_POSITION_X, tr("Position X", "wy3d::SketchPoint3D"));
+        addBuiltin(*this, pClassInfo, wy3d::SketchPoint3D::PARAM_POSITION_Y, tr("Position Y", "wy3d::SketchPoint3D"));
+        addBuiltin(*this, pClassInfo, wy3d::SketchPoint3D::PARAM_POSITION_Z, tr("Position Z", "wy3d::SketchPoint3D"));
     }
     // SketchCurve3D
     {

@@ -19,6 +19,8 @@
 #include "headers.h"
 
 #include <wy3dSketch3D.h>
+#include <wy3dSketchPoint3D.h>
+#include <wy3dSketch3DProfile.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
@@ -1351,4 +1353,181 @@ TEST(Sketch3D, Spline3DIORoundTrip)
     }
 
     std::remove(filePath.c_str());
+}
+
+// --- 3D sketch point ---
+
+TEST(Sketch3D, CreatePoint3D)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    wy3d::Sketch3D* pSketch3D(nullptr);
+    wy3d::SketchPoint3D* pPoint(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        ASSERT_NE(pTrans, nullptr);
+        EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+        ASSERT_NE(pSketch3D, nullptr);
+        EXPECT_EQ(wy3d::SketchPoint3D::create(pTrans, wy::Vector3(1.0, 2.0, 3.0), pPoint), wy::ErrorStatus::Ok);
+        ASSERT_NE(pPoint, nullptr);
+        EXPECT_EQ(pSketch3D->addEntity(pPoint), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pSketch3D, nullptr);
+    ASSERT_NE(pPoint, nullptr);
+    EXPECT_EQ(pPoint->getPosition(), wy::Vector3(1.0, 2.0, 3.0));
+    EXPECT_EQ(pPoint->getParent(), pSketch3D->getId());
+    ASSERT_EQ(pSketch3D->getChildren().size(), 1u);
+    EXPECT_EQ(pSketch3D->getChildren().front(), pPoint->getId());
+}
+
+TEST(Sketch3D, Point3DParameters)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    wy3d::SketchPoint3D* pPoint(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        ASSERT_NE(pTrans, nullptr);
+        EXPECT_EQ(wy3d::SketchPoint3D::create(pTrans, wy::Vector3(), pPoint), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    ASSERT_NE(pPoint, nullptr);
+
+    const std::string className = wy3d::SketchPoint3D::classInfo()->className();
+    std::vector<const wydb::ParameterDefinition*> defs = pPoint->listParameters();
+    ASSERT_EQ(defs.size(), 4u);
+    std::set<std::string> names;
+    for (const wydb::ParameterDefinition* pDef : defs)
+    {
+        ASSERT_NE(pDef, nullptr);
+        EXPECT_EQ(pDef->getClassName(), className);
+        names.insert(pDef->getName());
+        if (pDef->getName() == wy3d::SketchPoint3D::PARAM_ID)
+        {
+            EXPECT_TRUE(pDef->isReadonly());
+        }
+    }
+    EXPECT_EQ(names.count(wy3d::SketchPoint3D::PARAM_ID), 1u);
+    EXPECT_EQ(names.count(wy3d::SketchPoint3D::PARAM_POSITION_X), 1u);
+    EXPECT_EQ(names.count(wy3d::SketchPoint3D::PARAM_POSITION_Y), 1u);
+    EXPECT_EQ(names.count(wy3d::SketchPoint3D::PARAM_POSITION_Z), 1u);
+
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        wy3d::SketchPoint3D* pWrite = wy3d::SketchPoint3D::cast(pTrans->getElementForWrite(pPoint->getId()));
+        ASSERT_NE(pWrite, nullptr);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchPoint3D::PARAM_POSITION_X,
+            *wydb::ParameterValue::createDouble(9.0)), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchPoint3D::PARAM_POSITION_Y,
+            *wydb::ParameterValue::createDouble(8.0)), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchPoint3D::PARAM_POSITION_Z,
+            *wydb::ParameterValue::createDouble(7.0)), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pWrite->setParameterValue(className, wy3d::SketchPoint3D::PARAM_ID,
+            *wydb::ParameterValue::createDouble(0.0)), wy::ErrorStatus::ParameterReadonly);
+        EXPECT_EQ(pWrite->setParameterValue(className, "Unknown",
+            *wydb::ParameterValue::createDouble(0.0)), wy::ErrorStatus::ParameterNotFound);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+    EXPECT_EQ(pPoint->getPosition(), wy::Vector3(9.0, 8.0, 7.0));
+}
+
+TEST(Sketch3D, SaveLoadPoint3D)
+{
+    const std::string filePath("./test_sketch3d_point.wy3dt");
+    wydb::ElementId pointId = wydb::ElementId::kNull;
+
+    {
+        std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+        wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        ASSERT_NE(pTrans, nullptr);
+
+        wy3d::Sketch3D* pSketch3D(nullptr);
+        wy3d::SketchPoint3D* pPoint(nullptr);
+        EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+        ASSERT_NE(pSketch3D, nullptr);
+        EXPECT_EQ(wy3d::SketchPoint3D::create(pTrans, wy::Vector3(4.0, 5.0, 6.0), pPoint), wy::ErrorStatus::Ok);
+        ASSERT_NE(pPoint, nullptr);
+        EXPECT_EQ(pSketch3D->addEntity(pPoint), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+
+        pointId = pPoint->getId();
+        EXPECT_EQ(pDb->writeFile(filePath, { wydb::FileType::Text }), wy::ErrorStatus::Ok);
+    }
+
+    {
+        std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+        EXPECT_EQ(pDb->readFile(filePath, { wydb::FileType::Text }), wy::ErrorStatus::Ok);
+
+        const wy3d::SketchPoint3D* pPoint = wy3d::SketchPoint3D::cast(pDb->getElement(pointId));
+        ASSERT_NE(pPoint, nullptr);
+        EXPECT_EQ(pPoint->getPosition(), wy::Vector3(4.0, 5.0, 6.0));
+    }
+
+    std::remove(filePath.c_str());
+}
+
+TEST(Sketch3D, ProfileSkipsPoint)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    wy3d::Sketch3D* pSketch3D(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        ASSERT_NE(pTrans, nullptr);
+        EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+        ASSERT_NE(pSketch3D, nullptr);
+
+        const wy::Vector3 corner[4] = {
+            wy::Vector3(0.0, 0.0, 0.0),
+            wy::Vector3(10.0, 0.0, 0.0),
+            wy::Vector3(10.0, 10.0, 0.0),
+            wy::Vector3(0.0, 10.0, 0.0) };
+        for (int i = 0; i < 4; ++i)
+        {
+            wy3d::SketchLine3D* pLine(nullptr);
+            EXPECT_EQ(wy3d::SketchLine3D::create(pTrans, corner[i], corner[(i + 1) % 4], pLine), wy::ErrorStatus::Ok);
+            ASSERT_NE(pLine, nullptr);
+            EXPECT_EQ(pSketch3D->addEntity(pLine), wy::ErrorStatus::Ok);
+        }
+
+        wy3d::SketchPoint3D* pPoint(nullptr);
+        EXPECT_EQ(wy3d::SketchPoint3D::create(pTrans, wy::Vector3(5.0, 5.0, 0.0), pPoint), wy::ErrorStatus::Ok);
+        ASSERT_NE(pPoint, nullptr);
+        EXPECT_EQ(pSketch3D->addEntity(pPoint), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+
+    wy3d::Sketch3DProfile profile(pSketch3D);
+    EXPECT_TRUE(profile.check());
+    EXPECT_EQ(profile.getLoop().size(), 4u);
+}
+
+TEST(Sketch3D, ProfilePointOnlyFailsCleanly)
+{
+    std::unique_ptr<wy3d::Database> pDb = std::make_unique<wy3d::Database>();
+    wydb::TransactionManager* pMgr = pDb->getTransactionManager();
+
+    wy3d::Sketch3D* pSketch3D(nullptr);
+    {
+        wydb::Transaction* pTrans = pMgr->startTransaction();
+        ASSERT_NE(pTrans, nullptr);
+        EXPECT_EQ(wy3d::Sketch3D::create(pTrans, pSketch3D), wy::ErrorStatus::Ok);
+        ASSERT_NE(pSketch3D, nullptr);
+
+        wy3d::SketchPoint3D* pPoint(nullptr);
+        EXPECT_EQ(wy3d::SketchPoint3D::create(pTrans, wy::Vector3(1.0, 1.0, 1.0), pPoint), wy::ErrorStatus::Ok);
+        ASSERT_NE(pPoint, nullptr);
+        EXPECT_EQ(pSketch3D->addEntity(pPoint), wy::ErrorStatus::Ok);
+        EXPECT_EQ(pMgr->endTransaction(), wy::ErrorStatus::Ok);
+    }
+
+    wy3d::Sketch3DProfile profile(pSketch3D);
+    EXPECT_FALSE(profile.check());
+    EXPECT_TRUE(profile.getLoop().empty());
 }

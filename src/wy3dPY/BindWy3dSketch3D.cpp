@@ -23,6 +23,7 @@
 #include <wydbTransaction.h>
 #include <wy3dSketch3D.h>
 #include <wy3dSketchEntity3D.h>
+#include <wy3dSketchPoint3D.h>
 #include <wy3dSketchCurve3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
@@ -98,6 +99,21 @@ void bindWy3dSketch3D(py::module_& m)
             py::return_value_policy::reference);
 
     py::class_<wy3d::SketchEntity3D, wydb::Element, std::unique_ptr<wy3d::SketchEntity3D, py::nodelete>>(m, "SketchEntity3D");
+
+    py::class_<wy3d::SketchPoint3D, wy3d::SketchEntity3D, std::unique_ptr<wy3d::SketchPoint3D, py::nodelete>>(m, "SketchPoint3D")
+        .def("getPosition", &wy3d::SketchPoint3D::getPosition)
+        .def("setPosition", &wy3d::SketchPoint3D::setPosition)
+
+        .def_static("create",
+            [](wydb::Transaction* pTrans, const wy::Vector3& position) -> wy3d::SketchPoint3D*
+            {
+                wy3d::SketchPoint3D* pOutSketchPoint3D = nullptr;
+                wy::ErrorStatus status = wy3d::SketchPoint3D::create(pTrans, position, pOutSketchPoint3D);
+                return pOutSketchPoint3D;
+            },
+            py::arg("transaction"),
+            py::arg("position"),
+            py::return_value_policy::reference);
 
     py::class_<wy3d::SketchCurve3D, wy3d::SketchEntity3D, std::unique_ptr<wy3d::SketchCurve3D, py::nodelete>>(m, "SketchCurve3D")
         .def("getStartPoint", &wy3d::SketchCurve3D::getStartPoint)

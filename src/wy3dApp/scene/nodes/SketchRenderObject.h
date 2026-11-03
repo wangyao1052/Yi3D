@@ -58,6 +58,9 @@ public:
     // 中心线几何(BoxPick 指针身份)
     osg::Geometry* getCenterLinesGeom() const;
 
+    // 点几何(拾取时用于区分点与曲线)
+    osg::Geometry* getPointsGeom() const;
+
     void clearTransientGeometry() override;
 
 private:

@@ -72,6 +72,11 @@ std::unique_ptr<ElementRenderObject> SketchEntity3DElementNode::generateRenderOb
     style.lighting = false;
     style.applyStateToRoot = true;
     style.renderBin = RenderBinNumers::SketchEntity3D;
+    // 点图元没有线索引,按 GL_POINTS 绘制
+    style.pointsWhenNoLines = true;
+    style.pointSize = 8.0f;
+    style.highlightPointSize = 8.0f;
+    style.changePointSizeOnHighlight = false;
 
     auto renderObject = std::make_unique<LineRenderObject>(
         pElem->getId(), this->getNodeType(), *data, *data->lineIndices, style);

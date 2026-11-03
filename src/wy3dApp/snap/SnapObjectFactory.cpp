@@ -43,6 +43,7 @@
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchSpline.h>
 #include <wy3dSketch3D.h>
+#include <wy3dSketchPoint3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
@@ -72,6 +73,7 @@
 #include "elements/SketchEllipseArcSnapObjectCreator.h"
 #include "elements/SketchSplineSnapObjectCreator.h"
 #include "elements/Sketch3DSnapObjectCreator.h"
+#include "elements/SketchPoint3DSnapObjectCreator.h"
 #include "elements/SketchLine3DSnapObjectCreator.h"
 #include "elements/SketchCircle3DSnapObjectCreator.h"
 #include "elements/SketchArc3DSnapObjectCreator.h"
@@ -148,6 +150,7 @@ SnapObjectFactory::SnapObjectFactory()
 
     // 3D草图相关
     REGISTER_CREATOR(wy3d::Sketch3D, Sketch3DSnapObjectCreator);
+    REGISTER_CREATOR(wy3d::SketchPoint3D, SketchPoint3DSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SketchLine3D, SketchLine3DSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SketchCircle3D, SketchCircle3DSnapObjectCreator);
     REGISTER_CREATOR(wy3d::SketchArc3D, SketchArc3DSnapObjectCreator);

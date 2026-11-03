@@ -28,12 +28,13 @@
 #include <wydbDatabase.h>
 #include <wy3dSketch3D.h>
 #include <wy3dSketchEntity3D.h>
+#include <wy3dSketchPoint3D.h>
 
 #include "scene/SketchEntity3DLinearization.h"
 #include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
 #include "scene/Colors.h"
-#include "scene/nodes/CurveRenderObject.h"
+#include "scene/nodes/SketchRenderObject.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -50,39 +51,57 @@ std::unique_ptr<ElementRenderObject> Sketch3DElementNode::generateRenderObject(
         return nullptr;
     }
 
-    CurveRenderData* data = this->renderData();
-    if (!data || !data->vertices || !data->lineIndices)
+    SketchRenderData* data = this->renderData();
+    if (!data || !data->vertices || !data->lineIndices ||
+        !data->centerLineIndices || !data->pointIndices)
     {
         assert(false);
         return nullptr;
     }
 
-    CurveRenderStyle style;
-    style.nodeType = this->getNodeType();
-    style.color = Colors::sketch.normal;
-    style.highlightColor = Colors::sketch.highlight;
-    style.previewColor = Colors::sketch.preview;
-    style.lineWidth = 1.2f;
-    style.highlightLineWidth = 2.0f;
-    style.changeLineWidthOnHighlight = true;
-    style.depthTest = true;
-    style.highlightDepthTest = false;
-    style.changeDepthTestOnHighlight = true;
-    style.lighting = false;
-    style.applyStateToRoot = false;
-    style.renderBin = RenderBinNumers::SketchElement;
+    const ElementNodeType nodeType = this->getNodeType();
+
+    SketchRenderStyle style;
+    style.curveStyle.nodeType = nodeType;
+    style.curveStyle.color = Colors::sketch.normal;
+    style.curveStyle.highlightColor = Colors::sketch.highlight;
+    style.curveStyle.previewColor = Colors::sketch.preview;
+    style.curveStyle.lineWidth = 1.2f;
+    style.curveStyle.highlightLineWidth = 2.0f;
+    style.curveStyle.changeLineWidthOnHighlight = true;
+    style.curveStyle.depthTest = true;
+    style.curveStyle.highlightDepthTest = false;
+    style.curveStyle.changeDepthTestOnHighlight = true;
+    style.curveStyle.lighting = false;
+    style.curveStyle.applyStateToRoot = false;
+    style.curveStyle.renderBin = RenderBinNumers::SketchElement;
+
+    // 3D 草图暂不使用中心线通道,保留空索引
+    style.centerLineStyle = style.curveStyle;
+
+    style.pointStyle = style.curveStyle;
+    style.pointStyle.indicesAsPoints = true;
+    style.pointStyle.pointSize = 5.0f;
+    style.pointStyle.highlightPointSize = 7.0f;
+    style.pointStyle.changePointSizeOnHighlight = true;
+
     style.highlightOverlayColor = Colors::sketch.highlight;
     style.previewOverlayColor = Colors::sketch.preview;
 
-    auto renderObject = std::make_unique<CurveRenderObject>(
-        pElem->getId(), this->getNodeType(), *data, *data->lineIndices, style);
+    auto renderObject = std::make_unique<SketchRenderObject>(pElem->getId(), *data, style);
     renderObject->build();
     return renderObject;
 }
 
-CurveRenderObject* Sketch3DElementNode::renderObject() const
+SketchRenderObject* Sketch3DElementNode::renderObject() const
 {
-    return dynamic_cast<CurveRenderObject*>(_renderObject.get());
+    return dynamic_cast<SketchRenderObject*>(_renderObject.get());
+}
+
+osg::Geometry* Sketch3DElementNode::getPointsGeom() const
+{
+    SketchRenderObject* obj = this->renderObject();
+    return obj ? obj->getPointsGeom() : nullptr;
 }
 
 std::unique_ptr<ElementRenderData> Sketch3DElementNode::generateRenderData(
@@ -92,7 +111,7 @@ std::unique_ptr<ElementRenderData> Sketch3DElementNode::generateRenderData(
 
     try
     {
-        auto data = std::make_unique<CurveRenderData>();
+        auto data = std::make_unique<SketchRenderData>();
 
         assert(pElement);
         const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pElement);
@@ -106,6 +125,7 @@ std::unique_ptr<ElementRenderData> Sketch3DElementNode::generateRenderData(
 
         unsigned int totalNumVertices(0);
         unsigned int totalNumIndices(0);
+        unsigned int totalNumPoints(0);
         struct EntityLinearInfo
         {
             wydb::ElementId id;
@@ -119,6 +139,14 @@ std::unique_ptr<ElementRenderData> Sketch3DElementNode::generateRenderData(
             wydb::ElementId id = iter.current();
             if (id.isNull()) continue;
             const wydb::Element* pElem = pDb->getElement(id);
+            if (const wy3d::SketchPoint3D* pPoint = wy3d::SketchPoint3D::cast(pElem))
+            {
+                const wy::Vector3& position = pPoint->getPosition();
+                data->vertices->push_back(osg::Vec3(position.x(), position.y(), position.z()));
+                data->pointIndices->push_back(data->vertices->size() - 1);
+                ++totalNumPoints;
+                continue;
+            }
             const wy3d::SketchEntity3D* pEntity = wy3d::SketchEntity3D::cast(pElem);
             if (!pEntity)
             {
@@ -136,6 +164,7 @@ std::unique_ptr<ElementRenderData> Sketch3DElementNode::generateRenderData(
 
         data->vertices->reserve(data->vertices->size() + totalNumVertices);
         data->lineIndices->reserve(totalNumIndices);
+        data->pointIndices->reserve(totalNumPoints);
         data->curveInfos.reserve(entityLinears.size());
         for (const EntityLinearInfo& info : entityLinears)
         {
@@ -208,7 +237,15 @@ wyap::Selection Sketch3DElementNode::createSelectionFromPick(
     unsigned int primitiveIndex,
     wy3d::SelectionType selType) const
 {
-    (void)pDrawable;
+    // 点没有曲线ID,按整体元素选择(与2D草图点一致)
+    if (pDrawable && pDrawable == this->getPointsGeom())
+    {
+        if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::Element))
+        {
+            return wyap::Selection(this->getElementId());
+        }
+        return wyap::Selection(wydb::ElementId::kNull);
+    }
 
     if (wy3d::SelectionTypeUtil::HasValue(selType, wy3d::SelectionType::SketchCurve3D))
     {
@@ -235,7 +272,7 @@ wyap::Selection Sketch3DElementNode::createSelectionFromPick(
 
 void Sketch3DElementNode::highlightCurveByIndex(unsigned int curveIndex, bool flag)
 {
-    if (CurveRenderObject* obj = this->renderObject())
+    if (SketchRenderObject* obj = this->renderObject())
     {
         obj->highlightCurveByIndex(curveIndex, flag);
     }
@@ -256,7 +293,7 @@ void Sketch3DElementNode::highlightCurveById(unsigned int id, bool flag)
 
 void Sketch3DElementNode::previewCurveByIndex(unsigned int curveIndex, bool flag)
 {
-    if (CurveRenderObject* obj = this->renderObject())
+    if (SketchRenderObject* obj = this->renderObject())
     {
         obj->previewCurveByIndex(curveIndex, flag);
     }

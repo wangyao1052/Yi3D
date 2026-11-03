@@ -128,6 +128,7 @@ public:
     static inline const std::string SketchText = "SketchText";
 
     // 3D草绘图元命令
+    static inline const std::string Point3D = "Point3D";
     static inline const std::string Line3D = "Line3D";
     static inline const std::string Circle3D = "Circle3D";
     static inline const std::string Arc3D = "Arc3D";

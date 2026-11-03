@@ -24,9 +24,14 @@
 
 #include "scene/nodes/ElementRenderDataTypes.h"
 
+namespace osg
+{
+    class Geometry;
+}
+
 namespace wy3dApp {
 
-class CurveRenderObject;
+class SketchRenderObject;
 
 class Sketch3DElementNode : public ElementNode
 {
@@ -51,6 +56,9 @@ public:
     void previewCurveByIndex(unsigned int curveIndex, bool flag);
     void previewCurveById(unsigned int id, bool flag);
 
+    // 点几何(拾取时用于区分点与曲线)
+    osg::Geometry* getPointsGeom() const;
+
 protected:
     virtual std::unique_ptr<ElementRenderObject> generateRenderObject(
         Scene* pScene, const wydb::Element* pElem) override;
@@ -61,8 +69,8 @@ protected:
     virtual bool shouldBeActive(const wydb::Element* pCurElem) const override;
 
 private:
-    CurveRenderData* renderData() const { return dynamic_cast<CurveRenderData*>(_renderData.get()); }
-    CurveRenderObject* renderObject() const;
+    SketchRenderData* renderData() const { return dynamic_cast<SketchRenderData*>(_renderData.get()); }
+    SketchRenderObject* renderObject() const;
     unsigned int getCurveIndexById(unsigned int id) const;
 };
 

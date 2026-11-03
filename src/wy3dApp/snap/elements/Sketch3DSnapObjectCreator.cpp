@@ -21,6 +21,7 @@
 #include <wydbDatabase.h>
 #include <wy3dSketch3D.h>
 #include <wy3dSketchEntity3D.h>
+#include <wy3dSketchPoint3D.h>
 #include <wy3dSketchLine3D.h>
 #include <wy3dSketchCircle3D.h>
 #include <wy3dSketchArc3D.h>
@@ -64,7 +65,11 @@ std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(con
             continue;
         }
 
-        if (const wy3d::SketchLine3D* pLine = wy3d::SketchLine3D::cast(pEntity))
+        if (const wy3d::SketchPoint3D* pPoint = wy3d::SketchPoint3D::cast(pEntity))
+        {
+            snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, pPoint->getId(), pPoint->getPosition()));
+        }
+        else if (const wy3d::SketchLine3D* pLine = wy3d::SketchLine3D::cast(pEntity))
         {
             snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, pLine->getId(), pLine->getStartPoint()));
             snapPoints.emplace_back(this->newSnapPoint(SnapPoint::Type::End, pLine->getId(), pLine->getEndPoint()));
@@ -117,8 +122,8 @@ std::list<wyap::SnapObjectSPtr> Sketch3DSnapObjectCreator::createSnapObjects(con
         }
         else
         {
-            // TODO 如添加了3D草图元素需要在此添加对应的代码
-            assert(false);
+            // 如添加了3D草图元素需要在此添加对应的代码
+            continue;
         }
     }
 
