@@ -1,0 +1,8 @@
+WY3D
+0 20
+ELEMENTS
+2
+wy3d::Tube 1 0 0 0 0 140 153 165 0 0 0 0 0 0 50 30 60 #
+wy3d::Cylinder 2 0 0 0 0 140 153 165 0 0 0 0 0 0 30 60 #
+ENDELEMS
+EOF

@@ -1,0 +1,8 @@
+WY3D
+0 20
+ELEMENTS
+2
+wy3d::Cylinder 1 0 0 0 0 140 153 165 0 0 0 0 0 0 20 100 #
+wy3d::Cylinder 2 0 0 0 0 140 153 165 40 0 0 0 0 0 20 100 #
+ENDELEMS
+EOF
