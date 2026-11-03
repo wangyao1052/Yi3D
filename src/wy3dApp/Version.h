@@ -26,9 +26,9 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 #define YI3D_APP_VERSION_MAJOR 0
-#define YI3D_APP_VERSION_MINOR 20
-#define YI3D_APP_VERSION_PATCH 4
-#define YI3D_APP_VERSION_STRING "0.20.4"
+#define YI3D_APP_VERSION_MINOR 21
+#define YI3D_APP_VERSION_PATCH 0
+#define YI3D_APP_VERSION_STRING "0.21.0"
 
 namespace wy3dApp {
 

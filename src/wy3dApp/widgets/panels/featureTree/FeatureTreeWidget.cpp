@@ -30,6 +30,7 @@
 #include <QAction>
 #include <QMessageBox>
 #include <QMenu>
+#include <QPainter>
 
 #include <algorithm>
 #include <sstream>
@@ -107,6 +108,25 @@ namespace wy3dApp {
 
 const int FeatureTreeWidget::kColumn_Name = 0;
 const int FeatureTreeWidget::kColumn_Id = 1;
+
+// Solid/Sheet/BodyModification (and their subclasses) can be suppressed
+static bool isSuppressibleFeature(const wydb::Element* pElem)
+{
+    return wy3d::Solid::cast(pElem) || wy3d::Sheet::cast(pElem) || wy3d::BodyModification::cast(pElem);
+}
+
+// Whether the feature is currently suppressed
+static bool isSuppressedFeature(const wy3d::Feature* pFeature)
+{
+    if (!pFeature) return false;
+    if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pFeature))
+        return pSolid->isSuppressed();
+    if (const wy3d::Sheet* pSheet = wy3d::Sheet::cast(pFeature))
+        return pSheet->isSuppressed();
+    if (const wy3d::BodyModification* pModification = wy3d::BodyModification::cast(pFeature))
+        return pModification->isSuppressed();
+    return false;
+}
 
 static std::map<wydb::ElementId, unsigned int> collectErrorCodesFromChainUpdateFeedbacks(
     wydb::TransactionManager* pTransMgr,
@@ -202,6 +222,14 @@ FeatureTreeWidget::FeatureTreeWidget(QWidget* parent)
     QPixmap pixmap(0, 0);
     pixmap.fill(Qt::transparent);
     _iconEmpty.addPixmap(pixmap);
+    // Suppressed marker: a black square centered in a 16x16 transparent icon
+    QPixmap suppressedPixmap(16, 16);
+    suppressedPixmap.fill(Qt::transparent);
+    {
+        QPainter painter(&suppressedPixmap);
+        painter.fillRect(QRect(5, 5, 6, 6), Qt::black);
+    }
+    _iconSuppressed.addPixmap(suppressedPixmap);
 
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     this->setLayout(mainLayout);
@@ -892,17 +920,25 @@ void FeatureTreeWidget::FeatureRow::setErrorCode(unsigned int code, const Featur
     assert(pFeatTreeWidget);
     if (errorCode == code) return;
     errorCode = code;
-    if (0 == errorCode)
+    this->updateStatusIcon(pFeatTreeWidget);
+}
+
+void FeatureTreeWidget::FeatureRow::updateStatusIcon(const FeatureTreeWidget* pFeatTreeWidget)
+{
+    assert(pFeatTreeWidget);
+    if (0 != errorCode)
     {
-        pNameItem->setIcon(pFeatTreeWidget->_iconEmpty);
+        pNameItem->setIcon(wy3d::isError(errorCode)
+            ? pFeatTreeWidget->_iconError
+            : pFeatTreeWidget->_iconWarning);
     }
-    else if (wy3d::isError(code))
+    else if (this->isSuppressed())
     {
-        pNameItem->setIcon(pFeatTreeWidget->_iconError);
+        pNameItem->setIcon(pFeatTreeWidget->_iconSuppressed);
     }
     else
     {
-        pNameItem->setIcon(pFeatTreeWidget->_iconWarning);
+        pNameItem->setIcon(pFeatTreeWidget->_iconEmpty);
     }
 }
 
@@ -1004,12 +1040,21 @@ void FeatureTreeWidget::uiAddItem(
             return;
         }
         // added by wangyao 2025.02.25 {
-        if (pFeature->isHidden())
+        const bool isSuppressed = isSuppressedFeature(pFeature);
+        if (pFeature->isHidden() || isSuppressed)
         {
             pFeatRow->pNameItem->setForeground(QColor(Qt::lightGray));
             pFeatRow->pIdItem->setForeground(QColor(Qt::lightGray));
+        }
+        if (pFeature->isHidden())
+        {
             pFeatRow->addFlag(FeatureRowFlag::Hidden);
         }
+        if (isSuppressed)
+        {
+            pFeatRow->addFlag(FeatureRowFlag::Suppressed);
+        }
+        pFeatRow->updateStatusIcon(this);
         // }
         // added by wangyao 2025.04.16
         auto iter = id2Errors.find(featId);
@@ -1040,12 +1085,21 @@ void FeatureTreeWidget::uiAddItem(
             return;
         }
         // added by wangyao 2025.02.25 {
-        if (pFeature->isHidden())
+        const bool isSuppressed = isSuppressedFeature(pFeature);
+        if (pFeature->isHidden() || isSuppressed)
         {
             pFeatRow->pNameItem->setForeground(QColor(Qt::lightGray));
             pFeatRow->pIdItem->setForeground(QColor(Qt::lightGray));
+        }
+        if (pFeature->isHidden())
+        {
             pFeatRow->addFlag(FeatureRowFlag::Hidden);
         }
+        if (isSuppressed)
+        {
+            pFeatRow->addFlag(FeatureRowFlag::Suppressed);
+        }
+        pFeatRow->updateStatusIcon(this);
         //}
         // added by wangyao 2025.04.16
         auto iter = id2Errors.find(featId);
@@ -1294,21 +1348,22 @@ void FeatureTreeWidget::uiModifyItem(
     }
 
     // added by wangyao 2025.02.25 {
-    // 特征的显示与隐藏状态更改时,需要相应更改树节点的显示效果
-    if (pFeature->isHidden() != pFeatRow->isHidden())
+    // Refresh the row look when the hidden or suppressed state changes
+    const bool isSuppressed = isSuppressedFeature(pFeature);
+    if (pFeature->isHidden() != pFeatRow->isHidden() || isSuppressed != pFeatRow->isSuppressed())
     {
+        const bool isGrey = pFeature->isHidden() || isSuppressed;
+        pFeatRow->pNameItem->setForeground(QColor(isGrey ? Qt::lightGray : Qt::black));
+        pFeatRow->pIdItem->setForeground(QColor(isGrey ? Qt::lightGray : Qt::black));
         if (pFeature->isHidden())
-        {
-            pFeatRow->pNameItem->setForeground(QColor(Qt::lightGray));
-            pFeatRow->pIdItem->setForeground(QColor(Qt::lightGray));
             pFeatRow->addFlag(FeatureRowFlag::Hidden);
-        }
         else
-        {
-            pFeatRow->pNameItem->setForeground(QColor(Qt::black));
-            pFeatRow->pIdItem->setForeground(QColor(Qt::black));
             pFeatRow->removeFlag(FeatureRowFlag::Hidden);
-        }
+        if (isSuppressed)
+            pFeatRow->addFlag(FeatureRowFlag::Suppressed);
+        else
+            pFeatRow->removeFlag(FeatureRowFlag::Suppressed);
+        pFeatRow->updateStatusIcon(this);
     }
     // }
 
@@ -1446,6 +1501,69 @@ void FeatureTreeWidget::onContextMenu_Erase()
         pElem->erase();
     }
     pTransMgr->endTransaction();
+}
+
+void FeatureTreeWidget::onContextMenu_Suppress()
+{
+    this->setSelectedSuppressed(true);
+}
+
+void FeatureTreeWidget::onContextMenu_Unsuppress()
+{
+    this->setSelectedSuppressed(false);
+}
+
+void FeatureTreeWidget::setSelectedSuppressed(bool isSuppressed)
+{
+    // 提取选中的元素ID
+    std::set<wydb::ElementId> ids;
+    QModelIndexList modelIndices = _treeView->selectionModel()->selectedRows();
+    for (const QModelIndex& index : modelIndices)
+    {
+        wydb::ElementId id = this->getElementIdByModelIndex(index);
+        if (!id.isNull()) ids.insert(id);
+    }
+    if (ids.empty()) return;
+
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return;
+    }
+    wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
+    assert(pTransMgr);
+    wydb::Transaction* pTrans = pTransMgr->startTransaction();
+    if (!pTrans)
+    {
+        assert(false);
+        return;
+    }
+
+    bool allOk = true;
+    for (const wydb::ElementId& id : ids)
+    {
+        wydb::Element* pElem = pTrans->getElementForWrite(id);
+        if (!isSuppressibleFeature(pElem)) continue;
+
+        wy::ErrorStatus error = wy::ErrorStatus::InvalidInput;
+        if (wy3d::Solid* pSolid = wy3d::Solid::cast(pElem))
+            error = pSolid->suppress(isSuppressed);
+        else if (wy3d::Sheet* pSheet = wy3d::Sheet::cast(pElem))
+            error = pSheet->suppress(isSuppressed);
+        else if (wy3d::BodyModification* pModification = wy3d::BodyModification::cast(pElem))
+            error = pModification->suppress(isSuppressed);
+        if (wy::ErrorStatus::Ok != error)
+        {
+            allOk = false;
+            break;
+        }
+    }
+
+    if (allOk)
+        pTransMgr->endTransaction();
+    else
+        pTransMgr->abortTransaction();
 }
 
 void FeatureTreeWidget::onContextMenu_CancelBoolean()
@@ -1786,6 +1904,28 @@ void FeatureTreeWidget::onCustomContextMenu(const QPoint& pos)
             pActionHide->setText(QCoreApplication::translate("MainWindow", "Hide"));
             pActionHide->setIcon(IconUtil::get(":/images/Edit_Hide.svg"));
             menu.addAction(pActionHide);
+        }
+
+        // Suppress / Unsuppress
+        bool hasSuppressedFeature(false);
+        bool hasUnsuppressedFeature(false);
+        for (const wydb::Element* pElem : selectedElems)
+        {
+            if (!isSuppressibleFeature(pElem)) continue;
+            if (isSuppressedFeature(wy3d::Feature::cast(pElem)))
+                hasSuppressedFeature = true;
+            else
+                hasUnsuppressedFeature = true;
+        }
+        if (hasUnsuppressedFeature)
+        {
+            QAction* pActionSuppress = menu.addAction(tr("Suppress"));
+            this->connect(pActionSuppress, SIGNAL(triggered()), this, SLOT(onContextMenu_Suppress()));
+        }
+        if (hasSuppressedFeature)
+        {
+            QAction* pActionUnsuppress = menu.addAction(tr("Unsuppress"));
+            this->connect(pActionUnsuppress, SIGNAL(triggered()), this, SLOT(onContextMenu_Unsuppress()));
         }
 
         // 复制

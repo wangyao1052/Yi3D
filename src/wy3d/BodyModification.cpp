@@ -42,9 +42,13 @@ WYDB_IMPLEMENT_MEMBERS(BodyModification)
 BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(BodyModification, _ownerId)
     REGISTER_FIELD(BodyModification, _newFaces)
+    REGISTER_FIELD(BodyModification, _isSuppressed)
 END_FIELD_REGISTRATION()
 
-BodyModification::BodyModification() : wy3d::Feature()
+BodyModification::BodyModification() :
+    wy3d::Feature(),
+    _ownerId(wydb::ElementId::kNull),
+    _isSuppressed(false)
 {
 }
 
@@ -76,6 +80,24 @@ wy::ErrorStatus BodyModification::_setOwner(const wydb::ElementId& ownerId)
     if (wy::ErrorStatus::Ok == error)
     {
         _ownerId = ownerId;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+wy::ErrorStatus BodyModification::suppress(bool suppressing)
+{
+    if (suppressing == _isSuppressed)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(kBodyModification_isSuppressed);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _isSuppressed = suppressing;
         return wy::ErrorStatus::Ok;
     }
     else
@@ -122,6 +144,9 @@ bool BodyModification::getFieldValue(wydb::FieldId fieldId, std::any& value)
     case kBodyModification_newFaces.value():
         value = _newFaces;
         return true;
+    case kBodyModification_isSuppressed.value():
+        value = _isSuppressed;
+        return true;
     default:
         bool baseRet = __baseClass::getFieldValue(fieldId, value);
         assert(baseRet);
@@ -139,6 +164,9 @@ bool BodyModification::setFieldValue(wydb::FieldId fieldId, const std::any& valu
     case kBodyModification_newFaces.value():
         _newFaces = std::any_cast<const TopoNameList&>(value);
         return true;
+    case kBodyModification_isSuppressed.value():
+        _isSuppressed = std::any_cast<bool>(value);
+        return true;
     default:
         bool baseRet = __baseClass::setFieldValue(fieldId, value);
         assert(baseRet);
@@ -150,6 +178,7 @@ wy::ErrorStatus BodyModification::writeToFiler(wydb::OutFiler& filer) const
 {
     __baseClass::writeToFiler(filer);
     filer << _ownerId;
+    filer << _isSuppressed;
     return wy::ErrorStatus::Ok;
 }
 
@@ -157,6 +186,10 @@ wy::ErrorStatus BodyModification::readFromFiler(wydb::InFiler& filer)
 {
     __baseClass::readFromFiler(filer);
     filer >> _ownerId;
+    if (filer.getFileVersion() >= wydb::FileVersion(0, 21))
+    {
+        filer >> _isSuppressed;
+    }
     return wy::ErrorStatus::Ok;
 }
 

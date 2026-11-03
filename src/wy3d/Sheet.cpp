@@ -37,6 +37,7 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Sheet, _shape)
     REGISTER_FIELD(Sheet, _pTopoNaming)
     REGISTER_FIELD(Sheet, _modifications)
+    REGISTER_FIELD(Sheet, _isSuppressed)
 END_FIELD_REGISTRATION()
 
 Sheet::Sheet() :
@@ -44,7 +45,8 @@ Sheet::Sheet() :
     _parent(wydb::ElementId::kNull),
     _color(140, 153, 165),
     _shape(),
-    _pTopoNaming(nullptr)
+    _pTopoNaming(nullptr),
+    _isSuppressed(false)
 {
     _pTopoNaming = std::make_shared<TopoNaming>();
 }
@@ -60,6 +62,24 @@ wy::ErrorStatus Sheet::setShapeImpl(const TopoDS_Shape& shape)
     if (wy::ErrorStatus::Ok == error)
     {
         _shape = shape;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+wy::ErrorStatus Sheet::suppress(bool suppressing)
+{
+    if (suppressing == _isSuppressed)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(kSheet_isSuppressed);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _isSuppressed = suppressing;
         return wy::ErrorStatus::Ok;
     }
     else
@@ -252,6 +272,9 @@ bool Sheet::getFieldValue(wydb::FieldId fieldId, std::any& value)
     case kSheet_modifications.value():
         value = _modifications;
         return true;
+    case kSheet_isSuppressed.value():
+        value = _isSuppressed;
+        return true;
     default:
         bool baseRet = __baseClass::getFieldValue(fieldId, value);
         assert(baseRet);
@@ -278,6 +301,9 @@ bool Sheet::setFieldValue(wydb::FieldId fieldId, const std::any& value)
     case kSheet_modifications.value():
         _modifications = std::any_cast<const std::vector<wydb::ElementId>&>(value);
         return true;
+    case kSheet_isSuppressed.value():
+        _isSuppressed = std::any_cast<bool>(value);
+        return true;
     default:
         bool baseRet = __baseClass::setFieldValue(fieldId, value);
         assert(baseRet);
@@ -300,6 +326,8 @@ wy::ErrorStatus Sheet::writeToFiler(wydb::OutFiler& filer) const
     {
         filer << _parent;
     }
+
+    filer << _isSuppressed;
 
     if (filer.getFileVersion() >= wydb::FileVersion(0, 20))
     {
@@ -331,6 +359,11 @@ wy::ErrorStatus Sheet::readFromFiler(wydb::InFiler& filer)
     if (filer.getFileVersion() > wydb::FileVersion(0, 18))
     {
         filer >> _parent;
+    }
+
+    if (filer.getFileVersion() >= wydb::FileVersion(0, 21))
+    {
+        filer >> _isSuppressed;
     }
 
     if (filer.getFileVersion() >= wydb::FileVersion(0, 20))
@@ -392,9 +425,22 @@ void Sheet::onChainUpdater_Completion(
 {
     try
     {
+        if (this->isSuppressed())
+        {
+            this->setShapeImpl(TopoDS_Shape());
+            this->setTopoNaming(std::make_shared<TopoNaming>());
+            return;
+        }
+
         TopoNamingSPtr pTopoNaming = std::make_shared<TopoNaming>();
-        TopoDS_Shape shape = this->generateShape(pTopoNaming.get(), feedbackCollector);
-        std::pair<bool, TopoDS_Shape> modifyRet = this->modifyShape(shape, pTopoNaming.get(), feedbackCollector);
+        TopoDS_Shape initShape = this->generateShape(pTopoNaming.get(), feedbackCollector);
+        if (initShape.IsNull())
+        {
+            this->setShapeImpl(TopoDS_Shape());
+            this->setTopoNaming(std::make_shared<TopoNaming>());
+            return;
+        }
+        std::pair<bool, TopoDS_Shape> modifyRet = this->modifyShape(initShape, pTopoNaming.get(), feedbackCollector);
         this->setShapeImpl(modifyRet.second);
         this->setTopoNaming(pTopoNaming);
 #ifdef _DEBUG
@@ -451,6 +497,10 @@ std::pair<bool, TopoDS_Shape> Sheet::modifyShape(
         if (!pModification)
         {
             assert(false);
+            continue;
+        }
+        if (pModification->isSuppressed())
+        {
             continue;
         }
         retShape = pModification->modifyOwnerShape(retShape, pTopoNaming, feedbackCollector).second;

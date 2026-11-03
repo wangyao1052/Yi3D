@@ -27,7 +27,9 @@
 #include <OsgUtils.h>
 
 #include <wy3dSolid.h>
+#include <wy3dSheet.h>
 #include <wy3dBodyModification.h>
+#include <wydbDatabase.h>
 #include <wy3dApp/Scene.h>
 #include "scene/nodes/SolidElementNode.h"
 #include "scene/nodes/SheetElementNode.h"
@@ -176,10 +178,18 @@ std::unique_ptr<ElementRenderData> BodyModificationElementNode::generateRenderDa
         std::vector<unsigned int> newFaceIndexVec;
         if (const wy3d::BodyModification* pSolidMod = wy3d::BodyModification::cast(pElement))
         {
+            if (pSolidMod->isSuppressed())
+            {
+                return nullptr;
+            }
             newFaceIndexVec = pSolidMod->getNewFaceIndices();
         }
         else if (const wy3d::Solid* pSolid = wy3d::Solid::cast(pElement))
         {
+            if (pSolid->isSuppressed())
+            {
+                return nullptr;
+            }
             newFaceIndexVec = pSolid->getNewFaceIndices();
         }
         else
@@ -189,6 +199,23 @@ std::unique_ptr<ElementRenderData> BodyModificationElementNode::generateRenderDa
         }
         const wydb::ElementId ownerId = findHostId(pElement);
         assert(!ownerId.isNull());
+
+        // No modification edges while the host is suppressed
+        const wydb::Element* pHostElem = pElement->getDatabase()->getElement(ownerId);
+        if (const wy3d::Solid* pHostSolid = wy3d::Solid::cast(pHostElem))
+        {
+            if (pHostSolid->isSuppressed())
+            {
+                return nullptr;
+            }
+        }
+        else if (const wy3d::Sheet* pHostSheet = wy3d::Sheet::cast(pHostElem))
+        {
+            if (pHostSheet->isSuppressed())
+            {
+                return nullptr;
+            }
+        }
 
         // 实体修改元素新生成的面为空
         if (newFaceIndexVec.empty())

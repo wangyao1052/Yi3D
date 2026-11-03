@@ -488,6 +488,12 @@ std::pair<bool, TopoDS_Shape> Mirror::modifyOwnerShape(const TopoDS_Shape& shape
         pSourceNaming = pSourceSolid->getTopoNaming();
         isCut = true;
     }
+    if (sourceShape.IsNull())
+    {
+        wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+            static_cast<std::uint32_t>(ErrorCode::warnTOPOSHAPE_NullShape));
+        return std::pair<bool, TopoDS_Shape>(false, shape);
+    }
     assert(pSourceNaming);
 
     gp_Trsf mirrorTrsf;

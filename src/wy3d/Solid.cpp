@@ -49,13 +49,15 @@ BEGIN_FIELD_REGISTRATION()
     REGISTER_FIELD(Solid, _modifications)
     REGISTER_FIELD(Solid, _color)
     REGISTER_FIELD(Solid, _newFaces)
+    REGISTER_FIELD(Solid, _isSuppressed)
 END_FIELD_REGISTRATION()
 
 Solid::Solid() :
     wy3d::Feature(),
     _solidFlags(0),
     _ownerId(wydb::ElementId::kNull),
-    _color(140, 153, 165)
+    _color(140, 153, 165),
+    _isSuppressed(false)
 {
     _pTopoNaming = std::make_shared<TopoNaming>();
 }
@@ -114,6 +116,24 @@ wy::ErrorStatus Solid::setColor(const wy3d::Color& color)
     if (wy::ErrorStatus::Ok == error)
     {
         _color = color;
+        return wy::ErrorStatus::Ok;
+    }
+    else
+    {
+        return error;
+    }
+}
+
+wy::ErrorStatus Solid::suppress(bool suppressing)
+{
+    if (suppressing == _isSuppressed)
+    {
+        return wy::ErrorStatus::Ok;
+    }
+    wy::ErrorStatus error = this->prepareForFieldChange(kSolid_isSuppressed);
+    if (wy::ErrorStatus::Ok == error)
+    {
+        _isSuppressed = suppressing;
         return wy::ErrorStatus::Ok;
     }
     else
@@ -347,6 +367,9 @@ bool Solid::getFieldValue(wydb::FieldId fieldId, std::any& value)
     case kSolid_newFaces.value():
         value = _newFaces;
         return true;
+    case kSolid_isSuppressed.value():
+        value = _isSuppressed;
+        return true;
     default:
         bool baseRet = __baseClass::getFieldValue(fieldId, value);
         assert(baseRet);
@@ -379,6 +402,9 @@ bool Solid::setFieldValue(wydb::FieldId fieldId, const std::any& value)
     case kSolid_newFaces.value():
         _newFaces = std::any_cast<const TopoNameList&>(value);
         return true;
+    case kSolid_isSuppressed.value():
+        _isSuppressed = std::any_cast<bool>(value);
+        return true;
     default:
         bool baseRet = __baseClass::setFieldValue(fieldId, value);
         assert(baseRet);
@@ -391,6 +417,7 @@ wy::ErrorStatus Solid::writeToFiler(wydb::OutFiler& filer) const
     __baseClass::writeToFiler(filer);
     filer << _solidFlags;
     filer << _ownerId;
+    filer << _isSuppressed;
     std::uint32_t numModification = static_cast<std::uint32_t>(_modifications.size());
     filer << numModification;
     for (const wydb::ElementId& modification : _modifications)
@@ -417,6 +444,12 @@ wy::ErrorStatus Solid::readFromFiler(wydb::InFiler& filer)
         _solidFlags = 0;
     }
     filer >> _ownerId;
+
+    if (filer.getFileVersion() >= wydb::FileVersion(0, 21))
+    {
+        filer >> _isSuppressed;
+    }
+
     std::uint32_t numModifications(0);
     filer >> numModifications;
     _modifications.resize(numModifications);
@@ -498,8 +531,21 @@ void Solid::onChainUpdater_Completion(
 {
     try
     {
+        if (this->isSuppressed())
+        {
+            this->setShape(TopoDS_Shape());
+            this->setTopoNaming(std::make_shared<TopoNaming>());
+            return;
+        }
+
         TopoNamingSPtr pTopoNaming = std::make_shared<TopoNaming>();
         TopoDS_Shape initShape = this->generateShape(pTopoNaming.get(), feedbackCollector);
+        if (initShape.IsNull())
+        {
+            this->setShape(TopoDS_Shape());
+            this->setTopoNaming(std::make_shared<TopoNaming>());
+            return;
+        }
         auto modifyRet = this->modifyShape(initShape, pTopoNaming.get(), feedbackCollector); // 无论成功与失败,返回的Shape都确保是对的
         this->setShape(modifyRet.second);
         this->setTopoNaming(pTopoNaming);
@@ -555,6 +601,10 @@ std::pair<bool, TopoDS_Shape> Solid::modifyShape(
         wydb::Element* pModElem = pTrans->getElementForWrite(modificationId);
         if (wy3d::BodyModification* pSolidMod = wy3d::BodyModification::cast(pModElem))
         {
+            if (pSolidMod->isSuppressed())
+            {
+                continue;
+            }
             auto modifyRet = pSolidMod->modifyOwnerShape(retShape, pTopoNaming, feedbackCollector);
             // added by wangyao 2025.05.13 {
             // 强制MarkDirty,无论成功与失败都需要MarkDirty以刷新实体修改的场景节点;
@@ -567,6 +617,10 @@ std::pair<bool, TopoDS_Shape> Solid::modifyShape(
         }
         else if (wy3d::Solid* pCutSolid = wy3d::Solid::cast(pModElem))
         {
+            if (pCutSolid->isSuppressed())
+            {
+                continue;
+            }
             auto modifyRet = pCutSolid->modifyOwnerShape(retShape, pTopoNaming, feedbackCollector);
             // added by wangyao 2025.05.13 {
             // 强制MarkDirty,无论成功与失败都需要MarkDirty以刷新实体修改的场景节点;

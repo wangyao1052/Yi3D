@@ -54,6 +54,9 @@ public:
     wy::ErrorStatus setModifications(const std::vector<wydb::ElementId>& modifications);
     const std::vector<wydb::ElementId>& getModifications() const { return _modifications; }
 
+    bool isSuppressed() const { return _isSuppressed; }
+    wy::ErrorStatus suppress(bool suppressing);
+
 public:
     virtual wydb::ParameterValueUPtr getParameterValue(
         const std::string& className,
@@ -99,6 +102,7 @@ protected:
     TopoDS_Shape _shape;
     TopoNamingSPtr _pTopoNaming;
     std::vector<wydb::ElementId> _modifications;
+    bool _isSuppressed;
 };
 
 NS_WY3D_END
