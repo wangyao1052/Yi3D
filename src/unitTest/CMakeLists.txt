@@ -16,6 +16,7 @@ add_executable(${EXE_NAME} ${SRCS})
 target_sources(${EXE_NAME} PRIVATE
     "${CMAKE_SOURCE_DIR}/src/wy3dApp/plugins/PluginManifest.cpp"
     "${CMAKE_SOURCE_DIR}/src/wy3dApp/utils/SketchClosedLoop.cpp"
+    "${CMAKE_SOURCE_DIR}/src/wy3dApp/utils/SketchSlotGeometry.cpp"
     "${CMAKE_SOURCE_DIR}/src/wy3dApp/utils/SketchPolygonRecognizer.cpp"
     "${CMAKE_SOURCE_DIR}/src/wy3dApp/utils/SketchRectangleRecognizer.cpp"
 )

@@ -114,6 +114,7 @@ public:
     static inline const std::string Rectangle = "Rectangle";
     static inline const std::string CenterRectangle = "CenterRectangle";
     static inline const std::string Polygon = "Polygon";
+    static inline const std::string StraightSlot = "StraightSlot";
     static inline const std::string Circle = "Circle";
     static inline const std::string CircleBy3Points = "CircleBy3Points";
     static inline const std::string Arc = "Arc";

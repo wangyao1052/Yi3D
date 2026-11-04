@@ -92,6 +92,7 @@ struct SketchActions
     CommandAction* pActionDrawRectangle;
     CommandAction* pActionDrawCenterRectangle;
     CommandAction* pActionDrawPolygon;
+    CommandAction* pActionDrawStraightSlot;
     CommandAction* pActionDrawCircle;
     CommandAction* pActionDrawCircleBy3Points;
     CommandAction* pActionDrawArc;
@@ -412,6 +413,12 @@ SketchActions createSketchActions(EnvironmentUIImpl* pUI, QActionGroup* pActionG
         actions.pActionDrawPolygon->setShortcut(QKeySequence::fromString("P,O,L"));
     }
 
+    actions.pActionDrawStraightSlot = pUI->newCommandAction(
+        CommandNames::StraightSlot,
+        QCoreApplication::translate("MainWindow", "Straight Slot"),
+        IconUtil::get(":/images/Sketch_DrawStraightSlot.svg"),
+        pActionGroup);
+
     actions.pActionDrawCircle = pUI->newCommandAction(
         CommandNames::Circle,
         QCoreApplication::translate("MainWindow", "Circle"),
@@ -729,14 +736,14 @@ void buildSketchToolBarUi(
     std::list<QAction*> rectangleSeriesActions;
     rectangleSeriesActions.emplace_back(actions.pActionDrawRectangle);
     rectangleSeriesActions.emplace_back(actions.pActionDrawCenterRectangle);
+    rectangleSeriesActions.emplace_back(actions.pActionDrawPolygon);
+    rectangleSeriesActions.emplace_back(actions.pActionDrawStraightSlot);
     QToolButton* pToolBtnRectangleSeries = pUI->newMenuPopupToolButton(
         pToolBarSketch,
         QCoreApplication::translate("MainWindow", "Rectangle Series"),
         pActionGroup,
         rectangleSeriesActions);
     pToolBarSketch->addWidget(pToolBtnRectangleSeries);
-
-    pToolBarSketch->addAction(actions.pActionDrawPolygon);
 
     std::list<QAction*> circleSeriesActions;
     circleSeriesActions.emplace_back(actions.pActionDrawCircle);

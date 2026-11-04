@@ -35,6 +35,7 @@
 #include "commands/sketch/SketchDrawRectangleGuiCmd.h"
 #include "commands/sketch/SketchDrawCenterRectangleGuiCmd.h"
 #include "commands/sketch/SketchDrawPolygonGuiCmd.h"
+#include "commands/sketch/SketchDrawStraightSlotGuiCmd.h"
 #include "commands/sketch/SketchDrawCircleGuiCmd.h"
 #include "commands/sketch/SketchDrawCircleBy3PointsGuiCmd.h"
 #include "commands/sketch/SketchDrawArcGuiCmd.h"
@@ -79,6 +80,7 @@
     X(CommandNames::Rectangle, WYAP_CMD_MODAL, SketchDrawRectangleGuiCmd::classInfo()) \
     X(CommandNames::CenterRectangle, WYAP_CMD_MODAL, SketchDrawCenterRectangleGuiCmd::classInfo()) \
     X(CommandNames::Polygon, WYAP_CMD_MODAL, SketchDrawPolygonGuiCmd::classInfo()) \
+    X(CommandNames::StraightSlot, WYAP_CMD_MODAL, SketchDrawStraightSlotGuiCmd::classInfo()) \
     X(CommandNames::Circle, WYAP_CMD_MODAL, SketchDrawCircleGuiCmd::classInfo()) \
     X(CommandNames::CircleBy3Points, WYAP_CMD_MODAL, SketchDrawCircleBy3PointsGuiCmd::classInfo()) \
     X(CommandNames::Arc, WYAP_CMD_MODAL, SketchDrawArcGuiCmd::classInfo()) \
