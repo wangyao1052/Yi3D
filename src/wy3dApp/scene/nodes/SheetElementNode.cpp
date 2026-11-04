@@ -111,6 +111,10 @@ std::unique_ptr<ElementRenderData> SheetElementNode::generateRenderData(
             assert(false);
             return nullptr;
         }
+        if (pSheet->isSuppressed())
+        {
+            return nullptr;
+        }
 
         TopLoc_Location loc;
         TopoDS_Shape shape = pSheet->getShape();

@@ -55,6 +55,9 @@ public:
     // 获取拓扑表达
     virtual const TopoDS_Shape& getShape() const { return _shape; }
 
+    bool isSuppressed() const { return _isSuppressed; }
+    wy::ErrorStatus suppress(bool suppressing = true);
+
 public:
     virtual wydb::ParameterValueUPtr getParameterValue(const std::string& className, const std::string& paramName) const override;
     virtual wy::ErrorStatus setParameterValue(const std::string& className, const std::string& paramName, const wydb::ParameterValue& paramValue) override;
@@ -144,6 +147,8 @@ protected:
     std::vector<wydb::ElementId> _modifications;
     // 颜色
     wy3d::Color _color;
+
+    bool _isSuppressed;
 
     // 当实体本身用于修改(切除&合并)其它实体时,以下数据有效;否则为空.
     // 新生成的面也即关联的面

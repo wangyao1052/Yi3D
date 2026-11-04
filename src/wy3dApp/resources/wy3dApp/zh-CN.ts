@@ -1015,7 +1015,7 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="206"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1838"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1978"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
@@ -1076,32 +1076,32 @@
         <translation type="unfinished">移动</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1738"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1755"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1856"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1873"/>
         <source>View Normal To</source>
         <translation type="unfinished">正视于</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1747"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1865"/>
         <source>Edit 3D Sketch</source>
         <translation>编辑3D草图</translation>
     </message>
     <message>
         <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="199"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1777"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1895"/>
         <source>Show</source>
         <translation type="unfinished">显示</translation>
     </message>
     <message>
         <location filename="../../commands/edit/ModelingSelectGuiCmd.cpp" line="207"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1786"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1904"/>
         <source>Hide</source>
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="534"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="228"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1795"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1935"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
@@ -1115,7 +1115,7 @@
     </message>
     <message>
         <location filename="../../commands/SelectGuiCmd.cpp" line="545"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1867"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="2007"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
     </message>
@@ -1224,7 +1224,7 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="216"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1732"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1850"/>
         <source>Export Sketch</source>
         <translation>导出草图</translation>
     </message>
@@ -1235,7 +1235,7 @@
     </message>
     <message>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="270"/>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1726"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1844"/>
         <source>Edit Sketch</source>
         <translation type="unfinished">编辑草图</translation>
     </message>
@@ -4164,297 +4164,307 @@ Do you want to save it to the original file now?
 <context>
     <name>wy3dApp::FeatureTreeWidget</name>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="194"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="214"/>
         <source>FeatureTree</source>
         <translation type="unfinished">特征树</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="223"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="251"/>
         <source>Box</source>
         <translation type="unfinished">长方体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="224"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="252"/>
         <source>Cylinder</source>
         <translation type="unfinished">圆柱体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="225"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="253"/>
         <source>Sphere</source>
         <translation type="unfinished">球体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="226"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="254"/>
         <source>Cone</source>
         <translation type="unfinished">圆锥体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="227"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="255"/>
         <source>Torus</source>
         <translation type="unfinished">圆环体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="228"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="256"/>
         <source>Tube</source>
         <translation type="unfinished">圆管</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="229"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="257"/>
         <source>Union</source>
         <translation type="unfinished">并集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="230"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="258"/>
         <source>Difference</source>
         <translation type="unfinished">差集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="231"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="259"/>
         <source>Intersection</source>
         <translation type="unfinished">交集</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="232"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="260"/>
         <source>DatumPlane</source>
         <translation type="unfinished">基准面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="233"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="261"/>
         <source>Sketch</source>
         <translation type="unfinished">草图</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="234"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="262"/>
         <source>Sketch3D</source>
         <translation>3D草图</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="235"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="263"/>
         <source>Extrusion</source>
         <translation type="unfinished">拉伸体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="236"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="264"/>
         <source>Revolution</source>
         <translation type="unfinished">旋转体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="237"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="265"/>
         <source>Sweep</source>
         <translation type="unfinished">扫描体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="238"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="266"/>
         <source>Loft</source>
         <translation type="unfinished">放样体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="239"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="267"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="240"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="268"/>
         <source>Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="241"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="269"/>
         <source>Shell</source>
         <translation type="unfinished">抽壳</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="242"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="270"/>
         <source>Draft</source>
         <translation type="unfinished">拔模</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="243"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="271"/>
         <source>Split Face</source>
         <translation type="unfinished">分割面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="244"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="272"/>
         <source>Delete Face</source>
         <translation type="unfinished">删除面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="245"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="273"/>
         <source>Move</source>
         <translation type="unfinished">平移</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="246"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="274"/>
         <source>Rotate</source>
         <translation type="unfinished">旋转</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="247"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="275"/>
         <source>Mirror</source>
         <translation type="unfinished">镜像</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="248"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="276"/>
         <source>Linear Pattern</source>
         <translation type="unfinished">线性阵列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="249"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="277"/>
         <source>Circular Pattern</source>
         <translation type="unfinished">圆周阵列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="250"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="278"/>
         <source>Helix</source>
         <translation type="unfinished">螺旋线</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="251"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="279"/>
         <source>Imported Solid</source>
         <translation type="unfinished">导入实体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="252"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="280"/>
         <source>Imported Sheet</source>
         <translation>导入曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="253"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="281"/>
         <source>Extruded Sheet</source>
         <translation>拉伸曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="254"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="282"/>
         <source>Revolved Sheet</source>
         <translation>旋转曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="255"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="283"/>
         <source>Swept Sheet</source>
         <translation>扫掠曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="256"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="284"/>
         <source>Lofted Sheet</source>
         <translation>放样曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="257"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="285"/>
         <source>Thicken</source>
         <translation>加厚</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="266"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="294"/>
         <source>XOY</source>
         <translation type="unfinished">俯视基准面 XOY</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="267"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="295"/>
         <source>YOZ</source>
         <translation type="unfinished">右视基准面 YOZ</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="268"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="296"/>
         <source>XOZ</source>
         <translation type="unfinished">前视基准面 XOZ</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="286"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="314"/>
         <source>Name</source>
         <translation type="unfinished">名称</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="287"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="315"/>
         <source>Id</source>
         <translation type="unfinished">标识号</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="976"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1012"/>
         <source>-Cut</source>
         <translation type="unfinished">-切除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1809"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1922"/>
+        <source>Suppress</source>
+        <translation>抑制</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1927"/>
+        <source>Unsuppress</source>
+        <translation>取消抑制</translation>
+    </message>
+    <message>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1949"/>
         <source>Reorder</source>
         <translation>重排</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1819"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1959"/>
         <source>Move Up</source>
         <translation>上移</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1823"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1963"/>
         <source>Move Down</source>
         <translation>下移</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1811"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1951"/>
         <source>Move To Top</source>
         <translation>置顶</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1815"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1955"/>
         <source>Move To Bottom</source>
         <translation>置底</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1830"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1970"/>
         <source>Erase</source>
         <translation type="unfinished">删除</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1719"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1837"/>
         <source>Cancel Boolean</source>
         <translation type="unfinished">取消布尔</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="258"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="286"/>
         <source>NonParametric Sheet</source>
         <translation>无参曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="259"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="287"/>
         <source>NonParametric Solid</source>
         <translation>无参实体</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="260"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="288"/>
         <source>Planar Sheet</source>
         <translation type="unfinished">平面曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="261"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="289"/>
         <source>Filled Surface</source>
         <translation>填充曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="262"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="290"/>
         <source>Sewn Sheet</source>
         <translation type="unfinished">缝合曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="263"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="291"/>
         <source>Solidify</source>
         <translation type="unfinished">实体化</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="264"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="292"/>
         <source>Offset Sheet</source>
         <translation type="unfinished">偏置曲面</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1856"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1996"/>
         <source>Error Information</source>
         <translation type="unfinished">查看错误信息</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1874"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="2014"/>
         <source>Show ID column</source>
         <translation type="unfinished">显示标识列</translation>
     </message>
     <message>
-        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1874"/>
+        <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="2014"/>
         <source>Hide ID column</source>
         <translation type="unfinished">隐藏标识列</translation>
     </message>

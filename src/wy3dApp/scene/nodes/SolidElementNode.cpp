@@ -121,6 +121,10 @@ std::unique_ptr<ElementRenderData> SolidElementNode::generateRenderData(
             assert(false);
             return nullptr;
         }
+        if (pSolid->isSuppressed())
+        {
+            return nullptr;
+        }
 
         assert(pSolid);
         TopLoc_Location loc;

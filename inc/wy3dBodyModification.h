@@ -17,8 +17,6 @@ NS_WY3D_BEG
 class Solid;
 class Sheet;
 
-// 就地修改一个形体。宿主是实体还是片体由数据决定, 不由类型决定: 实体和片体各有自己的修改链,
-// 都按 _ownerId 找到这里调用 modifyOwnerShape, 而 modifyOwnerShape 只认 TopoDS_Shape。
 class WY3D_EXPORT BodyModification : public wy3d::Feature
 {
     WYDB_DECLARE_ABSTRACT_MEMBERS(BodyModification, wy3d::BodyModification, wy3d::Feature)
@@ -30,7 +28,8 @@ public:
     // 获取新生成的面在宿主Shape面中的索引
     std::vector<std::uint32_t> getNewFaceIndices() const;
 
-public:
+    bool isSuppressed() const { return _isSuppressed; }
+    wy::ErrorStatus suppress(bool suppressing = true);
 
 protected:
     // 事务
@@ -85,10 +84,8 @@ private:
     wy::ErrorStatus _setOwner(const wydb::ElementId& ownerId);
 
 private:
-    // 所属的宿主(实体或片体)
     wydb::ElementId _ownerId;
-
-    // 新生成的面也即关联的面
+    bool _isSuppressed;
     TopoNameList _newFaces;
 
     friend class Solid;

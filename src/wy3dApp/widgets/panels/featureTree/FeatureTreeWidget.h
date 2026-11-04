@@ -115,6 +115,10 @@ private slots:
     void onContextMenu_Erase();
     // 上下文菜单:显示或隐藏ID列
     void onContextMenu_ShowHideColumnID();
+    // Context menu: suppress
+    void onContextMenu_Suppress();
+    // Context menu: unsuppress
+    void onContextMenu_Unsuppress();
     // 上下文菜单:取消布尔
     void onContextMenu_CancelBoolean();
     // 上下文菜单:显示错误信息
@@ -183,10 +187,14 @@ private:
     // 移动当前选中的实体修改
     void moveSelectedModification(MoveModificationTarget target);
 
+    // Suppress or unsuppress the selected features
+    void setSelectedSuppressed(bool isSuppressed);
+
 private:
     // ICON
     QIcon _iconError;
     QIcon _iconWarning;
+    QIcon _iconSuppressed;
     QIcon _iconEmpty;
     friend class FeatureRow;
 
@@ -222,7 +230,8 @@ private:
     // 元素ID <> 特征行
     enum class FeatureRowFlag : unsigned int
     {
-        Hidden  = 0x00000001, // 隐藏
+        Hidden      = 0x00000001, // 隐藏
+        Suppressed  = 0x00000002, // suppressed
     };
     struct FeatureRow
     {
@@ -250,6 +259,12 @@ private:
             return this->hasFlag(FeatureRowFlag::Hidden);
         }
 
+        // Whether suppressed
+        inline bool isSuppressed() const
+        {
+            return this->hasFlag(FeatureRowFlag::Suppressed);
+        }
+
         // 获取错误码
         inline unsigned int getErrorCode() const
         {
@@ -257,6 +272,8 @@ private:
         }
         // 设置错误码
         void setErrorCode(unsigned int code, const FeatureTreeWidget* pFeatTreeWidget);
+        // Update the status icon: error > warning > suppressed > empty
+        void updateStatusIcon(const FeatureTreeWidget* pFeatTreeWidget);
 
         FeatureRow() : pNameItem(nullptr), pIdItem(nullptr), flags(0), errorCode(0) {}
     };

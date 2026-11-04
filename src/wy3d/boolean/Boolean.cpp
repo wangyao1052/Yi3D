@@ -341,6 +341,12 @@ TopoDS_Shape Boolean::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdateFe
             static_cast<unsigned int>(wy3d::ErrorCode::BOOLEAN_InvalidTargetId));
         return TopoDS_Shape();
     }
+    if (pTargetSolid->isSuppressed())
+    {
+        wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
+            static_cast<unsigned int>(wy3d::ErrorCode::warnTOPOSHAPE_NullShape));
+        return TopoDS_Shape();
+    }
     TopoDS_Shape resultShape = pTargetSolid->getShape();
     const wy3d::TopoNaming* pTargetNaming = pTargetSolid->getTopoNaming();
     assert(pTargetNaming);
@@ -358,6 +364,10 @@ TopoDS_Shape Boolean::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdateFe
             {
                 wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
                     static_cast<unsigned int>(wy3d::ErrorCode::BOOLEAN_InvalidToolId));
+                continue;
+            }
+            if (pToolSolid->isSuppressed())
+            {
                 continue;
             }
 
@@ -395,6 +405,10 @@ TopoDS_Shape Boolean::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdateFe
                     static_cast<unsigned int>(wy3d::ErrorCode::BOOLEAN_InvalidToolId));
                 continue;
             }
+            if (pToolSolid->isSuppressed())
+            {
+                continue;
+            }
 
             TopoDS_Shape toolShape = pToolSolid->getShape();
             const wy3d::TopoNaming* pToolNaming = pToolSolid->getTopoNaming();
@@ -429,6 +443,10 @@ TopoDS_Shape Boolean::generateShape(TopoNaming* pTopoNaming, wydb::ChainUpdateFe
             {
                 wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
                     static_cast<unsigned int>(wy3d::ErrorCode::BOOLEAN_InvalidToolId));
+                continue;
+            }
+            if (pToolSolid->isSuppressed())
+            {
                 continue;
             }
 

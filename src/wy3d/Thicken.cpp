@@ -831,7 +831,6 @@ TopoDS_Shape Thicken::generateShape(
     TopoDS_Shape sheetShape = pSheet->getShape();
     if (sheetShape.IsNull())
     {
-        assert(false);
         wy3d::reportChainUpdateError(feedbackCollector, this->getId(),
             static_cast<std::uint32_t>(ErrorCode::THICKEN_InvalidData));
         return TopoDS_Shape();
