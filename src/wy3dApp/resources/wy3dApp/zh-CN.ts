@@ -48,27 +48,27 @@
 <context>
     <name>CopyGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="260"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="258"/>
         <source>Select elements to copy; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要复制的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="277"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="275"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定基准点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="302"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="300"/>
         <source>Specify the move vector; you can directly input the values.</source>
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="426"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="423"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="427"/>
+        <location filename="../../commands/edit/CopyGuiCmd.cpp" line="424"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -94,51 +94,51 @@
 <context>
     <name>DatumPlnCmd</name>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="244"/>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="820"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="242"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="810"/>
         <source>Select solid edge or solid face or datum plane to determine the rotation axis.</source>
         <translation type="unfinished">选择实体边、实体面或基准面以确定旋转轴线。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="420"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="418"/>
         <location filename="../../commands/datumPlane/CoincidentDatumPlnCmd.cpp" line="113"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="163"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="161"/>
         <source>Select a planar face or datum plane.</source>
         <translation type="unfinished">选择平面或基准面。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="475"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="473"/>
         <source>Specify the rotation angle.</source>
         <translation type="unfinished">指定旋转角度。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="705"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="760"/>
-        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="350"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="701"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="751"/>
+        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="347"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="888"/>
+        <location filename="../../commands/datumPlane/AngularDatumPlnCmd.cpp" line="878"/>
         <source>Select solid edge or solid face or datum plane to determine the X axis.</source>
         <translation type="unfinished">选择实体边、实体面或基准面以确定新基准面的X轴。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="409"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="407"/>
         <source>Select an edge, sketch curve or 3D sketch curve.</source>
         <translation type="unfinished">选择边、草图曲线或 3D 草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="437"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="184"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="435"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="182"/>
         <source>Specify through point or directly input the distance value.</source>
         <translation type="unfinished">指定通过点或直接输入距离值。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="614"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="756"/>
-        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="763"/>
-        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="318"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="611"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="747"/>
+        <location filename="../../commands/datumPlane/NormalToEdgeDatumPlnCmd.cpp" line="754"/>
+        <location filename="../../commands/datumPlane/ParallelDatumPlnCmd.cpp" line="315"/>
         <source>Distance</source>
         <translation type="unfinished">距离</translation>
     </message>
@@ -165,12 +165,12 @@
         <translation type="unfinished">三点共线无法确定唯一平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="170"/>
+        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="168"/>
         <source>Select a cylindrical face.</source>
         <translation type="unfinished">选择圆柱面。</translation>
     </message>
     <message>
-        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="196"/>
+        <location filename="../../commands/datumPlane/TangentDatumPlnCmd.cpp" line="194"/>
         <source>Specify rotation angle.</source>
         <translation type="unfinished">指定旋转角度。</translation>
     </message>
@@ -275,37 +275,37 @@
 <context>
     <name>ExtrudeGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="327"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="325"/>
         <source>Select the sketch to extrude.</source>
         <translation type="unfinished">选择草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="343"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="341"/>
         <source>Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction (One Side / Symmetric).</source>
         <translation>指定拉伸深度；可输入具体值。按 Tab 切换拉伸方向（单侧/对称）。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="564"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="561"/>
         <source>Depth</source>
         <translation>深度</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="565"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="562"/>
         <source>Direction</source>
         <translation>方向</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="618"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="615"/>
         <source>Symmetric</source>
         <translation type="unfinished">对称</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="619"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="616"/>
         <source>One Side</source>
         <translation type="unfinished">单侧</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="379"/>
+        <location filename="../../commands/modeling/solid/generation/ExtrudeGuiCmd.cpp" line="377"/>
         <source>Select the solid to cut.</source>
         <translation type="unfinished">选择要切除的实体。</translation>
     </message>
@@ -313,32 +313,32 @@
 <context>
     <name>ExtrudedSheetGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="309"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="307"/>
         <source>Select the sketch to extrude.</source>
         <translation type="unfinished">选择草图。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="319"/>
         <source>Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction (One Side / Symmetric).</source>
         <translation type="unfinished">指定拉伸深度；可输入具体值。按 Tab 切换拉伸方向（单侧/对称）。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="534"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="531"/>
         <source>Depth</source>
         <translation>深度</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="535"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="532"/>
         <source>Direction</source>
         <translation>方向</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="579"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="576"/>
         <source>Symmetric</source>
         <translation type="unfinished">对称</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="580"/>
+        <location filename="../../commands/modeling/sheet/generation/ExtrudedSheetGuiCmd.cpp" line="577"/>
         <source>One Side</source>
         <translation type="unfinished">单侧</translation>
     </message>
@@ -1621,32 +1621,32 @@
 <context>
     <name>MakeBoxGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="194"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="192"/>
         <source>Specify the starting point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定起点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="206"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="204"/>
         <source>Specify length and width; you can directly input the values.</source>
         <translation type="unfinished">指定长度和宽度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="218"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="216"/>
         <source>Specify the height; you can directly input the value.</source>
         <translation type="unfinished">指定高度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="408"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="405"/>
         <source>Height</source>
         <translation type="unfinished">高度</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="397"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="394"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="398"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeBoxGuiCmd.cpp" line="395"/>
         <source>Width</source>
         <translation type="unfinished">宽度</translation>
     </message>
@@ -1654,27 +1654,27 @@
 <context>
     <name>MakeConeGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="184"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="182"/>
         <source>Specify the bottom center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定底面中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="196"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="194"/>
         <source>Specify the bottom radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="382"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="379"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="208"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="206"/>
         <source>Specify the height; you can directly input the value.</source>
         <translation type="unfinished">指定高度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="392"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeConeGuiCmd.cpp" line="389"/>
         <source>Height</source>
         <translation type="unfinished">高度</translation>
     </message>
@@ -1682,27 +1682,27 @@
 <context>
     <name>MakeCylinderGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="185"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="183"/>
         <source>Specify the bottom center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定底面中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="197"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="195"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="383"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="380"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="209"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="207"/>
         <source>Specify the height; you can directly input the value.</source>
         <translation type="unfinished">指定高度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="393"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeCylinderGuiCmd.cpp" line="390"/>
         <source>Height</source>
         <translation type="unfinished">高度</translation>
     </message>
@@ -1723,17 +1723,17 @@
 <context>
     <name>MakeSphereGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="175"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="173"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="187"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="185"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="332"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeSphereGuiCmd.cpp" line="329"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -1741,27 +1741,27 @@
 <context>
     <name>MakeTorusGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="194"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="192"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="206"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="204"/>
         <source>Specify the major radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="398"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="395"/>
         <source>Major radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="218"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="216"/>
         <source>Specify the minor radius; you can directly input the value.</source>
         <translation type="unfinished">指定管径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="408"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTorusGuiCmd.cpp" line="405"/>
         <source>Minor radius</source>
         <translation type="unfinished">管径</translation>
     </message>
@@ -1769,37 +1769,37 @@
 <context>
     <name>MakeTubeGuiCmd</name>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="235"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="233"/>
         <source>Specify the bottom center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定底面中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="247"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="245"/>
         <source>Specify the outer radius; you can directly input the value.</source>
         <translation type="unfinished">指定外径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="481"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="478"/>
         <source>Outer radius</source>
         <translation type="unfinished">外径</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="259"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="257"/>
         <source>Specify the inner radius; you can directly input the value.</source>
         <translation type="unfinished">指定内径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="491"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="488"/>
         <source>Inner radius</source>
         <translation type="unfinished">内径</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="271"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="269"/>
         <source>Specify the height; you can directly input the value.</source>
         <translation type="unfinished">指定高度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="501"/>
+        <location filename="../../commands/modeling/solid/primitives/MakeTubeGuiCmd.cpp" line="498"/>
         <source>Height</source>
         <translation type="unfinished">高度</translation>
     </message>
@@ -1892,27 +1892,27 @@
 <context>
     <name>Mirror</name>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="272"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="270"/>
         <source>Select elements to mirror; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要镜像的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="289"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="287"/>
         <source>Specify the start point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定镜像轴线起点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="310"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="308"/>
         <source>Specify the end point; you can directly input the values.</source>
         <translation type="unfinished">指定终点；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="431"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="428"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="432"/>
+        <location filename="../../commands/edit/SketchMirrorGuiCmd.cpp" line="429"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -1933,32 +1933,32 @@
 <context>
     <name>MoveGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="336"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="334"/>
         <source>Select elements to move; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要移动的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="354"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="352"/>
         <source>Select datum plane as working plane.</source>
         <translation type="unfinished">选择基准面作为工作平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="380"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="378"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定基准点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="405"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="403"/>
         <source>Specify the move vector; you can directly input the values.</source>
         <translation type="unfinished">指定移动向量；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="564"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="561"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="565"/>
+        <location filename="../../commands/edit/MoveGuiCmd.cpp" line="562"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -2060,38 +2060,38 @@
 <context>
     <name>RotateGuiCmd</name>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="361"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="359"/>
         <source>Select elements to rotate; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要旋转的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="378"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="376"/>
         <source>Select datum plane as working plane.</source>
         <translation type="unfinished">选择基准面作为工作平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="395"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="393"/>
         <source>Specify the baseline start point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定旋转中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="420"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="418"/>
         <source>Specify the baseline end point; you can directly input length and angle values.</source>
         <translation>指定基线终点；可输入长度和角度值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="703"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="700"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="704"/>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="714"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="701"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="711"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="440"/>
+        <location filename="../../commands/edit/RotateGuiCmd.cpp" line="438"/>
         <source>Specify the rotation angle; you can directly input the value.</source>
         <translation type="unfinished">指定旋转角度；可输入具体值。</translation>
     </message>
@@ -2112,22 +2112,22 @@
 <context>
     <name>Scale</name>
     <message>
-        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="268"/>
+        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="266"/>
         <source>Select elements to scale; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择要缩放的元素；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="285"/>
+        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="283"/>
         <source>Specify the base point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定缩放基点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="309"/>
+        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="307"/>
         <source>Specify the scale ratio.</source>
         <translation type="unfinished">指定缩放比例。</translation>
     </message>
     <message>
-        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="477"/>
+        <location filename="../../commands/edit/SketchScaleGuiCmd.cpp" line="474"/>
         <source>Scale</source>
         <translation type="unfinished">比例</translation>
     </message>
@@ -2342,17 +2342,17 @@
         <translation type="unfinished">指定圆弧起点；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="418"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="417"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="419"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="418"/>
         <source>StartAngle</source>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="429"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="428"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
     </message>
@@ -2395,17 +2395,17 @@
         <translation type="unfinished">指定总角度；可直接输入数值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="400"/>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="399"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="401"/>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="400"/>
         <source>StartAngle</source>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="413"/>
+        <location filename="../../commands/sketch3d/SketchDrawArc3DGuiCmd.cpp" line="412"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
     </message>
@@ -2451,12 +2451,12 @@
         <translation>指定圆弧角度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="790"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="789"/>
         <source>Radius</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="801"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="800"/>
         <source>SweepAngle</source>
         <translation>扫掠角度</translation>
     </message>
@@ -2474,12 +2474,12 @@
         <translation type="unfinished">指定另一个角点或输入长宽值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="319"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/sketch/SketchDrawCenterRectangleGuiCmd.cpp" line="320"/>
         <source>Width</source>
         <translation type="unfinished">宽度</translation>
     </message>
@@ -2510,7 +2510,7 @@
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="338"/>
+        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="337"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -2543,7 +2543,7 @@
         <translation>指定半径；可直接输入具体值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="323"/>
+        <location filename="../../commands/sketch3d/SketchDrawCircle3DGuiCmd.cpp" line="322"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -2566,17 +2566,17 @@
         <translation type="unfinished">指定另一条半轴长度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="394"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="393"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="383"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="382"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="384"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="383"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -2599,17 +2599,17 @@
         <translation type="unfinished">指定另一条半轴长度；可输入具体值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="468"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="467"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="469"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="468"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="481"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipse3DGuiCmd.cpp" line="480"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -2632,7 +2632,7 @@
         <translation type="unfinished">指定另一条半轴长度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="557"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="556"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -2647,22 +2647,22 @@
         <translation>指定扫掠角度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="567"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="566"/>
         <source>StartAngle</source>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="577"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="576"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="546"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="545"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="547"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="546"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -2695,27 +2695,27 @@
         <translation type="unfinished">指定扫掠角度；可输入具体值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="580"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="579"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="581"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="580"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="593"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="592"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="605"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="604"/>
         <source>StartAngle</source>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="617"/>
+        <location filename="../../commands/sketch3d/SketchDrawEllipseArc3DGuiCmd.cpp" line="616"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
     </message>
@@ -2735,14 +2735,14 @@
         <translation type="unfinished">指定终点；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="299"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="320"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="301"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="322"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="321"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -2760,12 +2760,12 @@
         <translation>指定终点；可直接输入长度和角度。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="313"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="312"/>
         <source>Length</source>
         <translation>长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="314"/>
+        <location filename="../../commands/sketch3d/SketchDrawLine3DGuiCmd.cpp" line="313"/>
         <source>Angle</source>
         <translation>角度</translation>
     </message>
@@ -2812,7 +2812,7 @@
         <translation type="unfinished">指定外接圆的半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="362"/>
+        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="361"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -2830,12 +2830,12 @@
         <translation type="unfinished">指定另一个角点或输入长宽值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="300"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="299"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="301"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="300"/>
         <source>Width</source>
         <translation type="unfinished">宽度</translation>
     </message>
@@ -2853,12 +2853,12 @@
         <translation type="unfinished">指定另一个角点或输入长宽值。按空格键切换绘制平面。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="377"/>
+        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="376"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="378"/>
+        <location filename="../../commands/sketch3d/SketchDrawRectangle3DGuiCmd.cpp" line="377"/>
         <source>Width</source>
         <translation type="unfinished">宽度</translation>
     </message>
@@ -3065,7 +3065,7 @@
         <translation type="unfinished">选择要偏移的草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="334"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="333"/>
         <source>Offset Distance</source>
         <translation type="unfinished">偏移距离</translation>
     </message>
@@ -3249,7 +3249,7 @@
         <translation type="unfinished">指定列间隙起点 或 直接输入列间隙值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="680"/>
+        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="679"/>
         <source>Column Spacing</source>
         <translation type="unfinished">列间隙</translation>
     </message>
@@ -3264,7 +3264,7 @@
         <translation type="unfinished">指定行间隙起点 或 直接输入行间隙值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="690"/>
+        <location filename="../../commands/sketch/SketchRectArrayGuiCmd.cpp" line="689"/>
         <source>Row Spacing</source>
         <translation type="unfinished">行间隙</translation>
     </message>

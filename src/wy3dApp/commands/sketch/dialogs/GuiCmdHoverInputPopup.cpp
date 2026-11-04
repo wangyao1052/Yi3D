@@ -20,11 +20,11 @@
 
 #include <QApplication>
 #include <QButtonGroup>
-#include <QCursor>
 #include <QEvent>
 #include <QFontMetrics>
 #include <QGridLayout>
 #include <QHBoxLayout>
+#include <QHideEvent>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QLineEdit>
@@ -49,7 +49,37 @@ constexpr int kLabelMinWidthPx = 32;
 constexpr int kLabelExtraPaddingPx = 16;
 constexpr int kValueMinWidthPx = 32;
 constexpr int kValueExtraPaddingPx = 16;
-constexpr qint64 kRenderAreaReentryDelayMs = 450;
+
+bool isInViewWidget(QObject* watched)
+{
+    QWidget* pWidget = qobject_cast<QWidget*>(watched);
+    for (QWidget* w = pWidget; w; w = w->parentWidget())
+    {
+        if (qobject_cast<ViewWidget*>(w) != nullptr)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+ViewWidget* activeViewWidget()
+{
+    Application& app = ApplicationImpl::instance();
+    MainWindow* pMainWindow = app.getMainWindow();
+    wyap::Document* pActiveDoc = app.getActiveDocument();
+    if (!pMainWindow || !pActiveDoc)
+    {
+        return nullptr;
+    }
+
+    ViewWidgetContainer* pViewWidgetContainer = pMainWindow->getViewWidgetContainer();
+    if (!pViewWidgetContainer)
+    {
+        return nullptr;
+    }
+    return pViewWidgetContainer->getViewWidget(pActiveDoc);
+}
 }
 
 static void selectAllAndAnchorLeft(QLineEdit* pLineEdit)
@@ -107,15 +137,13 @@ GuiCmdHoverInputPopupBase::GuiCmdHoverInputPopupBase(QWidget* parent)
     : QWidget(parent),
     _acceptHandler(),
     _cancelHandler(),
-    _spaceKeyHandler(),
-    _defaultOffset(36, 36),
-    _renderAreaReentryTimer(),
-    _cursorOutsideRenderArea(false)
+    _spaceKeyHandler()
 {
-    this->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     this->setAttribute(Qt::WA_DeleteOnClose, false);
     this->setAttribute(Qt::WA_StyledBackground, true);
-    qApp->installEventFilter(this);
+    _timer.setSingleShot(true);
+    _timer.setInterval(0);
+    connect(&_timer, &QTimer::timeout, this, [this]() { this->onTimer(); });
 }
 
 GuiCmdHoverInputPopupBase::~GuiCmdHoverInputPopupBase()
@@ -141,35 +169,49 @@ void GuiCmdHoverInputPopupBase::setSpaceKeyHandler(const std::function<void()>& 
     _spaceKeyHandler = handler;
 }
 
-void GuiCmdHoverInputPopupBase::setDefaultOffset(const QPoint& offset)
+void GuiCmdHoverInputPopupBase::setTabKeyHandler(const std::function<void()>& handler)
 {
-    _defaultOffset = offset;
+    _tabKeyHandler = handler;
 }
 
-void GuiCmdHoverInputPopupBase::showAtGlobal(const QPoint& globalPos)
+void GuiCmdHoverInputPopupBase::showAtGlobal(const QPoint& globalPos, int xOffset, int yOffset)
 {
+    _pendingPosition = globalPos;
+    _offset.setX(xOffset);
+    _offset.setY(yOffset);
+    if (!_timer.isActive())
+    {
+        _timer.start();
+    }
+}
+
+void GuiCmdHoverInputPopupBase::setVisible(bool visible)
+{
+    if (!visible)
+    {
+        _timer.stop();
+    }
+    QWidget::setVisible(visible);
+}
+
+void GuiCmdHoverInputPopupBase::onTimer()
+{
+    // Keep the popup attached to the cursor, hide it outside the render area,
+    // and only take keyboard focus when it transitions from hidden to visible.
+    // Re-activating on every call would steal focus and reset the selected text
+    // each frame.
     if (QApplication::applicationState() != Qt::ApplicationActive)
     {
-        _cursorOutsideRenderArea = true;
-        _renderAreaReentryTimer.invalidate();
         if (this->isVisible())
         {
             this->hide();
         }
-        return;
-    }
-
-    if (_renderAreaReentryTimer.isValid() &&
-        _renderAreaReentryTimer.elapsed() < kRenderAreaReentryDelayMs)
-    {
         return;
     }
 
     const QRect boundaryRectGlobal = this->computeBoundaryRectGlobal();
-    if (!boundaryRectGlobal.isValid() || !boundaryRectGlobal.contains(globalPos))
+    if (!boundaryRectGlobal.isValid() || !boundaryRectGlobal.contains(_pendingPosition))
     {
-        _cursorOutsideRenderArea = true;
-        _renderAreaReentryTimer.invalidate();
         if (this->isVisible())
         {
             this->hide();
@@ -177,23 +219,16 @@ void GuiCmdHoverInputPopupBase::showAtGlobal(const QPoint& globalPos)
         return;
     }
 
-    if (_cursorOutsideRenderArea)
-    {
-        _cursorOutsideRenderArea = false;
-        _renderAreaReentryTimer.restart();
-        return;
-    }
-
     this->adjustSize();
-    QPoint popupPos = globalPos + _defaultOffset;
+    QPoint popupPos = _pendingPosition + _offset;
 
     if (popupPos.x() + this->width() > boundaryRectGlobal.right())
     {
-        popupPos.setX(globalPos.x() - _defaultOffset.x() - this->width());
+        popupPos.setX(_pendingPosition.x() - _offset.x() - this->width());
     }
     if (popupPos.y() + this->height() > boundaryRectGlobal.bottom())
     {
-        popupPos.setY(globalPos.y() - _defaultOffset.y() - this->height());
+        popupPos.setY(_pendingPosition.y() - _offset.y() - this->height());
     }
 
     if (popupPos.x() < boundaryRectGlobal.left())
@@ -205,10 +240,63 @@ void GuiCmdHoverInputPopupBase::showAtGlobal(const QPoint& globalPos)
         popupPos.setY(boundaryRectGlobal.top());
     }
 
-    this->move(popupPos);
-    this->show();
-    this->raise();
-    this->activateWindow();
+    QWidget* pParent = this->parentWidget();
+    if (!pParent)
+    {
+        return;
+    }
+
+    // The popup is a child overlay, so move() is in parent coordinates. Keep it
+    // where it was while the user is editing; the view is frozen then.
+    const QPoint localPos = pParent->mapFromGlobal(popupPos);
+    if (!_userEdited && this->pos() != localPos)
+    {
+        this->move(localPos);
+    }
+
+    if (!this->isVisible())
+    {
+        this->show();
+        this->raise();
+        this->focusInput();
+    }
+    else
+    {
+        // Panning/zooming the view with the mouse moves keyboard focus to the
+        // 3D view. Take it back once the interaction ends, otherwise typing in
+        // the always-visible popup would stop working.
+        this->restoreFocusFromRenderArea(boundaryRectGlobal);
+    }
+}
+
+void GuiCmdHoverInputPopupBase::restoreFocusFromRenderArea(const QRect& renderRectGlobal)
+{
+    if (QApplication::activePopupWidget() ||
+        QApplication::mouseButtons() != Qt::NoButton)
+    {
+        return;
+    }
+
+    QWidget* pFocus = QApplication::focusWidget();
+    if (!pFocus || pFocus == this || this->isAncestorOf(pFocus))
+    {
+        return;
+    }
+
+    // Only take focus back from the render area itself (the OSG view). Panels,
+    // dialogs and menus live outside the render rect or in another window, so
+    // they keep their focus.
+    QWidget* pMainWindow = this->parentWidget();
+    if (!pMainWindow || pFocus->window() != pMainWindow)
+    {
+        return;
+    }
+    const QRect focusRect(pFocus->mapToGlobal(QPoint(0, 0)), pFocus->size());
+    if (!renderRectGlobal.contains(focusRect.center()))
+    {
+        return;
+    }
+
     this->focusInput();
 }
 
@@ -223,72 +311,79 @@ bool GuiCmdHoverInputPopupBase::eventFilter(QObject* watched, QEvent* event)
     {
     case QEvent::ApplicationDeactivate:
     {
-        _cursorOutsideRenderArea = true;
-        _renderAreaReentryTimer.invalidate();
         this->hide();
         break;
     }
 
-    case QEvent::WindowDeactivate:
+    case QEvent::Enter:
     {
-        // The popup is a Qt::Tool top-level window, so a click anywhere in the main
-        // window deactivates it while clicks inside the popup do not. Dismissed the
-        // same way as Esc: whatever was typed but not committed is dropped.
-        if (watched == this && _hideOnFocusLoss)
+        QWidget* pWidget = qobject_cast<QWidget*>(watched);
+        const bool inPopup =
+            pWidget && (pWidget == this || this->isAncestorOf(pWidget));
+
+        // Qt also sends Enter to the ancestors of the entered widget on the
+        // path from the common ancestor. Entering the view's container chain
+        // on the way back into the view must not dismiss the popup.
+        ViewWidget* pActiveView = activeViewWidget();
+        const bool relatesToView =
+            isInViewWidget(watched) ||
+            (pActiveView && pWidget && pWidget->isAncestorOf(pActiveView));
+
+        if (!inPopup && !relatesToView)
         {
-            this->onCancel();
-            if (this->isVisible())
-            {
-                this->hide();
-            }
+            this->hide();
         }
         break;
     }
 
-    case QEvent::Enter:
-    case QEvent::ApplicationActivate:
+    case QEvent::MouseMove:
+    case QEvent::Wheel:
     {
-        const QPoint cursorPos = QCursor::pos();
-        const QRect renderRectGlobal = this->computeBoundaryRectGlobal();
-        const bool cursorInRenderArea =
-            renderRectGlobal.isValid() && renderRectGlobal.contains(cursorPos);
-        const bool cursorInPopup =
-            this->isVisible() && this->frameGeometry().contains(cursorPos);
-        if (cursorInRenderArea && _cursorOutsideRenderArea)
+        // While the user is typing, the 3D view must not follow the mouse:
+        // values, preview geometry and zoom stay frozen.
+        if (_userEdited && !_hideOnFocusLoss && this->isVisible() &&
+            isInViewWidget(watched))
         {
-            _cursorOutsideRenderArea = false;
-            _renderAreaReentryTimer.restart();
+            return true;
         }
-        else if (!cursorInRenderArea && !cursorInPopup)
+        break;
+    }
+
+    case QEvent::MouseButtonPress:
+    case QEvent::MouseButtonDblClick:
+    {
+        // Click-to-open popups (the dimension editor) dismiss when the user
+        // clicks anywhere outside them. The click itself is not consumed.
+        if (_hideOnFocusLoss && this->isVisible())
         {
-            _cursorOutsideRenderArea = true;
-            _renderAreaReentryTimer.invalidate();
-            this->hide();
+            QWidget* pWidget = qobject_cast<QWidget*>(watched);
+            if (!pWidget || (pWidget != this && !this->isAncestorOf(pWidget)))
+            {
+                this->onCancel();
+                this->hide();
+            }
+        }
+
+        // AutoCAD-style: the click ends the text-entry session and is still
+        // delivered to the view, so it places a point, selects, opens the
+        // command menu, etc. as usual. The typed value is abandoned.
+        if (_userEdited && !_hideOnFocusLoss && this->isVisible() &&
+            isInViewWidget(watched))
+        {
+            // The click ends the text-entry session.
+            _userEdited = false;
         }
         break;
     }
 
     case QEvent::KeyPress:
     {
-        // Numeric rows never accept a space character; drawing commands
-        // reserve the Space key (e.g. switch the working plane). Consume it
-        // here so Space keeps working while the popup has keyboard focus.
-        if (this->isVisible())
+        // Keep Tab inside the popup (as a child widget the default chain would
+        // continue into the main window), and keep Space reserved for the
+        // command while the popup has keyboard focus.
+        if (this->handleKeyPress(watched, static_cast<QKeyEvent*>(event)))
         {
-            QLineEdit* pLineEdit = qobject_cast<QLineEdit*>(watched);
-            if (pLineEdit && this->isAncestorOf(pLineEdit))
-            {
-                QKeyEvent* pKeyEvent = static_cast<QKeyEvent*>(event);
-                if (pKeyEvent->key() == Qt::Key_Space &&
-                    pKeyEvent->modifiers() == Qt::NoModifier)
-                {
-                    if (_spaceKeyHandler)
-                    {
-                        _spaceKeyHandler();
-                    }
-                    return true;
-                }
-            }
+            return true;
         }
         break;
     }
@@ -319,6 +414,52 @@ bool GuiCmdHoverInputPopupBase::eventFilter(QObject* watched, QEvent* event)
     return QWidget::eventFilter(watched, event);
 }
 
+bool GuiCmdHoverInputPopupBase::handleKeyPress(QObject* watched, QKeyEvent* event)
+{
+    if (!event || !this->isVisible())
+    {
+        return false;
+    }
+
+    QLineEdit* pLineEdit = qobject_cast<QLineEdit*>(watched);
+    if (!pLineEdit || !this->isAncestorOf(pLineEdit))
+    {
+        return false;
+    }
+
+    const int key = event->key();
+    if (key == Qt::Key_Tab || key == Qt::Key_Backtab)
+    {
+        // Shift+Tab arrives either as Key_Backtab or as Key_Tab+Shift,
+        // depending on the platform.
+        const bool backward =
+            key == Qt::Key_Backtab || (event->modifiers() & Qt::ShiftModifier);
+
+        // Forward Tab may be claimed by the popup (e.g. to toggle the
+        // extrusion direction); otherwise - and always for backward Tab -
+        // cycle the rows.
+        if (!backward && _tabKeyHandler)
+        {
+            _tabKeyHandler();
+        }
+        else
+        {
+            this->focusNextRow(backward);
+        }
+        return true;
+    }
+
+    if (key == Qt::Key_Space && event->modifiers() == Qt::NoModifier)
+    {
+        if (_spaceKeyHandler)
+        {
+            _spaceKeyHandler();
+        }
+        return true;
+    }
+    return false;
+}
+
 void GuiCmdHoverInputPopupBase::onAccept() const
 {
     if (_acceptHandler)
@@ -335,29 +476,104 @@ void GuiCmdHoverInputPopupBase::onCancel() const
     }
 }
 
+void GuiCmdHoverInputPopupBase::showEvent(QShowEvent* event)
+{
+    qApp->installEventFilter(this);
+    QWidget::showEvent(event);
+}
+
+void GuiCmdHoverInputPopupBase::hideEvent(QHideEvent* event)
+{
+    qApp->removeEventFilter(this);
+    // A hidden popup no longer owns the user's in-progress input.
+    _userEdited = false;
+    QWidget::hideEvent(event);
+}
+
+void GuiCmdHoverInputPopupBase::trackUserEditing(QLineEdit* pEdit)
+{
+    if (!pEdit)
+    {
+        return;
+    }
+    QObject::connect(pEdit, &QLineEdit::textEdited, this, [this](const QString&)
+    {
+        _userEdited = true;
+    });
+}
+
+void GuiCmdHoverInputPopupBase::updateLineEditValue(QLineEdit* pEdit, const QString& value,
+                                                    bool overwriteUserInput)
+{
+    if (overwriteUserInput)
+    {
+        _userEdited = false;
+    }
+    if (!pEdit || _userEdited)
+    {
+        return;
+    }
+    if (pEdit->text() == value)
+    {
+        return;
+    }
+    pEdit->setText(value);
+    if (pEdit->hasFocus())
+    {
+        // Keep the whole value selected so the next typed digits replace it.
+        // selectAll() is synchronous; selectAllAndAnchorLeft() defers through a
+        // timer and must not be used on this per-frame path.
+        pEdit->selectAll();
+    }
+    else
+    {
+        clearSelectionAndAnchorLeft(pEdit);
+    }
+}
+
 QRect GuiCmdHoverInputPopupBase::computeBoundaryRectGlobal() const
 {
-    Application& app = ApplicationImpl::instance();
-    MainWindow* pMainWindow = app.getMainWindow();
-    wyap::Document* pActiveDoc = app.getActiveDocument();
-    if (!pMainWindow || !pActiveDoc)
-    {
-        return QRect();
-    }
-
-    ViewWidgetContainer* pViewWidgetContainer = pMainWindow->getViewWidgetContainer();
-    if (!pViewWidgetContainer)
-    {
-        return QRect();
-    }
-
-    ViewWidget* pViewWidget = pViewWidgetContainer->getViewWidget(pActiveDoc);
+    ViewWidget* pViewWidget = activeViewWidget();
     if (!pViewWidget)
     {
         return QRect();
     }
 
     return pViewWidget->getRenderAreaGlobalRect();
+}
+
+void GuiCmdHoverInputPopupBase::focusNextRow(bool backward)
+{
+    const QList<QLineEdit*> edits = this->findChildren<QLineEdit*>();
+    QList<QLineEdit*> focusable;
+    for (QLineEdit* pEdit : edits)
+    {
+        if (pEdit && pEdit->isVisibleTo(this) && pEdit->isEnabled() &&
+            pEdit->focusPolicy() != Qt::NoFocus)
+        {
+            focusable.append(pEdit);
+        }
+    }
+    if (focusable.isEmpty())
+    {
+        return;
+    }
+
+    QWidget* pFocus = QApplication::focusWidget();
+    int index = -1;
+    for (int i = 0; i < focusable.size(); ++i)
+    {
+        if (focusable.at(i) == pFocus)
+        {
+            index = i;
+            break;
+        }
+    }
+
+    const int count = focusable.size();
+    const int next = backward ? (index <= 0 ? count - 1 : index - 1)
+                              : ((index + 1) % count);
+    focusable.at(next)->setFocus(Qt::TabFocusReason);
 }
 
 GuiCmdHoverInputPopup1::GuiCmdHoverInputPopup1(
@@ -399,6 +615,7 @@ GuiCmdHoverInputPopup1::GuiCmdHoverInputPopup1(
     _pRowEdit = new QLineEdit(pTableWidget);
     _pRowEdit->setObjectName("cellValue");
     _pRowEdit->installEventFilter(this);
+    this->trackUserEditing(_pRowEdit);
 
     this->applyPresetWidths();
 
@@ -418,15 +635,14 @@ GuiCmdHoverInputPopup1::~GuiCmdHoverInputPopup1()
 {
 }
 
-void GuiCmdHoverInputPopup1::setValue(const QString& value)
+void GuiCmdHoverInputPopup1::setValue(const QString& value, bool overwriteUserInput)
 {
-    _pRowEdit->setText(value);
-    clearSelectionAndAnchorLeft(_pRowEdit);
+    this->updateLineEditValue(_pRowEdit, value, overwriteUserInput);
 }
 
-void GuiCmdHoverInputPopup1::setValue(double value, int precision)
+void GuiCmdHoverInputPopup1::setValue(double value, int precision, bool overwriteUserInput)
 {
-    this->setValue(QString::number(value, 'f', precision));
+    this->setValue(QString::number(value, 'f', precision), overwriteUserInput);
 }
 
 QString GuiCmdHoverInputPopup1::getRowText() const
@@ -546,6 +762,8 @@ GuiCmdHoverInputPopup2::GuiCmdHoverInputPopup2(
     _pRow2Edit->setObjectName("cellValueBottom");
     _pRow1Edit->installEventFilter(this);
     _pRow2Edit->installEventFilter(this);
+    this->trackUserEditing(_pRow1Edit);
+    this->trackUserEditing(_pRow2Edit);
 
     this->applyPresetWidths();
 
@@ -573,10 +791,8 @@ GuiCmdHoverInputPopup2::~GuiCmdHoverInputPopup2()
 
 void GuiCmdHoverInputPopup2::setValues(const QString& row1Value, const QString& row2Value)
 {
-    _pRow1Edit->setText(row1Value);
-    clearSelectionAndAnchorLeft(_pRow1Edit);
-    _pRow2Edit->setText(row2Value);
-    clearSelectionAndAnchorLeft(_pRow2Edit);
+    this->updateLineEditValue(_pRow1Edit, row1Value);
+    this->updateLineEditValue(_pRow2Edit, row2Value);
 }
 
 void GuiCmdHoverInputPopup2::setValues(double row1Value, double row2Value, int precision)
@@ -727,6 +943,9 @@ GuiCmdHoverInputPopup3::GuiCmdHoverInputPopup3(
     _pRow1Edit->installEventFilter(this);
     _pRow2Edit->installEventFilter(this);
     _pRow3Edit->installEventFilter(this);
+    this->trackUserEditing(_pRow1Edit);
+    this->trackUserEditing(_pRow2Edit);
+    this->trackUserEditing(_pRow3Edit);
 
     this->applyPresetWidths();
 
@@ -763,12 +982,9 @@ void GuiCmdHoverInputPopup3::setValues(
     const QString& row2Value,
     const QString& row3Value)
 {
-    _pRow1Edit->setText(row1Value);
-    clearSelectionAndAnchorLeft(_pRow1Edit);
-    _pRow2Edit->setText(row2Value);
-    clearSelectionAndAnchorLeft(_pRow2Edit);
-    _pRow3Edit->setText(row3Value);
-    clearSelectionAndAnchorLeft(_pRow3Edit);
+    this->updateLineEditValue(_pRow1Edit, row1Value);
+    this->updateLineEditValue(_pRow2Edit, row2Value);
+    this->updateLineEditValue(_pRow3Edit, row3Value);
 }
 
 void GuiCmdHoverInputPopup3::setValues(
@@ -948,6 +1164,7 @@ GuiCmdHoverInputPopup2_2ndTabLabel::GuiCmdHoverInputPopup2_2ndTabLabel(
     _pDirectionEdit->setReadOnly(true);
     _pRowEdit->installEventFilter(this);
     _pDirectionEdit->installEventFilter(this);
+    this->trackUserEditing(_pRowEdit);
 
     this->applyPresetWidths();
 
@@ -971,8 +1188,7 @@ GuiCmdHoverInputPopup2_2ndTabLabel::~GuiCmdHoverInputPopup2_2ndTabLabel()
 
 void GuiCmdHoverInputPopup2_2ndTabLabel::setValue(const QString& value)
 {
-    _pRowEdit->setText(value);
-    clearSelectionAndAnchorLeft(_pRowEdit);
+    this->updateLineEditValue(_pRowEdit, value);
 }
 
 void GuiCmdHoverInputPopup2_2ndTabLabel::setValue(double value, int precision)
@@ -987,6 +1203,12 @@ QString GuiCmdHoverInputPopup2_2ndTabLabel::getRowText() const
 
 void GuiCmdHoverInputPopup2_2ndTabLabel::setDirectionLabel(const QString& text)
 {
+    // Read-only row: always reflect the current direction, even while the user
+    // has frozen the value row by typing.
+    if (_pDirectionEdit->text() == text)
+    {
+        return;
+    }
     _pDirectionEdit->setText(text);
     clearSelectionAndAnchorLeft(_pDirectionEdit);
 }
@@ -994,6 +1216,8 @@ void GuiCmdHoverInputPopup2_2ndTabLabel::setDirectionLabel(const QString& text)
 void GuiCmdHoverInputPopup2_2ndTabLabel::setDirectionToggleHandler(const std::function<void()>& handler)
 {
     _directionToggleHandler = handler;
+    // Tab in this popup toggles the direction row instead of cycling rows.
+    this->setTabKeyHandler(handler);
 }
 
 bool GuiCmdHoverInputPopup2_2ndTabLabel::eventFilter(QObject* watched, QEvent* event)
@@ -1029,11 +1253,6 @@ bool GuiCmdHoverInputPopup2_2ndTabLabel::eventFilter(QObject* watched, QEvent* e
         if (pKeyEvent && pKeyEvent->key() == Qt::Key_Escape)
         {
             this->onCancel();
-            return true;
-        }
-        if (pKeyEvent && pKeyEvent->key() == Qt::Key_Tab && _directionToggleHandler)
-        {
-            _directionToggleHandler();
             return true;
         }
     }

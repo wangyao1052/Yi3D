@@ -49,8 +49,6 @@
 
 namespace wy3dApp {
 
-static constexpr double kHoverPopupDelaySeconds = 0.8;
-
 static bool parseDoubleText(const QString& text, double& value)
 {
     bool ok(false);
@@ -339,7 +337,6 @@ void ExtrudedSheetGuiCmd::onMouseMove(const MouseEvent& event)
     if (event.x != _hoverPopupState.lastMouseX ||
         event.y != _hoverPopupState.lastMouseY)
     {
-        this->hidePopup();
         _hoverPopupState.lastMouseX = event.x;
         _hoverPopupState.lastMouseY = event.y;
         _hoverPopupState.lastMouseMoveTime = event.time;
@@ -593,11 +590,8 @@ void ExtrudedSheetGuiCmd::tryShowPopupOnHover(double time)
 {
     if (_step != Step::SpecifyDepth) return;
     if (_hoverPopupState.lastMouseMoveTime < 0.0) return;
-    if (_pDepthPopup && _pDepthPopup->isVisible()) return;
-    if (time - _hoverPopupState.lastMouseMoveTime >= kHoverPopupDelaySeconds)
-    {
-        this->showPopup();
-    }
+    Q_UNUSED(time);
+    this->showPopup();
 }
 
 void ExtrudedSheetGuiCmd::onPopupEnterKey()

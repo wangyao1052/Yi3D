@@ -237,7 +237,6 @@ void SketchDrawLineGuiCmd::onMouseMove(const MouseEvent& event)
     if (event.x != _hoverPopupState.lastMouseX ||
         event.y != _hoverPopupState.lastMouseY) // moved
     {
-        this->hidePopup();
         _hoverPopupState.lastMouseX = event.x;
         _hoverPopupState.lastMouseY = event.y;
         _hoverPopupState.lastMouseMoveTime = event.time;
@@ -398,15 +397,8 @@ void SketchDrawLineGuiCmd::tryShowPopupOnHover(double time)
     {
         return;
     }
-    if ((_pXYPopup && _pXYPopup->isVisible()) ||
-        (_pLengthAnglePopup && _pLengthAnglePopup->isVisible()))
-    {
-        return;
-    }
-    if (time - _hoverPopupState.lastMouseMoveTime >= 0.45)
-    {
-        this->showPopup();
-    }
+    Q_UNUSED(time);
+    this->showPopup();
 }
 
 void SketchDrawLineGuiCmd::onPopupEnterKey()

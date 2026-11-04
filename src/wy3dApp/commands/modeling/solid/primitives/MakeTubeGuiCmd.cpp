@@ -55,8 +55,6 @@ static bool parseDoubleText(const QString& text, double& value)
     return ok;
 }
 
-constexpr double kHoverPopupDelaySeconds = 0.45;
-
 
 MakeTubeGuiCmd::MakeTubeGuiCmd() : MakePrimitiveGuiCmd(),
     _uv1(), _uv2(), _uv3(), _height(0.0),
@@ -296,7 +294,6 @@ void MakeTubeGuiCmd::onMouseMove(const MouseEvent& event)
     if (event.x != _hoverPopupState.lastMouseX ||
         event.y != _hoverPopupState.lastMouseY)
     {
-        this->hidePopup();
         _hoverPopupState.lastMouseX = event.x;
         _hoverPopupState.lastMouseY = event.y;
         _hoverPopupState.lastMouseMoveTime = event.time;
@@ -592,17 +589,8 @@ void MakeTubeGuiCmd::tryShowPopupOnHover(double time)
     {
         return;
     }
-    if ((_pXYPopup && _pXYPopup->isVisible()) ||
-        (_pOuterRadiusPopup && _pOuterRadiusPopup->isVisible()) ||
-        (_pInnerRadiusPopup && _pInnerRadiusPopup->isVisible()) ||
-        (_pHeightPopup && _pHeightPopup->isVisible()))
-    {
-        return;
-    }
-    if (time - _hoverPopupState.lastMouseMoveTime >= kHoverPopupDelaySeconds)
-    {
-        this->showPopup();
-    }
+    Q_UNUSED(time);
+    this->showPopup();
 }
 
 void MakeTubeGuiCmd::onPopupEnterKey()

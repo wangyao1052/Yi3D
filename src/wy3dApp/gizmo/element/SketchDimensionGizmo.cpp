@@ -174,7 +174,6 @@ void SketchDimensionGizmo::openEditor()
         // Click-to-open editor: unlike the hover-summoned command popups it has no
         // mouse-move dismissal, so it closes as soon as the focus moves elsewhere
         _pValuePopup->setHideOnFocusLoss(true);
-        _pValuePopup->setDefaultOffset(QPoint(kEditorOffsetPx, kEditorOffsetPx));
         _pValuePopup->hide();
     }
 
@@ -182,8 +181,10 @@ void SketchDimensionGizmo::openEditor()
     {
         _pChoiceRow->setChoice(this->getEditorChoice());
     }
-    _pValuePopup->setValue(label.value, 2);
-    _pValuePopup->showAtGlobal(QCursor::pos());
+    // A fresh editor session always shows the current reading, even if the
+    // previous session was left with user-typed text
+    _pValuePopup->setValue(label.value, 2, /*overwriteUserInput=*/true);
+    _pValuePopup->showAtGlobal(QCursor::pos(), kEditorOffsetPx, kEditorOffsetPx);
 }
 
 void SketchDimensionGizmo::hideEditor()
@@ -234,7 +235,7 @@ void SketchDimensionGizmo::onEditorChoiceChanged(int index)
     {
         // The typed text belonged to the previous reading; show the current one
         // and keep the next typed digits replacing the whole value
-        _pValuePopup->setValue(label.value, 2);
+        _pValuePopup->setValue(label.value, 2, /*overwriteUserInput=*/true);
         _pValuePopup->selectAllValue();
     }
 }

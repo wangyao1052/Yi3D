@@ -55,8 +55,6 @@ static bool parseDoubleText(const QString& text, double& value)
     return ok;
 }
 
-constexpr double kHoverPopupDelaySeconds = 0.45;
-
 
 ExtrudeGuiCmd::ExtrudeGuiCmd() : OsgGuiCommand(),
     _step(Step::Undefined), _sketchId(wydb::ElementId::kNull), _pickPos(), _depth(0.0),
@@ -399,7 +397,6 @@ void ExtrudeGuiCmd::onMouseMove(const MouseEvent& event)
     if (event.x != _hoverPopupState.lastMouseX ||
         event.y != _hoverPopupState.lastMouseY)
     {
-        this->hidePopup();
         _hoverPopupState.lastMouseX = event.x;
         _hoverPopupState.lastMouseY = event.y;
         _hoverPopupState.lastMouseMoveTime = event.time;
@@ -638,14 +635,8 @@ void ExtrudeGuiCmd::tryShowPopupOnHover(double time)
     {
         return;
     }
-    if (_pDepthPopup && _pDepthPopup->isVisible())
-    {
-        return;
-    }
-    if (time - _hoverPopupState.lastMouseMoveTime >= kHoverPopupDelaySeconds)
-    {
-        this->showPopup();
-    }
+    Q_UNUSED(time);
+    this->showPopup();
 }
 
 void ExtrudeGuiCmd::onPopupEnterKey()
