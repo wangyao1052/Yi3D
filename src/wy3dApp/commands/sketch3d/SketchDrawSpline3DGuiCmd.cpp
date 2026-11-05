@@ -435,7 +435,7 @@ void SketchDrawSpline3DGuiCmd::onLeftMouseDoubleClicked(const MouseEvent& event)
 
 void SketchDrawSpline3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
     {
         assert(false);

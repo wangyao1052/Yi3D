@@ -168,7 +168,7 @@ UiTargets createUiTargets(EnvironmentUIImpl* pUI)
         QCoreApplication::translate("MainWindow", "View"),
         wy3dApp::ToolBarNames::SketchView);
 
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     assert(pMainWindow);
     if (!pMainWindow)
     {
@@ -806,7 +806,7 @@ void buildSketchEnvironmentToolBarUi(
 // first document's viewport instead whenever more than one document is open.
 QWidget* findActiveViewWidget()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     wyap::Document* pActiveDoc = ApplicationImpl::instance().getActiveDocument();
     if (!pMainWindow || !pActiveDoc) return nullptr;
 

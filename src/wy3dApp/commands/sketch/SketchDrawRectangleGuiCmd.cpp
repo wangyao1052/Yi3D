@@ -281,7 +281,7 @@ void SketchDrawRectangleGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawRectangleGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(

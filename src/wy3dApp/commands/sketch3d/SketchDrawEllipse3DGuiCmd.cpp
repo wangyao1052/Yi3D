@@ -440,7 +440,7 @@ void SketchDrawEllipse3DGuiCmd::destroyAxisTransient()
 
 void SketchDrawEllipse3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
     {
         assert(false);

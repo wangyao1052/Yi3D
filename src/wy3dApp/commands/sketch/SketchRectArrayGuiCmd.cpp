@@ -672,7 +672,7 @@ void SketchRectArrayGuiCmd::onClearSelectionMenuItem()
 
 void SketchRectArrayGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!_pColSpacingPopup)
     {
         _pColSpacingPopup = std::make_unique<GuiCmdHoverInputPopup1>(

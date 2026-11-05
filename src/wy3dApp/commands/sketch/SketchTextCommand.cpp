@@ -312,7 +312,7 @@ void SketchTextCommand::initializePopups()
         return;
     }
 
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(
         QStringLiteral("X"),
         QStringLiteral("Y"),

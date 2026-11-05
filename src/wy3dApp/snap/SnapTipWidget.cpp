@@ -103,7 +103,7 @@ SnapTipWidgetMgr::SnapTipWidgetMgr() :
     _quadrant(nullptr),
     _origin(nullptr)
 {
-    QWidget* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    QWidget* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     assert(pMainWindow);
 
     _horizontal = new SnapTipWidget_UsePixmap(SnapPixmap::instance().getHorizontal(), pMainWindow);

@@ -217,7 +217,7 @@ bool SetColorGuiCmd::createPanel()
     assert(!_pPanel);
 
     QOpenGLWidget* pParentWidget = nullptr;
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (pMainWindow)
     {
         pParentWidget = pMainWindow->findChild<QOpenGLWidget*>();

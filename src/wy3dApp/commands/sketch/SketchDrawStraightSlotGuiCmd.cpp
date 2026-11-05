@@ -36,6 +36,7 @@
 #include <wy3dApp/GuiCmdHoverInputPopup.h>
 #include <wy3dApp/Snap2dSystem.h>
 
+#include "application/ApplicationImpl.h"
 #include "commands/transient/SlotGuideTransient.h"
 #include "utils/SketchSlotGeometry.h"
 #include "widgets/CursorType.h"
@@ -496,7 +497,7 @@ void SketchDrawStraightSlotGuiCmd::initializePopups()
         return;
     }
 
-    MainWindow* pMainWindow = getApplication()->getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     QWidget* pParent = pMainWindow;
 
     if (!_pXYPopup)

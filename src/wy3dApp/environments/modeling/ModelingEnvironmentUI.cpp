@@ -1219,7 +1219,7 @@ UiTargets createUiTargets(EnvironmentUIImpl* pUI)
         wy3dApp::ToolBarNames::Test);
 #endif // _DEBUG
 
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     assert(pMainWindow);
     if (!pMainWindow)
     {

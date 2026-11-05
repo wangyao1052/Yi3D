@@ -377,7 +377,7 @@ void MakeTorusGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void MakeTorusGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(

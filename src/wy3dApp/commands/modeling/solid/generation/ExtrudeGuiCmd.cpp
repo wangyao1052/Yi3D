@@ -554,7 +554,7 @@ void ExtrudeGuiCmd::onFrame(double time)
 
 void ExtrudeGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!_pDepthPopup)
     {
         _pDepthPopup = std::make_unique<GuiCmdHoverInputPopup2_2ndTabLabel>(

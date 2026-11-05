@@ -65,8 +65,8 @@ bool isInViewWidget(QObject* watched)
 
 ViewWidget* activeViewWidget()
 {
-    Application& app = ApplicationImpl::instance();
-    MainWindow* pMainWindow = app.getMainWindow();
+    ApplicationImpl& app = ApplicationImpl::instance();
+    MainWindow* pMainWindow = app.getMainWindowImpl();
     wyap::Document* pActiveDoc = app.getActiveDocument();
     if (!pMainWindow || !pActiveDoc)
     {

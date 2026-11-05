@@ -696,7 +696,7 @@ void AngularDatumPlnCmd::initializePopups()
         return;
     }
 
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     _pAnglePopup = std::make_unique<GuiCmdHoverInputPopup1>(
         QCoreApplication::translate("DatumPlnCmd", "Angle"),
         QStringLiteral("-1234.56"),

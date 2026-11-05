@@ -552,7 +552,7 @@ void SketchDrawEllipseArc3DGuiCmd::destroyAxisTransient()
 
 void SketchDrawEllipseArc3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
     {
         assert(false);

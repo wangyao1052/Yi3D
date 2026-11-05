@@ -154,7 +154,7 @@ bool AutoSave::checkRecoveryForOpen(const std::string& u8FileFullPath)
         tr("Recovery"),
         text,
         QMessageBox::NoButton,
-        ApplicationImpl::instance().getMainWindow());
+        ApplicationImpl::instance().getMainWindowImpl());
     QPushButton* pRecoverButton = messageBox.addButton(
         tr("Recover"), QMessageBox::AcceptRole);
     QPushButton* pDiscardButton = messageBox.addButton(
@@ -215,7 +215,7 @@ bool AutoSave::checkRecoveryForOpen(const std::string& u8FileFullPath)
     // Ask whether to save the recovered document now (target is clear: the
     // original path; save directly without a dialog).
     const int ret = QMessageBox::question(
-        ApplicationImpl::instance().getMainWindow(),
+        ApplicationImpl::instance().getMainWindowImpl(),
         tr("Recovery"),
         tr("The document has been recovered.\n"
             "Do you want to save it to the original file now?\n%1").arg(originalPath),

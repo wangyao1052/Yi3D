@@ -309,7 +309,7 @@ void SketchDrawArcBy3Points3DGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawArcBy3Points3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
     {
         assert(false);

@@ -42,7 +42,7 @@ EnvironmentUI* PluginTaskEnvironment::getUI() const
 QMainWindow* PluginTaskEnvironment::mainWindow() const
 {
     Application* pApp = getApplication();
-    return pApp ? pApp->getMainWindowWidget() : nullptr;
+    return pApp ? pApp->getMainWindow() : nullptr;
 }
 
 void PluginTaskEnvironment::updateCommandActionStates()

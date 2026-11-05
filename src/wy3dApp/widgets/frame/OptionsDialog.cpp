@@ -171,7 +171,7 @@ void OptionsDialog::accept()
 		pConfig->saveConfig();
 
 		// 视图设置实时应用到所有已打开视图
-		MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+		MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
 		ViewWidgetContainer* pContainer = pMainWindow ? pMainWindow->getViewWidgetContainer() : nullptr;
 		if (pContainer)
 		{

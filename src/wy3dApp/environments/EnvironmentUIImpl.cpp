@@ -67,7 +67,7 @@ EnvironmentUIImpl::~EnvironmentUIImpl()
 
 QMenu* EnvironmentUIImpl::addMenu(const QString& title, const std::string& name)
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
     {
         assert(false);
@@ -97,7 +97,7 @@ void EnvironmentUIImpl::insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu)
         return;
     }
 
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
     {
         assert(false);
@@ -125,7 +125,7 @@ void EnvironmentUIImpl::insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu)
 
 QToolBar* EnvironmentUIImpl::addToolBar(const QString& title, const std::string& name)
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
     {
         assert(false);
@@ -272,7 +272,7 @@ void EnvironmentUIImpl::destroyMenus()
 void EnvironmentUIImpl::saveUiState()
 {
     if (!_pEnvironment) return;
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow) return;
 
     const QString path = QCoreApplication::applicationDirPath()
@@ -289,7 +289,7 @@ void EnvironmentUIImpl::saveUiState()
 
 void EnvironmentUIImpl::destroyToolBars()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     for (QToolBar* pToolBar : _toolBars)
     {
         if (!pToolBar)
@@ -310,7 +310,7 @@ void EnvironmentUIImpl::destroyToolBars()
 void EnvironmentUIImpl::restoreUiState()
 {
     if (!_pEnvironment) return;
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow) return;
 
     const QString path = QCoreApplication::applicationDirPath()

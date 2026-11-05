@@ -125,13 +125,13 @@ public:
     }
 
     // 获取主窗口
-    MainWindow* getMainWindow() const override
+    MainWindow* getMainWindowImpl() const
     {
         return _pMainWindow;
     }
 
-    // Same object as getMainWindow(), exposed as QMainWindow for plugins.
-    QMainWindow* getMainWindowWidget() const override;
+    // Main window, exposed as QMainWindow for plugins.
+    QMainWindow* getMainWindow() const override;
     // 设置主窗口
     void setMainWindow(MainWindow* pMainWindow)
     {

@@ -343,7 +343,7 @@ void SketchDrawPolygonGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawPolygonGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!_pCenterPopup)
     {
         _pCenterPopup = std::make_unique<GuiCmdHoverInputPopup2>(

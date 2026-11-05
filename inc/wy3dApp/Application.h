@@ -28,7 +28,6 @@ namespace wy3dApp {
 
 class ElementNodeFactory;
 class GizmoFactory;
-class MainWindow;
 class ParamDisplayNameRegistry;
 class Scene;
 class StatusBarHelper;
@@ -43,7 +42,6 @@ protected:
 
 public:
     virtual StatusBarHelper* getStatusBar() = 0;
-    virtual MainWindow* getMainWindow() const = 0;
     virtual void setCursor(CursorType cursorType) = 0;
     // Owned by the application; non-null once the application has started.
     // The caller does not own the returned pointer.
@@ -57,11 +55,9 @@ public:
     // 当前激活的场景。返回公共 Scene 接口，调用方不拥有该指针。
     virtual Scene* getActiveScene() const = 0;
 
-    // Same object as getMainWindow(), exposed as QMainWindow for plugins that
-    // need to add/remove dock widgets without including the internal MainWindow.
-    // Kept at the end of the virtual interface so existing vtable slots stay
-    // unchanged for older plugins.
-    virtual QMainWindow* getMainWindowWidget() const = 0;
+    // Main window, exposed as QMainWindow for plugins that need to add/remove
+    // dock widgets without including the internal MainWindow.
+    virtual QMainWindow* getMainWindow() const = 0;
 };
 
 // Returns the process-wide Application singleton (implemented by ApplicationImpl).

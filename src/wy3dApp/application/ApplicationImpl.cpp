@@ -163,7 +163,7 @@ ElementNodeFactory* ApplicationImpl::getElementNodeFactory() const
     return _pElementNodeFactory.get();
 }
 
-QMainWindow* ApplicationImpl::getMainWindowWidget() const
+QMainWindow* ApplicationImpl::getMainWindow() const
 {
     return _pMainWindow;
 }
@@ -390,7 +390,7 @@ wyap::Scene* ApplicationImpl::newScene(wyap::Document* pDoc)
 wyap::View* ApplicationImpl::newView(wyap::Document* pDoc)
 {
     assert(pDoc);
-    MainWindow* pMainWindow = this->getMainWindow();
+    MainWindow* pMainWindow = this->getMainWindowImpl();
     assert(pMainWindow);
     ViewWidgetContainer* pViewWidgetContainer = pMainWindow->getViewWidgetContainer();
     assert(pViewWidgetContainer);

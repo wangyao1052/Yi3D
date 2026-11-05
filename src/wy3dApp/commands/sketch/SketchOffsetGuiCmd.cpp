@@ -328,7 +328,7 @@ void SketchOffsetGuiCmd::initializePopups()
         return;
     }
 
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     _pOffsetPopup = std::make_unique<GuiCmdHoverInputPopup1>(
         QCoreApplication::translate("SketchOffset", "Offset Distance"),
         QStringLiteral("-1234.56"),

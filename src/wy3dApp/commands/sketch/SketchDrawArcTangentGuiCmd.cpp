@@ -349,7 +349,7 @@ void SketchDrawArcTangentGuiCmd::showModePanel()
         // The view widget of the active document. findChild<QOpenGLWidget*>() would answer with
         // the first document's viewport instead whenever more than one document is open.
         QWidget* pParentWidget = nullptr;
-        MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+        MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
         wyap::Document* pActiveDoc = ApplicationImpl::instance().getActiveDocument();
         if (pMainWindow && pActiveDoc)
         {
@@ -770,7 +770,7 @@ void SketchDrawArcTangentGuiCmd::onFrame(double time)
 
 void SketchDrawArcTangentGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(

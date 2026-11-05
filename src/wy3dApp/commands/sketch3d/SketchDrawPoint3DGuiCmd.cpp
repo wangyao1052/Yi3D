@@ -214,7 +214,7 @@ void SketchDrawPoint3DGuiCmd::initializePopups()
         return;
     }
 
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
     {
         assert(false);

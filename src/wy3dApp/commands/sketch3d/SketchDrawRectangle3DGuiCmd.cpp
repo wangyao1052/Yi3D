@@ -349,7 +349,7 @@ void SketchDrawRectangle3DGuiCmd::destroyDiagonalTransients()
 
 void SketchDrawRectangle3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
     {
         assert(false);

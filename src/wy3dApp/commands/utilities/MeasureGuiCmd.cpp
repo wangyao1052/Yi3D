@@ -67,7 +67,7 @@ bool parseSubPathIndex(const std::string& subPath, unsigned int& index)
 MeasureGuiCmd::MeasureGuiCmd() : OsgGuiCommand(), _step(Step::Undefined),
     _mode(MeasureMode::PointToPoint), _tempUnhighlightedSel(wydb::ElementId::kNull), _pCmdPanel(nullptr)
 {
-    _pLengthLabel = std::make_unique<MeasureLengthLabel>(ApplicationImpl::instance().getMainWindow());
+    _pLengthLabel = std::make_unique<MeasureLengthLabel>(ApplicationImpl::instance().getMainWindowImpl());
     assert(_pLengthLabel);
 
 }
@@ -689,7 +689,7 @@ void MeasureGuiCmd::configureContextMenu(ContextMenu& menu)
 bool MeasureGuiCmd::createCmdPanel()
 {
     QOpenGLWidget* pParentWidget = nullptr;
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (pMainWindow)
         pParentWidget = pMainWindow->findChild<QOpenGLWidget*>();
     if (!pParentWidget) return false;

@@ -410,7 +410,7 @@ void SketchMirrorGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchMirrorGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(

@@ -688,12 +688,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="145"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="135"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="149"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="139"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -719,8 +719,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="141"/>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="156"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="131"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="146"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3308,42 +3308,42 @@
 <context>
     <name>SketchStraightSlot</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="172"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="173"/>
         <source>Specify the first slot center.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="178"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="179"/>
         <source>Specify the second slot center.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="185"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="186"/>
         <source>Slot width: %1. Move and click to finish.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="505"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="506"/>
         <source>X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="506"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="507"/>
         <source>Y</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="517"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="518"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="518"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="519"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="529"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="530"/>
         <source>Width</source>
         <translation type="unfinished"></translation>
     </message>

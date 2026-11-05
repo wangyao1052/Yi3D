@@ -317,7 +317,7 @@ void SketchDrawCircleGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawCircleGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
 
     if (!_pXYPopup)
     {

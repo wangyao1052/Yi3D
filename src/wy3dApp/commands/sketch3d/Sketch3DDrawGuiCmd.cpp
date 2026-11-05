@@ -299,7 +299,7 @@ void Sketch3DWorkingPlane::showImpl(const wy3d::Plane& plane)
 
         if (!_pPlaneLabel)
         {
-            if (MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow())
+            if (MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl())
             {
                 if (QOpenGLWidget* pGLWidget = pMainWindow->findChild<QOpenGLWidget*>())
                 {

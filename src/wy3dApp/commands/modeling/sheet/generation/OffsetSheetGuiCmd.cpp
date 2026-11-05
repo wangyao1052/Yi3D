@@ -975,7 +975,7 @@ void OffsetSheetGuiCmd::clearHostSelection()
 bool OffsetSheetGuiCmd::createCmdPanel()
 {
     QOpenGLWidget* pParentWidget = nullptr;
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (pMainWindow)
         pParentWidget = pMainWindow->findChild<QOpenGLWidget*>();
     if (!pParentWidget) return false;

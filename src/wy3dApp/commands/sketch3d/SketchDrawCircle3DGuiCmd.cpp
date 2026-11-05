@@ -295,7 +295,7 @@ void SketchDrawCircle3DGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void SketchDrawCircle3DGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
     {
         assert(false);

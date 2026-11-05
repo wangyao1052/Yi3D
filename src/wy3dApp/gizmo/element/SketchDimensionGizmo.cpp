@@ -152,7 +152,7 @@ void SketchDimensionGizmo::openEditor()
     const QStringList choices = this->getEditorChoices();
     if (!_pValuePopup)
     {
-        MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+        MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
         if (choices.isEmpty())
         {
             _pValuePopup = std::make_unique<GuiCmdHoverInputPopup1>(

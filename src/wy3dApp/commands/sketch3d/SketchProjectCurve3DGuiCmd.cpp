@@ -646,7 +646,7 @@ void SketchProjectCurve3DGuiCmd::createPanel()
 {
     assert(!_pPanel);
 
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     QOpenGLWidget* pViewport = pMainWindow ? pMainWindow->findChild<QOpenGLWidget*>() : nullptr;
     // No viewport means no 3D picking either, and the command is not worth refusing over a panel:
     // without one every projection is the plain forward sweep.

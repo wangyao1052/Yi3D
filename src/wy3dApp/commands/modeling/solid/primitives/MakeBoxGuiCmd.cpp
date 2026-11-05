@@ -376,7 +376,7 @@ void MakeBoxGuiCmd::onLeftMouseDown(const MouseEvent& event)
 
 void MakeBoxGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!_pXYPopup)
     {
         _pXYPopup = std::make_unique<GuiCmdHoverInputPopup2>(

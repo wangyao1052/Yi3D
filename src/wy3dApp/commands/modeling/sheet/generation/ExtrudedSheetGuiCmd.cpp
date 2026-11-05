@@ -524,7 +524,7 @@ void ExtrudedSheetGuiCmd::preview(wydb::ElementId sketchId)
 
 void ExtrudedSheetGuiCmd::initializePopups()
 {
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindow();
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!_pDepthPopup)
     {
         _pDepthPopup = std::make_unique<GuiCmdHoverInputPopup2_2ndTabLabel>(

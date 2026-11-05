@@ -98,7 +98,7 @@ int FindElementByIdCommand::run()
         return -1;
     }
 
-    QInputDialog dialog(ApplicationImpl::instance().getMainWindow());
+    QInputDialog dialog(ApplicationImpl::instance().getMainWindowImpl());
     dialog.setWindowTitle(QCoreApplication::translate("FindElementByIdCommand", "Find Element By ID"));
     dialog.setLabelText(QCoreApplication::translate("FindElementByIdCommand",
         "Element IDs (separated by ; , or space):"));

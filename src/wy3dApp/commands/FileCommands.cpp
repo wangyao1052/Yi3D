@@ -82,7 +82,7 @@ FileCmdsUtil::UiAskRet FileCmdsUtil::uiAskWhetherSaveDocument(wyap::Document* pD
 
     const std::string& fileName = pDoc->getFileName();
     QString text = QCoreApplication::translate("FileCmds", "Do you want to save the changes to") + "\n" + QString::fromStdString(fileName) + "?";
-    int ret = QMessageBox::question(ApplicationImpl::instance().getMainWindow(), "Yi3D", text,
+    int ret = QMessageBox::question(ApplicationImpl::instance().getMainWindowImpl(), "Yi3D", text,
         QCoreApplication::translate("FileCmds", "Yes"),
         QCoreApplication::translate("FileCmds", "No"),
         QCoreApplication::translate("FileCmds", "Cancel"),
@@ -151,7 +151,7 @@ FileCmdsUtil::SaveResult FileCmdsUtil::uiSaveFile(wyap::Document* pDoc, bool isS
             }
         }
         QString fileFullPath = QFileDialog::getSaveFileName(
-            ApplicationImpl::instance().getMainWindow(),
+            ApplicationImpl::instance().getMainWindowImpl(),
             QCoreApplication::translate("FileCmds", "Save file"),
             QString::fromStdString(u8FileName),
             filter,
@@ -351,7 +351,7 @@ int NewFileCommand::run()
         }
     }
     //// 刷新窗口标题
-    //ApplicationImpl::instance().getMainWindow()->setWindowTitle(QString::fromStdString(pDoc->getFileName()));
+    //ApplicationImpl::instance().getMainWindowImpl()->setWindowTitle(QString::fromStdString(pDoc->getFileName()));
 
     //ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::IsometricView);
     //ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::FitView);
@@ -420,7 +420,7 @@ int OpenFileCommand::run()
     const QString binaryFilter = QCoreApplication::translate("FileCmds", "YI3D Binary files (*.%1)").arg(binaryExt);
     const QString filter = allFilter + ";;" + textFilter + ";;" + binaryFilter;
 
-    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindow(),
+    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindowImpl(),
         QCoreApplication::translate("FileCmds", "Open file"), "", filter,
         0, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
@@ -450,7 +450,7 @@ int OpenFileCommand::run()
         // 您要返回到存储版本吗？
         QString text = QCoreApplication::translate("FileCmds", "Do you want to revert to the saved version?")
             + "\n" + QString::fromStdString(u8FileFullPath);
-        int ret = QMessageBox::question(ApplicationImpl::instance().getMainWindow(), "Yi3D", text,
+        int ret = QMessageBox::question(ApplicationImpl::instance().getMainWindowImpl(), "Yi3D", text,
             QCoreApplication::translate("FileCmds", "Yes"),
             QCoreApplication::translate("FileCmds", "No"));
         if (0 == ret) // Yes
@@ -579,7 +579,7 @@ int ExportFileCommand::run()
     // dialog
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName(
-        ApplicationImpl::instance().getMainWindow(),
+        ApplicationImpl::instance().getMainWindowImpl(),
         QCoreApplication::translate("FileCmds", "Export file"),
         QString::fromStdString(u8ActiveDocFileName),
         filter, &selectedFilter, 0);
@@ -675,7 +675,7 @@ int ExportSelectedCommand::run()
     // dialog
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName(
-        ApplicationImpl::instance().getMainWindow(),
+        ApplicationImpl::instance().getMainWindowImpl(),
         QCoreApplication::translate("FileCmds", "Export"),
         "", filter, &selectedFilter, 0);
     if (fileName.isEmpty()) return 0;
@@ -717,7 +717,7 @@ int ImportFileCommand::run()
 
     // 导入文件对话框
     QString selectedFilter;
-    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindow(),
+    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindowImpl(),
         QCoreApplication::translate("FileCmds", "Import file"), "", filter, &selectedFilter, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
     {
@@ -760,7 +760,7 @@ int RunScriptCommand::run()
     filterList << QCoreApplication::translate("RunScriptCommand", "Python Script (*.py)");
     QString filter = filterList.join(";;");
     QString selectedFilter;
-    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindow(),
+    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindowImpl(),
         QCoreApplication::translate("RunScriptCommand", "Run Python Script"), "", filter, &selectedFilter, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
     {
@@ -815,7 +815,7 @@ int ImportSketchCommand::run()
     QString filter = filterList.join(";;");
 
     QString selectedFilter;
-    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindow(),
+    QString fileFullPath = QFileDialog::getOpenFileName(ApplicationImpl::instance().getMainWindowImpl(),
         QCoreApplication::translate("FileCmds", "Import sketch"), "", filter, &selectedFilter, QFileDialog::Options());
     if (fileFullPath.isEmpty() || fileFullPath.isNull())
     {
@@ -891,7 +891,7 @@ int ExportSketchCommand::run()
 
     QString selectedFilter;
     QString fileName = QFileDialog::getSaveFileName(
-        ApplicationImpl::instance().getMainWindow(),
+        ApplicationImpl::instance().getMainWindowImpl(),
         QCoreApplication::translate("FileCmds", "Export sketch"),
         QString::fromStdString(u8DocFileName),
         filter, &selectedFilter, 0);
