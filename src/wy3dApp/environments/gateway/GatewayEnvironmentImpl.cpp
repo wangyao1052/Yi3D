@@ -22,8 +22,9 @@
 #include <wy3dApp/CommandAction.h>
 #include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
-#include "environments/ICommandActionStateHost.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/DocumentEnvironment.h>
+#include <wy3dApp/TaskEnvironment.h>
 
 namespace wy3dApp {
 
@@ -37,51 +38,56 @@ GatewayEnvironmentImpl::~GatewayEnvironmentImpl()
 {
 }
 
-EnvironmentUI* GatewayEnvironmentImpl::getEnvironmentUI() const
+EnvironmentUI* GatewayEnvironmentImpl::getUI() const
 {
     return _pUI.get();
 }
 
 void GatewayEnvironmentImpl::onDocumentDeactivated(wyap::Document* pDeactivatedDoc)
 {
-    wyap::GatewayEnvironment::onDocumentDeactivated(pDeactivatedDoc);
+    wy3dApp::GatewayEnvironment::onDocumentDeactivated(pDeactivatedDoc);
 
     assert(pDeactivatedDoc);
     wy::ErrorStatus error = pDeactivatedDoc->getDatabase()->getTransactionManager()->removeReactor(this);
     assert(wy::ErrorStatus::Ok == error);
 
     this->updateCommandActionStates();
-    this->updateFileActionStates();
 }
 
 void GatewayEnvironmentImpl::onDocumentActivated(wyap::Document* pActivatedDoc)
 {
-    wyap::GatewayEnvironment::onDocumentActivated(pActivatedDoc);
+    wy3dApp::GatewayEnvironment::onDocumentActivated(pActivatedDoc);
 
     assert(pActivatedDoc);
     wy::ErrorStatus error = pActivatedDoc->getDatabase()->getTransactionManager()->addReactor(this);
     assert(wy::ErrorStatus::Ok == error);
 
     this->updateCommandActionStates();
-    this->updateFileActionStates();
 }
 
 void GatewayEnvironmentImpl::onTransactionStarted(wydb::Transaction* pTrans)
 {
     this->updateCommandActionStates();
-    this->updateFileActionStates();
 }
 
 void GatewayEnvironmentImpl::onTransactionEnded(wydb::Transaction* pTrans)
 {
     this->updateCommandActionStates();
-    this->updateFileActionStates();
 }
 
 void GatewayEnvironmentImpl::onTransactionAborted(wydb::Transaction* pTrans)
 {
     this->updateCommandActionStates();
-    this->updateFileActionStates();
+}
+
+void GatewayEnvironmentImpl::onTransactionUndone(wydb::Transaction* pTrans)
+{
+    this->updateCommandActionStates();
+}
+
+void GatewayEnvironmentImpl::onTransactionRedone(wydb::Transaction* pTrans)
+{
+    this->updateCommandActionStates();
 }
 
 void GatewayEnvironmentImpl::onCommandStartFailed(
@@ -110,45 +116,56 @@ void GatewayEnvironmentImpl::onCommandAborted(
 
 void GatewayEnvironmentImpl::onEnter()
 {
-    wyap::GatewayEnvironment::onEnter();
+    wy3dApp::GatewayEnvironment::onEnter();
 
     this->registerCommands();
-    _pUI->initialize();
+
+    _pUI->build();
 }
 
 void GatewayEnvironmentImpl::onExit(ExitCode exitCode)
 {
-    _pUI->teardown();
+    _pUI->destroy();
+
     this->removeCommands();
 
-    wyap::GatewayEnvironment::onExit(exitCode);
+    wy3dApp::GatewayEnvironment::onExit(exitCode);
 }
 
 void GatewayEnvironmentImpl::onSuspend()
 {
-    wyap::GatewayEnvironment::onSuspend();
+    wy3dApp::GatewayEnvironment::onSuspend();
 }
 
 void GatewayEnvironmentImpl::onResume()
 {
-    wyap::GatewayEnvironment::onResume();
+    wy3dApp::GatewayEnvironment::onResume();
 }
 
 void GatewayEnvironmentImpl::updateCommandActionStates()
 {
-    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
-    wyap::Environment* pActiveEnv = pEnvMgr->getActiveEnvironment();
-    if (pActiveEnv)
+    this->updateFileCommandActionStates();
+
+    wyap::Environment* pActiveEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
+    if (!pActiveEnv)
     {
-        ICommandActionStateHost* pCmdActionStateHost = dynamic_cast<ICommandActionStateHost*>(pActiveEnv);
-        if (pCmdActionStateHost)
-        {
-            pCmdActionStateHost->updateCommandActionStates();
-        }
+        return;
+    }
+
+    wy3dApp::DocumentEnvironment* pDocEnv = dynamic_cast<wy3dApp::DocumentEnvironment*>(pActiveEnv);
+    if (pDocEnv)
+    {
+        pDocEnv->updateCommandActionStates();
+    }
+
+    wy3dApp::TaskEnvironment* pTaskEnv = dynamic_cast<wy3dApp::TaskEnvironment*>(pActiveEnv);
+    if (pTaskEnv)
+    {
+        pTaskEnv->updateCommandActionStates();
     }
 }
 
-void GatewayEnvironmentImpl::updateFileActionStates()
+void GatewayEnvironmentImpl::updateFileCommandActionStates()
 {
     QAction* pNewFileAction = _pUI->findCommandAction(CommandNames::NewFile);
     QAction* pOpenFileAction = _pUI->findCommandAction(CommandNames::OpenFile);

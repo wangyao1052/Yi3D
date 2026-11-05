@@ -35,7 +35,7 @@ public:
     ~ModelingEnvironmentImpl();
 
 public:
-    virtual EnvironmentUI* getEnvironmentUI() const override;
+    virtual EnvironmentUI* getUI() const override;
 
     // Command manager reactor functions.
     virtual void onCommandStartFailed(
@@ -47,6 +47,9 @@ public:
         wyap::Command* pCmd,
         wyap::CmdExecution::AbortCause abortCause) override;
 
+    virtual void updateCommandActionStates() override;
+    virtual bool addContextMenuActions(ContextMenu& menu) override;
+
 protected:
     virtual void onEnter() override;
     virtual void onExit(ExitCode exitCode) override;
@@ -54,8 +57,8 @@ protected:
     virtual void onResume() override;
     virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
 
-    virtual void updateUndoRedoActionStates() override;
-    virtual void updateFileActionStates() override;
+    void updateUndoRedoActionStates();
+    void updateFileActionStates();
 
 private:
     void registerCommands();

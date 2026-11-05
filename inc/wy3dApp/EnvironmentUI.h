@@ -25,6 +25,8 @@
 #include <string>
 #include <vector>
 
+#include <wyapCmdManager.h>
+#include <wyapEnvironment.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 class QActionGroup;
@@ -43,8 +45,6 @@ class WY3DAPP_EXPORT EnvironmentUI : public QObject
 {
     Q_OBJECT
 public:
-    ~EnvironmentUI() override;
-
     // Add menu.
     virtual QMenu* addMenu(const QString& title, const std::string& name) = 0;
 
@@ -61,6 +61,10 @@ public:
         const QIcon& icon,
         QActionGroup* pActionGroup = nullptr) = 0;
 
+    // Find a command action by command name.
+    // Returns nullptr if no action has been created for that name.
+    virtual CommandAction* findCommandAction(const std::string& commandName) const = 0;
+
     // Add environment-specific items to a command context menu.
     // Returns true if any actions were added.
     virtual bool addContextMenuActions(ContextMenu& menu) = 0;
@@ -71,7 +75,25 @@ public:
     // Get all tool bars.
     virtual const std::vector<QToolBar*>& getToolBars() const = 0;
 
+    // Destroy all UI elements created and managed by this environment UI.
+    virtual void destroy() = 0;
+
+    // Persist/restore the main-window layout (tool bars and dock widgets).
+    virtual void saveUiState() = 0;
+    virtual void restoreUiState() = 0;
+
+    virtual void onCommandStartFailed(
+        wyap::Command* pCmd,
+        wyap::CmdExecution::StartResult startResult) = 0;
+    virtual void onCommandStarted(wyap::Command * pCmd) = 0;
+    virtual void onCommandEnded(wyap::Command* pCmd) = 0;
+    virtual void onCommandAborted(
+        wyap::Command* pCmd,
+        wyap::CmdExecution::AbortCause abortCause) = 0;
+
 protected:
+    ~EnvironmentUI() override;
+
     EnvironmentUI() = default;
 };
 

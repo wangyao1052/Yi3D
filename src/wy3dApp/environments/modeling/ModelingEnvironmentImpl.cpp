@@ -43,7 +43,7 @@ ModelingEnvironmentImpl::~ModelingEnvironmentImpl()
 {
 }
 
-EnvironmentUI* ModelingEnvironmentImpl::getEnvironmentUI() const
+EnvironmentUI* ModelingEnvironmentImpl::getUI() const
 {
     return _pUI.get();
 }
@@ -74,11 +74,10 @@ void ModelingEnvironmentImpl::onCommandAborted(
 
 void ModelingEnvironmentImpl::onEnter()
 {
-    wyap::DocumentEnvironment::onEnter();
-    _pUI->onEnter();
+    wy3dApp::DocumentEnvironment::onEnter();
 
     this->registerCommands();
-    _pUI->initialize();
+    _pUI->build();
 
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
@@ -90,29 +89,26 @@ void ModelingEnvironmentImpl::onEnter()
 
 void ModelingEnvironmentImpl::onExit(ExitCode exitCode)
 {
-    _pUI->teardown();
+    _pUI->destroy();
     this->removeCommands();
 
-    _pUI->onExit(exitCode);
-    wyap::DocumentEnvironment::onExit(exitCode);
+    wy3dApp::DocumentEnvironment::onExit(exitCode);
 }
 
 void ModelingEnvironmentImpl::onSuspend()
 {
-    _pUI->teardown();
+    _pUI->destroy();
     this->removeCommands();
 
-    _pUI->onSuspend();
-    wyap::DocumentEnvironment::onSuspend();
+    wy3dApp::DocumentEnvironment::onSuspend();
 }
 
 void ModelingEnvironmentImpl::onResume()
 {
-    wyap::DocumentEnvironment::onResume();
-    _pUI->onResume();
+    wy3dApp::DocumentEnvironment::onResume();
 
     this->registerCommands();
-    _pUI->initialize();
+    _pUI->build();
 
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
@@ -124,7 +120,7 @@ void ModelingEnvironmentImpl::onResume()
 
 void ModelingEnvironmentImpl::onDocumentActivated(wyap::Document* pActivatedDoc)
 {
-    wyap::DocumentEnvironment::onDocumentActivated(pActivatedDoc);
+    wy3dApp::DocumentEnvironment::onDocumentActivated(pActivatedDoc);
     _pUI->syncDisplayModeAction();
 }
 
@@ -187,6 +183,17 @@ void ModelingEnvironmentImpl::updateFileActionStates()
         }
         pAction->setEnabled(enabled);
     }
+}
+
+void ModelingEnvironmentImpl::updateCommandActionStates()
+{
+    this->updateUndoRedoActionStates();
+    this->updateFileActionStates();
+}
+
+bool ModelingEnvironmentImpl::addContextMenuActions(ContextMenu& menu)
+{
+    return _pUI->addContextMenuActions(menu);
 }
 
 } // namespace wy3dApp

@@ -66,7 +66,7 @@ public:
     void insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu);
 
     // Find command action by command name.
-    CommandAction* findCommandAction(const std::string& commandName) const;
+    CommandAction* findCommandAction(const std::string& commandName) const override;
 
     // New menu popup tool button.
     QToolButton* newMenuPopupToolButton(
@@ -76,27 +76,22 @@ public:
         const std::list<QAction*>& actions);
 
     // Destroy all ui elements created and managed by this environment UI instance.
-    void destroyUI();
+    void destroy() override;
 
     // Save toolbar/dock positions to persisted state.
-    void saveUiState();
+    void saveUiState() override;
     // Restore toolbar/dock positions from persisted state.
-    void restoreUiState();
+    void restoreUiState() override;
 
     // command manager reactor
     void onCommandStartFailed(
         wyap::Command* pCmd,
-        wyap::CmdExecution::StartResult startResult);
-    void onCommandStarted(wyap::Command* pCmd);
-    void onCommandEnded(wyap::Command* pCmd);
+        wyap::CmdExecution::StartResult startResult) override;
+    void onCommandStarted(wyap::Command* pCmd) override;
+    void onCommandEnded(wyap::Command* pCmd) override;
     void onCommandAborted(
         wyap::Command* pCmd,
-        wyap::CmdExecution::AbortCause abortCause);
-
-    void onEnter();
-    void onExit(wyap::Environment::ExitCode exitCode);
-    void onSuspend();
-    void onResume();
+        wyap::CmdExecution::AbortCause abortCause) override;
 
     // Sync the display mode action state.
     void syncDisplayModeAction();

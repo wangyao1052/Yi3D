@@ -33,6 +33,7 @@
 #include <wy3dApp/CommandAction.h>
 #include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
+#include <wyapCommand.h>
 #include <wy3dApp/Scene.h>
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
@@ -242,8 +243,9 @@ bool EnvironmentUIImpl::addContextMenuActions(ContextMenu&)
     return false;
 }
 
-void EnvironmentUIImpl::destroyUI()
+void EnvironmentUIImpl::destroy()
 {
+    this->cancelCommandTerminatedOnEventLoop();
     this->saveUiState();
     this->destroyToolBars();
     this->destroyMenus();
@@ -358,6 +360,15 @@ void EnvironmentUIImpl::cancelCommandTerminatedOnEventLoop()
 
 void EnvironmentUIImpl::processCommandTerminatedOnEventLoop()
 {
+    // The owning environment may have been suspended or exited while the
+    // one-shot timer was pending; never start a command for another environment.
+    wyap::Environment* pActiveEnv =
+        ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
+    if (pActiveEnv != _pEnvironment)
+    {
+        return;
+    }
+
     wyap::Command* pCurModalCmd = ApplicationImpl::instance().getCmdManager()->getCurrentModalCommand();
     if (!pCurModalCmd)
     {
@@ -458,24 +469,6 @@ void EnvironmentUIImpl::onCommandAborted(
     {
         this->postCommandTerminatedOnEventLoop();
     }
-}
-
-void EnvironmentUIImpl::onEnter()
-{
-}
-
-void EnvironmentUIImpl::onExit(wyap::Environment::ExitCode exitCode)
-{
-    this->cancelCommandTerminatedOnEventLoop();
-}
-
-void EnvironmentUIImpl::onSuspend()
-{
-    this->cancelCommandTerminatedOnEventLoop();
-}
-
-void EnvironmentUIImpl::onResume()
-{
 }
 
 void EnvironmentUIImpl::syncDisplayModeAction()

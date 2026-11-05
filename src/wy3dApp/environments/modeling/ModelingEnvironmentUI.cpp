@@ -1283,7 +1283,7 @@ ModelingEnvironmentUI::~ModelingEnvironmentUI()
 {
 }
 
-void ModelingEnvironmentUI::initialize()
+void ModelingEnvironmentUI::build()
 {
     const UiTargets uiTargets = createUiTargets(this);
     QActionGroup* pActionGroup = this->newActionGroup();
@@ -1325,11 +1325,6 @@ void ModelingEnvironmentUI::initialize()
 #endif // _DEBUG
 
     this->restoreUiState();
-}
-
-void ModelingEnvironmentUI::teardown()
-{
-    this->destroyUI();
 }
 
 } // namespace wy3dApp

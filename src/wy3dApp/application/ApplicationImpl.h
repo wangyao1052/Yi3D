@@ -129,6 +129,9 @@ public:
     {
         return _pMainWindow;
     }
+
+    // Same object as getMainWindow(), exposed as QMainWindow for plugins.
+    QMainWindow* getMainWindowWidget() const override;
     // 设置主窗口
     void setMainWindow(MainWindow* pMainWindow)
     {

@@ -103,7 +103,7 @@ GatewayEnvironmentUI::~GatewayEnvironmentUI()
 {
 }
 
-void GatewayEnvironmentUI::initialize()
+void GatewayEnvironmentUI::build()
 {
     const GatewayActions actions = createActions(this);
     this->createMenus();
@@ -123,20 +123,6 @@ void GatewayEnvironmentUI::initialize()
     _pToolBarFile->addAction(actions.pActionOpenFile);
 
     this->restoreUiState();
-}
-
-void GatewayEnvironmentUI::teardown()
-{
-    this->destroyUI();
-    this->clear();
-}
-
-void GatewayEnvironmentUI::clear()
-{
-    _pMenuFile = nullptr;
-    _pMenuTools = nullptr;
-    _pMenuHelp = nullptr;
-    _pToolBarFile = nullptr;
 }
 
 void GatewayEnvironmentUI::createMenus()

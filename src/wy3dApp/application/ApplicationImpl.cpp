@@ -163,6 +163,11 @@ ElementNodeFactory* ApplicationImpl::getElementNodeFactory() const
     return _pElementNodeFactory.get();
 }
 
+QMainWindow* ApplicationImpl::getMainWindowWidget() const
+{
+    return _pMainWindow;
+}
+
 bool ApplicationImpl::initialize()
 {
     // 配置项初始化

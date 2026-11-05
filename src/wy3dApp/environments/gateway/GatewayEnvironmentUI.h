@@ -34,14 +34,12 @@ public:
     explicit GatewayEnvironmentUI(const GatewayEnvironment* pEnv);
     ~GatewayEnvironmentUI();
 
-    void initialize();
-    void teardown();
+    void build();
 
 private:
     // Do nothing.
     virtual void processCommandTerminatedOnEventLoop() override {}
 
-    void clear();
     void createMenus();
     void createToolBars();
 

@@ -579,12 +579,12 @@
         <translation>清除选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="207"/>
+        <location filename="../../commands/GuiCommand.cpp" line="212"/>
         <source>Property</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="220"/>
+        <location filename="../../commands/GuiCommand.cpp" line="225"/>
         <source>World Coordinate System</source>
         <translation>世界坐标系</translation>
     </message>
@@ -653,8 +653,8 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="145"/>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="160"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="141"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="156"/>
         <source>File</source>
         <translation type="unfinished">文件</translation>
     </message>
@@ -1050,7 +1050,7 @@
         <translation type="unfinished">圆管</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="153"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="149"/>
         <source>Help</source>
         <translation type="unfinished">帮助</translation>
     </message>
@@ -1065,7 +1065,7 @@
         <translation type="unfinished">联系我们</translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="149"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="145"/>
         <source>Tools</source>
         <translation>工具</translation>
     </message>

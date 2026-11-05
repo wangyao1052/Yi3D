@@ -950,7 +950,7 @@ SketchEnvironmentUI::~SketchEnvironmentUI()
 {
 }
 
-void SketchEnvironmentUI::initialize()
+void SketchEnvironmentUI::build()
 {
     const UiTargets uiTargets = createUiTargets(this);
     QActionGroup* pActionGroup = this->newActionGroup();
@@ -990,17 +990,17 @@ void SketchEnvironmentUI::initialize()
         _pOverlayBar = buildOverlayBarUi(pViewWidget, sketchEnvironmentActions);
 }
 
-void SketchEnvironmentUI::teardown()
+void SketchEnvironmentUI::destroy()
 {
-    // The bar's buttons are bound to command actions and destroyUI() destroys those:
-    // the bar goes first or it would be left holding dangling pointers.
+    // The bar's buttons are bound to command actions and EnvironmentUIImpl::destroy()
+    // destroys those: the bar goes first or it would be left holding dangling pointers.
     if (_pOverlayBar)
     {
         _pOverlayBar->hide();
         delete _pOverlayBar;
     }
 
-    this->destroyUI();
+    EnvironmentUIImpl::destroy();
 }
 
 bool SketchEnvironmentUI::addContextMenuActions(ContextMenu& menu)

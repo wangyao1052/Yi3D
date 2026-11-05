@@ -735,7 +735,7 @@ Sketch3DEnvironmentUI::~Sketch3DEnvironmentUI()
 {
 }
 
-void Sketch3DEnvironmentUI::initialize()
+void Sketch3DEnvironmentUI::build()
 {
     const UiTargets uiTargets = createUiTargets(this);
     QActionGroup* pActionGroup = this->newActionGroup();
@@ -769,17 +769,17 @@ void Sketch3DEnvironmentUI::initialize()
         _pOverlayBar = buildOverlayBarUi(pViewWidget, sketch3DEnvironmentActions);
 }
 
-void Sketch3DEnvironmentUI::teardown()
+void Sketch3DEnvironmentUI::destroy()
 {
-    // The bar's buttons are bound to command actions and destroyUI() destroys those:
-    // the bar goes first or it would be left holding dangling pointers.
+    // The bar's buttons are bound to command actions and EnvironmentUIImpl::destroy()
+    // destroys those: the bar goes first or it would be left holding dangling pointers.
     if (_pOverlayBar)
     {
         _pOverlayBar->hide();
         delete _pOverlayBar;
     }
 
-    this->destroyUI();
+    EnvironmentUIImpl::destroy();
 }
 
 bool Sketch3DEnvironmentUI::addContextMenuActions(ContextMenu& menu)

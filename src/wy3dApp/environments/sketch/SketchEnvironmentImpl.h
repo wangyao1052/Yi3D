@@ -46,7 +46,7 @@ public:
     virtual wydb::ElementId getSketchId() const override;
     virtual const wy3d::Plane& getSketchPlane() const override;
     virtual SketchSnapSystem* getSnapSystem() const override;
-    virtual EnvironmentUI* getEnvironmentUI() const override;
+    virtual EnvironmentUI* getUI() const override;
 
     wydb::Transaction* getSketchTransaction() const;
     void setSketchPlane(const wy3d::Plane& sketchPlane);
@@ -62,14 +62,17 @@ public:
         wyap::Command* pCmd,
         wyap::CmdExecution::AbortCause abortCause) override;
 
+    virtual void updateCommandActionStates() override;
+    virtual bool addContextMenuActions(ContextMenu& menu) override;
+
 protected:
     virtual void onEnter() override;
     virtual void onExit(ExitCode exitCode) override;
     virtual void onSuspend() override;
     virtual void onResume() override;
 
-    virtual void updateUndoRedoActionStates() override;
-    virtual void updateFileActionStates() override;
+    void updateUndoRedoActionStates();
+    void updateFileActionStates();
 
 private:
     void registerCommands();

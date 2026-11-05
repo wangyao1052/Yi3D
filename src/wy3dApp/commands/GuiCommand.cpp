@@ -39,8 +39,8 @@
 #include "scene/SceneImpl.h"
 #include "scene/RenderConst.h"
 #include "snap/SnapContext.h"
-#include <wy3dApp/EnvironmentUI.h>
-#include "environments/IEnvironmentUIHost.h"
+#include <wy3dApp/DocumentEnvironment.h>
+#include <wy3dApp/TaskEnvironment.h>
 #include "snap/SnapTipWidget.h"
 #include "commands/GuiEventDispatcher.h"
 #include "select/SelectHandler.h"
@@ -196,11 +196,16 @@ void GuiCommand::onRightMouseUp(const MouseEvent& event)
 
     // Environment actions
     wyap::Environment* pEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
-    if (IEnvironmentUIHost* pEnvUIHost = dynamic_cast<IEnvironmentUIHost*>(pEnv))
+    bool addedEnvActions = false;
+    if (DocumentEnvironment* pDocEnv = dynamic_cast<DocumentEnvironment*>(pEnv))
     {
-        EnvironmentUI* pEnvUI = pEnvUIHost->getEnvironmentUI();
-        if (pEnvUI && pEnvUI->addContextMenuActions(menu)) menu.addSeparator();
+        addedEnvActions = pDocEnv->addContextMenuActions(menu);
     }
+    else if (TaskEnvironment* pTaskEnv = dynamic_cast<TaskEnvironment*>(pEnv))
+    {
+        addedEnvActions = pTaskEnv->addContextMenuActions(menu);
+    }
+    if (addedEnvActions) menu.addSeparator();
 
     // Property panel
     QAction* pActionPropertyWidget = new QAction(

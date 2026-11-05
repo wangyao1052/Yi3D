@@ -21,18 +21,15 @@
 
 #include <wyapEnvironment.h>
 
-#include "environments/ICommandActionStateHost.h"
-#include "environments/IEnvironmentUIHost.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/DocumentEnvironment.h>
 
 namespace wy3dApp {
 
 class WY3DAPP_EXPORT ModelingEnvironment
-    : public wyap::DocumentEnvironment
-    , public ICommandActionStateHost
-    , public IEnvironmentUIHost
+    : public DocumentEnvironment
 {
-    WYRX_DECLARE_NO_CREATE_MEMBERS(ModelingEnvironment, wy3dApp::ModelingEnvironment, wyap::DocumentEnvironment)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(ModelingEnvironment, wy3dApp::ModelingEnvironment, wy3dApp::DocumentEnvironment)
 protected:
     ModelingEnvironment() = default;
     ~ModelingEnvironment();

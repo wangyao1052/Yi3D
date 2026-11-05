@@ -22,6 +22,8 @@
 #include <wyapApplication.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
+class QMainWindow;
+
 namespace wy3dApp {
 
 class ElementNodeFactory;
@@ -54,6 +56,12 @@ public:
     virtual ElementNodeFactory* getElementNodeFactory() const = 0;
     // 当前激活的场景。返回公共 Scene 接口，调用方不拥有该指针。
     virtual Scene* getActiveScene() const = 0;
+
+    // Same object as getMainWindow(), exposed as QMainWindow for plugins that
+    // need to add/remove dock widgets without including the internal MainWindow.
+    // Kept at the end of the virtual interface so existing vtable slots stay
+    // unchanged for older plugins.
+    virtual QMainWindow* getMainWindowWidget() const = 0;
 };
 
 // Returns the process-wide Application singleton (implemented by ApplicationImpl).

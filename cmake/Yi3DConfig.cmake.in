@@ -1,0 +1,18 @@
+@PACKAGE_INIT@
+
+set(YI3D_ROOT "@CMAKE_SOURCE_DIR@")
+
+include(CMakeFindDependencyMacro)
+
+find_dependency(Qt5 CONFIG COMPONENTS Core Gui Widgets OpenGL OpenGLExtensions Network
+    HINTS "${YI3D_ROOT}/3rdParty/bundles/qt5")
+find_dependency(OpenSceneGraph CONFIG COMPONENTS
+    osg osgDB osgViewer osgUtil osgGA osgText OpenThreads
+    HINTS "${YI3D_ROOT}/3rdParty/bundles/osg")
+find_dependency(OpenCASCADE CONFIG HINTS "${YI3D_ROOT}/3rdParty/bundles/occt")
+find_dependency(TBB CONFIG HINTS "${YI3D_ROOT}/3rdParty/bundles/occt")
+find_dependency(Freetype CONFIG HINTS "${YI3D_ROOT}/3rdParty/bundles/osg")
+find_dependency(wydb CONFIG HINTS "${YI3D_ROOT}/3rdParty/bundles/wyaf")
+find_dependency(wyap CONFIG HINTS "${YI3D_ROOT}/3rdParty/bundles/wyaf")
+
+include("${CMAKE_CURRENT_LIST_DIR}/Yi3DTargets.cmake")

@@ -29,14 +29,14 @@ if(WIN32)
 endif()
 
 # link wy libraries
-target_link_libraries(${LIBRARY_NAME} wydb)
+target_link_libraries(${LIBRARY_NAME} PUBLIC wydb)
 # link OpenCasCade libraries
 find_package(OpenCASCADE REQUIRED)
 find_package(TBB REQUIRED)
 find_package(Freetype REQUIRED)
-target_link_libraries(${LIBRARY_NAME}
-TKernel TKMath TKG2d TKG3d TKGeomBase TKBRep TKGeomAlgo TKTopAlgo TKPrim 
+target_link_libraries(${LIBRARY_NAME} PUBLIC
+TKernel TKMath TKG2d TKG3d TKGeomBase TKBRep TKGeomAlgo TKTopAlgo TKPrim
 TKBO TKBool TKFeat TKFillet TKOffset TKHLR TKMesh TKShHealing TKXSBase TKSTEP TKIGES)
-target_link_libraries(${LIBRARY_NAME} Freetype::Freetype)
-# link ModelRefine (separate LGPL-2.1-or-later shared library)
-target_link_libraries(${LIBRARY_NAME} ModelRefine::ModelRefine)
+target_link_libraries(${LIBRARY_NAME} PUBLIC Freetype::Freetype)
+# ModelRefine is an implementation detail (separate LGPL-2.1-or-later shared library).
+target_link_libraries(${LIBRARY_NAME} PRIVATE ModelRefine::ModelRefine)

@@ -22,17 +22,22 @@
 #include <wydbTransaction.h>
 #include <wyapEnvironment.h>
 
-#include "environments/IEnvironmentUIHost.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
+class EnvironmentUI;
+
 class WY3DAPP_EXPORT GatewayEnvironment
     : public wyap::GatewayEnvironment
-    , public IEnvironmentUIHost
     , public wydb::TransactionReactor
 {
     WYRX_DECLARE_NO_CREATE_MEMBERS(GatewayEnvironment, wy3dApp::GatewayEnvironment, wyap::GatewayEnvironment)
+public:
+    virtual EnvironmentUI* getUI() const = 0;
+
+    virtual void updateCommandActionStates() = 0;
+
 protected:
     GatewayEnvironment() = default;
     ~GatewayEnvironment();

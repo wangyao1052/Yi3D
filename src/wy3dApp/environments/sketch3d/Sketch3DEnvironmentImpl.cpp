@@ -91,7 +91,7 @@ Sketch3DSnapSystem* Sketch3DEnvironmentImpl::getSnapSystem() const
     return _pSnapSys.get();
 }
 
-EnvironmentUI* Sketch3DEnvironmentImpl::getEnvironmentUI() const
+EnvironmentUI* Sketch3DEnvironmentImpl::getUI() const
 {
     return _pUI.get();
 }
@@ -147,11 +147,10 @@ void Sketch3DEnvironmentImpl::onCommandAborted(
 
 void Sketch3DEnvironmentImpl::onEnter()
 {
-    wyap::TaskEnvironment::onEnter();
-    _pUI->onEnter();
+    wy3dApp::TaskEnvironment::onEnter();
 
     this->registerCommands();
-    _pUI->initialize();
+    _pUI->build();
 
     // 清空选择集
     ApplicationImpl::instance().getSelManager()->beginChange();
@@ -251,11 +250,10 @@ void Sketch3DEnvironmentImpl::onExit(ExitCode exitCode)
         this->commitSketch3D(pDb, ExitCode::Ok == exitCode ? true : false);
     }
 
-    _pUI->teardown();
+    _pUI->destroy();
     this->removeCommands();
 
-    _pUI->onExit(exitCode);
-    wyap::TaskEnvironment::onExit(exitCode);
+    wy3dApp::TaskEnvironment::onExit(exitCode);
 }
 
 void Sketch3DEnvironmentImpl::commitSketch3D(wydb::Database* pDb, bool ok)
@@ -303,7 +301,7 @@ void Sketch3DEnvironmentImpl::commitSketch3D(wydb::Database* pDb, bool ok)
 
 void Sketch3DEnvironmentImpl::onSuspend()
 {
-    _pUI->teardown();
+    _pUI->destroy();
     this->removeCommands();
 
     // 清空选择集
@@ -312,17 +310,15 @@ void Sketch3DEnvironmentImpl::onSuspend()
     ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
-    _pUI->onSuspend();
-    wyap::TaskEnvironment::onSuspend();
+    wy3dApp::TaskEnvironment::onSuspend();
 }
 
 void Sketch3DEnvironmentImpl::onResume()
 {
-    wyap::TaskEnvironment::onResume();
-    _pUI->onResume();
+    wy3dApp::TaskEnvironment::onResume();
 
     this->registerCommands();
-    _pUI->initialize();
+    _pUI->build();
 
     // 清空选择集
     ApplicationImpl::instance().getSelManager()->beginChange();
@@ -392,6 +388,17 @@ void Sketch3DEnvironmentImpl::updateUndoRedoActionStates()
 void Sketch3DEnvironmentImpl::updateFileActionStates()
 {
     // 3D草图环境不支持文件操作
+}
+
+void Sketch3DEnvironmentImpl::updateCommandActionStates()
+{
+    this->updateUndoRedoActionStates();
+    this->updateFileActionStates();
+}
+
+bool Sketch3DEnvironmentImpl::addContextMenuActions(ContextMenu& menu)
+{
+    return _pUI->addContextMenuActions(menu);
 }
 
 } // namespace wy3dApp

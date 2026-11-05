@@ -36,9 +36,7 @@ target_sources(wy3dApp PRIVATE ${APP_MOC_HEADERS})
 
 target_include_directories(wy3dApp PUBLIC
     "${CMAKE_SOURCE_DIR}/src/common/osg"
-    "${CMAKE_SOURCE_DIR}/src/common/wyap"
     "${CMAKE_CURRENT_SOURCE_DIR}"
-    "${CMAKE_SOURCE_DIR}/3rdParty/bundles/include"
     "${CMAKE_SOURCE_DIR}/inc"
     "${CMAKE_SOURCE_DIR}/3rdParty"
     "${CMAKE_SOURCE_DIR}/3rdParty/osgQt/include"
@@ -77,7 +75,7 @@ else()
     target_link_libraries(wy3dApp PUBLIC osgQOpenGL)
 endif()
 # link muparser libraries
-target_link_libraries(wy3dApp PUBLIC muparser)
+target_link_libraries(wy3dApp PRIVATE muparser)
 # link dl library (dlopen/dlsym/dlclose) - required on Linux for PythonScriptExecutor
 if(NOT WIN32)
     target_link_libraries(wy3dApp PUBLIC ${CMAKE_DL_LIBS})

@@ -32,8 +32,7 @@ public:
     explicit ModelingEnvironmentUI(const ModelingEnvironment* pEnv);
     ~ModelingEnvironmentUI();
 
-    void initialize();
-    void teardown();
+    void build();
 };
 
 } // namespace wy3dApp

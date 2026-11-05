@@ -16,21 +16,40 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_ENVIRONMENT_UI_HOST_H
-#define WY3DAPP_ENVIRONMENT_UI_HOST_H
+#ifndef WY3DAPP_TASK_ENVIRONMENT_H
+#define WY3DAPP_TASK_ENVIRONMENT_H
+
+#include <wyapEnvironment.h>
+#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
+class ContextMenu;
 class EnvironmentUI;
 
-class IEnvironmentUIHost
+class WY3DAPP_EXPORT TaskEnvironment : public wyap::TaskEnvironment
 {
-public:
-    virtual ~IEnvironmentUIHost() = default;
+    WYRX_DECLARE_NO_CREATE_MEMBERS(TaskEnvironment, wy3dApp::TaskEnvironment, wyap::TaskEnvironment)
 
-    virtual EnvironmentUI* getEnvironmentUI() const = 0;
+public:
+    // Get the environment UI owned by this environment.
+    virtual EnvironmentUI* getUI() const = 0;
+
+    virtual void updateCommandActionStates() = 0;
+
+    // Override to add environment-specific items to a command context menu.
+    // Returns true if any actions were added.
+    virtual bool addContextMenuActions(ContextMenu& menu)
+    {
+        (void)menu;
+        return false;
+    }
+
+protected:
+    TaskEnvironment() = default;
+    ~TaskEnvironment() = default;
 };
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_ENVIRONMENT_UI_HOST_H
+#endif // WY3DAPP_TASK_ENVIRONMENT_H

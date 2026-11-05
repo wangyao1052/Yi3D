@@ -90,3 +90,19 @@ add_subdirectory(src/main)
 add_subdirectory(src/pluginSamples)
 add_subdirectory(src/wy3dPY)
 add_subdirectory(src/unitTest)
+
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file(
+    "${CMAKE_BINARY_DIR}/Yi3DConfigVersion.cmake"
+    VERSION ${PROJECT_VERSION}
+    COMPATIBILITY SameMinorVersion)
+
+configure_package_config_file(
+    "${CMAKE_SOURCE_DIR}/cmake/Yi3DConfig.cmake.in"
+    "${CMAKE_BINARY_DIR}/Yi3DConfig.cmake"
+    INSTALL_DESTINATION lib/cmake/Yi3D)
+
+export(TARGETS wy3dApp wy3d
+    NAMESPACE Yi3D::
+    FILE "${CMAKE_BINARY_DIR}/Yi3DTargets.cmake")

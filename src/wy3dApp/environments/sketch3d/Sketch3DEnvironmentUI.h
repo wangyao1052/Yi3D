@@ -35,14 +35,14 @@ public:
     explicit Sketch3DEnvironmentUI(const Sketch3DEnvironment* pEnv);
     ~Sketch3DEnvironmentUI();
 
-    void initialize();
-    void teardown();
+    void build();
+    void destroy() override;
 
     virtual bool addContextMenuActions(ContextMenu& menu) override;
 
 private:
     // End/cancel buttons over the viewport. Its buttons hold command actions, which the
-    // environment destroys on teardown, so it has to be dropped before destroyUI().
+    // environment destroys on destroy, so it has to be dropped before destroy().
     // The bar is a child of the view widget, which can be torn down with the document while
     // this object is still alive, so the pointer has to notice the bar going away with it.
     QPointer<ViewportOverlayBar> _pOverlayBar;

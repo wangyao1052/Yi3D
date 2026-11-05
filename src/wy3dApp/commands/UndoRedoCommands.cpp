@@ -55,18 +55,6 @@ int UndoCommand::run()
         ApplicationImpl::instance().getSelManager()->endChange();
     }
 
-    // Update command action states.
-    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
-    wyap::Environment* pActiveEnv = pEnvMgr->getActiveEnvironment();
-    if (pActiveEnv)
-    {
-        ICommandActionStateHost* pCmdActionStateHost = dynamic_cast<ICommandActionStateHost*>(pActiveEnv);
-        if (pCmdActionStateHost)
-        {
-            pCmdActionStateHost->updateCommandActionStates();
-        }
-    }
-
     return 0;
 }
 
@@ -90,18 +78,6 @@ int RedoCommand::run()
         ApplicationImpl::instance().getSelManager()->beginChange();
         ApplicationImpl::instance().getSelManager()->clearSelections();
         ApplicationImpl::instance().getSelManager()->endChange();
-    }
-
-    // Update command action states.
-    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
-    wyap::Environment* pActiveEnv = pEnvMgr->getActiveEnvironment();
-    if (pActiveEnv)
-    {
-        ICommandActionStateHost* pCmdActionStateHost = dynamic_cast<ICommandActionStateHost*>(pActiveEnv);
-        if (pCmdActionStateHost)
-        {
-            pCmdActionStateHost->updateCommandActionStates();
-        }
     }
 
     return 0;

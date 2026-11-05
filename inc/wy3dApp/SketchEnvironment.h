@@ -20,23 +20,19 @@
 #define WY3DAP_SKETCH_ENVIRONMENT_H
 
 #include <wydbElementId.h>
-#include <wyapEnvironment.h>
 #include <wy3dSketch.h>
 
-#include "environments/ICommandActionStateHost.h"
-#include "environments/IEnvironmentUIHost.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/TaskEnvironment.h>
 
 namespace wy3dApp {
 
 class SketchSnapSystem;
 
 class WY3DAPP_EXPORT SketchEnvironment
-    : public wyap::TaskEnvironment
-    , public ICommandActionStateHost
-    , public IEnvironmentUIHost
+    : public wy3dApp::TaskEnvironment
 {
-    WYRX_DECLARE_NO_CREATE_MEMBERS(SketchEnvironment, wy3dApp::SketchEnvironment, wyap::TaskEnvironment)
+    WYRX_DECLARE_NO_CREATE_MEMBERS(SketchEnvironment, wy3dApp::SketchEnvironment, wy3dApp::TaskEnvironment)
 public:
     enum class Operation
     {

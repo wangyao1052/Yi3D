@@ -136,7 +136,7 @@ void DemoPlugin::enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvir
         //demo::log(LogLevel::Warning, "demo: addCommand failed");
     }
 
-    wy3dApp::EnvironmentUI* pUI = pSketchEnvironment->getEnvironmentUI();
+    wy3dApp::EnvironmentUI* pUI = pSketchEnvironment->getUI();
     assert(pUI);
 
     const QString title = QCoreApplication::translate("DemoPlugin", "Demo");

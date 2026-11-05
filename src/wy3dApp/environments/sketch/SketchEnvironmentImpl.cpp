@@ -99,7 +99,7 @@ SketchSnapSystem* SketchEnvironmentImpl::getSnapSystem() const
     return _pSketchSnapSys.get();
 }
 
-EnvironmentUI* SketchEnvironmentImpl::getEnvironmentUI() const
+EnvironmentUI* SketchEnvironmentImpl::getUI() const
 {
     return _pUI.get();
 }
@@ -130,11 +130,10 @@ void SketchEnvironmentImpl::onCommandAborted(
 
 void SketchEnvironmentImpl::onEnter()
 {
-    wyap::TaskEnvironment::onEnter();
-    _pUI->onEnter();
+    wy3dApp::TaskEnvironment::onEnter();
 
     this->registerCommands();
-    _pUI->initialize();
+    _pUI->build();
 
     // 清空选择集
     ApplicationImpl::instance().getSelManager()->beginChange();
@@ -252,11 +251,10 @@ void SketchEnvironmentImpl::onExit(ExitCode exitCode)
     // 草图视图
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::IsometricView);
 
-    _pUI->teardown();
+    _pUI->destroy();
     this->removeCommands();
 
-    _pUI->onExit(exitCode);
-    wyap::TaskEnvironment::onExit(exitCode);
+    wy3dApp::TaskEnvironment::onExit(exitCode);
 }
 
 void SketchEnvironmentImpl::commitSketch(wydb::Database* pDb, bool ok)
@@ -303,7 +301,7 @@ void SketchEnvironmentImpl::commitSketch(wydb::Database* pDb, bool ok)
 
 void SketchEnvironmentImpl::onSuspend()
 {
-    _pUI->teardown();
+    _pUI->destroy();
     this->removeCommands();
 
     // 清空选择集
@@ -311,17 +309,15 @@ void SketchEnvironmentImpl::onSuspend()
     ApplicationImpl::instance().getSelManager()->clearSelections();
     ApplicationImpl::instance().getSelManager()->endChange();
 
-    _pUI->onSuspend();
-    wyap::TaskEnvironment::onSuspend();
+    wy3dApp::TaskEnvironment::onSuspend();
 }
 
 void SketchEnvironmentImpl::onResume()
 {
-    wyap::TaskEnvironment::onResume();
-    _pUI->onResume();
+    wy3dApp::TaskEnvironment::onResume();
 
     this->registerCommands();
-    _pUI->initialize();
+    _pUI->build();
 
     // 清空选择集
     ApplicationImpl::instance().getSelManager()->beginChange();
@@ -391,6 +387,17 @@ void SketchEnvironmentImpl::updateFileActionStates()
 {
     // 草图环境不支持文件操作:
     // 无文件动作需要更新,文件操作动作也不存在于此环境。
+}
+
+void SketchEnvironmentImpl::updateCommandActionStates()
+{
+    this->updateUndoRedoActionStates();
+    this->updateFileActionStates();
+}
+
+bool SketchEnvironmentImpl::addContextMenuActions(ContextMenu& menu)
+{
+    return _pUI->addContextMenuActions(menu);
 }
 
 } // namespace wy3dApp

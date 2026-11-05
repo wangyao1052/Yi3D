@@ -16,29 +16,40 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_COMMAND_ACTION_STATE_HOST_H
-#define WY3DAPP_COMMAND_ACTION_STATE_HOST_H
+#ifndef WY3DAPP_DOCUMENT_ENVIRONMENT_H
+#define WY3DAPP_DOCUMENT_ENVIRONMENT_H
 
+#include <wyapEnvironment.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-class ICommandActionStateHost
-{
-public:
-    virtual ~ICommandActionStateHost() = default;
+class ContextMenu;
+class EnvironmentUI;
 
-    virtual void updateCommandActionStates()
+class WY3DAPP_EXPORT DocumentEnvironment : public wyap::DocumentEnvironment
+{
+    WYRX_DECLARE_NO_CREATE_MEMBERS(DocumentEnvironment, wy3dApp::DocumentEnvironment, wyap::DocumentEnvironment)
+
+public:
+    // Get the environment UI owned by this environment.
+    virtual EnvironmentUI* getUI() const = 0;
+
+    virtual void updateCommandActionStates() = 0;
+
+    // Override to add environment-specific items to a command context menu.
+    // Returns true if any actions were added.
+    virtual bool addContextMenuActions(ContextMenu& menu)
     {
-        this->updateUndoRedoActionStates();
-        this->updateFileActionStates();
+        (void)menu;
+        return false;
     }
 
 protected:
-    virtual void updateUndoRedoActionStates() = 0;
-    virtual void updateFileActionStates() = 0;
+    DocumentEnvironment() = default;
+    ~DocumentEnvironment() = default;
 };
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_COMMAND_ACTION_STATE_HOST_H
+#endif // WY3DAPP_DOCUMENT_ENVIRONMENT_H

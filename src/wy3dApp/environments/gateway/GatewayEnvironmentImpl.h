@@ -35,17 +35,19 @@ public:
     ~GatewayEnvironmentImpl();
 
 public:
-    virtual EnvironmentUI* getEnvironmentUI() const override;
+    virtual EnvironmentUI* getUI() const override;
 
-    // Document manager reactor functions.
+    virtual void updateCommandActionStates() override;
+
     virtual void onDocumentDeactivated(wyap::Document* pDeactivatedDoc) override;
     virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
 
     virtual void onTransactionStarted(wydb::Transaction* pTrans) override;
     virtual void onTransactionEnded(wydb::Transaction* pTrans) override;
     virtual void onTransactionAborted(wydb::Transaction* pTrans) override;
+    virtual void onTransactionUndone(wydb::Transaction* pTrans) override;
+    virtual void onTransactionRedone(wydb::Transaction* pTrans) override;
 
-    // Command manager reactor functions.
     virtual void onCommandStartFailed(
         wyap::Command* pCmd,
         wyap::CmdExecution::StartResult startResult) override;
@@ -61,14 +63,11 @@ protected:
     virtual void onSuspend() override;
     virtual void onResume() override;
 
-    // Update command action states.
-    void updateCommandActionStates();
-    // Update file action states (New/Open).
-    void updateFileActionStates();
-
 private:
     void registerCommands();
     void removeCommands();
+
+    void updateFileCommandActionStates();
 
 private:
     std::unique_ptr<GatewayEnvironmentUI> _pUI;
