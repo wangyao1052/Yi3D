@@ -58,7 +58,7 @@ public:
         const QString& text,
         const QIcon& icon,
         QActionGroup* pActionGroup = nullptr) override;
-    bool addContextMenuActions(ContextMenu& menu) override;
+    virtual bool addContextMenuActions(ContextMenu& menu);
     const std::vector<QMenu*>& getMenus() const override;
     const std::vector<QToolBar*>& getToolBars() const override;
 
@@ -78,22 +78,22 @@ public:
         QAction* pInitialAction = nullptr);
 
     // Destroy all ui elements created and managed by this environment UI instance.
-    void destroy() override;
+    virtual void destroy();
 
     // Save toolbar/dock positions to persisted state.
     void saveUiState();
     // Restore toolbar/dock positions from persisted state.
     void restoreUiState();
 
-    // command manager reactor
-    void onCommandStartFailed(
+    // Command notifications forwarded by the owning environment.
+    virtual void onCommandStartFailed(
         wyap::Command* pCmd,
-        wyap::CmdExecution::StartResult startResult) override;
-    void onCommandStarted(wyap::Command* pCmd) override;
-    void onCommandEnded(wyap::Command* pCmd) override;
-    void onCommandAborted(
+        wyap::CmdExecution::StartResult startResult);
+    virtual void onCommandStarted(wyap::Command* pCmd);
+    virtual void onCommandEnded(wyap::Command* pCmd);
+    virtual void onCommandAborted(
         wyap::Command* pCmd,
-        wyap::CmdExecution::AbortCause abortCause) override;
+        wyap::CmdExecution::AbortCause abortCause);
 
 protected:
     // Set the icon/text/tool tip/default action of a menu popup tool button.

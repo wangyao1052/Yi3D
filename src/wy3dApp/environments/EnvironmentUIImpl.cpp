@@ -42,8 +42,6 @@
 
 namespace wy3dApp {
 
-EnvironmentUI::~EnvironmentUI() = default;
-
 EnvironmentUIImpl::EnvironmentUIImpl(const wyap::Environment* pEnvironment)
     : _isCmdTerminatedOnEventLoopPosted(false)
     , _pEnvironment(pEnvironment)

@@ -43,9 +43,14 @@ EnvironmentUI* TaskEnvironment::getUI() const
     return _pUI.get();
 }
 
-void TaskEnvironment::refreshCommandActionStates(CommandActionRefreshCause cause)
+void TaskEnvironment::onEnter()
 {
-    (void)cause;
+    wyap::TaskEnvironment::onEnter();
+}
+
+void TaskEnvironment::onResume()
+{
+    wyap::TaskEnvironment::onResume();
 }
 
 void TaskEnvironment::onExit(ExitCode exitCode)
@@ -56,6 +61,16 @@ void TaskEnvironment::onExit(ExitCode exitCode)
     }
 
     wyap::TaskEnvironment::onExit(exitCode);
+}
+
+void TaskEnvironment::onSuspend()
+{
+    if (_pUI)
+    {
+        _pUI->destroy();
+    }
+
+    wyap::TaskEnvironment::onSuspend();
 }
 
 void TaskEnvironment::onCommandStartFailed(
