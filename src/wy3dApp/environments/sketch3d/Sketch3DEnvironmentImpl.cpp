@@ -35,30 +35,32 @@
 namespace wy3dApp {
 
 Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl()
-    : _op(Operation::New)
+    : Sketch3DEnvironment(std::make_unique<Sketch3DEnvironmentUI>(this))
+    , _op(Operation::New)
     , _sketch3dId(wydb::ElementId::kNull)
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
+    , _pUI(static_cast<Sketch3DEnvironmentUI*>(this->getUI()))
     , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
     , _pendingWorkPlane(wy3d::Plane::kInvalid)
     , _pendingPlaneSelection(wydb::ElementId::kNull)
 {
     setName("sketch3d");
-    _pUI = std::make_unique<Sketch3DEnvironmentUI>(this);
 }
 
 Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl(const wy3d::Sketch3D* pSketch3D)
-    : _op(Operation::Edit)
+    : Sketch3DEnvironment(std::make_unique<Sketch3DEnvironmentUI>(this))
+    , _op(Operation::Edit)
     , _sketch3dId(wydb::ElementId::kNull)
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
+    , _pUI(static_cast<Sketch3DEnvironmentUI*>(this->getUI()))
     , _pSnapSys(std::make_unique<Sketch3DSnapSystem>())
     , _pendingWorkPlane(wy3d::Plane::kInvalid)
     , _pendingPlaneSelection(wydb::ElementId::kNull)
 {
     assert(pSketch3D);
     setName("sketch3d");
-    _pUI = std::make_unique<Sketch3DEnvironmentUI>(this);
     _sketch3dId = pSketch3D->getId();
 }
 
@@ -89,11 +91,6 @@ bool Sketch3DEnvironmentImpl::isTransactionCommited() const
 Sketch3DSnapSystem* Sketch3DEnvironmentImpl::getSnapSystem() const
 {
     return _pSnapSys.get();
-}
-
-EnvironmentUI* Sketch3DEnvironmentImpl::getUI() const
-{
-    return _pUI.get();
 }
 
 void Sketch3DEnvironmentImpl::setPendingWorkPlane(const wy3d::Plane& plane, const wyap::Selection& sel)

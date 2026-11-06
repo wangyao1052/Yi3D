@@ -46,7 +46,6 @@ public:
     virtual wydb::ElementId getSketchId() const override;
     virtual const wy3d::Plane& getSketchPlane() const override;
     virtual SketchSnapSystem* getSnapSystem() const override;
-    virtual EnvironmentUI* getUI() const override;
 
     wydb::Transaction* getSketchTransaction() const;
     void setSketchPlane(const wy3d::Plane& sketchPlane);
@@ -89,7 +88,7 @@ private:
     bool _isTransCommitted;
 
     SketchSnapSystemSPtr _pSketchSnapSys;
-    std::unique_ptr<SketchEnvironmentUI> _pUI;
+    SketchEnvironmentUI* _pUI;
 };
 
 } // namespace wy3dApp

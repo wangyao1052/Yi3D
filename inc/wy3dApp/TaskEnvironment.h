@@ -19,6 +19,8 @@
 #ifndef WY3DAPP_TASK_ENVIRONMENT_H
 #define WY3DAPP_TASK_ENVIRONMENT_H
 
+#include <memory>
+
 #include <wyapEnvironment.h>
 #include <wy3dApp/EnvironmentUI.h>
 #include <wy3dApp/wy3dAppDefs.h>
@@ -26,16 +28,30 @@
 namespace wy3dApp {
 
 class ContextMenu;
+class EnvironmentUIImpl;
 
+// Base class for task environments.
+//
+// The environment owns an EnvironmentUI. The default constructor creates the
+// host-provided UI, so plugin environments only need to derive from this class
+// and build their menus/tool bars/dock widgets through getUI(); the host main
+// window is available through getApplication()->getMainWindow(). Built-in
+// environments that need a specialized UI pass it to the second constructor.
+//
+// Derived classes should call the base implementation of onExit() so the UI is
+// destroyed, and call the base implementations of onEnter()/onSuspend()/
+// onResume() when overriding them.
 class WY3DAPP_EXPORT TaskEnvironment : public wyap::TaskEnvironment
 {
     WYRX_DECLARE_NO_CREATE_MEMBERS(TaskEnvironment, wy3dApp::TaskEnvironment, wyap::TaskEnvironment)
 
 public:
     // Get the environment UI owned by this environment.
-    virtual EnvironmentUI* getUI() const = 0;
+    EnvironmentUI* getUI() const;
 
-    virtual void refreshCommandActionStates(CommandActionRefreshCause cause) = 0;
+    // Refresh the states of the command actions owned by this environment.
+    // The default implementation does nothing.
+    virtual void refreshCommandActionStates(CommandActionRefreshCause cause);
 
     // Override to add environment-specific items to a command context menu.
     // Returns true if any actions were added.
@@ -46,8 +62,25 @@ public:
     }
 
 protected:
-    TaskEnvironment() = default;
-    ~TaskEnvironment() = default;
+    // Creates the host-provided default UI.
+    TaskEnvironment();
+    // Takes ownership of a specialized UI created by a built-in environment.
+    explicit TaskEnvironment(std::unique_ptr<EnvironmentUIImpl> pUI);
+    ~TaskEnvironment();
+
+    virtual void onExit(ExitCode exitCode) override;
+
+    virtual void onCommandStartFailed(
+        wyap::Command* pCmd,
+        wyap::CmdExecution::StartResult startResult) override;
+    virtual void onCommandStarted(wyap::Command* pCmd) override;
+    virtual void onCommandEnded(wyap::Command* pCmd) override;
+    virtual void onCommandAborted(
+        wyap::Command* pCmd,
+        wyap::CmdExecution::AbortCause abortCause) override;
+
+private:
+    std::unique_ptr<EnvironmentUIImpl> _pUI;
 };
 
 } // namespace wy3dApp

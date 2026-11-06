@@ -35,27 +35,29 @@
 namespace wy3dApp {
 
 SketchEnvironmentImpl::SketchEnvironmentImpl(const wy3d::Plane& sketchPlane)
-    : _op(Operation::New)
+    : SketchEnvironment(std::make_unique<SketchEnvironmentUI>(this))
+    , _op(Operation::New)
     , _sketchId(wydb::ElementId::kNull)
     , _sketchPlane(sketchPlane)
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
+    , _pUI(static_cast<SketchEnvironmentUI*>(this->getUI()))
 {
     assert(_sketchPlane.isValid());
     setName("sketch");
-    _pUI = std::make_unique<SketchEnvironmentUI>(this);
 }
 
 SketchEnvironmentImpl::SketchEnvironmentImpl(const wy3d::Sketch* pSketch)
-    : _op(Operation::Edit)
+    : SketchEnvironment(std::make_unique<SketchEnvironmentUI>(this))
+    , _op(Operation::Edit)
     , _sketchId(wydb::ElementId::kNull)
     , _sketchPlane()
     , _pTopTrans(nullptr)
     , _isTransCommitted(false)
+    , _pUI(static_cast<SketchEnvironmentUI*>(this->getUI()))
 {
     assert(pSketch);
     setName("sketch");
-    _pUI = std::make_unique<SketchEnvironmentUI>(this);
     _sketchId = pSketch->getId();
     _sketchPlane = pSketch->getPlane();
 }
@@ -97,11 +99,6 @@ bool SketchEnvironmentImpl::isTransactionCommited() const
 SketchSnapSystem* SketchEnvironmentImpl::getSnapSystem() const
 {
     return _pSketchSnapSys.get();
-}
-
-EnvironmentUI* SketchEnvironmentImpl::getUI() const
-{
-    return _pUI.get();
 }
 
 void SketchEnvironmentImpl::onCommandStartFailed(

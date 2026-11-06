@@ -19,7 +19,16 @@
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
+#include <utility>
+
+#include "environments/EnvironmentUIImpl.h"
+
 namespace wy3dApp {
+
+SketchEnvironment::SketchEnvironment(std::unique_ptr<EnvironmentUIImpl> pUI)
+    : TaskEnvironment(std::move(pUI))
+{
+}
 
 SketchEnvironment::~SketchEnvironment()
 {

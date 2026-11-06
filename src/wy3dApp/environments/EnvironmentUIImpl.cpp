@@ -239,6 +239,15 @@ bool EnvironmentUIImpl::addContextMenuActions(ContextMenu&)
 void EnvironmentUIImpl::destroy()
 {
     this->cancelCommandTerminatedOnEventLoop();
+
+    // Nothing left to destroy: either destroy() was already called, or the UI
+    // was never built. The containers themselves are the destroyed-state.
+    if (_menus.empty() && _toolBars.empty()
+        && _actionGroups.empty() && _cmdName2Action.empty())
+    {
+        return;
+    }
+
     this->saveUiState();
     this->destroyToolBars();
     this->destroyMenus();

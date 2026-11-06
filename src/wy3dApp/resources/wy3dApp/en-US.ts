@@ -688,12 +688,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="135"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="145"/>
         <source>Tools</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="139"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="149"/>
         <source>Help</source>
         <translation type="unfinished"></translation>
     </message>
@@ -719,8 +719,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="131"/>
-        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="146"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="141"/>
+        <location filename="../../environments/gateway/GatewayEnvironmentUI.cpp" line="156"/>
         <source>File</source>
         <translation type="unfinished"></translation>
     </message>

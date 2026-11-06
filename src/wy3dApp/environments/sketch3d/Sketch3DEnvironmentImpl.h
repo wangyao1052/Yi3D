@@ -47,7 +47,6 @@ public:
     virtual Operation getOperation() const override;
     virtual wydb::ElementId getSketch3dId() const override;
     virtual Sketch3DSnapSystem* getSnapSystem() const override;
-    virtual EnvironmentUI* getUI() const override;
 
     wydb::Transaction* getSketchTransaction() const;
     bool isTransactionCommited() const;
@@ -94,7 +93,7 @@ private:
     wydb::Transaction* _pTopTrans;
     bool _isTransCommitted;
 
-    std::unique_ptr<Sketch3DEnvironmentUI> _pUI;
+    Sketch3DEnvironmentUI* _pUI;
     std::unique_ptr<Sketch3DSnapSystem> _pSnapSys;
 
     // kInvalid is the empty state: the default constructed Plane is a valid one.

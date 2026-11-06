@@ -19,6 +19,8 @@
 #ifndef WY3DAP_SKETCH3D_ENVIRONMENT_H
 #define WY3DAP_SKETCH3D_ENVIRONMENT_H
 
+#include <memory>
+
 #include <wydbElementId.h>
 
 #include <wy3dApp/wy3dAppDefs.h>
@@ -26,6 +28,7 @@
 
 namespace wy3dApp {
 
+class EnvironmentUIImpl;
 class Sketch3DSnapSystem;
 
 class WY3DAPP_EXPORT Sketch3DEnvironment
@@ -45,6 +48,7 @@ public:
 
 protected:
     Sketch3DEnvironment() = default;
+    explicit Sketch3DEnvironment(std::unique_ptr<EnvironmentUIImpl> pUI);
     ~Sketch3DEnvironment();
 };
 
