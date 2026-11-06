@@ -1348,8 +1348,6 @@ void ModelingEnvironmentUI::build()
 #ifdef _DEBUG
     buildTestToolBarUi(testActions, uiTargets.pToolBarTest);
 #endif // _DEBUG
-
-    this->restoreUiState();
 }
 
 void ModelingEnvironmentUI::syncDisplayModeButton()

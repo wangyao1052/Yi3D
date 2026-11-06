@@ -39,7 +39,6 @@ namespace wy3dApp {
 class CommandAction;
 class ContextMenu;
 
-// Cause of a command action states refresh.
 enum class CommandActionRefreshCause : unsigned short
 {
     Unknown     = 0, // The cause is unknown or unspecified.
@@ -48,17 +47,19 @@ enum class CommandActionRefreshCause : unsigned short
     Environment = 3, // An environment was entered or resumed.
 };
 
-// Interface of an environment's menus, tool bars and command actions.
-// Implemented by the internal EnvironmentUIImpl.
 class WY3DAPP_EXPORT EnvironmentUI : public QObject
 {
     Q_OBJECT
 public:
     // Add menu.
     virtual QMenu* addMenu(const QString& title, const std::string& name) = 0;
+    // Get all menus.
+    virtual const std::vector<QMenu*>& getMenus() const = 0;
 
     // Add tool bar.
     virtual QToolBar* addToolBar(const QString& title, const std::string& name) = 0;
+    // Get all tool bars.
+    virtual const std::vector<QToolBar*>& getToolBars() const = 0;
 
     // New action group.
     virtual QActionGroup* newActionGroup() = 0;
@@ -78,18 +79,8 @@ public:
     // Returns true if any actions were added.
     virtual bool addContextMenuActions(ContextMenu& menu) = 0;
 
-    // Get all menus.
-    virtual const std::vector<QMenu*>& getMenus() const = 0;
-
-    // Get all tool bars.
-    virtual const std::vector<QToolBar*>& getToolBars() const = 0;
-
     // Destroy all UI elements created and managed by this environment UI.
     virtual void destroy() = 0;
-
-    // Persist/restore the main-window layout (tool bars and dock widgets).
-    virtual void saveUiState() = 0;
-    virtual void restoreUiState() = 0;
 
     virtual void onCommandStartFailed(
         wyap::Command* pCmd,

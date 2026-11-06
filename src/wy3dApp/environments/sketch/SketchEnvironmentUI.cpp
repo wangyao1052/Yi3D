@@ -1003,8 +1003,6 @@ void SketchEnvironmentUI::build()
     buildEditMenuUi(undoRedoActions, uiTargets.pMenuEdit);
     buildToolsMenuUi(sketchActions.pActionSelect, utilityActions, uiTargets.pMenuTools);
 
-    this->restoreUiState();
-
     QWidget* pViewWidget = findActiveViewWidget();
     if (pViewWidget)
         _pOverlayBar = buildOverlayBarUi(pViewWidget, sketchEnvironmentActions);

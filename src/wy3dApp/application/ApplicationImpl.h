@@ -186,6 +186,10 @@ public:
     virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
     virtual void onDocumentToBeDeactivated(wyap::Document* pDocToDeactivate) override;
 
+    // 环境进入/恢复后恢复其 UI 布局
+    virtual void onEnvironmentEntered(wyap::Environment* pEnvironment) override;
+    virtual void onEnvironmentResumed(wyap::Environment* pEnvironment) override;
+
     virtual void onCommandEnded(wyap::Command* pCmd) override;
     virtual void onCommandAborted(
         wyap::Command* pCmd,
@@ -213,6 +217,9 @@ protected:
     bool wyapTerminate();
 
 private:
+    // Restore the UI layout of an environment that has just been (re)built.
+    void restoreEnvironmentUIState(wyap::Environment* pEnvironment);
+
     // 程序标题
     QString _title;
     // 主窗口

@@ -783,8 +783,6 @@ void Sketch3DEnvironmentUI::build()
     buildEditMenuUi(undoRedoActions, uiTargets.pMenuEdit);
     buildToolsMenuUi(sketch3DActions.pActionSelect, utilityActions, uiTargets.pMenuTools);
 
-    this->restoreUiState();
-
     QWidget* pViewWidget = findActiveViewWidget();
     if (pViewWidget)
         _pOverlayBar = buildOverlayBarUi(pViewWidget, sketch3DEnvironmentActions);

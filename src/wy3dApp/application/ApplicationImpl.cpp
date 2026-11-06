@@ -71,7 +71,11 @@
 #include "view/ViewUtil.h"
 #include "commands/UndoRedoCommands.h"
 #include "commands/CommandNames.h"
+#include <wy3dApp/DocumentEnvironment.h>
+#include <wy3dApp/GatewayEnvironment.h>
 #include <wy3dApp/SketchEnvironment.h>
+#include <wy3dApp/TaskEnvironment.h>
+#include "environments/EnvironmentUIImpl.h"
 #include "environments/modeling/ModelingEnvironmentImpl.h"
 #include <wy3dApp/GizmoFactory.h>
 #include "gizmo/GizmoFactoryImpl.h"
@@ -336,6 +340,50 @@ void ApplicationImpl::onDocumentToBeDeactivated(wyap::Document* pDocToDeactivate
         {
             _pSnapSystem->removeReactor(pScene);
         }
+    }
+}
+
+void ApplicationImpl::onEnvironmentEntered(wyap::Environment* pEnvironment)
+{
+    wyap::Application::onEnvironmentEntered(pEnvironment);
+
+    this->restoreEnvironmentUIState(pEnvironment);
+}
+
+void ApplicationImpl::onEnvironmentResumed(wyap::Environment* pEnvironment)
+{
+    wyap::Application::onEnvironmentResumed(pEnvironment);
+
+    // The gateway UI survives suspend; restoring here would overwrite the
+    // layout changes made during the document session with the last saved state.
+    if (dynamic_cast<GatewayEnvironment*>(pEnvironment)) return;
+
+    this->restoreEnvironmentUIState(pEnvironment);
+}
+
+void ApplicationImpl::restoreEnvironmentUIState(wyap::Environment* pEnvironment)
+{
+    if (!pEnvironment) return;
+
+    EnvironmentUI* pUI = nullptr;
+    if (GatewayEnvironment* pGatewayEnv = dynamic_cast<GatewayEnvironment*>(pEnvironment))
+    {
+        pUI = pGatewayEnv->getUI();
+    }
+    else if (DocumentEnvironment* pDocEnv = dynamic_cast<DocumentEnvironment*>(pEnvironment))
+    {
+        pUI = pDocEnv->getUI();
+    }
+    else if (TaskEnvironment* pTaskEnv = dynamic_cast<TaskEnvironment*>(pEnvironment))
+    {
+        pUI = pTaskEnv->getUI();
+    }
+
+    if (!pUI) return;
+
+    if (EnvironmentUIImpl* pUIImpl = dynamic_cast<EnvironmentUIImpl*>(pUI))
+    {
+        pUIImpl->restoreUiState();
     }
 }
 

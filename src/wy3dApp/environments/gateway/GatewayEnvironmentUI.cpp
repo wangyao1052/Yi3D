@@ -123,8 +123,6 @@ void GatewayEnvironmentUI::build()
     _pMenuHelp->addAction(actions.pActionAbout);
     _pToolBarFile->addAction(actions.pActionNewFile);
     _pToolBarFile->addAction(actions.pActionOpenFile);
-
-    this->restoreUiState();
 }
 
 void GatewayEnvironmentUI::setFileActionsEnabled(bool enabled)

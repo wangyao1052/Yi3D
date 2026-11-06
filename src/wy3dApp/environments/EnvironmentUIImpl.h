@@ -81,9 +81,9 @@ public:
     void destroy() override;
 
     // Save toolbar/dock positions to persisted state.
-    void saveUiState() override;
+    void saveUiState();
     // Restore toolbar/dock positions from persisted state.
-    void restoreUiState() override;
+    void restoreUiState();
 
     // command manager reactor
     void onCommandStartFailed(
