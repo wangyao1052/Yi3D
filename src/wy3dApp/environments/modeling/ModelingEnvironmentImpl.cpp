@@ -81,7 +81,7 @@ void ModelingEnvironmentImpl::onEnter()
 
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
-    this->refreshCommandActionStates();
+    this->refreshCommandActionStates(CommandActionRefreshCause::Environment);
 }
 
 void ModelingEnvironmentImpl::onExit(ExitCode exitCode)
@@ -109,7 +109,7 @@ void ModelingEnvironmentImpl::onResume()
 
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
-    this->refreshCommandActionStates();
+    this->refreshCommandActionStates(CommandActionRefreshCause::Environment);
 }
 
 void ModelingEnvironmentImpl::refreshUndoRedoActionStates()
@@ -173,8 +173,10 @@ void ModelingEnvironmentImpl::refreshFileActionStates()
     }
 }
 
-void ModelingEnvironmentImpl::refreshCommandActionStates()
+void ModelingEnvironmentImpl::refreshCommandActionStates(CommandActionRefreshCause cause)
 {
+    (void)cause;
+
     this->refreshUndoRedoActionStates();
     this->refreshFileActionStates();
     _pUI->syncDisplayModeButton();

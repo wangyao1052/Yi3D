@@ -47,7 +47,7 @@ public:
         wyap::Command* pCmd,
         wyap::CmdExecution::AbortCause abortCause) override;
 
-    virtual void refreshCommandActionStates() override;
+    virtual void refreshCommandActionStates(CommandActionRefreshCause cause) override;
     virtual bool addContextMenuActions(ContextMenu& menu) override;
 
 protected:

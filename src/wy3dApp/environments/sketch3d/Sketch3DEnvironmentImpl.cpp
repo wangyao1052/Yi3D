@@ -202,7 +202,7 @@ void Sketch3DEnvironmentImpl::onEnter()
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     // Refresh command action states.
-    this->refreshCommandActionStates();
+    this->refreshCommandActionStates(CommandActionRefreshCause::Environment);
 }
 
 wy3d::Sketch3D* Sketch3DEnvironmentImpl::newSketch3D(wydb::Database* pDb)
@@ -323,7 +323,7 @@ void Sketch3DEnvironmentImpl::onResume()
     ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
-    this->refreshCommandActionStates();
+    this->refreshCommandActionStates(CommandActionRefreshCause::Environment);
 }
 
 void Sketch3DEnvironmentImpl::refreshUndoRedoActionStates()
@@ -384,8 +384,10 @@ void Sketch3DEnvironmentImpl::refreshFileActionStates()
     // 3D草图环境不支持文件操作
 }
 
-void Sketch3DEnvironmentImpl::refreshCommandActionStates()
+void Sketch3DEnvironmentImpl::refreshCommandActionStates(CommandActionRefreshCause cause)
 {
+    (void)cause;
+
     this->refreshUndoRedoActionStates();
     this->refreshFileActionStates();
 }

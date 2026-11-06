@@ -20,12 +20,12 @@
 #define WY3DAPP_TASK_ENVIRONMENT_H
 
 #include <wyapEnvironment.h>
+#include <wy3dApp/EnvironmentUI.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 class ContextMenu;
-class EnvironmentUI;
 
 class WY3DAPP_EXPORT TaskEnvironment : public wyap::TaskEnvironment
 {
@@ -35,7 +35,7 @@ public:
     // Get the environment UI owned by this environment.
     virtual EnvironmentUI* getUI() const = 0;
 
-    virtual void refreshCommandActionStates() = 0;
+    virtual void refreshCommandActionStates(CommandActionRefreshCause cause) = 0;
 
     // Override to add environment-specific items to a command context menu.
     // Returns true if any actions were added.

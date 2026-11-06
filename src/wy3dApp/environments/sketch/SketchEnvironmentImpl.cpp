@@ -198,7 +198,7 @@ void SketchEnvironmentImpl::onEnter()
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     // Refresh command action states.
-    this->refreshCommandActionStates();
+    this->refreshCommandActionStates(CommandActionRefreshCause::Environment);
 }
 
 wy3d::Sketch* SketchEnvironmentImpl::newSketch(wydb::Database* pDb)
@@ -321,7 +321,7 @@ void SketchEnvironmentImpl::onResume()
     ApplicationImpl::instance().getSelManager()->clearSelections();
     ApplicationImpl::instance().getSelManager()->endChange();
 
-    this->refreshCommandActionStates();
+    this->refreshCommandActionStates(CommandActionRefreshCause::Environment);
 }
 
 void SketchEnvironmentImpl::refreshUndoRedoActionStates()
@@ -383,8 +383,10 @@ void SketchEnvironmentImpl::refreshFileActionStates()
     // 无文件动作需要更新,文件操作动作也不存在于此环境。
 }
 
-void SketchEnvironmentImpl::refreshCommandActionStates()
+void SketchEnvironmentImpl::refreshCommandActionStates(CommandActionRefreshCause cause)
 {
+    (void)cause;
+
     this->refreshUndoRedoActionStates();
     this->refreshFileActionStates();
 }

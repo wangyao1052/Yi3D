@@ -39,6 +39,15 @@ namespace wy3dApp {
 class CommandAction;
 class ContextMenu;
 
+// Cause of a command action states refresh.
+enum class CommandActionRefreshCause : unsigned short
+{
+    Unknown     = 0, // The cause is unknown or unspecified.
+    Transaction = 1, // A transaction started, ended, aborted, was undone, or was redone.
+    Document    = 2, // A document was activated.
+    Environment = 3, // An environment was entered or resumed.
+};
+
 // Interface of an environment's menus, tool bars and command actions.
 // Implemented by the internal EnvironmentUIImpl.
 class WY3DAPP_EXPORT EnvironmentUI : public QObject

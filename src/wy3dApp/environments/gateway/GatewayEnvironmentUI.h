@@ -20,7 +20,10 @@
 #define WY3DAPP_GATEWAY_ENVIRONMENT_UI_H
 
 #include <QMenu>
+#include <QPointer>
 #include <QToolBar>
+
+#include <wy3dApp/CommandAction.h>
 #include "environments/EnvironmentUIImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -36,6 +39,9 @@ public:
 
     void build();
 
+    // Enable/disable the New/Open file actions.
+    void setFileActionsEnabled(bool enabled);
+
 private:
     // Do nothing.
     virtual void processCommandTerminatedOnEventLoop() override {}
@@ -48,6 +54,8 @@ private:
     QMenu* _pMenuTools;
     QMenu* _pMenuHelp;
     QToolBar* _pToolBarFile;
+    QPointer<CommandAction> _pNewFileAction;
+    QPointer<CommandAction> _pOpenFileAction;
 };
 
 } // namespace wy3dApp

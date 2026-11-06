@@ -106,6 +106,8 @@ GatewayEnvironmentUI::~GatewayEnvironmentUI()
 void GatewayEnvironmentUI::build()
 {
     const GatewayActions actions = createActions(this);
+    _pNewFileAction = actions.pActionNewFile;
+    _pOpenFileAction = actions.pActionOpenFile;
     this->createMenus();
     this->createToolBars();
     assert(_pMenuFile);
@@ -123,6 +125,14 @@ void GatewayEnvironmentUI::build()
     _pToolBarFile->addAction(actions.pActionOpenFile);
 
     this->restoreUiState();
+}
+
+void GatewayEnvironmentUI::setFileActionsEnabled(bool enabled)
+{
+    if (!_pNewFileAction || !_pOpenFileAction) return;
+
+    _pNewFileAction->setEnabled(enabled);
+    _pOpenFileAction->setEnabled(enabled);
 }
 
 void GatewayEnvironmentUI::createMenus()

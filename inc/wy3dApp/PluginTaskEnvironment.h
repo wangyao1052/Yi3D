@@ -55,7 +55,7 @@ public:
     QMainWindow* mainWindow() const;
 
     // Plugin environments have no host-owned command actions to refresh.
-    void refreshCommandActionStates() override;
+    void refreshCommandActionStates(CommandActionRefreshCause cause) override;
 
 protected:
     PluginTaskEnvironment();

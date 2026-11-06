@@ -45,8 +45,10 @@ QMainWindow* PluginTaskEnvironment::mainWindow() const
     return pApp ? pApp->getMainWindow() : nullptr;
 }
 
-void PluginTaskEnvironment::refreshCommandActionStates()
+void PluginTaskEnvironment::refreshCommandActionStates(CommandActionRefreshCause cause)
 {
+    (void)cause;
+
     // Plugin environments have no host-owned command actions to refresh.
 }
 

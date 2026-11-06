@@ -22,11 +22,10 @@
 #include <wydbTransaction.h>
 #include <wyapEnvironment.h>
 
+#include <wy3dApp/EnvironmentUI.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
-
-class EnvironmentUI;
 
 class WY3DAPP_EXPORT GatewayEnvironment
     : public wyap::GatewayEnvironment
@@ -36,7 +35,7 @@ class WY3DAPP_EXPORT GatewayEnvironment
 public:
     virtual EnvironmentUI* getUI() const = 0;
 
-    virtual void refreshCommandActionStates() = 0;
+    virtual void refreshCommandActionStates(CommandActionRefreshCause cause) = 0;
 
 protected:
     GatewayEnvironment() = default;
