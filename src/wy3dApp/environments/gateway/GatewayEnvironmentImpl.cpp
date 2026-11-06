@@ -51,7 +51,7 @@ void GatewayEnvironmentImpl::onDocumentDeactivated(wyap::Document* pDeactivatedD
     wy::ErrorStatus error = pDeactivatedDoc->getDatabase()->getTransactionManager()->removeReactor(this);
     assert(wy::ErrorStatus::Ok == error);
 
-    this->updateCommandActionStates();
+    this->refreshCommandActionStates();
 }
 
 void GatewayEnvironmentImpl::onDocumentActivated(wyap::Document* pActivatedDoc)
@@ -62,32 +62,32 @@ void GatewayEnvironmentImpl::onDocumentActivated(wyap::Document* pActivatedDoc)
     wy::ErrorStatus error = pActivatedDoc->getDatabase()->getTransactionManager()->addReactor(this);
     assert(wy::ErrorStatus::Ok == error);
 
-    this->updateCommandActionStates();
+    this->refreshCommandActionStates();
 }
 
 void GatewayEnvironmentImpl::onTransactionStarted(wydb::Transaction* pTrans)
 {
-    this->updateCommandActionStates();
+    this->refreshCommandActionStates();
 }
 
 void GatewayEnvironmentImpl::onTransactionEnded(wydb::Transaction* pTrans)
 {
-    this->updateCommandActionStates();
+    this->refreshCommandActionStates();
 }
 
 void GatewayEnvironmentImpl::onTransactionAborted(wydb::Transaction* pTrans)
 {
-    this->updateCommandActionStates();
+    this->refreshCommandActionStates();
 }
 
 void GatewayEnvironmentImpl::onTransactionUndone(wydb::Transaction* pTrans)
 {
-    this->updateCommandActionStates();
+    this->refreshCommandActionStates();
 }
 
 void GatewayEnvironmentImpl::onTransactionRedone(wydb::Transaction* pTrans)
 {
-    this->updateCommandActionStates();
+    this->refreshCommandActionStates();
 }
 
 void GatewayEnvironmentImpl::onCommandStartFailed(
@@ -142,9 +142,9 @@ void GatewayEnvironmentImpl::onResume()
     wy3dApp::GatewayEnvironment::onResume();
 }
 
-void GatewayEnvironmentImpl::updateCommandActionStates()
+void GatewayEnvironmentImpl::refreshCommandActionStates()
 {
-    this->updateFileCommandActionStates();
+    this->refreshFileActionStates();
 
     wyap::Environment* pActiveEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     if (!pActiveEnv)
@@ -155,17 +155,17 @@ void GatewayEnvironmentImpl::updateCommandActionStates()
     wy3dApp::DocumentEnvironment* pDocEnv = dynamic_cast<wy3dApp::DocumentEnvironment*>(pActiveEnv);
     if (pDocEnv)
     {
-        pDocEnv->updateCommandActionStates();
+        pDocEnv->refreshCommandActionStates();
     }
 
     wy3dApp::TaskEnvironment* pTaskEnv = dynamic_cast<wy3dApp::TaskEnvironment*>(pActiveEnv);
     if (pTaskEnv)
     {
-        pTaskEnv->updateCommandActionStates();
+        pTaskEnv->refreshCommandActionStates();
     }
 }
 
-void GatewayEnvironmentImpl::updateFileCommandActionStates()
+void GatewayEnvironmentImpl::refreshFileActionStates()
 {
     QAction* pNewFileAction = _pUI->findCommandAction(CommandNames::NewFile);
     QAction* pOpenFileAction = _pUI->findCommandAction(CommandNames::OpenFile);

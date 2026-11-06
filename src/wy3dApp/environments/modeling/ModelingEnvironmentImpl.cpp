@@ -81,7 +81,7 @@ void ModelingEnvironmentImpl::onEnter()
 
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
-    this->updateCommandActionStates();
+    this->refreshCommandActionStates();
 }
 
 void ModelingEnvironmentImpl::onExit(ExitCode exitCode)
@@ -109,10 +109,10 @@ void ModelingEnvironmentImpl::onResume()
 
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
-    this->updateCommandActionStates();
+    this->refreshCommandActionStates();
 }
 
-void ModelingEnvironmentImpl::updateUndoRedoActionStates()
+void ModelingEnvironmentImpl::refreshUndoRedoActionStates()
 {
     QAction* pUndoAction = _pUI->findCommandAction(CommandNames::Undo);
     QAction* pRedoAction = _pUI->findCommandAction(CommandNames::Redo);
@@ -143,7 +143,7 @@ void ModelingEnvironmentImpl::updateUndoRedoActionStates()
     pRedoAction->setEnabled(pTransMgr->canRedo() ? true : false);
 }
 
-void ModelingEnvironmentImpl::updateFileActionStates()
+void ModelingEnvironmentImpl::refreshFileActionStates()
 {
     const std::vector<std::string> fileCommandNames =
     {
@@ -173,10 +173,10 @@ void ModelingEnvironmentImpl::updateFileActionStates()
     }
 }
 
-void ModelingEnvironmentImpl::updateCommandActionStates()
+void ModelingEnvironmentImpl::refreshCommandActionStates()
 {
-    this->updateUndoRedoActionStates();
-    this->updateFileActionStates();
+    this->refreshUndoRedoActionStates();
+    this->refreshFileActionStates();
     _pUI->syncDisplayModeButton();
 }
 

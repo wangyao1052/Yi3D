@@ -35,7 +35,7 @@ public:
     // Get the environment UI owned by this environment.
     virtual EnvironmentUI* getUI() const = 0;
 
-    virtual void updateCommandActionStates() = 0;
+    virtual void refreshCommandActionStates() = 0;
 
     // Override to add environment-specific items to a command context menu.
     // Returns true if any actions were added.

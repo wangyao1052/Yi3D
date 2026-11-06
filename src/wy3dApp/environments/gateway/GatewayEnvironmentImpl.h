@@ -37,7 +37,7 @@ public:
 public:
     virtual EnvironmentUI* getUI() const override;
 
-    virtual void updateCommandActionStates() override;
+    virtual void refreshCommandActionStates() override;
 
     virtual void onDocumentDeactivated(wyap::Document* pDeactivatedDoc) override;
     virtual void onDocumentActivated(wyap::Document* pActivatedDoc) override;
@@ -67,7 +67,7 @@ private:
     void registerCommands();
     void removeCommands();
 
-    void updateFileCommandActionStates();
+    void refreshFileActionStates();
 
 private:
     std::unique_ptr<GatewayEnvironmentUI> _pUI;

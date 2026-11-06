@@ -197,8 +197,8 @@ void SketchEnvironmentImpl::onEnter()
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::OrientToSketch);
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
-    // Update command action states.
-    this->updateCommandActionStates();
+    // Refresh command action states.
+    this->refreshCommandActionStates();
 }
 
 wy3d::Sketch* SketchEnvironmentImpl::newSketch(wydb::Database* pDb)
@@ -321,10 +321,10 @@ void SketchEnvironmentImpl::onResume()
     ApplicationImpl::instance().getSelManager()->clearSelections();
     ApplicationImpl::instance().getSelManager()->endChange();
 
-    this->updateCommandActionStates();
+    this->refreshCommandActionStates();
 }
 
-void SketchEnvironmentImpl::updateUndoRedoActionStates()
+void SketchEnvironmentImpl::refreshUndoRedoActionStates()
 {
     QAction* pUndoAction = _pUI->findCommandAction(CommandNames::Undo);
     QAction* pRedoAction = _pUI->findCommandAction(CommandNames::Redo);
@@ -377,16 +377,16 @@ void SketchEnvironmentImpl::updateUndoRedoActionStates()
     }
 }
 
-void SketchEnvironmentImpl::updateFileActionStates()
+void SketchEnvironmentImpl::refreshFileActionStates()
 {
     // 草图环境不支持文件操作:
     // 无文件动作需要更新,文件操作动作也不存在于此环境。
 }
 
-void SketchEnvironmentImpl::updateCommandActionStates()
+void SketchEnvironmentImpl::refreshCommandActionStates()
 {
-    this->updateUndoRedoActionStates();
-    this->updateFileActionStates();
+    this->refreshUndoRedoActionStates();
+    this->refreshFileActionStates();
 }
 
 bool SketchEnvironmentImpl::addContextMenuActions(ContextMenu& menu)

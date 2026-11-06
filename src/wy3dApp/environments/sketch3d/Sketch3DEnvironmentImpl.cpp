@@ -201,8 +201,8 @@ void Sketch3DEnvironmentImpl::onEnter()
 
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
-    // Update command action states.
-    this->updateCommandActionStates();
+    // Refresh command action states.
+    this->refreshCommandActionStates();
 }
 
 wy3d::Sketch3D* Sketch3DEnvironmentImpl::newSketch3D(wydb::Database* pDb)
@@ -323,10 +323,10 @@ void Sketch3DEnvironmentImpl::onResume()
     ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
-    this->updateCommandActionStates();
+    this->refreshCommandActionStates();
 }
 
-void Sketch3DEnvironmentImpl::updateUndoRedoActionStates()
+void Sketch3DEnvironmentImpl::refreshUndoRedoActionStates()
 {
     QAction* pUndoAction = _pUI->findCommandAction(CommandNames::Undo);
     QAction* pRedoAction = _pUI->findCommandAction(CommandNames::Redo);
@@ -379,15 +379,15 @@ void Sketch3DEnvironmentImpl::updateUndoRedoActionStates()
     }
 }
 
-void Sketch3DEnvironmentImpl::updateFileActionStates()
+void Sketch3DEnvironmentImpl::refreshFileActionStates()
 {
     // 3D草图环境不支持文件操作
 }
 
-void Sketch3DEnvironmentImpl::updateCommandActionStates()
+void Sketch3DEnvironmentImpl::refreshCommandActionStates()
 {
-    this->updateUndoRedoActionStates();
-    this->updateFileActionStates();
+    this->refreshUndoRedoActionStates();
+    this->refreshFileActionStates();
 }
 
 bool Sketch3DEnvironmentImpl::addContextMenuActions(ContextMenu& menu)

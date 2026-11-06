@@ -36,7 +36,7 @@ class WY3DAPP_EXPORT GatewayEnvironment
 public:
     virtual EnvironmentUI* getUI() const = 0;
 
-    virtual void updateCommandActionStates() = 0;
+    virtual void refreshCommandActionStates() = 0;
 
 protected:
     GatewayEnvironment() = default;
