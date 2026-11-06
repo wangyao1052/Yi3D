@@ -4665,7 +4665,7 @@ Do you want to save it to the original file now?
     <name>wy3dApp::MainWindow</name>
     <message>
         <location filename="../../widgets/frame/MainWindow.cpp" line="108"/>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="345"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="355"/>
         <source>wy3dApp</source>
         <translation type="unfinished">Yi3D</translation>
     </message>
@@ -4675,27 +4675,27 @@ Do you want to save it to the original file now?
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="274"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="284"/>
         <source>The following documents have unsaved changes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="276"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="286"/>
         <source>Do you want to return to the application so you can save these changes?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="282"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="292"/>
         <source>Exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="287"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="297"/>
         <source>Yes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="290"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="300"/>
         <source>No - Exit</source>
         <translation type="unfinished"></translation>
     </message>

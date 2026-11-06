@@ -309,14 +309,15 @@ void PluginManager::terminate()
     wyap::Environment* pActiveEnvironment = pEnvManager->getActiveEnvironment();
     if (pActiveEnvironment)
     {
+        // Fallback for shutdown paths that did not exit the environment first
+        // (e.g. qApp->quit() without MainWindow::closeEvent): notify plugins
+        // before unloading them.
         GatewayEnvironment* pGatewayEnvironment = dynamic_cast<GatewayEnvironment*>(pActiveEnvironment);
         assert(pGatewayEnvironment);
-        onEnvironmentToBeExited(pEnvManager->getActiveEnvironment());
+        onEnvironmentToBeExited(pActiveEnvironment);
     }
-    else
-    {
-        assert(false);
-    }
+    // else: the normal shutdown path (MainWindow::closeEvent) already exited the
+    // gateway, so plugins were notified through the EnvManager reactor.
 
     for (LoadedPlugin& plugin : _plugins)
     {

@@ -213,6 +213,16 @@ void MainWindow::closeEvent(QCloseEvent* event)
     // Close all documents.
     this->closeAllDocumentsForExit();
 
+    // Exit the remaining gateway environment so its onExit runs (UI state save,
+    // command unregistration, reactor unsubscription) before the application quits.
+    wyap::Environment* pActiveEnv = pEnvMgr->getActiveEnvironment();
+    if (pActiveEnv && pActiveEnv->getType() == wyap::Environment::Type::Gateway)
+    {
+        wy::ErrorStatus envError = pEnvMgr->exitActiveEnvironment(
+            wyap::Environment::ExitCode::Ok, wyap::ExecutionMode::Sync);
+        assert(wy::ErrorStatus::Ok == envError);
+    }
+
     // Clean up autosave files (normal exit)
     ApplicationImpl::instance().getAutoSave()->cleanupOnExit();
 
