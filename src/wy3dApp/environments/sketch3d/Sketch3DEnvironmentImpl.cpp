@@ -158,9 +158,6 @@ void Sketch3DEnvironmentImpl::onEnter()
     ApplicationImpl::instance().getSelManager()->endChange();
     this->clearPendingWorkPlane();
 
-    // 同步显示模式按钮状态
-    _pUI->syncDisplayModeAction();
-
     // 开启顶层事务组
     wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
@@ -327,9 +324,6 @@ void Sketch3DEnvironmentImpl::onResume()
     this->clearPendingWorkPlane();
 
     this->updateCommandActionStates();
-
-    // 同步显示模式按钮状态
-    _pUI->syncDisplayModeAction();
 }
 
 void Sketch3DEnvironmentImpl::updateUndoRedoActionStates()

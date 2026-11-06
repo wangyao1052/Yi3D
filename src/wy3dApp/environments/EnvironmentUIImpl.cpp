@@ -186,7 +186,8 @@ QToolButton* EnvironmentUIImpl::newMenuPopupToolButton(
     QToolBar* pToolBar,
     const QString& text,
     QActionGroup* pActionGroup,
-    const std::list<QAction*>& actions)
+    const std::list<QAction*>& actions,
+    QAction* pInitialAction)
 {
     if (!pToolBar)
     {
@@ -207,8 +208,8 @@ QToolButton* EnvironmentUIImpl::newMenuPopupToolButton(
     pToolBtn->setDefaultAction(pActionSeries);
     pToolBtn->setPopupMode(QToolButton::MenuButtonPopup);
 
+    QAction* pCurrentAction = pInitialAction;
     QMenu* pMenu = new QMenu(pToolBtn);
-    int index(-1);
     for (QAction* pAction : actions)
     {
         if (!pAction)
@@ -217,23 +218,15 @@ QToolButton* EnvironmentUIImpl::newMenuPopupToolButton(
             continue;
         }
         pMenu->addAction(pAction);
-        ++index;
-        if (0 == index)
-        {
-            pToolBtn->setIcon(pAction->icon());
-            pToolBtn->setText(pAction->text());
-            pToolBtn->setToolTip(pAction->toolTip());
-            pToolBtn->setDefaultAction(pAction);
-        }
+        if (!pCurrentAction) pCurrentAction = pAction;
         QObject::connect(pAction, &QAction::triggered, pToolBtn, [pToolBtn, pAction]()
         {
-            pToolBtn->setIcon(pAction->icon());
-            pToolBtn->setText(pAction->text());
-            pToolBtn->setToolTip(pAction->toolTip());
-            pToolBtn->setDefaultAction(pAction);
+            EnvironmentUIImpl::setMenuPopupToolButtonAction(pToolBtn, pAction);
         });
     }
     pToolBtn->setMenu(pMenu);
+
+    setMenuPopupToolButtonAction(pToolBtn, pCurrentAction);
 
     return pToolBtn;
 }
@@ -471,25 +464,14 @@ void EnvironmentUIImpl::onCommandAborted(
     }
 }
 
-void EnvironmentUIImpl::syncDisplayModeAction()
+void EnvironmentUIImpl::setMenuPopupToolButtonAction(QToolButton* pButton, QAction* pAction)
 {
-    Scene* pScene = ApplicationImpl::instance().getActiveScene();
-    if (!pScene) return;
+    if (!pButton || !pAction) return;
 
-    CommandAction* pAction = nullptr;
-    switch (pScene->getDisplayMode())
-    {
-    case Scene::DisplayMode::ShadedWithEdges:
-        pAction = this->findCommandAction(CommandNames::ShadedWithEdgesDisplay);
-        break;
-    case Scene::DisplayMode::Shaded:
-        pAction = this->findCommandAction(CommandNames::ShadedDisplay);
-        break;
-    case Scene::DisplayMode::Wireframe:
-        pAction = this->findCommandAction(CommandNames::WireframeDisplay);
-        break;
-    }
-    if (pAction) pAction->trigger();
+    pButton->setIcon(pAction->icon());
+    pButton->setText(pAction->text());
+    pButton->setToolTip(pAction->toolTip());
+    pButton->setDefaultAction(pAction);
 }
 
 } // namespace wy3dApp

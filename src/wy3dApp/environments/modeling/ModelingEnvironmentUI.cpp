@@ -1133,7 +1133,21 @@ void buildUtilityToolBarUi(const UtilityActions& actions, QToolBar* pToolBarUtil
     pToolBarUtility->addAction(actions.pActionFindElementById);
 }
 
-void buildViewToolBarUi(
+const std::string& displayModeCommandName(Scene::DisplayMode mode)
+{
+    switch (mode)
+    {
+    case Scene::DisplayMode::ShadedWithEdges:
+        return CommandNames::ShadedWithEdgesDisplay;
+    case Scene::DisplayMode::Shaded:
+        return CommandNames::ShadedDisplay;
+    case Scene::DisplayMode::Wireframe:
+        return CommandNames::WireframeDisplay;
+    }
+    return CommandNames::ShadedWithEdgesDisplay;
+}
+
+QToolButton* buildViewToolBarUi(
     EnvironmentUIImpl* pUI,
     const ViewActions& actions,
     QToolBar* pToolBarView)
@@ -1167,12 +1181,23 @@ void buildViewToolBarUi(
     displayModeActions.emplace_back(actions.pActionWireframeDisplay);
 
     QActionGroup* pDisplayModeGroup = pUI->newActionGroup();
+
+    CommandAction* pInitialDisplayModeAction = nullptr;
+    if (Scene* pScene = ApplicationImpl::instance().getActiveScene())
+    {
+        pInitialDisplayModeAction =
+            pUI->findCommandAction(displayModeCommandName(pScene->getDisplayMode()));
+    }
+
     QToolButton* pToolBtn = pUI->newMenuPopupToolButton(
         pToolBarView,
         QCoreApplication::translate("MainWindow", "Display Mode"),
         pDisplayModeGroup,
-        displayModeActions);
+        displayModeActions,
+        pInitialDisplayModeAction);
     pToolBarView->addWidget(pToolBtn);
+
+    return pToolBtn;
 }
 
 #ifdef _DEBUG
@@ -1319,12 +1344,24 @@ void ModelingEnvironmentUI::build()
         uiTargets.pToolBarModeling);
     buildUtilityToolBarUi(utilityActions, uiTargets.pToolBarUtility);
     buildToolsMenuUi(modelingActions.pActionSelect, utilityActions, uiTargets.pMenuTools);
-    buildViewToolBarUi(this, viewActions, uiTargets.pToolBarView);
+    _pDisplayModeButton = buildViewToolBarUi(this, viewActions, uiTargets.pToolBarView);
 #ifdef _DEBUG
     buildTestToolBarUi(testActions, uiTargets.pToolBarTest);
 #endif // _DEBUG
 
     this->restoreUiState();
+}
+
+void ModelingEnvironmentUI::syncDisplayModeButton()
+{
+    if (!_pDisplayModeButton) return;
+
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
+    if (!pScene) return;
+
+    CommandAction* pAction =
+        this->findCommandAction(displayModeCommandName(pScene->getDisplayMode()));
+    EnvironmentUIImpl::setMenuPopupToolButtonAction(_pDisplayModeButton, pAction);
 }
 
 } // namespace wy3dApp

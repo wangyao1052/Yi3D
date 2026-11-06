@@ -19,6 +19,9 @@
 #ifndef WY3DAPP_MODELING_ENVIRONMENT_UI_H
 #define WY3DAPP_MODELING_ENVIRONMENT_UI_H
 
+#include <QPointer>
+#include <QToolButton>
+
 #include "environments/EnvironmentUIImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -33,6 +36,12 @@ public:
     ~ModelingEnvironmentUI();
 
     void build();
+
+    // Refresh the display mode button from the active scene.
+    void syncDisplayModeButton();
+
+private:
+    QPointer<QToolButton> _pDisplayModeButton;
 };
 
 } // namespace wy3dApp

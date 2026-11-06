@@ -831,7 +831,24 @@ ViewportOverlayBar* buildOverlayBarUi(
     return pBar;
 }
 
-void buildViewToolBarUi(
+CommandAction* findDisplayModeAction(const ViewActions& actions)
+{
+    Scene* pScene = ApplicationImpl::instance().getActiveScene();
+    if (!pScene) return nullptr;
+
+    switch (pScene->getDisplayMode())
+    {
+    case Scene::DisplayMode::ShadedWithEdges:
+        return actions.pActionShadedWithEdgesDisplay;
+    case Scene::DisplayMode::Shaded:
+        return actions.pActionShadedDisplay;
+    case Scene::DisplayMode::Wireframe:
+        return actions.pActionWireframeDisplay;
+    }
+    return nullptr;
+}
+
+QToolButton* buildViewToolBarUi(
     EnvironmentUIImpl* pUI,
     const ViewActions& actions,
     QToolBar* pToolBarView)
@@ -870,8 +887,11 @@ void buildViewToolBarUi(
         pToolBarView,
         QCoreApplication::translate("MainWindow", "Display Mode"),
         pDisplayModeGroup,
-        displayModeActions);
+        displayModeActions,
+        findDisplayModeAction(actions));
     pToolBarView->addWidget(pToolBtn);
+
+    return pToolBtn;
 }
 
 void buildUtilityToolBarUi(const UtilityActions& actions, QToolBar* pToolBarUtility)

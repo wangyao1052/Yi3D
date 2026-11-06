@@ -68,12 +68,14 @@ public:
     // Find command action by command name.
     CommandAction* findCommandAction(const std::string& commandName) const override;
 
-    // New menu popup tool button.
+    // New menu popup tool button. pInitialAction, when given, becomes the
+    // button's initial icon/text/default action; otherwise the first action is used.
     QToolButton* newMenuPopupToolButton(
         QToolBar* pToolBar,
         const QString& text,
         QActionGroup* pActionGroup,
-        const std::list<QAction*>& actions);
+        const std::list<QAction*>& actions,
+        QAction* pInitialAction = nullptr);
 
     // Destroy all ui elements created and managed by this environment UI instance.
     void destroy() override;
@@ -93,8 +95,9 @@ public:
         wyap::Command* pCmd,
         wyap::CmdExecution::AbortCause abortCause) override;
 
-    // Sync the display mode action state.
-    void syncDisplayModeAction();
+protected:
+    // Set the icon/text/tool tip/default action of a menu popup tool button.
+    static void setMenuPopupToolButtonAction(QToolButton* pButton, QAction* pAction);
 
 private:
     // Schedules a one-shot call to handle command-terminated tasks

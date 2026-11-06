@@ -82,9 +82,6 @@ void ModelingEnvironmentImpl::onEnter()
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     this->updateCommandActionStates();
-
-    // 同步显示模式按钮状态
-    _pUI->syncDisplayModeAction();
 }
 
 void ModelingEnvironmentImpl::onExit(ExitCode exitCode)
@@ -113,15 +110,6 @@ void ModelingEnvironmentImpl::onResume()
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
 
     this->updateCommandActionStates();
-
-    // 同步显示模式按钮状态
-    _pUI->syncDisplayModeAction();
-}
-
-void ModelingEnvironmentImpl::onDocumentActivated(wyap::Document* pActivatedDoc)
-{
-    wy3dApp::DocumentEnvironment::onDocumentActivated(pActivatedDoc);
-    _pUI->syncDisplayModeAction();
 }
 
 void ModelingEnvironmentImpl::updateUndoRedoActionStates()
@@ -189,6 +177,7 @@ void ModelingEnvironmentImpl::updateCommandActionStates()
 {
     this->updateUndoRedoActionStates();
     this->updateFileActionStates();
+    _pUI->syncDisplayModeButton();
 }
 
 bool ModelingEnvironmentImpl::addContextMenuActions(ContextMenu& menu)

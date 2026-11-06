@@ -143,9 +143,6 @@ void SketchEnvironmentImpl::onEnter()
     // Drop the leftover modeling snap marker; the 2D layer draws its own.
     ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
-    // 同步显示模式按钮状态
-    _pUI->syncDisplayModeAction();
-
     // 开启顶层事务组
     wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
     if (!pDb)
@@ -325,9 +322,6 @@ void SketchEnvironmentImpl::onResume()
     ApplicationImpl::instance().getSelManager()->endChange();
 
     this->updateCommandActionStates();
-
-    // 同步显示模式按钮状态
-    _pUI->syncDisplayModeAction();
 }
 
 void SketchEnvironmentImpl::updateUndoRedoActionStates()
