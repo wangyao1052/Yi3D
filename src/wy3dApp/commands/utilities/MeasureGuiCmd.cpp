@@ -83,7 +83,7 @@ wyap::CmdExecution::StartResult MeasureGuiCmd::onStart()
     // 测量面板
     if (!this->createCmdPanel())
     {
-        this->requestAbort(AbortCause::ErrorTerminate);
+        this->postAbortRequest(AbortCause::ErrorTerminate);
         return wyap::CmdExecution::StartResult::Failed;
     }
 
@@ -148,13 +148,13 @@ void MeasureGuiCmd::onEscapeKey()
 {
     if (MeasureMode::PointToPoint != _mode)
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
         return;
     }
 
     if (_step == Step::SpecifyStartPnt || _step == Step::Undefined)
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
     }
     else
     {

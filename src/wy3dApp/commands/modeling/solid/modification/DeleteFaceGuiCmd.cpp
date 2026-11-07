@@ -142,7 +142,7 @@ bool DeleteFaceGuiCmd::finishStep(Step step)
         this->cleanUp();
 
         // 结束命令
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

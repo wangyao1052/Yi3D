@@ -82,11 +82,10 @@ wyap::CmdExecution::StartResult NewSketchGuiCmd::onStart()
     {
         _preview.update(wyap::Selection(id));
 
-        // onStart runs inside executeCommand(), where CmdManager is busy and requestEnd()
-        // reports SystemBusy. Defer the confirmation to the next event loop turn, after
-        // executeCommand() has returned and the command is running. The command is looked up
-        // again rather than captured: until this runs it may have been aborted, and the
-        // pointer would then be dangling.
+        // onStart runs inside executeCommand(). Defer the confirmation to the next
+        // event loop turn, after executeCommand() has returned and the command is
+        // running. The command is looked up again rather than captured: until this
+        // runs it may have been aborted, and the pointer would then be dangling.
         QTimer::singleShot(0, &ApplicationImpl::instance(), []()
         {
             wyap::CmdManager* pCmdMgr = ApplicationImpl::instance().getCmdManager();
@@ -144,7 +143,7 @@ bool NewSketchGuiCmd::finishStep(Step step)
         if (_preview.isNull())
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -152,7 +151,7 @@ bool NewSketchGuiCmd::finishStep(Step step)
         if (this->perform(sel))
         {
             // exit
-            wy::ErrorStatus error = this->requestEnd();
+            wy::ErrorStatus error = this->postEndRequest();
             assert(wy::ErrorStatus::Ok == error);
             return true;
         }
@@ -160,7 +159,7 @@ bool NewSketchGuiCmd::finishStep(Step step)
         {
             // exit
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
     }

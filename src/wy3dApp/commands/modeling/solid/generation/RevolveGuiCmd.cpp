@@ -157,7 +157,7 @@ bool RevolveGuiCmd::finishStep(Step step)
             {
                 MessageBoxUtil::showError(errorCode);
             }
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeRevolution->commit();
@@ -169,7 +169,7 @@ bool RevolveGuiCmd::finishStep(Step step)
         _pInvalidSketchTooltip = nullptr;
 
         // exit
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;
@@ -211,7 +211,7 @@ bool RevolveCutGuiCmd::finishStep(Step step)
             {
                 MessageBoxUtil::showError(errorCode);
             }
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -228,7 +228,7 @@ bool RevolveCutGuiCmd::finishStep(Step step)
             {
                 _pMakeRevolution->commit();
                 _pMakeRevolution = nullptr;
-                this->requestEnd();
+                this->postEndRequest();
                 return true;
             }
             else
@@ -238,7 +238,7 @@ bool RevolveCutGuiCmd::finishStep(Step step)
                     MessageBoxUtil::showError(errorCode);
                 }
                 _pMakeRevolution = nullptr;
-                this->requestAbort(AbortCause::ErrorTerminate);
+                this->postAbortRequest(AbortCause::ErrorTerminate);
                 return false;
             }
         }
@@ -254,7 +254,7 @@ bool RevolveCutGuiCmd::finishStep(Step step)
         if (!_pMakeRevolution)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -263,7 +263,7 @@ bool RevolveCutGuiCmd::finishStep(Step step)
         {
             _pMakeRevolution->commit();
             _pMakeRevolution = nullptr;
-            this->requestEnd();
+            this->postEndRequest();
             return true;
         }
         else
@@ -273,7 +273,7 @@ bool RevolveCutGuiCmd::finishStep(Step step)
                 MessageBoxUtil::showError(errorCode);
             }
             _pMakeRevolution = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
     }

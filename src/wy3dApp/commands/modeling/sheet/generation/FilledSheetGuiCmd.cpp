@@ -372,7 +372,7 @@ bool FilledSheetGuiCmd::finishStep(Step step)
             _pInvalidSketchTooltip = nullptr;
             _pMakeFilledSheet = nullptr;
             if (0 != errorCode) MessageBoxUtil::showError(errorCode);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pValidSketchPreview = nullptr;
@@ -389,13 +389,13 @@ bool FilledSheetGuiCmd::finishStep(Step step)
         if (!_pMakeFilledSheet)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _constraintSketchPreview.clear();
         _pMakeFilledSheet->commit();
         _pMakeFilledSheet = nullptr;
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;
@@ -406,7 +406,7 @@ bool FilledSheetGuiCmd::finishStep(Step step)
         if (!this->collectPickedEdges(edges))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -426,13 +426,13 @@ bool FilledSheetGuiCmd::finishStep(Step step)
             _edgePreview.clear();
             _pMakeNonParametricSheet = nullptr;
             if (0 != errorCode) MessageBoxUtil::showError(errorCode);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _edgePreview.clear();
         _pMakeNonParametricSheet->commit();
         _pMakeNonParametricSheet = nullptr;
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

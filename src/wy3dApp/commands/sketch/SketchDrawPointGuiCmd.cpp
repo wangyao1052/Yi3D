@@ -85,7 +85,7 @@ void SketchDrawPointGuiCmd::cleanUp()
 void SketchDrawPointGuiCmd::onEscapeKey()
 {
     this->hidePopup();
-    this->requestAbort(AbortCause::UserCancel);
+    this->postAbortRequest(AbortCause::UserCancel);
 }
 
 bool SketchDrawPointGuiCmd::finishStep(Step step)
@@ -110,7 +110,7 @@ bool SketchDrawPointGuiCmd::finishStep(Step step)
             pMakeSketchPoint = nullptr;
 
             // 退出命令
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
     }

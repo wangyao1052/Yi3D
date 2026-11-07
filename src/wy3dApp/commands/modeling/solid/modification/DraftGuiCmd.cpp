@@ -256,7 +256,7 @@ void DraftGuiCmd::gotoStep(Step step)
         if (QDialog::Accepted != dialog.exec())
         {
             this->reset(); // 重置数据
-            this->requestAbort(AbortCause::UserCancel);  // 结束命令
+            this->postAbortRequest(AbortCause::UserCancel);  // 结束命令
             return;
         }
         _angle = wy3d::degreesToRadians(dialog.getValue()); // 对话框逻辑中已经添加了校验数据的合理性
@@ -265,7 +265,7 @@ void DraftGuiCmd::gotoStep(Step step)
         if (_neutralFaceSels.getCount() != 1)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return;
         }
         const wyap::Selection& neutralFaceSel = _neutralFaceSels.createIterator().current();
@@ -282,7 +282,7 @@ void DraftGuiCmd::gotoStep(Step step)
         this->reset();
 
         // 结束命令
-        this->requestEnd();
+        this->postEndRequest();
     }
     break;
 

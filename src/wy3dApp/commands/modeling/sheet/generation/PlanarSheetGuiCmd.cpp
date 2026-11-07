@@ -261,14 +261,14 @@ bool PlanarSheetGuiCmd::finishStep(Step step)
             _pInvalidSketchTooltip = nullptr;
             _pMakePlanarSheet = nullptr;
             if (0 != errorCode) MessageBoxUtil::showError(errorCode);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pValidSketchPreview = nullptr;
         _pInvalidSketchTooltip = nullptr;
         _pMakePlanarSheet->commit();
         _pMakePlanarSheet = nullptr;
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;
@@ -279,7 +279,7 @@ bool PlanarSheetGuiCmd::finishStep(Step step)
         if (!this->collectPickedEdges(edges))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -301,13 +301,13 @@ bool PlanarSheetGuiCmd::finishStep(Step step)
             _edgePreview.clear();
             _pMakeNonParametricSheet = nullptr;
             if (0 != errorCode) MessageBoxUtil::showError(errorCode);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _edgePreview.clear();
         _pMakeNonParametricSheet->commit();
         _pMakeNonParametricSheet = nullptr;
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

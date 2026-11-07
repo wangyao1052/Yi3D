@@ -304,7 +304,7 @@ bool NormalToEdgeDatumPlnCmd::finishStep(Step step)
         if (!_plane.isValid())
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -314,7 +314,7 @@ bool NormalToEdgeDatumPlnCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeDatumPlane = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         assert(_snapExcludeIds.empty());
@@ -327,7 +327,7 @@ bool NormalToEdgeDatumPlnCmd::finishStep(Step step)
             _pMakeDatumPlane = nullptr;
 
             // 结束
-            this->requestEnd();
+            this->postEndRequest();
             return true;
         }
         else
@@ -345,7 +345,7 @@ bool NormalToEdgeDatumPlnCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeDatumPlane = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -355,21 +355,21 @@ bool NormalToEdgeDatumPlnCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeDatumPlane = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         if (!_pMakeDatumPlane->update(plane))
         {
             assert(false);
             _pMakeDatumPlane = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeDatumPlane->commit();
         _pMakeDatumPlane = nullptr;
 
         // 结束
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

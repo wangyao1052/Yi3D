@@ -257,7 +257,7 @@ bool ExtrudedSheetGuiCmd::finishStep(Step step)
             _pInvalidSketchTooltip = nullptr;
             _pMakeExtrudedSheet = nullptr;
             if (0 != errorCode) MessageBoxUtil::showError(errorCode);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pValidSketchPreview = nullptr;
@@ -275,7 +275,7 @@ bool ExtrudedSheetGuiCmd::finishStep(Step step)
             _pMakeExtrudedSheet->commit();
             _pMakeExtrudedSheet = nullptr;
         }
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

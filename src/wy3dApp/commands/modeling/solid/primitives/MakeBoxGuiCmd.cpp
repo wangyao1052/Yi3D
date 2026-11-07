@@ -157,7 +157,7 @@ bool MakeBoxGuiCmd::finishStep(unsigned int step)
         }
 
         // 退出
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

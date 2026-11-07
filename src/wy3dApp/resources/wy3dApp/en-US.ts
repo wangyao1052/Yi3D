@@ -569,22 +569,22 @@
 <context>
     <name>GuiCommand</name>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="180"/>
+        <location filename="../../commands/GuiCommand.cpp" line="207"/>
         <source>Complete Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="189"/>
+        <location filename="../../commands/GuiCommand.cpp" line="216"/>
         <source>Clear Selection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="212"/>
+        <location filename="../../commands/GuiCommand.cpp" line="239"/>
         <source>Property</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="225"/>
+        <location filename="../../commands/GuiCommand.cpp" line="252"/>
         <source>World Coordinate System</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1971,7 +1971,7 @@
 <context>
     <name>NewSketch</name>
     <message>
-        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="197"/>
+        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="196"/>
         <source>Select datum plane or planar face.</source>
         <translation type="unfinished">Select datum plane or planar face.</translation>
     </message>

@@ -522,7 +522,7 @@ wyap::CmdExecution::StartResult OffsetSheetGuiCmd::onStart()
     this->updatePickOption();
     if (!this->createCmdPanel())
     {
-        this->requestAbort(AbortCause::ErrorTerminate);
+        this->postAbortRequest(AbortCause::ErrorTerminate);
         return wyap::CmdExecution::StartResult::Succeeded;
     }
     this->gotoStep(Step::SetParameters);
@@ -534,7 +534,7 @@ wyap::CmdExecution::StartResult OffsetSheetGuiCmd::onStart()
         if (!this->resolveHostFromPickedFaces(firstSel, errorCode))
         {
             if (0 != errorCode) MessageBoxUtil::showError(errorCode);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
         }
         else
         {
@@ -683,7 +683,7 @@ void OffsetSheetGuiCmd::onLeftMouseUp(const MouseEvent& event)
             if (!this->resolveHostFromPickedFaces(sel, errorCode))
             {
                 if (0 != errorCode) MessageBoxUtil::showError(errorCode);
-                this->requestAbort(AbortCause::ErrorTerminate);
+                this->postAbortRequest(AbortCause::ErrorTerminate);
                 break;
             }
             this->updatePickOption();
@@ -758,7 +758,7 @@ bool OffsetSheetGuiCmd::startWithWholeSheet(const wydb::ElementId& sheetId)
         _pMakeOffsetSheet = nullptr;
         this->clearHostSelection();
         if (0 != errorCode) MessageBoxUtil::showError(errorCode);
-        this->requestAbort(AbortCause::ErrorTerminate);
+        this->postAbortRequest(AbortCause::ErrorTerminate);
         return false;
     }
 
@@ -768,7 +768,7 @@ bool OffsetSheetGuiCmd::startWithWholeSheet(const wydb::ElementId& sheetId)
     if (!this->createCmdPanel())
     {
         _pMakeOffsetSheet = nullptr;
-        this->requestAbort(AbortCause::ErrorTerminate);
+        this->postAbortRequest(AbortCause::ErrorTerminate);
         return false;
     }
 
@@ -1056,7 +1056,7 @@ void OffsetSheetGuiCmd::onDialogAccepted()
         _pMakeSolidSheet->commit();
         _pMakeSolidSheet = nullptr;
     }
-    this->requestEnd();
+    this->postEndRequest();
 }
 
 void OffsetSheetGuiCmd::onDialogCanceled()
@@ -1065,7 +1065,7 @@ void OffsetSheetGuiCmd::onDialogCanceled()
     this->clearHostSelection();
     _pMakeOffsetSheet = nullptr;
     _pMakeSolidSheet = nullptr;
-    this->requestAbort(AbortCause::UserCancel);
+    this->postAbortRequest(AbortCause::UserCancel);
 }
 
 } // namespace wy3dApp

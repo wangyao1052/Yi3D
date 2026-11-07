@@ -93,7 +93,7 @@ bool SketchTextCommand::finishStep(Step step)
         if (!_pMakeText)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -109,7 +109,7 @@ bool SketchTextCommand::finishStep(Step step)
         if (!_pMakeText)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -120,7 +120,7 @@ bool SketchTextCommand::finishStep(Step step)
         _pMakeText = nullptr;
 
         // 退出命令
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;
@@ -162,7 +162,7 @@ void SketchTextCommand::gotoStep(Step step)
         SketchTextDialog dlg(nullptr, _pHistory.get());
         if (QDialog::Accepted != dlg.exec())
         {
-            this->requestAbort(AbortCause::UserCancel);
+            this->postAbortRequest(AbortCause::UserCancel);
             return;
         }
 
@@ -177,7 +177,7 @@ void SketchTextCommand::gotoStep(Step step)
             assert(false);
             MessageBoxUtil::showError(QCoreApplication::translate("SketchTextCommand", 
                 "Font file not found!"));
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return;
         }
 
@@ -190,7 +190,7 @@ void SketchTextCommand::gotoStep(Step step)
             _pMakeText = nullptr;
             MessageBoxUtil::showError(QCoreApplication::translate("SketchTextCommand",
                 "Create text profile failed!"));
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return;
         }
 

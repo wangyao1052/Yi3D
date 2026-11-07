@@ -86,7 +86,7 @@ void SketchDrawPoint3DGuiCmd::cleanUp()
 void SketchDrawPoint3DGuiCmd::onEscapeKey()
 {
     this->hidePopup();
-    this->requestAbort(AbortCause::UserCancel);
+    this->postAbortRequest(AbortCause::UserCancel);
 }
 
 bool SketchDrawPoint3DGuiCmd::finishStep(Step step)
@@ -111,7 +111,7 @@ bool SketchDrawPoint3DGuiCmd::finishStep(Step step)
             pMakeSketchPoint3D = nullptr;
 
             // 退出命令
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
     }

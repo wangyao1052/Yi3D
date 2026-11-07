@@ -98,7 +98,7 @@ void SketchDrawEllipseArc3DGuiCmd::onEscapeKey()
 
     if (_step == static_cast<unsigned int>(Step::SpecifyCenterPnt))
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
     }
     else if (_step != 0)
     {
@@ -109,7 +109,7 @@ void SketchDrawEllipseArc3DGuiCmd::onEscapeKey()
     else
     {
         assert(false);
-        this->requestAbort(AbortCause::ForceTerminate);
+        this->postAbortRequest(AbortCause::ForceTerminate);
     }
 }
 

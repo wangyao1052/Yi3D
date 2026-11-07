@@ -474,7 +474,7 @@ void SketchProjectCurve3DGuiCmd::onEnterKey()
     if (Step::SelectTarget != _step || !_hasTarget || _previewEdges.empty()) return;
 
     if (!this->commit()) return;
-    this->requestEnd();
+    this->postEndRequest();
 }
 
 void SketchProjectCurve3DGuiCmd::onSpaceKey()

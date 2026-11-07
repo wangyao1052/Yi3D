@@ -91,7 +91,7 @@ void SketchDrawRectangle3DGuiCmd::onEscapeKey()
 
     if (_step == static_cast<unsigned int>(Step::SpecifyStartPnt))
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
     }
     else if (_step == static_cast<unsigned int>(Step::SpecifyEndPnt))
     {
@@ -102,7 +102,7 @@ void SketchDrawRectangle3DGuiCmd::onEscapeKey()
     else
     {
         assert(false);
-        this->requestAbort(AbortCause::ForceTerminate);
+        this->postAbortRequest(AbortCause::ForceTerminate);
     }
 }
 

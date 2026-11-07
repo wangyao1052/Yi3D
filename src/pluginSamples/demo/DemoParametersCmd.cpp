@@ -160,7 +160,7 @@ void DemoParametersCmd::onLeftMouseUp(const wy3dApp::MouseEvent& event)
     QTimer::singleShot(0, QCoreApplication::instance(), [this, id]()
     {
         this->showParameters(id);
-        this->requestEnd();
+        this->postEndRequest();
     });
 }
 

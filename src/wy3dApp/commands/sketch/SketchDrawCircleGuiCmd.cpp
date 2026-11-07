@@ -121,7 +121,7 @@ void SketchDrawCircleGuiCmd::onEscapeKey()
 
     if (_step == Step::SpecifyCenterPnt || _step == Step::Undefined)
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
     }
     else if (_step == Step::SpecifyRadius)
     {

@@ -156,7 +156,7 @@ bool MakeTorusGuiCmd::finishStep(unsigned int step)
         _pRadiusTransient = nullptr;
 
         // 退出
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

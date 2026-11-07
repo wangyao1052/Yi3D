@@ -187,7 +187,7 @@ bool SweepGuiCmd::finishStep(Step step)
             {
                 MessageBoxUtil::showError(errorCode);
             }
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeSweep->commit();
@@ -197,7 +197,7 @@ bool SweepGuiCmd::finishStep(Step step)
         this->cleanUp();
 
         // exit
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;
@@ -233,7 +233,7 @@ bool SweepCutGuiCmd::finishStep(Step step)
             {
                 MessageBoxUtil::showError(errorCode);
             }
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -246,7 +246,7 @@ bool SweepCutGuiCmd::finishStep(Step step)
             {
                 _pMakeSweep->commit();
                 _pMakeSweep = nullptr;
-                this->requestEnd();
+                this->postEndRequest();
                 return true;
             }
             else
@@ -256,7 +256,7 @@ bool SweepCutGuiCmd::finishStep(Step step)
                     MessageBoxUtil::showError(errorCode);
                 }
                 _pMakeSweep = nullptr;
-                this->requestAbort(AbortCause::ErrorTerminate);
+                this->postAbortRequest(AbortCause::ErrorTerminate);
                 return false;
             }
         }
@@ -279,7 +279,7 @@ bool SweepCutGuiCmd::finishStep(Step step)
         if (!_pMakeSweep)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -289,7 +289,7 @@ bool SweepCutGuiCmd::finishStep(Step step)
         {
             _pMakeSweep->commit();
             _pMakeSweep = nullptr;
-            this->requestEnd();
+            this->postEndRequest();
             return true;
         }
         else
@@ -299,7 +299,7 @@ bool SweepCutGuiCmd::finishStep(Step step)
                 MessageBoxUtil::showError(errorCode);
             }
             _pMakeSweep = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
     }

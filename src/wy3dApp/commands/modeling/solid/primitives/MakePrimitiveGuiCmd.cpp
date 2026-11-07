@@ -235,7 +235,7 @@ bool MakePrimitiveGuiCmd::finishStep(unsigned int step)
         if (!_getWorkingPlane(_workPlnPreview.getSelection(), _workPln))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _workPlnPreview.clear();

@@ -120,7 +120,7 @@ bool MirrorGuiCmd::finishStep(Step step)
         if (!GuiCommandUtil::getWorkingPlane(_mirrorPlanePreview.getSelection(), _mirrorPlane))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _mirrorPlanePreview.clear();
@@ -136,7 +136,7 @@ bool MirrorGuiCmd::finishStep(Step step)
         }
 
         // 退出命令
-        this->requestEnd();
+        this->postEndRequest();
     }
     break;
 

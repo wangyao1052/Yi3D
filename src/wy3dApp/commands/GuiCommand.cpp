@@ -21,6 +21,7 @@
 
 #include <QCoreApplication>
 #include <QCursor>
+#include <QTimer>
 
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
@@ -160,6 +161,32 @@ void GuiCommand::onAbort(wyap::CmdExecution::AbortCause cause)
     ApplicationImpl::instance().getGizmoManager()->endChange();
 
     this->cleanUp();
+}
+
+wy::ErrorStatus GuiCommand::postEndRequest()
+{
+    // The end flow deletes this execution; run it after the current event
+    // handler has returned.
+    QTimer::singleShot(0, &ApplicationImpl::instance(), [this]()
+    {
+        wyap::CmdManager* pCmdManager = ApplicationImpl::instance().getCmdManager();
+        if (!pCmdManager) return;
+        if (pCmdManager->getCurrentModalCmdExecution() != this) return;
+        pCmdManager->endCurrentModalCommand();
+    });
+    return wy::ErrorStatus::Ok;
+}
+
+wy::ErrorStatus GuiCommand::postAbortRequest(wyap::CmdExecution::AbortCause cause)
+{
+    QTimer::singleShot(0, &ApplicationImpl::instance(), [this, cause]()
+    {
+        wyap::CmdManager* pCmdManager = ApplicationImpl::instance().getCmdManager();
+        if (!pCmdManager) return;
+        if (pCmdManager->getCurrentModalCmdExecution() != this) return;
+        pCmdManager->abortCurrentModalCommand(cause);
+    });
+    return wy::ErrorStatus::Ok;
 }
 
 void GuiCommand::onRightMouseUp(const MouseEvent& event)

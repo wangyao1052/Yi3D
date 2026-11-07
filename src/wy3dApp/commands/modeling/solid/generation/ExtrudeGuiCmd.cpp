@@ -189,7 +189,7 @@ bool ExtrudeGuiCmd::finishStep(Step step)
             {
                 MessageBoxUtil::showError(errorCode);
             }
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pValidSketchPreview = nullptr;
@@ -214,7 +214,7 @@ bool ExtrudeGuiCmd::finishStep(Step step)
         }
 
         // exit
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;
@@ -236,7 +236,7 @@ bool ExtrudeCutGuiCmd::finishStep(Step step)
         if (!_pMakeExtrusion)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -254,7 +254,7 @@ bool ExtrudeCutGuiCmd::finishStep(Step step)
             {
                 _pMakeExtrusion->commit();
                 _pMakeExtrusion = nullptr;
-                this->requestEnd();
+                this->postEndRequest();
                 return true;
             }
             else
@@ -263,7 +263,7 @@ bool ExtrudeCutGuiCmd::finishStep(Step step)
                 {
                     MessageBoxUtil::showError(errorCode);
                 }
-                this->requestAbort(AbortCause::ErrorTerminate);
+                this->postAbortRequest(AbortCause::ErrorTerminate);
                 return false;
             }
         }
@@ -277,7 +277,7 @@ bool ExtrudeCutGuiCmd::finishStep(Step step)
         if (!_pMakeExtrusion)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -286,7 +286,7 @@ bool ExtrudeCutGuiCmd::finishStep(Step step)
         {
             _pMakeExtrusion->commit();
             _pMakeExtrusion = nullptr;
-            this->requestEnd();
+            this->postEndRequest();
             return true;
         }
         else
@@ -296,7 +296,7 @@ bool ExtrudeCutGuiCmd::finishStep(Step step)
                 MessageBoxUtil::showError(errorCode);
             }
             _pMakeExtrusion = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
     }

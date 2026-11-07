@@ -108,7 +108,7 @@ bool MakeSphereGuiCmd::finishStep(unsigned int step)
         {
             assert(false);
             _pMakeSphere = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeSphere->collectElements(_excludeIds);
@@ -138,7 +138,7 @@ bool MakeSphereGuiCmd::finishStep(unsigned int step)
         _pRadiusTransient = nullptr;
 
         // 退出
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

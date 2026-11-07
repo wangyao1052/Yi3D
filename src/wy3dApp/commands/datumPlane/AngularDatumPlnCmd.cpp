@@ -290,7 +290,7 @@ bool AngularDatumPlnCmd::finishStep(Step step)
         if (!_plane.isValid())
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -307,7 +307,7 @@ bool AngularDatumPlnCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeDatumPlane = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -317,7 +317,7 @@ bool AngularDatumPlnCmd::finishStep(Step step)
             _rotateAxisLineStart, _rotateAxisLineEnd))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -334,13 +334,13 @@ bool AngularDatumPlnCmd::finishStep(Step step)
         if (!_plane.isValid())
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         if (!_pMakeDatumPlane->update(_plane))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -361,7 +361,7 @@ bool AngularDatumPlnCmd::finishStep(Step step)
         if (!_pMakeDatumPlane)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -371,14 +371,14 @@ bool AngularDatumPlnCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeDatumPlane = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeDatumPlane->commit();
         _pMakeDatumPlane = nullptr;
 
         // exit
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;
@@ -820,7 +820,7 @@ bool PerpendicularDatumPlnCmd::finishStep(Step step)
         if (!_pMakeDatumPlane->create(_plane))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -830,7 +830,7 @@ bool PerpendicularDatumPlnCmd::finishStep(Step step)
             _rotateAxisLineStart, _rotateAxisLineEnd))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -844,7 +844,7 @@ bool PerpendicularDatumPlnCmd::finishStep(Step step)
         if (!_plane.isValid())
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -857,14 +857,14 @@ bool PerpendicularDatumPlnCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeDatumPlane = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeDatumPlane->commit();
         _pMakeDatumPlane = nullptr;
 
         // 下一步
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     else
@@ -888,7 +888,7 @@ bool ThroughAxisDatumPlnCmd::finishStep(Step step)
         if (!_pMakeDatumPlane->create(_plane))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -898,7 +898,7 @@ bool ThroughAxisDatumPlnCmd::finishStep(Step step)
             _rotateAxisLineStart, _rotateAxisLineEnd))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -912,21 +912,21 @@ bool ThroughAxisDatumPlnCmd::finishStep(Step step)
         if (!_plane.isValid())
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         if (!_pMakeDatumPlane->update(_plane))
         {
             assert(false);
             _pMakeDatumPlane = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeDatumPlane->commit();
         _pMakeDatumPlane = nullptr;
 
         // 下一步
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     else

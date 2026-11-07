@@ -177,7 +177,7 @@ bool LinearPatternGuiCmd::finishStep(Step step)
         if (!GuiCommandUtil::getWorkingPlane(_workPlnPreview.getSelection(), _workPln))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _workPlnPreview.clear();
@@ -271,7 +271,7 @@ void LinearPatternGuiCmd::gotoStep(Step step)
         LinearPatternDialog dialog(3, 10.0, 2, 20.0);
         if (QDialog::Accepted != dialog.exec())
         {
-            this->requestAbort(AbortCause::UserCancel);  // 退出
+            this->postAbortRequest(AbortCause::UserCancel);  // 退出
             return;
         }
 
@@ -292,7 +292,7 @@ void LinearPatternGuiCmd::gotoStep(Step step)
         }
 
         // 退出命令
-        this->requestEnd();
+        this->postEndRequest();
     }
     break;
 

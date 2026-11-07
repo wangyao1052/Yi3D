@@ -221,7 +221,7 @@ bool SketchMirrorGuiCmd::finishStep(Step step)
         ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
         // 结束
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

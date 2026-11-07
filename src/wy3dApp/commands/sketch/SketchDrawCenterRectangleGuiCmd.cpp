@@ -108,7 +108,7 @@ void SketchDrawCenterRectangleGuiCmd::onEscapeKey()
 
     if (_step == Step::SpecifyStartPnt || _step == Step::Undefined)
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
     }
     else
     {

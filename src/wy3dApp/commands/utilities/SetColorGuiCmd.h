@@ -38,11 +38,11 @@ public:
 
     void userEnd()
     {
-        this->requestEnd();
+        this->postEndRequest();
     }
     void userAbort()
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
     }
 
 protected:

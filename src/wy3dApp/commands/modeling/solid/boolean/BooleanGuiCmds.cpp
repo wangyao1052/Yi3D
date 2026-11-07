@@ -266,7 +266,7 @@ bool BooleanGuiCmd::finishStep(Step step)
         }
 
         // next step
-        this->requestEnd();
+        this->postEndRequest();
         //this->gotoStep(Step::SpecifyTarget);
         return true;
     }

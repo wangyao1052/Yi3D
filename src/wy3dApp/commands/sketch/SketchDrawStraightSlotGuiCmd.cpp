@@ -835,7 +835,7 @@ void SketchDrawStraightSlotGuiCmd::onEscapeKey()
 
     if (_step == Step::FirstCenter)
     {
-        this->requestAbort(wyap::CmdExecution::AbortCause::UserCancel);
+        this->postAbortRequest(wyap::CmdExecution::AbortCause::UserCancel);
         return;
     }
 

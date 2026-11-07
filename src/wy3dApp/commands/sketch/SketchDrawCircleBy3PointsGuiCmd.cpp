@@ -110,7 +110,7 @@ void SketchDrawCircleBy3PointsGuiCmd::onEscapeKey()
 
     if (_step == Step::SpecifyPoint1st || _step == Step::Undefined)
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
     }
     else
     {
@@ -132,7 +132,7 @@ bool SketchDrawCircleBy3PointsGuiCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeSketchCircle = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _sketchCircleId = pSketchCircle->getId();
@@ -160,7 +160,7 @@ bool SketchDrawCircleBy3PointsGuiCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeSketchCircle = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -188,7 +188,7 @@ bool SketchDrawCircleBy3PointsGuiCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeSketchCircle = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 

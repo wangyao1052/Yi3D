@@ -297,7 +297,7 @@ void SketchDrawLineTangentGuiCmd::onEscapeKey()
 {
     if (_step == Step::SelectStartEntity || _step == Step::Undefined)
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
     }
     else
     {
@@ -333,7 +333,7 @@ bool SketchDrawLineTangentGuiCmd::finishStep(Step step)
         if (!this->findMatchedTangentLine(_startElementId, _startPickPos, _endElementId, _endPickPos, startPnt, endPnt))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         
@@ -341,7 +341,7 @@ bool SketchDrawLineTangentGuiCmd::finishStep(Step step)
         if (!this->createLine(startPnt, endPnt))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
