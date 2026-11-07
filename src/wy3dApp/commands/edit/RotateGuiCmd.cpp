@@ -207,7 +207,7 @@ bool RotateGuiCmd::finishStep(Step step)
         if (!GuiCommandUtil::getWorkingPlane(_workPlnPreview.getSelection(), _workPln))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _workPlnPreview.clear();
@@ -287,7 +287,7 @@ bool RotateGuiCmd::finishStep(Step step)
         if (!_pRotateElements)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -313,7 +313,7 @@ bool RotateGuiCmd::finishStep(Step step)
         if (_pWorkPlnSnapSystem) _pWorkPlnSnapSystem->clearSnapResult();
 
         // 结束
-        this->requestEnd();
+        this->postEndRequest();
         return ret;
     }
     break;

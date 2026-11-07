@@ -165,7 +165,7 @@ void HelixGuiCmd::gotoStep(Step step)
         if (QDialog::Accepted != dialog.exec())
         {
             this->reset(); // 重置数据
-            this->requestAbort(AbortCause::UserCancel);  // 退出
+            this->postAbortRequest(AbortCause::UserCancel);  // 退出
             return;
         }
         double pitch = dialog.getPitch();
@@ -187,7 +187,7 @@ void HelixGuiCmd::gotoStep(Step step)
         this->reset();
 
         // exit
-        this->requestEnd();
+        this->postEndRequest();
     }
     break;
 

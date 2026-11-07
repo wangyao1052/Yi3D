@@ -160,7 +160,7 @@ void SketchRectArrayGuiCmd::onEscapeKey()
 
     if (_step == Step::Step1_SelectElements || _step == Step::Undefined)
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
     }
     else
     {
@@ -253,7 +253,7 @@ bool SketchRectArrayGuiCmd::finishStep(Step step)
 
             // next step
             //this->gotoStep(Step::Step1_SelectElements);
-            this->requestEnd();
+            this->postEndRequest();
             return true;
         }
         else 
@@ -301,7 +301,7 @@ bool SketchRectArrayGuiCmd::finishStep(Step step)
 
         // next step
         //this->gotoStep(Step::Step1_SelectElements);
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

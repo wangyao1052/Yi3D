@@ -176,7 +176,7 @@ bool SweptSheetGuiCmd::finishStep(Step step)
             {
                 MessageBoxUtil::showError(errorCode);
             }
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeSweptSheet->commit();
@@ -186,7 +186,7 @@ bool SweptSheetGuiCmd::finishStep(Step step)
         this->cleanUp();
 
         // exit
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

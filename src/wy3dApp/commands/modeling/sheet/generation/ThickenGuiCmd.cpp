@@ -241,7 +241,7 @@ void ThickenGuiCmd::onSheetSelected()
         ApplicationImpl::instance().getSelManager()->clearSelections();
         ApplicationImpl::instance().getSelManager()->endChange();
         if (0 != errorCode) MessageBoxUtil::showError(errorCode);
-        this->requestAbort(AbortCause::ErrorTerminate);
+        this->postAbortRequest(AbortCause::ErrorTerminate);
         return;
     }
 
@@ -249,7 +249,7 @@ void ThickenGuiCmd::onSheetSelected()
     if (!this->createCmdPanel())
     {
         _pMakeThicken = nullptr;
-        this->requestAbort(AbortCause::ErrorTerminate);
+        this->postAbortRequest(AbortCause::ErrorTerminate);
         return;
     }
 
@@ -313,7 +313,7 @@ void ThickenGuiCmd::onDialogAccepted()
         _pMakeThicken->commit();
         _pMakeThicken = nullptr;
     }
-    this->requestEnd();
+    this->postEndRequest();
 }
 
 void ThickenGuiCmd::onDialogCanceled()
@@ -322,7 +322,7 @@ void ThickenGuiCmd::onDialogCanceled()
     ApplicationImpl::instance().getSelManager()->clearSelections();
     ApplicationImpl::instance().getSelManager()->endChange();
     _pMakeThicken = nullptr;
-    this->requestAbort(AbortCause::UserCancel);
+    this->postAbortRequest(AbortCause::UserCancel);
 }
 
 } // namespace wy3dApp

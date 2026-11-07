@@ -159,7 +159,7 @@ bool CopyGuiCmd::finishStep(Step step)
         {
             assert(false);
             _pCopyElements = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -185,7 +185,7 @@ bool CopyGuiCmd::finishStep(Step step)
         if (!_pCopyElements)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -212,7 +212,7 @@ bool CopyGuiCmd::finishStep(Step step)
         if (_sketchInfo.pSketchSnapSys) _sketchInfo.pSketchSnapSys->clearSnapResult();
 
         // 结束
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

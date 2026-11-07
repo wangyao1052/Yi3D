@@ -218,7 +218,7 @@ bool SewnSheetGuiCmd::finishStep(Step step)
             return false; // 创建失败: 留在选源步, 可修改选择后重试
         }
 
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

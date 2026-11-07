@@ -117,7 +117,7 @@ void SetColorGuiCmd::cleanUp()
 
 void SetColorGuiCmd::onEscapeKey()
 {
-    this->requestAbort(AbortCause::UserCancel);
+    this->postAbortRequest(AbortCause::UserCancel);
 }
 
 void SetColorGuiCmd::onMouseMove(const MouseEvent& event)

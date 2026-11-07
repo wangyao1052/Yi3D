@@ -569,22 +569,22 @@
 <context>
     <name>GuiCommand</name>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="180"/>
+        <location filename="../../commands/GuiCommand.cpp" line="207"/>
         <source>Complete Selection</source>
         <translation>完成选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="189"/>
+        <location filename="../../commands/GuiCommand.cpp" line="216"/>
         <source>Clear Selection</source>
         <translation>清除选择</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="212"/>
+        <location filename="../../commands/GuiCommand.cpp" line="239"/>
         <source>Property</source>
         <translation>属性</translation>
     </message>
     <message>
-        <location filename="../../commands/GuiCommand.cpp" line="225"/>
+        <location filename="../../commands/GuiCommand.cpp" line="252"/>
         <source>World Coordinate System</source>
         <translation>世界坐标系</translation>
     </message>
@@ -1971,7 +1971,7 @@
 <context>
     <name>NewSketch</name>
     <message>
-        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="197"/>
+        <location filename="../../commands/sketch/NewSketchGuiCmd.cpp" line="196"/>
         <source>Select datum plane or planar face.</source>
         <translation type="unfinished">选择基准面或平面。</translation>
     </message>

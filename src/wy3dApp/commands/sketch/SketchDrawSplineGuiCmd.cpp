@@ -125,7 +125,7 @@ void SketchDrawSplineGuiCmd::onEscapeKey()
         if (!_pMakeSketchSpline)
         {
             assert(false);
-            this->requestAbort(AbortCause::UserCancel);
+            this->postAbortRequest(AbortCause::UserCancel);
             return;
         }
 
@@ -148,7 +148,7 @@ void SketchDrawSplineGuiCmd::onEscapeKey()
     case Step::SpecifyStartPnt:
     default:
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
         return;
     }
     break;
@@ -172,7 +172,7 @@ bool SketchDrawSplineGuiCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeSketchSpline = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -194,7 +194,7 @@ bool SketchDrawSplineGuiCmd::finishStep(Step step)
         if (!_pMakeSketchSpline)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 

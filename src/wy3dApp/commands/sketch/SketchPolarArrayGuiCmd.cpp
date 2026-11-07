@@ -186,7 +186,7 @@ bool SketchPolarArrayGuiCmd::finishStep(Step step)
 
         // next step
         //this->gotoStep(Step::Step1_SelectElements);
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

@@ -91,7 +91,7 @@ void SketchDrawArcBy3Points3DGuiCmd::onEscapeKey()
 
     if (_step == static_cast<unsigned int>(Step::SpecifyPoint1st))
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
     }
     else if (_step == static_cast<unsigned int>(Step::SpecifyPoint2nd) ||
         _step == static_cast<unsigned int>(Step::SpecifyPoint3rd))
@@ -103,7 +103,7 @@ void SketchDrawArcBy3Points3DGuiCmd::onEscapeKey()
     else
     {
         assert(false);
-        this->requestAbort(AbortCause::ForceTerminate);
+        this->postAbortRequest(AbortCause::ForceTerminate);
     }
 }
 

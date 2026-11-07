@@ -168,7 +168,7 @@ bool CircularPatternGuiCmd::finishStep(Step step)
             _cylindricalSurfaceSel, plane, radius))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _centerPoint = plane.getOrigin();
@@ -270,7 +270,7 @@ void CircularPatternGuiCmd::gotoStep(Step step)
             360.0, 6, true, options);
         if (QDialog::Accepted != dialog.exec())
         {
-            this->requestAbort(AbortCause::UserCancel);  // 退出
+            this->postAbortRequest(AbortCause::UserCancel);  // 退出
             return;
         }
 
@@ -290,7 +290,7 @@ void CircularPatternGuiCmd::gotoStep(Step step)
         }
 
         // 退出命令
-        this->requestEnd();
+        this->postEndRequest();
     }
     break;
 

@@ -97,7 +97,7 @@ bool TangentDatumPlnCmd::finishStep(Step step)
         if (!_pMakeDatumPlane->create(this->computeRotationPlane(0.0)))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         assert(_snapExcludeIds.empty());
@@ -114,7 +114,7 @@ bool TangentDatumPlnCmd::finishStep(Step step)
         if (!_pMakeDatumPlane)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -123,14 +123,14 @@ bool TangentDatumPlnCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeDatumPlane = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeDatumPlane->commit();
         _pMakeDatumPlane = nullptr;
 
         // exit
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

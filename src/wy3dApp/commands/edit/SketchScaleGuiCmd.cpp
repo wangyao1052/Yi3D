@@ -178,7 +178,7 @@ bool SketchScaleGuiCmd::finishStep(Step step)
         {
             assert(false);
             _pScaleElements = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -203,7 +203,7 @@ bool SketchScaleGuiCmd::finishStep(Step step)
             {
                 assert(false);
                 _pScaleElements = nullptr;
-                this->requestAbort(AbortCause::ErrorTerminate);
+                this->postAbortRequest(AbortCause::ErrorTerminate);
                 return false;
             }
             _pScaleElements->commit();
@@ -217,7 +217,7 @@ bool SketchScaleGuiCmd::finishStep(Step step)
         ApplicationImpl::instance().getSnapSystem()->clearSnapResult();
 
         // 结束命令
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

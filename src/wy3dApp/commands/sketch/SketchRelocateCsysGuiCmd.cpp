@@ -83,12 +83,12 @@ bool SketchRelocateCsysGuiCmd::finishStep(Step step)
         if (!this->relocateSketchCsys(_sketchInfo.sketchPlane, _origin, _angle))
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
         // exit
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

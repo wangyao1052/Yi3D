@@ -205,12 +205,12 @@ void SolidifyGuiCmd::perform(wydb::ElementId sheetId)
 {
     if (this->makeSolidify(sheetId))
     {
-        wy::ErrorStatus ret = this->requestEnd();
+        wy::ErrorStatus ret = this->postEndRequest();
         assert(wy::ErrorStatus::Ok == ret);
     }
     else
     {
-        wy::ErrorStatus ret = this->requestAbort(
+        wy::ErrorStatus ret = this->postAbortRequest(
             wyap::CmdExecution::AbortCause::ErrorTerminate);
         assert(wy::ErrorStatus::Ok == ret);
     }

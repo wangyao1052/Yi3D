@@ -112,7 +112,7 @@ void SketchDrawSpline3DGuiCmd::onEscapeKey()
         if (!_pMakeSketchSpline3D)
         {
             assert(false);
-            this->requestAbort(AbortCause::UserCancel);
+            this->postAbortRequest(AbortCause::UserCancel);
             return;
         }
         // 不足两点则丢弃,够两点就提交成实体(ESC 与双击都走这里)
@@ -134,7 +134,7 @@ void SketchDrawSpline3DGuiCmd::onEscapeKey()
     case Step::Undefined:
     default:
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
         return;
     }
     break;

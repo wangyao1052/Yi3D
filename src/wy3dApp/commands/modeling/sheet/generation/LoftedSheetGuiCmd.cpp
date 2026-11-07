@@ -136,14 +136,14 @@ bool LoftedSheetGuiCmd::finishStep(Step step)
                 MessageBoxUtil::showError(errorCode);
             }
             _pMakeLoftedSheet = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeLoftedSheet->commit();
         _pMakeLoftedSheet = nullptr;
 
         // 退出命令
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;

@@ -452,7 +452,7 @@ void SketchDrawArcTangentGuiCmd::onEscapeKey()
 
     if (_step == Step::SpecifyStartPoint || _step == Step::Undefined)
     {
-        this->requestAbort(AbortCause::UserCancel);
+        this->postAbortRequest(AbortCause::UserCancel);
     }
     else if (_step == Step::SpecifySweepAngle)
     {

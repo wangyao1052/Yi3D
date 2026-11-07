@@ -190,7 +190,7 @@ bool MergeGuiCmd::finishStep(Step step)
         if (this->merge(errorCode))
         {
             // exit
-            this->requestEnd();
+            this->postEndRequest();
             return true;
         }
         else
@@ -201,7 +201,7 @@ bool MergeGuiCmd::finishStep(Step step)
             }
 
             // exit
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
     }

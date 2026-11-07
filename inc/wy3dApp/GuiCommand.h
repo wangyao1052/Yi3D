@@ -83,6 +83,12 @@ protected:
     virtual void onEnd() override;
     virtual void onAbort(wyap::CmdExecution::AbortCause cause) override;
 
+    // Posts a successful end request; CommandManager runs it on the next
+    // event-loop turn, after the current event handler has returned.
+    wy::ErrorStatus postEndRequest();
+    // Posts an abort request; deferred like postEndRequest().
+    wy::ErrorStatus postAbortRequest(wyap::CmdExecution::AbortCause cause);
+
     // Command selection options.
     struct SelectOptions
     {
@@ -137,7 +143,7 @@ protected:
 
     // Keyboard event handlers
     virtual void onKeyDown(const KeyEvent& event);
-    virtual void onEscapeKey() { this->requestAbort(AbortCause::UserCancel); }
+    virtual void onEscapeKey() { this->postAbortRequest(AbortCause::UserCancel); }
     virtual void onEnterKey() {}
     virtual void onSpaceKey() {}
     virtual void onKeyUp(const KeyEvent& event) {}

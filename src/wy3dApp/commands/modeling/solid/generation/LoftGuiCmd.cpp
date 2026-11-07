@@ -146,14 +146,14 @@ bool LoftGuiCmd::finishStep(Step step)
                 MessageBoxUtil::showError(errorCode);
             }
             _pMakeLoft = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeLoft->commit();
         _pMakeLoft = nullptr;
 
         // 退出命令
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;
@@ -194,7 +194,7 @@ bool LoftCutGuiCmd::finishStep(Step step)
                 MessageBoxUtil::showError(errorCode);
             }
             _pMakeLoft = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -206,7 +206,7 @@ bool LoftCutGuiCmd::finishStep(Step step)
             {
                 _pMakeLoft->commit();
                 _pMakeLoft = nullptr;
-                this->requestEnd();
+                this->postEndRequest();
                 return true;
             }
             else
@@ -216,7 +216,7 @@ bool LoftCutGuiCmd::finishStep(Step step)
                     MessageBoxUtil::showError(errorCode);
                 }
                 _pMakeLoft = nullptr;
-                this->requestAbort(AbortCause::ErrorTerminate);
+                this->postAbortRequest(AbortCause::ErrorTerminate);
                 return false;
             }
         }
@@ -233,7 +233,7 @@ bool LoftCutGuiCmd::finishStep(Step step)
         if (!_pMakeLoft)
         {
             assert(false);
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
 
@@ -243,7 +243,7 @@ bool LoftCutGuiCmd::finishStep(Step step)
         {
             _pMakeLoft->commit();
             _pMakeLoft = nullptr;
-            this->requestEnd();
+            this->postEndRequest();
             return true;
         }
         else
@@ -253,7 +253,7 @@ bool LoftCutGuiCmd::finishStep(Step step)
                 MessageBoxUtil::showError(errorCode);
             }
             _pMakeLoft = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
     }

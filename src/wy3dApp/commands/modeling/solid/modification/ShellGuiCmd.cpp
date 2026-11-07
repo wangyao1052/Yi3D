@@ -199,7 +199,7 @@ void ShellGuiCmd::gotoStep(Step step)
         if (QDialog::Accepted != dialog.exec())
         {
             this->reset(); // 重置数据
-            this->requestAbort(AbortCause::UserCancel);  // 退出
+            this->postAbortRequest(AbortCause::UserCancel);  // 退出
             return;
         }
         _thickness = dialog.getValue(); // 对话框逻辑中已经添加了校验数据的合理性
@@ -218,7 +218,7 @@ void ShellGuiCmd::gotoStep(Step step)
         this->reset();
 
         // exit
-        this->requestEnd();
+        this->postEndRequest();
     }
     break;
 

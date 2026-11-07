@@ -76,14 +76,14 @@ bool Through3PointsDatumPlnCmd::finishStep(Step step)
         {
             assert(false);
             _pMakeDatumPlane = nullptr;
-            this->requestAbort(AbortCause::ErrorTerminate);
+            this->postAbortRequest(AbortCause::ErrorTerminate);
             return false;
         }
         _pMakeDatumPlane->commit();
         _pMakeDatumPlane = nullptr;
 
         // exit
-        this->requestEnd();
+        this->postEndRequest();
         return true;
     }
     break;
