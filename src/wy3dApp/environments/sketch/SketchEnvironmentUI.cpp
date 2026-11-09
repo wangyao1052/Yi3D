@@ -38,9 +38,6 @@
 #include "ui/ToolBarNames.h"
 #include "utils/IconUtil.h"
 #include "widgets/frame/MainWindow.h"
-#include "widgets/frame/ViewWidget.h"
-#include "widgets/frame/ViewWidgetContainer.h"
-#include "widgets/frame/ViewportOverlayBar.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -143,28 +140,28 @@ UiTargets createUiTargets(EnvironmentUIImpl* pUI)
     UiTargets targets = {};
     // Created before the environment's own tool bars so it lands right after the file
     // tool bar, which the gateway environment owns.
-    targets.pToolBarEdit = pUI->addToolBar(
+    targets.pToolBarEdit = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "Edit"),
         wy3dApp::ToolBarNames::Edit);
     assert(targets.pToolBarEdit);
 
-    targets.pToolBarSketch = pUI->addToolBar(
+    targets.pToolBarSketch = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "Sketch"),
         wy3dApp::ToolBarNames::Sketch);
 
-    targets.pToolBarSketchEdit = pUI->addToolBar(
+    targets.pToolBarSketchEdit = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "Sketch Edit"),
         wy3dApp::ToolBarNames::SketchEdit);
 
-    targets.pToolBarSketchEnvironment = pUI->addToolBar(
+    targets.pToolBarSketchEnvironment = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "SketchEnvironment"),
         wy3dApp::ToolBarNames::SketchEnvironment);
 
-    targets.pToolBarUtility = pUI->addToolBar(
+    targets.pToolBarUtility = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "Utility"),
         wy3dApp::ToolBarNames::Utility);
 
-    targets.pToolBarView = pUI->addToolBar(
+    targets.pToolBarView = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "View"),
         wy3dApp::ToolBarNames::SketchView);
 
@@ -175,7 +172,7 @@ UiTargets createUiTargets(EnvironmentUIImpl* pUI)
         return targets;
     }
 
-    targets.pMenuView = pUI->addMenu(QCoreApplication::translate("MainWindow", "View"),
+    targets.pMenuView = pUI->newMenu(QCoreApplication::translate("MainWindow", "View"),
                                       wy3dApp::MenuBarNames::View);
     assert(targets.pMenuView);
 
@@ -184,7 +181,7 @@ UiTargets createUiTargets(EnvironmentUIImpl* pUI)
     if (pMenuFile)
         pUI->insertMenuAfter(pMenuFile, targets.pMenuView);
 
-    targets.pMenuEdit = pUI->addMenu(QCoreApplication::translate("MainWindow", "Edit"),
+    targets.pMenuEdit = pUI->newMenu(QCoreApplication::translate("MainWindow", "Edit"),
                                       wy3dApp::MenuBarNames::Edit);
     assert(targets.pMenuEdit);
     if (pMenuFile)
@@ -526,17 +523,18 @@ SketchEnvironmentActions createSketchEnvironmentActions(
     assert(pActionGroup);
 
     SketchEnvironmentActions actions = {};
-    actions.pActionEndSketch = pUI->newCommandAction(
-        CommandNames::EndSketch,
-        QCoreApplication::translate("MainWindow", "End Sketch"),
-        IconUtil::get(":/images/Sketch_OK.svg"),
-        pActionGroup);
-
-    actions.pActionCancelSketch = pUI->newCommandAction(
-        CommandNames::CancelSketch,
-        QCoreApplication::translate("MainWindow", "Cancel Sketch"),
-        IconUtil::get(":/images/Sketch_Cancel.svg"),
-        pActionGroup);
+    actions.pActionEndSketch = pUI->getConfirmAction();
+    actions.pActionCancelSketch = pUI->getCancelAction();
+    assert(actions.pActionEndSketch);
+    assert(actions.pActionCancelSketch);
+    actions.pActionEndSketch->setText(
+        QCoreApplication::translate("MainWindow", "End Sketch"));
+    actions.pActionCancelSketch->setText(
+        QCoreApplication::translate("MainWindow", "Cancel Sketch"));
+    pActionGroup->addAction(actions.pActionEndSketch);
+    pActionGroup->addAction(actions.pActionCancelSketch);
+    actions.pActionEndSketch->setCheckable(true);
+    actions.pActionCancelSketch->setCheckable(true);
 
     actions.pActionRelocateSketchCsys = pUI->newCommandAction(
         CommandNames::RelocateSketchCSYS,
@@ -802,35 +800,6 @@ void buildSketchEnvironmentToolBarUi(
     pToolBarSketchEnvironment->addAction(actions.pActionRelocateSketchCsys);
 }
 
-// The viewport of the document being sketched. findChild<QOpenGLWidget*>() would answer with the
-// first document's viewport instead whenever more than one document is open.
-QWidget* findActiveViewWidget()
-{
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
-    wyap::Document* pActiveDoc = ApplicationImpl::instance().getActiveDocument();
-    if (!pMainWindow || !pActiveDoc) return nullptr;
-
-    ViewWidgetContainer* pViewWidgetContainer = pMainWindow->getViewWidgetContainer();
-    if (!pViewWidgetContainer) return nullptr;
-
-    return pViewWidgetContainer->getViewWidget(pActiveDoc);
-}
-
-ViewportOverlayBar* buildOverlayBarUi(
-    QWidget* pViewWidget,
-    const SketchEnvironmentActions& actions)
-{
-    assert(pViewWidget);
-    assert(actions.pActionEndSketch);
-    assert(actions.pActionCancelSketch);
-
-    ViewportOverlayBar* pBar = new ViewportOverlayBar(pViewWidget);
-    pBar->addAction(actions.pActionCancelSketch);
-    pBar->addAction(actions.pActionEndSketch);
-    pBar->show();
-    return pBar;
-}
-
 CommandAction* findDisplayModeAction(const ViewActions& actions)
 {
     Scene* pScene = ApplicationImpl::instance().getActiveScene();
@@ -1003,22 +972,7 @@ void SketchEnvironmentUI::build()
     buildEditMenuUi(undoRedoActions, uiTargets.pMenuEdit);
     buildToolsMenuUi(sketchActions.pActionSelect, utilityActions, uiTargets.pMenuTools);
 
-    QWidget* pViewWidget = findActiveViewWidget();
-    if (pViewWidget)
-        _pOverlayBar = buildOverlayBarUi(pViewWidget, sketchEnvironmentActions);
-}
-
-void SketchEnvironmentUI::destroy()
-{
-    // The bar's buttons are bound to command actions and EnvironmentUIImpl::destroy()
-    // destroys those: the bar goes first or it would be left holding dangling pointers.
-    if (_pOverlayBar)
-    {
-        _pOverlayBar->hide();
-        delete _pOverlayBar;
-    }
-
-    EnvironmentUIImpl::destroy();
+    this->setConfirmationBarVisible(true);
 }
 
 bool SketchEnvironmentUI::addContextMenuActions(ContextMenu& menu)
@@ -1031,13 +985,13 @@ bool SketchEnvironmentUI::addContextMenuActions(ContextMenu& menu)
         added = true;
     }
 
-    if (CommandAction* pActionEndSketch = this->findCommandAction(CommandNames::EndSketch))
+    if (CommandAction* pActionEndSketch = this->getConfirmAction())
     {
         menu.addAction(pActionEndSketch);
         added = true;
     }
 
-    if (CommandAction* pActionCancelSketch = this->findCommandAction(CommandNames::CancelSketch))
+    if (CommandAction* pActionCancelSketch = this->getCancelAction())
     {
         menu.addAction(pActionCancelSketch);
         added = true;

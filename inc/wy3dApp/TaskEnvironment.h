@@ -25,8 +25,11 @@
 #include <wy3dApp/EnvironmentUI.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
+class QActionGroup;
+
 namespace wy3dApp {
 
+class CommandAction;
 class ContextMenu;
 class EnvironmentUIImpl;
 
@@ -38,6 +41,22 @@ class WY3DAPP_EXPORT TaskEnvironment : public wyap::TaskEnvironment
 public:
     // Get the environment UI owned by this environment.
     EnvironmentUI* getUI() const;
+
+    // Host-owned confirmation actions. They have fixed icons and default texts
+    // (Finish/Cancel); environments may set their text/tooltip and add them to
+    // a menu, toolbar or QActionGroup.
+    CommandAction* getConfirmAction() const;
+    CommandAction* getCancelAction() const;
+
+    // Show or hide the ConfirmationBar over the active viewport. Hiding the
+    // bar does not disable the confirmation actions shared with menus/toolbars.
+    void setConfirmationBarVisible(bool visible);
+
+    // Called by the host Confirm/Cancel commands. The default implementations
+    // exit this environment with ExitCode::Ok/Cancel using Async execution.
+    // Environments may override to validate or customize the action.
+    virtual void onConfirm();
+    virtual void onCancel();
 
     // Refresh the states of the command actions owned by this environment.
     // The default implementation does nothing.

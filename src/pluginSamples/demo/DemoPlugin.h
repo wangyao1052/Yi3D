@@ -19,9 +19,16 @@
 #ifndef DEMO_PLUGIN_H
 #define DEMO_PLUGIN_H
 
+#include <QPointer>
+
 #include <plugin/Plugin.h>
 
+class QActionGroup;
+class QMenu;
+class QToolBar;
+
 namespace wy3dApp {
+class CommandAction;
 class SketchEnvironment;
 }
 
@@ -49,7 +56,16 @@ public:
 
 private:
     void enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvironment);
-    void exitSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvironment);
+    void exitSketchEnvironment(
+        wy3dApp::SketchEnvironment* pSketchEnvironment,
+        bool removeUi);
+
+    QPointer<QToolBar> _pToolBar;
+    QPointer<QMenu> _pMenu;
+    QPointer<QActionGroup> _pActionGroup;
+    QPointer<wy3dApp::CommandAction> _pHelloAction;
+    QPointer<wy3dApp::CommandAction> _pParametersAction;
+    QPointer<wy3dApp::CommandAction> _pSnapRuleAction;
 };
 
 #endif // DEMO_PLUGIN_H

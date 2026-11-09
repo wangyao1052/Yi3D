@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "ViewportOverlayBar.h"
+#include "ConfirmationBar.h"
 
 #include <cassert>
 
@@ -41,11 +41,13 @@ constexpr int kMargin = 8;
 constexpr int kPadding = 4;
 } // namespace
 
-ViewportOverlayBar::ViewportOverlayBar(QWidget* pViewportWidget)
+ConfirmationBar::ConfirmationBar(QWidget* pViewportWidget,
+                                 QAction* pConfirmAction,
+                                 QAction* pCancelAction)
     : QWidget(pViewportWidget)
     , _pLayout(nullptr)
 {
-    this->setObjectName("viewportOverlayBar");
+    this->setObjectName("confirmationBar");
     this->setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     // The viewport keeps the keyboard. The drawing shortcuts are window shortcuts of the main
     // window, so activating the bar would make the main window inactive and take every one of
@@ -59,7 +61,7 @@ ViewportOverlayBar::ViewportOverlayBar(QWidget* pViewportWidget)
     this->setAttribute(Qt::WA_StyledBackground, true);
     this->setFocusPolicy(Qt::NoFocus);
     this->setStyleSheet(
-        "QWidget#viewportOverlayBar{background:transparent;border:none;}"
+        "QWidget#confirmationBar{background:transparent;border:none;}"
         "QFrame#panel{background:rgba(246,246,246,204);border:1px solid rgba(150,150,150,170);}"
         "QToolButton{background:transparent;border:1px solid transparent;border-radius:2px;}"
         "QToolButton:hover{background:rgba(15,109,147,56);border:1px solid rgba(15,109,147,140);}"
@@ -80,6 +82,10 @@ ViewportOverlayBar::ViewportOverlayBar(QWidget* pViewportWidget)
     _pLayout->setContentsMargins(kPadding, kPadding, kPadding, kPadding);
     _pLayout->setSpacing(kPadding);
 
+    // Same order as before: cancel on the left, confirm on the right.
+    this->addButton(pCancelAction);
+    this->addButton(pConfirmAction);
+
     if (pViewportWidget)
     {
         pViewportWidget->installEventFilter(this);
@@ -89,7 +95,7 @@ ViewportOverlayBar::ViewportOverlayBar(QWidget* pViewportWidget)
     }
 }
 
-ViewportOverlayBar::~ViewportOverlayBar()
+ConfirmationBar::~ConfirmationBar()
 {
     if (QWidget* pParent = parentWidget())
     {
@@ -100,7 +106,7 @@ ViewportOverlayBar::~ViewportOverlayBar()
     }
 }
 
-void ViewportOverlayBar::addAction(QAction* pAction)
+void ConfirmationBar::addButton(QAction* pAction)
 {
     if (!pAction)
     {
@@ -118,7 +124,7 @@ void ViewportOverlayBar::addAction(QAction* pAction)
     this->adjustSize();
 }
 
-bool ViewportOverlayBar::eventFilter(QObject* watched, QEvent* event)
+bool ConfirmationBar::eventFilter(QObject* watched, QEvent* event)
 {
     QWidget* pParent = parentWidget();
     QWidget* pWindow = pParent ? pParent->window() : nullptr;
@@ -139,13 +145,13 @@ bool ViewportOverlayBar::eventFilter(QObject* watched, QEvent* event)
     return QWidget::eventFilter(watched, event);
 }
 
-void ViewportOverlayBar::showEvent(QShowEvent* event)
+void ConfirmationBar::showEvent(QShowEvent* event)
 {
     QWidget::showEvent(event);
     this->anchorToTopLeft();
 }
 
-void ViewportOverlayBar::anchorToTopLeft()
+void ConfirmationBar::anchorToTopLeft()
 {
     QWidget* pParent = parentWidget();
     if (!pParent) return;

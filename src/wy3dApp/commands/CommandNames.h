@@ -92,6 +92,10 @@ public:
     static inline const std::string Through3PointsDatumPlane = "Through3PointsDatumPlane";
     static inline const std::string TangentDatumPlane = "TangentDatumPlane";
 
+    // Task environment confirmation commands.
+    static inline const std::string ConfirmTaskEnvironment = "ConfirmTaskEnvironment";
+    static inline const std::string CancelTaskEnvironment  = "CancelTaskEnvironment";
+
     // 草图命令
     static inline const std::string NewSketch    = "NewSketch";
     static inline const std::string EditSketch   = "EditSketch";

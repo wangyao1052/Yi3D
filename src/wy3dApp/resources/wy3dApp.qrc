@@ -7,6 +7,8 @@
     </qresource>
     <qresource>
         <file>images/Yi3D.svg</file>
+        <file>images/Plugin_Manage.svg</file>
+        <file>images/Options.svg</file>
         <file>images/Arrow_Up.svg</file>
         <file>images/Arrow_Down.svg</file>
         <file>images/Cursor_Rotate.svg</file>

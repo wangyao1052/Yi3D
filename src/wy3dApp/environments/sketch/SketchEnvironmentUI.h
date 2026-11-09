@@ -19,9 +19,6 @@
 #ifndef WY3DAPP_SKETCH_ENVIRONMENT_UI_H
 #define WY3DAPP_SKETCH_ENVIRONMENT_UI_H
 
-#include <QPointer>
-
-#include "widgets/frame/ViewportOverlayBar.h"
 #include "environments/EnvironmentUIImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -36,16 +33,8 @@ public:
     ~SketchEnvironmentUI();
 
     void build();
-    void destroy() override;
 
     virtual bool addContextMenuActions(ContextMenu& menu) override;
-
-private:
-    // End/cancel buttons over the viewport. Its buttons hold command actions, which the
-    // environment destroys on destroy, so it has to be dropped before destroy().
-    // The bar is a child of the view widget, which can be torn down with the document while
-    // this object is still alive, so the pointer has to notice the bar going away with it.
-    QPointer<ViewportOverlayBar> _pOverlayBar;
 };
 
 } // namespace wy3dApp

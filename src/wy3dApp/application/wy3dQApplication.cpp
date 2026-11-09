@@ -22,6 +22,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include "PythonScriptExecutor.h"
+#include "widgets/frame/PluginManagerDialog.h"
 #include "widgets/panels/output/OutputWidget.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -36,23 +37,17 @@ wy3dQApplication::wy3dQApplication(int& argc, char** argv)
 bool wy3dQApplication::notify(QObject* receiver, QEvent* event)
 {
     QEvent::Type evtType = event->type();
-    if (evtType == ExecuteCommandEvent::eventType())
-    {
-        if (ExecuteCommandEvent* pExecuteCmdEvt = dynamic_cast<ExecuteCommandEvent*>(event))
-        {
-            ApplicationImpl::instance().getCmdManager()->executeCommand(pExecuteCmdEvt->getCommandName());
-        }
-        else
-        {
-            assert(false);
-        }
-        return true;
-    }
-    else if (evtType == RunPythonScriptEvent::eventType())
+    if (evtType == RunPythonScriptEvent::eventType())
     {
         RunPythonScriptEvent* pRunPythonScriptEvent = dynamic_cast<RunPythonScriptEvent*>(event);
         if (pRunPythonScriptEvent)
         {
+            if (PluginManagerDialog::isActive())
+            {
+                _ipc->completeCurrentRequest(false, QStringLiteral("Busy"));
+                return true;
+            }
+
             const std::string& scriptFileFullPath = pRunPythonScriptEvent->getScriptFileFullPath();
 
             // Abort current modal command.
@@ -133,6 +128,12 @@ bool wy3dQApplication::notify(QObject* receiver, QEvent* event)
     {
         if (RunGuiCommandEvent* pRunGuiCmdEvt = dynamic_cast<RunGuiCommandEvent*>(event))
         {
+            if (PluginManagerDialog::isActive())
+            {
+                _ipc->completeCurrentRequest(false, QStringLiteral("Busy"));
+                return true;
+            }
+
             const std::string cmdName = pRunGuiCmdEvt->getCommandName();
             wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
             wyap::CmdManager* pCmdMgr = ApplicationImpl::instance().getCmdManager();
@@ -174,11 +175,6 @@ void wy3dQApplication::initIpc()
     _ipc = new IpcServer(this);
     _ipc->setEventReceiver(this);
     _ipc->start(17999, QHostAddress::LocalHost);
-}
-
-ExecuteCommandEvent::ExecuteCommandEvent(const std::string& cmdName)
-    : QEvent(eventType()), _strCmdName(cmdName)
-{
 }
 
 RunPythonScriptEvent::RunPythonScriptEvent(const std::string& scriptFileFullPath)

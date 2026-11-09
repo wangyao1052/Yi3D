@@ -37,6 +37,9 @@ public:
     virtual bool initialize() = 0;
     virtual void terminate() = 0;
 
+    // Whether the host may unload this plugin module in-process.
+    virtual bool supportsUnload() const { return false; }
+
     virtual void onEnvironmentEntered(wyap::Environment* pEnvironment) = 0;
     virtual void onEnvironmentToBeExited(wyap::Environment* pEnvironment) = 0;
     virtual void onEnvironmentToBeSuspended(wyap::Environment* pEnvironment) = 0;

@@ -1,0 +1,7 @@
+<svg width="32" height="32" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+  <!-- VS Code codicon: extensions (U+EAF6) -->
+  <g transform="translate(0,16) scale(0.0533333,-0.0533333)">
+    <path d="M169 281 188 300H281L300 281V188L281 169H188L169 188ZM188 281V188H281V281ZM0 113V225L19 244H113L131 225V131H225L244 113V19L225 0H19L0 19ZM113 131V225H19V131ZM113 113H19V19H113ZM131 19H225V113H131Z"
+          fill="#3C78AA"/>
+  </g>
+</svg>

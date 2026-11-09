@@ -216,6 +216,11 @@ void DockPanelManager::createDockPanel(DockPanelEntry& entry)
     assert(entry.definition.widgetCreator);
 
     QDockWidget* pDockWidget = new QDockWidget(_pMainWindow);
+    // Stable identity for QMainWindow::saveState()/restoreState(). Keep the
+    // "dock." prefix and the id spellings unchanged: they are the contract that
+    // lets saved layouts find these docks again.
+    pDockWidget->setObjectName(
+        QStringLiteral("dock.") + QString::fromStdString(entry.definition.id));
     pDockWidget->setWindowTitle(entry.definition.title);
     pDockWidget->setAllowedAreas(entry.definition.allowedAreas);
     _pMainWindow->addDockWidget(entry.definition.defaultArea, pDockWidget);

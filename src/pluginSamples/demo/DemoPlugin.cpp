@@ -76,7 +76,7 @@ void DemoPlugin::onEnvironmentToBeExited(wyap::Environment* pEnvironment)
     wy3dApp::SketchEnvironment* pSketchEnv = dynamic_cast<wy3dApp::SketchEnvironment*>(pEnvironment);
     if (pSketchEnv)
     {
-        this->exitSketchEnvironment(pSketchEnv);
+        this->exitSketchEnvironment(pSketchEnv, true);
     }
 }
 
@@ -86,7 +86,11 @@ void DemoPlugin::onEnvironmentToBeSuspended(wyap::Environment* pEnvironment)
     wy3dApp::SketchEnvironment* pSketchEnv = dynamic_cast<wy3dApp::SketchEnvironment*>(pEnvironment);
     if (pSketchEnv)
     {
-        this->exitSketchEnvironment(pSketchEnv);
+        // The environment will destroy its UI on suspend and save the layout
+        // first; leave the UI to the host so the plugin tool bar position is
+        // preserved. The host still removes it if the plugin is unloaded while
+        // the environment is suspended.
+        this->exitSketchEnvironment(pSketchEnv, false);
     }
 }
 
@@ -140,8 +144,8 @@ void DemoPlugin::enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvir
     assert(pUI);
 
     const QString title = QCoreApplication::translate("DemoPlugin", "Demo");
-    QToolBar* pToolBar = pUI->addToolBar(title, "com.yi3d.demo.toolbar");
-    QMenu* pMenu = pUI->addMenu(title, "com.yi3d.demo.menu");
+    QToolBar* pToolBar = pUI->newToolBar(title, "com.yi3d.demo.toolbar");
+    QMenu* pMenu = pUI->newMenu(title, "com.yi3d.demo.menu");
     // One shared group for all demo command actions: it is what makes them checkable,
     // and the environment base keeps the running command's action pressed through it.
     QActionGroup* pActionGroup = pUI->newActionGroup();
@@ -168,9 +172,18 @@ void DemoPlugin::enterSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvir
         pActionGroup);
     if (pToolBar && pSnapRuleAction) pToolBar->addAction(pSnapRuleAction);
     if (pMenu && pSnapRuleAction) pMenu->addAction(pSnapRuleAction);
+
+    _pToolBar = pToolBar;
+    _pMenu = pMenu;
+    _pActionGroup = pActionGroup;
+    _pHelloAction = pAction;
+    _pParametersAction = pParametersAction;
+    _pSnapRuleAction = pSnapRuleAction;
 }
 
-void DemoPlugin::exitSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnvironment)
+void DemoPlugin::exitSketchEnvironment(
+    wy3dApp::SketchEnvironment* pSketchEnvironment,
+    bool removeUi)
 {
     assert(pSketchEnvironment);
 
@@ -195,6 +208,30 @@ void DemoPlugin::exitSketchEnvironment(wy3dApp::SketchEnvironment* pSketchEnviro
     if (wy::ErrorStatus::Ok != error && wy::ErrorStatus::KeyNotFound != error)
     {
         //demo::log(LogLevel::Warning, "demo: removeCommand failed");
+    }
+
+    // Explicitly remove this plugin's menu/tool bar/actions when the
+    // environment is exiting or the plugin is being unloaded. The host does
+    // not clean up plugin UI on unload, so this is the plugin's responsibility.
+    if (removeUi)
+    {
+        wy3dApp::EnvironmentUI* pUI = pSketchEnvironment->getUI();
+        if (pUI)
+        {
+            if (_pHelloAction) pUI->deleteCommandAction(_pHelloAction);
+            if (_pParametersAction) pUI->deleteCommandAction(_pParametersAction);
+            if (_pSnapRuleAction) pUI->deleteCommandAction(_pSnapRuleAction);
+            if (_pActionGroup) pUI->deleteActionGroup(_pActionGroup);
+            if (_pToolBar) pUI->deleteToolBar(_pToolBar);
+            if (_pMenu) pUI->deleteMenu(_pMenu);
+        }
+
+        _pHelloAction = nullptr;
+        _pParametersAction = nullptr;
+        _pSnapRuleAction = nullptr;
+        _pActionGroup = nullptr;
+        _pToolBar = nullptr;
+        _pMenu = nullptr;
     }
 
     //demo::log(LogLevel::Info, "demo ui torn down");

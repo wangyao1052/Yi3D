@@ -42,25 +42,6 @@ private:
     IpcServer* _ipc;
 };
 
-// 执行命令事件
-class ExecuteCommandEvent : public QEvent
-{
-public:
-    static QEvent::Type eventType()
-    {
-        static QEvent::Type type = static_cast<QEvent::Type>(QEvent::registerEventType());
-        return type;
-    }
-
-    ExecuteCommandEvent(const std::string& cmdName);
-
-    // 获取命令名称
-    const std::string& getCommandName() const { return _strCmdName; }
-
-private:
-    std::string _strCmdName;
-};
-
 // 执行Python脚本事件
 class RunPythonScriptEvent : public QEvent
 {

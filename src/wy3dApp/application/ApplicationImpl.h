@@ -66,6 +66,7 @@ class SceneImpl;
 class MainWindow;
 class DockPanelManager;
 class Config;
+class EnvironmentUI;
 
 class ElementNodeFactoryImpl;
 class GizmoFactory;
@@ -132,6 +133,15 @@ public:
 
     // Main window, exposed as QMainWindow for plugins.
     QMainWindow* getMainWindow() const override;
+    // View widget of the active document, exposed as QWidget for plugins.
+    QWidget* getActiveViewWidget() const override;
+    // UI of the active environment; nullptr during transitions or for unknown
+    // environments. The returned pointer is borrowed.
+    EnvironmentUI* getActiveEnvironmentUI() const;
+    // Returns the UI of a host environment (Gateway/Document/Task), or nullptr.
+    EnvironmentUI* findEnvironmentUI(wyap::Environment* pEnvironment) const;
+    // True for host-provided environments (Gateway/Document/Sketch/Sketch3D).
+    bool isHostEnvironment(const wyap::Environment* pEnvironment) const;
     // 设置主窗口
     void setMainWindow(MainWindow* pMainWindow)
     {

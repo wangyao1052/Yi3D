@@ -1,5 +1,7 @@
 # YI3D plugin SDK helper.
 #
+# Plugin lifecycle and unload contract: see PluginSdk.md.
+#
 # In-tree usage: the plugin links the wy3dApp target and calls
 #   include(${YI3D_HOST_SOURCE_DIR}/sdk/Yi3DPluginSdk.cmake)
 #   yi3d_add_plugin(<target> ID <plugin-id> MANIFEST <plugin.ini>)

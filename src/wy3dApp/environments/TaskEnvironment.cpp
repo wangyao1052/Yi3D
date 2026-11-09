@@ -21,7 +21,11 @@
 #include <cassert>
 #include <utility>
 
+#include <wyapEnvManager.h>
+#include <wyapEnums.h>
+
 #include "EnvironmentUIImpl.h"
+#include "application/ApplicationImpl.h"
 
 namespace wy3dApp {
 
@@ -41,6 +45,52 @@ TaskEnvironment::~TaskEnvironment() = default;
 EnvironmentUI* TaskEnvironment::getUI() const
 {
     return _pUI.get();
+}
+
+CommandAction* TaskEnvironment::getConfirmAction() const
+{
+    return _pUI ? _pUI->getConfirmAction() : nullptr;
+}
+
+CommandAction* TaskEnvironment::getCancelAction() const
+{
+    return _pUI ? _pUI->getCancelAction() : nullptr;
+}
+
+void TaskEnvironment::setConfirmationBarVisible(bool visible)
+{
+    if (_pUI)
+    {
+        _pUI->setConfirmationBarVisible(visible);
+    }
+}
+
+void TaskEnvironment::onConfirm()
+{
+    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
+    if (!pEnvMgr || pEnvMgr->getActiveEnvironment() != this)
+    {
+        return;
+    }
+
+    const wy::ErrorStatus status = pEnvMgr->exitActiveEnvironment(
+        ExitCode::Ok, wyap::ExecutionMode::Async);
+    assert(status == wy::ErrorStatus::Ok);
+    (void)status;
+}
+
+void TaskEnvironment::onCancel()
+{
+    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
+    if (!pEnvMgr || pEnvMgr->getActiveEnvironment() != this)
+    {
+        return;
+    }
+
+    const wy::ErrorStatus status = pEnvMgr->exitActiveEnvironment(
+        ExitCode::Cancel, wyap::ExecutionMode::Async);
+    assert(status == wy::ErrorStatus::Ok);
+    (void)status;
 }
 
 void TaskEnvironment::onEnter()

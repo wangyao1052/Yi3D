@@ -21,6 +21,13 @@
 
 #include <cassert>
 
+#include <wy3dFilledSheet.h>
+#include <wy3dSplitFace.h>
+#include <wy3dSweep.h>
+#include <wy3dSweptSheet.h>
+#include "utils/SketchUtil.h"
+#include "utils/MessageBoxUtil.h"
+
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dSketch3D.h>
@@ -33,6 +40,81 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
+
+// A consumed 3D sketch stays editable; check at End time that it is still a
+// valid profile for its owner feature
+static bool canEndEditingSketch3D(const wydb::ElementId& sketch3dId)
+{
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return true;
+    }
+    const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pDb->getElement(sketch3dId));
+    if (!pSketch3D)
+    {
+        assert(false);
+        return true;
+    }
+
+    // A free sketch (no owner) can be drawn freely
+    wydb::ElementId sketchOwnerId = pSketch3D->getParent();
+    if (sketchOwnerId.isNull())
+    {
+        return true;
+    }
+
+    const wydb::Element* pSketchOwner = pDb->getElement(sketchOwnerId);
+    if (!pSketchOwner)
+    {
+        assert(false);
+        return true;
+    }
+
+    QString error;
+    if (const wy3d::FilledSheet* pFilledSheet = wy3d::FilledSheet::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidProfile3DForFilledSheet(*pSketch3D, error))
+        {
+            return true;
+        }
+    }
+    else if (const wy3d::Sweep* pSweep = wy3d::Sweep::cast(pSketchOwner))
+    {
+        // 3D草图在扫描中只能作路径
+        assert(pSweep->getPath() == sketch3dId);
+        if (SketchUtil::isValidSweepPath3D(*pSketch3D, error))
+        {
+            return true;
+        }
+    }
+    else if (const wy3d::SweptSheet* pSweptSheet = wy3d::SweptSheet::cast(pSketchOwner))
+    {
+        assert(pSweptSheet->getPath() == sketch3dId);
+        if (SketchUtil::isValidSweepPath3D(*pSketch3D, error))
+        {
+            return true;
+        }
+    }
+    else if (wy3d::SplitFace::cast(pSketchOwner))
+    {
+        // 分割面的工具草图就是一组自由曲线, 没有轮廓合法性要求
+        return true;
+    }
+    else
+    {
+        assert(false);
+        return true;
+    }
+
+    if (!error.isEmpty())
+    {
+        MessageBoxUtil::showWarning(error);
+    }
+    return false;
+}
+
 
 Sketch3DEnvironmentImpl::Sketch3DEnvironmentImpl()
     : Sketch3DEnvironment(std::make_unique<Sketch3DEnvironmentUI>(this))
@@ -196,7 +278,7 @@ void Sketch3DEnvironmentImpl::onEnter()
     }
     _pTopTrans = pGroupTrans;
 
-    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
+    ApplicationImpl::instance().getCmdManager()->postCommand(_pUI->getDefaultCommandName());
 
     // Refresh command action states.
     this->refreshCommandActionStates(CommandActionRefreshCause::Environment);
@@ -226,6 +308,17 @@ wy3d::Sketch3D* Sketch3DEnvironmentImpl::newSketch3D(wydb::Database* pDb)
     assert(wy::ErrorStatus::Ok == error);
 
     return pSketch3D;
+}
+
+void Sketch3DEnvironmentImpl::onConfirm()
+{
+    // A consumed 3D sketch stays editable; revalidate its owner feature.
+    if (Operation::Edit == _op && !canEndEditingSketch3D(_sketch3dId))
+    {
+        return;
+    }
+
+    TaskEnvironment::onConfirm();
 }
 
 void Sketch3DEnvironmentImpl::onExit(ExitCode exitCode)

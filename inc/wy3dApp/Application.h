@@ -23,6 +23,7 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 class QMainWindow;
+class QWidget;
 
 namespace wy3dApp {
 
@@ -52,12 +53,12 @@ public:
     // Owned by the application; non-null once the application has initialized.
     // The caller does not own the returned pointer.
     virtual ElementNodeFactory* getElementNodeFactory() const = 0;
-    // 当前激活的场景。返回公共 Scene 接口，调用方不拥有该指针。
+
     virtual Scene* getActiveScene() const = 0;
 
-    // Main window, exposed as QMainWindow for plugins that need to add/remove
-    // dock widgets without including the internal MainWindow.
     virtual QMainWindow* getMainWindow() const = 0;
+
+    virtual QWidget* getActiveViewWidget() const = 0;
 };
 
 // Returns the process-wide Application singleton (implemented by ApplicationImpl).

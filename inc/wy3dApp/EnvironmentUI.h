@@ -50,29 +50,58 @@ class WY3DAPP_EXPORT EnvironmentUI : public QObject
 {
     Q_OBJECT
 public:
-    // Add menu.
-    virtual QMenu* addMenu(const QString& title, const std::string& name) = 0;
-    // Get all menus.
+    // Get all menus. The pointers are borrowed and owned by this UI.
     virtual const std::vector<QMenu*>& getMenus() const = 0;
 
-    // Add tool bar.
-    virtual QToolBar* addToolBar(const QString& title, const std::string& name) = 0;
-    // Get all tool bars.
+    // Creates a menu owned by this EnvironmentUI and adds it to the menu bar.
+    // The returned pointer is borrowed; callers must not delete it directly.
+    // Remove it with deleteMenu(). Returns nullptr on failure.
+    virtual QMenu* newMenu(const QString& title, const std::string& name) = 0;
+    // Removes the menu and schedules its deletion (deleteLater).
+    // The pointer is invalid after this call.
+    virtual void deleteMenu(QMenu* pMenu) = 0;
+
+    // Get all tool bars. The pointers are borrowed and owned by this UI.
     virtual const std::vector<QToolBar*>& getToolBars() const = 0;
 
-    // New action group.
-    virtual QActionGroup* newActionGroup() = 0;
+    // Creates a tool bar owned by this EnvironmentUI and adds it to the main
+    // window. The returned pointer is borrowed; callers must not delete it
+    // directly. Remove it with deleteToolBar(). Returns nullptr on failure.
+    virtual QToolBar* newToolBar(const QString& title, const std::string& name) = 0;
+    // Removes the tool bar and schedules its deletion (deleteLater).
+    // The pointer is invalid after this call.
+    virtual void deleteToolBar(QToolBar* pToolBar) = 0;
 
-    // New command action.
+    // Creates an action group owned by this EnvironmentUI.
+    // The returned pointer is borrowed; callers must not delete it directly.
+    // Remove it with deleteActionGroup().
+    virtual QActionGroup* newActionGroup() = 0;
+    // Deletes the action group (deleteLater).
+    virtual void deleteActionGroup(QActionGroup* pActionGroup) = 0;
+
+    // Creates a command action owned by this EnvironmentUI.
+    // The returned pointer is borrowed; callers must not delete it directly.
+    // Remove it with deleteCommandAction().
     virtual CommandAction* newCommandAction(
         const std::string& commandName,
         const QString& text,
         const QIcon& icon,
         QActionGroup* pActionGroup = nullptr) = 0;
+    // Deletes the command action (deleteLater).
+    virtual void deleteCommandAction(CommandAction* pCommandAction) = 0;
 
     // Find a command action by command name.
-    // Returns nullptr if no action has been created for that name.
+    // Returns a borrowed pointer, or nullptr if no action has been created for
+    // that name.
     virtual CommandAction* findCommandAction(const std::string& commandName) const = 0;
+
+    // The command posted when this environment is entered/resumed and
+    // restarted after a modal command ends. Defaults to "Select".
+    // An empty name disables the automatic restart.
+    virtual std::string getDefaultCommandName() const = 0;
+    // Sets the default command. The command must be registered by this
+    // environment while it is active.
+    virtual void setDefaultCommandName(const std::string& commandName) = 0;
 
 protected:
     EnvironmentUI() = default;

@@ -16,6 +16,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+#include <algorithm>
+
 #include <QAction>
 #include <QActionGroup>
 #include <QApplication>
@@ -33,9 +35,11 @@
 #include <wy3dApp/CommandAction.h>
 #include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
+#include "commands/TaskEnvironmentCommands.h"
 #include <wyapCommand.h>
 #include <wy3dApp/Scene.h>
 #include "widgets/frame/MainWindow.h"
+#include "utils/IconUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 #define TOOLBAR_ICON_SIZE 32
@@ -43,7 +47,8 @@
 namespace wy3dApp {
 
 EnvironmentUIImpl::EnvironmentUIImpl(const wyap::Environment* pEnvironment)
-    : _isCmdTerminatedOnEventLoopPosted(false)
+    : _defaultCmdName(CommandNames::Select)
+    , _isCmdTerminatedOnEventLoopPosted(false)
     , _pEnvironment(pEnvironment)
 {
     assert(pEnvironment);
@@ -61,9 +66,10 @@ EnvironmentUIImpl::EnvironmentUIImpl(const wyap::Environment* pEnvironment)
 
 EnvironmentUIImpl::~EnvironmentUIImpl()
 {
+    this->destroyConfirmationBar();
 }
 
-QMenu* EnvironmentUIImpl::addMenu(const QString& title, const std::string& name)
+QMenu* EnvironmentUIImpl::newMenu(const QString& title, const std::string& name)
 {
     MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
@@ -121,7 +127,7 @@ void EnvironmentUIImpl::insertMenuAfter(QMenu* pAnchorMenu, QMenu* pMenu)
     }
 }
 
-QToolBar* EnvironmentUIImpl::addToolBar(const QString& title, const std::string& name)
+QToolBar* EnvironmentUIImpl::newToolBar(const QString& title, const std::string& name)
 {
     MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
     if (!pMainWindow)
@@ -159,6 +165,115 @@ CommandAction* EnvironmentUIImpl::findCommandAction(const std::string& commandNa
     return (_cmdName2Action.cend() != iter) ? iter->second : nullptr;
 }
 
+CommandAction* EnvironmentUIImpl::getConfirmAction()
+{
+    this->ensureConfirmationActions();
+    return _pConfirmAction.data();
+}
+
+CommandAction* EnvironmentUIImpl::getCancelAction()
+{
+    this->ensureConfirmationActions();
+    return _pCancelAction.data();
+}
+
+void EnvironmentUIImpl::ensureConfirmationActions()
+{
+    ensureTaskEnvironmentCommandsRegistered();
+
+    if (!_pConfirmAction)
+    {
+        _pConfirmAction = this->findCommandAction(CommandNames::ConfirmTaskEnvironment);
+    }
+    if (!_pConfirmAction)
+    {
+        _pConfirmAction = this->newCommandAction(
+            CommandNames::ConfirmTaskEnvironment,
+            QCoreApplication::translate("TaskEnvironment", "Finish"),
+            IconUtil::get(":/images/Sketch_OK.svg"));
+    }
+
+    if (!_pCancelAction)
+    {
+        _pCancelAction = this->findCommandAction(CommandNames::CancelTaskEnvironment);
+    }
+    if (!_pCancelAction)
+    {
+        _pCancelAction = this->newCommandAction(
+            CommandNames::CancelTaskEnvironment,
+            QCoreApplication::translate("TaskEnvironment", "Cancel"),
+            IconUtil::get(":/images/Sketch_Cancel.svg"));
+    }
+}
+
+void EnvironmentUIImpl::setConfirmationBarVisible(bool visible)
+{
+    if (_confirmationVisible == visible)
+    {
+        if (!visible)
+        {
+            if (_pConfirmationBar)
+            {
+                _pConfirmationBar->hide();
+            }
+            return;
+        }
+        if (_pConfirmationBar)
+        {
+            _pConfirmationBar->show();
+            return;
+        }
+    }
+
+    _confirmationVisible = visible;
+    if (!visible)
+    {
+        if (_pConfirmationBar)
+        {
+            _pConfirmationBar->hide();
+        }
+        return;
+    }
+
+    this->rebuildConfirmationBar();
+}
+
+void EnvironmentUIImpl::rebuildConfirmationBar()
+{
+    this->destroyConfirmationBar();
+    if (!_confirmationVisible)
+    {
+        return;
+    }
+
+    this->ensureConfirmationActions();
+    if (!_pConfirmAction || !_pCancelAction)
+    {
+        return;
+    }
+
+    QWidget* pViewWidget = ApplicationImpl::instance().getActiveViewWidget();
+    if (!pViewWidget)
+    {
+        return;
+    }
+
+    _pConfirmationBar = new ConfirmationBar(
+        pViewWidget, _pConfirmAction.data(), _pCancelAction.data());
+    _pConfirmationBar->show();
+}
+
+void EnvironmentUIImpl::destroyConfirmationBar()
+{
+    if (_pConfirmationBar)
+    {
+        _pConfirmationBar->hide();
+        // Synchronous: the environment UI that owns the button actions may be
+        // destroyed before a queued deleteLater() would run.
+        delete _pConfirmationBar;
+    }
+}
+
 CommandAction* EnvironmentUIImpl::newCommandAction(
     const std::string& commandName,
     const QString& text,
@@ -175,10 +290,57 @@ CommandAction* EnvironmentUIImpl::newCommandAction(
         pActionGroup->addAction(pAction);
     }
 
+    _commandActions.insert(pAction);
     _cmdName2Action.emplace(pAction->getCommandName(), pAction);
 
     return pAction;
 };
+
+void EnvironmentUIImpl::deleteCommandAction(CommandAction* pCommandAction)
+{
+    if (_commandActions.erase(pCommandAction) == 0) return;
+
+    pCommandAction->setVisible(false);
+    pCommandAction->setEnabled(false);
+
+    auto iter = _cmdName2Action.find(pCommandAction->getCommandName());
+    if (iter != _cmdName2Action.end() && iter->second == pCommandAction)
+        _cmdName2Action.erase(iter);
+
+    pCommandAction->deleteLater();
+}
+
+void EnvironmentUIImpl::deleteMenu(QMenu* pMenu)
+{
+    const auto iter = std::find(_menus.begin(), _menus.end(), pMenu);
+    if (iter == _menus.end()) return;
+
+    if (QMenuBar* pMenuBar = qobject_cast<QMenuBar*>(pMenu->parentWidget()))
+        pMenuBar->removeAction(pMenu->menuAction());
+    pMenu->deleteLater();
+    _menus.erase(iter);
+}
+
+void EnvironmentUIImpl::deleteToolBar(QToolBar* pToolBar)
+{
+    const auto iter = std::find(_toolBars.begin(), _toolBars.end(), pToolBar);
+    if (iter == _toolBars.end()) return;
+
+    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
+    if (pMainWindow) pMainWindow->removeToolBar(pToolBar);
+    pToolBar->setObjectName(QString());
+    pToolBar->deleteLater();
+    _toolBars.erase(iter);
+}
+
+void EnvironmentUIImpl::deleteActionGroup(QActionGroup* pActionGroup)
+{
+    const auto iter = std::find(_actionGroups.begin(), _actionGroups.end(), pActionGroup);
+    if (iter == _actionGroups.end()) return;
+
+    pActionGroup->deleteLater();
+    _actionGroups.erase(iter);
+}
 
 QToolButton* EnvironmentUIImpl::newMenuPopupToolButton(
     QToolBar* pToolBar,
@@ -236,12 +398,21 @@ bool EnvironmentUIImpl::addContextMenuActions(ContextMenu&)
 
 void EnvironmentUIImpl::destroy()
 {
+    // The bar's buttons reference command actions; drop the bar before any of
+    // those actions are destroyed. Clear the pointers too so a later caller
+    // cannot resurrect an action that is already scheduled for deletion.
+    this->destroyConfirmationBar();
+    _confirmationVisible = false;
+    _pConfirmAction = nullptr;
+    _pCancelAction = nullptr;
+
     this->cancelCommandTerminatedOnEventLoop();
 
     // Nothing left to destroy: either destroy() was already called, or the UI
     // was never built. The containers themselves are the destroyed-state.
     if (_menus.empty() && _toolBars.empty()
-        && _actionGroups.empty() && _cmdName2Action.empty())
+        && _actionGroups.empty() && _cmdName2Action.empty()
+        && _commandActions.empty())
     {
         return;
     }
@@ -269,6 +440,10 @@ void EnvironmentUIImpl::destroyMenus()
     _menus.clear();
 }
 
+// Plugin-created environments participate too. Their authors must make sure any
+// dock/toolbar that can outlive the plugin module uses a heap-owned name and is
+// removed from the main window before the DLL is unloaded; otherwise a later
+// QMainWindow::saveState() can read strings from unmapped plugin memory.
 void EnvironmentUIImpl::saveUiState()
 {
     if (!_pEnvironment) return;
@@ -331,8 +506,9 @@ void EnvironmentUIImpl::destroyActionGroups()
 
 void EnvironmentUIImpl::destroyCommandActions()
 {
-    for (auto& kvp : _cmdName2Action)
-        if (kvp.second) kvp.second->deleteLater();
+    for (CommandAction* pAction : _commandActions)
+        if (pAction) pAction->deleteLater();
+    _commandActions.clear();
     _cmdName2Action.clear();
 }
 
@@ -360,10 +536,10 @@ void EnvironmentUIImpl::cancelCommandTerminatedOnEventLoop()
 
 void EnvironmentUIImpl::processCommandTerminatedOnEventLoop()
 {
-    // The owning environment may have been suspended or exited while the
-    // one-shot timer was pending; never start a command for another environment.
-    wyap::Environment* pActiveEnv =
-        ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
+    // An empty default command means automatic restart is disabled.
+    if (_defaultCmdName.empty()) return;
+
+    wyap::Environment* pActiveEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     if (pActiveEnv != _pEnvironment)
     {
         return;
@@ -372,7 +548,7 @@ void EnvironmentUIImpl::processCommandTerminatedOnEventLoop()
     wyap::Command* pCurModalCmd = ApplicationImpl::instance().getCmdManager()->getCurrentModalCommand();
     if (!pCurModalCmd)
     {
-        ApplicationImpl::instance().getCmdManager()->executeCommand(CommandNames::Select);
+        ApplicationImpl::instance().getCmdManager()->executeCommand(_defaultCmdName);
     }
 }
 

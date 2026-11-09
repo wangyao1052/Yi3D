@@ -19,17 +19,21 @@
 #ifndef WY3DAPP_ENVIRONMENT_UI_IMPL_H
 #define WY3DAPP_ENVIRONMENT_UI_IMPL_H
 
+#include <QPointer>
 #include <QTimer>
 
 #include <list>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
 #include <wyapCmdStack.h>
 #include <wyapEnvironment.h>
 
+#include <wy3dApp/CommandAction.h>
 #include <wy3dApp/EnvironmentUI.h>
+#include "widgets/frame/ConfirmationBar.h"
 
 class QAction;
 class QActionGroup;
@@ -50,8 +54,8 @@ public:
     ~EnvironmentUIImpl() override;
 
     // EnvironmentUI
-    QMenu* addMenu(const QString& title, const std::string& name) override;
-    QToolBar* addToolBar(const QString& title, const std::string& name) override;
+    QMenu* newMenu(const QString& title, const std::string& name) override;
+    QToolBar* newToolBar(const QString& title, const std::string& name) override;
     QActionGroup* newActionGroup() override;
     CommandAction* newCommandAction(
         const std::string& commandName,
@@ -67,6 +71,30 @@ public:
 
     // Find command action by command name.
     CommandAction* findCommandAction(const std::string& commandName) const override;
+
+    virtual std::string getDefaultCommandName() const override
+    {
+        return _defaultCmdName;
+    }
+    virtual void setDefaultCommandName(const std::string& commandName) override
+    {
+        _defaultCmdName = commandName;
+    }
+
+    // Host-owned confirmation actions shared by ConfirmationBar, menus and
+    // toolbars. They are created lazily with fixed icons and default texts.
+    CommandAction* getConfirmAction();
+    CommandAction* getCancelAction();
+
+    // Show or hide the ConfirmationBar over the active viewport.
+    void setConfirmationBarVisible(bool visible);
+
+    // Remove one object created through this UI. Removal is structural: the
+    // object must be present in this UI's bookkeeping.
+    void deleteMenu(QMenu* pMenu) override;
+    void deleteToolBar(QToolBar* pToolBar) override;
+    void deleteActionGroup(QActionGroup* pActionGroup) override;
+    void deleteCommandAction(CommandAction* pCommandAction) override;
 
     // New menu popup tool button. pInitialAction, when given, becomes the
     // button's initial icon/text/default action; otherwise the first action is used.
@@ -120,6 +148,13 @@ private:
     // Destroy all command actions.
     void destroyCommandActions();
 
+    // Create the two host-owned confirmation command actions on first use.
+    void ensureConfirmationActions();
+    // Recreate/remove the confirmation bar according to the current state.
+    void rebuildConfirmationBar();
+    // Destroy the confirmation bar synchronously, before its actions.
+    void destroyConfirmationBar();
+
 private:
     // menus
     std::vector<QMenu*> _menus;
@@ -129,12 +164,20 @@ private:
     std::vector<QActionGroup*> _actionGroups;
     // command name <> command action
     std::map<std::string, CommandAction*> _cmdName2Action;
+    // every command action created by this UI (including duplicate-name ones)
+    std::set<CommandAction*> _commandActions;
+    std::string _defaultCmdName;
     // One-shot timer used to defer command-terminated handling to the event loop.
     QTimer _cmdTerminatedOnEventLoopTimer;
     // Guard to prevent duplicate posting of command-terminated tasks to the event loop.
     bool _isCmdTerminatedOnEventLoopPosted;
     // The owning environment, used for UI state persistence.
     const wyap::Environment* _pEnvironment;
+    // Confirmation UI: host-owned actions and the floating bar using them.
+    QPointer<CommandAction> _pConfirmAction;
+    QPointer<CommandAction> _pCancelAction;
+    QPointer<ConfirmationBar> _pConfirmationBar;
+    bool _confirmationVisible = false;
 };
 
 } // namespace wy3dApp

@@ -36,7 +36,7 @@ python skills/YI3D/scripts/IpcClient.py --method <method> --argument <arg>
 |---|---|---|---|
 | `ping` | 空字符串 | 立即返回连通性结果 | `OK|pong` |
 | `script` | 脚本路径 | 校验后异步执行脚本，执行完成后回包 | `OK|NoError` 或 `ERROR|RunScriptError` 等 |
-| `command` | GUI 命令名（见 `./command_names.md`） | 投递 `ExecuteCommandEvent` | 见下方“4.2 command 现状” |
+| `command` | GUI 命令名（见 `./command_names.md`） | 投递 `RunGuiCommandEvent`，执行后回包 | `OK\|` 或 `ERROR\|Busy` / `ERROR\|CommandNotFound` 等 |
 
 说明：请求 JSON 的命令字段名是历史拼写 `commnad`，由 `IpcClient.py` 内部处理，Agent 不要手工拼 JSON。
 
@@ -55,7 +55,7 @@ python skills/YI3D/scripts/IpcClient.py --method <method> --argument <arg>
 - 成功：`OK|NoError`
 - 失败：`ERROR|PythonLibraryNotFound` / `LoadPythonLibraryFailed` / `InvalidPythonLibrary` / `PythonScriptFileNotFound` / `OpenPythonScriptFileFailed` / `RunScriptError` / `UnknownError`
 
-### 4.2 command 现状
+### 4.2 command
 
 `command` 的 `argument` 需要传入 GUI 命令字符串，完整清单见：
 
@@ -67,14 +67,14 @@ python skills/YI3D/scripts/IpcClient.py --method <method> --argument <arg>
 python skills/YI3D/scripts/IpcClient.py --method command --argument "Undo"
 ```
 
-当前实现中，`onCmdCommand(...)` 会把命令投递为 `ExecuteCommandEvent`，但在 `wy3dQApplication::notify(...)` 的 `ExecuteCommandEvent` 分支里没有调用 `_ipc->completeCurrentRequest(...)`。
+当前实现中，`IpcServer::onCmdCommand(...)` 会把命令投递为 `RunGuiCommandEvent`，由 `wy3dQApplication::notify(...)` 在 GUI 线程执行，并通过 `_ipc->completeCurrentRequest(...)` 回包：
 
-这意味着：
+- 插件加载/卸载或插件管理器对话框打开期间 → `ERROR|Busy`
+- 命令不存在 → `ERROR|CommandNotFound`
+- 执行成功 → `OK|`
+- 执行失败 → `ERROR|<错误码>`
 
-- `command` 命令可能拿不到标准 `OK|...` / `ERROR|...` 回包。
-- 使用 `IpcClient.py` 调用时，可能表现为 socket 超时异常，而不是解析后的 `{"ok": ...}` 结果。
-
-在服务端补齐回包逻辑前，Agent 应谨慎使用 `command`，不要把它当作“必有回包”的命令。
+执行前若存在 modal command，会先中止它（`ForceTerminate`）。
 
 ## 5. 常见错误
 

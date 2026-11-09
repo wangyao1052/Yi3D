@@ -19,6 +19,7 @@
 #include <wy3dApp/CommandAction.h>
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
+#include "widgets/frame/PluginManagerDialog.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -33,6 +34,11 @@ CommandAction::CommandAction(
 
 void CommandAction::onTriggered()
 {
+    if (PluginManagerDialog::isActive())
+    {
+        return;
+    }
+
     wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
     wyap::CmdManager* pCmdMgr = ApplicationImpl::instance().getCmdManager();
 

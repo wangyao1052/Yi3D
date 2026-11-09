@@ -73,6 +73,7 @@
 #include "commands/CommandNames.h"
 #include <wy3dApp/DocumentEnvironment.h>
 #include <wy3dApp/GatewayEnvironment.h>
+#include <wy3dApp/Sketch3DEnvironment.h>
 #include <wy3dApp/SketchEnvironment.h>
 #include <wy3dApp/TaskEnvironment.h>
 #include "environments/EnvironmentUIImpl.h"
@@ -170,6 +171,64 @@ ElementNodeFactory* ApplicationImpl::getElementNodeFactory() const
 QMainWindow* ApplicationImpl::getMainWindow() const
 {
     return _pMainWindow;
+}
+
+QWidget* ApplicationImpl::getActiveViewWidget() const
+{
+    MainWindow* pMainWindow = this->getMainWindowImpl();
+    wyap::Document* pActiveDoc = this->getActiveDocument();
+    if (!pMainWindow || !pActiveDoc)
+    {
+        return nullptr;
+    }
+
+    ViewWidgetContainer* pContainer = pMainWindow->getViewWidgetContainer();
+    if (!pContainer)
+    {
+        return nullptr;
+    }
+
+    return pContainer->getViewWidget(pActiveDoc);
+}
+
+EnvironmentUI* ApplicationImpl::getActiveEnvironmentUI() const
+{
+    wyap::EnvManager* pEnvMgr = this->getEnvManager();
+    wyap::Environment* pActiveEnv =
+        pEnvMgr ? pEnvMgr->getActiveEnvironment() : nullptr;
+    return this->findEnvironmentUI(pActiveEnv);
+}
+
+EnvironmentUI* ApplicationImpl::findEnvironmentUI(
+    wyap::Environment* pEnvironment) const
+{
+    if (!pEnvironment) return nullptr;
+    if (GatewayEnvironment* pGatewayEnvironment =
+        dynamic_cast<GatewayEnvironment*>(pEnvironment))
+    {
+        return pGatewayEnvironment->getUI();
+    }
+    if (DocumentEnvironment* pDocumentEnvironment =
+        dynamic_cast<DocumentEnvironment*>(pEnvironment))
+    {
+        return pDocumentEnvironment->getUI();
+    }
+    if (TaskEnvironment* pTaskEnvironment =
+        dynamic_cast<TaskEnvironment*>(pEnvironment))
+    {
+        return pTaskEnvironment->getUI();
+    }
+    return nullptr;
+}
+
+bool ApplicationImpl::isHostEnvironment(
+    const wyap::Environment* pEnvironment) const
+{
+    if (!pEnvironment) return false;
+    return dynamic_cast<const GatewayEnvironment*>(pEnvironment) != nullptr
+        || dynamic_cast<const DocumentEnvironment*>(pEnvironment) != nullptr
+        || dynamic_cast<const SketchEnvironment*>(pEnvironment) != nullptr
+        || dynamic_cast<const Sketch3DEnvironment*>(pEnvironment) != nullptr;
 }
 
 bool ApplicationImpl::initialize()
@@ -365,20 +424,7 @@ void ApplicationImpl::restoreEnvironmentUIState(wyap::Environment* pEnvironment)
 {
     if (!pEnvironment) return;
 
-    EnvironmentUI* pUI = nullptr;
-    if (GatewayEnvironment* pGatewayEnv = dynamic_cast<GatewayEnvironment*>(pEnvironment))
-    {
-        pUI = pGatewayEnv->getUI();
-    }
-    else if (DocumentEnvironment* pDocEnv = dynamic_cast<DocumentEnvironment*>(pEnvironment))
-    {
-        pUI = pDocEnv->getUI();
-    }
-    else if (TaskEnvironment* pTaskEnv = dynamic_cast<TaskEnvironment*>(pEnvironment))
-    {
-        pUI = pTaskEnv->getUI();
-    }
-
+    EnvironmentUI* pUI = this->findEnvironmentUI(pEnvironment);
     if (!pUI) return;
 
     if (EnvironmentUIImpl* pUIImpl = dynamic_cast<EnvironmentUIImpl*>(pUI))

@@ -79,7 +79,7 @@ void ModelingEnvironmentImpl::onEnter()
     this->registerCommands();
     _pUI->build();
 
-    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
+    ApplicationImpl::instance().getCmdManager()->postCommand(_pUI->getDefaultCommandName());
 
     this->refreshCommandActionStates(CommandActionRefreshCause::Environment);
 }
@@ -107,7 +107,7 @@ void ModelingEnvironmentImpl::onResume()
     this->registerCommands();
     _pUI->build();
 
-    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
+    ApplicationImpl::instance().getCmdManager()->postCommand(_pUI->getDefaultCommandName());
 
     this->refreshCommandActionStates(CommandActionRefreshCause::Environment);
 }

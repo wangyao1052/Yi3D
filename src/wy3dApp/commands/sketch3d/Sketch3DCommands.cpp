@@ -102,83 +102,10 @@ int EditSketch3DCommand::run()
     return 0;
 }
 
-// A consumed 3D sketch stays editable; check at End time that it is still a
-// valid profile for its owner feature
-static bool canEndEditingSketch3D(const wydb::ElementId& sketch3dId)
-{
-    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
-    if (!pDb)
-    {
-        assert(false);
-        return true;
-    }
-    const wy3d::Sketch3D* pSketch3D = wy3d::Sketch3D::cast(pDb->getElement(sketch3dId));
-    if (!pSketch3D)
-    {
-        assert(false);
-        return true;
-    }
-
-    // A free sketch (no owner) can be drawn freely
-    wydb::ElementId sketchOwnerId = pSketch3D->getParent();
-    if (sketchOwnerId.isNull())
-    {
-        return true;
-    }
-
-    const wydb::Element* pSketchOwner = pDb->getElement(sketchOwnerId);
-    if (!pSketchOwner)
-    {
-        assert(false);
-        return true;
-    }
-
-    QString error;
-    if (const wy3d::FilledSheet* pFilledSheet = wy3d::FilledSheet::cast(pSketchOwner))
-    {
-        if (SketchUtil::isValidProfile3DForFilledSheet(*pSketch3D, error))
-        {
-            return true;
-        }
-    }
-    else if (const wy3d::Sweep* pSweep = wy3d::Sweep::cast(pSketchOwner))
-    {
-        // 3D草图在扫描中只能作路径
-        assert(pSweep->getPath() == sketch3dId);
-        if (SketchUtil::isValidSweepPath3D(*pSketch3D, error))
-        {
-            return true;
-        }
-    }
-    else if (const wy3d::SweptSheet* pSweptSheet = wy3d::SweptSheet::cast(pSketchOwner))
-    {
-        assert(pSweptSheet->getPath() == sketch3dId);
-        if (SketchUtil::isValidSweepPath3D(*pSketch3D, error))
-        {
-            return true;
-        }
-    }
-    else if (wy3d::SplitFace::cast(pSketchOwner))
-    {
-        // 分割面的工具草图就是一组自由曲线, 没有轮廓合法性要求
-        return true;
-    }
-    else
-    {
-        assert(false);
-        return true;
-    }
-
-    if (!error.isEmpty())
-    {
-        MessageBoxUtil::showWarning(error);
-    }
-    return false;
-}
-
 int EndSketch3DCommand::run()
 {
-    wyap::Environment* pCurrentEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurrentEnv =
+        ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     Sketch3DEnvironment* pSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pCurrentEnv);
     if (!pSketch3DEnv)
     {
@@ -186,31 +113,14 @@ int EndSketch3DCommand::run()
         return -1;
     }
 
-    // 编辑3D草图
-    if (pSketch3DEnv->getOperation() == Sketch3DEnvironment::Operation::Edit)
-    {
-        wydb::ElementId sketch3dId = pSketch3DEnv->getSketch3dId();
-        if (!canEndEditingSketch3D(sketch3dId))
-        {
-            return 0;
-        }
-    }
-
-    // 退出3D草图环境
-    if (wy::ErrorStatus::Ok != ApplicationImpl::instance().getEnvManager()->exitActiveEnvironment(
-        wyap::Environment::ExitCode::Ok,
-        wyap::ExecutionMode::Async))
-    {
-        assert(false);
-        return -1;
-    }
-
+    pSketch3DEnv->onConfirm();
     return 0;
 }
 
 int CancelSketch3DCommand::run()
 {
-    wyap::Environment* pCurrentEnv = ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
+    wyap::Environment* pCurrentEnv =
+        ApplicationImpl::instance().getEnvManager()->getActiveEnvironment();
     Sketch3DEnvironment* pSketch3DEnv = dynamic_cast<Sketch3DEnvironment*>(pCurrentEnv);
     if (!pSketch3DEnv)
     {
@@ -218,15 +128,7 @@ int CancelSketch3DCommand::run()
         return -1;
     }
 
-    // 退出3D草图环境
-    if (wy::ErrorStatus::Ok != ApplicationImpl::instance().getEnvManager()->exitActiveEnvironment(
-        wyap::Environment::ExitCode::Cancel,
-        wyap::ExecutionMode::Async))
-    {
-        assert(false);
-        return -1;
-    }
-
+    pSketch3DEnv->onCancel();
     return 0;
 }
 

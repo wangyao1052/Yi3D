@@ -16,11 +16,10 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#ifndef WY3DAPP_VIEWPORT_OVERLAY_BAR_H
-#define WY3DAPP_VIEWPORT_OVERLAY_BAR_H
+#ifndef WY3DAPP_CONFIRMATION_BAR_H
+#define WY3DAPP_CONFIRMATION_BAR_H
 
 #include <QWidget>
-#include <wy3dApp/wy3dAppDefs.h>
 
 class QAction;
 class QEvent;
@@ -29,25 +28,25 @@ class QShowEvent;
 
 namespace wy3dApp {
 
-// A row of square icon-only buttons floating over the top-center of a viewport.
-// Each button is bound to the caller's action, so icon, tooltip, enabled state and triggering
-// stay the action's: the bar adds nothing of its own to a command.
-// The bar never activates, so the viewport keeps the keyboard.
-class ViewportOverlayBar : public QWidget
+// A pair of square icon-only buttons floating over the top-left corner of a
+// viewport: Cancel on the left, Confirm on the right. Each button is bound to
+// the caller's action, so icon, tooltip, enabled state and triggering stay the
+// action's.
+class ConfirmationBar : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ViewportOverlayBar(QWidget* pViewportWidget);
-    virtual ~ViewportOverlayBar();
-
-    // Appends one square icon-only button bound to pAction.
-    void addAction(QAction* pAction);
+    ConfirmationBar(QWidget* pViewportWidget,
+                    QAction* pConfirmAction,
+                    QAction* pCancelAction);
+    virtual ~ConfirmationBar();
 
 protected:
     virtual bool eventFilter(QObject* watched, QEvent* event) override;
     virtual void showEvent(QShowEvent* event) override;
 
 private:
+    void addButton(QAction* pAction);
     void anchorToTopLeft();
 
 private:
@@ -56,4 +55,4 @@ private:
 
 } // namespace wy3dApp
 
-#endif // WY3DAPP_VIEWPORT_OVERLAY_BAR_H
+#endif // WY3DAPP_CONFIRMATION_BAR_H

@@ -21,6 +21,23 @@
 
 #include <cassert>
 
+#include <QCoreApplication>
+#include <QMessageBox>
+#include <wy3dExtrusion.h>
+#include <wy3dRevolution.h>
+#include <wy3dPlanarSheet.h>
+#include <wy3dFilledSheet.h>
+#include <wy3dExtrudedSheet.h>
+#include <wy3dRevolvedSheet.h>
+#include <wy3dSweptSheet.h>
+#include <wy3dLoftedSheet.h>
+#include <wy3dSketchProfileForSheet.h>
+#include <wy3dSweep.h>
+#include <wy3dLoft.h>
+#include <wy3dHelix.h>
+#include <wy3dSplitFace.h>
+#include "utils/SketchUtil.h"
+
 #include <wydbDatabase.h>
 #include <wydbTransaction.h>
 #include <wy3dSketch.h>
@@ -33,6 +50,160 @@
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
+
+static bool canEndEditingSketch(const wydb::ElementId& sketchId)
+{
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        assert(false);
+        return true; // 也不需要提示了
+    }
+    const wy3d::Sketch* pSketch = wy3d::Sketch::cast(pDb->getElement(sketchId));
+    if (!pSketch)
+    {
+        assert(false);
+        return true; // 也不需要提示了
+    }
+
+    // 草图Owner为空则是自由草图可以任意绘制
+    wydb::ElementId sketchOwnerId = pSketch->getParent();
+    if (sketchOwnerId.isNull())
+    {
+        return true;
+    }
+
+    // 草图Owner
+    const wydb::Element* pSketchOwner = pDb->getElement(sketchOwnerId);
+    if (!pSketchOwner)
+    {
+        assert(false);
+        return true; // 也不需要提示了
+    }
+
+    // 拉伸体
+    QString error;
+    if (const wy3d::Extrusion* pExtrusion = wy3d::Extrusion::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidExtrusionProfile(*pSketch, error))
+        {
+            return true;
+        }
+    }
+    // 旋转体（轴可能来自其他草图，只校验 profile，不自动更新轴）
+    else if (const wy3d::Revolution* pConstRevolution = wy3d::Revolution::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidExtrusionProfile(*pSketch, error))
+        {
+            return true;
+        }
+    }
+    // 扫描体
+    else if (const wy3d::Sweep* pConstSweep = wy3d::Sweep::cast(pSketchOwner))
+    {
+        // 路径
+        if (pConstSweep->getPath() == sketchId)
+        {
+            if (SketchUtil::isValidSweepPath(*pSketch, error))
+            {
+                return true;
+            }
+        }
+        // 轮廓
+        else
+        {
+            if (SketchUtil::isValidSweepProfile(*pSketch, error))
+            {
+                return true;
+            }
+        }
+    }
+    // 放样体
+    else if (const wy3d::Loft* pConstLoft = wy3d::Loft::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidLoftProfile(*pSketch, error))
+        {
+            return true;
+        }
+    }
+    // 螺旋线
+    else if (const wy3d::Helix* pHelix = wy3d::Helix::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidHelixProfile(*pSketch, error))
+        {
+            return true;
+        }
+    }
+    else if (const wy3d::PlanarSheet* pPlanarSheet = wy3d::PlanarSheet::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidProfileForPlanarSheet(*pSketch, error))
+        {
+            return true;
+        }
+    }
+    else if (const wy3d::FilledSheet* pFilledSheet = wy3d::FilledSheet::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidProfileForFilledSheet(*pSketch, error))
+        {
+            return true;
+        }
+    }
+    else if (const wy3d::ExtrudedSheet* pExtrudedSheet = wy3d::ExtrudedSheet::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidProfileForExtrudedSheet(*pSketch, error))
+        {
+            return true;
+        }
+    }
+    else if (const wy3d::RevolvedSheet* pRevolvedSheet = wy3d::RevolvedSheet::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidProfileForRevolvedSheet(*pSketch, error))
+        {
+            return true;
+        }
+    }
+    else if (const wy3d::SweptSheet* pSweptSheet = wy3d::SweptSheet::cast(pSketchOwner))
+    {
+        if (pSweptSheet->getPath() == sketchId)
+        {
+            if (SketchUtil::isValidPathForSweptSheet(*pSketch, error))
+            {
+                return true;
+            }
+        }
+        else
+        {
+            if (SketchUtil::isValidProfileForSweptSheet(*pSketch, error))
+            {
+                return true;
+            }
+        }
+    }
+    else if (const wy3d::LoftedSheet* pLoftedSheet = wy3d::LoftedSheet::cast(pSketchOwner))
+    {
+        if (SketchUtil::isValidProfileForLoftedSheet(*pSketch, error))
+        {
+            return true;
+        }
+    }
+    else if (wy3d::SplitFace::cast(pSketchOwner))
+    {
+        // 分割面的工具草图就是一组自由曲线, 没有轮廓合法性要求
+        return true;
+    }
+    else
+    {
+        assert(false);
+        return true;
+    }
+
+    if (!error.isEmpty())
+    {
+        QMessageBox::warning(nullptr, QCoreApplication::translate("SketchCommand", "Yi3D"), error);
+    }
+    return false;
+}
+
 
 SketchEnvironmentImpl::SketchEnvironmentImpl(const wy3d::Plane& sketchPlane)
     : SketchEnvironment(std::make_unique<SketchEnvironmentUI>(this))
@@ -192,7 +363,7 @@ void SketchEnvironmentImpl::onEnter()
 
     // 草图视图
     ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::OrientToSketch);
-    ApplicationImpl::instance().getCmdManager()->postCommand(CommandNames::Select);
+    ApplicationImpl::instance().getCmdManager()->postCommand(_pUI->getDefaultCommandName());
 
     // Refresh command action states.
     this->refreshCommandActionStates(CommandActionRefreshCause::Environment);
@@ -222,6 +393,17 @@ wy3d::Sketch* SketchEnvironmentImpl::newSketch(wydb::Database* pDb)
     assert(wy::ErrorStatus::Ok == error);
 
     return pSketch;
+}
+
+void SketchEnvironmentImpl::onConfirm()
+{
+    // Editing an existing sketch must keep its owner feature valid.
+    if (Operation::Edit == _op && !canEndEditingSketch(_sketchId))
+    {
+        return;
+    }
+
+    TaskEnvironment::onConfirm();
 }
 
 void SketchEnvironmentImpl::onExit(ExitCode exitCode)

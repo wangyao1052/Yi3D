@@ -26,21 +26,33 @@
 
 #include <plugin/PluginApi.h>
 
+#include "plugins/PluginManifest.h"
 #include "utils/Log.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
-struct PluginManifest;
-
-struct LoadedPlugin
+// Runtime state of a discovered plugin. Disabled/Failed/Unloaded records are
+// kept so the management dialog can list and retry them.
+enum class PluginState
 {
-    Plugin* pPlugin = nullptr;
-    void* pModule = nullptr;
-    wy3dappDeletePluginFn deletePluginFn = nullptr;
-    std::string id;
-    std::string name;
-    std::string u8LibraryFullPath;
+    Loaded,
+    Disabled,
+    Failed,
+    Unloading,
+    Unloaded,
+    NeedsRestart,
+};
+
+// Snapshot returned by PluginManager::getPlugins().
+struct PluginInfo
+{
+    std::string key;          // Plugin directory name; stable runtime identifier.
+    std::string id;           // plugin.ini id; empty for an invalid manifest.
+    std::string name;         // Display name; falls back to id or key.
+    std::string libraryPath;  // Full library path (also for disabled/failed records).
+    PluginState state = PluginState::Failed;
+    std::string error;        // Last failure / restart reason.
 };
 
 class PluginManager : public wyap::EnvManagerReactor
@@ -51,6 +63,21 @@ public:
     void initialize();
     void terminate();
 
+    // Runtime management (UI thread only). Load/unload is invoked only from
+    // the modal Plugin Manager dialog, which suppresses the active
+    // environment's default command for the dialog lifetime.
+    std::vector<PluginInfo> getPlugins() const;
+
+    // Returns false and fills reason when the plugin cannot be unloaded now.
+    bool canUnloadPlugin(const std::string& key, std::string& reason) const;
+
+    // Unload one plugin from memory. Keeps the record so loadPlugin() can reload it.
+    bool unloadPlugin(const std::string& key, std::string& error);
+
+    // Load or reload one discovered plugin.
+    bool loadPlugin(const std::string& key, std::string& error);
+
+    // EnvManagerReactor
     void onEnvironmentEntered(wyap::Environment* pEnvironment) override;
     void onEnvironmentToBeExited(wyap::Environment* pEnvironment) override;
     void onEnvironmentToBeSuspended(wyap::Environment* pEnvironment) override;
@@ -62,6 +89,20 @@ private:
     PluginManager(const PluginManager&) = delete;
     PluginManager& operator=(const PluginManager&) = delete;
 
+    struct PluginRecord
+    {
+        std::string key;              // Plugin directory name.
+        std::string dirFullPathU8;
+        std::string iniFullPathU8;
+        PluginManifest manifest;
+        PluginState state = PluginState::Failed;
+        std::string error;
+        std::string libraryFullPathU8;
+        Plugin* pPlugin = nullptr;
+        void* pModule = nullptr;
+        wy3dappDeletePluginFn deletePluginFn = nullptr;
+    };
+
     struct LoadPluginsStatistics
     {
         size_t total = 0;
@@ -69,16 +110,29 @@ private:
         size_t disabled = 0;
         size_t failed = 0;
     };
-    LoadPluginsStatistics loadPlugins();
 
-    bool loadPlugin(
-        const PluginManifest& manifest,
-        const std::string& pluginDirFullPathU8,
-        LoadedPlugin& out,
-        std::string& error);
+    PluginRecord* findRecord(const std::string& key);
+    const PluginRecord* findRecord(const std::string& key) const;
+
+    LoadPluginsStatistics loadPlugins();
+    bool loadRecord(PluginRecord& record, std::string& error);
+    bool unloadRecord(PluginRecord& record, std::string& error);
+
+    // Replays the enter callback for every environment currently on the
+    // EnvManager stack, bottom to top, after a plugin was loaded or reloaded.
+    void replayEnvironmentStack(PluginRecord& record);
+
+    // Returns true if a live environment was created by a plugin (not a host
+    // environment). Such an environment owns plugin code through its vtable and
+    // must be exited before the plugin DLL can be unloaded.
+    bool findBlockingEnvironment(std::string& environmentName) const;
+
+    static bool isUiThread();
 
 private:
-    std::vector<LoadedPlugin> _plugins;
+    std::vector<PluginRecord> _records;
+    // Guard against re-entering load/unload from plugin callbacks.
+    bool _operationInProgress = false;
     Log _log;
 };
 

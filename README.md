@@ -31,6 +31,7 @@ Yi3D
 ├── src/wy3dApp/    Desktop application (EXE) — Qt 5 + OSG graphical interface
 ├── src/wy3dPY/     Python bindings (wy3d.pyd) — built with pybind11
 ├── inc/            Public C++ headers
+├── sdk/            Plugin SDK helper and contract (sdk/PluginSdk.md)
 ├── scripts/        Python modeling script examples
 ├── samples/        Sample model files (.wy3db / .wy3dt)
 ├── 3rdParty/       Third-party dependencies and prebuilt bundles

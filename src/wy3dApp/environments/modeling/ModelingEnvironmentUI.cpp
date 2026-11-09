@@ -1217,29 +1217,29 @@ UiTargets createUiTargets(EnvironmentUIImpl* pUI)
     UiTargets targets = {};
     // Created before the environment's own tool bars so it lands right after the file
     // tool bar, which the gateway environment owns.
-    targets.pToolBarEdit = pUI->addToolBar(
+    targets.pToolBarEdit = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "Edit"),
         wy3dApp::ToolBarNames::Edit);
     assert(targets.pToolBarEdit);
 
-    targets.pToolBarModeling = pUI->addToolBar(
+    targets.pToolBarModeling = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "Modeling"),
         wy3dApp::ToolBarNames::Modeling);
 
-    targets.pToolBarSheet = pUI->addToolBar(
+    targets.pToolBarSheet = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "Sheet"),
         wy3dApp::ToolBarNames::Sheet);
 
-    targets.pToolBarUtility = pUI->addToolBar(
+    targets.pToolBarUtility = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "Utility"),
         wy3dApp::ToolBarNames::Utility);
 
-    targets.pToolBarView = pUI->addToolBar(
+    targets.pToolBarView = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "View"),
         wy3dApp::ToolBarNames::ModelingView);
 
 #ifdef _DEBUG
-    targets.pToolBarTest = pUI->addToolBar(
+    targets.pToolBarTest = pUI->newToolBar(
         QCoreApplication::translate("MainWindow", "Test"),
         wy3dApp::ToolBarNames::Test);
 #endif // _DEBUG
@@ -1254,7 +1254,7 @@ UiTargets createUiTargets(EnvironmentUIImpl* pUI)
     targets.pMenuFile = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::File);
     assert(targets.pMenuFile);
 
-    targets.pMenuSheet = pUI->addMenu(QCoreApplication::translate("MainWindow", "Sheet"),
+    targets.pMenuSheet = pUI->newMenu(QCoreApplication::translate("MainWindow", "Sheet"),
                                        wy3dApp::MenuBarNames::Sheet);
     assert(targets.pMenuSheet);
     // 以工具菜单为锚,曲面插到工具之前;工具菜单缺失时回退到帮助菜单
@@ -1267,26 +1267,26 @@ UiTargets createUiTargets(EnvironmentUIImpl* pUI)
     targets.pMenuTools = pMainWindow->findChild<QMenu*>(wy3dApp::MenuBarNames::Tools);
     assert(targets.pMenuTools);
 
-    targets.pMenuSolid = pUI->addMenu(QCoreApplication::translate("MainWindow", "Solid"),
+    targets.pMenuSolid = pUI->newMenu(QCoreApplication::translate("MainWindow", "Solid"),
                                        wy3dApp::MenuBarNames::Solid);
     assert(targets.pMenuSolid);
     // Anchor on the sheet menu so the solid menu lands immediately to its left.
     if (targets.pMenuSolid && targets.pMenuSheet)
         pMainWindow->menuBar()->insertMenu(targets.pMenuSheet->menuAction(), targets.pMenuSolid);
 
-    targets.pMenuView = pUI->addMenu(QCoreApplication::translate("MainWindow", "View"),
+    targets.pMenuView = pUI->newMenu(QCoreApplication::translate("MainWindow", "View"),
                                       wy3dApp::MenuBarNames::View);
     assert(targets.pMenuView);
     pUI->insertMenuAfter(targets.pMenuFile, targets.pMenuView);
 
-    targets.pMenuSketch = pUI->addMenu(QCoreApplication::translate("MainWindow", "Sketch"),
+    targets.pMenuSketch = pUI->newMenu(QCoreApplication::translate("MainWindow", "Sketch"),
                                         wy3dApp::MenuBarNames::Sketch);
     assert(targets.pMenuSketch);
     // Anchor on the view menu so the sketch menu lands immediately to its right,
     // i.e. before the solid menu.
     pUI->insertMenuAfter(targets.pMenuView, targets.pMenuSketch);
 
-    targets.pMenuEdit = pUI->addMenu(QCoreApplication::translate("MainWindow", "Edit"),
+    targets.pMenuEdit = pUI->newMenu(QCoreApplication::translate("MainWindow", "Edit"),
                                       wy3dApp::MenuBarNames::Edit);
     assert(targets.pMenuEdit);
     // Anchor on the file menu so the edit menu lands immediately to its right.

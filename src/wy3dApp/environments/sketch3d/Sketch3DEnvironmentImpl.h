@@ -70,6 +70,7 @@ public:
 
     virtual void refreshCommandActionStates(CommandActionRefreshCause cause) override;
     virtual bool addContextMenuActions(ContextMenu& menu) override;
+    virtual void onConfirm() override;
 
 protected:
     virtual void onEnter() override;

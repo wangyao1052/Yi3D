@@ -20,12 +20,14 @@
 
 #include <cassert>
 
+#include <QAction>
 #include <QCoreApplication>
 #include <QIcon>
 
 #include <wy3dApp/GatewayEnvironment.h>
 #include <wy3dApp/CommandAction.h>
 #include "commands/CommandNames.h"
+#include "commands/PluginManagerCommands.h"
 #include "ui/MenuBarNames.h"
 #include "ui/ToolBarNames.h"
 #include "utils/IconUtil.h"
@@ -40,6 +42,7 @@ struct GatewayActions
     CommandAction* pActionNewFile;
     CommandAction* pActionOpenFile;
     CommandAction* pActionOptions;
+    QAction* pActionManagePlugins;
     CommandAction* pActionHelpDocumentation;
     CommandAction* pActionShortcutKeys;
     CommandAction* pActionContactUs;
@@ -64,7 +67,19 @@ GatewayActions createActions(EnvironmentUIImpl* pUI)
     actions.pActionOptions = pUI->newCommandAction(
         CommandNames::Options,
         QCoreApplication::translate("MainWindow", "Options"),
-        QIcon());
+        IconUtil::get(":/images/Options.svg"));
+
+    actions.pActionManagePlugins = new QAction(
+        QCoreApplication::translate("MainWindow", "Plugin Management"), pUI);
+    actions.pActionManagePlugins->setIcon(
+        QIcon(QStringLiteral(":/images/Plugin_Manage.svg")));
+    actions.pActionManagePlugins->setToolTip(
+        QCoreApplication::translate("MainWindow", "Plugin Management"));
+    actions.pActionManagePlugins->setStatusTip(
+        actions.pActionManagePlugins->toolTip());
+    QObject::connect(
+        actions.pActionManagePlugins, &QAction::triggered,
+        actions.pActionManagePlugins, []() { showPluginManagerDialog(); });
 
     actions.pActionHelpDocumentation = pUI->newCommandAction(
         CommandNames::HelpDocumentation,
@@ -117,6 +132,7 @@ void GatewayEnvironmentUI::build()
     _pMenuFile->addAction(actions.pActionNewFile);
     _pMenuFile->addAction(actions.pActionOpenFile);
     _pMenuTools->addAction(actions.pActionOptions);
+    _pMenuTools->addAction(actions.pActionManagePlugins);
     _pMenuHelp->addAction(actions.pActionHelpDocumentation);
     _pMenuHelp->addAction(actions.pActionShortcutKeys);
     _pMenuHelp->addAction(actions.pActionContactUs);
@@ -135,22 +151,22 @@ void GatewayEnvironmentUI::setFileActionsEnabled(bool enabled)
 
 void GatewayEnvironmentUI::createMenus()
 {
-    _pMenuFile = this->addMenu(
+    _pMenuFile = this->newMenu(
         QCoreApplication::translate("MainWindow", "File"),
         wy3dApp::MenuBarNames::File);
 
-    _pMenuTools = this->addMenu(
+    _pMenuTools = this->newMenu(
         QCoreApplication::translate("MainWindow", "Tools"),
         wy3dApp::MenuBarNames::Tools);
 
-    _pMenuHelp = this->addMenu(
+    _pMenuHelp = this->newMenu(
         QCoreApplication::translate("MainWindow", "Help"),
         wy3dApp::MenuBarNames::Help);
 }
 
 void GatewayEnvironmentUI::createToolBars()
 {
-    _pToolBarFile = this->addToolBar(
+    _pToolBarFile = this->newToolBar(
         QCoreApplication::translate("MainWindow", "File"),
         wy3dApp::ToolBarNames::File);
 }
