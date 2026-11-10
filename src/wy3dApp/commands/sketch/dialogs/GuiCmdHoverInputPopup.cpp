@@ -21,6 +21,7 @@
 #include <QApplication>
 #include <QButtonGroup>
 #include <QEvent>
+#include <QFont>
 #include <QFontMetrics>
 #include <QGridLayout>
 #include <QHBoxLayout>
@@ -139,6 +140,13 @@ GuiCmdHoverInputPopupBase::GuiCmdHoverInputPopupBase(QWidget* parent)
     _cancelHandler(),
     _spaceKeyHandler()
 {
+    // The popups inherit the 9pt system default, which is too small to read
+    // over the 3D view; one size up keeps the cursor-following box compact.
+    // Set before the derived classes create their labels/edits so the font
+    // propagates and applyPresetWidths() measures with it.
+    QFont popupFont(QStringLiteral("Microsoft YaHei"), 10);
+    this->setFont(popupFont);
+
     this->setAttribute(Qt::WA_DeleteOnClose, false);
     this->setAttribute(Qt::WA_StyledBackground, true);
     _timer.setSingleShot(true);
