@@ -516,7 +516,7 @@ SketchActions createSketchActions(EnvironmentUIImpl* pUI, QActionGroup* pActionG
 }
 
 SketchEnvironmentActions createSketchEnvironmentActions(
-    EnvironmentUIImpl* pUI,
+    TaskEnvironmentUI* pUI,
     QActionGroup* pActionGroup)
 {
     assert(pUI);
@@ -931,7 +931,7 @@ void buildToolsMenuUi(
 } // namespace
 
 SketchEnvironmentUI::SketchEnvironmentUI(const SketchEnvironment* pEnv)
-    : EnvironmentUIImpl(pEnv)
+    : TaskEnvironmentUI(pEnv)
 {
 }
 
@@ -971,8 +971,6 @@ void SketchEnvironmentUI::build()
     buildViewMenuUi(viewActions, uiTargets.pMenuView);
     buildEditMenuUi(undoRedoActions, uiTargets.pMenuEdit);
     buildToolsMenuUi(sketchActions.pActionSelect, utilityActions, uiTargets.pMenuTools);
-
-    this->setConfirmationBarVisible(true);
 }
 
 bool SketchEnvironmentUI::addContextMenuActions(ContextMenu& menu)

@@ -3443,12 +3443,12 @@
 <context>
     <name>TaskEnvironment</name>
     <message>
-        <location filename="../../environments/EnvironmentUIImpl.cpp" line="192"/>
+        <location filename="../../environments/TaskEnvironmentUI.cpp" line="68"/>
         <source>Finish</source>
         <translation>Finish</translation>
     </message>
     <message>
-        <location filename="../../environments/EnvironmentUIImpl.cpp" line="204"/>
+        <location filename="../../environments/TaskEnvironmentUI.cpp" line="80"/>
         <source>Cancel</source>
         <translation type="unfinished">Cancel</translation>
     </message>

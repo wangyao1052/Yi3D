@@ -21,11 +21,11 @@
 
 #include <utility>
 
-#include "environments/EnvironmentUIImpl.h"
+#include "environments/TaskEnvironmentUI.h"
 
 namespace wy3dApp {
 
-Sketch3DEnvironment::Sketch3DEnvironment(std::unique_ptr<EnvironmentUIImpl> pUI)
+Sketch3DEnvironment::Sketch3DEnvironment(std::unique_ptr<TaskEnvironmentUI> pUI)
     : TaskEnvironment(std::move(pUI))
 {
 }

@@ -20,7 +20,9 @@
 #include <wy3dApp/wy3dAppDefs.h>
 #include <wy3dColor.h>
 
-#define BrightGreen  osg::Vec4(0.0f, 0.93f, 0.0f, 1.0f) // 亮绿色
+#define BrightGreen  osg::Vec4(0.0f, 0.93f, 0.0f, 1.0f)  // #00ED00 亮绿色
+#define MediumGreen  osg::Vec4(0.0f, 0.765f, 0.0f, 1.0f) // #00C300 中绿色
+
 #define BrightOrange osg::Vec4(0.9f, 0.39f, 0.1f, 1.0f) // 亮橙色(CREO)
 
 namespace wy3dApp {
@@ -78,7 +80,7 @@ const Colors::LinePalette Colors::sketch = {
 
 const Colors::LinePalette Colors::sketchEntity = {
     osg::Vec4(0.44f, 0.19f, 0.63f, 1.0f),  // 紫色
-    BrightGreen,                           // 绿色++
+    MediumGreen,                             // #00C300 (Creo 草图元素高亮色)
     osg::Vec4(1.0f, 0.39f, 0.04f, 1.0f)    // 亮橙色++
 };
 

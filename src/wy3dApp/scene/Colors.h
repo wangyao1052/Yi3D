@@ -27,7 +27,7 @@ namespace wy3d { class Color; }
 
 namespace wy3dApp {
 
-class Colors
+class WY3DAPP_EXPORT Colors
 {
 public:
     static osg::Vec4 toOsgColor(const wy3d::Color& color);

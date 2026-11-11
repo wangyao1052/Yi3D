@@ -27,9 +27,6 @@ namespace wy3dApp {
 DEFINE_SIMPLE_CMD(ConfirmTaskEnvironmentCommand)
 DEFINE_SIMPLE_CMD(CancelTaskEnvironmentCommand)
 
-// Registers the host confirmation commands once. Safe to call repeatedly.
-void ensureTaskEnvironmentCommandsRegistered();
-
 } // namespace wy3dApp
 
 #endif // WY3DAPP_TASK_ENVIRONMENT_COMMANDS_H

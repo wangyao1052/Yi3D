@@ -368,7 +368,7 @@ Sketch3DActions createSketch3DActions(EnvironmentUIImpl* pUI, QActionGroup* pAct
 }
 
 Sketch3DEnvironmentActions createSketch3DEnvironmentActions(
-    EnvironmentUIImpl* pUI,
+    TaskEnvironmentUI* pUI,
     QActionGroup* pActionGroup)
 {
     assert(pUI);
@@ -717,7 +717,7 @@ void buildToolsMenuUi(
 } // namespace
 
 Sketch3DEnvironmentUI::Sketch3DEnvironmentUI(const Sketch3DEnvironment* pEnv)
-    : EnvironmentUIImpl(pEnv)
+    : TaskEnvironmentUI(pEnv)
 {
 }
 
@@ -751,8 +751,6 @@ void Sketch3DEnvironmentUI::build()
     buildViewMenuUi(viewActions, uiTargets.pMenuView);
     buildEditMenuUi(undoRedoActions, uiTargets.pMenuEdit);
     buildToolsMenuUi(sketch3DActions.pActionSelect, utilityActions, uiTargets.pMenuTools);
-
-    this->setConfirmationBarVisible(true);
 }
 
 bool Sketch3DEnvironmentUI::addContextMenuActions(ContextMenu& menu)

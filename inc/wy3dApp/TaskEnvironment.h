@@ -31,7 +31,7 @@ namespace wy3dApp {
 
 class CommandAction;
 class ContextMenu;
-class EnvironmentUIImpl;
+class TaskEnvironmentUI;
 
 // Base class for task environments.
 class WY3DAPP_EXPORT TaskEnvironment : public wyap::TaskEnvironment
@@ -68,7 +68,7 @@ public:
 
 protected:
     TaskEnvironment();
-    explicit TaskEnvironment(std::unique_ptr<EnvironmentUIImpl> pUI);
+    explicit TaskEnvironment(std::unique_ptr<TaskEnvironmentUI> pUI);
     ~TaskEnvironment();
 
     virtual void onEnter() override;
@@ -86,7 +86,7 @@ protected:
         wyap::CmdExecution::AbortCause abortCause) override;
 
 private:
-    std::unique_ptr<EnvironmentUIImpl> _pUI;
+    std::unique_ptr<TaskEnvironmentUI> _pUI;
 };
 
 } // namespace wy3dApp

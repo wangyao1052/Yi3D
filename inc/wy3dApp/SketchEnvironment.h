@@ -29,7 +29,7 @@
 
 namespace wy3dApp {
 
-class EnvironmentUIImpl;
+class TaskEnvironmentUI;
 class SketchSnapSystem;
 
 class WY3DAPP_EXPORT SketchEnvironment
@@ -50,7 +50,7 @@ public:
 
 protected:
     SketchEnvironment() = default;
-    explicit SketchEnvironment(std::unique_ptr<EnvironmentUIImpl> pUI);
+    explicit SketchEnvironment(std::unique_ptr<TaskEnvironmentUI> pUI);
     ~SketchEnvironment();
 };
 
