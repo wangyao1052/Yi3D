@@ -22,7 +22,7 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchEllipseArc.h>
 #include "scene/SketchEntityLinearization.h"
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include <wy3dApp/Gizmo.h>
 #include "utils/MathUtils.h"
 #include <wy3dApp/Application.h>

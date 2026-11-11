@@ -23,7 +23,7 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchSpline.h>
 #include "scene/RenderConst.h"
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include <wy3dApp/Gizmo.h>
 #include "utils/MathUtils.h"
 #include <wy3dApp/Application.h>

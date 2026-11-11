@@ -25,7 +25,7 @@
 #include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/ElementNodeType.h>
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "select/filters/SolidFaceSelFilter.h"
 #include "widgets/frame/MainWindow.h"
 #include <QCoreApplication>

@@ -23,7 +23,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include "snap/SnapContext.h"
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "snap/SnapConsts.h"
 #include "utils/MessageBoxUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>

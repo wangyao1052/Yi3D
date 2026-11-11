@@ -28,7 +28,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/ElementRenderObject.h>
 
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "scene/nodes/ElementRenderDataTypes.h"
 
 namespace wy3dApp {

@@ -42,7 +42,7 @@
 #include "widgets/frame/MainWindow.h"
 #include "widgets/frame/ViewWidget.h"
 #include "widgets/frame/ViewWidgetContainer.h"
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "snap/SketchSnapSystem.h"
 #include "snap/Snap2dSystemImpl.h"
 #include <wy3dApp/wy3dAppDefs.h>

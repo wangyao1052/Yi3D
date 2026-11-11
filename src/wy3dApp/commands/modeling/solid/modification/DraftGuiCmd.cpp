@@ -39,7 +39,7 @@
 #include "utils/TopoShapeUtil.h"
 #include "commands/dialogs/DoubleValueInputDialog.h"
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {

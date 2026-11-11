@@ -16,7 +16,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include <wy3dApp/wy3dAppDefs.h>
 #include <wy3dColor.h>
 

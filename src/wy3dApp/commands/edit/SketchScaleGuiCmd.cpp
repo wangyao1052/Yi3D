@@ -40,7 +40,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "view/OsgView.h"
 #include "commands/OsgGuiEventDispatcher.h"
 #include <wy3dApp/ElementNode.h>

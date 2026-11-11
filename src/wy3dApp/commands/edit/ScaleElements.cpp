@@ -30,7 +30,7 @@
 #include <wy3dApp/ElementNode.h>
 #include <wy3dApp/ElementNodeType.h>
 #include "utils/MathUtils.h"
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "common/osg/OsgUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
