@@ -134,8 +134,8 @@ bool PluginManager::loadRecord(PluginRecord& record, std::string& error)
 {
     error.clear();
 
-    const fs::path pathPluginDir(record.dirFullPathU8);
-    const fs::path pathLibrary = pathPluginDir / fs::path(record.manifest.library);
+    const fs::path pathPluginDir = fs::u8path(record.dirFullPathU8);
+    const fs::path pathLibrary = pathPluginDir / fs::u8path(record.manifest.library);
     record.libraryFullPathU8 = pathLibrary.u8string();
 
     Plugin* pPlugin = nullptr;
@@ -337,7 +337,7 @@ PluginManager::LoadPluginsStatistics PluginManager::loadPlugins()
         }
 
         const fs::path pathLibrary =
-            fs::path(record.dirFullPathU8) / fs::path(record.manifest.library);
+            fs::u8path(record.dirFullPathU8) / fs::u8path(record.manifest.library);
         record.libraryFullPathU8 = pathLibrary.u8string();
 
         if (!record.manifest.enabled)
@@ -781,7 +781,7 @@ bool PluginManager::loadPlugin(const std::string& key, std::string& error)
 
     pRecord->manifest = manifest;
     const fs::path pathLibrary =
-        fs::path(pRecord->dirFullPathU8) / fs::path(pRecord->manifest.library);
+        fs::u8path(pRecord->dirFullPathU8) / fs::u8path(pRecord->manifest.library);
     pRecord->libraryFullPathU8 = pathLibrary.u8string();
 
     {
