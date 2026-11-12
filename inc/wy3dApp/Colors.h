@@ -28,7 +28,7 @@ namespace wy3dApp {
 class WY3DAPP_EXPORT Colors
 {
 public:
-    struct Mesh
+    struct MeshPalette
     {
         struct
         {
@@ -64,15 +64,8 @@ public:
         } edge;
     };
 
-    static const Mesh solidMesh;
-    static const Mesh sheetMesh;
-
-    struct LinePalette
-    {
-        osg::Vec4 normal;
-        osg::Vec4 highlight;
-        osg::Vec4 preview;
-    };
+    static const MeshPalette solidMesh;
+    static const MeshPalette sheetMesh;
 
     struct PlanePalette
     {
@@ -91,25 +84,17 @@ public:
         } edge;
     };
 
-    static const LinePalette sketch;
-    static const LinePalette sketchEntity;
     static const PlanePalette datumPlane;
 
-    // sky blue
-    static const osg::Vec4 kSkyBlue;
+    struct LinePalette
+    {
+        osg::Vec4 normal;
+        osg::Vec4 highlight;
+        osg::Vec4 preview;
+    };
 
-    // rust red
-    static const osg::Vec4 kRustRed;
-
-    // gray
-    static const osg::Vec4 kGray;
-
-    // ocean blue
-    static const osg::Vec4 kOceanBlue;
-
-    // 备选的一些颜色
-    // 粉色
-    static const osg::Vec4 kPink;
+    static const LinePalette sketch;
+    static const LinePalette sketchEntity;
 };
 
 } // namespace wy3dApp

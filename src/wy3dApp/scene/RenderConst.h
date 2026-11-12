@@ -60,6 +60,21 @@ static const inline unsigned short DOT_LINE_STIPPLE_PATTERN = 0xAAAA;
 static const inline int DASH_LINE_STIPPLE_FACTOR = 2;
 static const inline unsigned short DASH_LINE_STIPPLE_PATTERN = 0x03FF;
 
+// sky blue
+extern const osg::Vec4 kSkyBlue;
+
+// rust red
+extern const osg::Vec4 kRustRed;
+
+// gray
+extern const osg::Vec4 kGray;
+
+// ocean blue
+extern const osg::Vec4 kOceanBlue;
+
+// pink
+extern const osg::Vec4 kPink;
+
 // 非活动元素色（选择集中非活动元素的常规色）
 extern const osg::Vec4 kInactiveElementColor;
 

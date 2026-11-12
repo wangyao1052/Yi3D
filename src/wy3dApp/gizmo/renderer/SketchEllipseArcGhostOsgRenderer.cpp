@@ -22,7 +22,7 @@
 #include <wy3dSketch.h>
 #include <wy3dSketchEllipseArc.h>
 #include "scene/SketchEntityLinearization.h"
-#include <wy3dApp/Colors.h>
+#include "scene/RenderConst.h"
 #include <wy3dApp/Gizmo.h>
 #include "utils/MathUtils.h"
 #include <wy3dApp/Application.h>
@@ -146,7 +146,7 @@ osg::ref_ptr<osg::Geometry> SketchEllipseArcGhostOsgRenderer::generateGeometry(c
         geometry->setUseVertexBufferObjects(true);
         geometry->setVertexArray(vertices);
         osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-        colors->push_back(Colors::kGray);
+        colors->push_back(kGray);
         geometry->setColorArray(colors, osg::Array::Binding::BIND_OVERALL);
         geometry->addPrimitiveSet(new osg::DrawElementsUInt(GL_LINES, indices.begin(), indices.end()));
         geometry->getOrCreateStateSet()->setMode(GL_LIGHTING, osg::StateAttribute::OFF);

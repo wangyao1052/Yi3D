@@ -151,7 +151,7 @@ std::unique_ptr<ElementRenderObject> BodyModificationElementNode::generateRender
     style.edgeColor = Colors::solidMesh.element.normal.edge;
     style.highlightColor = Colors::solidMesh.edge.highlight;
     style.previewColor = Colors::solidMesh.edge.preview;
-    style.inactiveColor = Colors::kRustRed;
+    style.inactiveColor = kRustRed;
 
     auto renderObject = std::make_unique<BodyModificationRenderObject>(
         pElem->getId(), this->getNodeType(), *data, style);

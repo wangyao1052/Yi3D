@@ -30,7 +30,6 @@
 #include <wy3dSketch.h>
 
 #include "gizmo/element/sketchpolygon/SketchPolygonCircleGhostGizmo.h"
-#include <wy3dApp/Colors.h>
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
 #include "utils/SketchClosedLoop.h"
@@ -109,7 +108,7 @@ void SketchPolygonCircleOsgRenderer::refresh()
     }
 
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(Colors::kGray);
+    colors->push_back(kGray);
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
     geometry->setUseDisplayList(false);

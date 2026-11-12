@@ -28,7 +28,6 @@
 #include <wy3dSketch.h>
 
 #include "gizmo/element/sketchrectangle/SketchRectangleDiagonalsGhostGizmo.h"
-#include <wy3dApp/Colors.h>
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
 #include "utils/SketchRectangleRecognizer.h"
@@ -83,7 +82,7 @@ void SketchRectangleDiagonalsOsgRenderer::refresh()
     vertices->push_back(MathUtils::toVec3(plane.value(corners[3])));
 
     osg::ref_ptr<osg::Vec4Array> colors = new osg::Vec4Array();
-    colors->push_back(Colors::kGray);
+    colors->push_back(kGray);
 
     osg::ref_ptr<osg::Geometry> geometry = new osg::Geometry();
     geometry->setUseDisplayList(false);

@@ -39,7 +39,7 @@
 #include "utils/TopoShapeUtil.h"
 #include "commands/dialogs/DoubleValueInputDialog.h"
 #include "commands/modeling/solid/ChamferFilletCmdCommon.h"
-#include <wy3dApp/Colors.h>
+#include "scene/RenderConst.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -119,7 +119,7 @@ wyap::CmdExecution::StartResult DraftGuiCmd::onStart()
     _pointPickOption.allowedElemTypes = ElementNodeType::Solid;
     _pointPickOption.selType = wy3d::SelectionType::Face;
     _pSelSetHighlightor = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet());
-    _pSelSetHighlightor_NeutralFace = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet(), Colors::kPink);
+    _pSelSetHighlightor_NeutralFace = std::make_shared<SelectionSetHighlightor>(wyap::SelectionSet(), kPink);
     this->gotoStep(Step::SelectDraftFaces);
 
     return wyap::CmdExecution::StartResult::Succeeded;
