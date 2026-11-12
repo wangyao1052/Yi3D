@@ -31,6 +31,7 @@
 #include <QMessageBox>
 #include <QMenu>
 #include <QPainter>
+#include <QTimer>
 
 #include <algorithm>
 #include <sstream>
@@ -42,6 +43,7 @@
 #include <wyapDocument.h>
 #include <wyapDocManager.h>
 #include <wyapCmdManager.h>
+#include <wyapEnvManager.h>
 #include <wy3dErrorCode.h>
 #include <wy3dFeature.h>
 #include <wy3dDatumPlane.h>
@@ -96,6 +98,7 @@
 #include "commands/CommandNames.h"
 #include <wy3dApp/GuiCommand.h>
 #include <wy3dApp/CommandAction.h>
+#include <wy3dApp/ModelingEnvironment.h>
 #include <wy3dApp/Scene.h>
 #include <wy3dApp/ElementNode.h>
 #include "utils/IconUtil.h"
@@ -344,6 +347,10 @@ void FeatureTreeWidget::newTreeView()
     // 比如在新建草图命令中,单击特征树上的基准面则表示选择此基准面为草图平面
     this->connect(_treeView, &QTreeView::clicked, this, &FeatureTreeWidget::onTreeViewClicked);
     // }
+
+    // 双击草图进入草图编辑
+    this->connect(_treeView, &QTreeView::doubleClicked,
+        this, &FeatureTreeWidget::onTreeViewDoubleClicked);
 }
 
 FeatureTreeWidget::~FeatureTreeWidget()
@@ -2060,6 +2067,108 @@ void FeatureTreeWidget::onTreeViewClicked(const QModelIndex& index)
     GuiCommand* pGuiCommand = dynamic_cast<GuiCommand*>(pCmdExecutor);
     if (!pGuiCommand) return; // 当前模态命令不是GuiCommand时忽略
     pGuiCommand->onFeatureTreeItemClicked(id);
+}
+
+void FeatureTreeWidget::onTreeViewDoubleClicked(const QModelIndex& index)
+{
+    if (!index.isValid())
+    {
+        return;
+    }
+    if (TransactionUtil::hasActiveTransaction())
+    {
+        return;
+    }
+
+    const wydb::ElementId id = this->getElementIdByModelIndex(index);
+    if (id.isNull())
+    {
+        return;
+    }
+
+    wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+    if (!pDb)
+    {
+        return;
+    }
+    const wydb::Element* pElem = pDb->getElement(id);
+    if (!pElem)
+    {
+        return;
+    }
+
+    std::string commandName;
+    if (wy3d::Sketch::cast(pElem))
+    {
+        commandName = CommandNames::EditSketch;
+    }
+    else if (wy3d::Sketch3D::cast(pElem))
+    {
+        commandName = CommandNames::EditSketch3D;
+    }
+    else
+    {
+        return;
+    }
+
+    wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
+    if (!pEnvMgr) return;
+    if (!dynamic_cast<ModelingEnvironment*>(pEnvMgr->getActiveEnvironment()))
+    {
+        return;
+    }
+
+    // 不在树视图的双击事件派发过程中同步切换环境：推迟到下一轮事件循环，
+    // 再重新校验状态、设置选择集并触发编辑命令。
+    QTimer::singleShot(0, this, [id, commandName]()
+    {
+        if (TransactionUtil::hasActiveTransaction())
+        {
+            return;
+        }
+
+        wyap::EnvManager* pEnvMgr = ApplicationImpl::instance().getEnvManager();
+        if (!pEnvMgr) return;
+        if (!dynamic_cast<ModelingEnvironment*>(pEnvMgr->getActiveEnvironment()))
+        {
+            return;
+        }
+
+        wydb::Database* pDb = ApplicationImpl::instance().getActiveDatabase();
+        if (!pDb) return;
+        const wydb::Element* pElem = pDb->getElement(id);
+        if (!pElem) return;
+        if (commandName == CommandNames::EditSketch && !wy3d::Sketch::cast(pElem)) return;
+        if (commandName == CommandNames::EditSketch3D && !wy3d::Sketch3D::cast(pElem)) return;
+
+        wyap::CmdManager* pCmdMgr = ApplicationImpl::instance().getCmdManager();
+        if (!pCmdMgr) return;
+
+        // 只有建模 Select 模式下才允许双击进入草图编辑，避免打断其他模态命令。
+        wyap::Command* pCurModalCmd = pCmdMgr->getCurrentModalCommand();
+        if (!pCurModalCmd || pCurModalCmd->getName() != CommandNames::Select)
+        {
+            return;
+        }
+
+        // 编辑命令从选择集读取目标草图，因此把被双击的草图设为唯一选择。
+        wyap::SelManager* pSelMgr = ApplicationImpl::instance().getSelManager();
+        if (!pSelMgr) return;
+        pSelMgr->beginChange();
+        pSelMgr->clearSelections();
+        pSelMgr->addSelection(wyap::Selection(id));
+        pSelMgr->endChange();
+
+        // 先投递命令，再中止当前模态命令（与 SelectGuiCmd::onSpaceKey 的顺序一致），
+        // 由异步调度器稍后执行，避免在双击事件派发中同步拆除环境 UI。
+        const wy::ErrorStatus status = pCmdMgr->postCommand(commandName);
+        assert(wy::ErrorStatus::Ok == status);
+        if (pCmdMgr->getCurrentModalCommand())
+        {
+            pCmdMgr->abortCurrentModalCommand(
+                wyap::CmdExecution::AbortCause::ForceTerminate);
+        }
+    });
 }
 
 } // namespace wy3dApp

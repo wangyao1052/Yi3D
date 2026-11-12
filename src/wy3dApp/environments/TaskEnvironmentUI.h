@@ -59,7 +59,7 @@ private:
     // Create the confirmation bar at the single post-layout point
     // (restoreUiState()). The bar is created hidden; the caller shows it.
     void createConfirmationBar();
-    // Destroy the confirmation bar synchronously, before its actions.
+    // Queue the confirmation bar for deletion, before its actions.
     void destroyConfirmationBar();
 
 private:

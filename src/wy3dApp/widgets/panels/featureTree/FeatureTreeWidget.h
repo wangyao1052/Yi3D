@@ -135,6 +135,8 @@ private slots:
 
     // 单击事件
     void onTreeViewClicked(const QModelIndex& index);
+    // 双击草图进入草图编辑
+    void onTreeViewDoubleClicked(const QModelIndex& index);
 
     // 文档激活事件
     virtual void onDocumentCreated(wyap::Document* pNewDoc) override;
