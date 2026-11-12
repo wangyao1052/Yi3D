@@ -168,6 +168,12 @@ CommandAction* EnvironmentUIImpl::newCommandAction(
     const QIcon& icon,
     QActionGroup* pActionGroup)
 {
+    if (CommandAction* pExisting = this->findCommandAction(commandName))
+    {
+        assert(false);
+        return pExisting;
+    }
+
     CommandAction* pAction = new CommandAction(commandName, this);
     pAction->setText(text);
     pAction->setIcon(icon);

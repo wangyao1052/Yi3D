@@ -42,69 +42,55 @@ TaskEnvironmentUI::~TaskEnvironmentUI()
 
 CommandAction* TaskEnvironmentUI::getConfirmAction()
 {
-    return _pConfirmAction.data();
+    return this->findCommandAction(CommandNames::ConfirmTaskEnvironment);
 }
 
 CommandAction* TaskEnvironmentUI::getCancelAction()
 {
-    return _pCancelAction.data();
+    return this->findCommandAction(CommandNames::CancelTaskEnvironment);
 }
 
 void TaskEnvironmentUI::createConfirmationActions()
 {
-    if (!_pConfirmAction)
-    {
-        _pConfirmAction = this->findCommandAction(CommandNames::ConfirmTaskEnvironment);
-    }
-    if (!_pConfirmAction)
-    {
-        _pConfirmAction = this->newCommandAction(
-            CommandNames::ConfirmTaskEnvironment,
-            QCoreApplication::translate("TaskEnvironment", "Finish"),
-            IconUtil::get(":/images/Sketch_OK.svg"));
-    }
+    this->newCommandAction(
+        CommandNames::ConfirmTaskEnvironment,
+        QCoreApplication::translate("TaskEnvironment", "Finish"),
+        IconUtil::get(":/images/Sketch_OK.svg"));
 
-    if (!_pCancelAction)
-    {
-        _pCancelAction = this->findCommandAction(CommandNames::CancelTaskEnvironment);
-    }
-    if (!_pCancelAction)
-    {
-        _pCancelAction = this->newCommandAction(
-            CommandNames::CancelTaskEnvironment,
-            QCoreApplication::translate("TaskEnvironment", "Cancel"),
-            IconUtil::get(":/images/Sketch_Cancel.svg"));
-    }
+    this->newCommandAction(
+        CommandNames::CancelTaskEnvironment,
+        QCoreApplication::translate("TaskEnvironment", "Cancel"),
+        IconUtil::get(":/images/Sketch_Cancel.svg"));
 }
 
 void TaskEnvironmentUI::setConfirmationBarVisible(bool visible)
 {
     _confirmationVisible = visible;
-    if (!_pConfirmationBar)
+    if (_pConfirmationBar)
     {
-        // Not created yet: the single creation point in restoreUiState() will
-        // honor _confirmationVisible once the environment layout has settled.
-        return;
-    }
-
-    if (visible)
-    {
-        _pConfirmationBar->show();
-    }
-    else
-    {
-        _pConfirmationBar->hide();
+        if (visible)
+        {
+            _pConfirmationBar->show();
+        }
+        else
+        {
+            _pConfirmationBar->hide();
+        }
     }
 }
 
 void TaskEnvironmentUI::createConfirmationBar()
 {
-    if (_pConfirmationBar || !_confirmationVisible)
+    if (_pConfirmationBar)
     {
         return;
     }
 
-    if (!_pConfirmAction || !_pCancelAction)
+    CommandAction* pConfirmAction =
+        this->findCommandAction(CommandNames::ConfirmTaskEnvironment);
+    CommandAction* pCancelAction =
+        this->findCommandAction(CommandNames::CancelTaskEnvironment);
+    if (!pConfirmAction || !pCancelAction)
     {
         return;
     }
@@ -114,10 +100,8 @@ void TaskEnvironmentUI::createConfirmationBar()
     {
         return;
     }
-
-    // Created hidden; restoreUiState() shows it after the layout has settled.
-    _pConfirmationBar = new ConfirmationBar(
-        pViewWidget, _pConfirmAction.data(), _pCancelAction.data());
+    _pConfirmationBar = new ConfirmationBar(pViewWidget, pConfirmAction, pCancelAction);
+    _pConfirmationBar->hide();
 }
 
 void TaskEnvironmentUI::destroyConfirmationBar()
@@ -133,12 +117,10 @@ void TaskEnvironmentUI::destroyConfirmationBar()
 
 void TaskEnvironmentUI::destroy()
 {
-    // The bar's buttons reference command actions; drop the bar before any of
-    // those actions are destroyed. Clear the pointers too so a later caller
-    // cannot resurrect an action that is already scheduled for deletion.
+    // The bar's buttons reference command actions; drop the bar before the
+    // environment UI destroys those actions. The base destroy also clears
+    // _cmdName2Action, so later findCommandAction() calls return nullptr.
     this->destroyConfirmationBar();
-    _pConfirmAction = nullptr;
-    _pCancelAction = nullptr;
 
     EnvironmentUIImpl::destroy();
 }
@@ -151,13 +133,13 @@ void TaskEnvironmentUI::restoreUiState()
     // visibility request, so this is the first moment the floating bar can be
     // created with a settled layout. Called from both onEnvironmentEntered()
     // and onEnvironmentResumed(), and always reached even when there is no
-    // saved ui-state file.
-    if (!_confirmationVisible)
-        return;
-
+    // saved ui-state file. The bar is created for every session; visibility is
+    // a separate show()/hide() concern.
     if (!_pConfirmationBar)
         this->createConfirmationBar();
     if (!_pConfirmationBar)
+        return;
+    if (!_confirmationVisible)
         return;
 
     // restoreState() may only have posted the relayout request. Settle the

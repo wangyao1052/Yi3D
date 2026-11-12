@@ -63,8 +63,6 @@ private:
     void destroyConfirmationBar();
 
 private:
-    QPointer<CommandAction> _pConfirmAction;
-    QPointer<CommandAction> _pCancelAction;
     QPointer<ConfirmationBar> _pConfirmationBar;
     // Task environments show the confirmation bar by default; call
     // setConfirmationBarVisible(false) to opt out.
