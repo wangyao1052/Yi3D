@@ -100,7 +100,6 @@ wyap::CmdExecution::StartResult SketchDrawStraightSlotGuiCmd::onStart()
     }
 
     Application* pApp = getApplication();
-    _statusBar = pApp ? pApp->getStatusBar() : nullptr;
     if (pApp)
     {
         pApp->setCursor(CursorType::Locate);
@@ -118,11 +117,7 @@ void SketchDrawStraightSlotGuiCmd::cleanUp()
     this->hidePopups();
     this->abortSlotPreview();
 
-    if (_statusBar)
-    {
-        _statusBar->reset();
-    }
-    _statusBar = nullptr;
+    ApplicationImpl::instance().getStatusBar()->reset();
 
     _pXYPopup.reset();
     _pLengthAnglePopup.reset();
@@ -162,21 +157,18 @@ void SketchDrawStraightSlotGuiCmd::resetToFirstCenter()
 
 void SketchDrawStraightSlotGuiCmd::updateStatusTip()
 {
-    if (!_statusBar)
-    {
-        return;
-    }
+    StatusBarHelper* pStatusBar = ApplicationImpl::instance().getStatusBar();
 
     switch (_step)
     {
     case Step::FirstCenter:
-        _statusBar->setTips(QCoreApplication::translate(
+        pStatusBar->setTips(QCoreApplication::translate(
             "SketchStraightSlot",
             "Specify the first slot center."));
         break;
 
     case Step::SecondCenter:
-        _statusBar->setTips(QCoreApplication::translate(
+        pStatusBar->setTips(QCoreApplication::translate(
             "SketchStraightSlot",
             "Specify the second slot center."));
         break;
@@ -186,7 +178,7 @@ void SketchDrawStraightSlotGuiCmd::updateStatusTip()
         const QString format = QCoreApplication::translate(
             "SketchStraightSlot",
             "Slot width: %1. Move and click to finish.");
-        _statusBar->setTips(format.arg(_currentWidth, 0, 'f', 3));
+        pStatusBar->setTips(format.arg(_currentWidth, 0, 'f', 3));
         break;
     }
     }

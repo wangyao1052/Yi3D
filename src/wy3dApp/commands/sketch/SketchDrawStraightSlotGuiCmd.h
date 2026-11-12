@@ -41,7 +41,6 @@ class GuiCmdHoverInputPopup1;
 class GuiCmdHoverInputPopup2;
 class GuiCmdHoverInputPopupBase;
 class SlotGuideTransient;
-class StatusBarHelper;
 
 // IDs of the four real sketch entities created for the in-progress slot.
 struct SlotElements
@@ -147,7 +146,6 @@ private:
     GuiCmdSketchInfo _sketchInfo;
     Snap2dContextSPtr _snapContext;
     std::unique_ptr<SlotGuideTransient> _guide;
-    StatusBarHelper* _statusBar = nullptr;
     HoverPopupState _hover;
     std::unique_ptr<GuiCmdHoverInputPopup2> _pXYPopup;
     std::unique_ptr<GuiCmdHoverInputPopup2> _pLengthAnglePopup;

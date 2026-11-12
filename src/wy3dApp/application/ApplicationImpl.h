@@ -186,8 +186,11 @@ public:
     // 新建默认文档环境
     virtual std::unique_ptr<wyap::DocumentEnvironment> newDefaultDocumentEnvironment() override;
 
+    // 设置状态栏提示
+    void setStatusBarTip(const QString& text) override;
+
     // 状态栏帮助类
-    StatusBarHelper* getStatusBar() override { return &_statusBar; }
+    StatusBarHelper* getStatusBar() { return &_statusBar; }
 
     // 获取捕捉系统
     wyap::SnapSystem* getSnapSystem() const { return _pSnapSystem.get(); }
