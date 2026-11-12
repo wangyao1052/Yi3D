@@ -52,7 +52,7 @@ SheetMeshRenderObject::SheetMeshRenderObject(const wydb::ElementId& id,
 
 void SheetMeshRenderObject::updateStyle(const wy3d::Sheet& sheet)
 {
-    _faceColor = Colors::toOsgColor(sheet.getColor());
+    _faceColor = OsgUtils::toOsgColor(sheet.getColor());
 }
 
 osg::Vec4 SheetMeshRenderObject::getFaceDefaultColor() const
@@ -83,7 +83,7 @@ void SheetMeshRenderObject::updateAppearance(
         osg::Vec4 faceColor = getFaceDefaultColor();
         if (dispState.highlighted)
         {
-            faceColor = dispState.active ? _palette.element.highlight.face : _palette.inactive;
+            faceColor = dispState.active ? _palette.element.highlight.face : kInactiveElementColor;
         }
         else if (dispState.previewed)
         {
@@ -125,11 +125,11 @@ void SheetMeshRenderObject::updateAppearance(
         osg::Vec4 edgeColor = getEdgeDefaultColor();
         if (dispState.highlighted)
         {
-            edgeColor = dispState.active ? _palette.element.highlight.edge : _palette.inactive;
+            edgeColor = dispState.active ? _palette.element.highlight.edge : kInactiveElementColor;
         }
         else if (dispState.previewed)
         {
-            edgeColor = _wireframe ? _palette.element.preview.edgeWireframe : _palette.element.preview.edge;
+            edgeColor = _wireframe ? _palette.edge.preview : _palette.element.preview.edge;
         }
         OsgUtils::setNodeColor(_edgeGeom, edgeColor);
 

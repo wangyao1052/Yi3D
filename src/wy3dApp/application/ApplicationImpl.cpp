@@ -560,6 +560,11 @@ void ApplicationImpl::viewISO()
     pView->lookAtISO();
 }
 
+void ApplicationImpl::setStatusBarTip(const QString& text)
+{
+    _statusBar.setTips(text);
+}
+
 void ApplicationImpl::setCursor(CursorType cursorType)
 {
     wyap::Document* pDoc = this->getActiveDocument();

@@ -23,23 +23,18 @@
 #include <osg/Vec4>
 #include <wy3dApp/wy3dAppDefs.h>
 
-namespace wy3d { class Color; }
-
 namespace wy3dApp {
 
 class WY3DAPP_EXPORT Colors
 {
 public:
-    static osg::Vec4 toOsgColor(const wy3d::Color& color);
-
-    // mesh 调色板（Solid/Sheet 各一份）
-    struct Mesh
+    struct MeshPalette
     {
         struct
         {
             struct
             {
-                osg::Vec4 face;  // 默认常态面色（元素颜色会覆盖）
+                osg::Vec4 face;
                 osg::Vec4 edge;
             } normal;
 
@@ -53,7 +48,6 @@ public:
             {
                 osg::Vec4 face;
                 osg::Vec4 edge;
-                osg::Vec4 edgeWireframe;  // 线框模式下的元素整体预览
             } preview;
         } element;
 
@@ -68,22 +62,11 @@ public:
             osg::Vec4 highlight;
             osg::Vec4 preview;
         } edge;
-
-        osg::Vec4 inactive;
     };
 
-    static const Mesh solidMesh;
-    static const Mesh sheetMesh;
+    static const MeshPalette solidMesh;
+    static const MeshPalette sheetMesh;
 
-    // 线状元素（草图/曲线）调色板
-    struct LinePalette
-    {
-        osg::Vec4 normal;
-        osg::Vec4 highlight;
-        osg::Vec4 preview;
-    };
-
-    // 基准面调色板
     struct PlanePalette
     {
         struct
@@ -101,25 +84,17 @@ public:
         } edge;
     };
 
-    static const LinePalette sketch;
-    static const LinePalette sketchEntity;
     static const PlanePalette datumPlane;
 
-    // sky blue
-    static const osg::Vec4 kSkyBlue;
+    struct LinePalette
+    {
+        osg::Vec4 normal;
+        osg::Vec4 highlight;
+        osg::Vec4 preview;
+    };
 
-    // rust red
-    static const osg::Vec4 kRustRed;
-
-    // gray
-    static const osg::Vec4 kGray;
-
-    // ocean blue
-    static const osg::Vec4 kOceanBlue;
-
-    // 备选的一些颜色
-    // 粉色
-    static const osg::Vec4 kPink;
+    static const LinePalette sketch;
+    static const LinePalette sketchEntity;
 };
 
 } // namespace wy3dApp

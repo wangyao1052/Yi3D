@@ -28,7 +28,7 @@
 
 #include <wy3dMath.h>
 
-#include <wy3dApp/Colors.h>
+#include "scene/RenderConst.h"
 #include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -104,7 +104,7 @@ Sketch3DDirectionTransient::Sketch3DDirectionTransient(const wy::Vector3& origin
         pCone->setCenter(osg::Vec3(0.0, 0.0, -pCone->getBaseOffset() + kShaftLength));
 
         osg::ref_ptr<osg::ShapeDrawable> pDrawable = new osg::ShapeDrawable(pCone.get());
-        pDrawable->setColor(Colors::kOceanBlue);
+        pDrawable->setColor(kOceanBlue);
         if (!flipped) return pDrawable;
 
         // Half a turn about X puts the same head on the other side, pointing the other way.
@@ -122,7 +122,7 @@ Sketch3DDirectionTransient::Sketch3DDirectionTransient(const wy::Vector3& origin
     osg::ref_ptr<osg::Cylinder> pShaft =
         new osg::Cylinder(osg::Vec3(0.0, 0.0, shaftCenterZ), kShaftRadius, shaftLength);
     osg::ref_ptr<osg::ShapeDrawable> pShaftDrawable = new osg::ShapeDrawable(pShaft.get());
-    pShaftDrawable->setColor(Colors::kOceanBlue);
+    pShaftDrawable->setColor(kOceanBlue);
     pAxis->addChild(pShaftDrawable.get());
 
     pAxis->addChild(makeHead(false).get());

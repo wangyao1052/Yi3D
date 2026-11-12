@@ -40,7 +40,7 @@ MeshRenderObject::MeshRenderObject(const wydb::ElementId& id,
     ElementNodeType nodeType,
     MeshRenderData& data,
     bool doubleSided,
-    const Colors::Mesh& palette)
+    const Colors::MeshPalette& palette)
     : _palette(palette),
     _doubleSided(doubleSided),
     _id(id),

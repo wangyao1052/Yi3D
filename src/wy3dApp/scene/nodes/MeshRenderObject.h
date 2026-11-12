@@ -66,14 +66,14 @@ protected:
         ElementNodeType nodeType,
         MeshRenderData& data,
         bool doubleSided,
-        const Colors::Mesh& palette);
+        const Colors::MeshPalette& palette);
 
     // 常态面/边颜色，由子类按元素颜色和类型推导
     virtual osg::Vec4 getFaceDefaultColor() const = 0;
     virtual osg::Vec4 getEdgeDefaultColor() const = 0;
 
     // 子类 updateAppearance 需要访问的状态
-    const Colors::Mesh& _palette;
+    const Colors::MeshPalette& _palette;
     bool _doubleSided = false;
     bool _wireframe = false;
     osg::ref_ptr<osg::MatrixTransform> _shapeNode;

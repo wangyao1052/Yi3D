@@ -118,7 +118,7 @@ MainWindow::MainWindow(QWidget* parent) :
     // 初始化状态栏
     this->initStatusBar();
     // 初始化状态栏帮助类
-    ApplicationImpl::instance().getStatusBar()->init(_tipsLabel);
+    ApplicationImpl::instance().getStatusBar()->setTipsLabel(_tipsLabel);
     // 初始化停靠窗口
     this->initDockableWidgets();
 
@@ -131,6 +131,9 @@ MainWindow::MainWindow(QWidget* parent) :
 
 MainWindow::~MainWindow()
 {
+    // Detach the tips label before it is destroyed with this window.
+    ApplicationImpl::instance().getStatusBar()->setTipsLabel(nullptr);
+
     ApplicationImpl::instance().setDockPanelManager(nullptr);
 
     // 移除文档管理器反应器

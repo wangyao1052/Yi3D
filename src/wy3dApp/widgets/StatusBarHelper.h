@@ -20,7 +20,6 @@
 
 #include <QString>
 #include <QLabel>
-#include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
@@ -30,7 +29,7 @@ public:
     StatusBarHelper() : _pTipsLabel(nullptr) {}
     ~StatusBarHelper() = default;
 
-    void init(QLabel* pTipsLabel)
+    void setTipsLabel(QLabel* pTipsLabel)
     {
         _pTipsLabel = pTipsLabel;
         reset();

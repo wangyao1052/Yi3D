@@ -19,6 +19,8 @@
 #ifndef WY3DAPP_APPLICATION_H
 #define WY3DAPP_APPLICATION_H
 
+#include <QString>
+
 #include <wyapApplication.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
@@ -31,7 +33,6 @@ class ElementNodeFactory;
 class GizmoFactory;
 class ParamDisplayNameRegistry;
 class Scene;
-class StatusBarHelper;
 
 enum class CursorType;
 
@@ -42,7 +43,8 @@ protected:
     ~Application() override;
 
 public:
-    virtual StatusBarHelper* getStatusBar() = 0;
+    // Sets the status-bar tip; an empty string clears it. UI thread only.
+    virtual void setStatusBarTip(const QString& text) = 0;
     virtual void setCursor(CursorType cursorType) = 0;
     // Owned by the application; non-null once the application has started.
     // The caller does not own the returned pointer.

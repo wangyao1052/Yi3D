@@ -51,7 +51,7 @@
 #include "commands/datumPlane/MakeDatumPlane.h"
 #include "select/filters/SolidFaceSelFilter.h"
 #include "commands/sketch/dialogs/SketchPolarArrayDialog.h"
-#include <wy3dApp/Colors.h>
+#include "scene/RenderConst.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -177,7 +177,7 @@ bool CircularPatternGuiCmd::finishStep(Step step)
         // 高亮实体圆柱面
         _pCylindricalSurfaceHighlightor = nullptr;
         _pCylindricalSurfaceHighlightor = std::make_shared<SelectionSetHighlightor>(
-            wyap::SelectionSet(), Colors::kPink);
+            wyap::SelectionSet(), kPink);
         _pCylindricalSurfaceHighlightor->addSelection(_cylindricalSurfaceSel);
 
         // 下一步

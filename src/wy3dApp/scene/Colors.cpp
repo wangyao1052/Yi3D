@@ -18,7 +18,7 @@
 
 #include <wy3dApp/Colors.h>
 #include <wy3dApp/wy3dAppDefs.h>
-#include <wy3dColor.h>
+#include "scene/RenderConst.h"
 
 #define BrightGreen  osg::Vec4(0.0f, 0.93f, 0.0f, 1.0f)  // #00ED00 亮绿色
 #define MediumGreen  osg::Vec4(0.0f, 0.765f, 0.0f, 1.0f) // #00C300 中绿色
@@ -26,16 +26,6 @@
 #define BrightOrange osg::Vec4(0.9f, 0.39f, 0.1f, 1.0f) // 亮橙色(CREO)
 
 namespace wy3dApp {
-
-osg::Vec4 Colors::toOsgColor(const wy3d::Color& color)
-{
-    constexpr float inv255 = 1.0f / 255.0f;
-    return osg::Vec4(
-        static_cast<float>(color.red) * inv255,
-        static_cast<float>(color.green) * inv255,
-        static_cast<float>(color.blue) * inv255,
-        1.0f);
-}
 
 namespace {
 
@@ -57,19 +47,22 @@ const osg::Vec4 kSheetEdgePreviewValue(0.30f, 0.20f, 0.10f, 1.0f);      // 深�
 } // namespace
 
 // sky blue
-const osg::Vec4 Colors::kSkyBlue(0.251f, 0.682f, 1.0f, 1.0f);  // 天蓝色 #40AEFF
+const osg::Vec4 kSkyBlue(0.251f, 0.682f, 1.0f, 1.0f);  // 天蓝色 #40AEFF
 
 // rust red
-const osg::Vec4 Colors::kRustRed(0.72f, 0.25f, 0.15f, 0.4f); // 铁锈红 #B84026, 40% 不透明
+const osg::Vec4 kRustRed(0.72f, 0.25f, 0.15f, 0.4f); // 铁锈红 #B84026, 40% 不透明
+
+// 非活动元素色（选择集中非活动元素的常规色）
+const osg::Vec4 kInactiveElementColor = kRustRed;
 
 // gray
-const osg::Vec4 Colors::kGray(0.5f, 0.5f, 0.5f, 0.5f); // 灰色
+const osg::Vec4 kGray(0.5f, 0.5f, 0.5f, 0.5f); // 灰色
 
 // ocean blue
-const osg::Vec4 Colors::kOceanBlue(0.0f, 0.498f, 0.698f, 1.0f); // #007FB2
+const osg::Vec4 kOceanBlue(0.0f, 0.498f, 0.698f, 1.0f); // #007FB2
 
 // pink
-const osg::Vec4 Colors::kPink(1.0f, 0.5f, 0.75f, 1.0f);  // 粉红色(SolidWorks)
+const osg::Vec4 kPink(1.0f, 0.5f, 0.75f, 1.0f);  // 粉红色(SolidWorks)
 
 // sketch / curve
 const Colors::LinePalette Colors::sketch = {
@@ -114,38 +107,36 @@ const Colors::PlanePalette Colors::datumPlane = makeDatumPlanePalette();
 
 namespace {
 
-Colors::Mesh makeMesh(const osg::Vec4& face,
+Colors::MeshPalette makeMesh(const osg::Vec4& face,
     const osg::Vec4& edge,
     const osg::Vec4& faceHighlight,
     const osg::Vec4& edgeHighlight,
     const osg::Vec4& facePreview,
     const osg::Vec4& edgePreview)
 {
-    Colors::Mesh m;
+    Colors::MeshPalette m;
     m.element.normal.face = face;
     m.element.normal.edge = edge;
     m.element.highlight.face = faceHighlight;
     m.element.highlight.edge = edgeHighlight;
     m.element.preview.face = facePreview;
     m.element.preview.edge = edgePreview;
-    m.element.preview.edgeWireframe = BrightOrange;
 
     m.face.highlight = faceHighlight;
     m.face.preview = facePreview;
     m.edge.highlight = BrightGreen;
     m.edge.preview = BrightOrange;
-    m.inactive = Colors::kRustRed;
     return m;
 }
 
 } // namespace
 
-const Colors::Mesh Colors::solidMesh = makeMesh(
+const Colors::MeshPalette Colors::solidMesh = makeMesh(
     kSolidFaceValue, kSolidEdgeValue,
     kSolidFaceHighlightValue, kSolidEdgeHighlightValue,
     kSolidFacePreviewValue, kSolidEdgePreviewValue);
 
-const Colors::Mesh Colors::sheetMesh = makeMesh(
+const Colors::MeshPalette Colors::sheetMesh = makeMesh(
     kSheetFaceValue, kSheetEdgeValue,
     kSheetFaceHighlightValue, kSheetEdgeHighlightValue,
     kSheetFacePreviewValue, kSheetEdgePreviewValue);

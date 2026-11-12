@@ -48,7 +48,7 @@
 #include <wy3dApp/Application.h>
 #include "application/ApplicationImpl.h"
 #include <wy3dApp/Scene.h>
-#include <wy3dApp/Colors.h>
+#include "scene/RenderConst.h"
 #include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include "commands/dialogs/OffsetSheetCmdPanel.h"
@@ -949,7 +949,7 @@ void OffsetSheetGuiCmd::refreshFaceColors()
     if (!newFaceSels.isEmpty())
     {
         _pSelSetHighlightor_NewFaces =
-            std::make_shared<SelectionSetHighlightor>(newFaceSels, Colors::kSkyBlue);
+            std::make_shared<SelectionSetHighlightor>(newFaceSels, kSkyBlue);
     }
 
     if (!_pSelSetHighlightor_Faces) return;

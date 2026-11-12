@@ -38,7 +38,6 @@
 #include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/ParamDisplayNameRegistry.h>
-#include "widgets/StatusBarHelper.h"
 #include "widgets/frame/MainWindow.h"
 
 namespace {
@@ -132,7 +131,7 @@ wyap::CmdExecution::StartResult DemoParametersCmd::onStart()
     _pointPickOption.selType = wy3d::SelectionType::Element;
     _pointPickOption.postFilter = wy3dApp::SingleClassSelPostFilter::create<wy3d::SketchEntity>();
 
-    wy3dApp::getApplication()->getStatusBar()->setTips(QCoreApplication::translate("DemoParametersCmd",
+    wy3dApp::getApplication()->setStatusBarTip(QCoreApplication::translate("DemoParametersCmd",
         "Click a sketch element to list its parameters."));
 
     wy3dApp::getApplication()->setCursor(wy3dApp::CursorType::SelectElements);
