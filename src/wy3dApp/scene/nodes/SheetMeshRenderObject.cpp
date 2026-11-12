@@ -129,7 +129,7 @@ void SheetMeshRenderObject::updateAppearance(
         }
         else if (dispState.previewed)
         {
-            edgeColor = _wireframe ? _palette.element.preview.edgeWireframe : _palette.element.preview.edge;
+            edgeColor = _wireframe ? _palette.edge.preview : _palette.element.preview.edge;
         }
         OsgUtils::setNodeColor(_edgeGeom, edgeColor);
 

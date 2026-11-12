@@ -117,7 +117,6 @@ Colors::Mesh makeMesh(const osg::Vec4& face,
     m.element.highlight.edge = edgeHighlight;
     m.element.preview.face = facePreview;
     m.element.preview.edge = edgePreview;
-    m.element.preview.edgeWireframe = BrightOrange;
 
     m.face.highlight = faceHighlight;
     m.face.preview = facePreview;

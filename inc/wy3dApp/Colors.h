@@ -28,14 +28,13 @@ namespace wy3dApp {
 class WY3DAPP_EXPORT Colors
 {
 public:
-    // mesh 调色板（Solid/Sheet 各一份）
     struct Mesh
     {
         struct
         {
             struct
             {
-                osg::Vec4 face;  // 默认常态面色（元素颜色会覆盖）
+                osg::Vec4 face;
                 osg::Vec4 edge;
             } normal;
 
@@ -49,7 +48,6 @@ public:
             {
                 osg::Vec4 face;
                 osg::Vec4 edge;
-                osg::Vec4 edgeWireframe;  // 线框模式下的元素整体预览
             } preview;
         } element;
 
@@ -71,7 +69,6 @@ public:
     static const Mesh solidMesh;
     static const Mesh sheetMesh;
 
-    // 线状元素（草图/曲线）调色板
     struct LinePalette
     {
         osg::Vec4 normal;
@@ -79,7 +76,6 @@ public:
         osg::Vec4 preview;
     };
 
-    // 基准面调色板
     struct PlanePalette
     {
         struct
