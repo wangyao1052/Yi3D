@@ -193,7 +193,7 @@ void NewSketchGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("NewSketch",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("NewSketch",
             "Select datum plane or planar face."));
 
         // 鼠标样式
@@ -206,7 +206,7 @@ void NewSketchGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

@@ -165,7 +165,7 @@ void TangentDatumPlnCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("DatumPlnCmd",
             "Select a cylindrical face."));
 
         // 鼠标样式
@@ -191,7 +191,7 @@ void TangentDatumPlnCmd::gotoStep(Step step)
 
         // 允许输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("DatumPlnCmd",
             "Specify rotation angle."));
 
         // 鼠标样式
@@ -217,7 +217,7 @@ void TangentDatumPlnCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

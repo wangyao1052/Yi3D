@@ -371,7 +371,7 @@ void SketchDrawLineTangentGuiCmd::gotoStep(Step step)
     {
         // 禁止输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLineTangent",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawLineTangent",
             "Select the start position on a circle or arc."));
 
         // 鼠标样式
@@ -391,7 +391,7 @@ void SketchDrawLineTangentGuiCmd::gotoStep(Step step)
     {
         // 禁止输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLineTangent",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawLineTangent",
             "Select the end position on a circle or arc."));
 
         // 鼠标样式
@@ -406,7 +406,7 @@ void SketchDrawLineTangentGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

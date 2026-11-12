@@ -85,7 +85,7 @@ wyap::CmdExecution::StartResult SetColorGuiCmd::onStart()
     }
 
     // 提示信息
-    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SetColorGuiCmd",
+    ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SetColorGuiCmd",
         "Click solid elements to apply the selected color."));
 
     return wyap::CmdExecution::StartResult::Succeeded;

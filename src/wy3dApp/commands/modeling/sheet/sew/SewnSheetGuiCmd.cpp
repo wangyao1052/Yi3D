@@ -258,7 +258,7 @@ void SewnSheetGuiCmd::gotoStep(Step step)
         this->applySelectOptions(selOptions);
 
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SewnSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SewnSheetGuiCmd",
             "Select one or more sheets to sew; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
@@ -268,7 +268,7 @@ void SewnSheetGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

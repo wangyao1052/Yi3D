@@ -152,7 +152,7 @@ void Sketch3DChamferGuiCmd::gotoStep(Step step)
     {
     case Step::First:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DChamfer",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Sketch3DChamfer",
             "Select the first straight sketch entity."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
@@ -162,7 +162,7 @@ void Sketch3DChamferGuiCmd::gotoStep(Step step)
 
     case Step::Second:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DChamfer",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Sketch3DChamfer",
             "Select the second straight sketch entity."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
@@ -174,7 +174,7 @@ void Sketch3DChamferGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

@@ -284,7 +284,7 @@ void MakePrimitiveGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 禁用文本输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakePrimitiveGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakePrimitiveGuiCmd",
             "Select datum plane or solid surface as working plane."));
 
         // 鼠标样式

@@ -147,7 +147,7 @@ void SketchTextCommand::gotoStep(Step step)
     {
         // 禁用输入
         // 清空提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
 
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Select);
@@ -219,7 +219,7 @@ void SketchTextCommand::gotoStep(Step step)
 
         // 允许输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchTextCommand",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchTextCommand",
             "Specify the start text position; you can directly input the coordinate values."));
 
         // 鼠标样式
@@ -232,7 +232,7 @@ void SketchTextCommand::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

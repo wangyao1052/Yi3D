@@ -267,7 +267,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Mirror",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Mirror",
             "Select elements to mirror; press Enter or Spacebar to confirm; press Esc to cancel."));
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
@@ -284,7 +284,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Mirror",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Mirror",
             "Specify the start point; you can directly input the coordinate values."));
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Locate);
@@ -305,7 +305,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
         selOptions.selectionType = wy3d::SelectionType::Element;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Mirror",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Mirror",
             "Specify the end point; you can directly input the values."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
 
@@ -321,7 +321,7 @@ void SketchMirrorGuiCmd::gotoStep(Step step)
         selOptions.selectionType = wy3d::SelectionType::Element;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

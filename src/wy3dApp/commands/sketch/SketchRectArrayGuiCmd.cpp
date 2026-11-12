@@ -342,7 +342,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
     {
     case Step::Step1_SelectElements:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchRectArray",
             "Select elements to perform rectangular array; press Enter or Spacebar to confirm; press Esc to cancel."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
@@ -400,7 +400,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchRectArray",
             "Specify the start point of column spacing or input the column spacing."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
 
@@ -415,7 +415,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchRectArray",
             "Specify the end point of column spacing or input the column spacing."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
 
@@ -430,7 +430,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchRectArray",
             "Specify the start point of row spacing or input the row spacing."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
 
@@ -445,7 +445,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRectArray",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchRectArray",
             "Specify the end point of row spacing or input the row spacing."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
 
@@ -460,7 +460,7 @@ void SketchRectArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

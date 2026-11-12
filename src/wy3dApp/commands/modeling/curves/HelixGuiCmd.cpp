@@ -143,7 +143,7 @@ void HelixGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("HelixGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("HelixGuiCmd",
             "Select a sketch that contains a single circle."));
 
         // 设置鼠标样式
@@ -155,7 +155,7 @@ void HelixGuiCmd::gotoStep(Step step)
     {
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("HelixGuiCmd", "Input helix data."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("HelixGuiCmd", "Input helix data."));
 
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Select);
@@ -193,7 +193,7 @@ void HelixGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
 
         assert(false);

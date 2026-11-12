@@ -209,7 +209,7 @@ void SketchDrawSpline3DGuiCmd::gotoStep(unsigned int step)
     {
     case Step::SpecifyStartPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSpline3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawSpline3DGuiCmd",
             "Specify the start point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -217,7 +217,7 @@ void SketchDrawSpline3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyNextPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSpline3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawSpline3DGuiCmd",
             "Specify the next point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane. Esc or double-click finishes the spline."));
     }
@@ -225,7 +225,7 @@ void SketchDrawSpline3DGuiCmd::gotoStep(unsigned int step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

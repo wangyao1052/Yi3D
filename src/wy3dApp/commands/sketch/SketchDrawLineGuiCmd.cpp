@@ -198,7 +198,7 @@ void SketchDrawLineGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyStartPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawLine",
             "Specify the start point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -211,7 +211,7 @@ void SketchDrawLineGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyEndPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawLine",
             "Specify the end point; you can directly input the values."));
 
         _pSnapContext = std::make_shared<DrawLineTangent2dContext>(_startPnt, _startTangent);
@@ -220,7 +220,7 @@ void SketchDrawLineGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

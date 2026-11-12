@@ -273,7 +273,7 @@ int FindElementByIdCommand::run()
             .arg(notFoundIds.size() + sketchEnvRejectedIds.size() + sketch3DEnvRejectedIds.size());
         MessageBoxUtil::showError(invalidMsgs.join("\n"));
     }
-    ApplicationImpl::instance().getStatusBar()->setTips(tips);
+    ApplicationImpl::instance().setStatusBarTip(tips);
 
     return 0;
 }

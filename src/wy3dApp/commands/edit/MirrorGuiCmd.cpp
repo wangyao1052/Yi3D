@@ -165,7 +165,7 @@ void MirrorGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MirrorGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MirrorGuiCmd",
             "Select the solids or sheets to mirror. Press Enter or Spacebar to confirm."));
 
         // 鼠标样式
@@ -185,7 +185,7 @@ void MirrorGuiCmd::gotoStep(Step step)
     {
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MirrorGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MirrorGuiCmd",
             "Select datum plane as mirror plane."));
 
         // 鼠标样式
@@ -206,7 +206,7 @@ void MirrorGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

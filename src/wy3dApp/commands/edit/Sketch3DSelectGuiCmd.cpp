@@ -233,7 +233,7 @@ bool Sketch3DSelectGuiCmd::tryPickWorkPlane(double x, double y)
     wy3d::Plane plane;
     if (!GuiCommandUtil::getWorkingPlane(sel, plane))
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Sketch3DSelectGuiCmd",
             "Only planar faces can be used as the sketch plane."));
         return true;
     }
@@ -254,7 +254,7 @@ bool Sketch3DSelectGuiCmd::tryPickWorkPlane(double x, double y)
     }
     _pCustomWorkPlaneHighlight->addSelection(sel);
 
-    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",
+    ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Sketch3DSelectGuiCmd",
         "Sketch plane set. It will be used by the next drawing command."));
 
     return true;
@@ -314,7 +314,7 @@ void Sketch3DSelectGuiCmd::updateSelectTipAndLabel()
 {
     if (!_pPasteOp)
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DSelectGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Sketch3DSelectGuiCmd",
             "Select elements. Pick a planar face or a datum plane to set the sketch plane."));
     }
 }

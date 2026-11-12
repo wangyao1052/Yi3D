@@ -112,7 +112,7 @@ wyap::CmdExecution::StartResult TopoNameGuiCmd::onStart()
 
     // 禁用输入
     // 提示信息
-    ApplicationImpl::instance().getStatusBar()->setTips("");
+    ApplicationImpl::instance().setStatusBarTip("");
 
     // 鼠标样式
     ApplicationImpl::instance().setCursor(CursorType::SelectElements);
@@ -175,7 +175,7 @@ void TopoNameGuiCmd::showTopoName(const wyap::Selection& sel)
         }
         TopoDS_Shape egde = edges(edgeIndex + 1);
         std::string strTopoName = pTopoNaming->getTopoName(egde);
-        ApplicationImpl::instance().getStatusBar()->setTips(strTopoName.c_str());
+        ApplicationImpl::instance().setStatusBarTip(strTopoName.c_str());
         QToolTip::showText(QCursor::pos(), strTopoName.c_str(), nullptr, QRect(), 30000); // 30s
     }
     break;
@@ -198,7 +198,7 @@ void TopoNameGuiCmd::showTopoName(const wyap::Selection& sel)
         }
         TopoDS_Shape face = faces(faceIndex + 1);
         std::string strTopoName = pTopoNaming->getTopoName(face);
-        ApplicationImpl::instance().getStatusBar()->setTips(strTopoName.c_str());
+        ApplicationImpl::instance().setStatusBarTip(strTopoName.c_str());
         QToolTip::showText(QCursor::pos(), strTopoName.c_str(), nullptr, QRect(), 5000); // 5s
     }
     break;
@@ -217,7 +217,7 @@ void TopoNameGuiCmd::onMouseMove(const MouseEvent& event)
     // 点选预览
     wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
     _preview.update(sel);
-    ApplicationImpl::instance().getStatusBar()->setTips("");
+    ApplicationImpl::instance().setStatusBarTip("");
     if (!_preview.isNull())
     {
         wyap::Selection sel = _preview.getSelection();

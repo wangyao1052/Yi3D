@@ -180,19 +180,19 @@ void SketchDrawRectangle3DGuiCmd::gotoStep(unsigned int step)
     {
     case Step::SpecifyStartPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(this->getStartTip());
+        ApplicationImpl::instance().setStatusBarTip(this->getStartTip());
     }
     break;
 
     case Step::SpecifyEndPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(this->getEndTip());
+        ApplicationImpl::instance().setStatusBarTip(this->getEndTip());
     }
     break;
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

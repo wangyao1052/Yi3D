@@ -178,7 +178,7 @@ void FilletGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("FilletGuiCmd", "Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("FilletGuiCmd", "Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
@@ -199,7 +199,7 @@ void FilletGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("FilletGuiCmd", "Input fillet radius."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("FilletGuiCmd", "Input fillet radius."));
 
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Select);
@@ -235,7 +235,7 @@ void FilletGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

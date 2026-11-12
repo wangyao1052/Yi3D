@@ -284,7 +284,7 @@ void LoftGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("LoftGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("LoftGuiCmd",
             "Select at least two profiles. Press Enter or Spacebar to confirm. Press Esc to cancel."));
 
         // 鼠标样式
@@ -299,7 +299,7 @@ void LoftGuiCmd::gotoStep(Step step)
     default:
     {
         assert(false);
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
     }
     break;
@@ -322,7 +322,7 @@ void LoftCutGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("LoftGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("LoftGuiCmd",
             "Select the solid to cut."));
 
         // 鼠标样式

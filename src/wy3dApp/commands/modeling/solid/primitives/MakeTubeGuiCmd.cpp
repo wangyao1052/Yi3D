@@ -230,7 +230,7 @@ void MakeTubeGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeTubeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeTubeGuiCmd",
             "Specify the bottom center point; you can directly input the coordinate values."));
 
         // 鼠标样式
@@ -242,7 +242,7 @@ void MakeTubeGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeTubeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeTubeGuiCmd",
             "Specify the outer radius; you can directly input the value."));
 
         // 鼠标样式
@@ -254,7 +254,7 @@ void MakeTubeGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeTubeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeTubeGuiCmd",
             "Specify the inner radius; you can directly input the value."));
 
         // 鼠标样式
@@ -266,7 +266,7 @@ void MakeTubeGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeTubeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeTubeGuiCmd",
             "Specify the height; you can directly input the value."));
 
         // 鼠标样式
@@ -277,7 +277,7 @@ void MakeTubeGuiCmd::gotoStepImpl(unsigned int step)
     default:
     {
         assert(false);
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

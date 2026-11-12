@@ -593,13 +593,13 @@ void OffsetSheetGuiCmd::updatePrompt()
 {
     if (static_cast<int>(wy3d::OffsetSheet::Target::SelectedFaces) == _targetMode)
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("OffsetSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("OffsetSheetGuiCmd",
             "Select the faces to offset, then OK to apply."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
     else
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("OffsetSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("OffsetSheetGuiCmd",
             "Specify the offset distance, then OK to apply."));
         ApplicationImpl::instance().setCursor(CursorType::Select);
     }

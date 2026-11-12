@@ -304,7 +304,7 @@ void ExtrudedSheetGuiCmd::gotoStep(Step step)
         ApplicationImpl::instance().getSelManager()->clearSelections();
         ApplicationImpl::instance().getSelManager()->endChange();
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudedSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("ExtrudedSheetGuiCmd",
             "Select the sketch to extrude."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
@@ -316,7 +316,7 @@ void ExtrudedSheetGuiCmd::gotoStep(Step step)
         ApplicationImpl::instance().getSelManager()->clearSelections();
         ApplicationImpl::instance().getSelManager()->endChange();
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudedSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("ExtrudedSheetGuiCmd",
             "Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction (One Side / Symmetric)."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
     }
@@ -324,7 +324,7 @@ void ExtrudedSheetGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

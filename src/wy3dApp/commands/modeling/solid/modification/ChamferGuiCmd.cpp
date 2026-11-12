@@ -184,7 +184,7 @@ void ChamferGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ChamferGuiCmd", "Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("ChamferGuiCmd", "Select edges or faces; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
@@ -205,7 +205,7 @@ void ChamferGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ChamferGuiCmd", "Input chamfer parameters."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("ChamferGuiCmd", "Input chamfer parameters."));
 
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Select);
@@ -246,7 +246,7 @@ void ChamferGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

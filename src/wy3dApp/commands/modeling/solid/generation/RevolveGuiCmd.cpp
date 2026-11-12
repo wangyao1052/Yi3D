@@ -303,7 +303,7 @@ void RevolveGuiCmd::gotoStep(Step step)
         ApplicationImpl::instance().getSelManager()->endChange();
 
         // 更新提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolveGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("RevolveGuiCmd",
             "Select the sketch to revolve."));
 
         // 设置鼠标样式
@@ -324,7 +324,7 @@ void RevolveGuiCmd::gotoStep(Step step)
         _pointPickOption.postFilter = nullptr;
 
         // 更新提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolveGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("RevolveGuiCmd",
             "Select the axis line."));
 
         // 设置鼠标样式
@@ -335,7 +335,7 @@ void RevolveGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         // 设置鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Select);
 
@@ -357,7 +357,7 @@ void RevolveCutGuiCmd::gotoStep(Step step)
         ApplicationImpl::instance().getSelManager()->endChange();
 
         // 更新提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolveGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("RevolveGuiCmd",
             "Select the solid to cut."));
 
         // 设置鼠标样式

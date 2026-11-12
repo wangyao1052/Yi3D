@@ -239,7 +239,7 @@ void SketchDrawCircleBy3PointsGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawCircle",
             "Specify the first point on circle; you can directly input the coordinate values."));
         // 局部更新草图捕捉系统
         if (_sketchInfo.pSketchSnapSys)
@@ -255,7 +255,7 @@ void SketchDrawCircleBy3PointsGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawCircle",
             "Specify the second point on circle; you can directly input the coordinate values."));
         // 草图捕捉上下文
         _pSnapContext = std::make_shared<DrawLine2dContext>(_pnt1st);
@@ -266,7 +266,7 @@ void SketchDrawCircleBy3PointsGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawCircle",
             "Specify the third point on circle; you can directly input the coordinate values."));
         // 草图捕捉上下文
         _pSnapContext = std::make_shared<Locate2dContext>();
@@ -275,7 +275,7 @@ void SketchDrawCircleBy3PointsGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

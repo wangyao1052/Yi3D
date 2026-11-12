@@ -167,7 +167,7 @@ void ShellGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ShellGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("ShellGuiCmd",
             "Select solid faces to remove; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
@@ -187,7 +187,7 @@ void ShellGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ShellGuiCmd", "Input shell thickness."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("ShellGuiCmd", "Input shell thickness."));
 
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Select);
@@ -225,7 +225,7 @@ void ShellGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

@@ -194,7 +194,7 @@ void DraftGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DraftGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("DraftGuiCmd",
             "Select faces to draft. Press Enter or Spacebar to confirm. Press Esc to cancel."));
 
         // 鼠标样式
@@ -214,7 +214,7 @@ void DraftGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DraftGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("DraftGuiCmd",
             "Select neutral face."));
 
         // 鼠标样式
@@ -239,7 +239,7 @@ void DraftGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DraftGuiCmd", "Input draft angle."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("DraftGuiCmd", "Input draft angle."));
 
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Select);
@@ -288,7 +288,7 @@ void DraftGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

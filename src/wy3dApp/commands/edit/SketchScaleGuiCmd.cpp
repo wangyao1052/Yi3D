@@ -263,7 +263,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Scale",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Scale",
             "Select elements to scale; press Enter or Spacebar to confirm; press Esc to cancel."));
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
@@ -280,7 +280,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Scale",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Scale",
             "Specify the base point; you can directly input the coordinate values."));
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Locate);
@@ -304,7 +304,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Scale",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Scale",
             "Specify the scale ratio."));
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Locate);
@@ -323,7 +323,7 @@ void SketchScaleGuiCmd::gotoStep(Step step)
         this->applySelectOptions(selOptions);
 
         // 禁用文本输入
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

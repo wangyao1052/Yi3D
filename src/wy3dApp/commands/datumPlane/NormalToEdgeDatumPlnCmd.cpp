@@ -404,7 +404,7 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("DatumPlnCmd",
             "Select an edge, sketch curve or 3D sketch curve."));
 
         // 鼠标样式
@@ -432,7 +432,7 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
 
         // 允许输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("DatumPlnCmd",
             "Specify through point or directly input the distance value."));
 
         // 鼠标样式
@@ -452,7 +452,7 @@ void NormalToEdgeDatumPlnCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

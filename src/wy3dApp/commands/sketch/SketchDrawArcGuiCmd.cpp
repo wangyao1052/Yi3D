@@ -240,7 +240,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyCenterPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArc",
             "Specify the center point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -253,7 +253,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyStartPoint:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArc",
             "Specify the start point; you can directly input the values."));
 
         _pSnapContext = std::make_shared<DrawCircle2dContext>(_centerPnt);
@@ -262,7 +262,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyEndPoint:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArc",
             "Specify the total angle; you can directly input the value."));
 
         _pSnapContext = std::make_shared<DrawArc2dContext>(_centerPnt, _radius, _startPnt);
@@ -271,7 +271,7 @@ void SketchDrawArcGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

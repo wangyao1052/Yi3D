@@ -115,7 +115,7 @@ wyap::CmdExecution::StartResult Sketch3DExtendGuiCmd::onStart()
     _pickedId = wydb::ElementId::kNull;
     _pickedSegment = wy3d::Sketch3DExtendSegment();
     ApplicationImpl::instance().setCursor(CursorType::SelectElements);
-    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DExtendGuiCmd",
+    ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Sketch3DExtendGuiCmd",
         "Select sketch entities to extend."));
 
     _pointPickOption.allowedElemTypes = ElementNodeType::Sketch3DEntity;

@@ -144,7 +144,7 @@ void SketchDrawPoint3DGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyPosition:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPoint3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawPoint3DGuiCmd",
             "Specify the position of the point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
@@ -154,7 +154,7 @@ void SketchDrawPoint3DGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

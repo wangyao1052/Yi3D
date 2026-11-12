@@ -146,7 +146,7 @@ wyap::CmdExecution::StartResult ThickenGuiCmd::onStart()
         ApplicationImpl::instance().getSelManager()->beginChange();
         ApplicationImpl::instance().getSelManager()->clearSelections();
         ApplicationImpl::instance().getSelManager()->endChange();
-        ApplicationImpl::instance().getStatusBar()->setTips(
+        ApplicationImpl::instance().setStatusBarTip(
             QCoreApplication::translate("ThickenGuiCmd",
                 "Select a sheet to thicken."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
@@ -253,7 +253,7 @@ void ThickenGuiCmd::onSheetSelected()
         return;
     }
 
-    ApplicationImpl::instance().getStatusBar()->setTips(
+    ApplicationImpl::instance().setStatusBarTip(
         QCoreApplication::translate("ThickenGuiCmd",
             "Specify thickness and direction, then OK to apply."));
     ApplicationImpl::instance().setCursor(CursorType::Select);

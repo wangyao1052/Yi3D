@@ -227,7 +227,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
         selOptions.selectMode = SelectMode::Add;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchPolarArray",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchPolarArray",
             "Select elements to perform polar array; press Enter or Spacebar to confirm; press Esc to cancel."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
@@ -245,7 +245,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchPolarArray",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchPolarArray",
             "Specify the center point of polar array; you can directly input the coordinate values."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
 
@@ -305,7 +305,7 @@ void SketchPolarArrayGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

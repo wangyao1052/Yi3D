@@ -276,7 +276,7 @@ void SketchDrawSplineGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSplineGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawSplineGuiCmd",
             "Specify the start point; you can directly input the coordinate values."));
 
         // 局部刷新草图捕捉系统
@@ -300,7 +300,7 @@ void SketchDrawSplineGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawSplineGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawSplineGuiCmd",
             "Specify the next point; you can directly input the coordinate values."));
 
         // 草图捕捉上下文
@@ -323,7 +323,7 @@ void SketchDrawSplineGuiCmd::gotoStep(Step step)
     default:
     {
         assert(false);
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
     }
     break;

@@ -215,7 +215,7 @@ void SweptSheetGuiCmd::gotoStep(Step step)
         ApplicationImpl::instance().getSelManager()->endChange();
 
         // 更新提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SweptSheet", "Select the path sketch."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SweptSheet", "Select the path sketch."));
 
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
@@ -240,7 +240,7 @@ void SweptSheetGuiCmd::gotoStep(Step step)
         _pPathHighlightor = std::make_shared<SelectionSetHighlightor>(ss);
 
         // 更新提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SweptSheet", "Select the profile sketch."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SweptSheet", "Select the profile sketch."));
 
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
@@ -256,7 +256,7 @@ void SweptSheetGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

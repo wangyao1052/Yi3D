@@ -273,7 +273,7 @@ bool SketchProjectCurve3DGuiCmd::takeSourceSketch(const wyap::Selection& sel)
     if (wy3d::Sketch3DProjectionUtil::Result::Ok !=
         wy3d::Sketch3DProjectionUtil::collectSourceEdges(pSketch, edges))
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate(
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate(
             "SketchProjectCurve3DGuiCmd", "Projection failed: the sketch cannot be read."));
         return false;
     }
@@ -282,7 +282,7 @@ bool SketchProjectCurve3DGuiCmd::takeSourceSketch(const wyap::Selection& sel)
     // command stays on this step, where another sketch is a click away.
     if (edges.empty())
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate(
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate(
             "SketchProjectCurve3DGuiCmd", "The sketch has no curves to project."));
         return false;
     }
@@ -554,7 +554,7 @@ bool SketchProjectCurve3DGuiCmd::commit()
 
 void SketchProjectCurve3DGuiCmd::setStepOneTip() const
 {
-    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate(
+    ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate(
         "SketchProjectCurve3DGuiCmd", "Select the sketch to project."));
 }
 
@@ -576,7 +576,7 @@ void SketchProjectCurve3DGuiCmd::setStepTwoTip() const
         tip += QCoreApplication::translate("SketchProjectCurve3DGuiCmd", "Press Tab to flip the direction.");
     }
 
-    ApplicationImpl::instance().getStatusBar()->setTips(tip);
+    ApplicationImpl::instance().setStatusBarTip(tip);
 }
 
 // The failures here are recoverable and expected to happen over and over - turning on reverse
@@ -610,7 +610,7 @@ void SketchProjectCurve3DGuiCmd::reportFailure(wy3d::Sketch3DProjectionUtil::Res
         break;
     }
 
-    ApplicationImpl::instance().getStatusBar()->setTips(message);
+    ApplicationImpl::instance().setStatusBarTip(message);
 }
 
 void SketchProjectCurve3DGuiCmd::reportCreateFailure(wy3d::Sketch3DEdgeUtil::Result result) const

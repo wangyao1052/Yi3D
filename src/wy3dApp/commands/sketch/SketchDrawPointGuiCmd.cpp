@@ -138,7 +138,7 @@ void SketchDrawPointGuiCmd::gotoStep(Step step)
     {
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPoint",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawPoint",
             "Specify the position of the point; you can directly input the coordinate values."));
 
         // 鼠标样式
@@ -157,7 +157,7 @@ void SketchDrawPointGuiCmd::gotoStep(Step step)
     default:
     {
         assert(false);
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
 
     }

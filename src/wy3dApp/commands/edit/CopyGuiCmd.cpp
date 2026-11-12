@@ -255,7 +255,7 @@ void CopyGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("CopyGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("CopyGuiCmd",
             "Select elements to copy; press Enter or Spacebar to confirm; press Esc to cancel."));
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
@@ -272,7 +272,7 @@ void CopyGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("CopyGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("CopyGuiCmd",
             "Specify the base point; you can directly input the coordinate values."));
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Locate);
@@ -297,7 +297,7 @@ void CopyGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("CopyGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("CopyGuiCmd",
             "Specify the move vector; you can directly input the values."));
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Locate);
@@ -316,7 +316,7 @@ void CopyGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
     }
     break;

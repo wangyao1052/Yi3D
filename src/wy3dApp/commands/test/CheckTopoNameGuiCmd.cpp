@@ -147,7 +147,7 @@ wyap::CmdExecution::StartResult CheckTopoNameGuiCmd::onStart()
 
     // 禁用输入
     // 提示信息
-    ApplicationImpl::instance().getStatusBar()->setTips("");
+    ApplicationImpl::instance().setStatusBarTip("");
 
     // 鼠标样式
     ApplicationImpl::instance().setCursor(CursorType::SelectElements);
@@ -207,7 +207,7 @@ void CheckTopoNameGuiCmd::checkTopoName(const wyap::Selection& sel)
         strTotal += infoItem + "; ";
     }
     QToolTip::showText(QCursor::pos(), strTotal.c_str(), nullptr, QRect(), 30000); // 30s
-    ApplicationImpl::instance().getStatusBar()->setTips(strTotal.c_str());
+    ApplicationImpl::instance().setStatusBarTip(strTotal.c_str());
 }
 
 void CheckTopoNameGuiCmd::onMouseMove(const MouseEvent& event)
@@ -215,7 +215,7 @@ void CheckTopoNameGuiCmd::onMouseMove(const MouseEvent& event)
     // 点选预览
     wyap::Selection sel = this->pointPick(event.x, event.y, _pointPickOption);
     _preview.update(sel);
-    ApplicationImpl::instance().getStatusBar()->setTips("");
+    ApplicationImpl::instance().setStatusBarTip("");
     if (!_preview.isNull())
     {
         wyap::Selection sel = _preview.getSelection();
