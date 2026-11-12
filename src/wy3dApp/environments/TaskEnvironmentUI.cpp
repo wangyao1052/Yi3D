@@ -109,9 +109,14 @@ void TaskEnvironmentUI::destroyConfirmationBar()
     if (_pConfirmationBar)
     {
         _pConfirmationBar->hide();
-        // Synchronous: the command actions the buttons reference may be
-        // destroyed before a queued deleteLater() would run.
-        delete _pConfirmationBar;
+        // Deferred: this is normally called from a click on one of the bar's
+        // own buttons, and QToolButton::mouseReleaseEvent() still touches its
+        // private data after the click signal returns. Deleting the bar here
+        // would free the button under the running event handler.
+        // destroy() calls this before EnvironmentUIImpl::destroy(), so the
+        // queued bar deletion runs before the queued command-action deletion.
+        _pConfirmationBar->deleteLater();
+        _pConfirmationBar = nullptr;
     }
 }
 
