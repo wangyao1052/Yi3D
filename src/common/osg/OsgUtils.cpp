@@ -330,6 +330,16 @@ osg::Matrix OsgUtils::convertTopLocToOsgMatrix(const TopLoc_Location& loc)
 	);
 }
 
+osg::Vec4 OsgUtils::toOsgColor(const wy3d::Color& color)
+{
+    constexpr float inv255 = 1.0f / 255.0f;
+    return osg::Vec4(
+        static_cast<float>(color.red) * inv255,
+        static_cast<float>(color.green) * inv255,
+        static_cast<float>(color.blue) * inv255,
+        1.0f);
+}
+
 bool OsgUtils::setNodeColor(osg::Node* pNode, const osg::Vec4& color)
 {
     osg::Group* pGroup = dynamic_cast<osg::Group*>(pNode);

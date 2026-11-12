@@ -23,15 +23,11 @@
 #include <osg/Vec4>
 #include <wy3dApp/wy3dAppDefs.h>
 
-namespace wy3d { class Color; }
-
 namespace wy3dApp {
 
 class WY3DAPP_EXPORT Colors
 {
 public:
-    static osg::Vec4 toOsgColor(const wy3d::Color& color);
-
     // mesh 调色板（Solid/Sheet 各一份）
     struct Mesh
     {

@@ -26,6 +26,7 @@
 #include <TopLoc_Location.hxx>
 #include <TopoDS_Shape.hxx>
 #include <TopoDS_Edge.hxx>
+#include <wy3dColor.h>
 
 // OSG工具类
 class OsgUtils
@@ -49,6 +50,8 @@ public:
 	static osg::Matrix convertTopLocToOsgMatrix(const TopLoc_Location& loc);
 
 	static bool setNodeColor(osg::Node* node, const osg::Vec4& color);
+
+	static osg::Vec4 toOsgColor(const wy3d::Color& color);
 
 	// 创建Box
 	static osg::Node* createShapeDrawable_Box(

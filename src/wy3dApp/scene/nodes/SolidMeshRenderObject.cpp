@@ -61,7 +61,7 @@ SolidMeshRenderObject::SolidMeshRenderObject(const wydb::ElementId& id,
 void SolidMeshRenderObject::updateStyle(const wy3d::Solid& solid)
 {
     _cut = solid.isCut();
-    _faceColor = Colors::toOsgColor(solid.getColor());
+    _faceColor = OsgUtils::toOsgColor(solid.getColor());
 }
 
 osg::Vec4 SolidMeshRenderObject::getFaceDefaultColor() const

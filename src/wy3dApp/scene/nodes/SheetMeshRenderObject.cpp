@@ -52,7 +52,7 @@ SheetMeshRenderObject::SheetMeshRenderObject(const wydb::ElementId& id,
 
 void SheetMeshRenderObject::updateStyle(const wy3d::Sheet& sheet)
 {
-    _faceColor = Colors::toOsgColor(sheet.getColor());
+    _faceColor = OsgUtils::toOsgColor(sheet.getColor());
 }
 
 osg::Vec4 SheetMeshRenderObject::getFaceDefaultColor() const

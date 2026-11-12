@@ -18,7 +18,6 @@
 
 #include <wy3dApp/Colors.h>
 #include <wy3dApp/wy3dAppDefs.h>
-#include <wy3dColor.h>
 
 #define BrightGreen  osg::Vec4(0.0f, 0.93f, 0.0f, 1.0f)  // #00ED00 亮绿色
 #define MediumGreen  osg::Vec4(0.0f, 0.765f, 0.0f, 1.0f) // #00C300 中绿色
@@ -26,16 +25,6 @@
 #define BrightOrange osg::Vec4(0.9f, 0.39f, 0.1f, 1.0f) // 亮橙色(CREO)
 
 namespace wy3dApp {
-
-osg::Vec4 Colors::toOsgColor(const wy3d::Color& color)
-{
-    constexpr float inv255 = 1.0f / 255.0f;
-    return osg::Vec4(
-        static_cast<float>(color.red) * inv255,
-        static_cast<float>(color.green) * inv255,
-        static_cast<float>(color.blue) * inv255,
-        1.0f);
-}
 
 namespace {
 
