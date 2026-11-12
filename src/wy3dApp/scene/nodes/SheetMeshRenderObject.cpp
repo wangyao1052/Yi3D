@@ -83,7 +83,7 @@ void SheetMeshRenderObject::updateAppearance(
         osg::Vec4 faceColor = getFaceDefaultColor();
         if (dispState.highlighted)
         {
-            faceColor = dispState.active ? _palette.element.highlight.face : _palette.inactive;
+            faceColor = dispState.active ? _palette.element.highlight.face : kInactiveElementColor;
         }
         else if (dispState.previewed)
         {
@@ -125,7 +125,7 @@ void SheetMeshRenderObject::updateAppearance(
         osg::Vec4 edgeColor = getEdgeDefaultColor();
         if (dispState.highlighted)
         {
-            edgeColor = dispState.active ? _palette.element.highlight.edge : _palette.inactive;
+            edgeColor = dispState.active ? _palette.element.highlight.edge : kInactiveElementColor;
         }
         else if (dispState.previewed)
         {

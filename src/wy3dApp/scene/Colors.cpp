@@ -18,6 +18,7 @@
 
 #include <wy3dApp/Colors.h>
 #include <wy3dApp/wy3dAppDefs.h>
+#include "scene/RenderConst.h"
 
 #define BrightGreen  osg::Vec4(0.0f, 0.93f, 0.0f, 1.0f)  // #00ED00 亮绿色
 #define MediumGreen  osg::Vec4(0.0f, 0.765f, 0.0f, 1.0f) // #00C300 中绿色
@@ -50,6 +51,9 @@ const osg::Vec4 Colors::kSkyBlue(0.251f, 0.682f, 1.0f, 1.0f);  // 天蓝色 #40A
 
 // rust red
 const osg::Vec4 Colors::kRustRed(0.72f, 0.25f, 0.15f, 0.4f); // 铁锈红 #B84026, 40% 不透明
+
+// 非活动元素色（选择集中非活动元素的常规色）
+const osg::Vec4 kInactiveElementColor = Colors::kRustRed;
 
 // gray
 const osg::Vec4 Colors::kGray(0.5f, 0.5f, 0.5f, 0.5f); // 灰色
@@ -122,7 +126,6 @@ Colors::Mesh makeMesh(const osg::Vec4& face,
     m.face.preview = facePreview;
     m.edge.highlight = BrightGreen;
     m.edge.preview = BrightOrange;
-    m.inactive = Colors::kRustRed;
     return m;
 }
 

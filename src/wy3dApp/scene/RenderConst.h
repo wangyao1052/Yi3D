@@ -20,6 +20,7 @@
 #define WY3DAPP_RENDER_CONST_H
 
 #include <string>
+#include <osg/Vec4>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -58,6 +59,9 @@ static const inline unsigned short DOT_LINE_STIPPLE_PATTERN = 0xAAAA;
 // 虚线（20实 12空。GL 从 bit0 起用图案，长划写在低位）
 static const inline int DASH_LINE_STIPPLE_FACTOR = 2;
 static const inline unsigned short DASH_LINE_STIPPLE_PATTERN = 0x03FF;
+
+// 非活动元素色（选择集中非活动元素的常规色）
+extern const osg::Vec4 kInactiveElementColor;
 
 } // namespace wy3dApp
 

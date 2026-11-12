@@ -62,8 +62,6 @@ public:
             osg::Vec4 highlight;
             osg::Vec4 preview;
         } edge;
-
-        osg::Vec4 inactive;
     };
 
     static const Mesh solidMesh;
