@@ -31,7 +31,7 @@
 
 #include <OsgUtils.h>
 
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "scene/RenderConst.h"
 
 namespace wy3dApp {

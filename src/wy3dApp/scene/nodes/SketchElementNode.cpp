@@ -67,7 +67,7 @@
 #include "scene/SketchEntityLinearization.h"
 #include <wy3dApp/ElementNodeType.h>
 #include "scene/RenderConst.h"
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "scene/nodes/SketchRenderObject.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>

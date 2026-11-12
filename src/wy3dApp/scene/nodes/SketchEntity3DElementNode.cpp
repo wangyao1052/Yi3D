@@ -29,7 +29,7 @@
 
 #include "scene/SketchEntity3DLinearization.h"
 #include "scene/RenderConst.h"
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "scene/nodes/LineRenderObject.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

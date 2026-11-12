@@ -22,7 +22,7 @@
 #include <osg/Point>
 #include <osg/AutoTransform>
 #include "snap/SnapConsts.h"
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
 

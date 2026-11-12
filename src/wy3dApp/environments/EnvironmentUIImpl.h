@@ -19,7 +19,6 @@
 #ifndef WY3DAPP_ENVIRONMENT_UI_IMPL_H
 #define WY3DAPP_ENVIRONMENT_UI_IMPL_H
 
-#include <QPointer>
 #include <QTimer>
 
 #include <list>
@@ -33,7 +32,6 @@
 
 #include <wy3dApp/CommandAction.h>
 #include <wy3dApp/EnvironmentUI.h>
-#include "widgets/frame/ConfirmationBar.h"
 
 class QAction;
 class QActionGroup;
@@ -81,14 +79,6 @@ public:
         _defaultCmdName = commandName;
     }
 
-    // Host-owned confirmation actions shared by ConfirmationBar, menus and
-    // toolbars. They are created lazily with fixed icons and default texts.
-    CommandAction* getConfirmAction();
-    CommandAction* getCancelAction();
-
-    // Show or hide the ConfirmationBar over the active viewport.
-    void setConfirmationBarVisible(bool visible);
-
     // Remove one object created through this UI. Removal is structural: the
     // object must be present in this UI's bookkeeping.
     void deleteMenu(QMenu* pMenu) override;
@@ -111,7 +101,7 @@ public:
     // Save toolbar/dock positions to persisted state.
     void saveUiState();
     // Restore toolbar/dock positions from persisted state.
-    void restoreUiState();
+    virtual void restoreUiState();
 
     // Command notifications forwarded by the owning environment.
     virtual void onCommandStartFailed(
@@ -148,14 +138,6 @@ private:
     // Destroy all command actions.
     void destroyCommandActions();
 
-    // Create the two host-owned confirmation command actions on first use.
-    void ensureConfirmationActions();
-    // Recreate/remove the confirmation bar according to the current state.
-    void rebuildConfirmationBar();
-    // Destroy the confirmation bar synchronously, before its actions.
-    void destroyConfirmationBar();
-
-private:
     // menus
     std::vector<QMenu*> _menus;
     // toolbars
@@ -173,11 +155,6 @@ private:
     bool _isCmdTerminatedOnEventLoopPosted;
     // The owning environment, used for UI state persistence.
     const wyap::Environment* _pEnvironment;
-    // Confirmation UI: host-owned actions and the floating bar using them.
-    QPointer<CommandAction> _pConfirmAction;
-    QPointer<CommandAction> _pCancelAction;
-    QPointer<ConfirmationBar> _pConfirmationBar;
-    bool _confirmationVisible = false;
 };
 
 } // namespace wy3dApp

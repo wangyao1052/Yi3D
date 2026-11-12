@@ -45,7 +45,7 @@
 #include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/ElementNodeType.h>
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "snap/SnapConsts.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/GuiCommandUtil.h>

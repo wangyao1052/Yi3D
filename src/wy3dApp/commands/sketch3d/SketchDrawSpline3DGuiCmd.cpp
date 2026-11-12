@@ -40,7 +40,7 @@
 #include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include <wy3dApp/OsgGizmoNode.h>
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "scene/RenderConst.h"
 #include "snap/SnapConsts.h"
 #include <wy3dApp/GuiCommandUtil.h>

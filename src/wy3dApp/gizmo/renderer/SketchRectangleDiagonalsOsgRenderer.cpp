@@ -28,7 +28,7 @@
 #include <wy3dSketch.h>
 
 #include "gizmo/element/sketchrectangle/SketchRectangleDiagonalsGhostGizmo.h"
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "scene/RenderConst.h"
 #include "utils/MathUtils.h"
 #include "utils/SketchRectangleRecognizer.h"

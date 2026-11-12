@@ -18,15 +18,11 @@
 
 #include "TaskEnvironmentCommands.h"
 
-#include <cassert>
-
-#include <wyapCmdStack.h>
 #include <wyapEnvManager.h>
 #include <wyapEnums.h>
 
 #include <wy3dApp/TaskEnvironment.h>
 #include "application/ApplicationImpl.h"
-#include "commands/CommandNames.h"
 
 namespace wy3dApp {
 
@@ -58,39 +54,6 @@ int CancelTaskEnvironmentCommand::run()
 
     pEnvironment->onCancel();
     return 0;
-}
-
-void ensureTaskEnvironmentCommandsRegistered()
-{
-    static bool s_registered = false;
-    if (s_registered)
-    {
-        return;
-    }
-
-    wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
-    if (!pCmdStack)
-    {
-        return;
-    }
-
-    const unsigned int flags = WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY;
-    const auto addCommand = [pCmdStack, flags](
-        const std::string& name, wyrx::ClassInfo* pClassInfo)
-    {
-        const wy::ErrorStatus status =
-            pCmdStack->addCommand(name, flags, pClassInfo);
-        return status == wy::ErrorStatus::Ok
-            || status == wy::ErrorStatus::DuplicateKey;
-    };
-
-    if (addCommand(CommandNames::ConfirmTaskEnvironment,
-                   ConfirmTaskEnvironmentCommand::classInfo())
-        && addCommand(CommandNames::CancelTaskEnvironment,
-                      CancelTaskEnvironmentCommand::classInfo()))
-    {
-        s_registered = true;
-    }
 }
 
 } // namespace wy3dApp

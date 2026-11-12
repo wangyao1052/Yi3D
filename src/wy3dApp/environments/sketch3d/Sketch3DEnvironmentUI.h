@@ -19,14 +19,14 @@
 #ifndef WY3DAPP_SKETCH3D_ENVIRONMENT_UI_H
 #define WY3DAPP_SKETCH3D_ENVIRONMENT_UI_H
 
-#include "environments/EnvironmentUIImpl.h"
+#include "environments/TaskEnvironmentUI.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
 
 class Sketch3DEnvironment;
 
-class Sketch3DEnvironmentUI : public EnvironmentUIImpl
+class Sketch3DEnvironmentUI : public TaskEnvironmentUI
 {
 public:
     explicit Sketch3DEnvironmentUI(const Sketch3DEnvironment* pEnv);

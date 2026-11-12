@@ -19,22 +19,78 @@
 #include <wy3dApp/TaskEnvironment.h>
 
 #include <cassert>
+#include <string>
 #include <utility>
 
+#include <wyapCmdStack.h>
 #include <wyapEnvManager.h>
 #include <wyapEnums.h>
 
-#include "EnvironmentUIImpl.h"
+#include "TaskEnvironmentUI.h"
 #include "application/ApplicationImpl.h"
+#include "commands/CommandNames.h"
+#include "commands/TaskEnvironmentCommands.h"
 
 namespace wy3dApp {
 
+namespace {
+
+// The Finish/Cancel commands are intrinsic to every task environment session:
+// onEnter/onResume register them, onSuspend/onExit remove them. DuplicateKey
+// and KeyNotFound are tolerated so repeated transitions stay harmless.
+void registerTaskEnvironmentCommands()
+{
+    wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
+    if (!pCmdStack)
+    {
+        return;
+    }
+
+    const unsigned int flags = WYAP_CMD_MODAL | WYAP_CMD_NOHISTORY;
+    const auto addCommand = [pCmdStack, flags](
+        const std::string& name, wyrx::ClassInfo* pClassInfo)
+    {
+        const wy::ErrorStatus status =
+            pCmdStack->addCommand(name, flags, pClassInfo);
+        assert(status == wy::ErrorStatus::Ok
+            || status == wy::ErrorStatus::DuplicateKey);
+        (void)status;
+    };
+
+    addCommand(CommandNames::ConfirmTaskEnvironment,
+               ConfirmTaskEnvironmentCommand::classInfo());
+    addCommand(CommandNames::CancelTaskEnvironment,
+               CancelTaskEnvironmentCommand::classInfo());
+}
+
+void removeTaskEnvironmentCommands()
+{
+    wyap::CmdStack* pCmdStack = ApplicationImpl::instance().getCmdStack();
+    if (!pCmdStack)
+    {
+        return;
+    }
+
+    const auto removeCommand = [pCmdStack](const std::string& name)
+    {
+        const wy::ErrorStatus status = pCmdStack->removeCommand(name);
+        assert(status == wy::ErrorStatus::Ok
+            || status == wy::ErrorStatus::KeyNotFound);
+        (void)status;
+    };
+
+    removeCommand(CommandNames::ConfirmTaskEnvironment);
+    removeCommand(CommandNames::CancelTaskEnvironment);
+}
+
+} // namespace
+
 TaskEnvironment::TaskEnvironment()
-    : _pUI(std::make_unique<EnvironmentUIImpl>(this))
+    : _pUI(std::make_unique<TaskEnvironmentUI>(this))
 {
 }
 
-TaskEnvironment::TaskEnvironment(std::unique_ptr<EnvironmentUIImpl> pUI)
+TaskEnvironment::TaskEnvironment(std::unique_ptr<TaskEnvironmentUI> pUI)
     : _pUI(std::move(pUI))
 {
     assert(_pUI);
@@ -96,11 +152,23 @@ void TaskEnvironment::onCancel()
 void TaskEnvironment::onEnter()
 {
     wyap::TaskEnvironment::onEnter();
+
+    registerTaskEnvironmentCommands();
+    if (_pUI)
+    {
+        _pUI->createConfirmationActions();
+    }
 }
 
 void TaskEnvironment::onResume()
 {
     wyap::TaskEnvironment::onResume();
+
+    registerTaskEnvironmentCommands();
+    if (_pUI)
+    {
+        _pUI->createConfirmationActions();
+    }
 }
 
 void TaskEnvironment::onExit(ExitCode exitCode)
@@ -109,6 +177,7 @@ void TaskEnvironment::onExit(ExitCode exitCode)
     {
         _pUI->destroy();
     }
+    removeTaskEnvironmentCommands();
 
     wyap::TaskEnvironment::onExit(exitCode);
 }
@@ -119,6 +188,7 @@ void TaskEnvironment::onSuspend()
     {
         _pUI->destroy();
     }
+    removeTaskEnvironmentCommands();
 
     wyap::TaskEnvironment::onSuspend();
 }

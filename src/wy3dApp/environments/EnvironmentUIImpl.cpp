@@ -35,11 +35,9 @@
 #include <wy3dApp/CommandAction.h>
 #include "application/ApplicationImpl.h"
 #include "commands/CommandNames.h"
-#include "commands/TaskEnvironmentCommands.h"
 #include <wyapCommand.h>
 #include <wy3dApp/Scene.h>
 #include "widgets/frame/MainWindow.h"
-#include "utils/IconUtil.h"
 #include <wy3dApp/wy3dAppDefs.h>
 
 #define TOOLBAR_ICON_SIZE 32
@@ -66,7 +64,6 @@ EnvironmentUIImpl::EnvironmentUIImpl(const wyap::Environment* pEnvironment)
 
 EnvironmentUIImpl::~EnvironmentUIImpl()
 {
-    this->destroyConfirmationBar();
 }
 
 QMenu* EnvironmentUIImpl::newMenu(const QString& title, const std::string& name)
@@ -165,121 +162,18 @@ CommandAction* EnvironmentUIImpl::findCommandAction(const std::string& commandNa
     return (_cmdName2Action.cend() != iter) ? iter->second : nullptr;
 }
 
-CommandAction* EnvironmentUIImpl::getConfirmAction()
-{
-    this->ensureConfirmationActions();
-    return _pConfirmAction.data();
-}
-
-CommandAction* EnvironmentUIImpl::getCancelAction()
-{
-    this->ensureConfirmationActions();
-    return _pCancelAction.data();
-}
-
-void EnvironmentUIImpl::ensureConfirmationActions()
-{
-    ensureTaskEnvironmentCommandsRegistered();
-
-    if (!_pConfirmAction)
-    {
-        _pConfirmAction = this->findCommandAction(CommandNames::ConfirmTaskEnvironment);
-    }
-    if (!_pConfirmAction)
-    {
-        _pConfirmAction = this->newCommandAction(
-            CommandNames::ConfirmTaskEnvironment,
-            QCoreApplication::translate("TaskEnvironment", "Finish"),
-            IconUtil::get(":/images/Sketch_OK.svg"));
-    }
-
-    if (!_pCancelAction)
-    {
-        _pCancelAction = this->findCommandAction(CommandNames::CancelTaskEnvironment);
-    }
-    if (!_pCancelAction)
-    {
-        _pCancelAction = this->newCommandAction(
-            CommandNames::CancelTaskEnvironment,
-            QCoreApplication::translate("TaskEnvironment", "Cancel"),
-            IconUtil::get(":/images/Sketch_Cancel.svg"));
-    }
-}
-
-void EnvironmentUIImpl::setConfirmationBarVisible(bool visible)
-{
-    if (_confirmationVisible == visible)
-    {
-        if (!visible)
-        {
-            if (_pConfirmationBar)
-            {
-                _pConfirmationBar->hide();
-            }
-            return;
-        }
-        if (_pConfirmationBar)
-        {
-            _pConfirmationBar->show();
-            return;
-        }
-    }
-
-    _confirmationVisible = visible;
-    if (!visible)
-    {
-        if (_pConfirmationBar)
-        {
-            _pConfirmationBar->hide();
-        }
-        return;
-    }
-
-    this->rebuildConfirmationBar();
-}
-
-void EnvironmentUIImpl::rebuildConfirmationBar()
-{
-    this->destroyConfirmationBar();
-    if (!_confirmationVisible)
-    {
-        return;
-    }
-
-    this->ensureConfirmationActions();
-    if (!_pConfirmAction || !_pCancelAction)
-    {
-        return;
-    }
-
-    QWidget* pViewWidget = ApplicationImpl::instance().getActiveViewWidget();
-    if (!pViewWidget)
-    {
-        return;
-    }
-
-    _pConfirmationBar = new ConfirmationBar(
-        pViewWidget, _pConfirmAction.data(), _pCancelAction.data());
-    _pConfirmationBar->show();
-}
-
-void EnvironmentUIImpl::destroyConfirmationBar()
-{
-    if (_pConfirmationBar)
-    {
-        _pConfirmationBar->hide();
-        // Synchronous: the environment UI that owns the button actions may be
-        // destroyed before a queued deleteLater() would run.
-        delete _pConfirmationBar;
-    }
-}
-
 CommandAction* EnvironmentUIImpl::newCommandAction(
     const std::string& commandName,
     const QString& text,
     const QIcon& icon,
     QActionGroup* pActionGroup)
 {
+    if (CommandAction* pExisting = this->findCommandAction(commandName))
+    {
+        assert(false);
+        return pExisting;
+    }
+
     CommandAction* pAction = new CommandAction(commandName, this);
     pAction->setText(text);
     pAction->setIcon(icon);
@@ -398,14 +292,6 @@ bool EnvironmentUIImpl::addContextMenuActions(ContextMenu&)
 
 void EnvironmentUIImpl::destroy()
 {
-    // The bar's buttons reference command actions; drop the bar before any of
-    // those actions are destroyed. Clear the pointers too so a later caller
-    // cannot resurrect an action that is already scheduled for deletion.
-    this->destroyConfirmationBar();
-    _confirmationVisible = false;
-    _pConfirmAction = nullptr;
-    _pCancelAction = nullptr;
-
     this->cancelCommandTerminatedOnEventLoop();
 
     // Nothing left to destroy: either destroy() was already called, or the UI
@@ -485,16 +371,19 @@ void EnvironmentUIImpl::destroyToolBars()
 void EnvironmentUIImpl::restoreUiState()
 {
     if (!_pEnvironment) return;
-    MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl();
-    if (!pMainWindow) return;
 
-    const QString path = QCoreApplication::applicationDirPath()
-        + "/ui-state-" + _pEnvironment->getName().c_str() + ".dat";
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly)) return;
-    const QByteArray state = file.readAll();
-    if (!state.isEmpty())
-        pMainWindow->restoreState(state);
+    if (MainWindow* pMainWindow = ApplicationImpl::instance().getMainWindowImpl())
+    {
+        const QString path = QCoreApplication::applicationDirPath()
+            + "/ui-state-" + _pEnvironment->getName().c_str() + ".dat";
+        QFile file(path);
+        if (file.open(QIODevice::ReadOnly))
+        {
+            const QByteArray state = file.readAll();
+            if (!state.isEmpty())
+                pMainWindow->restoreState(state);
+        }
+    }
 }
 
 void EnvironmentUIImpl::destroyActionGroups()

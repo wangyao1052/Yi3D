@@ -35,7 +35,7 @@
 #include "application/ApplicationImpl.h"
 #include "commands/sketch/dialogs/GuiCmdHoverInputPopup.h"
 #include "snap/SketchSnapSystem.h"
-#include "scene/Colors.h"
+#include <wy3dApp/Colors.h>
 #include "scene/RenderConst.h"
 #include "snap/SnapConsts.h"
 #include "snap/SnapObject.h"
