@@ -676,7 +676,7 @@ void SketchDrawStraightSlotGuiCmd::confirmFirstCenter(const wy::Vector2& point)
     _hover.angleDeg = 0.0;
 
     _step = Step::SecondCenter;
-    _snapContext = std::make_shared<Locate2dContext>();
+    _snapContext = std::make_shared<DrawLine2dContext>(_firstCenter);
     if (_sketchInfo.pSnap2dSys)
     {
         _sketchInfo.pSnap2dSys->clearSnapResult();
