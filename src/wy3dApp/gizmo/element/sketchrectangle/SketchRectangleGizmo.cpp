@@ -144,7 +144,10 @@ bool SketchRectangleGizmo::onStartEdit(wydb::Database* pDb)
     return true;
 }
 
-bool SketchRectangleGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchRectangleGizmo::onApplyEdit(
+    wydb::Transaction* pTrans,
+    const wy::Vector2& curPos,
+    const Snap2dResultSPtr& snapResult)
 {
     assert(pTrans);
     if (!pTrans) return false;

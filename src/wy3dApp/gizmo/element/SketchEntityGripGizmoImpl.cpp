@@ -46,15 +46,16 @@ bool SketchEntityGripGizmoImpl::begin(
 bool SketchEntityGripGizmoImpl::update(
     SketchEntityGripGizmo& owner,
     wydb::Transaction* pTrans,
-    const wy::Vector2& curPos)
+    const wy::Vector2& curPos,
+    const Snap2dResultSPtr& snapResult)
 {
-    if (!owner.onApplyEdit(pTrans, curPos)) return false;
+    if (!owner.onApplyEdit(pTrans, curPos, snapResult)) return false;
 
     for (const std::weak_ptr<SketchEntityGripGizmo>& weakOther : _grips)
     {
         std::shared_ptr<SketchEntityGripGizmo> pOther = weakOther.lock();
         if (!pOther) continue;
-        if (!pOther->onApplyEdit(pTrans, curPos)) return false;
+        if (!pOther->onApplyEdit(pTrans, curPos, snapResult)) return false;
     }
     return true;
 }

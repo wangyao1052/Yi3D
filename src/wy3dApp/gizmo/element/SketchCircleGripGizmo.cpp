@@ -68,7 +68,10 @@ bool SketchCircleGripGizmo::onStartEdit(wydb::Database* pDb)
     return true;
 }
 
-bool SketchCircleGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchCircleGripGizmo::onApplyEdit(
+    wydb::Transaction* pTrans,
+    const wy::Vector2& curPos,
+    const Snap2dResultSPtr& snapResult)
 {
     assert(pTrans);
     wy3d::SketchCircle* pSketchCircle = wy3d::SketchCircle::cast(pTrans->getElementForWrite(getFirstElementId()));

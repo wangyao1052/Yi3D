@@ -132,9 +132,10 @@ DraggableGizmo::StepResult SketchEntityGripGizmo::onDragging(wydb::Database* pDb
     }
     const std::set<wydb::ElementId>& synchronizedExcludeIds = _pImpl->snapExcludeIds();
     excludeIds.insert(synchronizedExcludeIds.begin(), synchronizedExcludeIds.end());
-    wy::Vector2 curPos = OsgCoordUtil::computePoint2d(
+    const std::pair<wy::Vector2, Snap2dResultSPtr> snapped = OsgCoordUtil::computePoint2d(
         static_cast<OsgGizmoRenderer*>(_pRenderer.get())->getOsgView(),
-        event.x, event.y, excludeIds, _pImpl->snap2dContext, pSketchSnapSys).first;
+        event.x, event.y, excludeIds, _pImpl->snap2dContext, pSketchSnapSys);
+    const wy::Vector2 curPos = snapped.first;
     const wy::Vector3 pos = MathUtils::toVector3(curPos);
 
     wydb::TransactionManager* pTransMgr = pDb ? pDb->getTransactionManager() : nullptr;
@@ -145,7 +146,7 @@ DraggableGizmo::StepResult SketchEntityGripGizmo::onDragging(wydb::Database* pDb
     wydb::Transaction* pTrans = pTransMgr->startTransaction("", option);
     if (!pTrans) return { false, pos };
 
-    bool applied = _pImpl->update(*this, pTrans, curPos);
+    bool applied = _pImpl->update(*this, pTrans, curPos, snapped.second);
     if (applied)
     {
         if (wy::ErrorStatus::Ok != pTransMgr->endTransaction())

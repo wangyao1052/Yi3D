@@ -72,7 +72,10 @@ bool SketchCenterLineGripGizmo::onStartEdit(wydb::Database* pDb)
     return true;
 }
 
-bool SketchCenterLineGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchCenterLineGripGizmo::onApplyEdit(
+    wydb::Transaction* pTrans,
+    const wy::Vector2& curPos,
+    const Snap2dResultSPtr& snapResult)
 {
     assert(pTrans);
     wy3d::SketchCenterLine* pCenterLine = wy3d::SketchCenterLine::cast(pTrans->getElementForWrite(getFirstElementId()));

@@ -37,7 +37,10 @@ protected:
     // 开始
     virtual bool onStartEdit(wydb::Database* pDb) override;
     // 更新
-    virtual bool onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
+    virtual bool onApplyEdit(
+        wydb::Transaction* pTrans,
+        const wy::Vector2& curPos,
+        const Snap2dResultSPtr& snapResult) override;
     // 拖拽上下文
     virtual Snap2dContextSPtr createSnap2dContext() const override;
 

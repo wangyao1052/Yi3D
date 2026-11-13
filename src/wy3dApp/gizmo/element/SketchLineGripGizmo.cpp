@@ -72,7 +72,10 @@ bool SketchLineGripGizmo::onStartEdit(wydb::Database* pDb)
     return true;
 }
 
-bool SketchLineGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchLineGripGizmo::onApplyEdit(
+    wydb::Transaction* pTrans,
+    const wy::Vector2& curPos,
+    const Snap2dResultSPtr& snapResult)
 {
     assert(pTrans);
     wy3d::SketchLine* pSketchLine = wy3d::SketchLine::cast(pTrans->getElementForWrite(getFirstElementId()));

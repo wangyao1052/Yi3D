@@ -75,7 +75,10 @@ bool SketchSplineGripGizmo::onStartEdit(wydb::Database* pDb)
     return true;
 }
 
-bool SketchSplineGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchSplineGripGizmo::onApplyEdit(
+    wydb::Transaction* pTrans,
+    const wy::Vector2& curPos,
+    const Snap2dResultSPtr& snapResult)
 {
     assert(pTrans);
     wy3d::SketchSpline* pSketchSpline = wy3d::SketchSpline::cast(pTrans->getElementForWrite(getFirstElementId()));

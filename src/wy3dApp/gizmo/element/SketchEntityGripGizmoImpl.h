@@ -34,7 +34,8 @@ public:
     bool update(
         SketchEntityGripGizmo& owner,
         wydb::Transaction* pTrans,
-        const wy::Vector2& curPos);
+        const wy::Vector2& curPos,
+        const Snap2dResultSPtr& snapResult);
     void end(SketchEntityGripGizmo& owner, wydb::Database* pDb, bool commit);
     void clear();
 

@@ -77,7 +77,10 @@ bool SketchEllipseGripGizmo::onStartEdit(wydb::Database* pDb)
     return true;
 }
 
-bool SketchEllipseGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchEllipseGripGizmo::onApplyEdit(
+    wydb::Transaction* pTrans,
+    const wy::Vector2& curPos,
+    const Snap2dResultSPtr& snapResult)
 {
     assert(pTrans);
     wy3d::SketchEllipse* pSketchEllipse = wy3d::SketchEllipse::cast(pTrans->getElementForWrite(getFirstElementId()));

@@ -28,6 +28,7 @@
 
 #include <wy3dApp/DraggableGizmo.h>
 #include <wy3dApp/Snap2dContext.h>
+#include <wy3dApp/Snap2dResult.h>
 #include <wy3dApp/wy3dAppDefs.h>
 
 namespace wy3dApp {
@@ -59,7 +60,10 @@ protected:
     void onDragCancelled() override;
 
     virtual bool onStartEdit(wydb::Database* pDb) = 0;
-    virtual bool onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos) = 0;
+    virtual bool onApplyEdit(
+        wydb::Transaction* pTrans,
+        const wy::Vector2& curPos,
+        const Snap2dResultSPtr& snapResult) = 0;
     virtual void onEndEdit(wydb::Database* pDb, bool commit) { return; };
 
     virtual Snap2dContextSPtr createSnap2dContext() const

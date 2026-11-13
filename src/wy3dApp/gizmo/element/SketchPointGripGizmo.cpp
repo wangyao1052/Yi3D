@@ -63,7 +63,10 @@ bool SketchPointGripGizmo::onStartEdit(wydb::Database* pDb)
     return true;
 }
 
-bool SketchPointGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchPointGripGizmo::onApplyEdit(
+    wydb::Transaction* pTrans,
+    const wy::Vector2& curPos,
+    const Snap2dResultSPtr& snapResult)
 {
     assert(pTrans);
     wy3d::SketchPoint* pSketchPoint = wy3d::SketchPoint::cast(pTrans->getElementForWrite(getFirstElementId()));

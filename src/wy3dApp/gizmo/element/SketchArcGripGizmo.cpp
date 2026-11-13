@@ -77,7 +77,10 @@ bool SketchArcGripGizmo::onStartEdit(wydb::Database* pDb)
     return true;
 }
 
-bool SketchArcGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchArcGripGizmo::onApplyEdit(
+    wydb::Transaction* pTrans,
+    const wy::Vector2& curPos,
+    const Snap2dResultSPtr& snapResult)
 {
     assert(pTrans);
     wy3d::SketchArc* pSketchArc = wy3d::SketchArc::cast(pTrans->getElementForWrite(getFirstElementId()));

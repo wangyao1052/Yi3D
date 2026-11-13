@@ -140,7 +140,10 @@ bool SketchPolygonGizmo::onStartEdit(wydb::Database* pDb)
     return true;
 }
 
-bool SketchPolygonGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchPolygonGizmo::onApplyEdit(
+    wydb::Transaction* pTrans,
+    const wy::Vector2& curPos,
+    const Snap2dResultSPtr& snapResult)
 {
     assert(pTrans);
     if (!pTrans) return false;

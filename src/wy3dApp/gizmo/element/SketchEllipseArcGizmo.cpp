@@ -91,7 +91,10 @@ bool SketchEllipseArcGripGizmo::onStartEdit(wydb::Database* pDb)
     return true;
 }
 
-bool SketchEllipseArcGripGizmo::onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos)
+bool SketchEllipseArcGripGizmo::onApplyEdit(
+    wydb::Transaction* pTrans,
+    const wy::Vector2& curPos,
+    const Snap2dResultSPtr& snapResult)
 {
     assert(pTrans);
     wy3d::SketchEllipseArc* pEllipseArc = wy3d::SketchEllipseArc::cast(pTrans->getElementForWrite(getFirstElementId()));

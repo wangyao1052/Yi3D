@@ -46,7 +46,10 @@ protected:
     // 开始
     virtual bool onStartEdit(wydb::Database* pDb) override;
     // 更新
-    virtual bool onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
+    virtual bool onApplyEdit(
+        wydb::Transaction* pTrans,
+        const wy::Vector2& curPos,
+        const Snap2dResultSPtr& snapResult) override;
 
 private:
     bool updateArcByThreePoints(wy3d::SketchArc* pArc, const wy::Vector2& p1, const wy::Vector2& p2, const wy::Vector2& p3);

@@ -50,7 +50,10 @@ protected:
     // O(1): reads only the one or two lines that touch this handle
     virtual wy::Vector2 getGripPosition() const override;
     virtual bool onStartEdit(wydb::Database* pDb) override;
-    virtual bool onApplyEdit(wydb::Transaction* pTrans, const wy::Vector2& curPos) override;
+    virtual bool onApplyEdit(
+        wydb::Transaction* pTrans,
+        const wy::Vector2& curPos,
+        const Snap2dResultSPtr& snapResult) override;
 
 private:
     std::shared_ptr<const SketchPolygonInfo> _polygon;
