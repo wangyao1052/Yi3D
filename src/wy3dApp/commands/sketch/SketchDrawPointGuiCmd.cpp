@@ -36,6 +36,7 @@
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -326,7 +327,7 @@ bool MakeSketchPoint::perform(const wy::Vector2& position, wydb::ElementId sketc
 
     // 创建草绘点
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     wy3d::Sketch* pSketch = nullptr;

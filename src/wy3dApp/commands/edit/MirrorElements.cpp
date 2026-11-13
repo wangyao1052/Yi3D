@@ -31,6 +31,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -163,7 +164,7 @@ bool MirrorElemens::perform(const wyap::SelectionSet& ss, const wydb::ElementId&
 
     // 镜像元素
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans)
     {

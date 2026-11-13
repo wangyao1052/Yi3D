@@ -38,6 +38,7 @@
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 #define MIN_SIDES 3
 #define MAX_SIDES 100
@@ -515,7 +516,7 @@ bool MakeSketchPolygon::init(DrawPolygonType type, unsigned int numSides, const 
     _centerPnt = centerPnt;
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
 
@@ -580,7 +581,7 @@ bool MakeSketchPolygon::update(const wy::Vector2& startVec)
     }
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     for (unsigned int i = 0; i < _numSides; ++i)

@@ -42,6 +42,7 @@
 #include <wy3dApp/OsgGizmoNode.h>
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -744,7 +745,7 @@ bool MakeSketchSpline::init(const wy::Vector2& startPnt, wydb::ElementId sketchI
     points.emplace_back(startPnt);
     points.emplace_back(startPnt + wy::Vector2(wy3d::kMinValue, 0.0));
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     wy3d::Sketch* pSketch = nullptr;
@@ -794,7 +795,7 @@ bool MakeSketchSpline::update(const std::vector<wy::Vector2>& points)
     }
     
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     if (wy::ErrorStatus::Ok != _pSketchSpline->upgradeForWrite())

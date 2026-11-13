@@ -44,6 +44,7 @@
 #include "snap/SketchSnapSystem.h"
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -538,7 +539,7 @@ bool SketchPolarArrayElements::perform(const std::set<wydb::ElementId>& ids, con
     std::list<ArrayElemItem> arrayElems;
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans)
     {

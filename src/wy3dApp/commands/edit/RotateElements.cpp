@@ -143,7 +143,7 @@ bool RotateElements::performImpl_Sketching(const std::set<wydb::ElementId>& ids,
 {
     assert(_pDb);
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     for (const wydb::ElementId& id : ids)

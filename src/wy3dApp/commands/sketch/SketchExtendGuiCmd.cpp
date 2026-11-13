@@ -50,6 +50,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -336,7 +337,7 @@ bool SketchExtendGuiCmd::extend(const wydb::ElementId curveId, const SketchExten
     // important
     // 通过调用基类的startTransaction方法保证开启的事务是不传播级联更新的,在退出草图环境时会markdirty草图的Shape.
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction("", option);
     // }
     if (!pTrans)

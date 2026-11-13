@@ -39,6 +39,7 @@
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -592,7 +593,7 @@ bool MakeSketchArc::init(const wy::Vector2& centerPnt, double radius, double sta
 
     // 创建SketchArc
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     wy3d::Sketch* pSketch = nullptr;
@@ -639,7 +640,7 @@ bool MakeSketchArc::update(double totalAngle)
     }
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     {

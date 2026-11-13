@@ -265,6 +265,30 @@ Sketch3DEnvironment* GuiCommandUtil::getActiveSketch3DEnvironment()
     return dynamic_cast<Sketch3DEnvironment*>(pEnv);
 }
 
+wydb::TransactionOption GuiCommandUtil::makeSketchTransactionOption(
+    const wydb::ElementId& sketchId)
+{
+    wydb::TransactionOption option;
+    if (sketchId.isNull())
+    {
+        // Preserve the previous behavior when no sketch is available.
+        option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    }
+    else
+    {
+        option.chainUpdateScope = wydb::ChainUpdateScope::UpTo;
+        option.targetId = sketchId;
+    }
+    return option;
+}
+
+wydb::TransactionOption GuiCommandUtil::makeSketchTransactionOption()
+{
+    SketchEnvironment* pSketchEnv = getActiveSketchEnvironment();
+    return makeSketchTransactionOption(
+        pSketchEnv ? pSketchEnv->getSketchId() : wydb::ElementId::kNull);
+}
+
 bool GuiCommandUtil::initSketch3DInfo(GuiCmdSketch3DInfo& info)
 {
     if (Sketch3DEnvironment* pSketch3DEnv = getActiveSketch3DEnvironment())

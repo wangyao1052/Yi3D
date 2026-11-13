@@ -38,6 +38,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include "commands/dialogs/DoubleValueInputDialog.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -460,7 +461,7 @@ bool SketchChamferGuiCmd::chamferItem(wydb::Database* pDb, const wydb::ElementId
     if (!pConstCurve) return false;
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     wy3d::SketchCurve* pCurve = wy3d::SketchCurve::cast(pTrans->getElementForWrite(id));
@@ -510,7 +511,7 @@ bool SketchChamferGuiCmd::chamferLine(wydb::Database* pDb, const wy::Vector2& st
     assert(pDb);
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     wy3d::SketchLine* pLine = nullptr;

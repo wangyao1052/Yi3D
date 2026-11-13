@@ -38,6 +38,7 @@
 #include "widgets/frame/MainWindow.h"
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -463,7 +464,7 @@ bool MakeSketchCenterLine::init(const wy::Vector2& startPnt, wydb::ElementId ske
 
     // 创建SketchLine
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     wy3d::Sketch* pSketch = nullptr;
@@ -507,7 +508,7 @@ bool MakeSketchCenterLine::update(const wy::Vector2& endPnt)
     }
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     {

@@ -50,6 +50,7 @@
 #include <wy3dApp/CommonSelFilters.h>
 #include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -302,9 +303,10 @@ bool SketchTrimGuiCmd::trim(const wydb::ElementId curveId, const SketchTrimKnot&
     }
 
     // important
-    // 通过调用基类的startTransaction方法保证开启的事务是不传播级联更新的,在退出草图环境时会markdirty草图的Shape.
+    // 草图内部使用 UpTo 级联（target 为当前草图）：关联标注等草图内依赖会更新，
+    // 但不会扩散到草图外的建模特征；退出草图环境时仍会 markdirty 草图的 Shape.
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction("", option);
     // }
     if (!pTrans)

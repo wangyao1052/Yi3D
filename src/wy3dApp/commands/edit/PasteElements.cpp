@@ -135,7 +135,7 @@ PasteElements::InitRet PasteElements::init(const wy::Vector3& pos)
     {
         wydb::TransactionOption tempOpt;
         if (_isSketching)
-            tempOpt.chainUpdateScope = wydb::ChainUpdateScope::Local;
+            tempOpt = GuiCommandUtil::makeSketchTransactionOption();
         wydb::Transaction* pTempTrans = _pDb->getTransactionManager()->startTransaction("", tempOpt);
         if (!pTempTrans)
         {
@@ -349,7 +349,7 @@ bool PasteElements::perform(const wy::Vector3& pos)
     wy::Vector3 translate = pos - _initOrigin;
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = _isSketching ? wydb::ChainUpdateScope::Local : wydb::ChainUpdateScope::Cascade;
+    option = _isSketching ? GuiCommandUtil::makeSketchTransactionOption() : wydb::TransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans)
     {

@@ -42,6 +42,7 @@
 #include "widgets/CursorType.h"
 #include "widgets/StatusBarHelper.h"
 #include "widgets/frame/MainWindow.h"
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -264,7 +265,7 @@ bool SketchDrawStraightSlotGuiCmd::startSlotPreview(double width)
     }
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pTransMgr->startTransaction("", option);
     if (!pTrans)
     {
@@ -391,7 +392,7 @@ bool SketchDrawStraightSlotGuiCmd::updateSlotPreview(double width)
 
     wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pTransMgr->startTransaction("", option);
     if (!pTrans)
     {

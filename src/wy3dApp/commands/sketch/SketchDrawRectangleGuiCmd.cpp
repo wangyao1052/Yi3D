@@ -37,6 +37,7 @@
 #include "snap/SketchSnapSystem.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -474,7 +475,7 @@ bool MakeSketchRectangle::init(const wy::Vector2& startPnt)
 
     // 开启事务
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     assert(_pGuiCmd);
@@ -562,7 +563,7 @@ bool MakeSketchRectangle::update(const wy::Vector2& endPnt)
     
     // 开启事务修改
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     {

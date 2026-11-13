@@ -121,7 +121,7 @@ bool MoveElemens::perform(const wyap::SelectionSet& ss, const wy::Vector3& moveV
 
     // 启动事务
     wydb::TransactionOption option;
-    option.chainUpdateScope = isSketching ? wydb::ChainUpdateScope::Local : wydb::ChainUpdateScope::Cascade;
+    option = isSketching ? GuiCommandUtil::makeSketchTransactionOption() : wydb::TransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans)
     {

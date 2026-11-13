@@ -27,6 +27,7 @@
 #include <wy3dApp/SketchEnvironment.h>
 #include "commands/dialogs/EquationDrivenSplineDialog.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -75,7 +76,7 @@ bool SketchEquationDrivenSplineCommand::makeSpline(
     }
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans)
     {

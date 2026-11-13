@@ -34,6 +34,7 @@
 #include "gizmo/renderer/SketchEntityGripRenderer.h"
 #include <wy3dApp/OsgGizmoRenderer.h>
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -140,7 +141,7 @@ DraggableGizmo::StepResult SketchEntityGripGizmo::onDragging(wydb::Database* pDb
     if (!pTransMgr) return { false, pos };
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pTransMgr->startTransaction("", option);
     if (!pTrans) return { false, pos };
 

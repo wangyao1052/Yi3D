@@ -38,6 +38,7 @@
 #include "utils/MathUtils.h"
 #include <wy3dApp/ElementNodeType.h>
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -517,7 +518,7 @@ bool SketchDrawLineTangentGuiCmd::createLine(const wy::Vector2& startPnt, const 
 
     wy3d::SketchLine* pSketchLine(nullptr);
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     wy3d::Sketch* pSketch = nullptr;

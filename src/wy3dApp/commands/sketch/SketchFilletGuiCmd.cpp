@@ -46,6 +46,7 @@
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dSketchSpline.h>
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -1007,7 +1008,7 @@ bool SketchFilletGuiCmd::filletItem(wydb::Database* pDb, const wydb::ElementId& 
     if (!pConstCurve) return false;
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     wy3d::SketchCurve* pCurve = wy3d::SketchCurve::cast(pTrans->getElementForWrite(id));
@@ -1077,7 +1078,7 @@ bool SketchFilletGuiCmd::filletArc(wydb::Database* pDb, const wy::Vector2& cente
     assert(pDb);
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     wy3d::SketchArc* pArc = nullptr;

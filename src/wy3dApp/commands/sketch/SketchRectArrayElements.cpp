@@ -32,6 +32,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -171,7 +172,7 @@ bool SketchRectArrayElements::perform(const std::set<wydb::ElementId>& ids,
     std::list<ArrayElemItem> arrayElems;
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans)
     {

@@ -50,14 +50,16 @@ void bindChainUpdateScope(py::module_& m)
 {
     py::enum_<wydb::ChainUpdateScope>(m, "ChainUpdateScope")
         .value("Local", wydb::ChainUpdateScope::Local)
-        .value("Cascade", wydb::ChainUpdateScope::Cascade);
+        .value("Cascade", wydb::ChainUpdateScope::Cascade)
+        .value("UpTo", wydb::ChainUpdateScope::UpTo);
 }
 
 void bindTransactionOption(py::module_& m)
 {
     py::class_<wydb::TransactionOption>(m, "TransactionOption")
         .def(py::init<>())
-        .def_readwrite("chainUpdateScope", &wydb::TransactionOption::chainUpdateScope);
+        .def_readwrite("chainUpdateScope", &wydb::TransactionOption::chainUpdateScope)
+        .def_readwrite("targetId", &wydb::TransactionOption::targetId);
 }
 
 void bindTransactionManager(py::module_& m)

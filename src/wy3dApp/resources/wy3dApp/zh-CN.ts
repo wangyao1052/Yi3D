@@ -267,7 +267,7 @@
 <context>
     <name>Extend</name>
     <message>
-        <location filename="../../commands/sketch/SketchExtendGuiCmd.cpp" line="129"/>
+        <location filename="../../commands/sketch/SketchExtendGuiCmd.cpp" line="130"/>
         <source>Select sketch entities to extend.</source>
         <translation type="unfinished">选择要延伸的草图图元。</translation>
     </message>
@@ -1110,14 +1110,14 @@
         <translation type="unfinished">隐藏</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="534"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="535"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="226"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="1942"/>
         <source>Copy</source>
         <translation type="unfinished">复制</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="528"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="529"/>
         <location filename="../../environments/modeling/ModelingEnvironmentUI.cpp" line="650"/>
         <location filename="../../environments/sketch/SketchEnvironmentUI.cpp" line="562"/>
         <location filename="../../environments/sketch3d/Sketch3DEnvironmentUI.cpp" line="408"/>
@@ -1125,7 +1125,7 @@
         <translation>缩放到选择</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="545"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="546"/>
         <location filename="../../widgets/panels/featureTree/FeatureTreeWidget.cpp" line="2014"/>
         <source>Paste</source>
         <translation type="unfinished">粘贴</translation>
@@ -2146,12 +2146,12 @@
 <context>
     <name>SelectGuiCmd</name>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="431"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="432"/>
         <source>Select elements. Pick individual items or use window selection.</source>
         <translation type="unfinished">选择元素；点选单个项目或使用窗口选择。</translation>
     </message>
     <message>
-        <location filename="../../commands/SelectGuiCmd.cpp" line="478"/>
+        <location filename="../../commands/SelectGuiCmd.cpp" line="479"/>
         <source>Specify the insertion point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定插入点；可输入具体坐标值。</translation>
     </message>
@@ -2299,27 +2299,27 @@
 <context>
     <name>SketchChamfer</name>
     <message>
-        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="91"/>
+        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="92"/>
         <source>Chamfer</source>
         <translation type="unfinished">倒角</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="92"/>
+        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="93"/>
         <source>Distance1</source>
         <translation type="unfinished">距离1</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="93"/>
+        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="94"/>
         <source>Distance2</source>
         <translation type="unfinished">距离2</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="141"/>
+        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="142"/>
         <source>Select the first sketch line.</source>
         <translation type="unfinished">选择第一条草图线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="151"/>
+        <location filename="../../commands/sketch/SketchChamferGuiCmd.cpp" line="152"/>
         <source>Select the second sketch line.</source>
         <translation type="unfinished">选择第二条草图线。</translation>
     </message>
@@ -2343,47 +2343,47 @@
 <context>
     <name>SketchDrawArc</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="243"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="244"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="256"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="257"/>
         <source>Specify the start point; you can directly input the values.</source>
         <translation type="unfinished">指定圆弧起点；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="417"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="418"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="418"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="419"/>
         <source>StartAngle</source>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="428"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="429"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="265"/>
+        <location filename="../../commands/sketch/SketchDrawArcGuiCmd.cpp" line="266"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation type="unfinished">指定圆弧角度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="235"/>
+        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="236"/>
         <source>Specify the first end point on arc; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆弧的第一个端点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="251"/>
+        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="252"/>
         <source>Specify the second end point on arc; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆弧的第二个端点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="262"/>
+        <location filename="../../commands/sketch/SketchDrawArcBy3PointsGuiCmd.cpp" line="263"/>
         <source>Specify the third point on arc; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆弧上的第三个点；可输入具体坐标值。</translation>
     </message>
@@ -2442,32 +2442,32 @@
 <context>
     <name>SketchDrawArcTangent</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="548"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="549"/>
         <source>Specify the start point on an endpoint of an existing curve; the arc is tangent to the curve.</source>
         <translation>在现有曲线的端点处指定圆弧起点；圆弧与该曲线相切。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="562"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="563"/>
         <source>Specify the end point of the arc; you can directly input the coordinate values.</source>
         <translation>指定圆弧终点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="575"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="576"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation>指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="588"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="589"/>
         <source>Specify the total angle; you can directly input the value.</source>
         <translation>指定圆弧角度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="789"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="790"/>
         <source>Radius</source>
         <translation>半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="800"/>
+        <location filename="../../commands/sketch/SketchDrawArcTangentGuiCmd.cpp" line="801"/>
         <source>SweepAngle</source>
         <translation>扫掠角度</translation>
     </message>
@@ -2511,32 +2511,32 @@
 <context>
     <name>SketchDrawCircle</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="218"/>
+        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="219"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="231"/>
+        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="232"/>
         <source>Specify the radius; you can directly input the value.</source>
         <translation type="unfinished">指定半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="337"/>
+        <location filename="../../commands/sketch/SketchDrawCircleGuiCmd.cpp" line="338"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="242"/>
+        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="243"/>
         <source>Specify the first point on circle; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆上的第一个点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="258"/>
+        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="259"/>
         <source>Specify the second point on circle; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆上的第二个点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="269"/>
+        <location filename="../../commands/sketch/SketchDrawCircleBy3PointsGuiCmd.cpp" line="270"/>
         <source>Specify the third point on circle; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定圆上的第三个点；可输入具体坐标值。</translation>
     </message>
@@ -2562,32 +2562,32 @@
 <context>
     <name>SketchDrawEllipse</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="207"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="208"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定椭圆中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="220"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="221"/>
         <source>Specify the axis vector; you can directly input the values.</source>
         <translation type="unfinished">指定轴向量(大小和方向)；可输入具体向量值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="229"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="230"/>
         <source>Specify the other radius; you can directly input the value.</source>
         <translation type="unfinished">指定另一条半轴长度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="393"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="394"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="382"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="383"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="383"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseGuiCmd.cpp" line="384"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -2628,52 +2628,52 @@
 <context>
     <name>SketchDrawEllipseArc</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="293"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="294"/>
         <source>Specify the center point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定椭圆中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="306"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="307"/>
         <source>Specify the axis vector; you can directly input the values.</source>
         <translation type="unfinished">指定轴向量(大小和方向)；可输入具体向量值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="315"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="316"/>
         <source>Specify the other radius; you can directly input the value.</source>
         <translation type="unfinished">指定另一条半轴长度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="556"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="557"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="324"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="325"/>
         <source>Specify the start angle; you can directly input the value.</source>
         <translation type="unfinished">指定起始角度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="331"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="332"/>
         <source>Specify the sweep angle; you can directly input the value.</source>
         <translation>指定扫掠角度；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="566"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="567"/>
         <source>StartAngle</source>
         <translation type="unfinished">起始角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="576"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="577"/>
         <source>SweepAngle</source>
         <translation type="unfinished">扫掠角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="545"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="546"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="546"/>
+        <location filename="../../commands/sketch/SketchDrawEllipseArcGuiCmd.cpp" line="547"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -2734,26 +2734,26 @@
 <context>
     <name>SketchDrawLine</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="183"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="201"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="184"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="202"/>
         <source>Specify the start point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定起点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="196"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="214"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="197"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="215"/>
         <source>Specify the end point; you can directly input the values.</source>
         <translation type="unfinished">指定终点；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="299"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="320"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="321"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="300"/>
-        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="321"/>
+        <location filename="../../commands/sketch/SketchDrawCenterLineGuiCmd.cpp" line="301"/>
+        <location filename="../../commands/sketch/SketchDrawLineGuiCmd.cpp" line="322"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
@@ -2784,12 +2784,12 @@
 <context>
     <name>SketchDrawLineTangent</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawLineTangentGuiCmd.cpp" line="374"/>
+        <location filename="../../commands/sketch/SketchDrawLineTangentGuiCmd.cpp" line="375"/>
         <source>Select the start position on a circle or arc.</source>
         <translation type="unfinished">在圆、圆弧上选择切线起始位置。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawLineTangentGuiCmd.cpp" line="394"/>
+        <location filename="../../commands/sketch/SketchDrawLineTangentGuiCmd.cpp" line="395"/>
         <source>Select the end position on a circle or arc.</source>
         <translation type="unfinished">在圆、圆弧上选择切线终止位置。</translation>
     </message>
@@ -2797,7 +2797,7 @@
 <context>
     <name>SketchDrawPoint</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPointGuiCmd.cpp" line="141"/>
+        <location filename="../../commands/sketch/SketchDrawPointGuiCmd.cpp" line="142"/>
         <source>Specify the position of the point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定点位置；可输入具体坐标值。</translation>
     </message>
@@ -2813,17 +2813,17 @@
 <context>
     <name>SketchDrawPolygon</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="235"/>
+        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="236"/>
         <source>Specify the center point of the regular polygon; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定正多边形的中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="248"/>
+        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="249"/>
         <source>Specify the radius of the circumscribed circle; you can directly input the value.</source>
         <translation type="unfinished">指定外接圆的半径；可输入具体值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="361"/>
+        <location filename="../../commands/sketch/SketchDrawPolygonGuiCmd.cpp" line="362"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
@@ -2831,22 +2831,22 @@
 <context>
     <name>SketchDrawRectangle</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="182"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="183"/>
         <source>Specify the first corner point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定第一个角点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="195"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="196"/>
         <source>Specify the other corner point or input length &amp; width.</source>
         <translation type="unfinished">指定另一个角点或输入长宽值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="299"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="300"/>
         <source>Length</source>
         <translation type="unfinished">长度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="300"/>
+        <location filename="../../commands/sketch/SketchDrawRectangleGuiCmd.cpp" line="301"/>
         <source>Width</source>
         <translation type="unfinished">宽度</translation>
     </message>
@@ -2890,12 +2890,12 @@
 <context>
     <name>SketchDrawSplineGuiCmd</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="279"/>
+        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="280"/>
         <source>Specify the start point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定起始点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="303"/>
+        <location filename="../../commands/sketch/SketchDrawSplineGuiCmd.cpp" line="304"/>
         <source>Specify the next point; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定下一点；可输入具体坐标值。</translation>
     </message>
@@ -2903,22 +2903,22 @@
 <context>
     <name>SketchFillet</name>
     <message>
-        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="99"/>
+        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="100"/>
         <source>Fillet</source>
         <translation type="unfinished">圆角</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="100"/>
+        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="101"/>
         <source>Radius</source>
         <translation type="unfinished">半径</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="147"/>
+        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="148"/>
         <source>Select the first sketch curve.</source>
         <translation type="unfinished">选择第一条草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="157"/>
+        <location filename="../../commands/sketch/SketchFilletGuiCmd.cpp" line="158"/>
         <source>Select the second sketch curve.</source>
         <translation type="unfinished">选择第二条草图曲线。</translation>
     </message>
@@ -3071,17 +3071,17 @@
 <context>
     <name>SketchOffset</name>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="199"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="200"/>
         <source>Select the sketch curve to offset.</source>
         <translation type="unfinished">选择要偏移的草图曲线。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="333"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="334"/>
         <source>Offset Distance</source>
         <translation type="unfinished">偏移距离</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="211"/>
+        <location filename="../../commands/sketch/SketchOffsetGuiCmd.cpp" line="212"/>
         <source>Specify through point or input offset distance.</source>
         <translation type="unfinished">指定通过点或输入偏移距离。</translation>
     </message>
@@ -3089,23 +3089,23 @@
 <context>
     <name>SketchPolarArray</name>
     <message>
-        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="230"/>
+        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="231"/>
         <source>Select elements to perform polar array; press Enter or Spacebar to confirm; press Esc to cancel.</source>
         <translation type="unfinished">选择元素执行环形阵列；按 Enter 键或空格键将完成操作；按 Esc 键将取消操作。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="248"/>
+        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="249"/>
         <source>Specify the center point of polar array; you can directly input the coordinate values.</source>
         <translation type="unfinished">指定阵列中心点；可输入具体坐标值。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="270"/>
-        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="283"/>
+        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="271"/>
+        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="284"/>
         <source>Sketch Polar Array</source>
         <translation type="unfinished">环形阵列</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="284"/>
+        <location filename="../../commands/sketch/SketchPolarArrayGuiCmd.cpp" line="285"/>
         <source>The angle between items is too small!</source>
         <translation type="unfinished">项目间角度过小！</translation>
     </message>
@@ -3314,42 +3314,42 @@
 <context>
     <name>SketchStraightSlot</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="173"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="166"/>
         <source>Specify the first slot center.</source>
         <translation type="unfinished">指定直槽口的第一个圆心。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="179"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="172"/>
         <source>Specify the second slot center.</source>
         <translation type="unfinished">指定直槽口的第二个圆心。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="186"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="179"/>
         <source>Slot width: %1. Move and click to finish.</source>
         <translation type="unfinished">槽口宽度：%1，移动鼠标后单击完成。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="506"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="499"/>
         <source>X</source>
         <translation type="unfinished">X</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="507"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="500"/>
         <source>Y</source>
         <translation type="unfinished">Y</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="518"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="511"/>
         <source>Length</source>
         <translation type="unfinished">中心距</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="519"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="512"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="530"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="523"/>
         <source>Width</source>
         <translation type="unfinished">宽度</translation>
     </message>
@@ -3469,7 +3469,7 @@
 <context>
     <name>Trim</name>
     <message>
-        <location filename="../../commands/sketch/SketchTrimGuiCmd.cpp" line="162"/>
+        <location filename="../../commands/sketch/SketchTrimGuiCmd.cpp" line="163"/>
         <source>Select sketch entities to trim.</source>
         <translation type="unfinished">选择要修剪的草图图元。</translation>
     </message>
@@ -4692,37 +4692,37 @@ Do you want to save it to the original file now?
     <name>wy3dApp::MainWindow</name>
     <message>
         <location filename="../../widgets/frame/MainWindow.cpp" line="108"/>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="355"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="358"/>
         <source>wy3dApp</source>
         <translation type="unfinished">易三维</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="186"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="189"/>
         <source>Please exit the task environment first.</source>
         <translation type="unfinished">请先退出任务环境。</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="284"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="287"/>
         <source>The following documents have unsaved changes.</source>
         <translation type="unfinished">以下文档包含未保存的更改。</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="286"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="289"/>
         <source>Do you want to return to the application so you can save these changes?</source>
         <translation type="unfinished">是否要返回应用程序，以便保存这些修改？</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="292"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="295"/>
         <source>Exit</source>
         <translation type="unfinished">退出</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="297"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="300"/>
         <source>Yes</source>
         <translation type="unfinished">是</translation>
     </message>
     <message>
-        <location filename="../../widgets/frame/MainWindow.cpp" line="300"/>
+        <location filename="../../widgets/frame/MainWindow.cpp" line="303"/>
         <source>No - Exit</source>
         <translation type="unfinished">否 - 退出</translation>
     </message>

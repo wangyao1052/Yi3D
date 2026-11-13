@@ -29,6 +29,7 @@
 #include <wy3dApp/ElementNodeType.h>
 #include "utils/MathUtils.h"
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -88,7 +89,7 @@ bool MakeText::create(wydb::ElementId sketchId, const wy3d::MakeSketchText::Data
 
     std::shared_ptr<wy3d::MakeSketchText> pMakeSketchText;
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wy::ErrorStatus error;
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
@@ -164,7 +165,7 @@ bool MakeText::performTranslate(const wy::Vector2& pos)
     }
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = _pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
     for (const wydb::ElementId& id : _ids)

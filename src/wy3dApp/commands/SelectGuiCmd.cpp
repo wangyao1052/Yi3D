@@ -62,6 +62,7 @@
 
 #include <wy3dSketchEllipseArc.h>
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -404,7 +405,7 @@ void SelectGuiCmd::erase()
     // }
 
     wydb::TransactionOption option;
-    option.chainUpdateScope = getSketchSnapSys() ? wydb::ChainUpdateScope::Local : wydb::ChainUpdateScope::Cascade;
+    option = getSketchSnapSys() ? GuiCommandUtil::makeSketchTransactionOption() : wydb::TransactionOption();
     wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans)
     {

@@ -163,7 +163,7 @@ bool SketchProjectGuiCmd::projectEdge(const wyap::Selection& sel)
 
     // 开启事务
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pDb->getTransactionManager()->startTransaction("", option);
     if (!pTrans) return false;
 

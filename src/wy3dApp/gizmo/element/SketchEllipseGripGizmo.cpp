@@ -21,6 +21,7 @@
 #include <wyVector2.h>
 #include <wy3dSketchEllipse.h>
 #include <wy3dApp/wy3dAppDefs.h>
+#include <wy3dApp/GuiCommandUtil.h>
 
 namespace wy3dApp {
 
@@ -138,7 +139,7 @@ void SketchEllipseGripGizmo::onEndEdit(wydb::Database* pDb, bool commit)
     wydb::TransactionManager* pTransMgr = pDb->getTransactionManager();
     assert(pTransMgr);
     wydb::TransactionOption option;
-    option.chainUpdateScope = wydb::ChainUpdateScope::Local;
+    option = GuiCommandUtil::makeSketchTransactionOption();
     wydb::Transaction* pTrans = pTransMgr->startTransaction("", option);
     if (!pTrans)
     {

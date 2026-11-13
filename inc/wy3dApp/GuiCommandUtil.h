@@ -21,6 +21,7 @@
 
 #include <wydbDatabase.h>
 #include <wydbElementId.h>
+#include <wydbTransaction.h>
 #include <wyapSelection.h>
 #include <wy3dPlane.h>
 #include <wy3dSolid.h>
@@ -81,6 +82,12 @@ public:
 
     static SketchEnvironment* getActiveSketchEnvironment();
     static Sketch3DEnvironment* getActiveSketch3DEnvironment();
+
+    // Chain updates in a sketch command cascade inside the sketch up to (but
+    // not including) the sketch element. Falls back to Local without an id.
+    static wydb::TransactionOption makeSketchTransactionOption(
+        const wydb::ElementId& sketchId);
+    static wydb::TransactionOption makeSketchTransactionOption();
 };
 
 } // namespace wy3dApp
