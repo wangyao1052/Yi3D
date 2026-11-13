@@ -197,7 +197,7 @@ void SketchOffsetGuiCmd::gotoStep(Step step)
     {
     case Step::SelectElement:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchOffset", "Select the sketch curve to offset."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchOffset", "Select the sketch curve to offset."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         if (_sketchInfo.pSketchSnapSys)
@@ -209,7 +209,7 @@ void SketchOffsetGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyOffset:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchOffset", "Specify through point or input offset distance."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchOffset", "Specify through point or input offset distance."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
 
         _pSnapContext = std::make_shared<Locate2dContext>();
@@ -218,7 +218,7 @@ void SketchOffsetGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

@@ -291,7 +291,7 @@ void SketchDrawEllipseArcGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyCenterPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawEllipseArc",
             "Specify the center point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -304,7 +304,7 @@ void SketchDrawEllipseArcGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyAxisEndPoint:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawEllipseArc",
             "Specify the axis vector; you can directly input the values."));
 
         _pSnapContext = std::make_shared<DrawLine2dContext>(_centerPnt);
@@ -313,7 +313,7 @@ void SketchDrawEllipseArcGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyOtherRadius:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawEllipseArc",
             "Specify the other radius; you can directly input the value."));
 
         _pSnapContext = std::make_shared<Locate2dContext>();
@@ -322,21 +322,21 @@ void SketchDrawEllipseArcGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyStartAngle:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawEllipseArc",
             "Specify the start angle; you can directly input the value."));
     }
     break;
 
     case Step::SpecifyEndAngle:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipseArc",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawEllipseArc",
             "Specify the sweep angle; you can directly input the value."));
     }
     break;
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

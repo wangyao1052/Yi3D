@@ -127,7 +127,7 @@ wyap::CmdExecution::StartResult SketchExtendGuiCmd::onStart()
     // 鼠标样式
     ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     // 提示信息
-    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Extend", "Select sketch entities to extend."));
+    ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Extend", "Select sketch entities to extend."));
 
     // 点选控制项
     _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;

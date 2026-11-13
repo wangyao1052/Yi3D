@@ -185,7 +185,7 @@ void SketchDrawCircle3DGuiCmd::gotoStep(unsigned int step)
     case Step::SpecifyCenterPnt:
     {
         _pSnapContext = std::make_shared<Sketch3DLocateContext>();
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawCircle3DGuiCmd",
             "Specify the center point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -193,7 +193,7 @@ void SketchDrawCircle3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyRadius:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawCircle3DGuiCmd",
             "Specify the radius; you can directly input the value. "
             "Press Space to switch the drawing plane."));
     }
@@ -201,7 +201,7 @@ void SketchDrawCircle3DGuiCmd::gotoStep(unsigned int step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

@@ -465,7 +465,7 @@ void FilledSheetGuiCmd::gotoStep(Step step)
         _pInvalidSketchTooltip = nullptr;
         _edgePreview.clear();
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("FilledSheetGuiCmd",
             "Select the boundary of the filled surface: a 2D or 3D sketch, or edges of a solid or sheet."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
@@ -481,7 +481,7 @@ void FilledSheetGuiCmd::gotoStep(Step step)
         _pInvalidSketchTooltip = nullptr;
         _edgePreview.clear();
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("FilledSheetGuiCmd",
             "Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
@@ -508,7 +508,7 @@ void FilledSheetGuiCmd::gotoStep(Step step)
         _constraintSketchPickOption.postFilter = MultiClassSelPostFilter::create<
             wy3d::Sketch, wy3d::Sketch3D>();
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("FilledSheetGuiCmd",
             "Select constraint curves (optional); press Enter or Spacebar to complete."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
@@ -523,7 +523,7 @@ void FilledSheetGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
@@ -811,7 +811,7 @@ void FilledSheetGuiCmd::onClearSelectionMenuItem()
         {
             _pSelSetHighlightor->clearSelections();
             _edgePickOption.preFilter = nullptr;
-            ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("FilledSheetGuiCmd",
+            ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("FilledSheetGuiCmd",
                 "Select edges to enclose one or more loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         }
     }

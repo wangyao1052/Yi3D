@@ -155,7 +155,7 @@ void Sketch3DFilletGuiCmd::gotoStep(Step step)
     {
     case Step::First:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DFillet",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Sketch3DFillet",
             "Select the first sketch entity."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
@@ -165,7 +165,7 @@ void Sketch3DFilletGuiCmd::gotoStep(Step step)
 
     case Step::Second:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DFillet",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Sketch3DFillet",
             "Select the second sketch entity."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
@@ -177,7 +177,7 @@ void Sketch3DFilletGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

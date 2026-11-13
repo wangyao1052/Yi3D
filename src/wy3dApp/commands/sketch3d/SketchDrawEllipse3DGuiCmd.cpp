@@ -212,7 +212,7 @@ void SketchDrawEllipse3DGuiCmd::gotoStep(unsigned int step)
     {
     case Step::SpecifyCenterPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
             "Specify the center point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -220,7 +220,7 @@ void SketchDrawEllipse3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyAxisEndPoint:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
             "Specify the axis vector; you can directly input the values. "
             "Press Space to switch the drawing plane."));
     }
@@ -228,7 +228,7 @@ void SketchDrawEllipse3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyOtherRadius:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawEllipse3DGuiCmd",
             "Specify the other radius; you can directly input the value. "
             "Press Space to switch the drawing plane."));
     }
@@ -236,7 +236,7 @@ void SketchDrawEllipse3DGuiCmd::gotoStep(unsigned int step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

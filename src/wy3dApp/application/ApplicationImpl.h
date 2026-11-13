@@ -39,8 +39,9 @@
 #include <wyapApplication.h>
 #include <wyapSceneManager.h>
 #include "snap/SnapSystemBase.h"
-#include "widgets/StatusBarHelper.h"
 #include <wy3dApp/wy3dAppDefs.h>
+
+class QLabel;
 
 namespace wydb
 {
@@ -189,8 +190,8 @@ public:
     // 设置状态栏提示
     void setStatusBarTip(const QString& text) override;
 
-    // 状态栏帮助类
-    StatusBarHelper* getStatusBar() { return &_statusBar; }
+    // 设置状态栏提示标签（MainWindow 创建后注入；nullptr 表示断开）
+    void setStatusBarTipsLabel(QLabel* pTipsLabel);
 
     // 获取捕捉系统
     wyap::SnapSystem* getSnapSystem() const { return _pSnapSystem.get(); }
@@ -239,8 +240,8 @@ private:
     MainWindow* _pMainWindow;
     // 停靠面板管理器
     DockPanelManager* _pDockPanelManager;
-    // 状态栏帮助类
-    StatusBarHelper _statusBar;
+    // 状态栏提示标签
+    QLabel* _pStatusBarTipsLabel;
     // 配置项
     Config* _pConfig;
     // Auto save module

@@ -546,7 +546,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyStartPoint:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArcTangent",
             "Specify the start point on an endpoint of an existing curve; the arc is tangent to the curve."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
 
@@ -560,7 +560,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyEndPoint:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArcTangent",
             "Specify the end point of the arc; you can directly input the coordinate values."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
 
@@ -573,7 +573,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyRadius:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArcTangent",
             "Specify the radius; you can directly input the value."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
 
@@ -586,7 +586,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
 
     case Step::SpecifySweepAngle:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcTangent",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArcTangent",
             "Specify the total angle; you can directly input the value."));
         ApplicationImpl::instance().setCursor(CursorType::Locate);
 
@@ -599,7 +599,7 @@ void SketchDrawArcTangentGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

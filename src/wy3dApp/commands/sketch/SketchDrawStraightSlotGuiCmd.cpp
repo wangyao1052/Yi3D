@@ -40,7 +40,6 @@
 #include "commands/transient/SlotGuideTransient.h"
 #include "utils/SketchSlotGeometry.h"
 #include "widgets/CursorType.h"
-#include "widgets/StatusBarHelper.h"
 #include "widgets/frame/MainWindow.h"
 #include <wy3dApp/GuiCommandUtil.h>
 
@@ -118,7 +117,7 @@ void SketchDrawStraightSlotGuiCmd::cleanUp()
     this->hidePopups();
     this->abortSlotPreview();
 
-    ApplicationImpl::instance().getStatusBar()->reset();
+    ApplicationImpl::instance().setStatusBarTip(QString());
 
     _pXYPopup.reset();
     _pLengthAnglePopup.reset();
@@ -158,18 +157,16 @@ void SketchDrawStraightSlotGuiCmd::resetToFirstCenter()
 
 void SketchDrawStraightSlotGuiCmd::updateStatusTip()
 {
-    StatusBarHelper* pStatusBar = ApplicationImpl::instance().getStatusBar();
-
     switch (_step)
     {
     case Step::FirstCenter:
-        pStatusBar->setTips(QCoreApplication::translate(
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate(
             "SketchStraightSlot",
             "Specify the first slot center."));
         break;
 
     case Step::SecondCenter:
-        pStatusBar->setTips(QCoreApplication::translate(
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate(
             "SketchStraightSlot",
             "Specify the second slot center."));
         break;
@@ -179,7 +176,7 @@ void SketchDrawStraightSlotGuiCmd::updateStatusTip()
         const QString format = QCoreApplication::translate(
             "SketchStraightSlot",
             "Slot width: %1. Move and click to finish.");
-        pStatusBar->setTips(format.arg(_currentWidth, 0, 'f', 3));
+        ApplicationImpl::instance().setStatusBarTip(format.arg(_currentWidth, 0, 'f', 3));
         break;
     }
     }
@@ -680,7 +677,7 @@ void SketchDrawStraightSlotGuiCmd::confirmFirstCenter(const wy::Vector2& point)
     _hover.angleDeg = 0.0;
 
     _step = Step::SecondCenter;
-    _snapContext = std::make_shared<Locate2dContext>();
+    _snapContext = std::make_shared<DrawLine2dContext>(_firstCenter);
     if (_sketchInfo.pSnap2dSys)
     {
         _sketchInfo.pSnap2dSys->clearSnapResult();

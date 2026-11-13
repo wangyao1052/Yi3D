@@ -145,7 +145,7 @@ void SketchFilletGuiCmd::gotoStep(Step step)
     {
     case Step::First:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchFillet", "Select the first sketch curve."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchFillet", "Select the first sketch curve."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 前置选择过滤器
@@ -155,7 +155,7 @@ void SketchFilletGuiCmd::gotoStep(Step step)
 
     case Step::Second:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchFillet", "Select the second sketch curve."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchFillet", "Select the second sketch curve."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 前置选择过滤器
@@ -169,7 +169,7 @@ void SketchFilletGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

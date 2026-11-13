@@ -196,7 +196,7 @@ void SplitFaceGuiCmd::gotoStep(Step step)
             _pSelSetHighlightor_Faces ? _pSelSetHighlightor_Faces->getSelectionSet() : wyap::SelectionSet());
 
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SplitFaceGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SplitFaceGuiCmd",
             "Select the face to split. Press Enter or Spacebar to confirm."));
 
         // 鼠标样式
@@ -223,7 +223,7 @@ void SplitFaceGuiCmd::gotoStep(Step step)
         _pointPickOption.preFilter = CommonSelPreFilter::create<wy3d::Sketch, wy3d::Sketch3D>();
 
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SplitFaceGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SplitFaceGuiCmd",
             "Select the 2D or 3D sketch to split the face with."));
 
         // 鼠标样式
@@ -236,7 +236,7 @@ void SplitFaceGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

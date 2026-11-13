@@ -179,7 +179,7 @@ void MakeConeGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeConeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeConeGuiCmd",
             "Specify the bottom center point; you can directly input the coordinate values."));
 
         // 鼠标样式
@@ -191,7 +191,7 @@ void MakeConeGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeConeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeConeGuiCmd",
             "Specify the bottom radius; you can directly input the value."));
 
         // 鼠标样式
@@ -203,7 +203,7 @@ void MakeConeGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeConeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeConeGuiCmd",
             "Specify the height; you can directly input the value."));
 
         // 鼠标样式
@@ -214,7 +214,7 @@ void MakeConeGuiCmd::gotoStepImpl(unsigned int step)
     default:
     {
         assert(false);
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

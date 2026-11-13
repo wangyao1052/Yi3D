@@ -198,7 +198,7 @@ void SketchDrawArc3DGuiCmd::gotoStep(unsigned int step)
     {
     case Step::SpecifyCenterPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
             "Specify the center point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -206,7 +206,7 @@ void SketchDrawArc3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyStartPoint:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
             "Specify the start point; you can directly input the radius and the start angle. "
             "Press Space to switch the drawing plane."));
     }
@@ -214,14 +214,14 @@ void SketchDrawArc3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyEndPoint:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArc3DGuiCmd",
             "Specify the total angle; you can directly input the value."));
     }
     break;
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

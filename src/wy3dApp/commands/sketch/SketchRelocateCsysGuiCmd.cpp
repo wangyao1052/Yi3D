@@ -121,7 +121,7 @@ void SketchRelocateCsysGuiCmd::gotoStep(Step step)
 
         // 允许输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRelocateCsysGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchRelocateCsysGuiCmd",
             "Specify the origin point."));
 
         // 捕捉上下文
@@ -138,7 +138,7 @@ void SketchRelocateCsysGuiCmd::gotoStep(Step step)
 
         // 允许输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchRelocateCsysGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchRelocateCsysGuiCmd",
             "Specify the X axis."));
 
         // 捕捉上下文
@@ -148,7 +148,7 @@ void SketchRelocateCsysGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

@@ -140,7 +140,7 @@ wyap::CmdExecution::StartResult Sketch3DTrimGuiCmd::onStart()
     pDb->addReactor(this);
 
     ApplicationImpl::instance().setCursor(CursorType::SelectElements);
-    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Sketch3DTrimGuiCmd",
+    ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Sketch3DTrimGuiCmd",
         "Select sketch entities to trim."));
 
     _pointPickOption.allowedElemTypes = ElementNodeType::Sketch3DEntity;

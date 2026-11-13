@@ -116,7 +116,7 @@ void Through3PointsDatumPlnCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("DatumPlnCmd",
             "Specify the first point."));
 
         // 鼠标样式
@@ -133,7 +133,7 @@ void Through3PointsDatumPlnCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("DatumPlnCmd",
             "Specify the second point."));
 
         // 鼠标样式
@@ -150,7 +150,7 @@ void Through3PointsDatumPlnCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DatumPlnCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("DatumPlnCmd",
             "Specify the third point."));
 
         // 鼠标样式
@@ -160,7 +160,7 @@ void Through3PointsDatumPlnCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

@@ -203,7 +203,7 @@ void SketchIntersectionCurve3DGuiCmd::onLeftMouseUp(const MouseEvent& event)
 
     if (sel == _firstSelection)
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchIntersectionCurve3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchIntersectionCurve3DGuiCmd",
             "The two items must be different."));
         return;
     }
@@ -355,7 +355,7 @@ void SketchIntersectionCurve3DGuiCmd::applyPair(const wyap::Selection& second, c
 
 void SketchIntersectionCurve3DGuiCmd::setStepOneTip() const
 {
-    ApplicationImpl::instance().getStatusBar()->setTips(
+    ApplicationImpl::instance().setStatusBarTip(
         QCoreApplication::translate("SketchIntersectionCurve3DGuiCmd", "Select the first face or datum plane."));
 }
 
@@ -363,7 +363,7 @@ void SketchIntersectionCurve3DGuiCmd::setStepTwoTip(bool firstIsPlane) const
 {
     // A datum plane is only pickable along its border, and a second one cannot be paired with
     // it, so the tip asks for a face only rather than letting the pick be rejected silently.
-    ApplicationImpl::instance().getStatusBar()->setTips(firstIsPlane
+    ApplicationImpl::instance().setStatusBarTip(firstIsPlane
         ? QCoreApplication::translate("SketchIntersectionCurve3DGuiCmd",
             "Select the face to intersect with the datum plane.")
         : QCoreApplication::translate("SketchIntersectionCurve3DGuiCmd",

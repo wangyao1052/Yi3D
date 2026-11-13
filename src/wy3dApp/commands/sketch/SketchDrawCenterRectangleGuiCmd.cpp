@@ -192,7 +192,7 @@ void SketchDrawCenterRectangleGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyStartPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCenterRectangle",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawCenterRectangle",
             "Specify the rectangle center point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -205,7 +205,7 @@ void SketchDrawCenterRectangleGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyEndPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCenterRectangle",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawCenterRectangle",
             "Specify the rectangle corner point or input length & width."));
 
         _pSnapContext = std::make_shared<Locate2dContext>();
@@ -214,7 +214,7 @@ void SketchDrawCenterRectangleGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

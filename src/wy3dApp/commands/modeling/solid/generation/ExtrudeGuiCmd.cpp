@@ -322,7 +322,7 @@ void ExtrudeGuiCmd::gotoStep(Step step)
         ApplicationImpl::instance().getSelManager()->endChange();
 
         // 更新提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("ExtrudeGuiCmd",
             "Select the sketch to extrude."));
 
         // 设置鼠标样式
@@ -338,7 +338,7 @@ void ExtrudeGuiCmd::gotoStep(Step step)
         ApplicationImpl::instance().getSelManager()->endChange();
 
         // 更新提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("ExtrudeGuiCmd",
             "Specify the extrusion depth; you can directly input the value. Press Tab to switch the direction (One Side / Symmetric)."));
 
         // 设置鼠标样式
@@ -349,7 +349,7 @@ void ExtrudeGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         // 设置鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Select);
 
@@ -374,7 +374,7 @@ void ExtrudeCutGuiCmd::gotoStep(Step step)
         ApplicationImpl::instance().getSelManager()->endChange();
 
         // 更新提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("ExtrudeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("ExtrudeGuiCmd",
             "Select the solid to cut."));
 
         // 设置鼠标样式

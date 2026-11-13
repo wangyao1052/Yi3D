@@ -223,7 +223,7 @@ void LinearPatternGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("LinearPatternGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("LinearPatternGuiCmd",
             "Select the solid feature to pattern."));
 
         // 鼠标样式
@@ -243,7 +243,7 @@ void LinearPatternGuiCmd::gotoStep(Step step)
     {
         // 禁用文本输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("LinearPatternGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("LinearPatternGuiCmd",
             "Select datum plane as working plane to determine the direction of the linear pattern."));
 
         // 鼠标样式
@@ -261,7 +261,7 @@ void LinearPatternGuiCmd::gotoStep(Step step)
     {
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("LinearPatternGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("LinearPatternGuiCmd",
             "Input pattern data."));
 
         // 鼠标样式
@@ -299,7 +299,7 @@ void LinearPatternGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

@@ -170,7 +170,7 @@ void MakeSphereGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeSphereGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeSphereGuiCmd",
             "Specify the center point; you can directly input the coordinate values."));
 
         // 鼠标样式
@@ -182,7 +182,7 @@ void MakeSphereGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeSphereGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeSphereGuiCmd",
             "Specify the radius; you can directly input the value."));
 
         // 鼠标样式
@@ -193,7 +193,7 @@ void MakeSphereGuiCmd::gotoStepImpl(unsigned int step)
     default:
     {
         assert(false);
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

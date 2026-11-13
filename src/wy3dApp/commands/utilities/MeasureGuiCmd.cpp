@@ -242,7 +242,7 @@ void MeasureGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MeasureGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MeasureGuiCmd",
             "Specify the start point."));
 
         // 草图捕捉系统
@@ -262,7 +262,7 @@ void MeasureGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MeasureGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MeasureGuiCmd",
             "Specify the end point."));
 
         // 草图捕捉系统
@@ -276,7 +276,7 @@ void MeasureGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;
@@ -462,7 +462,7 @@ void MeasureGuiCmd::setMode(MeasureMode mode)
         const char* tip = QT_TR_NOOP("Select an edge.");
         if (MeasureMode::Face == mode) tip = QT_TR_NOOP("Select a face.");
         else if (MeasureMode::Body == mode) tip = QT_TR_NOOP("Select a body.");
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("wy3dApp::MeasureGuiCmd", tip));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("wy3dApp::MeasureGuiCmd", tip));
     }
 }
 

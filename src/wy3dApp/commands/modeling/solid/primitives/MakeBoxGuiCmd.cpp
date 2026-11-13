@@ -189,7 +189,7 @@ void MakeBoxGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeBoxGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeBoxGuiCmd",
             "Specify the starting point; you can directly input the coordinate values."));
 
         // 鼠标样式
@@ -201,7 +201,7 @@ void MakeBoxGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeBoxGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeBoxGuiCmd",
             "Specify length and width; you can directly input the values."));
 
         // 鼠标样式
@@ -213,7 +213,7 @@ void MakeBoxGuiCmd::gotoStepImpl(unsigned int step)
     {
         // 允许输入
         // 提示
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MakeBoxGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MakeBoxGuiCmd",
             "Specify the height; you can directly input the value."));
 
         // 鼠标样式
@@ -224,7 +224,7 @@ void MakeBoxGuiCmd::gotoStepImpl(unsigned int step)
     default:
     {
         assert(false);
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
     }
     break;
     }

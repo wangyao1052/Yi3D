@@ -160,7 +160,7 @@ wyap::CmdExecution::StartResult SketchTrimGuiCmd::onStart()
     // 鼠标样式
     ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     // 提示信息
-    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("Trim", "Select sketch entities to trim."));
+    ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("Trim", "Select sketch entities to trim."));
 
     // 点选选项
     _pointPickOption.allowedElemTypes = ElementNodeType::SketchEntity;

@@ -102,7 +102,7 @@ wyap::CmdExecution::StartResult SketchIncludeCurve3DGuiCmd::onStart()
 
     _includedCurves.clear();
 
-    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchIncludeCurve3DGuiCmd",
+    ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchIncludeCurve3DGuiCmd",
         "Click model edges or sketch curves to include them into the 3D sketch. Press Esc to exit."));
 
     ApplicationImpl::instance().setCursor(CursorType::SelectElements);
@@ -168,7 +168,7 @@ wydb::Transaction* SketchIncludeCurve3DGuiCmd::beginInclude(const wyap::Selectio
     const auto iter = _includedCurves.find(key);
     if (_includedCurves.end() != iter && pDb->getElement(iter->second))
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchIncludeCurve3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchIncludeCurve3DGuiCmd",
             "The curve has already been included."));
         return nullptr;
     }

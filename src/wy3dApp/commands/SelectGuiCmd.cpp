@@ -429,7 +429,7 @@ void SelectGuiCmd::updateSelectTipAndLabel()
 {
     if (!_pPasteOp)
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SelectGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SelectGuiCmd",
             "Select elements. Pick individual items or use window selection."));
     }
 }
@@ -475,8 +475,8 @@ bool SelectGuiCmd::beginPaste(double x, double y)
         return false;
     }
 
-    ApplicationImpl::instance().getStatusBar()->reset();
-    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SelectGuiCmd",
+    ApplicationImpl::instance().setStatusBarTip(QString());
+    ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SelectGuiCmd",
         "Specify the insertion point; you can directly input the coordinate values."));
 
     // 清空选择集
@@ -498,7 +498,7 @@ void SelectGuiCmd::endPaste(const wy::Vector3& pos)
         _pPasteOp = nullptr;
     }
 
-    ApplicationImpl::instance().getStatusBar()->reset();
+    ApplicationImpl::instance().setStatusBarTip(QString());
     this->updateSelectTipAndLabel();
 
     // 启用选择
@@ -512,7 +512,7 @@ void SelectGuiCmd::cancelPaste()
         _pPasteOp = nullptr;
     }
 
-    ApplicationImpl::instance().getStatusBar()->reset();
+    ApplicationImpl::instance().setStatusBarTip(QString());
     this->updateSelectTipAndLabel();
 
     // 启用选择

@@ -185,7 +185,7 @@ void SketchDrawLine3DGuiCmd::gotoStep(unsigned int step)
     case Step::SpecifyStartPnt:
     {
         _pSnapContext = std::make_shared<Sketch3DLocateContext>();
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawLine3DGuiCmd",
             "Specify the start point; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -193,7 +193,7 @@ void SketchDrawLine3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyEndPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawLine3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawLine3DGuiCmd",
             "Specify the end point; you can directly input the length and angle. "
             "Press Space to switch the drawing plane."));
     }
@@ -201,7 +201,7 @@ void SketchDrawLine3DGuiCmd::gotoStep(unsigned int step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

@@ -410,67 +410,67 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="487"/>
+        <location filename="../../commands/FileCommands.cpp" line="486"/>
         <source>Opening %1...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="583"/>
+        <location filename="../../commands/FileCommands.cpp" line="582"/>
         <source>Export file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="606"/>
+        <location filename="../../commands/FileCommands.cpp" line="605"/>
         <source>Export file failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="679"/>
+        <location filename="../../commands/FileCommands.cpp" line="678"/>
         <source>Export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="689"/>
+        <location filename="../../commands/FileCommands.cpp" line="688"/>
         <source>Export failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="721"/>
+        <location filename="../../commands/FileCommands.cpp" line="720"/>
         <source>Import file</source>
         <translation type="unfinished">Import file</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="743"/>
+        <location filename="../../commands/FileCommands.cpp" line="742"/>
         <source>Import file failed!</source>
         <translation type="unfinished">Import file failed!</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="794"/>
+        <location filename="../../commands/FileCommands.cpp" line="793"/>
         <source>Cannot import a sketch while editing a sketch!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="819"/>
+        <location filename="../../commands/FileCommands.cpp" line="818"/>
         <source>Import sketch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="835"/>
+        <location filename="../../commands/FileCommands.cpp" line="834"/>
         <source>Import sketch failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="870"/>
+        <location filename="../../commands/FileCommands.cpp" line="869"/>
         <source>Please select a sketch first!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="895"/>
+        <location filename="../../commands/FileCommands.cpp" line="894"/>
         <source>Export sketch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="912"/>
+        <location filename="../../commands/FileCommands.cpp" line="911"/>
         <source>Export sketch failed!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2110,12 +2110,12 @@
 <context>
     <name>RunScriptCommand</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="760"/>
+        <location filename="../../commands/FileCommands.cpp" line="759"/>
         <source>Python Script (*.py)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="764"/>
+        <location filename="../../commands/FileCommands.cpp" line="763"/>
         <source>Run Python Script</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3314,42 +3314,42 @@
 <context>
     <name>SketchStraightSlot</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="166"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="163"/>
         <source>Specify the first slot center.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="172"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="169"/>
         <source>Specify the second slot center.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="179"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="176"/>
         <source>Slot width: %1. Move and click to finish.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="499"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="496"/>
         <source>X</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="500"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="497"/>
         <source>Y</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="511"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="508"/>
         <source>Length</source>
         <translation type="unfinished">Length</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="512"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="509"/>
         <source>Angle</source>
         <translation type="unfinished">Angle</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="523"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="520"/>
         <source>Width</source>
         <translation type="unfinished"></translation>
     </message>

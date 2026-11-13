@@ -483,8 +483,7 @@ int OpenFileCommand::openFile(const std::string& u8FileFullPath)
 
     // Show busy cursor and status bar tip before the synchronous blocking load.
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    StatusBarHelper* pStatusBar = ApplicationImpl::instance().getStatusBar();
-    pStatusBar->setTips(QCoreApplication::translate("FileCmds", "Opening %1...")
+    ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("FileCmds", "Opening %1...")
         .arg(QFileInfo(QString::fromStdString(u8FileFullPath)).fileName()));
     QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
 
@@ -500,14 +499,14 @@ int OpenFileCommand::openFile(const std::string& u8FileFullPath)
     if (wy::ErrorStatus::Ok != error)
     {
         QApplication::restoreOverrideCursor();
-        pStatusBar->reset();
+        ApplicationImpl::instance().setStatusBarTip(QString());
         MessageBoxUtil::showOpenFileError(error);
         return 0;
     }
     if (!pDoc)
     {
         QApplication::restoreOverrideCursor();
-        pStatusBar->reset();
+        ApplicationImpl::instance().setStatusBarTip(QString());
         assert(false);
         return 0;
     }
@@ -520,7 +519,7 @@ int OpenFileCommand::openFile(const std::string& u8FileFullPath)
     FileCmdsUtil::fitViewToAll(pDoc);
 
     QApplication::restoreOverrideCursor();
-    pStatusBar->reset();
+    ApplicationImpl::instance().setStatusBarTip(QString());
 
     return 0;
 }

@@ -180,7 +180,7 @@ void SketchDrawRectangleGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyStartPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawRectangle",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawRectangle",
             "Specify the first corner point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -193,7 +193,7 @@ void SketchDrawRectangleGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyEndPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawRectangle",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawRectangle",
             "Specify the other corner point or input length & width."));
 
         _pSnapContext = std::make_shared<Locate2dContext>();
@@ -202,7 +202,7 @@ void SketchDrawRectangleGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

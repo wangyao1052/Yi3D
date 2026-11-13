@@ -233,7 +233,7 @@ void SketchDrawPolygonGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyCenterPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPolygon",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawPolygon",
             "Specify the center point of the regular polygon; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -246,7 +246,7 @@ void SketchDrawPolygonGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyRadius:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawPolygon",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawPolygon",
             "Specify the radius of the circumscribed circle; you can directly input the value."));
 
         _pSnapContext = std::make_shared<DrawCircle2dContext>(_centerPnt);
@@ -255,7 +255,7 @@ void SketchDrawPolygonGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

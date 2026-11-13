@@ -336,7 +336,7 @@ void PlanarSheetGuiCmd::gotoStep(Step step)
 
         _edgePreview.clear();
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("PlanarSheetGuiCmd",
             "Select a sketch to create a planar sheet, or select edges to enclose a planar face."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
@@ -351,7 +351,7 @@ void PlanarSheetGuiCmd::gotoStep(Step step)
         _pValidSketchPreview = nullptr;
         _edgePreview.clear();
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("PlanarSheetGuiCmd",
             "Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
@@ -359,7 +359,7 @@ void PlanarSheetGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }
@@ -530,7 +530,7 @@ void PlanarSheetGuiCmd::onClearSelectionMenuItem()
         {
             _pSelSetHighlightor->clearSelections();
             _edgePickOption.preFilter = nullptr;
-            ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+            ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("PlanarSheetGuiCmd",
                 "Select edges to enclose one or more planar loops; press Enter or Spacebar to confirm; press Esc to clear the edges."));
         }
     }
@@ -651,7 +651,7 @@ void PlanarSheetGuiCmd::updateEdgeSelectionFeedback()
     std::vector<TopoDS_Edge> edges;
     if (!this->collectPickedEdges(edges))
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("PlanarSheetGuiCmd",
             "Select edges to enclose a planar face."));
         return;
     }
@@ -662,7 +662,7 @@ void PlanarSheetGuiCmd::updateEdgeSelectionFeedback()
     const wy3d::ErrorCode errorCode = wy3d::TopoShapeUtil::makePlanarSheetFromEdges(edges, sheetShape);
     if (wy3d::ErrorCode::NoError == errorCode)
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("PlanarSheetGuiCmd",
             "Closed loops found; press Enter or Spacebar to confirm, or keep selecting edges to add more loops."));
         return;
     }
@@ -671,7 +671,7 @@ void PlanarSheetGuiCmd::updateEdgeSelectionFeedback()
     {
         // The reason stays in the status bar: a tooltip is gone after three seconds, which is
         // easy to miss while the next edge is being picked
-        ApplicationImpl::instance().getStatusBar()->setTips(
+        ApplicationImpl::instance().setStatusBarTip(
             ErrorCodeTranslation::instance().getErrorCodeDescription(errorCode));
         return;
     }
@@ -680,13 +680,13 @@ void PlanarSheetGuiCmd::updateEdgeSelectionFeedback()
     // close into a planar sheet: say so instead of inviting more edges
     if (!_edgesSharePlane(edges))
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(
+        ApplicationImpl::instance().setStatusBarTip(
             ErrorCodeTranslation::instance().getErrorCodeDescription(
                 wy3d::ErrorCode::PLANARSHEET_EdgesNotCoplanar));
         return;
     }
 
-    ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("PlanarSheetGuiCmd",
+    ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("PlanarSheetGuiCmd",
         "Keep selecting edges to close the loop."));
 }
 

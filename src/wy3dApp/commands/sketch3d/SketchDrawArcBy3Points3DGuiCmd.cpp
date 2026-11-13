@@ -191,7 +191,7 @@ void SketchDrawArcBy3Points3DGuiCmd::gotoStep(unsigned int step)
     {
     case Step::SpecifyPoint1st:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
             "Specify the first end point on arc; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -199,7 +199,7 @@ void SketchDrawArcBy3Points3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyPoint2nd:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
             "Specify the second end point on arc; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -207,7 +207,7 @@ void SketchDrawArcBy3Points3DGuiCmd::gotoStep(unsigned int step)
 
     case Step::SpecifyPoint3rd:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawArcBy3Points3DGuiCmd",
             "Specify the third point on arc; you can directly input the coordinate values. "
             "Press Space to switch the drawing plane."));
     }
@@ -215,7 +215,7 @@ void SketchDrawArcBy3Points3DGuiCmd::gotoStep(unsigned int step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

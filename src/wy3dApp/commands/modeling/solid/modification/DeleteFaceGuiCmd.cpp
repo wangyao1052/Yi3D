@@ -178,7 +178,7 @@ void DeleteFaceGuiCmd::gotoStep(Step step)
             _pSelSetHighlightor_Faces ? _pSelSetHighlightor_Faces->getSelectionSet() : wyap::SelectionSet());
 
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("DeleteFaceGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("DeleteFaceGuiCmd",
             "Select the faces to delete. Press Enter or Spacebar to confirm."));
 
         // 鼠标样式

@@ -139,7 +139,7 @@ void SketchChamferGuiCmd::gotoStep(Step step)
     {
     case Step::First:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchChamfer", "Select the first sketch line."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchChamfer", "Select the first sketch line."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 前置选择过滤器
@@ -149,7 +149,7 @@ void SketchChamferGuiCmd::gotoStep(Step step)
 
     case Step::Second:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchChamfer", "Select the second sketch line."));
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchChamfer", "Select the second sketch line."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
         // 前置选择过滤器
@@ -163,7 +163,7 @@ void SketchChamferGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

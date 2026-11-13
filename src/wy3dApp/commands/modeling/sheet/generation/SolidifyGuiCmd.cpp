@@ -123,7 +123,7 @@ wyap::CmdExecution::StartResult SolidifyGuiCmd::onStart()
         ApplicationImpl::instance().getSelManager()->clearSelections();
         ApplicationImpl::instance().getSelManager()->endChange();
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate(
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate(
             "SolidifyGuiCmd", "Select a closed sheet to solidify."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }

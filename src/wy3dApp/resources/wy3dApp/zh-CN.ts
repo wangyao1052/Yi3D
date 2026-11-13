@@ -410,67 +410,67 @@
         <translation type="unfinished">您要返回到存储版本吗？</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="487"/>
+        <location filename="../../commands/FileCommands.cpp" line="486"/>
         <source>Opening %1...</source>
         <translation>正在打开 %1…</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="583"/>
+        <location filename="../../commands/FileCommands.cpp" line="582"/>
         <source>Export file</source>
         <translation type="unfinished">导出文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="606"/>
+        <location filename="../../commands/FileCommands.cpp" line="605"/>
         <source>Export file failed!</source>
         <translation type="unfinished">导出文件失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="794"/>
+        <location filename="../../commands/FileCommands.cpp" line="793"/>
         <source>Cannot import a sketch while editing a sketch!</source>
         <translation>草图编辑中不能导入草图！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="819"/>
+        <location filename="../../commands/FileCommands.cpp" line="818"/>
         <source>Import sketch</source>
         <translation>导入草图</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="835"/>
+        <location filename="../../commands/FileCommands.cpp" line="834"/>
         <source>Import sketch failed!</source>
         <translation>导入草图失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="870"/>
+        <location filename="../../commands/FileCommands.cpp" line="869"/>
         <source>Please select a sketch first!</source>
         <translation>请先选择草图！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="679"/>
+        <location filename="../../commands/FileCommands.cpp" line="678"/>
         <source>Export</source>
         <translation type="unfinished">导出</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="689"/>
+        <location filename="../../commands/FileCommands.cpp" line="688"/>
         <source>Export failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="895"/>
+        <location filename="../../commands/FileCommands.cpp" line="894"/>
         <source>Export sketch</source>
         <translation>导出草图</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="912"/>
+        <location filename="../../commands/FileCommands.cpp" line="911"/>
         <source>Export sketch failed!</source>
         <translation>导出草图失败！</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="721"/>
+        <location filename="../../commands/FileCommands.cpp" line="720"/>
         <source>Import file</source>
         <translation>导入文件</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="743"/>
+        <location filename="../../commands/FileCommands.cpp" line="742"/>
         <source>Import file failed!</source>
         <translation type="unfinished">导入文件失败！</translation>
     </message>
@@ -2110,12 +2110,12 @@
 <context>
     <name>RunScriptCommand</name>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="760"/>
+        <location filename="../../commands/FileCommands.cpp" line="759"/>
         <source>Python Script (*.py)</source>
         <translation type="unfinished">Python 脚本 (*.py)</translation>
     </message>
     <message>
-        <location filename="../../commands/FileCommands.cpp" line="764"/>
+        <location filename="../../commands/FileCommands.cpp" line="763"/>
         <source>Run Python Script</source>
         <translation type="unfinished">Python脚本</translation>
     </message>
@@ -3314,42 +3314,42 @@
 <context>
     <name>SketchStraightSlot</name>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="166"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="163"/>
         <source>Specify the first slot center.</source>
         <translation type="unfinished">指定直槽口的第一个圆心。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="172"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="169"/>
         <source>Specify the second slot center.</source>
         <translation type="unfinished">指定直槽口的第二个圆心。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="179"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="176"/>
         <source>Slot width: %1. Move and click to finish.</source>
         <translation type="unfinished">槽口宽度：%1，移动鼠标后单击完成。</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="499"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="496"/>
         <source>X</source>
         <translation type="unfinished">X</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="500"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="497"/>
         <source>Y</source>
         <translation type="unfinished">Y</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="511"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="508"/>
         <source>Length</source>
         <translation type="unfinished">中心距</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="512"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="509"/>
         <source>Angle</source>
         <translation type="unfinished">角度</translation>
     </message>
     <message>
-        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="523"/>
+        <location filename="../../commands/sketch/SketchDrawStraightSlotGuiCmd.cpp" line="520"/>
         <source>Width</source>
         <translation type="unfinished">宽度</translation>
     </message>

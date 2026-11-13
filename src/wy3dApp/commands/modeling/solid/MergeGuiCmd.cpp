@@ -232,7 +232,7 @@ void MergeGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MergeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MergeGuiCmd",
             "Select the host solid."));
 
         // 鼠标样式
@@ -256,7 +256,7 @@ void MergeGuiCmd::gotoStep(Step step)
 
         // 禁用输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MergeGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MergeGuiCmd",
             "Select one or more solids to merge; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
@@ -274,7 +274,7 @@ void MergeGuiCmd::gotoStep(Step step)
     default:
     {
         // 清空提示
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

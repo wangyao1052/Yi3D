@@ -216,7 +216,7 @@ void SketchDrawCircleGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyCenterPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawCircle",
             "Specify the center point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -229,7 +229,7 @@ void SketchDrawCircleGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyRadius:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawCircle",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawCircle",
             "Specify the radius; you can directly input the value."));
 
         _pSnapContext = std::make_shared<DrawCircle2dContext>(_centerPnt);
@@ -238,7 +238,7 @@ void SketchDrawCircleGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

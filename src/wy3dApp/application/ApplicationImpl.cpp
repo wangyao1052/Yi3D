@@ -26,6 +26,7 @@
 #endif
 
 #include <QFileInfo>
+#include <QLabel>
 #include <QTranslator>
 
 #include "application/ApplicationImpl.h"
@@ -146,6 +147,7 @@ WY3DAPP_EXPORT int runApplication(int argc, char** argv)
 
 ApplicationImpl::ApplicationImpl() :
     _pMainWindow(nullptr), _pDockPanelManager(nullptr),
+    _pStatusBarTipsLabel(nullptr),
     _pConfig(new Config())
 {}
 
@@ -562,7 +564,19 @@ void ApplicationImpl::viewISO()
 
 void ApplicationImpl::setStatusBarTip(const QString& text)
 {
-    _statusBar.setTips(text);
+    if (_pStatusBarTipsLabel)
+    {
+        _pStatusBarTipsLabel->setText(text);
+    }
+}
+
+void ApplicationImpl::setStatusBarTipsLabel(QLabel* pTipsLabel)
+{
+    _pStatusBarTipsLabel = pTipsLabel;
+    if (_pStatusBarTipsLabel)
+    {
+        _pStatusBarTipsLabel->setText(QString());
+    }
 }
 
 void ApplicationImpl::setCursor(CursorType cursorType)

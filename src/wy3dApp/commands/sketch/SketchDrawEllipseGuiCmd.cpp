@@ -205,7 +205,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
     {
     case Step::SpecifyCenterPnt:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawEllipse",
             "Specify the center point; you can directly input the coordinate values."));
 
         if (_sketchInfo.pSketchSnapSys)
@@ -218,7 +218,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyAxisEndPoint:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawEllipse",
             "Specify the axis vector; you can directly input the values."));
 
         _pSnapContext = std::make_shared<DrawLine2dContext>(_centerPnt);
@@ -227,7 +227,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
 
     case Step::SpecifyOtherRadius:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("SketchDrawEllipse",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("SketchDrawEllipse",
             "Specify the other radius; you can directly input the value."));
 
         // TODO
@@ -238,7 +238,7 @@ void SketchDrawEllipseGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         assert(false);
     }
     break;

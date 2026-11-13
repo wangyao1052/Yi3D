@@ -180,7 +180,7 @@ void RevolvedSheetGuiCmd::gotoStep(Step step)
         ApplicationImpl::instance().getSelManager()->clearSelections();
         ApplicationImpl::instance().getSelManager()->endChange();
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolvedSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("RevolvedSheetGuiCmd",
             "Select the sketch to revolve."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
     }
@@ -192,7 +192,7 @@ void RevolvedSheetGuiCmd::gotoStep(Step step)
         ApplicationImpl::instance().getSelManager()->clearSelections();
         ApplicationImpl::instance().getSelManager()->endChange();
 
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("RevolvedSheetGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("RevolvedSheetGuiCmd",
             "Select an axis line in the sketch."));
         ApplicationImpl::instance().setCursor(CursorType::SelectElements);
 
@@ -204,7 +204,7 @@ void RevolvedSheetGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

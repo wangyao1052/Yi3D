@@ -87,7 +87,7 @@ wyap::CmdExecution::StartResult SketchProjectGuiCmd::onStart()
     _pointPickOption.selType = wy3d::SelectionType::Edge;
 
     // 提示信息
-    ApplicationImpl::instance().getStatusBar()->setTips(
+    ApplicationImpl::instance().setStatusBarTip(
         QCoreApplication::translate("SketchProject", "Click on model edges to project them onto the sketch plane."));
 
     // 鼠标样式

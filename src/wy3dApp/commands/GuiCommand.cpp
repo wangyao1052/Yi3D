@@ -113,7 +113,7 @@ wyap::CmdExecution::StartResult GuiCommand::onStart()
     this->initializeSelectOptions(selectOptions);
     this->applySelectOptions(selectOptions);
     // 重置状态栏
-    ApplicationImpl::instance().getStatusBar()->reset();
+    ApplicationImpl::instance().setStatusBarTip(QString());
     // 重置捕捉系统
     ApplicationImpl::instance().getSnapSystem()->reset();
     // 设置鼠标样式

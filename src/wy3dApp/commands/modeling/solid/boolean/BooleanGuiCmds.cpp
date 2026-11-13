@@ -307,7 +307,7 @@ void BooleanGuiCmd::gotoStep(Step step)
         this->applySelectOptions(selOptions);
 
         // 输入控件
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("BooleanGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("BooleanGuiCmd",
             "Select the target solid."));
 
         // 鼠标样式
@@ -329,7 +329,7 @@ void BooleanGuiCmd::gotoStep(Step step)
         this->applySelectOptions(selOptions);
 
         // 输入控件
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("BooleanGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("BooleanGuiCmd",
             "Select one or more tool solids; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
@@ -342,7 +342,7 @@ void BooleanGuiCmd::gotoStep(Step step)
 
     default:
     {
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
         assert(false);
     }

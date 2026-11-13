@@ -331,7 +331,7 @@ void MoveGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MoveGuiCmd",
             "Select elements to move; press Enter or Spacebar to confirm; press Esc to cancel."));
 
         // 鼠标样式
@@ -349,7 +349,7 @@ void MoveGuiCmd::gotoStep(Step step)
 
         // 禁用文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MoveGuiCmd",
             "Select datum plane as working plane."));
 
         // 鼠标样式
@@ -375,7 +375,7 @@ void MoveGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MoveGuiCmd",
             "Specify the base point; you can directly input the coordinate values."));
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Locate);
@@ -400,7 +400,7 @@ void MoveGuiCmd::gotoStep(Step step)
 
         // 允许文本输入
         // 提示信息
-        ApplicationImpl::instance().getStatusBar()->setTips(QCoreApplication::translate("MoveGuiCmd",
+        ApplicationImpl::instance().setStatusBarTip(QCoreApplication::translate("MoveGuiCmd",
             "Specify the move vector; you can directly input the values."));
         // 鼠标样式
         ApplicationImpl::instance().setCursor(CursorType::Locate);
@@ -419,7 +419,7 @@ void MoveGuiCmd::gotoStep(Step step)
         selOptions.boxSelect = false;
         this->applySelectOptions(selOptions);
 
-        ApplicationImpl::instance().getStatusBar()->setTips("");
+        ApplicationImpl::instance().setStatusBarTip("");
         ApplicationImpl::instance().setCursor(CursorType::Select);
     }
     break;
